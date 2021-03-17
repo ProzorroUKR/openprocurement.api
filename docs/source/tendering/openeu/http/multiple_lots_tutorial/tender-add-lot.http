@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/4f6f9f4965ae47e99cd03a167c41c1a0/lots?acc_token=446ff1f48bde44b08788bbf0b34f6d62 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 214
+Content-Length: 213
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -14,7 +14,7 @@ DATA:
     },
     "minimalStep": {
       "currency": "UAH",
-      "amount": 35
+      "amount": 5
     }
   }
 }
@@ -28,7 +28,7 @@ X-Content-Type-Options: nosniff
     "id": "5563fbab2bd848b398a5de9cb3ac555b",
     "title": "Лот №1",
     "description": "Опис Лот №1",
-    "date": "2020-09-08T01:00:00+03:00",
+    "date": "2021-03-16T00:00:00+02:00",
     "status": "active",
     "value": {
       "amount": 500.0,
@@ -36,12 +36,12 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true
     },
     "minimalStep": {
-      "amount": 35.0,
+      "amount": 5.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
     "auctionPeriod": {
-      "shouldStartAfter": "2020-11-13T00:00:00+02:00"
+      "shouldStartAfter": "2021-05-21T00:00:00+02:00"
     }
   }
 }

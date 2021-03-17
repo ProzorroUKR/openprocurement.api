@@ -38,7 +38,7 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "date": "2020-09-08T01:00:00+03:00",
+    "date": "2021-03-16T00:00:00+02:00",
     "id": "c48ab04ff9f84430ad5a724b31b56f19",
     "value": {
       "amount": 500.0,
@@ -52,8 +52,8 @@ X-Content-Type-Options: nosniff
         "title": "Proposal.pdf",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/c48ab04ff9f84430ad5a724b31b56f19/documents/8aeec06a85ee4e4298b8bd22dfb032d4?download=fff57b2a4a194ddbb66c81394bbbd5f8",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk"
@@ -64,8 +64,8 @@ X-Content-Type-Options: nosniff
         "title": "Proposal_top_secrets.pdf",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/c48ab04ff9f84430ad5a724b31b56f19/documents/2e070d09800142ddac13f14a5ae2f9ef?download=091b738f06344739a83e2505de522229",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "confidentiality": "buyerOnly",
@@ -79,8 +79,8 @@ X-Content-Type-Options: nosniff
         "title": "financial_doc.pdf",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/c48ab04ff9f84430ad5a724b31b56f19/financial_documents/5de4086b92ac4e669382e9352b868f44?download=ac26a1a415634d6e8fea21b25747ad8a",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk"
@@ -91,8 +91,8 @@ X-Content-Type-Options: nosniff
         "title": "financial_doc2.pdf",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/c48ab04ff9f84430ad5a724b31b56f19/financial_documents/10fb91d0129c472e87c06af53e18fe36?download=ed509ca442994709b3934d83c3e36707",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk"
@@ -105,8 +105,8 @@ X-Content-Type-Options: nosniff
         "title": "eligibility_doc.pdf",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/c48ab04ff9f84430ad5a724b31b56f19/eligibility_documents/edfba70779d040f39a994e1e8f81e90d?download=97c4aa75718c4dcd979ad5cf3522f9d6",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk"
@@ -119,8 +119,8 @@ X-Content-Type-Options: nosniff
         "title": "qualification_document.pdf",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/c48ab04ff9f84430ad5a724b31b56f19/qualification_documents/1bd2e3a224bb4d8cb35dfaba0e1ac674?download=fd1fe8b046814ddea6fd9de9d90551e3",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk"

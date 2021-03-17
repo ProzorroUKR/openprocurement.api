@@ -19,9 +19,9 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "title": "Послуги шкільних їдалень",
-    "date": "2020-09-08T01:00:00+03:00",
-    "dateModified": "2020-09-08T01:00:00+03:00",
-    "tenderID": "UA-2020-09-08-000001",
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "tenderID": "UA-2021-03-16-000001",
     "owner": "broker",
     "mainProcurementCategory": "services",
     "milestones": [
@@ -113,11 +113,11 @@ X-Content-Type-Options: nosniff
       }
     ],
     "tenderPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-10-09T00:00:00+02:00"
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-04-16T00:00:00+02:00"
     },
     "auctionPeriod": {
-      "shouldStartAfter": "2020-11-13T00:00:00+02:00"
+      "shouldStartAfter": "2021-05-21T00:00:00+02:00"
     },
     "awardCriteria": "ratedCriteria",
     "procuringEntity": {
@@ -152,16 +152,16 @@ X-Content-Type-Options: nosniff
     "yearlyPaymentsPercentageRange": 0.8,
     "id": "33f610abd0a54c8bb1da547c377a3324",
     "enquiryPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-09-29T00:00:00+02:00",
-      "clarificationsUntil": "2020-10-02T00:00:00+02:00",
-      "invalidationDate": "2020-09-08T01:00:00+03:00"
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-04-06T00:00:00+02:00",
+      "clarificationsUntil": "2021-04-09T00:00:00+02:00",
+      "invalidationDate": "2021-03-16T00:00:00+02:00"
     },
     "complaintPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-10-05T00:00:00+02:00"
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-04-12T00:00:00+02:00"
     },
-    "next_check": "2020-10-09T01:00:00+03:00",
+    "next_check": "2021-04-16T01:00:00+03:00",
     "minValue": {
       "amount": 0.0,
       "currency": "UAH",
@@ -171,7 +171,7 @@ X-Content-Type-Options: nosniff
       "amount": 8.0,
       "currency": "USD"
     },
-    "noticePublicationDate": "2020-09-08T01:00:00+03:00"
+    "noticePublicationDate": "2021-03-16T00:00:00+02:00"
   }
 }
 

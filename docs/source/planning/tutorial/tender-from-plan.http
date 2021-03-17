@@ -39,7 +39,7 @@ DATA:
     "items": [
       {
         "deliveryDate": {
-          "endDate": "2020-09-23T01:00:00+03:00"
+          "endDate": "2021-03-31T00:00:00+02:00"
         },
         "additionalClassifications": [
           {
@@ -62,7 +62,7 @@ DATA:
       },
       {
         "deliveryDate": {
-          "endDate": "2020-09-24T01:00:00+03:00"
+          "endDate": "2021-04-01T00:00:00+02:00"
         },
         "additionalClassifications": [
           {
@@ -85,7 +85,7 @@ DATA:
       },
       {
         "deliveryDate": {
-          "endDate": "2020-09-25T01:00:00+03:00"
+          "endDate": "2021-04-02T00:00:00+02:00"
         },
         "additionalClassifications": [
           {
@@ -108,10 +108,10 @@ DATA:
       }
     ],
     "enquiryPeriod": {
-      "endDate": "2020-09-22T01:00:00+03:00"
+      "endDate": "2021-03-30T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "endDate": "2020-09-29T01:00:00+03:00"
+      "endDate": "2021-04-06T00:00:00+02:00"
     },
     "procurementMethodType": "belowThreshold",
     "milestones": [
@@ -150,9 +150,9 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "title": "Насіння",
-    "date": "2020-09-08T01:00:00+03:00",
-    "dateModified": "2020-09-08T01:00:00+03:00",
-    "tenderID": "UA-2020-09-08-000001",
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "tenderID": "UA-2021-03-16-000001",
     "owner": "broker",
     "mainProcurementCategory": "goods",
     "milestones": [
@@ -207,7 +207,7 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 1000.0,
         "deliveryDate": {
-          "endDate": "2020-09-23T01:00:00+03:00"
+          "endDate": "2021-03-31T00:00:00+02:00"
         },
         "classification": {
           "description": "Mustard seeds",
@@ -231,7 +231,7 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 2000.0,
         "deliveryDate": {
-          "endDate": "2020-09-24T01:00:00+03:00"
+          "endDate": "2021-04-01T00:00:00+02:00"
         },
         "classification": {
           "description": "Sunflower seeds",
@@ -255,7 +255,7 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 3000.0,
         "deliveryDate": {
-          "endDate": "2020-09-25T01:00:00+03:00"
+          "endDate": "2021-04-02T00:00:00+02:00"
         },
         "classification": {
           "description": "Cotton seeds",
@@ -270,12 +270,12 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true
     },
     "enquiryPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-09-22T01:00:00+03:00"
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-03-30T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2020-09-22T01:00:00+03:00",
-      "endDate": "2020-09-29T01:00:00+03:00"
+      "startDate": "2021-03-30T00:00:00+02:00",
+      "endDate": "2021-04-06T00:00:00+02:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",

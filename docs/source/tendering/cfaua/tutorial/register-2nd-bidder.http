@@ -70,12 +70,12 @@ X-Content-Type-Options: nosniff
         "scale": "sme"
       }
     ],
-    "date": "2020-09-08T01:00:00+03:00",
+    "date": "2021-03-16T00:00:00+02:00",
     "id": "c4cc8a18f70745389bffcab828a9cb83",
     "lotValues": [
       {
         "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "status": "pending",
         "value": {
           "currency": "UAH",

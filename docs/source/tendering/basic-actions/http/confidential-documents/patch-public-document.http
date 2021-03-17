@@ -21,8 +21,8 @@ X-Content-Type-Options: nosniff
     "title": "public-to-private.doc",
     "format": "application/msword",
     "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bac835240efd4adea01560554d7bfdb4/bids/2191d9a2aadb44418238d8cf893ae395/documents/ccd5c0b5cc364863ac6db661d6b9aec8?download=47ac6dae16dd4b85b4557e53aa4e2e16",
-    "datePublished": "2020-09-08T01:00:00+03:00",
-    "dateModified": "2020-09-08T01:00:00+03:00",
+    "datePublished": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
     "documentOf": "tender",
     "confidentiality": "buyerOnly",
     "confidentialityRationale": "Lol, this document contains some secret data that shouldn't be public, I'm changing it's confidentiality"

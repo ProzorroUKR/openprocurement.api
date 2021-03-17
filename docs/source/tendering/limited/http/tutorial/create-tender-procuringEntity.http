@@ -17,8 +17,8 @@ DATA:
         ],
         "description": "Послуги шкільних їдалень",
         "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00",
-          "endDate": "2020-10-28T00:00:00+02:00"
+          "startDate": "2021-04-05T00:00:00+02:00",
+          "endDate": "2021-05-05T00:00:00+02:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -110,9 +110,9 @@ X-Content-Type-Options: nosniff
     "title_ru": "Услуги школьных столовых",
     "description_en": "Services in school canteens",
     "description_ru": "Услуги школьных столовых",
-    "date": "2020-09-08T01:00:00+03:00",
-    "dateModified": "2020-09-08T01:00:00+03:00",
-    "tenderID": "UA-2020-09-08-000001",
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "tenderID": "UA-2021-03-16-000001",
     "owner": "broker",
     "mainProcurementCategory": "services",
     "milestones": [
@@ -159,8 +159,8 @@ X-Content-Type-Options: nosniff
           "id": "55523100-3"
         },
         "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00",
-          "endDate": "2020-10-28T00:00:00+02:00"
+          "startDate": "2021-04-05T00:00:00+02:00",
+          "endDate": "2021-05-05T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",

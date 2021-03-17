@@ -9,12 +9,12 @@ DATA:
     "items": [
       {
         "deliveryDate": {
-          "endDate": "2020-10-09T01:00:00+03:00"
+          "endDate": "2021-04-16T00:00:00+02:00"
         }
       }
     ],
     "tenderPeriod": {
-      "endDate": "2020-09-16T01:00:00+03:00"
+      "endDate": "2021-03-24T00:00:00+02:00"
     }
   }
 }
@@ -32,8 +32,8 @@ X-Content-Type-Options: nosniff
         "title": "Notice.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c5ebf9538fcb4af59ae1ed605c601020?Signature=ALSBBQmtRuIT%2BP2mETtiuJZB1SRTljOZgQkuSTwtFtT6VH%2FnWU0hWSL3LiOaHw%2BsGuhBE49zok7uzqgOecsxAA%3D%3D&KeyID=a8968c46",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "author": "tender_owner",
         "documentOf": "tender"
       },
@@ -43,8 +43,8 @@ X-Content-Type-Options: nosniff
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f969dad0d65e4094b6c3f874da5b6421?Signature=%2F2Rz963D6qpHSgTitxxBnxvT3oFZbuFiqLyn6UbzOg8ZKKTVHO1v82kaMSmZ4zbX3wU%2F2uXgZ2wZsXZ4hF3nAg%3D%3D&KeyID=a8968c46",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "author": "tender_owner",
         "documentOf": "tender"
       },
@@ -54,15 +54,15 @@ X-Content-Type-Options: nosniff
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/28985d99efc9467f8bdd281c3db8346a?Signature=wIqSd3E63XMPdyGFtd7k9YI5yYfOupIR0G7JOVJzc93y20Inbc1SdZ3JPK4Cw5MDM7y70HIZz3UIn%2FCTv1vAAA%3D%3D&KeyID=a8968c46",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "author": "tender_owner",
         "documentOf": "tender"
       }
     ],
-    "date": "2020-09-08T01:00:00+03:00",
-    "dateModified": "2020-09-08T01:00:00+03:00",
-    "tenderID": "UA-2020-09-08-000001",
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "tenderID": "UA-2021-03-16-000001",
     "owner": "broker",
     "awardCriteria": "lowestCost",
     "submissionMethod": "electronicAuction",
@@ -93,7 +93,7 @@ X-Content-Type-Options: nosniff
       "kind": "special"
     },
     "minimalStep": {
-      "amount": 35.0,
+      "amount": 5.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
@@ -102,20 +102,20 @@ X-Content-Type-Options: nosniff
         "id": "35d3c56dcdf843f6b9b4a3a978b862f9",
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"",
         "questionOf": "tender",
-        "dateAnswered": "2020-09-08T01:00:00+03:00"
+        "dateAnswered": "2021-03-16T00:00:00+02:00"
       }
     ],
     "enquiryPeriod": {
-      "startDate": "2020-08-11T01:00:00+03:00",
-      "endDate": "2020-09-06T01:00:00+03:00",
-      "clarificationsUntil": "2020-09-10T00:00:00+03:00",
-      "invalidationDate": "2020-09-08T01:00:00+03:00"
+      "startDate": "2021-02-16T00:00:00+02:00",
+      "endDate": "2021-03-14T00:00:00+02:00",
+      "clarificationsUntil": "2021-03-18T00:00:00+02:00",
+      "invalidationDate": "2021-03-16T00:00:00+02:00"
     },
     "auctionPeriod": {
-      "shouldStartAfter": "2020-09-17T00:00:00+03:00"
+      "shouldStartAfter": "2021-03-24T00:00:00+02:00"
     },
     "procurementMethodType": "competitiveDialogueUA.stage2",
     "shortlistedFirms": [
@@ -145,8 +145,8 @@ X-Content-Type-Options: nosniff
       }
     ],
     "tenderPeriod": {
-      "startDate": "2020-08-11T01:00:00+03:00",
-      "endDate": "2020-09-16T01:00:00+03:00"
+      "startDate": "2021-02-16T00:00:00+02:00",
+      "endDate": "2021-03-24T00:00:00+02:00"
     },
     "status": "active.tendering",
     "items": [
@@ -166,8 +166,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 1.0,
         "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00",
-          "endDate": "2020-10-09T01:00:00+03:00"
+          "startDate": "2021-04-05T00:00:00+02:00",
+          "endDate": "2021-04-16T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -185,10 +185,10 @@ X-Content-Type-Options: nosniff
     ],
     "procurementMethod": "selective",
     "id": "db4876add6b747dfafc1b99523c02097",
-    "next_check": "2020-09-16T01:00:00+03:00",
+    "next_check": "2021-03-24T00:00:00+02:00",
     "complaintPeriod": {
-      "startDate": "2020-08-11T01:00:00+03:00",
-      "endDate": "2020-09-12T00:00:00+03:00"
+      "startDate": "2021-02-16T00:00:00+02:00",
+      "endDate": "2021-03-20T00:00:00+02:00"
     }
   }
 }

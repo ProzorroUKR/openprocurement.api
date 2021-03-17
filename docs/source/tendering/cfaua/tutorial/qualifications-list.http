@@ -10,7 +10,7 @@ X-Content-Type-Options: nosniff
     {
       "id": "cf177cce81654d94ac97f50c01acdca9",
       "status": "pending",
-      "date": "2020-09-08T01:00:00+03:00",
+      "date": "2021-03-16T00:00:00+02:00",
       "suppliers": [
         {
           "name": "«Снігур»",
@@ -45,7 +45,7 @@ X-Content-Type-Options: nosniff
     {
       "id": "6b24c863636841bfb0bc326b13d42a62",
       "status": "pending",
-      "date": "2020-09-08T01:00:00+03:00",
+      "date": "2021-03-16T00:00:00+02:00",
       "suppliers": [
         {
           "name": "ДКП «Книга»",
@@ -80,7 +80,7 @@ X-Content-Type-Options: nosniff
     {
       "id": "d009eb57cdbb4b7aaace84ab3b1f6ea4",
       "status": "pending",
-      "date": "2020-09-08T01:00:00+03:00",
+      "date": "2021-03-16T00:00:00+02:00",
       "suppliers": [
         {
           "name": "ДКП «Школяр»",

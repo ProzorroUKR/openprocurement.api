@@ -10,13 +10,13 @@ DATA:
       "procurementMethod": "open",
       "procurementMethodType": "belowThreshold",
       "tenderPeriod": {
-        "startDate": "2020-09-15T01:00:00+03:00"
+        "startDate": "2021-03-23T00:00:00+02:00"
       }
     },
     "items": [
       {
         "deliveryDate": {
-          "endDate": "2020-09-23T01:00:00+03:00"
+          "endDate": "2021-03-31T00:00:00+02:00"
         },
         "additionalClassifications": [
           {
@@ -39,7 +39,7 @@ DATA:
       },
       {
         "deliveryDate": {
-          "endDate": "2020-09-24T01:00:00+03:00"
+          "endDate": "2021-04-01T00:00:00+02:00"
         },
         "additionalClassifications": [
           {
@@ -62,7 +62,7 @@ DATA:
       },
       {
         "deliveryDate": {
-          "endDate": "2020-09-25T01:00:00+03:00"
+          "endDate": "2021-04-02T00:00:00+02:00"
         },
         "additionalClassifications": [
           {
@@ -175,7 +175,7 @@ X-Content-Type-Options: nosniff
       "procurementMethod": "open",
       "procurementMethodType": "belowThreshold",
       "tenderPeriod": {
-        "startDate": "2020-09-15T01:00:00+03:00"
+        "startDate": "2021-03-23T00:00:00+02:00"
       }
     },
     "budget": {
@@ -205,7 +205,7 @@ X-Content-Type-Options: nosniff
         "description": "-"
       }
     ],
-    "planID": "UA-P-2020-09-08-000001",
+    "planID": "UA-P-2021-03-16-000001",
     "items": [
       {
         "id": "e3072aabb9934d6c8166fce695cf24f3",
@@ -227,7 +227,7 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 1000.0,
         "deliveryDate": {
-          "endDate": "2020-09-23T01:00:00+03:00"
+          "endDate": "2021-03-31T00:00:00+02:00"
         },
         "description": "Насіння гірчиці"
       },
@@ -251,7 +251,7 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 2000.0,
         "deliveryDate": {
-          "endDate": "2020-09-24T01:00:00+03:00"
+          "endDate": "2021-04-01T00:00:00+02:00"
         },
         "description": "Насіння соняшнику"
       },
@@ -275,7 +275,7 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 3000.0,
         "deliveryDate": {
-          "endDate": "2020-09-25T01:00:00+03:00"
+          "endDate": "2021-04-02T00:00:00+02:00"
         },
         "description": "Насіння бавовнику"
       }
@@ -299,8 +299,8 @@ X-Content-Type-Options: nosniff
       }
     ],
     "status": "draft",
-    "dateModified": "2020-09-08T01:00:00+03:00",
-    "datePublished": "2020-09-08T01:00:00+03:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "datePublished": "2021-03-16T00:00:00+02:00",
     "owner": "broker",
     "id": "18d6b21a07094c71b423e91c5e28579b"
   },

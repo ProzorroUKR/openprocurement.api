@@ -107,9 +107,9 @@ X-Content-Type-Options: nosniff
     "title": "[ТЕСТУВАННЯ] футляри до державних нагород",
     "title_en": "[TESTING] Cases with state awards",
     "title_ru": "[ТЕСТИРОВАНИЕ] футляры к государственным наградам",
-    "date": "2020-09-08T01:00:00+03:00",
-    "dateModified": "2020-09-08T01:00:00+03:00",
-    "tenderID": "UA-2020-09-08-000002",
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "tenderID": "UA-2021-03-16-000002",
     "owner": "broker",
     "mode": "test",
     "awardCriteria": "lowestCost",
@@ -165,7 +165,7 @@ X-Content-Type-Options: nosniff
         "id": "f2599a519a45416db792d9ee833a8e5a",
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "status": "active"
       }
     ],

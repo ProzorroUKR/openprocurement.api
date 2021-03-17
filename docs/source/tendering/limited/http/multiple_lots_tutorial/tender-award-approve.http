@@ -18,7 +18,7 @@ X-Content-Type-Options: nosniff
   "data": {
     "id": "f2a00fd9d58f4773a46efa663d15810b",
     "status": "active",
-    "date": "2020-09-08T01:00:00+03:00",
+    "date": "2021-03-16T00:00:00+02:00",
     "value": {
       "amount": 475000.0,
       "currency": "UAH",
@@ -49,8 +49,8 @@ X-Content-Type-Options: nosniff
     ],
     "qualified": true,
     "complaintPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-09-14T00:00:00+03:00"
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-03-21T00:00:00+02:00"
     },
     "lotID": "9c7ee9a761404c7cad1359f248e41f71"
   }

@@ -8,21 +8,21 @@ X-Content-Type-Options: nosniff
   "data": [
     {
       "id": "253f8285f3164e52bdcbffdfffbb56fb",
-      "dateModified": "2020-09-08T01:00:00+03:00"
+      "dateModified": "2021-03-16T00:00:00+02:00"
     },
     {
       "id": "3f0b61a95aa94c8cb95f7da7ba0a756c",
-      "dateModified": "2020-09-08T01:00:00+03:00"
+      "dateModified": "2021-03-16T00:00:00+02:00"
     },
     {
       "id": "4826290bfb064165b70a94d71e93a63b",
-      "dateModified": "2020-09-08T01:00:01+03:00"
+      "dateModified": "2021-03-16T00:00:01+02:00"
     }
   ],
   "next_page": {
-    "offset": "2020-09-08T01:00:01+03:00",
-    "path": "/api/2.5/tenders?offset=2020-09-08T01%3A00%3A01%2B03%3A00",
-    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders?offset=2020-09-08T01%3A00%3A01%2B03%3A00"
+    "offset": "2021-03-16T00:00:01+02:00",
+    "path": "/api/2.5/tenders?offset=2021-03-16T00%3A00%3A01%2B02%3A00",
+    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders?offset=2021-03-16T00%3A00%3A01%2B02%3A00"
   }
 }
 

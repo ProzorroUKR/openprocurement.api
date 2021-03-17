@@ -20,7 +20,7 @@ X-Content-Type-Options: nosniff
     "id": "a18842d9d4a349c799437d0102e40965",
     "title": "Лот №2",
     "description": "Опис Лот №2",
-    "date": "2020-09-08T01:00:00+03:00",
+    "date": "2021-03-16T00:00:00+02:00",
     "status": "active",
     "value": {
       "amount": 400.0,
@@ -28,7 +28,7 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true
     },
     "minimalStep": {
-      "amount": 35.0,
+      "amount": 5.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     }

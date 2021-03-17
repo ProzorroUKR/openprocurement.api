@@ -9,8 +9,8 @@ X-Content-Type-Options: nosniff
   "data": [
     {
       "id": "0fea7d7c4c8649f5a499885d630671f5",
-      "agreementID": "UA-2020-09-08-000001-774f515207d840bbb2291a27f848ca611",
-      "date": "2020-09-08T01:00:00+03:00",
+      "agreementID": "UA-2021-03-16-000001-774f515207d840bbb2291a27f848ca611",
+      "date": "2021-03-16T00:00:00+02:00",
       "items": [
         {
           "id": "fb692f97b807462b94668d4091b2779b",
@@ -127,7 +127,7 @@ X-Content-Type-Options: nosniff
           ],
           "awardID": "05a621257252432fa202ba058a22a2cd",
           "bidID": "98b3bff73c4a4879b603800966926a71",
-          "date": "2020-09-08T01:00:00+03:00"
+          "date": "2021-03-16T00:00:00+02:00"
         },
         {
           "id": "4ffc79bd176541f7a1aa8bdd26bc5a87",
@@ -173,7 +173,7 @@ X-Content-Type-Options: nosniff
           ],
           "awardID": "3697fd1be39e487da32bc85c8f8af500",
           "bidID": "c4cc8a18f70745389bffcab828a9cb83",
-          "date": "2020-09-08T01:00:00+03:00"
+          "date": "2021-03-16T00:00:00+02:00"
         },
         {
           "id": "4b5cb6ae595b43a48a5a1ac2001d1dcb",
@@ -219,7 +219,7 @@ X-Content-Type-Options: nosniff
           ],
           "awardID": "26ffb17c93b84851b599dafde1c1d897",
           "bidID": "9eee26d528d9490a9e52cf6b1f696c41",
-          "date": "2020-09-08T01:00:00+03:00"
+          "date": "2021-03-16T00:00:00+02:00"
         }
       ]
     }

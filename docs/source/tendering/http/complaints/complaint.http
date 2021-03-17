@@ -7,8 +7,8 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "85f2baaabc2c49e1a28ae0b3a52aa58d",
-    "complaintID": "UA-2020-09-08-000001.5",
-    "date": "2020-09-08T01:00:00+03:00",
+    "complaintID": "UA-2021-03-16-000001.5",
+    "date": "2021-03-16T00:00:00+02:00",
     "type": "complaint",
     "author": {
       "name": "ДКП «Школяр»",
@@ -33,18 +33,18 @@ X-Content-Type-Options: nosniff
     },
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-    "dateSubmitted": "2020-09-08T01:00:00+03:00",
+    "dateSubmitted": "2021-03-16T00:00:00+02:00",
     "tendererAction": "Умови виправлено",
-    "tendererActionDate": "2020-09-08T01:00:00+03:00",
-    "dateDecision": "2020-09-08T01:00:00+03:00",
+    "tendererActionDate": "2021-03-16T00:00:00+02:00",
+    "dateDecision": "2021-03-16T00:00:00+02:00",
     "value": {
       "amount": 2000.0,
       "currency": "UAH"
     },
     "status": "resolved",
     "acceptance": true,
-    "dateAccepted": "2020-09-08T01:00:00+03:00",
-    "reviewDate": "2020-09-08T01:00:00+03:00",
+    "dateAccepted": "2021-03-16T00:00:00+02:00",
+    "reviewDate": "2021-03-16T00:00:00+02:00",
     "reviewPlace": "Place of review",
     "documents": [
       {
@@ -53,8 +53,8 @@ X-Content-Type-Options: nosniff
         "title": "ComplaintResolution.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/eb128004c6b444a0b888f43a0cb3292f?Signature=J84B6UgTFFaMMIwybStpJhvFOetXrcbzfWRmx5seoUZHAS7qjN3e7ZYWj5v62rpqKpdbovYTlvALwm1x5LnwDA%3D%3D&KeyID=a8968c46",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "author": "aboveThresholdReviewers",
         "documentOf": "tender",
         "language": "uk"

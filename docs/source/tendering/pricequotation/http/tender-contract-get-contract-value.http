@@ -8,7 +8,7 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "17ef9f4806964b4183a7be2adfdccb9e",
-    "contractID": "UA-2020-09-08-000001-1",
+    "contractID": "UA-2021-03-16-000001-1",
     "status": "pending",
     "items": [
       {
@@ -25,8 +25,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 1.0,
         "deliveryDate": {
-          "startDate": "2020-09-10T01:00:00+03:00",
-          "endDate": "2020-09-13T01:00:00+03:00"
+          "startDate": "2021-03-18T00:00:00+02:00",
+          "endDate": "2021-03-21T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -59,7 +59,7 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "date": "2020-09-08T01:00:01+03:00",
+    "date": "2021-03-16T00:00:01+02:00",
     "value": {
       "amount": 479.0,
       "currency": "UAH",

@@ -27,7 +27,7 @@
     "title": "футляри до державних нагород",
     "minimalStep": {
         "currency": "UAH",
-        "amount": 35,
+        "amount": 5,
         "valueAddedTaxIncluded": true
     },
     "items": [

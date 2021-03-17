@@ -38,7 +38,7 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "date": "2020-09-08T01:00:00+03:00",
+    "date": "2021-03-16T00:00:00+02:00",
     "id": "ecd86185d0484f91b0eb711b00a08d14",
     "value": {
       "amount": 500.0,
@@ -55,8 +55,8 @@ X-Content-Type-Options: nosniff
         "title": "Proposal.pdf",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4876add6b747dfafc1b99523c02097/bids/ecd86185d0484f91b0eb711b00a08d14/documents/08799b0910164e70bd1d55ea18bce553?download=4e12f5bca39842fa936d50dd814980eb",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender"
       }
     ]

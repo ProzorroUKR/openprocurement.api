@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2020-09-24T01:00:00+03:00"
+      "endDate": "2021-04-01T00:00:00+02:00"
     }
   }
 }
@@ -18,9 +18,9 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "title": "футляри до державних нагород",
-    "date": "2020-09-08T01:00:00+03:00",
-    "dateModified": "2020-09-08T01:00:00+03:00",
-    "tenderID": "UA-2020-09-08-000001",
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "tenderID": "UA-2021-03-16-000001",
     "owner": "broker",
     "mainProcurementCategory": "services",
     "milestones": [
@@ -79,22 +79,22 @@ X-Content-Type-Options: nosniff
       "kind": "special"
     },
     "minimalStep": {
-      "amount": 35.0,
+      "amount": 5.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
     "enquiryPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-09-14T01:00:00+03:00",
-      "clarificationsUntil": "2020-09-18T00:00:00+03:00",
-      "invalidationDate": "2020-09-08T01:00:00+03:00"
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-03-22T00:00:00+02:00",
+      "clarificationsUntil": "2021-03-25T00:00:00+02:00",
+      "invalidationDate": "2021-03-16T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-09-24T01:00:00+03:00"
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-04-01T00:00:00+02:00"
     },
     "auctionPeriod": {
-      "shouldStartAfter": "2020-09-25T00:00:00+03:00"
+      "shouldStartAfter": "2021-04-01T00:00:00+02:00"
     },
     "procurementMethodType": "aboveThresholdUA",
     "items": [
@@ -115,8 +115,8 @@ X-Content-Type-Options: nosniff
           "id": "55523100-3"
         },
         "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00",
-          "endDate": "2020-10-28T00:00:00+02:00"
+          "startDate": "2021-04-05T00:00:00+02:00",
+          "endDate": "2021-05-05T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -129,10 +129,10 @@ X-Content-Type-Options: nosniff
     ],
     "status": "active.tendering",
     "id": "bac835240efd4adea01560554d7bfdb4",
-    "next_check": "2020-09-24T01:00:00+03:00",
+    "next_check": "2021-04-01T01:00:00+03:00",
     "complaintPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-09-20T00:00:00+03:00"
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-03-28T00:00:00+02:00"
     }
   }
 }

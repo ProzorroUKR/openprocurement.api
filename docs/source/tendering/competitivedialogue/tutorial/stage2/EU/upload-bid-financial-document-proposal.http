@@ -23,8 +23,8 @@ X-Content-Type-Options: nosniff
     "title": "financial_doc.pdf",
     "format": "application/pdf",
     "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/815df7967805489faa3fa1a4e74fa2d1/financial_documents/7689f887d6574f4ea91319509439f24c?download=9fbdcf396d7b4a9a9c2b3a48b1e9b57e",
-    "datePublished": "2020-09-08T01:00:00+03:00",
-    "dateModified": "2020-09-08T01:00:00+03:00",
+    "datePublished": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
     "documentOf": "tender",
     "confidentiality": "public",
     "language": "uk"

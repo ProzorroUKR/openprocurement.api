@@ -8,13 +8,13 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "f190bafc3826498f9de5daa525e5e68b",
-    "contractID": "UA-2020-09-08-000001-1",
+    "contractID": "UA-2021-03-16-000001-1",
     "status": "pending",
     "period": {
-      "startDate": "2020-09-08T01:00:03+03:00",
-      "endDate": "2021-09-08T01:00:03+03:00"
+      "startDate": "2021-03-16T00:00:03+02:00",
+      "endDate": "2022-03-16T00:00:03+02:00"
     },
-    "dateSigned": "2020-09-08T01:00:03+03:00",
+    "dateSigned": "2021-03-16T00:00:03+02:00",
     "suppliers": [
       {
         "name": "ДКП «Книга»",
@@ -38,7 +38,7 @@ X-Content-Type-Options: nosniff
         "scale": "sme"
       }
     ],
-    "date": "2020-09-08T01:00:01+03:00",
+    "date": "2021-03-16T00:00:01+02:00",
     "value": {
       "amount": 238.0,
       "currency": "UAH",
@@ -53,8 +53,8 @@ X-Content-Type-Options: nosniff
         "title": "contract_document.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8a968439bb234638b1981f50cddf8d1e?Signature=0w9B%2FeG%2FHzuWRPG6%2BF3P6%2BSk%2F67N0H4rGoVK%2FQrb7Xz30H%2BzHFPcMOjT7VeksJlGE30PJky1rOuiN5TGoihZCw%3D%3D&KeyID=a8968c46",
-        "datePublished": "2020-09-08T01:00:03+03:00",
-        "dateModified": "2020-09-08T01:00:03+03:00",
+        "datePublished": "2021-03-16T00:00:03+02:00",
+        "dateModified": "2021-03-16T00:00:03+02:00",
         "documentOf": "tender"
       }
     ],
@@ -76,8 +76,8 @@ X-Content-Type-Options: nosniff
           "id": "55523100-3"
         },
         "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00",
-          "endDate": "2020-10-28T00:00:00+02:00"
+          "startDate": "2021-04-05T00:00:00+02:00",
+          "endDate": "2021-05-05T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",

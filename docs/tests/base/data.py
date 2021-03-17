@@ -610,7 +610,7 @@ tender_below_maximum = {
         "currency": "UAH"
     },
     "minimalStep": {
-        "amount": 35,
+        "amount": 5,
         "currency": "UAH"
     },
     "items": items,
@@ -666,7 +666,7 @@ tender_stage1 = {
     "title_en": "Services in school canteens",
     "minimalStep": {
         "currency": "UAH",
-        "amount": 35
+        "amount": 5
     },
     "procurementMethodType": "competitiveDialogueEU",
     "value": {
@@ -686,7 +686,7 @@ tender_stage2_multiple_lots = {
     "title_en": "Services in school canteens",
     "minimalStep": {
         "currency": "UAH",
-        "amount": 35
+        "amount": 5
     },
     "procurementMethodType": "competitiveDialogueEU.stage2",
     "value": {
@@ -705,7 +705,7 @@ tender_stage2EU = {
     "procurementMethod": "selective",
     "minimalStep": {
         "currency": "UAH",
-        "amount": 35
+        "amount": 5
     },
     "status": "draft",
     "procurementMethodType": "competitiveDialogueEU.stage2",
@@ -724,7 +724,7 @@ tender_stage2UA = {
     "title": "футляри до державних нагород",
     "minimalStep": {
         "currency": "UAH",
-        "amount": 35
+        "amount": 5
     },
     "procurementMethod": "selective",
     "procurementMethodType": "competitiveDialogueUA.stage2",
@@ -768,7 +768,7 @@ tender_openeu = {
     "title_en": "Services in school canteens",
     "minimalStep": {
         "currency": "UAH",
-        "amount": 35
+        "amount": 5
     },
     "procurementMethodType": "aboveThresholdEU",
     "value": {
@@ -788,7 +788,7 @@ tender_openua = {
     "title": "футляри до державних нагород",
     "minimalStep": {
         "currency": "UAH",
-        "amount": 35
+        "amount": 5
     },
     "procurementMethodType": "aboveThresholdUA",
     "value": {
@@ -825,7 +825,7 @@ tender_defense = {
     "title": "футляри до державних нагород",
     "minimalStep": {
         "currency": "UAH",
-        "amount": 35
+        "amount": 5
     },
     "procurementMethodType": "aboveThresholdUA.defense",
     "value": {

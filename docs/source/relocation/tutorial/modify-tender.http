@@ -17,9 +17,9 @@ X-Content-Type-Options: nosniff
   "data": {
     "title": "футляри до державних нагород",
     "description": "broker1 now can change the tender",
-    "date": "2020-09-08T01:00:00+03:00",
-    "dateModified": "2020-09-08T01:00:00+03:00",
-    "tenderID": "UA-2020-09-08-000001",
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "tenderID": "UA-2021-03-16-000001",
     "owner": "broker1",
     "mainProcurementCategory": "goods",
     "milestones": [
@@ -69,8 +69,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 5.0,
         "deliveryDate": {
-          "startDate": "2020-09-10T01:00:00+03:00",
-          "endDate": "2020-09-13T01:00:00+03:00"
+          "startDate": "2021-03-18T00:00:00+02:00",
+          "endDate": "2021-03-21T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -92,12 +92,12 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true
     },
     "enquiryPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-09-15T01:00:00+03:00"
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-03-23T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2020-09-15T01:00:00+03:00",
-      "endDate": "2020-09-22T01:00:00+03:00"
+      "startDate": "2021-03-23T00:00:00+02:00",
+      "endDate": "2021-03-30T00:00:00+02:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -127,7 +127,7 @@ X-Content-Type-Options: nosniff
     },
     "procurementMethodType": "belowThreshold",
     "id": "99b2cdff172144fea50cc5ac1ee1d29b",
-    "next_check": "2020-09-15T01:00:00+03:00"
+    "next_check": "2021-03-23T00:00:00+02:00"
   }
 }
 

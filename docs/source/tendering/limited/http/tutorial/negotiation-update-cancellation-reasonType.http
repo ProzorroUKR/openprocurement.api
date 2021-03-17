@@ -17,7 +17,7 @@ X-Content-Type-Options: nosniff
   "data": {
     "id": "6054bd855b294491819137282bde25e8",
     "reason": "cancellation reason",
-    "date": "2020-09-08T01:00:00+03:00",
+    "date": "2021-03-16T00:00:00+02:00",
     "status": "draft",
     "cancellationOf": "tender",
     "reasonType": "dateViolation"

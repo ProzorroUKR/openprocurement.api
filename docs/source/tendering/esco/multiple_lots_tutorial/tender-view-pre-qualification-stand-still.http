@@ -16,9 +16,9 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "title": "Послуги шкільних їдалень",
-    "date": "2020-09-08T01:00:00+03:00",
-    "dateModified": "2020-09-08T01:00:00+03:00",
-    "tenderID": "UA-2020-09-08-000001",
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "tenderID": "UA-2021-03-16-000001",
     "owner": "broker",
     "mainProcurementCategory": "services",
     "milestones": [
@@ -112,8 +112,8 @@ X-Content-Type-Options: nosniff
       }
     ],
     "tenderPeriod": {
-      "startDate": "2020-08-08T01:00:00+03:00",
-      "endDate": "2020-09-08T01:00:00+03:00"
+      "startDate": "2021-02-13T00:00:00+02:00",
+      "endDate": "2021-03-16T00:00:00+02:00"
     },
     "awardCriteria": "ratedCriteria",
     "bids": [
@@ -203,7 +203,7 @@ X-Content-Type-Options: nosniff
         "id": "93256198e2e7429ab4d0300cc250244f",
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "status": "active",
         "minValue": {
           "amount": 0.0,
@@ -212,7 +212,7 @@ X-Content-Type-Options: nosniff
         },
         "minimalStepPercentage": 0.006,
         "auctionPeriod": {
-          "shouldStartAfter": "2020-09-14T00:00:00+03:00"
+          "shouldStartAfter": "2021-03-21T00:00:00+02:00"
         },
         "fundingKind": "other",
         "yearlyPaymentsPercentageRange": 0.8
@@ -221,7 +221,7 @@ X-Content-Type-Options: nosniff
         "id": "ae36b7ca7b4a44d8b3c015a3e4043f4f",
         "title": "Лот №2",
         "description": "Опис Лот №2",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "status": "unsuccessful",
         "minValue": {
           "amount": 0.0,
@@ -239,7 +239,7 @@ X-Content-Type-Options: nosniff
         "bidID": "27dc631e3a514d21b07100fa83eb4c1f",
         "lotID": "93256198e2e7429ab4d0300cc250244f",
         "status": "active",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "qualified": true,
         "eligible": true
       },
@@ -248,14 +248,14 @@ X-Content-Type-Options: nosniff
         "bidID": "eab0708798ec433cb13cf7d269f77582",
         "lotID": "93256198e2e7429ab4d0300cc250244f",
         "status": "active",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "qualified": true,
         "eligible": true
       }
     ],
     "qualificationPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-09-14T00:00:00+03:00"
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-03-21T00:00:00+02:00"
     },
     "status": "active.pre-qualification.stand-still",
     "NBUdiscountRate": 0.22986,
@@ -263,23 +263,23 @@ X-Content-Type-Options: nosniff
     "yearlyPaymentsPercentageRange": 0.8,
     "id": "3999e118d0d4460a8852c363407a5252",
     "enquiryPeriod": {
-      "startDate": "2020-08-08T01:00:00+03:00",
-      "endDate": "2020-08-29T01:00:00+03:00",
-      "clarificationsUntil": "2020-09-03T00:00:00+03:00",
-      "invalidationDate": "2020-09-08T01:00:00+03:00"
+      "startDate": "2021-02-13T00:00:00+02:00",
+      "endDate": "2021-03-06T00:00:00+02:00",
+      "clarificationsUntil": "2021-03-12T00:00:00+02:00",
+      "invalidationDate": "2021-03-16T00:00:00+02:00"
     },
     "complaintPeriod": {
-      "startDate": "2020-08-08T01:00:00+03:00",
-      "endDate": "2020-09-04T00:00:00+03:00"
+      "startDate": "2021-02-13T00:00:00+02:00",
+      "endDate": "2021-03-12T00:00:00+02:00"
     },
-    "next_check": "2020-09-14T00:00:00+03:00",
+    "next_check": "2021-03-21T00:00:00+02:00",
     "numberOfBids": 2,
     "minValue": {
       "amount": 0.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "noticePublicationDate": "2020-09-08T01:00:00+03:00"
+    "noticePublicationDate": "2021-03-16T00:00:00+02:00"
   }
 }
 

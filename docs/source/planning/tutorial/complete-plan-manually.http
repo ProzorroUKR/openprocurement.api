@@ -35,7 +35,7 @@ X-Content-Type-Options: nosniff
       "procurementMethod": "open",
       "procurementMethodType": "belowThreshold",
       "tenderPeriod": {
-        "startDate": "2020-09-15T01:00:00+03:00"
+        "startDate": "2021-03-23T00:00:00+02:00"
       }
     },
     "budget": {
@@ -65,7 +65,7 @@ X-Content-Type-Options: nosniff
         "description": "-"
       }
     ],
-    "planID": "UA-P-2020-09-08-000002",
+    "planID": "UA-P-2021-03-16-000002",
     "items": [
       {
         "id": "1aea8a3a02404dfeaf3c750b87ce1e97",
@@ -87,7 +87,7 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 1000.0,
         "deliveryDate": {
-          "endDate": "2020-09-23T01:00:00+03:00"
+          "endDate": "2021-03-31T00:00:00+02:00"
         },
         "description": "Насіння гірчиці"
       },
@@ -111,7 +111,7 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 2000.0,
         "deliveryDate": {
-          "endDate": "2020-09-24T01:00:00+03:00"
+          "endDate": "2021-04-01T00:00:00+02:00"
         },
         "description": "Насіння соняшнику"
       },
@@ -135,7 +135,7 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 3000.0,
         "deliveryDate": {
-          "endDate": "2020-09-25T01:00:00+03:00"
+          "endDate": "2021-04-02T00:00:00+02:00"
         },
         "description": "Насіння бавовнику"
       }
@@ -159,8 +159,8 @@ X-Content-Type-Options: nosniff
       }
     ],
     "status": "complete",
-    "dateModified": "2020-09-08T01:00:00+03:00",
-    "datePublished": "2020-09-08T01:00:00+03:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "datePublished": "2021-03-16T00:00:00+02:00",
     "owner": "broker",
     "id": "36f2f53fb31548e0bbf028896a924207"
   }

@@ -18,8 +18,8 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "51dd152c70a44075808ddc036b040a58",
-    "complaintID": "UA-2020-09-08-000001.5",
-    "date": "2020-09-08T01:00:03+03:00",
+    "complaintID": "UA-2021-03-16-000001.5",
+    "date": "2021-03-16T00:00:03+02:00",
     "type": "complaint",
     "author": {
       "name": "ДКП «Школяр»",
@@ -44,10 +44,10 @@ X-Content-Type-Options: nosniff
     },
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-    "dateSubmitted": "2020-09-08T01:00:03+03:00",
+    "dateSubmitted": "2021-03-16T00:00:03+02:00",
     "decision": "Тендер скасовується замовником",
-    "dateDecision": "2020-09-08T01:00:03+03:00",
-    "dateCanceled": "2020-09-08T01:00:03+03:00",
+    "dateDecision": "2021-03-16T00:00:03+02:00",
+    "dateCanceled": "2021-03-16T00:00:03+02:00",
     "value": {
       "amount": 3000.0,
       "currency": "UAH"
@@ -55,8 +55,8 @@ X-Content-Type-Options: nosniff
     "rejectReason": "tenderCancelled",
     "status": "stopped",
     "acceptance": true,
-    "dateAccepted": "2020-09-08T01:00:03+03:00",
-    "reviewDate": "2020-09-08T01:00:03+03:00",
+    "dateAccepted": "2021-03-16T00:00:03+02:00",
+    "reviewDate": "2021-03-16T00:00:03+02:00",
     "reviewPlace": "Place of review"
   }
 }

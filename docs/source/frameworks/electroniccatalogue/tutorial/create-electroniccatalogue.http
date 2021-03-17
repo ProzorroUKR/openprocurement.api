@@ -42,7 +42,7 @@ DATA:
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
     "qualificationPeriod": {
-      "endDate": "2020-11-07T01:00:00+03:00"
+      "endDate": "2021-05-15T00:00:00+02:00"
     }
   }
 }
@@ -53,15 +53,15 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/3176109c75724
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "prettyID": "UA-F-2020-09-08-000001",
+    "prettyID": "UA-F-2021-03-16-000001",
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
-    "date": "2020-09-08T01:00:00+03:00",
-    "dateModified": "2020-09-08T01:00:00+03:00",
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
     "owner": "broker",
     "status": "draft",
     "qualificationPeriod": {
-      "endDate": "2020-11-07T01:00:00+03:00"
+      "endDate": "2021-05-15T00:00:00+02:00"
     },
     "frameworkType": "electronicCatalogue",
     "procuringEntity": {

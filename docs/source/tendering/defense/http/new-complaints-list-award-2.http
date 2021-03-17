@@ -10,7 +10,7 @@ X-Content-Type-Options: nosniff
     {
       "id": "e9c9c5a0451a4c3485d932b4b45b9055",
       "status": "unsuccessful",
-      "date": "2020-09-08T01:00:00+03:00",
+      "date": "2021-03-16T00:00:00+02:00",
       "suppliers": [
         {
           "name": "Державне управління справами",
@@ -36,8 +36,8 @@ X-Content-Type-Options: nosniff
       ],
       "bid_id": "74cbe41227cd41b6ac016f2ead985881",
       "complaintPeriod": {
-        "startDate": "2020-09-08T01:00:00+03:00",
-        "endDate": "2020-09-15T00:00:00+03:00"
+        "startDate": "2021-03-16T00:00:00+02:00",
+        "endDate": "2021-03-20T00:00:00+02:00"
       },
       "qualified": false,
       "eligible": false
@@ -45,7 +45,7 @@ X-Content-Type-Options: nosniff
     {
       "id": "0bfdc694cf4242aebdd802fb637ab381",
       "status": "active",
-      "date": "2020-09-08T01:00:00+03:00",
+      "date": "2021-03-16T00:00:00+02:00",
       "value": {
         "amount": 479.0,
         "currency": "UAH",
@@ -76,8 +76,8 @@ X-Content-Type-Options: nosniff
       ],
       "bid_id": "eb07207a36b54625b66405468aca9513",
       "complaintPeriod": {
-        "startDate": "2020-09-08T01:00:00+03:00",
-        "endDate": "2020-09-15T00:00:00+03:00"
+        "startDate": "2021-03-16T00:00:00+02:00",
+        "endDate": "2021-03-20T00:00:00+02:00"
       },
       "qualified": true,
       "eligible": true

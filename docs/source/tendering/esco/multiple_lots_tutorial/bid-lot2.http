@@ -129,19 +129,19 @@ X-Content-Type-Options: nosniff
         "scale": "sme"
       }
     ],
-    "date": "2020-09-08T01:00:00+03:00",
+    "date": "2021-03-16T00:00:00+02:00",
     "id": "eab0708798ec433cb13cf7d269f77582",
     "status": "pending",
     "lotValues": [
       {
         "relatedLot": "93256198e2e7429ab4d0300cc250244f",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "status": "pending",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amount": 10260.25,
-          "amountPerformance": 2076.73,
+          "amount": 9565.89,
+          "amountPerformance": 2009.5,
           "yearlyPaymentsPercentage": 0.9,
           "annualCostsReduction": [
             700.0,
@@ -174,14 +174,14 @@ X-Content-Type-Options: nosniff
       },
       {
         "relatedLot": "ae36b7ca7b4a44d8b3c015a3e4043f4f",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "status": "pending",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amount": 10584.2,
-          "amountPerformance": 913.25,
+          "amount": 10028.71,
+          "amountPerformance": 892.71,
           "yearlyPaymentsPercentage": 0.96,
           "annualCostsReduction": [
             600.0,
