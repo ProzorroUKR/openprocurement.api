@@ -8,7 +8,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_criteria,
     test_requirement_groups,
-    language_criterion,
+    language_criteria,
 )
 
 
@@ -79,7 +79,7 @@ def create_tender_criteria_valid(self):
     for requirementGroup in criteria["requirementGroups"]:
         self.assertIn("requirements", requirementGroup)
 
-    lang_criterion = deepcopy(language_criterion)
+    lang_criterion = deepcopy(language_criteria)
     response = self.app.post_json(request_path, {"data": lang_criterion})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -212,7 +212,7 @@ def create_tender_criteria_invalid(self):
         ],
     )
 
-    lang_criterion = deepcopy(language_criterion)
+    lang_criterion = deepcopy(language_criteria)
     lang_criterion[0]["requirementGroups"][0]["requirements"][0]["expectedValue"] = False
     response = self.app.post_json(request_path, {"data": lang_criterion}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -584,7 +584,7 @@ def activate_tender(self):
 
     response = self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": language_criterion},
+        {"data": language_criteria},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
