@@ -1586,9 +1586,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 self.tender_id, cancellation_id, complaint1_id))
             self.assertEqual(response.status, '200 OK')
 
-    @mock.patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", parse_date(MOCK_DATETIME) - timedelta(days=1))
-    @mock.patch("openprocurement.tender.core.validation.CRITERION_REQUIREMENT_STATUSES_FROM", parse_date(MOCK_DATETIME) - timedelta(days=1))
-    @mock.patch("openprocurement.tender.core.models.CRITERION_REQUIREMENT_STATUSES_FROM", parse_date(MOCK_DATETIME) - timedelta(days=1))
+
     def test_tender_criteria_article_17(self):
         self.app.authorization = ('Basic', ('broker', ''))
         tender_data = deepcopy(test_tender_data)
@@ -1908,7 +1906,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '200 OK')
 
-    @mock.patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", parse_date(MOCK_DATETIME) - timedelta(days=1))
     def test_bid_requirement_response(self):
         tender_data = deepcopy(test_tender_data)
 
@@ -2145,8 +2142,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     self.tender_id, bid_id, rr_id, bid_token))
             self.assertEqual(response.status, '200 OK')
 
-    @mock.patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17",
-                parse_date(MOCK_DATETIME) - timedelta(days=1))
     def test_award_requirement_response(self):
         self.app.authorization = ('Basic', ('broker', ''))
 
@@ -2386,8 +2381,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     self.tender_id, award_id, rr_id, owner_token))
             self.assertEqual(response.status, '200 OK')
 
-    @mock.patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17",
-                parse_date(MOCK_DATETIME) - timedelta(days=1))
     def test_qualification_requirement_response(self):
         self.app.authorization = ('Basic', ('broker', ''))
 
