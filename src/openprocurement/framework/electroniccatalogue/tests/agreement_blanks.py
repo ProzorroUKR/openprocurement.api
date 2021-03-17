@@ -283,8 +283,16 @@ def patch_several_contracts_active_status(self):
     response = self.app.get(f"/agreements/{self.agreement_id}")
     self.assertEqual(response.status, "200 OK")
 
-    for shift, milestone_type in [(0, "ban"), (24, "disqualification"), (36, "disqualification"), (48, "ban")]:
+    base_identifier_id = self.initial_submission_data["tenderers"][0]["identifier"]["id"]
+    for shift, milestone_type, identifier_id in [
+        (0, "ban", "00037257"),
+        (24, "disqualification", "00037258"),
+        (36, "disqualification", "00037259"),
+        (48, "ban", "00037260"),
+    ]:
+        self.initial_submission_data["tenderers"][0]["identifier"]["id"] = identifier_id
         self.create_submission()
+
         response = self.app.patch_json(
             f"/submissions/{self.submission_id}?acc_token={self.submission_token}",
             {"data": {"status": "active"}}
@@ -304,7 +312,7 @@ def patch_several_contracts_active_status(self):
                 f"/agreements/{self.agreement_id}/contracts/{contract_id}/milestones?acc_token={self.framework_token}",
                 {"data": {"type": milestone_type}}
             )
-
+    self.initial_submission_data["tenderers"][0]["identifier"]["id"] = base_identifier_id
     response = self.app.get(f"/agreements/{self.agreement_id}")
     self.assertEqual(response.status, "200 OK")
     contract_statuses = [contract["status"] for contract in response.json["data"]["contracts"]]
@@ -335,7 +343,7 @@ def patch_several_contracts_active_status(self):
         contract_statuses = [contract["status"] for contract in response.json["data"]["contracts"]]
         self.assertEqual(contract_statuses, ["active", "active", "unsuccessful", "unsuccessful", "banned"])
 
-    with freeze_time((next_check + timedelta(hours=50)).isoformat()):
+    with freeze_time((next_check + timedelta(hours=51)).isoformat()):
         self.check_chronograph()
         response = self.app.get(f"/agreements/{self.agreement_id}")
         self.assertEqual(response.status, "200 OK")
