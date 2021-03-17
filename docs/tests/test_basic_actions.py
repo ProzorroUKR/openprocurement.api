@@ -1,27 +1,23 @@
 # -*- coding: utf-8 -*-
 import os
-import mock
-from copy import deepcopy
-from datetime import timedelta
 
-from openprocurement.api.utils import parse_date
+from copy import deepcopy
 from openprocurement.api.models import get_now
 from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
 from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.belowthreshold.tests.base import test_criteria
 
-from openprocurement.api.constants import RELEASE_2020_04_19, CRITERION_REQUIREMENT_STATUSES_FROM
+from openprocurement.api.constants import RELEASE_2020_04_19
 from tests.base.constants import DOCS_URL, AUCTIONS_URL
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.base.data import (
-    question, complaint, claim, lots, subcontracting,
+    complaint, claim, lots, subcontracting,
     bid_draft, bid2, bid3_with_docs,
     qualified, tender_openeu, test_eligible_evidence_data,
     test_requirement_data, test_requirement_group_data,
     test_criterion_data,
 )
 from tests.base.helpers import complaint_create_pending
-from tests.base.constants import MOCK_DATETIME
 
 test_tender_data = deepcopy(tender_openeu)
 test_lots = deepcopy(lots)

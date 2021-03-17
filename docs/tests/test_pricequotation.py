@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
-from uuid import uuid4
 from datetime import timedelta
 
 from openprocurement.api.models import get_now
 from openprocurement.tender.pricequotation.tests.base import (
-    BaseTenderWebTest, test_tender_data, test_bids, bid_with_docs, test_short_profile,
-    test_shortlisted_firms)
+    BaseTenderWebTest,
+    test_tender_data,
+    test_bids,
+    bid_with_docs,
+    test_short_profile,
+    test_shortlisted_firms
+)
 from openprocurement.tender.core.tests.base import change_auth
 
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
