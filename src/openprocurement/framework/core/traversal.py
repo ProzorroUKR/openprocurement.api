@@ -84,5 +84,4 @@ def agreement_factory(request):
     agreement = base_factory(request, "agreement")
     if request.matchdict.get("contract_id"):
         return get_item(agreement, "contract", request)
-    request.validated["id"] = request.matchdict["agreement_id"]
     return agreement
