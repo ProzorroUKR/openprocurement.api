@@ -30,15 +30,15 @@ X-Content-Type-Options: nosniff
         "scale": "sme"
       }
     ],
-    "date": "2020-09-08T01:00:00+03:00",
+    "date": "2021-03-16T00:00:00+02:00",
     "id": "b30aecb69ea84f689ce58aa02327210b",
     "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/33f610abd0a54c8bb1da547c377a3324?key_for_bid=b30aecb69ea84f689ce58aa02327210b",
     "status": "active",
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
-      "amount": 9700.25,
-      "amountPerformance": 789.95,
+      "amount": 9331.37,
+      "amountPerformance": 733.65,
       "yearlyPaymentsPercentage": 0.85,
       "annualCostsReduction": [
         400.0,

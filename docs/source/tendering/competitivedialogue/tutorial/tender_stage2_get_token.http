@@ -12,9 +12,9 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "title": "Послуги шкільних їдалень",
-    "date": "2020-09-08T01:00:00+03:00",
-    "dateModified": "2020-09-08T01:00:00+03:00",
-    "tenderID": "UA-2020-09-08-000002",
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "tenderID": "UA-2021-03-16-000002",
     "owner": "broker",
     "awardCriteria": "lowestCost",
     "submissionMethod": "electronicAuction",
@@ -24,15 +24,15 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true
     },
     "minimalStep": {
-      "amount": 35.0,
+      "amount": 5.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
     "title_en": "Services in school canteens",
     "enquiryPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-09-28T01:00:00+03:00",
-      "clarificationsUntil": "2020-10-02T00:00:00+03:00"
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-04-05T00:00:00+02:00",
+      "clarificationsUntil": "2021-04-08T00:00:00+02:00"
     },
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -87,8 +87,8 @@ X-Content-Type-Options: nosniff
       }
     ],
     "tenderPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-10-08T01:00:00+03:00"
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-04-15T00:00:00+02:00"
     },
     "status": "draft.stage2",
     "procurementMethod": "selective",
@@ -109,8 +109,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 1.0,
         "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00",
-          "endDate": "2020-10-28T00:00:00+02:00"
+          "startDate": "2021-04-05T00:00:00+02:00",
+          "endDate": "2021-05-05T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -142,8 +142,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 1.0,
         "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00",
-          "endDate": "2020-10-28T00:00:00+02:00"
+          "startDate": "2021-04-05T00:00:00+02:00",
+          "endDate": "2021-05-05T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -163,8 +163,8 @@ X-Content-Type-Options: nosniff
     "id": "12ee79ac003d49a69f2a94c326f3e411",
     "numberOfBids": 0,
     "complaintPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-10-04T00:00:00+03:00"
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-04-11T00:00:00+02:00"
     }
   },
   "access": {

@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2020-10-09T01:00:00+03:00"
+      "endDate": "2021-04-16T00:00:00+02:00"
     }
   }
 }
@@ -18,9 +18,9 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "title": "футляри до державних нагород",
-    "date": "2020-09-08T01:00:00+03:00",
-    "dateModified": "2020-09-08T01:00:00+03:00",
-    "tenderID": "UA-2020-09-08-000001",
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "tenderID": "UA-2021-03-16-000001",
     "owner": "broker",
     "awardCriteria": "lowestCost",
     "submissionMethod": "electronicAuction",
@@ -51,14 +51,14 @@ X-Content-Type-Options: nosniff
       "kind": "special"
     },
     "minimalStep": {
-      "amount": 35.0,
+      "amount": 5.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
     "enquiryPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-09-29T01:00:00+03:00",
-      "clarificationsUntil": "2020-10-03T00:00:00+03:00"
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-04-06T00:00:00+02:00",
+      "clarificationsUntil": "2021-04-09T00:00:00+02:00"
     },
     "procurementMethodType": "competitiveDialogueUA.stage2",
     "shortlistedFirms": [
@@ -88,8 +88,8 @@ X-Content-Type-Options: nosniff
       }
     ],
     "tenderPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-10-09T01:00:00+03:00"
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-04-16T00:00:00+02:00"
     },
     "status": "draft.stage2",
     "items": [
@@ -109,8 +109,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 1.0,
         "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00",
-          "endDate": "2020-10-28T00:00:00+02:00"
+          "startDate": "2021-04-05T00:00:00+02:00",
+          "endDate": "2021-05-05T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -129,8 +129,8 @@ X-Content-Type-Options: nosniff
     "procurementMethod": "selective",
     "id": "db4876add6b747dfafc1b99523c02097",
     "complaintPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-10-05T00:00:00+03:00"
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-04-12T00:00:00+02:00"
     }
   }
 }

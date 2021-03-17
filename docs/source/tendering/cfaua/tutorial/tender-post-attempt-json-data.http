@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 4409
+Content-Length: 4407
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -34,7 +34,7 @@ DATA:
     "title": "футляри до державних нагород",
     "minimalStep": {
       "currency": "UAH",
-      "amount": 35,
+      "amount": 5,
       "valueAddedTaxIncluded": true
     },
     "items": [
@@ -112,7 +112,7 @@ DATA:
       "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
-      "endDate": "2020-10-09T01:00:00+03:00"
+      "endDate": "2021-04-16T00:00:00+02:00"
     },
     "maxAwardsCount": 4,
     "agreementDuration": "P3Y3M3D",
@@ -142,7 +142,7 @@ DATA:
         },
         "minimalStep": {
           "currency": "UAH",
-          "amount": 35,
+          "amount": 5,
           "valueAddedTaxIncluded": true
         }
       }
@@ -157,9 +157,9 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "title": "футляри до державних нагород",
-    "date": "2020-09-08T01:00:00+03:00",
-    "dateModified": "2020-09-08T01:00:00+03:00",
-    "tenderID": "UA-2020-09-08-000001",
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "tenderID": "UA-2021-03-16-000001",
     "owner": "broker",
     "milestones": [
       {
@@ -179,9 +179,9 @@ X-Content-Type-Options: nosniff
     "awardCriteria": "lowestCost",
     "submissionMethod": "electronicAuction",
     "enquiryPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-09-29T01:00:00+03:00",
-      "clarificationsUntil": "2020-10-03T00:00:00+03:00"
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-04-06T00:00:00+02:00",
+      "clarificationsUntil": "2021-04-09T00:00:00+02:00"
     },
     "items": [
       {
@@ -256,7 +256,7 @@ X-Content-Type-Options: nosniff
     "minimalStep": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
-      "amount": 35
+      "amount": 5
     },
     "maxAwardsCount": 4,
     "lots": [
@@ -264,10 +264,10 @@ X-Content-Type-Options: nosniff
         "id": "52815e9d01914c7a9bf4ba18ebb5e783",
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "status": "active",
         "auctionPeriod": {
-          "shouldStartAfter": "2020-11-14T00:00:00+03:00"
+          "shouldStartAfter": "2021-05-21T00:00:00+02:00"
         },
         "value": {
           "amount": 500.0,
@@ -275,7 +275,7 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         },
         "minimalStep": {
-          "amount": 35.0,
+          "amount": 5.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         }
@@ -308,8 +308,8 @@ X-Content-Type-Options: nosniff
     },
     "status": "active.tendering",
     "tenderPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-10-09T01:00:00+03:00"
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-04-16T00:00:00+02:00"
     },
     "title_en": "Cases for state awards",
     "value": {
@@ -321,10 +321,10 @@ X-Content-Type-Options: nosniff
     "mainProcurementCategory": "goods",
     "id": "37cb590308a242a9836f51a9994c7492",
     "complaintPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-10-05T00:00:00+03:00"
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-04-12T00:00:00+02:00"
     },
-    "next_check": "2020-10-09T01:00:00+03:00"
+    "next_check": "2021-04-16T01:00:00+03:00"
   },
   "access": {
     "token": "fbb49b806b484733bc09390b0e01078d",

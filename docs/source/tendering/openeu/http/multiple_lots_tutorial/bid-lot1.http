@@ -71,7 +71,7 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "date": "2020-09-08T01:00:00+03:00",
+    "date": "2021-03-16T00:00:00+02:00",
     "id": "53c36a7d70f74146adcee826a1c7273a",
     "lotValues": [
       {
@@ -81,7 +81,7 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "5563fbab2bd848b398a5de9cb3ac555b",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "subcontractingDetails": "ДКП «Орфей», Україна",
         "status": "pending"
       }

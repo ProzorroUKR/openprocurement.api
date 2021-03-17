@@ -16,9 +16,9 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "title": "Комп’ютерне обладнання",
-    "date": "2020-09-08T01:00:00+03:00",
-    "dateModified": "2020-09-08T01:00:00+03:00",
-    "tenderID": "UA-2020-09-08-000001",
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "tenderID": "UA-2021-03-16-000001",
     "owner": "broker",
     "mainProcurementCategory": "goods",
     "awardCriteria": "lowestCost",
@@ -30,8 +30,8 @@ X-Content-Type-Options: nosniff
         "description": "Комп’ютерне обладнання",
         "quantity": 1.0,
         "deliveryDate": {
-          "startDate": "2020-09-10T01:00:00+03:00",
-          "endDate": "2020-09-13T01:00:00+03:00"
+          "startDate": "2021-03-18T00:00:00+02:00",
+          "endDate": "2021-03-21T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -48,8 +48,8 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-09-22T01:00:00+03:00"
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-03-30T00:00:00+02:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -74,7 +74,7 @@ X-Content-Type-Options: nosniff
     "procurementMethod": "selective",
     "procurementMethodType": "priceQuotation",
     "profile": "655360-30230000-889652-40000777",
-    "noticePublicationDate": "2020-09-08T01:00:00+03:00",
+    "noticePublicationDate": "2021-03-16T00:00:00+02:00",
     "id": "fd1a15553b7047a9b514d57529cb5a44"
   }
 }

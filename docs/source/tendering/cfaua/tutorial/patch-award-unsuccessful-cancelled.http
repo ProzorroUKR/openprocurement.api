@@ -17,7 +17,7 @@ X-Content-Type-Options: nosniff
   "data": {
     "id": "54a4269c065e40998826dd96d399112b",
     "status": "cancelled",
-    "date": "2020-09-08T01:00:00+03:00",
+    "date": "2021-03-16T00:00:00+02:00",
     "suppliers": [
       {
         "name": "«Снігур»",
@@ -44,7 +44,7 @@ X-Content-Type-Options: nosniff
     "bid_id": "98b3bff73c4a4879b603800966926a71",
     "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
     "complaintPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00"
+      "startDate": "2021-03-16T00:00:00+02:00"
     },
     "value": {
       "currency": "UAH",

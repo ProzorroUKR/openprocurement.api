@@ -11,7 +11,7 @@ DATA:
       "currency": "UAH"
     },
     "tenderPeriod": {
-      "endDate": "2020-09-16T01:00:00+03:00"
+      "endDate": "2021-03-24T00:00:00+02:00"
     }
   }
 }
@@ -22,9 +22,9 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "title": "Послуги шкільних їдалень",
-    "date": "2020-09-08T01:00:00+03:00",
-    "dateModified": "2020-09-08T01:00:00+03:00",
-    "tenderID": "UA-2020-09-08-000001",
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "tenderID": "UA-2021-03-16-000001",
     "owner": "broker",
     "mainProcurementCategory": "services",
     "milestones": [
@@ -116,11 +116,11 @@ X-Content-Type-Options: nosniff
       }
     ],
     "tenderPeriod": {
-      "startDate": "2020-08-10T01:00:00+03:00",
-      "endDate": "2020-09-16T01:00:00+03:00"
+      "startDate": "2021-02-15T00:00:00+02:00",
+      "endDate": "2021-03-24T00:00:00+02:00"
     },
     "auctionPeriod": {
-      "shouldStartAfter": "2020-10-22T00:00:00+03:00"
+      "shouldStartAfter": "2021-04-28T00:00:00+02:00"
     },
     "awardCriteria": "ratedCriteria",
     "procuringEntity": {
@@ -154,10 +154,10 @@ X-Content-Type-Options: nosniff
         "id": "f224c93fe5654f788bb273af90c02176",
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"",
         "questionOf": "tender",
-        "dateAnswered": "2020-09-08T01:00:00+03:00"
+        "dateAnswered": "2021-03-16T00:00:00+02:00"
       }
     ],
     "documents": [
@@ -167,8 +167,8 @@ X-Content-Type-Options: nosniff
         "title": "Notice.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e233ca037f154f5da9b177fa92ddd453?Signature=U0QR6Lqtph6lQuHh6BpB%2BuHmZLq8bFlNHBDcSrN2rnXIaEW79lFMssWPw%2BDVXO75IW6W%2ByPwbeTJEweUaGcrBA%3D%3D&KeyID=a8968c46",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "author": "tender_owner",
         "documentOf": "tender",
         "language": "uk"
@@ -179,8 +179,8 @@ X-Content-Type-Options: nosniff
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/be2dcea392744ec3bfc7b53161fabc61?Signature=MezoP%2BI%2Fm2XEuRfqInNFFvuk5wxW96eZrt21hwexze5P6yb4JA8P2xcGnlE8zs881veHw1BR5e%2Fc2qmuyIvjBQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "author": "tender_owner",
         "documentOf": "tender",
         "language": "uk"
@@ -191,8 +191,8 @@ X-Content-Type-Options: nosniff
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/59b8682ce22c4dda901d30922c81dfe0?Signature=AmOlZ9uaPEmMxQI2ndJRfTusL81pi8GrQw5t5Jn8Qlw%2F0wgstBfW%2F%2B%2BexByZqL0wbG6NnbUMy15W1e7yiLPlBQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "author": "tender_owner",
         "documentOf": "tender",
         "language": "uk"
@@ -204,16 +204,16 @@ X-Content-Type-Options: nosniff
     "yearlyPaymentsPercentageRange": 0.8,
     "id": "33f610abd0a54c8bb1da547c377a3324",
     "enquiryPeriod": {
-      "startDate": "2020-08-10T01:00:00+03:00",
-      "endDate": "2020-09-06T01:00:00+03:00",
-      "clarificationsUntil": "2020-09-10T00:00:00+03:00",
-      "invalidationDate": "2020-09-08T01:00:00+03:00"
+      "startDate": "2021-02-15T00:00:00+02:00",
+      "endDate": "2021-03-14T00:00:00+02:00",
+      "clarificationsUntil": "2021-03-18T00:00:00+02:00",
+      "invalidationDate": "2021-03-16T00:00:00+02:00"
     },
     "complaintPeriod": {
-      "startDate": "2020-08-10T01:00:00+03:00",
-      "endDate": "2020-09-12T00:00:00+03:00"
+      "startDate": "2021-02-15T00:00:00+02:00",
+      "endDate": "2021-03-20T00:00:00+02:00"
     },
-    "next_check": "2020-09-16T01:00:00+03:00",
+    "next_check": "2021-03-24T00:00:00+02:00",
     "minValue": {
       "amount": 0.0,
       "currency": "UAH",
@@ -223,7 +223,7 @@ X-Content-Type-Options: nosniff
       "amount": 8.0,
       "currency": "USD"
     },
-    "noticePublicationDate": "2020-09-08T01:00:00+03:00"
+    "noticePublicationDate": "2021-03-16T00:00:00+02:00"
   }
 }
 

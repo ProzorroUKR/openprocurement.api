@@ -46,7 +46,7 @@ X-Content-Type-Options: nosniff
         "scale": "sme"
       }
     ],
-    "date": "2020-09-08T01:00:00+03:00",
+    "date": "2021-03-16T00:00:00+02:00",
     "id": "01342dd1e2b4444da922161ff3179fc3",
     "lotValues": [
       {
@@ -56,7 +56,7 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "5563fbab2bd848b398a5de9cb3ac555b",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "status": "pending"
       }
     ],

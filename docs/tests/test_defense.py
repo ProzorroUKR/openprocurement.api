@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+import mock
 import os
 from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.models import get_now
+from openprocurement.api.utils import parse_date
 from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.openuadefense.tests.tender import BaseTenderUAWebTest
 from openprocurement.tender.openuadefense.tests.base import test_tender_data
@@ -11,7 +13,7 @@ from openprocurement.tender.belowthreshold.tests.base import test_organization
 from openprocurement.tender.openua.tests.base import test_bids as base_test_bids
 
 
-from tests.base.constants import DOCS_URL, AUCTIONS_URL
+from tests.base.constants import DOCS_URL, AUCTIONS_URL, MOCK_DATETIME
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.base.data import (
     question, complaint, tender_defense, subcontracting,
@@ -31,6 +33,8 @@ bid2.update({"selfEligible": True})
 TARGET_DIR = 'docs/source/tendering/defense/http/'
 
 
+@mock.patch("openprocurement.tender.core.validation.RELEASE_SIMPLE_DEFENSE_FROM",
+            parse_date(MOCK_DATETIME) + timedelta(days=365))
 class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
     AppClass = DumpsWebTestApp
 

@@ -8,9 +8,9 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "77d160a2092f40068cba075e1dfac436",
-    "contractID": "UA-2020-09-08-000001-1",
+    "contractID": "UA-2021-03-16-000001-1",
     "status": "active",
-    "dateSigned": "2020-09-08T01:00:01+03:00",
+    "dateSigned": "2021-03-16T00:00:01+02:00",
     "items": [
       {
         "id": "299ef8cb981340528d0f7dcf2aa70caa",
@@ -33,8 +33,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 5.0,
         "deliveryDate": {
-          "startDate": "2020-09-10T01:00:00+03:00",
-          "endDate": "2020-09-13T01:00:00+03:00"
+          "startDate": "2021-03-18T00:00:00+02:00",
+          "endDate": "2021-03-21T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -65,8 +65,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 5.0,
         "deliveryDate": {
-          "startDate": "2020-09-10T01:00:00+03:00",
-          "endDate": "2020-09-13T01:00:00+03:00"
+          "startDate": "2021-03-18T00:00:00+02:00",
+          "endDate": "2021-03-21T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -100,7 +100,7 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "date": "2020-09-08T01:00:01+03:00",
+    "date": "2021-03-16T00:00:01+02:00",
     "value": {
       "amount": 500.0,
       "currency": "UAH",

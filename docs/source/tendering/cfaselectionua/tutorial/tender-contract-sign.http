@@ -16,14 +16,14 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "8db9d406966041e9942b04693ffab781",
-    "contractID": "UA-2020-09-08-000004-2",
+    "contractID": "UA-2021-03-16-000004-2",
     "contractNumber": "contract #13111",
     "status": "active",
     "period": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2021-09-08T01:00:00+03:00"
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2022-03-16T00:00:00+02:00"
     },
-    "dateSigned": "2020-09-08T01:00:00+03:00",
+    "dateSigned": "2021-03-16T00:00:00+02:00",
     "items": [
       {
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
@@ -47,8 +47,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 6.0,
         "deliveryDate": {
-          "startDate": "2020-09-10T01:00:00+03:00",
-          "endDate": "2020-09-13T01:00:00+03:00"
+          "startDate": "2021-03-18T00:00:00+02:00",
+          "endDate": "2021-03-21T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -82,7 +82,7 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "date": "2020-09-08T01:00:00+03:00",
+    "date": "2021-03-16T00:00:00+02:00",
     "value": {
       "amount": 238.0,
       "currency": "UAH",
@@ -97,8 +97,8 @@ X-Content-Type-Options: nosniff
         "title": "contract_first_document.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/683441ad518644979bfdede8405df7c1?Signature=513e2wVWsZdU0BhdzyBYGpoTHxh6t7%2FgKVnNZUAe94PtHC%2B4%2F8OIKLX66EFlfUkoUlG5M3jmaIRlg2MaXiunCA%3D%3D&KeyID=a8968c46",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00"
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00"
       },
       {
         "id": "a1317c7d25e6431fabfd127d9f68894f",
@@ -106,8 +106,8 @@ X-Content-Type-Options: nosniff
         "title": "contract_second_document.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/524dba59516640b99c1c7f5195c7df77?Signature=tgAJvznHcEubX754JMDqKPitonexJEehSAbWFJjkEOnGW80CewSGiLLKPTJw%2FsyQCwwDaTbz23%2BAPC6xocapCQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00"
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00"
       }
     ]
   }

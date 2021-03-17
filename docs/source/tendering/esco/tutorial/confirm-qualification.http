@@ -19,7 +19,7 @@ X-Content-Type-Options: nosniff
   "data": {
     "id": "6f1d78c5363149ef9523e958b1b4e2cb",
     "status": "active",
-    "date": "2020-09-08T01:00:00+03:00",
+    "date": "2021-03-16T00:00:00+02:00",
     "suppliers": [
       {
         "name": "ДКП «Школяр»",
@@ -45,16 +45,16 @@ X-Content-Type-Options: nosniff
     ],
     "bid_id": "291c4bea0d1d4ffb95615993a06b785c",
     "complaintPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-09-19T00:00:00+03:00"
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-03-26T00:00:00+02:00"
     },
     "qualified": true,
     "eligible": true,
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
-      "amount": 9351.37,
-      "amountPerformance": 856.84,
+      "amount": 8917.4,
+      "amountPerformance": 816.29,
       "yearlyPaymentsPercentage": 0.9,
       "annualCostsReduction": [
         500.0,

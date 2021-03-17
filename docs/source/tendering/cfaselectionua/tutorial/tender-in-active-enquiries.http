@@ -8,9 +8,9 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "title": "футляри до державних нагород",
-    "date": "2020-09-08T01:00:00+03:00",
-    "dateModified": "2020-09-08T01:00:00+03:00",
-    "tenderID": "UA-2020-09-08-000001",
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "tenderID": "UA-2021-03-16-000001",
     "owner": "broker",
     "awardCriteria": "lowestCost",
     "submissionMethod": "electronicAuction",
@@ -32,8 +32,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 5.0,
         "deliveryDate": {
-          "startDate": "2020-09-10T01:00:00+03:00",
-          "endDate": "2020-09-13T01:00:00+03:00"
+          "startDate": "2021-03-18T00:00:00+02:00",
+          "endDate": "2021-03-21T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -56,12 +56,12 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true
     },
     "enquiryPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-09-09T01:00:00+03:00"
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-03-17T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2020-09-09T01:00:00+03:00",
-      "endDate": "2020-09-12T01:00:00+03:00"
+      "startDate": "2021-03-17T00:00:00+02:00",
+      "endDate": "2021-03-20T00:00:00+02:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -142,7 +142,7 @@ X-Content-Type-Options: nosniff
         "id": "f2599a519a45416db792d9ee833a8e5a",
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "status": "active",
         "value": {
           "amount": 500.56,
@@ -501,7 +501,7 @@ X-Content-Type-Options: nosniff
     "procurementMethod": "selective",
     "procurementMethodType": "closeFrameworkAgreementSelectionUA",
     "id": "86632d7f051f455881abee60f4fef31d",
-    "next_check": "2020-09-09T01:00:00+03:00"
+    "next_check": "2021-03-17T00:00:00+02:00"
   }
 }
 

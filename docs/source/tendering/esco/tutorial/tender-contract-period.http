@@ -7,8 +7,8 @@ DATA:
 {
   "data": {
     "period": {
-      "startDate": "2020-09-08T01:00:01+03:00",
-      "endDate": "2021-09-08T01:00:01+03:00"
+      "startDate": "2021-03-16T00:00:01+02:00",
+      "endDate": "2022-03-16T00:00:01+02:00"
     }
   }
 }
@@ -19,14 +19,14 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "822f9c9611d5481da7dd19a283e8bb45",
-    "contractID": "UA-2020-09-08-000001-1",
+    "contractID": "UA-2021-03-16-000001-1",
     "contractNumber": "contract#1",
     "status": "pending",
     "period": {
-      "startDate": "2020-09-08T01:00:01+03:00",
-      "endDate": "2021-09-08T01:00:01+03:00"
+      "startDate": "2021-03-16T00:00:01+02:00",
+      "endDate": "2022-03-16T00:00:01+02:00"
     },
-    "dateSigned": "2020-09-08T01:00:01+03:00",
+    "dateSigned": "2021-03-16T00:00:01+02:00",
     "suppliers": [
       {
         "name": "ДКП «Школяр»",
@@ -50,13 +50,13 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "date": "2020-09-08T01:00:00+03:00",
+    "date": "2021-03-16T00:00:00+02:00",
     "awardID": "6f1d78c5363149ef9523e958b1b4e2cb",
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
-      "amount": 9351.37,
-      "amountPerformance": 856.84,
+      "amount": 8917.4,
+      "amountPerformance": 816.29,
       "yearlyPaymentsPercentage": 0.9,
       "annualCostsReduction": [
         500.0,
@@ -85,7 +85,7 @@ X-Content-Type-Options: nosniff
         "years": 10,
         "days": 74
       },
-      "amountNet": 9350.37
+      "amountNet": 8916.4
     },
     "items": [
       {

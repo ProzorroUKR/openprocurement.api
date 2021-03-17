@@ -10,7 +10,7 @@ X-Content-Type-Options: nosniff
     {
       "id": "50caa882244f4300aed60835d798a6a1",
       "status": "pending",
-      "date": "2020-09-08T01:00:01+03:00",
+      "date": "2021-03-16T00:00:01+02:00",
       "value": {
         "amount": 459.0,
         "currency": "UAH",
@@ -48,8 +48,8 @@ X-Content-Type-Options: nosniff
           },
           "quantity": 1.0,
           "deliveryDate": {
-            "startDate": "2020-09-10T01:00:00+03:00",
-            "endDate": "2020-09-13T01:00:00+03:00"
+            "startDate": "2021-03-18T00:00:00+02:00",
+            "endDate": "2021-03-21T00:00:00+02:00"
           },
           "deliveryAddress": {
             "streetAddress": "вул. Банкова 1",
@@ -70,7 +70,7 @@ X-Content-Type-Options: nosniff
     {
       "id": "2457dbf1f0fa43daaf6148695865ce39",
       "status": "pending",
-      "date": "2020-09-08T01:00:01+03:00",
+      "date": "2021-03-16T00:00:01+02:00",
       "value": {
         "amount": 479.0,
         "currency": "UAH",
@@ -108,8 +108,8 @@ X-Content-Type-Options: nosniff
           },
           "quantity": 1.0,
           "deliveryDate": {
-            "startDate": "2020-09-10T01:00:00+03:00",
-            "endDate": "2020-09-13T01:00:00+03:00"
+            "startDate": "2021-03-18T00:00:00+02:00",
+            "endDate": "2021-03-21T00:00:00+02:00"
           },
           "deliveryAddress": {
             "streetAddress": "вул. Банкова 1",

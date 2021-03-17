@@ -8,9 +8,9 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "title": "Послуги шкільних їдалень",
-    "date": "2020-09-08T01:00:00+03:00",
-    "dateModified": "2020-09-08T01:00:00+03:00",
-    "tenderID": "UA-2020-09-08-000001",
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "tenderID": "UA-2021-03-16-000001",
     "owner": "broker",
     "milestones": [
       {
@@ -47,20 +47,20 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true
     },
     "minimalStep": {
-      "amount": 35.0,
+      "amount": 5.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
     "title_en": "Services in school canteens",
     "enquiryPeriod": {
-      "startDate": "2020-07-29T01:00:00+03:00",
-      "endDate": "2020-08-19T01:00:00+03:00",
-      "clarificationsUntil": "2020-08-26T00:00:00+03:00",
-      "invalidationDate": "2020-09-08T01:00:00+03:00"
+      "startDate": "2021-02-03T00:00:00+02:00",
+      "endDate": "2021-02-24T00:00:00+02:00",
+      "clarificationsUntil": "2021-02-27T00:00:00+02:00",
+      "invalidationDate": "2021-03-16T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2020-07-29T01:00:00+03:00",
-      "endDate": "2020-08-29T01:00:00+03:00"
+      "startDate": "2021-02-03T00:00:00+02:00",
+      "endDate": "2021-03-06T00:00:00+02:00"
     },
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -93,7 +93,7 @@ X-Content-Type-Options: nosniff
         "bidID": "5f0fc8a6e46049ed949f0d945c5da26a",
         "lotID": "150e2750fa2942ce9315e80ddf78a62a",
         "status": "active",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "qualified": true,
         "eligible": true
       },
@@ -102,7 +102,7 @@ X-Content-Type-Options: nosniff
         "bidID": "57cb8d6e793d474cab1b2e8aade29c7d",
         "lotID": "150e2750fa2942ce9315e80ddf78a62a",
         "status": "active",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "qualified": true,
         "eligible": true
       },
@@ -111,14 +111,14 @@ X-Content-Type-Options: nosniff
         "bidID": "c620d7172864477692204ed6f5d5de4b",
         "lotID": "150e2750fa2942ce9315e80ddf78a62a",
         "status": "active",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "qualified": true,
         "eligible": true
       }
     ],
     "qualificationPeriod": {
-      "startDate": "2020-08-29T01:00:00+03:00",
-      "endDate": "2020-09-08T01:00:00+03:00"
+      "startDate": "2021-03-06T00:00:00+02:00",
+      "endDate": "2021-03-16T00:00:00+02:00"
     },
     "procurementMethodType": "competitiveDialogueEU",
     "status": "complete",
@@ -147,14 +147,14 @@ X-Content-Type-Options: nosniff
             "scale": "micro"
           }
         ],
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "id": "5f0fc8a6e46049ed949f0d945c5da26a",
         "selfQualified": true,
         "status": "active",
         "lotValues": [
           {
             "relatedLot": "150e2750fa2942ce9315e80ddf78a62a",
-            "date": "2020-09-08T01:00:00+03:00",
+            "date": "2021-03-16T00:00:00+02:00",
             "subcontractingDetails": "ДКП «Орфей»",
             "status": "active"
           }
@@ -184,14 +184,14 @@ X-Content-Type-Options: nosniff
             "scale": "sme"
           }
         ],
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "id": "57cb8d6e793d474cab1b2e8aade29c7d",
         "selfQualified": true,
         "status": "active",
         "lotValues": [
           {
             "relatedLot": "150e2750fa2942ce9315e80ddf78a62a",
-            "date": "2020-09-08T01:00:00+03:00",
+            "date": "2021-03-16T00:00:00+02:00",
             "status": "active"
           }
         ]
@@ -220,14 +220,14 @@ X-Content-Type-Options: nosniff
             "scale": "mid"
           }
         ],
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "id": "c620d7172864477692204ed6f5d5de4b",
         "selfQualified": true,
         "status": "active",
         "lotValues": [
           {
             "relatedLot": "150e2750fa2942ce9315e80ddf78a62a",
-            "date": "2020-09-08T01:00:00+03:00",
+            "date": "2021-03-16T00:00:00+02:00",
             "status": "active"
           }
         ]
@@ -239,7 +239,7 @@ X-Content-Type-Options: nosniff
         "id": "150e2750fa2942ce9315e80ddf78a62a",
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "status": "active",
         "value": {
           "amount": 500.0,
@@ -247,7 +247,7 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         },
         "minimalStep": {
-          "amount": 35.0,
+          "amount": 5.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         }
@@ -256,7 +256,7 @@ X-Content-Type-Options: nosniff
         "id": "a18842d9d4a349c799437d0102e40965",
         "title": "Лот №2",
         "description": "Опис Лот №2",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "status": "unsuccessful",
         "value": {
           "amount": 400.0,
@@ -264,7 +264,7 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         },
         "minimalStep": {
-          "amount": 35.0,
+          "amount": 5.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         }
@@ -293,8 +293,8 @@ X-Content-Type-Options: nosniff
           "id": "37810000-9"
         },
         "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00",
-          "endDate": "2020-10-28T00:00:00+02:00"
+          "startDate": "2021-04-05T00:00:00+02:00",
+          "endDate": "2021-05-05T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -327,8 +327,8 @@ X-Content-Type-Options: nosniff
           "id": "37810000-9"
         },
         "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00",
-          "endDate": "2020-10-28T00:00:00+02:00"
+          "startDate": "2021-04-05T00:00:00+02:00",
+          "endDate": "2021-05-05T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -344,8 +344,8 @@ X-Content-Type-Options: nosniff
     "id": "d59e1783dc5149518a3c20a016d652c6",
     "numberOfBids": 3,
     "complaintPeriod": {
-      "startDate": "2020-07-29T01:00:00+03:00",
-      "endDate": "2020-08-25T00:00:00+03:00"
+      "startDate": "2021-02-03T00:00:00+02:00",
+      "endDate": "2021-03-02T00:00:00+02:00"
     }
   }
 }

@@ -17,7 +17,7 @@ X-Content-Type-Options: nosniff
   "data": {
     "id": "f44b7cc2783f44b8960e691080112d97",
     "reason": "cancellation reason",
-    "date": "2020-09-08T01:00:00+03:00",
+    "date": "2021-03-16T00:00:00+02:00",
     "status": "active",
     "documents": [
       {
@@ -27,8 +27,8 @@ X-Content-Type-Options: nosniff
         "description": "Changed description",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/17537bfab84747faa7a87a734a068e14?Signature=q7vhOUQqsOrTNg1kzFvJUecuDDxLGaYUF5kdc5uv%2FgqjMVr5j%2FMbDLWUdaKrnsPLtiqf6V%2B41vForlOH8KpFBQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender"
       },
       {
@@ -38,8 +38,8 @@ X-Content-Type-Options: nosniff
         "description": "Changed description",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ee5e094c7e5c413b9e6d8e4c0ddd738b?Signature=5IzSNNEU4LDvUQnUR1xVW913xzPS0T1OKJXlMIrjINhPBzAgGQBAtzl35BNX5L%2BzdkHaterDTLm40ShSbS1%2BBw%3D%3D&KeyID=a8968c46",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender"
       }
     ],

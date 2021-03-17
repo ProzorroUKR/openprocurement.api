@@ -59,7 +59,7 @@ X-Content-Type-Options: nosniff
       "procurementMethod": "open",
       "procurementMethodType": "belowThreshold",
       "tenderPeriod": {
-        "startDate": "2020-09-15T01:00:00+03:00"
+        "startDate": "2021-03-23T00:00:00+02:00"
       }
     },
     "budget": {
@@ -89,7 +89,7 @@ X-Content-Type-Options: nosniff
         "description": "-"
       }
     ],
-    "planID": "UA-P-2020-09-08-000001",
+    "planID": "UA-P-2021-03-16-000001",
     "items": [
       {
         "id": "e3072aabb9934d6c8166fce695cf24f3",
@@ -135,8 +135,8 @@ X-Content-Type-Options: nosniff
       }
     ],
     "status": "scheduled",
-    "dateModified": "2020-09-08T01:00:00+03:00",
-    "datePublished": "2020-09-08T01:00:00+03:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "datePublished": "2021-03-16T00:00:00+02:00",
     "owner": "broker",
     "id": "18d6b21a07094c71b423e91c5e28579b"
   }

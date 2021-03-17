@@ -19,7 +19,7 @@ X-Content-Type-Options: nosniff
   "data": {
     "id": "5691a69e29824558a93a858bf9a5fe98",
     "status": "active",
-    "date": "2020-09-08T01:00:01+03:00",
+    "date": "2021-03-16T00:00:01+02:00",
     "value": {
       "amount": 499.0,
       "currency": "UAH",
@@ -50,8 +50,8 @@ X-Content-Type-Options: nosniff
     ],
     "bid_id": "7a54480af9574a7d958d7bd95701ec9e",
     "complaintPeriod": {
-      "startDate": "2020-09-08T01:00:01+03:00",
-      "endDate": "2020-09-19T00:00:00+03:00"
+      "startDate": "2021-03-16T00:00:01+02:00",
+      "endDate": "2021-03-27T00:00:00+02:00"
     },
     "qualified": true,
     "eligible": true

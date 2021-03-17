@@ -6,4 +6,4 @@ DOCS_URL = 'http://{}'.format(DOCS_HOST)
 AUCTIONS_HOST = 'auction-sandbox.prozorro.gov.ua'
 AUCTIONS_URL = 'http://{}'.format(AUCTIONS_HOST)
 
-MOCK_DATETIME = '2020-09-08T00:00:00+02:00'
+MOCK_DATETIME = '2021-03-16T00:00:00+02:00'

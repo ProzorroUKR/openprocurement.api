@@ -7,8 +7,8 @@ DATA:
 {
   "data": {
     "period": {
-      "startDate": "2020-09-08T01:00:01+03:00",
-      "endDate": "2021-09-08T01:00:01+03:00"
+      "startDate": "2021-03-16T00:00:01+02:00",
+      "endDate": "2022-03-16T00:00:01+02:00"
     }
   }
 }
@@ -19,14 +19,14 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "e605f02b124a4f0ba1b73e911b8aaad0",
-    "contractID": "UA-2020-09-08-000001-1",
+    "contractID": "UA-2021-03-16-000001-1",
     "contractNumber": "contract#1",
     "status": "pending",
     "period": {
-      "startDate": "2020-09-08T01:00:01+03:00",
-      "endDate": "2021-09-08T01:00:01+03:00"
+      "startDate": "2021-03-16T00:00:01+02:00",
+      "endDate": "2022-03-16T00:00:01+02:00"
     },
-    "dateSigned": "2020-09-08T01:00:01+03:00",
+    "dateSigned": "2021-03-16T00:00:01+02:00",
     "suppliers": [
       {
         "name": "ДКП «Книга»",
@@ -50,7 +50,7 @@ X-Content-Type-Options: nosniff
         "scale": "sme"
       }
     ],
-    "date": "2020-09-08T01:00:00+03:00",
+    "date": "2021-03-16T00:00:00+02:00",
     "value": {
       "amount": 238.0,
       "currency": "UAH",
@@ -75,8 +75,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 1.0,
         "deliveryDate": {
-          "startDate": "2020-09-28T01:00:00+03:00",
-          "endDate": "2020-10-09T01:00:00+03:00"
+          "startDate": "2021-04-05T00:00:00+02:00",
+          "endDate": "2021-04-16T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",

@@ -18,7 +18,7 @@ X-Content-Type-Options: nosniff
   "data": {
     "id": "0bfdc694cf4242aebdd802fb637ab381",
     "status": "cancelled",
-    "date": "2020-09-08T01:00:00+03:00",
+    "date": "2021-03-16T00:00:00+02:00",
     "value": {
       "amount": 479.0,
       "currency": "UAH",
@@ -49,8 +49,8 @@ X-Content-Type-Options: nosniff
     ],
     "bid_id": "eb07207a36b54625b66405468aca9513",
     "complaintPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "endDate": "2020-09-15T00:00:00+03:00"
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-03-20T00:00:00+02:00"
     },
     "qualified": true,
     "eligible": true

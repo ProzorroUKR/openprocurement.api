@@ -8,9 +8,9 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "title": "Послуги шкільних їдалень",
-    "date": "2020-09-08T01:00:00+03:00",
-    "dateModified": "2020-09-08T01:00:00+03:00",
-    "tenderID": "UA-2020-09-08-000001",
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "tenderID": "UA-2021-03-16-000001",
     "owner": "broker",
     "mainProcurementCategory": "services",
     "milestones": [
@@ -102,12 +102,12 @@ X-Content-Type-Options: nosniff
       }
     ],
     "tenderPeriod": {
-      "startDate": "2020-07-29T01:00:00+03:00",
-      "endDate": "2020-08-29T01:00:00+03:00"
+      "startDate": "2021-02-03T00:00:00+02:00",
+      "endDate": "2021-03-06T00:00:00+02:00"
     },
     "auctionPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00",
-      "shouldStartAfter": "2020-09-09T00:00:00+03:00"
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "shouldStartAfter": "2021-03-16T00:00:00+02:00"
     },
     "awardCriteria": "ratedCriteria",
     "bids": [
@@ -143,8 +143,8 @@ X-Content-Type-Options: nosniff
             "title": "Proposal.pdf",
             "format": "application/pdf",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c8eb97234afd4072b4d81ba5c0ed3ed8?Signature=t2Aq3lWbnBCVGU6%2B9z%2BwxKM24Yw2ExDFeHzd6Ud5xCw%2BpEAYACs0lptGJoFCVNC5strcCc01JtmujRm942UiDw%3D%3D&KeyID=a8968c46",
-            "datePublished": "2020-09-08T01:00:00+03:00",
-            "dateModified": "2020-09-08T01:00:00+03:00",
+            "datePublished": "2021-03-16T00:00:00+02:00",
+            "dateModified": "2021-03-16T00:00:00+02:00",
             "documentOf": "tender",
             "confidentiality": "public",
             "language": "uk"
@@ -154,8 +154,8 @@ X-Content-Type-Options: nosniff
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_top_secrets.pdf",
             "format": "application/pdf",
-            "datePublished": "2020-09-08T01:00:00+03:00",
-            "dateModified": "2020-09-08T01:00:00+03:00",
+            "datePublished": "2021-03-16T00:00:00+02:00",
+            "dateModified": "2021-03-16T00:00:00+02:00",
             "documentOf": "tender",
             "confidentialityRationale": "Only our company sells badgers with pink hair.",
             "confidentiality": "buyerOnly",
@@ -169,8 +169,8 @@ X-Content-Type-Options: nosniff
             "title": "eligibility_doc.pdf",
             "format": "application/pdf",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d76b0d3e7ad945ebbd9f08a407b5b565?Signature=EIyw%2Bn8dMS1cNpI%2Bc3QQNiYu3T6wgPutCMk7LOvfrFQ1P6fmk4Epu89Uf1jH%2B9BUYx%2BHxo%2BS%2BFYJY59eQeYUAA%3D%3D&KeyID=a8968c46",
-            "datePublished": "2020-09-08T01:00:00+03:00",
-            "dateModified": "2020-09-08T01:00:00+03:00",
+            "datePublished": "2021-03-16T00:00:00+02:00",
+            "dateModified": "2021-03-16T00:00:00+02:00",
             "documentOf": "tender",
             "confidentiality": "public",
             "language": "uk"
@@ -237,8 +237,8 @@ X-Content-Type-Options: nosniff
             "title": "Proposal_part1.pdf",
             "format": "application/pdf",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/990290f4487844639797e1f0adf02bc3?Signature=rOXN3tFVHoQCpMt2DSVVNl%2FvV6DOQUbzdFR0SblLD6LbwpfADRlJyqoONJi60r2C0BrDVvvzEycUAUVf4cu9Aw%3D%3D&KeyID=a8968c46",
-            "datePublished": "2020-09-08T01:00:00+03:00",
-            "dateModified": "2020-09-08T01:00:00+03:00",
+            "datePublished": "2021-03-16T00:00:00+02:00",
+            "dateModified": "2021-03-16T00:00:00+02:00",
             "documentOf": "tender",
             "confidentiality": "public",
             "language": "uk"
@@ -248,8 +248,8 @@ X-Content-Type-Options: nosniff
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part2.pdf",
             "format": "application/pdf",
-            "datePublished": "2020-09-08T01:00:00+03:00",
-            "dateModified": "2020-09-08T01:00:00+03:00",
+            "datePublished": "2021-03-16T00:00:00+02:00",
+            "dateModified": "2021-03-16T00:00:00+02:00",
             "documentOf": "tender",
             "confidentialityRationale": "Only our company sells badgers with pink hair.",
             "confidentiality": "buyerOnly",
@@ -263,8 +263,8 @@ X-Content-Type-Options: nosniff
             "title": "eligibility_doc.pdf",
             "format": "application/pdf",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f20fb61ed9de43a39a775b9f82d2faaf?Signature=oRJNQY%2FMvcJSK%2B0uUgQNHd43AigfrnQGCA9uLrV9acWSmdY%2FiyYII%2BU%2BNqLBN2d9QGRo5w%2Fa3SGfKg7kd%2F84CA%3D%3D&KeyID=a8968c46",
-            "datePublished": "2020-09-08T01:00:00+03:00",
-            "dateModified": "2020-09-08T01:00:00+03:00",
+            "datePublished": "2021-03-16T00:00:00+02:00",
+            "dateModified": "2021-03-16T00:00:00+02:00",
             "documentOf": "tender",
             "confidentiality": "public",
             "language": "uk"
@@ -305,10 +305,10 @@ X-Content-Type-Options: nosniff
         "id": "f224c93fe5654f788bb273af90c02176",
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"",
         "questionOf": "tender",
-        "dateAnswered": "2020-09-08T01:00:00+03:00"
+        "dateAnswered": "2021-03-16T00:00:00+02:00"
       }
     ],
     "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/33f610abd0a54c8bb1da547c377a3324",
@@ -319,8 +319,8 @@ X-Content-Type-Options: nosniff
         "title": "Notice.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e233ca037f154f5da9b177fa92ddd453?Signature=U0QR6Lqtph6lQuHh6BpB%2BuHmZLq8bFlNHBDcSrN2rnXIaEW79lFMssWPw%2BDVXO75IW6W%2ByPwbeTJEweUaGcrBA%3D%3D&KeyID=a8968c46",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "author": "tender_owner",
         "documentOf": "tender",
         "language": "uk"
@@ -331,8 +331,8 @@ X-Content-Type-Options: nosniff
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/be2dcea392744ec3bfc7b53161fabc61?Signature=MezoP%2BI%2Fm2XEuRfqInNFFvuk5wxW96eZrt21hwexze5P6yb4JA8P2xcGnlE8zs881veHw1BR5e%2Fc2qmuyIvjBQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "author": "tender_owner",
         "documentOf": "tender",
         "language": "uk"
@@ -343,8 +343,8 @@ X-Content-Type-Options: nosniff
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/59b8682ce22c4dda901d30922c81dfe0?Signature=AmOlZ9uaPEmMxQI2ndJRfTusL81pi8GrQw5t5Jn8Qlw%2F0wgstBfW%2F%2B%2BexByZqL0wbG6NnbUMy15W1e7yiLPlBQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "author": "tender_owner",
         "documentOf": "tender",
         "language": "uk"
@@ -355,7 +355,7 @@ X-Content-Type-Options: nosniff
         "id": "034c906ddc6c44cdb6ceca4bedd3e804",
         "bidID": "291c4bea0d1d4ffb95615993a06b785c",
         "status": "active",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "qualified": true,
         "eligible": true
       },
@@ -363,7 +363,7 @@ X-Content-Type-Options: nosniff
         "id": "4131d03c9cd44592a8c1b75bddb6b07c",
         "bidID": "b30aecb69ea84f689ce58aa02327210b",
         "status": "active",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "qualified": true,
         "eligible": true
       },
@@ -371,14 +371,14 @@ X-Content-Type-Options: nosniff
         "id": "a9f7b7af576f4cc99e3fba206c6b9701",
         "bidID": "627605fdb59b4d18a43186c1d7ed631a",
         "status": "unsuccessful",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "qualified": false,
         "eligible": false
       }
     ],
     "qualificationPeriod": {
-      "startDate": "2020-08-29T01:00:00+03:00",
-      "endDate": "2020-09-08T01:00:00+03:00"
+      "startDate": "2021-03-06T00:00:00+02:00",
+      "endDate": "2021-03-16T00:00:00+02:00"
     },
     "status": "active.auction",
     "NBUdiscountRate": 0.22986,
@@ -386,16 +386,16 @@ X-Content-Type-Options: nosniff
     "yearlyPaymentsPercentageRange": 0.8,
     "id": "33f610abd0a54c8bb1da547c377a3324",
     "enquiryPeriod": {
-      "startDate": "2020-07-29T01:00:00+03:00",
-      "endDate": "2020-08-19T01:00:00+03:00",
-      "clarificationsUntil": "2020-08-26T00:00:00+03:00",
-      "invalidationDate": "2020-09-08T01:00:00+03:00"
+      "startDate": "2021-02-03T00:00:00+02:00",
+      "endDate": "2021-02-24T00:00:00+02:00",
+      "clarificationsUntil": "2021-02-27T00:00:00+02:00",
+      "invalidationDate": "2021-03-16T00:00:00+02:00"
     },
     "complaintPeriod": {
-      "startDate": "2020-07-29T01:00:00+03:00",
-      "endDate": "2020-08-25T00:00:00+03:00"
+      "startDate": "2021-02-03T00:00:00+02:00",
+      "endDate": "2021-03-02T00:00:00+02:00"
     },
-    "next_check": "2020-09-08T01:36:00+03:00",
+    "next_check": "2021-03-16T00:36:00+02:00",
     "numberOfBids": 2,
     "minValue": {
       "amount": 0.0,
@@ -406,7 +406,7 @@ X-Content-Type-Options: nosniff
       "amount": 8.0,
       "currency": "USD"
     },
-    "noticePublicationDate": "2020-09-08T01:00:00+03:00"
+    "noticePublicationDate": "2021-03-16T00:00:00+02:00"
   }
 }
 

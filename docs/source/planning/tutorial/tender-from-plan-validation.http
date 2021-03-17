@@ -1,19 +1,19 @@
 POST /api/2.5/plans/18d6b21a07094c71b423e91c5e28579b/tenders HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 4115
+Content-Length: 4114
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2020-10-09T00:00:00+02:00"
+      "endDate": "2021-04-16T00:00:00+02:00"
     },
     "title": "Послуги шкільних їдалень",
     "title_en": "Services in school canteens",
     "minimalStep": {
       "currency": "UAH",
-      "amount": 35
+      "amount": 5
     },
     "procurementMethodType": "aboveThresholdEU",
     "value": {
@@ -62,8 +62,8 @@ DATA:
           "description": "Test"
         },
         "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00",
-          "endDate": "2020-10-28T00:00:00+02:00"
+          "startDate": "2021-04-05T00:00:00+02:00",
+          "endDate": "2021-05-05T00:00:00+02:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -91,8 +91,8 @@ DATA:
         },
         "quantity": 1,
         "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00",
-          "endDate": "2020-10-28T00:00:00+02:00"
+          "startDate": "2021-04-05T00:00:00+02:00",
+          "endDate": "2021-05-05T00:00:00+02:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",

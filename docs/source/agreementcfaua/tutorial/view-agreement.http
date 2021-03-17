@@ -8,18 +8,18 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "6305e36dbee94cfd9dd0bab9039a9265",
-    "agreementID": "UA-2020-09-08-000001-f37dae8cfa4445f6aa54e7c7c747028f1",
+    "agreementID": "UA-2021-03-16-000001-f37dae8cfa4445f6aa54e7c7c747028f1",
     "status": "active",
-    "dateModified": "2020-09-08T01:00:00+03:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
     "owner": "broker",
     "changes": [
       {
         "id": "42b702292a4947b6b3872286c6b12996",
         "status": "active",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "rationale": "Друга і третя поставка має бути розфасована",
         "rationale_en": "Agreement change cause",
-        "dateSigned": "2020-09-08T01:00:00+03:00",
+        "dateSigned": "2021-03-16T00:00:00+02:00",
         "rationaleType": "taxRate",
         "modifications": [
           {
@@ -36,8 +36,8 @@ X-Content-Type-Options: nosniff
         "title": "agreement_changes.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/942027dcdf104710ae89a8b24ad17b2f?Signature=QeOTNEJAy61PDdhoPsFB05UN76DqJVhf3QNEEkUq0v3EhCCG9czKUpWuTjQWEHRe0ghB6zx8WGIW%2B9wviyqoDQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2020-09-08T01:00:00+03:00",
-        "dateModified": "2020-09-08T01:00:00+03:00",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "relatedItem": "42b702292a4947b6b3872286c6b12996",
         "documentOf": "change"
       }
@@ -83,7 +83,7 @@ X-Content-Type-Options: nosniff
         ],
         "awardID": "e4d81f4d34aa4e00af3a9fbd22c872f0",
         "bidID": "6589a3c89ec14718b4f9fe14391112e9",
-        "date": "2020-09-08T01:00:00+03:00"
+        "date": "2021-03-16T00:00:00+02:00"
       },
       {
         "id": "4af43d836c2240788d74d3d6d7d89f20",
@@ -125,7 +125,7 @@ X-Content-Type-Options: nosniff
         ],
         "awardID": "5a661ac88fc8473b908629ec59493459",
         "bidID": "0562c5b9accd48cabf0b89f3c89f65c7",
-        "date": "2020-09-08T01:00:00+03:00"
+        "date": "2021-03-16T00:00:00+02:00"
       },
       {
         "id": "c8a433dd1798496e8f7be65622ea3215",
@@ -167,7 +167,7 @@ X-Content-Type-Options: nosniff
         ],
         "awardID": "393acf447fd546438a38be2ab8ca0c76",
         "bidID": "f1301daefed749be8ed4010e7e78190a",
-        "date": "2020-09-08T01:00:00+03:00"
+        "date": "2021-03-16T00:00:00+02:00"
       }
     ],
     "items": [

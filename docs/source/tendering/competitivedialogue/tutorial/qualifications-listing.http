@@ -11,7 +11,7 @@ X-Content-Type-Options: nosniff
       "id": "aec3b0b4e9754b75a95e53b611bb9bb0",
       "bidID": "f2b56144728a41cb898f709142a1cc38",
       "status": "pending",
-      "date": "2020-09-08T01:00:00+03:00",
+      "date": "2021-03-16T00:00:00+02:00",
       "qualified": false,
       "eligible": false
     },
@@ -19,7 +19,7 @@ X-Content-Type-Options: nosniff
       "id": "013668c1c6554de4b3c5d87fd5e1b8c6",
       "bidID": "a3773f747f5148d58d27cfae4a38b754",
       "status": "pending",
-      "date": "2020-09-08T01:00:00+03:00",
+      "date": "2021-03-16T00:00:00+02:00",
       "qualified": false,
       "eligible": false
     },
@@ -27,7 +27,7 @@ X-Content-Type-Options: nosniff
       "id": "685019c58271466dabb599125f990312",
       "bidID": "d075f39915d34bb98a8f4abb50f7e3ff",
       "status": "pending",
-      "date": "2020-09-08T01:00:00+03:00",
+      "date": "2021-03-16T00:00:00+02:00",
       "qualified": false,
       "eligible": false
     },
@@ -35,7 +35,7 @@ X-Content-Type-Options: nosniff
       "id": "3c016fe78a014d44899287fe135be249",
       "bidID": "ebac806fe83a4f0492193afac91b47bd",
       "status": "pending",
-      "date": "2020-09-08T01:00:00+03:00",
+      "date": "2021-03-16T00:00:00+02:00",
       "qualified": false,
       "eligible": false
     }

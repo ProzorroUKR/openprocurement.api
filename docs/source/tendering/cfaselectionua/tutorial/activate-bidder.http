@@ -37,7 +37,7 @@ X-Content-Type-Options: nosniff
         "scale": "large"
       }
     ],
-    "date": "2020-09-08T01:00:00+03:00",
+    "date": "2021-03-16T00:00:00+02:00",
     "id": "515916567ff2444eac0a41b6b29d7fff",
     "status": "active",
     "parameters": [
@@ -58,7 +58,7 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
-        "date": "2020-09-08T01:00:00+03:00"
+        "date": "2021-03-16T00:00:00+02:00"
       }
     ]
   }

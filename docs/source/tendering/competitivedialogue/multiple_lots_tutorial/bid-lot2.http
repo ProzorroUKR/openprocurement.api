@@ -71,19 +71,19 @@ X-Content-Type-Options: nosniff
         "scale": "mid"
       }
     ],
-    "date": "2020-09-08T01:00:00+03:00",
+    "date": "2021-03-16T00:00:00+02:00",
     "id": "c620d7172864477692204ed6f5d5de4b",
     "selfQualified": true,
     "status": "pending",
     "lotValues": [
       {
         "relatedLot": "150e2750fa2942ce9315e80ddf78a62a",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "status": "pending"
       },
       {
         "relatedLot": "a18842d9d4a349c799437d0102e40965",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "status": "pending"
       }

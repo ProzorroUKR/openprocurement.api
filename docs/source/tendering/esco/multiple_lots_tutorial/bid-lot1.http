@@ -97,20 +97,20 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "date": "2020-09-08T01:00:00+03:00",
+    "date": "2021-03-16T00:00:00+02:00",
     "id": "27dc631e3a514d21b07100fa83eb4c1f",
     "status": "pending",
     "lotValues": [
       {
         "relatedLot": "93256198e2e7429ab4d0300cc250244f",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "subcontractingDetails": "ДКП «Орфей», Україна",
         "status": "pending",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amount": 5992.27,
-          "amountPerformance": 1372.5,
+          "amount": 5572.77,
+          "amountPerformance": 1320.62,
           "yearlyPaymentsPercentage": 0.87,
           "annualCostsReduction": [
             200.0,

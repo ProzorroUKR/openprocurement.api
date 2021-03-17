@@ -8,9 +8,9 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "title": "Послуги шкільних їдалень",
-    "date": "2020-09-08T01:00:00+03:00",
-    "dateModified": "2020-09-08T01:00:00+03:00",
-    "tenderID": "UA-2020-09-08-000001",
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "tenderID": "UA-2021-03-16-000001",
     "owner": "broker",
     "mainProcurementCategory": "services",
     "milestones": [
@@ -48,21 +48,21 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true
     },
     "minimalStep": {
-      "amount": 35.0,
+      "amount": 5.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
     "procurementMethodType": "aboveThresholdEU",
     "title_en": "Services in school canteens",
     "enquiryPeriod": {
-      "startDate": "2020-08-08T01:00:00+03:00",
-      "endDate": "2020-08-29T01:00:00+03:00",
-      "clarificationsUntil": "2020-09-03T00:00:00+03:00",
-      "invalidationDate": "2020-09-08T01:00:00+03:00"
+      "startDate": "2021-02-13T00:00:00+02:00",
+      "endDate": "2021-03-06T00:00:00+02:00",
+      "clarificationsUntil": "2021-03-12T00:00:00+02:00",
+      "invalidationDate": "2021-03-16T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2020-08-08T01:00:00+03:00",
-      "endDate": "2020-09-08T01:00:00+03:00"
+      "startDate": "2021-02-13T00:00:00+02:00",
+      "endDate": "2021-03-16T00:00:00+02:00"
     },
     "items": [
       {
@@ -83,8 +83,8 @@ X-Content-Type-Options: nosniff
           "id": "37810000-9"
         },
         "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00",
-          "endDate": "2020-10-28T00:00:00+02:00"
+          "startDate": "2021-04-05T00:00:00+02:00",
+          "endDate": "2021-05-05T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -113,8 +113,8 @@ X-Content-Type-Options: nosniff
           "id": "37810000-9"
         },
         "deliveryDate": {
-          "startDate": "2020-09-28T00:00:00+02:00",
-          "endDate": "2020-10-28T00:00:00+02:00"
+          "startDate": "2021-04-05T00:00:00+02:00",
+          "endDate": "2021-05-05T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -213,7 +213,7 @@ X-Content-Type-Options: nosniff
         "bidID": "53c36a7d70f74146adcee826a1c7273a",
         "lotID": "5563fbab2bd848b398a5de9cb3ac555b",
         "status": "pending",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "qualified": false,
         "eligible": false
       },
@@ -222,20 +222,20 @@ X-Content-Type-Options: nosniff
         "bidID": "01342dd1e2b4444da922161ff3179fc3",
         "lotID": "5563fbab2bd848b398a5de9cb3ac555b",
         "status": "pending",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "qualified": false,
         "eligible": false
       }
     ],
     "qualificationPeriod": {
-      "startDate": "2020-09-08T01:00:00+03:00"
+      "startDate": "2021-03-16T00:00:00+02:00"
     },
     "lots": [
       {
         "id": "5563fbab2bd848b398a5de9cb3ac555b",
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "status": "active",
         "value": {
           "amount": 500.0,
@@ -243,7 +243,7 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         },
         "minimalStep": {
-          "amount": 35.0,
+          "amount": 5.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         }
@@ -252,7 +252,7 @@ X-Content-Type-Options: nosniff
         "id": "e2a64c7bb22f4a6d838531ede04bc02a",
         "title": "Лот №2",
         "description": "Опис Лот №2",
-        "date": "2020-09-08T01:00:00+03:00",
+        "date": "2021-03-16T00:00:00+02:00",
         "status": "unsuccessful",
         "value": {
           "amount": 400.0,
@@ -260,7 +260,7 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         },
         "minimalStep": {
-          "amount": 35.0,
+          "amount": 5.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         }
@@ -270,8 +270,8 @@ X-Content-Type-Options: nosniff
     "id": "4f6f9f4965ae47e99cd03a167c41c1a0",
     "numberOfBids": 2,
     "complaintPeriod": {
-      "startDate": "2020-08-08T01:00:00+03:00",
-      "endDate": "2020-09-04T00:00:00+03:00"
+      "startDate": "2021-02-13T00:00:00+02:00",
+      "endDate": "2021-03-12T00:00:00+02:00"
     }
   }
 }

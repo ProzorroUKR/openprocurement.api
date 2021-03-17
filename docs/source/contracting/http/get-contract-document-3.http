@@ -11,8 +11,8 @@ X-Content-Type-Options: nosniff
     "title": "contract_additional_docs.doc",
     "format": "application/msword",
     "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/77d160a2092f40068cba075e1dfac436/documents/d72c6e6b2a7741a1910849d0446b7d3f?download=29a6f4e9de4d44debe9cdfd98a391aa3",
-    "datePublished": "2020-09-08T01:00:01+03:00",
-    "dateModified": "2020-09-08T01:00:01+03:00",
+    "datePublished": "2021-03-16T00:00:01+02:00",
+    "dateModified": "2021-03-16T00:00:01+02:00",
     "documentOf": "contract",
     "previousVersions": [
       {
@@ -20,8 +20,8 @@ X-Content-Type-Options: nosniff
         "title": "contract_additional_docs.doc",
         "format": "application/msword",
         "url": "/contracts/77d160a2092f40068cba075e1dfac436/documents/d72c6e6b2a7741a1910849d0446b7d3f?download=98f487db80604f78ae7d691595fa5d9b",
-        "datePublished": "2020-09-08T01:00:01+03:00",
-        "dateModified": "2020-09-08T01:00:01+03:00",
+        "datePublished": "2021-03-16T00:00:01+02:00",
+        "dateModified": "2021-03-16T00:00:01+02:00",
         "documentOf": "contract"
       }
     ]

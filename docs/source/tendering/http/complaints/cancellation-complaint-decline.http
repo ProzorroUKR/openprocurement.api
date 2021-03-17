@@ -16,8 +16,8 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "3764e20ccb1a4aa0a481a16620422cdc",
-    "complaintID": "UA-2020-09-08-000001.2",
-    "date": "2020-09-08T01:00:00+03:00",
+    "complaintID": "UA-2021-03-16-000001.2",
+    "date": "2021-03-16T00:00:00+02:00",
     "author": {
       "name": "ДКП «Школяр»",
       "address": {
@@ -41,15 +41,15 @@ X-Content-Type-Options: nosniff
     },
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-    "dateSubmitted": "2020-09-08T01:00:00+03:00",
-    "dateDecision": "2020-09-08T01:00:00+03:00",
+    "dateSubmitted": "2021-03-16T00:00:00+02:00",
+    "dateDecision": "2021-03-16T00:00:00+02:00",
     "value": {
       "amount": 2000.0,
       "currency": "UAH"
     },
     "acceptance": true,
-    "dateAccepted": "2020-09-08T01:00:00+03:00",
-    "reviewDate": "2020-09-08T01:00:00+03:00",
+    "dateAccepted": "2021-03-16T00:00:00+02:00",
+    "reviewDate": "2021-03-16T00:00:00+02:00",
     "reviewPlace": "some",
     "status": "declined",
     "type": "complaint"

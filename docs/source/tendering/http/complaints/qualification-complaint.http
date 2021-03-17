@@ -7,8 +7,8 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "d5df8a022c8d49eba3f98a83c686bc84",
-    "complaintID": "UA-2020-09-08-000001.1",
-    "date": "2020-09-08T01:00:01+03:00",
+    "complaintID": "UA-2021-03-16-000001.1",
+    "date": "2021-03-16T00:00:01+02:00",
     "type": "complaint",
     "author": {
       "name": "ДКП «Школяр»",
@@ -33,18 +33,18 @@ X-Content-Type-Options: nosniff
     },
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-    "dateSubmitted": "2020-09-08T01:00:01+03:00",
+    "dateSubmitted": "2021-03-16T00:00:01+02:00",
     "tendererAction": "Умови виправлено",
-    "tendererActionDate": "2020-09-08T01:00:01+03:00",
-    "dateDecision": "2020-09-08T01:00:01+03:00",
+    "tendererActionDate": "2021-03-16T00:00:01+02:00",
+    "dateDecision": "2021-03-16T00:00:01+02:00",
     "value": {
       "amount": 3000.0,
       "currency": "UAH"
     },
     "status": "resolved",
     "acceptance": true,
-    "dateAccepted": "2020-09-08T01:00:01+03:00",
-    "reviewDate": "2020-09-08T01:00:01+03:00",
+    "dateAccepted": "2021-03-16T00:00:01+02:00",
+    "reviewDate": "2021-03-16T00:00:01+02:00",
     "reviewPlace": "Place of review",
     "documents": [
       {
@@ -53,8 +53,8 @@ X-Content-Type-Options: nosniff
         "title": "Complaint_Attachment.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/86bd21a8049c4af5bc415fa792f301b7?Signature=35%2BrNjIm9LkA4K5jG2HEeb9et3K9nQikWJV9rOdYvgp5MWGQsPC3Ggva3whW3%2BBzQyhy7lFoD3cMRELVm4qWDQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2020-09-08T01:00:01+03:00",
-        "dateModified": "2020-09-08T01:00:01+03:00",
+        "datePublished": "2021-03-16T00:00:01+02:00",
+        "dateModified": "2021-03-16T00:00:01+02:00",
         "author": "complaint_owner",
         "documentOf": "tender",
         "language": "uk"
@@ -65,8 +65,8 @@ X-Content-Type-Options: nosniff
         "title": "ComplaintResolution.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bcbd7b368356473d89e484285c325a8c?Signature=H5N8XtJ1FOpP5xir638FgIs3YZKl43LL3L2ePmVyCK1LVC0yafq2lyNrOtwef0otGwo2SXKf%2BZHmdYu2gKUTDQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2020-09-08T01:00:01+03:00",
-        "dateModified": "2020-09-08T01:00:01+03:00",
+        "datePublished": "2021-03-16T00:00:01+02:00",
+        "dateModified": "2021-03-16T00:00:01+02:00",
         "author": "aboveThresholdReviewers",
         "documentOf": "tender",
         "language": "uk"
