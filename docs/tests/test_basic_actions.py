@@ -1,27 +1,23 @@
 # -*- coding: utf-8 -*-
 import os
-import mock
-from copy import deepcopy
-from datetime import timedelta
 
-from openprocurement.api.utils import parse_date
+from copy import deepcopy
 from openprocurement.api.models import get_now
 from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
 from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.belowthreshold.tests.base import test_criteria
 
-from openprocurement.api.constants import RELEASE_2020_04_19, CRITERION_REQUIREMENT_STATUSES_FROM
+from openprocurement.api.constants import RELEASE_2020_04_19
 from tests.base.constants import DOCS_URL, AUCTIONS_URL
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.base.data import (
-    question, complaint, claim, lots, subcontracting,
+    complaint, claim, lots, subcontracting,
     bid_draft, bid2, bid3_with_docs,
     qualified, tender_openeu, test_eligible_evidence_data,
     test_requirement_data, test_requirement_group_data,
     test_criterion_data,
 )
 from tests.base.helpers import complaint_create_pending
-from tests.base.constants import MOCK_DATETIME
 
 test_tender_data = deepcopy(tender_openeu)
 test_lots = deepcopy(lots)
@@ -1586,9 +1582,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 self.tender_id, cancellation_id, complaint1_id))
             self.assertEqual(response.status, '200 OK')
 
-    @mock.patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", parse_date(MOCK_DATETIME) - timedelta(days=1))
-    @mock.patch("openprocurement.tender.core.validation.CRITERION_REQUIREMENT_STATUSES_FROM", parse_date(MOCK_DATETIME) - timedelta(days=1))
-    @mock.patch("openprocurement.tender.core.models.CRITERION_REQUIREMENT_STATUSES_FROM", parse_date(MOCK_DATETIME) - timedelta(days=1))
+
     def test_tender_criteria_article_17(self):
         self.app.authorization = ('Basic', ('broker', ''))
         tender_data = deepcopy(test_tender_data)
@@ -1908,7 +1902,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '200 OK')
 
-    @mock.patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", parse_date(MOCK_DATETIME) - timedelta(days=1))
     def test_bid_requirement_response(self):
         tender_data = deepcopy(test_tender_data)
 
@@ -2145,8 +2138,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     self.tender_id, bid_id, rr_id, bid_token))
             self.assertEqual(response.status, '200 OK')
 
-    @mock.patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17",
-                parse_date(MOCK_DATETIME) - timedelta(days=1))
     def test_award_requirement_response(self):
         self.app.authorization = ('Basic', ('broker', ''))
 
@@ -2386,8 +2377,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     self.tender_id, award_id, rr_id, owner_token))
             self.assertEqual(response.status, '200 OK')
 
-    @mock.patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17",
-                parse_date(MOCK_DATETIME) - timedelta(days=1))
     def test_qualification_requirement_response(self):
         self.app.authorization = ('Basic', ('broker', ''))
 

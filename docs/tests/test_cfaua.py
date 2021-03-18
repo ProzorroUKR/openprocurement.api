@@ -12,7 +12,7 @@ from openprocurement.tender.cfaua.tests.tender import BaseTenderWebTest
 from tests.base.constants import DOCS_URL, AUCTIONS_URL
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.base.data import (
-    lot_bid, question, complaint, lots, lot_bid2,
+    lot_bid, question, lots, lot_bid2,
     subcontracting, qualified, lot_bid3_with_docs,
     bid_document, bid_document2
 )

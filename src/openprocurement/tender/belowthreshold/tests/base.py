@@ -39,8 +39,8 @@ test_organization = {
 test_author = test_organization.copy()
 del test_author["scale"]
 
-test_procuringEntity = test_author.copy()
-test_procuringEntity["kind"] = "general"
+test_procuring_entity = test_author.copy()
+test_procuring_entity["kind"] = "general"
 test_milestones = [
     {
         "id": "a" * 32,
@@ -85,7 +85,7 @@ test_item = {
 test_tender_data = {
     "title": "футляри до державних нагород",
     "mainProcurementCategory": "goods",
-    "procuringEntity": test_procuringEntity,
+    "procuringEntity": test_procuring_entity,
     "value": {"amount": 500, "currency": "UAH"},
     "minimalStep": {"amount": 15, "currency": "UAH"},
     "items": [deepcopy(test_item)],
@@ -191,13 +191,19 @@ test_draft_complaint = {
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
-with open(os.path.join(current_dir, "test_criteria.json")) as json_file:
+with open(os.path.join(current_dir, "data", "exclusion_criteria.json")) as json_file:
     test_criteria = json.load(json_file)
 
 test_requirement_groups = test_criteria[0]["requirementGroups"]
 
-with open(os.path.join(current_dir, "test_lang_criteria.json")) as json_file:
-    language_criterion = json.load(json_file)
+with open(os.path.join(current_dir, "data", "lang_criteria.json")) as json_file:
+    language_criteria = json.load(json_file)
+
+with open(os.path.join(current_dir, "data", "contract_guarantee_criteria.json")) as json_file:
+    contract_guarantee_criteria = json.load(json_file)
+
+with open(os.path.join(current_dir, "data", "tender_guarantee_criteria.json")) as json_file:
+    tender_guarantee_criteria = json.load(json_file)
 
 
 def set_tender_lots(tender, lots):
@@ -308,14 +314,10 @@ class BaseTenderWebTest(BaseCoreWebTest):
             )
             criteria = response.json["data"]
         if self.guarantee_criterion:
-            criteria = deepcopy(test_criteria)
-            criterion = criteria[1]
-            criterion["classification"]["id"] = "CRITERION.OTHER.CONTRACT.GUARANTEE"
-            criterion["source"] = "winner"
             self.app.post_json(
                 "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
                 {
-                    "data": [criterion]
+                    "data": contract_guarantee_criteria
                 },
                 status=201
             )

@@ -3,7 +3,7 @@ import os
 from copy import deepcopy
 from mock import patch
 from datetime import timedelta
-from freezegun import freeze_time
+
 from openprocurement.api.models import get_now
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.openua.tests.tender import BaseTenderUAWebTest

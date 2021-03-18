@@ -16,8 +16,8 @@ from openprocurement.api.constants import (
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
-from openprocurement.tender.belowthreshold.models import Tender
 from openprocurement.tender.belowthreshold.tests.base import (
+    GUARANTEE_ALLOWED_TENDER_TYPES,
     test_organization,
     test_author,
     set_tender_lots,
@@ -26,8 +26,9 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_draft_claim,
     test_criteria,
     set_bid_lotvalues,
-    language_criterion,
-    GUARANTEE_ALLOWED_TENDER_TYPES,
+    language_criteria,
+    tender_guarantee_criteria,
+    contract_guarantee_criteria,
 )
 
 # TenderTest
@@ -1950,11 +1951,9 @@ def guarantee(self):
     with mock.patch("openprocurement.tender.core.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
                     get_now() - timedelta(days=1)):
         if data["procurementMethodType"] in GUARANTEE_ALLOWED_TENDER_TYPES:
-            criterion = deepcopy(test_criteria)[0]
-            criterion["classification"]["id"] = "CRITERION.OTHER.BID.GUARANTEE"
             self.app.post_json(
                 "/tenders/{}/criteria?acc_token={}".format(tender["id"], token),
-                {"data": test_criteria + language_criterion + [criterion]},
+                {"data": test_criteria + language_criteria + tender_guarantee_criteria},
                 status=201
             )
 
@@ -2818,11 +2817,9 @@ def tender_with_guarantee(self):
     response = self.app.post_json("/tenders", {"data": data})
     self.tender_id = response.json["data"]["id"]
     self.tender_token = response.json["access"]["token"]
-    criterion = deepcopy(test_criteria)[0]
-    criterion["classification"]["id"] = "CRITERION.OTHER.BID.GUARANTEE"
     self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": test_criteria + language_criterion},
+        {"data": test_criteria + language_criteria},
         status=201
     )
 
@@ -2853,7 +2850,7 @@ def tender_with_guarantee(self):
 
     self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": [criterion]},
+        {"data": tender_guarantee_criteria},
         status=201
     )
     self.app.patch_json(
@@ -2878,13 +2875,13 @@ def tender_with_guarantee_multilot(self):
     self.tender_id = response.json["data"]["id"]
     self.tender_token = response.json["access"]["token"]
 
-    criterion = deepcopy(test_criteria)[0]
-    criterion["classification"]["id"] = "CRITERION.OTHER.BID.GUARANTEE"
-    criterion["relatesTo"] = "lot"
-    criterion["relatedItem"] = response.json["data"]["lots"][0]["id"]
+    related_lot_id = response.json["data"]["lots"][0]["id"]
+    tender_lot_guarantee_criteria = deepcopy(tender_guarantee_criteria)
+    tender_lot_guarantee_criteria[0]["relatesTo"] = "lot"
+    tender_lot_guarantee_criteria[0]["relatedItem"] = related_lot_id
     self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": test_criteria + language_criterion + [criterion]},
+        {"data": test_criteria + language_criteria + tender_lot_guarantee_criteria},
         status=201
     )
 
@@ -2905,7 +2902,7 @@ def tender_with_guarantee_multilot(self):
     )
 
     self.app.patch_json(
-        "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, criterion["relatedItem"], self.tender_token),
+        "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, related_lot_id, self.tender_token),
         {"data": {"guarantee": {"amount": 1, "currency": "UAH"}}},
         status=200
     )
@@ -2934,19 +2931,16 @@ def activate_bid_guarantee_multilot(self):
     self.tender_token = response.json["access"]["token"]
     lots = response.json["data"]["lots"]
 
-    criterion = deepcopy(test_criteria)[0]
-    criterion["classification"]["id"] = "CRITERION.OTHER.BID.GUARANTEE"
-    criterion["relatesTo"] = "lot"
-    criterion["relatedItem"] = response.json["data"]["lots"][1]["id"]
+    tender_lot_guarantee_criteria = deepcopy(tender_guarantee_criteria)
+    tender_lot_guarantee_criteria[0]["relatesTo"] = "lot"
+    tender_lot_guarantee_criteria[0]["relatedItem"] = response.json["data"]["lots"][1]["id"]
 
-    criterion2 = deepcopy(test_criteria)[0]
-    criterion2["classification"]["id"] = "CRITERION.OTHER.CONTRACT.GUARANTEE"
-    criterion2["relatesTo"] = "lot"
-    criterion2["relatedItem"] = response.json["data"]["lots"][1]["id"]
-    criterion2["source"] = "winner"
+    contract_lot_guarantee_criteria = deepcopy(contract_guarantee_criteria)
+    contract_lot_guarantee_criteria["relatesTo"] = "lot"
+    contract_lot_guarantee_criteria["relatedItem"] = response.json["data"]["lots"][1]["id"]
     self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": test_criteria + language_criterion + [criterion, criterion2]},
+        {"data": test_criteria + language_criteria + tender_lot_guarantee_criteria + contract_lot_guarantee_criteria},
         status=201
     )
     self.app.patch_json(

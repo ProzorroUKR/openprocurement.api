@@ -13,7 +13,7 @@ from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.base.constants import DOCS_URL, AUCTIONS_URL
 from tests.base.data import (
     bid_draft, bid2_with_docs, question,
-    tender_below_maximum, funder, complaint, claim,
+    tender_below_maximum, funder,
 )
 
 test_tender_data = deepcopy(test_tender_data)
