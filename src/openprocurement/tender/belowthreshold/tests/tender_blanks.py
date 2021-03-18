@@ -2936,8 +2936,8 @@ def activate_bid_guarantee_multilot(self):
     tender_lot_guarantee_criteria[0]["relatedItem"] = response.json["data"]["lots"][1]["id"]
 
     contract_lot_guarantee_criteria = deepcopy(contract_guarantee_criteria)
-    contract_lot_guarantee_criteria["relatesTo"] = "lot"
-    contract_lot_guarantee_criteria["relatedItem"] = response.json["data"]["lots"][1]["id"]
+    contract_lot_guarantee_criteria[0]["relatesTo"] = "lot"
+    contract_lot_guarantee_criteria[0]["relatedItem"] = response.json["data"]["lots"][1]["id"]
     self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": test_criteria + language_criteria + tender_lot_guarantee_criteria + contract_lot_guarantee_criteria},
