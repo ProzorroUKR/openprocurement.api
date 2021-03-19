@@ -1285,7 +1285,7 @@ class BidResponsesMixin(Model):
                         break
                 else:
                     continue
-            elif criteria.source != "tenderer":
+            elif criteria.source != "tenderer" and not criteria.classification.id.endswith("GUARANTEE"):
                 continue
             if tender_created > CRITERION_REQUIREMENT_STATUSES_FROM:
                 active_requirements = [

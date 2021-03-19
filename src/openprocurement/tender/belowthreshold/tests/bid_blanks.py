@@ -973,16 +973,38 @@ def put_tender_bid_document(self):
 
 
 def update_tender_bid_document_invalid_pmr(self):
-    
+    requirement = self.app.get(
+        "/tenders/{}".format(self.tender_id)
+    ).json["data"]["criteria"][0]["requirementGroups"][0]["requirements"][0]
+
+    self.rr_data = [{
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+            "id": requirement["id"],
+            "title": requirement["title"],
+        },
+        "value": "True",
+    }]
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_organization], "value": {"amount": 500}}},
+        {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "status": "draft"}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
     bid_token = response.json["access"]["token"]
     bid_id = bid["id"]
+
+    self.app.post_json(
+        "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, bid_id, bid_token),
+        {"data": self.rr_data},
+    )
+    self.app.patch_json(
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token),
+        {"data": {"status": "active"}}
+    )
 
     response = self.app.post(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, bid_token),
@@ -1201,16 +1223,37 @@ def create_tender_bid_document_nopending(self):
 
 
 def create_tender_bid_document_invalid_pmr(self):
+    requirement = self.app.get(
+        "/tenders/{}".format(self.tender_id)
+    ).json["data"]["criteria"][0]["requirementGroups"][0]["requirements"][0]
+
+    self.rr_data = [{
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+            "id": requirement["id"],
+            "title": requirement["title"],
+        },
+        "value": "True",
+    }]
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_organization], "value": {"amount": 500}}},
+        {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "status": "draft"}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
     token = response.json["access"]["token"]
     bid_id = bid["id"]
-    
+
+    self.app.post_json(
+        "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, bid_id, token),
+        {"data": self.rr_data},
+    )
+    self.app.patch_json(
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, token),
+        {"data": {"status": "active"}}
+    )
 
     # make tender procurementMethodRationale simple
     doc = self.db.get(self.tender_id)

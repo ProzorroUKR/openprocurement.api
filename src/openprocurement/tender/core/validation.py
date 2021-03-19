@@ -990,7 +990,7 @@ def validate_tender_guarantee_multilot(request, **kwargs):
 
     related_guarantee_lots = []
     for criterion in tender.criteria:
-        if criterion.classification.id.endswith("GUARANTEE") and criterion.get("relatesTo") == "lot":
+        if criterion.classification.id == "CRITERION.OTHER.BID.GUARANTEE" and criterion.get("relatesTo") == "lot":
             related_guarantee_lots.append(criterion.get("relatedItem"))
 
     for lot in tender.lots:

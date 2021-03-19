@@ -175,6 +175,7 @@ class TenderBidRequirementResponseEvidenceResourceTest(
     initial_lots = deepcopy(test_lots)
     test_bids_data = test_bids
     initial_status = "active.tendering"
+    guarantee_criterion = False
 
 
 def suite():

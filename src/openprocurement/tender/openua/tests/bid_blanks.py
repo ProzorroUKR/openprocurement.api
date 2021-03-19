@@ -2106,8 +2106,10 @@ def bid_activate(self):
                             "title": req["title"],
                         },
                         "value": True,
-                    },
+                    }
                 )
+            elif criterion["classification"]["id"] == "CRITERION.OTHER.CONTRACT.GUARANTEE":
+                guarantee_criterion = criterion
     rrs = rrs[1:]
 
     response = self.app.post_json(
@@ -2176,6 +2178,38 @@ def bid_activate(self):
         {"data": [rrs[-1]]},
     )
     self.assertEqual(response.status, "201 Created")
+
+    if self.guarantee_criterion:
+        response = self.app.patch_json(
+            "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+            {"data": {"status": next_status}},
+            status=422,
+        )
+
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertIn("errors", response.json)
+        self.assertEqual(
+            response.json["errors"],
+            [{'description': ['Must be answered on all criteria with source `tenderer` and GUARANTEE if declared'],
+              'location': 'body',
+              'name': 'requirementResponses'}]
+        )
+
+        guarantee_rr = [{
+            "title": "Requirement response",
+            "description": "some description",
+            "requirement": {
+                "id": guarantee_criterion["requirementGroups"][0]["requirements"][0]["id"],
+                "title": guarantee_criterion["requirementGroups"][0]["requirements"][0]["title"],
+            },
+            "value": True,
+        }]
+        response = self.app.post_json(
+            "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+            {"data": guarantee_rr},
+        )
+        self.assertEqual(response.status, "201 Created")
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
