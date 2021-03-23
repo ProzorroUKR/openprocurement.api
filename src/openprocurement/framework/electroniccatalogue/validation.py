@@ -44,28 +44,37 @@ def validate_framework_document_operation_not_in_allowed_status(request, **kwarg
 
 
 def validate_agreement_operation_not_in_allowed_status(request, **kwargs):
+    obj_name = "object"
+    if "documents" in request.path:
+        obj_name = "document"
     if request.validated["agreement"].status != "active":
         raise_operation_error(
             request,
-            f"Can't {OPERATIONS.get(request.method)} document "
+            f"Can't {OPERATIONS.get(request.method)} {obj_name} "
             f"in current ({request.validated['agreement'].status}) agreement status"
         )
 
 
 def validate_contract_operation_not_in_allowed_status(request, **kwargs):
+    obj_name = "object"
+    if "documents" in request.path:
+        obj_name = "document"
     if request.validated["contract"].status not in ("active", "banned"):
         raise_operation_error(
             request,
-            f"Can't {OPERATIONS.get(request.method)} document "
+            f"Can't {OPERATIONS.get(request.method)} {obj_name} "
             f"in current ({request.validated['contract'].status}) contract status"
         )
 
 
 def validate_milestone_type(request, **kwargs):
+    obj_name = "object"
+    if "documents" in request.path:
+        obj_name = "document"
     if request.validated["milestone"].type == "activation":
         raise_operation_error(
             request,
-            f"Can't {OPERATIONS.get(request.method)} document for 'activation' milestone"
+            f"Can't {OPERATIONS.get(request.method)} {obj_name} for 'activation' milestone"
         )
 
 
