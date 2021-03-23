@@ -1,4 +1,4 @@
-from openprocurement.api.utils import APIResource, json_view, context_unpack
+from openprocurement.api.utils import APIResource, json_view, context_unpack, get_now
 from openprocurement.framework.core.utils import apply_patch
 from openprocurement.framework.core.validation import validate_patch_contract_data
 from openprocurement.framework.electroniccatalogue.utils import contractresource
@@ -32,6 +32,12 @@ class AgreementContractsResource(APIResource):
     )
     def patch(self):
         contract = self.request.validated["contract"]
+        old_status = contract.status
+        new_status = self.request.validated["data"].get("status", old_status)
+
+        if new_status != old_status:
+            contract.date = get_now()
+
         if apply_patch(self.request, "agreement", src=contract.to_primitive()):
             self.LOGGER.info(
                 f"Updated contract {contract.id}",
