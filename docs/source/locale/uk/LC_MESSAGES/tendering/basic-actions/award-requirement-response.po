@@ -21,7 +21,7 @@ msgid "Award Requirement response"
 msgstr "Відповідь на вимогу в кваліфікації"
 
 msgid "Any action on the requirement response in the award can be performed only by the tender owner."
-msgstr "Будь-які дії над відповіддю на вимогу в кваліфікації може виконувати лише власник пропозиції."
+msgstr "Будь-які дії над відповіддю на вимогу в кваліфікації може виконувати лише замовник."
 
 msgid "Requirement response basic operation"
 msgstr "Базові операції над відповідями на вимоги"
