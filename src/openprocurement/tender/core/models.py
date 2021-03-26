@@ -779,6 +779,7 @@ class Requirement(Model):
             "edit_exclusion": whitelist("eligibleEvidences", "status"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
+            "view_old": whitelist("id", "status", "datePublished", "dateModified")
         }
 
     id = MD5Type(required=True, default=lambda: uuid4().hex)

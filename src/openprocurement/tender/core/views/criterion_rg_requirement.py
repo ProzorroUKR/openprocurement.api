@@ -138,4 +138,4 @@ class BaseTenderCriteriaRGRequirementResource(APIResource):
                 "New version of requirement {}".format(requirement.id),
                 extra=context_unpack(self.request, {"MESSAGE_ID": "requirement_group_requirement_put"}),
             )
-            return {"data": requirement.serialize("view")}
+            return {"data": (requirement.serialize("view"), old_requirement.serialize("view_old"))}

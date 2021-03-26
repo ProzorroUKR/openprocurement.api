@@ -25,27 +25,35 @@ Response: 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
-  "data": {
-    "id": "14ffa2e54f764a29bd363470d3cd2ec2",
-    "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку",
-    "dataType": "boolean",
-    "eligibleEvidences": [
-      {
-        "id": "688b013e65bf44dd86758f3c19b1c81f",
-        "title": "Документальне підтвердження",
-        "description": "Довідка в довільній формі",
-        "type": "document"
-      },
-      {
-        "id": "cfcc11ea72954fa6867a85646df83c50",
-        "title": "changed_new, changed by requirement PUT",
-        "description": "Довідка в довільній формі",
-        "type": "document"
-      }
-    ],
-    "expectedValue": "true",
-    "status": "active",
-    "datePublished": "2021-03-16T00:00:00+02:00"
-  }
+  "data": [
+    {
+      "id": "14ffa2e54f764a29bd363470d3cd2ec2",
+      "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку",
+      "dataType": "boolean",
+      "eligibleEvidences": [
+        {
+          "id": "688b013e65bf44dd86758f3c19b1c81f",
+          "title": "Документальне підтвердження",
+          "description": "Довідка в довільній формі",
+          "type": "document"
+        },
+        {
+          "id": "cfcc11ea72954fa6867a85646df83c50",
+          "title": "changed_new, changed by requirement PUT",
+          "description": "Довідка в довільній формі",
+          "type": "document"
+        }
+      ],
+      "expectedValue": "true",
+      "status": "active",
+      "datePublished": "2021-03-16T00:00:00+02:00"
+    },
+    {
+      "id": "14ffa2e54f764a29bd363470d3cd2ec2",
+      "status": "cancelled",
+      "datePublished": "2021-03-16T00:00:00+02:00",
+      "dateModified": "2021-03-16T00:00:00+02:00"
+    }
+  ]
 }
 

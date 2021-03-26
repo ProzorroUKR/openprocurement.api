@@ -884,6 +884,13 @@ def put_rg_requirement_valid(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
+    self.assertEqual(len(response.json["data"]), 2)
+    self.assertEqual(response.json["data"][0]["status"], "active")
+    self.assertEqual(response.json["data"][1]["status"], "cancelled")
+    self.assertEqual(
+        set(response.json["data"][1].keys()),
+        {"id", "status", "dateModified", "datePublished"}
+    )
     response = self.app.get(get_url.format(self.tender_id, self.criteria_id, self.rg_id))
     self.assertEqual(len(response.json["data"]), 2)
     self.assertEqual(response.json["data"][0]["status"], "cancelled")
