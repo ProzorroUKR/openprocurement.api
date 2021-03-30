@@ -6,6 +6,7 @@
             "scheme": "ESPD211",
             "id": "CRITERION.OTHER.BID.GUARANTEE"
         },
+        "relatesTo": "tenderer",
         "legislation": [
             {
                 "version": "2020-04-19",

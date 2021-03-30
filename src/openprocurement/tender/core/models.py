@@ -943,6 +943,13 @@ class Criterion(Model):
         validators=[validate_object_id_uniq],
     )
 
+    def validate_relatesTo(self, data, value):
+        parent = data["__parent__"]
+        tender = get_tender(parent)
+        if get_first_revision_date(tender, default=get_now()) > RELEASE_GUARANTEE_CRITERION_FROM:
+            if not value:
+                raise ValidationError("This field is required.")
+
     def validate_relatedItem(self, data, relatedItem):
         if not relatedItem and data.get("relatesTo") in ["item", "lot"]:
             raise ValidationError("This field is required.")

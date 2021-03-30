@@ -303,6 +303,18 @@ def create_tender_criteria_invalid(self):
         ],
     )
 
+    lang_criterion = deepcopy(language_criteria)
+    del lang_criterion[0]["relatesTo"]
+    response = self.app.post_json(request_path, {"data": lang_criterion}, status=422)
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{'location': 'body', 'name': 0, 'description': {'relatesTo': ['This field is required.']}}]
+    )
+
 
 def patch_tender_criteria_valid(self):
     criteria_data = deepcopy(test_criteria)
