@@ -50,13 +50,13 @@ X-Content-Type-Options: nosniff
               "dataType": "boolean",
               "eligibleEvidences": [
                 {
-                  "id": "8d6ce4abf8d44164843866b82f99fb86",
+                  "id": "9dfdea5e341543ddbccd8b749fbe747a",
                   "title": "Документальне підтвердження",
                   "description": "Довідка в довільній формі",
                   "type": "document"
                 },
                 {
-                  "id": "a061896b7ba7490f830f64887ed13d8d",
+                  "id": "23010fd958d149f89df26e5724dafee2",
                   "title": "Документальне підтвердження",
                   "description": "Довідка в довільній формі",
                   "type": "statement"
