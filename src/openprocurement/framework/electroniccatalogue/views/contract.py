@@ -32,11 +32,6 @@ class AgreementContractsResource(APIResource):
     )
     def patch(self):
         contract = self.request.validated["contract"]
-        old_status = contract.status
-        new_status = self.request.validated["data"].get("status", old_status)
-
-        if new_status != old_status:
-            contract.date = get_now()
 
         if apply_patch(self.request, "agreement", src=contract.to_primitive()):
             self.LOGGER.info(

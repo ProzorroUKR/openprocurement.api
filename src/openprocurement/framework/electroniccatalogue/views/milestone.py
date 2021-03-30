@@ -40,6 +40,7 @@ class ContractMilestoneResource(APIResource):
     )
     def collection_post(self):
         milestone = self.request.validated["milestone"]
+        self.request.context.date = milestone.dateModified
         self.request.context.milestones.append(milestone)
         upload_objects_documents(
             self.request, milestone,
