@@ -1972,7 +1972,7 @@ def validate_operation_ecriteria_objects_evidences(request, **kwargs):
                 current_contract = contract
                 break
         if current_contract and current_contract.status == "pending":
-            raise_operation_error(request, "forbidden edit if contract not in status `pending`")
+            raise_operation_error(request, "forbidden if contract not in status `pending`")
 
     base_validate_operation_ecriteria_objects(request, valid_statuses)
 
