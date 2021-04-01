@@ -20,7 +20,7 @@ test_electronicCatalogue_data = deepcopy(test_electronicCatalogue_data)
 
 class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTestMixin):
     AppClass = DumpsWebTestApp
-
+    database_keys = ("frameworks", "submissions", "agreements", "qualifications")
     relative_to = os.path.dirname(__file__)
     initial_data = test_electronicCatalogue_data
     docservice = True

@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from couchdb.design import ViewDefinition
+from openprocurement.api.design import VIEWS
+from openprocurement.api.database import Databases
 
-from openprocurement.api import design
 
 FRAMEWORK_FIELDS = [
     "id",
@@ -53,9 +54,13 @@ AGREEMENT_CHANGES_FIELDS = AGREEMENT_FIELDS + ["dateModified"]
 
 
 def add_design():
-    for i, j in globals().items():
-        if "_view" in i:
-            setattr(design, i, j)
+    db_keys = Databases.keys()  # ("frameworks", "submissions", "plans", etc)
+    for var_name, obj in globals().items():
+        if isinstance(obj, ViewDefinition):
+            db_key = var_name.split("_")[0]  # frameworks_bla_bla_bla = ViewDefinition(...
+            # obj.design will be _design/frameworks, would be parsing it better ?
+            assert db_key in db_keys, f"ViewDefinition must follow the name convention: {db_key}, {db_keys}"
+            VIEWS[db_key].append(obj)
 
 
 frameworks_all_view = ViewDefinition(
@@ -571,14 +576,4 @@ agreements_with_active_banned_contracts_view = ViewDefinition(
             })
         }
     }''',
-)
-
-conflicts_view = ViewDefinition(
-    "conflicts",
-    "all",
-    """function(doc) {
-    if (doc._conflicts) {
-        emit(doc._rev, [doc._rev].concat(doc._conflicts));
-    }
-}""",
 )

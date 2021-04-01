@@ -1,7 +1,9 @@
 from copy import deepcopy
 from hashlib import sha512
 
-from openprocurement.api.utils import APIResource, json_view, context_unpack, get_now, generate_id
+from openprocurement.api.utils import (
+    APIResource, json_view, context_unpack, get_now, generate_id, raise_operation_error,
+)
 from openprocurement.framework.core.utils import (
     qualificationsresource,
     apply_patch,
@@ -64,9 +66,8 @@ class QualificationResource(APIResource):
         return {"data": qualification.serialize("view")}
 
     def complete_submission(self):
-        db = self.request.registry.db
         qualification = self.request.validated["qualification"]
-        submission_data = get_submission_by_id(db, qualification.submissionID)
+        submission_data = get_submission_by_id(self.request, qualification.submissionID)
         submission = Submission(submission_data)
         self.request.validated["submission_src"] = submission.serialize("plain")
         submission.status = "complete"
@@ -76,14 +77,17 @@ class QualificationResource(APIResource):
                          extra=context_unpack(self.request, {"MESSAGE_ID": "submission_patch"}))
 
     def ensure_agreement(self):
-        db = self.request.registry.db
         framework_data = self.request.validated["framework_src"]
         agreementID = framework_data.get("agreementID")
         if agreementID:
-            agreement = get_agreement_by_id(db, agreementID)
-            agreement = Agreement(agreement)
+            agreement = get_agreement_by_id(self.request, agreementID)
+            if not agreement:
+                raise_operation_error(
+                    self.request,
+                    "agreementID must be one of exists agreement",
+                )
+            self.request.validated["agreement"] = agreement = Agreement(agreement)
             agreement.__parent__ = self.request.validated["qualification"].__parent__
-            self.request.validated["agreement"] = agreement
             self.request.validated["agreement_src"] = agreement.serialize("plain")
         else:
             agreement_id = generate_id()
@@ -92,7 +96,8 @@ class QualificationResource(APIResource):
             transfer_token = sha512(transfer.encode("utf-8")).hexdigest()
             agreement_data = {
                 "id": agreement_id,
-                "agreementID": generate_agreementID(get_now(), db, self.server_id),
+                "agreementID": generate_agreementID(get_now(), self.request.registry.databases.agreements,
+                                                    self.server_id),
                 "frameworkID": framework_data["id"],
                 "agreementType": framework_data["frameworkType"],
                 "status": "active",
@@ -136,11 +141,20 @@ class QualificationResource(APIResource):
                                  extra=context_unpack(self.request, {"MESSAGE_ID": "qualification_patch"}))
 
     def create_agreement_contract(self):
-        db = self.request.registry.db
         qualification = self.request.validated["qualification"]
         framework = self.request.validated["framework"]
-        agreement_data = get_agreement_by_id(db, framework.agreementID)
-        submission_data = get_submission_by_id(db, qualification.submissionID)
+        agreement_data = get_agreement_by_id(self.request, framework.agreementID)
+        if not agreement_data:
+            raise_operation_error(
+                self.request,
+                "agreementID must be one of exists agreement",
+            )
+        submission_data = get_submission_by_id(self.request, qualification.submissionID)
+        if not agreement_data:
+            raise_operation_error(
+                self.request,
+                "submissionID must be one of exists submission",
+            )
         if agreement_data["status"] != "active":
             return
 

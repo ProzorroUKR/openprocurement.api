@@ -17,7 +17,6 @@ class Root(object):
 
     def __init__(self, request):
         self.request = request
-        self.db = request.registry.db
 
 
 def change_factory(request):

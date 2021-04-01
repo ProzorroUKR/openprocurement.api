@@ -29,6 +29,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
     relative_to = os.path.dirname(__file__)
     docservice = True
     docservice_url = DOCS_URL
+    database_keys = ("agreements",)
 
     def setUp(self):
         super(TenderResourceTest, self).setUp()
@@ -343,7 +344,6 @@ class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTes
                 f"/agreements/{self.agreement_id}/contracts/{contract_1_id}/milestones?acc_token={self.framework_token}",
                 {'data': ban_milestone},
             )
-            print(response.json)
 
         disqualification_milestone = deepcopy(disqualification_milestone_data_with_documents)
         disqualification_milestone["documents"][0]["url"] = self.generate_docservice_url()

@@ -943,7 +943,7 @@ def submission_not_found(self):
 
     # put custom document object into database to check frameworks construction on non-Submission data
     data = {"contract": "test", "_id": uuid4().hex}
-    self.db.save(data)
+    self.databases.submissions.save(data)
 
     response = self.app.get("/submissions/{}".format(data["_id"]), status=404)
     self.assertEqual(response.status, "404 Not Found")
@@ -983,7 +983,7 @@ def get_documents_list(self):
 
 
 def get_document_by_id(self):
-    documents = self.db.get(self.submission_id).get("documents")
+    documents = self.databases.submissions.get(self.submission_id).get("documents")
     for doc in documents:
         response = self.app.get("/submissions/{}/documents/{}".format(self.submission_id, doc["id"]))
         document = response.json["data"]
@@ -1069,7 +1069,7 @@ def create_submission_document_json_bulk(self):
     assert_document(doc_1, "name1.doc")
     assert_document(doc_2, "name2.doc")
 
-    submission = self.db.get(self.submission_id)
+    submission = self.databases.submissions.get(self.submission_id)
     doc_1 = submission["documents"][0]
     doc_2 = submission["documents"][1]
     assert_document(doc_1, "name1.doc")
@@ -1174,7 +1174,7 @@ def put_submission_document(self):
         self.assertIn("KeyID=", response.json["data"]["url"])
         self.assertNotIn("Expires=", response.json["data"]["url"])
         key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        submission = self.db.get(self.submission_id)
+        submission = self.databases.submissions.get(self.submission_id)
         self.assertIn(key, submission["documents"][-1]["url"])
         self.assertIn("Signature=", submission["documents"][-1]["url"])
         self.assertIn("KeyID=", submission["documents"][-1]["url"])
@@ -1231,7 +1231,7 @@ def put_submission_document(self):
         self.assertIn("KeyID=", response.json["data"]["url"])
         self.assertNotIn("Expires=", response.json["data"]["url"])
         key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        framework = self.db.get(self.submission_id)
+        framework = self.databases.submissions.get(self.submission_id)
         self.assertIn(key, framework["documents"][-1]["url"])
         self.assertIn("Signature=", framework["documents"][-1]["url"])
         self.assertIn("KeyID=", framework["documents"][-1]["url"])

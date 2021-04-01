@@ -64,7 +64,7 @@ def get_framework_unsuccessful_status_check_date(framework):
 
 def get_framework_number_of_submissions(request, framework):
     total_submission_results = submissions_by_framework_id_total_view(
-        request.registry.db,
+        request.registry.databases.submissions,
         startkey=[framework.id, None],
         endkey=[framework.id, {}]
     )

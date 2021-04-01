@@ -17,23 +17,23 @@ class TransferTest(BaseWebTest):
 
         assert u.id is None
 
-        u.store(self.db)
+        u.store(self.databases.transfers)
 
         assert u.id is not None
 
-        fromdb = self.db.get(u.id)
+        fromdb = self.databases.transfers.get(u.id)
 
         assert u.transfer_token == fromdb["transfer_token"]
         assert u.access_token == fromdb["access_token"]
         assert u.owner == fromdb["owner"]
         assert u.doc_type == "Transfer"
 
-        u.delete_instance(self.db)
+        u.delete_instance(self.databases.transfers)
 
 
 class TransferResourceTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
-
+    database_keys = ("transfers",)
     initial_auth = ("Basic", ("broker", ""))
 
     def test_get_transfer(self):

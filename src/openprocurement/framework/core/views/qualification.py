@@ -42,3 +42,4 @@ class QualificationResource(APIResourceListing):
         # self.serialize_func = tender_serialize
         self.object_name_for_listing = "Qualifications"
         self.log_message_id = "qualification_list_custom"
+        self.db = request.registry.databases.qualifications

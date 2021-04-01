@@ -50,6 +50,7 @@ class AgreementResource(APIResourceListing):
         self.serialize_func = agreement_serialize
         self.object_name_for_listing = "Agreements"
         self.log_message_id = "agreement_list_custom"
+        self.db = request.registry.databases.agreements
 
     @json_view(content_type="application/json", permission="create_agreement", validators=(validate_agreement_data,))
     def post(self):

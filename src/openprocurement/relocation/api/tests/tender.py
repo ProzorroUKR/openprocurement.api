@@ -33,6 +33,7 @@ class BaseTenderOwnershipChangeTest(BaseTenderWebTest):
     initial_data = test_tender_data
     first_owner = "brokerx"
     initial_auth = ("Basic", (first_owner, ""))
+    database_keys = ("transfers",)
 
     def setUp(self):
         super(BaseTenderOwnershipChangeTest, self).setUp()
@@ -125,9 +126,9 @@ class TenderOwnershipChangeTest(BaseTenderOwnershipChangeTest):
         # simulate half-applied transfer activation process (i.e. transfer
         # is successfully applied to a tender and relation is saved in transfer,
         # but tender is not stored with new credentials)
-        transfer_doc = self.db.get(transfer["id"])
+        transfer_doc = self.databases.transfers.get(transfer["id"])
         transfer_doc["usedFor"] = "/tenders/" + tender["id"]
-        self.db.save(transfer_doc)
+        self.databases.transfers.save(transfer_doc)
         response = self.app.post_json(
             "/tenders/{}/ownership".format(tender["id"]),
             {"data": {"id": transfer["id"], "transfer": access["transfer"]}},
@@ -523,9 +524,9 @@ class OpenUACompetitiveDialogueStage2TenderOwnershipChangeTest(TenderOwnershipCh
         # simulate half-applied transfer activation process (i.e. transfer
         # is successfully applied to a tender and relation is saved in transfer,
         # but tender is not stored with new credentials)
-        transfer_doc = self.db.get(transfer["id"])
+        transfer_doc = self.databases.transfers.get(transfer["id"])
         transfer_doc["usedFor"] = "/tenders/" + tender["id"]
-        self.db.save(transfer_doc)
+        self.databases.transfers.save(transfer_doc)
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
             response = self.app.post_json(
                 "/tenders/{}/ownership".format(tender["id"]),

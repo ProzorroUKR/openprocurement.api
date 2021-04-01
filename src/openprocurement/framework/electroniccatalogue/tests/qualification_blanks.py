@@ -628,9 +628,9 @@ def qualification_not_found(self):
 
     # put custom document object into database to check frameworks construction on non-Submission data
     data = {"contract": "test", "_id": uuid4().hex}
-    self.db.save(data)
+    self.databases.qualifications.save(data)
 
-    response = self.app.get("/submissions/{}".format(data["_id"]), status=404)
+    response = self.app.get("/qualifications/{}".format(data["_id"]), status=404)
     self.assertEqual(response.status, "404 Not Found")
 
 
@@ -694,7 +694,7 @@ def get_document_by_id(self):
         "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
         upload_files=[("file", "name%s.doc" % i, b"content2") for i in range(3)],
     )
-    documents = self.db.get(self.qualification_id).get("documents")
+    documents = self.databases.qualifications.get(self.qualification_id).get("documents")
     for doc in documents:
         response = self.app.get("/qualifications/{}/documents/{}".format(self.qualification_id, doc["id"]))
         document = response.json["data"]
@@ -779,7 +779,7 @@ def create_qualification_document_json_bulk(self):
     assert_document(doc_1, "name1.doc")
     assert_document(doc_2, "name2.doc")
 
-    qualification = self.db.get(self.qualification_id)
+    qualification = self.databases.qualifications.get(self.qualification_id)
     doc_1 = qualification["documents"][0]
     doc_2 = qualification["documents"][1]
     assert_document(doc_1, "name1.doc")
@@ -884,7 +884,7 @@ def put_qualification_document(self):
         self.assertIn("KeyID=", response.json["data"]["url"])
         self.assertNotIn("Expires=", response.json["data"]["url"])
         key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        qualification = self.db.get(self.qualification_id)
+        qualification = self.databases.qualifications.get(self.qualification_id)
         self.assertIn(key, qualification["documents"][-1]["url"])
         self.assertIn("Signature=", qualification["documents"][-1]["url"])
         self.assertIn("KeyID=", qualification["documents"][-1]["url"])
@@ -941,7 +941,7 @@ def put_qualification_document(self):
         self.assertIn("KeyID=", response.json["data"]["url"])
         self.assertNotIn("Expires=", response.json["data"]["url"])
         key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        qualification = self.db.get(self.qualification_id)
+        qualification = self.databases.qualifications.get(self.qualification_id)
         self.assertIn(key, qualification["documents"][-1]["url"])
         self.assertIn("Signature=", qualification["documents"][-1]["url"])
         self.assertIn("KeyID=", qualification["documents"][-1]["url"])
