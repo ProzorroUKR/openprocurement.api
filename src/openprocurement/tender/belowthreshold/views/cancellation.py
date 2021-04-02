@@ -15,7 +15,6 @@ from openprocurement.tender.core.validation import (
     validate_cancellation_of_active_lot,
     validate_create_cancellation_in_active_auction,
     validate_cancellation_status_without_complaints,
-    _validate_related_criterion,
 )
 
 
@@ -62,12 +61,6 @@ class TenderCancellationResource(BaseTenderCancellationResource):
         apply_patch(self.request, save=False, src=cancellation.serialize())
         tender = self.request.validated["tender"]
 
-        if (
-                cancellation.status == "active"
-                and cancellation.cancellationOf == "lot"
-                and tender.status in ("draft", "active.enquiries", "active.tendering")
-        ):
-            _validate_related_criterion(self.request, cancellation.relatedLot)
         if cancellation.status == "active" and prev_status != "active":
             self.cancel_tender_lot_method(self.request, cancellation)
 
