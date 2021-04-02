@@ -28,8 +28,6 @@ from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     patch_tender_cancellation_2020_04_19,
     create_tender_cancellation_before_19_04_2020,
     permission_cancellation_pending,
-    # TenderLotsCancellationWithCriteriaResourceTest
-    lot_cancellation_with_related_criteria,
 
 )
 from openprocurement.tender.openua.tests.cancellation_blanks import create_tender_cancellation_2020_04_19
@@ -87,13 +85,6 @@ class TenderLotsCancellationResourceTest(TenderContentWebTest):
     test_patch_tender_lots_cancellation = snitch(patch_tender_lots_cancellation)
 
 
-class TenderLotsCancellationWithCriteriaResourceTest(TenderContentWebTest):
-    initial_status = "active.enquiring"
-    initial_lots = test_lots
-
-    test_lot_cancellation_with_related_criteria = snitch(lot_cancellation_with_related_criteria)
-
-
 class TenderCancellationDocumentResourceTest(TenderContentWebTest, TenderCancellationDocumentResourceTestMixin):
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
@@ -110,7 +101,6 @@ def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderCancellationDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderCancellationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotsCancellationWithCriteriaResourceTest))
     # PASSED_PY3
     return suite
 
