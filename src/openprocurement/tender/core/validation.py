@@ -1958,11 +1958,11 @@ def validate_operation_ecriteria_objects_evidences(request, **kwargs):
         bid_id = request.validated["bid"]["id"]
         active_award = None
         for award in tender.awards:
-            if award.status == "active":
+            if award.status == "active" and award.bid_id == bid_id:
                 active_award = award
                 break
 
-        if active_award is None or active_award.bid_id != bid_id:
+        if active_award is None:
             raise_operation_error(request, "available only with active award".format(guarantee_criterion))
 
         contracts = tender.contracts
@@ -1972,7 +1972,7 @@ def validate_operation_ecriteria_objects_evidences(request, **kwargs):
                 current_contract = contract
                 break
         if current_contract and current_contract.status == "pending":
-            raise_operation_error(request, "forbidden edit if contract not in status `pending`")
+            raise_operation_error(request, "forbidden if contract not in status `pending`")
 
     base_validate_operation_ecriteria_objects(request, valid_statuses)
 
