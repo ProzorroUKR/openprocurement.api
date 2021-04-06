@@ -1,4 +1,4 @@
-PATCH /api/2.5/agreements/6305e36dbee94cfd9dd0bab9039a9265/changes/42b702292a4947b6b3872286c6b12996?acc_token=9202afaa0bda4d5a8d604c4bac984417 HTTP/1.0
+PATCH /api/2.5/agreements/1746cfba69864f7d996e4bd000858884/changes/eb59804a712942e89f57217f6537364e?acc_token=2f325f620dd24a4d8dd8c5aca839a7cc HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 95
 Content-Type: application/json
@@ -8,7 +8,7 @@ DATA:
   "data": {
     "modifications": [
       {
-        "itemId": "a7cc533337f24b6cb447f0dc09bbacd4",
+        "itemId": "26d1888c829a4db4b883061b2b327288",
         "factor": 0.1605
       }
     ]
@@ -20,7 +20,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "42b702292a4947b6b3872286c6b12996",
+    "id": "eb59804a712942e89f57217f6537364e",
     "status": "pending",
     "date": "2020-09-08T01:00:00+03:00",
     "rationale": "Друга і третя поставка має бути розфасована",
@@ -28,7 +28,7 @@ X-Content-Type-Options: nosniff
     "rationaleType": "taxRate",
     "modifications": [
       {
-        "itemId": "a7cc533337f24b6cb447f0dc09bbacd4",
+        "itemId": "26d1888c829a4db4b883061b2b327288",
         "factor": 0.1605
       }
     ]

@@ -9,4 +9,4 @@ Contents:
    :maxdepth: 2
 
    overview
-   tutorial
+   tutorial_cfaua

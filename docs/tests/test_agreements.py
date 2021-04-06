@@ -8,13 +8,17 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderWebTest, test_tender_data, test_lots
 )
+from openprocurement.framework.electroniccatalogue.tests.base import (
+    test_electronicCatalogue_data,
+    ElectronicCatalogueContentWebTest,
+)
 
-
-
+from tests.base.data import tenderer
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.base.constants import DOCS_URL
 
-TARGET_DIR = 'docs/source/agreementcfaua/tutorial/'
+BASE_DIR = 'docs/source/agreements/http/'
+TARGET_DIR = BASE_DIR + "cfaua/"
 
 
 class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
@@ -229,3 +233,65 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     agreement_id, agreement_token),
                 {'data': {"status": "terminated"}})
             self.assertEqual(response.status, '200 OK')
+
+
+TARGET_EC_DIR = BASE_DIR + "/frameworks"
+
+
+class ElectronicCatalogueResourceTest(ElectronicCatalogueContentWebTest, MockWebTestMixin):
+    AppClass = DumpsWebTestApp
+
+    relative_to = os.path.dirname(__file__)
+    initial_data = test_electronicCatalogue_data
+    docservice = True
+    docservice_url = DOCS_URL
+
+    def setUp(self):
+        super(ElectronicCatalogueResourceTest, self).setUp()
+        self.setUpMock()
+
+    def tearDown(self):
+        self.tearDownMock()
+        super(ElectronicCatalogueResourceTest, self).tearDown()
+
+    def test_docs(self):
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('broker', ''))
+        self.set_status("active")
+
+        self.tick(delta=timedelta(days=16))
+
+        request_path = "/agreements"
+        with open(TARGET_EC_DIR + 'agreements-listing-0.http', 'w') as self.app.file_obj:
+            self.app.authorization = None
+            response = self.app.get(request_path)
+            self.assertEqual(response.status, '200 OK')
+            self.app.file_obj.write("\n")
+
+        response = self.app.post_json(
+            '/submissions',
+            {'data': {
+                "tenderers": [tenderer],
+                "frameworkID": self.framework_id,
+            }}
+        )
+        self.submission_id = response.json["data"]["id"]
+        self.submission_token = response.json["access"]["token"]
+        response = self.app.patch_json(
+            f'/submissions/{self.submission_id}?acc_token={self.submission_token}',
+            {'data': {"status": "active"}},
+        )
+        self.qualification_id = response.json["data"]["qualificationID"]
+
+        self.app.authorization = auth
+        response = self.app.patch_json(
+            f'/qualifications/{self.qualification_id}?acc_token={self.framework_token}',
+            {'data': {"status": "active"}},
+        )
+
+        response = self.app.get(f"/frameworks/{self.framework_id}")
+        self.agreement_id = response.json["data"]["agreementID"]
+
+
+
+

@@ -220,6 +220,19 @@ class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTes
             )
             self.assertEqual(response.status, '200 OK')
 
+        with open(TARGET_DIR + 'get-framework-with-agreement.http', 'w') as self.app.file_obj:
+            response = self.app.get(f'/frameworks/{self.framework_id}')
+            self.assertEqual(response.status, '200 OK')
+            agreement_id = response.json["data"]["agreementID"]
+
+        with open(TARGET_DIR + 'get-agreement.http', 'w') as self.app.file_obj:
+            response = self.app.get(f'/agreements/{agreement_id}')
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'agreement-listing.http', 'w') as self.app.file_obj:
+            response = self.app.get(f'/agreements')
+            self.assertEqual(response.status, '200 OK')
+
         with open(TARGET_DIR + 'get-submissions-by-framework-id.http', 'w') as self.app.file_obj:
             response = self.app.get('/frameworks/{}/submissions'.format(self.framework_id, self.submission_id))
             self.assertEqual(response.status, '200 OK')

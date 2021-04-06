@@ -3,6 +3,64 @@
 .. index:: Agreement
 .. _agreement:
 
+
+Agreement in :ref:`frameworks_electroniccatalogue`
+==================================================
+
+Schema
+------
+
+:id:
+    uid, required, auto-generated
+
+:agreementID:
+    string, auto-generated, read-only
+
+:agreementType:
+    string, auto-generated, value: `electronicCatalogue`, read-only
+
+:status:
+    string
+
+     The current status of agreement.
+     Possible values are:
+
+    * `active`
+    * `terminated`
+
+:date:
+    string, :ref:`date`, auto-generated, read-only
+
+    The date of the agreement change status.
+
+:dateModified:
+    string, :ref:`date`, auto-generated, read-only
+
+    The date of the agreement change.
+
+:procuringEntity:
+   :ref:`ProcuringEntity`, auto-generated from framework, read-only
+
+   Organization conducting the agreement.
+
+:period:
+    :ref:`Period`
+
+    The timeframe when agreement is in force.
+
+:classification:
+   :ref:`Classification`, required, auto-generated from framework, read-only
+
+:additionalClassifications:
+    List of :ref:`Classification` objects, auto-generated from framework, read-only
+
+:contracts:
+    List of :ref:`Contract` objects
+
+:frameworkDetails:
+    string
+
+
 Agreement in :ref:`cfaua`
 =========================
 
@@ -18,6 +76,9 @@ Schema
 :agreementNumber:
     string
 
+:agreementType:
+    string, value: `cfaua`
+
 :changes:
     List of :ref:`ChangeTaxRate`, :ref:`ChangeItemPriceVariation`, :ref:`ChangePartyWithdrawal` or :ref:`ChangeThirdParty` objects.
 
@@ -26,6 +87,11 @@ Schema
 :date:
     string, :ref:`date`, auto-generated, read-only
     
+    The date of the agreement change.
+
+:dateModified:
+    string, :ref:`date`, auto-generated, read-only
+
     The date of the agreement change.
 
 :dateSigned:

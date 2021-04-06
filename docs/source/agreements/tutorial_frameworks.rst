@@ -1,4 +1,4 @@
-.. _agreement_tutorial:
+.. _agreement_framework_tutorial:
 
 Tutorial
 ========
@@ -8,7 +8,7 @@ Exploring basic rules
 
 Let's try exploring the `/agreements` endpoint:
 
-.. include:: tutorial/agreements-listing-0.http
+.. include:: http/framework/agreements-listing-0.http
    :code:
 
 Just invoking it reveals an empty set.
@@ -21,23 +21,20 @@ Agreement is transferred from the tender system by an automated process.
 Creating agreement
 ------------------
 
-Let's say that we have conducted tender and it has ``complete`` status. When the tender is completed, agreement (that has been created in the tender system) is transferred to the agreement system **automatically**.
-
-*Brokers (eMalls) can't create agreements in the agreement system.*
+Let's say that we have conducted framework, submission and qualification and it has ``active`` status. When the framework is active and you change qualification status to active, system **automatically** created agreement(from framework) with contract(from qualification).
 
 Getting agreement
 -----------------
 
-Agreement in the tender system
+Let's see our created framework:
 
-.. include:: tutorial/example_agreement.http
+.. include:: http/frameworks/example_framework.http
    :code:
 
-*Agreement id is the same in both tender and agreement system.*
+In our framework you can see the `agreementID` field where stores id of related agreement.
+When we know id of our agreement we can get it:
 
-Let's access the URL of the created object inside agreement system:
-
-.. include:: tutorial/agreement-view.http
+.. include:: http/frameworks/agreement-view.http
    :code:
 
 Getting access
@@ -53,12 +50,12 @@ In the ``PATCH: /agreements/{id}/credentials?acc_token={tender_token}``:
 
 Response will contain ``access.token`` for the agreement that can be used for further agreement modification.
 
-.. include:: tutorial/agreement-credentials.http
+.. include:: http/cfaua/agreement-credentials.http
    :code:
 
 Let's view agreements.
 
-.. include:: tutorial/agreements-listing-1.http
+.. include:: http/cfaua/agreements-listing-1.http
    :code:
 
 
@@ -78,19 +75,19 @@ Submitting a change
 
 Let's add new `change` to the agreement:
 
-.. include:: tutorial/add-agreement-change.http
+.. include:: http/cfaua/add-agreement-change.http
    :code:
 
 Note that you should provide value in ``rationaleType`` field. This field is required.
 
 You can view the `change`:
 
-.. include:: tutorial/view-agreement-change.http
+.. include:: http/cfaua/view-agreement-change.http
    :code:
 
 `Change` can be modified while it is in the ``pending`` status:
 
-.. include:: tutorial/patch-agreement-change.http
+.. include:: http/cfaua/patch-agreement-change.http
    :code:
 
 Uploading change document
@@ -102,12 +99,12 @@ Document has to be added in two stages:
 
 * you should upload document
 
-.. include:: tutorial/add-agreement-change-document.http
+.. include:: http/cfaua/add-agreement-change-document.http
    :code:
 
 * you should set document properties ``"documentOf": "change"`` and ``"relatedItem": "{change.id}"`` in order to bind the uploaded document to the `change`:
 
-.. include:: tutorial/set-document-of-change.http
+.. include:: http/cfaua/set-document-of-change.http
    :code:
 
 Updating agreement properties
@@ -115,7 +112,7 @@ Updating agreement properties
 
 Now you can update agreement properties which belong to the change.
 
-.. include:: tutorial/add-agreement-change-modification.http
+.. include:: http/cfaua/add-agreement-change-modification.http
    :code:
 
 In case of multiple :ref:`Item` you are allowed to change in `modifications` each `factor`.
@@ -126,7 +123,7 @@ Agreement preview
 Also, while `change` is in the ``pending`` status, you can see agreement as `change` would be applied.
 You need to use this view ``GET: /agreements/{id}/preview?acc_token={agreement_token}``.
 
-.. include:: tutorial/agreement_preview.http
+.. include:: http/cfaua/agreement_preview.http
    :code:
 
 As you can see, `value.amount` on `contracts` `unitPrices` are changed due `modification` is applied. So if this `modification` is what you need, you can apply `change`.
@@ -140,7 +137,7 @@ In order to apply ``active`` status `dateSigned` field must be set.
 
 After this `change` can't be modified anymore.
 
-.. include:: tutorial/apply-agreement-change.http
+.. include:: http/cfaua/apply-agreement-change.http
    :code:
 
 `dateSigned` field validation:
@@ -151,12 +148,12 @@ After this `change` can't be modified anymore.
 
 You can view all changes:
 
-.. include:: tutorial/view-all-agreement-changes.http
+.. include:: http/cfaua/view-all-agreement-changes.http
    :code:
 
 All changes are also listed on the agreement view.
 
-.. include:: tutorial/view-agreement.http
+.. include:: http/cfaua/view-agreement.http
    :code:
 
 Uploading documentation
@@ -165,29 +162,29 @@ Uploading documentation
 Procuring entity can upload PDF files into the created agreement. Uploading should
 follow the `upload` rules.
 
-.. include:: tutorial/upload-agreement-document.http
+.. include:: http/cfaua/upload-agreement-document.http
    :code:
 
 `201 Created` response code and `Location` header confirm document creation.
 We can additionally query the `documents` collection API endpoint to confirm the
 action:
 
-.. include:: tutorial/agreement-documents.http
+.. include:: http/cfaua/agreement-documents.http
    :code:
 
 And again we can confirm that there are two documents uploaded.
 
-.. include:: tutorial/upload-agreement-document-2.http
+.. include:: http/cfaua/upload-agreement-document-2.http
    :code:
 
 In case we made an error, we can reupload the document over the older version:
 
-.. include:: tutorial/upload-agreement-document-3.http
+.. include:: http/cfaua/upload-agreement-document-3.http
    :code:
 
 And we can see that it is overriding the original version:
 
-.. include:: tutorial/get-agreement-document-3.http
+.. include:: http/cfaua/get-agreement-document-3.http
    :code:
 
 
@@ -200,7 +197,7 @@ Completing agreement
 Agreement can be completed by switching to ``terminated`` status.
 Let's perform these actions in single request:
 
-.. include:: tutorial/agreement-termination.http
+.. include:: http/cfaua/agreement-termination.http
    :code:
 
 If agreement is unsuccessful reasons for termination ``terminationDetails`` should be specified.

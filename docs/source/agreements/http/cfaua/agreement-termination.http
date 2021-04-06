@@ -1,4 +1,4 @@
-PATCH /api/2.5/agreements/6305e36dbee94cfd9dd0bab9039a9265?acc_token=9202afaa0bda4d5a8d604c4bac984417 HTTP/1.0
+PATCH /api/2.5/agreements/1746cfba69864f7d996e4bd000858884?acc_token=2f325f620dd24a4d8dd8c5aca839a7cc HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 34
 Content-Type: application/json
@@ -15,14 +15,14 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "6305e36dbee94cfd9dd0bab9039a9265",
-    "agreementID": "UA-2020-09-08-000001-f37dae8cfa4445f6aa54e7c7c747028f1",
+    "id": "1746cfba69864f7d996e4bd000858884",
+    "agreementID": "UA-2020-09-08-000001-8053c38b861e4d27b6375ab5eb93cc1c1",
     "status": "terminated",
     "dateModified": "2020-09-08T01:00:00+03:00",
     "owner": "broker",
     "changes": [
       {
-        "id": "42b702292a4947b6b3872286c6b12996",
+        "id": "eb59804a712942e89f57217f6537364e",
         "status": "active",
         "date": "2020-09-08T01:00:00+03:00",
         "rationale": "Друга і третя поставка має бути розфасована",
@@ -31,7 +31,7 @@ X-Content-Type-Options: nosniff
         "rationaleType": "taxRate",
         "modifications": [
           {
-            "itemId": "a7cc533337f24b6cb447f0dc09bbacd4",
+            "itemId": "26d1888c829a4db4b883061b2b327288",
             "factor": 0.1605
           }
         ]
@@ -39,42 +39,42 @@ X-Content-Type-Options: nosniff
     ],
     "documents": [
       {
-        "id": "0f0e62d22bfb487f862147c5e6574a9f",
+        "id": "366b4dd595b549ffae8d3896242fb0ea",
         "hash": "md5:00000000000000000000000000000000",
         "title": "agreement_changes.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/942027dcdf104710ae89a8b24ad17b2f?Signature=QeOTNEJAy61PDdhoPsFB05UN76DqJVhf3QNEEkUq0v3EhCCG9czKUpWuTjQWEHRe0ghB6zx8WGIW%2B9wviyqoDQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4cb784af37bd4d94a8d3875046842d4b?Signature=0HtxZXtlj2RHoKC6ircAx4wnTWueeXzryd2GWLGtMSs2HlkvMxofDAdRSagQqa%2FbSYKDRadpMuiHV9tTI14OCw%3D%3D&KeyID=a8968c46",
         "datePublished": "2020-09-08T01:00:00+03:00",
         "dateModified": "2020-09-08T01:00:00+03:00",
-        "relatedItem": "42b702292a4947b6b3872286c6b12996",
+        "relatedItem": "eb59804a712942e89f57217f6537364e",
         "documentOf": "change"
       },
       {
-        "id": "b6d6203d1d7441d7a882d833cf65d99e",
+        "id": "91359234533e49c79c42142056f8fac7",
         "hash": "md5:00000000000000000000000000000000",
         "title": "agreement.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f405a07f9bde4172a0e0aae66b334735?Signature=WzT2qvX2qAj8EpcjXb7dzmLf1DJ1ok00el6Wm7%2FhRvbgIkg0S07uRnOC6m1qhbfrmngRbrBnBtVwlbD7Ju9yCA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c6e4ee9665bc469fa4d14fcd35513942?Signature=aABQcl023w5EmJAjOj4oaIwWhz6%2BcSM49Keb1aXFhA8sjm%2BLe8mSfJYgy2g1GE3ozVL40VhGD66ZS9IjDIwkDQ%3D%3D&KeyID=a8968c46",
         "datePublished": "2020-09-08T01:00:00+03:00",
         "dateModified": "2020-09-08T01:00:00+03:00",
         "documentOf": "agreement"
       },
       {
-        "id": "a85a83f6c640400c9c8351479b86d65c",
+        "id": "8484ad3ad2fa45b0b1581df51c719150",
         "hash": "md5:00000000000000000000000000000000",
         "title": "agreement_additional_docs.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0e5d12d4f9e44445a5ecee831a941a60?Signature=EqP2yNjIx7vCUfWZcTLnD6Dt%2FQ1A5omJUmOsWk%2BXPpoObVJJ5ovi7LZ%2FOKJV4OjzFAL6xt5V4iyzen1CmUngBQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7e1fbc7765224b379a71cf5f88dba115?Signature=Ye8FMfV32HhKpNwnk5wvVnT5wl8penAbf27iVJL5tpwRoe9ZLWon9A7WFmmTRbGayNUmWiqxcJ9mfWfQK%2BgqBg%3D%3D&KeyID=a8968c46",
         "datePublished": "2020-09-08T01:00:00+03:00",
         "dateModified": "2020-09-08T01:00:00+03:00",
         "documentOf": "agreement"
       },
       {
-        "id": "a85a83f6c640400c9c8351479b86d65c",
+        "id": "8484ad3ad2fa45b0b1581df51c719150",
         "hash": "md5:00000000000000000000000000000000",
         "title": "agreement_additional_docs.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c7d8d9fcba46464dafd460c73945ddfc?Signature=QW3Xm4t6y64HqLl%2BVMhLFIy1jL0Kb5eJvYFq7aJIRVagziWkYyOTouCW9O5WqvNpPUDSbCJq%2Foa3HDMjEuAZCw%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b0c7a13efed343bab3ba9a2ef66603e3?Signature=%2FM2OwyxMcqZVIvLSaTfBLdHLqC9InW3SdBx80E0WgeZAIrS3YrR6dLPfj9lN1tUFdcV7CXGJVJ%2FZU1ICfBX4BA%3D%3D&KeyID=a8968c46",
         "datePublished": "2020-09-08T01:00:00+03:00",
         "dateModified": "2020-09-08T01:00:00+03:00",
         "documentOf": "agreement"
@@ -82,7 +82,7 @@ X-Content-Type-Options: nosniff
     ],
     "contracts": [
       {
-        "id": "1c2e73a922054dd78e5b67e112a1ea96",
+        "id": "ab9b0f04fe08458ab0ea443c5744cb1d",
         "status": "active",
         "suppliers": [
           {
@@ -111,7 +111,7 @@ X-Content-Type-Options: nosniff
         ],
         "unitPrices": [
           {
-            "relatedItem": "a7cc533337f24b6cb447f0dc09bbacd4",
+            "relatedItem": "26d1888c829a4db4b883061b2b327288",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -119,12 +119,12 @@ X-Content-Type-Options: nosniff
             }
           }
         ],
-        "awardID": "e4d81f4d34aa4e00af3a9fbd22c872f0",
-        "bidID": "6589a3c89ec14718b4f9fe14391112e9",
+        "awardID": "146d55f13a704b11b95275254e00fef4",
+        "bidID": "a4aaf72182904a549e80dc4d765040a2",
         "date": "2020-09-08T01:00:00+03:00"
       },
       {
-        "id": "4af43d836c2240788d74d3d6d7d89f20",
+        "id": "cee7f5c4218c4fd085672d17d4785c01",
         "status": "active",
         "suppliers": [
           {
@@ -153,7 +153,7 @@ X-Content-Type-Options: nosniff
         ],
         "unitPrices": [
           {
-            "relatedItem": "a7cc533337f24b6cb447f0dc09bbacd4",
+            "relatedItem": "26d1888c829a4db4b883061b2b327288",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -161,12 +161,12 @@ X-Content-Type-Options: nosniff
             }
           }
         ],
-        "awardID": "5a661ac88fc8473b908629ec59493459",
-        "bidID": "0562c5b9accd48cabf0b89f3c89f65c7",
+        "awardID": "88f3ec5213a7405a92b7bd353549edb1",
+        "bidID": "2269d0f299644a87bfd73ac8a065c501",
         "date": "2020-09-08T01:00:00+03:00"
       },
       {
-        "id": "c8a433dd1798496e8f7be65622ea3215",
+        "id": "ce463db3a53c494897d98b47064e3ad5",
         "status": "active",
         "suppliers": [
           {
@@ -195,7 +195,7 @@ X-Content-Type-Options: nosniff
         ],
         "unitPrices": [
           {
-            "relatedItem": "a7cc533337f24b6cb447f0dc09bbacd4",
+            "relatedItem": "26d1888c829a4db4b883061b2b327288",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -203,21 +203,21 @@ X-Content-Type-Options: nosniff
             }
           }
         ],
-        "awardID": "393acf447fd546438a38be2ab8ca0c76",
-        "bidID": "f1301daefed749be8ed4010e7e78190a",
+        "awardID": "f8a353351f6449128fc5be8abba6e67f",
+        "bidID": "5aa54309d515431f8edb45ca63c1d1cd",
         "date": "2020-09-08T01:00:00+03:00"
       }
     ],
     "items": [
       {
-        "id": "a7cc533337f24b6cb447f0dc09bbacd4",
+        "id": "26d1888c829a4db4b883061b2b327288",
         "description": "футляри до державних нагород",
         "unit": {
           "name": "item",
           "code": "44617100-9"
         },
         "quantity": 5.0,
-        "relatedLot": "785a1618ca644330941dcddb347a091b",
+        "relatedLot": "27c4a15dce034406ba16156354632d9b",
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
@@ -268,7 +268,7 @@ X-Content-Type-Options: nosniff
         "availableLanguage": "uk"
       }
     },
-    "tender_id": "7fdaa184f29b435fad1d7bb372142d6e",
+    "tender_id": "8689dc9146384e6d9697b796fad83213",
     "numberOfContracts": 3
   }
 }
