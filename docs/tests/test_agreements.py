@@ -10,6 +10,8 @@ from openprocurement.tender.cfaua.tests.base import (
 )
 from openprocurement.framework.electroniccatalogue.tests.base import (
     test_electronicCatalogue_data,
+    ban_milestone_data_with_documents,
+    disqualification_milestone_data_with_documents,
     ElectronicCatalogueContentWebTest,
 )
 
@@ -235,7 +237,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
 
-TARGET_EC_DIR = BASE_DIR + "/frameworks"
+TARGET_EC_DIR = BASE_DIR + "frameworks/"
 
 
 class ElectronicCatalogueResourceTest(ElectronicCatalogueContentWebTest, MockWebTestMixin):
@@ -256,17 +258,11 @@ class ElectronicCatalogueResourceTest(ElectronicCatalogueContentWebTest, MockWeb
 
     def test_docs(self):
         auth = self.app.authorization
-        self.app.authorization = ('Basic', ('broker', ''))
         self.set_status("active")
 
         self.tick(delta=timedelta(days=16))
 
-        request_path = "/agreements"
-        with open(TARGET_EC_DIR + 'agreements-listing-0.http', 'w') as self.app.file_obj:
-            self.app.authorization = None
-            response = self.app.get(request_path)
-            self.assertEqual(response.status, '200 OK')
-            self.app.file_obj.write("\n")
+        self.app.authorization = ('Basic', ('broker', ''))
 
         response = self.app.post_json(
             '/submissions',
@@ -275,23 +271,85 @@ class ElectronicCatalogueResourceTest(ElectronicCatalogueContentWebTest, MockWeb
                 "frameworkID": self.framework_id,
             }}
         )
-        self.submission_id = response.json["data"]["id"]
-        self.submission_token = response.json["access"]["token"]
+        self.submission_1_id = response.json["data"]["id"]
+        self.submission_1_token = response.json["access"]["token"]
+
+        tenderer["identifier"]["id"] = "00137257"
+
+        response = self.app.post_json(
+            '/submissions',
+            {'data': {
+                "tenderers": [tenderer],
+                "frameworkID": self.framework_id,
+            }}
+        )
+        self.submission_2_id = response.json["data"]["id"]
+        self.submission_2_token = response.json["access"]["token"]
+
         response = self.app.patch_json(
-            f'/submissions/{self.submission_id}?acc_token={self.submission_token}',
+            f'/submissions/{self.submission_1_id}?acc_token={self.submission_1_token}',
             {'data': {"status": "active"}},
         )
-        self.qualification_id = response.json["data"]["qualificationID"]
+        self.qualification_1_id = response.json["data"]["qualificationID"]
+
+        response = self.app.patch_json(
+            f'/submissions/{self.submission_2_id}?acc_token={self.submission_2_token}',
+            {'data': {"status": "active"}},
+        )
+        self.qualification_2_id = response.json["data"]["qualificationID"]
+
+        request_path = "/agreements"
+        with open(TARGET_EC_DIR + 'agreements-listing-0.http', 'w') as self.app.file_obj:
+            self.app.authorization = None
+            response = self.app.get(request_path)
+            self.assertEqual(response.status, '200 OK')
+            self.app.file_obj.write("\n")
+
 
         self.app.authorization = auth
+
         response = self.app.patch_json(
-            f'/qualifications/{self.qualification_id}?acc_token={self.framework_token}',
+            f'/qualifications/{self.qualification_1_id}?acc_token={self.framework_token}',
+            {'data': {"status": "active"}},
+        )
+
+        response = self.app.patch_json(
+            f'/qualifications/{self.qualification_2_id}?acc_token={self.framework_token}',
             {'data': {"status": "active"}},
         )
 
         response = self.app.get(f"/frameworks/{self.framework_id}")
         self.agreement_id = response.json["data"]["agreementID"]
 
+        with open(TARGET_EC_DIR + 'example-framework.http', 'w') as self.app.file_obj :
+            response = self.app.get(f'/frameworks/{self.framework_id}')
+            self.assertEqual(response.status, '200 OK')
+            self.app.file_obj.write("\n")
 
+        with open(TARGET_EC_DIR + 'agreement-view.http', 'w') as self.app.file_obj:
+            response = self.app.get(f'/agreements/{self.agreement_id}')
+            self.assertEqual(response.status, '200 OK')
+            self.app.file_obj.write("\n")
 
+        contract_1_id = response.json['data']['contracts'][0]['id']
+        contract_2_id = response.json['data']['contracts'][1]['id']
+
+        ban_milestone = deepcopy(ban_milestone_data_with_documents)
+        ban_milestone["documents"][0]["url"] = self.generate_docservice_url()
+
+        with open(TARGET_EC_DIR + 'post-milestone-ban.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f"/agreements/{self.agreement_id}/contracts/{contract_1_id}/milestones?acc_token={self.framework_token}",
+                {'data': ban_milestone},
+            )
+            print(response.json)
+
+        disqualification_milestone = deepcopy(disqualification_milestone_data_with_documents)
+        disqualification_milestone["documents"][0]["url"] = self.generate_docservice_url()
+
+        with open(TARGET_EC_DIR + 'post-milestone-disqualification.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f"/agreements/{self.agreement_id}/contracts/{contract_2_id}/milestones?acc_token={self.framework_token}",
+                {'data': disqualification_milestone},
+            )
 

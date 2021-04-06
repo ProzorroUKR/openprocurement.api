@@ -9,4 +9,19 @@ Contents:
    :maxdepth: 2
 
    overview
+
+
+Tutorial of agreements for cfaua:
+
+.. toctree::
+   :maxdepth: 2
+
    tutorial_cfaua
+
+
+Tutorial of agreements for cfaua:
+
+.. toctree::
+   :maxdepth: 2
+
+   tutorial_frameworks

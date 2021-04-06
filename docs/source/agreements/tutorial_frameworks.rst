@@ -8,7 +8,7 @@ Exploring basic rules
 
 Let's try exploring the `/agreements` endpoint:
 
-.. include:: http/framework/agreements-listing-0.http
+.. include:: http/frameworks/agreements-listing-0.http
    :code:
 
 Just invoking it reveals an empty set.
@@ -28,7 +28,7 @@ Getting agreement
 
 Let's see our created framework:
 
-.. include:: http/frameworks/example_framework.http
+.. include:: http/frameworks/example-framework.http
    :code:
 
 In our framework you can see the `agreementID` field where stores id of related agreement.
@@ -37,173 +37,30 @@ When we know id of our agreement we can get it:
 .. include:: http/frameworks/agreement-view.http
    :code:
 
-Getting access
---------------
-
-In order to get rights for future agreement editing, you need to use this view ``PATCH: /agreements/{id}/credentials?acc_token={tender_token}`` with the API key of the eMall (broker), where tender was generated.
-
-In the ``PATCH: /agreements/{id}/credentials?acc_token={tender_token}``:
-
-* ``id`` stands for agreement id,
-
-* ``tender_token`` is tender's token (is used for agreement token generation).
-
-Response will contain ``access.token`` for the agreement that can be used for further agreement modification.
-
-.. include:: http/cfaua/agreement-credentials.http
-   :code:
-
-Let's view agreements.
-
-.. include:: http/cfaua/agreements-listing-1.http
-   :code:
-
-
-We do see the internal `id` of a agreement (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/agreements/`) and its `dateModified` datestamp.
-
 
 Modifying agreement
 -------------------
 
+All operation with agreement can make `framework_owner`.
+Only one thing that can make `framework_owner` is create contract milestones.
 
-**Essential agreement terms** can be modified by the submission of a new `change` object to the `Agreement.changes` container. `Change` can be one of this types :ref:`ChangeTaxRate`, :ref:`ChangeItemPriceVariation`, :ref:`ChangePartyWithdrawal` or :ref:`ChangeThirdParty`
+Contract - object that stores information about participant
 
-All `changes` are processed by the endpoint `/agreement/{id}/changes`.
+Milestone - that's contract history.
 
-Submitting a change
-~~~~~~~~~~~~~~~~~~~
+Contract ban
+~~~~~~~~~~~~
 
-Let's add new `change` to the agreement:
+For ban contract, you just need to add milestone to contract with status `ban`:
 
-.. include:: http/cfaua/add-agreement-change.http
+.. include:: http/frameworks/post-milestone-ban.http
    :code:
 
-Note that you should provide value in ``rationaleType`` field. This field is required.
 
-You can view the `change`:
-
-.. include:: http/cfaua/view-agreement-change.http
-   :code:
-
-`Change` can be modified while it is in the ``pending`` status:
-
-.. include:: http/cfaua/patch-agreement-change.http
-   :code:
-
-Uploading change document
+Contract disqualification
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Document can be added only while `change` is in the ``pending`` status.
+For disqualification contract, you just need to add milestone to contract with status `disqualification`:
 
-Document has to be added in two stages:
-
-* you should upload document
-
-.. include:: http/cfaua/add-agreement-change-document.http
+.. include:: http/frameworks/post-milestone-disqualification.http
    :code:
-
-* you should set document properties ``"documentOf": "change"`` and ``"relatedItem": "{change.id}"`` in order to bind the uploaded document to the `change`:
-
-.. include:: http/cfaua/set-document-of-change.http
-   :code:
-
-Updating agreement properties
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Now you can update agreement properties which belong to the change.
-
-.. include:: http/cfaua/add-agreement-change-modification.http
-   :code:
-
-In case of multiple :ref:`Item` you are allowed to change in `modifications` each `factor`.
-
-Agreement preview
-~~~~~~~~~~~~~~~~~
-
-Also, while `change` is in the ``pending`` status, you can see agreement as `change` would be applied.
-You need to use this view ``GET: /agreements/{id}/preview?acc_token={agreement_token}``.
-
-.. include:: http/cfaua/agreement_preview.http
-   :code:
-
-As you can see, `value.amount` on `contracts` `unitPrices` are changed due `modification` is applied. So if this `modification` is what you need, you can apply `change`.
-
-Applying the change
-~~~~~~~~~~~~~~~~~~~
-
-`Change` can be applied by switching to the ``active`` status.
-
-In order to apply ``active`` status `dateSigned` field must be set.
-
-After this `change` can't be modified anymore.
-
-.. include:: http/cfaua/apply-agreement-change.http
-   :code:
-
-`dateSigned` field validation:
-
-* for the first agreement `change` date should be after `agreement.dateSigned`;
-
-* for all next `change` objects date should be after the previous `change.dateSigned`.
-
-You can view all changes:
-
-.. include:: http/cfaua/view-all-agreement-changes.http
-   :code:
-
-All changes are also listed on the agreement view.
-
-.. include:: http/cfaua/view-agreement.http
-   :code:
-
-Uploading documentation
------------------------
-
-Procuring entity can upload PDF files into the created agreement. Uploading should
-follow the `upload` rules.
-
-.. include:: http/cfaua/upload-agreement-document.http
-   :code:
-
-`201 Created` response code and `Location` header confirm document creation.
-We can additionally query the `documents` collection API endpoint to confirm the
-action:
-
-.. include:: http/cfaua/agreement-documents.http
-   :code:
-
-And again we can confirm that there are two documents uploaded.
-
-.. include:: http/cfaua/upload-agreement-document-2.http
-   :code:
-
-In case we made an error, we can reupload the document over the older version:
-
-.. include:: http/cfaua/upload-agreement-document-3.http
-   :code:
-
-And we can see that it is overriding the original version:
-
-.. include:: http/cfaua/get-agreement-document-3.http
-   :code:
-
-
-.. index:: Enquiries, Question, Answer
-
-
-Completing agreement
---------------------
-
-Agreement can be completed by switching to ``terminated`` status.
-Let's perform these actions in single request:
-
-.. include:: http/cfaua/agreement-termination.http
-   :code:
-
-If agreement is unsuccessful reasons for termination ``terminationDetails`` should be specified.
-
-Any future modification to the agreement are not allowed.
-
-
-It may be useful to see top requirements: `Test Cases for III level of accreditation <https://docs.google.com/spreadsheets/d/1-AT2RjbnSFAP75x6YNDvhKeN2Cy3tMlG6kb0tt6FScs/edit#gid=0>`_ and
-`Test Cases for IV level of accreditation <https://docs.google.com/spreadsheets/d/1-93kcQ2EeuUU08aqPMDwMeAjnG2SGnEEh5RtjHWOlOY/edit#gid=0>`_.

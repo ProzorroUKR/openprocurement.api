@@ -1,0 +1,96 @@
+GET /api/2.5/agreements/a2078c9d305147f1a9853de36933248a HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+{
+  "data": {
+    "id": "a2078c9d305147f1a9853de36933248a",
+    "agreementID": "UA-2020-09-24-000001",
+    "status": "active",
+    "date": "2020-09-24T01:00:00+03:00",
+    "dateModified": "2020-09-24T01:00:00+03:00",
+    "owner": "broker",
+    "agreementType": "electronicCatalogue",
+    "frameworkID": "3176109c7572429b99dbc5707a10617c",
+    "period": {
+      "startDate": "2020-09-24T01:00:00+03:00",
+      "endDate": "2020-11-07T01:00:00+03:00"
+    },
+    "procuringEntity": {
+      "name": "Повна назва юридичної організації.",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "40996564",
+        "legalName": "Назва організації(ЦЗО)"
+      },
+      "address": {
+        "countryName": "Україна",
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220"
+      },
+      "contactPoint": {
+        "name": "Назва організації(ЦЗО)",
+        "email": "aa@aa.com",
+        "telephone": "0440000001"
+      },
+      "kind": "central"
+    },
+    "classification": {
+      "description": "Mustard seeds",
+      "scheme": "ДК021",
+      "id": "03111600-8"
+    },
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003",
+        "id": "17.21.1",
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ],
+    "contracts": [
+      {
+        "id": "4d3841e0397446b8989b75d0545764eb",
+        "qualificationID": "04ceb9dba9aa4ee5a175baae9b05c9b5",
+        "status": "active",
+        "suppliers": [
+          {
+            "name": "ДКП «Школяр»",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137256",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Островського, 33",
+              "locality": "м. Вінниця",
+              "region": "Вінницька область",
+              "postalCode": "21100",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Сергій Олексюк",
+              "email": "soleksuk@gmail.com",
+              "telephone": "+380 (432) 21-69-30"
+            },
+            "scale": "micro"
+          }
+        ],
+        "milestones": [
+          {
+            "id": "1f79cddbd5ad4075ab276d64ad24bdb4",
+            "type": "activation",
+            "dateModified": "2020-09-24T01:00:00+03:00"
+          }
+        ],
+        "date": "2020-09-24T01:00:00+03:00"
+      }
+    ],
+    "next_check": "2020-11-07T01:00:00+03:00"
+  }
+}
+
