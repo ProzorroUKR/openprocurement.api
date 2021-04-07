@@ -1,0 +1,18 @@
+GET /api/2.5/agreements/1746cfba69864f7d996e4bd000858884/changes/eb59804a712942e89f57217f6537364e HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+{
+  "data": {
+    "id": "eb59804a712942e89f57217f6537364e",
+    "status": "pending",
+    "date": "2021-03-16T00:00:00+02:00",
+    "rationale": "Опис причини змін егріменту",
+    "rationale_en": "Agreement change cause",
+    "rationaleType": "taxRate"
+  }
+}
+

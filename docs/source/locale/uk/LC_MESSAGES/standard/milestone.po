@@ -8,172 +8,165 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-10 13:47+0300\n"
+"POT-Creation-Date: 2021-04-07 14:32+0300\n"
 "PO-Revision-Date: 2018-11-20 10:32+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 1.3\n"
+"Generated-By: Babel 2.9.0\n"
 
-#: ../../source/standard/milestone.rst:6
 msgid "Milestone"
 msgstr ""
 
-#: ../../source/standard/milestone.rst:9 ../../source/standard/milestone.rst:69
 msgid "Schema"
 msgstr "Схема"
 
-#: ../../source/standard/milestone.rst:0
 msgid "id"
 msgstr ""
 
-#: ../../source/standard/milestone.rst:12
 msgid "uid, auto-generated"
 msgstr "uid, генерується автоматично"
 
-#: ../../source/standard/milestone.rst:0
 msgid "title"
 msgstr ""
 
-#: ../../source/standard/milestone.rst:15
-#: ../../source/standard/milestone.rst:32
-#: ../../source/standard/milestone.rst:39
-#: ../../source/standard/milestone.rst:75
 msgid "string, required"
 msgstr "рядок, обов’язковий"
 
-#: ../../source/standard/milestone.rst:17
-#: ../../source/standard/milestone.rst:41
-#: ../../source/standard/milestone.rst:77
 msgid "Possible values are:"
 msgstr "Можливі значення:"
 
-#: ../../source/standard/milestone.rst:19
 msgid "`executionOfWorks`"
 msgstr ""
 
-#: ../../source/standard/milestone.rst:20
 msgid "`deliveryOfGoods`"
 msgstr ""
 
-#: ../../source/standard/milestone.rst:21
 msgid "`submittingServices`"
 msgstr ""
 
-#: ../../source/standard/milestone.rst:22
 msgid "`signingTheContract`"
 msgstr ""
 
-#: ../../source/standard/milestone.rst:23
 msgid "`submissionDateOfApplications`"
 msgstr ""
 
-#: ../../source/standard/milestone.rst:24
 msgid "`dateOfInvoicing`"
 msgstr ""
 
-#: ../../source/standard/milestone.rst:25
 msgid "`endDateOfTheReportingPeriod`"
 msgstr ""
 
-#: ../../source/standard/milestone.rst:26
 msgid "`anotherEvent`"
 msgstr ""
 
-#: ../../source/standard/milestone.rst:0
 msgid "description"
 msgstr ""
 
-#: ../../source/standard/milestone.rst:29
 msgid "string, required if title == `anotherEvent`"
 msgstr "рядок, обов’язковий якщо title == `anotherEvent`"
 
-#: ../../source/standard/milestone.rst:0
 msgid "type"
 msgstr ""
 
-#: ../../source/standard/milestone.rst:34
 msgid "The only possible value is:"
 msgstr "Єдине можливе значення:"
 
-#: ../../source/standard/milestone.rst:36
 msgid "`financing`"
 msgstr ""
 
-#: ../../source/standard/milestone.rst:0
 msgid "code"
 msgstr ""
 
-#: ../../source/standard/milestone.rst:43
 msgid "`prepayment`"
 msgstr ""
 
-#: ../../source/standard/milestone.rst:44
 msgid "`postpayment`"
 msgstr ""
 
-#: ../../source/standard/milestone.rst:0
 msgid "percentage"
 msgstr ""
 
-#: ../../source/standard/milestone.rst:47
 msgid "float, required, 0..100"
 msgstr "float, обов’язково, 0..100"
 
-#: ../../source/standard/milestone.rst:49
 msgid "Sum of all tender (or lot) milestones should be 100"
 msgstr "Сума всіх milestone тендеру (або лоту) повинна бути 100"
 
-#: ../../source/standard/milestone.rst:0
 msgid "duration"
 msgstr ""
 
-#: ../../source/standard/milestone.rst:52
 msgid ":ref:`Duration` object, required"
 msgstr ":ref:`Duration`, обов’язково"
 
-#: ../../source/standard/milestone.rst:0
 msgid "sequenceNumber"
 msgstr ""
 
-#: ../../source/standard/milestone.rst:55
 msgid "integer, required, non negative"
 msgstr "integer, обов’язковий, не негативний"
 
-#: ../../source/standard/milestone.rst:0
 msgid "relatedLot"
 msgstr ""
 
-#: ../../source/standard/milestone.rst:58
 msgid "uid"
 msgstr ""
 
-#: ../../source/standard/milestone.rst:60
 msgid "Id of related :ref:`lot`."
 msgstr "ID пов’язаного :ref:`lot`."
 
-#: ../../source/standard/milestone.rst:66
+msgid "Milestone in :ref:`frameworks_electroniccatalogue`"
+msgstr "Milestone в :ref:`frameworks_electroniccatalogue`"
+
+msgid "`activation`"
+msgstr ""
+
+msgid "`ban`"
+msgstr ""
+
+msgid "`disqualification`"
+msgstr ""
+
+msgid "`terminated`"
+msgstr ""
+
+msgid "dueDate"
+msgstr ""
+
+msgid "string, :ref:`date`, required"
+msgstr "рядок, :ref:`date`, обов’язковий"
+
+msgid "documents"
+msgstr ""
+
+msgid "List of :ref:`document` objects"
+msgstr "Список об'єктів :ref:`document`"
+
+msgid "dateModified"
+msgstr ""
+
+msgid "string, :ref:`date`, auto-generated, read-only"
+msgstr "рядок, ref:`date`, енерується автоматично, лише для читання"
+
+msgid "The date of milestone change."
+msgstr "Дата зміни майлстону"
+
 msgid "Duration"
 msgstr ""
 
-#: ../../source/standard/milestone.rst:0
 msgid "days"
 msgstr ""
 
-#: ../../source/standard/milestone.rst:72
 msgid "integer, required, positive"
 msgstr "integer, обов’язковий, не негативний"
 
-#: ../../source/standard/milestone.rst:79
 msgid "`working`"
 msgstr ""
 
-#: ../../source/standard/milestone.rst:80
 msgid "`banking`"
 msgstr ""
 
-#: ../../source/standard/milestone.rst:81
 msgid "`calendar`"
 msgstr ""
+

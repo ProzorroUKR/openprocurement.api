@@ -45,5 +45,5 @@ msgid "Next steps"
 msgstr "Наступні кроки"
 
 #: ../../source/agreementcfaua/overview.rst:11
-msgid "You might find it helpful to look at the :ref:`agreement_tutorial`."
-msgstr "Можливо, вам також варто переглянути :ref:`agreement_tutorial`."
+msgid "You might find it helpful to look at the :ref:`agreement_cfaua_tutorial`."
+msgstr "Можливо, вам також варто переглянути :ref:`agreement_cfaua_tutorial`."

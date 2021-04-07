@@ -1,10 +1,12 @@
 from datetime import timedelta
+from functools import partial
 
 import standards
+from cornice.resource import resource
 from dateorro import calc_normalized_datetime, calc_working_datetime, calc_datetime
 
 from openprocurement.api.constants import WORKING_DAYS
-from openprocurement.api.utils import get_now, context_unpack
+from openprocurement.api.utils import get_now, context_unpack, error_handler
 from openprocurement.framework.core.design import (
     submissions_by_framework_id_total_view,
 )
@@ -13,9 +15,14 @@ from openprocurement.framework.core.utils import (
     SUBMISSION_STAND_STILL_DURATION,
     acceleratable, LOGGER
 )
+from openprocurement.framework.electroniccatalogue.traversal import contract_factory
 
 DAYS_TO_UNSUCCESSFUL_STATUS = 20
+CONTRACT_BAN_DURATION = 90
 AUTHORIZED_CPB = standards.load("organizations/authorized_cpb.json")
+MILESTONE_CONTRACT_STATUSES = {"ban": "banned", "disqualification": "unsuccessful", "terminated": "terminated"}
+
+contractresource = partial(resource, factory=contract_factory, error_handler=error_handler)
 
 
 @acceleratable
@@ -91,3 +98,29 @@ def check_status(request):
             )
             framework.status = "complete"
             return
+
+
+def create_milestone_terminated():
+    from openprocurement.framework.electroniccatalogue.models import Milestone
+    return Milestone({"type": "terminated"})
+
+
+def check_agreement_status(request):
+    if request.validated["agreement"].period.endDate < get_now():
+        request.validated["agreement"].status = "terminated"
+        for contract in request.validated["agreement"].contracts:
+            if contract.status == "active":
+                milestone = create_milestone_terminated()
+                contract.milestones.append(milestone)
+                contract.status = "terminated"
+        return True
+
+
+def check_contract_statuses(request):
+    for contract in request.validated["agreement"].contracts:
+        if contract.status == "banned":
+            for milestone in contract.milestones[::-1]:
+                if milestone.type == "ban":
+                    if milestone.dueDate < get_now():
+                        contract.status = "active"
+                    break

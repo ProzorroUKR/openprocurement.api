@@ -1,0 +1,16 @@
+GET /api/2.5/agreements HTTP/1.0
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+{
+  "data": [],
+  "next_page": {
+    "offset": "",
+    "path": "/api/2.5/agreements?offset=",
+    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/agreements?offset="
+  }
+}
+
+

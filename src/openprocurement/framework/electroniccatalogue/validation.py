@@ -42,3 +42,46 @@ def validate_framework_document_operation_not_in_allowed_status(request, **kwarg
             ),
         )
 
+
+def validate_agreement_operation_not_in_allowed_status(request, **kwargs):
+    obj_name = "object"
+    if "documents" in request.path:
+        obj_name = "document"
+    if request.validated["agreement"].status != "active":
+        raise_operation_error(
+            request,
+            f"Can't {OPERATIONS.get(request.method)} {obj_name} "
+            f"in current ({request.validated['agreement'].status}) agreement status"
+        )
+
+
+def validate_contract_operation_not_in_allowed_status(request, **kwargs):
+    obj_name = "object"
+    if "documents" in request.path:
+        obj_name = "document"
+    if request.validated["contract"].status not in ("active", "banned"):
+        raise_operation_error(
+            request,
+            f"Can't {OPERATIONS.get(request.method)} {obj_name} "
+            f"in current ({request.validated['contract'].status}) contract status"
+        )
+
+
+def validate_milestone_type(request, **kwargs):
+    obj_name = "object"
+    if "documents" in request.path:
+        obj_name = "document"
+    if request.validated["milestone"].type == "activation":
+        raise_operation_error(
+            request,
+            f"Can't {OPERATIONS.get(request.method)} {obj_name} for 'activation' milestone"
+        )
+
+
+def validate_contract_banned(request, **kwargs):
+    milestone_type = request.validated["milestone"].type
+    if request.validated["contract"].status == "banned" and milestone_type != "disqualification":
+        raise_operation_error(
+            request,
+            f"Can't add {milestone_type} milestone for contract in banned status"
+        )

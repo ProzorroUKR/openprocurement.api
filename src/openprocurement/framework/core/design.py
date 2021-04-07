@@ -558,6 +558,21 @@ agreements_test_by_local_seq_view = ViewDefinition(
     % AGREEMENT_CHANGES_FIELDS,
 )
 
+agreements_with_active_banned_contracts_view = ViewDefinition(
+    "agreements",
+    "with_active_banned_contracts",
+    '''function(doc) {
+        var contracts_type = ['active', 'banned']
+        if(doc.doc_type == 'Agreement') {
+            doc.contracts.forEach(function(i){
+                if(i.status == "active" || i.status == "banned"){
+                    emit([doc.frameworkID, i.suppliers[0].identifier.id], doc._id);
+                }
+            })
+        }
+    }''',
+)
+
 conflicts_view = ViewDefinition(
     "conflicts",
     "all",

@@ -23,7 +23,7 @@ DATA:
         },
         "identifier": {
           "scheme": "UA-EDR",
-          "id": "00137256",
+          "id": "00137257",
           "uri": "http://www.sc.gov.ua/"
         },
         "name": "ДКП «Школяр»",
@@ -58,7 +58,7 @@ X-Content-Type-Options: nosniff
         "name": "ДКП «Школяр»",
         "identifier": {
           "scheme": "UA-EDR",
-          "id": "00137256",
+          "id": "00137257",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {
