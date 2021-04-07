@@ -53,7 +53,8 @@ def test_milestone_data_cases(test_data, tender_status):
                 "changes": [
                     {"path": "/bids/{}/value/amount".format(n), "value": amount, "op": "replace"}
                     for n, amount in enumerate(tendering_amounts)
-                ]
+                ],
+                "date": get_now().isoformat()
             }
         ]
     elif tender_status == "active.auction":

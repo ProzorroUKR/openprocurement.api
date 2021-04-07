@@ -838,7 +838,7 @@ def couchdb_json_decode():
 
 def get_first_revision_date(schematics_document, default=None):
     revisions = schematics_document.get("revisions") if schematics_document else None
-    return revisions[0].date if revisions else default
+    return parse_datetime(revisions[0]["date"]) if revisions else default
 
 
 def is_ua_road_classification(classification_id):
@@ -864,13 +864,13 @@ def to_decimal(value):
 
 
 def append_revision(request, obj, patch):
-    revision_model_class = type(obj).revisions.model_class
+    from openprocurement.api.models import Revision
     revision_data = {
         "author": request.authenticated_userid,
         "changes": patch,
         "rev": obj.rev
     }
-    obj.revisions.append(revision_model_class(revision_data))
+    obj.revisions.append(Revision(revision_data).serialize())
     return obj.revisions
 
 

@@ -105,12 +105,11 @@ class UtilsFrameworkTest(BaseFrameworkTest):
         register_framework_frameworkType(config, model)
 
     def test_save_framework(self):
-        request = MagicMock()
+        request = MagicMock(authenticated_userid="user_uuid")
         framework = MagicMock()
         framework.mode = "test"
         framework.revisions = []
         framework.dateModified = datetime.datetime(2018, 8, 2, 12, 9, 2, 440566)
-        type(framework).revisions = MagicMock()
         framework.rev = "12341234"
         request.validated = {"framework": framework, "framework_src": "src_test"}
         res = save_framework(request)

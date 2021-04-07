@@ -146,13 +146,7 @@ def object_from_data(request, data, obj_name, raise_error=True, create=True):
         raise error_handler(request)
     update_logging_context(request, {"%s_type" % obj_name: objType})
     if model is not None and create:
-        if request.environ.get("REQUEST_METHOD") == "GET" and data.get("revisions"):
-            # to optimize get requests to frameworks with many revisions
-            copy_data = dict(**data)  # changing of the initial dict is a bad practice
-            copy_data["revisions"] = data["revisions"][:1]  # leave first revision for validations
-            model = model(copy_data)
-        else:
-            model = model(data)
+        model = model(data)
     return model
 
 

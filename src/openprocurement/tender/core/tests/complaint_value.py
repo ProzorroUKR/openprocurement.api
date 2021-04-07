@@ -93,7 +93,7 @@ def test_award_lot_complaint_rate():
     lot_id = "1" * 32
     root.request.validated = {
         "tender": {
-            "revisions": [Mock(date=RELEASE_2020_04_19 + timedelta(days=1))],
+            "revisions": [dict(date=(RELEASE_2020_04_19 + timedelta(days=1)).isoformat())],
             "status": "active.tendering",
             "procurementMethodType": "",
             "value": {
@@ -181,7 +181,7 @@ def test_post_not_uah_complaint():
     )
     root = Mock(__parent__=None)
     root.request.validated = {"tender": {
-        "revisions": [Mock(date=RELEASE_2020_04_19 + timedelta(days=1))],
+        "revisions": [dict(date=(RELEASE_2020_04_19 + timedelta(days=1)).isoformat())],
         "status": "active.tendering",
         "procurementMethodType": "anything but esco",
         "value": {"amount": 30001, "currency": "EUR"}
@@ -220,7 +220,7 @@ def test_post_not_uah_complaint_esco():
     root = Mock(__parent__=None)
     root.request.validated = {
         "tender": {
-            "revisions": [Mock(date=RELEASE_2020_04_19 + timedelta(days=1))],
+            "revisions": [dict(date=(RELEASE_2020_04_19 + timedelta(days=1)).isoformat())],
             "status": "awarding",
             "procurementMethodType": "esco",
             "bids": [
@@ -264,7 +264,7 @@ def test_complaint_non_esco_tendering_rates(test_data):
     complaint = Complaint(complaint_data)
     root = Mock(__parent__=None)
     root.request.validated = {"tender": {
-        "revisions": [Mock(date=RELEASE_2020_04_19 + timedelta(days=1))],
+        "revisions": [dict(date=(RELEASE_2020_04_19 + timedelta(days=1)).isoformat())],
         "status": "active.tendering",
         "procurementMethodType": "anything but esco",
         "value": {
@@ -290,7 +290,7 @@ def test_non_esco_enhanced_rates(test_data):
     complaint = Complaint(complaint_data)
     root = Mock(__parent__=None)
     root.request.validated = {"tender": {
-        "revisions": [Mock(date=RELEASE_2020_04_19 + timedelta(days=1))],
+        "revisions": [dict(date=(RELEASE_2020_04_19 + timedelta(days=1)).isoformat())],
         "status": "active.qualification",
         "procurementMethodType": "anything but esco",
         "value": {
@@ -311,7 +311,7 @@ def test_esco_tendering(status):
     complaint = Complaint(complaint_data)
     root = Mock(__parent__=None)
     root.request.validated = {"tender": {
-        "revisions": [Mock(date=RELEASE_2020_04_19 + timedelta(days=1))],
+        "revisions": [dict(date=(RELEASE_2020_04_19 + timedelta(days=1)).isoformat())],
         "status": status,
         "procurementMethodType": "esco"
     }}
@@ -333,7 +333,7 @@ def test_esco_not_tendering_rates(test_data):
     root = Mock(__parent__=None)
     root.request.validated = {
         "tender": {
-            "revisions": [Mock(date=RELEASE_2020_04_19 + timedelta(days=1))],
+            "revisions": [dict(date=(RELEASE_2020_04_19 + timedelta(days=1)).isoformat())],
             "status": "any but tendering and pre-qualification statuses",
             "procurementMethodType": "esco",
             "bids": [
@@ -373,7 +373,7 @@ def test_esco_not_tendering_with_lot():
     root.request.params = {"acc_token": "secret_stuff"}
     root.request.logging_context.items.return_value = ""
     root.request.validated = {"tender": {
-        "revisions": [Mock(date=RELEASE_2020_04_19 + timedelta(days=1))],
+        "revisions": [dict(date=(RELEASE_2020_04_19 + timedelta(days=1)).isoformat())],
         "status": "active.qualification",
         "procurementMethodType": "esco",
         "bids": [
@@ -420,7 +420,7 @@ def test_lot_esco_non_lot_complaint():
     root.request.params = {"acc_token": "secret_stuff"}
     root.request.logging_context.items.return_value = ""
     root.request.validated = {"tender": {
-        "revisions": [Mock(date=RELEASE_2020_04_19 + timedelta(days=1))],
+        "revisions": [dict(date=(RELEASE_2020_04_19 + timedelta(days=1)).isoformat())],
         "status": "active.qualification",
         "procurementMethodType": "esco",
         "bids": [
@@ -509,7 +509,7 @@ def test_esco_lot_not_related_bidder():
     root.request.params = {"acc_token": "secret_stuff"}
     root.request.logging_context.items.return_value = ""
     root.request.validated = {"tender": {
-        "revisions": [Mock(date=RELEASE_2020_04_19 + timedelta(days=1))],
+        "revisions": [dict(date=(RELEASE_2020_04_19 + timedelta(days=1)).isoformat())],
         "status": "active.qualification",
         "procurementMethodType": "esco",
         "bids": [
@@ -607,7 +607,7 @@ def test_esco_lot_related_but_passed_acc_token_from_different_bid():
     root.request.params = {"acc_token": "secret_stuff"}
     root.request.logging_context.items.return_value = ""
     root.request.validated = {"tender": {
-        "revisions": [Mock(date=RELEASE_2020_04_19 + timedelta(days=1))],
+        "revisions": [dict(date=(RELEASE_2020_04_19 + timedelta(days=1)).isoformat())],
         "status": "active.qualification",
         "procurementMethodType": "esco",
         "bids": [

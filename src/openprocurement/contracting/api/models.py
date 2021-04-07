@@ -268,7 +268,7 @@ class Implementation(Model):
 class Contract(SchematicsDocument, BaseContract):
     """ Contract """
 
-    revisions = ListType(ModelType(Revision, required=True), default=list())
+    revisions = BaseType(default=list)
     dateModified = IsoDateTimeType()
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
     items = ListType(ModelType(Item, required=True), required=False, min_size=1, validators=[validate_items_uniq])

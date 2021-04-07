@@ -27,9 +27,7 @@ class TestPeriodEndRequired(unittest.TestCase):
             model.validate()
         self.assertEqual(e.exception.messages, {"startDate": ["period should begin before its end"]})
 
-        revision = MagicMock()
-        revision.date = datetime.now(TZ)
-        mocked_get_tender.return_value = {"revisions": [revision]}
+        mocked_get_tender.return_value = {"revisions": [{"date": datetime.now(TZ).isoformat()}]}
         model = PeriodEndRequired({"endDate": end_date.isoformat()})
         with self.assertRaises(ModelValidationError) as e:
             model.validate()

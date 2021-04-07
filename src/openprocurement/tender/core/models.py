@@ -2098,7 +2098,7 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
             raise ValidationError("Linking more than one plan is allowed only if procuringEntity.kind is 'central'")
 
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
-    revisions = ListType(ModelType(Revision, required=True), default=list())
+    revisions = BaseType(default=list)
 
     def __repr__(self):
         return "<%s:%r@%r>" % (type(self).__name__, self.id, self.rev)
