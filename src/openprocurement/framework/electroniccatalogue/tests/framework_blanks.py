@@ -11,7 +11,7 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
-from openprocurement.framework.electroniccatalogue.models import ElectronicCatalogueFramework
+from openprocurement.framework.electroniccatalogue.models import Framework
 from openprocurement.framework.electroniccatalogue.tests.base import non_active_cpb_id
 from openprocurement.framework.electroniccatalogue.utils import (
     ENQUIRY_PERIOD_DURATION,
@@ -21,7 +21,7 @@ from openprocurement.framework.electroniccatalogue.utils import (
 
 
 def simple_add_framework(self):
-    u = ElectronicCatalogueFramework(self.initial_data)
+    u = Framework(self.initial_data)
     u.prettyID = "UA-F"
 
     assert u.id is None
@@ -1100,7 +1100,7 @@ def unsuccessful_status(self):
     response = self.app.get("/frameworks/{}".format(self.framework_id))
     self.assertEqual(response.json["data"]["status"], "active")
 
-    framework = ElectronicCatalogueFramework(response.json["data"])
+    framework = Framework(response.json["data"])
     date = get_framework_unsuccessful_status_check_date(framework)
     with freeze_time((date+timedelta(hours=1)).isoformat()):
         self.check_chronograph()
@@ -1120,7 +1120,7 @@ def unsuccessful_status(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
-    framework = ElectronicCatalogueFramework(response.json["data"])
+    framework = Framework(response.json["data"])
     date = get_framework_unsuccessful_status_check_date(framework)
     with freeze_time((date+timedelta(hours=1)).isoformat()):
         with mock.patch(
@@ -1149,7 +1149,7 @@ def complete_status(self):
     response = self.app.get("/frameworks/{}".format(self.framework_id))
     self.assertEqual(response.json["data"]["status"], "active")
 
-    framework = ElectronicCatalogueFramework(response.json["data"])
+    framework = Framework(response.json["data"])
     date = framework["qualificationPeriod"]["endDate"]
     with freeze_time((date+timedelta(hours=1)).isoformat()):
         with mock.patch(

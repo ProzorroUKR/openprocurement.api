@@ -252,3 +252,39 @@ Workflow in :ref:`cfaua`
     }
 
 \* marks initial state
+
+Contract in :ref:`frameworks_electroniccatalogue`
+=================================================
+
+Schema
+------
+
+:id:
+    uid, auto-generated, read-only
+
+:qualificationID:
+    string, auto-generated, read-only
+
+    The qualification identifier.
+
+:suppliers:
+    List of :ref:`BusinessOrganization` objects, auto-generated, read-only
+
+:status:
+    string, required
+
+    Possible values are:
+
+    * `active`
+    * `banned`
+    * `unsuccessful`
+    * `terminated`
+
+:milestones:
+      List of :ref:`Milestone` objects
+
+:date:
+    string, :ref:`date`
+
+    The date when the contract was changed or activated.
+

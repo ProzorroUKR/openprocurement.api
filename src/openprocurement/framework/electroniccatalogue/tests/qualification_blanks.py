@@ -238,7 +238,6 @@ def patch_submission_pending(self):
     qualification_ignore_patch_data = {
         "date": (get_now() + timedelta(days=2)).isoformat(),
         "dateModified": (get_now() + timedelta(days=1)).isoformat(),
-        "frameworkID": "0"*32,
         "submissionID": "0"*32,
         "qualificationType": "changed",
     }

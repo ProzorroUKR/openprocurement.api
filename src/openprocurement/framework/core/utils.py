@@ -332,6 +332,7 @@ def apply_patch(request, obj_name, data=None, save=True, src=None):
     data = request.validated["data"] if data is None else data
     patch = data and apply_data_patch(src or request.context.serialize(), data)
     if patch:
+        # Can't be replaced to "obj_name in save_map" because obj_name for child patch same as for parent
         if request.context.__class__.__name__.lower() in save_map:
             request.validated[obj_name].import_data(patch)
         else:
@@ -379,6 +380,10 @@ def get_submission_by_id(db, submission_id):
 
 def get_framework_by_id(db, framework_id):
     return get_doc_by_id(db, "Framework", framework_id)
+
+
+def get_agreement_by_id(db, agreement_id):
+    return get_doc_by_id(db, "Agreement", agreement_id)
 
 
 def set_agreement_ownership(item, request):

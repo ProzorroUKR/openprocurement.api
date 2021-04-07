@@ -9,7 +9,7 @@ import standards
 from openprocurement.api.tests.base import BaseWebTest, change_auth
 from openprocurement.api.utils import get_now, apply_data_patch, parse_date
 from openprocurement.framework.core.tests.base import BaseCoreWebTest
-from openprocurement.framework.electroniccatalogue.models import ElectronicCatalogueFramework
+from openprocurement.framework.electroniccatalogue.models import Framework
 from openprocurement.framework.electroniccatalogue.tests.periods import PERIODS
 
 
@@ -129,6 +129,43 @@ test_submission_data = {
     "tenderers": [tenderer],
 }
 
+ban_milestone_data = {
+    "type": "ban"
+}
+
+ban_milestone_data_with_documents = {
+    "type": "ban",
+    "documents": [
+        {
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "milestone.doc",
+            "format": "application/msword",
+            "datePublished": "2020-09-08T01:00:00+03:00",
+            "id": "cd52b90af77e4f5b8cb0f210e83987b5",
+            "dateModified": "2020-09-08T01:00:00+03:00"
+        }
+    ]
+}
+
+
+disqualification_milestone_data = {
+    "type": "disqualification"
+}
+
+disqualification_milestone_data_with_documents = {
+    "type": "disqualification",
+    "documents": [
+        {
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "milestone.doc",
+            "format": "application/msword",
+            "datePublished": "2020-09-08T01:00:00+03:00",
+            "id": "cd52b90af77e4f5b8cb0f210e83987b5",
+            "dateModified": "2020-09-08T01:00:00+03:00"
+        }
+    ]
+}
+
 
 class BaseApiWebTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
@@ -138,7 +175,7 @@ class BaseApiWebTest(BaseWebTest):
 class BaseElectronicCatalogueWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_electronicCatalogue_data
-    framework_class = ElectronicCatalogueFramework
+    framework_class = Framework
     docservice = False
     periods = PERIODS
 
@@ -217,3 +254,95 @@ class SubmissionContentWebTest(BaseSubmissionContentWebTest):
     def setUp(self):
         super(SubmissionContentWebTest, self).setUp()
         self.create_submission()
+
+
+class BaseAgreementContentWebTest(SubmissionContentWebTest):
+    def set_agreement_status(self, status, extra=None):
+        self.now = get_now()
+        self.agreement_document = self.db.get(self.agreement_id)
+        self.agreement_document_patch = {"status": status}
+        if extra:
+            self.agreement_document_patch.update(extra)
+        self.save_agreement_changes()
+        return self.get_agreement("view")
+
+    def save_agreement_changes(self):
+        if self.agreement_document_patch:
+            patch = apply_data_patch(self.agreement_document, self.agreement_document_patch)
+            self.agreement_document.update(patch)
+            self.db.save(self.agreement_document)
+            self.agreement_document = self.db.get(self.agreement_id)
+            self.agreement_document_patch = {}
+
+    def get_agreement(self, role):
+        with change_auth(self.app, ("Basic", (role, ""))):
+            url = "/agreements/{}".format(self.agreement_id)
+            response = self.app.get(url)
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.content_type, "application/json")
+        return response
+
+    def check_chronograph(self, data=None):
+        with change_auth(self.app, ("Basic", ("chronograph", ""))):
+            url = "/agreements/{}".format(self.agreement_id)
+            data = data or {"data": {"id": self.agreement_id}}
+            response = self.app.patch_json(url, data)
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.content_type, "application/json")
+        return response
+
+    def set_contract_status(self, status):
+        self.now = get_now()
+        self.agreement_document = self.db.get(self.agreement_id)
+        self.agreement_document_patch = deepcopy(self.agreement_document)
+        for contract in self.agreement_document_patch["contracts"]:
+            if contract["id"] == self.contract_id:
+                contract["status"] = status
+        self.save_agreement_changes()
+        return self.get_agreement("view")
+
+
+class AgreementContentWebTest(BaseAgreementContentWebTest):
+    def setUp(self):
+        super().setUp()
+
+        response = self.app.patch_json(
+            "/submissions/{}?acc_token={}".format(self.submission_id, self.submission_token),
+            {"data": {"status": "active"}},
+        )
+
+        self.qualification_id = response.json["data"]["qualificationID"]
+
+        response = self.app.post(
+            "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
+            upload_files=[("file", "name  name.doc", b"content")]
+        )
+        self.assertEqual(response.status, "201 Created")
+
+        response = self.app.patch_json(
+            f"/qualifications/{self.qualification_id}?acc_token={self.framework_token}",
+            {"data": {"status": "active"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+
+        response = self.app.get(f"/frameworks/{self.framework_id}")
+        self.assertEqual(response.status, "200 OK")
+
+        self.agreement_id = response.json["data"]["agreementID"]
+
+        response = self.app.get(f"/agreements/{self.agreement_id}")
+        self.assertEqual(response.status, "200 OK")
+
+        self.contract_id = response.json["data"]["contracts"][0]["id"]
+
+
+class MilestoneContentWebTest(AgreementContentWebTest):
+    def setUp(self):
+        super().setUp()
+        response = self.app.post_json(
+            f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones?acc_token={self.framework_token}",
+            {"data": self.initial_milestone_data}
+        )
+        self.assertEqual(response.status, "201 Created")
+
+        self.milestone_id = response.json["data"]["id"]

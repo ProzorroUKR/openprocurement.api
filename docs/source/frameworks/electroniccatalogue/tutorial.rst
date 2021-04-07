@@ -201,12 +201,24 @@ Qualification can be approved only in `pending` status.
 .. include:: tutorial/activation-qualification.http
    :code:
 
-After approving qualification, related submission changed status from `active` to `complete`.
+After approving qualification, if it was first active qualification system create agreement with contract
+otherwise system add contract to agreement.
 
-Let's check what happen with submissions after approving qualification:
+Let's check current framework
 
-.. include:: tutorial/get-submissions-by-framework-id.http
+.. include:: tutorial/get-framework-with-agreement.http
    :code:
+
+You can see that `agreementID` appeared in current framework, so let's check that agreement:
+
+.. include:: tutorial/get-agreement.http
+   :code:
+
+As you can see agreement now in `active` status, and already have contract, so we can see that agreement in agreement feed:
+
+.. include:: tutorial/agreement-listing.http
+   :code:
+
 
 Let's check what qualification registry contains:
 

@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
+from datetime import timedelta
+from uuid import uuid4
+
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
 from schematics.transforms import blacklist, whitelist
-from schematics.types import StringType, BaseType, EmailType, BooleanType
-from schematics.types.compound import ModelType
+from schematics.types import StringType, BaseType, EmailType, BooleanType, MD5Type
+from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.auth import ACCR_5
@@ -18,16 +21,22 @@ from openprocurement.api.models import (
     ContactPoint as BaseContactPoint,
     schematics_embedded_role,
     schematics_default_role,
+    BusinessOrganization as BaseBusinessOrganization,
+    IsoDateTimeType,
 )
 from openprocurement.api.models import Model
+from openprocurement.api.utils import get_now
 from openprocurement.framework.core.models import (
-    Framework,
+    Framework as BaseFramework,
     Submission as BaseSubmission,
     Qualification as BaseQualification,
+    Agreement as BaseAgreement,
 )
 from openprocurement.framework.electroniccatalogue.utils import (
     AUTHORIZED_CPB,
     get_framework_unsuccessful_status_check_date,
+    calculate_framework_date,
+    CONTRACT_BAN_DURATION,
 )
 
 
@@ -64,6 +73,7 @@ class CentralProcuringEntity(Model):
             "edit_draft": schematics_default_role,
             "edit_active": whitelist("contactPoint"),
         }
+
     name = StringType(required=True)
     name_en = StringType()
     name_ru = StringType()
@@ -80,9 +90,8 @@ class CentralProcuringEntity(Model):
             raise ValidationError("Can't create framework for inactive cpb")
 
 
-class ElectronicCatalogueFramework(Framework):
+class Framework(BaseFramework):
     class Options:
-        namespace = "Framework"
         _status_view_role = blacklist(
             "doc_type",
             "successful",
@@ -163,6 +172,7 @@ class ElectronicCatalogueFramework(Framework):
     classification = ModelType(DKClassification, required=True)
     additionalClassifications = ListType(ModelType(BaseClassification))
     documents = ListType(ModelType(Document, required=True), default=list())
+    agreementID = StringType()
 
     successful = BooleanType(required=True, default=False)
 
@@ -182,13 +192,12 @@ class ElectronicCatalogueFramework(Framework):
         return min(checks).isoformat() if checks else None
 
     def __acl__(self):
-        acl = super(ElectronicCatalogueFramework, self).__acl__()
+        acl = super(Framework, self).__acl__()
         acl.append((Allow, "{}_{}".format(self.owner, self.owner_token), "upload_framework_documents"))
         return acl
 
 
 class Submission(BaseSubmission):
-
     status = StringType(
         choices=[
             "draft",
@@ -202,7 +211,6 @@ class Submission(BaseSubmission):
 
 
 class Qualification(BaseQualification):
-
     status = StringType(
         choices=[
             "pending",
@@ -213,3 +221,109 @@ class Qualification(BaseQualification):
     )
 
     qualificationType = StringType(default="electronicCatalogue", required=True)
+
+
+class BusinessOrganization(BaseBusinessOrganization):
+    class Options:
+        roles = {
+            "edit": whitelist("contactPoint", "address"),
+            "view": blacklist("doc_type", "_id", "_rev", "__parent__"),
+        }
+
+
+class Milestone(Model):
+    class Options:
+        roles = {
+            "create": whitelist("type", "documents"),
+            "view": blacklist("doc_type", "_id", "_rev", "__parent__"),
+        }
+
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    type = StringType(required=True, choices=["activation", "ban", "disqualification", "terminated"])
+    dueDate = IsoDateTimeType()
+    documents = ListType(ModelType(Document, required=True), default=list())
+    dateModified = IsoDateTimeType(default=get_now)
+
+    @serializable(serialized_name="dueDate", serialize_when_none=False)
+    def milestone_dueDate(self):
+        if self.type == "ban" and not self.dueDate:
+            request = self.get_root().request
+            agreement = request.validated["agreement_src"]
+            dueDate = calculate_framework_date(get_now(), timedelta(days=CONTRACT_BAN_DURATION), agreement, ceil=True)
+            return dueDate.isoformat()
+        return self.dueDate.isoformat() if self.dueDate else None
+
+
+class Contract(Model):
+    class Options:
+        roles = {
+            "edit": whitelist("suppliers"),
+            "view": blacklist("doc_type", "_id", "_rev", "__parent__")
+        }
+
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    qualificationID = StringType()
+    status = StringType(choices=["active", "banned", "unsuccessful", "terminated"])
+    suppliers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, )
+    milestones = ListType(ModelType(Milestone, required=True), required=True, min_size=1, )
+    date = IsoDateTimeType(default=get_now)
+
+    def validate_suppliers(self, data, suppliers):
+        if len(suppliers) != 1:
+            raise ValidationError("Contract must have only one supplier")
+
+
+class Agreement(BaseAgreement):
+    class Options:
+        _view_role = blacklist(
+            "doc_type",
+            "transfer_token",
+            "owner_token",
+            "revisions", "_id",
+            "_rev",
+            "__parent__",
+            "frameworkDetails",
+        )
+        roles = {
+            "edit": whitelist("status"),
+            "view": _view_role,
+            "plain": blacklist(  # is used for getting patches
+                "_attachments", "revisions", "dateModified", "_id", "_rev", "doc_type", "__parent__"
+            ),
+            "default": blacklist("doc_id", "__parent__"),  # obj.store() use default role
+            "chronograph": whitelist("next_check"),
+        }
+
+    agreementType = StringType(default="electronicCatalogue")
+    frameworkID = StringType()
+    period = ModelType(BasePeriodEndRequired)
+    procuringEntity = ModelType(CentralProcuringEntity, required=True)
+    classification = ModelType(DKClassification, required=True)
+    additionalClassifications = ListType(ModelType(BaseClassification))
+    contracts = ListType(ModelType(Contract, required=True), default=list())
+    frameworkDetails = StringType()
+
+    _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
+
+    @serializable(serialized_name="id")
+    def doc_id(self):
+        """A property that is serialized by schematics exports."""
+        return self._id
+
+    @serializable(serialize_when_none=False)
+    def next_check(self):
+        checks = []
+        if self.status == "active":
+            milestone_dueDates = [
+                milestone.dueDate
+                for contract in self.contracts for milestone in contract.milestones if milestone.dueDate
+            ]
+            if milestone_dueDates:
+                checks.append(min(milestone_dueDates))
+            checks.append(self.period.endDate)
+        return min(checks).isoformat() if checks else None
+
+    def __acl__(self):
+        acl = super().__acl__()
+        acl.append((Allow, "{}_{}".format(self.owner, self.owner_token), "upload_milestone_documents"), )
+        return acl

@@ -59,7 +59,7 @@ class BaseCoreWebTest(BaseWebTest):
         framework = self.framework_class(self.framework_document)
         period_date_item = self.periods[status][startend][period][date]
         return calculate_framework_date(
-            self.now, period_date_item, framework=framework, working_days=False
+            self.now, period_date_item, framework, working_days=False
         )
 
     def save_changes(self):
@@ -90,6 +90,11 @@ class BaseCoreWebTest(BaseWebTest):
     def delete_framework(self):
         if self.framework_id:
             self.db.delete(self.db[self.framework_id])
+
+
+class BaseAgreementTest(BaseWebTest):
+    relative_to = os.path.dirname(__file__)
+    docservice = False
 
 
 class BaseAgreementTest(BaseWebTest):

@@ -54,7 +54,7 @@ class SubmissionResource(APIResourceListing):
         permission="create_submission",
         validators=(
             validate_submission_data,
-            validate_operation_submission_in_not_allowed_period,
+            validate_operation_submission_in_not_allowed_period
         )
     )
     def post(self):

@@ -17,7 +17,7 @@ Contents:
    tendering/index
    planning/index
    contracting/index
-   agreementcfaua/index
+   agreements/index
    frameworks/index
    relocation/index
    medicines-registry/index

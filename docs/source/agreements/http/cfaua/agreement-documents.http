@@ -1,0 +1,33 @@
+GET /api/2.5/agreements/1746cfba69864f7d996e4bd000858884/documents?acc_token=2f325f620dd24a4d8dd8c5aca839a7cc HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+{
+  "data": [
+    {
+      "id": "366b4dd595b549ffae8d3896242fb0ea",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "agreement_changes.doc",
+      "format": "application/msword",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4cb784af37bd4d94a8d3875046842d4b?Signature=0HtxZXtlj2RHoKC6ircAx4wnTWueeXzryd2GWLGtMSs2HlkvMxofDAdRSagQqa%2FbSYKDRadpMuiHV9tTI14OCw%3D%3D&KeyID=a8968c46",
+      "datePublished": "2021-03-16T00:00:00+02:00",
+      "dateModified": "2021-03-16T00:00:00+02:00",
+      "relatedItem": "eb59804a712942e89f57217f6537364e",
+      "documentOf": "change"
+    },
+    {
+      "id": "91359234533e49c79c42142056f8fac7",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "agreement.doc",
+      "format": "application/msword",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c6e4ee9665bc469fa4d14fcd35513942?Signature=aABQcl023w5EmJAjOj4oaIwWhz6%2BcSM49Keb1aXFhA8sjm%2BLe8mSfJYgy2g1GE3ozVL40VhGD66ZS9IjDIwkDQ%3D%3D&KeyID=a8968c46",
+      "datePublished": "2021-03-16T00:00:00+02:00",
+      "dateModified": "2021-03-16T00:00:00+02:00",
+      "documentOf": "agreement"
+    }
+  ]
+}
+

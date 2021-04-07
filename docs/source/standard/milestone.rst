@@ -60,6 +60,41 @@ Schema
     Id of related :ref:`lot`.
 
 
+Milestone in :ref:`frameworks_electroniccatalogue`
+=================================================
+
+Schema
+------
+
+:id:
+    uid, auto-generated
+
+:description:
+    string, required if title == `anotherEvent`
+
+:type:
+    string, required
+
+    The only possible value is:
+
+    * `activation`
+    * `ban`
+    * `disqualification`
+    * `terminated`
+
+
+:dueDate:
+    string, :ref:`date`, required
+
+:documents:
+    List of :ref:`document` objects
+
+:dateModified:
+    string, :ref:`date`, auto-generated, read-only
+
+    The date of milestone change.
+
+
 .. _Duration:
 
 Duration
