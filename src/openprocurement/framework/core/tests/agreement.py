@@ -123,12 +123,11 @@ class UtilsAgreementTest(BaseAgreementTest):
         register_agreement_agreementType(config, model)
 
     def test_save_agreement(self):
-        request = MagicMock()
+        request = MagicMock(authenticated_userid="user_id")
         agreement = MagicMock()
         agreement.mode = "test"
         agreement.revisions = []
         agreement.dateModified = datetime.datetime(2018, 8, 2, 12, 9, 2, 440566)
-        type(agreement).revisions = MagicMock()
         agreement.rev = "12341234"
         request.validated = {"agreement": agreement, "agreement_src": "src_test"}
         res = save_agreement(request)

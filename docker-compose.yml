@@ -9,20 +9,21 @@ services:
     depends_on:
       - couchdb
     volumes:
-      - "./src:/app/src:delegated"
+      - "./src/openprocurement:/app/src/openprocurement:delegated"
       - "./docs:/app/docs:delegated"
+      - "./etc:/app/etc:delegated"
     ports:
       - "8000:80"
     command: ["gunicorn", "--bind", "0.0.0.0:80", "-k", "gevent", "--paste", "etc/service.ini", "--graceful-timeout=60", "--timeout=3600"]
-  test:
-    build:
-      context: .
-      dockerfile: DockerfileTest
-    depends_on:
-      - couchdb
-    volumes:
-      - "./src/openprocurement:/app/src/openprocurement:delegated"
-      - "./docs:/app/docs:delegated"
+#  test:
+#    build:
+#      context: .
+#      dockerfile: DockerfileTest
+#    depends_on:
+#      - couchdb
+#    volumes:
+#      - "./src/openprocurement:/app/src/openprocurement:delegated"
+#      - "./docs:/app/docs:delegated"
   couchdb:
     image: "couchdb:1.6"
     ports:

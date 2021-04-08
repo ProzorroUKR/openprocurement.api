@@ -382,7 +382,7 @@ class Plan(SchematicsDocument, Model):
     transfer_token = StringType()
     owner = StringType()
     procurementMethodType = StringType()
-    revisions = ListType(ModelType(Revision, required=True), default=list())
+    revisions = BaseType(default=list)
 
     create_accreditations = (ACCR_1, ACCR_3, ACCR_5)
 

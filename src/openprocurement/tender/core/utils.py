@@ -312,13 +312,7 @@ def tender_from_data(request, data, raise_error=True, create=True):
         raise error_handler(request)
     update_logging_context(request, {"tender_type": procurementMethodType})
     if model is not None and create:
-        if request.environ.get("REQUEST_METHOD") == "GET" and data.get("revisions"):
-            # to optimize get requests to tenders with many revisions
-            copy_data = dict(**data)  # changing of the initial dict is a bad practice
-            copy_data["revisions"] = data["revisions"][:1]  # leave first revision for validations
-            model = model(copy_data)
-        else:
-            model = model(data)
+        model = model(data)
     return model
 
 

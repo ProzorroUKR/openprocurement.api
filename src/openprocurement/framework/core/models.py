@@ -85,7 +85,7 @@ class Framework(OpenprocurementSchematicsDocument, Model):
     status = StringType(choices=["draft"], default="draft")
 
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
-    revisions = ListType(ModelType(Revision, required=True), default=list())
+    revisions = BaseType(default=list)
 
     central_accreditations = (ACCR_5,)
     edit_accreditations = (ACCR_5,)
@@ -197,7 +197,7 @@ class Submission(OpenprocurementSchematicsDocument, Model):
     transfer_token = StringType()
 
     _attachments = DictType(DictType(BaseType), default=dict())
-    revisions = ListType(ModelType(Revision, required=True), default=list())
+    revisions = BaseType(default=list)
 
     mode = StringType(choices=["test"])
 
@@ -288,7 +288,7 @@ class Qualification(OpenprocurementSchematicsDocument, Model):
     documents = ListType(ModelType(Document, required=True), default=list())
 
     _attachments = DictType(DictType(BaseType), default=dict())
-    revisions = ListType(ModelType(Revision, required=True), default=list())
+    revisions = BaseType(default=list)
 
     mode = StringType(choices=["test"])
 
@@ -339,7 +339,7 @@ class Agreement(OpenprocurementSchematicsDocument, Model):
     status = StringType(choices=["active", "terminated"], required=True)
     date = IsoDateTimeType()
     dateModified = IsoDateTimeType()
-    revisions = ListType(ModelType(Revision, required=True), default=list())
+    revisions = BaseType(default=list)
     owner_token = StringType(default=lambda: uuid4().hex)
     transfer_token = StringType(default=lambda: uuid4().hex)
     owner = StringType()

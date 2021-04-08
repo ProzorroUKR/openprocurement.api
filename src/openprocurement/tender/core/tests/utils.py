@@ -186,17 +186,14 @@ class TestUtils(TestUtilsBase):
         request.registry.tender_procurementMethodTypes = {"belowThreshold": Tender}
 
         data = dict(**self.tender_data)
-        data["revisions"] = [dict(rev=i, author="me") for i in range(10)]
+        data["revisions"] = [dict(rev=str(i), author="me") for i in range(10)]
 
         for method in ("GET", "POST", "PATCH", "PUT", "DELETE", "HEAD"):
             request.environ = {"REQUEST_METHOD": method}
             model = tender_from_data(request, data)
 
-            if method == "GET":
-                self.assertEqual(len(model.revisions), 1)
-                self.assertEqual(model.revisions[0].rev, "0")
-        else:
             self.assertEqual(len(model.revisions), 10)
+            self.assertEqual(model.revisions[0]["rev"], "0")
 
     @patch("openprocurement.tender.core.utils.decode_path_info")
     @patch("openprocurement.tender.core.utils.error_handler")
