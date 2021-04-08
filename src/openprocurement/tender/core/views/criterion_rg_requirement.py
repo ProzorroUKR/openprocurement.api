@@ -116,7 +116,7 @@ class BaseTenderCriteriaRGRequirementResource(APIResource):
 
             requirement = model(data)
             if old_requirement.to_primitive() == requirement.to_primitive():
-                return {"data": old_requirement.serialize("view")}
+                return {"data": (old_requirement.serialize("view"),)}
 
             requirement.datePublished = get_now()
             requirement.dateModified = None
