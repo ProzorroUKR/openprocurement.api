@@ -1,0 +1,378 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-04-07 14:32+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.0\n"
+
+#: ../../source/agreementcfaua/tutorial.rst:4
+msgid "Tutorial"
+msgstr "Туторіал"
+
+#: ../../source/agreementcfaua/tutorial.rst:7
+msgid "Exploring basic rules"
+msgstr "Базові правила"
+
+#: ../../source/agreementcfaua/tutorial.rst:9
+msgid "Let's try exploring the `/agreements` endpoint:"
+msgstr "Подивимось як працює точка входу `/agreements`:"
+
+#: ../../source/agreementcfaua/tutorial.rst:14
+msgid "Just invoking it reveals an empty set."
+msgstr "При виклику видає пустий набір."
+
+#: ../../source/agreementcfaua/tutorial.rst:16
+msgid "Agreement is transferred from the tender system by an automated process."
+msgstr "Угода автоматично переноситься з модуля тендера."
+
+#: ../../source/agreementcfaua/tutorial.rst:22
+msgid "Creating agreement"
+msgstr "Створення угоди"
+
+#: ../../source/agreementcfaua/tutorial.rst:24
+msgid ""
+"Let's say that we have conducted tender and it has ``complete`` status. "
+"When the tender is completed, agreement (that has been created in the "
+"tender system) is transferred to the agreement system **automatically**."
+
+msgstr ""
+"Припустимо, що ми провели тендер, який зараз є в статусі ``complete``. "
+"Після завершення тендера, угода, яка була створена в модулі тендера, "
+"переноситься у модуль угод **автоматично**."
+
+#: ../../source/agreementcfaua/tutorial.rst:26
+msgid "*Brokers (eMalls) can't create agreements in the agreement system.*"
+msgstr "*Майданчики (eMalls) не можуть створити угоди в модулі угод.*"
+
+#: ../../source/agreementcfaua/tutorial.rst:29
+msgid "Getting agreement"
+msgstr "Отримання угоди"
+
+#: ../../source/agreementcfaua/tutorial.rst:31
+msgid "Agreement in the tender system"
+msgstr "Угода в модулі тендера"
+
+#: ../../source/agreementcfaua/tutorial.rst:36
+msgid "*Agreement id is the same in both tender and agreement system.*"
+msgstr "*Ідентифікатор угоди є тим самим і в модулі тендера, і в модулі угод.*"
+
+#: ../../source/agreementcfaua/tutorial.rst:38
+msgid "Let's access the URL of the created object inside agreement system:"
+msgstr "Звернемося до URL-адреси створеного об'єкта в модулі угод:"
+
+#: ../../source/agreementcfaua/tutorial.rst:44
+msgid "Getting access"
+msgstr "Отримання доступу"
+
+#: ../../source/agreementcfaua/tutorial.rst:46
+msgid ""
+"In order to get rights for future agreement editing, you need to use this"
+" view ``PATCH: /agreements/{id}/credentials?acc_token={tender_token}`` "
+"with the API key of the eMall (broker), where tender was generated."
+
+msgstr ""
+"Для того, щоб отримати права для редагування угоди в майбутньому, вам "
+"потрібно виконати ``PATCH: "
+"/agreements/{id}/credentials?acc_token={tender_token}`` з ключами "
+"майданчика до API, яким був згенерований тендер."
+
+#: ../../source/agreementcfaua/tutorial.rst:48
+msgid "In the ``PATCH: /agreements/{id}/credentials?acc_token={tender_token}``:"
+msgstr "У ``PATCH: /agreements/{id}/credentials?acc_token={tender_token}``:"
+
+#: ../../source/agreementcfaua/tutorial.rst:50
+msgid "``id`` stands for agreement id,"
+msgstr "``id`` - ідентифікатор угоди,"
+
+#: ../../source/agreementcfaua/tutorial.rst:52
+msgid ""
+"``tender_token`` is tender's token (is used for agreement token "
+"generation)."
+
+msgstr ""
+"``tender_token`` - це токен тендера (використовується для генерації "
+"токена угоди)."
+
+#: ../../source/agreementcfaua/tutorial.rst:54
+msgid ""
+"Response will contain ``access.token`` for the agreement that can be used"
+" for further agreement modification."
+
+msgstr ""
+"Відповідь міститиме ``access.token`` для угоди, який можна "
+"використовувати для майбутнього редагування угоди."
+
+#: ../../source/agreementcfaua/tutorial.rst:59
+msgid "Let's view agreements."
+msgstr "Подивимось на угоди."
+
+#: ../../source/agreementcfaua/tutorial.rst:65
+msgid ""
+"We do see the internal `id` of a agreement (that can be used to construct"
+" full URL by prepending `http://api-"
+"sandbox.openprocurement.org/api/0/agreements/`) and its `dateModified` "
+"datestamp."
+
+msgstr ""
+"Бачимо внутрішні `id` угоди, який може бути використаний для побудови "
+"повної URL-адреси за допомогою додавання `http://api-"
+"sandbox.openprocurement.org/api/0/agreements/`, а також дату "
+"`dateModified`."
+
+#: ../../source/agreementcfaua/tutorial.rst:69
+msgid "Modifying agreement"
+msgstr "Редагування угоди"
+
+#: ../../source/agreementcfaua/tutorial.rst:72
+msgid ""
+"**Essential agreement terms** can be modified by the submission of a new "
+"`change` object to the `Agreement.changes` container. `Change` can be one"
+" of this types :ref:`ChangeTaxRate`, :ref:`ChangeItemPriceVariation`, "
+":ref:`ChangePartyWithdrawal` or :ref:`ChangeThirdParty`"
+
+msgstr ""
+"**Основні умови договору** можуть бути модифіковані поданням нових "
+"об'єктів `change` у контейнер `Agreement.changes`. `Change` може бути "
+"таких типів: :ref:`ChangeTaxRate`, :ref:`ChangeItemPriceVariation`, "
+":ref:`ChangePartyWithdrawal` або :ref:`ChangeThirdParty`"
+
+#: ../../source/agreementcfaua/tutorial.rst:74
+msgid "All `changes` are processed by the endpoint `/agreement/{id}/changes`."
+msgstr "Усі об'єкти `changes` обробляються точкою входу `/agreement/{id}/changes`."
+
+#: ../../source/agreementcfaua/tutorial.rst:77
+msgid "Submitting a change"
+msgstr "Подання зміни"
+
+#: ../../source/agreementcfaua/tutorial.rst:79
+msgid "Let's add new `change` to the agreement:"
+msgstr "Додамо новий `change` до угоди:"
+
+#: ../../source/agreementcfaua/tutorial.rst:84
+msgid ""
+"Note that you should provide value in ``rationaleType`` field. This field"
+" is required."
+msgstr "Візьміть до уваги, потрібно заповнити обов'язкове поле ``rationaleType``."
+
+#: ../../source/agreementcfaua/tutorial.rst:86
+msgid "You can view the `change`:"
+msgstr "Подивимось на `change`:"
+
+#: ../../source/agreementcfaua/tutorial.rst:91
+msgid "`Change` can be modified while it is in the ``pending`` status:"
+msgstr "`Change` може бути модифікований, поки об'єкт в статусі ``pending``:"
+
+#: ../../source/agreementcfaua/tutorial.rst:97
+msgid "Uploading change document"
+msgstr "Завантаження документів до змін"
+
+#: ../../source/agreementcfaua/tutorial.rst:99
+msgid "Document can be added only while `change` is in the ``pending`` status."
+msgstr ""
+"Документ може бути доданий тільки тоді, коли `change` в статусі "
+"``pending``."
+
+#: ../../source/agreementcfaua/tutorial.rst:101
+msgid "Document has to be added in two stages:"
+msgstr "Документи додаються в два етапи:"
+
+#: ../../source/agreementcfaua/tutorial.rst:103
+msgid "you should upload document"
+msgstr "завантажте документ"
+
+#: ../../source/agreementcfaua/tutorial.rst:108
+msgid ""
+"you should set document properties ``\"documentOf\": \"change\"`` and "
+"``\"relatedItem\": \"{change.id}\"`` in order to bind the uploaded "
+"document to the `change`:"
+
+msgstr ""
+"налаштуйте властивості документу ``\"documentOf\": \"change\"`` і "
+"``\"relatedItem\": \"{change.id}\"`` для того, щоб підв'язати заватажений"
+" документ до об'єкту `change`:"
+
+#: ../../source/agreementcfaua/tutorial.rst:114
+msgid "Updating agreement properties"
+msgstr "Оновлення властивостей угоди"
+
+#: ../../source/agreementcfaua/tutorial.rst:116
+msgid "Now you can update agreement properties which belong to the change."
+msgstr "Тепер можете оновити властивості угоди, які належать зміні."
+
+
+#: ../../source/agreementcfaua/tutorial.rst:121
+msgid ""
+"In case of multiple :ref:`Item` you are allowed to change in "
+"`modifications` each `factor`."
+
+msgstr ""
+"Є можливість змінювати кожен `factor` в `modifications` у випадку "
+"декількох :ref:`Item`."
+
+#: ../../source/agreementcfaua/tutorial.rst:124
+msgid "Agreement preview"
+msgstr "Попередній перегляд угоди"
+
+#: ../../source/agreementcfaua/tutorial.rst:126
+msgid ""
+"Also, while `change` is in the ``pending`` status, you can see agreement "
+"as `change` would be applied. You need to use this view ``GET: "
+"/agreements/{id}/preview?acc_token={agreement_token}``."
+
+msgstr ""
+"Також, поки `change` в статусі ``pending``, можна бачити угоду, оскільки "
+"зміни будуть застосовані. Необхідно використати ``GET: "
+"/agreements/{id}/preview?acc_token={agreement_token}``."
+
+#: ../../source/agreementcfaua/tutorial.rst:132
+msgid ""
+"As you can see, `value.amount` on `contracts` `unitPrices` are changed "
+"due `modification` is applied. So if this `modification` is what you "
+"need, you can apply `change`."
+
+msgstr ""
+"Як бачимо, `value.amount` на `unitPrices` об'єкту `contracts` змінюється "
+"після прийняття змін. Тож, якщо ці `зміни` - це те, що вам потрібно, то "
+"ви можете подати об'єкт `change`."
+
+#: ../../source/agreementcfaua/tutorial.rst:135
+msgid "Applying the change"
+msgstr "Застосування зміни"
+
+#: ../../source/agreementcfaua/tutorial.rst:137
+msgid "`Change` can be applied by switching to the ``active`` status."
+msgstr "`Change` може бути застосована після переходу в статус ``active``."
+
+#: ../../source/agreementcfaua/tutorial.rst:139
+msgid "In order to apply ``active`` status `dateSigned` field must be set."
+
+msgstr ""
+"Для того, щоб застосувати статус ``active``, має бути налаштоване поле "
+"`dateSigned`."
+
+#: ../../source/agreementcfaua/tutorial.rst:141
+msgid "After this `change` can't be modified anymore."
+msgstr "Після цього `change` не можна більше модифікувати."
+
+#: ../../source/agreementcfaua/tutorial.rst:146
+msgid "`dateSigned` field validation:"
+msgstr "Валідація поля `dateSigned`:"
+
+#: ../../source/agreementcfaua/tutorial.rst:148
+msgid ""
+"for the first agreement `change` date should be after "
+"`agreement.dateSigned`;"
+
+msgstr ""
+"для першої `change` в угоді, дата повинна бути після "
+"`agreement.dateSigned`;"
+
+
+#: ../../source/agreementcfaua/tutorial.rst:150
+msgid ""
+"for all next `change` objects date should be after the previous "
+"`change.dateSigned`."
+
+msgstr ""
+"для всіх наступних об'єктів `change`, дата повинна бути після попередньої"
+" `change.dateSigned`."
+
+#: ../../source/agreementcfaua/tutorial.rst:152
+msgid "You can view all changes:"
+msgstr "Подивимось на всі зміни:"
+
+#: ../../source/agreementcfaua/tutorial.rst:157
+msgid "All changes are also listed on the agreement view."
+msgstr "Всі зміни також перераховані у view угоди."
+
+#: ../../source/agreementcfaua/tutorial.rst:163
+msgid "Uploading documentation"
+msgstr "Завантаження документів"
+
+#: ../../source/agreementcfaua/tutorial.rst:165
+msgid ""
+"Procuring entity can upload PDF files into the created agreement. "
+"Uploading should follow the `upload` rules."
+
+msgstr ""
+"Замовник може завантажити PDF-файли в створену угоду. Завантаження "
+"повинне слідувати правилам завантаження."
+
+#: ../../source/agreementcfaua/tutorial.rst:171
+msgid ""
+"`201 Created` response code and `Location` header confirm document "
+"creation. We can additionally query the `documents` collection API "
+"endpoint to confirm the action:"
+
+msgstr ""
+"Код відповіді 201 Created та заголовок Location підтверджують, що "
+"документ було додано. Додатково можна запитати точку входу API колекції "
+"`documents` для підтвердження дії:"
+
+#: ../../source/agreementcfaua/tutorial.rst:178
+msgid "And again we can confirm that there are two documents uploaded."
+msgstr "І знову можна підтвердити, що два документи завантажені."
+
+#: ../../source/agreementcfaua/tutorial.rst:183
+msgid ""
+"In case we made an error, we can reupload the document over the older "
+"version:"
+msgstr "У випадку помилки, можна заново завантажити документ поверх старої версії:"
+
+#: ../../source/agreementcfaua/tutorial.rst:188
+msgid "And we can see that it is overriding the original version:"
+msgstr "І можна побачити, що цей документ переважає оригінальну версію:"
+
+#: ../../source/agreementcfaua/tutorial.rst:198
+msgid "Completing agreement"
+msgstr "Завершення угоди"
+
+#: ../../source/agreementcfaua/tutorial.rst:200
+msgid ""
+"Agreement can be completed by switching to ``terminated`` status. Let's "
+"perform these actions in single request:"
+
+msgstr ""
+"Угода може бути завершена переходом в статус ``terminated``. Давайте "
+"виконаємо ці дії одним запитом:"
+
+#: ../../source/agreementcfaua/tutorial.rst:206
+
+msgid ""
+"If agreement is unsuccessful reasons for termination "
+"``terminationDetails`` should be specified."
+
+msgstr ""
+"Якщо угода неуспішна, причини припинення угоди повинні бути вказані в "
+"полі ``terminationDetails``."
+
+#: ../../source/agreementcfaua/tutorial.rst:208
+msgid "Any future modification to the agreement are not allowed."
+msgstr "Будь-які майбутні зміни в угоді не дозволяються."
+
+#: ../../source/agreementcfaua/tutorial.rst:211
+msgid ""
+"It may be useful to see top requirements: `Test Cases for III level of "
+"accreditation "
+"<https://docs.google.com/spreadsheets/d/1-AT2RjbnSFAP75x6YNDvhKeN2Cy3tMlG6kb0tt6FScs/edit#gid=0>`_"
+" and `Test Cases for IV level of accreditation "
+"<https://docs.google.com/spreadsheets/d/1-93kcQ2EeuUU08aqPMDwMeAjnG2SGnEEh5RtjHWOlOY/edit#gid=0>`_."
+
+msgstr ""
+"Можливо, буде корисно побачити актуальні вимоги: `Сценарії ручного "
+"тестування для III рівня акредитації "
+"<https://docs.google.com/spreadsheets/d/1-AT2RjbnSFAP75x6YNDvhKeN2Cy3tMlG6kb0tt6FScs/edit#gid=0>`_"
+" і `Сценарії ручного тестування для IV рівня акредитації "
+"<https://docs.google.com/spreadsheets/d/1-93kcQ2EeuUU08aqPMDwMeAjnG2SGnEEh5RtjHWOlOY/edit#gid=0>`_."
