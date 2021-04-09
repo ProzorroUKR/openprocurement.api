@@ -81,9 +81,10 @@ class QualificationResource(APIResource):
         agreementID = framework_data.get("agreementID")
         if agreementID:
             agreement = get_agreement_by_id(db, agreementID)
-            self.request.validated["agreement_src"] = agreement
-            self.request.validated["agreement"] = Agreement(agreement)
-            self.request.validated["agreement"].__parent__ = self.request.validated["qualification"].__parent__
+            agreement = Agreement(agreement)
+            agreement.__parent__ = self.request.validated["qualification"].__parent__
+            self.request.validated["agreement"] = agreement
+            self.request.validated["agreement_src"] = agreement.serialize("plain")
         else:
             agreement_id = generate_id()
             now = get_now()
@@ -92,7 +93,7 @@ class QualificationResource(APIResource):
             agreement_data = {
                 "id": agreement_id,
                 "agreementID": generate_agreementID(get_now(), db, self.server_id),
-                "frameworkID": framework_data["_id"],
+                "frameworkID": framework_data["id"],
                 "agreementType": framework_data["frameworkType"],
                 "status": "active",
                 "period": {
@@ -131,7 +132,7 @@ class QualificationResource(APIResource):
                     self.request, data=framework_data_updated, src=self.request.validated["framework_src"],
                     obj_name="framework"
                 )
-                self.LOGGER.info("Updated framework {} with agreementID".format(framework_data["_id"]),
+                self.LOGGER.info("Updated framework {} with agreementID".format(framework_data["id"]),
                                  extra=context_unpack(self.request, {"MESSAGE_ID": "qualification_patch"}))
 
     def create_agreement_contract(self):

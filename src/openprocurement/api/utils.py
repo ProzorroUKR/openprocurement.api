@@ -826,7 +826,8 @@ class DecimalEncoder(json.JSONEncoder):
 
 
 def couchdb_json_decode():
-    my_encode = lambda obj, dumps=dumps: dumps(obj, cls=DecimalEncoder)
+    def my_encode(obj, dumps=dumps):
+        return dumps(obj, cls=DecimalEncoder)
 
     def my_decode(string_):
         if isinstance(string_, util.btype):

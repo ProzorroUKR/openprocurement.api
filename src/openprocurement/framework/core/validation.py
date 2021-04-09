@@ -36,9 +36,9 @@ def validate_patch_framework_data(request, **kwargs):
     framework = request.validated["framework"]
     if framework.agreementID:
         agreement = get_agreement_by_id(request.registry.db, framework.agreementID)
-        request.validated["agreement_src"] = agreement
-        request.validated["agreement"] = Agreement(agreement)
-        request.validated["agreement"].__parent__ = framework.__parent__
+        request.validated["agreement"] = agreement = Agreement(agreement)
+        agreement.__parent__ = framework.__parent__
+        request.validated["agreement_src"] = agreement.serialize("plain")
     return data
 
 
@@ -192,9 +192,10 @@ def validate_patch_qualification_data(request, **kwargs):
             request,
             "frameworkID must be one of existing frameworks",
         )
-    request.validated["framework_src"] = framework
-    request.validated["framework"] = Framework(framework)
-    request.validated["framework"].__parent__ = qualification.__parent__
+    framework = Framework(framework)
+    framework.__parent__ = qualification.__parent__
+    request.validated["framework_src"] = framework.serialize("plain")
+    request.validated["framework"] = framework
     return validate_data(request, type(request.qualification), True, data)
 
 
