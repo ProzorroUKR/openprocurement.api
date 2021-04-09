@@ -115,6 +115,7 @@ cleanup:
     action: start
     url: http://api.${CI_COMMIT_REF_SLUG}.${K8S_DOMAIN}/api/2.5/tenders
     on_stop: stop_review
+    auto_stop_in: 1 month 
   dependencies:
     - build
   only:
@@ -259,8 +260,10 @@ docs:
     max: 2
     when: runner_system_failure
   variables:
-    KUBERNETES_CPU_REQUEST: 100m
-    KUBERNETES_MEMORY_REQUEST: 500Mi
+    KUBERNETES_CPU_REQUEST: 1000m
+    KUBERNETES_MEMORY_REQUEST: 200Mi
+    KUBERNETES_CPU_LIMIT: 1500m
+    KUBERNETES_MEMORY_LIMIT: 1500Mi
 
 .test:
   extends: .test_base
