@@ -23,6 +23,7 @@ from openprocurement.tender.openua.tests.tender_blanks import (
     create_tender_generated,
     tender_with_main_procurement_category,
     tender_finance_milestones,
+    create_tender_with_criteria_lcc,
 )
 from openprocurement.tender.simpledefense.models import Tender
 
@@ -69,6 +70,7 @@ class TenderUAResourceTest(BaseSimpleDefWebTest, TenderResourceTestMixin):
     test_tender_minimalstep_validation = snitch(tender_minimalstep_validation)
     test_patch_tender_minimalstep_validation = snitch(patch_tender_minimalstep_validation)
     test_patch_item_with_zero_quantity = snitch(patch_item_with_zero_quantity)
+    test_create_tender_with_criteria_lcc = snitch(create_tender_with_criteria_lcc)
 
 
 class TenderUAProcessTest(BaseSimpleDefWebTest, TenderUaProcessTestMixin):

@@ -40,7 +40,6 @@ X-Content-Type-Options: nosniff
       }
     ],
     "procurementMethod": "open",
-    "awardCriteria": "lowestCost",
     "submissionMethod": "electronicAuction",
     "value": {
       "amount": 500.0,
@@ -52,6 +51,7 @@ X-Content-Type-Options: nosniff
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
+    "awardCriteria": "lowestCost",
     "procurementMethodType": "aboveThresholdEU",
     "title_en": "Services in school canteens",
     "enquiryPeriod": {

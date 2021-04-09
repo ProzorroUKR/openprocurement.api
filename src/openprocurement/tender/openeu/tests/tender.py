@@ -25,6 +25,7 @@ from openprocurement.tender.openua.tests.tender import TenderUAResourceTestMixin
 from openprocurement.tender.openua.tests.tender_blanks import (
     tender_with_main_procurement_category,
     tender_finance_milestones,
+    create_tender_with_criteria_lcc,
 )
 from openprocurement.tender.openeu.tests.base import test_tender_data, BaseTenderWebTest, test_lots, test_bids
 from openprocurement.tender.openeu.tests.tender_blanks import (
@@ -72,6 +73,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUARes
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
     test_tender_minimalstep_validation = snitch(tender_minimalstep_validation)
     test_patch_tender_minimalstep_validation = snitch(patch_tender_minimalstep_validation)
+    test_create_tender_with_criteria_lcc = snitch(create_tender_with_criteria_lcc)
 
     def test_patch_not_author(self):
         response = self.app.post_json("/tenders", {"data": test_tender_data})

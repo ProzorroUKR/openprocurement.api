@@ -33,6 +33,7 @@ from openprocurement.tender.core.models import (
     Feature as BaseFeature,
     BaseLot,
     FeatureValue as BaseFeatureValue,
+    AWARD_CRITERIA_RATED_CRITERIA,
 )
 from openprocurement.tender.core.models import (
     get_tender,
@@ -558,7 +559,10 @@ class Tender(BaseTender):
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
     hasEnquiries = BooleanType()  # A Yes/No field as to whether enquiries were part of tender process.
-    awardCriteria = StringType(default="ratedCriteria")
+    awardCriteria = StringType(
+        choices=[AWARD_CRITERIA_RATED_CRITERIA],
+        default=AWARD_CRITERIA_RATED_CRITERIA
+    )
     awardPeriod = ModelType(Period)  # The date or period on which an award is anticipated to be made.
     numberOfBidders = IntType()  # The number of unique tenderers who participated in the tender
     bids = SifterListType(

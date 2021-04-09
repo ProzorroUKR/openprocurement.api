@@ -101,6 +101,13 @@ def get_particular_parent(item, model):
     return item
 
 
+def get_particular_parent_by_namespace(item, model_namespace):
+    """ traverse back to particular parent
+    """
+    while not item._options.namespace == model_namespace:
+        item = item.__parent__
+    return item
+
 def generate_id():
     return uuid4().hex
 

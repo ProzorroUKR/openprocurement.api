@@ -5,12 +5,15 @@ from datetime import timedelta
 import mock
 
 from openprocurement.api.utils import get_now
+from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.belowthreshold.tests.base import (
     test_criteria,
     test_requirement_groups,
     language_criteria,
 )
-
+from openprocurement.tender.openua.tests.base import (
+    lcc_criteria,
+)
 
 def create_tender_criteria_valid(self):
 
@@ -1454,3 +1457,189 @@ def validate_requirement_evidence_document(self):
         [{'description': ['relatedDocument.id should be one of tender documents'],
           'location': 'body', 'name': 'relatedDocument'}],
     )
+
+
+def lcc_criterion_valid(self):
+    # create lcc tender draft
+    data = dict(**self.initial_data)
+    data["awardCriteria"] = "lifeCycleCost"
+    data["status"] = "draft"
+    response = self.app.post_json("/tenders", {"data": data})
+    self.assertEqual(response.status, "201 Created")
+    tender = response.json["data"]
+    self.assertEqual(tender["awardCriteria"], data["awardCriteria"])
+    self.tender_token = response.json["access"]["token"]
+    self.tender_id = tender["id"]
+
+    # add mandatory criteria
+    add_criteria(self)
+
+    # post lcc criteria 1 item
+    test_lcc_criteria = deepcopy(lcc_criteria)
+    criteria_request_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
+    response = self.app.post_json(criteria_request_path, {"data": [test_lcc_criteria[0]]}, status=201)
+
+    # patch tender to active.tendering
+    tender_request_path = "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token)
+    response = self.app.patch_json(
+        tender_request_path,
+        {"data": {
+            "status": "active.tendering"
+        }}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "active.tendering")
+
+    # post lcc criteria 3 items
+    response = self.app.post_json(criteria_request_path, {"data": test_lcc_criteria[1:4]}, status=201)
+    criteria_id = response.json["data"][0]["id"]
+    requirement_group_id = response.json["data"][0]["requirementGroups"][0]["id"]
+    requirement_id = response.json["data"][0]["requirementGroups"][0]["requirements"][0]["id"]
+
+    # patch lcc criteria:rgs:r:status = cancelled
+    requirement_request_path = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}".format(
+        self.tender_id,
+        criteria_id,
+        requirement_group_id,
+        requirement_id,
+        self.tender_token,
+    )
+    response = self.app.patch_json(
+        requirement_request_path,
+        {"data": {
+            "status": "cancelled"
+        }}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "cancelled")
+
+    # post criteria:rgs:r:evidence {data}
+    evidences_request_path = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences?acc_token={}".format(
+        self.tender_id,
+        criteria_id,
+        requirement_group_id,
+        requirement_id,
+        self.tender_token,
+    )
+    evidence_data = {
+        "description": "Довідка в довільній формі",
+        "type": "document",
+        "title": "Документальне підтвердження",
+    }
+    response = self.app.post_json(
+        evidences_request_path,
+        {"data": evidence_data}
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["description"], evidence_data["description"])
+    self.assertEqual(response.json["data"]["type"], evidence_data["type"])
+    self.assertEqual(response.json["data"]["title"], evidence_data["title"])
+    evidence_id = response.json["data"]["id"]
+
+    # patch criteria:rgs:r:evidence {data}
+    evidence_request_path = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}/evidences/{}?acc_token={}".format(
+        self.tender_id,
+        criteria_id,
+        requirement_group_id,
+        requirement_id,
+        evidence_id,
+        self.tender_token,
+    )
+    new_evidence_data = {
+        "description": "new description",
+        "type": "statement",
+        "title": "new_title",
+    }
+    response = self.app.patch_json(
+        evidence_request_path,
+        {"data": new_evidence_data}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["description"], new_evidence_data["description"])
+    self.assertEqual(response.json["data"]["type"], new_evidence_data["type"])
+    self.assertEqual(response.json["data"]["title"], new_evidence_data["title"])
+
+
+def lcc_criterion_invalid(self):
+    # create lcc tender draft
+    data = dict(**self.initial_data)
+    data["awardCriteria"] = "lifeCycleCost"
+    data["status"] = "draft"
+    response = self.app.post_json("/tenders", {"data": data})
+    self.assertEqual(response.status, "201 Created")
+    tender = response.json["data"]
+    self.tender_token = response.json["access"]["token"]
+    self.tender_id = tender["id"]
+    item_id = tender["items"][0]["id"]
+
+    # post lcc criteria 1 item
+    for restricted_relatesTo_choice in ["item", "tenderer"]:
+        test_lcc_criteria = deepcopy(lcc_criteria)
+        test_lcc_criteria[0]["relatesTo"] = restricted_relatesTo_choice
+        if restricted_relatesTo_choice == "item":
+            test_lcc_criteria[0]["relatedItem"] = item_id
+
+        criteria_request_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
+
+        response = self.app.post_json(criteria_request_path, {"data": [test_lcc_criteria[0]]}, status=422)
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [{
+                "location": "body",
+                "name": 0,
+                "description": {
+                    "relatesTo": [
+                        "{} criteria relatesTo should be `tender` if tender has no lots"
+                        .format(test_lcc_criteria[0]["classification"]["id"])
+                    ]
+                }
+            }]
+        )
+
+    # create lcc tender draft with lots
+    data = dict(**self.initial_data)
+    data["awardCriteria"] = "lifeCycleCost"
+    data["status"] = "draft"
+    data["lots"] = self.initial_lots
+    response = self.app.post_json("/tenders", {"data": data})
+    self.assertEqual(response.status, "201 Created")
+    tender = response.json["data"]
+    self.tender_token = response.json["access"]["token"]
+    self.tender_id = tender["id"]
+    item_id = tender["items"][0]["id"]
+
+    # post lcc criteria 1 item
+    for restricted_relatesTo_choice in ["tender", "item", "tenderer"]:
+        test_lcc_criteria = deepcopy(lcc_criteria)
+        test_lcc_criteria[0]["relatesTo"] = restricted_relatesTo_choice
+        if restricted_relatesTo_choice == "item":
+            test_lcc_criteria[0]["relatedItem"] = item_id
+
+        criteria_request_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
+
+        response = self.app.post_json(criteria_request_path, {"data": [test_lcc_criteria[0]]}, status=422)
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [{
+                "location": "body",
+                "name": 0,
+                "description": {
+                    "relatesTo": [
+                        "{} criteria relatesTo should be `lot` if tender has lots"
+                        .format(
+                            test_lcc_criteria[0]["classification"]["id"],
+                        )
+                    ]
+                }
+            }]
+        )

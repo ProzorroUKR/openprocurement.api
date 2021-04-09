@@ -16,6 +16,8 @@ from openprocurement.tender.openua.tests.criterion_blanks import (
     patch_tender_criteria_invalid,
     get_tender_criteria,
     activate_tender,
+    lcc_criterion_valid,
+    lcc_criterion_invalid,
     # RequirementGroup
     create_criteria_rg,
     patch_criteria_rg,
@@ -134,7 +136,13 @@ class TenderCriteriaRGRequirementEvidenceTestMixin(object):
         self.exclusion_requirement_id = response.json["data"][0]["requirementGroups"][0]["requirements"][0]["id"]
 
 
-class TenderUACriteriaTest(TenderCriteriaTestMixin, BaseTenderUAContentWebTest):
+@patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
+class TenderCriteriaLccTestMixin(object):
+    test_lcc_criterion_valid = snitch(lcc_criterion_valid)
+    test_lcc_criterion_invalid = snitch(lcc_criterion_invalid)
+
+
+class TenderUACriteriaTest(TenderCriteriaTestMixin, TenderCriteriaLccTestMixin, BaseTenderUAContentWebTest):
     initial_data = test_tender_data
     initial_lots = test_lots
     initial_status = "draft"

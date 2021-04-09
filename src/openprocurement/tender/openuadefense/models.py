@@ -12,13 +12,18 @@ from openprocurement.api.models import (
     ContactPoint as BaseContactPoint,
     SifterListType,
 )
-from openprocurement.api.constants import TZ, NEW_DEFENSE_COMPLAINTS_FROM, NEW_DEFENSE_COMPLAINTS_TO
+from openprocurement.api.constants import (
+    TZ,
+    NEW_DEFENSE_COMPLAINTS_FROM,
+    NEW_DEFENSE_COMPLAINTS_TO,
+)
 from openprocurement.tender.core.models import (
     ProcuringEntity as BaseProcuringEntity,
     EnquiryPeriod,
     LotWithMinimalStepLimitsValidation as BaseLot,
     validate_lots_uniq,
     get_tender,
+    AWARD_CRITERIA_LOWEST_COST,
 )
 from openprocurement.tender.openua.models import (
     Tender as BaseTender,
@@ -112,6 +117,10 @@ class Bid(BaseUaBid):
 class Tender(BaseTender):
     """Data regarding tender process - publicly inviting prospective contractors to submit bids for evaluation and selecting a winner or winners."""
 
+    awardCriteria = StringType(
+        choices=[AWARD_CRITERIA_LOWEST_COST],
+        default=AWARD_CRITERIA_LOWEST_COST
+    )
     procuringEntity = ModelType(
         ProcuringEntity, required=True
     )  # The entity managing the procurement, which may be different from the buyer who is paying / using the items
@@ -124,6 +133,10 @@ class Tender(BaseTender):
     )
 
     cancellations = ListType(ModelType(Cancellation, required=True), default=list())
+
+    def validate_awardCriteria(self, data, value):
+        # for deactivate validation of awardCriteria from parent class
+        return
 
     def validate_tenderPeriod(self, data, period):
         if period:

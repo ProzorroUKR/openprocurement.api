@@ -33,6 +33,7 @@ from openprocurement.tender.core.models import (
     Lot as BaseLotUA,
     EUConfidentialDocument,
     ConfidentialDocumentModelType,
+    AWARD_CRITERIA_LOWEST_COST,
 )
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.openua.models import Item as BaseUAItem, Tender as BaseTenderUA
@@ -229,6 +230,10 @@ LotStage1 = Lot
 
 @implementer(ICDEUTender)
 class CompetitiveDialogEU(BaseTenderEU):
+    awardCriteria = StringType(
+        choices=[AWARD_CRITERIA_LOWEST_COST],
+        default=AWARD_CRITERIA_LOWEST_COST
+    )
     procurementMethodType = StringType(default=CD_EU_TYPE)
     status = StringType(
         choices=[
@@ -330,6 +335,10 @@ class CompetitiveDialogEU(BaseTenderEU):
 
         self._acl_cancellation_complaint(acl)
         return acl
+
+    def validate_awardCriteria(self, data, value):
+        # for deactivate validation of awardCriteria from parent class
+        return
 
     def validate_features(self, data, features):
         validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)
@@ -483,6 +492,10 @@ class Contract(BaseTenderEU.contracts.model_class):
 
 @implementer(ICDEUStage2Tender)
 class TenderStage2EU(BaseTenderEU):
+    awardCriteria = StringType(
+        choices=[AWARD_CRITERIA_LOWEST_COST],
+        default=AWARD_CRITERIA_LOWEST_COST
+    )
     procurementMethodType = StringType(default=STAGE_2_EU_TYPE)
     dialogue_token = StringType(required=True)
     dialogueID = StringType()
@@ -584,6 +597,10 @@ class TenderStage2EU(BaseTenderEU):
         self._acl_cancellation_complaint(acl)
         return acl
 
+    def validate_awardCriteria(self, data, value):
+        # for deactivate validation of awardCriteria from parent class
+        return
+
     def validate_features(self, data, features):
         validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)
 
@@ -608,6 +625,10 @@ class Contract(BaseTenderUA.contracts.model_class):
 
 @implementer(ICDUAStage2Tender)
 class TenderStage2UA(BaseTenderUA):
+    awardCriteria = StringType(
+        choices=[AWARD_CRITERIA_LOWEST_COST],
+        default=AWARD_CRITERIA_LOWEST_COST
+    )
     procurementMethodType = StringType(default=STAGE_2_UA_TYPE)
     dialogue_token = StringType(required=True)
     dialogueID = StringType()
@@ -654,6 +675,10 @@ class TenderStage2UA(BaseTenderUA):
         acl = stage2__acl__(self)
         self._acl_cancellation_complaint(acl)
         return acl
+
+    def validate_awardCriteria(self, data, value):
+        # for deactivate validation of awardCriteria from parent class
+        return
 
     def validate_features(self, data, features):
         validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)

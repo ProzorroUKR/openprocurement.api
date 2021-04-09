@@ -864,7 +864,6 @@ def tender_owner_cannot_change_in_draft(self):
         "procurementMethodType": "belowThreshold",
         "procurementMethod": "selective",
         "submissionMethod": "written",
-        "awardCriteria": "bestProposal",
         "mode": "test"
     }
     owner = {
@@ -900,7 +899,6 @@ def tender_owner_cannot_change_in_draft(self):
     self.assertNotEqual(tender.get("procurementMethodType"), general["procurementMethodType"])
     self.assertEqual(tender.get("procurementMethod"), general["procurementMethod"])
     self.assertNotEqual(tender.get("submissionMethod"), general["submissionMethod"])
-    self.assertNotEqual(tender.get("awardCriteria"), general["awardCriteria"])
     self.assertNotEqual(tender.get("mode"), general["mode"])
 
     # owner

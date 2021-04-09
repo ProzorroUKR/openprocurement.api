@@ -137,7 +137,6 @@ X-Content-Type-Options: nosniff
       }
     ],
     "procurementMethod": "open",
-    "awardCriteria": "lowestCost",
     "submissionMethod": "electronicAuction",
     "value": {
       "amount": 500.0,
@@ -170,6 +169,7 @@ X-Content-Type-Options: nosniff
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
+    "awardCriteria": "lowestCost",
     "enquiryPeriod": {
       "startDate": "2021-03-27T00:00:02+02:00",
       "endDate": "2021-04-06T00:00:00+02:00",

@@ -39,6 +39,7 @@ from openprocurement.tender.openua.tests.tender_blanks import (
     activate_bid_after_adding_lot,
     first_bid_tender,
     lost_contract_for_active_award,
+    create_tender_with_criteria_lcc,
 )
 from openprocurement.tender.openua.models import Tender
 
@@ -80,6 +81,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderU
     test_tender_milestones_required = snitch(tender_milestones_required)
     test_tender_minimalstep_validation = snitch(tender_minimalstep_validation)
     test_patch_tender_minimalstep_validation = snitch(patch_tender_minimalstep_validation)
+    test_create_tender_with_criteria_lcc = snitch(create_tender_with_criteria_lcc)
 
 
 class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):

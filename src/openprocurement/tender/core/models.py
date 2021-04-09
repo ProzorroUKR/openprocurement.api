@@ -68,6 +68,7 @@ from openprocurement.tender.core.constants import (
     COMPLAINT_ENHANCED_AMOUNT_RATE,
     COMPLAINT_ENHANCED_MIN_AMOUNT,
     COMPLAINT_ENHANCED_MAX_AMOUNT,
+    CRITERION_LIFE_CYCLE_COST_IDS,
 )
 from openprocurement.tender.core.utils import (
     normalize_should_start_after,
@@ -101,6 +102,10 @@ from logging import getLogger
 LOGGER = getLogger(__name__)
 
 DEFAULT_REQUIREMENT_STATUS = "active"
+
+AWARD_CRITERIA_LOWEST_COST = "lowestCost"
+AWARD_CRITERIA_LIFE_CYCLE_COST = "lifeCycleCost"
+AWARD_CRITERIA_RATED_CRITERIA = "ratedCriteria"
 
 view_bid_role = blacklist("owner_token", "owner", "transfer_token") + schematics_default_role
 Administrator_bid_role = whitelist("tenderers")
@@ -771,12 +776,14 @@ class LegislationItem(Model):
 
 class Requirement(Model):
     class Options:
+        namespace = "Requirement"
         roles = {
             "create": blacklist("datePublished", "dateModified"),
             "edit": whitelist("title", "title_en", "title_ru", "description", "description_en", "description_ru",
                               "dataType", "minValue", "maxValue", "period", "eligibleEvidences", "relatedFeature",
                               "expectedValue", "status"),
             "edit_exclusion": whitelist("eligibleEvidences", "status"),
+            "edit_lcc": whitelist("eligibleEvidences", "status"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
             "view_old": whitelist("id", "status", "datePublished", "dateModified")
@@ -814,6 +821,8 @@ class Requirement(Model):
         role = "edit"
         if criterion.classification.id.startswith("CRITERION.EXCLUSION"):
             role = "edit_exclusion"
+        if criterion.classification.id in CRITERION_LIFE_CYCLE_COST_IDS:
+            role = "edit_lcc"
         return role
 
     def validate_minValue(self, data, value):
@@ -875,6 +884,7 @@ class Requirement(Model):
 
 class RequirementGroup(Model):
     class Options:
+        namespace = "RequirementGroup"
         roles = {
             "create": blacklist(),
             "edit": blacklist("id"),
@@ -894,9 +904,8 @@ class RequirementGroup(Model):
 class CriterionClassification(BaseClassification):
     description = StringType()
 
-    def validate_id(self, data, code):
-        parent = data["__parent__"]
-        tender = get_tender(parent)
+    @staticmethod
+    def _validate_guarantee_id(code, tender):
         tender_created = get_first_revision_date(tender, default=get_now())
         criteria_to_check = ("CRITERION.OTHER.CONTRACT.GUARANTEE", "CRITERION.OTHER.BID.GUARANTEE")
 
@@ -907,9 +916,30 @@ class CriterionClassification(BaseClassification):
         ):
             raise ValidationError(u"{} is available only in {}".format(code, GUARANTEE_ALLOWED_TENDER_TYPES))
 
+    @staticmethod
+    def _validate_lcc_id(code, tender):
+        if (
+            code in CRITERION_LIFE_CYCLE_COST_IDS
+            and tender.awardCriteria != AWARD_CRITERIA_LIFE_CYCLE_COST
+        ):
+            raise ValidationError(
+                "{} is available only with {} awardCriteria"
+                .format(
+                    code,
+                    AWARD_CRITERIA_LIFE_CYCLE_COST
+                )
+            )
+
+    def validate_id(self, data, code):
+        parent = data["__parent__"]
+        tender = get_tender(parent)
+        self._validate_guarantee_id(code, tender)
+        self._validate_lcc_id(code, tender)
+
 
 class Criterion(Model):
     class Options:
+        namespace = "Criterion"
         roles = {
             "create": blacklist(),
             "edit": blacklist(
@@ -949,6 +979,43 @@ class Criterion(Model):
         if get_first_revision_date(tender, default=get_now()) > RELEASE_GUARANTEE_CRITERION_FROM:
             if not value:
                 raise ValidationError("This field is required.")
+
+    def _all_requirements_cancelled(self):
+        return all([
+            requirement.get("status", "") == "cancelled"
+            for requirement_group in self.get("requirementGroups", [])
+            for requirement in requirement_group.get("requirements", [])
+        ])
+
+    def validate_relatesTo(self, data, relatesTo):
+        parent = data["__parent__"]
+        tender = get_tender(parent)
+
+        if get_first_revision_date(tender, default=get_now()) > RELEASE_GUARANTEE_CRITERION_FROM:
+            if not relatesTo:
+                raise ValidationError("This field is required.")
+
+        if (
+            data.get("classification")
+            and data["classification"]["id"] in CRITERION_LIFE_CYCLE_COST_IDS
+        ):
+            if (
+                not tender.get("lots")
+                and relatesTo != "tender"
+            ):
+                raise ValidationError(
+                    "{} criteria relatesTo should be `tender` if tender has no lots"
+                    .format(data["classification"]["id"])
+                )
+
+            if (
+                tender.get("lots")
+                and relatesTo != "lot"
+            ):
+                raise ValidationError(
+                    "{} criteria relatesTo should be `lot` if tender has lots"
+                    .format(data["classification"]["id"])
+                )
 
     def validate_relatedItem(self, data, relatedItem):
         if not relatedItem and data.get("relatesTo") in ["item", "lot"]:
@@ -2218,8 +2285,9 @@ class Tender(BaseTender):
         choices=["open", "selective", "limited"], default="open"
     )  # Specify tendering method as per GPA definitions of Open, Selective, Limited (http://www.wto.org/english/docs_e/legal_e/rev-gpr-94_01_e.htm)
     awardCriteria = StringType(
-        choices=["lowestCost", "bestProposal", "bestValueToGovernment", "singleBidOnly"], default="lowestCost"
-    )  # Specify the selection criteria, by lowest cost,
+        choices=[AWARD_CRITERIA_LOWEST_COST],
+        default=AWARD_CRITERIA_LOWEST_COST
+    )
     awardCriteriaDetails = StringType()  # Any detailed or further information on the selection criteria.
     awardCriteriaDetails_en = StringType()
     awardCriteriaDetails_ru = StringType()

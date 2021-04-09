@@ -64,6 +64,10 @@ test_features_tender_ua_data["tenderPeriod"] = {"endDate": (now + timedelta(days
 test_features_tender_ua_data["items"][0]["deliveryDate"] = test_tender_data["items"][0]["deliveryDate"]
 test_features_tender_ua_data["items"][0]["deliveryAddress"] = test_tender_data["items"][0]["deliveryAddress"]
 
+current_dir = os.path.dirname(os.path.abspath(__file__))
+with open(os.path.join(current_dir, "data", "lcc_criteria.json")) as json_file:
+    lcc_criteria = json.load(json_file)
+
 
 class BaseApiWebTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
