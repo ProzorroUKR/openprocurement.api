@@ -19,12 +19,14 @@ test_framework_data = {
 class BaseFrameworkTest(BaseApiWebTest):
     relative_to = os.path.dirname(__file__)
     docservice = False
+    database_keys = ("frameworks", "submissions", "qualifications", "agreements")
 
 
 class BaseCoreWebTest(BaseWebTest):
     initial_data = None
     initial_status = None
     docservice = False
+    database_keys = ("frameworks", "submissions", "qualifications", "agreements")
 
     framework_id = None
 
@@ -38,7 +40,7 @@ class BaseCoreWebTest(BaseWebTest):
 
     def set_status(self, status, extra=None):
         self.now = get_now()
-        self.framework_document = self.db.get(self.framework_id)
+        self.framework_document = self.databases.frameworks.get(self.framework_id)
         self.framework_document_patch = {"status": status}
         self.update_periods(status)
         if extra:
@@ -66,8 +68,8 @@ class BaseCoreWebTest(BaseWebTest):
         if self.framework_document_patch:
             patch = apply_data_patch(self.framework_document, self.framework_document_patch)
             self.framework_document.update(patch)
-            self.db.save(self.framework_document)
-            self.framework_document = self.db.get(self.framework_id)
+            self.databases.frameworks.save(self.framework_document)
+            self.framework_document = self.databases.frameworks.get(self.framework_id)
             self.framework_document_patch = {}
 
     def get_framework(self, role):
@@ -89,14 +91,11 @@ class BaseCoreWebTest(BaseWebTest):
 
     def delete_framework(self):
         if self.framework_id:
-            self.db.delete(self.db[self.framework_id])
+            db = self.databases.frameworks
+            db.delete(db[self.framework_id])
 
 
 class BaseAgreementTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
     docservice = False
-
-
-class BaseAgreementTest(BaseWebTest):
-    relative_to = os.path.dirname(__file__)
-    docservice = False
+    database_keys = ("frameworks", "submissions", "qualifications", "agreements")

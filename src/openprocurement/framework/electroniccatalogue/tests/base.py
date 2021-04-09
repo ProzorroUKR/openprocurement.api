@@ -170,10 +170,12 @@ disqualification_milestone_data_with_documents = {
 class BaseApiWebTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
     initial_auth = ("Basic", ("broker", ""))
+    database_keys = ("frameworks", "submissions", "qualifications")
 
 
 class BaseElectronicCatalogueWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
+    database_keys = ("frameworks", "submissions", "qualifications")
     initial_data = test_electronicCatalogue_data
     framework_class = Framework
     docservice = False
@@ -213,7 +215,7 @@ class BaseSubmissionContentWebTest(ElectronicCatalogueContentWebTest):
 
     def set_submission_status(self, status, extra=None):
         self.now = get_now()
-        self.submission_document = self.db.get(self.submission_id)
+        self.submission_document = self.databases.submissions.get(self.submission_id)
         self.submission_document_patch = {"status": status}
         if extra:
             self.submission_document_patch.update(extra)
@@ -224,8 +226,8 @@ class BaseSubmissionContentWebTest(ElectronicCatalogueContentWebTest):
         if self.submission_document_patch:
             patch = apply_data_patch(self.submission_document, self.submission_document_patch)
             self.submission_document.update(patch)
-            self.db.save(self.submission_document)
-            self.submission_document = self.db.get(self.submission_id)
+            self.databases.submissions.save(self.submission_document)
+            self.submission_document = self.databases.submissions.get(self.submission_id)
             self.submission_document_patch = {}
 
     def create_submission(self):
@@ -259,7 +261,7 @@ class SubmissionContentWebTest(BaseSubmissionContentWebTest):
 class BaseAgreementContentWebTest(SubmissionContentWebTest):
     def set_agreement_status(self, status, extra=None):
         self.now = get_now()
-        self.agreement_document = self.db.get(self.agreement_id)
+        self.agreement_document = self.databases.agreements.get(self.agreement_id)
         self.agreement_document_patch = {"status": status}
         if extra:
             self.agreement_document_patch.update(extra)
@@ -270,8 +272,8 @@ class BaseAgreementContentWebTest(SubmissionContentWebTest):
         if self.agreement_document_patch:
             patch = apply_data_patch(self.agreement_document, self.agreement_document_patch)
             self.agreement_document.update(patch)
-            self.db.save(self.agreement_document)
-            self.agreement_document = self.db.get(self.agreement_id)
+            self.databases.agreements.save(self.agreement_document)
+            self.agreement_document = self.databases.agreements.get(self.agreement_id)
             self.agreement_document_patch = {}
 
     def get_agreement(self, role):
@@ -293,7 +295,7 @@ class BaseAgreementContentWebTest(SubmissionContentWebTest):
 
     def set_contract_status(self, status):
         self.now = get_now()
-        self.agreement_document = self.db.get(self.agreement_id)
+        self.agreement_document = self.databases.agreements.get(self.agreement_id)
         self.agreement_document_patch = deepcopy(self.agreement_document)
         for contract in self.agreement_document_patch["contracts"]:
             if contract["id"] == self.contract_id:

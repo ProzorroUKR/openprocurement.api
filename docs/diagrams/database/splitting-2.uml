@@ -1,0 +1,70 @@
+@startuml
+
+
+package A {
+
+    database "Openprocurement 1" as OP1
+
+    database "frameworks 1" as f1
+    database "frameworks 1.1" as f11
+    f1 --> f11
+
+    database "Openprocurement 1.1" as PUB1
+    OP1 --> PUB1
+}
+
+component "Concord A" as CONA
+CONA <--> OP1
+
+component "Concord A\n frameworks" as CONAF
+CONAF <--> f1
+
+
+package B {
+
+    database "Openprocurement 2" as OP2
+    database "Openprocurement 2.1" as PUB2
+
+
+    OP2 --> PUB2
+
+    database "frameworks 2" as f2
+    database "frameworks 2.1" as f21
+
+    f1 <--> f2
+    f2 --> f21
+}
+
+component "Concord B" as CONB
+CONB <--> OP2
+
+component "Concord B\n frameworks" as CONBF
+CONBF <--> f2
+
+package C {
+
+    database "Openprocurement 3" as OP3
+    database "Openprocurement 3.1" as PUB3
+    OP3 -d-> PUB3
+    
+
+    database "frameworks 3" as f3
+    database "frameworks 31" as f31
+    f1 <--> f3
+    f2 <--> f3
+    f3 --> f31
+}
+
+component "Concord C" as CONC
+CONC <--> OP3
+
+component "Concord C\n frameworks" as CONCF
+CONCF <-l-> f3
+
+
+OP1 <--> OP2
+OP1 <--> OP3
+OP2 <--> OP3
+
+
+@enduml

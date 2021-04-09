@@ -10,7 +10,7 @@ def get_documents_list(self):
 
 
 def get_document_by_id(self):
-    documents = self.db.get(self.framework_id).get("documents")
+    documents = self.databases.frameworks.get(self.framework_id).get("documents")
     for doc in documents:
         response = self.app.get("/frameworks/{}/documents/{}".format(self.framework_id, doc["id"]))
         document = response.json["data"]
@@ -95,7 +95,7 @@ def create_framework_document_json_bulk(self):
     assert_document(doc_1, "name1.doc")
     assert_document(doc_2, "name2.doc")
 
-    framework = self.db.get(self.framework_id)
+    framework = self.databases.frameworks.get(self.framework_id)
     doc_1 = framework["documents"][0]
     doc_2 = framework["documents"][1]
     assert_document(doc_1, "name1.doc")
@@ -200,7 +200,7 @@ def put_contract_document(self):
         self.assertIn("KeyID=", response.json["data"]["url"])
         self.assertNotIn("Expires=", response.json["data"]["url"])
         key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        framework = self.db.get(self.framework_id)
+        framework = self.databases.frameworks.get(self.framework_id)
         self.assertIn(key, framework["documents"][-1]["url"])
         self.assertIn("Signature=", framework["documents"][-1]["url"])
         self.assertIn("KeyID=", framework["documents"][-1]["url"])
@@ -257,7 +257,7 @@ def put_contract_document(self):
         self.assertIn("KeyID=", response.json["data"]["url"])
         self.assertNotIn("Expires=", response.json["data"]["url"])
         key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        framework = self.db.get(self.framework_id)
+        framework = self.databases.frameworks.get(self.framework_id)
         self.assertIn(key, framework["documents"][-1]["url"])
         self.assertIn("Signature=", framework["documents"][-1]["url"])
         self.assertIn("KeyID=", framework["documents"][-1]["url"])

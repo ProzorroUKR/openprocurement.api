@@ -64,6 +64,7 @@ class FrameworkResource(APIResourceListing):
         self.serialize_func = obj_serialize
         self.object_name_for_listing = "Frameworks"
         self.log_message_id = "framework_list_custom"
+        self.db = request.registry.databases.frameworks
 
     @json_view(
         content_type="application/json",
@@ -233,6 +234,11 @@ class FrameworkSubmissionRequestResource(APIResourcePaginatedListing):
         "": submissions_by_framework_id_total_view,
     }
 
+    def __init__(self, request, context):
+        super(FrameworkSubmissionRequestResource, self).__init__(request, context)
+        # params for listing
+        self.db = request.registry.databases.submissions
+
 
 @frameworksresource(
     name='Framework Qualifications',
@@ -249,3 +255,8 @@ class FrameworkQualificationRequestResource(APIResourcePaginatedListing):
     views_total = {
         "": qualifications_by_framework_id_total_view,
     }
+
+    def __init__(self, request, context):
+        super(FrameworkQualificationRequestResource, self).__init__(request, context)
+        # params for listing
+        self.db = request.registry.databases.qualifications

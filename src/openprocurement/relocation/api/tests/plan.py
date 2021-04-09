@@ -13,6 +13,7 @@ class BasePlanOwnershipChangeTest(BaseWebTest):
     initial_data = test_plan_data
     first_owner = "brokerx"
     initial_auth = ("Basic", (first_owner, ""))
+    database_keys = ("transfers",)
 
     def setUp(self):
         super(BasePlanOwnershipChangeTest, self).setUp()
@@ -92,9 +93,9 @@ class PlanOwnershipChangeTest(BasePlanOwnershipChangeTest):
         # simulate half-applied transfer activation process (i.e. transfer
         # is successfully applied to a plan and relation is saved in transfer,
         # but plan is not stored with new credentials)
-        transfer_doc = self.db.get(transfer["id"])
+        transfer_doc = self.databases.transfers.get(transfer["id"])
         transfer_doc["usedFor"] = "/plans/" + plan["id"]
-        self.db.save(transfer_doc)
+        self.databases.transfers.save(transfer_doc)
         response = self.app.post_json(
             "/plans/{}/ownership".format(plan["id"]),
             {"data": {"id": transfer["id"], "transfer": access["transfer"]}},

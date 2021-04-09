@@ -9,7 +9,7 @@ def get_documents_list(self):
 
 
 def get_document_by_id(self):
-    documents = self.db.get(self.agreement_id).get("documents")
+    documents = self.databases.agreements.get(self.agreement_id).get("documents")
     for doc in documents:
         resp = self.app.get("/agreements/{}/documents/{}".format(self.agreement_id, doc["id"]))
         document = resp.json["data"]
@@ -125,7 +125,7 @@ def put_contract_document(self):
         self.assertIn("KeyID=", response.json["data"]["url"])
         self.assertNotIn("Expires=", response.json["data"]["url"])
         key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        contract = self.db.get(self.agreement_id)
+        contract = self.databases.agreements.get(self.agreement_id)
         self.assertIn(key, contract["documents"][-1]["url"])
         self.assertIn("Signature=", contract["documents"][-1]["url"])
         self.assertIn("KeyID=", contract["documents"][-1]["url"])
@@ -182,7 +182,7 @@ def put_contract_document(self):
         self.assertIn("KeyID=", response.json["data"]["url"])
         self.assertNotIn("Expires=", response.json["data"]["url"])
         key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        contract = self.db.get(self.agreement_id)
+        contract = self.databases.agreements.get(self.agreement_id)
         self.assertIn(key, contract["documents"][-1]["url"])
         self.assertIn("Signature=", contract["documents"][-1]["url"])
         self.assertIn("KeyID=", contract["documents"][-1]["url"])

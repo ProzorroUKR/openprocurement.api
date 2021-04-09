@@ -19,7 +19,7 @@ from nacl.encoding import HexEncoder
 from nacl.signing import SigningKey, VerifyKey
 from logging import getLogger
 from openprocurement.api.auth import AuthenticationPolicy, authenticated_role, check_accreditations
-from openprocurement.api.database import set_api_security
+from openprocurement.api.database import set_api_security, Databases
 from openprocurement.api.utils import forbidden, request_params, couchdb_json_decode, precondition, get_currency_rates
 from openprocurement.api.constants import ROUTE_PREFIX
 from pkg_resources import iter_entry_points
@@ -83,6 +83,19 @@ def main(global_config, **settings):
     if aserver:
         config.registry.admin_couchdb_server = aserver
     config.registry.db = db
+
+    # CouchDB specific databases connections
+    config.registry.databases = Databases(
+        admin_connection=aserver or server,
+        connection=server,
+        migrations=settings.get("couchdb.migrations_db_name"),
+        frameworks=settings.get("couchdb.frameworks_db_name"),
+        submissions=settings.get("couchdb.submissions_db_name"),
+        qualifications=settings.get("couchdb.qualifications_db_name"),
+        agreements=settings.get("couchdb.agreements_db_name"),
+        transfers=settings.get("couchdb.transfers_db_name"),
+    )
+
     # readjust couchdb json decoder
     couchdb_json_decode()
 

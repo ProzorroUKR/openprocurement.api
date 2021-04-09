@@ -14,6 +14,7 @@ class BaseContractOwnershipChangeTest(BaseWebTest):
     tender_token = test_contract_tender_token
     first_owner = "brokerx"
     initial_auth = ("Basic", (first_owner, ""))
+    database_keys = ("transfers",)
 
     def setUp(self):
         super(BaseContractOwnershipChangeTest, self).setUp()
@@ -112,9 +113,9 @@ class ContractOwnershipChangeTest(BaseContractOwnershipChangeTest):
         # simulate half-applied transfer activation process (i.e. transfer
         # is successfully applied to a contract and relation is saved in transfer,
         # but contract is not stored with new credentials)
-        transfer_doc = self.db.get(transfer["id"])
+        transfer_doc = self.databases.transfers.get(transfer["id"])
         transfer_doc["usedFor"] = "/contracts/" + contract["id"]
-        self.db.save(transfer_doc)
+        self.databases.transfers.save(transfer_doc)
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
             response = self.app.post_json(
                 "/contracts/{}/ownership".format(contract["id"]),

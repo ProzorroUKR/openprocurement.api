@@ -48,6 +48,7 @@ class SubmissionResource(APIResourceListing):
         self.FIELDS = SUBMISSION_FIELDS
         self.object_name_for_listing = "Submissions"
         self.log_message_id = "submission_list_custom"
+        self.db = request.registry.databases.submissions
 
     @json_view(
         content_type="application/json",

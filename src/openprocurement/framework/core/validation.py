@@ -35,7 +35,12 @@ def validate_patch_framework_data(request, **kwargs):
     data = validate_data(request, type(request.framework), True, data)
     framework = request.validated["framework"]
     if framework.agreementID:
-        agreement = get_agreement_by_id(request.registry.db, framework.agreementID)
+        agreement = get_agreement_by_id(request, framework.agreementID)
+        if not agreement:
+            raise_operation_error(
+                request,
+                "agreementID must be one of exists agreement",
+            )
         request.validated["agreement"] = agreement = Agreement(agreement)
         agreement.__parent__ = framework.__parent__
         request.validated["agreement_src"] = agreement.serialize("plain")
@@ -53,7 +58,7 @@ def validate_submission_data(request, **kwargs):
     data = validate_json_data(request)
     model = request.submission_from_data(data, create=False)
     data = validate_data(request, model, data=data)
-    framework = get_framework_by_id(request.registry.db, data["frameworkID"])
+    framework = get_framework_by_id(request, data["frameworkID"])
     if not framework:
         raise_operation_error(
             request,
@@ -68,7 +73,7 @@ def validate_patch_submission_data(request, **kwargs):
     data = validate_data(request, type(request.submission), True, data)
     submission = request.validated["submission"]
     framework_id = data.get("frameworkID", submission["frameworkID"])
-    framework = get_framework_by_id(request.registry.db, framework_id)
+    framework = get_framework_by_id(request, framework_id)
     if not framework:
         raise_operation_error(
             request,
@@ -147,20 +152,19 @@ def validate_document_operation_in_not_allowed_period(request, **kwargs):
 
 
 def validate_activate_submission(request, **kwargs):
-    db = request.registry.db
     submission = request.validated["submission"]
     old_status = submission.status
     new_status = request.validated["data"].get("status", old_status)
     if new_status != "active" or old_status == new_status:
         return
     key = [submission.frameworkID, submission.tenderers[0].identifier.id]
-    res = submissions_active_by_framework_id_count_view(db, key=key)
+    res = submissions_active_by_framework_id_count_view(request.registry.databases.submissions, key=key)
     if res:
         raise_operation_error(
             request,
             "Tenderer already have active submission for framework {}".format(submission.frameworkID)
         )
-    res = agreements_with_active_banned_contracts_view(db, key=key)
+    res = agreements_with_active_banned_contracts_view(request.registry.databases.agreements, key=key)
     if res:
         raise_operation_error(
             request,
@@ -175,8 +179,8 @@ def validate_qualification_data(request, **kwargs):
     data = validate_json_data(request)
     model = request.qualification_from_data(data, create=False)
     data = validate_data(request, model, data=data)
-    submission = get_submission_by_id(request.registry.db, data["submissionID"])
-    framework = get_framework_by_id(request.registry.db, data["frameworkID"])
+    submission = get_submission_by_id(request, data["submissionID"])
+    framework = get_framework_by_id(request, data["frameworkID"])
     request.validated["submission"] = submission
     request.validated["framework"] = framework
     return data
@@ -186,7 +190,7 @@ def validate_patch_qualification_data(request, **kwargs):
     data = validate_json_data(request)
     qualification = request.validated["qualification"]
     framework_id = data.get("frameworkID", qualification["frameworkID"])
-    framework = get_framework_by_id(request.registry.db, framework_id)
+    framework = get_framework_by_id(request, framework_id)
     if not framework:
         raise_operation_error(
             request,
@@ -237,7 +241,7 @@ def validate_agreement_data(request, **kwargs):
     model = request.agreement_from_data(data, create=False)
     _validate_agreement_accreditation_level(request, model)
     if data.get("frameworkID"):
-        framework = get_framework_by_id(request.registry.db, data["frameworkID"])
+        framework = get_framework_by_id(request, data["frameworkID"])
         if not framework:
             raise_operation_error(
                 request,

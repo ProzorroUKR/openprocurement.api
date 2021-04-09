@@ -174,10 +174,10 @@ def agreement_from_data(request, data, raise_error=True, create=True):
 
 
 def extract_doc_adapter(request, doc_type, doc_id):
-    doc = get_doc_by_id(request.registry.db, doc_type, doc_id)
-    doc_type_lower = doc_type[0].lower() + doc_type[1:]
+    doc_type_singular = doc_type[:-1]  # lower, without last symbol  "frameworks" --> "framework"
+    doc = get_doc_by_id(request.registry.databases[doc_type], doc_type_singular.capitalize(), doc_id)
     if doc is None:
-        request.errors.add("url", "%s_id" % doc_type_lower, "Not Found")
+        request.errors.add("url", "%s_id" % doc_type_singular, "Not Found")
         request.errors.status = 404
         raise error_handler(request)
     # obsolete lowercase doc_type in agreements
@@ -186,7 +186,7 @@ def extract_doc_adapter(request, doc_type, doc_id):
         request.errors.status = 410
         raise error_handler(request)
 
-    method = getattr(request, "%s_from_data" % doc_type_lower)
+    method = getattr(request, "%s_from_data" % doc_type_singular)
     return method(doc)
 
 
@@ -199,13 +199,14 @@ def extract_doc(request):
     except UnicodeDecodeError as e:
         raise URLDecodeError(e.encoding, e.object, e.start, e.end, e.reason)
 
-    obj_id = ""
+    # obj_id = ""
     # extract object id
     parts = path.split("/")
     if len(parts) < 4 or parts[3] not in ("frameworks", "submissions", "qualifications", "agreements"):
         return
 
-    obj_type = parts[3][0].upper() + parts[3][1:-1]
+    # obj_type = parts[3][0].upper() + parts[3][1:-1]
+    obj_type = parts[3]
     obj_id = parts[4]
     return extract_doc_adapter(request, obj_type, obj_id)
 
@@ -266,7 +267,7 @@ def save_object(request, obj_name, with_test_mode=True):
             obj.dateModified = now
 
         with handle_store_exceptions(request):
-            obj.store(request.registry.db)
+            obj.store(request.registry.databases[f"{obj_name}s"])  # TODO a better way to specify db name?
             LOGGER.info(
                 "Saved {} {}: dateModified {} -> {}".format(
                     obj_name,
@@ -368,16 +369,16 @@ def agreement_serialize(request, agreement_data, fields):
     return {i: j for i, j in agreement.serialize("view").items() if i in fields}
 
 
-def get_submission_by_id(db, submission_id):
-    return get_doc_by_id(db, "Submission", submission_id)
+def get_submission_by_id(request, submission_id):
+    return request.registry.databases.submissions.get(submission_id)
 
 
-def get_framework_by_id(db, framework_id):
-    return get_doc_by_id(db, "Framework", framework_id)
+def get_framework_by_id(request, framework_id):
+    return request.registry.databases.frameworks.get(framework_id)
 
 
-def get_agreement_by_id(db, agreement_id):
-    return get_doc_by_id(db, "Agreement", agreement_id)
+def get_agreement_by_id(request, agreement_id):
+    return request.registry.databases.agreements.get(agreement_id)
 
 
 def set_agreement_ownership(item, request):

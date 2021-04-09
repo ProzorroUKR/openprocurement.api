@@ -98,16 +98,37 @@ class BaseWebTest(unittest.TestCase):
 
     initial_auth = None
 
+    database_keys = tuple()  # specify database keys that used in a test class
+    databases = None
+
     @classmethod
     def setUpClass(cls):
         cls.app = cls.AppClass(loadwsgiapp(cls.relative_uri, relative_to=cls.relative_to))
         cls.db = cls.app.recreate_db()
+        cls.databases = cls.app.app.registry.databases
+        if cls.database_keys:   # work with specific databases
+            cls.clean_databases()
 
     def setUp(self):
         self.app.authorization = self.initial_auth
 
     def tearDown(self):
         self.app.clean_db()
+        if self.database_keys:
+            self.clean_databases()
+
+    @classmethod
+    def clean_databases(cls):
+        for db_name in cls.database_keys:
+            database = cls.databases[db_name]
+            docs = []
+            for row in database.get("_all_docs", include_docs=True).get("rows", ""):
+                if row['id'].startswith('_'):
+                    continue
+                doc = row['doc']
+                doc['_deleted'] = True
+                docs.append(doc)
+            database.update(docs)
 
 
 @pytest.fixture(scope="session")

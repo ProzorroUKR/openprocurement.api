@@ -18,7 +18,7 @@ def set_db_schema_version(db, version):
 
 
 def migrate_data(registry, destination=None):
-    cur_version = get_db_schema_version(registry.db)
+    cur_version = get_db_schema_version(registry.databases.migrations)
     if cur_version == SCHEMA_VERSION:
         return cur_version
     for step in range(cur_version, destination or SCHEMA_VERSION):
@@ -28,4 +28,4 @@ def migrate_data(registry, destination=None):
         migration_func = globals().get("from{}to{}".format(step, step + 1))
         if migration_func:
             migration_func(registry)
-        set_db_schema_version(registry.db, step + 1)
+        set_db_schema_version(registry.databases.migrations, step + 1)

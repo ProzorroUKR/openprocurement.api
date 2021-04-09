@@ -37,7 +37,6 @@ class Root(object):
 
     def __init__(self, request):
         self.request = request
-        self.db = request.registry.db
 
 
 def resolve_document(request, obj, document_type=None):

@@ -13,6 +13,7 @@ class BaseAgreementTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
     docservice = False
     initial_auth = ("Basic", ("broker", ""))
+    database_keys = ("agreements",)
 
 
 class BaseAgreementWebTest(BaseAgreementTest):
@@ -31,7 +32,7 @@ class BaseAgreementWebTest(BaseAgreementTest):
         self.agreement_id = self.agreement["id"]
 
     def tearDown(self):
-        del self.db[self.agreement_id]
+        # del self.db[self.agreement_id]
         super(BaseAgreementWebTest, self).tearDown()
 
 

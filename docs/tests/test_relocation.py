@@ -18,7 +18,7 @@ from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
 class TransferDocsTest(BaseWebTest, MockWebTestMixin):
     AppClass = DumpsWebTestApp
-
+    database_keys = ("transfers",)
     relative_to = os.path.dirname(__file__)
 
     def setUp(self):

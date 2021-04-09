@@ -63,7 +63,9 @@ class UtilsFrameworkTest(BaseFrameworkTest):
         request.environ = {"PATH_INFO": "/"}
         request.registry.framework_frameworkTypes.get.return_value = Framework
         request.framework_from_data.return_value = framework_from_data(request, framework_data)
-        request.registry.db = MagicMock()
+        get_mock = MagicMock()
+        get_mock.get.return_value = None
+        request.registry.databases = {"frameworks": get_mock}
 
         # Test with KeyError
         self.assertIs(extract_doc(request), None)
@@ -90,7 +92,7 @@ class UtilsFrameworkTest(BaseFrameworkTest):
         request.errors.add.assert_has_calls([call("url", "framework_id", "Not Found")])
 
         # Test with extract_doc_adapter return Framework object
-        request.registry.db.get.return_value = framework_data
+        request.registry.databases["frameworks"].get.return_value = framework_data
         framework = extract_doc(request)
         serialized_framework = framework.serialize("draft")
         self.assertIsInstance(framework, Framework)

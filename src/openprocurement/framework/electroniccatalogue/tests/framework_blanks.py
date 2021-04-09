@@ -27,17 +27,17 @@ def simple_add_framework(self):
     assert u.id is None
     assert u.rev is None
 
-    u.store(self.db)
+    u.store(self.databases.frameworks)
 
     assert u.id is not None
     assert u.rev is not None
 
-    fromdb = self.db.get(u.id)
+    fromdb = self.databases.frameworks.get(u.id)
 
     assert u.prettyID == fromdb["prettyID"]
     assert u.doc_type == "Framework"
 
-    u.delete_instance(self.db)
+    u.delete_instance(self.databases.frameworks)
 
 
 def listing(self):
@@ -1016,7 +1016,7 @@ def framework_not_found(self):
 
     # put custom document object into database to check frameworks construction on non-Framework data
     data = {"contract": "test", "_id": uuid4().hex}
-    self.db.save(data)
+    self.databases.frameworks.save(data)
 
     response = self.app.get("/frameworks/{}".format(data["_id"]), status=404)
     self.assertEqual(response.status, "404 Not Found")

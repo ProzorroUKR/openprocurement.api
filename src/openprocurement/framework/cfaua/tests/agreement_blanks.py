@@ -119,7 +119,7 @@ def generate_credentials(self):
     self.assertEqual(response.status, "200 OK")
     token = response.json.get("access", {}).get("token")
     self.assertIsNotNone(token)
-    doc = self.db.get(self.agreement_id)
+    doc = self.databases.agreements.get(self.agreement_id)
     self.assertEqual(doc["owner_token"], token)
 
 
