@@ -590,7 +590,7 @@ test_framework_cfaua:
     TESTS_PATH: src/openprocurement/tender/competitivedialogue/tests/stage1
     COV_PATH: src/openprocurement/tender/competitivedialogue/
     COV_FILE: src/openprocurement/tender/competitivedialogue/tests/stage1/.coveragerc
-    KUBERNETES_MEMORY_REQUEST: 1600Mi
+    KUBERNETES_MEMORY_REQUEST: 1500Mi
     KUBERNETES_CPU_REQUEST: 1500m
 
 
