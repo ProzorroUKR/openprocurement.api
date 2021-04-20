@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-08 16:42+0200\n"
+"POT-Creation-Date: 2021-03-14 22:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -163,6 +163,12 @@ msgstr "Але поле `eligibleEvidences` заборонено для цьог
 
 msgid "`expectedValue` must be only true"
 msgstr "`expectedValue` може бути лише true"
+
+msgid "Bid guarantee criterion (available for tenders: `belowThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`). If specified, should be also specified `guarantee` for tender if criterion `relatesTo` = `'tender'` or `guarantee` for lot if `relatesTo` = `'lot'`"
+msgstr "Гарантійне забезпечення пропозиції (доступно для процедур: `belowThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`). Якщо вказан даний критерій, тоді обов'язково мають бути вказані `guarantee` на рівні тендера, якщо критерій стосується тендера або `guarantee` на рівні лоту до якого застосовано критерій"
+
+msgid "Contract guarantee criterion (available for tenders: `belowThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`). For current criterion could be set only `source` = `'winner'`. `eligibleEvidences` could be added according to :ref:`bidding`"
+msgstr "Гаратнійне забезпечення виконання умов договору (доступно для процедур: `belowThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`). Для даного критерія `source` може бути лише `winner`. Докази `eligibleEvidences` можуть бути додані згідно :ref:`bidding`"
 
 msgid "Exclusion criteria workflow"
 msgstr "Схема роботи вийняткових критеріїв"
