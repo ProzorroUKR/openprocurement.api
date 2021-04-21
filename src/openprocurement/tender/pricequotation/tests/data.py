@@ -142,7 +142,7 @@ test_organization = {
         "locality": "м. Київ",
         "streetAddress": "вул. Банкова, 11, корпус 1",
     },
-    "contactPoint": {"name": "Державне управління справами", "telephone": "0440000000"},
+    "contactPoint": {"name": "Державне управління справами", "telephone": "+0440000000"},
     "scale": "micro",
 }
 
@@ -246,7 +246,7 @@ test_shortlisted_firms = [
         "contactPoint": {
             "email": "contact@pixel.pix",
             "name": "Оксана Піксель",
-            "telephone": "(067) 123-45-67"
+            "telephone": "+0671234567"
         },
         "id": "UA-EDR-12345678",
         "identifier": {
@@ -269,7 +269,7 @@ test_shortlisted_firms = [
         "contactPoint": {
             "email": "info@shteker.pek",
             "name": "Олег Штекер",
-            "telephone": "(095) 123-45-67"
+            "telephone": "+0951234567"
         },
         "id": "UA-EDR-87654321",
         "identifier": {

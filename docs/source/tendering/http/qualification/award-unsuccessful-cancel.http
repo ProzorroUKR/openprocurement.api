@@ -37,7 +37,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/94170d1f620a487e
       {
         "contactPoint": {
           "email": "soleksuk@gmail.com", 
-          "telephone": "+380 (432) 21-69-30", 
+          "telephone": "+380432216930",
           "name": "Сергій Олексюк"
         }, 
         "scale": "micro", 
@@ -83,7 +83,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/94170d1f620a487e
         "author": {
           "contactPoint": {
             "email": "soleksuk@gmail.com", 
-            "telephone": "+380 (432) 21-69-30", 
+            "telephone": "+380432216930",
             "name": "Сергій Олексюк"
           }, 
           "identifier": {
@@ -122,7 +122,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/94170d1f620a487e
         "author": {
           "contactPoint": {
             "email": "soleksuk@gmail.com", 
-            "telephone": "+380 (432) 21-69-30", 
+            "telephone": "+380432216930",
             "name": "Сергій Олексюк"
           }, 
           "identifier": {
@@ -156,7 +156,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/94170d1f620a487e
         "author": {
           "contactPoint": {
             "email": "soleksuk@gmail.com", 
-            "telephone": "+380 (432) 21-69-30", 
+            "telephone": "+380432216930",
             "name": "Сергій Олексюк"
           }, 
           "identifier": {
@@ -190,7 +190,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/94170d1f620a487e
         "author": {
           "contactPoint": {
             "email": "soleksuk@gmail.com", 
-            "telephone": "+380 (432) 21-69-30", 
+            "telephone": "+380432216930",
             "name": "Сергій Олексюк"
           }, 
           "identifier": {

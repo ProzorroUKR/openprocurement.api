@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/questions HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1116
+Content-Length: 1110
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -17,7 +17,7 @@ DATA:
       "contactPoint": {
         "email": "pole@gmail.com",
         "name": "Вільям Поле",
-        "telephone": "+380 (452) 21-69-31"
+        "telephone": "+380452216931"
       },
       "identifier": {
         "id": "00137230",

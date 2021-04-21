@@ -37,7 +37,7 @@ now = get_now()
 test_electronicCatalogue_data = {
     "procuringEntity": {
         "contactPoint": {
-            "telephone": "0440000000",
+            "telephone": "+0440000000",
             "name": "Назва організації(ЦЗО)",
             "email": "aa@aa.com"
         },
@@ -120,7 +120,7 @@ tenderer = {
     "contactPoint": {
         "name": "Державне управління справами",
         "name_en": "State administration",
-        "telephone": "0440000000"
+        "telephone": "+0440000000"
     },
     "scale": "micro"
 }

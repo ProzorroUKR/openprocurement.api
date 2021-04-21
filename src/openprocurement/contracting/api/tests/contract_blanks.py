@@ -501,7 +501,7 @@ def create_contract(self):
     # test eu contract create
     data = deepcopy(self.initial_data)
     data["id"] = uuid4().hex
-    additionalContactPoint = {"name": "Державне управління справами2", "telephone": "0440000001"}
+    additionalContactPoint = {"name": "Державне управління справами2", "telephone": "+0440000001"}
     data["procuringEntity"]["additionalContactPoints"] = [additionalContactPoint]
     data["procuringEntity"]["contactPoint"]["availableLanguage"] = "en"
     response = self.app.post_json("/contracts", {"data": data})
@@ -1520,7 +1520,7 @@ def contract_administrator_change(self):
             "data": {
                 "mode": "test",
                 "suppliers": [{"contactPoint": {"email": "fff@gmail.com"}, "address": {"postalCode": "79014"}}],
-                "procuringEntity": {"identifier": {"id": "11111111"}, "contactPoint": {"telephone": "102"}},
+                "procuringEntity": {"identifier": {"id": "11111111"}, "contactPoint": {"telephone": "+102"}},
             }
         },
     )
@@ -1528,10 +1528,10 @@ def contract_administrator_change(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["mode"], "test")
     self.assertEqual(response.json["data"]["procuringEntity"]["identifier"]["id"], "11111111")
-    self.assertEqual(response.json["data"]["procuringEntity"]["contactPoint"]["telephone"], "102")
+    self.assertEqual(response.json["data"]["procuringEntity"]["contactPoint"]["telephone"], "+102")
     self.assertEqual(response.json["data"]["suppliers"][0]["contactPoint"]["email"], "fff@gmail.com")
     self.assertEqual(
-        response.json["data"]["suppliers"][0]["contactPoint"]["telephone"], "+380 (322) 91-69-30"
+        response.json["data"]["suppliers"][0]["contactPoint"]["telephone"], "+380322916930"
     )  # old field value left untouchable
     self.assertEqual(response.json["data"]["suppliers"][0]["address"]["postalCode"], "79014")
     self.assertEqual(

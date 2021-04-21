@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 3974
+Content-Length: 3968
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -50,7 +50,7 @@ DATA:
       },
       "contactPoint": {
         "name": "Куца Світлана Валентинівна",
-        "telephone": "+380 (432) 46-53-02",
+        "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/"
       },
       "identifier": {
@@ -167,7 +167,7 @@ X-Content-Type-Options: nosniff
       },
       "contactPoint": {
         "name": "Куца Світлана Валентинівна",
-        "telephone": "+380 (432) 46-53-02",
+        "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/"
       },
       "kind": "special"

@@ -1,6 +1,6 @@
 POST /api/2.5/tenders HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 2546
+Content-Length: 2547
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -17,7 +17,7 @@ DATA:
       "name": "ЦЗО №1",
       "contactPoint": {
         "name": "Довідкова",
-        "telephone": "0440000000"
+        "telephone": "+0440000000"
       },
       "address": {
         "countryName": "Україна",
@@ -216,7 +216,7 @@ X-Content-Type-Options: nosniff
       },
       "contactPoint": {
         "name": "Довідкова",
-        "telephone": "0440000000"
+        "telephone": "+0440000000"
       },
       "kind": "central"
     },

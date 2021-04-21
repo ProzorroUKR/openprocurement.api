@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 from isodate import ISO8601Error, parse_duration, duration_isoformat
 from isodate.duration import Duration
+import re
 from uuid import uuid4
 from urllib.parse import urlparse, parse_qs
 from string import hexdigits
@@ -46,6 +47,7 @@ from openprocurement.api.constants import (
     COUNTRIES,
     UA_REGIONS,
     VALIDATE_ADDRESS_FROM, TZ,
+    VALIDATE_TELEPHONE_FROM,
 )
 
 schematics_default_role = SchematicsDocument.Options.roles["default"] + blacklist("__parent__")
@@ -631,6 +633,16 @@ class ContactPoint(Model):
     def validate_email(self, data, value):
         if not value and not data.get("telephone"):
             raise ValidationError("telephone or email should be present")
+
+    def validate_telephone(self, data, value):
+        try:
+            root = get_schematics_document(data["__parent__"])
+        except AttributeError:
+            pass
+        else:
+            apply_validation = get_first_revision_date(root, default=get_now()) >= VALIDATE_TELEPHONE_FROM
+            if value and re.match("^[+][0-9]+$", value) is None and apply_validation:
+                raise ValidationError(u"wrong telephone format (could be missed +)")
 
 
 class Organization(Model):

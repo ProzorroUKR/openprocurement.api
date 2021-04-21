@@ -214,7 +214,7 @@ def test_plans_and_kind_validation(test_data):
                 "name": "Державне управління справами",
                 "identifier": {"scheme": "UA-EDR", "id": "00037256", "uri": "http://www.dus.gov.ua/"},
                 "address": {"countryName": "Україна"},
-                "contactPoint": {"name": "Державне управління справами", "telephone": "0440000000"},
+                "contactPoint": {"name": "Державне управління справами", "telephone": "+0440000000"},
                 "kind": kind,
             },
             "plans": plans,

@@ -438,6 +438,22 @@ def create_tender_invalid(self):
             }
         ],
     )
+    correct_phone = self.initial_data["procuringEntity"]["contactPoint"]["telephone"]
+    self.initial_data["procuringEntity"]["contactPoint"]["telephone"] = "++223"
+    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
+    self.initial_data["procuringEntity"]["contactPoint"]["telephone"] = correct_phone
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u'description': {u'contactPoint': {u'telephone': [u'wrong telephone format (could be missed +)']}},
+                u'location': u'body',
+                u'name': u'procuringEntity'
+            }
+        ]
+    )
 
     data = self.initial_data["items"][0].copy()
     classification = data["classification"].copy()

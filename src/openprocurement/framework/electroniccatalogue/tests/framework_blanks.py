@@ -585,7 +585,7 @@ def patch_framework_draft(self):
     framework_patch_data = {
         "procuringEntity": {
             "contactPoint": {
-                "telephone": "changed",
+                "telephone": "+04400000001",
                 "name": "changed",
                 "email": "bb@bb.ua"
             },
@@ -789,7 +789,7 @@ def patch_framework_active(self):
     framework_patch_data = {
         "procuringEntity": {
             "contactPoint": {
-                "telephone": "0440000001",
+                "telephone": "+0440000001",
                 "name": "changed",
                 "email": "bb@bb.com",
             }

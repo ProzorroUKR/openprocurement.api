@@ -38,7 +38,7 @@ test_bids = [
                 "contactPoint": {
                     "name": "Державне управління справами",
                     "name_en": "State administration",
-                    "telephone": "0440000000",
+                    "telephone": "+0440000000",
                 },
                 "scale": "micro",
             }
@@ -68,7 +68,7 @@ test_bids = [
                 "contactPoint": {
                     "name": "Державне управління справами",
                     "name_en": "State administration",
-                    "telephone": "0440000000",
+                    "telephone": "+0440000000",
                 },
                 "scale": "micro",
             }
@@ -107,7 +107,7 @@ test_tender_data = {
         "contactPoint": {
             "name": "Державне управління справами",
             "name_en": "State administration",
-            "telephone": "0440000000",
+            "telephone": "+0440000000",
         },
     },
     "value": {"amount": 500, "currency": "UAH"},

@@ -70,7 +70,7 @@ X-Content-Type-Options: nosniff
           "contactPoint": {
             "name": "Андрій Олексюк",
             "email": "aagt@gmail.com",
-            "telephone": "+380 (322) 91-69-30"
+            "telephone": "+380322916930"
           }
         },
         "title": "Калорійність",
@@ -152,7 +152,7 @@ X-Content-Type-Options: nosniff
       },
       "contactPoint": {
         "name": "Куца Світлана Валентинівна",
-        "telephone": "+380 (432) 46-53-02",
+        "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/",
         "name_en": "Kutsa Svitlana V.",
         "availableLanguage": "uk"
@@ -220,7 +220,7 @@ X-Content-Type-Options: nosniff
             "contactPoint": {
               "name": "Сергій Олексюк",
               "email": "soleksuk@gmail.com",
-              "telephone": "+380 (432) 21-69-30"
+              "telephone": "+380432216930"
             },
             "scale": "micro"
           }
@@ -289,7 +289,7 @@ X-Content-Type-Options: nosniff
             "contactPoint": {
               "name": "Андрій Олексюк",
               "email": "aagt@gmail.com",
-              "telephone": "+380 (322) 91-69-30"
+              "telephone": "+380322916930"
             },
             "scale": "sme"
           }
@@ -316,7 +316,7 @@ X-Content-Type-Options: nosniff
             "contactPoint": {
               "name": "Іван Іваненко",
               "email": "fake@mail.com",
-              "telephone": "+380 (322) 12-34-56"
+              "telephone": "+380322123456"
             },
             "scale": "mid"
           }
@@ -343,7 +343,7 @@ X-Content-Type-Options: nosniff
             "contactPoint": {
               "name": "Іван Карпенко",
               "email": "fake@mail.com",
-              "telephone": "+380 (322) 12-34-56"
+              "telephone": "+380322123456"
             },
             "scale": "large"
           }

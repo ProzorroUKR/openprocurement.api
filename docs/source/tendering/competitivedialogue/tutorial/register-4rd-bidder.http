@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1595
+Content-Length: 1589
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -18,7 +18,7 @@ DATA:
         "contactPoint": {
           "email": "fake@mail.com",
           "name": "Іван Карпенко",
-          "telephone": "+380 (322) 12-34-56"
+          "telephone": "+380322123456"
         },
         "identifier": {
           "scheme": "UA-EDR",
@@ -76,7 +76,7 @@ X-Content-Type-Options: nosniff
         "contactPoint": {
           "name": "Іван Карпенко",
           "email": "fake@mail.com",
-          "telephone": "+380 (322) 12-34-56"
+          "telephone": "+380322123456"
         },
         "scale": "large"
       }

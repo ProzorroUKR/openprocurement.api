@@ -179,7 +179,7 @@ def patch_contract_suppliers(self):
             "contactPoint": {
                 "name": "Найновіше державне управління справами",
                 "name_en": "New state administration",
-                "telephone": "0440000001"
+                "telephone": "+0440000001"
             },
         }]
     }

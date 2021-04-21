@@ -10,7 +10,7 @@ DATA:
     "author": {
       "contactPoint": {
         "email": "soleksuk@gmail.com", 
-        "telephone": "+380 (432) 21-69-30", 
+        "telephone": "+380432216930",
         "name": "Сергій Олексюк"
       }, 
       "identifier": {
@@ -47,7 +47,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ba5045de21b4930
     "author": {
       "contactPoint": {
         "email": "soleksuk@gmail.com", 
-        "telephone": "+380 (432) 21-69-30", 
+        "telephone": "+380432216930",
         "name": "Сергій Олексюк"
       }, 
       "identifier": {
