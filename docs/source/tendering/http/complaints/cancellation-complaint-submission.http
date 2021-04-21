@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/7d0a97df8f00490ca771758156599045/cancellations/7b3a09b033c7450d99c0d3e17b69039a/complaints HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1469
+Content-Length: 1463
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -21,7 +21,7 @@ DATA:
       "contactPoint": {
         "email": "soleksuk@gmail.com",
         "name": "Сергій Олексюк",
-        "telephone": "+380 (432) 21-69-30"
+        "telephone": "+380432216930"
       },
       "identifier": {
         "scheme": "UA-EDR",
@@ -55,7 +55,7 @@ X-Content-Type-Options: nosniff
       "contactPoint": {
         "name": "Сергій Олексюк",
         "email": "soleksuk@gmail.com",
-        "telephone": "+380 (432) 21-69-30"
+        "telephone": "+380432216930"
       },
       "identifier": {
         "scheme": "UA-EDR",

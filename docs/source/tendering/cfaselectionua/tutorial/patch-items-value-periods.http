@@ -94,14 +94,14 @@ X-Content-Type-Options: nosniff
       },
       "contactPoint": {
         "name": "Державне управління справами",
-        "telephone": "0440000000",
+        "telephone": "+0440000000",
         "availableLanguage": "en"
       },
       "kind": "general",
       "additionalContactPoints": [
         {
           "name": "Державне управління справами 1",
-          "telephone": "0440000000",
+          "telephone": "+0440000000",
           "availableLanguage": "uk"
         }
       ]
@@ -207,7 +207,7 @@ X-Content-Type-Options: nosniff
                 },
                 "contactPoint": {
                   "name": "Державне управління справами",
-                  "telephone": "0440000000"
+                  "telephone": "+0440000000"
                 },
                 "scale": "large"
               }
@@ -261,7 +261,7 @@ X-Content-Type-Options: nosniff
                 },
                 "contactPoint": {
                   "name": "Державне управління справами",
-                  "telephone": "0440000000"
+                  "telephone": "+0440000000"
                 },
                 "scale": "micro"
               }
@@ -315,7 +315,7 @@ X-Content-Type-Options: nosniff
                 },
                 "contactPoint": {
                   "name": "Державне управління справами 1",
-                  "telephone": "0440000000"
+                  "telephone": "+0440000000"
                 },
                 "scale": "micro"
               }
@@ -369,7 +369,7 @@ X-Content-Type-Options: nosniff
                 },
                 "contactPoint": {
                   "name": "Державне управління справами",
-                  "telephone": "0440000000"
+                  "telephone": "+0440000000"
                 },
                 "scale": "micro"
               }
@@ -499,7 +499,7 @@ X-Content-Type-Options: nosniff
             "name": "Ліповець Євген Іванович",
             "name_en": "Gregory Gillespie",
             "email": "buh510@ukr.net",
-            "telephone": "2341170",
+            "telephone": "+2341170",
             "faxNumber": "2343591",
             "url": "http://www.shev.gov.ua/",
             "availableLanguage": "en"

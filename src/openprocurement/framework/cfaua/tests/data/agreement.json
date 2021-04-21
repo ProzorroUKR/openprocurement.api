@@ -18,7 +18,7 @@
                            {
                                "contactPoint": {
                                    "name": "Державне управління справами",
-                                   "telephone": "0440000000"
+                                   "telephone": "+0440000000"
                                },
                                "identifier": {
                                    "scheme": "UA-EDR",
@@ -56,7 +56,7 @@
                            {
                                "contactPoint": {
                                    "name": "Державне управління справами",
-                                   "telephone": "0440000000"
+                                   "telephone": "+0440000000"
                                },
                                "identifier": {
                                    "scheme": "UA-EDR",
@@ -94,7 +94,7 @@
                            {
                                "contactPoint": {
                                    "name": "Державне управління справами",
-                                   "telephone": "0440000000"
+                                   "telephone": "+0440000000"
                                },
                                "identifier": {
                                    "scheme": "UA-EDR",
@@ -171,7 +171,7 @@
                 "name_en": "State administration",
                 "name": "Державне управління справами",
                 "availableLanguage": "uk",
-                "telephone": "0440000000"
+                "telephone": "+0440000000"
             },
             "identifier": {
                 "scheme": "UA-EDR",

@@ -23,7 +23,7 @@ tenderer = {
     "contactPoint": {
         "email": "soleksuk@gmail.com",
         "name": "Сергій Олексюк",
-        "telephone": "+380 (432) 21-69-30"
+        "telephone": "+380432216930"
     },
     "identifier": {
         "scheme": "UA-EDR",
@@ -51,7 +51,7 @@ tenderer2 = {
     "contactPoint": {
         "email": "aagt@gmail.com",
         "name": "Андрій Олексюк",
-        "telephone": "+380 (322) 91-69-30"
+        "telephone": "+380322916930"
     },
     "identifier": {
         "scheme": "UA-EDR",
@@ -76,7 +76,7 @@ tenderer3 = {
     "contactPoint": {
         "email": "fake@mail.com",
         "name": "Іван Іваненко",
-        "telephone": "+380 (322) 12-34-56"
+        "telephone": "+380322123456"
     },
     "identifier": {
         "scheme": "UA-EDR",
@@ -98,7 +98,7 @@ tenderer4 = {
     "contactPoint": {
         "email": "fake@mail.com",
         "name": "Іван Карпенко",
-        "telephone": "+380 (322) 12-34-56"
+        "telephone": "+380322123456"
     },
     "identifier": {
         "scheme": "UA-EDR",
@@ -120,7 +120,7 @@ bad_participant = {
     "contactPoint": {
         "email": "pole@gmail.com",
         "name": "Вільям Поле",
-        "telephone": "+380 (452) 21-69-31"
+        "telephone": "+380452216931"
     },
     "identifier": {
         "id": "00137230",
@@ -312,7 +312,7 @@ funder = {
         "email": "ccm@theglobalfund.org",
         "faxNumber": "+41 44 580 6820",
         "name": "",
-        "telephone": "+41 58 791 1700",
+        "telephone": "+41587911700",
         "url": "https://www.theglobalfund.org/en/"
     },
     "identifier": {
@@ -510,7 +510,7 @@ procuring_entity = {
     },
     "contactPoint": {
         "name": "Державне управління справами",
-        "telephone": "0440000000"
+        "telephone": "+0440000000"
     },
     'kind': 'general'
 }
@@ -527,7 +527,7 @@ procuring_entity_en = {
     "contactPoint": {
         "name": "Куца Світлана Валентинівна",
         "name_en": "Kutsa Svitlana V.",
-        "telephone": "+380 (432) 46-53-02",
+        "telephone": "+380432465302",
         "availableLanguage": "uk",
         "url": "http://sch10.edu.vn.ua/"
     },
@@ -552,7 +552,7 @@ procuring_entity_ua = {
     },
     "contactPoint": {
         "name": "Куца Світлана Валентинівна",
-        "telephone": "+380 (432) 46-53-02",
+        "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/"
     },
     "identifier": {
@@ -647,7 +647,7 @@ tender_cfaselectionua_maximum = {
         },
         "contactPoint": {
             "name": "Державне управління справами",
-            "telephone": "0440000000"
+            "telephone": "+0440000000"
         },
         'kind': 'general'
     },

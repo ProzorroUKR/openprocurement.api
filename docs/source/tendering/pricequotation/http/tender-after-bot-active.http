@@ -68,7 +68,7 @@ X-Content-Type-Options: nosniff
       },
       "contactPoint": {
         "name": "Державне управління справами",
-        "telephone": "0440000000"
+        "telephone": "+0440000000"
       },
       "kind": "general"
     },
@@ -93,7 +93,7 @@ X-Content-Type-Options: nosniff
         "contactPoint": {
           "name": "Оксана Піксель",
           "email": "contact@pixel.pix",
-          "telephone": "(067) 123-45-67"
+          "telephone": "+0671234567"
         },
         "scale": "large",
         "id": "UA-EDR-12345678",
@@ -116,7 +116,7 @@ X-Content-Type-Options: nosniff
         "contactPoint": {
           "name": "Олег Штекер",
           "email": "info@shteker.pek",
-          "telephone": "(095) 123-45-67"
+          "telephone": "+0951234567"
         },
         "scale": "large",
         "id": "UA-EDR-87654321",

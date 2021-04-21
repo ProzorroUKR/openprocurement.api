@@ -67,7 +67,7 @@ X-Content-Type-Options: nosniff
         "contactPoint": {
           "name": "",
           "email": "ccm@theglobalfund.org",
-          "telephone": "+41 58 791 1700",
+          "telephone": "+41587911700",
           "faxNumber": "+41 44 580 6820",
           "url": "https://www.theglobalfund.org/en/"
         }
@@ -168,7 +168,7 @@ X-Content-Type-Options: nosniff
       },
       "contactPoint": {
         "name": "Державне управління справами",
-        "telephone": "0440000000"
+        "telephone": "+0440000000"
       },
       "kind": "general"
     },

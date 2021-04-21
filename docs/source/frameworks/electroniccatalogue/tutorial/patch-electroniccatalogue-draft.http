@@ -1,6 +1,6 @@
 PATCH /api/2.5/frameworks/3176109c7572429b99dbc5707a10617c?acc_token=b9eeebd1ead246da9383d2c218518ab5 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 112
+Content-Length: 113
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -8,7 +8,7 @@ DATA:
   "data": {
     "procuringEntity": {
       "contactPoint": {
-        "telephone": "0440000001"
+        "telephone": "+0440000001"
       }
     },
     "title": "updated in draft status"
@@ -48,7 +48,7 @@ X-Content-Type-Options: nosniff
       "contactPoint": {
         "name": "Назва організації(ЦЗО)",
         "email": "aa@aa.com",
-        "telephone": "0440000001"
+        "telephone": "+0440000001"
       },
       "kind": "central"
     },

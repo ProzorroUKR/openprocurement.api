@@ -58,7 +58,7 @@ X-Content-Type-Options: nosniff
             "contactPoint": {
               "name": "Державне управління справами",
               "name_en": "State administration",
-              "telephone": "0440000000"
+              "telephone": "+0440000000"
             },
             "scale": "micro"
           }
@@ -99,7 +99,7 @@ X-Content-Type-Options: nosniff
             "contactPoint": {
               "name": "Державне управління справами",
               "name_en": "State administration",
-              "telephone": "0440000000"
+              "telephone": "+0440000000"
             },
             "scale": "micro"
           }
@@ -140,7 +140,7 @@ X-Content-Type-Options: nosniff
             "contactPoint": {
               "name": "Державне управління справами",
               "name_en": "State administration",
-              "telephone": "0440000000"
+              "telephone": "+0440000000"
             },
             "scale": "micro"
           }
@@ -184,7 +184,7 @@ X-Content-Type-Options: nosniff
             "contactPoint": {
               "name": "Державне управління справами",
               "name_en": "State administration",
-              "telephone": "0440000000"
+              "telephone": "+0440000000"
             },
             "scale": "micro"
           }
@@ -227,7 +227,7 @@ X-Content-Type-Options: nosniff
             "contactPoint": {
               "name": "Державне управління справами",
               "name_en": "State administration",
-              "telephone": "0440000000"
+              "telephone": "+0440000000"
             },
             "scale": "micro"
           }
@@ -270,7 +270,7 @@ X-Content-Type-Options: nosniff
             "contactPoint": {
               "name": "Державне управління справами",
               "name_en": "State administration",
-              "telephone": "0440000000"
+              "telephone": "+0440000000"
             },
             "scale": "micro"
           }
@@ -364,7 +364,7 @@ X-Content-Type-Options: nosniff
                 "contactPoint": {
                   "name": "Державне управління справами",
                   "name_en": "State administration",
-                  "telephone": "0440000000"
+                  "telephone": "+0440000000"
                 },
                 "scale": "micro"
               }
@@ -406,7 +406,7 @@ X-Content-Type-Options: nosniff
                 "contactPoint": {
                   "name": "Державне управління справами",
                   "name_en": "State administration",
-                  "telephone": "0440000000"
+                  "telephone": "+0440000000"
                 },
                 "scale": "micro"
               }
@@ -448,7 +448,7 @@ X-Content-Type-Options: nosniff
                 "contactPoint": {
                   "name": "Державне управління справами",
                   "name_en": "State administration",
-                  "telephone": "0440000000"
+                  "telephone": "+0440000000"
                 },
                 "scale": "micro"
               }
@@ -559,7 +559,7 @@ X-Content-Type-Options: nosniff
       },
       "contactPoint": {
         "name": "Державне управління справами",
-        "telephone": "0440000000",
+        "telephone": "+0440000000",
         "name_en": "State administration",
         "availableLanguage": "uk"
       },

@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/4f6f9f4965ae47e99cd03a167c41c1a0/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1100
+Content-Length: 1094
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -19,7 +19,7 @@ DATA:
         "contactPoint": {
           "email": "aagt@gmail.com",
           "name": "Андрій Олексюк",
-          "telephone": "+380 (322) 91-69-30"
+          "telephone": "+380322916930"
         },
         "identifier": {
           "scheme": "UA-EDR",
@@ -72,7 +72,7 @@ X-Content-Type-Options: nosniff
         "contactPoint": {
           "name": "Андрій Олексюк",
           "email": "aagt@gmail.com",
-          "telephone": "+380 (322) 91-69-30"
+          "telephone": "+380322916930"
         },
         "scale": "sme"
       }

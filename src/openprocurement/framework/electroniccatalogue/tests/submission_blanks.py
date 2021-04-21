@@ -467,7 +467,7 @@ def patch_submission_draft(self):
             "contactPoint": {
                 "name": "Оновлена назва",
                 "name_en": "State administration",
-                "telephone": "0440000001",
+                "telephone": "+0440000001",
                 "email": "someemaill@test.com",
             },
             "scale": "micro"

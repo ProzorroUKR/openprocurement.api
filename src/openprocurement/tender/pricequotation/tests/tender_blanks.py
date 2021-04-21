@@ -420,6 +420,22 @@ def create_tender_invalid(self):
             }
         ],
     )
+    correct_phone = self.initial_data["procuringEntity"]["contactPoint"]["telephone"]
+    self.initial_data["procuringEntity"]["contactPoint"]["telephone"] = "++223"
+    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
+    self.initial_data["procuringEntity"]["contactPoint"]["telephone"] = correct_phone
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                u'description': {u'contactPoint': {u'telephone': [u'wrong telephone format (could be missed +)']}},
+                u'location': u'body',
+                u'name': u'procuringEntity'
+            }
+        ]
+    )
 
     cpv = self.initial_data["items"][0]["classification"]["id"]
     self.initial_data["items"][0]["classification"]["id"] = "160173000-1"
@@ -1029,7 +1045,7 @@ def tender_fields(self):
 
 def patch_tender(self):
     data = self.initial_data.copy()
-    data["procuringEntity"]["contactPoint"]["faxNumber"] = "0440000000"
+    data["procuringEntity"]["contactPoint"]["faxNumber"] = "+0440000000"
     response = self.app.get("/tenders")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 0)
@@ -1075,7 +1091,7 @@ def patch_tender(self):
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"procuringEntity": {"contactPoint": {"faxNumber": "0440000000"}}}},
+        {"data": {"procuringEntity": {"contactPoint": {"faxNumber": "+0440000000"}}}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")

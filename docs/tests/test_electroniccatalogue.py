@@ -59,7 +59,7 @@ class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTes
                 {'data': {
                     "procuringEntity": {
                         "contactPoint": {
-                            "telephone": "0440000001"
+                            "telephone": "+0440000001"
                         }
                     },
                     "title": "updated in draft status"
@@ -260,7 +260,7 @@ class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTes
                 {'data': {
                     "procuringEntity": {
                         "contactPoint": {
-                            "telephone": "0440000002",
+                            "telephone": "+0440000002",
                             "name": "зміна",
                             "email": "ab@aa.com"
                         }},

@@ -45,13 +45,13 @@ test_contract_data = {
             "locality": "м. Київ",
             "streetAddress": "вул. Банкова, 11, корпус 1",
         },
-        "contactPoint": {"name": "Державне управління справами", "telephone": "0440000000"},
+        "contactPoint": {"name": "Державне управління справами", "telephone": "+0440000000"},
     },
     "suppliers": [
         {
             "contactPoint": {
                 "email": "aagt@gmail.com",
-                "telephone": "+380 (322) 91-69-30",
+                "telephone": "+380322916930",
                 "name": "Андрій Олексюк",
             },
             "identifier": {"scheme": "UA-EDR", "id": "00137226", "uri": "http://www.sc.gov.ua/"},

@@ -1,6 +1,6 @@
 PATCH /api/2.5/tenders/4826290bfb064165b70a94d71e93a63b?acc_token=e6b4c4ef7b894e8da225bae574bf7b61 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1036
+Content-Length: 1033
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -20,7 +20,7 @@ DATA:
           "email": "ccm@theglobalfund.org",
           "faxNumber": "+41 44 580 6820",
           "name": "",
-          "telephone": "+41 58 791 1700",
+          "telephone": "+41587911700",
           "url": "https://www.theglobalfund.org/en/"
         },
         "identifier": {
@@ -62,7 +62,7 @@ X-Content-Type-Options: nosniff
         "contactPoint": {
           "name": "",
           "email": "ccm@theglobalfund.org",
-          "telephone": "+41 58 791 1700",
+          "telephone": "+41587911700",
           "faxNumber": "+41 44 580 6820",
           "url": "https://www.theglobalfund.org/en/"
         }
@@ -163,7 +163,7 @@ X-Content-Type-Options: nosniff
       },
       "contactPoint": {
         "name": "Державне управління справами",
-        "telephone": "0440000000"
+        "telephone": "+0440000000"
       },
       "kind": "general"
     },

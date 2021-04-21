@@ -74,14 +74,14 @@ X-Content-Type-Options: nosniff
       },
       "contactPoint": {
         "name": "Державне управління справами",
-        "telephone": "0440000000",
+        "telephone": "+0440000000",
         "availableLanguage": "en"
       },
       "kind": "general",
       "additionalContactPoints": [
         {
           "name": "Державне управління справами 1",
-          "telephone": "0440000000",
+          "telephone": "+0440000000",
           "availableLanguage": "uk"
         }
       ]

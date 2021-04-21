@@ -128,7 +128,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
         # tender creation
         procuring_entity = deepcopy(test_plan_data["procuringEntity"])
         procuring_entity.update(
-            contactPoint=dict(name="Довідкова", telephone="0440000000"),
+            contactPoint=dict(name="Довідкова", telephone="+0440000000"),
             address=test_tender_data["procuringEntity"]["address"],
             kind="central",
         )

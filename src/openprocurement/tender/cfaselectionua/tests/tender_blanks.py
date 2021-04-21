@@ -1311,7 +1311,7 @@ def tender_features_invalid(self):
 
 def tender_features(self):
     data = self.initial_data.copy()
-    data["procuringEntity"]["contactPoint"]["faxNumber"] = "0440000000"
+    data["procuringEntity"]["contactPoint"]["faxNumber"] = "+0440000000"
     item = data["items"][0].copy()
     data["items"] = [item]
     data["features"] = [
@@ -1424,7 +1424,7 @@ def patch_tender(self):
     data["items"].append(deepcopy(data["items"][0]))
     data["items"][-1]["id"] = uuid4().hex
     data["items"][-1]["description"] = "test_description"
-    data["procuringEntity"]["contactPoint"]["faxNumber"] = "0440000000"
+    data["procuringEntity"]["contactPoint"]["faxNumber"] = "+0440000000"
     response = self.app.get("/tenders")
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
     self.assertEqual(len(response.json["data"]), 0)
@@ -2656,11 +2656,11 @@ def edit_tender_in_active_enquiries(self):
             },
             "contactPoint": {
                 "name": "Державне управління справами 1",
-                "telephone": "0440000001",
+                "telephone": "+0440000001",
                 "availableLanguage": "uk",
             },
             "additionalContactPoints": [
-                {"name": "Державне управління справами 2", "telephone": "044000001", "availableLanguage": "en"}
+                {"name": "Державне управління справами 2", "telephone": "+044000001", "availableLanguage": "en"}
             ],
         },
         "tenderPeriod": {

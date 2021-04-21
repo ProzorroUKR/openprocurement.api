@@ -48,7 +48,7 @@ X-Content-Type-Options: nosniff
         "contactPoint": {
           "name": "Іван Іваненко",
           "email": "fake@mail.com",
-          "telephone": "+380 (322) 12-34-56"
+          "telephone": "+380322123456"
         },
         "scale": "mid"
       }

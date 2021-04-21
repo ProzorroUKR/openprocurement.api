@@ -44,7 +44,7 @@ X-Content-Type-Options: nosniff
       "contactPoint": {
         "name": "Назва організації(ЦЗО)",
         "email": "aa@aa.com",
-        "telephone": "0440000001"
+        "telephone": "+0440000001"
       },
       "kind": "central"
     },

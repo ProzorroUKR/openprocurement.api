@@ -56,7 +56,7 @@ X-Content-Type-Options: nosniff
             "contactPoint": {
               "name": "Іван Іваненко",
               "email": "fake@mail.com",
-              "telephone": "+380 (322) 12-34-56"
+              "telephone": "+380322123456"
             },
             "scale": "mid"
           }
@@ -93,7 +93,7 @@ X-Content-Type-Options: nosniff
             "contactPoint": {
               "name": "Андрій Олексюк",
               "email": "aagt@gmail.com",
-              "telephone": "+380 (322) 91-69-30"
+              "telephone": "+380322916930"
             },
             "scale": "sme"
           }
@@ -130,7 +130,7 @@ X-Content-Type-Options: nosniff
             "contactPoint": {
               "name": "Сергій Олексюк",
               "email": "soleksuk@gmail.com",
-              "telephone": "+380 (432) 21-69-30"
+              "telephone": "+380432216930"
             },
             "scale": "micro"
           }
@@ -167,7 +167,7 @@ X-Content-Type-Options: nosniff
             "contactPoint": {
               "name": "Іван Іваненко",
               "email": "fake@mail.com",
-              "telephone": "+380 (322) 12-34-56"
+              "telephone": "+380322123456"
             },
             "scale": "mid"
           }
@@ -205,7 +205,7 @@ X-Content-Type-Options: nosniff
             "contactPoint": {
               "name": "Іван Іваненко",
               "email": "fake@mail.com",
-              "telephone": "+380 (322) 12-34-56"
+              "telephone": "+380322123456"
             },
             "scale": "mid"
           }
@@ -246,7 +246,7 @@ X-Content-Type-Options: nosniff
             "contactPoint": {
               "name": "Андрій Олексюк",
               "email": "aagt@gmail.com",
-              "telephone": "+380 (322) 91-69-30"
+              "telephone": "+380322916930"
             },
             "scale": "sme"
           }
@@ -287,7 +287,7 @@ X-Content-Type-Options: nosniff
             "contactPoint": {
               "name": "Сергій Олексюк",
               "email": "soleksuk@gmail.com",
-              "telephone": "+380 (432) 21-69-30"
+              "telephone": "+380432216930"
             },
             "scale": "micro"
           }
@@ -444,7 +444,7 @@ X-Content-Type-Options: nosniff
                 "contactPoint": {
                   "name": "Іван Іваненко",
                   "email": "fake@mail.com",
-                  "telephone": "+380 (322) 12-34-56"
+                  "telephone": "+380322123456"
                 },
                 "scale": "mid"
               }
@@ -492,7 +492,7 @@ X-Content-Type-Options: nosniff
                 "contactPoint": {
                   "name": "Андрій Олексюк",
                   "email": "aagt@gmail.com",
-                  "telephone": "+380 (322) 91-69-30"
+                  "telephone": "+380322916930"
                 },
                 "scale": "sme"
               }
@@ -540,7 +540,7 @@ X-Content-Type-Options: nosniff
                 "contactPoint": {
                   "name": "Сергій Олексюк",
                   "email": "soleksuk@gmail.com",
-                  "telephone": "+380 (432) 21-69-30"
+                  "telephone": "+380432216930"
                 },
                 "scale": "micro"
               }
@@ -741,7 +741,7 @@ X-Content-Type-Options: nosniff
       },
       "contactPoint": {
         "name": "Державне управління справами",
-        "telephone": "0440000000",
+        "telephone": "+0440000000",
         "name_en": "State administration",
         "availableLanguage": "uk"
       },
@@ -809,7 +809,7 @@ X-Content-Type-Options: nosniff
           "contactPoint": {
             "name": "Андрій Олексюк",
             "email": "aagt@gmail.com",
-            "telephone": "+380 (322) 91-69-30"
+            "telephone": "+380322916930"
           }
         },
         "title": "Калорійність",

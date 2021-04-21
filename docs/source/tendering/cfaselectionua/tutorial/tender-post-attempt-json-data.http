@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 2818
+Content-Length: 2820
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -30,13 +30,13 @@ DATA:
       },
       "contactPoint": {
         "name": "Державне управління справами",
-        "telephone": "0440000000",
+        "telephone": "+0440000000",
         "availableLanguage": "en"
       },
       "additionalContactPoints": [
         {
           "name": "Державне управління справами 1",
-          "telephone": "0440000000",
+          "telephone": "+0440000000",
           "availableLanguage": "uk"
         }
       ]
@@ -152,14 +152,14 @@ X-Content-Type-Options: nosniff
       },
       "contactPoint": {
         "name": "Державне управління справами",
-        "telephone": "0440000000",
+        "telephone": "+0440000000",
         "availableLanguage": "en"
       },
       "kind": "general",
       "additionalContactPoints": [
         {
           "name": "Державне управління справами 1",
-          "telephone": "0440000000",
+          "telephone": "+0440000000",
           "availableLanguage": "uk"
         }
       ]
