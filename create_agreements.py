@@ -121,8 +121,10 @@ def run(path_to_ini_file):
         db = env["registry"].db
         request = env["request"]
         request.validated = {}
-        for i in frameworks_all_view(db):
+        for i in frameworks_all_view(db, include_docs=True):
             framework_data = get_framework_by_id(request, i.id)
+            if not framework_data:
+                continue
             request.validated["framework_src"] = framework_data
             framework = request.validated["framework"] = Framework(framework_data)
             print(f"Get framework {i.id}")
