@@ -28,7 +28,7 @@ def ensure_agreement(request):
     framework_data = request.validated["framework_src"]
     agreementID = framework_data.get("agreementID")
     if agreementID:
-        agreement = get_agreement_by_id(db, agreementID)
+        agreement = get_agreement_by_id(request, agreementID)
         request.validated["agreement_src"] = agreement
         request.validated["agreement"] = Agreement(agreement)
         request.validated["agreement"].__parent__ = request.validated["qualification"].__parent__
@@ -89,8 +89,8 @@ def ensure_agreement(request):
 def create_agreement_contract(db, request):
     qualification = request.validated["qualification"]
     framework = request.validated["framework"]
-    agreement_data = get_agreement_by_id(db, framework.agreementID)
-    submission_data = get_submission_by_id(db, qualification.submissionID)
+    agreement_data = get_agreement_by_id(request, framework.agreementID)
+    submission_data = get_submission_by_id(request, qualification.submissionID)
 
     qualification_ids = [i["qualificationID"] for i in agreement_data.get("contracts", "")]
     if agreement_data["status"] != "active" or qualification.id in qualification_ids:
@@ -122,7 +122,7 @@ def run(path_to_ini_file):
         request = env["request"]
         request.validated = {}
         for i in frameworks_all_view(db):
-            framework_data = get_framework_by_id(db, i.id)
+            framework_data = get_framework_by_id(request, i.id)
             request.validated["framework_src"] = framework_data
             framework = request.validated["framework"] = Framework(framework_data)
             print(f"Get framework {i.id}")
