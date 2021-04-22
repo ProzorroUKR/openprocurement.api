@@ -2,6 +2,7 @@ from copy import deepcopy
 import argparse
 from logging import getLogger
 from hashlib import sha512
+from schematics.exceptions import ModelConversionError
 
 from openprocurement.api.utils import context_unpack
 from openprocurement.framework.electroniccatalogue.models import Agreement, Qualification, Framework
@@ -125,8 +126,12 @@ def run(path_to_ini_file):
             framework_data = get_framework_by_id(request, i.id)
             if not framework_data:
                 continue
-            request.validated["framework_src"] = framework_data
-            framework = request.validated["framework"] = Framework(framework_data)
+            try:
+                request.validated["framework_src"] = framework_data
+                framework = request.validated["framework"] = Framework(framework_data)
+            except ModelConversionError as e:
+                print(i.id, e)
+                continue
             print(f"Get framework {i.id}")
 
             if framework.status != "active":

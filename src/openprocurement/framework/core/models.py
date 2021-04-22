@@ -77,6 +77,7 @@ class Framework(OpenprocurementSchematicsDocument, Model):
     dateModified = IsoDateTimeType()
     frameworkType = StringType(required=True)
     if SANDBOX_MODE:
+        submissionMethodDetails = StringType()
         frameworkDetails = StringType()
     owner = StringType()
     owner_token = StringType()
