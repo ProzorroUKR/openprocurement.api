@@ -911,14 +911,10 @@ def handle_store_exceptions(request):
 
 def get_currency_rates(request):
     kwargs = {}
-    scheme = "https"
     proxy_address = request.registry.settings.get("proxy_address")
     if proxy_address:
-        if "http" in proxy_address and not proxy_address.startswith('https'):
-            scheme = "http"
-        kwargs.update(proxies={scheme: proxy_address})
-    base_url = "{}://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date={}&json".format(
-        scheme,
+        kwargs.update(proxies={"http": proxy_address, "https": proxy_address})
+    base_url = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date={}&json".format(
         get_now().strftime('%Y%m%d')
     )
     try:
