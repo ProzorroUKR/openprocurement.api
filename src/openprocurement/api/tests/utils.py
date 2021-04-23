@@ -118,7 +118,7 @@ class GetCurrencyRatesTestCase(unittest.TestCase):
 
     @patch("openprocurement.api.utils.get_now")
     @patch("openprocurement.api.utils.requests")
-    def test_get_success_with_http_proxy(self, requests_mock, get_now_mock):
+    def test_get_success_with_proxy(self, requests_mock, get_now_mock):
         get_now_mock.return_value = datetime(2021, 12, 31)
 
         request_obj = Mock()
@@ -126,23 +126,13 @@ class GetCurrencyRatesTestCase(unittest.TestCase):
         get_currency_rates(request_obj)
 
         requests_mock.get.assert_called_once_with(
-            'http://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=20211231&json',
-            proxies={'http': 'http://hide-my-ip.com'}
-        )
-
-    @patch("openprocurement.api.utils.get_now")
-    @patch("openprocurement.api.utils.requests")
-    def test_get_success_with_https_proxy(self, requests_mock, get_now_mock):
-        get_now_mock.return_value = datetime(2021, 12, 31)
-
-        request_obj = Mock()
-        request_obj.registry.settings = {"proxy_address": "https://hide-my-ip.com"}
-        get_currency_rates(request_obj)
-
-        requests_mock.get.assert_called_once_with(
             'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=20211231&json',
-            proxies={'https': 'https://hide-my-ip.com'}
+            proxies={
+                'http': 'http://hide-my-ip.com',
+                'https': 'http://hide-my-ip.com'
+            }
         )
+
 
     @patch("openprocurement.api.utils.raise_operation_error")
     @patch("openprocurement.api.utils.get_now")
