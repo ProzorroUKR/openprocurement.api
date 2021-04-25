@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import get_now, json_view, APIResource, context_unpack, raise_operation_error
-from openprocurement.tender.belowthreshold.utils import add_contract
+from openprocurement.tender.belowthreshold.utils import add_contract, add_next_award
 
 from openprocurement.tender.core.utils import (
     save_tender,
@@ -14,8 +14,6 @@ from openprocurement.tender.core.validation import (
     validate_update_award_only_for_active_lots,
     validate_update_award_in_not_allowed_status,
 )
-
-from openprocurement.tender.cfaselectionua.utils import add_next_award
 
 from openprocurement.tender.cfaselectionua.validation import (
     validate_create_award_only_for_active_lot,

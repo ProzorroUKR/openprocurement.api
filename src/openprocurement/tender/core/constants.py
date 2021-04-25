@@ -54,3 +54,7 @@ ALP_MILESTONE_REASONS = (
     "найбільш економічно вигідна пропозиція є меншою на 30 або більше відсотків від наступної ціни/"
     "приведеної ціни тендерної пропозиції за результатами проведеного електронного аукціону"
 )
+
+AWARD_CRITERIA_LOWEST_COST = "lowestCost"
+AWARD_CRITERIA_LIFE_CYCLE_COST = "lifeCycleCost"
+AWARD_CRITERIA_RATED_CRITERIA = "ratedCriteria"

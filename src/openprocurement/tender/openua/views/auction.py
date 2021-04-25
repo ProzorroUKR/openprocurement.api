@@ -3,7 +3,7 @@ from openprocurement.api.utils import json_view, context_unpack
 from openprocurement.tender.core.validation import validate_tender_auction_data
 from openprocurement.tender.core.utils import apply_patch, save_tender, optendersresource
 from openprocurement.tender.belowthreshold.views.auction import TenderAuctionResource
-from openprocurement.tender.openua.utils import add_next_award
+from openprocurement.tender.belowthreshold.utils import add_next_award
 
 
 @optendersresource(
@@ -94,12 +94,7 @@ class TenderUaAuctionResource(TenderAuctionResource):
                 if i.status == "active"
             ]
         ):
-            configurator = self.request.content_configurator
-            add_next_award(
-                self.request,
-                reverse=configurator.reverse_awarding_criteria,
-                awarding_criteria_key=configurator.awarding_criteria_key,
-            )
+            add_next_award(self.request)
         if save_tender(self.request):
             self.LOGGER.info(
                 "Report auction results", extra=context_unpack(self.request, {"MESSAGE_ID": "tender_auction_post"})
@@ -129,11 +124,7 @@ class TenderUaAuctionResource(TenderAuctionResource):
             ]
         ):
             configurator = self.request.content_configurator
-            add_next_award(
-                self.request,
-                reverse=configurator.reverse_awarding_criteria,
-                awarding_criteria_key=configurator.awarding_criteria_key,
-            )
+            add_next_award(self.request)
         if save_tender(self.request):
             self.LOGGER.info(
                 "Report auction results", extra=context_unpack(self.request, {"MESSAGE_ID": "tender_lot_auction_post"})

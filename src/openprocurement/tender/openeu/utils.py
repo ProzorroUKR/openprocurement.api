@@ -3,8 +3,8 @@ from logging import getLogger
 from functools import partial
 from cornice.resource import resource
 from openprocurement.api.utils import error_handler, context_unpack, get_now, TZ
-from openprocurement.tender.belowthreshold.utils import check_tender_status, add_contract
-from openprocurement.tender.openua.utils import add_next_award, check_complaint_status
+from openprocurement.tender.belowthreshold.utils import check_tender_status, add_contract, add_next_award
+from openprocurement.tender.openua.utils import check_complaint_status
 from openprocurement.tender.core.utils import (
     remove_draft_bids,
     has_unanswered_questions,
@@ -198,7 +198,6 @@ def all_bids_are_reviewed(request):
 def check_status(request):
     tender = request.validated["tender"]
     now = get_now()
-    configurator = request.content_configurator
 
     check_complaint_statuses_at_complaint_period_end(tender, now)
     check_cancellation_status(request, CancelTenderLot)
@@ -206,11 +205,7 @@ def check_status(request):
     for award in tender.awards:
         if award.status == "active" and not any([i.awardID == award.id for i in tender.contracts]):
             add_contract(request, award, now)
-            add_next_award(
-                request,
-                reverse=configurator.reverse_awarding_criteria,
-                awarding_criteria_key=configurator.awarding_criteria_key,
-            )
+            add_next_award(request)
 
     if cancellation_block_tender(tender):
         return

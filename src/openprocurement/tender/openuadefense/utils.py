@@ -1,6 +1,10 @@
 from logging import getLogger
 from openprocurement.api.utils import get_first_revision_date
-from openprocurement.api.constants import TZ, NEW_DEFENSE_COMPLAINTS_FROM, NEW_DEFENSE_COMPLAINTS_TO
+from openprocurement.api.constants import (
+    TZ,
+    NEW_DEFENSE_COMPLAINTS_FROM,
+    NEW_DEFENSE_COMPLAINTS_TO,
+)
 from openprocurement.tender.core.utils import (
     check_complaint_statuses_at_complaint_period_end,
     context_unpack,
@@ -8,10 +12,12 @@ from openprocurement.tender.core.utils import (
     has_unanswered_questions,
     has_unanswered_complaints,
     cancellation_block_tender,
-    prepare_bids_for_awarding,
-    exclude_unsuccessful_awarded_bids,
 )
-from openprocurement.tender.openua.utils import check_complaint_status, add_next_award, check_cancellation_status
+from openprocurement.tender.openua.utils import (
+    check_complaint_status,
+    check_cancellation_status,
+    add_next_award as add_next_award_base,
+)
 from openprocurement.tender.belowthreshold.utils import check_tender_status, add_contract
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date as calculate_tender_business_date_base,
@@ -183,131 +189,81 @@ def check_status(request):
                     check_tender_status(request)
 
 
-def add_next_award(request, reverse=False, awarding_criteria_key="amount"):
-    """Adding next award.
-    reverse and awarding_criteria_key are deprecated, since we can get them from request
-    :param request:
-        The pyramid request object.
-    :param reverse:
-        Is used for sorting bids to generate award.
-        By default (reverse = False) awards are generated from lower to higher by value.amount
-        When reverse is set to True awards are generated from higher to lower by value.amount
-    """
+def add_next_award(request):
+    add_next_award_base(request)
+    process_new_defense_complaints(request)
+
+
+def process_new_defense_complaints(request):
     tender = request.validated["tender"]
-    now = get_now()
-    if not tender.awardPeriod:
-        tender.awardPeriod = type(tender).awardPeriod({})
-    if not tender.awardPeriod.startDate:
-        tender.awardPeriod.startDate = now
+    first_revision_date = get_first_revision_date(tender)
+    new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < first_revision_date < NEW_DEFENSE_COMPLAINTS_TO
+    if not new_defence_complaints:
+        return
+
     if tender.lots:
         statuses = set()
         for lot in tender.lots:
             if lot.status != "active":
                 continue
             lot_awards = [i for i in tender.awards if i.lotID == lot.id]
-            if lot_awards and lot_awards[-1].status in ["pending", "active"]:
-                statuses.add(lot_awards[-1].status if lot_awards else "unsuccessful")
-                continue
-            all_bids = prepare_bids_for_awarding(tender, tender.bids, lot_id=lot.id)
-            if all_bids:
-                bids = exclude_unsuccessful_awarded_bids(tender, all_bids, lot_id=lot.id)
-                if bids:
-                    tender.append_award(bids[0], all_bids, lot_id=lot.id)
-                    request.response.headers["Location"] = request.route_url(
-                        "{}:Tender Awards".format(tender.procurementMethodType),
-                        tender_id=tender.id,
-                        award_id=tender.awards[-1]["id"]
-                    )
-                    statuses.add("pending")
-                else:
-                    statuses.add("unsuccessful")
-            else:
-                lot.status = "unsuccessful"
-                statuses.add("unsuccessful")
+            statuses.add(lot_awards[-1].status if lot_awards else "unsuccessful")
 
-        if statuses.difference(set(["unsuccessful", "active"])):
-            tender.awardPeriod.endDate = None
-            tender.status = "active.qualification"
-        else:
-            tender.awardPeriod.endDate = now
-            tender.status = "active.awarded"
-
-            first_revision_date = get_first_revision_date(tender)
-            new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < first_revision_date < NEW_DEFENSE_COMPLAINTS_TO
-            if new_defence_complaints and statuses == set(["unsuccessful"]):
-                for lot in tender.lots:
-                    if lot.status != "active":
-                        continue
-                    pending_complaints = any([
-                        i["status"] in tender.block_complaint_status
-                        and i.relatedLot == lot.id
-                        for i in tender.complaints
-                    ])
-                    lot_awards = [i for i in tender.awards if i.lotID == lot.id]
-                    if not lot_awards:
-                        continue
-                    awards_no_complaint_periods = all([
-                        not a.complaintPeriod
-                        for a in lot_awards
-                        if a["status"] == "unsuccessful"
-                    ])
-                    if (
-                        not pending_complaints
-                        and awards_no_complaint_periods
-                    ):
-                        LOGGER.info(
-                            "Switched lot {} of tender {} to {}".format(lot.id, tender.id, "unsuccessful"),
-                            extra=context_unpack(
-                                request,
-                                {"MESSAGE_ID": "switched_lot_unsuccessful"},
-                                {"LOT_ID": lot.id}
-                            ),
-                        )
-                        lot.status = "unsuccessful"
-
-                lot_statuses = set([lot.status for lot in tender.lots])
-                if not lot_statuses.difference(set(["unsuccessful", "cancelled"])):
-                    LOGGER.info(
-                        "Switched tender {} to {}".format(tender.id, "unsuccessful"),
-                        extra=context_unpack(request, {"MESSAGE_ID": "switched_tender_unsuccessful"}),
-                    )
-                    tender.status = "unsuccessful"
-
-    else:
-        if not tender.awards or tender.awards[-1].status not in ["pending", "active"]:
-            all_bids = prepare_bids_for_awarding(tender, tender.bids, lot_id=None)
-            bids = exclude_unsuccessful_awarded_bids(tender, all_bids, lot_id=None)
-            if bids:
-                tender.append_award(bids[0], all_bids)
-                request.response.headers["Location"] = request.route_url(
-                    "{}:Tender Awards".format(tender.procurementMethodType),
-                    tender_id=tender.id,
-                    award_id=tender.awards[-1]["id"]
-                )
-        if tender.awards[-1].status == "pending":
-            tender.awardPeriod.endDate = None
-            tender.status = "active.qualification"
-        else:
-            tender.awardPeriod.endDate = now
-            tender.status = "active.awarded"
-
-            first_revision_date = get_first_revision_date(tender)
-            new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < first_revision_date < NEW_DEFENSE_COMPLAINTS_TO
-            if new_defence_complaints:
-                pending_complaints = any([i["status"] in tender.block_complaint_status for i in tender.complaints])
-                last_award_unsuccessful = tender.awards[-1].status == "unsuccessful"
+        if statuses == set(["unsuccessful"]):
+            for lot in tender.lots:
+                if lot.status != "active":
+                    continue
+                pending_complaints = any([
+                    i["status"] in tender.block_complaint_status
+                    and i.relatedLot == lot.id
+                    for i in tender.complaints
+                ])
+                lot_awards = [i for i in tender.awards if i.lotID == lot.id]
+                if not lot_awards:
+                    continue
                 awards_no_complaint_periods = all([
                     not a.complaintPeriod
-                    for a in tender.awards
+                    for a in lot_awards
                     if a["status"] == "unsuccessful"
                 ])
                 if (
                     not pending_complaints
-                    and last_award_unsuccessful
                     and awards_no_complaint_periods
                 ):
                     LOGGER.info(
-                        "Switched tender {} to {}".format(tender.id, "unsuccessful"),
-                        extra=context_unpack(request, {"MESSAGE_ID": "switched_tender_unsuccessful"}),
+                        "Switched lot {} of tender {} to {}".format(lot.id, tender.id, "unsuccessful"),
+                        extra=context_unpack(
+                            request,
+                            {"MESSAGE_ID": "switched_lot_unsuccessful"},
+                            {"LOT_ID": lot.id}
+                        ),
                     )
-                    tender.status = "unsuccessful"
+                    lot.status = "unsuccessful"
+
+            lot_statuses = set([lot.status for lot in tender.lots])
+            if not lot_statuses.difference(set(["unsuccessful", "cancelled"])):
+                LOGGER.info(
+                    "Switched tender {} to {}".format(tender.id, "unsuccessful"),
+                    extra=context_unpack(request, {"MESSAGE_ID": "switched_tender_unsuccessful"}),
+                )
+                tender.status = "unsuccessful"
+
+    else:
+        if not tender.awards[-1].status == "pending":
+            pending_complaints = any([i["status"] in tender.block_complaint_status for i in tender.complaints])
+            last_award_unsuccessful = tender.awards[-1].status == "unsuccessful"
+            awards_no_complaint_periods = all([
+                not a.complaintPeriod
+                for a in tender.awards
+                if a["status"] == "unsuccessful"
+            ])
+            if (
+                not pending_complaints
+                and last_award_unsuccessful
+                and awards_no_complaint_periods
+            ):
+                LOGGER.info(
+                    "Switched tender {} to {}".format(tender.id, "unsuccessful"),
+                    extra=context_unpack(request, {"MESSAGE_ID": "switched_tender_unsuccessful"}),
+                )
+                tender.status = "unsuccessful"

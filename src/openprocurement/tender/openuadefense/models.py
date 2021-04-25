@@ -23,8 +23,8 @@ from openprocurement.tender.core.models import (
     LotWithMinimalStepLimitsValidation as BaseLot,
     validate_lots_uniq,
     get_tender,
-    AWARD_CRITERIA_LOWEST_COST,
 )
+from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
 from openprocurement.tender.openua.models import (
     Tender as BaseTender,
     Cancellation as BaseCancellation,

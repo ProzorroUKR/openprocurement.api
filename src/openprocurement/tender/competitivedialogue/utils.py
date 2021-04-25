@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-from barbecue import vnmax
 from logging import getLogger
 from hashlib import sha512
-from schematics.exceptions import ValidationError
 from schematics.types import StringType
 
 from openprocurement.api.utils import (
@@ -178,40 +176,6 @@ def check_initial_bids_count(request):
             extra=context_unpack(request, {"MESSAGE_ID": "switched_tender_unsuccessful"}),
         )
         tender.status = "unsuccessful"
-
-
-def validate_features_custom_weight(self, data, features, max_sum):
-    if (
-        features
-        and data["lots"]
-        and any(
-            [
-                round(
-                    vnmax(
-                        [
-                            i
-                            for i in features
-                            if i.featureOf == "tenderer"
-                            or i.featureOf == "lot"
-                            and i.relatedItem == lot["id"]
-                            or i.featureOf == "item"
-                            and i.relatedItem in [j.id for j in data["items"] if j.relatedLot == lot["id"]]
-                        ]
-                    ),
-                    15,
-                )
-                > max_sum
-                for lot in data["lots"]
-            ]
-        )
-    ):
-        raise ValidationError(
-            "Sum of max value of all features for lot should be less then or equal to {:.0f}%".format(max_sum * 100)
-        )
-    elif features and not data["lots"] and round(vnmax(features), 15) > max_sum:
-        raise ValidationError(
-            "Sum of max value of all features should be less then or equal to {:.0f}%".format(max_sum * 100)
-        )
 
 
 def check_status(request):

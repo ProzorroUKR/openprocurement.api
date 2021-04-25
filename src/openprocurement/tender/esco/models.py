@@ -33,8 +33,8 @@ from openprocurement.tender.core.models import (
     Feature as BaseFeature,
     BaseLot,
     FeatureValue as BaseFeatureValue,
-    AWARD_CRITERIA_RATED_CRITERIA,
 )
+from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
 from openprocurement.tender.core.models import (
     get_tender,
     embedded_lot_role,
@@ -55,6 +55,7 @@ from openprocurement.tender.core.utils import (
     check_auction_period,
     extend_next_check_by_complaint_period_ends,
     cancellation_block_tender,
+    validate_features_custom_weight,
 )
 from openprocurement.tender.openua.models import Tender as OpenUATender
 from openprocurement.tender.openua.constants import COMPLAINT_SUBMIT_TIME, ENQUIRY_STAND_STILL_TIME
@@ -877,33 +878,7 @@ class Tender(BaseTender):
             validate_cpv_group(items)
 
     def validate_features(self, data, features):
-        if (
-            features
-            and data["lots"]
-            and any(
-                [
-                    round(
-                        vnmax(
-                            [
-                                i
-                                for i in features
-                                if i.featureOf == "tenderer"
-                                or i.featureOf == "lot"
-                                and i.relatedItem == lot["id"]
-                                or i.featureOf == "item"
-                                and i.relatedItem in [j.id for j in data["items"] if j.relatedLot == lot["id"]]
-                            ]
-                        ),
-                        15,
-                    )
-                    > 0.25
-                    for lot in data["lots"]
-                ]
-            )
-        ):
-            raise ValidationError("Sum of max value of all features for lot should be less then or equal to 25%")
-        elif features and not data["lots"] and round(vnmax(features), 15) > 0.25:
-            raise ValidationError("Sum of max value of all features should be less then or equal to 25%")
+        validate_features_custom_weight(data, features, 0.25)
 
     def validate_auctionUrl(self, data, url):
         if url and data["lots"]:

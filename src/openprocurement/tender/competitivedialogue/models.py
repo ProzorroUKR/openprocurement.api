@@ -33,9 +33,9 @@ from openprocurement.tender.core.models import (
     Lot as BaseLotUA,
     EUConfidentialDocument,
     ConfidentialDocumentModelType,
-    AWARD_CRITERIA_LOWEST_COST,
 )
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
+from openprocurement.tender.core.utils import calculate_tender_business_date, validate_features_custom_weight
 from openprocurement.tender.openua.models import Item as BaseUAItem, Tender as BaseTenderUA
 from openprocurement.tender.openua.constants import TENDERING_DURATION as TENDERING_DURATION_UA
 from openprocurement.tender.openeu.models import (
@@ -50,7 +50,6 @@ from openprocurement.tender.openeu.models import (
     Bid as BidEU,
 )
 from openprocurement.tender.openeu.constants import TENDERING_DURATION as TENDERING_DURATION_EU
-from openprocurement.tender.competitivedialogue.utils import validate_features_custom_weight
 from openprocurement.tender.competitivedialogue.constants import (
     CD_UA_TYPE,
     CD_EU_TYPE,
@@ -140,6 +139,7 @@ class Bid(BidEU):
 
     documents = ListType(ConfidentialDocumentModelType(Document, required=True), default=list())
     value = None
+    weightedValue = None
     lotValues = ListType(ModelType(LotValue, required=True), default=list())
 
     def validate_value(self, *args, **kwargs):
@@ -341,7 +341,7 @@ class CompetitiveDialogEU(BaseTenderEU):
         return
 
     def validate_features(self, data, features):
-        validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)
+        validate_features_custom_weight(data, features, FEATURES_MAX_SUM)
 
 
 class LotId(Model):
@@ -602,7 +602,7 @@ class TenderStage2EU(BaseTenderEU):
         return
 
     def validate_features(self, data, features):
-        validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)
+        validate_features_custom_weight(data, features, FEATURES_MAX_SUM)
 
     # Non-required mainProcurementCategory
     def validate_mainProcurementCategory(self, data, value):
@@ -681,7 +681,7 @@ class TenderStage2UA(BaseTenderUA):
         return
 
     def validate_features(self, data, features):
-        validate_features_custom_weight(self, data, features, FEATURES_MAX_SUM)
+        validate_features_custom_weight(data, features, FEATURES_MAX_SUM)
 
     # Non-required mainProcurementCategory
     def validate_mainProcurementCategory(self, data, value):
