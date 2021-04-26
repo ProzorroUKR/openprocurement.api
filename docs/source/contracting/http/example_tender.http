@@ -184,7 +184,7 @@ X-Content-Type-Options: nosniff
     },
     "awards": [
       {
-        "id": "b4decc2283114aac9621c147a566addf",
+        "id": "012bb32b7489497a82373211ac3555ba",
         "status": "active",
         "date": "2021-03-16T00:00:00+02:00",
         "value": {
@@ -324,7 +324,7 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true,
           "amountNet": 490.0
         },
-        "awardID": "b4decc2283114aac9621c147a566addf"
+        "awardID": "012bb32b7489497a82373211ac3555ba"
       }
     ],
     "auctionPeriod": {

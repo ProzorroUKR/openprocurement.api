@@ -422,7 +422,7 @@ X-Content-Type-Options: nosniff
     },
     "awards": [
       {
-        "id": "6f1d78c5363149ef9523e958b1b4e2cb",
+        "id": "cb2178b9b70e48e58ba0c9337136b022",
         "status": "active",
         "date": "2021-03-16T00:00:00+02:00",
         "suppliers": [
@@ -526,7 +526,7 @@ X-Content-Type-Options: nosniff
           }
         ],
         "date": "2021-03-16T00:00:00+02:00",
-        "awardID": "6f1d78c5363149ef9523e958b1b4e2cb",
+        "awardID": "cb2178b9b70e48e58ba0c9337136b022",
         "documents": [
           {
             "id": "684c8d2eb94141d79dbe3d4d2eee7ae6",

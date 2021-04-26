@@ -78,7 +78,16 @@ class Bid(BidResponsesMixin, BaseBid):
             "invalid": whitelist("id", "status"),
             "deleted": whitelist("id", "status"),
             "auction_post": whitelist("id", "lotValues", "value", "date"),
-            "auction_view": whitelist("id", "lotValues", "value", "date", "parameters", "participationUrl", "status"),
+            "auction_view": whitelist(
+                "id",
+                "lotValues",
+                "value",
+                "date",
+                "parameters",
+                "participationUrl",
+                "status",
+                "requirementResponses"
+            ),
             "auction_patch": whitelist("id", "lotValues", "participationUrl"),
             "Administrator": whitelist("tenderers"),
         }
@@ -98,7 +107,7 @@ class Bid(BidResponsesMixin, BaseBid):
     )
     value = ModelType(Value)
 
-    def serialize(self, role=None):
+    def serialize(self, role=None, context=None):
         if role and role != "create" and self.status in ["invalid", "invalid.pre-qualification", "deleted"]:
             role = self.status
         elif role and role != "create" and self.status == "unsuccessful":

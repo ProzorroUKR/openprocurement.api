@@ -14,7 +14,6 @@ from string import hexdigits
 from openprocurement.api.interfaces import IOPContent
 from openprocurement.api.auth import extract_access_token
 from openprocurement.api.models import (
-    Revision,
     Organization,
     Identifier,
     Model,
@@ -69,6 +68,8 @@ from openprocurement.tender.core.constants import (
     COMPLAINT_ENHANCED_MIN_AMOUNT,
     COMPLAINT_ENHANCED_MAX_AMOUNT,
     CRITERION_LIFE_CYCLE_COST_IDS,
+    AWARD_CRITERIA_LOWEST_COST,
+    AWARD_CRITERIA_LIFE_CYCLE_COST,
 )
 from openprocurement.tender.core.utils import (
     normalize_should_start_after,
@@ -81,6 +82,7 @@ from openprocurement.tender.core.utils import (
     prepare_award_milestones,
     check_skip_award_complaint_period,
     calculate_complaint_business_date,
+    filter_features,
 )
 from openprocurement.tender.core.validation import (
     validate_lotvalue_value,
@@ -102,10 +104,6 @@ from logging import getLogger
 LOGGER = getLogger(__name__)
 
 DEFAULT_REQUIREMENT_STATUS = "active"
-
-AWARD_CRITERIA_LOWEST_COST = "lowestCost"
-AWARD_CRITERIA_LIFE_CYCLE_COST = "lifeCycleCost"
-AWARD_CRITERIA_RATED_CRITERIA = "ratedCriteria"
 
 view_bid_role = blacklist("owner_token", "owner", "transfer_token") + schematics_default_role
 Administrator_bid_role = whitelist("tenderers")
@@ -603,8 +601,17 @@ class LotValue(Model):
             "view": schematics_default_role,
             "create": whitelist("value", "relatedLot"),
             "edit": whitelist("value", "relatedLot"),
-            "auction_view": whitelist("value", "date", "relatedLot", "participationUrl"),
-            "auction_post": whitelist("value", "date", "relatedLot"),
+            "auction_view": whitelist(
+                "value",
+                "date",
+                "relatedLot",
+                "participationUrl"
+            ),
+            "auction_post": whitelist(
+                "value",
+                "date",
+                "relatedLot"
+            ),
             "auction_patch": whitelist("participationUrl", "relatedLot"),
         }
 
@@ -1212,9 +1219,29 @@ class Bid(Model):
                 "documents",
                 "requirementResponses",
             ),
-            "edit": whitelist("value", "status", "tenderers", "parameters", "lotValues", "requirementResponses"),
-            "auction_view": whitelist("value", "lotValues", "id", "date", "parameters", "participationUrl"),
-            "auction_post": whitelist("value", "lotValues", "id", "date"),
+            "edit": whitelist(
+                "value",
+                "status",
+                "tenderers",
+                "parameters",
+                "lotValues",
+                "requirementResponses"
+            ),
+            "auction_view": whitelist(
+                "id",
+                "lotValues",
+                "value",
+                "date",
+                "parameters",
+                "participationUrl",
+                "requirementResponses"
+            ),
+            "auction_post": whitelist(
+                "value",
+                "lotValues",
+                "id",
+                "date"
+            ),
             "auction_patch": whitelist("id", "lotValues", "participationUrl"),
             "active.enquiries": whitelist(),
             "active.tendering": whitelist(),
@@ -1295,20 +1322,9 @@ class Bid(Model):
         if isinstance(parent, Model):
             tender = parent
             if tender.lots:
-                lots = [i.relatedLot for i in data["lotValues"]]
-                items = [i.id for i in tender.items if i.relatedLot in lots]
-                codes = dict(
-                    [
-                        (i.code, [x.value for x in i.enum])
-                        for i in (tender.features or [])
-                        if i.featureOf == "tenderer"
-                        or i.featureOf == "lot"
-                        and i.relatedItem in lots
-                        or i.featureOf == "item"
-                        and i.relatedItem in items
-                    ]
-                )
-                if set([i["code"] for i in parameters]) != set(codes):
+                lot_ids = [lot_value.relatedLot for lot_value in data["lotValues"]]
+                features = filter_features(tender.features, tender.items, lot_ids=lot_ids)
+                if set([i["code"] for i in parameters]) != set([i.code for i in features]):
                     raise ValidationError("All features parameters is required.")
             elif not parameters and tender.features:
                 raise ValidationError("This field is required.")
@@ -2094,6 +2110,7 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
                 "auctionUrl",
                 "features",
                 "lots",
+                "criteria",
             ),
             "auction_post": whitelist("bids"),
             "auction_patch": whitelist("auctionUrl", "bids", "lots"),
@@ -2258,7 +2275,7 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
 
         acl.extend(acl_cancellation_complaints)
 
-    def append_award(self, bid,  all_bids, lot_id=None):
+    def append_award(self, bid, all_bids, lot_id=None):
         now = get_now()
         award_data = {
             "bid_id": bid["id"],
@@ -2268,6 +2285,8 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
             "value": bid["value"],
             "suppliers": bid["tenderers"],
         }
+        if "weightedValue" in bid:
+            award_data["weightedValue"] = bid["weightedValue"]
         # append an "alp" milestone if it's the case
         award_class = self.__class__.awards.model_class
         if hasattr(award_class, "milestones"):

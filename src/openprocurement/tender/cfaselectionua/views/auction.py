@@ -8,7 +8,7 @@ from openprocurement.tender.core.utils import (
     cleanup_bids_for_cancelled_lots,
 )
 
-from openprocurement.tender.cfaselectionua.utils import add_next_award
+from openprocurement.tender.belowthreshold.utils import add_next_award
 from openprocurement.tender.cfaselectionua.validation import validate_auction_info_view
 
 

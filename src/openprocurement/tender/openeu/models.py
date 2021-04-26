@@ -52,8 +52,6 @@ from openprocurement.tender.core.models import (
     QualificationMilestoneListMixin,
     RequirementResponse,
     BidResponsesMixin,
-    AWARD_CRITERIA_LOWEST_COST,
-    AWARD_CRITERIA_LIFE_CYCLE_COST,
 )
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
@@ -72,7 +70,10 @@ from openprocurement.tender.core.validation import (
     validate_lotvalue_value,
     validate_relatedlot,
 )
-from openprocurement.tender.core.constants import CRITERION_LIFE_CYCLE_COST_IDS
+from openprocurement.tender.core.constants import (
+    AWARD_CRITERIA_LOWEST_COST,
+    AWARD_CRITERIA_LIFE_CYCLE_COST,
+)
 from openprocurement.tender.openua.models import (
     Complaint as BaseComplaint,
     Award as BaseAward,
@@ -339,7 +340,14 @@ class LotValue(BaseLotValue):
         roles = {
             "create": whitelist("value", "relatedLot", "subcontractingDetails"),
             "edit": whitelist("value", "relatedLot", "subcontractingDetails"),
-            "auction_view": whitelist("value", "date", "relatedLot", "participationUrl", "status"),
+            "auction_view": whitelist(
+                "value",
+                "weightedValue",
+                "date",
+                "relatedLot",
+                "participationUrl",
+                "status"
+            ),
         }
 
     subcontractingDetails = StringType()
@@ -388,8 +396,25 @@ class Bid(BidResponsesMixin, BaseBid):
                 "subcontractingDetails",
                 "requirementResponses",
             ),
-            "auction_view": whitelist("value", "lotValues", "id", "date", "parameters", "participationUrl", "status"),
-            "auction_post": whitelist("value", "lotValues", "id", "date"),
+            "auction_view": whitelist(
+                "id",
+                "lotValues",
+                "value",
+                "weightedValue",
+                "date",
+                "parameters",
+                "participationUrl",
+                "status",
+                "requirementResponses"
+            ),
+            "auction_post": whitelist(
+                "value",
+                "weightedValue",
+                "serialize_weightedValue",
+                "lotValues",
+                "id",
+                "date"
+            ),
             "auction_patch": whitelist("id", "lotValues", "participationUrl"),
             "active.enquiries": whitelist(),
             "active.tendering": whitelist(),
@@ -435,7 +460,7 @@ class Bid(BidResponsesMixin, BaseBid):
         default="pending",
     )
 
-    def serialize(self, role=None):
+    def serialize(self, role=None, context=None):
         if role and role != "create" and self.status in ["invalid", "invalid.pre-qualification", "deleted"]:
             role = self.status
         elif role and role != "create" and self.status == "unsuccessful":

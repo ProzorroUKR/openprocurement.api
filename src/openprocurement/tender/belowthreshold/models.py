@@ -45,6 +45,7 @@ from openprocurement.tender.core.utils import (
     normalize_should_start_after,
     calculate_tender_date,
     calculate_tender_business_date,
+    validate_features_custom_weight,
 )
 from openprocurement.tender.openua.validation import _validate_tender_period_duration
 
@@ -377,33 +378,7 @@ class Tender(BaseTender):
             validate_cpv_group(items)
 
     def validate_features(self, data, features):
-        if (
-            features
-            and data["lots"]
-            and any(
-                [
-                    round(
-                        vnmax(
-                            [
-                                i
-                                for i in features
-                                if i.featureOf == "tenderer"
-                                or i.featureOf == "lot"
-                                and i.relatedItem == lot["id"]
-                                or i.featureOf == "item"
-                                and i.relatedItem in [j.id for j in data["items"] if j.relatedLot == lot["id"]]
-                            ]
-                        ),
-                        15,
-                    )
-                    > 0.3
-                    for lot in data["lots"]
-                ]
-            )
-        ):
-            raise ValidationError("Sum of max value of all features for lot should be less then or equal to 30%")
-        elif features and not data["lots"] and round(vnmax(features), 15) > 0.3:
-            raise ValidationError("Sum of max value of all features should be less then or equal to 30%")
+        validate_features_custom_weight(data, features, 0.3)
 
     def validate_auctionUrl(self, data, url):
         if url and data["lots"]:

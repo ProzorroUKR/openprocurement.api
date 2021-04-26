@@ -19,7 +19,7 @@ from openprocurement.api.models import (
     SifterListType,
     Period,
     IsoDateTimeType,
-    Address,
+    Address, Value,
 )
 from openprocurement.api.constants import TZ, RELEASE_2020_04_19, RELEASE_METRICS_FROM
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
@@ -56,8 +56,6 @@ from openprocurement.tender.core.models import (
     Metric,
     validate_metric_ids_uniq,
     validate_observation_ids_uniq,
-    AWARD_CRITERIA_LOWEST_COST,
-    AWARD_CRITERIA_LIFE_CYCLE_COST,
 )
 from openprocurement.tender.core.utils import (
     normalize_should_start_after,
@@ -75,7 +73,10 @@ from openprocurement.tender.core.validation import (
     validate_lotvalue_value,
     validate_relatedlot,
 )
-from openprocurement.tender.core.constants import CRITERION_LIFE_CYCLE_COST_IDS
+from openprocurement.tender.core.constants import (
+    AWARD_CRITERIA_LOWEST_COST,
+    AWARD_CRITERIA_LIFE_CYCLE_COST,
+)
 from openprocurement.tender.belowthreshold.models import Tender as BaseTender
 from openprocurement.tender.openua.constants import (
     ENQUIRY_STAND_STILL_TIME,
@@ -142,15 +143,45 @@ class Contract(BaseContract):
     items = ListType(ModelType(Item, required=True))
 
 
-class LotValue(BaseLotValue):
+class WeightedValueMixin(Model):
+    weightedValue = ModelType(Value)
+
+    @serializable(
+        serialized_name="weightedValue",
+        serialize_when_none=False,
+        type=ModelType(Value)
+    )
+    def serialize_weightedValue(self):
+        if self.weightedValue:
+            value = self.value or self.weightedValue
+            return Value(dict(
+                amount=self.weightedValue.amount,
+                currency=value.currency,
+                valueAddedTaxIncluded=value.valueAddedTaxIncluded,
+            ))
+
+
+class LotValue(BaseLotValue, WeightedValueMixin):
     class Options:
         roles = {
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
             "create": whitelist("value", "relatedLot", "subcontractingDetails"),
             "edit": whitelist("value", "relatedLot", "subcontractingDetails"),
-            "auction_view": whitelist("value", "date", "relatedLot", "participationUrl"),
-            "auction_post": whitelist("value", "date", "relatedLot"),
+            "auction_view": whitelist(
+                "value",
+                "weightedValue",
+                "date",
+                "relatedLot",
+                "participationUrl"
+            ),
+            "auction_post": whitelist(
+                "value",
+                "weightedValue",
+                "serialize_weightedValue",
+                "date",
+                "relatedLot"
+            ),
             "auction_patch": whitelist("participationUrl", "relatedLot"),
         }
 
@@ -179,7 +210,7 @@ class Parameter(BaseParameter):
         BaseParameter._validator_functions["code"](self, data, code)
 
 
-class BaseUaBid(BaseBid):
+class BaseUaBid(BaseBid, WeightedValueMixin):
     class Options:
         roles = {
             "Administrator": Administrator_bid_role,
@@ -206,8 +237,25 @@ class BaseUaBid(BaseBid):
                 "subcontractingDetails",
                 "requirementResponses",
             ),
-            "auction_view": whitelist("value", "lotValues", "id", "date", "parameters", "participationUrl", "status"),
-            "auction_post": whitelist("value", "lotValues", "id", "date"),
+            "auction_view": whitelist(
+                "id",
+                "lotValues",
+                "value",
+                "weightedValue",
+                "date",
+                "parameters",
+                "participationUrl",
+                "status",
+                "requirementResponses"
+            ),
+            "auction_post": whitelist(
+                "value",
+                "weightedValue",
+                "serialize_weightedValue",
+                "lotValues",
+                "id",
+                "date"
+            ),
             "auction_patch": whitelist("id", "lotValues", "participationUrl"),
             "active.enquiries": whitelist(),
             "active.tendering": whitelist(),
@@ -229,7 +277,7 @@ class BaseUaBid(BaseBid):
     parameters = ListType(ModelType(Parameter, required=True), default=list(), validators=[validate_parameters_uniq])
     documents = ListType(ConfidentialDocumentModelType(ConfidentialDocument, required=True), default=list())
 
-    def serialize(self, role=None):
+    def serialize(self, role=None, context=None):
         if role and self.status in ["invalid", "deleted"]:
             role = self.status
         return super(BaseUaBid, self).serialize(role)
@@ -517,7 +565,7 @@ class Cancellation(BaseCancellation):
     complaints = ListType(ModelType(CancellationComplaint), default=list())
 
 
-class Award(BaseAward, QualificationMilestoneListMixin):
+class Award(BaseAward, QualificationMilestoneListMixin, WeightedValueMixin):
     class Options:
         roles = {
             "edit": whitelist(

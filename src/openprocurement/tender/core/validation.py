@@ -671,7 +671,7 @@ def validate_lotvalue_value(tender, relatedLot, value):
         raise ValidationError("currency of bid should be identical to currency of value of lot")
     if lot.get("value").valueAddedTaxIncluded != value.valueAddedTaxIncluded:
         raise ValidationError(
-            "valueAddedTaxIncluded of bid should be identical " "to valueAddedTaxIncluded of value of lot"
+            "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot"
         )
 
 

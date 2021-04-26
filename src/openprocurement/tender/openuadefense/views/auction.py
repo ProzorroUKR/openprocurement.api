@@ -4,7 +4,7 @@ from openprocurement.tender.core.utils import apply_patch, save_tender, optender
 
 from openprocurement.tender.core.validation import validate_tender_auction_data
 from openprocurement.tender.belowthreshold.views.auction import TenderAuctionResource
-from openprocurement.tender.openua.utils import add_next_award
+from openprocurement.tender.openuadefense.utils import add_next_award
 
 
 @optendersresource(

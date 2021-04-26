@@ -47,6 +47,7 @@ from openprocurement.tender.core.utils import (
     has_unanswered_complaints,
     extend_next_check_by_complaint_period_ends,
     cancellation_block_tender,
+    validate_features_custom_weight,
 )
 from openprocurement.tender.cfaua.constants import TENDERING_DURATION
 from openprocurement.tender.openua.validation import (
@@ -432,29 +433,7 @@ class CloseFrameworkAgreementUA(Tender):
             for i in features:
                 if i.featureOf == "lot":
                     raise ValidationError("Features are not allowed for lots")
-            if data["lots"] and any(
-                [
-                    round(
-                        vnmax(
-                            [
-                                i
-                                for i in features
-                                if i.featureOf == "tenderer"
-                                or i.featureOf == "lot"
-                                and i.relatedItem == lot["id"]
-                                or i.featureOf == "item"
-                                and i.relatedItem in [j.id for j in data["items"] if j.relatedLot == lot["id"]]
-                            ]
-                        ),
-                        15,
-                    )
-                    > Decimal("0.3")
-                    for lot in data["lots"]
-                ]
-            ):
-                raise ValidationError("Sum of max value of all features for lot should be less then or equal to 30%")
-            elif not data["lots"] and round(vnmax(features), 15) > Decimal("0.3"):
-                raise ValidationError("Sum of max value of all features should be less then or equal to 30%")
+        validate_features_custom_weight(data, features, Decimal("0.3"))
 
     def validate_items(self, data, items):
         cpv_336_group = items[0].classification.id[:3] == "336" if items else False

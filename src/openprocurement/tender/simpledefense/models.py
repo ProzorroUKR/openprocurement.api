@@ -3,11 +3,10 @@ from schematics.types import StringType
 from schematics.exceptions import ValidationError
 from zope.interface import implementer
 
-from openprocurement.tender.core.models import (
+from openprocurement.tender.core.constants import (
     AWARD_CRITERIA_LOWEST_COST,
     AWARD_CRITERIA_LIFE_CYCLE_COST,
 )
-from openprocurement.tender.core.constants import CRITERION_LIFE_CYCLE_COST_IDS
 from openprocurement.tender.openuadefense.models import (
     Tender as BaseTender,
     IAboveThresholdUADefTender,

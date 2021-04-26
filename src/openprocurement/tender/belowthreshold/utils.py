@@ -1,19 +1,21 @@
 # -*- coding: utf-8 -*-
-from barbecue import chef
 from logging import getLogger
-from openprocurement.api.constants import TZ, RELEASE_2020_04_19, NEW_DEFENSE_COMPLAINTS_FROM, NEW_DEFENSE_COMPLAINTS_TO
+from openprocurement.api.constants import (
+    TZ,
+    NEW_DEFENSE_COMPLAINTS_FROM,
+    NEW_DEFENSE_COMPLAINTS_TO,
+)
 from openprocurement.api.utils import get_now, context_unpack
-from openprocurement.tender.core.constants import COMPLAINT_STAND_STILL_TIME
 from openprocurement.tender.core.utils import (
-    calculate_tender_business_date,
     cleanup_bids_for_cancelled_lots,
     remove_draft_bids,
     calculate_tender_date,
     check_skip_award_complaint_period,
+    prepare_bids_for_awarding,
+    exclude_unsuccessful_awarded_bids,
 )
 from openprocurement.tender.core.constants import COMPLAINT_STAND_STILL_TIME
 from openprocurement.tender.core.utils import (
-    check_cancellation_status,
     get_first_revision_date,
     CancelTenderLot as BaseCancelTenderLot
 )
@@ -317,6 +319,11 @@ def check_tender_status(request):
 
 
 def add_next_award(request):
+    """Adding next award.
+
+    :param request:
+        The pyramid request object.
+    """
     tender = request.validated["tender"]
     now = get_now()
     if not tender.awardPeriod:
@@ -330,56 +337,25 @@ def add_next_award(request):
                 continue
             lot_awards = [i for i in tender.awards if i.lotID == lot.id]
             if lot_awards and lot_awards[-1].status in ["pending", "active"]:
-                statuses.add(lot_awards[-1].status if lot_awards else "unsuccessful")
+                statuses.add(lot_awards[-1].status)
                 continue
-            lot_items = [i.id for i in tender.items if i.relatedLot == lot.id]
-            features = [
-                i
-                for i in (tender.features or [])
-                if i.featureOf == "tenderer"
-                or i.featureOf == "lot"
-                and i.relatedItem == lot.id
-                or i.featureOf == "item"
-                and i.relatedItem in lot_items
-            ]
-            codes = [i.code for i in features]
-            bids = [
-                {
-                    "id": bid.id,
-                    "value": [i for i in bid.lotValues if lot.id == i.relatedLot][0].value,
-                    "tenderers": bid.tenderers,
-                    "parameters": [i for i in bid.parameters if i.code in codes],
-                    "date": [i for i in bid.lotValues if lot.id == i.relatedLot][0].date,
-                }
-                for bid in tender.bids
-                if lot.id in [i.relatedLot for i in bid.lotValues]
-            ]
-            if not bids:
+            all_bids = prepare_bids_for_awarding(tender, tender.bids, lot_id=lot.id)
+            if all_bids:
+                bids = exclude_unsuccessful_awarded_bids(tender, all_bids, lot_id=lot.id)
+                if bids:
+                    tender.append_award(bids[0], all_bids, lot_id=lot.id)
+                    request.response.headers["Location"] = request.route_url(
+                        "{}:Tender Awards".format(tender.procurementMethodType),
+                        tender_id=tender.id,
+                        award_id=tender.awards[-1]["id"]
+                    )
+                    statuses.add("pending")
+                else:
+                    statuses.add("unsuccessful")
+            else:
                 lot.status = "unsuccessful"
                 statuses.add("unsuccessful")
-                continue
-            unsuccessful_awards = [i.bid_id for i in lot_awards if i.status == "unsuccessful"]
-            bids = chef(bids, features, unsuccessful_awards)
-            if bids:
-                bid = bids[0]
-                award = type(tender).awards.model_class(
-                    {
-                        "bid_id": bid["id"],
-                        "lotID": lot.id,
-                        "status": "pending",
-                        "value": bid["value"],
-                        "date": get_now(),
-                        "suppliers": bid["tenderers"],
-                    }
-                )
-                award.__parent__ = tender
-                tender.awards.append(award)
-                request.response.headers["Location"] = request.route_url(
-                    "{}:Tender Awards".format(tender.procurementMethodType), tender_id=tender.id, award_id=award["id"]
-                )
-                statuses.add("pending")
-            else:
-                statuses.add("unsuccessful")
+
         if statuses.difference(set(["unsuccessful", "active"])):
             tender.awardPeriod.endDate = None
             tender.status = "active.qualification"
@@ -388,24 +364,14 @@ def add_next_award(request):
             tender.status = "active.awarded"
     else:
         if not tender.awards or tender.awards[-1].status not in ["pending", "active"]:
-            unsuccessful_awards = [i.bid_id for i in tender.awards if i.status == "unsuccessful"]
-            bids = chef(tender.bids, tender.features or [], unsuccessful_awards)
+            all_bids = prepare_bids_for_awarding(tender, tender.bids, lot_id=None)
+            bids = exclude_unsuccessful_awarded_bids(tender, all_bids, lot_id=None)
             if bids:
-                bid = bids[0].serialize()
-                award = type(tender).awards.model_class(
-                    {
-                        "bid_id": bid["id"],
-                        "status": "pending",
-                        "date": get_now(),
-                        "value": bid["value"],
-                        "suppliers": bid["tenderers"],
-
-                    }
-                )
-                award.__parent__ = tender
-                tender.awards.append(award)
+                tender.append_award(bids[0], all_bids)
                 request.response.headers["Location"] = request.route_url(
-                    "{}:Tender Awards".format(tender.procurementMethodType), tender_id=tender.id, award_id=award["id"]
+                    "{}:Tender Awards".format(tender.procurementMethodType),
+                    tender_id=tender.id,
+                    award_id=tender.awards[-1]["id"]
                 )
         if tender.awards[-1].status == "pending":
             tender.awardPeriod.endDate = None

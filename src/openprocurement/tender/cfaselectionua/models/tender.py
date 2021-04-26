@@ -29,7 +29,7 @@ from openprocurement.tender.core.models import (
     Cancellation as BaseCancellation,
     validate_features_uniq,
 )
-from openprocurement.tender.core.utils import calc_auction_end_time
+from openprocurement.tender.core.utils import calc_auction_end_time, validate_features_custom_weight
 from openprocurement.tender.core.validation import validate_minimalstep
 from barbecue import vnmax
 from decimal import Decimal
@@ -383,33 +383,7 @@ class CFASelectionUATender(BaseTender):
             raise ValidationError("period should begin after tenderPeriod")
 
     def validate_features(self, data, features):
-        if (
-            features
-            and data["lots"]
-            and any(
-                [
-                    round(
-                        vnmax(
-                            [
-                                i
-                                for i in features
-                                if i.featureOf == "tenderer"
-                                or i.featureOf == "lot"
-                                and i.relatedItem == lot["id"]
-                                or i.featureOf == "item"
-                                and i.relatedItem in [j.id for j in data["items"] if j.relatedLot == lot["id"]]
-                            ]
-                        ),
-                        15,
-                    )
-                    > Decimal("0.3")
-                    for lot in data["lots"]
-                ]
-            )
-        ):
-            raise ValidationError("Sum of max value of all features for lot should be less then or equal to 30%")
-        elif features and not data["lots"] and round(vnmax(features), 15) > Decimal("0.3"):
-            raise ValidationError("Sum of max value of all features should be less then or equal to 30%")
+        validate_features_custom_weight(data, features, Decimal("0.3"))
 
     def validate_items(self, data, items):
         cpv_336_group = items[0].classification.id[:3] == "336" if items else False

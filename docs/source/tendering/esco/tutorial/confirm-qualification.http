@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/awards/6f1d78c5363149ef9523e958b1b4e2cb?acc_token=7cb87b2d0f3d446993a6da1f03746396 HTTP/1.0
+PATCH /api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/awards/cb2178b9b70e48e58ba0c9337136b022?acc_token=7cb87b2d0f3d446993a6da1f03746396 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 67
 Content-Type: application/json
@@ -17,7 +17,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "6f1d78c5363149ef9523e958b1b4e2cb",
+    "id": "cb2178b9b70e48e58ba0c9337136b022",
     "status": "active",
     "date": "2021-03-16T00:00:00+02:00",
     "suppliers": [

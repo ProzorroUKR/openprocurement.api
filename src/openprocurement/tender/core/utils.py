@@ -14,6 +14,8 @@ from jsonpointer import resolve_pointer
 from functools import partial
 from datetime import datetime, time, timedelta
 from logging import getLogger
+
+from schematics.exceptions import ValidationError
 from time import sleep
 from pyramid.exceptions import URLDecodeError
 from pyramid.compat import decode_path_info
@@ -40,7 +42,8 @@ from openprocurement.api.utils import (
     error_handler,
     get_first_revision_date,
     handle_store_exceptions,
-    append_revision, parse_date,
+    append_revision,
+    parse_date,
 )
 from openprocurement.tender.core.constants import (
     BIDDER_TIME,
@@ -48,12 +51,13 @@ from openprocurement.tender.core.constants import (
     AUCTION_STAND_STILL_TIME,
     NORMALIZED_COMPLAINT_PERIOD_FROM,
     ALP_MILESTONE_REASONS,
+    AWARD_CRITERIA_LIFE_CYCLE_COST,
 )
 from openprocurement.tender.core.traversal import factory
 from openprocurement.tender.openua.constants import AUCTION_PERIOD_TIME
 from jsonpointer import JsonPointerException
 from jsonpatch import JsonPatchException, apply_patch as apply_json_patch
-from barbecue import chef
+from barbecue import chef, vnmax
 import math
 
 LOGGER = getLogger("openprocurement.tender.core")
@@ -634,13 +638,7 @@ def prepare_bids_for_awarding(tender, bids, lot_id=None):
     :param lot_id:
     :return: list of bid dict objects sorted in a way they will be selected as winners
     """
-    lot_items = [i.id for i in tender.items if i.relatedLot == lot_id]  # all items in case of non-lot tender
-    features = [
-         i for i in (tender.features or [])
-         if i.featureOf == "tenderer"
-         or i.featureOf == "lot" and i.relatedItem == lot_id
-         or i.featureOf == "item" and i.relatedItem in lot_items
-    ]  # all features in case of non-lot tender
+    features = filter_features(tender.features, tender.items, lot_ids=[lot_id])
     codes = [i.code for i in features]
     active_bids = []
     for bid in bids:
@@ -649,33 +647,69 @@ def prepare_bids_for_awarding(tender, bids, lot_id=None):
             if lot_id:
                 for lot_value in bid.lotValues:
                     if lot_value.relatedLot == lot_id and getattr(lot_value, "status", "active") == "active":
-                        active_bids.append(
-                            {
-                                "id": bid.id,
-                                "value": lot_value.value.serialize(),
-                                "tenderers": bid.tenderers,
-                                "parameters": bid_params,
-                                "date": lot_value.date,
-                            }
-                        )
+                        active_bid = {
+                            "id": bid.id,
+                            "value": lot_value.value.serialize(),
+                            "tenderers": bid.tenderers,
+                            "parameters": bid_params,
+                            "date": lot_value.date,
+                        }
+                        if hasattr(lot_value, "weightedValue") and lot_value.weightedValue:
+                            active_bid["weightedValue"] = lot_value.weightedValue.serialize()
+                        active_bids.append(active_bid)
                         continue  # only one lotValue in a bid is expected
             else:
-                active_bids.append(
-                    {
-                        "id": bid.id,
-                        "value": bid.value.serialize(),
-                        "tenderers": bid.tenderers,
-                        "parameters": bid_params,
-                        "date": bid.date,
-                    }
-                )
+                active_bid = {
+                    "id": bid.id,
+                    "value": bid.value.serialize(),
+                    "tenderers": bid.tenderers,
+                    "parameters": bid_params,
+                    "date": bid.date,
+                }
+                if hasattr(bid, "weightedValue") and bid.weightedValue:
+                    active_bid["weightedValue"] = bid.weightedValue.serialize(),
+                active_bids.append(active_bid)
+    return sort_bids(tender, active_bids, features)
+
+
+def filter_features(features, items, lot_ids=None):
+    lot_ids = lot_ids or [None]
+    lot_items = [
+        i.id for i in items if i.relatedLot in lot_ids
+    ]  # all items in case of non-lot tender
+    features = [
+        feature for feature in (features or []) if any([
+            feature.featureOf == "tenderer",
+            feature.featureOf == "lot" and feature.relatedItem in lot_ids,
+            feature.featureOf == "item" and feature.relatedItem in lot_items,
+        ])
+    ]  # all features in case of non-lot tender
+    return features
+
+
+def sort_bids(tender, bids, features=None):
     configurator = tender.__parent__.request.content_configurator
-    bids = chef(
-        active_bids, features,
-        ignore="",  # filters by id, shouldn't be a part of this lib
-        reverse=configurator.reverse_awarding_criteria,
-        awarding_criteria_key=configurator.awarding_criteria_key,
-    )
+    if features:
+        bids = chef(
+            bids,
+            features=features,
+            ignore=[],  # filters by id, shouldn't be a part of this lib
+            reverse=configurator.reverse_awarding_criteria,
+            awarding_criteria_key=configurator.awarding_criteria_key,
+        )
+    else:
+        award_criteria_path = f"value.{configurator.awarding_criteria_key}"
+        if (tender.get("awardCriteria") == AWARD_CRITERIA_LIFE_CYCLE_COST):
+            def awarding_criteria_func(bid):
+                awarding_criteria = jmespath.search("weightedValue.amount", bid)
+                if not awarding_criteria:
+                    awarding_criteria = jmespath.search(award_criteria_path, bid)
+                return awarding_criteria
+        else:
+            awarding_criteria_func = partial(jmespath.search, award_criteria_path)
+        bids = sorted(bids, key=lambda bid: (
+            [1, -1][configurator.reverse_awarding_criteria] * awarding_criteria_func(bid), bid['date']
+        ))
     return bids
 
 
@@ -696,8 +730,16 @@ def prepare_award_milestones(tender, bid, all_bids, lot_id=None):
     :return:
     """
     milestones = []
+    skip_method_types = (
+        "belowThreshold",
+        "priceQuotation",
+        "esco",
+        "aboveThresholdUA.defense",
+        "simple.defense"
+    )
+
     if (
-        getattr(tender, "procurementMethodType", "") in ("esco", "aboveThresholdUA.defense", "simple.defense")
+        getattr(tender, "procurementMethodType", "") in skip_method_types
         or get_first_revision_date(tender, default=get_now()) < RELEASE_2020_04_19
     ):
         return milestones   # skipping
@@ -784,3 +826,22 @@ def get_bids_before_auction_results(tender):
         initial_bids_list.append(m)
 
     return initial_bids_list
+
+
+def validate_features_custom_weight(data, features, max_sum):
+    if features:
+        if data["lots"]:
+            if any([
+                round(vnmax(filter_features(features, data["items"], lot_ids=[lot["id"]])), 15) > max_sum
+                for lot in data["lots"]
+            ]):
+                raise ValidationError(
+                    "Sum of max value of all features for lot should be "
+                    "less then or equal to {:.0f}%".format(max_sum * 100)
+                )
+        else:
+            if round(vnmax(features), 15) > max_sum:
+                raise ValidationError(
+                    "Sum of max value of all features should be "
+                    "less then or equal to {:.0f}%".format(max_sum * 100)
+                )
