@@ -11,7 +11,7 @@ from openprocurement.api.constants import (
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_with_complaints_after_2020_04_19
 
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization, test_author, test_cancellation, test_claim
+    test_organization, test_author, test_cancellation, test_claim, set_bid_lotvalues
 )
 
 
@@ -237,16 +237,14 @@ def one_lot_1bid(self):
     self.assertIn("auctionPeriod", response.json["data"]["lots"][0])
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
+    bid_data = deepcopy(self.test_bids_data[0])
+    del bid_data["value"]
+    bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id}]
     self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {
-            "data": {
-                "tenderers": [test_organization],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}],
-                "selfEligible": True,
-                "selfQualified": True,
-            }
-        },
+            "data": bid_data,
+        }
     )
     # switch to active.qualification
     self.set_status("active.auction", {"lots": [{"auctionPeriod": {"startDate": None}}], "status": "active.tendering"})
@@ -288,16 +286,13 @@ def two_lot_1bid_0com_1can(self):
     )
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
+    bids_data = deepcopy(self.test_bids_data[0])
+    set_bid_lotvalues(bids_data, [{"id": lot_id} for lot_id in lots])
     self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {
-            "data": {
-                "tenderers": [test_organization],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in lots],
-                "selfEligible": True,
-                "selfQualified": True,
-            }
-        },
+            "data": bids_data
+        }
     )
     # switch to active.qualification
     self.set_status(
@@ -387,16 +382,13 @@ def two_lot_1bid_2com_1win(self):
     )
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
+    bids_data = deepcopy(self.test_bids_data[0])
+    set_bid_lotvalues(bids_data, [{"id": lot_id} for lot_id in lots])
     self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {
-            "data": {
-                "tenderers": [test_organization],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in lots],
-                "selfEligible": True,
-                "selfQualified": True,
-            }
-        },
+            "data": bids_data
+        }
     )
     # switch to active.qualification
     self.set_status(
@@ -474,16 +466,13 @@ def two_lot_1bid_0com_0win(self):
     )
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
+    bids_data = deepcopy(self.test_bids_data[0])
+    set_bid_lotvalues(bids_data, [{"id": lot_id} for lot_id in lots])
     self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {
-            "data": {
-                "tenderers": [test_organization],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in lots],
-                "selfEligible": True,
-                "selfQualified": True,
-            }
-        },
+            "data": bids_data
+        }
     )
     # switch to active.qualification
     self.set_status(
@@ -560,16 +549,13 @@ def two_lot_1bid_1com_1win(self):
     )
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
+    bids_data = deepcopy(self.test_bids_data[0])
+    set_bid_lotvalues(bids_data, [{"id": lot_id} for lot_id in lots])
     self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {
-            "data": {
-                "tenderers": [test_organization],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in lots],
-                "selfEligible": True,
-                "selfQualified": True,
-            }
-        },
+            "data": bids_data
+        }
     )
     # switch to active.qualification
     self.set_status(
@@ -670,29 +656,23 @@ def two_lot_2bid_on_first_and_1_on_second_awarding(self):
     # create bids for first lot
     self.app.authorization = ("Basic", ("broker", ""))
     for i in range(2):
+        bids_data = deepcopy(self.test_bids_data[0])
+        set_bid_lotvalues(bids_data, [{"id": lot_id} for lot_id in lots[:1]])
         self.app.post_json(
             "/tenders/{}/bids".format(tender_id),
             {
-                "data": {
-                    "selfEligible": True,
-                    "selfQualified": True,
-                    "tenderers": [test_organization],
-                    "lotValues": [{"value": {"amount": 500}, "relatedLot": lots[0]}],
-                }
-            },
+                "data": bids_data
+            }
         )
     # create second bid
     self.app.authorization = ("Basic", ("broker", ""))
+    bids_data = deepcopy(self.test_bids_data[0])
+    set_bid_lotvalues(bids_data, [{"id": lot_id} for lot_id in lots[1:]])
     self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {
-            "data": {
-                "selfEligible": True,
-                "selfQualified": True,
-                "tenderers": [test_organization],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": lots[1]}],
-            }
-        },
+            "data": bids_data
+        }
     )
     # switch to active.auction
     self.set_status("active.auction", {"status": "active.tendering"})

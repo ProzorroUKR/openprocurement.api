@@ -15,9 +15,12 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # Tender2LotBidResourceTest
     patch_tender_with_bids_lots_none,
 )
-
-
-from openprocurement.tender.openua.tests.bid import TenderBidResourceTestMixin, TenderBidDocumentResourceTestMixin
+from openprocurement.tender.openua.tests.bid import (
+    TenderBidResourceTestMixin,
+    TenderBidDocumentResourceTestMixin,
+    TenderBidRequirementResponseTestMixin,
+    TenderBidRequirementResponseEvidenceTestMixin,
+)
 from openprocurement.tender.openua.tests.bid_blanks import (
     # TenderBidFeaturesResourceTest
     features_bidder,
@@ -27,12 +30,29 @@ from openprocurement.tender.openua.tests.bid_blanks import (
     put_tender_bidder_document_json,
     tender_bidder_confidential_document,
 )
-
 from openprocurement.tender.simpledefense.tests.base import (
     BaseSimpleDefContentWebTest,
     test_features_tender_ua_data,
     test_bids,
 )
+
+
+class CreateBidMixin(object):
+    base_bid_status = "draft"
+
+    def setUp(self):
+        super(CreateBidMixin, self).setUp()
+        bid_data = deepcopy(test_bids[0])
+        bid_data["status"] = self.base_bid_status
+
+        # Create bid
+        response = self.app.post_json(
+            "/tenders/{}/bids".format(self.tender_id),
+            {"data": bid_data},
+        )
+        bid = response.json["data"]
+        self.bid_id = bid["id"]
+        self.bid_token = response.json["access"]["token"]
 
 
 class TenderBidResourceTest(BaseSimpleDefContentWebTest, TenderBidResourceTestMixin):
@@ -166,12 +186,34 @@ class TenderBidderBatchDocumentsWithDSResourceTest(BaseSimpleDefContentWebTest):
     create_tender_bid_with_documents = snitch(create_tender_bid_with_documents)
 
 
+class TenderBidRequirementResponseResourceTest(
+    TenderBidRequirementResponseTestMixin,
+    CreateBidMixin,
+    BaseSimpleDefContentWebTest,
+):
+    test_bids_data = test_bids
+    initial_status = "active.tendering"
+
+
+class TenderBidRequirementResponseEvidenceResourceTest(
+    TenderBidRequirementResponseEvidenceTestMixin,
+    CreateBidMixin,
+    BaseSimpleDefContentWebTest,
+):
+    test_bids_data = test_bids
+    initial_status = "active.tendering"
+    tender_auth = ("Basic", ("token", ""))
+    guarantee_criterion = False
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderBidDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidDocumentWithDSResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidFeaturesResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidResourceTest))
+    suite.addTest(unittest.makeSuite(TenderBidRequirementResponseResourceTest))
+    suite.addTest(unittest.makeSuite(TenderBidRequirementResponseEvidenceResourceTest))
     return suite
 
 

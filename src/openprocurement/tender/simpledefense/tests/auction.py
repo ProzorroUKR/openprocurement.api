@@ -2,6 +2,8 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
+from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 
 from openprocurement.tender.belowthreshold.tests.base import test_features_tender_data, test_lots, test_organization
 from openprocurement.tender.belowthreshold.tests.auction import (
@@ -48,11 +50,16 @@ class TenderSameValueAuctionResourceTest(BaseSimpleDefContentWebTest):
         {
             "tenderers": [test_organization],
             "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
-            "selfEligible": True,
             "selfQualified": True,
         }
         for i in range(3)
     ]
+    bid_update_data = {"selfQualified": True}
+    if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
+        bid_update_data["selfEligible"] = True
+
+    for i in initial_bids:
+        i.update(bid_update_data)
 
     test_post_tender_auction_not_changed = snitch(post_tender_auction_not_changed)
 
@@ -78,17 +85,22 @@ class TenderFeaturesAuctionResourceTest(BaseSimpleDefContentWebTest):
             "parameters": [{"code": i["code"], "value": 0.1} for i in test_features_tender_data["features"]],
             "tenderers": [test_organization],
             "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
-            "selfEligible": True,
             "selfQualified": True,
         },
         {
             "parameters": [{"code": i["code"], "value": 0.15} for i in test_features_tender_data["features"]],
             "tenderers": [test_organization],
             "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
-            "selfEligible": True,
             "selfQualified": True,
         },
     ]
+
+    bid_update_data = {"selfQualified": True}
+    if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
+        bid_update_data["selfEligible"] = True
+
+    for i in initial_bids:
+        i.update(bid_update_data)
 
     test_get_tender_auction = snitch(get_tender_auction_feature)
     test_post_tender_auction = snitch(post_tender_auction_feature)
