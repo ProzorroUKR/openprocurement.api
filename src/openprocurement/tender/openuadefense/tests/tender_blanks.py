@@ -669,15 +669,9 @@ def one_valid_bid_tender_ua(self):
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {
-            "data": {
-                "tenderers": [test_organization],
-                "value": {"amount": 500},
-                "selfEligible": True,
-                "selfQualified": True,
-            }
+            "data": self.test_bids_data[0]
         },
     )
-
     bid_id = self.bid_id = response.json["data"]["id"]
 
     # switch to active.qualification
@@ -701,12 +695,7 @@ def one_invalid_bid_tender(self):
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
         {
-            "data": {
-                "tenderers": [test_organization],
-                "value": {"amount": 500},
-                "selfEligible": True,
-                "selfQualified": True,
-            }
+            "data": self.test_bids_data[0]
         },
     )
     # switch to active.qualification

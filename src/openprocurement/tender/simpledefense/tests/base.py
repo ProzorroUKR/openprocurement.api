@@ -8,6 +8,7 @@ from mock import patch
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.utils import get_now
+from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.tender.simpledefense.models import Tender
 from openprocurement.tender.simpledefense.tests.periods import PERIODS
 from openprocurement.tender.openua.tests.base import (
@@ -39,7 +40,9 @@ test_features_tender_ua_data["items"][0]["deliveryAddress"] = test_tender_data["
 
 test_bids = deepcopy(base_test_bids)
 
-bid_update_data = {"selfQualified": True, "selfEligible": True}
+bid_update_data = {"selfQualified": True}
+if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
+    bid_update_data["selfEligible"] = True
 
 for i in test_bids:
     i.update(bid_update_data)
