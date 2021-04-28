@@ -26,7 +26,10 @@ class ISimpleDefTender(IAboveThresholdUADefTender):
 
 
 class Bid(BaseBid, BidResponsesMixin):
-    selfEligible = BooleanType(choices=[True])
+
+    def validate_selfEligible(self, data, value):
+        # for deactivate validation of selfEligible from BidResponsesMixin
+        return
 
 
 @implementer(ISimpleDefTender)

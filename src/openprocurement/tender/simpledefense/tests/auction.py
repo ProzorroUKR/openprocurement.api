@@ -2,8 +2,6 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
-from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 
 from openprocurement.tender.belowthreshold.tests.base import test_features_tender_data, test_lots, test_organization
 from openprocurement.tender.belowthreshold.tests.auction import (
@@ -54,9 +52,7 @@ class TenderSameValueAuctionResourceTest(BaseSimpleDefContentWebTest):
         }
         for i in range(3)
     ]
-    bid_update_data = {"selfQualified": True}
-    if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
-        bid_update_data["selfEligible"] = True
+    bid_update_data = {"selfEligible": True}
 
     for i in initial_bids:
         i.update(bid_update_data)
@@ -95,9 +91,7 @@ class TenderFeaturesAuctionResourceTest(BaseSimpleDefContentWebTest):
         },
     ]
 
-    bid_update_data = {"selfQualified": True}
-    if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
-        bid_update_data["selfEligible"] = True
+    bid_update_data = {"selfEligible": True}
 
     for i in initial_bids:
         i.update(bid_update_data)
