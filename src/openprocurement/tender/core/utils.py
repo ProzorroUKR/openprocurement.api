@@ -667,7 +667,7 @@ def prepare_bids_for_awarding(tender, bids, lot_id=None):
                     "date": bid.date,
                 }
                 if hasattr(bid, "weightedValue") and bid.weightedValue:
-                    active_bid["weightedValue"] = bid.weightedValue.serialize(),
+                    active_bid["weightedValue"] = bid.weightedValue.serialize()
                 active_bids.append(active_bid)
     return sort_bids(tender, active_bids, features)
 
