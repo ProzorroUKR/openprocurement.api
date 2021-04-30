@@ -836,9 +836,14 @@ def delete_tender_bidder(self):
 
     # try to add documents to bid
     for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
-        response = self.app.post(
+        response = self.app.post_json(
             "/tenders/{}/bids/{}/{}?acc_token={}".format(self.tender_id, bid["id"], doc_resource, bid_token),
-            upload_files=[("file", "name_{}.doc".format(doc_resource[:-1]), b"content")],
+            {"data": {
+                "title": "name_{}.doc".format(doc_resource[:-1]),
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
@@ -1113,9 +1118,14 @@ def bids_invalidation_on_tender_change(self):
         self.assertEqual(response.json["data"]["status"], "invalid")
     # try to add documents to bid
     for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
-        response = self.app.post(
+        response = self.app.post_json(
             "/tenders/{}/bids/{}/{}?acc_token={}".format(self.tender_id, bid_id, doc_resource, token),
-            upload_files=[("file", "name_{}.doc".format(doc_resource[:-1]), b"content")],
+            {"data": {
+                "title": "name_{}.doc".format(doc_resource[:-1]),
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }}
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -1331,6 +1341,7 @@ def create_tender_bid_no_scale_invalid(self):
 
 
 @mock.patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
+@mock.patch("openprocurement.tender.core.procedure.models.base.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
 def create_tender_bid_with_scale_not_required(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
     bid_data = {
@@ -1350,6 +1361,7 @@ def create_tender_bid_with_scale_not_required(self):
 
 
 @mock.patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
+@mock.patch("openprocurement.tender.core.procedure.models.base.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
 def create_tender_bid_no_scale(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
     bid_data = {
@@ -1470,9 +1482,14 @@ def features_bid(self):
 def patch_and_put_document_into_invalid_bid(self):
     doc_id_by_type = {}
     for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
-        response = self.app.post(
+        response = self.app.post_json(
             "/tenders/{}/bids/{}/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_resource, self.bid_token),
-            upload_files=[("file", "name_{}.doc".format(doc_resource[:-1]), b"content")],
+            {"data": {
+                "title": "name_{}.doc".format(doc_resource[:-1]),
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }}
         )
 
         self.assertEqual(response.status, "201 Created")
@@ -1507,11 +1524,15 @@ def patch_and_put_document_into_invalid_bid(self):
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
-        response = self.app.put(
+        response = self.app.put_json(
             "/tenders/{}/bids/{}/{}/{}?acc_token={}".format(
                 self.tender_id, self.bid_id, doc_resource, doc_id, self.bid_token
             ),
-            "updated",
-            content_type="application/msword",
+            {"data": {
+                "title": "u[dated.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }}
         )
         self.assertEqual(response.status, "200 OK")

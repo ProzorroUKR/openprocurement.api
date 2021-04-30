@@ -11,13 +11,13 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.openua.validation import validate_update_bid_to_draft, validate_update_bid_to_active_status
 
 
-@optendersresource(
-    name="aboveThresholdUA.defense:Tender Bids",
-    collection_path="/tenders/{tender_id}/bids",
-    path="/tenders/{tender_id}/bids/{bid_id}",
-    procurementMethodType="aboveThresholdUA.defense",
-    description="Tender UA.defense bids",
-)
+# @optendersresource(
+#     name="aboveThresholdUA.defense:Tender Bids",
+#     collection_path="/tenders/{tender_id}/bids",
+#     path="/tenders/{tender_id}/bids/{bid_id}",
+#     procurementMethodType="aboveThresholdUA.defense",
+#     description="Tender UA.defense bids",
+# )
 class TenderUABidResource(TenderBidResource):
     @json_view(
         content_type="application/json",

@@ -29,7 +29,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogUAWebTest,
     BaseCompetitiveDialogWebTest,
     test_lots,
-    test_bids,
+    test_bids_stage1 as test_bids,
 )
 from openprocurement.tender.competitivedialogue.tests.stage1.tender_blanks import (
     # CompetitiveDialogResourceTest

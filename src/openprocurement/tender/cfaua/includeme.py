@@ -15,6 +15,7 @@ def includeme(config):
 
     config.add_tender_procurementMethodType(CloseFrameworkAgreementUA)
     config.scan("openprocurement.tender.cfaua.views")
+    config.scan("openprocurement.tender.cfaua.procedure.views")
     config.scan("openprocurement.tender.cfaua.subscribers")
     config.registry.registerAdapter(
         CloseFrameworkAgreementUAConfigurator, (ICloseFrameworkAgreementUA, IRequest), IContentConfigurator

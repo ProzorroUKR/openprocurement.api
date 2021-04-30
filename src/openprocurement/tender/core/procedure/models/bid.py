@@ -4,11 +4,11 @@ from schematics.exceptions import ValidationError
 from schematics.types import MD5Type
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
-from openprocurement.api.models import Value
+from openprocurement.api.models import Value, Model
 from schematics.types import StringType
 from openprocurement.tender.core.constants import BID_LOTVALUES_VALIDATION_FROM
 from openprocurement.tender.core.procedure.validation import validate_bid_value
-from openprocurement.tender.core.procedure.context import get_tender, get_bid
+from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import get_first_revision_date
 from openprocurement.tender.core.procedure.models.base import (
     ListType,
@@ -17,7 +17,7 @@ from openprocurement.tender.core.procedure.models.base import (
     PostBusinessOrganization,
 )
 from openprocurement.tender.core.procedure.models.parameter import Parameter, PatchParameter
-from openprocurement.tender.core.procedure.models.lot_value import LotValue, PostLotValue
+from openprocurement.tender.core.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
 from openprocurement.tender.core.procedure.models.document import PostDocument, Document
 from openprocurement.tender.core.models import validate_parameters_uniq, Administrator_bid_role
 from openprocurement.api.utils import get_now
@@ -28,10 +28,21 @@ from openprocurement.api.constants import TWO_PHASE_COMMIT_FROM
 class PatchBid(BaseBid):
     parameters = ListType(ModelType(PatchParameter, required=True), validators=[validate_parameters_uniq])
     value = ModelType(Value)
-    lotValues = ListType(ModelType(PostLotValue, required=True))
+    lotValues = ListType(ModelType(PatchLotValue, required=True))
     tenderers = ListType(ModelType(PatchBusinessOrganization, required=True), min_size=1, max_size=1)
     status = StringType(choices=["active", "draft"])
 # --- PATCH DATA
+
+
+def validate_lot_values(values):
+    tender = get_tender()
+    if tender.get("lots") and not values:
+        raise ValidationError("This field is required.")
+    date = get_first_revision_date(tender, default=None)
+    if date and date > BID_LOTVALUES_VALIDATION_FROM and values:
+        lots = [i.relatedLot for i in values]
+        if len(lots) != len(set(lots)):
+            raise ValidationError("bids don't allow duplicated proposals")
 
 
 # BASE ---
@@ -47,14 +58,7 @@ class CommonBid(BaseBid):
         validate_bid_value(tender, value)
 
     def validate_lotValues(self, data, values):
-        tender = get_tender()
-        if tender.get("lots") and not values:
-            raise ValidationError("This field is required.")
-        date = get_first_revision_date(tender, default=None)
-        if date and date > BID_LOTVALUES_VALIDATION_FROM and values:
-            lots = [i.relatedLot for i in values]
-            if len(lots) != len(set(lots)):
-                raise ValidationError("bids don't allow duplicated proposals")
+        validate_lot_values(values)
 
     def validate_parameters(self, data, parameters):
         lot_values = data.get("lotValues") or ""
@@ -105,13 +109,16 @@ class PostBid(CommonBid):
 # -- POST
 
 
-# model to validate a bid after patch
-class Bid(CommonBid):
+class MetaBid(Model):
     id = MD5Type()
     date = StringType()
     owner = StringType()
     owner_token = StringType()
     transfer_token = StringType()
+
+
+# model to validate a bid after patch
+class Bid(MetaBid, CommonBid):
     documents = ListType(ModelType(Document, required=True))
 
 

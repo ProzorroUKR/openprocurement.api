@@ -14,32 +14,6 @@ from openprocurement.tender.competitivedialogue.tests.stage1.document_blanks imp
     patch_tender_document,
 )
 
-#  _____________________________________________________________________
-# |                                                                     |
-# |                                                                     |
-# |                                                                     |
-# |                                 _A_                                 |
-# |                         _A_     /"\      _A_                        |
-# |                         /"\              /"\                        |
-# |                                                                     |
-# |                   _A_                         _A_                   |
-# |                   /"\                         /"\                   |
-# |                                                                     |
-# |                                                                     |
-# |                 _A_                             _A_                 |
-# |                 /"\                             /"\                 |
-# |                                                                     |
-# |                                                                     |
-# |                   _A_                         _A_                   |
-# |                   /"\                         /"\                   |
-# |                                                                     |
-# |                         _A_             _A_                         |
-# |                         /"\     _A_     /"\                         |
-# |                                 /"\                                 |
-# |                                                                     |
-# |                                                                     |
-# |___________________________________________________________________sm|
-
 
 class TenderStage2EUDocumentResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderDocumentResourceTestMixin):
 
@@ -52,11 +26,6 @@ class TenderStage2EUDocumentResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
 
 class TenderStage2DocumentWithDSResourceTest(TenderStage2EUDocumentResourceTest, TenderDocumentResourceTestMixin):
     docservice = True
-
-
-##########
-#  UA
-##########
 
 
 class TenderStage2UADocumentResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest, TenderDocumentResourceTestMixin):

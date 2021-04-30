@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import error_handler, handle_data_exceptions
+from openprocurement.api.utils import error_handler
 from openprocurement.tender.core.procedure.context import get_now
 
 

@@ -2,12 +2,10 @@
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.api.constants import GUARANTEE_ALLOWED_TENDER_TYPES
-from openprocurement.tender.core.procedure.context import get_now
-from openprocurement.tender.core.procedure.documents import check_document, update_document_url
 
 
 # BID DOCUMENTS
-def validate_bid_document_operation_in_not_allowed_tender_status(request, **kwargs):
+def validate_bid_document_operation_in_not_allowed_tender_status(request, **_):
     tender = request.validated["tender"]
     if tender["status"] == "active.awarded" and tender["procurementMethodType"] in GUARANTEE_ALLOWED_TENDER_TYPES:
         bid_id = request.validated["bid"]["id"]

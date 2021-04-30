@@ -5,7 +5,7 @@ from openprocurement.tender.openua.procedure.models.bid import (
     PatchBid as BasePatchBid,
 )
 from openprocurement.tender.core.procedure.models.base import ListType
-from openprocurement.tender.openeu.procedure.models.lot_value import LotValue, PostLotValue
+from openprocurement.tender.openeu.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
 from openprocurement.tender.openua.procedure.models.document import (
     PostDocument,
     Document,
@@ -14,7 +14,7 @@ from schematics.types.compound import ModelType
 
 
 class PatchBid(BasePatchBid):
-    lotValues = ListType(ModelType(LotValue, required=True))
+    lotValues = ListType(ModelType(PatchLotValue, required=True))
     selfQualified = BooleanType(choices=[True])  # selfQualified, selfEligible are the same as in the parent but
     selfEligible = BooleanType(choices=[True])   # tests fail because they in different order
     status = StringType(

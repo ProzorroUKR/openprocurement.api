@@ -12,7 +12,6 @@ from openprocurement.api.models import (
     Reference,
 )
 from schematics.types import StringType
-from openprocurement.api.utils import get_now
 from openprocurement.api.constants import (
     RELEASE_ECRITERIA_ARTICLE_17,
     CRITERION_REQUIREMENT_STATUSES_FROM,
@@ -20,7 +19,7 @@ from openprocurement.api.constants import (
 from openprocurement.tender.core.procedure.validation import (
     validate_value_type,
 )
-from openprocurement.tender.core.procedure.context import get_tender, get_bid, get_json_data
+from openprocurement.tender.core.procedure.context import get_tender, get_bid, get_json_data, get_now
 from openprocurement.tender.core.procedure.utils import get_first_revision_date
 from openprocurement.tender.core.procedure.models.base import (
     BaseBid,

@@ -10,8 +10,8 @@ from openprocurement.tender.belowthreshold.tests.base import test_cancellation
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogUAContentWebTest,
     BaseCompetitiveDialogEUContentWebTest,
+    test_bids_stage1 as test_bids,
     test_lots,
-    test_bids,
 )
 
 from openprocurement.tender.belowthreshold.tests.cancellation import (
@@ -51,6 +51,7 @@ class CompetitiveDialogUACancellationResourceTest(
 class CompetitiveDialogUALotCancellationResourceTest(BaseCompetitiveDialogUAContentWebTest):
     initial_lots = test_lots
     initial_bids = test_bids
+    test_bids_data = test_bids
 
     test_create_tender_cancellation = snitch(create_tender_lot_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_lot_cancellation)
@@ -60,6 +61,7 @@ class CompetitiveDialogUALotCancellationResourceTest(BaseCompetitiveDialogUACont
 class CompetitiveDialogUALotsCancellationResourceTest(BaseCompetitiveDialogUAContentWebTest):
     initial_lots = 2 * test_lots
     initial_bids = test_bids
+    test_bids_data = test_bids
 
     test_create_tender_cancellation = snitch(create_tender_lots_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_lots_cancellation)
@@ -72,6 +74,7 @@ class CompetitiveDialogUACancellationComplaintResourceTest(
 ):
 
     initial_bids = test_bids
+    test_bids_data = test_bids
 
     @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     @patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
@@ -118,6 +121,7 @@ class CompetitiveDialogEUCancellationResourceTest(
 class CompetitiveDialogEULotCancellationResourceTest(BaseCompetitiveDialogEUContentWebTest):
     initial_lots = test_lots
     initial_bids = test_bids
+    test_bids_data = test_bids
 
     initial_auth = ("Basic", ("broker", ""))
 
@@ -129,6 +133,7 @@ class CompetitiveDialogEULotCancellationResourceTest(BaseCompetitiveDialogEUCont
 class CompetitiveDialogEULotsCancellationResourceTest(BaseCompetitiveDialogEUContentWebTest):
     initial_lots = 2 * test_lots
     initial_bids = test_bids
+    test_bids_data = test_bids
     initial_auth = ("Basic", ("broker", ""))
 
     test_create_tender_cancellation = snitch(create_tender_lots_cancellation)

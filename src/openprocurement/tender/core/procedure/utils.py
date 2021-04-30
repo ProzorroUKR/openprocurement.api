@@ -118,7 +118,8 @@ def get_items(request, parent, key, uid):
         return items
     else:
         from openprocurement.api.utils import error_handler
-        request.errors.add("url", f"{key.rstrip('s')}_id", "Not Found")
+        obj_name = "document" if "Document" in key else key.rstrip('s')
+        request.errors.add("url", f"{obj_name}_id", "Not Found")
         request.errors.status = 404
         raise error_handler(request)
 
@@ -131,6 +132,8 @@ def set_item(parent, key, uid, value):
         if item["id"] == uid:
             initial_list[-1 * n] = value
             break
+    else:
+        raise AssertionError(f"Item with id {uid} unexpectedly not found")
 # --- GETTING/SETTING sub documents
 
 

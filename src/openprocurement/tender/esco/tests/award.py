@@ -117,6 +117,12 @@ class TenderAwardResourceScaleTest(BaseESCOContentWebTest):
         patcher = mock.patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
         patcher.start()
         self.addCleanup(patcher.stop)
+
+        patcher = mock.patch("openprocurement.tender.core.procedure.models.base.ORGANIZATION_SCALE_FROM",
+                             get_now() + timedelta(days=1))
+        patcher.start()
+        self.addCleanup(patcher.stop)
+
         test_bid = deepcopy(test_bids[0])
         test_bid["tenderers"][0].pop("scale")
         self.initial_bids = [test_bid]

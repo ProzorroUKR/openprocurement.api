@@ -110,26 +110,26 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
         return super(TenderEUBidDocumentResource, self).put()
 
 
-@bid_eligibility_documents_resource(
-    name="aboveThresholdEU:Tender Bid Eligibility Documents",
-    collection_path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents",
-    path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents/{document_id}",
-    procurementMethodType="aboveThresholdEU",
-    description="Tender EU bidder eligibility documents",
-)
+# @bid_eligibility_documents_resource(
+#     name="aboveThresholdEU:Tender Bid Eligibility Documents",
+#     collection_path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents",
+#     path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents/{document_id}",
+#     procurementMethodType="aboveThresholdEU",
+#     description="Tender EU bidder eligibility documents",
+# )
 class TenderEUBidEligibilityDocumentResource(TenderEUBidDocumentResource):
     """ Tender EU Bid Eligibility Documents """
 
     container = "eligibilityDocuments"
 
 
-@bid_financial_documents_resource(
-    name="aboveThresholdEU:Tender Bid Financial Documents",
-    collection_path="/tenders/{tender_id}/bids/{bid_id}/financial_documents",
-    path="/tenders/{tender_id}/bids/{bid_id}/financial_documents/{document_id}",
-    procurementMethodType="aboveThresholdEU",
-    description="Tender EU bidder financial documents",
-)
+# @bid_financial_documents_resource(
+#     name="aboveThresholdEU:Tender Bid Financial Documents",
+#     collection_path="/tenders/{tender_id}/bids/{bid_id}/financial_documents",
+#     path="/tenders/{tender_id}/bids/{bid_id}/financial_documents/{document_id}",
+#     procurementMethodType="aboveThresholdEU",
+#     description="Tender EU bidder financial documents",
+# )
 class TenderEUBidFinancialDocumentResource(TenderEUBidDocumentResource):
     """ Tender EU Bid Financial Documents """
 
@@ -157,13 +157,13 @@ class TenderEUBidFinancialDocumentResource(TenderEUBidDocumentResource):
         return super(TenderEUBidFinancialDocumentResource, self).get()
 
 
-@bid_qualification_documents_resource(
-    name="aboveThresholdEU:Tender Bid Qualification Documents",
-    collection_path="/tenders/{tender_id}/bids/{bid_id}/qualification_documents",
-    path="/tenders/{tender_id}/bids/{bid_id}/qualification_documents/{document_id}",
-    procurementMethodType="aboveThresholdEU",
-    description="Tender EU bidder qualification documents",
-)
+# @bid_qualification_documents_resource(
+#     name="aboveThresholdEU:Tender Bid Qualification Documents",
+#     collection_path="/tenders/{tender_id}/bids/{bid_id}/qualification_documents",
+#     path="/tenders/{tender_id}/bids/{bid_id}/qualification_documents/{document_id}",
+#     procurementMethodType="aboveThresholdEU",
+#     description="Tender EU bidder qualification documents",
+# )
 class TenderEUBidQualificationDocumentResource(TenderEUBidFinancialDocumentResource):
     """ Tender EU Bid Qualification Documents """
 

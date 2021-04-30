@@ -8,7 +8,7 @@ from openprocurement.api.utils import get_now, parse_date
 from openprocurement.tender.belowthreshold.tests.base import test_organization, set_tender_lots
 
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE, FEATURES_MAX_SUM
-from openprocurement.tender.competitivedialogue.tests.base import test_bids
+from openprocurement.tender.competitivedialogue.tests.base import test_bids_stage1 as test_bids
 
 
 # CompetitiveDialogTest
@@ -575,7 +575,6 @@ def multiple_bidders_tender_eu(self):
     bidder_data = deepcopy(test_organization)
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = deepcopy(test_bids[0])
-    bid_data["value"] = {"amount": 500}
     bid_data["tenderers"] = [bidder_data]
     self.create_bid(tender_id, bid_data, "pending")
     bid_data["value"]["amount"] = 499
@@ -583,7 +582,6 @@ def multiple_bidders_tender_eu(self):
     self.create_bid(tender_id, bid_data, "pending")
     bid_id = response.json["data"]["id"]
     bid_token = response.json["access"]["token"]
-    bid_data["value"]["amount"] = 498
     bidder_data["identifier"]["id"] = "00037259"
     self.create_bid(tender_id, bid_data, "pending")
     # switch to active.pre-qualification
@@ -676,7 +674,6 @@ def try_go_to_ready_stage_eu(self):
     self.set_initial_status(response.json)
     # create bids
     bid_data = deepcopy(test_bids[0])
-    bid_data["value"] = {"amount": 500}
     bidder_data = deepcopy(test_organization)
     bid_data["tenderers"] = [bidder_data]
     self.app.authorization = ("Basic", ("broker", ""))

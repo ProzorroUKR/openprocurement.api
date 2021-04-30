@@ -18,13 +18,13 @@ from openprocurement.tender.belowthreshold.validation import\
 from openprocurement.tender.pricequotation.constants import PMT
 
 
-@optendersresource(
-    name="{}:Tender Bids".format(PMT),
-    collection_path="/tenders/{tender_id}/bids",
-    path="/tenders/{tender_id}/bids/{bid_id}",
-    procurementMethodType=PMT,
-    description="Tender bids",
-)
+# @optendersresource(
+#     name="{}:Tender Bids".format(PMT),
+#     collection_path="/tenders/{tender_id}/bids",
+#     path="/tenders/{tender_id}/bids/{bid_id}",
+#     procurementMethodType=PMT,
+#     description="Tender bids",
+# )
 class TenderBidResource(BaseTenderBidResource):
     """ PriceQuotation tender bid resource """
 

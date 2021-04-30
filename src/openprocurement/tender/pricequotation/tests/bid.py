@@ -92,7 +92,7 @@ class TenderBidCriteriaOneGroupMultipleRequirementsTest(TenderContentWebTest):
 
 
 class TenderBidDocumentResourceTest(TenderContentWebTest):
-
+    docservice = True
     initial_status = "active.tendering"
 
     def setUp(self):
