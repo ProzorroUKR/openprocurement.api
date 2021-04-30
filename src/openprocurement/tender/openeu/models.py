@@ -81,6 +81,7 @@ from openprocurement.tender.openua.models import (
     Tender as OpenUATender,
     Cancellation as BaseCancellation,
     Parameter,
+    WeightedValueMixin,
 )
 from openprocurement.tender.openua.constants import (
     COMPLAINT_SUBMIT_TIME,
@@ -335,7 +336,7 @@ class Lot(BaseLot):
         return len(bids)
 
 
-class LotValue(BaseLotValue):
+class LotValue(BaseLotValue, WeightedValueMixin):
     class Options:
         roles = {
             "create": whitelist("value", "relatedLot", "subcontractingDetails"),
@@ -366,7 +367,7 @@ class LotValue(BaseLotValue):
             validate_relatedlot(get_tender(parent), relatedLot)
 
 
-class Bid(BidResponsesMixin, BaseBid):
+class Bid(BidResponsesMixin, BaseBid, WeightedValueMixin):
     class Options:
         roles = {
             "Administrator": Administrator_bid_role,
