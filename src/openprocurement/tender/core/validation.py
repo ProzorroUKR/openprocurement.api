@@ -57,7 +57,7 @@ from openprocurement.tender.core.utils import (
     QUICK_FAST_AUCTION,
     get_contracts_values_related_to_patched_contract,
 )
-from openprocurement.planning.api.utils import extract_plan_adapter
+from openprocurement.planning.api.utils import extract_plan
 from schematics.exceptions import ValidationError
 from schematics.types import DecimalType, StringType, IntType, BooleanType, DateTimeType
 from openprocurement.tender.pricequotation.constants import PMT
@@ -1937,7 +1937,7 @@ def validate_tender_plan_data(request, **kwargs):
     plan_id = data["id"]
     update_logging_context(request, {"plan_id": plan_id})
 
-    plan = extract_plan_adapter(request, plan_id)
+    plan = extract_plan(request, plan_id)
     with handle_data_exceptions(request):
         plan.validate()
     request.validated["plan"] = plan

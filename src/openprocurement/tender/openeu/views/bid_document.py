@@ -31,13 +31,13 @@ from openprocurement.tender.openeu.validation import (
 )
 
 
-@optendersresource(
-    name="aboveThresholdEU:Tender Bid Documents",
-    collection_path="/tenders/{tender_id}/bids/{bid_id}/documents",
-    path="/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}",
-    procurementMethodType="aboveThresholdEU",
-    description="Tender EU bidder documents",
-)
+# @optendersresource(
+#     name="aboveThresholdEU:Tender Bid Documents",
+#     collection_path="/tenders/{tender_id}/bids/{bid_id}/documents",
+#     path="/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}",
+#     procurementMethodType="aboveThresholdEU",
+#     description="Tender EU bidder documents",
+# )
 class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
 
     @json_view(

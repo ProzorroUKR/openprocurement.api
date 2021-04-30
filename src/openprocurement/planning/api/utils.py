@@ -120,24 +120,25 @@ def set_logging_context(event):
     update_logging_context(request, params)
 
 
-def extract_plan_adapter(request, plan_id):
+def extract_plan_doc(request, plan_id=None):
+    plan_id = plan_id or request.matchdict["plan_id"]
     db = request.registry.databases.plans
     doc = db.get(plan_id)
     if doc is not None and doc.get("doc_type") == "plan":
         request.errors.add("url", "plan_id", "Archived")
         request.errors.status = 410
         raise error_handler(request)
-    elif doc is None or doc.get("doc_type") != "Plan":
+    if doc is None or doc.get("doc_type") != "Plan":
         request.errors.add("url", "plan_id", "Not Found")
         request.errors.status = 404
         raise error_handler(request)
+    return doc
 
-    return request.plan_from_data(doc)
 
-
-def extract_plan(request):
-    plan_id = request.matchdict["plan_id"]
-    return extract_plan_adapter(request, plan_id)
+def extract_plan(request, plan_id=None):
+    doc = extract_plan_doc(request, plan_id)
+    if doc:
+        return request.plan_from_data(doc)
 
 
 def plan_from_data(request, data, raise_error=True, create=True):

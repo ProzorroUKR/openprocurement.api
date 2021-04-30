@@ -237,22 +237,7 @@ def has_unanswered_complaints(tender, filter_cancelled_lots=True):
     return any([i.status in tender.block_tender_complaint_status for i in tender.complaints])
 
 
-def extract_tender_adapter(request, tender_id):
-    db = request.registry.db
-    doc = db.get(tender_id)
-    if doc is not None and doc.get("doc_type") == "tender":
-        request.errors.add("url", "tender_id", "Archived")
-        request.errors.status = 410
-        raise error_handler(request)
-    elif doc is None or doc.get("doc_type") != "Tender":
-        request.errors.add("url", "tender_id", "Not Found")
-        request.errors.status = 404
-        raise error_handler(request)
-
-    return request.tender_from_data(doc)
-
-
-def extract_tender(request):
+def extract_tender_id(request):
     try:
         # empty if mounted under a path in mod_wsgi, for example
         path = decode_path_info(request.environ["PATH_INFO"] or "/")
@@ -261,14 +246,34 @@ def extract_tender(request):
     except UnicodeDecodeError as e:
         raise URLDecodeError(e.encoding, e.object, e.start, e.end, e.reason)
 
-    tender_id = ""
     # extract tender id
     parts = path.split("/")
-    if len(parts) < 4 or parts[3] != "tenders":
+    if len(parts) < 5 or parts[3] != "tenders":
         return
-
     tender_id = parts[4]
-    return extract_tender_adapter(request, tender_id)
+    return tender_id
+
+
+def extract_tender_doc(request):
+    tender_id = extract_tender_id(request)
+    if tender_id:
+        db = request.registry.db
+        doc = db.get(tender_id)
+        if doc is not None and doc.get("doc_type") == "tender":
+            request.errors.add("url", "tender_id", "Archived")
+            request.errors.status = 410
+            raise error_handler(request)
+        elif doc is None or doc.get("doc_type") != "Tender":
+            request.errors.add("url", "tender_id", "Not Found")
+            request.errors.status = 404
+            raise error_handler(request)
+        return doc
+
+
+def extract_tender(request):
+    doc = request.tender_doc
+    if doc:
+        return request.tender_from_data(doc)
 
 
 class isTender(object):
@@ -283,8 +288,8 @@ class isTender(object):
     phash = text
 
     def __call__(self, context, request):
-        if request.tender is not None:
-            return getattr(request.tender, "procurementMethodType", None) == self.val
+        if request.tender_doc is not None:
+            return request.tender_doc.get("procurementMethodType", None) == self.val
         return False
 
 
@@ -307,14 +312,21 @@ def register_tender_procurementMethodType(config, model):
     config.registry.tender_procurementMethodTypes[model.procurementMethodType.default] = model
 
 
-def tender_from_data(request, data, raise_error=True, create=True):
-    procurementMethodType = data.get("procurementMethodType", "belowThreshold")
-    model = request.registry.tender_procurementMethodTypes.get(procurementMethodType)
+def resolve_tender_model(request, data=None, raise_error=True):
+    if data is None:
+        data = request.tender_doc
+    procurement_method_type = data.get("procurementMethodType", "belowThreshold")
+    model = request.registry.tender_procurementMethodTypes.get(procurement_method_type)
     if model is None and raise_error:
         request.errors.add("body", "procurementMethodType", "Not implemented")
         request.errors.status = 415
         raise error_handler(request)
-    update_logging_context(request, {"tender_type": procurementMethodType})
+    update_logging_context(request, {"tender_type": procurement_method_type})
+    return model
+
+
+def tender_from_data(request, data, raise_error=True, create=True):
+    model = resolve_tender_model(request, data, raise_error)
     if model is not None and create:
         model = model(data)
     return model

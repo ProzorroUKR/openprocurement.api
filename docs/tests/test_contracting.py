@@ -25,6 +25,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
     initial_data = test_contract_data
     docservice = False
     docservice_url = DOCS_URL
+    database_keys = ("contracts",)
 
     def setUp(self):
         super(TenderResourceTest, self).setUp()

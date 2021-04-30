@@ -90,7 +90,7 @@ class BaseWebTest(unittest.TestCase):
     Base Web Test to test openprocurement.api.
     It setups the database before each test and delete it after.
     """
-
+    maxDiff = None
     AppClass = BaseTestApp
 
     relative_uri = "config:tests.ini"

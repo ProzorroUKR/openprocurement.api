@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/bac835240efd4adea01560554d7bfdb4/bids/2191d9a2aadb44418238d8cf893ae395?acc_token=d4640e490c734ea5ae304b02ec4304d9 HTTP/1.0
+PATCH /api/2.5/tenders/bac835240efd4adea01560554d7bfdb4/bids/0f4edde39c8440589de23c8efb2c8fb8?acc_token=fad6392841c34ee7afa2265d0f27d18a HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -15,6 +15,11 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -38,16 +43,11 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "2191d9a2aadb44418238d8cf893ae395",
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "subcontractingDetails": "ДКП «Орфей», Україна",
     "status": "active",
-    "selfQualified": true
+    "id": "0f4edde39c8440589de23c8efb2c8fb8",
+    "date": "2021-03-16T00:00:00+02:00",
+    "selfQualified": true,
+    "subcontractingDetails": "ДКП «Орфей», Україна"
   }
 }
 

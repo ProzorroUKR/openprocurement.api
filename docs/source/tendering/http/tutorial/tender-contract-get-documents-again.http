@@ -8,7 +8,7 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "id": "5b95c75b7e224d23b340b05a0e81d513",
+      "id": "04c0b960c0db4aacbdf77fddef51149b",
       "hash": "md5:00000000000000000000000000000000",
       "title": "contract_first_document.doc",
       "format": "application/msword",
@@ -18,7 +18,7 @@ X-Content-Type-Options: nosniff
       "documentOf": "tender"
     },
     {
-      "id": "7f248929d5bc41488ea8f82f93ba1821",
+      "id": "5b95c75b7e224d23b340b05a0e81d513",
       "hash": "md5:00000000000000000000000000000000",
       "title": "contract_second_document.doc",
       "format": "application/msword",

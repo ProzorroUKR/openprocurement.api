@@ -162,7 +162,7 @@ X-Content-Type-Options: nosniff
           }
         ],
         "date": "2021-03-16T00:00:00+02:00",
-        "id": "fc924775f61346628e9700a411bd0f0b",
+        "id": "4252ef137ce24a6d893a34e9acf46c61",
         "status": "active",
         "value": {
           "amount": 500.0,
@@ -225,7 +225,7 @@ X-Content-Type-Options: nosniff
             "scale": "micro"
           }
         ],
-        "bid_id": "fc924775f61346628e9700a411bd0f0b",
+        "bid_id": "4252ef137ce24a6d893a34e9acf46c61",
         "complaintPeriod": {
           "startDate": "2021-03-16T00:00:00+02:00",
           "endDate": "2021-03-16T00:00:00+02:00"

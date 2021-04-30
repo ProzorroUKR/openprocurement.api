@@ -1,28 +1,29 @@
 POST /api/2.5/tenders/423ce3389d0f48b1a1ee6cd5a8dad65f/complaints/85f2baaabc2c49e1a28ae0b3a52aa58d/documents HTTP/1.0
 Authorization: Bearer reviewer
-Content-Length: 155
-Content-Type: multipart/form-data; boundary=---BOUNDARY
+Content-Length: 339
+Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
------BOUNDARY
-Content-Disposition: form-data; name="file"; filename="ComplaintResolution.pdf"
-Content-Type: application/pdf
-
-content
------BOUNDARY--
-
+{
+  "data": {
+    "title": "ComplaintResolution.pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d88d09359eca46089444736125e42150?Signature=1mTF%2BpvOilDrh1ve42np6Fw3hSe%2F2MNEyzOQF8T1Tse4cR8Bc0i27%2FE7nsHCw0XTmBCSMsEY0c1LP4F%2FPTCqDg%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pdf"
+  }
+}
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/423ce3389d0f48b1a1ee6cd5a8dad65f/complaints/85f2baaabc2c49e1a28ae0b3a52aa58d/documents/b7322bf7dfab4929adeb680e00ec1193
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/423ce3389d0f48b1a1ee6cd5a8dad65f/complaints/85f2baaabc2c49e1a28ae0b3a52aa58d/documents/9b03d665e72b4be4b37c1e51a9f8841d
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "b7322bf7dfab4929adeb680e00ec1193",
+    "id": "9b03d665e72b4be4b37c1e51a9f8841d",
     "hash": "md5:00000000000000000000000000000000",
     "title": "ComplaintResolution.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/eb128004c6b444a0b888f43a0cb3292f?Signature=J84B6UgTFFaMMIwybStpJhvFOetXrcbzfWRmx5seoUZHAS7qjN3e7ZYWj5v62rpqKpdbovYTlvALwm1x5LnwDA%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d88d09359eca46089444736125e42150?Signature=AOJvXhSL1tIQDaTegUVekr7dAkPABeF%2BZ0aPPSZ5Y5446GQkaEHNO12ICXIDvOSMxMko06SC9mLnzwFBIcdoBw%3D%3D&KeyID=a8968c46",
     "datePublished": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
     "author": "aboveThresholdReviewers",

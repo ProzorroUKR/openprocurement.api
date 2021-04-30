@@ -81,11 +81,11 @@ X-Content-Type-Options: nosniff
     },
     "documents": [
       {
-        "id": "3e0b47461b114c40831d597ec012afb5",
+        "id": "e6ff11e4796a4e45a0afd771fb72dff0",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/dd343f1f94534aba8d0f5824f535e557?Signature=j0hauG4SHfv4Q6nlliuG2bf7C5ykC6FDHpdLPbTlT5U9ImorryssEeXasZdQsvaPvAtvOj4LFq7AWAYVG3A%2BAw%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ab8a494e9c2f4449ad1f1f14a64c979a?Signature=IBm7WuwOafrXpvyGqFn15E31vKrct3sveUDatq5YZeQuze4ghY4Xn9WwttCh5Gd7%2BpLoP5%2FbzoHhSMpZv2tECQ%3D%3D&KeyID=a8968c46",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "author": "tender_owner",
@@ -93,11 +93,11 @@ X-Content-Type-Options: nosniff
         "language": "uk"
       },
       {
-        "id": "116fa14b4ac44995b8cbe59ebc070f3f",
+        "id": "c648fc26ab1041c193f63ba2b43e95c8",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f03b369e034e44a7b794b6198ae7d541?Signature=xzbngUbit4ASXBAvFVG6VDV2u8tszgPqRLUsQMN4LzSIboFjjj6oQ4oNAteWhB6uoGyYx52clzaHoS8v79zxDw%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4458395daa9043c28cff954a8ae6c3c8?Signature=JJukztJJJMPOV6hP%2B7NpAKlbergt5OhiQQlf01nmjZt3hmkgqTz%2BMCxYaDBG6KTCnXXgbLdaOXpN07uPqfBcDg%3D%3D&KeyID=a8968c46",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "author": "tender_owner",
@@ -105,11 +105,11 @@ X-Content-Type-Options: nosniff
         "language": "uk"
       },
       {
-        "id": "116fa14b4ac44995b8cbe59ebc070f3f",
+        "id": "c648fc26ab1041c193f63ba2b43e95c8",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/efeff81756d14b60b0829a937808b6d5?Signature=z6ISM9hwbDTFqg5IGETfBaHdkDlzagK%2Bb3PiEAeU9sJj23%2FsXS5r%2FP73jvpR%2B0CwGUy7ghxbEtHYmrHM4uwCCg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/88b8e9b475364501a41d908978a4ea7c?Signature=hQJxsry6FmzQ2YR7TCSH9OO9SKNZSkeAWwksJJnJvIu4Wabk6cqrYmx21lkfuIwD9Nd4SGZ%2BfZI9oRfXFFTdBA%3D%3D&KeyID=a8968c46",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "author": "tender_owner",
@@ -235,14 +235,14 @@ X-Content-Type-Options: nosniff
             "scale": "micro"
           }
         ],
-        "id": "c48ab04ff9f84430ad5a724b31b56f19",
+        "id": "7b97714f142c430b98dd609d94a9e441",
         "documents": [
           {
-            "id": "8aeec06a85ee4e4298b8bd22dfb032d4",
+            "id": "9c6c487bd8474272aeeef2b98848640e",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal.pdf",
             "format": "application/pdf",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fff57b2a4a194ddbb66c81394bbbd5f8?Signature=831CBgQIr3oQ23vubpjebBIhHcdla9EJXUsphEXRXyzrnar4840ps3EWJPoxR6asWhJojiFG%2F794C1FefZ6jAg%3D%3D&KeyID=a8968c46",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3436c5b74fae4a6396cb495b38c4a7bf?Signature=xb6zEhLUtq25zw4gaPuLWfObN9WzWu8L0bT1AeU9fbbc85DYWxTWoUVERSTcq7ZE4RhUSV8MsAENb59z0a8XDA%3D%3D&KeyID=a8968c46",
             "datePublished": "2021-03-16T00:00:00+02:00",
             "dateModified": "2021-03-16T00:00:00+02:00",
             "documentOf": "tender",
@@ -250,7 +250,7 @@ X-Content-Type-Options: nosniff
             "language": "uk"
           },
           {
-            "id": "2e070d09800142ddac13f14a5ae2f9ef",
+            "id": "28852cb33d7e4d0d8175cc86f80283da",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_top_secrets.pdf",
             "format": "application/pdf",
@@ -264,11 +264,11 @@ X-Content-Type-Options: nosniff
         ],
         "eligibilityDocuments": [
           {
-            "id": "edfba70779d040f39a994e1e8f81e90d",
+            "id": "248bc5542a1f4f8fb36288792bf74e38",
             "hash": "md5:00000000000000000000000000000000",
             "title": "eligibility_doc.pdf",
             "format": "application/pdf",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/97c4aa75718c4dcd979ad5cf3522f9d6?Signature=O4%2FesIzg4mV%2FtzK6%2BzaWJse3XA%2FCAvjxHu7b1XHpizAUj2hXcCBH2JZngOm3IJJhGWRwXh3WrACU6hej6bxSAA%3D%3D&KeyID=a8968c46",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9f525265f9f844849fd1b50c43dfd6c1?Signature=V%2F7y4dUu4zh25Zo1ksIOnDNae%2Bwf4jlhggthgc2Pa%2BZt2g23oFrHVP7jvR4CZuxIh1mrmWQchZO7N6kUzznKAQ%3D%3D&KeyID=a8968c46",
             "datePublished": "2021-03-16T00:00:00+02:00",
             "dateModified": "2021-03-16T00:00:00+02:00",
             "documentOf": "tender",
@@ -302,7 +302,7 @@ X-Content-Type-Options: nosniff
             "scale": "sme"
           }
         ],
-        "id": "fc8e2476624d4425ac818176664ccdd0",
+        "id": "a7b50823159d46bface66972e91c6682",
         "status": "pending"
       },
       {
@@ -329,14 +329,14 @@ X-Content-Type-Options: nosniff
             "scale": "sme"
           }
         ],
-        "id": "4daf8018ce2342168d597aec3f67c7cb",
+        "id": "6a292c9f2bb64ba3b38e5547f0bbc9e7",
         "status": "pending"
       }
     ],
     "qualifications": [
       {
         "id": "f984c4d8c38945cfb64a12d897b96a02",
-        "bidID": "c48ab04ff9f84430ad5a724b31b56f19",
+        "bidID": "7b97714f142c430b98dd609d94a9e441",
         "status": "pending",
         "date": "2021-03-16T00:00:00+02:00",
         "qualified": false,
@@ -344,7 +344,7 @@ X-Content-Type-Options: nosniff
       },
       {
         "id": "5dd12d6c68734a0eb646e3b067240ae5",
-        "bidID": "fc8e2476624d4425ac818176664ccdd0",
+        "bidID": "a7b50823159d46bface66972e91c6682",
         "status": "pending",
         "date": "2021-03-16T00:00:00+02:00",
         "qualified": false,
@@ -352,7 +352,7 @@ X-Content-Type-Options: nosniff
       },
       {
         "id": "ba21d9fecde24b49be6aa9738bb54899",
-        "bidID": "4daf8018ce2342168d597aec3f67c7cb",
+        "bidID": "6a292c9f2bb64ba3b38e5547f0bbc9e7",
         "status": "pending",
         "date": "2021-03-16T00:00:00+02:00",
         "qualified": false,

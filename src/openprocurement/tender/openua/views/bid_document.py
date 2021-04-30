@@ -20,13 +20,13 @@ from openprocurement.tender.openua.validation import (
 from openprocurement.tender.core.utils import optendersresource
 
 
-@optendersresource(
-    name="aboveThresholdUA:Tender Bid Documents",
-    collection_path="/tenders/{tender_id}/bids/{bid_id}/documents",
-    path="/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}",
-    procurementMethodType="aboveThresholdUA",
-    description="Tender UA bidder documents",
-)
+# @optendersresource(
+#     name="aboveThresholdUA:Tender Bid Documents",
+#     collection_path="/tenders/{tender_id}/bids/{bid_id}/documents",
+#     path="/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}",
+#     procurementMethodType="aboveThresholdUA",
+#     description="Tender UA bidder documents",
+# )
 class TenderUaBidDocumentResource(TenderBidDocumentResource):
 
     def get_doc_view_role(self, doc):

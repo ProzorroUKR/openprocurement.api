@@ -369,7 +369,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
             self.app.post_json(
                 "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
                 {
-                    "data": contract_guarantee_criteria
+                    "data": getattr(self, "guarantee_criterion_data", contract_guarantee_criteria)
                 },
                 status=201
             )

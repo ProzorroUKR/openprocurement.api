@@ -59,7 +59,9 @@ from openprocurement.tender.openua.tests.bid_blanks import (
     # TenderBidDocumentWithDSResourceTest
     create_tender_bidder_document_json,
     put_tender_bidder_document_json,
+    patch_tender_bidder_document_json,
     tender_bidder_confidential_document,
+    create_tender_bidder_document_nopending_json,
     # TenderBidRequirementResponseResourceTest
     create_bid_requirement_response,
     patch_bid_requirement_response,
@@ -72,6 +74,8 @@ from openprocurement.tender.openua.tests.bid_blanks import (
     patch_bid_requirement_response_evidence,
     get_bid_requirement_response_evidence,
     bid_activate,
+    # TenderBidDocumentActivateResourceTest
+    doc_date_modified,
 )
 
 
@@ -127,7 +131,8 @@ class TenderBidRequirementResponseTestMixin(object):
 
 @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.core.models.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
-class TenderBidRequirementResponseEvidenceTestMixin(object):
+class TenderBidRequirementResponseEvidenceTestMixin:
+    docservice = True
     test_create_bid_requirement_response_evidence = snitch(create_bid_requirement_response_evidence)
     test_patch_bid_requirement_response_evidence = snitch(patch_bid_requirement_response_evidence)
     test_get_bid_requirement_response_evidence = snitch(get_bid_requirement_response_evidence)
@@ -164,10 +169,17 @@ class TenderBidRequirementResponseEvidenceTestMixin(object):
         self.assertEqual(response.content_type, "application/json")
         self.rr_id = response.json["data"][0]["id"]
 
-        response = self.app.post(
+        response = self.app.post_json(
             "/tenders/{}/bids/{}/documents?acc_token={}".format(
                 self.tender_id, self.bid_id, self.bid_token),
-            upload_files=[("file", "name.doc", b"content")],
+            {
+                "data": {
+                    "title": "name.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -220,7 +232,7 @@ class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
     test_features_bidder_invalid = snitch(features_bidder_invalid)
 
 
-class TenderBidDocumentResourceTest(CreateBidMixin, TenderBidDocumentResourceTestMixin, BaseTenderUAContentWebTest):
+class TenderBidDocumentResourceTest(CreateBidMixin, BaseTenderUAContentWebTest):
     initial_status = "active.tendering"
     test_bids_data = test_bids
     author_data = test_author
@@ -228,10 +240,21 @@ class TenderBidDocumentResourceTest(CreateBidMixin, TenderBidDocumentResourceTes
     test_not_found = snitch(not_found)
 
 
+class TenderBidActivateDocumentTest(CreateBidMixin, BaseTenderUAContentWebTest):
+    docservice = True
+    initial_status = "active.tendering"
+    test_bids_data = test_bids
+    author_data = test_author
+    base_bid_status = "draft"
+    test_doc_date_modified = snitch(doc_date_modified)
+
+
 class TenderBidDocumentWithDSResourceTestMixin:
     docservice = True
     test_create_tender_bidder_document_json = snitch(create_tender_bidder_document_json)
     test_put_tender_bidder_document_json = snitch(put_tender_bidder_document_json)
+    test_patch_tender_bidder_document = snitch(patch_tender_bidder_document_json)
+    test_create_tender_bidder_document_nopending = snitch(create_tender_bidder_document_nopending_json)
     test_tender_bidder_confidential_document = snitch(tender_bidder_confidential_document)
 
 

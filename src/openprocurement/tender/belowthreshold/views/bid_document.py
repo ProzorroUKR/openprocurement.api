@@ -15,13 +15,13 @@ from openprocurement.tender.core.validation import (
 )
 
 
-@optendersresource(
-    name="belowThreshold:Tender Bid Documents",
-    collection_path="/tenders/{tender_id}/bids/{bid_id}/documents",
-    path="/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}",
-    procurementMethodType="belowThreshold",
-    description="Tender bidder documents",
-)
+# @optendersresource(
+#     name="belowThreshold:Tender Bid Documents",
+#     collection_path="/tenders/{tender_id}/bids/{bid_id}/documents",
+#     path="/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}",
+#     procurementMethodType="belowThreshold",
+#     description="Tender bidder documents",
+# )
 class BelowThresholdTenderBidDocumentResource(TenderBidDocumentResource):
     pass
 

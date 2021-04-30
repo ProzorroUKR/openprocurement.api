@@ -51,17 +51,22 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4826290bfb064165b70a94d71e93a63b/bids/3ab765b05e8746edb4fabf8c09d0c17b
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4826290bfb064165b70a94d71e93a63b/bids/6dc5b86cfd0b468ab72f0e6540fec137
 X-Content-Type-Options: nosniff
 {
   "data": {
+    "value": {
+      "amount": 499.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "tenderers": [
       {
         "name": "ДКП «Книга»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137226",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137226"
         },
         "address": {
           "streetAddress": "вул. Островського, 34",
@@ -71,47 +76,42 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Андрій Олексюк",
           "email": "aagt@gmail.com",
-          "telephone": "+380322916930"
+          "telephone": "+380322916930",
+          "name": "Андрій Олексюк"
         },
         "scale": "sme"
       }
     ],
-    "date": "2021-03-16T00:00:01+02:00",
-    "id": "3ab765b05e8746edb4fabf8c09d0c17b",
     "status": "active",
-    "value": {
-      "amount": 499.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "documents": [
       {
-        "id": "8555723251474499a3598d3ed2e0af34",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4826290bfb064165b70a94d71e93a63b/bids/3ab765b05e8746edb4fabf8c09d0c17b/documents/8555723251474499a3598d3ed2e0af34?download=4723ad37c9a04058983e5acc8d0ce9f4",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4826290bfb064165b70a94d71e93a63b/bids/6dc5b86cfd0b468ab72f0e6540fec137/documents/63cd06866d7f4b70970fdab01b6d6e74?download=4723ad37c9a04058983e5acc8d0ce9f4",
+        "documentOf": "tender",
+        "id": "63cd06866d7f4b70970fdab01b6d6e74",
         "datePublished": "2021-03-16T00:00:01+02:00",
-        "dateModified": "2021-03-16T00:00:01+02:00",
-        "documentOf": "tender"
+        "dateModified": "2021-03-16T00:00:01+02:00"
       },
       {
-        "id": "aa1e5b694fc249d897bdd95e2f5a1904",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4826290bfb064165b70a94d71e93a63b/bids/3ab765b05e8746edb4fabf8c09d0c17b/documents/aa1e5b694fc249d897bdd95e2f5a1904?download=200d1dfb2afc4cf791ec2fea005cefde",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4826290bfb064165b70a94d71e93a63b/bids/6dc5b86cfd0b468ab72f0e6540fec137/documents/af46509a855b496d9679368935810e7a?download=200d1dfb2afc4cf791ec2fea005cefde",
+        "documentOf": "tender",
+        "id": "af46509a855b496d9679368935810e7a",
         "datePublished": "2021-03-16T00:00:01+02:00",
-        "dateModified": "2021-03-16T00:00:01+02:00",
-        "documentOf": "tender"
+        "dateModified": "2021-03-16T00:00:01+02:00"
       }
-    ]
+    ],
+    "id": "6dc5b86cfd0b468ab72f0e6540fec137",
+    "date": "2021-03-16T00:00:01+02:00"
   },
   "access": {
-    "token": "650ab709871444d4b9e646ffd84c0a4b",
-    "transfer": "533bf61581634854bd719e26dfeff2f8"
+    "token": "c817e0e9fb944e688d38ad4112e954d0",
+    "transfer": "119a4dda88944a4fb71ef9b216846dae"
   }
 }
 

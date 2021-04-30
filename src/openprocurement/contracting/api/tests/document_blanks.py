@@ -120,7 +120,6 @@ def create_contract_document(self):
         self.assertIn("KeyID=", response.location)
         self.assertNotIn("Expires=", response.location)
     else:
-        print("START")
         response = self.app.get("/contracts/{}/documents/{}?download={}".format(self.contract_id, doc_id, key))
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/msword")

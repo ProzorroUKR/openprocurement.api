@@ -1,28 +1,29 @@
 POST /api/2.5/tenders/7d0a97df8f00490ca771758156599045/cancellations/7b3a09b033c7450d99c0d3e17b69039a/complaints/9d0ce1567b1a462eb0d9226f0c06add5/documents HTTP/1.0
 Authorization: Bearer reviewer
-Content-Length: 155
-Content-Type: multipart/form-data; boundary=---BOUNDARY
+Content-Length: 343
+Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
------BOUNDARY
-Content-Disposition: form-data; name="file"; filename="ComplaintResolution.pdf"
-Content-Type: application/pdf
-
-content
------BOUNDARY--
-
+{
+  "data": {
+    "title": "ComplaintResolution.pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f53bd08e9faf49038561b358c152af4a?Signature=2NeiDckGj0L4Dtoc4k6KY%2BFl3FAek%2FcWWU6sQRzPicr%2B%2FrC%2BrtIfylV9IB1ejm0g5Dic0HSQF5p2XyfX%2BnCyBw%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pdf"
+  }
+}
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7d0a97df8f00490ca771758156599045/cancellations/7b3a09b033c7450d99c0d3e17b69039a/complaints/9d0ce1567b1a462eb0d9226f0c06add5/documents/ba4aecbcf90547e7b044994adefb7763
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7d0a97df8f00490ca771758156599045/cancellations/7b3a09b033c7450d99c0d3e17b69039a/complaints/9d0ce1567b1a462eb0d9226f0c06add5/documents/ecf5da7f6ea84b38929f6d5ee164cd8a
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "ba4aecbcf90547e7b044994adefb7763",
+    "id": "ecf5da7f6ea84b38929f6d5ee164cd8a",
     "hash": "md5:00000000000000000000000000000000",
     "title": "ComplaintResolution.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8cbfa48b9de4470c8a49f6757336f82c?Signature=9GJAyc1D26fHZr9fz4bw2Jy%2Fum2wPVrqbiyXHntlBKWFOcd7dz5627kvlOECy70lWyVKsYmYpWz04wnnOqL4Bw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f53bd08e9faf49038561b358c152af4a?Signature=jhQCBa2Y6Zd8wDcYgNFAS2FOELaTDVWfqYy0xmOMmcSZo3AE1X0YgCvot8yLeHluBC2rqWFHHhY1GnLtnhupCA%3D%3D&KeyID=a8968c46",
     "datePublished": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
     "author": "aboveThresholdReviewers",

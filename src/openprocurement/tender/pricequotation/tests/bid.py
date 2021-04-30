@@ -25,8 +25,6 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_document_json_bulk,
     put_tender_bid_document_json,
     not_found,
-    create_tender_bid_document,
-    put_tender_bid_document,
 )
 from openprocurement.tender.pricequotation.tests.bid_blanks import (
     create_tender_bid,
@@ -111,8 +109,6 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
         self.bid_token = response.json["access"]["token"]
 
     test_not_found = snitch(not_found)
-    test_create_tender_bid_document = snitch(create_tender_bid_document)
-    test_put_tender_bid_document = snitch(put_tender_bid_document)
     test_patch_tender_bid_document = snitch(patch_tender_bid_document)
     test_create_tender_bid_document_nopending = snitch(create_tender_bid_document_nopending)
 

@@ -31,7 +31,7 @@ from openprocurement.tender.openua.tests.bid_blanks import (
 from openprocurement.tender.openeu.tests.bid import (
     TenderBidResourceTestMixin,
     Tender2BidResourceTestMixin,
-    TenderBidDocumentResourceTestMixin,
+    TenderBidDocumentResourceWithDSTestMixin,
 )
 
 from openprocurement.tender.competitivedialogue.tests.base import (
@@ -133,8 +133,9 @@ class TenderStage2EUBidFeaturesResourceTest(BaseCompetitiveDialogEUStage2Content
 
 
 class TenderStage2EUBidDocumentResourceTest(
-    BaseCompetitiveDialogEUStage2ContentWebTest, TenderBidDocumentResourceTestMixin
+    BaseCompetitiveDialogEUStage2ContentWebTest, TenderBidDocumentResourceWithDSTestMixin
 ):
+    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "active.tendering"
     test_bids_data = test_bids_stage2

@@ -918,6 +918,7 @@ def handle_store_exceptions(request):
         request.errors.add("body", "data", str(e))
         request.errors.status = 409
     except Exception as e:  # pragma: no cover
+        LOGGER.exception(e)
         request.errors.add("body", "data", str(e))
 
 

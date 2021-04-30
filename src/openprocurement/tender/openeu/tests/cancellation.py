@@ -74,9 +74,14 @@ class TenderCancellationBidsAvailabilityUtils(object):
                 "eligibility_documents",
                 "qualification_documents",
             ]:
-                response = self.app.post(
+                response = self.app.post_json(
                     "/tenders/{}/bids/{}/{}?acc_token={}".format(self.tender_id, bid_id, doc_resource, bid_token),
-                    upload_files=[("file", "name_{}.doc".format(doc_resource[:-1]), b"content")],
+                    {"data": {
+                        "title": "name_{}.doc".format(doc_resource[:-1]),
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/msword",
+                    }},
                 )
                 doc_id = response.json["data"]["id"]
 
@@ -263,6 +268,7 @@ class TenderCancellationBidsAvailabilityTest(
     BaseTenderContentWebTest,
     TenderCancellationBidsAvailabilityUtils
 ):
+    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_bids = test_bids * 2
     bid_visible_fields = ["status", "documents", "tenderers", "id", "eligibilityDocuments"]
