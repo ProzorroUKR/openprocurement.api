@@ -25,7 +25,7 @@ def migrate_data(registry, destination=None):
         plugins = [plugin.strip() for plugin in registry.settings["plugins"].split(",")]
         if "planning.api" not in plugins:
             return
-    cur_version = get_db_schema_version(registry.db)
+    cur_version = get_db_schema_version(registry.databases.migrations)
     if cur_version == SCHEMA_VERSION:
         return cur_version
     for step in range(cur_version, destination or SCHEMA_VERSION):
@@ -36,29 +36,30 @@ def migrate_data(registry, destination=None):
         migration_func = globals().get("from{}to{}".format(step, step + 1))
         if migration_func:
             migration_func(registry)
-        set_db_schema_version(registry.db, step + 1)
+        set_db_schema_version(registry.databases.migrations, step + 1)
 
-
-def from0to1(registry):
-    class Request(object):
-        def __init__(self, registry):
-            self.registry = registry
-
-    len(registry.db.view("plans/all", limit=1))
-    results = registry.db.iterview("plans/all", 2 ** 10, include_docs=True, stale="update_after")
-    docs = []
-    request = Request(registry)
-    root = Root(request)
-    for i in results:
-        doc = i.doc
-        if not all([i.get("url", "").startswith(registry.docservice_url) for i in doc.get("documents", [])]):
-            plan = Plan(doc)
-            plan.__parent__ = root
-            doc = plan.to_primitive()
-            doc["dateModified"] = get_now().isoformat()
-            docs.append(doc)
-        if len(docs) >= 2 ** 7:
-            registry.db.update(docs)
-            docs = []
-    if docs:
-        registry.db.update(docs)
+# Disabling data migration when splitting database
+# this migration shouldn't work
+# def from0to1(registry):
+#     class Request(object):
+#         def __init__(self, registry):
+#             self.registry = registry
+#
+#     len(registry.db.view("plans/all", limit=1))
+#     results = registry.db.iterview("plans/all", 2 ** 10, include_docs=True, stale="update_after")
+#     docs = []
+#     request = Request(registry)
+#     root = Root(request)
+#     for i in results:
+#         doc = i.doc
+#         if not all([i.get("url", "").startswith(registry.docservice_url) for i in doc.get("documents", [])]):
+#             plan = Plan(doc)
+#             plan.__parent__ = root
+#             doc = plan.to_primitive()
+#             doc["dateModified"] = get_now().isoformat()
+#             docs.append(doc)
+#         if len(docs) >= 2 ** 7:
+#             registry.db.update(docs)
+#             docs = []
+#     if docs:
+#         registry.db.update(docs)

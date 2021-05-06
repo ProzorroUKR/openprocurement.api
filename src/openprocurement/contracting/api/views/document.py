@@ -21,6 +21,7 @@ from openprocurement.contracting.api.utils import get_transaction_by_id, upload_
 class CoreDocumentResource(BaseDocumentResource):
     container = "documents"
     context_name = "contract"
+    db_key = "contracts"
 
     def save(self, request, **kwargs):
         return save_contract(request)

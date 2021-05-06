@@ -94,6 +94,8 @@ def main(global_config, **settings):
         qualifications=settings.get("couchdb.qualifications_db_name"),
         agreements=settings.get("couchdb.agreements_db_name"),
         transfers=settings.get("couchdb.transfers_db_name"),
+        plans=settings.get("couchdb.plans_db_name"),
+        contracts=settings.get("couchdb.contracts_db_name"),
     )
 
     # readjust couchdb json decoder

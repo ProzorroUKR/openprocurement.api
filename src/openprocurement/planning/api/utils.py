@@ -74,7 +74,7 @@ def save_plan(request):
                 plan.cancellation.date = now
 
         with handle_store_exceptions(request):
-            plan.store(request.registry.db)
+            plan.store(request.registry.databases.plans)
             LOGGER.info(
                 "Saved plan {}: dateModified {} -> {}".format(
                     plan.id,
@@ -104,7 +104,7 @@ class APIResource(object):
     def __init__(self, request, context):
         self.context = context
         self.request = request
-        self.db = request.registry.db
+        self.db = request.registry.databases.plans
         self.server_id = request.registry.server_id
         self.server = request.registry.couchdb_server
         self.update_after = request.registry.update_after
@@ -121,7 +121,7 @@ def set_logging_context(event):
 
 
 def extract_plan_adapter(request, plan_id):
-    db = request.registry.db
+    db = request.registry.databases.plans
     doc = db.get(plan_id)
     if doc is not None and doc.get("doc_type") == "plan":
         request.errors.add("url", "plan_id", "Archived")

@@ -204,9 +204,9 @@ def test_fail_post_another_milestone(app, centralized_milestone, test_status):
 
     # set milestone status
     if test_status != milestone["status"]:
-        plan_source = app.app.registry.db.get(plan["id"])
+        plan_source = app.app.registry.databases.plans.get(plan["id"])
         plan_source["milestones"][0]["status"] = test_status
-        app.app.registry.db.save(plan_source)
+        app.app.registry.databases.plans.save(plan_source)
 
     response = app.post_json(
         "/plans/{}/milestones".format(plan["id"]),
@@ -229,9 +229,9 @@ def test_success_post_another_milestone(app, centralized_milestone, test_status)
     plan, plan_token = plan_data["data"], plan_data["token"]
 
     # set milestone status
-    plan_source = app.app.registry.db.get(plan["id"])
+    plan_source = app.app.registry.databases.plans.get(plan["id"])
     plan_source["milestones"][0]["status"] = test_status
-    app.app.registry.db.save(plan_source)
+    app.app.registry.databases.plans.save(plan_source)
 
     response = app.post_json(
         "/plans/{}/milestones".format(plan["id"]),
@@ -240,7 +240,7 @@ def test_success_post_another_milestone(app, centralized_milestone, test_status)
     )
     assert response.json["data"]["id"] != milestone["id"]
     assert response.json["data"]["author"] == milestone["author"]
-    plan_source = app.app.registry.db.get(plan["id"])
+    plan_source = app.app.registry.databases.plans.get(plan["id"])
     assert len(plan_source["milestones"]) == 2
 
 
@@ -275,9 +275,9 @@ def test_fail_patch_due_date(app, centralized_milestone, test_status):
     app.authorization = ("Basic", ("broker", "broker"))
 
     # set milestone status
-    plan_source = app.app.registry.db.get(plan["id"])
+    plan_source = app.app.registry.databases.plans.get(plan["id"])
     plan_source["milestones"][0]["status"] = test_status
-    app.app.registry.db.save(plan_source)
+    app.app.registry.databases.plans.save(plan_source)
 
     response = app.patch_json(
         "/plans/{}/milestones/{}?acc_token={}".format(plan["id"], milestone["id"], milestone_token),
@@ -330,7 +330,7 @@ def test_patch_milestone(app, centralized_milestone):
     )
     assert response.status_code == 200
 
-    result_plan = app.app.registry.db.get(plan["id"])
+    result_plan = app.app.registry.databases.plans.get(plan["id"])
     result = result_plan.get("milestones")[0]
     # fields that haven"t been changed
     assert result["id"] == milestone["id"]
@@ -359,9 +359,9 @@ def test_fail_patch_description(app, centralized_milestone, test_status):
     app.authorization = ("Basic", ("broker", "broker"))
 
     # set milestone status
-    plan_source = app.app.registry.db.get(plan["id"])
+    plan_source = app.app.registry.databases.plans.get(plan["id"])
     plan_source["milestones"][0]["status"] = test_status
-    app.app.registry.db.save(plan_source)
+    app.app.registry.databases.plans.save(plan_source)
 
     response = app.patch_json(
         "/plans/{}/milestones/{}?acc_token={}".format(plan["id"], milestone["id"], milestone_token),
@@ -384,9 +384,9 @@ def test_success_patch_description(app, centralized_milestone, test_status):
     app.authorization = ("Basic", ("broker", "broker"))
 
     # set milestone status
-    plan_source = app.app.registry.db.get(plan["id"])
+    plan_source = app.app.registry.databases.plans.get(plan["id"])
     plan_source["milestones"][0]["status"] = test_status
-    app.app.registry.db.save(plan_source)
+    app.app.registry.databases.plans.save(plan_source)
 
     new_description = "Changes are coming"
     response = app.patch_json(
@@ -412,7 +412,7 @@ def test_success_patch_milestone_status(app, centralized_milestone, test_status)
         {"data": {"status": test_status}}
     )
     assert response.status_code == 200
-    result_plan = app.app.registry.db.get(plan["id"])
+    result_plan = app.app.registry.databases.plans.get(plan["id"])
     result = result_plan.get("milestones")[0]
 
     assert result_plan["dateModified"] == result["dateModified"]
@@ -505,7 +505,7 @@ def test_update_milestone_documents(app, centralized_milestone):
     )
     assert response.status_code == 201
 
-    result_plan = app.app.registry.db.get(plan["id"])
+    result_plan = app.app.registry.databases.plans.get(plan["id"])
     result_milestone = result_plan.get("milestones")[0]
     assert len(result_milestone["documents"]) == 2
     new_doc = result_milestone["documents"][1]
@@ -532,7 +532,7 @@ def test_update_milestone_documents(app, centralized_milestone):
     )
     assert response.status_code == 200
 
-    result_plan = app.app.registry.db.get(plan["id"])
+    result_plan = app.app.registry.databases.plans.get(plan["id"])
     result_milestone = result_plan.get("milestones")[0]
     assert len(result_milestone["documents"]) == 3
     old_doc = new_doc
@@ -564,7 +564,7 @@ def test_update_milestone_documents(app, centralized_milestone):
     )
     assert response.status_code == 200
 
-    result_plan = app.app.registry.db.get(plan["id"])
+    result_plan = app.app.registry.databases.plans.get(plan["id"])
     result_milestone = result_plan.get("milestones")[0]
     assert len(result_milestone["documents"]) == 3
     patched_doc = result_milestone["documents"][2]
@@ -598,9 +598,9 @@ def test_success_patch_plan_procuring_entity_in_time(app, centralized_milestone,
     app.authorization = ("Basic", ("broker", "broker"))
 
     # set milestone status
-    plan_source = app.app.registry.db.get(plan["id"])
+    plan_source = app.app.registry.databases.plans.get(plan["id"])
     plan_source["milestones"][0]["status"] = test_status
-    app.app.registry.db.save(plan_source)
+    app.app.registry.databases.plans.save(plan_source)
 
     new_procuring_entity = {
         "identifier": {
@@ -667,9 +667,9 @@ def test_fail_patch_plan_procuring_entity_not_in_time(app, centralized_milestone
     app.authorization = ("Basic", ("broker", "broker"))
 
     # set plan.tender.tenderPeriod.startDate
-    plan_source = app.app.registry.db.get(plan["id"])
+    plan_source = app.app.registry.databases.plans.get(plan["id"])
     plan_source["tender"]["tenderPeriod"]["startDate"] = get_now().isoformat()
-    app.app.registry.db.save(plan_source)
+    app.app.registry.databases.plans.save(plan_source)
 
     response = app.patch_json(
         "/plans/{}?acc_token={}".format(plan["id"], plan_token),
@@ -709,10 +709,10 @@ def test_success_patch_plan_procuring_entity_not_in_time(app, centralized_milest
     app.authorization = ("Basic", ("broker", "broker"))
 
     # set plan.tender.tenderPeriod.startDate and milestone status
-    plan_source = app.app.registry.db.get(plan["id"])
+    plan_source = app.app.registry.databases.plans.get(plan["id"])
     plan_source["tender"]["tenderPeriod"]["startDate"] = get_now().isoformat()
     plan_source["milestones"][0]["status"] = test_status
-    app.app.registry.db.save(plan_source)
+    app.app.registry.databases.plans.save(plan_source)
 
     request_entity = {
         "identifier": {

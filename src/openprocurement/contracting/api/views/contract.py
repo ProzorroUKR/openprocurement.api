@@ -61,6 +61,7 @@ class ContractsResource(APIResourceListing):
         self.serialize_func = contract_serialize
         self.object_name_for_listing = "Contracts"
         self.log_message_id = "contract_list_custom"
+        self.db = request.registry.databases.contracts
 
     @json_view(content_type="application/json", permission="create_contract", validators=(validate_contract_data,))
     def post(self):

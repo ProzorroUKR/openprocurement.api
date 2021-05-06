@@ -23,12 +23,12 @@ class MigrateTest(BaseApiWebTest):
         super(MigrateTest, self).setUp()
         migrate_data(self.app.app.registry)
 
-    def test_migrate(self):
+    def disabled_test_migrate(self):
         self.assertEqual(get_db_schema_version(self.db), SCHEMA_VERSION)
         migrate_data(self.app.app.registry, 1)
         self.assertEqual(get_db_schema_version(self.db), SCHEMA_VERSION)
 
-    def test_migrate_from0to1(self):
+    def disabled_test_migrate_from0to1(self):
         set_db_schema_version(self.db, 0)
 
         with open(os.path.join(os.path.dirname(__file__), "data/tender-contract-complete.json"), "r") as df:
@@ -65,7 +65,7 @@ class MigrateTest(BaseApiWebTest):
         self.assertIn("suppliers", migrated_item)
         self.assertEqual(migrated_item["suppliers"], tender["awards"][0]["suppliers"])
 
-    def test_migrate_from1to2(self):
+    def disabled_test_migrate_from1to2(self):
         set_db_schema_version(self.db, 1)
         u = Contract(test_contract_data)
         u.contractID = "UA-X"
@@ -91,13 +91,3 @@ class MigrateTest(BaseApiWebTest):
         self.assertIn("Prefix={}%2Febcb5dd7f7384b0fbfbed2dc4252fa6e".format(u.id), migrated_item["documents"][0]["url"])
         self.assertIn("KeyID=", migrated_item["documents"][0]["url"])
         self.assertIn("Signature=", migrated_item["documents"][0]["url"])
-
-
-def suite():
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(MigrateTest))
-    return suite
-
-
-if __name__ == "__main__":
-    unittest.main(defaultTest="suite")

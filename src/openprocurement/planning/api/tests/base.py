@@ -101,12 +101,14 @@ class BaseApiWebTest(BaseWebTest):
 class BasePlanTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
     initial_auth = ("Basic", ("broker", ""))
+    database_keys = ("plans",)
 
 
 class BasePlanWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_plan_data
     docservice = False
+    database_keys = ("plans",)
 
     def setUp(self):
         super(BasePlanWebTest, self).setUp()
@@ -120,10 +122,6 @@ class BasePlanWebTest(BaseCoreWebTest):
         self.plan_token = response.json["access"]["token"]
         self.plan_id = plan["id"]
 
-    def tearDown(self):
-        del self.db[self.plan_id]
-        super(BasePlanWebTest, self).tearDown()
-
 
 @pytest.fixture(scope="session")
 def singleton_app():
@@ -132,12 +130,24 @@ def singleton_app():
     return app
 
 
+def flush_db(db):
+    # delete docs
+    docs = []
+    for row in db.get("_all_docs", include_docs=True).get("rows", ""):
+        if row['id'].startswith('_'):
+            continue
+        doc = row['doc']
+        doc['_deleted'] = True
+        docs.append(doc)
+    db.update(docs)
+
+
 @pytest.fixture(scope="function")
 def app(singleton_app):
     singleton_app.authorization = None
-    singleton_app.recreate_db()
+    flush_db(singleton_app.app.registry.databases.plans)
     yield singleton_app
-    singleton_app.drop_db()
+    flush_db(singleton_app.app.registry.databases.plans)
 
 
 @pytest.fixture(scope="function")

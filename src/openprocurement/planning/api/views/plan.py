@@ -75,6 +75,7 @@ class PlansResource(APIResourceListing):
         self.serialize_func = plan_serialize
         self.object_name_for_listing = "Plans"
         self.log_message_id = "plan_list_custom"
+        self.db = request.registry.databases.plans
 
     @json_view(
         content_type="application/json",
