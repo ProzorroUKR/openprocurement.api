@@ -15,7 +15,9 @@ with open('requirements.txt', 'r') as f:
         if not resource.startswith('git+'):
             requires.append(resource.strip())
         else:
-            requires.append("@".join([resource.strip().split("#egg=")[1], resource]))
+            res = resource.strip()
+            egg = res.split("#egg=")[1]
+            requires.append("@".join([egg, res]))
 
 tests_requires = requires
 
