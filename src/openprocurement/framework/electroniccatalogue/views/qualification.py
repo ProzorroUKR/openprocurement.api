@@ -111,7 +111,7 @@ class QualificationResource(APIResource):
                 "contracts": [],
                 "owner": framework_data["owner"],
                 "owner_token": framework_data["owner_token"],
-                "mode": framework_data.get("type"),
+                "mode": framework_data.get("mode"),
                 "dateModified": now,
                 "date": now,
                 "transfer_token": transfer_token,
