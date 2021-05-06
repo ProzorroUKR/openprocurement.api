@@ -294,6 +294,15 @@ def patch_submission_pending(self):
 
 
 def patch_qualification_active(self):
+    response = self.app.post_json("/frameworks", {"data": self.initial_data})
+    framework2_id = response.json["data"]["id"]
+    framework2_token = response.json["access"]["token"]
+
+    self.app.patch_json(
+        f"/frameworks/{framework2_id}?acc_token={framework2_token}",
+        {"data": {"status": "active"}}
+    )
+
     response = self.app.patch_json(
         "/submissions/{}?acc_token={}".format(self.submission_id, self.submission_token),
         {"data": {"status": "active"}},
@@ -311,11 +320,12 @@ def patch_qualification_active(self):
 
     response = self.app.patch_json(
         "/qualifications/{}?acc_token={}".format(qualification_id, self.framework_token),
-        {"data": {"status": "active"}},
+        {"data": {"status": "active", "frameworkID": framework2_id}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active")
+    self.assertEqual(response.json["data"]["frameworkID"], self.framework_id)
 
     response = self.app.patch_json(
         "/qualifications/{}?acc_token={}".format(qualification_id, self.framework_token),
