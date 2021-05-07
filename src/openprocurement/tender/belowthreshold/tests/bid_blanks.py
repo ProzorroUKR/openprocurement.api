@@ -1590,6 +1590,145 @@ def create_tender_bid_document_with_award_json(self):
     )
 
 
+def create_tender_bid_document_with_award_json_bulk(self):
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    procurementMethodType = response.json["data"]["procurementMethodType"]
+    if procurementMethodType not in GUARANTEE_ALLOWED_TENDER_TYPES:
+        return
+
+    self.app.authorization = ("Basic", ("token", ""))
+    response = self.app.post_json(
+        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+        {
+            "data": [
+                {
+                    "title": "name1.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                    "documentType": "contractGuarantees",
+                },
+                {
+                    "title": "name2.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                    "documentType": "contractGuarantees",
+                }
+            ]
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    doc_1 = response.json["data"][0]
+    doc_2 = response.json["data"][1]
+
+    def assert_document(document, title, type):
+        self.assertEqual(title, document["title"])
+        self.assertEqual(type, document["documentType"])
+
+    assert_document(doc_1, "name1.doc", "contractGuarantees")
+    assert_document(doc_2, "name2.doc", "contractGuarantees")
+
+    for doc_id in [doc_1["id"], doc_2["id"]]:
+        response = self.app.post_json(
+            "/tenders/{}/bids/{}/requirement_responses/{}/evidences?acc_token={}".format(
+                self.tender_id, self.bid_id, self.rr_guarantee_id, self.bid_token
+            ),
+            {"data": {
+                "title": "Документальне підтвердження",
+                "description": "Довідка в довільній формі",
+                "type": "document",
+                "relatedDocument": {
+                    "id": doc_1,
+                    "title": "test.doc"
+                },
+            }}, status=403
+        )
+
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(response.json["errors"], [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "available only in ['active.awarded', 'active.qualification'] statuses"
+            }
+        ])
+
+    self.set_status("active.qualification")
+    response = self.app.post_json(
+        "/tenders/{}/awards".format(self.tender_id),
+        {"data": {
+            "suppliers": [test_organization],
+            "status": "pending",
+            "bid_id": self.bid_id,
+        }},
+    )
+    award = response.json["data"]
+    award_id = award["id"]
+    self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
+        {"data": {"status": "active"}}, status=200)
+
+    response = self.app.post_json(
+        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+        {
+            "data": [
+                {
+                    "title": "name1.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                    "documentType": "contractGuarantees",
+                },
+                {
+                    "title": "name2.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                    "documentType": "contractGuarantees",
+                }
+            ]
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    doc_1 = response.json["data"][0]
+    doc_2 = response.json["data"][1]
+
+    def assert_document(document, title, type):
+        self.assertEqual(title, document["title"])
+        self.assertEqual(type, document["documentType"])
+
+    assert_document(doc_1, "name1.doc", "contractGuarantees")
+    assert_document(doc_2, "name2.doc", "contractGuarantees")
+
+    for doc_id in [doc_1["id"], doc_2["id"]]:
+        self.app.post_json(
+            "/tenders/{}/bids/{}/requirement_responses/{}/evidences?acc_token={}".format(
+                self.tender_id, self.bid_id, self.rr_guarantee_id, self.bid_token
+            ),
+            {"data": {
+                "title": "Документальне підтвердження",
+                "description": "Довідка в довільній формі",
+                "type": "document",
+                "relatedDocument": {
+                    "id": doc_id
+                }
+            }}, status=201
+        )
+
+    response = self.app.get(
+        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token)
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    doc_1 = response.json["data"][0]
+    doc_2 = response.json["data"][1]
+    assert_document(doc_1, "name1.doc", "contractGuarantees")
+    assert_document(doc_2, "name2.doc", "contractGuarantees")
+
+
 def put_tender_bid_document_json(self):
     response = self.app.post_json(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
