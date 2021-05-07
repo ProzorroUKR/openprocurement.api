@@ -92,6 +92,9 @@ setup(
     packages=find_packages("src"),
     namespace_packages=["openprocurement"],
     include_package_data=True,
+    package_data={
+        "": ["*.json", "*.ini"],
+    },
     zip_safe=False,
     install_requires=requires,
     setup_requires=["pytest-runner"],
