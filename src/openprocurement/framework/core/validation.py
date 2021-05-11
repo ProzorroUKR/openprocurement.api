@@ -189,7 +189,7 @@ def validate_qualification_data(request, **kwargs):
 def validate_patch_qualification_data(request, **kwargs):
     data = validate_json_data(request)
     qualification = request.validated["qualification"]
-    framework_id = data.get("frameworkID", qualification["frameworkID"])
+    framework_id = qualification["frameworkID"]
     framework = get_framework_by_id(request, framework_id)
     if not framework:
         raise_operation_error(
