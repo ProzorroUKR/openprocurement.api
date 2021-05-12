@@ -15,6 +15,7 @@ class BaseApiWebTest(BaseWebTest):
 
 class BaseContractTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
+    database_keys = ("contracts",)
 
 
 class BaseContractWebTest(BaseCoreWebTest):
@@ -22,6 +23,7 @@ class BaseContractWebTest(BaseCoreWebTest):
     initial_data = test_contract_data
     initial_auth = ("Basic", ("broker", ""))
     docservice = True
+    database_keys = ("contracts",)
 
     def setUp(self):
         super(BaseContractWebTest, self).setUp()
@@ -36,10 +38,6 @@ class BaseContractWebTest(BaseCoreWebTest):
         self.contract = response.json["data"]
         self.contract_id = self.contract["id"]
         self.app.authorization = orig_auth
-
-    def tearDown(self):
-        del self.db[self.contract_id]
-        super(BaseContractWebTest, self).tearDown()
 
 
 class BaseContractContentWebTest(BaseContractWebTest):

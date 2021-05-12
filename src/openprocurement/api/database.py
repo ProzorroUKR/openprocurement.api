@@ -58,6 +58,9 @@ class Databases:
 
     transfers: Database
 
+    plans: Database
+    contracts: Database
+
     names: dict
 
     def __init__(self, admin_connection, connection, **database_names):
@@ -75,6 +78,13 @@ class Databases:
             # ensure db exists
             if db_name not in admin_connection:
                 admin_connection.create(db_name)
+            # security update (this closes anonymous access to the db)
+            # SECURITY is updated from set_api_security during the initial database installation
+            admin_db = admin_connection[db_name]
+            if SECURITY != admin_db.security:
+                LOGGER.info(f"Updating api db {db_name} security", extra={"MESSAGE_ID": "update_api_security"})
+                admin_db.security = SECURITY
+
             # setting db as attribute to access from code, like `registry.databases.submissions.get(uuid)`
             setattr(self, key, connection[db_name])
 

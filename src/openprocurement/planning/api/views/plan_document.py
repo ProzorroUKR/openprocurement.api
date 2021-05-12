@@ -14,6 +14,7 @@ from openprocurement.planning.api.utils import save_plan, apply_patch
 class CoreDocumentResource(BaseDocumentResource):
     container = "documents"
     context_name = "plan"
+    db_key = "plans"
 
     def save(self, request, **kwargs):
         return save_plan(request)

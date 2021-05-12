@@ -29,7 +29,7 @@ LOGGER = getLogger("openprocurement.contracting.api")
 
 
 def extract_contract(request):
-    db = request.registry.db
+    db = request.registry.databases.contracts
     contract_id = request.matchdict["contract_id"]
     doc = db.get(contract_id)
     if doc is not None and doc.get("doc_type") == "contract":
@@ -74,7 +74,7 @@ def save_contract(request):
         contract.dateModified = get_now()
 
         with handle_store_exceptions(request):
-            contract.store(request.registry.db)
+            contract.store(request.registry.databases.contracts)
             LOGGER.info(
                 "Saved contract {}: dateModified {} -> {}".format(
                     contract.id,

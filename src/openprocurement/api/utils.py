@@ -350,7 +350,7 @@ def update_file_content_type(request):  # XXX TODO
     pass
 
 
-def get_file(request):
+def get_file(request, db_key=None):
     db_doc_id = request.validated["db_doc"].id
     document = request.validated["document"]
     key = request.params.get("download")
@@ -362,7 +362,7 @@ def get_file(request):
     if request.registry.docservice_url and filename not in request.validated["db_doc"]["_attachments"]:
         return get_file_docservice(request, db_doc_id, key)
     else:
-        return get_file_attachment(request, document, db_doc_id, filename)
+        return get_file_attachment(request, document, db_doc_id, filename, db_key=db_key)
 
 
 def get_file_docservice(request, db_doc_id, key):
@@ -384,8 +384,13 @@ def get_file_docservice(request, db_doc_id, key):
     request.response.location = url
     return url
 
-def get_file_attachment(request, document, db_doc_id, filename):
-    data = request.registry.db.get_attachment(db_doc_id, filename)
+
+def get_file_attachment(request, document, db_doc_id, filename, db_key=None):
+    if db_key:
+        db = request.registry.databases[db_key]
+    else:
+        db = request.registry.db
+    data = db.get_attachment(db_doc_id, filename)
     if data:
         request.response.content_type = document.format
         request.response.content_disposition = build_header(

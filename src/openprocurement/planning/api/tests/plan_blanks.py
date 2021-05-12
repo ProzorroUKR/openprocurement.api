@@ -28,17 +28,17 @@ def simple_add_plan(self):
     assert u.id is None
     assert u.rev is None
 
-    u.store(self.db)
+    u.store(self.databases.plans)
 
     assert u.id is not None
     assert u.rev is not None
 
-    fromdb = self.db.get(u.id)
+    fromdb = self.databases.plans.get(u.id)
 
     assert u.planID == fromdb["planID"]
     assert u.doc_type == "Plan"
 
-    u.delete_instance(self.db)
+    u.delete_instance(self.databases.plans)
 
 
 # AccreditationPlanTest
@@ -153,12 +153,9 @@ def listing(self):
 
     ids = ",".join([i["id"] for i in plans])
 
-    while True:
-        response = self.app.get("/plans")
-        self.assertEqual(response.status, "200 OK")
-        self.assertTrue(ids.startswith(",".join([i["id"] for i in response.json["data"]])))
-        if len(response.json["data"]) == 3:
-            break
+    response = self.app.get("/plans")
+    self.assertEqual(response.status, "200 OK")
+    self.assertTrue(ids.startswith(",".join([i["id"] for i in response.json["data"]])))
 
     self.assertEqual(len(response.json["data"]), 3)
     self.assertEqual(",".join([i["id"] for i in response.json["data"]]), ids)
@@ -229,11 +226,8 @@ def listing(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
-    while True:
-        response = self.app.get("/plans?mode=test")
-        self.assertEqual(response.status, "200 OK")
-        if len(response.json["data"]) == 1:
-            break
+    response = self.app.get("/plans?mode=test")
+    self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 1)
 
     response = self.app.get("/plans?mode=_all_")
@@ -256,12 +250,9 @@ def listing_changes(self):
 
     ids = ",".join([i["id"] for i in plans])
 
-    while True:
-        response = self.app.get("/plans?feed=changes")
-        self.assertEqual(response.status, "200 OK")
-        self.assertTrue(ids.startswith(",".join([i["id"] for i in response.json["data"]])))
-        if len(response.json["data"]) == 3:
-            break
+    response = self.app.get("/plans?feed=changes")
+    self.assertEqual(response.status, "200 OK")
+    self.assertTrue(ids.startswith(",".join([i["id"] for i in response.json["data"]])))
 
     self.assertEqual(len(response.json["data"]), 3)
     self.assertEqual(",".join([i["id"] for i in response.json["data"]]), ids)
@@ -328,11 +319,7 @@ def listing_changes(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
-    while True:
-        response = self.app.get("/plans?mode=test")
-        self.assertEqual(response.status, "200 OK")
-        if len(response.json["data"]) == 1:
-            break
+    response = self.app.get("/plans?mode=test")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 1)
 
@@ -1331,7 +1318,7 @@ def patch_plan(self):
     self.assertEqual(new_plan, new_plan2)
     self.assertEqual(new_dateModified, new_dateModified2)
 
-    revisions = self.db.get(plan["id"]).get("revisions")
+    revisions = self.databases.plans.get(plan["id"]).get("revisions")
     self.assertEqual(revisions[-1]["changes"][0]["op"], "replace")
     self.assertEqual(revisions[-1]["changes"][0]["path"], "/budget/id")
 

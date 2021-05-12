@@ -90,7 +90,7 @@ def create_contract_document(self):
         self.assertIn("KeyID=", response.json["data"]["url"])
         self.assertNotIn("Expires=", response.json["data"]["url"])
         key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        contract = self.db.get(self.contract_id)
+        contract = self.databases.contracts.get(self.contract_id)
         self.assertIn(key, contract["documents"][-1]["url"])
         self.assertIn("Signature=", contract["documents"][-1]["url"])
         self.assertIn("KeyID=", contract["documents"][-1]["url"])
@@ -120,6 +120,7 @@ def create_contract_document(self):
         self.assertIn("KeyID=", response.location)
         self.assertNotIn("Expires=", response.location)
     else:
+        print("START")
         response = self.app.get("/contracts/{}/documents/{}?download={}".format(self.contract_id, doc_id, key))
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/msword")
@@ -192,7 +193,7 @@ def put_contract_document(self):
         self.assertIn("KeyID=", response.json["data"]["url"])
         self.assertNotIn("Expires=", response.json["data"]["url"])
         key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        contract = self.db.get(self.contract_id)
+        contract = self.databases.contracts.get(self.contract_id)
         self.assertIn(key, contract["documents"][-1]["url"])
         self.assertIn("Signature=", contract["documents"][-1]["url"])
         self.assertIn("KeyID=", contract["documents"][-1]["url"])
@@ -268,7 +269,7 @@ def put_contract_document(self):
         self.assertIn("KeyID=", response.json["data"]["url"])
         self.assertNotIn("Expires=", response.json["data"]["url"])
         key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        contract = self.db.get(self.contract_id)
+        contract = self.databases.contracts.get(self.contract_id)
         self.assertIn(key, contract["documents"][-1]["url"])
         self.assertIn("Signature=", contract["documents"][-1]["url"])
         self.assertIn("KeyID=", contract["documents"][-1]["url"])
@@ -598,7 +599,7 @@ def create_contract_document_json(self):
     self.assertIn("KeyID=", response.json["data"]["url"])
     self.assertNotIn("Expires=", response.json["data"]["url"])
     key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-    contract = self.db.get(self.contract_id)
+    contract = self.databases.contracts.get(self.contract_id)
     self.assertIn(key, contract["documents"][-1]["url"])
     self.assertIn("Signature=", contract["documents"][-1]["url"])
     self.assertIn("KeyID=", contract["documents"][-1]["url"])
@@ -687,7 +688,7 @@ def put_contract_document_json(self):
     self.assertIn("KeyID=", response.json["data"]["url"])
     self.assertNotIn("Expires=", response.json["data"]["url"])
     key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-    contract = self.db.get(self.contract_id)
+    contract = self.databases.contracts.get(self.contract_id)
     self.assertIn(key, contract["documents"][-1]["url"])
     self.assertIn("Signature=", contract["documents"][-1]["url"])
     self.assertIn("KeyID=", contract["documents"][-1]["url"])
@@ -756,7 +757,7 @@ def put_contract_document_json(self):
     self.assertIn("KeyID=", response.json["data"]["url"])
     self.assertNotIn("Expires=", response.json["data"]["url"])
     key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-    contract = self.db.get(self.contract_id)
+    contract = self.databases.contracts.get(self.contract_id)
     self.assertIn(key, contract["documents"][-1]["url"])
     self.assertIn("Signature=", contract["documents"][-1]["url"])
     self.assertIn("KeyID=", contract["documents"][-1]["url"])

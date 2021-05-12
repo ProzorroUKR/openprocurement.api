@@ -18,17 +18,17 @@ def simple_add_contract(self):
     assert u.doc_id == self.initial_data["id"]
     assert u.rev is None
 
-    u.store(self.db)
+    u.store(self.databases.contracts)
 
     assert u.id == self.initial_data["id"]
     assert u.rev is not None
 
-    fromdb = self.db.get(u.id)
+    fromdb = self.databases.contracts.get(u.id)
 
     assert u.contractID == fromdb["contractID"]
     assert u.doc_type == "Contract"
 
-    u.delete_instance(self.db)
+    u.delete_instance(self.databases.contracts)
 
 
 def empty_listing(self):
@@ -1301,9 +1301,9 @@ def patch_tender_without_value(self):
     self.assertEqual(response.status, "200 OK")
     token = response.json["access"]["token"]
 
-    contract_doc = self.db.get(self.contract["id"])
+    contract_doc = self.databases.contracts.get(self.contract["id"])
     del contract_doc['value']
-    self.db.save(contract_doc)
+    self.databases.contracts.save(contract_doc)
 
     response = self.app.patch_json(
         "/contracts/{}?acc_token={}".format(self.contract["id"], token),
@@ -1642,7 +1642,7 @@ def create_contract_w_documents(self):
     self.assertIn("KeyID=", response.json["data"]["documents"][-1]["url"])
     self.assertNotIn("Expires=", response.json["data"]["documents"][-1]["url"])
 
-    contract = self.db.get(contract["id"])
+    contract = self.databases.contracts.get(contract["id"])
     self.assertIn(
         "Prefix=ce536c5f46d543ec81ffa86ce4c77c8b%2F9c8b66120d4c415cb334bbad33f94ba9", contract["documents"][-1]["url"]
     )
@@ -1768,5 +1768,5 @@ def skip_address_validation(self):
     initial_data["items"][0]["deliveryAddress"]["region"] = "any region"
     u = Contract(self.initial_data)
     u.contractID = "UA-C"
-    u.store(self.db)
+    u.store(self.databases.contracts)
     assert u.rev is not None

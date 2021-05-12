@@ -7,13 +7,12 @@ from openprocurement.planning.api.tests.base import test_plan_data
 from openprocurement.tender.core.tests.base import change_auth
 
 
-
 class BasePlanOwnershipChangeTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_plan_data
     first_owner = "brokerx"
     initial_auth = ("Basic", (first_owner, ""))
-    database_keys = ("transfers",)
+    database_keys = ("transfers", "plans")
 
     def setUp(self):
         super(BasePlanOwnershipChangeTest, self).setUp()
@@ -266,6 +265,7 @@ class PlanOwnerOwnershipChangeTest(BasePlanOwnershipChangeTest):
     first_owner = "broker"
     second_owner = "broker1"
     initial_auth = ("Basic", (first_owner, ""))
+    database_keys = ("plans",)
 
     def test_owner_accreditation_level(self):
         # try to use transfer with owner without appropriate accreditation level
@@ -300,9 +300,9 @@ class PlanOwnerOwnershipChangeTest(BasePlanOwnershipChangeTest):
         transfer = response.json["data"]
         transfer_tokens = response.json["access"]
 
-        plan_doc = self.db.get(self.plan_id)
+        plan_doc = self.databases.plans.get(self.plan_id)
         plan_doc["owner"] = "deleted_broker"
-        self.db.save(plan_doc)
+        self.databases.plans.save(plan_doc)
 
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
             response = self.app.post_json(

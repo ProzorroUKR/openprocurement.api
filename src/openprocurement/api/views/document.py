@@ -87,7 +87,7 @@ class BaseDocumentResource(APIResource):
 
     def get(self):
         if self.request.params.get("download"):
-            return get_file(self.request)
+            return get_file(self.request, db_key=getattr(self, "db_key", None))
         document = self.request.validated["document"]
         serialize_role = self.get_doc_view_role(document)
         document_data = document.serialize(serialize_role)

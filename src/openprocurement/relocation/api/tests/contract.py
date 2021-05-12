@@ -14,7 +14,7 @@ class BaseContractOwnershipChangeTest(BaseWebTest):
     tender_token = test_contract_tender_token
     first_owner = "brokerx"
     initial_auth = ("Basic", (first_owner, ""))
-    database_keys = ("transfers",)
+    database_keys = ("transfers", "contracts")
 
     def setUp(self):
         super(BaseContractOwnershipChangeTest, self).setUp()
@@ -323,9 +323,9 @@ class ContractOwnerOwnershipChangeTest(BaseContractOwnershipChangeTest):
         transfer = response.json["data"]
         transfer_tokens = response.json["access"]
 
-        contract_doc = self.db.get(self.contract_id)
+        contract_doc = self.databases.contracts.get(self.contract_id)
         contract_doc["owner"] = "deleted_broker"
-        self.db.save(contract_doc)
+        self.databases.contracts.save(contract_doc)
 
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
             response = self.app.post_json(

@@ -281,7 +281,7 @@ def test_fail_tender_creation(app):
     }
 
     # get plan form db
-    plan_from_db = app.app.registry.db.get(plan["data"]["id"])
+    plan_from_db = app.app.registry.databases.plans.get(plan["data"]["id"])
     assert plan_from_db.get("tender_id") is None
 
 
@@ -327,9 +327,9 @@ def test_success_plan_tenders_creation(app, request_tender_data):
     assert response.json["data"]["tender_id"] == tender_data["id"]
 
     # removing status (if the tender was created before the plan statuses release)
-    plan_from_db = app.app.registry.db.get(plan["data"]["id"])
+    plan_from_db = app.app.registry.databases.plans.get(plan["data"]["id"])
     del plan_from_db["status"]
-    app.app.registry.db.save(plan_from_db)
+    app.app.registry.databases.plans.save(plan_from_db)
 
     # add another tender
     response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {"data": request_tender_data}, status=422)
@@ -369,9 +369,9 @@ def test_validations_before_and_after_tender(app):
     assert response.status == "201 Created"
 
     # removing status (if the tender was created before the plan statuses release)
-    plan_from_db = app.app.registry.db.get(plan["data"]["id"])
+    plan_from_db = app.app.registry.databases.plans.get(plan["data"]["id"])
     del plan_from_db["status"]
-    app.app.registry.db.save(plan_from_db)
+    app.app.registry.databases.plans.save(plan_from_db)
 
     response = app.get("/plans/{}".format(plan["data"]["id"]))
     assert response.json["data"]["status"] == "complete"
@@ -546,5 +546,5 @@ def test_fail_tender_creation_without_budget_breakdown(app):
     assert error["description"] == "Plan should contain budget breakdown"
 
     # get plan form db
-    plan_from_db = app.app.registry.db.get(plan["data"]["id"])
+    plan_from_db = app.app.registry.databases.plans.get(plan["data"]["id"])
     assert plan_from_db.get("tender_id") is None
