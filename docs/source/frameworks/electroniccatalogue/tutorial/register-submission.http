@@ -39,9 +39,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/dc84e2b5e35d
 X-Content-Type-Options: nosniff
 {
   "data": {
+    "frameworkID": "3176109c7572429b99dbc5707a10617c",
+    "dateModified": "2021-04-01T01:00:00+03:00",
+    "date": "2021-04-01T01:00:00+03:00",
+    "owner": "broker",
+    "status": "draft",
+    "submissionType": "electronicCatalogue",
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
+        "scale": "micro",
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137257",
@@ -58,16 +65,9 @@ X-Content-Type-Options: nosniff
           "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
           "telephone": "+380432216930"
-        },
-        "scale": "micro"
+        }
       }
     ],
-    "frameworkID": "3176109c7572429b99dbc5707a10617c",
-    "dateModified": "2021-04-01T01:00:00+03:00",
-    "date": "2021-04-01T01:00:00+03:00",
-    "owner": "broker",
-    "status": "draft",
-    "submissionType": "electronicCatalogue",
     "id": "dc84e2b5e35d412395875ba678c6e158"
   },
   "access": {

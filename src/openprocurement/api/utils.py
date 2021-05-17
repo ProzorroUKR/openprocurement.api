@@ -15,7 +15,7 @@ from functools import partial
 
 from ciso8601 import parse_datetime
 from jsonpatch import make_patch, apply_patch
-from schematics.types import StringType
+from schematics.types import StringType, BaseType
 
 from openprocurement.api.traversal import factory
 from rfc6266 import build_header
@@ -1024,3 +1024,20 @@ def get_criterion_requirement(tender, requirement_id):
                 if req.id == requirement_id:
                     return criteria
     return None
+
+
+def required_field_from_date(date):
+    def decorator(function):
+        def wrapper(*args, **kwargs):
+            data, value = args[1:]
+            try:
+                root = get_root(data.get("__parent__", {}))
+            except AttributeError:
+                pass
+            else:
+                is_valid_date = get_first_revision_date(root, default=get_now()) >= date
+                if is_valid_date and not value:
+                    raise ValidationError(BaseType.MESSAGES["required"])
+            function(*args, **kwargs)
+        return wrapper
+    return decorator

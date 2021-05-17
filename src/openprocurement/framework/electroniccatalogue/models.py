@@ -10,7 +10,7 @@ from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.auth import ACCR_5
-from openprocurement.api.constants import DK_CODES
+from openprocurement.api.constants import DK_CODES, REQUIRED_FIELDS_BY_SUBMISSION_FROM
 from openprocurement.api.models import (
     Document,
     ListType,
@@ -23,9 +23,10 @@ from openprocurement.api.models import (
     schematics_default_role,
     BusinessOrganization as BaseBusinessOrganization,
     IsoDateTimeType,
+    Organization as BaseOrganization,
 )
 from openprocurement.api.models import Model
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import get_now, required_field_from_date
 from openprocurement.framework.core.models import (
     Framework as BaseFramework,
     Submission as BaseSubmission,
@@ -88,6 +89,10 @@ class CentralProcuringEntity(Model):
         cpb_with_statuses = {cpb["identifier"]["id"]: cpb["active"] for cpb in AUTHORIZED_CPB}
         if id_ not in cpb_with_statuses or not cpb_with_statuses[id_]:
             raise ValidationError("Can't create framework for inactive cpb")
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_kind(self, data, value):
+        return value
 
 
 class Framework(BaseFramework):
@@ -197,6 +202,56 @@ class Framework(BaseFramework):
         return acl
 
 
+class AddressForSubmission(BaseAddress):
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_region(self, data, value):
+        super().validate_region(self, data, value)
+        return value
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_postalCode(self, data, value):
+        return value
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_locality(self, data, value):
+        return value
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_streetAddress(self, data, value):
+        return value
+
+
+class IdentifierForSubmission(BaseIdentifier):
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_legalName(self, data, value):
+        return value
+
+
+class ContactPointForSubmission(BaseContactPoint):
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_email(self, data, value):
+        super().validate_email(self, data, value)
+        return value
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_telephone(self, data, value):
+        super().validate_telephone(self, data, value)
+        return value
+
+
+class OrganizationForSubmission(BaseOrganization):
+    identifier = ModelType(IdentifierForSubmission, required=True)
+    address = ModelType(AddressForSubmission, required=True)
+    contactPoint = ModelType(ContactPointForSubmission, required=True)
+
+
+class BusinessOrganizationForSubmission(OrganizationForSubmission, BaseBusinessOrganization):
+    pass
+
+
 class Submission(BaseSubmission):
     status = StringType(
         choices=[
@@ -208,6 +263,7 @@ class Submission(BaseSubmission):
         default="draft",
     )
     submissionType = StringType(default="electronicCatalogue")
+    tenderers = ListType(ModelType(BusinessOrganizationForSubmission, required=True), required=True, min_size=1,)
 
 
 class Qualification(BaseQualification):

@@ -3,6 +3,7 @@ from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
 
+from openprocurement.api.models import Address
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.tests.base import change_auth
@@ -351,7 +352,7 @@ def create_submission_draft_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{'description': ['Please use a mapping for this field or BusinessOrganization instance instead of str.'],
+        [{'description': ['Please use a mapping for this field or BusinessOrganizationForSubmission instance instead of str.'],
           'location': 'body',
           'name': 'tenderers'}],
     )
@@ -392,6 +393,67 @@ def create_submission_draft_invalid(self):
                 ],
             'location': 'body',
             'name': 'tenderers',
+        }],
+    )
+
+    data = deepcopy(self.initial_submission_data)
+    del data["tenderers"][0]["address"]["postalCode"]
+    del data["tenderers"][0]["address"]["streetAddress"]
+    del data["tenderers"][0]["address"]["region"]
+    del data["tenderers"][0]["address"]["locality"]
+    del data["tenderers"][0]["contactPoint"]["telephone"]
+    del data["tenderers"][0]["contactPoint"]["email"]
+    response = self.app.post_json(request_path, {"data": data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            'location': 'body',
+            'name': 'tenderers',
+            'description': [{
+                'address': {
+                    'postalCode': ['This field is required.'],
+                    'region': ['This field is required.'],
+                    'streetAddress': ['This field is required.'],
+                    'locality': ['This field is required.'],
+                },
+                'contactPoint': {
+                    'email': ['This field is required.'],
+                    'telephone': ['This field is required.'],
+                }
+            }]
+        }],
+    )
+
+    data = deepcopy(self.initial_submission_data)
+    data["tenderers"][0]["address"]["postalCode"] = ""
+    data["tenderers"][0]["address"]["streetAddress"] = ""
+    data["tenderers"][0]["address"]["region"] = "test"
+    data["tenderers"][0]["address"]["locality"] = ""
+    data["tenderers"][0]["contactPoint"]["telephone"] = ""
+    data["tenderers"][0]["contactPoint"]["email"] = ""
+    response = self.app.post_json(request_path, {"data": data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            'location': 'body',
+            'name': 'tenderers',
+            'description': [{
+                'address': {
+                    'postalCode': ['This field is required.'],
+                    'region': ['field address:region not exist in ua_regions catalog'],
+                    'streetAddress': ['This field is required.'],
+                    'locality': ['This field is required.'],
+                },
+                'contactPoint': {
+                    'email': ["Not a well formed email address."],
+                }
+            }]
         }],
     )
 
