@@ -14,6 +14,7 @@ X-Content-Type-Options: nosniff
       "tenderers": [
         {
           "name": "ДКП «Школяр»",
+          "scale": "micro",
           "identifier": {
             "scheme": "UA-EDR",
             "id": "00137257",
@@ -30,8 +31,7 @@ X-Content-Type-Options: nosniff
             "name": "Сергій Олексюк",
             "email": "soleksuk@gmail.com",
             "telephone": "+380432216930"
-          },
-          "scale": "micro"
+          }
         }
       ],
       "date": "2021-04-01T01:00:00+03:00",
@@ -47,6 +47,7 @@ X-Content-Type-Options: nosniff
       "tenderers": [
         {
           "name": "ДКП «Школяр»",
+          "scale": "micro",
           "identifier": {
             "scheme": "UA-EDR",
             "id": "00137257",
@@ -63,8 +64,7 @@ X-Content-Type-Options: nosniff
             "name": "Сергій Олексюк",
             "email": "soleksuk@gmail.com",
             "telephone": "+380432216930"
-          },
-          "scale": "micro"
+          }
         }
       ],
       "date": "2021-04-01T01:00:00+03:00",

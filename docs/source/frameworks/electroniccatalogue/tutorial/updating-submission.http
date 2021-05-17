@@ -19,29 +19,6 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "tenderers": [
-      {
-        "name": "НАЗВА",
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00137257",
-          "uri": "http://www.sc.gov.ua/"
-        },
-        "address": {
-          "streetAddress": "вул. Островського, 33",
-          "locality": "м. Вінниця",
-          "region": "Вінницька область",
-          "postalCode": "21100",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "name": "Сергій Олексюк",
-          "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
-        },
-        "scale": "micro"
-      }
-    ],
     "documents": [
       {
         "id": "9a63de7df1a64cd0b223adc0176409b1",
@@ -59,6 +36,29 @@ X-Content-Type-Options: nosniff
     "owner": "broker",
     "status": "draft",
     "submissionType": "electronicCatalogue",
+    "tenderers": [
+      {
+        "name": "НАЗВА",
+        "scale": "micro",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137257",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930"
+        }
+      }
+    ],
     "id": "dc84e2b5e35d412395875ba678c6e158"
   }
 }

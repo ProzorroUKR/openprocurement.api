@@ -120,7 +120,8 @@ tenderer = {
     "contactPoint": {
         "name": "Державне управління справами",
         "name_en": "State administration",
-        "telephone": "+0440000000"
+        "telephone": "+0440000000",
+        "email": "aa@aa.com",
     },
     "scale": "micro"
 }
