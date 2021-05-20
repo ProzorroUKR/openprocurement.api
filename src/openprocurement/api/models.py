@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import standards
 from datetime import datetime, timedelta
 from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 from isodate import ISO8601Error, parse_duration, duration_isoformat
@@ -50,10 +51,12 @@ from openprocurement.api.constants import (
     VALIDATE_TELEPHONE_FROM,
     CURRENCIES,
     VALIDATE_CURRENCY_FROM,
+    UNIT_PRICE_REQUIRED_FROM,
 )
 
 schematics_default_role = SchematicsDocument.Options.roles["default"] + blacklist("__parent__")
 schematics_embedded_role = SchematicsDocument.Options.roles["embedded"] + blacklist("__parent__")
+UNIT_CODES = standards.load("unit_codes/recommended.json")
 
 plain_role = blacklist("_attachments", "revisions", "dateModified") + schematics_embedded_role
 listing_role = whitelist("dateModified", "doc_id")
@@ -417,6 +420,13 @@ class Unit(Model):
     value = ModelType(Value)
     code = StringType(required=True)
 
+    def validate_code(self, data, value):
+        _parent = data['__parent__']
+        validation_date = get_first_revision_date(_parent, default=get_now())
+        if validation_date >= UNIT_PRICE_REQUIRED_FROM:
+            if value not in UNIT_CODES:
+                raise ValidationError(u"Code should be one of valid unit codes.")
+
 
 class Address(Model):
     streetAddress = StringType()
@@ -630,6 +640,7 @@ class Item(Model):
     deliveryAddress = ModelType(Address)
     deliveryLocation = ModelType(Location)
     relatedLot = MD5Type()
+    relatedBuyer = MD5Type()
 
 
 class ContactPoint(Model):
@@ -694,6 +705,7 @@ class Revision(Model):
 
 class Contract(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
+    buyerID = StringType()
     awardID = StringType()
     contractID = StringType()
     contractNumber = StringType()

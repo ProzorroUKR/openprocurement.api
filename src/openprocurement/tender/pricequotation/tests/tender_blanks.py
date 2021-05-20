@@ -850,14 +850,33 @@ def tender_owner_can_change_in_draft(self):
     tender = response.json["data"]
 
     self.assertEqual(tender["funders"], lists["funders"])
+    buyer_id = tender["buyers"][0]["id"]
+    lists["buyers"][0]["id"] = buyer_id
     self.assertEqual(tender["buyers"], lists["buyers"])
 
     self.assertEqual(tender["items"][0]["description"], lists["items"][0]["description"])
 
     # status
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": status}
+        "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": status},
+        status=403
     )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{'description': 'Each item should contain relatedBuyer id',
+          'location': 'body',
+          'name': 'data'}],
+    )
+    patch_data = {"items": [{"relatedBuyer": buyer_id}]}
+    patch_data.update(status)
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token),
+        {
+            "data": patch_data
+        },
+    )
+
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]

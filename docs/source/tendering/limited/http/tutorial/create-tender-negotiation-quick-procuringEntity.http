@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 3973
+Content-Length: 4065
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -31,6 +31,13 @@ DATA:
           "description": "Послуги з харчування у школах",
           "id": "55523100-3",
           "scheme": "ДК021"
+        },
+        "unit": {
+          "code": "KGM",
+          "name": "папір",
+          "value": {
+            "amount": 10
+          }
         },
         "quantity": 1
       }
@@ -189,6 +196,15 @@ X-Content-Type-Options: nosniff
           "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
           "id": "55523100-3"
+        },
+        "unit": {
+          "name": "папір",
+          "code": "KGM",
+          "value": {
+            "amount": 10.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          }
         },
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",

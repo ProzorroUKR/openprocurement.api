@@ -41,10 +41,20 @@ X-Content-Type-Options: nosniff
     ],
     "buyers": [
       {
+        "id": "3e32f23699ea4ac0b8e105e7babd2c86",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
           "id": "111983",
+          "legalName": "ДП Державне Управління Справами"
+        }
+      },
+      {
+        "id": "88c051728aae432ca2d39a0215d63fcd",
+        "name": "ДУС",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "222983",
           "legalName": "ДП Державне Управління Справами"
         }
       }
@@ -71,12 +81,63 @@ X-Content-Type-Options: nosniff
         ],
         "quantity": 1000.0,
         "deliveryDate": {
-          "endDate": "2019-11-09T01:00:00+03:00"
+          "endDate": "2021-03-31T00:00:00+02:00"
         },
+        "relatedBuyer": "3e32f23699ea4ac0b8e105e7babd2c86",
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
           "id": "03111600-8"
+        },
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        }
+      },
+      {
+        "id": "8538be924cff4012b27f1fbb7246f7d3",
+        "description": "Насіння соняшнику",
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "01.11.95",
+            "description": "Насіння соняшнику"
+          }
+        ],
+        "quantity": 2000.0,
+        "deliveryDate": {
+          "endDate": "2021-04-01T00:00:00+02:00"
+        },
+        "relatedBuyer": "3e32f23699ea4ac0b8e105e7babd2c86",
+        "classification": {
+          "description": "Sunflower seeds",
+          "scheme": "ДК021",
+          "id": "03111300-5"
+        },
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        }
+      },
+      {
+        "id": "2e0736c2008c4ef4a4a734950ec4c9b8",
+        "description": "Насіння бавовнику",
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "01.11.84",
+            "description": "Насіння бавовнику"
+          }
+        ],
+        "quantity": 3000.0,
+        "deliveryDate": {
+          "endDate": "2021-04-02T00:00:00+02:00"
+        },
+        "relatedBuyer": "88c051728aae432ca2d39a0215d63fcd",
+        "classification": {
+          "description": "Cotton seeds",
+          "scheme": "ДК021",
+          "id": "03111400-6"
         },
         "unit": {
           "name": "кг",

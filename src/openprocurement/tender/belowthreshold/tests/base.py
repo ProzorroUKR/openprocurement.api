@@ -68,7 +68,7 @@ test_item = {
         {"scheme": "ДКПП", "id": "17.21.1", "description": "папір і картон гофровані, паперова й картонна тара"}
     ],
     "unit": {
-        "name": "unit12345",
+        "name": "кг",
         "code": "KGM",
         "value": {"amount": 6},
     },
@@ -253,6 +253,54 @@ def set_bid_lotvalues(bid, lots):
     value = bid.pop("value", None) or bid["lotValues"][0]["value"]
     bid["lotValues"] = [{"value": value, "relatedLot": lot["id"]} for lot in lots]
     return bid
+
+
+def set_tender_multi_buyers(_test_tender_data, _test_item, _test_organization):
+    _tender_data = deepcopy(_test_tender_data)
+
+    # create 3 items
+    test_item1 = deepcopy(_test_item)
+    test_item1["description"] = "телевізори"
+
+    test_item2 = deepcopy(_test_item)
+    test_item2["description"] = "портфелі"
+    test_item2.pop("id", None)
+
+    test_item3 = deepcopy(_test_item)
+    test_item3["description"] = "столи"
+    test_item3.pop("id", None)
+
+    _tender_data["items"] = [test_item1, test_item2, test_item2]
+
+    # create 2 buyers
+    buyer1_id = uuid4().hex
+    buyer2_id = uuid4().hex
+
+    _test_organization_1 = deepcopy(_test_organization)
+    _test_organization_2 = deepcopy(_test_organization)
+    _test_organization_2["identifier"]["id"] = "00037254"
+
+    _tender_data["buyers"] = [
+        {
+            "id": buyer1_id,
+            "name": _test_organization_1["name"],
+            "identifier": _test_organization_1["identifier"]
+        },
+        {
+            "id": buyer2_id,
+            "name": _test_organization_2["name"],
+            "identifier": _test_organization_2["identifier"]
+        },
+    ]
+    # assign items to buyers
+    _tender_data["items"][0]["relatedBuyer"] = buyer1_id
+    _tender_data["items"][1]["relatedBuyer"] = buyer2_id
+    _tender_data["items"][2]["relatedBuyer"] = buyer2_id
+
+    return _tender_data
+
+
+test_tender_data_multi_buyers = set_tender_multi_buyers(test_tender_data, test_item, test_organization)
 
 
 class BaseApiWebTest(BaseWebTest):

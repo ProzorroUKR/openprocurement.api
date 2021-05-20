@@ -43,7 +43,7 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "unit": {
-          "name": "unit12345",
+          "name": "кг",
           "code": "KGM",
           "value": {
             "amount": 6.0,

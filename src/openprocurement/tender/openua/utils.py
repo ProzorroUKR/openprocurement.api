@@ -12,7 +12,7 @@ from openprocurement.tender.core.utils import (
     check_complaint_statuses_at_complaint_period_end,
 )
 from openprocurement.tender.belowthreshold.utils import (
-    check_tender_status, context_unpack, add_contract,
+    check_tender_status, context_unpack, add_contracts,
     add_next_award,
 )
 
@@ -64,7 +64,7 @@ def check_status(request):
 
     for award in tender.awards:
         if award.status == "active" and not any([i.awardID == award.id for i in tender.contracts]):
-            add_contract(request, award, now)
+            add_contracts(request, award, now)
             add_next_award(request)
 
     if cancellation_block_tender(tender):

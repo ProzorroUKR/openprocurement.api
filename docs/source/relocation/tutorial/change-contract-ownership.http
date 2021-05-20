@@ -31,13 +31,13 @@ X-Content-Type-Options: nosniff
         "id": "c6c6e8ed4b1542e4bf13d3f98ec5ab59",
         "description": "футляри до державних нагород",
         "unit": {
-          "name": "item",
+          "name": "кг",
           "value": {
             "amount": 20.8,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
           },
-          "code": "44617100-9"
+          "code": "KGM"
         },
         "quantity": 5.0,
         "deliveryDate": {

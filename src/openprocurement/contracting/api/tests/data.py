@@ -32,8 +32,8 @@ test_contract_data = {
             },
             "id": "c6c6e8ed4b1542e4bf13d3f98ec5ab59",
             "unit": {
-                "code": "44617100-9",
-                "name": "item",
+                "code": "KGM",
+                "name": "кг",
                 "value": {
                     "currency": "UAH",
                     "amount": 20.8,

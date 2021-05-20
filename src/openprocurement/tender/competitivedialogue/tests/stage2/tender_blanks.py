@@ -1560,7 +1560,7 @@ def create_tender_with_non_required_unit(self):
         [
             {
                 'description': [
-                    {'unit': {'code': ['Code should be one of valid UNIT CODES.']}}
+                    {'unit': {'code': ['Code should be one of valid unit codes.']}}
                 ],
                 'location': 'body', 'name': 'items'
             }
@@ -1764,7 +1764,7 @@ def patch_tender_1(self):
         {
             "location": "body",
             "name": "items",
-            "description": [{"unit": {"code": ["Code should be one of valid UNIT CODES."]}}]
+            "description": [{"unit": {"code": ["Code should be one of valid unit codes."]}}]
         }
     )
     response = self.app.patch_json(

@@ -4,14 +4,17 @@ from datetime import timedelta
 from copy import deepcopy
 
 from openprocurement.api.models import get_now
-from openprocurement.tender.belowthreshold.tests.base import BaseTenderWebTest
+from openprocurement.tender.belowthreshold.tests.base import BaseTenderWebTest, test_tender_data_multi_buyers
 from openprocurement.contracting.api.tests.base import test_contract_data
 from openprocurement.tender.belowthreshold.tests.base import test_tender_data, test_organization
 
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.base.constants import DOCS_URL
+from freezegun import freeze_time
+
 
 test_tender_data = deepcopy(test_tender_data)
+test_tender_data_multi_buyers = deepcopy(test_tender_data_multi_buyers)
 
 TARGET_DIR = 'docs/source/contracting/http/'
 
@@ -109,7 +112,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         #### Exploring basic rules
 
-        with  open(TARGET_DIR + 'contracts-listing-0.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'contracts-listing-0.http', 'w') as self.app.file_obj:
             self.app.authorization = None
             response = self.app.get(request_path)
             self.assertEqual(response.status, '200 OK')
@@ -286,3 +289,125 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     "amountPaid": {"amount": 430, "amountNet": 420}
                 }})
             self.assertEqual(response.status, '200 OK')
+
+
+class MultiContractsTenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
+    AppClass = DumpsWebTestApp
+
+    relative_to = os.path.dirname(__file__)
+    initial_data = test_tender_data_multi_buyers
+    docservice = False
+    docservice_url = DOCS_URL
+
+    def setUp(self):
+        super(MultiContractsTenderResourceTest, self).setUp()
+        self.setUpMock()
+
+    def tearDown(self):
+        self.tearDownMock()
+        super(MultiContractsTenderResourceTest, self).tearDown()
+
+    def test_docs(self):
+        self.app.authorization = ('Basic', ('broker', ''))
+        # empty tenders listing
+        response = self.app.get('/tenders')
+        test_tender_data_multi_buyers["buyers"][0]["id"] = "1"*32
+        test_tender_data_multi_buyers["buyers"][1]["id"] = "2" * 32
+
+        test_tender_data_multi_buyers["items"][0]["relatedBuyer"] = "1" * 32
+        test_tender_data_multi_buyers["items"][1]["relatedBuyer"] = "2" * 32
+        test_tender_data_multi_buyers["items"][2]["relatedBuyer"] = "2" * 32
+
+        for item in test_tender_data_multi_buyers['items']:
+            item['deliveryDate'] = {
+                "startDate": (get_now() + timedelta(days=2)).isoformat(),
+                "endDate": (get_now() + timedelta(days=5)).isoformat()
+            }
+        test_tender_data_multi_buyers.update({
+            "enquiryPeriod": {"endDate": (get_now() + timedelta(days=7)).isoformat()},
+            "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()}
+        })
+        self.assertEqual(response.json['data'], [])
+        with open(TARGET_DIR + 'create-multiple-buyers-tender.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders',
+                {'data': test_tender_data_multi_buyers})
+            self.assertEqual(response.status, '201 Created')
+        response = self.app.post_json('/tenders', {"data": test_tender_data_multi_buyers})
+        tender_id = self.tender_id = response.json['data']['id']
+        owner_token = response.json['access']['token']
+        # switch to active.tendering
+        response = self.set_status(
+            'active.tendering',
+            {"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}})
+        self.assertIn("auctionPeriod", response.json['data'])
+        # create bid
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json(
+            '/tenders/{}/bids'.format(tender_id),
+            {'data': {'tenderers': [test_organization], "value": {"amount": 500}}})
+        # switch to active.qualification
+        self.set_status('active.auction', {'status': 'active.tendering'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json(
+            '/tenders/{}'.format(tender_id),
+            {'data': {"id": tender_id}})
+        self.assertNotIn('auctionPeriod', response.json['data'])
+        # get awards
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.get('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token))
+        # get pending award
+        award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+        # set award as active
+        with open(TARGET_DIR + 'set-active-award.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, owner_token),
+                {"data": {"status": "active"}}
+            )
+            self.assertEqual(response.status, '200 OK')
+        # get contract id
+        with open(TARGET_DIR + 'get-multi-contracts.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}/contracts'.format(tender_id))
+            self.assertEqual(response.status, '200 OK')
+        contracts = response.json['data']
+        # after stand slill period
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        self.set_status('complete', {'status': 'active.awarded'})
+        self.tick()
+        # time travel
+        tender = self.db.get(tender_id)
+        for i in tender.get('awards', []):
+            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+        self.db.save(tender)
+
+        self.app.authorization = ('Basic', ('broker', ''))
+        with open(TARGET_DIR + 'patch-1st-contract-value.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contracts[0]["id"], owner_token),
+                {"data": {"value": {"amount": 100, "amountNet": 95}}}
+            )
+            self.assertEqual(response.status, '200 OK')
+        with open(TARGET_DIR + 'patch-2nd-contract-value.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contracts[1]["id"], owner_token),
+                {"data": {"value": {"amount": 200, "amountNet": 190}}}
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        self.app.patch_json(
+            '/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contracts[0]["id"], owner_token),
+            {"data": {"status": "active"}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        self.app.patch_json(
+            '/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contracts[1]["id"], owner_token),
+            {"data": {"status": "active"}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.get(
+            '/tenders/{}'.format(tender_id)
+        )
+        self.assertEqual(response.json["data"]["status"], "complete")
+

@@ -38,7 +38,7 @@ X-Content-Type-Options: nosniff
           "id": "30230000-0"
         },
         "unit": {
-          "name": "unit12345",
+          "name": "кг",
           "code": "KGM",
           "value": {
             "amount": 6.0,

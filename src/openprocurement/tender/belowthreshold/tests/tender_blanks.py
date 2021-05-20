@@ -1151,7 +1151,7 @@ def create_tender_with_required_unit(self):
         [
             {
                 'description': [
-                    {u'unit': {u'code': [u'Code should be one of valid UNIT CODES.']}}
+                    {u'unit': {u'code': [u'Code should be one of valid unit codes.']}}
                 ],
                 'location': 'body', 'name': 'items'
             }
@@ -2959,6 +2959,98 @@ def patch_item_with_zero_quantity(self):
         [{'description': "Can't set to 0 quantity of {} item while related criterion "
                           "has active requirements".format(item["id"]),
           'location': 'body', 'name': 'data'}])
+
+
+def patch_items_related_buyer_id(self):
+    # create tender with two buyers
+    data = deepcopy(self.initial_data)
+    test_organization1 = deepcopy(test_organization)
+    test_organization2 = deepcopy(test_organization)
+    test_organization2["name"] = "Управління міжнародних справ"
+    test_organization2["identifier"]["id"] = "00055555"
+
+    data["buyers"] = [
+        {"name": test_organization1["name"], "identifier": test_organization1["identifier"]},
+        {"name": test_organization2["name"], "identifier": test_organization2["identifier"]},
+    ]
+
+    response = self.app.post_json("/tenders", {"data": data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(len(response.json["data"]["buyers"]), 2)
+
+    tender_id = response.json["data"]["id"]
+    tender_token = response.json["access"]["token"]
+
+    buyer1_id, buyer2_id = response.json["data"]["buyers"][0]["id"], response.json["data"]["buyers"][1]["id"]
+
+    self.assertEqual(len(response.json["data"]["buyers"]), 2)
+    self.assertEqual(len(response.json["data"]["items"]), 1)
+
+    patch_request_path = "/tenders/{}?acc_token={}".format(tender_id, tender_token)
+
+    response = self.app.patch_json(
+        patch_request_path,
+        {"data": {"items": [{"description_en": "new cases for state awards"}]}},
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{'description': 'Each item should contain relatedBuyer id',
+          'location': 'body',
+          'name': 'data'}],
+    )
+    response = self.app.patch_json(
+        patch_request_path,
+        {"data": {"items": [
+            {
+                "description_en": "new cases for state awards",
+                "relatedBuyer": buyer1_id
+            }
+        ]}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["items"][0]["description_en"], "new cases for state awards")
+    self.assertEqual(response.json["data"]["items"][0]["relatedBuyer"], buyer1_id)
+
+    # adding new unassigned items
+    second_item = deepcopy(self.initial_data["items"][0])
+    second_item["description"] = "телевізори"
+    third_item = deepcopy(self.initial_data["items"][0])
+    third_item["description"] = "ноутбуки"
+
+    response = self.app.patch_json(
+        patch_request_path,
+        {"data": {"items": [{}, second_item, third_item]}},
+        status=403
+    )
+
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("errors", response.json)
+    self.assertEqual(
+        response.json["errors"],
+        [{'description': 'Each item should contain relatedBuyer id',
+          'location': 'body',
+          'name': 'data'}],
+    )
+
+    # assign items
+    second_item["relatedBuyer"] = buyer2_id
+    third_item["relatedBuyer"] = buyer2_id
+
+    response = self.app.patch_json(
+        patch_request_path,
+        {"data": {"items": [{}, second_item, third_item]}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["items"][1]["relatedBuyer"], buyer2_id)
+    self.assertEqual(response.json["data"]["items"][2]["relatedBuyer"], buyer2_id)
+
+    self.assertEqual(response.json["data"]["items"][1]["description"], "телевізори")
+    self.assertEqual(response.json["data"]["items"][2]["description"], "ноутбуки")
+    self.assertEqual(len(response.json["data"]["items"]), 3)
 
 
 @mock.patch("openprocurement.tender.core.validation.RELEASE_GUARANTEE_CRITERION_FROM", get_now() - timedelta(days=1))

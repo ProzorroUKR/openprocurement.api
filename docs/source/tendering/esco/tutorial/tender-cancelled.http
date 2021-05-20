@@ -54,10 +54,6 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "unit": {
-          "name": "item",
-          "code": "44617100-9"
-        },
         "classification": {
           "description": "Test",
           "scheme": "ДК021",
@@ -82,10 +78,6 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "unit": {
-          "name": "item",
-          "code": "44617100-9"
-        },
         "classification": {
           "description": "Test",
           "scheme": "ДК021",
@@ -493,7 +485,7 @@ X-Content-Type-Options: nosniff
     ],
     "contracts": [
       {
-        "id": "822f9c9611d5481da7dd19a283e8bb45",
+        "id": "a76cc37cebfc4323b5f352742483bc38",
         "contractID": "UA-2021-03-16-000001-1",
         "contractNumber": "contract#1",
         "status": "pending",
@@ -599,10 +591,6 @@ X-Content-Type-Options: nosniff
                 "description": "Послуги шкільних їдалень"
               }
             ],
-            "unit": {
-              "name": "item",
-              "code": "44617100-9"
-            },
             "classification": {
               "description": "Test",
               "scheme": "ДК021",
@@ -627,10 +615,6 @@ X-Content-Type-Options: nosniff
                 "description": "Послуги шкільних їдалень"
               }
             ],
-            "unit": {
-              "name": "item",
-              "code": "44617100-9"
-            },
             "classification": {
               "description": "Test",
               "scheme": "ДК021",

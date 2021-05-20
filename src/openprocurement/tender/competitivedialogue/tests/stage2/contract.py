@@ -11,6 +11,8 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_tenderer,
     test_tender_stage2_data_eu,
     test_author,
+    test_tender_data_stage2_eu_multi_buyers,
+    test_tender_data_stage2_ua_multi_buyers,
 )
 from openprocurement.tender.belowthreshold.tests.contract import (
     TenderContractResourceTestMixin,
@@ -31,6 +33,7 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     patch_tender_contract_document_by_supplier,
     patch_contract_single_item_unit_value,
     patch_contract_multi_items_unit_value,
+    patch_tender_multi_contracts,
 )
 from openprocurement.tender.openua.tests.contract_blanks import (
     # TenderStage2EU(UA)ContractResourceTest
@@ -55,9 +58,7 @@ class TenderStage2EUContractResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
     initial_auth = ("Basic", ("broker", ""))
     author_data = test_author
 
-    def setUp(self):
-        super(TenderStage2EUContractResourceTest, self).setUp()
-        # Create award
+    def create_award(self):
         self.supplier_info = deepcopy(test_tenderer)
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
@@ -67,7 +68,7 @@ class TenderStage2EUContractResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
                     "suppliers": [self.supplier_info],
                     "status": "pending",
                     "bid_id": self.bids[0]["id"],
-                    "value": {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True},
+                    "value": self.initial_data["value"],
                     "items": test_tender_stage2_data_eu["items"],
                 }
             },
@@ -83,6 +84,10 @@ class TenderStage2EUContractResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
             "/tenders/{}/awards/{}".format(self.tender_id, self.award_id),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
+
+    def setUp(self):
+        super(TenderStage2EUContractResourceTest, self).setUp()
+        self.create_award()
 
     test_contract_termination = snitch(contract_termination)
     test_create_tender_contract = snitch(create_tender_contract)
@@ -135,9 +140,7 @@ class TenderStage2UAContractResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
 
-    def setUp(self):
-        super(TenderStage2UAContractResourceTest, self).setUp()
-        # Create award
+    def create_award(self):
         auth = self.app.authorization
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
@@ -147,7 +150,7 @@ class TenderStage2UAContractResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
                     "suppliers": [test_tenderer],
                     "status": "pending",
                     "bid_id": self.bids[0]["id"],
-                    "value": self.bids[0]["value"],
+                    "value": self.initial_data["value"],
                     "items": self.initial_data["items"],
                 }
             },
@@ -162,6 +165,10 @@ class TenderStage2UAContractResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
+
+    def setUp(self):
+        super(TenderStage2UAContractResourceTest, self).setUp()
+        self.create_award()
 
     test_create_tender_contract = snitch(create_tender_contract)
     test_patch_tender_contract_datesigned = snitch(patch_tender_contract_datesigned)
@@ -257,32 +264,34 @@ class TenderStage2EUContractUnitValueResourceTest(BaseCompetitiveDialogEUStage2C
     def setUp(self):
         super(TenderStage2EUContractUnitValueResourceTest, self).setUp()
         auth = self.app.authorization
-        self.app.authorization = ("Basic", ("token", ""))
-        response = self.app.post_json(
-            "/tenders/{}/awards".format(self.tender_id),
-            {
-                "data": {
-                    "suppliers": [test_tenderer],
-                    "status": "pending",
-                    "bid_id": self.initial_bids[0]["id"],
-                    "value": {
-                        "amount": self.initial_data["value"]["amount"],
-                        "currency": self.initial_data["value"]["currency"],
-                        "valueAddedTaxIncluded": True,
-                    },
-                }
-            },
-        )
-        self.award = response.json["data"]
-        self.award_id = self.award["id"]
-        self.award_suppliers = self.award["suppliers"]
+        TenderStage2EUContractResourceTest.create_award(self)
         self.app.authorization = auth
-        self.app.patch_json(
-            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
-        )
     test_patch_contract_single_item_unit_value = snitch(patch_contract_single_item_unit_value)
     test_patch_contract_multi_items_unit_value = snitch(patch_contract_multi_items_unit_value)
+
+
+class TenderContractEUStage2MultiBuyersResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
+    initial_status = "active.qualification"
+    initial_bids = test_tender_bids
+    initial_data = test_tender_data_stage2_eu_multi_buyers
+
+    def setUp(self):
+        super(TenderContractEUStage2MultiBuyersResourceTest, self).setUp()
+        TenderStage2EUContractResourceTest.create_award(self)
+
+    test_patch_tender_multi_contracts = snitch(patch_tender_multi_contracts)
+
+
+class TenderContractUAStage2MultiBuyersResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
+    initial_status = "active.qualification"
+    initial_bids = test_tender_bids
+    initial_data = test_tender_data_stage2_ua_multi_buyers
+
+    def setUp(self):
+        super(TenderContractUAStage2MultiBuyersResourceTest, self).setUp()
+        TenderStage2UAContractResourceTest.create_award(self)
+
+    test_patch_tender_multi_contracts = snitch(patch_tender_multi_contracts)
 
 
 def suite():
@@ -292,7 +301,8 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderStage2UAContractResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2UAContractDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderContractVATNotIncludedResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EUContractUnitValueResourceTest))
+    suite.addTest(unittest.makeSuite(TenderContractEUStage2MultiBuyersResourceTest))
+    suite.addTest(unittest.makeSuite(TenderContractUAStage2MultiBuyersResourceTest))
     return suite
 
 

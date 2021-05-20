@@ -13,6 +13,8 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_features_tender_data,
     BaseTenderWebTest,
     test_bids as base_test_bids,
+    set_tender_multi_buyers,
+    test_organization,
 )
 from openprocurement.tender.openua.models import Tender
 from openprocurement.tender.openua.tests.periods import PERIODS
@@ -71,6 +73,12 @@ test_features_tender_ua_data["items"][0]["deliveryAddress"] = test_tender_data["
 current_dir = os.path.dirname(os.path.abspath(__file__))
 with open(os.path.join(current_dir, "data", "lcc_criteria.json")) as json_file:
     lcc_criteria = json.load(json_file)
+
+
+test_tender_data_multi_buyers = set_tender_multi_buyers(
+    test_tender_data, test_tender_data["items"][0],
+    test_organization
+)
 
 
 class BaseApiWebTest(BaseWebTest):

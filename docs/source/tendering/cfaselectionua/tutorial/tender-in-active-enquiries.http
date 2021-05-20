@@ -28,7 +28,12 @@ X-Content-Type-Options: nosniff
         ],
         "unit": {
           "name": "item",
-          "code": "44617100-9"
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
         },
         "quantity": 5.0,
         "deliveryDate": {
@@ -399,7 +404,7 @@ X-Content-Type-Options: nosniff
             ],
             "unit": {
               "name": "item",
-              "code": "44617100-9"
+              "code": "KGM"
             },
             "quantity": 5.0,
             "description_en": "Cases for state awards",

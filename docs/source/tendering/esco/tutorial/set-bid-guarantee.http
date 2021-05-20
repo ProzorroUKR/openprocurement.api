@@ -77,10 +77,6 @@ X-Content-Type-Options: nosniff
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "unit": {
-          "name": "item",
-          "code": "44617100-9"
         }
       },
       {
@@ -105,10 +101,6 @@ X-Content-Type-Options: nosniff
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "unit": {
-          "name": "item",
-          "code": "44617100-9"
         }
       }
     ],

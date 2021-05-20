@@ -11,7 +11,7 @@ from schematics.types.serializable import serializable
 from barbecue import vnmax
 from zope.interface import implementer
 
-from openprocurement.api.models import ListType, Period, Value, Guarantee, Model
+from openprocurement.api.models import ListType, Period, Value, Guarantee, Model, Unit as BaseUnit
 from openprocurement.api.utils import get_now, get_first_revision_date
 from openprocurement.api.constants import TZ, RELEASE_2020_04_19, CPV_ITEMS_CLASS_FROM, UNIT_PRICE_REQUIRED_FROM
 from openprocurement.api.validation import validate_items_uniq, validate_cpv_group, validate_classification_id
@@ -38,7 +38,6 @@ from openprocurement.tender.core.models import (
     validate_features_uniq,
     validate_lots_uniq,
     get_tender,
-    Unit as BaseUnit,
 )
 
 from openprocurement.tender.core.utils import (

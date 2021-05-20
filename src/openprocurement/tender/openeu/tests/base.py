@@ -4,7 +4,11 @@ import os
 
 from datetime import datetime, timedelta
 from openprocurement.api.constants import SANDBOX_MODE, RELEASE_ECRITERIA_ARTICLE_17
-from openprocurement.tender.belowthreshold.tests.base import test_milestones as base_test_milestones
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_milestones as base_test_milestones,
+    test_organization,
+    set_tender_multi_buyers,
+)
 from openprocurement.tender.openeu.models import Tender
 from openprocurement.tender.openeu.tests.periods import PERIODS
 from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest
@@ -186,6 +190,11 @@ test_lots = [
         "minimalStep": test_tender_data["minimalStep"],
     }
 ]
+
+test_tender_data_multi_buyers = set_tender_multi_buyers(
+    test_tender_data, test_tender_data["items"][0],
+    test_organization
+)
 
 
 class BaseTenderWebTest(BaseTenderUAWebTest):

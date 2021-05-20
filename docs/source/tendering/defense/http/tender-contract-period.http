@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/f8aae737ac8f4d34a52254e2f3416505/contracts/f190bafc3826498f9de5daa525e5e68b?acc_token=38dfa7b7e6ef4691b199e71e4247e9dc HTTP/1.0
+PATCH /api/2.5/tenders/f8aae737ac8f4d34a52254e2f3416505/contracts/6d7783508bcb40018036455355558edd?acc_token=38dfa7b7e6ef4691b199e71e4247e9dc HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 104
 Content-Type: application/json
@@ -18,7 +18,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "f190bafc3826498f9de5daa525e5e68b",
+    "id": "6d7783508bcb40018036455355558edd",
     "contractID": "UA-2021-03-16-000001-1",
     "status": "pending",
     "period": {
@@ -73,6 +73,15 @@ X-Content-Type-Options: nosniff
           "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
           "id": "55523100-3"
+        },
+        "unit": {
+          "name": "папір",
+          "code": "KGM",
+          "value": {
+            "amount": 10.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          }
         },
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",

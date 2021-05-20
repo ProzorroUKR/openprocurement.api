@@ -845,3 +845,15 @@ def validate_features_custom_weight(data, features, max_sum):
                     "Sum of max value of all features should be "
                     "less then or equal to {:.0f}%".format(max_sum * 100)
                 )
+
+
+def get_contracts_values_related_to_patched_contract(contracts, patched_contract_id, updated_value, award_id):
+    _contracts_values = []
+
+    for contract in contracts:
+        if contract.status != "terminated" and contract.awardID == award_id:
+            if contract.id != patched_contract_id:
+                _contracts_values.append(contract.get("value", {}))
+            else:
+                _contracts_values.append(updated_value)
+    return _contracts_values
