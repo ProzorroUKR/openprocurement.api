@@ -11,6 +11,7 @@ from openprocurement.tender.core.validation import (
     validate_item_quantity,
     validate_tender_guarantee,
     validate_tender_guarantee_multilot,
+    validate_items_buyer_id,
 )
 
 
@@ -122,6 +123,7 @@ class TenderResource(APIResource):
             validate_item_quantity,
             validate_tender_guarantee,
             validate_tender_guarantee_multilot,
+            validate_items_buyer_id,
         ),
         permission="edit_tender",
     )

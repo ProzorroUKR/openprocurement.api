@@ -184,6 +184,9 @@ Setting value per item's unit
 
 `200 OK` response was returned with successfully set item.unit.value structure.
 
+Item.unit.value.currency and Item.unit.value.valueAddedTaxIncluded are created using
+contract.value(if exists), otherwise using tender.value data
+
 
 Setting contract signature date
 -------------------------------

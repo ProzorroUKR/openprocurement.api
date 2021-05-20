@@ -99,6 +99,10 @@ X-Content-Type-Options: nosniff
           "scheme": "ДК021",
           "id": "37810000-9"
         },
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
           "endDate": "2021-05-05T00:00:00+02:00"
@@ -127,6 +131,10 @@ X-Content-Type-Options: nosniff
           "description": "Test",
           "scheme": "ДК021",
           "id": "37810000-9"
+        },
+        "unit": {
+          "name": "упаковка",
+          "code": "PK"
         },
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",

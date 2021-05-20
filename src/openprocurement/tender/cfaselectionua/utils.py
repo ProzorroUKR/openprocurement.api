@@ -2,7 +2,8 @@
 from logging import getLogger
 from openprocurement.api.constants import TZ
 from openprocurement.api.models import Value
-from openprocurement.tender.belowthreshold.utils import add_contract, add_next_award
+from openprocurement.tender.belowthreshold.utils import add_contracts, add_next_award
+from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.cfaselectionua.constants import (
     AGREEMENT_STATUS,
     AGREEMENT_ITEMS,
@@ -62,7 +63,7 @@ def check_status(request):
     now = get_now()
     for award in tender.awards:
         if award.status == "active" and not any([i.awardID == award.id for i in tender.contracts]):
-            add_contract(request, award, now)
+            add_contracts(request, award, now)
             add_next_award(request)
 
     after_enquiryPeriod_endDate = (
@@ -154,7 +155,12 @@ def check_tender_status(request):
                 extra=context_unpack(request, {"MESSAGE_ID": "switched_tender_unsuccessful"}),
             )
             tender.status = "unsuccessful"
-        if tender.contracts and tender.contracts[-1].status == "active":
+
+        if (
+                tender.contracts
+                and any([contract.status == "active" for contract in tender.contracts])
+                and not any([contract.status == "pending" for contract in tender.contracts])
+        ):
             tender.status = "complete"
 
 

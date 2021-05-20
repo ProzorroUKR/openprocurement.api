@@ -23,7 +23,11 @@ from openprocurement.tender.limited.validation import (
 
 def check_tender_status(request):
     tender = request.validated["tender"]
-    if tender.contracts and tender.contracts[-1].status == "active":
+    if (
+            tender.contracts
+            and any([contract.status == "active" for contract in tender.contracts])
+            and not any([contract.status == "pending" for contract in tender.contracts])
+    ):
         tender.status = "complete"
 
 
@@ -63,7 +67,11 @@ def check_tender_negotiation_status(request):
         elif not statuses.difference(set(["complete", "unsuccessful", "cancelled"])):
             tender.status = "complete"
     else:
-        if tender.contracts and tender.contracts[-1].status == "active":
+        if (
+                tender.contracts
+                and any([contract.status == "active" for contract in tender.contracts])
+                and not any([contract.status == "pending" for contract in tender.contracts])
+        ):
             tender.status = "complete"
 
 

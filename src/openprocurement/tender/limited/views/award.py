@@ -8,7 +8,7 @@ from openprocurement.api.utils import (
     error_handler,
     raise_operation_error,
 )
-from openprocurement.tender.belowthreshold.utils import add_contract
+from openprocurement.tender.belowthreshold.utils import add_contracts
 
 from openprocurement.tender.core.utils import (
     apply_patch,
@@ -313,7 +313,7 @@ class TenderAwardResource(APIResource):
         apply_patch(self.request, save=False, src=self.request.context.serialize())
 
         if award_status == "pending" and award.status == "active":
-            add_contract(self.request, award)
+            add_contracts(self.request, award)
             # add_next_award(self.request)
         elif award_status == "active" and award.status == "cancelled":
             for i in tender.contracts:
@@ -541,7 +541,7 @@ class TenderNegotiationAwardResource(TenderAwardResource):
             award.complaintPeriod = {"startDate": now.isoformat(),
                                      "endDate": calculate_complaint_business_date(now, self.stand_still_delta, tender)
                                      }
-            add_contract(self.request, award, now)
+            add_contracts(self.request, award, now)
         elif (
             award_status == "active"
             and award.status == "cancelled"

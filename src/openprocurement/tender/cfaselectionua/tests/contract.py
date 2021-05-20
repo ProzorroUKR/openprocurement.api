@@ -9,6 +9,7 @@ from openprocurement.tender.cfaselectionua.tests.base import (
     test_bids,
     test_lots,
     test_organization,
+    test_tender_data_multi_buyers,
 )
 from openprocurement.tender.cfaselectionua.tests.contract_blanks import (
     # TenderContractResourceTest
@@ -29,6 +30,8 @@ from openprocurement.tender.cfaselectionua.tests.contract_blanks import (
     lot2_create_tender_contract_document,
     lot2_put_tender_contract_document,
     lot2_patch_tender_contract_document,
+    patch_contract_single_item_unit_value,
+    patch_contract_multi_items_unit_value,
 )
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     patch_tender_contract_value_vat_not_included,
@@ -45,6 +48,7 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     lot2_create_tender_contract_document_by_others,
     lot2_put_tender_contract_document_by_supplier,
     lot2_patch_tender_contract_document_by_supplier,
+    patch_tender_multi_contracts,
 )
 
 
@@ -73,6 +77,8 @@ class TenderContractResourceTest(TenderContentWebTest, TenderContractResourceTes
     test_patch_tender_contract_status_by_owner = snitch(patch_tender_contract_status_by_owner)
     test_patch_tender_contract_status_by_others = snitch(patch_tender_contract_status_by_others)
     test_patch_tender_contract_status_by_supplier = snitch(patch_tender_contract_status_by_supplier)
+    test_patch_contract_single_item_unit_value = snitch(patch_contract_single_item_unit_value)
+    test_patch_contract_multi_items_unit_value = snitch(patch_contract_multi_items_unit_value)
 
 
 class TenderContractVATNotIncludedResourceTest(TenderContentWebTest, TenderContractResourceTestMixin):
@@ -199,6 +205,44 @@ class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
     test_lot2_create_tender_contract_document_by_others = snitch(lot2_create_tender_contract_document_by_others)
     test_lot2_put_tender_contract_document_by_supplier = snitch(lot2_put_tender_contract_document_by_supplier)
     test_lot2_patch_tender_contract_document_by_supplier = snitch(lot2_patch_tender_contract_document_by_supplier)
+
+
+class TenderContractMultiBuyersResourceTest(TenderContentWebTest):
+    initial_status = "active.qualification"
+    initial_bids = test_bids
+    initial_lots = test_lots
+    initial_data = test_tender_data_multi_buyers
+
+    def create_award(self):
+        auth = self.app.authorization
+        self.app.authorization = ("Basic", ("token", ""))
+        response = self.app.post_json(
+            "/tenders/{}/awards".format(self.tender_id),
+            {
+                "data": {
+                    "suppliers": [test_organization],
+                    "status": "pending",
+                    "bid_id": self.initial_bids[0]["id"],
+                    "lotID": self.initial_lots[0]["id"],
+                    "value": {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True},
+                }
+            },
+        )
+        award = response.json["data"]
+        self.award_id = award["id"]
+        self.award_value = award["value"]
+        self.award_suppliers = award["suppliers"]
+        self.app.authorization = auth
+        self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+            {"data": {"status": "active"}},
+        )
+
+    def setUp(self):
+        super(TenderContractMultiBuyersResourceTest, self).setUp()
+        self.create_award()
+
+    test_patch_tender_multi_contracts = snitch(patch_tender_multi_contracts)
 
 
 def suite():

@@ -8,7 +8,7 @@ from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
 )
 
-from openprocurement.tender.belowthreshold.utils import add_contract
+from openprocurement.tender.belowthreshold.utils import add_contracts
 from openprocurement.tender.pricequotation.constants import QUALIFICATION_DURATION
 
 
@@ -55,7 +55,7 @@ def check_award_status(request):
             else:
                 add_next_award(request)
         if award.status == "active" and not any([i.awardID == award.id for i in tender.contracts]):
-            add_contract(request, award, now)
+            add_contracts(request, award, now)
             add_next_award(request)
 
 
@@ -93,7 +93,11 @@ def check_tender_status(request):
             ),
         )
         tender.status = "unsuccessful"
-    if tender.contracts and tender.contracts[-1].status == "active":
+    if (
+            tender.contracts
+            and any([contract.status == "active" for contract in tender.contracts])
+            and not any([contract.status == "pending" for contract in tender.contracts])
+    ):
         tender.status = "complete"
 
 

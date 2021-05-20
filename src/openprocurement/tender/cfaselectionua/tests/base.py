@@ -8,7 +8,7 @@ from uuid import uuid4
 from openprocurement.api.constants import SANDBOX_MODE, TZ
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import set_tender_criteria
+from openprocurement.tender.belowthreshold.tests.base import set_tender_criteria, set_tender_multi_buyers
 from openprocurement.tender.cfaselectionua.constants import BOT_NAME
 from openprocurement.tender.cfaselectionua.models.tender import CFASelectionUATender
 from openprocurement.tender.core.tests.base import BaseCoreWebTest
@@ -65,6 +65,11 @@ with open(os.path.join(here, "data/lots.json")) as _in:
 
 test_agreement_features = deepcopy(test_agreement)
 test_agreement_features["features"] = test_features
+
+test_tender_data_multi_buyers = set_tender_multi_buyers(
+    test_tender_data, test_tender_data["items"][0],
+    test_organization
+)
 
 
 class BaseApiWebTest(BaseWebTest):

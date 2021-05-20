@@ -18,7 +18,11 @@ from openprocurement.tender.openuadefense.tests.base import (
     test_procuringEntity as test_procuringEntity_api,
     test_tender_data as test_tender_data_api,
 )
-from openprocurement.tender.belowthreshold.tests.base import test_bids as base_test_bids
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_bids as base_test_bids,
+    set_tender_multi_buyers,
+    test_organization,
+)
 
 
 test_tender_data = test_tender_ua_data = test_tender_data_api.copy()
@@ -43,6 +47,10 @@ bid_update_data = {"selfQualified": True, "selfEligible": True}
 for i in test_bids:
     i.update(bid_update_data)
 
+test_tender_data_multi_buyers = set_tender_multi_buyers(
+    test_tender_data, test_tender_data["items"][0],
+    test_organization
+)
 
 class BaseApiWebTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)

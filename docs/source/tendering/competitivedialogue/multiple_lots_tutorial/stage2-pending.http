@@ -260,8 +260,8 @@ X-Content-Type-Options: nosniff
           "id": "37810000-9"
         },
         "unit": {
-          "name": "item",
-          "code": "44617100-9"
+          "name": "кілограм",
+          "code": "KGM"
         },
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
@@ -294,8 +294,8 @@ X-Content-Type-Options: nosniff
           "id": "37810000-9"
         },
         "unit": {
-          "name": "item",
-          "code": "44617100-9"
+          "name": "упаковка",
+          "code": "PK"
         },
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",

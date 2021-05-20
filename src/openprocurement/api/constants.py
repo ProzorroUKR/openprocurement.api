@@ -196,3 +196,6 @@ UNIT_PRICE_REQUIRED_FROM = get_constant(CONSTANTS_CONFIG, "UNIT_PRICE_REQUIRED_F
 # CS-10431 validation currency
 CURRENCIES = standards.load("codelists/tender/tender_currency.json")
 VALIDATE_CURRENCY_FROM = get_constant(CONSTANTS_CONFIG, "VALIDATE_CURRENCY_FROM")
+
+# CS-10207 multi contracts required for multi buyers
+MULTI_CONTRACTS_REQUIRED_FROM = get_constant(CONSTANTS_CONFIG, "MULTI_CONTRACTS_REQUIRED_FROM")

@@ -107,8 +107,13 @@ X-Content-Type-Options: nosniff
         ],
         "quantity": 1.0,
         "unit": {
-          "name": "item",
-          "code": "44617100-9"
+          "name": "папір",
+          "code": "KGM",
+          "value": {
+            "amount": 10.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          }
         },
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",

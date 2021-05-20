@@ -1,4 +1,4 @@
-GET /api/2.5/contracts/77d160a2092f40068cba075e1dfac436 HTTP/1.0
+GET /api/2.5/contracts/e4e18aeb91074656a353d7429c72c077 HTTP/1.0
 Host: lb-api-sandbox.prozorro.gov.ua
 
 Response: 200 OK
@@ -6,7 +6,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "77d160a2092f40068cba075e1dfac436",
+    "id": "e4e18aeb91074656a353d7429c72c077",
     "awardID": "012bb32b7489497a82373211ac3555ba",
     "contractID": "UA-2021-03-16-000001-1",
     "dateSigned": "2021-03-16T00:00:01+02:00",
@@ -16,8 +16,13 @@ X-Content-Type-Options: nosniff
         "id": "299ef8cb981340528d0f7dcf2aa70caa",
         "description": "футляри до державних нагород",
         "unit": {
-          "name": "item",
-          "code": "44617100-9"
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
         },
         "quantity": 5.0,
         "deliveryDate": {
@@ -48,8 +53,13 @@ X-Content-Type-Options: nosniff
         "id": "168b0c97bf1a4ce690b1e3b400be0f50",
         "description": "футляри до державних нагород",
         "unit": {
-          "name": "item",
-          "code": "44617100-9"
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
         },
         "quantity": 5.0,
         "deliveryDate": {

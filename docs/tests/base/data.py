@@ -377,8 +377,8 @@ items = [
             }
         ],
         "unit": {
-            "name": "item",
-            "code": "44617100-9"
+            "name": "кілограм",
+            "code": "KGM"
         },
         "quantity": 5
     }
@@ -411,6 +411,10 @@ items_en = [
             "locality": "м. Київ",
             "streetAddress": "вул. Банкова 1"
         },
+        "unit": {
+            "code": "KGM",
+            "name": "кілограм"
+        },
         "quantity": 1
     }, {
         "additionalClassifications": [
@@ -427,6 +431,10 @@ items_en = [
             "id": "37810000-9",
             "description": "Test"
         },
+        "unit": {
+            "code": "PK",
+            "name": "упаковка"
+        },
         "quantity": 1,
         "deliveryDate": {
             "startDate": (parse(MOCK_DATETIME) + timedelta(days=20)).isoformat(),
@@ -441,20 +449,6 @@ items_en = [
         }
     }
 ]
-
-items_en_unit = deepcopy(items_en)
-items_en_unit[0].update({
-    "unit": {
-        "code": "44617100-9",
-        "name": "item"
-    }
-})
-items_en_unit[1].update({
-    "unit": {
-        "code": "44617100-9",
-        "name": "item"
-    }
-})
 
 items_ua = [
     {
@@ -482,17 +476,16 @@ items_ua = [
             "id": "55523100-3",
             "scheme": "ДК021"
         },
+        "unit": {
+            "code": "KGM",
+            "name": "папір",
+            "value": {
+                "amount": 10
+            }
+        },
         "quantity": 1
     }
 ]
-
-items_ua_unit = deepcopy(items_ua)
-items_ua_unit[0].update({
-    "unit": {
-        "code": "44617100-9",
-        "name": "item"
-    }
-})
 
 procuring_entity = {
     "name": "Державне управління справами",
@@ -674,7 +667,7 @@ tender_stage1 = {
         "amount": 500
     },
     "procuringEntity": procuring_entity_en,
-    "items": items_en_unit,
+    "items": items_en,
     "milestones": test_milestones,
     "mainProcurementCategory": "services",
 }
@@ -696,7 +689,7 @@ tender_stage2_multiple_lots = {
     "shortlistedFirms": shortlisted_firms,
     "owner": "broker",
     "procuringEntity": procuring_entity_en,
-    "items": items_en_unit
+    "items": items_en
 }
 
 tender_stage2EU = {
@@ -717,7 +710,7 @@ tender_stage2EU = {
     "shortlistedFirms": shortlisted_firms,
     "owner": "broker",
     "procuringEntity": procuring_entity_en,
-    "items": items_en_unit
+    "items": items_en
 }
 
 tender_stage2UA = {
@@ -736,7 +729,7 @@ tender_stage2UA = {
     "shortlistedFirms": shortlisted_firms,
     "owner": "broker",
     "procuringEntity": procuring_entity_ua,
-    "items": items_ua_unit
+    "items": items_ua
 }
 
 tender_limited = {
@@ -801,6 +794,10 @@ tender_openua = {
     "mainProcurementCategory": "services",
 }
 
+items_esco = deepcopy(items_en)
+items_esco[0].pop("unit")
+items_esco[1].pop("unit")
+
 tender_esco = {
     "tenderPeriod": {
         "endDate": (parse(MOCK_DATETIME) + timedelta(days=31)).isoformat()
@@ -810,7 +807,7 @@ tender_esco = {
     "procurementMethodType": "esco",
     "minimalStepPercentage": 0.006,
     "procuringEntity": procuring_entity_en,
-    "items": items_en_unit,
+    "items": items_esco,
     "NBUdiscountRate": 0.22986,
     "fundingKind": "other",
     "yearlyPaymentsPercentageRange": 0.8,

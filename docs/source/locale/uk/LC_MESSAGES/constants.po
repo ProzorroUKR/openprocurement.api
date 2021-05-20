@@ -197,3 +197,12 @@ msgstr ""
 
 msgid "VALIDATE_CURRENCY_FROM"
 msgstr ""
+
+msgid "UNIT_PRICE_REQUIRED_FROM"
+msgstr ""
+
+msgid "MULTI_CONTRACTS_REQUIRED_FROM"
+msgstr ""
+
+msgid "Implemented creation of aggregate contracts. Look at `centralized-procurements` source."
+msgstr ""

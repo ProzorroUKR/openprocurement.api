@@ -65,3 +65,27 @@ msgstr "У результаті план переміщається у стат�
 
 msgid "The tender `plans` field contains all the plan ids"
 msgstr "Поле `plans` тендеру містить всі ідентифікатори планів"
+
+msgid "Creation of aggregate contracts"
+msgstr "Створення агрегованих контрактів"
+
+msgid "For each `buyer` object in tender system is creating separate `contract` respectively when `award` become active."
+msgstr "Для кожного об'єктку `buyer` в тендері система створює окремий `contract` відповідно, в той момент коли `award` стає активним. "
+
+msgid "Create tender with several buyers, each `item` should be assigned to related `buyer` using `relatedBuyer` field :"
+msgstr "Створюємо тендер з декількома buyers, кожен `item` повинен бути прив'язаний до відповідного `buyer`, використовючи поле `relatedBuyer`:"
+
+msgid "Move forward as usual, activate award:"
+msgstr "Йдемо далі, як зазвичай, активуємо авард"
+
+msgid "After activating award system is creating such amount of contracts that corresponds to the amount of buyers"
+msgstr "Після активації аварду система створює таку кількість об'єктів contracts, що відповідає кількості buyers в тендері"
+
+msgid "Update Amount.Value of each contract considering the sum of product of Unit.Value by Quantity for each item in contract."
+msgstr "Оновлюємо Amount.Value для кожного контракту, враховуючи суму добутків Unit.Value на Quantity для кожного item в контракті:"
+
+msgid "You can activate or terminate each contract as usual. If there are not contracts in `pending` status and at least one contract became `active` tender is becoming `complete`"
+msgstr "Ви можете активувати або термінувати кожен контракт як зазвичай. Якщо відсутні контракти в стутусі `pending` та хоча б один котракт знаходиться в статусі `active`, тендер переходить в статус `complete`"
+
+msgid "If award was cancelled, all contracts related to this awardID become in cancelled status."
+msgstr "При скасуванні аварду всі контракти відповідного awardID переходять в статус cancelled."

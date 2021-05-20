@@ -22,6 +22,8 @@ test_tender_data["yearlyPaymentsPercentageRange"] = 0.80000
 
 del test_tender_data["value"]
 del test_tender_data["minimalStep"]
+for item in test_tender_data["items"]:
+    del item["unit"]
 
 test_features_tender_data = deepcopy(base_eu_test_features_data)
 test_features_tender_data["procurementMethodType"] = "esco"

@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1803
+Content-Length: 1876
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -32,7 +32,14 @@ DATA:
     "items": [
       {
         "description": "Комп’ютерне обладнання",
-        "quantity": 1,
+        "unit": {
+          "name": "кг",
+          "code": "KGM",
+          "value": {
+            "amount": 6
+          }
+        },
+        "quantity": 5,
         "deliveryDate": {
           "startDate": "2021-03-18T00:00:00+02:00",
           "endDate": "2021-03-21T00:00:00+02:00"
@@ -77,7 +84,7 @@ X-Content-Type-Options: nosniff
       {
         "id": "61a6737049384b08876fb0407eda182f",
         "description": "Комп’ютерне обладнання",
-        "quantity": 1.0,
+        "quantity": 5.0,
         "deliveryDate": {
           "startDate": "2021-03-18T00:00:00+02:00",
           "endDate": "2021-03-21T00:00:00+02:00"
@@ -88,6 +95,15 @@ X-Content-Type-Options: nosniff
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
+        },
+        "unit": {
+          "name": "кг",
+          "code": "KGM",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          }
         }
       }
     ],

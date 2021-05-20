@@ -34,6 +34,7 @@ X-Content-Type-Options: nosniff
     "dueDate": "2019-05-15T13:00:00+02:00",
     "status": "scheduled",
     "author": {
+      "id": "a256ff206dcf4884a5631a283ce6bb7d",
       "name": "ЦЗО №1",
       "identifier": {
         "scheme": "UA-EDR",

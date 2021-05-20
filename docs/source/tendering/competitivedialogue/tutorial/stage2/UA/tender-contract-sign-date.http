@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/db4876add6b747dfafc1b99523c02097/contracts/7736a09ac3774898acffbed382b13b52?acc_token=9234ea997d5a428fb67b1ae603020b64 HTTP/1.0
+PATCH /api/2.5/tenders/db4876add6b747dfafc1b99523c02097/contracts/b149e882192648f5964d55614c2d30c5?acc_token=9234ea997d5a428fb67b1ae603020b64 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 53
 Content-Type: application/json
@@ -15,7 +15,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "7736a09ac3774898acffbed382b13b52",
+    "id": "b149e882192648f5964d55614c2d30c5",
     "contractID": "UA-2021-03-16-000001-1",
     "status": "pending",
     "dateSigned": "2021-03-16T00:00:03+02:00",
@@ -61,11 +61,16 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "unit": {
-          "name": "item",
-          "code": "44617100-9"
-        },
         "quantity": 1.0,
+        "unit": {
+          "name": "папір",
+          "code": "KGM",
+          "value": {
+            "amount": 10.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          }
+        },
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
           "endDate": "2021-04-16T00:00:00+02:00"

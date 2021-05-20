@@ -11,10 +11,12 @@ from openprocurement.planning.api.constants import (
 from openprocurement.api.utils import get_now, parse_date
 from datetime import timedelta, datetime
 from copy import deepcopy
+from uuid import uuid4
 import pytest
 
 
 milestone_author = {
+    "id": "1"*32,
     "identifier": {
         "scheme": "UA-EDR",
         "id": "11111",
@@ -24,6 +26,7 @@ milestone_author = {
 }
 
 central_procuring_entity = {
+    "id": "2"*32,
     "identifier": {
         "scheme": "UA-EDR",
         "id": "11111",
@@ -603,6 +606,7 @@ def test_success_patch_plan_procuring_entity_in_time(app, centralized_milestone,
     app.app.registry.databases.plans.save(plan_source)
 
     new_procuring_entity = {
+        "id": uuid4().hex,
         "identifier": {
             "scheme": "UA-EDR",
             "id": "222222",
@@ -715,6 +719,7 @@ def test_success_patch_plan_procuring_entity_not_in_time(app, centralized_milest
     app.app.registry.databases.plans.save(plan_source)
 
     request_entity = {
+        "id": uuid4().hex,
         "identifier": {
             "scheme": "UA-EDR",
             "id": "222222",

@@ -18,7 +18,7 @@ from openprocurement.tender.openua.utils import (
     check_cancellation_status,
     add_next_award as add_next_award_base,
 )
-from openprocurement.tender.belowthreshold.utils import check_tender_status, add_contract
+from openprocurement.tender.belowthreshold.utils import check_tender_status, add_contracts
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date as calculate_tender_business_date_base,
     calculate_clarif_business_date as calculate_clarif_business_date_base,
@@ -85,7 +85,7 @@ def check_status(request):
 
     for award in tender.awards:
         if award.status == "active" and not any([i.awardID == award.id for i in tender.contracts]):
-            add_contract(request, award, now)
+            add_contracts(request, award, now)
             add_next_award(request)
     if (
         not tender.lots
