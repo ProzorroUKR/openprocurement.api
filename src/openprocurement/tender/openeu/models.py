@@ -349,6 +349,13 @@ class LotValue(BaseLotValue, WeightedValueMixin):
                 "participationUrl",
                 "status"
             ),
+            "auction_post": whitelist(
+                "value",
+                "date",
+                "relatedLot",
+                "weightedValue",
+                "serialize_weightedValue",
+            ),
         }
 
     subcontractingDetails = StringType()
