@@ -3,21 +3,38 @@ from datetime import timedelta
 from openprocurement.tender.belowthreshold.tests.base import test_cancellation
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
-from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
 
 
-def update_patch_data(self, patch_data, key=None, start=0, interval=None):
+def update_patch_data(self, patch_data, key=None, start=0, interval=None, with_weighted_value=False):
+    if start:
+        iterator = list(range(self.min_bids_number))[start::interval]
+    else:
+        iterator = list(range(self.min_bids_number))[::interval]
 
-    iterator = (
-        list(range(self.min_bids_number))[start::interval] if start else list(range(self.min_bids_number))[::interval]
-    )
-    data = {
-        "value": {"amount": 459, "currency": "UAH", "valueAddedTaxIncluded": True},
-        "lotValues": [{"value": {"amount": 489, "currency": "UAH", "valueAddedTaxIncluded": True}}],
+    bid_patch_data_value = {
+        "value": {
+            "amount": 489,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": True
+        }
     }
 
+    if with_weighted_value:
+        bid_patch_data_value.update({
+            "weightedValue": {
+                "amount": 479,
+                "currency": "UAH",
+                "valueAddedTaxIncluded": True
+            }
+        })
+
     for x in iterator:
-        patch_data["bids"].append({"id": self.initial_bids[x]["id"], key: data[key]})
+        bid_patch_data = {"id": self.initial_bids[x]["id"]}
+        if key == "value":
+            bid_patch_data.update(bid_patch_data_value)
+        elif key == "lotValues":
+            bid_patch_data.update({"lotValues": [bid_patch_data_value]})
+        patch_data["bids"].append(bid_patch_data)
 
 
 # TenderAuctionResourceTest
@@ -157,16 +174,27 @@ def post_tender_auction(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
-    self.assertNotEqual(tender["bids"][0]["value"]["amount"], self.initial_bids[0]["value"]["amount"])
-    self.assertNotEqual(tender["bids"][-1]["value"]["amount"], self.initial_bids[-1]["value"]["amount"])
-    self.assertEqual(tender["bids"][0]["value"]["amount"], patch_data["bids"][-1]["value"]["amount"])
-    self.assertEqual(tender["bids"][-1]["value"]["amount"], patch_data["bids"][0]["value"]["amount"])
+
+    first_bid_amount = tender["bids"][0]["value"]["amount"]
+    second_bid_amount = tender["bids"][1]["value"]["amount"]
+    last_bid_amount = tender["bids"][-1]["value"]["amount"]
+
+    first_bid_initial_amount = self.initial_bids[0]["value"]["amount"]
+    second_bid_initial_amount = self.initial_bids[1]["value"]["amount"]
+
+    first_bid_patch_amount = patch_data["bids"][0]["value"]["amount"]
+    last_bid_patch_amount = patch_data["bids"][-1]["value"]["amount"]
+
+    self.assertNotEqual(first_bid_amount, first_bid_initial_amount)
+    self.assertNotEqual(second_bid_amount, second_bid_initial_amount)
+    self.assertEqual(first_bid_amount, last_bid_patch_amount)
+    self.assertEqual(last_bid_amount, first_bid_patch_amount)
+
     self.assertEqual("active.qualification", tender["status"])
     self.assertIn("tenderers", tender["bids"][0])
     self.assertIn("name", tender["bids"][0]["tenderers"][0])
-    # self.assertIn(tender["awards"][0]["id"], response.headers['Location'])
     self.assertEqual(tender["awards"][0]["bid_id"], patch_data["bids"][0]["id"])
-    self.assertEqual(tender["awards"][0]["value"]["amount"], patch_data["bids"][0]["value"]["amount"])
+    self.assertEqual(tender["awards"][0]["value"]["amount"], first_bid_patch_amount)
     self.assertEqual(tender["awards"][0]["suppliers"], self.initial_bids[0]["tenderers"])
 
     response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=403)
@@ -176,6 +204,51 @@ def post_tender_auction(self):
         response.json["errors"][0]["description"],
         "Can't report auction results in current (active.qualification) tender status",
     )
+
+
+def post_tender_auction_weighted_value(self):
+    if not hasattr(self.tender_class.bids.model_class, "weightedValue"):
+        return
+
+    self.app.authorization = ("Basic", ("auction", ""))
+    self.set_status("active.auction")
+
+    patch_data = {
+        "bids": [
+            {
+                "id": self.initial_bids[-1]["id"],
+                "value": {
+                    "amount": 409,
+                    "currency": "UAH",
+                    "valueAddedTaxIncluded": True
+                },
+                "weightedValue": {
+                    "amount": 399,
+                    "currency": "UAH",
+                    "valueAddedTaxIncluded": True
+                },
+            }
+        ]
+    }
+
+    update_patch_data(self, patch_data, key="value", start=-2, interval=-1, with_weighted_value=True)
+
+    response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
+
+    first_bid_weighted_amount = tender["bids"][0]["weightedValue"]["amount"]
+    last_bid_weighted_amount = tender["bids"][-1]["weightedValue"]["amount"]
+
+    first_bid_patch_weighted_amount = patch_data["bids"][0]["weightedValue"]["amount"]
+    last_bid_patch_weighted_amount = patch_data["bids"][-1]["weightedValue"]["amount"]
+
+    self.assertEqual(first_bid_weighted_amount, last_bid_patch_weighted_amount)
+    self.assertEqual(last_bid_weighted_amount, first_bid_patch_weighted_amount)
+
+    self.assertEqual("active.qualification", tender["status"])
+    self.assertEqual(tender["awards"][0]["weightedValue"]["amount"], first_bid_patch_weighted_amount)
 
 
 def patch_tender_auction(self):
@@ -457,24 +530,27 @@ def post_tender_lot_auction(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         tender = response.json["data"]
-    self.assertNotEqual(
-        tender["bids"][0]["lotValues"][0]["value"]["amount"], self.initial_bids[0]["lotValues"][0]["value"]["amount"]
-    )
-    self.assertNotEqual(
-        tender["bids"][1]["lotValues"][0]["value"]["amount"], self.initial_bids[1]["lotValues"][0]["value"]["amount"]
-    )
-    self.assertEqual(
-        tender["bids"][0]["lotValues"][0]["value"]["amount"], patch_data["bids"][-1]["lotValues"][0]["value"]["amount"]
-    )
-    self.assertEqual(
-        tender["bids"][-1]["lotValues"][0]["value"]["amount"], patch_data["bids"][0]["lotValues"][0]["value"]["amount"]
-    )
+
+    first_bid_amount = tender["bids"][0]["lotValues"][0]["value"]["amount"]
+    second_bid_amount = tender["bids"][1]["lotValues"][0]["value"]["amount"]
+    last_bid_amount = tender["bids"][-1]["lotValues"][0]["value"]["amount"]
+
+    first_bid_initial_amount = self.initial_bids[0]["lotValues"][0]["value"]["amount"]
+    second_bid_initial_amount = self.initial_bids[1]["lotValues"][0]["value"]["amount"]
+
+    first_bid_patch_amount = patch_data["bids"][0]["lotValues"][0]["value"]["amount"]
+    last_bid_patch_amount = patch_data["bids"][-1]["lotValues"][0]["value"]["amount"]
+
+    self.assertNotEqual(first_bid_amount, first_bid_initial_amount)
+    self.assertNotEqual(second_bid_amount, second_bid_initial_amount)
+    self.assertEqual(first_bid_amount, last_bid_patch_amount)
+    self.assertEqual(last_bid_amount, first_bid_patch_amount)
+
     self.assertEqual("active.qualification", tender["status"])
     self.assertIn("tenderers", tender["bids"][0])
     self.assertIn("name", tender["bids"][0]["tenderers"][0])
-    # self.assertIn(tender["awards"][0]["id"], response.headers['Location'])
     self.assertEqual(tender["awards"][0]["bid_id"], patch_data["bids"][0]["id"])
-    self.assertEqual(tender["awards"][0]["value"]["amount"], patch_data["bids"][0]["lotValues"][0]["value"]["amount"])
+    self.assertEqual(tender["awards"][0]["value"]["amount"], first_bid_patch_amount)
     self.assertEqual(tender["awards"][0]["suppliers"], self.initial_bids[0]["tenderers"])
 
     response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=403)
@@ -484,6 +560,54 @@ def post_tender_lot_auction(self):
         response.json["errors"][0]["description"],
         "Can't report auction results in current (active.qualification) tender status",
     )
+
+
+def post_tender_lot_auction_weighted_value(self):
+    if not hasattr(self.tender_class.bids.model_class.lotValues.model_class, "weightedValue"):
+        return
+
+    self.app.authorization = ("Basic", ("auction", ""))
+    self.set_status("active.auction")
+
+    patch_data = {
+        "bids": [
+            {
+                "id": self.initial_bids[-1]["id"],
+                "lotValues": [{
+                    "value": {
+                        "amount": 409,
+                        "currency": "UAH",
+                        "valueAddedTaxIncluded": True
+                    },
+                    "weightedValue": {
+                        "amount": 399,
+                        "currency": "UAH",
+                        "valueAddedTaxIncluded": True
+                    },
+                }],
+            }
+        ]
+    }
+
+    update_patch_data(self, patch_data, key="lotValues", start=-2, interval=-1, with_weighted_value=True)
+
+    for lot in self.initial_lots:
+        response = self.app.post_json("/tenders/{}/auction/{}".format(self.tender_id, lot["id"]), {"data": patch_data})
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        tender = response.json["data"]
+
+    first_bid_weighted_amount = tender["bids"][0]["lotValues"][0]["weightedValue"]["amount"]
+    last_bid_weighted_amount = tender["bids"][-1]["lotValues"][0]["weightedValue"]["amount"]
+
+    first_bid_patch_weighted_amount = patch_data["bids"][0]["lotValues"][0]["weightedValue"]["amount"]
+    last_bid_patch_weighted_amount = patch_data["bids"][-1]["lotValues"][0]["weightedValue"]["amount"]
+
+    self.assertEqual(first_bid_weighted_amount, last_bid_patch_weighted_amount)
+    self.assertEqual(last_bid_weighted_amount, first_bid_patch_weighted_amount)
+
+    self.assertEqual("active.qualification", tender["status"])
+    self.assertEqual(tender["awards"][0]["weightedValue"]["amount"], first_bid_patch_weighted_amount)
 
 
 def patch_tender_lot_auction(self):

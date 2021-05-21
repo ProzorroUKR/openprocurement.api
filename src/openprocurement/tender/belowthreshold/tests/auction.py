@@ -17,6 +17,7 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (
     get_tender_auction_not_found,
     get_tender_auction,
     post_tender_auction,
+    post_tender_auction_weighted_value,
     patch_tender_auction,
     post_tender_auction_document,
     # TenderSameValueAuctionResourceTest
@@ -25,6 +26,7 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (
     # TenderLotAuctionResourceTest
     get_tender_lot_auction,
     post_tender_lot_auction,
+    post_tender_lot_auction_weighted_value,
     patch_tender_lot_auction,
     post_tender_lot_auction_document,
     # TenderMultipleLotAuctionResourceTest
@@ -52,6 +54,7 @@ class TenderAuctionResourceTestMixin(object):
     test_get_tender_auction_not_found = snitch(get_tender_auction_not_found)
     test_get_tender_auction = snitch(get_tender_auction)
     test_post_tender_auction = snitch(post_tender_auction)
+    test_post_tender_auction_weighted_value = snitch(post_tender_auction_weighted_value)
     test_patch_tender_auction = snitch(patch_tender_auction)
     test_post_tender_auction_document = snitch(post_tender_auction_document)
 
@@ -59,6 +62,7 @@ class TenderAuctionResourceTestMixin(object):
 class TenderLotAuctionResourceTestMixin(object):
     test_get_tender_auction = snitch(get_tender_lot_auction)
     test_post_tender_auction = snitch(post_tender_lot_auction)
+    test_post_tender_auction_weighted_value = snitch(post_tender_lot_auction_weighted_value)
     test_patch_tender_auction = snitch(patch_tender_lot_auction)
     test_post_tender_auction_document = snitch(post_tender_lot_auction_document)
 
