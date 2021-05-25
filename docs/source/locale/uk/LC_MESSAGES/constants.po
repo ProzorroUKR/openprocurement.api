@@ -1,0 +1,91 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-02-08 12:21+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+msgid "Constants"
+msgstr "Константы"
+
+msgid "**BUDGET_PERIOD_FROM** - Added `period` to planning `Budget` model and use instead of `year` field"
+msgstr "**BUDGET_PERIOD_FROM** - Додано період до моделі `Budget` в планінгіх та стало використовуватись замість поля `year`"
+
+msgid "**NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM** - Made not required `additionalClassifications`"
+msgstr "**NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM** - Поле `additionalClassifications` перестало бути обов'язковим"
+
+msgid "**CPV_336_INN_FROM** - `additionalClassifications` have to have only one classification"
+msgstr "**CPV_336_INN_FROM** - Поле `additionalClassifications` має мати лише один класифікатор"
+
+msgid "**ORGANIZATION_SCALE_FROM** - `scale` became required"
+msgstr "**ORGANIZATION_SCALE_FROM** - Поле `scale` стало обов'язковим"
+
+msgid "**VAT_FROM** - Readonly attributes for `valueAddedTaxIncluded`"
+msgstr "**VAT_FROM** - Поле `valueAddedTaxIncluded` стало доступним лише для зчитування"
+
+msgid "**MPC_REQUIRED_FROM** - `mainProcurementCategory` became required"
+msgstr "**MPC_REQUIRED_FROM** - Поле `mainProcurementCategory` стало обв'язковим"
+
+msgid "**MILESTONES_VALIDATION_FROM** - Added validations for `milestone`"
+msgstr "**MILESTONES_VALIDATION_FROM** - Додана валідація до поля `milestone`"
+
+msgid "**PLAN_BUYERS_REQUIRED_FROM** - `buyers` became required"
+msgstr "**PLAN_BUYERS_REQUIRED_FROM** - Поле `buyers` стало обов'язковим"
+
+msgid "**BUDGET_BREAKDOWN_REQUIRED_FROM** - Field `breakdown` became required for tenders (\"belowThreshold\", \"reporting\", \"esco\")"
+msgstr "**BUDGET_BREAKDOWN_REQUIRED_FROM** - поле `breakdown` стало обов'язковим для тендерів (\"belowThreshold\", \"reporting\", \"esco\")"
+
+msgid "**WORKING_DATE_ALLOW_MIDNIGHT_FROM** - Allowed working in midnight"
+msgstr "**WORKING_DATE_ALLOW_MIDNIGHT_FROM** - Додана можливість працювати о півночі"
+
+msgid "**NORMALIZED_CLARIFICATIONS_PERIOD_FROM** - normalized certifications period"
+msgstr "**NORMALIZED_CLARIFICATIONS_PERIOD_FROM** - Нормалізовано сертифікаційний період"
+
+msgid "**QUICK_CAUSE_REQUIRED_FROM** - `cause` became required"
+msgstr "**QUICK_CAUSE_REQUIRED_FROM** - Поле `cause` стало обов'язковим"
+
+msgid "**RELEASE_2020_04_19** - New cancellation flow with complaints was implemented"
+msgstr "**RELEASE_2020_04_19** - Новий спосіб відміни за допомогою оскарження"
+
+msgid "**VALIDATE_ADDRESS_FROM** - Validation for Address `countryName` and `region`"
+msgstr "**VALIDATE_ADDRESS_FROM** - Додата валідація для полів `countryName` та `region`"
+
+msgid "**COMPLAINT_IDENTIFIER_REQUIRED_FROM** - `ComplaintIdentifier` became required"
+msgstr "**COMPLAINT_IDENTIFIER_REQUIRED_FROM** - Поле `ComplaintIdentifier` стало обов'язковим"
+
+msgid "**PLAN_ADDRESS_KIND_REQUIRED_FROM** - `kind` in `PlanAddress` became required"
+msgstr "**PLAN_ADDRESS_KIND_REQUIRED_FROM** - Поле `kind` стало обов'язковим"
+
+msgid "**NEW_NEGOTIATION_CAUSES_FROM** - Implemented new cause choices for Negotiation procedure"
+msgstr "**NEW_NEGOTIATION_CAUSES_FROM** - Впроваджено нові варіанти прчин для процедури узгодження"
+
+msgid "**NORMALIZED_TENDER_PERIOD_FROM** - normalized tender period"
+msgstr "**NORMALIZED_TENDER_PERIOD_FROM** - Нормалізовано період тендера"
+
+msgid "**MINIMAL_STEP_VALIDATION_FROM** - Added validation for `minimalStep`"
+msgstr "**MINIMAL_STEP_VALIDATION_FROM** - Додано валідацію для поля `minimalStep`"
+
+msgid "**RELEASE_ECRITERIA_ARTICLE_17** - Criteria was implemented"
+msgstr "**RELEASE_ECRITERIA_ARTICLE_17** - Впровадження критеріїв"
+
+msgid "**CRITERION_REQUIREMENT_STATUSES_FROM** - Implemented statuses to criterion requirement"
+msgstr "**CRITERION_REQUIREMENT_STATUSES_FROM** - Впроваджено статуси для `requirement` для критеріїв"
+
+msgid "**RELEASE_SIMPLE_DEFENSE_FROM** - New defense procedure"
+msgstr "**RELEASE_SIMPLE_DEFENSE_FROM** - Нова процедура для потреб оборони"
+
+msgid "**NEW_DEFENSE_COMPLAINTS_FROM** - New defence complaints supports from date"
+msgstr "**NEW_DEFENSE_COMPLAINTS_FROM** - Нове оскарження для потреб оборони з дати"
+
+msgid "**NEW_DEFENSE_COMPLAINTS_TO** - New defence complaints supports to date"
+msgstr "**NEW_DEFENSE_COMPLAINTS_TO** - Нове оскарження для потреб оборони до дати"
+
+msgid "**NO_DEFENSE_AWARD_CLAIMS_FROM** - Complaint type is should be only \"complaint\""
+msgstr "**NO_DEFENSE_AWARD_CLAIMS_FROM** - Тип оскарження має бути лише \"complaint\""

@@ -1,4 +1,7 @@
 from openprocurement.api.constants import COORDINATES_REG_EXP
+from openprocurement.api.tests.base import BaseWebTest
+import configparser
+from os.path import dirname, join
 import unittest
 
 
@@ -27,3 +30,18 @@ class ConstantsTestCase(unittest.TestCase):
         self.assertNotEqual("1.1.1", COORDINATES_REG_EXP.match("1.1.1").group())
         self.assertEqual(None, COORDINATES_REG_EXP.match("$tr!ng"))
         self.assertEqual(None, COORDINATES_REG_EXP.match(""))
+
+
+class HealthTestBase(BaseWebTest):
+
+    def test_constants_view(self):
+        response = self.app.get("/constants", status=200)
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
+        file_path = join(dirname(dirname(__file__))) + '/constants.ini'
+        config = configparser.ConfigParser()
+        config.read(file_path)
+        result = {k.upper(): v for k, v in config["DEFAULT"].items()}
+
+        self.assertEqual(response.json, result)
