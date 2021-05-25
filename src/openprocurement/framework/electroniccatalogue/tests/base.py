@@ -70,7 +70,7 @@ test_electronicCatalogue_data = {
     },
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
-    "qualificationPeriod": {"endDate": (now + timedelta(days=60)).isoformat()}
+    "qualificationPeriod": {"endDate": (now + timedelta(days=90)).isoformat()}
 }
 
 test_electronicCatalogue_documents = [
