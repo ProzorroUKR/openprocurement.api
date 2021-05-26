@@ -1,14 +1,14 @@
-
+⠀
 
 :id:
     uid, auto-generated
 
-    The identifier for this Change.
+     The identifier for this Change.
 
 :rationale:
     string, multilingual, required
 
-    Reason for agreement change
+     Reason for agreement change
 
 :date:
     string, :ref:`date`, auto-generated
@@ -22,10 +22,10 @@
 :status:
     string, required
 
-    The current status of the change.
+     The current status of the change.
 
-    Possible values are:
+     Possible values are:
 
-    * `pending` - this change has been added.
-    * `active` - this change has been confirmed.
-    * `cancelled` - this change has been cancelled.
+     * `pending` - this change has been added.
+     * `active` - this change has been confirmed.
+     * `cancelled` - this change has been cancelled.

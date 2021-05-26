@@ -1,6 +1,6 @@
 
 .. index:: Unit
-.. _unit:
+.. _observationunit:
 
 Unit
 ====

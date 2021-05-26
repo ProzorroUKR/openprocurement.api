@@ -20,7 +20,7 @@ Schema
     Observation measure.
 
 :unit:
-    :ref:`Unit` object
+    :ref:`ObservationUnit` object
 
 :dimensions:
     List of :ref:`Dimension` objects

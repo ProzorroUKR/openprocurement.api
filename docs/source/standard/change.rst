@@ -20,7 +20,7 @@ Schema
 :modifications:
     List of :ref:`UnitPriceModification` objects
 
-* For `ChangeTaxRate`, `UnitPriceModification` is allowed only with one attribute ( `factor` or `addend` ).
+     * For `ChangeTaxRate`, `UnitPriceModification` is allowed only with one attribute ( `factor` or `addend` ).
 
 
 .. _ChangeItemPriceVariation:
@@ -41,16 +41,13 @@ Schema
 :modifications:
     List of :ref:`UnitPriceModification` objects
 
-* For `ChangeItemPriceVariation`, `UnitPriceModification` is allowed only with `factor` . `factor` attribute should be in range 0.9 - 1.1.
+     * For `ChangeItemPriceVariation`, `UnitPriceModification` is allowed only with `factor` . `factor` attribute should be in range 0.9 - 1.1.
 
 
 .. _ChangeThirdParty:
 
 ChangeThirdParty in :ref:`cfaua`
 ================================
-
-Schema
-------
 
 .. include:: base_change.rst
 
@@ -62,7 +59,7 @@ Schema
 :modifications:
     List of :ref:`UnitPriceModification` objects
 
-* For `ChangeThirdParty`, `UnitPriceModification` is allowed only with `factor` . `factor` attribute should be over 0.0.
+     * For `ChangeThirdParty`, `UnitPriceModification` is allowed only with `factor` . `factor` attribute should be over 0.0.
 
 
 .. _ChangePartyWithdrawal:

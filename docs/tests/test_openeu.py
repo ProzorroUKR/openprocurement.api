@@ -266,6 +266,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 }})
             self.assertEqual(response.status, '200 OK')
 
+        with open(TARGET_DIR + 'bidder-documents.http', 'w') as self.app.file_obj:
+            response = self.app.get(
+                '/tenders/{}/bids/{}/documents?acc_token={}'.format(
+                    self.tender_id, bid1_id, bids_access[bid1_id]))
+            self.assertEqual(response.status, '200 OK')
+
         with open(TARGET_DIR + 'upload-bid-financial-document-proposal.http', 'w') as self.app.file_obj:
             response = self.app.post('/tenders/{}/bids/{}/financial_documents?acc_token={}'.format(
                 self.tender_id, bid1_id, bids_access[bid1_id]),
