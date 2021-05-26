@@ -138,7 +138,7 @@ msgid "Let's check created qualification object:"
 msgstr "Перевіримо об'єкт рішення по заявці:"
 
 msgid "All operations with qualification object can do only `framework_owner`."
-msgstr "Всі операції над об'єктом рішення по заявці може виконувати лише `framework_owner`(власник кваліфікації)."
+msgstr "Всі операції над об'єктом рішення по заявці може виконувати лише `framework_owner` (власник кваліфікації)."
 
 msgid "Uploading qualification documentation"
 msgstr "Завантаження документації до рішення по заявці"

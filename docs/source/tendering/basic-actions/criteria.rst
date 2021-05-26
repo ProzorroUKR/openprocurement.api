@@ -226,7 +226,7 @@ For tenders in non-draft statuses you can PUT exclusion requirement, but you can
    :code:
 
 Language criterion workflow
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+"""""""""""""""""""""""""""
 
 Language criterion creates as other and could be presented in bulk request with other criteria. Language should be specified in `title`
 

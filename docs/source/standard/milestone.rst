@@ -61,7 +61,7 @@ Schema
 
 
 Milestone in :ref:`frameworks_electroniccatalogue`
-=================================================
+==================================================
 
 Schema
 ------

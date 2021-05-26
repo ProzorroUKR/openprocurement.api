@@ -147,7 +147,7 @@ msgid "dateModified"
 msgstr ""
 
 msgid "string, :ref:`date`, auto-generated, read-only"
-msgstr "рядок, ref:`date`, енерується автоматично, лише для читання"
+msgstr "рядок, :ref:`date`, генерується автоматично, лише для читання"
 
 msgid "The date of milestone change."
 msgstr "Дата зміни майлстону"
