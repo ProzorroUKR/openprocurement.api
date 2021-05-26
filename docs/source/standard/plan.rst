@@ -83,6 +83,10 @@ buyers
 
    Identifications of the subjects in whose interests the purchase is made
 
+   Validation depends on:
+
+        * :ref:`PLAN_BUYERS_REQUIRED_FROM` constant
+
 
 milestones
 ----------
@@ -91,6 +95,9 @@ milestones
 
    Milestones of type `approval` used to provide Central procurement organization approve feature
 
+   Validation depends on:
+
+        * :ref:`MILESTONES_VALIDATION_FROM` constant
 
 tender
 ------
@@ -286,9 +293,17 @@ period
 ------
     :ref:`BudgetPeriod`
 
+    Validation depends on:
+
+        * :ref:`BUDGET_PERIOD_FROM` constant
+
 year
 ----
     integer, >=2000, deprecated in favor of `period`_
+
+    Validation depends on:
+
+        * :ref:`BUDGET_PERIOD_FROM` constant
 
 notes
 -----

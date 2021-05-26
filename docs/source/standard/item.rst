@@ -49,6 +49,11 @@ Schema
 
     It is mandatory to have at least one item with `ДКПП` as `scheme`.
 
+    Validation depends on:
+
+        * :ref:`NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM` constant
+        * :ref:`CPV_336_INN_FROM` constant (for :ref:`Tender` :ref:`Item`)
+
 :unit:
     :ref:`Unit`
 

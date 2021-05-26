@@ -107,6 +107,10 @@ Schema
 :valueAddedTaxIncluded:
     bool, required
 
+    Validation depends on:
+
+        * :ref:`VAT_FROM` constant
+
 .. index:: Value, Currency, VAT
 .. _value:
 
