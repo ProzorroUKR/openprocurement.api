@@ -34,7 +34,6 @@ HOLIDAYS = standards.load("calendars/workdays_off.json")
 for date_str in HOLIDAYS:
     WORKING_DAYS[date_str] = True
 
-
 def read_json(name):
     import os.path
     from json import loads
@@ -191,3 +190,7 @@ VALIDATE_TELEPHONE_FROM = get_constant(CONSTANTS_CONFIG, "VALIDATE_TELEPHONE_FRO
 
 # CS-10305 validation required fields by submission
 REQUIRED_FIELDS_BY_SUBMISSION_FROM = get_constant(CONSTANTS_CONFIG, "REQUIRED_FIELDS_BY_SUBMISSION_FROM")
+
+# CS-10431 validation currency
+CURRENCIES = standards.load("codelists/tender/tender_currency.json")
+VALIDATE_CURRENCY_FROM = get_constant(CONSTANTS_CONFIG, "VALIDATE_CURRENCY_FROM")
