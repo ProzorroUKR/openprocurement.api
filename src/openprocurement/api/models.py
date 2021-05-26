@@ -48,6 +48,8 @@ from openprocurement.api.constants import (
     UA_REGIONS,
     VALIDATE_ADDRESS_FROM, TZ,
     VALIDATE_TELEPHONE_FROM,
+    CURRENCIES,
+    VALIDATE_CURRENCY_FROM,
 )
 
 schematics_default_role = SchematicsDocument.Options.roles["default"] + blacklist("__parent__")
@@ -340,6 +342,15 @@ class Model(SchematicsModel, metaclass=OpenprocurementCouchdbDocumentMeta):
 class Guarantee(Model):
     amount = FloatType(required=True, min_value=0)  # Amount as a number.
     currency = StringType(required=True, default="UAH", max_length=3, min_length=3)  # 3-letter ISO 4217 format.
+
+    def validate_currency(self, data, value):
+        try:
+            root = get_root(data.get("__parent__", {}))
+        except AttributeError:
+            root = None
+        is_valid_date = get_first_revision_date(root, default=get_now()) >= VALIDATE_CURRENCY_FROM
+        if is_valid_date and value not in CURRENCIES:
+            raise ValidationError(f"Currency must be only {', '.join(CURRENCIES)}.")
 
 
 class Value(Guarantee):

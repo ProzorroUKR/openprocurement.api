@@ -2600,7 +2600,7 @@ def edit_tender_in_active_enquiries(self):
     data = {
         "title": "Tender title active.enquiries.",
         "status": "active.auction",
-        "guarantee": {"amount": 100500, "currency": "BTC"},
+        "guarantee": {"amount": 100500, "currency": "UAH"},
         "lots": [
             {
                 "title": "Lot title active.enquiries.",

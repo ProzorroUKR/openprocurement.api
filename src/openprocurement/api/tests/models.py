@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
+from copy import deepcopy
 from datetime import timedelta, datetime
 import mock
 from pytz import timezone
@@ -8,7 +9,7 @@ from schematics.exceptions import ValidationError, ModelValidationError, Convers
 from couchdb_schematics.document import SchematicsDocument
 
 import openprocurement
-from openprocurement.api.models import Item, IsoDateTimeType
+from openprocurement.api.models import Item, IsoDateTimeType, Guarantee
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.models import BusinessOrganization, Address
 from openprocurement.api.utils import get_now
@@ -163,6 +164,65 @@ class TestIsoDateTimeType(unittest.TestCase):
         dt_str_result = IsoDateTimeType().to_primitive(dt)
         dt_str_expected = "2020-01-01T12:00:00+02:00"
         self.assertEqual(dt_str_result, dt_str_expected)
+
+
+class TestGuarantee(unittest.TestCase):
+    data = {
+        "amount": 10.0,
+        "currency": "UAH"
+    }
+
+    def test_create_guarantee_invalid_currency_too_short(self):
+        data = deepcopy(self.data)
+        data["currency"] = 'TE'
+        guarantee = Guarantee(data)
+        guarantee.__parent__ = SchematicsDocument()
+        with self.assertRaises(ModelValidationError) as e:
+            guarantee.validate()
+        self.assertEqual(
+            e.exception.messages, {"currency": ["String value is too short."]}
+        )
+
+    def test_create_guarantee_invalid_currency_too_long(self):
+        data = deepcopy(self.data)
+        data["currency"] = 'TEST'
+        guarantee = Guarantee(data)
+        guarantee.__parent__ = SchematicsDocument()
+        with self.assertRaises(ModelValidationError) as e:
+            guarantee.validate()
+        self.assertEqual(
+            e.exception.messages, {"currency": ["String value is too long."]}
+        )
+
+    def test_create_guarantee_invalid_amount_required(self):
+        data = deepcopy(self.data)
+        del data["amount"]
+        guarantee = Guarantee(data)
+        guarantee.__parent__ = SchematicsDocument()
+        with self.assertRaises(ModelValidationError) as e:
+            guarantee.validate()
+        self.assertEqual(
+            e.exception.messages, {"amount": ["This field is required."]}
+        )
+
+    def test_create_guarantee_invalid_currency(self):
+        data = deepcopy(self.data)
+        data["currency"] = 'TES'
+        guarantee = Guarantee(data)
+        guarantee.__parent__ = SchematicsDocument
+        with self.assertRaises(ModelValidationError) as e:
+            guarantee.validate()
+        self.assertEqual(
+            e.exception.messages,
+            {"currency": [f"Currency must be only UAH, USD, EUR, GBP, RUB."]}
+        )
+
+    def test_create_guarantee_valid(self):
+        guarantee = Guarantee(self.data)
+        guarantee.__parent__ = SchematicsDocument()
+        guarantee.validate()
+        obj = guarantee.serialize("embedded")
+        self.assertEqual(self.data, obj)
 
 
 def suite():
