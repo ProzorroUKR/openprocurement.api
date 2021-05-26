@@ -3,222 +3,156 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.agreement.cfaua 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-10 13:47+0300\n"
+"POT-Creation-Date: 2021-05-26 15:46+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 1.3\n"
+"Generated-By: Babel 2.9.1\n"
 
-#: ../../source/standard/change.rst:8
 msgid "ChangeTaxRate in :ref:`cfaua`"
 msgstr ""
 
-#: ../../source/standard/change.rst:11 ../../source/standard/change.rst:32
-#: ../../source/standard/change.rst:53 ../../source/standard/change.rst:74
-#: ../../source/standard/change.rst:93 ../../source/standard/change.rst:118
 msgid "Schema"
 msgstr "Схема"
 
-#: ../../source/standard/base_change.rst:0
+msgid "⠀"
+msgstr ""
+
 msgid "id"
 msgstr ""
 
-#: ../../source/standard/base_change.rst:4
 msgid "uid, auto-generated"
 msgstr "uid, генерується автоматично"
 
-#: ../../source/standard/base_change.rst:6
 msgid "The identifier for this Change."
 msgstr "Ідентифікатор для об'єкта Change"
 
-#: ../../source/standard/base_change.rst:0
 msgid "rationale"
 msgstr ""
 
-#: ../../source/standard/base_change.rst:9
 msgid "string, multilingual, required"
 msgstr "рядок, багатомовний, обов'язковий"
 
-#: ../../source/standard/base_change.rst:11
 msgid "Reason for agreement change"
 msgstr "Причина для зміни угоди"
 
-#: ../../source/standard/base_change.rst:0
 msgid "date"
 msgstr ""
 
-#: ../../source/standard/base_change.rst:14
 msgid "string, :ref:`date`, auto-generated"
 msgstr "рядок, :ref:`date`, генерується автоматично"
 
-#: ../../source/standard/base_change.rst:0
 msgid "dateSigned"
 msgstr ""
 
-#: ../../source/standard/base_change.rst:17
 msgid "string, :ref:`date`"
 msgstr "рядок, :ref:`date`"
 
-#: ../../source/standard/base_change.rst:0
 msgid "agreementNumber"
 msgstr ""
 
-#: ../../source/standard/base_change.rst:20 ../../source/standard/change.rst:16
-#: ../../source/standard/change.rst:37 ../../source/standard/change.rst:58
-#: ../../source/standard/change.rst:79 ../../source/standard/change.rst:96
-#: ../../source/standard/change.rst:121
 msgid "string"
 msgstr "рядок"
 
-#: ../../source/standard/base_change.rst:0
 msgid "status"
 msgstr ""
 
-#: ../../source/standard/base_change.rst:23
-#: ../../source/standard/change.rst:126
 msgid "string, required"
 msgstr "рядок, обов'язковий"
 
-#: ../../source/standard/base_change.rst:25
 msgid "The current status of the change."
 msgstr "Поточний статус зміни."
 
-#: ../../source/standard/base_change.rst:27
 msgid "Possible values are:"
 msgstr "Можливі значення: "
 
-#: ../../source/standard/base_change.rst:29
 msgid "`pending` - this change has been added."
 msgstr "`pending` - ця зміна може бути додана."
 
-#: ../../source/standard/base_change.rst:30
 msgid "`active` - this change has been confirmed."
 msgstr "`active` - ця зміна була підтверджена."
 
-#: ../../source/standard/base_change.rst:31
 msgid "`cancelled` - this change has been cancelled."
 msgstr "`cancelled` - ця зміна скасована."
 
-#: ../../source/standard/change.rst:0
 msgid "rationaleType"
 msgstr ""
 
-#: ../../source/standard/change.rst:18
 msgid "Default value is `taxRate`."
 msgstr "Значення за замовчуванням - `taxRate`. "
 
-#: ../../source/standard/change.rst:0
 msgid "modifications"
 msgstr ""
 
-#: ../../source/standard/change.rst:21 ../../source/standard/change.rst:42
-#: ../../source/standard/change.rst:63
 msgid "List of :ref:`UnitPriceModification` objects"
 msgstr "Список об'єктів :ref:`UnitPriceModification`"
 
-#: ../../source/standard/change.rst:23
-msgid ""
-"For `ChangeTaxRate`, `UnitPriceModification` is allowed only with one "
-"attribute ( `factor` or `addend` )."
-msgstr ""
-"Для `UnitPriceModification` в `ChangeTaxRate` дозволяється тільки один "
-"атрибут (`factor` або `addend` )."
+msgid "For `ChangeTaxRate`, `UnitPriceModification` is allowed only with one attribute ( `factor` or `addend` )."
+msgstr "Для `UnitPriceModification` в `ChangeTaxRate` дозволяється тільки один атрибут (`factor` або `addend` )."
 
-#: ../../source/standard/change.rst:29
 msgid "ChangeItemPriceVariation in :ref:`cfaua`"
 msgstr ""
 
-#: ../../source/standard/change.rst:39
 msgid "Default value is `itemPriceVariation`."
 msgstr "Значення за замовчуванням - `itemPriceVariation`."
 
-#: ../../source/standard/change.rst:44
-msgid ""
-"For `ChangeItemPriceVariation`, `UnitPriceModification` is allowed only "
-"with `factor` . `factor` attribute should be in range 0.9 - 1.1."
-msgstr ""
-"Для `UnitPriceModification` в `ChangeItemPriceVariation` дозволяється "
-"тільки атрибут `factor`. Атрибут `factor` має бути в межах 0.9 - 1.1."
+msgid "For `ChangeItemPriceVariation`, `UnitPriceModification` is allowed only with `factor` . `factor` attribute should be in range 0.9 - 1.1."
+msgstr "Для `UnitPriceModification` в `ChangeItemPriceVariation` дозволяється тільки атрибут `factor`. Атрибут `factor` має бути в межах 0.9 - 1.1."
 
-#: ../../source/standard/change.rst:50
 msgid "ChangeThirdParty in :ref:`cfaua`"
 msgstr ""
 
-#: ../../source/standard/change.rst:60
 msgid "Default value is `thirdParty`."
 msgstr "Значення за замовчуванням - `thirdParty`."
 
-#: ../../source/standard/change.rst:65
-msgid ""
-"For `ChangeThirdParty`, `UnitPriceModification` is allowed only with "
-"`factor` . `factor` attribute should be over 0.0."
-msgstr ""
-"Для `UnitPriceModification` в `ChangeThirdParty` дозволяється тільки "
-"атрибут `factor`. Атрибут `factor` має бути більше 0.0."
+msgid "For `ChangeThirdParty`, `UnitPriceModification` is allowed only with `factor` . `factor` attribute should be over 0.0."
+msgstr "Для `UnitPriceModification` в `ChangeThirdParty` дозволяється тільки атрибут `factor`. Атрибут `factor` має бути більше 0.0."
 
-#: ../../source/standard/change.rst:71
 msgid "ChangePartyWithdrawal in :ref:`cfaua`"
 msgstr ""
 
-#: ../../source/standard/change.rst:81
 msgid "Default value is `partyWithdrawal`."
 msgstr "Значення за замовчуванням - `partyWithdrawal`."
 
-#: ../../source/standard/change.rst:84
 msgid "List of :ref:`ContractModification` objects"
 msgstr "Список об'єктів :ref:`ContractModification`"
 
-#: ../../source/standard/change.rst:90
 msgid "UnitPriceModification in :ref:`cfaua`"
 msgstr ""
 
-#: ../../source/standard/change.rst:0
 msgid "itemId"
 msgstr ""
 
-#: ../../source/standard/change.rst:98 ../../source/standard/change.rst:123
 msgid "Id of changing item."
 msgstr "Ідентифікатор змінюваного об'єкту."
 
-#: ../../source/standard/change.rst:0
 msgid "factor"
 msgstr ""
 
-#: ../../source/standard/change.rst:101 ../../source/standard/change.rst:106
 msgid "decimal"
 msgstr "неціле число"
 
-#: ../../source/standard/change.rst:103
 msgid "Min value is 0.0 ."
 msgstr "Мінімальне значення - 0.0."
 
-#: ../../source/standard/change.rst:0
 msgid "addend"
 msgstr ""
 
-#: ../../source/standard/change.rst:108
-msgid ""
-"Is absolute value of changing. Note: factor and addend are not required "
-"fields. But one of fields should be provided."
-msgstr ""
-"Абсолютне значення зміни. Примітка: `factor` і `addend` не є "
-"обов'язковими полями, але хоча б одне поле має бути заповненим."
+msgid "Is absolute value of changing. Note: factor and addend are not required fields. But one of fields should be provided."
+msgstr "Абсолютне значення зміни. Примітка: `factor` і `addend` не є обов'язковими полями, але хоча б одне поле має бути заповненим."
 
-#: ../../source/standard/change.rst:115
 msgid "ContractModification in :ref:`cfaua`"
 msgstr ""
 
-#: ../../source/standard/change.rst:0
 msgid "contractId"
 msgstr ""
 
-#: ../../source/standard/change.rst:130
 msgid "Workflow"
 msgstr "Схема роботи"
 
-#: ../../source/standard/change.rst:140
 msgid "\\* marks initial state"
 msgstr "\\* позначає початковий стан"
+

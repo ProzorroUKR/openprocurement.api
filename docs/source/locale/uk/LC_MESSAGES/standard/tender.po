@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-08 16:42+0200\n"
+"POT-Creation-Date: 2021-05-26 15:46+0300\n"
 "PO-Revision-Date: 2020-06-03 00:11+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 1.3\n"
+"Generated-By: Babel 2.9.1\n"
 
 msgid "Tender"
 msgstr "Tender"
@@ -273,6 +273,7 @@ msgstr ""
 msgid "The minimal step of auction (reduction). Validation rules:"
 msgstr "Мінімальний крок аукціону (редукціону). Правила валідації:"
 
+#, python-format
 msgid "`amount` should be less then `Tender.value.amount` and between 0.5% and 3% of `Tender.value.amount`"
 msgstr "Значення `amount` повинно бути меншим за `Tender.value.amount` та в межах 0.5%-3% від `Tender.value.amount`"
 
@@ -407,6 +408,12 @@ msgstr "Основним предметом закупівлі являєтьс�
 
 msgid "|ocdsDescription| The primary category describing the main object of the tender."
 msgstr "|ocdsDescription| Основна категорія, що описує основний об'єкт тендеру."
+
+msgid "Validation depends on:"
+msgstr ""
+
+msgid ":ref:`MPC_REQUIRED_FROM` constant"
+msgstr ""
 
 msgid "milestones"
 msgstr ""
@@ -821,3 +828,4 @@ msgstr "Робочий процес у :ref:`limited`"
 
 msgid "\\* marks initial state"
 msgstr "\\* позначає початковий стан"
+
