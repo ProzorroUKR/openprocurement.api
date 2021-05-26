@@ -255,6 +255,10 @@ Schema
    |ocdsDescription|
    The primary category describing the main object of the tender.
 
+   Validation depends on:
+
+        * :ref:`MPC_REQUIRED_FROM` constant
+
 :milestones:
 
    List of :ref:`Milestone` objects.

@@ -93,6 +93,10 @@ Additionally in :ref:`openeu`:
     * `mid`
     * `not specified`
 
+    Validation depends on:
+
+        * :ref:`ORGANIZATION_SCALE_FROM` constant
+
 
 .. index:: Company, id
 
