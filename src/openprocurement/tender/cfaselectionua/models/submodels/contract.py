@@ -7,6 +7,7 @@ from openprocurement.tender.core.models import ContractValue
 from openprocurement.tender.core.utils import get_contract_supplier_roles, get_contract_supplier_permissions
 from openprocurement.api.utils import get_now
 from openprocurement.api.models import Model, ListType, Contract as BaseContract, Document
+from openprocurement.tender.cfaselectionua.models.submodels.item import Item
 
 
 class Contract(BaseContract):
@@ -16,6 +17,7 @@ class Contract(BaseContract):
     value = ModelType(ContractValue)
     awardID = StringType(required=True)
     documents = ListType(ModelType(Document, required=True), default=list())
+    items = ListType(ModelType(Item))
 
     def __acl__(self):
         return get_contract_supplier_permissions(self)

@@ -17,7 +17,8 @@
         ],
         "unit": {
             "name": "item",
-            "code": "44617100-9"
+            "code": "KGM",
+            "value": {"amount": 6}
         },
         "quantity": 5,
         "deliveryAddress": {

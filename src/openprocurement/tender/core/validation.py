@@ -28,6 +28,8 @@ from openprocurement.api.constants import (
     RELEASE_SIMPLE_DEFENSE_FROM,
     RELEASE_GUARANTEE_CRITERION_FROM,
     GUARANTEE_ALLOWED_TENDER_TYPES,
+    UNIT_PRICE_REQUIRED_FROM,
+    MULTI_CONTRACTS_REQUIRED_FROM,
 )
 from openprocurement.api.utils import (
     get_now,
@@ -54,6 +56,7 @@ from openprocurement.tender.core.utils import (
     QUICK_NO_AUCTION,
     QUICK_FAST_FORWARD,
     QUICK_FAST_AUCTION,
+    get_contracts_values_related_to_patched_contract,
 )
 from openprocurement.planning.api.utils import extract_plan_adapter
 from schematics.exceptions import ValidationError
@@ -785,6 +788,20 @@ def validate_item_quantity(request, **kwargs):
     for item in items:
         if item.get("quantity") is not None and not item["quantity"]:
             _validate_related_criterion(request, item["id"], action="set to 0 quantity of", relatedItem="item")
+
+
+def validate_items_buyer_id(request,  **kwargs):
+    tender = request.context
+    tender_created = get_first_revision_date(tender, default=get_now())
+    if (
+            not tender.buyers
+            or tender_created < MULTI_CONTRACTS_REQUIRED_FROM
+    ):
+        return
+    items = request.validated["data"].get("items", [])
+    for item in items:
+        if not item.get("relatedBuyer"):
+            raise_operation_error(request, "Each item should contain relatedBuyer id")
 
 
 def validate_absence_of_pending_accepted_satisfied_complaints(request, cancellation=None, **kwargs):
@@ -1582,12 +1599,18 @@ def validate_update_contract_value_net_required(request, name="value", **kwargs)
 
 def validate_update_contract_value_with_award(request, **kwargs):
     data = request.validated["data"]
-    value = data.get("value")
-    if value and requested_fields_changes(request, ("value", "status")):
+    updated_value = data.get("value")
+
+    if updated_value and requested_fields_changes(request, ("value", "status")):
         award = [award for award in request.validated["tender"].awards if award.id == request.context.awardID][0]
-        amount = value.get("amount")
-        amount_net = value.get("amountNet")
-        tax_included = value.get("valueAddedTaxIncluded")
+
+        _contracts_values = get_contracts_values_related_to_patched_contract(
+            request.validated["tender"].contracts, request.validated["id"], updated_value, request.context.awardID
+        )
+
+        amount = sum([value.get("amount", 0) for value in _contracts_values])
+        amount_net = sum([value.get("amountNet", 0) for value in _contracts_values])
+        tax_included = updated_value.get("valueAddedTaxIncluded")
 
         if tax_included:
             if award.value.valueAddedTaxIncluded:
@@ -1601,14 +1624,26 @@ def validate_update_contract_value_with_award(request, **kwargs):
                 raise_operation_error(request, "Amount should be less or equal to awarded amount", name="value")
 
 
-def validate_update_contract_value_amount(request, name="value", allow_equal=False, **kwargs):
+def validate_update_contract_value_amount(
+        request, name="value", allow_equal=False, scope="tendering", **kwargs
+):
     data = request.validated["data"]
     contract_value = data.get(name)
-    value = data.get("value") or data.get(name)
+    updated_value = data.get("value") or data.get(name)
+
     if contract_value and requested_fields_changes(request, (name, "status")):
-        amount = to_decimal(contract_value.get("amount"))
-        amount_net = to_decimal(contract_value.get("amountNet"))
-        tax_included = value.get("valueAddedTaxIncluded")
+
+        if scope == "contracting" or not request.validated.get("tender"):
+            _contracts_values = [contract_value]
+        else:
+            _contracts_values = get_contracts_values_related_to_patched_contract(
+                request.validated["tender"].contracts, request.validated["id"],
+                updated_value,  request.context.awardID
+            )
+
+        amount = to_decimal(sum([value.get("amount", 0) for value in _contracts_values]))
+        amount_net = to_decimal(sum([value.get("amountNet", 0) for value in _contracts_values]))
+        tax_included = updated_value.get("valueAddedTaxIncluded")
 
         if not (amount == 0 and amount_net == 0):
             if tax_included:
@@ -1665,6 +1700,49 @@ def validate_contract_signing(request, **kwargs):
         ]
         if pending_complaints or pending_awards_complaints:
             raise_operation_error(request, "Can't sign contract before reviewing all complaints")
+
+
+def validate_activate_contract(request, **kwargs):
+    tender = request.validated["tender"]
+    updated_data = request.validated["data"]
+    contract = request.context
+
+    if contract.status != "active" and "status" in updated_data and updated_data["status"] == "active":
+        if contract.items:
+            validate_contract_items_unit_value_amount(request, contract)
+
+        tender_created = get_first_revision_date(tender, default=get_now())
+        if tender_created < UNIT_PRICE_REQUIRED_FROM:
+            return
+
+        if contract.items:
+            for item in contract.items:
+                if item.unit and item.unit.value is None:
+                    raise_operation_error(
+                        request, "Can't activate contract while 'Unit.Value' is not set for each Item"
+                    )
+
+
+def validate_contract_items_unit_value_amount(request, contract, **kwargs):
+    items_unit_value_amount = []
+    for item in contract.items:
+        if item.unit and item.quantity is not None:
+            if item.unit.value:
+                if item.quantity == 0 and item.unit.value.amount != 0:
+                    raise_operation_error(
+                        request, "Item.unit.value.amount should be updated to 0 if item.quantity equal to 0"
+                    )
+                items_unit_value_amount.append(
+                    Decimal(str(item.quantity)) * Decimal(str(item.unit.value.amount))
+                )
+
+    if items_unit_value_amount and contract.value:
+        calculated_value = float(sum(items_unit_value_amount))
+
+        if calculated_value > contract.value.amount:
+            raise_operation_error(
+                request, "Total amount of unit values can't be greater than contract.value.amount"
+            )
 
 
 def is_positive_float(value):

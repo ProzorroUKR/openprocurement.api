@@ -196,6 +196,7 @@ class PlanItem(Model):
 class BaseOrganization(Model):
     """Base organization"""
 
+    id = MD5Type(default=lambda: uuid4().hex)
     name = StringType(required=True)
     name_en = StringType()
     name_ru = StringType()

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import get_now, raise_operation_error
-from openprocurement.tender.belowthreshold.utils import add_contract
+from openprocurement.tender.belowthreshold.utils import add_contracts
 
 from openprocurement.tender.core.utils import (
     apply_patch,
@@ -129,7 +129,7 @@ class TenderUaAwardResource(TenderAwardResource):
                         "endDate": complaint_end_date,
                     }
 
-            add_contract(self.request, award, now)
+            add_contracts(self.request, award, now)
             add_next_award(self.request)
         elif (
             award_status == "active"

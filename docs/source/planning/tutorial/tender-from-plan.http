@@ -201,10 +201,6 @@ X-Content-Type-Options: nosniff
             "description": "Насіння гірчиці"
           }
         ],
-        "unit": {
-          "name": "кг",
-          "code": "KGM"
-        },
         "quantity": 1000.0,
         "deliveryDate": {
           "endDate": "2021-03-31T00:00:00+02:00"
@@ -213,6 +209,10 @@ X-Content-Type-Options: nosniff
           "description": "Mustard seeds",
           "scheme": "ДК021",
           "id": "03111600-8"
+        },
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
         }
       },
       {
@@ -225,10 +225,6 @@ X-Content-Type-Options: nosniff
             "description": "Насіння соняшнику"
           }
         ],
-        "unit": {
-          "name": "кг",
-          "code": "KGM"
-        },
         "quantity": 2000.0,
         "deliveryDate": {
           "endDate": "2021-04-01T00:00:00+02:00"
@@ -237,6 +233,10 @@ X-Content-Type-Options: nosniff
           "description": "Sunflower seeds",
           "scheme": "ДК021",
           "id": "03111300-5"
+        },
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
         }
       },
       {
@@ -249,10 +249,6 @@ X-Content-Type-Options: nosniff
             "description": "Насіння бавовнику"
           }
         ],
-        "unit": {
-          "name": "кг",
-          "code": "KGM"
-        },
         "quantity": 3000.0,
         "deliveryDate": {
           "endDate": "2021-04-02T00:00:00+02:00"
@@ -261,6 +257,10 @@ X-Content-Type-Options: nosniff
           "description": "Cotton seeds",
           "scheme": "ДК021",
           "id": "03111400-6"
+        },
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
         }
       }
     ],

@@ -1531,6 +1531,49 @@ def get_tender(self):
     self.assertIn('{\n    "data": {\n        "', response.body.decode())
 
 
+def create_tender_with_non_required_unit(self):
+
+    response = self.app.get("/tenders")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(len(response.json["data"]), 0)
+    tender_data = deepcopy(self.initial_data)
+
+    _unit = tender_data["items"][0].pop("unit")
+    response = self.app.post_json("/tenders", {"data": tender_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertNotIn("unit", response.json["data"]['items'][0])
+
+    _quantity = tender_data["items"][0].pop("quantity")
+    response = self.app.post_json("/tenders", {"data": tender_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertNotIn("quantity", response.json["data"]['items'][0])
+    self.assertNotIn("unit", response.json["data"]['items'][0])
+
+    tender_data["items"][0]["unit"] = _unit
+    tender_data["items"][0]["unit"]["code"] = "unknown_code"
+    response = self.app.post_json("/tenders", {"data": tender_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json['errors'],
+        [
+            {
+                'description': [
+                    {'unit': {'code': ['Code should be one of valid unit codes.']}}
+                ],
+                'location': 'body', 'name': 'items'
+            }
+        ]
+    )
+
+    tender_data["items"][0]["unit"]["code"] = "KGM"
+    response = self.app.post_json("/tenders", {"data": tender_data})
+    self.assertEqual(response.status, "201 Created")
+    resp = response.json["data"]
+    self.assertEqual("KGM", resp["items"][0]["unit"]["code"])
+
+
 def tender_features(self):
     self.app.authorization = ("Basic", ("competitive_dialogue", ""))
     data = self.initial_data.copy()
@@ -1708,7 +1751,30 @@ def patch_tender_1(self):
                 "items": [
                     {
                         "description": "Шолом Дарта Вейдера",
-                        "unit": {"name": "item", "code": "99999999-9"},
+                        "unit": {"name": "item", "code": "99999999-9"}
+                    }
+                ]
+            }
+        },
+        status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0],
+        {
+            "location": "body",
+            "name": "items",
+            "description": [{"unit": {"code": ["Code should be one of valid unit codes."]}}]
+        }
+    )
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
+        {
+            "data": {
+                "items": [
+                    {
+                        "description": u"Шолом Дарта Вейдера",
+                        "unit": {"name": "item", "code": "KWT"},
                         "quantity": 3,
                         "deliveryDate": {"startDate": deliveryDateStart, "endDate": deliveryDateEnd},
                         "deliveryAddress": {

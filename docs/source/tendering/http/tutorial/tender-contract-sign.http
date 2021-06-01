@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/4826290bfb064165b70a94d71e93a63b/contracts/027191b3845a4d5ea4a8d7c448a2b699?acc_token=e6b4c4ef7b894e8da225bae574bf7b61 HTTP/1.0
+PATCH /api/2.5/tenders/4826290bfb064165b70a94d71e93a63b/contracts/1ba34a7e1eb34f1db53c305525332f9f?acc_token=e6b4c4ef7b894e8da225bae574bf7b61 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -15,7 +15,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "027191b3845a4d5ea4a8d7c448a2b699",
+    "id": "1ba34a7e1eb34f1db53c305525332f9f",
     "contractID": "UA-2021-03-16-000001-1",
     "contractNumber": "contract #13111",
     "status": "active",
@@ -24,40 +24,6 @@ X-Content-Type-Options: nosniff
       "endDate": "2022-03-16T00:00:03+02:00"
     },
     "dateSigned": "2021-03-16T00:00:03+02:00",
-    "items": [
-      {
-        "id": "ca8069063cb44e45afe6bb5f71ef33f8",
-        "description": "футляри до державних нагород",
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "unit": {
-          "name": "item",
-          "code": "44617100-9"
-        },
-        "quantity": 5.0,
-        "deliveryDate": {
-          "startDate": "2021-03-18T00:00:00+02:00",
-          "endDate": "2021-03-21T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        }
-      }
-    ],
     "suppliers": [
       {
         "name": "ДКП «Книга»",
@@ -109,6 +75,45 @@ X-Content-Type-Options: nosniff
         "datePublished": "2021-03-16T00:00:03+02:00",
         "dateModified": "2021-03-16T00:00:03+02:00",
         "documentOf": "tender"
+      }
+    ],
+    "items": [
+      {
+        "id": "ca8069063cb44e45afe6bb5f71ef33f8",
+        "description": "футляри до державних нагород",
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "quantity": 5.0,
+        "deliveryDate": {
+          "startDate": "2021-03-18T00:00:00+02:00",
+          "endDate": "2021-03-21T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "unit": {
+          "name": "кг",
+          "code": "KGM",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          }
+        }
       }
     ]
   }

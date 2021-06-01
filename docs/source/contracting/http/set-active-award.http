@@ -1,0 +1,56 @@
+PATCH /api/2.5/tenders/a9291ae8a98f4f2c95ade6c4e35cac43/awards/012bb32b7489497a82373211ac3555ba?acc_token=cb13f230147b40acb4fef6a0c077fa5a HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 30
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "active"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+{
+  "data": {
+    "id": "012bb32b7489497a82373211ac3555ba",
+    "status": "active",
+    "date": "2021-03-16T00:00:00+02:00",
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "suppliers": [
+      {
+        "name": "Державне управління справами",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00037256",
+          "legalName": "Державне управління справами",
+          "uri": "http://www.dus.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
+        },
+        "scale": "micro"
+      }
+    ],
+    "bid_id": "fc924775f61346628e9700a411bd0f0b",
+    "complaintPeriod": {
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-03-18T00:00:00+02:00"
+    }
+  }
+}
+

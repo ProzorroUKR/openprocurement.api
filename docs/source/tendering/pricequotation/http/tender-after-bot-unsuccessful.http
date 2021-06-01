@@ -20,7 +20,7 @@ X-Content-Type-Options: nosniff
       {
         "id": "8362da99fda44bcfa6516e34c6cd86b6",
         "description": "Комп’ютерне обладнання",
-        "quantity": 1.0,
+        "quantity": 5.0,
         "deliveryDate": {
           "startDate": "2021-03-18T00:00:00+02:00",
           "endDate": "2021-03-21T00:00:00+02:00"
@@ -31,6 +31,15 @@ X-Content-Type-Options: nosniff
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
+        },
+        "unit": {
+          "name": "кг",
+          "code": "KGM",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          }
         }
       }
     ],

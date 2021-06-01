@@ -168,3 +168,10 @@ REQUIRED_FIELDS_BY_SUBMISSION_FROM
 
 VALIDATE_CURRENCY_FROM
 """"""""""""""""""""""
+
+UNIT_PRICE_REQUIRED_FROM
+""""""""""""""""""""""""
+
+MULTI_CONTRACTS_REQUIRED_FROM
+"""""""""""""""""""""""""""""
+Implemented creation of aggregate contracts. Look at `centralized-procurements` source.

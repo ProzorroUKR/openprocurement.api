@@ -12,6 +12,7 @@ from openprocurement.tender.core.validation import (
     validate_update_contract_value_amount,
     validate_update_contract_value_net_required,
     validate_update_contract_status_by_supplier,
+    validate_activate_contract,
 )
 from openprocurement.tender.core.utils import save_tender, apply_patch, optendersresource
 from openprocurement.tender.openua.validation import validate_contract_update_with_accepted_complaint
@@ -39,6 +40,7 @@ class TenderUaAwardContractResource(TenderAwardContractResource):
             validate_update_contract_value_net_required,
             validate_update_contract_value_with_award,
             validate_update_contract_value_amount,
+            validate_activate_contract,
         ),
     )
     def patch(self):

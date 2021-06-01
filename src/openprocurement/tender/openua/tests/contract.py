@@ -9,7 +9,11 @@ from openprocurement.tender.belowthreshold.tests.contract import (
     TenderContractDocumentResourceTestMixin,
 )
 
-from openprocurement.tender.openua.tests.base import test_bids, BaseTenderUAContentWebTest
+from openprocurement.tender.openua.tests.base import (
+    test_bids,
+    BaseTenderUAContentWebTest,
+    test_tender_data_multi_buyers,
+)
 from openprocurement.tender.openua.tests.contract_blanks import (
     # TenderContractResourceTest
     patch_tender_contract,
@@ -27,6 +31,9 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     put_tender_contract_document_by_supplier,
     put_tender_contract_document_by_others,
     patch_tender_contract_document_by_supplier,
+    patch_contract_single_item_unit_value,
+    patch_contract_multi_items_unit_value,
+    patch_tender_multi_contracts,
 )
 
 
@@ -34,9 +41,7 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest, TenderContractResou
     initial_status = "active.qualification"
     initial_bids = test_bids
 
-    def setUp(self):
-        super(TenderContractResourceTest, self).setUp()
-        # Create award
+    def create_award(self):
         authorization = self.app.authorization
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
@@ -46,18 +51,23 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest, TenderContractResou
                     "suppliers": [test_organization],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
-                    "value": self.initial_bids[0]["value"],
+                    "value": self.initial_data["value"],
                 }
             },
         )
         award = response.json["data"]
         self.award_id = award["id"]
         self.award_value = award["value"]
+        self.award_suppliers = award["suppliers"]
         self.app.authorization = authorization
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
+
+    def setUp(self):
+        super(TenderContractResourceTest, self).setUp()
+        self.create_award()
 
     test_create_tender_contract = snitch(create_tender_contract)
     test_patch_tender_contract_datesigned = snitch(patch_tender_contract_datesigned)
@@ -66,6 +76,8 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest, TenderContractResou
     test_patch_tender_contract_status_by_owner = snitch(patch_tender_contract_status_by_owner)
     test_patch_tender_contract_status_by_others = snitch(patch_tender_contract_status_by_others)
     test_patch_tender_contract_status_by_supplier = snitch(patch_tender_contract_status_by_supplier)
+    test_patch_contract_single_item_unit_value = snitch(patch_contract_single_item_unit_value)
+    test_patch_contract_multi_items_unit_value = snitch(patch_contract_multi_items_unit_value)
 
 
 class TenderContractVATNotIncludedResourceTest(BaseTenderUAContentWebTest, TenderContractResourceTestMixin):
@@ -143,10 +155,23 @@ class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest, TenderContr
     test_patch_tender_contract_document_by_supplier = snitch(patch_tender_contract_document_by_supplier)
 
 
+class TenderContractMultiBuyersResourceTest(BaseTenderUAContentWebTest):
+    initial_status = "active.qualification"
+    initial_bids = test_bids
+    initial_data = test_tender_data_multi_buyers
+
+    def setUp(self):
+        super(TenderContractMultiBuyersResourceTest, self).setUp()
+        TenderContractResourceTest.create_award(self)
+
+    test_patch_tender_multi_contracts = snitch(patch_tender_multi_contracts)
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderContractResourceTest))
     suite.addTest(unittest.makeSuite(TenderContractDocumentResourceTest))
+    suite.addTest(unittest.makeSuite(TenderContractMultiBuyersResourceTest))
     return suite
 
 

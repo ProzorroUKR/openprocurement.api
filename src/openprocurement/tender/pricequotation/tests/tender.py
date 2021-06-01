@@ -37,6 +37,7 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     tender_fields,
     lost_contract_for_active_award,
     create_tender_in_not_draft_status,
+    create_pricequotation_tender_with_earlier_non_required_unit
 )
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     guarantee,
@@ -52,7 +53,10 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_with_main_procurement_category,
     create_tender_with_inn_before,
     tender_token_invalid,
+    create_tender_with_required_unit,
+    patch_items_related_buyer_id,
 )
+
 
 class TenderResourceTestMixin(object):
     test_listing_changes = snitch(listing_changes)
@@ -71,6 +75,7 @@ class TenderResourceTestMixin(object):
     test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
     test_tender_token_invalid = snitch(tender_token_invalid)
     test_create_tender_in_not_draft_status = snitch(create_tender_in_not_draft_status)
+    test_patch_items_related_buyer_id = snitch(patch_items_related_buyer_id)
 
 
 class TenderTest(TenderTestMixin, BaseApiWebTest):
@@ -94,6 +99,10 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_create_tender_with_inn_before = snitch(create_tender_with_inn_before)
     test_patch_tender_by_pq_bot = snitch(patch_tender_by_pq_bot)
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
+    test_create_pricequotation_tender_with_earlier_non_required_unit = snitch(
+        create_pricequotation_tender_with_earlier_non_required_unit
+    )
+    test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
 
 
 class TenderProcessTest(TenderContentWebTest):

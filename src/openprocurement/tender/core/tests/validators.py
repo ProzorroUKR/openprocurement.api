@@ -143,9 +143,11 @@ class TestValidateAccreditationLevelMode(unittest.TestCase):
 def generate_contract_value_patch_request_mock(contract_value, award_value=None):
     request = mock.MagicMock(validated={})
     if award_value:
-        award = mock.MagicMock(id="test_id", value=mock.Mock(**award_value))
-        request.validated["tender"] = mock.MagicMock(awards=[award])
-        request.context.awardID = "test_id"
+        award = mock.MagicMock(id="test_award_id", value=mock.Mock(**award_value))
+        contract = mock.MagicMock(id="contract_id", awardID="test_award_id")
+        request.validated["tender"] = mock.MagicMock(awards=[award], contracts=[contract])
+        request.validated["id"] = 'contract_id'
+        request.context.awardID = "test_award_id"
     request.validated["data"] = request.validated["json_data"] = {"value": contract_value}
     return request
 

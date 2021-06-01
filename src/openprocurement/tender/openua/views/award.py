@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.tender.belowthreshold.utils import add_contract, add_next_award
+from openprocurement.tender.belowthreshold.utils import add_contracts, add_next_award
 from openprocurement.tender.core.validation import (
     validate_patch_award_data,
     validate_update_award_only_for_active_lots,
@@ -118,7 +118,7 @@ class TenderUaAwardResource(TenderAwardResource):
 
         if award_status == "pending" and award.status == "active":
             award.complaintPeriod.endDate = calculate_complaint_business_date(now, STAND_STILL_TIME, tender)
-            add_contract(self.request, award, now)
+            add_contracts(self.request, award, now)
             add_next_award(self.request)
         elif (
             award_status == "active"

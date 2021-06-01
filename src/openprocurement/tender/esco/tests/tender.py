@@ -21,6 +21,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_tender_lots_none,
     create_tender_central,
     create_tender_central_invalid,
+    patch_items_related_buyer_id,
 )
 
 from openprocurement.tender.openua.tests.tender import TenderUAResourceTestMixin
@@ -61,6 +62,7 @@ from openprocurement.tender.esco.tests.tender_blanks import (
     create_tender_generated,
     patch_item_with_zero_quantity,
 )
+from openprocurement.tender.competitivedialogue.tests.stage2.tender_blanks import create_tender_with_non_required_unit
 
 
 class TenderESCOTest(BaseESCOWebTest):
@@ -108,6 +110,7 @@ class TestTenderEU(BaseESCOContentWebTest, TenderResourceTestMixin, TenderUAReso
     test_tender_finance_milestones = snitch(tender_finance_milestones)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
     test_patch_item_with_zero_quantity = snitch(patch_item_with_zero_quantity)
+    test_patch_items_related_buyer_id = snitch(patch_items_related_buyer_id)
 
 
 class TestTenderEUProcess(BaseESCOContentWebTest):

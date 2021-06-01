@@ -8,6 +8,7 @@ from openprocurement.tender.core.validation import (
     validate_update_contract_value_with_award,
     validate_update_contract_value_amount,
     validate_update_contract_value_net_required,
+    validate_activate_contract,
 )
 from openprocurement.tender.belowthreshold.views.contract import (
     TenderAwardContractResource as BaseTenderAwardContractResource,
@@ -22,7 +23,11 @@ from openprocurement.tender.limited.validation import (
 
 def check_tender_status(request):
     tender = request.validated["tender"]
-    if tender.contracts and tender.contracts[-1].status == "active":
+    if (
+            tender.contracts
+            and any([contract.status == "active" for contract in tender.contracts])
+            and not any([contract.status == "pending" for contract in tender.contracts])
+    ):
         tender.status = "complete"
 
 
@@ -62,7 +67,11 @@ def check_tender_negotiation_status(request):
         elif not statuses.difference(set(["complete", "unsuccessful", "cancelled"])):
             tender.status = "complete"
     else:
-        if tender.contracts and tender.contracts[-1].status == "active":
+        if (
+                tender.contracts
+                and any([contract.status == "active" for contract in tender.contracts])
+                and not any([contract.status == "pending" for contract in tender.contracts])
+        ):
             tender.status = "complete"
 
 
@@ -112,6 +121,7 @@ class TenderAwardContractResource(BaseTenderAwardContractResource):
             validate_update_contract_value_with_award,
             validate_update_contract_value_amount,
             validate_contract_items_count_modification,
+            validate_activate_contract,
         ),
     )
     def patch(self):
@@ -161,6 +171,7 @@ class TenderNegotiationAwardContractResource(TenderAwardContractResource):
             validate_update_contract_value_with_award,
             validate_update_contract_value_amount,
             validate_contract_items_count_modification,
+            validate_activate_contract,
         ),
     )
     def patch(self):

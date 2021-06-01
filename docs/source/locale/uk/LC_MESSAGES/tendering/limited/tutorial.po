@@ -160,10 +160,13 @@ msgid "`200 OK` response was returned. The value was modified successfully."
 msgstr "Було повернуто код відповіді `200 OK`. Значення змінено успішно."
 
 msgid "Setting value per item's unit"
-msgstr ""
+msgstr "Встановлення ціни за одиницю"
 
 msgid "`200 OK` response was returned with successfully set item.unit.value structure."
-msgstr ""
+msgstr "`200 OK` відповіддь повертається з успішно створеною структурою item.unit.value"
+
+msgid "Item.unit.value.currency and Item.unit.value.valueAddedTaxIncluded are created using contract.value(if exists), otherwise using tender.value data"
+msgstr "Item.unit.value.currency та Item.unit.value.valueAddedTaxIncluded створюються, використовуючи інформацію з contract.value(якщо існує), в іншому випадку з tender.value"
 
 msgid "Setting contract signature date"
 msgstr "Встановлення дати підписання угоди"

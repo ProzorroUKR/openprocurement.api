@@ -22,6 +22,7 @@ from openprocurement.contracting.api.validation import (
     validate_update_contract_paid_net_required,
     validate_put_transaction_to_contract,
     validate_transaction_existence,
+    validate_update_contracting_items_unit_value_amount,
 )
 from openprocurement.contracting.api.design import (
     FIELDS,
@@ -113,6 +114,7 @@ class ContractResource(ContractsResource):
         apply_patch(self.request, save=False, src=self.request.validated["contract_src"])
 
         validate_terminate_contract_without_amountPaid(self.request)
+        validate_update_contracting_items_unit_value_amount(self.request)
 
         if save_contract(self.request):
             self.LOGGER.info(

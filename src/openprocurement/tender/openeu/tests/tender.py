@@ -18,6 +18,8 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_with_guarantee,
     tender_with_guarantee_multilot,
     activate_bid_guarantee_multilot,
+    create_tender_with_earlier_non_required_unit,
+    create_tender_with_required_unit,
 )
 
 from openprocurement.tender.openuadefense.tests.base import test_bids
@@ -74,6 +76,8 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUARes
     test_tender_minimalstep_validation = snitch(tender_minimalstep_validation)
     test_patch_tender_minimalstep_validation = snitch(patch_tender_minimalstep_validation)
     test_create_tender_with_criteria_lcc = snitch(create_tender_with_criteria_lcc)
+    test_create_tender_with_earlier_non_required_unit = snitch(create_tender_with_earlier_non_required_unit)
+    test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
 
     def test_patch_not_author(self):
         response = self.app.post_json("/tenders", {"data": test_tender_data})

@@ -1,4 +1,4 @@
-PUT /api/2.5/contracts/77d160a2092f40068cba075e1dfac436/documents/d72c6e6b2a7741a1910849d0446b7d3f?acc_token=d7ef3060443a419f93a65b3aeb4f5f9b HTTP/1.0
+PUT /api/2.5/contracts/e4e18aeb91074656a353d7429c72c077/documents/d72c6e6b2a7741a1910849d0446b7d3f?acc_token=d7ef3060443a419f93a65b3aeb4f5f9b HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 180
 Content-Type: multipart/form-data; boundary=---BOUNDARY
@@ -20,7 +20,7 @@ X-Content-Type-Options: nosniff
     "id": "d72c6e6b2a7741a1910849d0446b7d3f",
     "title": "contract_additional_docs.doc",
     "format": "application/msword",
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/77d160a2092f40068cba075e1dfac436/documents/d72c6e6b2a7741a1910849d0446b7d3f?download=29a6f4e9de4d44debe9cdfd98a391aa3",
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/e4e18aeb91074656a353d7429c72c077/documents/d72c6e6b2a7741a1910849d0446b7d3f?download=29a6f4e9de4d44debe9cdfd98a391aa3",
     "datePublished": "2021-03-16T00:00:01+02:00",
     "dateModified": "2021-03-16T00:00:01+02:00",
     "documentOf": "contract"

@@ -23,6 +23,7 @@ from openprocurement.tender.pricequotation.tests.data import test_milestones
 # TenderTest
 from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.pricequotation.constants import PMT, PQ_KINDS
+from openprocurement.tender.belowthreshold.tests.tender_blanks import create_tender_with_earlier_non_required_unit
 
 
 def listing(self):
@@ -849,14 +850,33 @@ def tender_owner_can_change_in_draft(self):
     tender = response.json["data"]
 
     self.assertEqual(tender["funders"], lists["funders"])
+    buyer_id = tender["buyers"][0]["id"]
+    lists["buyers"][0]["id"] = buyer_id
     self.assertEqual(tender["buyers"], lists["buyers"])
 
     self.assertEqual(tender["items"][0]["description"], lists["items"][0]["description"])
 
     # status
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": status}
+        "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": status},
+        status=403
     )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{'description': 'Each item should contain relatedBuyer id',
+          'location': 'body',
+          'name': 'data'}],
+    )
+    patch_data = {"items": [{"relatedBuyer": buyer_id}]}
+    patch_data.update(status)
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token),
+        {
+            "data": patch_data
+        },
+    )
+
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
@@ -1261,7 +1281,6 @@ def patch_tender_by_pq_bot(self):
     self.assertEqual(len(tender["items"]), 1)
     self.assertNotIn("shortlistedFirms", tender)
     self.assertNotIn("classification", tender["items"][0])
-    self.assertNotIn("unit", tender["items"][0])
 
     data = {"data": {
         "status": "draft.publishing",
@@ -1326,7 +1345,6 @@ def patch_tender_by_pq_bot(self):
     self.assertEqual(len(tender["items"]), 1)
     self.assertNotIn("shortlistedFirms", tender)
     self.assertNotIn("classification", tender["items"][0])
-    self.assertNotIn("unit", tender["items"][0])
 
     data = {"data": {"status": "draft.publishing", "profile": "a1b2c3-a1b2c3e4-f1g2i3-h1g2k3l4"}}
     response = self.app.patch_json("/tenders/{}?acc_token={}".format(tender_id, owner_token), data, status=422)
@@ -1355,10 +1373,13 @@ def patch_tender_by_pq_bot(self):
     self.assertEqual(tender["status"], "draft.unsuccessful")
     self.assertEqual(tender["unsuccessfulReason"], ["Profile not found in catalogue"])
     self.assertNotIn("classification", tender["items"][0])
-    self.assertNotIn("unit", tender["items"][0])
     self.assertNotIn("shortlistedFirms", tender)
 
 # TenderProcessTest
+@mock.patch(
+    "openprocurement.tender.pricequotation.models.tender.UNIT_PRICE_REQUIRED_FROM", get_now() + timedelta(days=1))
+def create_pricequotation_tender_with_earlier_non_required_unit(self):
+    create_tender_with_earlier_non_required_unit(self)
 
 
 def invalid_tender_conditions(self):

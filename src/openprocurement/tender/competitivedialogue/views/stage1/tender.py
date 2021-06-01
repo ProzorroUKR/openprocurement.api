@@ -8,6 +8,7 @@ from openprocurement.tender.core.validation import (
     validate_item_quantity,
     validate_tender_guarantee,
     validate_tender_guarantee_multilot,
+    validate_items_buyer_id,
 )
 from openprocurement.api.utils import json_view, context_unpack, APIResource
 from openprocurement.tender.belowthreshold.views.tender import TenderResource
@@ -47,6 +48,7 @@ class CompetitiveDialogueEUResource(TenderEUResource):
             validate_item_quantity,
             validate_tender_guarantee,
             validate_tender_guarantee_multilot,
+            validate_items_buyer_id,
         ),
         permission="edit_tender",
     )
@@ -75,6 +77,7 @@ class CompetitiveDialogueUAResource(TenderResource):
             validate_item_quantity,
             validate_tender_guarantee,
             validate_tender_guarantee_multilot,
+            validate_items_buyer_id,
         ),
         permission="edit_tender",
     )

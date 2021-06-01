@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/contracts/822f9c9611d5481da7dd19a283e8bb45?acc_token=7cb87b2d0f3d446993a6da1f03746396 HTTP/1.0
+PATCH /api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/contracts/a76cc37cebfc4323b5f352742483bc38?acc_token=7cb87b2d0f3d446993a6da1f03746396 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 74
 Content-Type: application/json
@@ -18,7 +18,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "822f9c9611d5481da7dd19a283e8bb45",
+    "id": "a76cc37cebfc4323b5f352742483bc38",
     "contractID": "UA-2021-03-16-000001-1",
     "contractNumber": "contract#1",
     "status": "pending",
@@ -93,10 +93,6 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "unit": {
-          "name": "item",
-          "code": "44617100-9"
-        },
         "classification": {
           "description": "Test",
           "scheme": "ДК021",
@@ -121,10 +117,6 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "unit": {
-          "name": "item",
-          "code": "44617100-9"
-        },
         "classification": {
           "description": "Test",
           "scheme": "ДК021",

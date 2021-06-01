@@ -4,7 +4,7 @@ import unittest
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_bids
 from openprocurement.tender.belowthreshold.tests.contract import (
     TenderContractResourceTestMixin,
     TenderContractDocumentResourceTestMixin,
@@ -16,6 +16,9 @@ from openprocurement.tender.limited.tests.base import (
     test_tender_data,
     test_tender_negotiation_data,
     test_tender_negotiation_quick_data,
+    test_tender_data_multi_buyers,
+    test_tender_negotiation_data_multi_buyers,
+    test_tender_negotiation_quick_data_multi_buyers,
 )
 from openprocurement.tender.limited.tests.contract_blanks import (
     # TenderNegotiationQuickAccelerationTest
@@ -43,6 +46,8 @@ from openprocurement.tender.limited.tests.contract_blanks import (
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     patch_tender_contract_value_vat_not_included,
     patch_tender_contract_value,
+    patch_contract_single_item_unit_value,
+    patch_tender_multi_contracts,
 )
 
 
@@ -65,8 +70,10 @@ class TenderContractResourceTest(BaseTenderContentWebTest, TenderContractResourc
             },
         )
 
-        award = response.json["data"]
-        self.award_id = award["id"]
+        self.award = response.json["data"]
+        self.award_id = self.award["id"]
+        self.award_value = self.award["value"]
+        self.award_suppliers = self.award["suppliers"]
         response = self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active"}},
@@ -81,6 +88,7 @@ class TenderContractResourceTest(BaseTenderContentWebTest, TenderContractResourc
     test_patch_tender_contract_value = snitch(patch_tender_contract_value)
     test_tender_contract_signature_date = snitch(tender_contract_signature_date)
     test_award_id_change_is_not_allowed = snitch(award_id_change_is_not_allowed)
+    test_patch_contract_single_item_unit_value = snitch(patch_contract_single_item_unit_value)
 
 
 class TenderContractVATNotIncludedResourceTest(BaseTenderContentWebTest, TenderContractResourceTestMixin):
@@ -451,6 +459,27 @@ class TenderContractNegotiationQuickDocumentResourceTest(TenderContractNegotiati
 
 class TenderContractNegotiationQuickLotDocumentResourceTest(TenderContractNegotiationLotDocumentResourceTest):
     initial_data = test_tender_negotiation_quick_data
+
+
+class TenderContractMultiBuyersResourceTest(BaseTenderContentWebTest):
+    initial_data = test_tender_data_multi_buyers
+    stand_still_period_days = 10
+
+    def setUp(self):
+        super(TenderContractMultiBuyersResourceTest, self).setUp()
+        TenderContractResourceTest.create_award(self)
+
+    test_patch_tender_multi_contracts = snitch(patch_tender_multi_contracts)
+
+
+class TenderNegotiationMultiBuyersContractResourceTest(TenderContractMultiBuyersResourceTest):
+    initial_data = test_tender_negotiation_data_multi_buyers
+    stand_still_period_days = 10
+
+
+class TenderNegotiationQuickMultiBuyersContractResourceTest(TenderNegotiationMultiBuyersContractResourceTest):
+    initial_data = test_tender_negotiation_quick_data_multi_buyers
+    stand_still_period_days = 10
 
 
 def suite():

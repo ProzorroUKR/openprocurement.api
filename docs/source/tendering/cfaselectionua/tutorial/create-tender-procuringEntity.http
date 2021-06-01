@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 3033
+Content-Length: 3070
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -48,8 +48,8 @@ DATA:
           }
         ],
         "unit": {
-          "name": "item",
-          "code": "44617100-9"
+          "name": "кілограм",
+          "code": "KGM"
         },
         "quantity": 5,
         "relatedLot": "f2599a519a45416db792d9ee833a8e5a"
@@ -128,8 +128,8 @@ X-Content-Type-Options: nosniff
           }
         ],
         "unit": {
-          "name": "item",
-          "code": "44617100-9"
+          "name": "кілограм",
+          "code": "KGM"
         },
         "quantity": 5.0,
         "relatedLot": "f2599a519a45416db792d9ee833a8e5a",

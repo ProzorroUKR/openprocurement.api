@@ -3,8 +3,10 @@ from datetime import timedelta
 from openprocurement.api.utils import context_unpack, json_view, get_now
 from openprocurement.tender.core.utils import\
     save_tender, optendersresource, apply_patch
-from openprocurement.tender.core.validation import\
-    validate_tender_not_in_terminated_status
+from openprocurement.tender.core.validation import (
+    validate_tender_not_in_terminated_status,
+    validate_items_buyer_id,
+)
 
 from openprocurement.tender.belowthreshold.views.tender import TenderResource
 from openprocurement.tender.pricequotation.constants import PMT
@@ -28,6 +30,7 @@ class PriceQuotationTenderResource(TenderResource):
             validate_patch_tender_data,
             validate_tender_publish,
             validate_tender_not_in_terminated_status,
+            validate_items_buyer_id,
         ),
         permission="edit_tender",
     )
