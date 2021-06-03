@@ -228,8 +228,16 @@ class IdentifierForSubmission(BaseIdentifier):
     def validate_legalName(self, data, value):
         return value
 
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_id(self, data, value):
+        return value
+
 
 class ContactPointForSubmission(BaseContactPoint):
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_name(self, data, value):
+        return value
 
     @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
     def validate_email(self, data, value):
@@ -246,6 +254,10 @@ class OrganizationForSubmission(BaseOrganization):
     identifier = ModelType(IdentifierForSubmission, required=True)
     address = ModelType(AddressForSubmission, required=True)
     contactPoint = ModelType(ContactPointForSubmission, required=True)
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_name(self, data, value):
+        return value
 
 
 class BusinessOrganizationForSubmission(OrganizationForSubmission, BaseBusinessOrganization):
