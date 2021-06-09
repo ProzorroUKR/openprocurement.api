@@ -56,8 +56,8 @@ X-Content-Type-Options: nosniff
       {
         "id": "53366f7e1d7d453b9241a14615ff29a8",
         "qualificationID": "05d1cb43d20a4c558a24474dee8c8dd3",
-        "submissionID": "42965fa7e82b42a289fbe8a3206b3581",
         "status": "active",
+        "submissionID": "42965fa7e82b42a289fbe8a3206b3581",
         "suppliers": [
           {
             "name": "ДКП «Школяр»",
@@ -85,6 +85,8 @@ X-Content-Type-Options: nosniff
           {
             "id": "89cb8eac041549eabe8ea8de2d78e195",
             "type": "activation",
+            "status": "scheduled",
+            "dueDate": "2021-05-16T00:00:00+02:00",
             "dateModified": "2021-04-01T01:00:00+03:00"
           }
         ],
@@ -93,8 +95,8 @@ X-Content-Type-Options: nosniff
       {
         "id": "391acac5215446eeb6fc77beaa747403",
         "qualificationID": "281dd54719ce43a58e8c4cab10c627b0",
-        "submissionID": "0be27726372147fd9cb86c0e08873c15",
         "status": "active",
+        "submissionID": "0be27726372147fd9cb86c0e08873c15",
         "suppliers": [
           {
             "name": "ДКП «Школяр»",
@@ -122,6 +124,8 @@ X-Content-Type-Options: nosniff
           {
             "id": "3fe881cc13824149bb8f655de17cae47",
             "type": "activation",
+            "status": "scheduled",
+            "dueDate": "2021-05-16T00:00:00+02:00",
             "dateModified": "2021-04-01T01:00:00+03:00"
           }
         ],

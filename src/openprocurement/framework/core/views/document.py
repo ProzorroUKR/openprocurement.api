@@ -58,7 +58,7 @@ class CoreMilestoneDocumentResource(BaseDocumentResource):
     context_name = "milestone"
 
     def save(self, request, **kwargs):
-        return save_agreement(request)
+        return save_agreement(request, additional_obj_names=("milestone",))
 
     def apply(self, request, **kwargs):
-        return apply_patch(request, "agreement", **kwargs)
+        return apply_patch(request, "agreement", additional_obj_names=("milestone",), **kwargs)

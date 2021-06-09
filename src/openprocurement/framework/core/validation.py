@@ -11,7 +11,7 @@ from openprocurement.api.validation import (
 from openprocurement.framework.core.utils import get_framework_by_id, get_submission_by_id, get_agreement_by_id
 from openprocurement.framework.core.design import (
     submissions_active_by_framework_id_count_view,
-    agreements_with_active_banned_contracts_view,
+    agreements_with_active_suspended_contracts_view,
 )
 from openprocurement.framework.electroniccatalogue.models import Framework, Agreement
 
@@ -164,11 +164,11 @@ def validate_activate_submission(request, **kwargs):
             request,
             "Tenderer already have active submission for framework {}".format(submission.frameworkID)
         )
-    res = agreements_with_active_banned_contracts_view(request.registry.databases.agreements, key=key)
+    res = agreements_with_active_suspended_contracts_view(request.registry.databases.agreements, key=key)
     if res:
         raise_operation_error(
             request,
-            "Tenderer can't activate submission with active/banned contract in agreement for framework {}".format(
+            "Tenderer can't activate submission with active/suspended contract in agreement for framework {}".format(
                 submission['frameworkID'])
         )
 
@@ -270,3 +270,8 @@ def validate_milestone_data(request, **kwargs):
     update_logging_context(request, {"milestone_id": "__new__"})
     model = type(request.validated["contract"]).milestones.model_class
     return validate_data(request, model)
+
+
+def validate_patch_milestone_data(request, **kwargs):
+    model = type(request.validated["contract"]).milestones.model_class
+    return validate_data(request, model, True)

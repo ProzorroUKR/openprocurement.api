@@ -1,12 +1,15 @@
-from openprocurement.api.utils import APIResource, json_view, upload_objects_documents
-from openprocurement.framework.core.utils import apply_patch
-from openprocurement.framework.core.validation import validate_milestone_data
+from openprocurement.api.utils import APIResource, json_view, upload_objects_documents, context_unpack, get_now
+from openprocurement.framework.core.utils import apply_patch, save_agreement
+from openprocurement.framework.core.validation import validate_milestone_data, validate_patch_milestone_data
 from openprocurement.framework.electroniccatalogue.utils import contractresource, MILESTONE_CONTRACT_STATUSES
 from openprocurement.framework.electroniccatalogue.validation import (
     validate_agreement_operation_not_in_allowed_status,
-    validate_milestone_type,
     validate_contract_operation_not_in_allowed_status,
-    validate_contract_banned,
+    validate_milestone_type,
+    validate_contract_suspended,
+    validate_patch_not_activation_milestone,
+    validate_action_in_milestone_status,
+    validate_patch_milestone_status,
 )
 
 
@@ -33,7 +36,7 @@ class ContractMilestoneResource(APIResource):
                 validate_milestone_data,
                 validate_agreement_operation_not_in_allowed_status,
                 validate_contract_operation_not_in_allowed_status,
-                validate_contract_banned,
+                validate_contract_suspended,
                 validate_milestone_type,
         ),
         permission="edit_agreement"
@@ -54,3 +57,32 @@ class ContractMilestoneResource(APIResource):
         ):
             self.request.response.status = 201
             return {"data": milestone.serialize("view")}
+
+    @json_view(
+        content_type="application/json",
+        validators=(
+                validate_patch_milestone_data,
+                validate_agreement_operation_not_in_allowed_status,
+                validate_contract_operation_not_in_allowed_status,
+                validate_contract_suspended,
+                validate_patch_not_activation_milestone,
+                validate_action_in_milestone_status,
+                validate_patch_milestone_status,
+        ),
+        permission="edit_agreement"
+    )
+    def patch(self):
+        milestone = self.request.context
+        apply_patch(self.request, obj_name="agreement", save=False, src=milestone.to_primitive())
+
+        if milestone.status == "met":
+            contract = self.request.validated["contract"]
+            contract.status = "terminated"
+
+        if save_agreement(self.request, additional_obj_names=("milestone",)):
+            self.LOGGER.info(
+                f"Updated milestone {milestone.id}",
+                extra=context_unpack(self.request, {"MESSAGE_ID": "milestone_patch"}),
+            )
+
+        return {"data": milestone.serialize("view")}

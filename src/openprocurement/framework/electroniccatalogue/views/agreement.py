@@ -1,4 +1,4 @@
-from openprocurement.api.utils import APIResource, json_view, context_unpack
+from openprocurement.api.utils import APIResource, json_view, context_unpack, get_now
 from openprocurement.framework.core.utils import agreementsresource, apply_patch
 from openprocurement.framework.core.validation import validate_patch_agreement_data
 from openprocurement.framework.electroniccatalogue.utils import check_contract_statuses, check_agreement_status
@@ -26,8 +26,9 @@ class AgreementResource(APIResource):
     )
     def patch(self):
         if self.request.authenticated_role == "chronograph":
-            if not check_agreement_status(self.request):
-                check_contract_statuses(self.request)
+            now = get_now()
+            if not check_agreement_status(self.request, now):
+                check_contract_statuses(self.request, now)
         if apply_patch(
                 self.request,
                 obj_name="agreement",
