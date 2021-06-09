@@ -161,7 +161,7 @@ class QualificationResource(APIResource):
         contract_id = generate_id()
         first_milestone_data = {
             "type": "activation",
-            "documents": qualification.documents
+            "dueDate": framework.get("qualificationPeriod").get("endDate")
         }
         contract_data = {
             "id": contract_id,

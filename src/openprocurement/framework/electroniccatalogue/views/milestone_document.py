@@ -6,8 +6,8 @@ from openprocurement.framework.core.views.document import CoreMilestoneDocumentR
 from openprocurement.framework.electroniccatalogue.utils import contractresource
 from openprocurement.framework.electroniccatalogue.validation import (
     validate_agreement_operation_not_in_allowed_status,
-    validate_milestone_type,
     validate_contract_operation_not_in_allowed_status,
+    validate_action_in_milestone_status,
 )
 
 
@@ -29,7 +29,7 @@ class MilestoneDocumentResource(CoreMilestoneDocumentResource):
                 validate_file_upload,
                 validate_agreement_operation_not_in_allowed_status,
                 validate_contract_operation_not_in_allowed_status,
-                validate_milestone_type,
+                validate_action_in_milestone_status,
         ),
     )
     def collection_post(self):
@@ -47,7 +47,7 @@ class MilestoneDocumentResource(CoreMilestoneDocumentResource):
                 validate_file_update,
                 validate_agreement_operation_not_in_allowed_status,
                 validate_contract_operation_not_in_allowed_status,
-                validate_milestone_type,
+                validate_action_in_milestone_status,
         ),
     )
     def put(self):
@@ -61,7 +61,7 @@ class MilestoneDocumentResource(CoreMilestoneDocumentResource):
                 validate_patch_document_data,
                 validate_agreement_operation_not_in_allowed_status,
                 validate_contract_operation_not_in_allowed_status,
-                validate_milestone_type,
+                validate_action_in_milestone_status,
         ),
     )
     def patch(self):

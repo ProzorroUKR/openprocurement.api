@@ -21,25 +21,3 @@ DATA:
   }
 }
 
-Response: 201 Created
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-{
-  "data": {
-    "id": "54e44ecabf414bae83327586fad5447f",
-    "type": "disqualification",
-    "documents": [
-      {
-        "id": "a77242f4306c4400b35989cb2bd6fa27",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "milestone.doc",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a117dbccdbe947eb832962bc34a243b2?Signature=KaqCps31Vp9qX%2Bz3jQI3pGNOimEMXuNq9Q1Mbsny%2FhLMNBXiovJgOLIQ0rc%2BJ4ds65dxWix%2BPscvRH%2BZfI5GCg%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-04-01T01:00:00+03:00",
-        "dateModified": "2021-04-01T01:00:00+03:00"
-      }
-    ],
-    "dateModified": "2021-04-01T01:00:00+03:00"
-  }
-}
-

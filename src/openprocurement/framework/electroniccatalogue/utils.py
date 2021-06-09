@@ -20,7 +20,7 @@ from openprocurement.framework.electroniccatalogue.traversal import contract_fac
 DAYS_TO_UNSUCCESSFUL_STATUS = 20
 CONTRACT_BAN_DURATION = 90
 AUTHORIZED_CPB = standards.load("organizations/authorized_cpb.json")
-MILESTONE_CONTRACT_STATUSES = {"ban": "banned", "disqualification": "unsuccessful", "terminated": "terminated"}
+MILESTONE_CONTRACT_STATUSES = {"ban": "suspended", "disqualification": "terminated", "terminated": "terminated"}
 
 contractresource = partial(resource, factory=contract_factory, error_handler=error_handler)
 
@@ -105,22 +105,31 @@ def create_milestone_terminated():
     return Milestone({"type": "terminated"})
 
 
-def check_agreement_status(request):
-    if request.validated["agreement"].period.endDate < get_now():
+def check_agreement_status(request, now=None):
+    if not now:
+        now = get_now()
+    if request.validated["agreement"].period.endDate < now:
         request.validated["agreement"].status = "terminated"
         for contract in request.validated["agreement"].contracts:
+            for milestone in contract.milestones:
+                if milestone.status == "scheduled":
+                    milestone.status = "met" if milestone.dueDate and milestone.dueDate <= now else "notMet"
+                    milestone.dateModified = now
+
             if contract.status == "active":
-                milestone = create_milestone_terminated()
-                contract.milestones.append(milestone)
                 contract.status = "terminated"
         return True
 
 
-def check_contract_statuses(request):
+def check_contract_statuses(request, now=None):
+    if not now:
+        now = get_now()
     for contract in request.validated["agreement"].contracts:
-        if contract.status == "banned":
+        if contract.status == "suspended":
             for milestone in contract.milestones[::-1]:
                 if milestone.type == "ban":
-                    if milestone.dueDate < get_now():
+                    if milestone.dueDate < now:
                         contract.status = "active"
+                        milestone.status = "met"
+                        milestone.dateModified = now
                     break

@@ -56,8 +56,8 @@ X-Content-Type-Options: nosniff
       {
         "id": "4d3841e0397446b8989b75d0545764eb",
         "qualificationID": "04ceb9dba9aa4ee5a175baae9b05c9b5",
-        "submissionID": "f2e160b74b4b4120ae4acc472545162c",
         "status": "active",
+        "submissionID": "f2e160b74b4b4120ae4acc472545162c",
         "suppliers": [
           {
             "name": "ДКП «Школяр»",
@@ -85,6 +85,8 @@ X-Content-Type-Options: nosniff
           {
             "id": "1f79cddbd5ad4075ab276d64ad24bdb4",
             "type": "activation",
+            "status": "scheduled",
+            "dueDate": "2021-05-15T00:00:00+02:00",
             "dateModified": "2021-04-01T01:00:00+03:00"
           }
         ],

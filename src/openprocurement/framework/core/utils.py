@@ -251,7 +251,7 @@ def generate_agreementID(ctime, db, server_id=""):
     )
 
 
-def save_object(request, obj_name, with_test_mode=True):
+def save_object(request, obj_name, with_test_mode=True, additional_obj_names=""):
     obj = request.validated[obj_name]
 
     if with_test_mode and obj.mode == "test":
@@ -265,6 +265,10 @@ def save_object(request, obj_name, with_test_mode=True):
         old_date_modified = obj.dateModified
         if getattr(obj, "modified", True):
             obj.dateModified = now
+
+        for i in additional_obj_names:
+            if i in request.validated:
+                request.validated[i].dateModified = now
 
         with handle_store_exceptions(request):
             obj.store(request.registry.databases[f"{obj_name}s"])  # TODO a better way to specify db name?
@@ -280,20 +284,20 @@ def save_object(request, obj_name, with_test_mode=True):
             return True
 
 
-def save_framework(request):
-    return save_object(request, "framework")
+def save_framework(request, additional_obj_names=""):
+    return save_object(request, "framework", additional_obj_names=additional_obj_names)
 
 
-def save_submission(request):
-    return save_object(request, "submission", with_test_mode=False)
+def save_submission(request, additional_obj_names=""):
+    return save_object(request, "submission", with_test_mode=False, additional_obj_names=additional_obj_names)
 
 
-def save_qualification(request):
-    return save_object(request, "qualification", with_test_mode=False)
+def save_qualification(request, additional_obj_names=""):
+    return save_object(request, "qualification", with_test_mode=False, additional_obj_names=additional_obj_names)
 
 
-def save_agreement(request):
-    return save_object(request, "agreement", with_test_mode=False)
+def save_agreement(request, additional_obj_names=""):
+    return save_object(request, "agreement", with_test_mode=False, additional_obj_names=additional_obj_names)
 
 
 def get_framework_accelerator(context):
@@ -316,7 +320,7 @@ def acceleratable(wrapped):
     return wrapper
 
 
-def apply_patch(request, obj_name, data=None, save=True, src=None):
+def apply_patch(request, obj_name, data=None, save=True, src=None, additional_obj_names=""):
     save_map = {
         "framework": save_framework,
         "submission": save_submission,
@@ -334,7 +338,7 @@ def apply_patch(request, obj_name, data=None, save=True, src=None):
             request.context.import_data(patch)
         if save:
             save_func = save_map.get(obj_name)
-            return save_func(request)
+            return save_func(request, additional_obj_names=additional_obj_names)
 
 
 def append_obj_revision(request, obj, patch, date):

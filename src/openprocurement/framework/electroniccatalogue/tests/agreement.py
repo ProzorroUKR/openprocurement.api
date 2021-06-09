@@ -7,8 +7,6 @@ from openprocurement.framework.electroniccatalogue.tests.agreement_blanks import
     patch_contract_suppliers,
     post_ban_milestone,
     post_ban_milestone_with_documents,
-    post_disqualification_milestone,
-    post_disqualification_milestone_with_documents,
     post_milestone_invalid,
     get_documents_list,
     get_document_by_id,
@@ -19,6 +17,9 @@ from openprocurement.framework.electroniccatalogue.tests.agreement_blanks import
     patch_agreement_terminated_status,
     patch_contract_active_status,
     patch_several_contracts_active_status,
+    patch_activation_milestone,
+    patch_ban_milestone,
+    agreement_chronograph_milestones,
 )
 from openprocurement.framework.electroniccatalogue.tests.base import (
     test_electronicCatalogue_data,
@@ -66,6 +67,7 @@ class TestAgreementResource(AgreementContentWebTest):
     initial_auth = ('Basic', ('broker', ''))
 
     # Chronograph
+    test_agreement_chronograph_milestones = snitch(agreement_chronograph_milestones)
     test_patch_agreement_terminated_status = snitch(patch_agreement_terminated_status)
     test_patch_contract_active_status = snitch(patch_contract_active_status)
     test_patch_several_contracts_active_status = snitch(patch_several_contracts_active_status)
@@ -76,11 +78,10 @@ class TestAgreementMilestoneResource(AgreementContentWebTest):
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
 
+    test_patch_activation_milestone = snitch(patch_activation_milestone)
     test_post_milestone_invalid = snitch(post_milestone_invalid)
     test_post_ban_milestone_with_documents = snitch(post_ban_milestone_with_documents)
     test_post_ban_milestone = snitch(post_ban_milestone)
-    test_post_disqualification_milestone = snitch(post_disqualification_milestone)
-    test_post_disqualification_milestone_with_documents = snitch(post_disqualification_milestone_with_documents)
 
 
 class TestMilestoneDocumentGet(MilestoneContentWebTest):
@@ -103,6 +104,8 @@ class TestMilestoneCreate(MilestoneContentWebTest):
     initial_milestone_data = ban_milestone_data_with_documents
     initial_auth = ('Basic', ('broker', ''))
     docservice = True
+
+    test_patch_ban_milestone = snitch(patch_ban_milestone)
 
     test_create_milestone_document_forbidden = snitch(create_milestone_document_forbidden)
     test_create_milestone_documents = snitch(create_milestone_documents)

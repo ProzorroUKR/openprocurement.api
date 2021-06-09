@@ -303,14 +303,17 @@ class Milestone(Model):
     class Options:
         roles = {
             "create": whitelist("type", "documents"),
+            "edit": whitelist("status", "documents"),
             "view": blacklist("doc_type", "_id", "_rev", "__parent__"),
         }
 
     id = MD5Type(required=True, default=lambda: uuid4().hex)
-    type = StringType(required=True, choices=["activation", "ban", "disqualification", "terminated"])
+    type = StringType(required=True, choices=["activation", "ban"])
+    status = StringType(choices=["scheduled", "met", "notMet", "partiallyMet"], default="scheduled")
     dueDate = IsoDateTimeType()
     documents = ListType(ModelType(Document, required=True), default=list())
     dateModified = IsoDateTimeType(default=get_now)
+    dateMet = IsoDateTimeType()
 
     @serializable(serialized_name="dueDate", serialize_when_none=False)
     def milestone_dueDate(self):
@@ -331,8 +334,8 @@ class Contract(Model):
 
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     qualificationID = StringType()
+    status = StringType(choices=["active", "suspended", "terminated"])
     submissionID = StringType()
-    status = StringType(choices=["active", "banned", "unsuccessful", "terminated"])
     suppliers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, )
     milestones = ListType(ModelType(Milestone, required=True), required=True, min_size=1, )
     date = IsoDateTimeType(default=get_now)
@@ -385,7 +388,8 @@ class Agreement(BaseAgreement):
         if self.status == "active":
             milestone_dueDates = [
                 milestone.dueDate
-                for contract in self.contracts for milestone in contract.milestones if milestone.dueDate
+                for contract in self.contracts for milestone in contract.milestones
+                if milestone.dueDate and milestone.status == "scheduled"
             ]
             if milestone_dueDates:
                 checks.append(min(milestone_dueDates))

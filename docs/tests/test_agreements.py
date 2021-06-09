@@ -344,9 +344,3 @@ class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTes
         disqualification_milestone = deepcopy(disqualification_milestone_data_with_documents)
         disqualification_milestone["documents"][0]["url"] = self.generate_docservice_url()
 
-        with open(TARGET_EC_DIR + 'post-milestone-disqualification.http', 'wb') as self.app.file_obj:
-            response = self.app.post_json(
-                f"/agreements/{self.agreement_id}/contracts/{contract_2_id}/milestones?acc_token={self.framework_token}",
-                {'data': disqualification_milestone},
-            )
-

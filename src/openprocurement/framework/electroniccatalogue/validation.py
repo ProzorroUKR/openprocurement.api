@@ -73,11 +73,20 @@ def validate_contract_operation_not_in_allowed_status(request, **kwargs):
     obj_name = "object"
     if "documents" in request.path:
         obj_name = "document"
-    if request.validated["contract"].status not in ("active", "banned"):
+    if request.validated["contract"].status not in ("active", "suspended"):
         raise_operation_error(
             request,
             f"Can't {OPERATIONS.get(request.method)} {obj_name} "
             f"in current ({request.validated['contract'].status}) contract status"
+        )
+
+
+def validate_contract_banned(request, **kwargs):
+    milestone_type = request.validated["milestone"].type
+    if request.validated["contract"].status == "banned" and milestone_type != "disqualification":
+        raise_operation_error(
+            request,
+            f"Can't {OPERATIONS.get(request.method)} {milestone_type} milestone for contract in banned status"
         )
 
 
@@ -92,10 +101,45 @@ def validate_milestone_type(request, **kwargs):
         )
 
 
-def validate_contract_banned(request, **kwargs):
+def validate_contract_suspended(request, **kwargs):
     milestone_type = request.validated["milestone"].type
-    if request.validated["contract"].status == "banned" and milestone_type != "disqualification":
+    if request.validated["contract"].status == "suspended" and milestone_type != "disqualification":
         raise_operation_error(
             request,
-            f"Can't add {milestone_type} milestone for contract in banned status"
+            f"Can't add {milestone_type} milestone for contract in suspended status"
         )
+
+
+def validate_patch_not_activation_milestone(request, **kwargs):
+    milestone = request.context
+    if milestone.type != "activation":
+        raise_operation_error(
+            request,
+            f"Can't patch `{milestone.type}` milestone"
+        )
+
+
+def validate_action_in_milestone_status(request, **kwargs):
+    obj_name = "milestone document" if "documents" in request.path else "milestone"
+    status = request.validated["milestone"].status
+    if status != "scheduled":
+        raise_operation_error(
+            request,
+            f"Can't {OPERATIONS.get(request.method)} {obj_name} in current ({status}) status "
+        )
+
+
+def validate_patch_milestone_status(request, **kwargs):
+    milestone = request.context
+    curr_status = milestone.status
+    new_status = request.validated["data"].get("status", curr_status)
+
+    if curr_status == new_status:
+        return
+
+    if new_status != "met":
+        raise_operation_error(
+            request,
+            f"Can't switch milestone status from `{curr_status}` to `{new_status}`"
+        )
+
