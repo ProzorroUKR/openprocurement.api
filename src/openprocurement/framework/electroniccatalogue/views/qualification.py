@@ -166,6 +166,7 @@ class QualificationResource(APIResource):
         contract_data = {
             "id": contract_id,
             "qualificationID": qualification.id,
+            "submissionID": submission_data["_id"],
             "status": "active",
             "suppliers": submission_data["tenderers"],
             "milestones": [first_milestone_data],

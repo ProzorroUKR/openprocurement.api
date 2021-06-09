@@ -63,6 +63,7 @@ def create_agreement(self):
     self.assertEqual(contract_data["status"], "active")
     self.assertEqual(contract_data["suppliers"], submission_data["tenderers"])
     self.assertEqual(contract_data["qualificationID"], self.qualification_id)
+    self.assertEqual(contract_data["submissionID"], submission_data["id"])
 
     self.assertIsNotNone(contract_data.get("milestones"))
     self.assertEqual(len(contract_data["milestones"]), 1)
@@ -146,6 +147,7 @@ def patch_contract_suppliers(self):
     contract_ignore_patch_fields = {
         "id": f"{'0' * 32}",
         "qualificationID": "",
+        "submissionID": "",
         "status": "unsuccessful",
         "milestones": [{"type": "ban"}],
         "date": "2020-03-10T01:00:20.514000+02:00",
