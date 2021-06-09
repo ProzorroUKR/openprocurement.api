@@ -846,7 +846,7 @@ class Requirement(Model):
 
     def validate_dataType(self, data, value):
         criterion = data["__parent__"].__parent__
-        if criterion.classification.id.startswith("CRITERION.OTHER.BID.LANGUAGE"):
+        if criterion.classification.id and criterion.classification.id.startswith("CRITERION.OTHER.BID.LANGUAGE"):
             if value != "boolean":
                 raise ValidationError("dataType must be boolean")
 
@@ -856,14 +856,14 @@ class Requirement(Model):
             valid_value = validate_value_type(value, data['dataType'])
 
         criterion = data["__parent__"].__parent__
-        if criterion.classification.id.startswith("CRITERION.OTHER.BID.LANGUAGE"):
+        if criterion.classification.id and criterion.classification.id.startswith("CRITERION.OTHER.BID.LANGUAGE"):
             if valid_value is not True:
                 raise ValidationError("Value must be true")
 
     def validate_eligibleEvidences(self, data, value):
         if value:
             criterion = data["__parent__"].__parent__
-            if criterion.classification.id.startswith("CRITERION.OTHER.BID.LANGUAGE"):
+            if criterion.classification.id and criterion.classification.id.startswith("CRITERION.OTHER.BID.LANGUAGE"):
                 raise ValidationError("This field is forbidden for current criterion")
 
     def validate_relatedFeature(self, data, feature_id):
@@ -911,6 +911,12 @@ class RequirementGroup(Model):
 class CriterionClassification(BaseClassification):
     description = StringType()
 
+    def validate_id(self, data, code):
+        parent = data["__parent__"]
+        tender = get_tender(parent)
+        self._validate_guarantee_id(code, tender)
+        self._validate_lcc_id(code, tender)
+
     @staticmethod
     def _validate_guarantee_id(code, tender):
         tender_created = get_first_revision_date(tender, default=get_now())
@@ -936,12 +942,6 @@ class CriterionClassification(BaseClassification):
                     AWARD_CRITERIA_LIFE_CYCLE_COST
                 )
             )
-
-    def validate_id(self, data, code):
-        parent = data["__parent__"]
-        tender = get_tender(parent)
-        self._validate_guarantee_id(code, tender)
-        self._validate_lcc_id(code, tender)
 
 
 class Criterion(Model):
