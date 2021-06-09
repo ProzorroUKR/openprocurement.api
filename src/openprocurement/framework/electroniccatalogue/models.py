@@ -331,6 +331,7 @@ class Contract(Model):
 
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     qualificationID = StringType()
+    submissionID = StringType()
     status = StringType(choices=["active", "banned", "unsuccessful", "terminated"])
     suppliers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, )
     milestones = ListType(ModelType(Milestone, required=True), required=True, min_size=1, )
