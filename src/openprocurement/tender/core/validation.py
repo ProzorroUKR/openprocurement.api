@@ -2075,12 +2075,11 @@ def validate_criterion_uniq(request, **kwargs):
 
         for existed_criterion in criteria:
             if (
-                    new_criterion.get("relatesTo") == existed_criterion.relatesTo
-                    and new_criterion.get("relatedItem") == existed_criterion.relatedItem
+                new_criterion.get("relatesTo") == existed_criterion.relatesTo
+                and new_criterion.get("relatedItem") == existed_criterion.relatedItem
+                and new_criterion["classification"]["id"] == existed_criterion.classification.id
             ):
-                if new_criterion["classification"]["id"] == existed_criterion.classification.id:
-                    if check_requirements_active(existed_criterion):
-                        raise_operation_error(request, "Criteria are not unique")
+                raise_operation_error(request, "Criteria are not unique")
 
     if isinstance(data, list):
         for new_criterion in data:
