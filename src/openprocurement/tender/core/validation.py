@@ -804,15 +804,15 @@ def validate_item_quantity(request, **kwargs):
 
 
 def validate_items_buyer_id(request,  **kwargs):
-    tender = request.context
-    tender_created = get_first_revision_date(tender, default=get_now())
-    if (
-            not tender.buyers
-            or tender_created < MULTI_CONTRACTS_REQUIRED_FROM
-    ):
+    tender = request.validated["tender"]
+    validation_disabled = any([
+        not tender.buyers,
+        request.json["data"].get("status", tender.status) == "draft",
+        get_first_revision_date(tender, default=get_now()) < MULTI_CONTRACTS_REQUIRED_FROM
+    ])
+    if validation_disabled:
         return
-    items = request.validated["data"].get("items", [])
-    for item in items:
+    for item in tender.items:
         if not item.get("relatedBuyer"):
             raise_operation_error(request, "Each item should contain relatedBuyer id")
 

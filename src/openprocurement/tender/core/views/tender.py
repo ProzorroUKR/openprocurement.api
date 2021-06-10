@@ -14,7 +14,7 @@ from openprocurement.api.utils import get_now, generate_id, json_view, set_owner
 
 from openprocurement.tender.core.utils import save_tender, tender_serialize, optendersresource, generate_tender_id
 
-from openprocurement.tender.core.validation import validate_tender_data
+from openprocurement.tender.core.validation import validate_tender_data, validate_items_buyer_id
 
 VIEW_MAP = {
     "": tenders_real_by_dateModified_view,
@@ -51,6 +51,7 @@ class TendersResource(APIResourceListing):
         permission="create_tender",
         validators=(
             validate_tender_data,
+            validate_items_buyer_id,
         )
     )
     def post(self):

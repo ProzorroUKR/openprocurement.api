@@ -1724,6 +1724,7 @@ def patch_items_related_buyer_id(self):
     test_organization2["name"] = "Управління міжнародних справ"
     test_organization2["identifier"]["id"] = "00055555"
 
+    data["status"] = "draft"
     data["buyers"] = [
         {"name": test_organization1["name"], "identifier": test_organization1["identifier"]},
         {"name": test_organization2["name"], "identifier": test_organization2["identifier"]},
@@ -1732,23 +1733,22 @@ def patch_items_related_buyer_id(self):
     response = self.app.post_json("/tenders", {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(len(response.json["data"]["buyers"]), 2)
+    self.assertEqual(response.json["data"]["status"], "draft")
 
     self.tender_id = response.json["data"]["id"]
     self.tender_token = response.json["access"]["token"]
 
-    buyer1_id, buyer2_id = response.json["data"]["buyers"][0]["id"], response.json["data"]["buyers"][1]["id"]
+    buyer1_id = response.json["data"]["buyers"][0]["id"]
+    buyer2_id = response.json["data"]["buyers"][1]["id"]
 
     self.assertEqual(len(response.json["data"]["buyers"]), 2)
     self.assertEqual(len(response.json["data"]["items"]), 1)
-
-    self.set_status("active.enquiries")
 
     patch_request_path = "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token)
 
     response = self.app.patch_json(
         patch_request_path,
-        {"data": {"items": [{"description_en": "new cases for state awards"}]}},
+        {"data": {"status": "draft.pending"}},
         status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1758,18 +1758,14 @@ def patch_items_related_buyer_id(self):
           'location': 'body',
           'name': 'data'}],
     )
-    response = self.app.patch_json(
-        patch_request_path,
-        {"data": {"items": [
-            {
-                "description_en": "new cases for state awards",
-                "relatedBuyer": buyer1_id
-            }
-        ]}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["items"][0]["description_en"], "new cases for state awards")
-    self.assertEqual(response.json["data"]["items"][0]["relatedBuyer"], buyer1_id)
+    # TODO: Find out what to do with selection from first stage without relatedBuyer
+    # TODO: Currently it's not possible to patch items in draft
+    # response = self.app.patch_json(
+    #     patch_request_path,
+    #     {"data": {"items": [{"relatedBuyer": buyer1_id}]}},
+    # )
+    # self.assertEqual(response.status, "200 OK")
+    # self.assertEqual(response.json["data"]["items"][0]["relatedBuyer"], buyer1_id)
 
 
 def patch_tender_bot(self):

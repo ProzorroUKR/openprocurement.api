@@ -1292,7 +1292,14 @@ def create_tender_central(self):
     data = deepcopy(self.initial_data)
 
     data["procuringEntity"]["kind"] = "central"
-    data["buyers"] = [{"name": test_organization["name"], "identifier": test_organization["identifier"]}]
+    data["buyers"] = [{
+        "id": uuid4().hex,
+        "name": test_organization["name"],
+        "identifier": test_organization["identifier"]
+    }]
+
+    for item in data["items"]:
+        item["relatedBuyer"] = data["buyers"][0]["id"]
 
     response = self.app.post_json("/tenders", {"data": data})
     self.assertEqual(response.status, "201 Created")
@@ -1308,7 +1315,6 @@ def create_tender_central_invalid(self):
     self.assertEqual(response.content_type, "application/json")
 
     data["procuringEntity"]["kind"] = "central"
-    data["buyers"] = [{"name": test_organization["name"], "identifier": test_organization["identifier"]}]
 
     with change_auth(self.app, ("Basic", ("broker13", ""))):
         response = self.app.post_json("/tenders", {"data": data}, status=403)
@@ -2969,6 +2975,7 @@ def patch_items_related_buyer_id(self):
     test_organization2["name"] = "Управління міжнародних справ"
     test_organization2["identifier"]["id"] = "00055555"
 
+    data["status"] = "draft"
     data["buyers"] = [
         {"name": test_organization1["name"], "identifier": test_organization1["identifier"]},
         {"name": test_organization2["name"], "identifier": test_organization2["identifier"]},
@@ -2977,21 +2984,22 @@ def patch_items_related_buyer_id(self):
     response = self.app.post_json("/tenders", {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(len(response.json["data"]["buyers"]), 2)
+    self.assertEqual(response.json["data"]["status"], "draft")
 
-    tender_id = response.json["data"]["id"]
-    tender_token = response.json["access"]["token"]
+    self.tender_id = response.json["data"]["id"]
+    self.tender_token = response.json["access"]["token"]
 
-    buyer1_id, buyer2_id = response.json["data"]["buyers"][0]["id"], response.json["data"]["buyers"][1]["id"]
+    buyer1_id = response.json["data"]["buyers"][0]["id"]
+    buyer2_id = response.json["data"]["buyers"][1]["id"]
 
     self.assertEqual(len(response.json["data"]["buyers"]), 2)
     self.assertEqual(len(response.json["data"]["items"]), 1)
 
-    patch_request_path = "/tenders/{}?acc_token={}".format(tender_id, tender_token)
+    patch_request_path = "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token)
 
     response = self.app.patch_json(
         patch_request_path,
-        {"data": {"items": [{"description_en": "new cases for state awards"}]}},
+        {"data": {"status": self.primary_tender_status}},
         status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -3003,16 +3011,19 @@ def patch_items_related_buyer_id(self):
     )
     response = self.app.patch_json(
         patch_request_path,
-        {"data": {"items": [
-            {
-                "description_en": "new cases for state awards",
-                "relatedBuyer": buyer1_id
-            }
-        ]}},
+        {"data": {"items": [{"relatedBuyer": buyer1_id}]}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["items"][0]["description_en"], "new cases for state awards")
     self.assertEqual(response.json["data"]["items"][0]["relatedBuyer"], buyer1_id)
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"status": self.primary_tender_status}}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
+    self.assertEqual(tender["status"], self.primary_tender_status)
 
     # adding new unassigned items
     second_item = deepcopy(self.initial_data["items"][0])
