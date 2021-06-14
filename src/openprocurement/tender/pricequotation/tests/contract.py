@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import unittest
-from copy import deepcopy
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.pricequotation.tests.base import (
     TenderContentWebTest,
@@ -18,6 +17,7 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     patch_contract_single_item_unit_value,
     patch_contract_multi_items_unit_value,
     patch_tender_multi_contracts,
+    patch_tender_multi_contracts_cancelled,
 )
 from openprocurement.tender.pricequotation.tests.contract_blanks import (
     patch_tender_contract,
@@ -92,6 +92,7 @@ class TenderContractMultiBuyersResourceTest(TenderContentWebTest):
         )
 
     test_patch_tender_multi_contracts = snitch(patch_tender_multi_contracts)
+    test_patch_tender_multi_contracts_cancelled = snitch(patch_tender_multi_contracts_cancelled)
 
 
 def suite():

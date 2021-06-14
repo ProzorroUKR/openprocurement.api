@@ -805,9 +805,10 @@ def validate_item_quantity(request, **kwargs):
 
 def validate_items_buyer_id(request,  **kwargs):
     tender = request.validated["tender"]
+    result_status = request.json["data"].get("status", tender.status)
     validation_disabled = any([
         not tender.buyers,
-        request.json["data"].get("status", tender.status) == "draft",
+        result_status == "draft",
         get_first_revision_date(tender, default=get_now()) < MULTI_CONTRACTS_REQUIRED_FROM
     ])
     if validation_disabled:
@@ -1734,6 +1735,54 @@ def validate_activate_contract(request, **kwargs):
                     raise_operation_error(
                         request, "Can't activate contract while 'Unit.Value' is not set for each Item"
                     )
+
+
+def validate_update_contract_status_base(request, allowed_statuses_from, allowed_statuses_to, **kwargs):
+    tender = request.validated["tender"]
+
+    # Contract statuses before and after current change
+    current_status = request.context.status
+    new_status = request.json["data"].get("status", current_status)
+
+    # Allow change contract status to cancelled for multi buyers tenders
+    multi_contracts = len(tender.buyers) > 1
+    if multi_contracts:
+        allowed_statuses_to = allowed_statuses_to + ("cancelled",)
+
+    # Validate status change
+    if (
+        current_status != new_status
+        and (
+            current_status not in allowed_statuses_from
+            or new_status not in allowed_statuses_to
+        )
+    ):
+        raise_operation_error(request, "Can't update contract status from {} to {}".format(
+            current_status, new_status
+        ))
+
+    not_cancelled_contracts_count = sum(
+        1 for contract in tender.contracts
+        if contract.status != "cancelled" and contract.awardID == request.context.awardID
+    )
+    if multi_contracts and not_cancelled_contracts_count == 1:
+        raise_operation_error(
+            request,
+            "Can't update contract status from {} to {} for last not "
+            "cancelled contract. Cancel award instead.".format(
+                current_status, new_status
+            )
+        )
+
+
+def validate_update_contract_status(request, **kwargs):
+    allowed_statuses_from = ("pending", "pending.winner-signing",)
+    allowed_statuses_to = ("active", "pending", "pending.winner-signing",)
+    validate_update_contract_status_base(
+        request,
+        allowed_statuses_from,
+        allowed_statuses_to
+    )
 
 
 def validate_contract_items_unit_value_amount(request, contract, **kwargs):

@@ -3,7 +3,6 @@ import jmespath
 from datetime import timedelta
 from copy import deepcopy
 from openprocurement.api.utils import get_now
-from uuid import uuid4
 
 from openprocurement.tender.belowthreshold.tests.base import test_claim, test_cancellation
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
@@ -261,6 +260,66 @@ def patch_tender_multi_contracts(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "complete")
+
+
+def patch_tender_multi_contracts_cancelled(self):
+    contracts_response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
+    contracts = contracts_response.json["data"]
+    self.assertEqual(len(contracts), 2)
+
+    # cancel 1st contract
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contracts[0]["id"], self.tender_token),
+        {"data": {"status": "cancelled"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "cancelled")
+
+    # try to cancel 2nd contract
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contracts[1]["id"], self.tender_token),
+        {"data": {"status": "cancelled"}},
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"], [
+            {
+                "location": "body",
+                "name": "data",
+                "description": (
+                    "Can't update contract status from pending to cancelled for last not "
+                    "cancelled contract. Cancel award instead."
+                )
+            }
+        ]
+    )
+
+    # check 2nd contract not cancelled
+    response = self.app.get(
+        "/tenders/{}/contracts/{}".format(self.tender_id, contracts[1]["id"]),
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "pending")
+
+    # cancel award
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(
+            self.tender_id, self.award_id, self.tender_token
+        ),
+        {"data": {"status": "cancelled"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    # check 2nd contract also cancelled
+    response = self.app.get(
+        "/tenders/{}/contracts/{}".format(self.tender_id, contracts[1]["id"]),
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "cancelled")
 
 
 def create_tender_contract_in_complete_status(self):

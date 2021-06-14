@@ -11,4 +11,4 @@ from openprocurement.tender.openua.views.contract import TenderUaAwardContractRe
     description="Tender EU contracts",
 )
 class TenderAwardContractResource(BaseResource):
-    """ """
+    pass

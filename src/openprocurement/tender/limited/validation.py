@@ -11,7 +11,7 @@ from openprocurement.api.utils import (
 from openprocurement.tender.core.validation import (
     _validate_complaint_accreditation_level,
     validate_cancellation_status_with_complaints,
-    validate_cancellation_status_without_complaints,
+    validate_cancellation_status_without_complaints, validate_update_contract_status_base,
 )
 
 
@@ -259,6 +259,16 @@ def validate_contract_items_count_modification(request, **kwargs):
         request.errors.add("body", "data", "Can't change items count")
         request.errors.status = 403
         raise error_handler(request)
+
+
+def validate_update_contract_status(request, **kwargs):
+    allowed_statuses_from = ("pending",)
+    allowed_statuses_to = ("active",)
+    validate_update_contract_status_base(
+        request,
+        allowed_statuses_from,
+        allowed_statuses_to
+    )
 
 
 # contract document

@@ -21,8 +21,6 @@ from openprocurement.tender.cfaua.utils import agreement_resource, check_tender_
     description="Tender EU agreements",
 )
 class TenderAgreementResource(BaseResource):
-    """ """
-
     @json_view(permission="view_tender")
     def collection_get(self):
         """ List contracts for award """

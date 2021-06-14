@@ -34,6 +34,7 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     patch_contract_single_item_unit_value,
     patch_contract_multi_items_unit_value,
     patch_tender_multi_contracts,
+    patch_tender_multi_contracts_cancelled,
 )
 from openprocurement.tender.openua.tests.contract_blanks import (
     # TenderStage2EU(UA)ContractResourceTest
@@ -280,6 +281,7 @@ class TenderContractEUStage2MultiBuyersResourceTest(BaseCompetitiveDialogEUStage
         TenderStage2EUContractResourceTest.create_award(self)
 
     test_patch_tender_multi_contracts = snitch(patch_tender_multi_contracts)
+    test_patch_tender_multi_contracts_cancelled = snitch(patch_tender_multi_contracts_cancelled)
 
 
 class TenderContractUAStage2MultiBuyersResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
@@ -292,6 +294,7 @@ class TenderContractUAStage2MultiBuyersResourceTest(BaseCompetitiveDialogUAStage
         TenderStage2UAContractResourceTest.create_award(self)
 
     test_patch_tender_multi_contracts = snitch(patch_tender_multi_contracts)
+    test_patch_tender_multi_contracts_cancelled = snitch(patch_tender_multi_contracts_cancelled)
 
 
 def suite():

@@ -89,7 +89,7 @@ def add_contracts(request, award, now=None):
 
     if tender.buyers and get_first_revision_date(tender) >= MULTI_CONTRACTS_REQUIRED_FROM:
 
-        multi_contracts = True if len(tender.buyers) > 1 else False
+        multi_contracts = len(tender.buyers) > 1
         contract_value = generate_contract_value(tender, award, multi_contracts=multi_contracts)
 
         for buyer in tender.buyers:
