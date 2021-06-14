@@ -805,10 +805,10 @@ def validate_item_quantity(request, **kwargs):
 
 def validate_items_buyer_id(request,  **kwargs):
     tender = request.validated["tender"]
-    result_status = request.json["data"].get("status", tender.status)
+    new_status = request.json["data"].get("status", tender.status)
     validation_disabled = any([
         not tender.buyers,
-        result_status == "draft",
+        new_status == "draft",
         get_first_revision_date(tender, default=get_now()) < MULTI_CONTRACTS_REQUIRED_FROM
     ])
     if validation_disabled:

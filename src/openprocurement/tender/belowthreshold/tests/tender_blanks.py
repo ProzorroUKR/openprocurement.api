@@ -2986,8 +2986,8 @@ def patch_items_related_buyer_id(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "draft")
 
-    self.tender_id = response.json["data"]["id"]
-    self.tender_token = response.json["access"]["token"]
+    tender_id = response.json["data"]["id"]
+    tender_token = response.json["access"]["token"]
 
     buyer1_id = response.json["data"]["buyers"][0]["id"]
     buyer2_id = response.json["data"]["buyers"][1]["id"]
@@ -2995,7 +2995,7 @@ def patch_items_related_buyer_id(self):
     self.assertEqual(len(response.json["data"]["buyers"]), 2)
     self.assertEqual(len(response.json["data"]["items"]), 1)
 
-    patch_request_path = "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token)
+    patch_request_path = "/tenders/{}?acc_token={}".format(tender_id, tender_token)
 
     response = self.app.patch_json(
         patch_request_path,
@@ -3017,13 +3017,16 @@ def patch_items_related_buyer_id(self):
     self.assertEqual(response.json["data"]["items"][0]["relatedBuyer"], buyer1_id)
 
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        patch_request_path,
         {"data": {"status": self.primary_tender_status}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
     self.assertEqual(tender["status"], self.primary_tender_status)
+
+    if tender["procurementMethodType"] == "priceQuotation":
+        return
 
     # adding new unassigned items
     second_item = deepcopy(self.initial_data["items"][0])
