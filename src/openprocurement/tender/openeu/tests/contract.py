@@ -62,7 +62,7 @@ class TenderContractResourceTest(BaseTenderContentWebTest, TenderContractResourc
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "value": {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True},
-                    "items": test_tender_data["items"],
+                    "items": self.initial_data["items"],
                 }
             },
         )

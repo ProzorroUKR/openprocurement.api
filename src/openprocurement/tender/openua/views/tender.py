@@ -8,7 +8,6 @@ from openprocurement.tender.core.validation import (
     validate_item_quantity,
     validate_tender_guarantee,
     validate_tender_guarantee_multilot,
-    validate_items_buyer_id,
 )
 from openprocurement.tender.belowthreshold.views.tender import TenderResource
 from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
@@ -42,7 +41,6 @@ class TenderUAResource(TenderResource):
             validate_item_quantity,
             validate_tender_guarantee,
             validate_tender_guarantee_multilot,
-            validate_items_buyer_id,
         ),
         permission="edit_tender",
     )

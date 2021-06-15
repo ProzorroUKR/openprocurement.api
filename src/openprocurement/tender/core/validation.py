@@ -29,7 +29,6 @@ from openprocurement.api.constants import (
     RELEASE_GUARANTEE_CRITERION_FROM,
     GUARANTEE_ALLOWED_TENDER_TYPES,
     UNIT_PRICE_REQUIRED_FROM,
-    MULTI_CONTRACTS_REQUIRED_FROM,
 )
 from openprocurement.api.utils import (
     get_now,
@@ -801,21 +800,6 @@ def validate_item_quantity(request, **kwargs):
     for item in items:
         if item.get("quantity") is not None and not item["quantity"]:
             _validate_related_criterion(request, item["id"], action="set to 0 quantity of", relatedItem="item")
-
-
-def validate_items_buyer_id(request,  **kwargs):
-    tender = request.validated["tender"]
-    new_status = request.json["data"].get("status", tender.status)
-    validation_disabled = any([
-        not tender.buyers,
-        new_status == "draft",
-        get_first_revision_date(tender, default=get_now()) < MULTI_CONTRACTS_REQUIRED_FROM
-    ])
-    if validation_disabled:
-        return
-    for item in tender.items:
-        if not item.get("relatedBuyer"):
-            raise_operation_error(request, "Each item should contain relatedBuyer id")
 
 
 def validate_absence_of_pending_accepted_satisfied_complaints(request, cancellation=None, **kwargs):
@@ -1757,15 +1741,16 @@ def validate_update_contract_status_base(request, allowed_statuses_from, allowed
             or new_status not in allowed_statuses_to
         )
     ):
-        raise_operation_error(request, "Can't update contract status from {} to {}".format(
-            current_status, new_status
-        ))
+        raise_operation_error(request, "Can't update contract status")
 
     not_cancelled_contracts_count = sum(
         1 for contract in tender.contracts
-        if contract.status != "cancelled" and contract.awardID == request.context.awardID
+        if (
+            contract.status != "cancelled"
+            and contract.awardID == request.context.awardID
+        )
     )
-    if multi_contracts and not_cancelled_contracts_count == 1:
+    if multi_contracts and new_status == "cancelled" and not_cancelled_contracts_count == 1:
         raise_operation_error(
             request,
             "Can't update contract status from {} to {} for last not "

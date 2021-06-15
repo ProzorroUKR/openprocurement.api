@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import uuid
+
 import os
 from copy import deepcopy
 from mock import patch
@@ -276,10 +278,13 @@ class TenderOwnershipChangeTest(BaseTenderOwnershipChangeTest):
         # first try on non 5th level broker
         tender = self.db.get(self.tender_id)
         tender["procuringEntity"]["kind"] = "central"
-        tender["buyers"]= [{
+        tender["buyers"] = [{
+            "id": uuid.uuid4().hex,
             "name": tender["procuringEntity"]["name"],
             "identifier": tender["procuringEntity"]["identifier"]
         }]
+        for item in tender["items"]:
+            item["relatedBuyer"] = tender["buyers"][0]["id"]
         self.db.save(tender)
 
         # create Transfer with second owner

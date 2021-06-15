@@ -723,9 +723,11 @@ def tender_owner_can_change_in_draft(self):
         "awardCriteriaDetails_en": "Test criteria 5",
         "awardCriteriaDetails_ru": "Test criteria 6"
     }
+    buyer_id = uuid4().hex
     lists = {
         "buyers": [
             {
+                "id": buyer_id,
                 "name": "John Doe",
                 "identifier": {
                     "scheme": "AE-DCCI",
@@ -852,6 +854,7 @@ def tender_owner_can_change_in_draft(self):
     self.assertEqual(tender["funders"], lists["funders"])
     buyer_id = tender["buyers"][0]["id"]
     lists["buyers"][0]["id"] = buyer_id
+
     self.assertEqual(tender["buyers"], lists["buyers"])
 
     self.assertEqual(tender["items"][0]["description"], lists["items"][0]["description"])
@@ -859,14 +862,18 @@ def tender_owner_can_change_in_draft(self):
     # status
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": status},
-        status=403
+        status=422
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"],
-        [{'description': 'Each item should contain relatedBuyer id',
-          'location': 'body',
-          'name': 'data'}],
+        [
+            {'description': [
+                {'relatedBuyer': ['This field is required.']}
+            ],
+            'location': 'body',
+            'name': 'items'}
+        ],
     )
     patch_data = {"items": [{"relatedBuyer": buyer_id}]}
     patch_data.update(status)

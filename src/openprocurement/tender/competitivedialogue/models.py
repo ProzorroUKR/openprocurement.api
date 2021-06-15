@@ -476,6 +476,9 @@ class Item(BaseEUItem):
     def validate_quantity(self, data, value):
         pass
 
+    def validate_relatedBuyer(self, data, value):
+        pass
+
 
 ItemStage2EU = Item
 
@@ -490,6 +493,9 @@ class Item(BaseUAItem):
         pass
 
     def validate_quantity(self, data, value):
+        pass
+
+    def validate_relatedBuyer(self, data, value):
         pass
 
 

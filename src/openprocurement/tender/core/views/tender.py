@@ -9,12 +9,21 @@ from openprocurement.tender.core.design import (
     tenders_real_by_local_seq_view,
     tenders_test_by_local_seq_view,
 )
-
-from openprocurement.api.utils import get_now, generate_id, json_view, set_ownership, context_unpack, APIResourceListing
-
-from openprocurement.tender.core.utils import save_tender, tender_serialize, optendersresource, generate_tender_id
-
-from openprocurement.tender.core.validation import validate_tender_data, validate_items_buyer_id
+from openprocurement.api.utils import (
+    get_now,
+    generate_id,
+    json_view,
+    set_ownership,
+    context_unpack,
+    APIResourceListing,
+)
+from openprocurement.tender.core.utils import (
+    save_tender,
+    tender_serialize,
+    optendersresource,
+    generate_tender_id,
+)
+from openprocurement.tender.core.validation import validate_tender_data
 
 VIEW_MAP = {
     "": tenders_real_by_dateModified_view,
@@ -51,7 +60,6 @@ class TendersResource(APIResourceListing):
         permission="create_tender",
         validators=(
             validate_tender_data,
-            validate_items_buyer_id,
         )
     )
     def post(self):

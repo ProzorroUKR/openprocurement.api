@@ -212,13 +212,13 @@ class PlanOrganization(BaseOrganization):
         _parent = data['__parent__']
         validation_date = get_first_revision_date(_parent, default=get_now())
         if validation_date >= PLAN_ADDRESS_KIND_REQUIRED_FROM and not value:
-            raise ValidationError("This field is required.")
+            raise ValidationError(BaseType.MESSAGES["required"])
 
     def validate_kind(self, data, value):
         _parent = data['__parent__']
         validation_date = get_first_revision_date(_parent, default=get_now())
         if validation_date >= PLAN_ADDRESS_KIND_REQUIRED_FROM and not value:
-            raise ValidationError("This field is required.")
+            raise ValidationError(BaseType.MESSAGES["required"])
 
 
 class PlanTender(Model):

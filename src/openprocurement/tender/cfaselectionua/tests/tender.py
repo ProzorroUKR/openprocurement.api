@@ -60,9 +60,6 @@ from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
     # TenderTest
     create_tender_with_available_language,
     edit_tender_in_active_enquiries,
-    patch_items_related_buyer_id,
-    create_cfaselectionua_tender_with_earlier_non_required_unit,
-    create_tender_with_required_unit,
 )
 
 
@@ -95,7 +92,6 @@ class TenderResourceTestMixin(object):
     test_tender_funders = snitch(tender_funders)
     test_patch_tender_bot = snitch(patch_tender_bot)
     test_create_tender_with_available_language = snitch(create_tender_with_available_language)
-    test_patch_items_related_buyer_id = snitch(patch_items_related_buyer_id)
 
 
 class CFASelectionTenderTest(TenderTestMixin, BaseApiWebTest):
@@ -124,10 +120,6 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_edit_tender_in_active_enquiries = snitch(edit_tender_in_active_enquiries)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
     test_tender_milestones_not_required = snitch(tender_milestones_not_required)
-    test_create_tender_with_earlier_non_required_unit = snitch(
-        create_cfaselectionua_tender_with_earlier_non_required_unit
-    )
-    test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
 
 
 class TenderProcessTest(BaseTenderWebTest):

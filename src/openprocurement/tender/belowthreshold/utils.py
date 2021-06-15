@@ -87,7 +87,7 @@ def add_contracts(request, award, now=None):
     tender = request.validated["tender"]
     contract_item_model = type(tender).contracts.model_class.items.model_class
 
-    if tender.buyers and get_first_revision_date(tender) >= MULTI_CONTRACTS_REQUIRED_FROM:
+    if tender.buyers and all(item.get("relatedBuyer") for item in tender.items):
 
         multi_contracts = len(tender.buyers) > 1
         contract_value = generate_contract_value(tender, award, multi_contracts=multi_contracts)

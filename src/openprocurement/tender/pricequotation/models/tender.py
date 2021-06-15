@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist
-from schematics.types import IntType, StringType
+from schematics.types import IntType, StringType, BaseType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from pyramid.security import Allow
 from zope.interface import implementer
-from openprocurement.api.constants import TZ, UNIT_PRICE_REQUIRED_FROM
+from openprocurement.api.constants import TZ, UNIT_PRICE_REQUIRED_FROM, MULTI_CONTRACTS_REQUIRED_FROM
 from openprocurement.api.models import (
     BusinessOrganization,
     CPVClassification,
@@ -28,7 +28,7 @@ from openprocurement.tender.core.models import (
     PeriodEndRequired,
     ProcuringEntity,
     Tender,
-    Model,
+    Model, get_tender,
 )
 from openprocurement.tender.belowthreshold.models import Unit
 from openprocurement.tender.openua.validation import _validate_tender_period_duration
@@ -90,17 +90,28 @@ class TenderItem(BaseItem):
     classification = ModelType(CPVClassification)
     unit = ModelType(Unit)
 
+    def validate_relatedBuyer(self, data, related_buyer):
+        tender = get_tender(data["__parent__"])
+        validation_date = get_first_revision_date(tender, default=get_now())
+        validation_enabled = all([
+            tender.buyers,
+            tender.status != "draft",
+            validation_date >= MULTI_CONTRACTS_REQUIRED_FROM
+        ])
+        if validation_enabled and not related_buyer:
+            raise ValidationError(BaseType.MESSAGES["required"])
+
     def validate_unit(self, data, value):
-        _parent = data['__parent__']
-        validation_date = get_first_revision_date(_parent, default=get_now())
+        tender = get_tender(data["__parent__"])
+        validation_date = get_first_revision_date(tender, default=get_now())
         if validation_date >= UNIT_PRICE_REQUIRED_FROM and not value:
-            raise ValidationError(u"This field is required.")
+            raise ValidationError(BaseType.MESSAGES["required"])
 
     def validate_quantity(self, data, value):
-        _parent = data['__parent__']
-        validation_date = get_first_revision_date(_parent, default=get_now())
+        tender = get_tender(data["__parent__"])
+        validation_date = get_first_revision_date(tender, default=get_now())
         if validation_date >= UNIT_PRICE_REQUIRED_FROM and value is None:
-            raise ValidationError(u"This field is required.")
+            raise ValidationError(BaseType.MESSAGES["required"])
 
 
 class ContractItem(BaseItem):

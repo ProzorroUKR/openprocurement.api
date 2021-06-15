@@ -70,7 +70,7 @@ class TenderStage2EUContractResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
                     "status": "pending",
                     "bid_id": self.bids[0]["id"],
                     "value": self.initial_data["value"],
-                    "items": test_tender_stage2_data_eu["items"],
+                    "items": self.initial_data["items"],
                 }
             },
         )

@@ -3,7 +3,6 @@ from openprocurement.tender.core.validation import (
     validate_patch_tender_data,
     validate_tender_not_in_terminated_status,
     validate_tender_change_status_with_cancellation_lot_pending,
-    validate_items_buyer_id,
 )
 from openprocurement.api.utils import json_view, context_unpack
 from openprocurement.tender.core.utils import apply_patch, optendersresource, save_tender
@@ -33,7 +32,6 @@ class TenderResource(BaseTenderResource):
             validate_tender_not_in_terminated_status,
             validate_chronograph,
             validate_update_tender_with_awards,
-            validate_items_buyer_id,
         ),
         permission="edit_tender",
     )
@@ -111,7 +109,6 @@ class TenderNegotioationResource(TenderResource):
                 validate_tender_not_in_terminated_status,
                 validate_update_tender_with_awards,
                 validate_tender_change_status_with_cancellation_lot_pending,
-                validate_items_buyer_id,
         ),
         permission="edit_tender",
     )

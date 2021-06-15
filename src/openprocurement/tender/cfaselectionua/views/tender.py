@@ -7,11 +7,9 @@ from openprocurement.tender.core.utils import (
     optendersresource,
     apply_patch,
     calculate_tender_business_date,
-    calculate_tender_date,
 )
 from openprocurement.tender.core.validation import (
     validate_tender_not_in_terminated_status,
-    validate_items_buyer_id,
 )
 from openprocurement.tender.cfaselectionua.validation import (
     validate_patch_tender_in_draft_pending,
@@ -138,7 +136,6 @@ class TenderResource(APIResource):
             validate_tender_not_in_terminated_status,
             validate_patch_tender_in_draft_pending,
             validate_patch_tender_bot_only_in_draft_pending,
-            validate_items_buyer_id,
         ),
         permission="edit_tender",
     )

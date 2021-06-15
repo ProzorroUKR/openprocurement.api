@@ -2986,6 +2986,8 @@ def patch_items_related_buyer_id(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "draft")
 
+    tender = response.json["data"]
+
     tender_id = response.json["data"]["id"]
     tender_token = response.json["access"]["token"]
 
@@ -2995,19 +2997,27 @@ def patch_items_related_buyer_id(self):
     self.assertEqual(len(response.json["data"]["buyers"]), 2)
     self.assertEqual(len(response.json["data"]["items"]), 1)
 
+
+    if tender["procurementMethodType"] != "priceQuotation":
+        add_criteria(self, tender_id, tender_token)
+
     patch_request_path = "/tenders/{}?acc_token={}".format(tender_id, tender_token)
 
     response = self.app.patch_json(
         patch_request_path,
         {"data": {"status": self.primary_tender_status}},
-        status=403
+        status=422
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"],
-        [{'description': 'Each item should contain relatedBuyer id',
-          'location': 'body',
-          'name': 'data'}],
+        [
+            {'description': [
+                {'relatedBuyer': ['This field is required.']}
+            ],
+            'location': 'body',
+            'name': 'items'}
+        ],
     )
     response = self.app.patch_json(
         patch_request_path,
@@ -3037,17 +3047,22 @@ def patch_items_related_buyer_id(self):
     response = self.app.patch_json(
         patch_request_path,
         {"data": {"items": [{}, second_item, third_item]}},
-        status=403
+        status=422
     )
 
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{'description': 'Each item should contain relatedBuyer id',
-          'location': 'body',
-          'name': 'data'}],
+        [
+            {'description': [
+                {'relatedBuyer': ['This field is required.']},
+                {'relatedBuyer': ['This field is required.']}
+            ],
+            'location': 'body',
+            'name': 'items'}
+        ],
     )
 
     # assign items

@@ -13,6 +13,7 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.utils import get_now, parse_date
 from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.tender_blanks import create_tender_with_earlier_non_required_unit
 from openprocurement.tender.cfaua.constants import MAX_AGREEMENT_PERIOD
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 
@@ -1947,3 +1948,110 @@ def tender_with_main_procurement_category(self):
     self.assertEqual(response.status, "200 OK")
     self.assertIn("mainProcurementCategory", response.json["data"])
     self.assertEqual(response.json["data"]["mainProcurementCategory"], "goods")
+
+
+@mock.patch(
+    "openprocurement.tender.cfaua.models.submodels.item.UNIT_PRICE_REQUIRED_FROM", get_now() + timedelta(days=1))
+def create_cfaua_tender_with_earlier_non_required_unit(self):
+    create_tender_with_earlier_non_required_unit(self)
+
+
+def create_tender_with_required_unit(self):
+    response = self.app.get("/tenders")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(len(response.json["data"]), 0)
+    tender_data = deepcopy(self.initial_data)
+
+    _unit = tender_data["items"][0].pop("unit")
+    _quantity = tender_data["items"][0].pop("quantity")
+    response = self.app.post_json("/tenders", {"data": tender_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                'description': [
+                    {
+                        'unit': ['This field is required.'],
+                        'quantity': ['This field is required.']
+                    }
+                ],
+                'location': 'body', 'name': 'items'
+            }
+        ]
+    )
+    tender_data["items"][0]['quantity'] = _quantity
+    response = self.app.post_json("/tenders", {"data": tender_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                'description': [{'unit': ['This field is required.']}],
+                'location': 'body', 'name': 'items'
+            }
+        ]
+    )
+    tender_data["items"][0]['unit'] = _unit
+    response = self.app.post_json("/tenders", {"data": tender_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertIn("quantity", response.json["data"]['items'][0])
+    self.assertIn("unit", response.json["data"]['items'][0])
+
+    _unit_code = tender_data["items"][0]["unit"].pop("code")
+    response = self.app.post_json("/tenders", {"data": tender_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                'description': [{'unit': {'code': ['This field is required.']}}],
+                'location': 'body', 'name': 'items'
+            }
+        ]
+    )
+    tender_data["items"][0]['unit']['code'] = _unit_code
+    tender_data["items"][0]['unit']['value'] = {
+        "currency": "USD",
+        "valueAddedTaxIncluded": False
+    }
+    response = self.app.post_json("/tenders", {"data": tender_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json['errors'],
+        [
+            {
+                'description': [
+                    {'unit': {'value': {'amount': ['This field is required.']}}}
+                ],
+                'location': 'body', 'name': 'items'
+            }
+        ]
+    )
+    tender_data["items"][0]['unit']['value']['amount'] = 100
+    response = self.app.post_json("/tenders", {"data": tender_data})
+    self.assertEqual(response.status, "201 Created")
+    resp = response.json["data"]
+    self.assertEqual('USD', resp["items"][0]['unit']['value']['currency'])
+    self.assertEqual(False, resp["items"][0]['unit']['value']['valueAddedTaxIncluded'])
+
+    tender_data["items"][0]["unit"]["code"] = "unknown_code"
+    response = self.app.post_json("/tenders", {"data": tender_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json['errors'],
+        [
+            {
+                'description': [
+                    {u'unit': {u'code': [u'Code should be one of valid unit codes.']}}
+                ],
+                'location': 'body', 'name': 'items'
+            }
+        ]
+    )
+
+    tender_data["items"][0]["unit"]["code"] = "KGM"
+    response = self.app.post_json("/tenders", {"data": tender_data})
+    self.assertEqual(response.status, "201 Created")
+    resp = response.json["data"]
+    self.assertEqual("KGM", resp["items"][0]["unit"]["code"])
