@@ -7,6 +7,7 @@ from openprocurement.api.validation import\
 from openprocurement.tender.pricequotation.utils import\
     responses_to_tree, criteria_to_tree
 from openprocurement.tender.core.validation import TYPEMAP
+from openprocurement.framework.core.design import agreements_search_contracts
 
 
 # tender documents
@@ -93,6 +94,14 @@ def _validate_bid_value(tender, value):
         raise ValidationError(
             "valueAddedTaxIncluded of bid should be identical " "to valueAddedTaxIncluded of value of tender"
         )
+
+
+def validate_post_bid(request, **kwargs):
+    bid = request.validated["bid"]
+    tender = request.validated["tender"]
+    tenderer_id = bid["tenderers"][0]["identifier"]["id"]
+    if tenderer_id not in [i.identifier.id for i in tender.shortlistedFirms]:
+        raise_operation_error(request, f"Can't add bid if tenderer not in shortlistedFirms")
 
 
 def _validate_requirement_responses(criterias, req_responses):

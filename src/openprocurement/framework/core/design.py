@@ -576,3 +576,36 @@ agreements_with_active_suspended_contracts_view = ViewDefinition(
         }
     }''',
 )
+
+
+agreements_filter_by_classification_id = ViewDefinition(
+    "agreements",
+    "filter_by_classification_id",
+    '''function(doc) {
+        if(doc.doc_type == 'Agreement' & doc.status == 'active') {
+            var fields=%s, data={};
+            for (var i in fields) {
+                if (doc[fields[i]]) {
+                    data[fields[i]] = doc[fields[i]]
+                }
+            }
+            var index = doc.classification.id.indexOf("-");
+            emit([doc.classification.id.slice(0, index)], data);
+        }
+    }''' % ["classification", "additionalClassifications", "status", "id", "contracts", "dateModified"],
+)
+
+agreements_search_contracts = ViewDefinition(
+    "agreements",
+    "search_by_classification_id",
+    '''function(doc) {
+        if(doc.doc_type == 'Agreement') {
+            if (doc.status == "active" & doc.agreementType == "electronicCatalogue"){
+                doc.contracts.forEach(function(i){
+                    var index = doc.classification.id.indexOf("-");
+                    emit([doc.classification.id.slice(0, index), i.suppliers[0].identifier.id], i);
+                })
+            }
+        }
+    }''',
+)

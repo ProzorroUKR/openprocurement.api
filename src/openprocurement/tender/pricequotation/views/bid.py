@@ -4,10 +4,12 @@ from openprocurement.api.utils import\
     get_now, json_view, context_unpack, raise_operation_error
 from openprocurement.tender.core.utils import optendersresource, apply_patch
 from openprocurement.tender.core.validation import (
+    validate_bid_data,
     validate_patch_bid_data,
     validate_bid_operation_period,
     validate_bid_operation_not_in_tendering,
 )
+from openprocurement.tender.pricequotation.validation import validate_post_bid
 
 from openprocurement.tender.belowthreshold.views.bid import\
     TenderBidResource as BaseTenderBidResource
@@ -25,6 +27,20 @@ from openprocurement.tender.pricequotation.constants import PMT
 )
 class TenderBidResource(BaseTenderBidResource):
     """ PriceQuotation tender bid resource """
+
+    @json_view(
+        content_type="application/json",
+        permission="create_bid",
+        validators=(
+                validate_bid_operation_not_in_tendering,
+                validate_bid_data,
+                validate_post_bid,
+                validate_bid_operation_period,
+        ),
+    )
+    def collection_post(self):
+        return super().collection_post()
+
     @json_view(
         content_type="application/json",
         permission="edit_bid",

@@ -10,6 +10,7 @@ from openprocurement.api.constants import TZ
 from openprocurement.api.models import (
     BusinessOrganization,
     CPVClassification,
+    Classification,
     Guarantee,
     IsoDateTimeType,
 )
@@ -165,7 +166,7 @@ class PriceQuotationTender(Tender):
         _view_role = _view_tendering_role + whitelist("bids", "numberOfBids")
         _all_forbidden = whitelist()
         roles = {
-            "create": _create_role,
+            "create": _create_role + whitelist("classification"),
             "edit": _edit_role,
             "edit_draft": _edit_role,
             "edit_draft.unsuccessful": _edit_role,
@@ -252,6 +253,7 @@ class PriceQuotationTender(Tender):
     profile = StringType(required=True)
     shortlistedFirms = ListType(ModelType(ShortlistedFirm), default=list())
     criteria = ListType(ModelType(Criterion), default=list())
+    classification = ModelType(Classification)
     noticePublicationDate = IsoDateTimeType()
     unsuccessfulReason = ListType(StringType)
 
