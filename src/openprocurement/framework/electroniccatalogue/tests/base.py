@@ -176,7 +176,7 @@ class BaseApiWebTest(BaseWebTest):
 
 class BaseElectronicCatalogueWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
-    database_keys = ("frameworks", "submissions", "qualifications")
+    database_keys = ("frameworks", "submissions", "qualifications", "agreements")
     initial_data = test_electronicCatalogue_data
     framework_class = Framework
     docservice = False

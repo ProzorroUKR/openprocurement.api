@@ -250,7 +250,7 @@ test_shortlisted_firms = [
         },
         "id": "UA-EDR-12345678",
         "identifier": {
-            "id": "12345678",
+            "id": "00037256",
             "legalName": "Товариство з обмеженою відповідальністю «Пікселі»",
             "scheme": "UA-EDR"
         },
