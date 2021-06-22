@@ -72,12 +72,17 @@ class ContractMilestoneResource(APIResource):
         permission="edit_agreement"
     )
     def patch(self):
+        # PATCH now working only for milestone type `activation`
         milestone = self.request.context
         apply_patch(self.request, obj_name="agreement", save=False, src=milestone.to_primitive())
 
         if milestone.status == "met":
             contract = self.request.validated["contract"]
             contract.status = "terminated"
+
+            for i in contract.milestones:
+                if i.status == 'scheduled':
+                    i.status = 'notMet'
 
         if save_agreement(self.request, additional_obj_names=("milestone",)):
             self.LOGGER.info(
