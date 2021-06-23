@@ -37,6 +37,7 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     tender_fields,
     lost_contract_for_active_award,
     create_tender_in_not_draft_status,
+    patch_tender_status
 )
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     guarantee,
@@ -94,6 +95,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_create_tender_with_inn_before = snitch(create_tender_with_inn_before)
     test_patch_tender_by_pq_bot = snitch(patch_tender_by_pq_bot)
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
+    test_patch_tender_status = snitch(patch_tender_status)
 
 
 class TenderProcessTest(TenderContentWebTest):

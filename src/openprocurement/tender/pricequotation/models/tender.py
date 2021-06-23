@@ -350,9 +350,9 @@ class PriceQuotationTender(Tender):
 
     def _acl_cancellation(self, acl):
         acl.extend([
-            (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_cancellation"),
             (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_tender"),
             (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_tender_documents"),
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_cancellation"),
         ])
 
     def __acl__(self):

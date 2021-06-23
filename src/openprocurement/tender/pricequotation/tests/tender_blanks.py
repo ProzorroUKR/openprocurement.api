@@ -1250,6 +1250,32 @@ def tender_Administrator_change(self):
     self.assertEqual(response.json["data"]["mode"], "test")
 
 
+def patch_tender_status(self):
+    cur_status = "draft.publishing"
+    patch_status = "cancelled"
+    self.create_tender()
+    self.set_status(cur_status)
+    data = {"data": {
+        "status": patch_status,
+        }
+    }
+    response = self.app.patch_json("/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), data, status=403)
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": f"You can't switch tender from status ({cur_status}) to ({patch_status})"
+            }
+
+        ],
+    )
+
+
 def patch_tender_by_pq_bot(self):
     response = self.app.post_json("/tenders", {"data": deepcopy(self.initial_data)})
     self.assertEqual(response.status, "201 Created")

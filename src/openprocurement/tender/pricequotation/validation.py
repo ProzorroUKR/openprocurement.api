@@ -194,11 +194,17 @@ def _matches(criteria, response):
 def validate_tender_publish(request, **kwargs):
     current_status = request.validated['tender'].status
     tender_status = request.validated['data'].get('status', current_status)
+    error_message = "{} can't switch tender from status ({}) to ({})"
     if tender_status == current_status:
         return
+    if current_status == "draft.publishing" and tender_status == "cancelled":
+        raise_operation_error(request,
+                              error_message.format("You",
+                                                   current_status,
+                                                   tender_status))
     if request.authenticated_role not in ("bots", "Administrator", "chronograph") \
             and tender_status != "draft.publishing":
         raise_operation_error(request,
-                              "{} can't switch tender from status ({}) to ({})".format(request.authenticated_role,
-                                                                                       current_status,
-                                                                                       tender_status))
+                              error_message.format(request.authenticated_role,
+                                                   current_status,
+                                                   tender_status))
