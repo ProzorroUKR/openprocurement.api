@@ -407,6 +407,11 @@ def validate_patch_complaint_data(request, **kwargs):
 
 
 def validate_cancellation_data(request, **kwargs):
+    if request.tender.status == 'draft.publishing':
+        raise_operation_error(
+            request,
+            "Can't create cancellation in current ({}) status".format("draft.publishing")
+        )
     update_logging_context(request, {"cancellation_id": "__new__"})
     model = type(request.tender).cancellations.model_class
     return validate_data(request, model)
@@ -503,7 +508,15 @@ def validate_cancellation_status_without_complaints(request, **kwargs):
     curr_status = cancellation.status
     new_status = request.validated["data"].get("status")
 
-    status_map = {"draft": ("active", "unsuccessful", "draft")}
+    tender_status = request.tender.status
+
+    if tender_status == 'draft.publishing' and new_status not in ['draft', 'active']:
+        raise_operation_error(
+            request,
+            "Can't update cancellation in current ({}) status".format(curr_status)
+        )
+
+    status_map = {"draft": ("active", "unsuccessful", "draft", "draft.publishing")}
     available_statuses = status_map.get(curr_status)
 
     if not available_statuses:
