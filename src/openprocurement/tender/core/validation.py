@@ -510,10 +510,10 @@ def validate_cancellation_status_without_complaints(request, **kwargs):
 
     tender_status = request.tender.status
 
-    if tender_status == 'draft.publishing' and new_status not in ['draft', 'active']:
+    if tender_status == 'draft.publishing' and new_status not in ['draft']:
         raise_operation_error(
             request,
-            "Can't update cancellation in current ({}) status".format(curr_status)
+            "Can't update cancellation in current ({}) status".format(tender_status)
         )
 
     status_map = {"draft": ("active", "unsuccessful", "draft", "draft.publishing")}
