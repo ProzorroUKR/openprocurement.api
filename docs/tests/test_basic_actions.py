@@ -1845,7 +1845,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}'.format(
                     self.tender_id, criteria_id_2, rg_id_2, requirement_id_2, owner_token),
                 {'data': {
-                    'title': 'Updated title',
                     'eligibleEvidences': [
                         test_evidence_data,
                     ]
@@ -2318,14 +2317,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         rr_id = response.json["data"][0]["id"]
 
-        with open(TARGET_DIR + 'criteria/award-update-requirement-response.http', 'wb') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/awards/{}/requirement_responses/{}?acc_token={}'.format(
-                    self.tender_id, award_id, rr_id, owner_token),
-                {'data': {'title': 'Updated title'}},
-            )
-            self.assertEqual(response.status, '200 OK')
-
         with open(TARGET_DIR + 'criteria/award-create-requirement-response-evidence.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/awards/{}/requirement_responses/{}/evidences?acc_token={}'.format(
@@ -2372,9 +2363,17 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'criteria/award-delete-requirement-response.http', 'wb') as self.app.file_obj:
-            response = self.app.get(
+            response = self.app.delete(
                 '/tenders/{}/awards/{}/requirement_responses/{}?acc_token={}'.format(
                     self.tender_id, award_id, rr_id, owner_token))
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/award-update-requirement-response.http', 'wb') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(
+                    self.tender_id, award_id, owner_token),
+                {'data': {'requirementResponses': []}},
+            )
             self.assertEqual(response.status, '200 OK')
 
     def test_qualification_requirement_response(self):
@@ -2515,13 +2514,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         rr_id = response.json["data"][0]["id"]
 
-        with open(TARGET_DIR + 'criteria/qualification-update-requirement-response.http', 'wb') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/qualifications/{}/requirement_responses/{}?acc_token={}'.format(
-                    self.tender_id, qualification_id, rr_id, owner_token),
-                {'data': {'title': 'Updated title'}},
-            )
-            self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'criteria/qualification-create-requirement-response-evidence.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
@@ -2571,7 +2563,15 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'criteria/qualification-delete-requirement-response.http', 'wb') as self.app.file_obj:
-            response = self.app.get(
+            response = self.app.delete(
                 '/tenders/{}/qualifications/{}/requirement_responses/{}?acc_token={}'.format(
                     self.tender_id, qualification_id, rr_id, owner_token))
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'criteria/qualification-update-requirement-response.http', 'wb') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/qualifications/{}?acc_token={}'.format(
+                    self.tender_id, qualification_id, owner_token),
+                {'data': {'requirementResponses': []}},
+            )
             self.assertEqual(response.status, '200 OK')

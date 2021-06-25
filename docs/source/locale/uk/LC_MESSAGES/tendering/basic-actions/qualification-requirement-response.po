@@ -30,7 +30,7 @@ msgid "Requirement response data :ref:`scheme<RequirementResponse>`"
 msgstr "Схема даних :ref:`відповіді на вимогу<RequirementResponse>`"
 
 msgid "Create Qualification Requirement Response"
-msgstr "Стоврення відповіді на вимогу"
+msgstr "Створення відповіді на вимогу"
 
 msgid "You can create few requirement responses in one request with complete set of data."
 msgstr "Можливо створити декілька відповідей на вимогу за один запит з повним набором даних."

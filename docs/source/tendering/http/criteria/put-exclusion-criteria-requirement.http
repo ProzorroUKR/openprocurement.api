@@ -1,12 +1,11 @@
 PUT /api/2.5/tenders/28620043ada5424cbbfbdc7f6246096f/criteria/02b94013102f4d3280fb2f414499d2ed/requirement_groups/86839e884b084170b11d231998e9fff8/requirements/14ffa2e54f764a29bd363470d3cd2ec2?acc_token=b00ba6728a854f2aa3959cc53ebab5d8 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 405
+Content-Length: 379
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "title": "Updated title",
     "eligibleEvidences": [
       {
         "title": "Документальне підтвердження",

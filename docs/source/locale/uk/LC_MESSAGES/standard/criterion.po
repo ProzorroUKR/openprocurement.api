@@ -36,7 +36,7 @@ msgid "string, multilingual, required"
 msgstr "рядок, багатомовний, обов’язковий"
 
 msgid "|ocdsDescription| Criterion title."
-msgstr ""
+msgstr "|ocdsDescription| Назва критерію."
 
 msgid "description"
 msgstr ""
@@ -63,7 +63,7 @@ msgid "`tenderer`"
 msgstr ""
 
 msgid "Default. The response is provided by the tenderer."
-msgstr "За умовчуванням. Відповідь надається учасником."
+msgstr "Відповідь надається учасником."
 
 msgid "`buyer`"
 msgstr ""
@@ -75,7 +75,7 @@ msgid "`procuringEntity`"
 msgstr ""
 
 msgid "The response is provided by the procuring entity."
-msgstr "Відповідь надається замовнком."
+msgstr "закупівельником."
 
 msgid "`ssrBot`"
 msgstr ""
@@ -96,7 +96,7 @@ msgid "|ocdsDescription| The schema element that the criterion judges, evaluates
 msgstr "|ocdsDescription| Елемент схеми, який критерій оцінює. Наприклад, критерій може бути визначений щодо позицій або проти учасників торгів."
 
 msgid "Default. The criterion evaluates or assesses a tenderer."
-msgstr "За умовчуванням. Критерій відноситься до учасника."
+msgstr "Критерій відноситься до учасника."
 
 msgid "`item`"
 msgstr ""
@@ -123,13 +123,13 @@ msgid "`if relatesTo == item`"
 msgstr "якщо relatesTo == item"
 
 msgid "Id of related :ref:`item`."
-msgstr "Id пов'язанного :ref:`item`"
+msgstr "Id пов'язаного :ref:`item`"
 
 msgid "`if relatesTo == lot`"
-msgstr "якщо relatesTo == lot`"
+msgstr "якщо relatesTo == lot"
 
 msgid "Id of related :ref:`lot`."
-msgstr "Id пов'язанного :ref:`lot`"
+msgstr "Id пов'язаного :ref:`lot`"
 
 msgid "classification"
 msgstr ""
@@ -147,7 +147,7 @@ msgid "List of :ref:`Classification` objects"
 msgstr "Список об'єктів :ref:`Classification`."
 
 msgid "|ocdsDescription| An array of additional classifications for the item."
-msgstr "|ocdsDescription| Массив додаткових класифікацій елмента."
+msgstr "|ocdsDescription| Масив додаткових класифікацій елемента."
 
 msgid "legislation"
 msgstr ""

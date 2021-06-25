@@ -48,7 +48,7 @@ msgid "Update Bid Requirement Response"
 msgstr "Оновлення відповіді на вимогу"
 
 msgid "You can patch requirement responses in one request with bid patch, and you must send data about other requirement responses or this other requirement responses will be deleted."
-msgstr "Можливо редагувати відповіді на вимоги один запитом через оновлення пропозиції, але потрібно передавати також всі відповіді на вимоги, або віповіді, які не будуть передані - будуть видалені."
+msgstr "Можливо редагувати відповіді на вимоги одним запитом через оновлення пропозиції, але потрібно передавати також всі відповіді на вимоги або відповіді, які не будуть передані - будуть видалені."
 
 msgid "Get Bid Requirement Response"
 msgstr "Отримання інформації по відповіді на вимогу"
@@ -78,16 +78,16 @@ msgid "Delete Requirement Response Evidence"
 msgstr "Видалення доказу"
 
 msgid "Bid activation"
-msgstr "Активація пропозіції"
+msgstr "Активація пропозиції"
 
 msgid "When you update bid to `active`/`pending` status or PATCH bid in these statuses, the validation is triggered that checks the compliance of the responses and criteria requirements."
-msgstr "Коли пропозіція переходить до стаусу `active`/`pending` або оновлюється в цих статусах, спрацьoвує валідація яка перевіряє відповідність відповідей та критерій"
+msgstr "Коли пропозиція переходить до статусу `active`/`pending` або оновлюється в цих статусах, спрацьoвує валідація, яка перевіряє відповідність відповідей та критеріїв."
 
 msgid "Responses are necessary only for criteria that have at least one requirement in status \"active\"."
-msgstr "Відповіді обов'язкові лише для критеріїв, які мають хоча б одину вимогу у статусі `active`"
+msgstr "Відповіді обов'язкові лише для критеріїв, які мають хоча б одну вимогу у статусі `active`."
 
 msgid "Error when bid doesn't have response for one of criteria:"
-msgstr "Помилка, коли в пропозіції немає відповідей на один з критеріїв:"
+msgstr "Помилка, коли в пропозиції немає відповідей на один з критеріїв:"
 
 msgid "Error when bid have responses for few requirement groups inside one criteria:"
 msgstr "Помилка, коли в пропозиції існують відповіді на декілька груп вимог в рамках одного критерію:"

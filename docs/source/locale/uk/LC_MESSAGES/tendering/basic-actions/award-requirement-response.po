@@ -42,7 +42,7 @@ msgid "Update Award Requirement Response"
 msgstr "Оновлення відповіді на вимогу"
 
 msgid "You can patch requirement responses in one request with award patch, and you must send data about other requirement responses or this other requirement responses will be deleted."
-msgstr "Можливо редагувати відповіді на вимоги один запитом через оновлення кваліфікації, але потрібно передавати також всі відповіді на вимоги, або віповіді, які не будуть передані - будуть видалені."
+msgstr "Можливо редагувати відповіді на вимоги одним запитом через оновлення кваліфікації, але потрібно передавати також всі відповіді на вимоги або відповіді, які не будуть передані - будуть видалені."
 
 msgid "Get Award Requirement Response"
 msgstr "Отримання інформації по відповіді на вимогу"

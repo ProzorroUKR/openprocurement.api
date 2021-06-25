@@ -1,5 +1,6 @@
-GET /api/2.5/tenders/f309105c88c04402b39a328832ebb6a8/qualifications/1f12772864df4308b4600d354a9f16f1/requirement_responses/3fbc7e99c59d48f6b7e8ccc81a3a6547?acc_token=970d8ef841074014b34291d4ef377636 HTTP/1.0
+DELETE /api/2.5/tenders/f309105c88c04402b39a328832ebb6a8/qualifications/1f12772864df4308b4600d354a9f16f1/requirement_responses/3fbc7e99c59d48f6b7e8ccc81a3a6547?acc_token=970d8ef841074014b34291d4ef377636 HTTP/1.0
 Authorization: Bearer broker
+Content-Length: 0
 Host: lb-api-sandbox.prozorro.gov.ua
 
 Response: 200 OK
@@ -8,7 +9,7 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "3fbc7e99c59d48f6b7e8ccc81a3a6547",
-    "title": "Updated title",
+    "title": "Requirement response",
     "description": "some description",
     "requirement": {
       "id": "25db5dd6476d408bb11dcda6485cc5b7",
