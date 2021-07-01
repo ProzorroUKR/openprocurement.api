@@ -421,8 +421,8 @@ class Unit(Model):
     code = StringType(required=True)
 
     def validate_code(self, data, value):
-        _parent = data['__parent__']
-        validation_date = get_first_revision_date(_parent, default=get_now())
+        root = get_root(data['__parent__'])
+        validation_date = get_first_revision_date(root, default=get_now())
         if validation_date >= UNIT_PRICE_REQUIRED_FROM:
             if value not in UNIT_CODES:
                 raise ValidationError(u"Code should be one of valid unit codes.")
