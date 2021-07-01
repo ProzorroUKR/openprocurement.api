@@ -17,7 +17,7 @@ VALIDATE_DOC_UPDATE = """function(newDoc, oldDoc, userCtx){
     if(newDoc._deleted && newDoc.tenderID) {
         throw({forbidden: 'Not authorized to delete this document'});
     }
-    if(userCtx.roles.indexOf('_admin') !== -1 && newDoc._id.indexOf('_design/') === 0) {
+    if(userCtx.roles.indexOf('_admin') !== -1) {
         return;
     }
     if(userCtx.name === '%s') {
@@ -80,10 +80,11 @@ class Databases:
                 admin_connection.create(db_name)
             # security update (this closes anonymous access to the db)
             # SECURITY is updated from set_api_security during the initial database installation
-            admin_db = admin_connection[db_name]
-            if SECURITY != admin_db.security:
-                LOGGER.info(f"Updating api db {db_name} security", extra={"MESSAGE_ID": "update_api_security"})
-                admin_db.security = SECURITY
+            if admin_connection is not connection:  # "couchdb.admin_url" in settings
+                admin_db = admin_connection[db_name]
+                if SECURITY != admin_db.security:
+                    LOGGER.info(f"Updating api db {db_name} security", extra={"MESSAGE_ID": "update_api_security"})
+                    admin_db.security = SECURITY
 
             # setting db as attribute to access from code, like `registry.databases.submissions.get(uuid)`
             setattr(self, key, connection[db_name])
