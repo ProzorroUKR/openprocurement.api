@@ -10,6 +10,7 @@ from openprocurement.framework.core.validation import (
     validate_submission_status,
     validate_update_submission_in_not_allowed_status,
     validate_activate_submission,
+    validate_action_in_not_allowed_framework_status,
 )
 from openprocurement.framework.electroniccatalogue.models import Qualification
 
@@ -35,6 +36,7 @@ class SubmissionResource(APIResource):
             validate_patch_submission_data,
             validate_operation_submission_in_not_allowed_period,
             validate_update_submission_in_not_allowed_status,
+            validate_action_in_not_allowed_framework_status("submission"),
             validate_submission_status,
             validate_activate_submission,
         ),
