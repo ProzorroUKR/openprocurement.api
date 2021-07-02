@@ -10,7 +10,6 @@ from openprocurement.tender.belowthreshold.tests.base import test_tender_data, t
 
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.base.constants import DOCS_URL
-from freezegun import freeze_time
 
 
 test_tender_data = deepcopy(test_tender_data)
@@ -309,105 +308,195 @@ class MultiContractsTenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
     def test_docs(self):
         self.app.authorization = ('Basic', ('broker', ''))
-        # empty tenders listing
-        response = self.app.get('/tenders')
-        test_tender_data_multi_buyers["buyers"][0]["id"] = "1"*32
-        test_tender_data_multi_buyers["buyers"][1]["id"] = "2" * 32
 
-        test_tender_data_multi_buyers["items"][0]["relatedBuyer"] = "1" * 32
-        test_tender_data_multi_buyers["items"][1]["relatedBuyer"] = "2" * 32
-        test_tender_data_multi_buyers["items"][2]["relatedBuyer"] = "2" * 32
+        tender_data = deepcopy(test_tender_data_multi_buyers)
+        tender_data["buyers"][0]["id"] = "1" * 32
+        tender_data["buyers"][1]["id"] = "2" * 32
+        tender_data["items"][0]["relatedBuyer"] = "1" * 32
+        tender_data["items"][1]["relatedBuyer"] = "2" * 32
+        tender_data["items"][2]["relatedBuyer"] = "2" * 32
 
-        for item in test_tender_data_multi_buyers['items']:
+        for item in tender_data['items']:
             item['deliveryDate'] = {
                 "startDate": (get_now() + timedelta(days=2)).isoformat(),
                 "endDate": (get_now() + timedelta(days=5)).isoformat()
             }
-        test_tender_data_multi_buyers.update({
+
+        tender_data.update({
             "enquiryPeriod": {"endDate": (get_now() + timedelta(days=7)).isoformat()},
             "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()}
         })
-        self.assertEqual(response.json['data'], [])
+
         with open(TARGET_DIR + 'create-multiple-buyers-tender.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                '/tenders',
-                {'data': test_tender_data_multi_buyers})
+            response = self.app.post_json('/tenders', {'data': tender_data})
             self.assertEqual(response.status, '201 Created')
-        response = self.app.post_json('/tenders', {"data": test_tender_data_multi_buyers})
-        tender_id = self.tender_id = response.json['data']['id']
-        owner_token = response.json['access']['token']
-        # switch to active.tendering
-        response = self.set_status(
-            'active.tendering',
-            {"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}})
-        self.assertIn("auctionPeriod", response.json['data'])
-        # create bid
-        self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.post_json(
-            '/tenders/{}/bids'.format(tender_id),
-            {'data': {'tenderers': [test_organization], "value": {"amount": 500}}})
-        # switch to active.qualification
-        self.set_status('active.auction', {'status': 'active.tendering'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json(
-            '/tenders/{}'.format(tender_id),
-            {'data': {"id": tender_id}})
-        self.assertNotIn('auctionPeriod', response.json['data'])
+        self.tender_id = self.tender_id = response.json['data']['id']
+        self.owner_token = response.json['access']['token']
+
+        self.process_tender_to_qualification()
+
         # get awards
         self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.get('/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token))
+        response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.owner_token))
+
         # get pending award
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+
         # set award as active
         with open(TARGET_DIR + 'set-active-award.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/awards/{}?acc_token={}'.format(tender_id, award_id, owner_token),
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, self.owner_token),
                 {"data": {"status": "active"}}
             )
             self.assertEqual(response.status, '200 OK')
-        # get contract id
+
+        self.process_tender_to_awarded()
+
+        # get contracts
         with open(TARGET_DIR + 'get-multi-contracts.http', 'w') as self.app.file_obj:
-            response = self.app.get('/tenders/{}/contracts'.format(tender_id))
+            response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
             self.assertEqual(response.status, '200 OK')
         contracts = response.json['data']
-        # after stand slill period
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        self.set_status('complete', {'status': 'active.awarded'})
-        self.tick()
-        # time travel
-        tender = self.db.get(tender_id)
-        for i in tender.get('awards', []):
-            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
-        self.db.save(tender)
 
         self.app.authorization = ('Basic', ('broker', ''))
         with open(TARGET_DIR + 'patch-1st-contract-value.http', 'w') as self.app.file_obj:
-            self.app.patch_json(
-                '/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contracts[0]["id"], owner_token),
+            response = self.app.patch_json(
+                '/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contracts[0]["id"], self.owner_token),
                 {"data": {"value": {"amount": 100, "amountNet": 95}}}
             )
             self.assertEqual(response.status, '200 OK')
         with open(TARGET_DIR + 'patch-2nd-contract-value.http', 'w') as self.app.file_obj:
-            self.app.patch_json(
-                '/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contracts[1]["id"], owner_token),
+            response = self.app.patch_json(
+                '/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contracts[1]["id"], self.owner_token),
                 {"data": {"value": {"amount": 200, "amountNet": 190}}}
             )
             self.assertEqual(response.status, '200 OK')
 
-        self.app.patch_json(
-            '/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contracts[0]["id"], owner_token),
+        response = self.app.patch_json(
+            '/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contracts[0]["id"], self.owner_token),
             {"data": {"status": "active"}}
         )
         self.assertEqual(response.status, '200 OK')
 
-        self.app.patch_json(
-            '/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contracts[1]["id"], owner_token),
+        response = self.app.patch_json(
+            '/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contracts[1]["id"], self.owner_token),
             {"data": {"status": "active"}}
         )
         self.assertEqual(response.status, '200 OK')
 
         response = self.app.get(
-            '/tenders/{}'.format(tender_id)
+            '/tenders/{}'.format(self.tender_id)
         )
         self.assertEqual(response.json["data"]["status"], "complete")
+
+    def test_docs_contracts_cancelled(self):
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        tender_data = deepcopy(test_tender_data_multi_buyers)
+        tender_data["buyers"][0]["id"] = "1" * 32
+        tender_data["buyers"][1]["id"] = "2" * 32
+        tender_data["items"][0]["relatedBuyer"] = "1" * 32
+        tender_data["items"][1]["relatedBuyer"] = "2" * 32
+        tender_data["items"][2]["relatedBuyer"] = "2" * 32
+
+        for item in tender_data['items']:
+            item['deliveryDate'] = {
+                "startDate": (get_now() + timedelta(days=2)).isoformat(),
+                "endDate": (get_now() + timedelta(days=5)).isoformat()
+            }
+
+        tender_data.update({
+            "enquiryPeriod": {"endDate": (get_now() + timedelta(days=7)).isoformat()},
+            "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()}
+        })
+
+        response = self.app.post_json('/tenders', {'data': tender_data})
+        self.assertEqual(response.status, '201 Created')
+        self.tender_id = response.json['data']['id']
+        self.owner_token = response.json['access']['token']
+
+        self.process_tender_to_qualification()
+
+        # get awards
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, self.owner_token))
+
+        # get pending award
+        award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]
+
+        # set award as active
+        response = self.app.patch_json(
+            '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, self.owner_token),
+            {"data": {"status": "active"}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        self.process_tender_to_awarded()
+
+        # get contracts
+        with open(TARGET_DIR + 'get-multi-contracts.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
+            self.assertEqual(response.status, '200 OK')
+        contracts = response.json['data']
+
+        self.app.authorization = ('Basic', ('broker', ''))
+        with open(TARGET_DIR + 'patch-to-cancelled-1st-contract.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contracts[0]["id"], self.owner_token),
+                {"data": {"status": "cancelled"}}
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'patch-to-cancelled-2nd-contract-error.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contracts[1]["id"], self.owner_token),
+                {"data": {"status": "cancelled"}}, status=403
+            )
+            self.assertEqual(response.status, '403 Forbidden')
+
+        # set award cancelled
+        with open(TARGET_DIR + 'set-cancelled-award.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, self.owner_token),
+                {"data": {"status": "cancelled"}}
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        # get contracts cancelled
+        with open(TARGET_DIR + 'get-multi-contracts-cancelled.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
+            self.assertEqual(response.status, '200 OK')
+
+    def process_tender_to_qualification(self):
+        # switch to active.tendering
+        response = self.set_status(
+            'active.tendering',
+            {"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}})
+        self.assertIn("auctionPeriod", response.json['data'])
+
+        # create bid
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json(
+            '/tenders/{}/bids'.format(self.tender_id),
+            {'data': {'tenderers': [test_organization], "value": {"amount": 500}}})
+
+        # switch to active.qualification
+        self.set_status('active.auction', {'status': 'active.tendering'})
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        response = self.app.patch_json(
+            '/tenders/{}'.format(self.tender_id),
+            {'data': {"id": self.tender_id}})
+        self.assertNotIn('auctionPeriod', response.json['data'])
+
+    def process_tender_to_awarded(self):
+        # after stand still period
+        self.app.authorization = ('Basic', ('chronograph', ''))
+        self.set_status('complete', {'status': 'active.awarded'})
+        self.tick()
+
+        # time travel
+        tender = self.db.get(self.tender_id)
+        for i in tender.get('awards', []):
+            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+        self.db.save(tender)
 

@@ -104,3 +104,27 @@ You can activate or terminate each contract as usual.
 If there are not contracts in `pending` status and at least one contract became `active` tender is becoming `complete`
 
 If award was cancelled, all contracts related to this awardID become in cancelled status.
+
+
+Cancellation of aggregate contracts
+-----------------------------------
+
+Contracts can be cancelled:
+
+.. include:: ../contracting/http/patch-to-cancelled-1st-contract.http
+    :code:
+
+Except when contract is the last not cancelled contract:
+
+.. include:: ../contracting/http/patch-to-cancelled-2nd-contract-error.http
+    :code:
+
+In that case related award should be cancelled:
+
+.. include:: ../contracting/http/set-active-award.http
+    :code:
+
+Let's check all contracts are cancelled:
+
+.. include:: ../contracting/http/get-multi-contracts-cancelled.http
+    :code:

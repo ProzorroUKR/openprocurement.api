@@ -1,15 +1,12 @@
-PATCH /api/2.5/tenders/27449ba567ee4755b723fd5d2248425f/contracts/bba7e565bcd8469c8084abcf2558af8b?acc_token=09fb3db5c4b0423685f58a6cf7176e7b HTTP/1.0
+PATCH /api/2.5/tenders/8205792550a1414cbb9eeff86db41600/contracts/27fce9096ce14a789af205b0cbf4474d?acc_token=058351be85014e5db8d4fa00a8b28181 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 54
+Content-Length: 33
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "value": {
-      "amount": 200,
-      "amountNet": 190
-    }
+    "status": "cancelled"
   }
 }
 
@@ -18,10 +15,10 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "bba7e565bcd8469c8084abcf2558af8b",
-    "buyerID": "22222222222222222222222222222222",
-    "contractID": "UA-2021-03-16-000001-2",
-    "status": "pending",
+    "id": "27fce9096ce14a789af205b0cbf4474d",
+    "buyerID": "11111111111111111111111111111111",
+    "contractID": "UA-2021-03-16-000001-1",
+    "status": "cancelled",
     "suppliers": [
       {
         "name": "Державне управління справами",
@@ -45,18 +42,18 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
+    "date": "2021-03-16T00:00:01+02:00",
     "value": {
-      "amount": 200.0,
+      "amount": 0.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
-      "amountNet": 190.0
+      "amountNet": 0.0
     },
-    "awardID": "465daa0e35ef47a48a592b6abdf49562",
+    "awardID": "422e4d1bd30d4abf86f60d4a8be3eb06",
     "items": [
       {
-        "id": "b9b66ae4b1a7448a97568af3da6f7fa1",
-        "description": "портфелі",
+        "id": "14b543e7ea7f41a4ad204ee51ba55efb",
+        "description": "телевізори",
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -76,45 +73,7 @@ X-Content-Type-Options: nosniff
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedBuyer": "22222222222222222222222222222222",
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
-        "unit": {
-          "name": "кг",
-          "code": "KGM",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          }
-        }
-      },
-      {
-        "id": "e9dca19434704b918b98142aae75a8bd",
-        "description": "портфелі",
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "quantity": 5.0,
-        "deliveryDate": {
-          "startDate": "2021-03-18T00:00:00+02:00",
-          "endDate": "2021-03-21T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "relatedBuyer": "22222222222222222222222222222222",
+        "relatedBuyer": "11111111111111111111111111111111",
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
