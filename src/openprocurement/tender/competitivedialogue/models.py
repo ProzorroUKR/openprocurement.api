@@ -466,6 +466,19 @@ class Item(BaseEUItem):
 
     classification = ModelType(CPVClassification, required=True)
 
+    def validate_unit(self, data, value):
+        """
+        Ignore validating required field to avoid case when bot moves items from stage1 to stage2 in time range:
+        stage1.first_revision_date < UNIT_PRICE_REQUIRED_FROM < stage2.first_revision_date
+        """
+        pass
+
+    def validate_quantity(self, data, value):
+        pass
+
+    def validate_relatedBuyer(self, data, value):
+        pass
+
 
 ItemStage2EU = Item
 
@@ -475,6 +488,15 @@ class Item(BaseUAItem):
         roles = {"edit_active.tendering": whitelist("deliveryDate")}
 
     classification = ModelType(CPVClassification, required=True)
+
+    def validate_unit(self, data, value):
+        pass
+
+    def validate_quantity(self, data, value):
+        pass
+
+    def validate_relatedBuyer(self, data, value):
+        pass
 
 
 ItemStage2UA = Item

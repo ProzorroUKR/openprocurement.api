@@ -25,6 +25,7 @@ from openprocurement.tender.cfaselectionua.constants import (
 )
 from openprocurement.tender.cfaselectionua.tests.base import test_organization, test_features
 from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.belowthreshold.tests.tender_blanks import create_tender_with_earlier_non_required_unit
 
 
 # TenderResourceTest
@@ -2638,7 +2639,7 @@ def edit_tender_in_active_enquiries(self):
                     "startDate": get_now().isoformat(),
                     "endDate": (get_now() + timedelta(days=92)).isoformat(),
                 },
-                "unit": {"code": "LTM", "name": "Sheet"},
+                "unit": {"code": "LTR", "name": "Sheet"},
             }
         ],
 

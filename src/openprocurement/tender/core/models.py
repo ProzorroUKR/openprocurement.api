@@ -105,6 +105,10 @@ LOGGER = getLogger(__name__)
 
 DEFAULT_REQUIREMENT_STATUS = "active"
 
+AWARD_CRITERIA_LOWEST_COST = "lowestCost"
+AWARD_CRITERIA_LIFE_CYCLE_COST = "lifeCycleCost"
+AWARD_CRITERIA_RATED_CRITERIA = "ratedCriteria"
+
 view_bid_role = blacklist("owner_token", "owner", "transfer_token") + schematics_default_role
 Administrator_bid_role = whitelist("tenderers")
 
@@ -537,7 +541,7 @@ class Contract(BaseContract):
         roles = {
             "create": blacklist("id", "status", "date", "documents", "dateSigned"),
             "admins": blacklist("id", "documents", "date", "awardID", "suppliers", "items", "contractID"),
-            "edit_tender_owner": blacklist("id", "documents", "date", "awardID", "suppliers", "items", "contractID"),
+            "edit_contract": blacklist("id", "documents", "date", "awardID", "suppliers", "contractID"),
             "edit_contract_supplier": whitelist("status"),
             "embedded": schematics_embedded_role,
             "view": schematics_default_role,
@@ -553,8 +557,10 @@ class Contract(BaseContract):
     def get_role(self):
         root = self.get_root()
         request = root.request
-        if request.authenticated_role in ("tender_owner", "contract_supplier"):
-            role = "edit_{}".format(request.authenticated_role)
+        if request.authenticated_role == "contract_supplier":
+            role = "edit_contract_supplier"
+        elif request.authenticated_role == "tender_owner":
+            role = "edit_contract"
         else:
             role = request.authenticated_role
         return role

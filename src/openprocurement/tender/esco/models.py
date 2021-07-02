@@ -24,6 +24,7 @@ from openprocurement.api.models import (
     IsoDateTimeType,
     DecimalType,
     Guarantee,
+    Unit,
 )
 from openprocurement.tender.core.models import (
     Tender as BaseTender,
@@ -33,6 +34,7 @@ from openprocurement.tender.core.models import (
     Feature as BaseFeature,
     BaseLot,
     FeatureValue as BaseFeatureValue,
+    AWARD_CRITERIA_RATED_CRITERIA,
 )
 from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
 from openprocurement.tender.core.models import (
@@ -370,22 +372,29 @@ class Item(BaseItem):
 
     class Options:
         roles = {
-            "edit": blacklist("quantity", "deliveryDate"),
-            "edit_draft": blacklist("quantity", "deliveryDate"),
-            "edit_active.tendering": blacklist("quantity", "deliveryDate"),
-            "create": blacklist("quantity", "deliveryDate"),
+            "edit": blacklist("quantity", "deliveryDate", "unit"),
+            "edit_draft": blacklist("quantity", "deliveryDate", "unit"),
+            "edit_active.tendering": blacklist("quantity", "deliveryDate", "unit"),
+            "create": blacklist("quantity", "deliveryDate", "unit"),
         }
 
     deliveryAddress = ModelType(Address, required=False)
     deliveryDate = ModelType(PeriodEndRequired, required=False)
     quantity = IntType(required=False)
+    unit = ModelType(Unit, required=False)
+
+    def validate_unit(self, data, value):
+        pass
+
+    def validate_quantity(self, data, value):
+        pass
 
 
 class Contract(BaseEUContract):
     """ESCO contract model"""
 
     class Options:
-        roles = {"edit": blacklist("id", "documents", "date", "awardID", "suppliers", "items", "contractID")}
+        roles = {"edit": blacklist("id", "documents", "date", "awardID", "suppliers", "contractID")}
 
     value = ModelType(ContractESCOValue)
     items = ListType(ModelType(Item, required=True))

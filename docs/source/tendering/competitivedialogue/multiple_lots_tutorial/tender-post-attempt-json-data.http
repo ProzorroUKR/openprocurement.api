@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 4209
+Content-Length: 4282
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -72,11 +72,11 @@ DATA:
           "locality": "м. Київ",
           "streetAddress": "вул. Банкова 1"
         },
-        "quantity": 1,
         "unit": {
-          "code": "44617100-9",
-          "name": "item"
-        }
+          "code": "KGM",
+          "name": "кілограм"
+        },
+        "quantity": 1
       },
       {
         "additionalClassifications": [
@@ -93,6 +93,10 @@ DATA:
           "id": "37810000-9",
           "description": "Test"
         },
+        "unit": {
+          "code": "PK",
+          "name": "упаковка"
+        },
         "quantity": 1,
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
@@ -104,10 +108,6 @@ DATA:
           "region": "м. Київ",
           "locality": "м. Київ",
           "streetAddress": "вул. Банкова 1"
-        },
-        "unit": {
-          "code": "44617100-9",
-          "name": "item"
         }
       }
     ],
@@ -238,15 +238,15 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "unit": {
-          "name": "item",
-          "code": "44617100-9"
-        },
         "quantity": 1.0,
         "classification": {
           "description": "Test",
           "scheme": "ДК021",
           "id": "37810000-9"
+        },
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
         },
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
@@ -271,15 +271,15 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "unit": {
-          "name": "item",
-          "code": "44617100-9"
-        },
         "quantity": 1.0,
         "classification": {
           "description": "Test",
           "scheme": "ДК021",
           "id": "37810000-9"
+        },
+        "unit": {
+          "name": "упаковка",
+          "code": "PK"
         },
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",

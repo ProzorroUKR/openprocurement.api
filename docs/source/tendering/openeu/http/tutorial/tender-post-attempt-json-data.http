@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 4108
+Content-Length: 4277
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -72,6 +72,10 @@ DATA:
           "locality": "м. Київ",
           "streetAddress": "вул. Банкова 1"
         },
+        "unit": {
+          "code": "KGM",
+          "name": "кілограм"
+        },
         "quantity": 1
       },
       {
@@ -88,6 +92,10 @@ DATA:
           "scheme": "ДК021",
           "id": "37810000-9",
           "description": "Test"
+        },
+        "unit": {
+          "code": "PK",
+          "name": "упаковка"
         },
         "quantity": 1,
         "deliveryDate": {
@@ -214,6 +222,10 @@ X-Content-Type-Options: nosniff
           "scheme": "ДК021",
           "id": "37810000-9"
         },
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
           "endDate": "2021-05-05T00:00:00+02:00"
@@ -242,6 +254,10 @@ X-Content-Type-Options: nosniff
           "description": "Test",
           "scheme": "ДК021",
           "id": "37810000-9"
+        },
+        "unit": {
+          "name": "упаковка",
+          "code": "PK"
         },
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",

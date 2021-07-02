@@ -3,8 +3,8 @@ from logging import getLogger
 from functools import partial
 from cornice.resource import resource
 from openprocurement.api.utils import error_handler, context_unpack, get_now, TZ
-from openprocurement.tender.belowthreshold.utils import check_tender_status, add_contract, add_next_award
-from openprocurement.tender.openua.utils import check_complaint_status
+from openprocurement.tender.belowthreshold.utils import check_tender_status, add_contracts, add_next_award
+from openprocurement.tender.openua.utils import add_next_award, check_complaint_status
 from openprocurement.tender.core.utils import (
     remove_draft_bids,
     has_unanswered_questions,
@@ -204,7 +204,7 @@ def check_status(request):
 
     for award in tender.awards:
         if award.status == "active" and not any([i.awardID == award.id for i in tender.contracts]):
-            add_contract(request, award, now)
+            add_contracts(request, award, now)
             add_next_award(request)
 
     if cancellation_block_tender(tender):

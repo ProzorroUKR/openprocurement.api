@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
 from openprocurement.api.utils import context_unpack, json_view, get_now
 from openprocurement.tender.core.utils import\
     save_tender, optendersresource, apply_patch
-from openprocurement.tender.core.validation import\
-    validate_tender_not_in_terminated_status
+from openprocurement.tender.core.validation import (
+    validate_tender_not_in_terminated_status,
+)
 
 from openprocurement.tender.belowthreshold.views.tender import TenderResource
 from openprocurement.tender.pricequotation.constants import PMT

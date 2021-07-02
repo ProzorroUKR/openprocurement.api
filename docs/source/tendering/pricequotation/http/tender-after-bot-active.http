@@ -20,11 +20,7 @@ X-Content-Type-Options: nosniff
       {
         "id": "58875aff79b44134818670145fe82398",
         "description": "Комп’ютерне обладнання",
-        "unit": {
-          "name": "штук",
-          "code": "H87"
-        },
-        "quantity": 1.0,
+        "quantity": 5.0,
         "deliveryDate": {
           "startDate": "2021-03-18T00:00:00+02:00",
           "endDate": "2021-03-21T00:00:00+02:00"
@@ -40,6 +36,15 @@ X-Content-Type-Options: nosniff
           "description": "Комп’ютерне обладнанн",
           "scheme": "ДК021",
           "id": "30230000-0"
+        },
+        "unit": {
+          "name": "кг",
+          "code": "KGM",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          }
         }
       }
     ],

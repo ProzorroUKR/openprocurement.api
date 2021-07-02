@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist
-from schematics.types import IntType, StringType
+from schematics.types import IntType, StringType, BaseType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from pyramid.security import Allow
 from zope.interface import implementer
-from openprocurement.api.constants import TZ
+from openprocurement.api.constants import TZ, UNIT_PRICE_REQUIRED_FROM, MULTI_CONTRACTS_REQUIRED_FROM
 from openprocurement.api.models import (
     BusinessOrganization,
     CPVClassification,
@@ -16,7 +16,7 @@ from openprocurement.api.models import (
 )
 from openprocurement.api.models import Item as BaseItem
 from openprocurement.api.models import ListType, Period, Value
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import get_now, get_first_revision_date
 from openprocurement.api.validation import (
     validate_classification_id,
     validate_cpv_group,
@@ -28,8 +28,9 @@ from openprocurement.tender.core.models import (
     PeriodEndRequired,
     ProcuringEntity,
     Tender,
-    Model,
+    Model, get_tender,
 )
+from openprocurement.tender.belowthreshold.models import Unit
 from openprocurement.tender.openua.validation import _validate_tender_period_duration
 from openprocurement.tender.pricequotation.constants import (
     PMT,
@@ -54,7 +55,7 @@ class ShortlistedFirm(BusinessOrganization):
     status = StringType()
 
 
-class Item(BaseItem):
+class TenderItem(BaseItem):
     class Options:
         roles = {
             'create': whitelist(
@@ -62,6 +63,7 @@ class Item(BaseItem):
                 'description',
                 'description_en',
                 'description_ru',
+                'unit',
                 'quantity',
                 'deliveryDate',
                 'deliveryAddress',
@@ -71,6 +73,7 @@ class Item(BaseItem):
                 'description',
                 'description_en',
                 'description_ru',
+                'unit',
                 'quantity',
                 'deliveryDate',
                 'deliveryAddress',
@@ -79,17 +82,50 @@ class Item(BaseItem):
             'bots': whitelist(
                 'classification',
                 'additionalClassifications',
-                'unit'
             ),
             "edit_contract": whitelist("unit")
         }
 
     """A good, service, or work to be contracted."""
     classification = ModelType(CPVClassification)
+    unit = ModelType(Unit)
+
+    def validate_relatedBuyer(self, data, related_buyer):
+        tender = get_tender(data["__parent__"])
+        validation_date = get_first_revision_date(tender, default=get_now())
+        validation_enabled = all([
+            tender.buyers,
+            tender.status != "draft",
+            validation_date >= MULTI_CONTRACTS_REQUIRED_FROM
+        ])
+        if validation_enabled and not related_buyer:
+            raise ValidationError(BaseType.MESSAGES["required"])
+
+    def validate_unit(self, data, value):
+        tender = get_tender(data["__parent__"])
+        validation_date = get_first_revision_date(tender, default=get_now())
+        if validation_date >= UNIT_PRICE_REQUIRED_FROM and not value:
+            raise ValidationError(BaseType.MESSAGES["required"])
+
+    def validate_quantity(self, data, value):
+        tender = get_tender(data["__parent__"])
+        validation_date = get_first_revision_date(tender, default=get_now())
+        if validation_date >= UNIT_PRICE_REQUIRED_FROM and value is None:
+            raise ValidationError(BaseType.MESSAGES["required"])
+
+
+class ContractItem(BaseItem):
+    class Options:
+        roles = {
+            "edit_contract": whitelist("unit")
+        }
+
+    unit = ModelType(Unit)
 
 
 class Contract(BaseContract):
     documents = ListType(ModelType(Document, required=True), default=list())
+    items = ListType(ModelType(ContractItem))
 
     def validate_dateSigned(self, data, value):
         parent = data["__parent__"]
@@ -212,7 +248,7 @@ class PriceQuotationTender(Tender):
     # broken into line items wherever possible.
     # Items should not be duplicated, but a quantity of 2 specified instead.
     items = ListType(
-        ModelType(Item, required=True),
+        ModelType(TenderItem, required=True),
         required=True,
         min_size=1,
         validators=[validate_items_uniq],

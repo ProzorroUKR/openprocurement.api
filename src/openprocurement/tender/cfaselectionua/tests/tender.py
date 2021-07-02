@@ -138,7 +138,7 @@ def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderProcessTest))
     suite.addTest(unittest.makeSuite(TenderResourceTest))
-    suite.addTest(unittest.makeSuite(TenderTest))
+    suite.addTest(unittest.makeSuite(CFASelectionTenderTest))
     return suite
 
 

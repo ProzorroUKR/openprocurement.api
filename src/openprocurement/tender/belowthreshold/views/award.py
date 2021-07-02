@@ -17,7 +17,7 @@ from openprocurement.tender.core.validation import (
 
 from openprocurement.tender.belowthreshold.constants import STAND_STILL_TIME
 
-from openprocurement.tender.belowthreshold.utils import add_next_award, add_contract
+from openprocurement.tender.belowthreshold.utils import add_next_award, add_contracts
 
 from openprocurement.tender.belowthreshold.validation import (
     validate_create_award_only_for_active_lot,
@@ -325,7 +325,7 @@ class TenderAwardResource(APIResource):
 
         if award_status == "pending" and award.status == "active":
             award.complaintPeriod.endDate = calculate_tender_business_date(now, STAND_STILL_TIME, tender, True)
-            add_contract(self.request, award, now)
+            add_contracts(self.request, award, now)
             add_next_award(self.request)
         elif award_status == "active" and award.status == "cancelled":
             if award.complaintPeriod.endDate > now:

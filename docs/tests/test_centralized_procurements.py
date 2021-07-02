@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+from uuid import uuid4
 from copy import deepcopy
 from freezegun import freeze_time
 from openprocurement.planning.api.tests.base import BasePlanWebTest
@@ -68,14 +69,14 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
                     {'data': test_plan_data})
         self.assertEqual(response.status, '201 Created')
 
-        plan = response.json['data']
-        self.plan_id = plan["id"]
+        _plan = response.json['data']
+        self.plan_id = _plan["id"]
         owner_token = response.json['access']['token']
 
         with freeze_time("2019-05-02 01:01:00"):
             with open(TARGET_DIR + 'patch-plan-status-scheduled.http', 'w') as self.app.file_obj:
                 response = self.app.patch_json(
-                    '/plans/{}?acc_token={}'.format(plan['id'], owner_token),
+                    '/plans/{}?acc_token={}'.format(_plan['id'], owner_token),
                     {'data': {"status": "scheduled"}}
                 )
         self.assertEqual(response.json["data"]["status"], "scheduled")
@@ -83,7 +84,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
         with freeze_time("2019-05-02 02:00:00"):
             with open(TARGET_DIR + 'post-plan-milestone.http', 'w') as self.app.file_obj:
                 response = self.app.post_json(
-                    '/plans/{}/milestones'.format(plan['id']),
+                    '/plans/{}/milestones'.format(_plan['id']),
                     {'data': {
                         "title": MILESTONE_APPROVAL_TITLE,
                         "description": MILESTONE_APPROVAL_DESCRIPTION,
@@ -100,7 +101,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
             with open(TARGET_DIR + 'patch-plan-milestone.http', 'w') as self.app.file_obj:
                 response = self.app.patch_json(
                     '/plans/{}/milestones/{}?acc_token={}'.format(
-                        plan['id'], milestone["id"], milestone_token
+                        _plan['id'], milestone["id"], milestone_token
                     ),
                     {'data': {
                         "status": "met",
@@ -114,7 +115,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
             with open(TARGET_DIR + 'post-plan-milestone-document.http', 'w') as self.app.file_obj:
                 response = self.app.post_json(
                     '/plans/{}/milestones/{}/documents?acc_token={}'.format(
-                        plan["id"], milestone["id"], milestone_token
+                        _plan["id"], milestone["id"], milestone_token
                     ),
                     {"data": {
                         "title": "Notice.pdf",
@@ -141,8 +142,20 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
             endDate="2019-10-30T01:00:00+03:00",
         )
         test_tender_data["procuringEntity"] = procuring_entity
-        test_tender_data["buyers"] = test_plan_data["buyers"]
-        test_tender_data["items"] = test_plan_data["items"]
+
+        buyer1 = deepcopy(test_plan_data["buyers"][0])
+        buyer1["id"] = uuid4().hex
+
+        buyer2 = deepcopy(test_plan_data["buyers"][0])
+        buyer2["id"] = uuid4().hex
+        buyer2["identifier"]["id"] = "222983"
+
+        test_tender_data["buyers"] = [buyer1, buyer2]
+        test_tender_data["items"] = deepcopy(plan["items"])
+        test_tender_data["items"][0]["relatedBuyer"] = buyer1["id"]  # assign buyers
+        test_tender_data["items"][1]["relatedBuyer"] = buyer1["id"]
+        test_tender_data["items"][2]["relatedBuyer"] = buyer2["id"]
+
         test_tender_data["status"] = "draft"
 
         with freeze_time("2019-05-12 09:00:00"):
@@ -162,12 +175,12 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
                         tender["data"]["id"],
                         tender["access"]["token"]
                     ),
-                    {"data": {"id": plan['id']}}
+                    {"data": {"id": _plan['id']}}
                 )
         self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'plan-complete.http', 'w') as self.app.file_obj:
-            response = self.app.get('/plans/{}'.format(plan['id']))
+            response = self.app.get('/plans/{}'.format(_plan['id']))
         self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'tender-get.http', 'w') as self.app.file_obj:

@@ -16,6 +16,7 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "procuringEntity": {
+      "id": "428556db48b941308361867b5dd5ad66",
       "name": "ДУС",
       "identifier": {
         "scheme": "UA-EDR",
@@ -142,6 +143,7 @@ X-Content-Type-Options: nosniff
     ],
     "buyers": [
       {
+        "id": "4d3e5f2c4da949e4876c146bde8227bb",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",

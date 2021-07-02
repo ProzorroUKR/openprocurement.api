@@ -52,7 +52,10 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_central_invalid,
     tender_minimalstep_validation,
     patch_tender_minimalstep_validation,
+    create_tender_with_earlier_non_required_unit,
+    create_tender_with_required_unit,
     patch_item_with_zero_quantity,
+    patch_items_related_buyer_id,
 )
 
 
@@ -76,6 +79,7 @@ class TenderResourceTestMixin(object):
     test_tender_finance_milestones = snitch(tender_finance_milestones)
     test_tender_token_invalid = snitch(tender_token_invalid)
     test_patch_item_with_zero_quantity = snitch(patch_item_with_zero_quantity)
+    test_patch_items_related_buyer_id = snitch(patch_items_related_buyer_id)
 
 
 class TenderTestMixin:
@@ -110,6 +114,8 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
     test_tender_minimalstep_validation = snitch(tender_minimalstep_validation)
     test_patch_tender_minimalstep_validation = snitch(patch_tender_minimalstep_validation)
+    test_create_tender_with_earlier_non_required_unit = snitch(create_tender_with_earlier_non_required_unit)
+    test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
 
 
 class TenderProcessTest(BaseTenderWebTest):

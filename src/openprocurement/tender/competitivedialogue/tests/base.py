@@ -14,7 +14,11 @@ from openprocurement.tender.competitivedialogue.models import (
 )
 from openprocurement.tender.competitivedialogue.tests.periods import PERIODS, PERIODS_UA_STAGE_2
 from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest as BaseTenderWebTest
-from openprocurement.tender.belowthreshold.tests.base import test_organization, set_bid_responses
+from openprocurement.tender.belowthreshold.tests.base import (
+        test_organization,
+        set_bid_responses,
+        set_tender_multi_buyers,
+)
 from openprocurement.tender.openeu.tests.base import (
     test_tender_data as base_test_tender_data_eu,
     test_features_tender_data,
@@ -112,6 +116,17 @@ del test_author["scale"]
 if SANDBOX_MODE:
     test_tender_data_eu["procurementMethodDetails"] = "quick, accelerator=1440"
     test_tender_data_ua["procurementMethodDetails"] = "quick, accelerator=1440"
+
+
+test_tender_data_stage2_eu_multi_buyers = set_tender_multi_buyers(
+    test_tender_stage2_data_eu, test_tender_stage2_data_eu["items"][0],
+    test_organization
+)
+
+test_tender_data_stage2_ua_multi_buyers = set_tender_multi_buyers(
+    test_tender_stage2_data_ua, test_tender_stage2_data_ua["items"][0],
+    test_organization
+)
 
 
 class BaseCompetitiveDialogApiWebTest(BaseWebTest):

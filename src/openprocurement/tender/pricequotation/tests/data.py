@@ -3,6 +3,7 @@
 from copy import deepcopy
 from datetime import timedelta
 from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import set_tender_multi_buyers
 from openprocurement.tender.pricequotation.constants import PMT
 from openprocurement.api.constants import SANDBOX_MODE
 
@@ -179,7 +180,12 @@ test_item = {
     "additionalClassifications": [
         {"scheme": "INN", "id": "17.21.1", "description": "папір і картон гофровані, паперова й картонна тара"}
     ],
-    "quantity": 1,
+    "unit": {
+        "name": "кг",
+        "code": "KGM",
+        "value": {"amount": 6},
+    },
+    "quantity": 5,
     "deliveryDate": {
         "startDate": (now + timedelta(days=2)).isoformat(),
         "endDate": (now + timedelta(days=5)).isoformat(),
@@ -206,6 +212,11 @@ test_tender_data = {
 }
 if SANDBOX_MODE:
     test_tender_data["procurementMethodDetails"] = "quick, accelerator=1440"
+
+test_tender_data_multi_buyers = set_tender_multi_buyers(
+    test_tender_data, test_tender_data["items"][0],
+    test_organization
+)
 
 test_bids = [
     {"tenderers": [test_organization], "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True}, "requirementResponses": test_requirement_response_valid},
@@ -541,8 +552,8 @@ test_criteria_1 = [
                         "id": "400496-0002-001-01",
                         "title": "Доза діючої речовини",
                         "unit": {
-                            "code": "GL",
-                            "name": "г/л"
+                            "code": "KGM",
+                            "name": "кілограми"
                         }
                     }
                 ]

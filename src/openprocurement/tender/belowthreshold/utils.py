@@ -4,6 +4,7 @@ from openprocurement.api.constants import (
     TZ,
     NEW_DEFENSE_COMPLAINTS_FROM,
     NEW_DEFENSE_COMPLAINTS_TO,
+    MULTI_CONTRACTS_REQUIRED_FROM,
 )
 from openprocurement.api.utils import get_now, context_unpack
 from openprocurement.tender.core.utils import (
@@ -82,26 +83,60 @@ def check_ignored_claim(tender):
                 complaint.status = "ignored"
 
 
-def add_contract(request, award, now=None):
+def add_contracts(request, award, now=None):
     tender = request.validated["tender"]
+    contract_item_model = type(tender).contracts.model_class.items.model_class
+
+    if tender.buyers and all(item.get("relatedBuyer") for item in tender.items):
+
+        multi_contracts = len(tender.buyers) > 1
+        contract_value = generate_contract_value(tender, award, multi_contracts=multi_contracts)
+
+        for buyer in tender.buyers:
+            contract_items = []
+            for item in tender.items:
+                if buyer.id == item.relatedBuyer:
+                    if not hasattr(award, "lotID") or item.relatedLot == award.lotID:
+                        contract_items.append(contract_item_model(dict(item)))
+            add_contract_to_tender(
+                tender, contract_items, contract_value, buyer.id, award, request.registry.server_id, now
+            )
+
+    else:
+        contract_value = generate_contract_value(tender, award, multi_contracts=False)
+        contract_items = []
+        for item in tender.items:
+            if not hasattr(award, "lotID") or item.relatedLot == award.lotID:
+                contract_items.append(contract_item_model(dict(item)))
+        add_contract_to_tender(
+            tender, contract_items, contract_value,  None, award, request.registry.server_id, now
+        )
+
+
+def add_contract_to_tender(tender, contract_items, contract_value, buyer_id, award, server_id, now):
+    contract_model = type(tender).contracts.model_class
     tender.contracts.append(
-        type(tender).contracts.model_class(
+        contract_model(
             {
+                "buyerID": buyer_id,
                 "awardID": award.id,
                 "suppliers": award.suppliers,
-                "value": generate_contract_value(tender, award),
+                "value": contract_value,
                 "date": now or get_now(),
-                "items": [i for i in tender.items if not hasattr(award, "lotID") or i.relatedLot == award.lotID],
-                "contractID": "{}-{}{}".format(tender.tenderID, request.registry.server_id, len(tender.contracts) + 1),
+                "items": contract_items,
+                "contractID": "{}-{}{}".format(tender.tenderID, server_id, len(tender.contracts) + 1),
             }
         )
     )
 
 
-def generate_contract_value(tender, award):
+def generate_contract_value(tender, award, multi_contracts=False):
     if award.value:
         value = type(tender).contracts.model_class.value.model_class(dict(award.value.items()))
-        value.amountNet = award.value.amount
+        if multi_contracts:
+            value.amount, value.amountNet = 0, 0
+        else:
+            value.amountNet = award.value.amount
         return value
     return None
 
@@ -114,7 +149,7 @@ def check_status(request):
         check_complaint_status(request, complaint, now)
     for award in tender.awards:
         if award.status == "active" and not any([i.awardID == award.id for i in tender.contracts]):
-            add_contract(request, award, now)
+            add_contracts(request, award, now)
             add_next_award(request)
         for complaint in award.complaints:
             check_complaint_status(request, complaint, now)
@@ -312,8 +347,13 @@ def check_tender_status(request):
                 if tender.get("agreements")
                 else tender.get("contracts", [])
         )
-        if contracts and contracts[-1].status == "active":
+        if (
+            contracts
+            and any([contract.status == "active" for contract in contracts])
+            and not any([contract.status == "pending" for contract in contracts])
+        ):
             tender.status = "complete"
+
     if tender.procurementMethodType == "belowThreshold":
         check_ignored_claim(tender)
 

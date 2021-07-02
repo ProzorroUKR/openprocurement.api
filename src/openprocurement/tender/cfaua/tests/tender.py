@@ -53,7 +53,8 @@ from openprocurement.tender.cfaua.tests.tender_blanks import (
     tender_features_invalid,
     extract_tender_credentials,
     patch_unitprice_with_features,
-    tender_with_main_procurement_category,
+    tender_with_main_procurement_category, create_cfaua_tender_with_earlier_non_required_unit,
+    create_tender_with_required_unit,
 )
 
 
@@ -104,6 +105,10 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_create_tender_with_inn_before = snitch(create_tender_with_inn_before)
     test_tender_milestones_required = snitch(tender_milestones_required)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
+    test_create_cfaua_tender_with_earlier_non_required_unit = snitch(
+        create_cfaua_tender_with_earlier_non_required_unit
+    )
+    test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
 
     def test_patch_not_author(self):
         response = self.app.post_json("/tenders", {"data": test_tender_w_lot_data})
@@ -224,7 +229,6 @@ def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderProcessTest))
     suite.addTest(unittest.makeSuite(TenderResourceTest))
-    suite.addTest(unittest.makeSuite(TenderTest))
     suite.addTest(unittest.makeSuite(TenderPendingAwardsResourceTest))
     return suite
 

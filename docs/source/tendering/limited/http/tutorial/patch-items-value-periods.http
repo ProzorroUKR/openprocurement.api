@@ -76,6 +76,15 @@ X-Content-Type-Options: nosniff
           "scheme": "ДК021",
           "id": "55523100-3"
         },
+        "unit": {
+          "name": "month",
+          "code": "MON",
+          "value": {
+            "amount": 10.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          }
+        },
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
           "endDate": "2021-05-05T00:00:00+02:00"
@@ -86,10 +95,6 @@ X-Content-Type-Options: nosniff
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "unit": {
-          "name": "month",
-          "code": "MON"
         }
       }
     ],

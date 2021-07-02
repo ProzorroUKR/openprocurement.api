@@ -976,8 +976,10 @@ def create_plan_invalid_procuring_entity(self):
 
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.content_type, "application/json")
+            procuring_entity = response.json['data']['procuringEntity']
+            procuring_entity.pop("id")
             self.assertEqual(
-                response.json['data']['procuringEntity'],
+                procuring_entity,
                 {"identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
                  "name": "new_name123"}
             )
@@ -993,8 +995,10 @@ def create_plan_invalid_procuring_entity(self):
             )
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.content_type, "application/json")
+            procuring_entity = response.json['data']['procuringEntity']
+            procuring_entity.pop("id")
             self.assertEqual(
-                response.json['data']['procuringEntity'],
+                procuring_entity,
                 {"identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
                  "name": "new_name123",
                  "address": {"countryName": "Ірландія"},
@@ -1149,8 +1153,10 @@ def create_plan_invalid_buyers(self):
 
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
+        buyers = response.json['data']['buyers'][0]
+        buyers.pop("id")
         self.assertEqual(
-            response.json['data']['buyers'][0],
+            buyers,
             {"identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
              "name": "new_name123"}
         )
@@ -1166,8 +1172,10 @@ def create_plan_invalid_buyers(self):
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
+        buyers = response.json['data']['buyers'][0]
+        buyers.pop("id")
         self.assertEqual(
-            response.json['data']['buyers'][0],
+            buyers,
             {"identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
              "name": "new_name123",
              "address": {"countryName": "Ірландія"},
@@ -1739,6 +1747,7 @@ def create_plan_with_buyers(self):
     data = deepcopy(self.initial_data)
     data["buyers"] = [
         dict(
+            id=uuid.uuid4().hex,
             name="",
             name_en="",
             identifier=dict(scheme="UA-EDR", id="111983", legalName="ДП Державне Управління Справами"),

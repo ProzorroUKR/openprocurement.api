@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from uuid import uuid4
+
 from openprocurement.tender.belowthreshold.tests.base import test_tender_data as below_tender_data
 from openprocurement.tender.cfaua.tests.base import test_tender_w_lot_data as cfa_tender_data
 from openprocurement.tender.competitivedialogue.tests.base import (
@@ -76,6 +78,7 @@ def test_set_buyers(app, request_tender_data):
     test_data = deepcopy(request_tender_data)
     test_data["buyers"] = [
         {
+            "id": uuid4().hex,
             "name": "Державне управління справами",
             "identifier": {
                 "scheme": "UA-EDR",
@@ -84,6 +87,8 @@ def test_set_buyers(app, request_tender_data):
             },
         }
     ]
+    for item in test_data["items"]:
+        item["relatedBuyer"] = test_data["buyers"][0]["id"]
     response = app.post_json("/tenders", {"data": test_data})
     assert response.status == "201 Created"
     assert len(response.json["data"]["buyers"]) == 1

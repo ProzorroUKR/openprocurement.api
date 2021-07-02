@@ -16,6 +16,7 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "procuringEntity": {
+      "id": "30429c884b234749a850b6bd1e044153",
       "name": "ЦЗО №1",
       "identifier": {
         "scheme": "UA-EDR",
@@ -97,6 +98,7 @@ X-Content-Type-Options: nosniff
     ],
     "buyers": [
       {
+        "id": "422e3fac1aa846bdb451aff9f215009e",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",

@@ -108,7 +108,7 @@ class TenderNegotioationResource(TenderResource):
                 validate_chronograph_before_2020_04_19,
                 validate_tender_not_in_terminated_status,
                 validate_update_tender_with_awards,
-                validate_tender_change_status_with_cancellation_lot_pending
+                validate_tender_change_status_with_cancellation_lot_pending,
         ),
         permission="edit_tender",
     )

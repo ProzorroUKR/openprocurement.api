@@ -70,3 +70,37 @@ The tender `plans` field contains all the plan ids
 
 .. include:: http/tender-get.http
     :code:
+
+
+Creation of aggregate contracts
+-------------------------------
+
+For each `buyer` object in tender system is creating separate `contract` respectively when `award` become active.
+
+Create tender with several buyers, each `item` should be assigned to related `buyer` using `relatedBuyer` field :
+
+.. include:: ../contracting/http/create-multiple-buyers-tender.http
+    :code:
+
+Move forward as usual, activate award:
+
+.. include:: ../contracting/http/set-active-award.http
+    :code:
+
+After activating award system is creating such amount of contracts that corresponds to the amount of buyers
+
+.. include:: ../contracting/http/get-multi-contracts.http
+    :code:
+
+Update Amount.Value of each contract considering the sum of product of Unit.Value by Quantity for each item in contract.
+
+.. include:: ../contracting/http/patch-1st-contract-value.http
+    :code:
+
+.. include:: ../contracting/http/patch-2nd-contract-value.http
+    :code:
+
+You can activate or terminate each contract as usual.
+If there are not contracts in `pending` status and at least one contract became `active` tender is becoming `complete`
+
+If award was cancelled, all contracts related to this awardID become in cancelled status.

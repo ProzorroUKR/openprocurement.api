@@ -5,7 +5,11 @@ from datetime import datetime, timedelta
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.utils import get_now
 from openprocurement.tender.limited.models import ReportingTender
-from openprocurement.tender.belowthreshold.tests.base import test_tender_data as base_data
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_data as base_data,
+    set_tender_multi_buyers,
+    test_organization,
+)
 from openprocurement.tender.belowthreshold.tests.base import BaseTenderWebTest as BaseBaseTenderWebTest
 
 now = datetime.now()
@@ -48,6 +52,21 @@ test_tender_negotiation_quick_data_2items["items"] = [
 test_lots = [
     {"title": "lot title", "description": "lot description", "value": deepcopy(test_tender_negotiation_data["value"])}
 ]
+
+test_tender_data_multi_buyers = set_tender_multi_buyers(
+    test_tender_data, test_tender_data["items"][0],
+    test_organization
+)
+
+test_tender_negotiation_data_multi_buyers = set_tender_multi_buyers(
+    test_tender_negotiation_data, test_tender_negotiation_data["items"][0],
+    test_organization
+)
+
+test_tender_negotiation_quick_data_multi_buyers = set_tender_multi_buyers(
+    test_tender_negotiation_quick_data, test_tender_negotiation_quick_data["items"][0],
+    test_organization
+)
 
 
 class BaseTenderWebTest(BaseBaseTenderWebTest):

@@ -20,6 +20,7 @@ from openprocurement.tender.core.validation import (
     validate_update_contract_value,
     validate_update_contract_value_amount,
     validate_update_contract_value_net_required,
+    validate_contract_items_unit_value_amount,
 )
 from openprocurement.api.models import Model, IsoDateTimeType, Guarantee
 from openprocurement.contracting.api.models import OrganizationReference
@@ -147,6 +148,12 @@ def validate_file_transaction_upload(request, **kwargs):
         return validate_data(request, model)
 
 
+def validate_update_contracting_items_unit_value_amount(request, **kwargs):
+    contract = request.validated["contract"]
+    if contract.items:
+        validate_contract_items_unit_value_amount(request, contract)
+
+
 def validate_add_document_to_active_change(request, **kwargs):
     data = request.validated["data"]
     if "relatedItem" in data and data.get("documentOf") == "change":
@@ -159,7 +166,9 @@ def validate_add_document_to_active_change(request, **kwargs):
 def validate_update_contracting_value_amount(request, name="value", **kwargs):
     schematics_document = get_schematics_document(request.validated["contract"])
     validation_date = get_first_revision_date(schematics_document, default=get_now())
-    validate_update_contract_value_amount(request, name=name, allow_equal=validation_date < VAT_FROM)
+    validate_update_contract_value_amount(
+        request, name=name, allow_equal=validation_date < VAT_FROM, scope="contracting"
+    )
 
 
 def validate_update_contracting_paid_amount(request, **kwargs):

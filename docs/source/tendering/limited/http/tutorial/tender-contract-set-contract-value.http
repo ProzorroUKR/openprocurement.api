@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/378a1443b2704a2e9f13816acfe5898f/contracts/ed432ce551d546599b7182b1940c77b7?acc_token=31c9e71e63b64c82b49271b02ebc3c7b HTTP/1.0
+PATCH /api/2.5/tenders/378a1443b2704a2e9f13816acfe5898f/contracts/c740a0b6a218410699113259337e654c?acc_token=31c9e71e63b64c82b49271b02ebc3c7b HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 54
 Content-Type: application/json
@@ -18,7 +18,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "ed432ce551d546599b7182b1940c77b7",
+    "id": "c740a0b6a218410699113259337e654c",
     "contractID": "UA-2021-03-16-000001-1",
     "status": "pending",
     "suppliers": [
@@ -69,6 +69,15 @@ X-Content-Type-Options: nosniff
           "scheme": "ДК021",
           "id": "55523100-3"
         },
+        "unit": {
+          "name": "month",
+          "code": "MON",
+          "value": {
+            "amount": 10.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          }
+        },
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
           "endDate": "2021-05-05T00:00:00+02:00"
@@ -79,10 +88,6 @@ X-Content-Type-Options: nosniff
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "unit": {
-          "name": "month",
-          "code": "MON"
         }
       }
     ]

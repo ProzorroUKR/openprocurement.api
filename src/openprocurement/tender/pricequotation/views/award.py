@@ -6,7 +6,7 @@ from openprocurement.tender.core.utils import\
 from openprocurement.tender.belowthreshold.views.award import\
     TenderAwardResource
 from openprocurement.tender.pricequotation.utils import\
-    add_next_award, add_contract
+    add_next_award, add_contracts
 from openprocurement.tender.pricequotation.constants import PMT
 from openprocurement.tender.core.validation import (
     validate_award_data,
@@ -84,7 +84,7 @@ class PQTenderAwardResource(TenderAwardResource):
             )
 
         if award_status == "pending" and award.status == "active":
-            add_contract(self.request, award, now)
+            add_contracts(self.request, award, now)
             add_next_award(self.request)
         elif award_status == "active" and award.status == "cancelled":
             for i in tender.contracts:

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/contracts/17ef9f4806964b4183a7be2adfdccb9e?acc_token=c87b58b4160f425b8973621e89008a15 HTTP/1.0
+PATCH /api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/contracts/5d8bb2b40e5f43d18d5541a2297fa3c7?acc_token=c87b58b4160f425b8973621e89008a15 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 91
 Content-Type: application/json
@@ -19,37 +19,10 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "17ef9f4806964b4183a7be2adfdccb9e",
+    "id": "5d8bb2b40e5f43d18d5541a2297fa3c7",
     "contractID": "UA-2021-03-16-000001-1",
     "contractNumber": "contract #13111",
     "status": "pending",
-    "items": [
-      {
-        "id": "61a6737049384b08876fb0407eda182f",
-        "description": "Комп’ютерне обладнання",
-        "classification": {
-          "description": "Комп’ютерне обладнанн",
-          "scheme": "ДК021",
-          "id": "30230000-0"
-        },
-        "unit": {
-          "name": "штук",
-          "code": "H87"
-        },
-        "quantity": 1.0,
-        "deliveryDate": {
-          "startDate": "2021-03-18T00:00:00+02:00",
-          "endDate": "2021-03-21T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        }
-      }
-    ],
     "suppliers": [
       {
         "name": "Державне управління справами",
@@ -79,7 +52,39 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true,
       "amountNet": 230.0
     },
-    "awardID": "2457dbf1f0fa43daaf6148695865ce39"
+    "awardID": "2457dbf1f0fa43daaf6148695865ce39",
+    "items": [
+      {
+        "id": "61a6737049384b08876fb0407eda182f",
+        "description": "Комп’ютерне обладнання",
+        "classification": {
+          "description": "Комп’ютерне обладнанн",
+          "scheme": "ДК021",
+          "id": "30230000-0"
+        },
+        "quantity": 5.0,
+        "deliveryDate": {
+          "startDate": "2021-03-18T00:00:00+02:00",
+          "endDate": "2021-03-21T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "unit": {
+          "name": "штук",
+          "code": "H87",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          }
+        }
+      }
+    ]
   }
 }
 

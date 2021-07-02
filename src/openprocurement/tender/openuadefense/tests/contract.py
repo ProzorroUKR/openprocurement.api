@@ -28,6 +28,8 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     put_tender_contract_document_by_supplier,
     put_tender_contract_document_by_others,
     patch_tender_contract_document_by_supplier,
+    patch_contract_single_item_unit_value,
+    patch_contract_multi_items_unit_value,
 )
 
 
@@ -54,6 +56,7 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest, TenderContractResou
         award = response.json["data"]
         self.award_id = award["id"]
         self.award_value = award["value"]
+        self.award_suppliers = award["suppliers"]
         self.app.authorization = authorization
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
@@ -66,6 +69,8 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest, TenderContractResou
     test_patch_tender_contract_status_by_owner = snitch(patch_tender_contract_status_by_owner)
     test_patch_tender_contract_status_by_others = snitch(patch_tender_contract_status_by_others)
     test_patch_tender_contract_status_by_supplier = snitch(patch_tender_contract_status_by_supplier)
+    test_patch_contract_single_item_unit_value = snitch(patch_contract_single_item_unit_value)
+    test_patch_contract_multi_items_unit_value = snitch(patch_contract_multi_items_unit_value)
 
 
 class TenderContractVATNotIncludedResourceTest(BaseTenderUAContentWebTest, TenderContractResourceTestMixin):

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from uuid import uuid4
+
 from openprocurement.api.tests.base import singleton_app, app
 from openprocurement.planning.api.tests.base import test_plan_data
 from openprocurement.tender.openua.tests.base import test_tender_data
@@ -22,15 +24,17 @@ test_tender_data["status"] = "draft"
 test_tender_data["procuringEntity"]["kind"] = "central"
 test_tender_data["items"] = test_tender_data["items"][:1]
 test_tender_data["items"][0]["classification"]["id"] = test_plan_data["items"][0]["classification"]["id"]
-test_tender_data["buyers"] = [
-    dict(
-        name="",
-        name_en="",
-        identifier=dict(scheme="UA-EDR",
-                        id="111983",
-                        legalName="ДП Державне Управління Справами"),
-    )
-]
+test_tender_data["buyers"] = [{
+    "id": uuid4().hex,
+    "name": "name",
+    "name_en": "name_en",
+    "identifier": {
+        "scheme": "UA-EDR",
+        "id": "111983",
+        "legalName": "ДП Державне Управління Справами"
+    },
+}]
+test_tender_data["items"][0]["relatedBuyer"] = test_tender_data["buyers"][0]["id"]
 
 
 @pytest.fixture(scope="function")
