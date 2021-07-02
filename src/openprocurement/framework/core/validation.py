@@ -251,6 +251,18 @@ def validate_agreement_data(request, **kwargs):
     return validate_data(request, model, data=data)
 
 
+def validate_action_in_not_allowed_framework_status(obj_name):
+    def validation(request, **kwargs):
+        framework_status = request.validated["framework"].get("status", "")
+
+        if framework_status != "active":
+            raise_operation_error(
+                request,
+                f"Can't {OPERATIONS.get(request.method)} {obj_name} in current ({framework_status}) framework status",
+            )
+    return validation
+
+
 def _validate_agreement_accreditation_level(request, model, **kwargs):
     levels = model.create_accreditations
     _validate_accreditation_level(request, levels, "agreement", "creation")

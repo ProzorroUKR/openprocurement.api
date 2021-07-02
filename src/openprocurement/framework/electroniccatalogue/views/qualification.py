@@ -15,6 +15,7 @@ from openprocurement.framework.core.utils import (
 from openprocurement.framework.core.validation import (
     validate_patch_qualification_data,
     validate_update_qualification_in_not_allowed_status,
+    validate_action_in_not_allowed_framework_status,
 )
 from openprocurement.framework.electroniccatalogue.models import Submission, Agreement
 
@@ -39,6 +40,7 @@ class QualificationResource(APIResource):
         validators=(
             validate_update_qualification_in_not_allowed_status,
             validate_patch_qualification_data,
+            validate_action_in_not_allowed_framework_status("qualification"),
         ),
         permission="edit_qualification",
     )
