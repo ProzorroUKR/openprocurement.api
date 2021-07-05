@@ -24,7 +24,7 @@ msgid "Criteria data :ref:`schema<criterion>`"
 msgstr "Схема даних :ref:`критеріїв<criterion>`"
 
 msgid "Criteria is part of tender documentation, so all operation with criteria make tender owner."
-msgstr "Критерії це частина тендерної документації, тому всі дії над критеріями може виконувати лише власник тендеру."
+msgstr "Критерії - це частина тендерної документації, тому всі дії над критеріями може виконувати лише власник тендеру."
 
 msgid "Create Tender Criteria"
 msgstr "Створення критеріїв закупівлі"

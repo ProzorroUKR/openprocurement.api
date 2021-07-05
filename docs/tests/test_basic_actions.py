@@ -2132,7 +2132,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'criteria/delete-requirement-response.http', 'wb') as self.app.file_obj:
-            response = self.app.get(
+            response = self.app.delete(
                 '/tenders/{}/bids/{}/requirement_responses/{}?acc_token={}'.format(
                     self.tender_id, bid_id, rr_id, bid_token))
             self.assertEqual(response.status, '200 OK')

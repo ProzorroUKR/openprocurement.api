@@ -75,7 +75,7 @@ msgid "`procuringEntity`"
 msgstr ""
 
 msgid "The response is provided by the procuring entity."
-msgstr "закупівельником."
+msgstr "Відповідь надається закупівельником."
 
 msgid "`ssrBot`"
 msgstr ""
