@@ -33,7 +33,7 @@ msgid "Create Award Requirement Response"
 msgstr "Створення відповіді на вимогу"
 
 msgid "You can create few requirement responses in one request with complete set of data."
-msgstr "Можливо створити декілька відповідей на вимогу за один запит з повним набором даних."
+msgstr "Можливо створити декілька відповідей на вимоги за один запит з повним набором даних."
 
 msgid "You can create requirement responses in one request with award patch."
 msgstr "Можливо також створювати відповіді на вимоги одним запитом через оновлення кваліфікації."

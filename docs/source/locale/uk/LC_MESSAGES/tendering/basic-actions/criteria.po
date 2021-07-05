@@ -30,7 +30,7 @@ msgid "Create Tender Criteria"
 msgstr "Створення критеріїв закупівлі"
 
 msgid "Criteria exist in procedures: belowThreshold, aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA, closeFrameworkAgreementSelectionUA"
-msgstr "Критерії існують в наступних:  belowThreshold, aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA, closeFrameworkAgreementSelectionUA."
+msgstr "Критерії існують в наступних процедурах:  belowThreshold, aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA, closeFrameworkAgreementSelectionUA."
 
 msgid "Criteria can be related to tenderer, lot, item and tender. You cannot cancel lot or item if there is at least one related criterion with requirement in `active` status. To cancel lot or set item quantity to 0 you should set `cancelled` status to all active requirements in related criterion."
 msgstr "Критерії можуть бути пов'язані з tenderer, lot, item та tender. Ви не можете відмінити item, якщо існує хоча б один пов'язаний критерій з вимогою в статусі `active`. Щоб вказати кількість item рівною 0, необхідно перевести у статус `cancelled` всі активні вимоги пов'язаного критерію."
@@ -51,7 +51,7 @@ msgid "Requirement group :ref:`schema<RequirementGroup>`"
 msgstr "Схема даних :ref:`групи вимог<RequirementGroup>`"
 
 msgid "Requirement group that's object that contain requirements, and sets the rules for how to respond to requirements."
-msgstr "Група вимог - це об'єкт який містить вимоги та встановлює правила як, та на які вимоги надавати відповідь."
+msgstr "Група вимог - це об'єкт який містить вимоги та встановлює правила: як та на які вимоги надавати відповідь."
 
 msgid "Inside requirement groups you must gave response to all requirements(that's mean gave response to requirement group). If criterion have more than one requirement groups you must gave response only to one requirement group. If you try to gave responses to few requirement groups system will be returned error."
 msgstr "В рамках групи вимог потрібно надати відповідь на всі вимоги(це означає відповісти на групу вимог). Якщо критеріон має більше однієї групи вимог, потрібно надати відповідь лише на одну групу. Якщо відповідь буде надана більше ніж на одну групу система поверне помилку."
@@ -147,7 +147,7 @@ msgid "You can't update tender to status `active.tendering` without 9 EXCLUSION 
 msgstr "Неможливо перевести тендер у статус `active.tendering` без 9-ти вийняткових та одного мовного критеріїв:"
 
 msgid "EXCLUSION criteria and all criteria objects are unchangeable:"
-msgstr "Вийняткові критерії та всі дочірні об'єкти є ннезмінними:"
+msgstr "Вийняткові критерії та всі дочірні об'єкти є незмінними:"
 
 msgid "For tenders in draft statuses you can patch exclusion requirement, but you can send only `eligibleEvidences`"
 msgstr "Для тендерів в статусі чернетки вимоги вийняткових критеріїв можливо редагувати, але тільки передаючи поле `eligibleEvidences:`"
