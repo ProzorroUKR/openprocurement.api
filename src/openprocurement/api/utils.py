@@ -844,7 +844,7 @@ def couchdb_json_decode():
     def my_decode(string_):
         if isinstance(string_, util.btype):
             string_ = string_.decode("utf-8")
-        return json.loads(string_, parse_float=decimal.Decimal)
+        return json.loads(string_)
 
     couchdb.json.use(decode=my_decode, encode=my_encode)
 
