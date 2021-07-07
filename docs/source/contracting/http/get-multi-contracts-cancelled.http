@@ -1,5 +1,5 @@
 GET /api/2.5/tenders/8205792550a1414cbb9eeff86db41600/contracts HTTP/1.0
-Authorization: Bearer chronograph
+Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
 Response: 200 OK
@@ -11,7 +11,7 @@ X-Content-Type-Options: nosniff
       "id": "27fce9096ce14a789af205b0cbf4474d",
       "buyerID": "11111111111111111111111111111111",
       "contractID": "UA-2021-03-16-000001-1",
-      "status": "pending",
+      "status": "cancelled",
       "suppliers": [
         {
           "name": "Державне управління справами",
@@ -35,7 +35,7 @@ X-Content-Type-Options: nosniff
           "scale": "micro"
         }
       ],
-      "date": "2021-03-16T00:00:00+02:00",
+      "date": "2021-03-16T00:00:01+02:00",
       "value": {
         "amount": 0.0,
         "currency": "UAH",
@@ -88,7 +88,7 @@ X-Content-Type-Options: nosniff
       "id": "5d2e6f40f9824c0db7d26c9038d9d786",
       "buyerID": "22222222222222222222222222222222",
       "contractID": "UA-2021-03-16-000001-2",
-      "status": "pending",
+      "status": "cancelled",
       "suppliers": [
         {
           "name": "Державне управління справами",
@@ -112,7 +112,7 @@ X-Content-Type-Options: nosniff
           "scale": "micro"
         }
       ],
-      "date": "2021-03-16T00:00:00+02:00",
+      "date": "2021-03-16T00:00:01+02:00",
       "value": {
         "amount": 0.0,
         "currency": "UAH",

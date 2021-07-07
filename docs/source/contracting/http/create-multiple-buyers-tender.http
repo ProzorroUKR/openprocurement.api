@@ -203,7 +203,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d6295697ad646abaaa8f03198f60b4f
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/27449ba567ee4755b723fd5d2248425f
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -227,7 +227,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "d15356ae19fa41759ce1e9680bbed1d9",
+        "id": "019d2cdc9d114a1c8ef3f81f715708fe",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -267,7 +267,7 @@ X-Content-Type-Options: nosniff
     "status": "active.enquiries",
     "items": [
       {
-        "id": "5f35f7971d7e43cdaa9c8f2a24b7869a",
+        "id": "dccbebb04f7945a5a9913d5017709e45",
         "description": "телевізори",
         "additionalClassifications": [
           {
@@ -305,7 +305,7 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "e1fca84358884c66b3664692030d777f",
+        "id": "b9b66ae4b1a7448a97568af3da6f7fa1",
         "description": "портфелі",
         "additionalClassifications": [
           {
@@ -343,7 +343,7 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "05e17b83034e48cda2abfc6cb326deb5",
+        "id": "e9dca19434704b918b98142aae75a8bd",
         "description": "портфелі",
         "additionalClassifications": [
           {
@@ -421,12 +421,12 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true
     },
     "procurementMethodType": "belowThreshold",
-    "id": "0d6295697ad646abaaa8f03198f60b4f",
+    "id": "27449ba567ee4755b723fd5d2248425f",
     "next_check": "2021-03-23T00:00:00+02:00"
   },
   "access": {
-    "token": "35f45568449c4c298a96a4862f616d8f",
-    "transfer": "a5470adba0004f69a8a7c81281aa219e"
+    "token": "09fb3db5c4b0423685f58a6cf7176e7b",
+    "transfer": "7f66b0098e074bee96387a7aacbb0408"
   }
 }
 
