@@ -219,6 +219,7 @@ def create_tender_bidder(self):
     bid_data.update({
         "tenderers": [self.test_bids_data[0]["tenderers"][0]],
         "value": {"amount": 500},
+        "lotValues": None, "parameters": None, "documents": None,
     })
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -307,7 +308,10 @@ def patch_tender_bidder(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"value": {"amount": 400}}},
+        {"data": {
+            "value": {"amount": 400},
+            "lotValues": None, "parameters": None,
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1196,6 +1200,8 @@ def features_bidder(self):
         bid = response.json["data"]
         bid.pop("date")
         bid.pop("id")
+        for k in ("documents", "eligibilityDocuments", "financialDocuments", "qualificationDocuments", "lotValues"):
+            self.assertEqual(bid.pop(k, []), [])
         self.assertEqual(bid, i)
 
 

@@ -34,8 +34,10 @@ class PatchBid(UABidMixin, BasePatchBid, PatchBidResponsesMixin):
 
 
 class PostBid(UABidMixin, BasePostBid, PostBidResponsesMixin):
+    lotValues = ListType(ModelType(PostLotValue, required=True), default=list)
+    parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq], default=list)
     selfQualified = BooleanType(required=True, choices=[True])
-    documents = ListType(ConfidentialDocumentModelType(PostDocument, required=True))
+    documents = ListType(ConfidentialDocumentModelType(PostDocument, required=True), default=list)
 
     def validate_value(self, data, value):
         if data.get("status") != "draft":

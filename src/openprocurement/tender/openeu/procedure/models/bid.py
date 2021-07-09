@@ -4,12 +4,13 @@ from openprocurement.tender.openua.procedure.models.bid import (
     PostBid as BasePostBid,
     PatchBid as BasePatchBid,
 )
+from openprocurement.tender.core.procedure.models.base import ListType
 from openprocurement.tender.openeu.procedure.models.lot_value import LotValue, PostLotValue
 from openprocurement.tender.openua.procedure.models.document import (
     PostDocument,
     Document,
 )
-from schematics.types.compound import ListType, ModelType
+from schematics.types.compound import ModelType
 
 
 class PatchBid(BasePatchBid):
@@ -22,12 +23,12 @@ class PatchBid(BasePatchBid):
 
 
 class PostBid(BasePostBid):
-    lotValues = ListType(ModelType(PostLotValue, required=True))
+    lotValues = ListType(ModelType(PostLotValue, required=True), default=list)
 
-    documents = ListType(ModelType(PostDocument, required=True))
-    financialDocuments = ListType(ModelType(PostDocument, required=True))
-    eligibilityDocuments = ListType(ModelType(PostDocument, required=True))
-    qualificationDocuments = ListType(ModelType(PostDocument, required=True))
+    documents = ListType(ModelType(PostDocument, required=True), default=list)
+    financialDocuments = ListType(ModelType(PostDocument, required=True), default=list)
+    eligibilityDocuments = ListType(ModelType(PostDocument, required=True), default=list)
+    qualificationDocuments = ListType(ModelType(PostDocument, required=True), default=list)
 
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(choices=[True])
