@@ -9,7 +9,7 @@ X-Content-Type-Options: nosniff
   "data": [
     {
       "id": "dad5d663985f4e1f89fed69eb21d3b97",
-      "bidID": "53c36a7d70f74146adcee826a1c7273a",
+      "bidID": "491e23c37ed44b8b85e972f227307b80",
       "lotID": "5563fbab2bd848b398a5de9cb3ac555b",
       "status": "pending",
       "date": "2021-03-16T00:00:00+02:00",
@@ -18,7 +18,7 @@ X-Content-Type-Options: nosniff
     },
     {
       "id": "eb923e797e5045e78c90c59bdb3fc212",
-      "bidID": "01342dd1e2b4444da922161ff3179fc3",
+      "bidID": "6a589730254f47ac99ab0eee03d6770f",
       "lotID": "5563fbab2bd848b398a5de9cb3ac555b",
       "status": "pending",
       "date": "2021-03-16T00:00:00+02:00",

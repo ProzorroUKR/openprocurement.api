@@ -13,6 +13,8 @@ from openprocurement.tender.core.utils import (
     generate_tender_id,
     tender_serialize,
     tender_from_data,
+    extract_tender_id,
+    extract_tender_doc,
     extract_tender,
     register_tender_procurementMethodType,
     has_unanswered_complaints,
@@ -197,7 +199,7 @@ class TestUtils(TestUtilsBase):
 
     @patch("openprocurement.tender.core.utils.decode_path_info")
     @patch("openprocurement.tender.core.utils.error_handler")
-    def test_extract_tender(self, mocked_error_handler, mocked_decode_path):
+    def test_extract_tender_id(self, mocked_error_handler, mocked_decode_path):
         mocked_error_handler.return_value = Exception("Oops.")
         mocked_decode_path.side_effect = [
             KeyError("Missing 'PATH_INFO'"),
@@ -205,20 +207,15 @@ class TestUtils(TestUtilsBase):
             "/",
             "/api/2.3/tenders/{}".format(self.tender_data["id"]),
         ]
-        tender_data = deepcopy(self.tender_data)
-        tender_data["doc_type"] = "Tender"
         request = MagicMock()
         request.environ = {"PATH_INFO": "/"}
-        request.registry.tender_procurementMethodTypes.get.return_value = Tender
-        request.tender_from_data.return_value = tender_from_data(request, tender_data)
-        request.registry.db = MagicMock()
 
         # Test with KeyError
-        self.assertIs(extract_tender(request), None)
+        self.assertIs(extract_tender_id(request), None)
 
         # Test with UnicodeDecodeError
         with self.assertRaises(URLDecodeError) as e:
-            extract_tender(request)
+            extract_tender_id(request)
         self.assertEqual(e.exception.encoding, "UTF-8")
         self.assertEqual(e.exception.object, b"obj")
         self.assertEqual(e.exception.start, 1)
@@ -227,23 +224,43 @@ class TestUtils(TestUtilsBase):
         self.assertIsInstance(e.exception, URLDecodeError)
 
         # Test with path '/'
-        self.assertIs(extract_tender(request), None)
+        self.assertIs(extract_tender_id(request), None)
 
-        mocked_decode_path.side_effect = ["/api/2.3/tenders/{}".format(self.tender_data["id"])] * 3
+    @patch("openprocurement.tender.core.utils.extract_tender_id")
+    def test_extract_tender_doc(self, mocked_extract_tender_id):
+        tender_data = deepcopy(self.tender_data)
+        mocked_extract_tender_id.return_value = tender_data["id"]
+        tender_data["doc_type"] = "Tender"
+        request = MagicMock()
+        request.registry.db = MagicMock()
 
         # Test with extract_tender_adapter raise HTTP 410
         request.registry.db.get.return_value = {"doc_type": "tender"}
         with self.assertRaises(Exception) as e:
-            extract_tender(request)
+            extract_tender_doc(request)
         self.assertEqual(request.errors.status, 410)
         request.errors.add.assert_called_once_with("url", "tender_id", "Archived")
 
         # Test with extract_tender_adapter raise HTTP 404
         request.registry.db.get.return_value = {"doc_type": "notTender"}
         with self.assertRaises(Exception) as e:
-            extract_tender(request)
+            extract_tender_doc(request)
         self.assertEqual(request.errors.status, 404)
         request.errors.add.assert_has_calls([call("url", "tender_id", "Not Found")])
+
+        # Test with extract_tender_adapter return Tender object
+        request.registry.db.get.return_value = tender_data
+        doc = extract_tender_doc(request)
+        self.assertEqual(doc, tender_data)
+
+    def test_extract_tender(self):
+        request = MagicMock()
+        tender_data = deepcopy(self.tender_data)
+        tender_data["doc_type"] = "Tender"
+
+        request.tender_doc = tender_data
+        request.registry.tender_procurementMethodTypes.get.return_value = Tender
+        request.tender_from_data.return_value = tender_from_data(request, tender_data)
 
         # Test with extract_tender_adapter return Tender object
         request.registry.db.get.return_value = tender_data
@@ -299,11 +316,11 @@ class TestIsTender(TestUtilsBase):
         is_tender = isTender("bellowThreshold", None)
         self.assertEqual(is_tender.phash(), "procurementMethodType = bellowThreshold")
         request = MagicMock()
-        request.tender = None
+        request.tender_doc = None
 
         self.assertEqual(False, is_tender(None, request))
 
-        request.tender = tender
+        request.tender_doc = {"procurementMethodType": "bellowThreshold"}
         self.assertEqual(True, is_tender(None, request))
 
         is_tender = isTender("esco.EU", None)

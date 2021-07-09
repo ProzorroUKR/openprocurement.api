@@ -34,13 +34,11 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
     patch_tender_bidder_document_private_json,
     put_tender_bidder_document_private_json,
     get_tender_bidder_document_ds,
-    # TenderBidDocumentResourceTest
     not_found,
     get_tender_bidder_document,
     create_tender_bidder_document,
     put_tender_bidder_document,
     patch_tender_bidder_document,
-    patch_tender_bidder_document_private,
     patch_and_put_document_into_invalid_bid,
     download_tender_bidder_document,
     create_tender_bidder_document_nopending,
@@ -113,17 +111,8 @@ class Tender2BidResourceTestMixin(object):
     test_create_tender_bid_no_scale = snitch(create_tender_bid_no_scale)
 
 
-class TenderBidDocumentResourceTestMixin(object):
-    test_not_found = snitch(not_found)
-    test_get_tender_bidder_document = snitch(get_tender_bidder_document)
-    test_create_tender_bidder_document = snitch(create_tender_bidder_document)
-    test_put_tender_bidder_document = snitch(put_tender_bidder_document)
-    test_patch_tender_bidder_document = snitch(patch_tender_bidder_document)
-    test_patch_tender_bidder_document_private = snitch(patch_tender_bidder_document_private)
-    test_download_tender_bidder_document = snitch(download_tender_bidder_document)
-
-
 class TenderBidResourceTest(BaseTenderContentWebTest, TenderBidResourceTestMixin, Tender2BidResourceTestMixin):
+    docservice = True
     initial_status = "active.tendering"
     initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_bids  # TODO: change attribute identifier
@@ -151,13 +140,24 @@ class TenderBidFeaturesResourceTest(BaseTenderContentWebTest):
     test_features_bidder_invalid = snitch(features_bidder_invalid)
 
 
-class TenderBidDocumentResourceTest(BaseTenderContentWebTest, TenderBidDocumentResourceTestMixin):
+class TenderBidDocumentResourceWithDSTestMixin:
+    test_not_found = snitch(not_found)
+    test_get_tender_bidder_document = snitch(get_tender_bidder_document)
+    test_create_tender_bidder_document = snitch(create_tender_bidder_document)
+    test_put_tender_bidder_document = snitch(put_tender_bidder_document)
+    test_patch_tender_bidder_document = snitch(patch_tender_bidder_document)
+    test_download_tender_bidder_document = snitch(download_tender_bidder_document)
+    test_patch_tender_bidder_document_private_json = snitch(patch_tender_bidder_document_private_json)
+
+
+class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceWithDSTestMixin, BaseTenderContentWebTest):
+    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "active.tendering"
     test_bids_data = test_bids  # TODO: change attribute identificator
 
     def setUp(self):
-        super(TenderBidDocumentResourceTest, self).setUp()
+        super(TenderBidDocumentWithDSResourceTest, self).setUp()
         # Create bid
         response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": test_bids[0]})
         bid = response.json["data"]
@@ -172,12 +172,7 @@ class TenderBidDocumentResourceTest(BaseTenderContentWebTest, TenderBidDocumentR
     test_patch_and_put_document_into_invalid_bid = snitch(patch_and_put_document_into_invalid_bid)
     test_create_tender_bidder_document_nopending = snitch(create_tender_bidder_document_nopending)
 
-
-class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
-    docservice = True
-
     test_create_tender_bid_document_json_bulk = snitch(create_tender_bid_document_json_bulk)
-    test_patch_tender_bidder_document_private_json = snitch(patch_tender_bidder_document_private_json)
     test_put_tender_bidder_document_private_json = snitch(put_tender_bidder_document_private_json)
     test_get_tender_bidder_document_ds = snitch(get_tender_bidder_document_ds)
 

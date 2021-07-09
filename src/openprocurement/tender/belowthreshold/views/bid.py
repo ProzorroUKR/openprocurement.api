@@ -13,13 +13,14 @@ from openprocurement.tender.belowthreshold.validation import validate_view_bids,
 from openprocurement.tender.core.utils import save_tender, optendersresource, apply_patch
 
 
-@optendersresource(
-    name="belowThreshold:Tender Bids",
-    collection_path="/tenders/{tender_id}/bids",
-    path="/tenders/{tender_id}/bids/{bid_id}",
-    procurementMethodType="belowThreshold",
-    description="Tender bids",
-)
+# Disabling this view, but it still can be  used and extended
+# @optendersresource(
+#     name="belowThreshold:Tender Bids",
+#     collection_path="/tenders/{tender_id}/bids",
+#     path="/tenders/{tender_id}/bids/{bid_id}",
+#     procurementMethodType="belowThreshold",
+#     description="Tender bids",
+# )
 class TenderBidResource(APIResource):
     @json_view(
         content_type="application/json",

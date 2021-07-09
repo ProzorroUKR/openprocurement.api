@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/c48ab04ff9f84430ad5a724b31b56f19/documents?acc_token=cae2bd9386d44acc8a8d9bd1c5e5eea5 HTTP/1.0
+GET /api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/7b97714f142c430b98dd609d94a9e441/documents?acc_token=1faa8b766a674147a2f29548b26c1b55 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,29 +8,26 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "id": "8aeec06a85ee4e4298b8bd22dfb032d4",
       "hash": "md5:00000000000000000000000000000000",
       "title": "Proposal.pdf",
       "format": "application/pdf",
-      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/c48ab04ff9f84430ad5a724b31b56f19/documents/8aeec06a85ee4e4298b8bd22dfb032d4?download=fff57b2a4a194ddbb66c81394bbbd5f8",
-      "datePublished": "2021-03-16T00:00:00+02:00",
-      "dateModified": "2021-03-16T00:00:00+02:00",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3436c5b74fae4a6396cb495b38c4a7bf?Signature=xb6zEhLUtq25zw4gaPuLWfObN9WzWu8L0bT1AeU9fbbc85DYWxTWoUVERSTcq7ZE4RhUSV8MsAENb59z0a8XDA%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
-      "confidentiality": "public",
-      "language": "uk"
+      "id": "9c6c487bd8474272aeeef2b98848640e",
+      "datePublished": "2021-03-16T00:00:00+02:00",
+      "dateModified": "2021-03-16T00:00:00+02:00"
     },
     {
-      "id": "2e070d09800142ddac13f14a5ae2f9ef",
+      "id": "28852cb33d7e4d0d8175cc86f80283da",
+      "datePublished": "2021-03-16T00:00:00+02:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "Proposal_top_secrets.pdf",
       "format": "application/pdf",
-      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/c48ab04ff9f84430ad5a724b31b56f19/documents/2e070d09800142ddac13f14a5ae2f9ef?download=091b738f06344739a83e2505de522229",
-      "datePublished": "2021-03-16T00:00:00+02:00",
-      "dateModified": "2021-03-16T00:00:00+02:00",
+      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/7b97714f142c430b98dd609d94a9e441/documents/28852cb33d7e4d0d8175cc86f80283da?download=396144e95a5f4abb8c1d2fd408ff4d72",
       "documentOf": "tender",
-      "confidentialityRationale": "Only our company sells badgers with pink hair.",
+      "dateModified": "2021-03-16T00:00:00+02:00",
       "confidentiality": "buyerOnly",
-      "language": "uk"
+      "confidentialityRationale": "Only our company sells badgers with pink hair."
     }
   ]
 }

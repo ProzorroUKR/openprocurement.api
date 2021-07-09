@@ -5,6 +5,7 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
     test_features_tender_data,
+    language_criteria,
     test_organization,
     test_lots,
     test_bids,
@@ -26,8 +27,6 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     features_bid_invalid,
     # TenderBidDocumentResourceTest
     not_found,
-    create_tender_bid_document,
-    put_tender_bid_document,
     patch_tender_bid_document,
     create_tender_bid_document_nopending,
     # TenderBidDocumentWithDSResourceTest
@@ -45,6 +44,8 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_document_invalid_pmr,
     update_tender_bid_document_invalid_pmr,
     bid_activate_with_cancelled_tenderer_criterion,
+    update_tender_bid_pmr_related_doc,
+    update_tender_bid_pmr_related_tenderer,
 )
 from openprocurement.tender.openeu.tests.bid import CreateBidMixin
 from openprocurement.tender.openeu.tests.bid import (
@@ -85,6 +86,7 @@ class TenderBidFeaturesResourceTest(TenderContentWebTest):
 
 
 class TenderBidDocumentResourceTest(TenderContentWebTest):
+    docservice = True
     initial_status = "active.tendering"
     guarantee_criterion = True
 
@@ -122,12 +124,20 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
                             )
 
     test_not_found = snitch(not_found)
-    test_create_tender_bid_document = snitch(create_tender_bid_document)
-    test_put_tender_bid_document = snitch(put_tender_bid_document)
     test_patch_tender_bid_document = snitch(patch_tender_bid_document)
     test_create_tender_bid_document_nopending = snitch(create_tender_bid_document_nopending)
     test_create_tender_bid_document_invalid_pmr = snitch(create_tender_bid_document_invalid_pmr)
     test_update_tender_bid_document_invalid_pmr = snitch(update_tender_bid_document_invalid_pmr)
+
+
+class TenderBidRRResourceTest(TenderContentWebTest):
+    docservice = True
+    initial_status = "active.tendering"
+    guarantee_criterion = True
+    guarantee_criterion_data = language_criteria
+
+    test_update_tender_bid_pmr_related_doc = snitch(update_tender_bid_pmr_related_doc)
+    test_update_tender_bid_pmr_related_tenderer = snitch(update_tender_bid_pmr_related_tenderer)
 
 
 class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):

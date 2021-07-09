@@ -1,28 +1,29 @@
 POST /api/2.5/tenders/423ce3389d0f48b1a1ee6cd5a8dad65f/complaints/ce3a72672bc74b59a4da68e1b19b26d2/documents?acc_token=cba4a12b50db4382895ab10f259090db HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 156
-Content-Type: multipart/form-data; boundary=---BOUNDARY
+Content-Length: 340
+Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
------BOUNDARY
-Content-Disposition: form-data; name="file"; filename="Complaint_Attachment.pdf"
-Content-Type: application/pdf
-
-content
------BOUNDARY--
-
+{
+  "data": {
+    "title": "Complaint_Attachment.pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9b269fcfd987408f9618d155948b8df6?Signature=T8Wv%2FUdOPSgPp%2BfJt7J9o8iIuEXHfqREMP42mXKFbKaJ9pSiIz%2B8uIqC%2BtzOqcTMcO55u2se7lZsQmmewYrmAg%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pdf"
+  }
+}
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/423ce3389d0f48b1a1ee6cd5a8dad65f/complaints/ce3a72672bc74b59a4da68e1b19b26d2/documents/d379d271e69c4b2baea137a550ba2bab
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/423ce3389d0f48b1a1ee6cd5a8dad65f/complaints/ce3a72672bc74b59a4da68e1b19b26d2/documents/549a7765aac64e69b64c4fcfff5c64dd
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "d379d271e69c4b2baea137a550ba2bab",
+    "id": "549a7765aac64e69b64c4fcfff5c64dd",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Complaint_Attachment.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9b398013bb404e8aaa45af1ac8ffb062?Signature=HweoLlpi%2FONWl2e2Gpj6sNXo8JHiAfGeJp%2BOxr%2BLsyFw3R55Hi%2Fiowm5u%2BSwBQvgM2ei28OLFfPFTbAAd2jCBg%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9b269fcfd987408f9618d155948b8df6?Signature=PO5oOxGJEHeFtDgp4ZLH8oPAq6XhGq1ms%2B3c4g%2B2t0kGqZ7oGiiHwapUfmkoZ2U%2FhFkIwpZ6E1musRSgLxtTBQ%3D%3D&KeyID=a8968c46",
     "datePublished": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
     "author": "complaint_owner",

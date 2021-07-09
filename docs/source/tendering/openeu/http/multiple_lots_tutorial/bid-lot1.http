@@ -44,7 +44,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4f6f9f4965ae47e99cd03a167c41c1a0/bids/53c36a7d70f74146adcee826a1c7273a
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4f6f9f4965ae47e99cd03a167c41c1a0/bids/491e23c37ed44b8b85e972f227307b80
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -52,9 +52,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "ДКП «Школяр»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137256",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137256"
         },
         "address": {
           "streetAddress": "вул. Островського, 33",
@@ -64,15 +64,13 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
         },
         "scale": "micro"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "53c36a7d70f74146adcee826a1c7273a",
     "lotValues": [
       {
         "value": {
@@ -81,17 +79,19 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "5563fbab2bd848b398a5de9cb3ac555b",
-        "date": "2021-03-16T00:00:00+02:00",
         "subcontractingDetails": "ДКП «Орфей», Україна",
-        "status": "pending"
+        "status": "pending",
+        "date": "2021-03-16T00:00:00+02:00"
       }
     ],
     "selfQualified": true,
-    "status": "pending"
+    "status": "pending",
+    "id": "491e23c37ed44b8b85e972f227307b80",
+    "date": "2021-03-16T00:00:00+02:00"
   },
   "access": {
-    "token": "8c2ba14274854a98bcb8539e3525e1df",
-    "transfer": "95e294ab9d4f41ae91c8618f11f36243"
+    "token": "5b35834cc1d54b15b66105acbc76be51",
+    "transfer": "7cc776c061d04fe68c653a2e19d8666e"
   }
 }
 

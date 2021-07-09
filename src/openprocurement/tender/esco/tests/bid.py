@@ -23,10 +23,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderBidDocumentWithDSResourceTest
     create_tender_bid_document_json_bulk,
 )
-from openprocurement.tender.openeu.tests.bid import (
-    TenderBidDocumentResourceTestMixin,
-    CreateBidMixin,
-)
+from openprocurement.tender.openeu.tests.bid import CreateBidMixin
 from openprocurement.tender.openua.tests.bid import (
     TenderBidRequirementResponseTestMixin,
     TenderBidRequirementResponseEvidenceTestMixin,
@@ -36,7 +33,12 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
     patch_tender_bidder_document_private_json,
     put_tender_bidder_document_private_json,
     get_tender_bidder_document_ds,
-    # TenderBidDocumentResourceTest
+    not_found,
+    get_tender_bidder_document,
+    create_tender_bidder_document,
+    put_tender_bidder_document,
+    patch_tender_bidder_document,
+    download_tender_bidder_document,
     create_tender_bidder_document_nopending,
     # TenderBidBatchDocumentWithDSResourceTest
     create_tender_bid_with_all_documents,
@@ -153,7 +155,7 @@ class TenderBidFeaturesResourceTest(BaseESCOContentWebTest):
     test_features_bid_invalid = snitch(features_bid_invalid)
 
 
-class TenderBidDocumentResourceTest(BaseESCOContentWebTest, TenderBidDocumentResourceTestMixin):
+class TenderBidDocumentResourceTest(BaseESCOContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "active.tendering"
     test_bids_data = test_bids
@@ -172,7 +174,6 @@ class TenderBidDocumentResourceTest(BaseESCOContentWebTest, TenderBidDocumentRes
         self.bid2_token = response.json["access"]["token"]
 
     test_patch_and_put_document_into_invalid_bid = snitch(patch_and_put_document_into_invalid_bid)
-    test_create_tender_bidder_document_nopending = snitch(create_tender_bidder_document_nopending)
 
 
 class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
@@ -182,6 +183,15 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
     test_patch_tender_bidder_document_private_json = snitch(patch_tender_bidder_document_private_json)
     test_put_tender_bidder_document_private_json = snitch(put_tender_bidder_document_private_json)
     test_get_tender_bidder_document_ds = snitch(get_tender_bidder_document_ds)
+
+    test_not_found = snitch(not_found)
+    test_get_tender_bidder_document = snitch(get_tender_bidder_document)
+    test_create_tender_bidder_document = snitch(create_tender_bidder_document)
+    test_put_tender_bidder_document = snitch(put_tender_bidder_document)
+    test_patch_tender_bidder_document = snitch(patch_tender_bidder_document)
+    test_download_tender_bidder_document = snitch(download_tender_bidder_document)
+
+    test_create_tender_bidder_document_nopending = snitch(create_tender_bidder_document_nopending)
 
 
 class TenderBidDocumentWithoutDSResourceTest(TenderBidDocumentResourceTest):

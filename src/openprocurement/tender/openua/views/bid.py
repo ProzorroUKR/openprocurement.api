@@ -12,13 +12,13 @@ from openprocurement.tender.core.utils import save_tender, apply_patch, optender
 from openprocurement.tender.openua.validation import validate_update_bid_to_draft, validate_update_bid_to_active_status
 
 
-@optendersresource(
-    name="aboveThresholdUA:Tender Bids",
-    collection_path="/tenders/{tender_id}/bids",
-    path="/tenders/{tender_id}/bids/{bid_id}",
-    procurementMethodType="aboveThresholdUA",
-    description="Tender bids",
-)
+# @optendersresource(
+#     name="aboveThresholdUA:Tender Bids",
+#     collection_path="/tenders/{tender_id}/bids",
+#     path="/tenders/{tender_id}/bids/{bid_id}",
+#     procurementMethodType="aboveThresholdUA",
+#     description="Tender bids",
+# )
 class TenderUABidResource(TenderBidResource):
 
     allowed_bid_status_on_create = ["draft", "active"]
@@ -138,6 +138,7 @@ class TenderUABidResource(TenderBidResource):
             validate_patch_bid_data,
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,
+
             validate_update_deleted_bid,
             validate_update_bid_to_draft,
             validate_update_bid_to_active_status,

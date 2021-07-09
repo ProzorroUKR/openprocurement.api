@@ -1,27 +1,28 @@
-PUT /api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/documents/116fa14b4ac44995b8cbe59ebc070f3f?acc_token=a18895cc933048798f66084924c3fdf5 HTTP/1.0
+PUT /api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/documents/c648fc26ab1041c193f63ba2b43e95c8?acc_token=a18895cc933048798f66084924c3fdf5 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 152
-Content-Type: multipart/form-data; boundary=---BOUNDARY
+Content-Length: 331
+Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
------BOUNDARY
-Content-Disposition: form-data; name="file"; filename="AwardCriteria-2.pdf"
-Content-Type: application/pdf
-
-content2
------BOUNDARY--
-
+{
+  "data": {
+    "title": "AwardCriteria-2.pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/88b8e9b475364501a41d908978a4ea7c?Signature=jkegZvDbZRzgQRdgwEd9rOJ%2BYw3VA6hMu8BeHbpeFRYvWRuZAbzW0RmSFEcNXmMDj%2BYWsLnf1ny7yqmsZZ9HBg%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pdf"
+  }
+}
 
 Response: 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "116fa14b4ac44995b8cbe59ebc070f3f",
+    "id": "c648fc26ab1041c193f63ba2b43e95c8",
     "hash": "md5:00000000000000000000000000000000",
     "title": "AwardCriteria-2.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/efeff81756d14b60b0829a937808b6d5?Signature=z6ISM9hwbDTFqg5IGETfBaHdkDlzagK%2Bb3PiEAeU9sJj23%2FsXS5r%2FP73jvpR%2B0CwGUy7ghxbEtHYmrHM4uwCCg%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/88b8e9b475364501a41d908978a4ea7c?Signature=hQJxsry6FmzQ2YR7TCSH9OO9SKNZSkeAWwksJJnJvIu4Wabk6cqrYmx21lkfuIwD9Nd4SGZ%2BfZI9oRfXFFTdBA%3D%3D&KeyID=a8968c46",
     "datePublished": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
     "author": "tender_owner",

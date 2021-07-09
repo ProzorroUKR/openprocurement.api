@@ -1,33 +1,32 @@
-POST /api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/c48ab04ff9f84430ad5a724b31b56f19/documents?acc_token=cae2bd9386d44acc8a8d9bd1c5e5eea5 HTTP/1.0
+POST /api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/7b97714f142c430b98dd609d94a9e441/documents?acc_token=1faa8b766a674147a2f29548b26c1b55 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 144
-Content-Type: multipart/form-data; boundary=---BOUNDARY
+Content-Length: 326
+Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
------BOUNDARY
-Content-Disposition: form-data; name="file"; filename="Proposal.pdf"
-Content-Type: application/pdf
-
-content
------BOUNDARY--
-
+{
+  "data": {
+    "title": "Proposal.pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3436c5b74fae4a6396cb495b38c4a7bf?Signature=pihD4Pnq%2FaWrpEATnj9JLVeVAkATY9Cu3QKqfxzrUg0lbou5WN4gqM1%2B8jV%2FB4JZezoIoxEwVvys6NwFh5jpDg%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pdf"
+  }
+}
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/c48ab04ff9f84430ad5a724b31b56f19/documents/8aeec06a85ee4e4298b8bd22dfb032d4
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/7b97714f142c430b98dd609d94a9e441/documents/9c6c487bd8474272aeeef2b98848640e
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "8aeec06a85ee4e4298b8bd22dfb032d4",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Proposal.pdf",
     "format": "application/pdf",
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/c48ab04ff9f84430ad5a724b31b56f19/documents/8aeec06a85ee4e4298b8bd22dfb032d4?download=fff57b2a4a194ddbb66c81394bbbd5f8",
-    "datePublished": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/7b97714f142c430b98dd609d94a9e441/documents/9c6c487bd8474272aeeef2b98848640e?download=3436c5b74fae4a6396cb495b38c4a7bf",
     "documentOf": "tender",
-    "confidentiality": "public",
-    "language": "uk"
+    "id": "9c6c487bd8474272aeeef2b98848640e",
+    "datePublished": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00"
   }
 }
 

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/930000429dcc4a83a2879dcc45bc5d8a/bids/65928406b44b4f73ad7b8be9591d208f?acc_token=07e06cacd82447318b5e6202df60b523 HTTP/1.0
+PATCH /api/2.5/tenders/930000429dcc4a83a2879dcc45bc5d8a/bids/fca5f46a77484fe09b1038555f0e2bb2?acc_token=00ae749dfd5e4e55bfc9726e32db2c93 HTTP/1.0
 Authorization: Bearer token
 Content-Length: 38
 Content-Type: application/json
@@ -15,6 +15,11 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -38,29 +43,22 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
+    "id": "fca5f46a77484fe09b1038555f0e2bb2",
     "date": "2021-03-16T00:00:00+02:00",
-    "id": "65928406b44b4f73ad7b8be9591d208f",
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
+    "subcontractingDetails": "ДКП «Орфей», Україна",
     "documents": [
       {
-        "id": "6b128e5a0f5a49c3948866fe84c616b4",
+        "id": "6f732f2a844d4abeb87318952e38e5af",
+        "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/930000429dcc4a83a2879dcc45bc5d8a/bids/65928406b44b4f73ad7b8be9591d208f/documents/6b128e5a0f5a49c3948866fe84c616b4?download=c0d0124088da4f19bdfa51b3c5f2efaf",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/930000429dcc4a83a2879dcc45bc5d8a/bids/fca5f46a77484fe09b1038555f0e2bb2/documents/6f732f2a844d4abeb87318952e38e5af?download=101a4c542c25418797557f7601d4dc8d",
         "documentOf": "tender",
-        "confidentiality": "public",
-        "language": "uk"
+        "dateModified": "2021-03-16T00:00:00+02:00"
       }
     ],
     "selfQualified": true,
-    "subcontractingDetails": "ДКП «Орфей», Україна",
     "status": "draft"
   }
 }

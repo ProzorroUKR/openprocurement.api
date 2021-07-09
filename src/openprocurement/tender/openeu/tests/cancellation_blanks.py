@@ -322,7 +322,10 @@ def bids_on_tender_cancellation_in_awarded(self):
 def cancellation_active_tendering_j708(self):
     bid = deepcopy(self.initial_bids[0])
     bid["lotValues"] = bid["lotValues"][:1]
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
+    bid_data = deepcopy(bid)
+    del bid_data["date"]  # TODO  should ignore extra fields ?
+    del bid_data["lotValues"][0]["date"]
+    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
     self.assertEqual(response.status, "201 Created")
     self.initial_bids_tokens[response.json["data"]["id"]] = response.json["access"]["token"]
     self.initial_bids.append(response.json["data"])
@@ -360,7 +363,7 @@ def cancellation_active_tendering_j708(self):
     else:
         activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id)
 
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
+    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
     self.assertEqual(response.status, "201 Created")
     self.initial_bids_tokens[response.json["data"]["id"]] = response.json["access"]["token"]
     self.initial_bids.append(response.json["data"])
@@ -377,8 +380,11 @@ def cancellation_active_qualification_j1427(self):
 
     # post three bids
     bid_ids = []
+    bid_data = deepcopy(bid)
+    del bid_data["date"]  # TODO  should ignore extra fields ?
+    del bid_data["lotValues"][0]["date"]
     for i in range(3):
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
+        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
         self.assertEqual(response.status, "201 Created")
         self.initial_bids_tokens[response.json["data"]["id"]] = response.json["access"]["token"]
         self.initial_bids.append(response.json["data"])

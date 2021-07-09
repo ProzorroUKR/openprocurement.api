@@ -2,6 +2,8 @@ from logging import getLogger
 from pkg_resources import iter_entry_points
 from pyramid.interfaces import IRequest
 from openprocurement.tender.core.utils import (
+    resolve_tender_model,
+    extract_tender_doc,
     extract_tender,
     isTender,
     register_tender_procurementMethodType,
@@ -21,6 +23,8 @@ def includeme(config):
     LOGGER.info("Init tender.core plugin.")
 
     add_design()
+    config.add_request_method(resolve_tender_model, "tender_model", reify=True)
+    config.add_request_method(extract_tender_doc, "tender_doc", reify=True)
     config.add_request_method(extract_tender, "tender", reify=True)
 
     # tender procurementMethodType plugins support

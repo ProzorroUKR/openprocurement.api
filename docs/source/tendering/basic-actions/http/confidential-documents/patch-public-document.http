@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/bac835240efd4adea01560554d7bfdb4/bids/2191d9a2aadb44418238d8cf893ae395/documents/ccd5c0b5cc364863ac6db661d6b9aec8?acc_token=d4640e490c734ea5ae304b02ec4304d9 HTTP/1.0
+PATCH /api/2.5/tenders/bac835240efd4adea01560554d7bfdb4/bids/0f4edde39c8440589de23c8efb2c8fb8/documents/628e69bbb3be4d8a8a46541a60d09b3f?acc_token=fad6392841c34ee7afa2265d0f27d18a HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 178
 Content-Type: application/json
@@ -16,14 +16,14 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "ccd5c0b5cc364863ac6db661d6b9aec8",
+    "id": "628e69bbb3be4d8a8a46541a60d09b3f",
+    "datePublished": "2021-03-16T00:00:00+02:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "public-to-private.doc",
     "format": "application/msword",
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bac835240efd4adea01560554d7bfdb4/bids/2191d9a2aadb44418238d8cf893ae395/documents/ccd5c0b5cc364863ac6db661d6b9aec8?download=47ac6dae16dd4b85b4557e53aa4e2e16",
-    "datePublished": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bac835240efd4adea01560554d7bfdb4/bids/0f4edde39c8440589de23c8efb2c8fb8/documents/628e69bbb3be4d8a8a46541a60d09b3f?download=47ac6dae16dd4b85b4557e53aa4e2e16",
     "documentOf": "tender",
+    "dateModified": "2021-03-16T00:00:00+02:00",
     "confidentiality": "buyerOnly",
     "confidentialityRationale": "Lol, this document contains some secret data that shouldn't be public, I'm changing it's confidentiality"
   }

@@ -13,6 +13,7 @@ def includeme(config):
 
     config.add_tender_procurementMethodType(Tender)
     config.scan("openprocurement.tender.openua.views")
+    config.scan("openprocurement.tender.openua.procedure.views")
     config.scan("openprocurement.tender.openua.subscribers")
     config.registry.registerAdapter(
         TenderAboveThresholdUAConfigurator, (IAboveThresholdUATender, IRequest), IContentConfigurator

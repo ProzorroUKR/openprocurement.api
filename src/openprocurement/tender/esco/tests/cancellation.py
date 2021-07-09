@@ -70,6 +70,7 @@ class TenderCancellationResourceTest(
 
 
 class TenderCancellationBidsAvailabilityTest(BaseESCOContentWebTest, TenderCancellationBidsAvailabilityUtils):
+    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_bids = test_bids * 2
     bid_visible_fields = ["status", "documents", "tenderers", "id", "eligibilityDocuments"]

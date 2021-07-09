@@ -1,28 +1,29 @@
 POST /api/2.5/tenders/7d0a97df8f00490ca771758156599045/cancellations/7b3a09b033c7450d99c0d3e17b69039a/complaints/9d0ce1567b1a462eb0d9226f0c06add5/documents?acc_token=15a1796900654f2b85eb627b4abd22b4 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 156
-Content-Type: multipart/form-data; boundary=---BOUNDARY
+Content-Length: 344
+Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
------BOUNDARY
-Content-Disposition: form-data; name="file"; filename="Complaint_Attachment.pdf"
-Content-Type: application/pdf
-
-content
------BOUNDARY--
-
+{
+  "data": {
+    "title": "Complaint_Attachment.pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/aa98df708233490483f06801174bea5a?Signature=sLjNk2tXH%2B%2BwlASVhBcAXI%2BVBkvMu6A5tF7Qz%2FEiwexAV%2Bt4sXqI91jIy1WD39twOBes%2B7D0UZo2uYKv7uXvAw%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pdf"
+  }
+}
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7d0a97df8f00490ca771758156599045/cancellations/7b3a09b033c7450d99c0d3e17b69039a/complaints/9d0ce1567b1a462eb0d9226f0c06add5/documents/42dee2d864f84f9683dc37532d52971c
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7d0a97df8f00490ca771758156599045/cancellations/7b3a09b033c7450d99c0d3e17b69039a/complaints/9d0ce1567b1a462eb0d9226f0c06add5/documents/d3a6e3e9236d42f899a264e545675cee
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "42dee2d864f84f9683dc37532d52971c",
+    "id": "d3a6e3e9236d42f899a264e545675cee",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Complaint_Attachment.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/61da24bf793c4d1bbf980393b10b66ee?Signature=Pj2LnNWlebcmRjKv3KBQuu3mHP1aiXgO4XDB92RGAqEic5fixeymqCqbDGVALU%2B2lKd2wnZt6SmGIq7eJ1LzAQ%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/aa98df708233490483f06801174bea5a?Signature=WTozQKCjSit%2BDI6jh5evsVb9Q6f6VMcnSq9NWRdKc4qW%2B%2BTDZxDcQUOOXRSM1EJKOyLG7EO33%2Bp1NIO80KEFCg%3D%3D&KeyID=a8968c46",
     "datePublished": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
     "author": "complaint_owner",
