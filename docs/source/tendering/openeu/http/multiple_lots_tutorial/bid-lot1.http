@@ -71,6 +71,7 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
+    "parameters": [],
     "lotValues": [
       {
         "value": {
@@ -84,6 +85,10 @@ X-Content-Type-Options: nosniff
         "date": "2021-03-16T00:00:00+02:00"
       }
     ],
+    "documents": [],
+    "financialDocuments": [],
+    "eligibilityDocuments": [],
+    "qualificationDocuments": [],
     "selfQualified": true,
     "status": "pending",
     "id": "491e23c37ed44b8b85e972f227307b80",

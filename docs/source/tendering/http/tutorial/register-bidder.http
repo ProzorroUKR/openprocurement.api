@@ -70,7 +70,10 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
+    "parameters": [],
+    "lotValues": [],
     "status": "draft",
+    "documents": [],
     "id": "eae97159b1034bdb8a19a5815b52e1de",
     "date": "2021-03-16T00:00:01+02:00"
   },

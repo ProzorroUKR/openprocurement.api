@@ -206,7 +206,8 @@ def create_tender_bid(self):
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_organization], "value": {"amount": 500}}},
+        {"data": {"tenderers": [test_organization], "value": {"amount": 500},
+                  "lotValues": None, "parameters": None, "documents": None}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -232,7 +233,11 @@ def create_tender_bid(self):
 def patch_tender_bid(self):
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_organization], "status": "draft", "value": {"amount": 500}}},
+        {"data": {
+            "tenderers": [test_organization], "status": "draft",
+            "value": {"amount": 500},
+            "lotValues": None, "parameters": None, "documents": None,
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -278,7 +283,10 @@ def patch_tender_bid(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
-        {"data": {"value": {"amount": 400}}},
+        {"data": {
+            "value": {"amount": 400},
+            "lotValues": None, "parameters": None,
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -568,6 +576,8 @@ def features_bid(self):
         bid = response.json["data"]
         bid.pop("date")
         bid.pop("id")
+        for k in ("documents", "lotValues"):
+            self.assertEqual(bid.pop(k, []), [])
         self.assertEqual(bid, i)
 
 

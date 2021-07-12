@@ -47,7 +47,10 @@ X-Content-Type-Options: nosniff
     "id": "0f4edde39c8440589de23c8efb2c8fb8",
     "date": "2021-03-16T00:00:00+02:00",
     "selfQualified": true,
-    "subcontractingDetails": "ДКП «Орфей», Україна"
+    "subcontractingDetails": "ДКП «Орфей», Україна",
+    "parameters": [],
+    "lotValues": [],
+    "documents": []
   }
 }
 

@@ -233,6 +233,7 @@ def create_tender_biddder_invalid(self):
 
 def create_tender_bidder(self):
     bid_data = deepcopy(self.test_bids_data[0])
+    bid_data.update({"lotValues": None, "parameters": None, "documents": None})
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
@@ -293,7 +294,10 @@ def patch_tender_bidder(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"value": {"amount": 600}}},
+        {"data": {
+            "value": {"amount": 600},
+            "lotValues": None, "parameters": None,
+        }},
         status=200,
     )
     self.assertEqual(response.status, "200 OK")
@@ -885,6 +889,8 @@ def features_bidder(self):
         bid = response.json["data"]
         bid.pop("date")
         bid.pop("id")
+        for k in ("documents", "lotValues"):
+            self.assertEqual(bid.pop(k, []), [])
         self.assertEqual(bid, i)
 
 
