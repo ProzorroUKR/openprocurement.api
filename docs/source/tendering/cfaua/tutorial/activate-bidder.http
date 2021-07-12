@@ -15,6 +15,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
+    "parameters": [],
     "tenderers": [
       {
         "name": "ДКП «Школяр»",

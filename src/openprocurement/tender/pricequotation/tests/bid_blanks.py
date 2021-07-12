@@ -576,6 +576,20 @@ def patch_tender_bid(self):
     self.assertEqual(response.json["data"]["date"], bid["date"])
     self.assertNotEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
+    non_shortlist_org = deepcopy(test_organization)
+    non_shortlist_org["identifier"]["id"] = "69"
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={token}",
+        {"data": {"tenderers": [non_shortlist_org]}},
+        status=403,
+    )
+    self.assertEqual(
+        response.json,
+        {'status': 'error', 'errors': [
+            {'location': 'body', 'name': 'data',
+             'description': "Can't update bid if tenderer not in shortlistedFirms"}]}
+    )
+
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
         {"data": {"value": {"amount": 500}, "tenderers": [test_organization]}},
@@ -776,14 +790,19 @@ def bid_Administrator_change(self):
     bid = response.json["data"]
 
     self.app.authorization = ("Basic", ("administrator", ""))
+    self.app.patch_json(
+        "/tenders/{}/bids/{}".format(self.tender_id, bid["id"]),
+        {"data": {"tenderers": [{"identifier": {"id": "00000000"}}]}},
+        status=403
+    )
+
     response = self.app.patch_json(
         "/tenders/{}/bids/{}".format(self.tender_id, bid["id"]),
-        {"data": {"tenderers": [{"identifier": {"id": "00000000"}}], "value": {"amount": 400}}},
+        {"data": {"tenderers": [{"identifier": {"legalName": "ТМ Валєра"}}]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertNotEqual(response.json["data"]["value"]["amount"], 400)
-    self.assertEqual(response.json["data"]["tenderers"][0]["identifier"]["id"], "00000000")
+    self.assertEqual(response.json["data"]["tenderers"][0]["identifier"]["legalName"], "ТМ Валєра")
 
 
 def patch_tender_bid_document(self):

@@ -81,6 +81,7 @@ X-Content-Type-Options: nosniff
     "date": "2021-03-16T00:00:00+02:00",
     "id": "c26ef6529df44b02a91cfe5ce527d74f",
     "status": "draft",
+    "documents": [],
     "parameters": [
       {
         "code": "OCDS-123454-AIR-INTAKE",

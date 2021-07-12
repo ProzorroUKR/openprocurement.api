@@ -1,13 +1,4 @@
 from schematics.exceptions import ValidationError
-from openprocurement.api.utils import raise_operation_error
-
-
-def validate_post_bid_tenderers(request, **_):
-    bid = request.validated["data"]
-    tender = request.validated["tender"]
-    tenderer_id = bid["tenderers"][0]["identifier"]["id"]
-    if tenderer_id not in (i["identifier"]["id"] for i in tender.get("shortlistedFirms", "")):
-        raise_operation_error(request, f"Can't add bid if tenderer not in shortlistedFirms")
 
 
 def validate_bid_value(tender, value):

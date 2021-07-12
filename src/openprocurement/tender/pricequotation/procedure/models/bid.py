@@ -2,7 +2,9 @@ from schematics.types import StringType, MD5Type
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from openprocurement.api.models import Model, Value
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.validation import OPERATIONS
+from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.core.procedure.context import get_tender, get_request
 from openprocurement.tender.core.procedure.models.document import PostDocument, Document
 from openprocurement.tender.core.procedure.models.base import (
     ListType,
@@ -24,6 +26,18 @@ class PatchBid(Model):
         if value is not None:
             tender = get_tender()
             validate_bid_value(tender, value)
+
+    def validate_tenderers(self, _, value):
+        if value and value[0].identifier:
+            tenderer_id = value[0].identifier.id
+            if tenderer_id and tenderer_id not in (
+                i["identifier"]["id"]
+                for i in get_tender().get("shortlistedFirms", "")
+            ):
+                # it's 403, not 422, so we can't raise ValueError or ValidationError
+                request = get_request()
+                raise_operation_error(request,
+                                      f"Can't {OPERATIONS[request.method]} bid if tenderer not in shortlistedFirms")
 
 
 class PostBid(PatchBid):

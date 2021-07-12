@@ -13,7 +13,6 @@ from openprocurement.tender.belowthreshold.procedure.views.bid import TenderBidR
 from openprocurement.tender.core.procedure.models.bid import filter_administrator_bid_update
 from openprocurement.tender.pricequotation.procedure.models.bid import PostBid, PatchBid, Bid
 from openprocurement.tender.pricequotation.constants import PMT
-from openprocurement.tender.pricequotation.procedure.validation import validate_post_bid_tenderers
 from cornice.resource import resource
 from logging import getLogger
 
@@ -37,7 +36,6 @@ class TenderBidResource(TenderBidResource):
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,
             validate_input_data(PostBid),
-            validate_post_bid_tenderers,
             validate_data_documents,
         ),
     )

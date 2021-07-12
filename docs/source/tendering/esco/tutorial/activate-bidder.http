@@ -153,6 +153,11 @@ X-Content-Type-Options: nosniff
       }
     ],
     "subcontractingDetails": "ДКП «Орфей», Україна",
+    "parameters": [],
+    "documents": [],
+    "financialDocuments": [],
+    "eligibilityDocuments": [],
+    "qualificationDocuments": [],
     "status": "pending",
     "value": {
       "currency": "UAH",
