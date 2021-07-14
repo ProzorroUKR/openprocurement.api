@@ -1,4 +1,4 @@
-from schematics.types import StringType, BooleanType
+from schematics.types import BooleanType
 from openprocurement.api.models import Model
 from openprocurement.tender.core.procedure.context import get_tender, get_now
 from openprocurement.tender.core.procedure.utils import get_first_revision_date
@@ -9,8 +9,9 @@ from openprocurement.tender.openeu.procedure.models.bid import (
 )
 from openprocurement.tender.esco.procedure.models.lot_value import LotValue, PatchLotValue, PostLotValue
 from openprocurement.tender.esco.procedure.models.value import ESCOValue, PatchESCOValue
+from openprocurement.tender.core.procedure.models.base import ListType
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
-from schematics.types.compound import ListType, ModelType
+from schematics.types.compound import ModelType
 from schematics.exceptions import ValidationError
 
 
@@ -52,7 +53,7 @@ class PatchBid(ESCOMixin, BasePatchBid):
 
 
 class PostBid(ESCOMixin, BasePostBid):
-    lotValues = ListType(ModelType(PostLotValue, required=True))
+    lotValues = ListType(ModelType(PostLotValue, required=True), default=list)
 
 
 class Bid(ESCOMixin, BaseBid):

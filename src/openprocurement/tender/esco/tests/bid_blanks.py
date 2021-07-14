@@ -526,7 +526,11 @@ def create_tender_bid_invalid_funding_kind_budget(self):
 
 
 def create_tender_bid(self):
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": self.test_bids_data[0]})
+    data = deepcopy(self.test_bids_data[0])
+    data.update(
+        {"lotValues": None, "parameters": None, "documents": None}
+    )
+    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
@@ -1476,7 +1480,14 @@ def features_bid(self):
         bid = response.json["data"]
         bid.pop("date")
         bid.pop("id")
-        self.assertEqual(set(bid), set(i))
+        default_fields = {
+            'lotValues',
+            'documents',
+            'financialDocuments',
+            'eligibilityDocuments',
+            'qualificationDocuments'
+        }
+        self.assertEqual(set(bid), set(i) | default_fields)
 
 
 def patch_and_put_document_into_invalid_bid(self):

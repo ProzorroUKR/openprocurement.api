@@ -8,6 +8,8 @@ from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 # CompetitiveDialogEUBidResourceTest
 def create_tender_bidder(self):
     bid_data = deepcopy(self.test_bids_data[0])
+    bid_data.update({"lotValues": None, "documents": None, "financialDocuments": None,
+                     "eligibilityDocuments": None, "qualificationDocuments": None})
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},

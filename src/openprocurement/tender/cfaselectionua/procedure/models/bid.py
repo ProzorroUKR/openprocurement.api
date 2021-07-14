@@ -1,4 +1,4 @@
-from schematics.types import StringType, BooleanType
+from schematics.types import StringType
 from openprocurement.tender.core.procedure.models.req_response import PostBidResponsesMixin, PatchBidResponsesMixin
 from openprocurement.tender.core.procedure.models.bid import (
     Bid as BaseBid,
@@ -7,7 +7,8 @@ from openprocurement.tender.core.procedure.models.bid import (
 )
 from openprocurement.tender.cfaselectionua.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
 from openprocurement.tender.cfaselectionua.procedure.models.parameter import PatchParameter, Parameter
-from schematics.types.compound import ListType, ModelType
+from openprocurement.tender.core.procedure.models.base import ListType
+from schematics.types.compound import ModelType
 from openprocurement.tender.core.models import validate_parameters_uniq
 
 
@@ -18,8 +19,8 @@ class PatchBid(PatchBidResponsesMixin, BasePatchBid):
 
 
 class PostBid(PostBidResponsesMixin, BasePostBid):
-    parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
-    lotValues = ListType(ModelType(PostLotValue, required=True))
+    parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq], default=list)
+    lotValues = ListType(ModelType(PostLotValue, required=True), default=list)
     subcontractingDetails = StringType()
 
 

@@ -423,6 +423,9 @@ def features_bidder_eu(self):
         i["status"] = "pending"
         bid.pop("date")
         bid.pop("id")
+        for f in ("lotValues", "documents", "financialDocuments", "eligibilityDocuments", "qualificationDocuments"):
+            self.assertEqual(bid.pop(f), [])
+
         self.assertEqual(bid, i)
 
 
@@ -991,6 +994,8 @@ def features_bidder_ua(self):
         i["status"] = "active"
         bid.pop("date")
         bid.pop("id")
+        for f in ("lotValues", "documents"):
+            self.assertEqual(bid.pop(f), [])
         self.assertEqual(bid, i)
 
 

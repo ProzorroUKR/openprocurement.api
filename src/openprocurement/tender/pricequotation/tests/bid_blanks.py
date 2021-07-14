@@ -266,7 +266,12 @@ def create_tender_bid(self):
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "requirementResponses": test_requirement_response_valid }},
+        {"data": {
+            "tenderers": [test_organization],
+            "value": {"amount": 500},
+            "requirementResponses": test_requirement_response_valid,
+            "documents": None,
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")

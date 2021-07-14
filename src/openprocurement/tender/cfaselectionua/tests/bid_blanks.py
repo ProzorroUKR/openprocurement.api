@@ -304,6 +304,7 @@ def create_tender_bid(self):
                         "relatedLot": self.initial_lots[0]["id"],
                     }
                 ],
+                "value": None, "parameters": None, "documents": None,
             }
         },
     )
@@ -666,6 +667,7 @@ def features_bid(self):
         bid.pop("date")
         bid.pop("id")
         bid["lotValues"][0].pop("date")
+        self.assertEqual(bid.pop("documents", []), [])
         self.assertEqual(bid, i)
 
     # create tender only with one feature
@@ -692,6 +694,7 @@ def features_bid(self):
     bid.pop("date")
     bid.pop("id")
     bid["lotValues"][0].pop("date")
+    self.assertEqual(bid.pop("documents", []), [])
     self.assertEqual(bid, feat_bid)
 
 
@@ -787,6 +790,7 @@ def patch_features_bid_invalid(self):
     bid.pop("date")
     bid.pop("id")
     bid["lotValues"][0].pop("date")
+    self.assertEqual(bid.pop("documents", []), [])
     self.assertEqual(bid, test_bid)
 
     response = self.app.patch_json(

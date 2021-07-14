@@ -1986,6 +1986,7 @@ def create_tender_bidder(self):
     self.convert_bids_for_tender_with_lots(initial_bids, self.initial_lots)
 
     bid_data = deepcopy(initial_bids[0])
+    bid_data.update({"value": None, "parameters": None, "documents": None})
     bid, bid_token = self.create_bid(self.tender_id, bid_data)
     self.assertEqual(bid["tenderers"][0]["name"], initial_bids[0]["tenderers"][0]["name"])
     self.assertIn("id", bid)
@@ -2167,6 +2168,10 @@ def features_bidder(self):
         bid.pop("id")
         bid["lotValues"][0].pop("date")
         bid["lotValues"][0].pop("status")
+        self.assertEqual(bid.pop("documents", []), [])
+        self.assertEqual(bid.pop("financialDocuments", []), [])
+        self.assertEqual(bid.pop("eligibilityDocuments", []), [])
+        self.assertEqual(bid.pop("qualificationDocuments", []), [])
         self.assertEqual(bid, i)
 
 
@@ -3429,6 +3434,7 @@ def view_bid_in_qualification_st_st(self):   # CS-5342
         expected_keys.add("selfEligible")
     self.assertEqual(set(bids[0].keys()), expected_keys)
 
+    expected_keys |= {"documents", "eligibilityDocuments", "parameters", "financialDocuments", "qualificationDocuments",}
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bids[0]["id"]))
     self.assertEqual(set(response.json["data"].keys()), expected_keys)
 

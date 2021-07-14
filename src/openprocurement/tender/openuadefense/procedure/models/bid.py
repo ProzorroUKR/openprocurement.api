@@ -22,9 +22,9 @@ class PostBid(BasePostBid):
     selfEligible = BooleanType(choices=[True], required=True)
     selfQualified = BooleanType(choices=[True], required=True)
     subcontractingDetails = StringType()
-    lotValues = ListType(ModelType(PostLotValue, required=True))
-    parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
-    documents = ListType(ConfidentialDocumentModelType(PostDocument, required=True))
+    lotValues = ListType(ModelType(PostLotValue, required=True), default=list)
+    parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq], default=list)
+    documents = ListType(ConfidentialDocumentModelType(PostDocument, required=True), default=list)
 
     def validate_value(self, data, value):
         if data.get("status") != "draft":

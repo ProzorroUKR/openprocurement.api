@@ -35,11 +35,11 @@ class PostBid(PostBidResponsesMixin, BaseBid):
 
     tenderers = ListType(ModelType(PostBusinessOrganization, required=True), required=True, min_size=1, max_size=1)
     subcontractingDetails = StringType()
-    lotValues = ListType(ModelType(PostLotValue, required=True))
-    documents = ListType(ModelType(PostDocument, required=True))
-    financialDocuments = ListType(ModelType(PostDocument, required=True))
-    eligibilityDocuments = ListType(ModelType(PostDocument, required=True))
-    qualificationDocuments = ListType(ModelType(PostDocument, required=True))
+    lotValues = ListType(ModelType(PostLotValue, required=True), default=list)
+    documents = ListType(ModelType(PostDocument, required=True), default=list)
+    financialDocuments = ListType(ModelType(PostDocument, required=True), default=list)
+    eligibilityDocuments = ListType(ModelType(PostDocument, required=True), default=list)
+    qualificationDocuments = ListType(ModelType(PostDocument, required=True), default=list)
 
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(choices=[True])
