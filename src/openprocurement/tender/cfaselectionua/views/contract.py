@@ -45,7 +45,6 @@ class TenderAwardContractResource(TenderAwardContractResource):
             validate_update_contract_value_net_required,
             validate_update_contract_value_with_award,
             validate_update_contract_value_amount,
-            validate_activate_contract,
         ),
     )
     def patch(self):

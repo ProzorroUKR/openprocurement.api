@@ -47,6 +47,7 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     patch_tender_contract_value_vat_not_included,
     patch_tender_contract_value,
     patch_contract_single_item_unit_value,
+    patch_contract_single_item_unit_value_with_status,
     patch_tender_multi_contracts,
     patch_tender_multi_contracts_cancelled,
 )
@@ -90,6 +91,9 @@ class TenderContractResourceTest(BaseTenderContentWebTest, TenderContractResourc
     test_tender_contract_signature_date = snitch(tender_contract_signature_date)
     test_award_id_change_is_not_allowed = snitch(award_id_change_is_not_allowed)
     test_patch_contract_single_item_unit_value = snitch(patch_contract_single_item_unit_value)
+    test_patch_contract_single_item_unit_value_with_status = snitch(
+        patch_contract_single_item_unit_value_with_status
+    )
 
 
 class TenderContractVATNotIncludedResourceTest(BaseTenderContentWebTest, TenderContractResourceTestMixin):

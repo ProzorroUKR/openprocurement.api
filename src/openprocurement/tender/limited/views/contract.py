@@ -62,7 +62,6 @@ class TenderAwardContractResource(BaseTenderAwardContractResource):
             validate_update_contract_value_with_award,
             validate_update_contract_value_amount,
             validate_contract_items_count_modification,
-            validate_activate_contract,
         ),
     )
     def patch(self):
@@ -102,7 +101,6 @@ class TenderNegotiationAwardContractResource(TenderAwardContractResource):
             validate_update_contract_value_with_award,
             validate_update_contract_value_amount,
             validate_contract_items_count_modification,
-            validate_activate_contract,
         ),
     )
     def patch(self):

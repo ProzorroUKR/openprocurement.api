@@ -622,7 +622,7 @@ def patch_contract_multi_items_unit_value(self):
 
     self.assertEqual(
         response.json["errors"], [{
-            "description": "Can't activate contract while 'Unit.Value' is not set for each Item",
+            "description": "Can't activate contract while unit.value is not set for each item",
             "location": "body",
             "name": "data"
         }]
