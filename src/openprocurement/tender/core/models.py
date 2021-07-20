@@ -361,7 +361,11 @@ def bids_response_validation_wrapper(validation_func):
         if data["status"] in ("deleted", "invalid", "invalid.pre-qualification", "unsuccessful", "draft"):
             # skip not valid bids
             return
-        if request.method == "PATCH" and isinstance(tender, Tender) and request.authenticated_role == "tender_owner":
+        if (
+                request.method == "PATCH"
+                and isinstance(tender, Tender)
+                and request.authenticated_role in ("tender_owner", "chronograph")
+        ):
             # disable bids validation on tender PATCH requests as tender bids will be invalidated
             return
         return validation_func(klass, orig_data, value)
