@@ -1055,7 +1055,7 @@ def cpb_standard_status(self):
     self.assertEqual(response.content_type, "application/json")
 
     data = deepcopy(self.initial_data)
-    data["procuringEntity"]["identifier"]["id"] = non_active_cpb_id
+    data["procuringEntity"]["identifier"]["id"] = non_active_cpb_id if non_active_cpb_id else "invalid_id"
     response = self.app.post_json("/frameworks", {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")

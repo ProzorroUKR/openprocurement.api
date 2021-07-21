@@ -28,7 +28,7 @@ def get_cpb_ids_by_activity():
         if not active_cpb or not non_active_cpb:
             id_ = cpb["identifier"]["id"]
             active_cpb.append(id_) if cpb["active"] else non_active_cpb.append(id_)
-    return active_cpb[0], non_active_cpb[0]
+    return active_cpb[0] if active_cpb else None, non_active_cpb[0] if non_active_cpb else None
 
 
 active_cpb_id, non_active_cpb_id = get_cpb_ids_by_activity()
