@@ -119,10 +119,13 @@ def create_agreement_contract(db, request):
 
 def run(path_to_ini_file):
     with bootstrap(path_to_ini_file) as env:
-        db = env["registry"].db
+        dbs = env["registry"].databases
+        framework_db = dbs.frameworks
+        agreement_db = dbs.agreements
+        qualification_db = dbs.qualifications
         request = env["request"]
         request.validated = {}
-        for i in frameworks_all_view(db, include_docs=True):
+        for i in frameworks_all_view(framework_db, include_docs=True):
             framework_data = get_framework_by_id(request, i.id)
             if not framework_data:
                 continue
@@ -136,8 +139,8 @@ def run(path_to_ini_file):
 
             if framework.status != "active":
                 continue
-            for j in qualifications_by_framework_id_view(db, startkey=[framework.id, None], endkey=[framework.id, {}]):
-                qualification_data = get_doc_by_id(db, "Qualification", j.id)
+            for j in qualifications_by_framework_id_view(framework_db, startkey=[framework.id, None], endkey=[framework.id, {}]):
+                qualification_data = get_doc_by_id(qualification_db, "Qualification", j.id)
                 qualification = Qualification(qualification_data)
                 request.context = qualification
                 request.validated["qualification_src"] = qualification_data
@@ -145,7 +148,7 @@ def run(path_to_ini_file):
                 if qualification["status"] != "active":
                     continue
                 ensure_agreement(request)
-                create_agreement_contract(db, request)
+                create_agreement_contract(agreement_db, request)
             print('\n\n')
 
 
