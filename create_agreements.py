@@ -139,7 +139,7 @@ def run(path_to_ini_file):
 
             if framework.status != "active":
                 continue
-            for j in qualifications_by_framework_id_view(framework_db, startkey=[framework.id, None], endkey=[framework.id, {}]):
+            for j in qualifications_by_framework_id_view(qualification_db, startkey=[framework.id, None], endkey=[framework.id, {}]):
                 qualification_data = get_doc_by_id(qualification_db, "Qualification", j.id)
                 qualification = Qualification(qualification_data)
                 request.context = qualification
