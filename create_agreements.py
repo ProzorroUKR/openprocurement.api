@@ -34,8 +34,18 @@ def ensure_agreement(request, new_contracts):
 
     if agreementID:
         agreement_data = get_agreement_by_id(request, agreementID)
+        contracts_in_agreement = [
+            i["qualificationID"]
+            for i in agreement_data.get("contracts", "")
+            if "qualificationID" in i
+        ]
+        contracts_to_extend = [i for i in new_contracts if i["qualificationID"] not in contracts_in_agreement]
+        if not contracts_to_extend:
+            return
         request.validated["agreement_src"] = Agreement(agreement_data).serialize("plain")
-        agreement_data["contracts"] = new_contracts
+        contracts = deepcopy(agreement_data.get("contracts", []))
+        contracts.extend(contracts_to_extend)
+        agreement_data['contracts'] = contracts
         request.validated["agreement"] = Agreement(agreement_data)
         apply_patch(
             request,
