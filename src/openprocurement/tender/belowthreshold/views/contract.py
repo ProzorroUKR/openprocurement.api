@@ -22,7 +22,8 @@ from openprocurement.tender.core.validation import (
     validate_update_contract_value_amount,
     validate_update_contract_value_net_required,
     validate_update_contract_status_by_supplier,
-    validate_activate_contract, validate_update_contract_status,
+    validate_activate_contract,
+    validate_update_contract_status,
 )
 from openprocurement.tender.belowthreshold.utils import check_tender_status
 
@@ -97,14 +98,16 @@ class TenderAwardContractResource(APIResource):
             validate_update_contract_value_net_required,
             validate_update_contract_value_with_award,
             validate_update_contract_value_amount,
-            validate_activate_contract,
         ),
     )
     def patch(self):
         """
         Update of contract
         """
+        prev_status = self.request.context.status
         apply_patch(self.request, save=False, src=self.request.context.serialize())
+        if prev_status != "active" and self.request.context.status == "active":
+            validate_activate_contract(self.request)
         if self.request.context.status == "active" and not self.request.context.dateSigned:
             self.request.context.dateSigned = get_now()
         self.check_tender_status_method(self.request)

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from collections import defaultdict
+from copy import deepcopy
+
 from math import floor, ceil
 from decimal import Decimal, ROUND_UP
 
@@ -43,7 +45,7 @@ from openprocurement.api.utils import (
     get_first_revision_date,
     get_root,
     get_criterion_requirement,
-    get_particular_parent_by_namespace,
+    get_particular_parent_by_namespace, apply_data_patch,
 )
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF, FIRST_STAGE_PROCUREMENT_TYPES
 from openprocurement.tender.core.constants import CRITERION_LIFE_CYCLE_COST_IDS
@@ -1702,23 +1704,21 @@ def validate_contract_signing(request, **kwargs):
 
 def validate_activate_contract(request, **kwargs):
     tender = request.validated["tender"]
-    updated_data = request.validated["data"]
     contract = request.context
 
-    if contract.status != "active" and "status" in updated_data and updated_data["status"] == "active":
-        if contract.items:
-            validate_contract_items_unit_value_amount(request, contract)
+    if contract.items:
+        validate_contract_items_unit_value_amount(request, contract)
 
-        tender_created = get_first_revision_date(tender, default=get_now())
-        if tender_created < UNIT_PRICE_REQUIRED_FROM:
-            return
+    tender_created = get_first_revision_date(tender, default=get_now())
+    if tender_created < UNIT_PRICE_REQUIRED_FROM:
+        return
 
-        if contract.items:
-            for item in contract.items:
-                if item.unit and item.unit.value is None:
-                    raise_operation_error(
-                        request, "Can't activate contract while 'Unit.Value' is not set for each Item"
-                    )
+    if contract.items:
+        for item in contract.items:
+            if item.unit and item.unit.value is None:
+                raise_operation_error(
+                    request, "Can't activate contract while unit.value is not set for each item"
+                )
 
 
 def validate_update_contract_status_base(request, allowed_statuses_from, allowed_statuses_to, **kwargs):

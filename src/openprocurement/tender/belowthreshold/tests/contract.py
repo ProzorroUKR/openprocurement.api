@@ -46,6 +46,7 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     lot2_put_tender_contract_document_by_supplier,
     lot2_patch_tender_contract_document_by_supplier,
     patch_contract_single_item_unit_value,
+    patch_contract_single_item_unit_value_with_status,
     patch_contract_multi_items_unit_value,
     patch_tender_multi_contracts,
     patch_tender_multi_contracts_cancelled,
@@ -108,6 +109,9 @@ class TenderContractResourceTest(TenderContentWebTest, TenderContractResourceTes
     test_patch_tender_contract_status_by_supplier = snitch(patch_tender_contract_status_by_supplier)
     test_patch_tender_contract_status_by_others = snitch(patch_tender_contract_status_by_others)
     test_patch_contract_single_item_unit_value = snitch(patch_contract_single_item_unit_value)
+    test_patch_contract_single_item_unit_value_with_status = snitch(
+        patch_contract_single_item_unit_value_with_status
+    )
     test_patch_contract_multi_items_unit_value = snitch(patch_contract_multi_items_unit_value)
 
 
