@@ -378,7 +378,7 @@ def get_framework_by_id(request, framework_id):
 
 
 def get_agreement_by_id(request, agreement_id):
-    return get_doc_by_id(request.registry.databases.frameworks, "Agreement", agreement_id)
+    return get_doc_by_id(request.registry.databases.agreements, "Agreement", agreement_id)
 
 
 def set_agreement_ownership(item, request):

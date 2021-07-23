@@ -9,8 +9,9 @@ def is_test():
     ])
 
 if not is_test():
-    import gevent.monkey
-    gevent.monkey.patch_all()
+    pass
+    # import gevent.monkey
+    # gevent.monkey.patch_all()
 
 import os
 import simplejson

@@ -5,7 +5,7 @@ from hashlib import sha512
 from schematics.exceptions import ModelConversionError
 
 from openprocurement.api.utils import context_unpack
-from openprocurement.framework.electroniccatalogue.models import Agreement, Qualification, Framework
+from openprocurement.framework.electroniccatalogue.models import Agreement, Qualification, Framework, Contract
 from openprocurement.framework.core.design import frameworks_all_view, qualifications_by_framework_id_view
 from openprocurement.framework.core.utils import (
     get_framework_by_id,
@@ -24,15 +24,26 @@ from pyramid.paster import bootstrap
 LOGGER = getLogger("openprocurement.framework.core")
 
 
-def ensure_agreement(request):
+def ensure_agreement(request, new_contracts):
     db = request.registry.db
     framework_data = request.validated["framework_src"]
     agreementID = framework_data.get("agreementID")
+
+    if not new_contracts:
+        return
+
     if agreementID:
-        agreement = get_agreement_by_id(request, agreementID)
-        request.validated["agreement_src"] = agreement
-        request.validated["agreement"] = Agreement(agreement)
-        request.validated["agreement"].__parent__ = request.validated["qualification"].__parent__
+        agreement_data = get_agreement_by_id(request, agreementID)
+        request.validated["agreement_src"] = Agreement(agreement_data).serialize("plain")
+        agreement_data["contracts"] = new_contracts
+        request.validated["agreement"] = Agreement(agreement_data)
+        apply_patch(
+            request,
+            data=request.validated["agreement"],
+            src=request.validated["agreement_src"],
+            obj_name="agreement",
+        )
+        return
     else:
         agreement_id = generate_id()
         now = get_now()
@@ -41,7 +52,7 @@ def ensure_agreement(request):
         agreement_data = {
             "id": agreement_id,
             "agreementID": generate_agreementID(get_now(), db, request.registry.server_id),
-            "frameworkID": framework_data["_id"],
+            "frameworkID": framework_data["id"],
             "agreementType": framework_data["frameworkType"],
             "status": "active",
             "period": {
@@ -51,7 +62,6 @@ def ensure_agreement(request):
             "procuringEntity": framework_data.get("procuringEntity"),
             "classification": framework_data.get("classification"),
             "additionalClassifications": framework_data.get("additionalClassifications"),
-            "contracts": [],
             "owner": framework_data["owner"],
             "owner_token": framework_data["owner_token"],
             "mode": framework_data.get("type"),
@@ -59,9 +69,9 @@ def ensure_agreement(request):
             "date": now,
             "transfer_token": transfer_token,
             "frameworkDetails": framework_data.get("frameworkDetails"),
+            "contracts": new_contracts
         }
         agreement = Agreement(agreement_data)
-
         request.validated["agreement_src"] = {}
         request.validated["agreement"] = agreement
         if save_agreement(request):
@@ -75,27 +85,23 @@ def ensure_agreement(request):
                 ),
             )
 
-            framework_data_updated = {"agreementID": agreement_id}
+            # framework_data_updated = {"agreementID": agreement_id}
 
+            framework = request.validated["framework"]
+            framework.agreementID = agreement_id
             apply_patch(
-                request, data=framework_data_updated, src=request.validated["framework_src"],
+                request, data=framework, src=request.validated["framework_src"],
                 obj_name="framework"
             )
+            request.validated["framework_src"] = framework.serialize("plain")
             print(f"Create agreement {agreement_id} and updated framework")
-            framework_data.update(framework_data_updated)
-            LOGGER.info("Updated framework {} with agreementID".format(framework_data["_id"]),
-                        extra=context_unpack(request, {"MESSAGE_ID": "qualification_patch"}))
+            for contract in new_contracts:
+                print(f"Create add contract from qualification {contract['qualificationID']} to agreement {agreement.id}")
 
 
-def create_agreement_contract(db, request):
+def create_agreement_contract(request):
     qualification = request.validated["qualification"]
-    framework = request.validated["framework"]
-    agreement_data = get_agreement_by_id(request, framework.agreementID)
     submission_data = get_submission_by_id(request, qualification.submissionID)
-
-    qualification_ids = [i["qualificationID"] for i in agreement_data.get("contracts", "")]
-    if agreement_data["status"] != "active" or qualification.id in qualification_ids:
-        return
 
     contract_id = generate_id()
     first_milestone_data = {
@@ -109,12 +115,7 @@ def create_agreement_contract(db, request):
         "suppliers": submission_data["tenderers"],
         "milestones": [first_milestone_data],
     }
-    new_contracts = deepcopy(agreement_data.get("contracts", []))
-    new_contracts.append(contract_data)
-    print(f"Create add contract from qualification {qualification['id']} to agreement {agreement_data['id']}")
-    apply_patch(request, data={"contracts": new_contracts}, src=agreement_data, obj_name="agreement")
-    LOGGER.info("Updated agreement {} with contract {}".format(agreement_data["_id"], contract_id),
-                extra=context_unpack(request, {"MESSAGE_ID": "qualification_patch"}))
+    return contract_data
 
 
 def run(path_to_ini_file):
@@ -130,8 +131,8 @@ def run(path_to_ini_file):
             if not framework_data:
                 continue
             try:
-                request.validated["framework_src"] = framework_data
                 framework = request.validated["framework"] = Framework(framework_data)
+                request.validated["framework_src"] = framework.serialize('plain')
             except ModelConversionError as e:
                 print(i.id, e)
                 continue
@@ -139,6 +140,8 @@ def run(path_to_ini_file):
 
             if framework.status != "active":
                 continue
+
+            new_contracts = []
             for j in qualifications_by_framework_id_view(qualification_db, startkey=[framework.id, None], endkey=[framework.id, {}]):
                 qualification_data = get_doc_by_id(qualification_db, "Qualification", j.id)
                 qualification = Qualification(qualification_data)
@@ -147,8 +150,11 @@ def run(path_to_ini_file):
                 request.validated["qualification"] = qualification
                 if qualification["status"] != "active":
                     continue
-                ensure_agreement(request)
-                create_agreement_contract(agreement_db, request)
+                new_contracts.append(create_agreement_contract(request))
+
+            if new_contracts:
+                ensure_agreement(request, new_contracts)
+
             print('\n\n')
 
 
