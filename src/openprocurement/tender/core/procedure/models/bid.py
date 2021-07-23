@@ -37,7 +37,7 @@ class CommonBid(BaseBid):
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
     value = ModelType(Value)
     lotValues = ListType(ModelType(LotValue, required=True))
-    tenderers = ListType(ModelType(PatchBusinessOrganization, required=True), min_size=1, max_size=1)
+    tenderers = ListType(ModelType(PostBusinessOrganization, required=True), min_size=1, max_size=1)
     status = StringType(choices=["active", "draft", "invalid"])
 
     def validate_value(self, data, value):
