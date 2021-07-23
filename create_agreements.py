@@ -53,6 +53,8 @@ def ensure_agreement(request, new_contracts):
             src=request.validated["agreement_src"],
             obj_name="agreement",
         )
+        for contract in contracts_to_extend:
+            print(f"Create add contract from qualification {contract['qualificationID']} to agreement {request.validated['agreement'].id}")
         return
     else:
         agreement_id = generate_id()
