@@ -1474,6 +1474,26 @@ def create_tender_bid_document_json_bulk(self):
     assert_document(doc_2, "name2.doc")
 
 
+def create_one_tender_bid_document_json_bulk(self):
+    response = self.app.post_json(
+        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+        {
+            "data": [
+                {
+                    "title": "name1.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            ]
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIsInstance(response.json["data"], list)
+    self.assertEqual(len(response.json["data"]), 1)
+
+
 def create_tender_bid_document_with_award_json(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     procurementMethodType = response.json["data"]["procurementMethodType"]

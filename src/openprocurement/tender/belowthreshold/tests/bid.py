@@ -32,6 +32,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderBidDocumentWithDSResourceTest
     create_tender_bid_document_json,
     create_tender_bid_document_json_bulk,
+    create_one_tender_bid_document_json_bulk,
     put_tender_bid_document_json,
     create_tender_bid_document_with_award_json,
     create_tender_bid_document_with_award_json_bulk,
@@ -145,6 +146,7 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
 
     test_create_tender_bid_document_json = snitch(create_tender_bid_document_json)
     test_create_tender_bid_document_json_bulk = snitch(create_tender_bid_document_json_bulk)
+    test_create_one_tender_bid_document_json_bulk = snitch(create_one_tender_bid_document_json_bulk)
     test_put_tender_bid_document_json = snitch(put_tender_bid_document_json)
     test_create_tender_bid_document_with_award_json = snitch(create_tender_bid_document_with_award_json)
     test_create_tender_bid_document_with_award_json_bulk = snitch(create_tender_bid_document_with_award_json_bulk)
