@@ -141,7 +141,7 @@ def validate_update_submission_in_not_allowed_status(request, **kwargs):
 
 def validate_document_operation_in_not_allowed_period(request, **kwargs):
     submission = request.validated["submission_src"]
-    not_allowed_statuses = ("deleted", "active", "complete")
+    not_allowed_statuses = ("deleted", "complete")
     if submission["status"] in not_allowed_statuses:
         raise_operation_error(
             request,
