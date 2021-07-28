@@ -249,6 +249,11 @@ class PatchBidResponsesMixin(Model):
         validators=[validate_object_id_uniq, validate_response_requirement_uniq],
     )
 
+
+class PostBidResponsesMixin(PatchBidResponsesMixin):
+    """
+    this model is used to update "full" data during patch and post requests
+    """
     def validate_selfEligible(self, data, value):
         tender = get_tender()
         if get_first_revision_date(tender, default=get_now()) > RELEASE_ECRITERIA_ARTICLE_17:
@@ -257,11 +262,6 @@ class PatchBidResponsesMixin(Model):
         elif value is None:
             raise ValidationError("This field is required.")
 
-
-class PostBidResponsesMixin(PatchBidResponsesMixin):
-    """
-    this model is used to update "full" data during patch and post requests
-    """
     def validate_requirementResponses(self, data, requirement_responses):
         tender = get_tender()
         tender_created = get_first_revision_date(tender, default=get_now())

@@ -88,7 +88,7 @@ class TenderBidDocumentResource(TenderBidResource):
                 )
             self.request.response.status = 201
 
-        if len(documents) > 1:
+        if isinstance(self.request.validated["json_data"], list):  # bulk update
             return {"data": documents}
         else:
             document = documents[0]
