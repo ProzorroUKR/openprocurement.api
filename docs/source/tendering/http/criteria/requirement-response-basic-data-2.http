@@ -114,13 +114,13 @@ X-Content-Type-Options: nosniff
         },
         "evidences": [
           {
+            "id": "865b48b4dc3345a78735e7e4f3eaa427",
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
               "id": "6f732f2a844d4abeb87318952e38e5af",
               "title": "name.doc"
-            },
-            "id": "61aefdc5534145e3bf3319f95bd5bf5e"
+            }
           }
         ],
         "value": "True"
@@ -135,13 +135,13 @@ X-Content-Type-Options: nosniff
         },
         "evidences": [
           {
+            "id": "2e276a528d9c457d865b43c887a8f51e",
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
               "id": "6f732f2a844d4abeb87318952e38e5af",
               "title": "name.doc"
-            },
-            "id": "78059f937658403d945a814a4398e6ae"
+            }
           }
         ],
         "value": "True"
@@ -156,13 +156,13 @@ X-Content-Type-Options: nosniff
         },
         "evidences": [
           {
+            "id": "460a0e4f06b349a5b93a3b55621dd86b",
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
               "id": "6f732f2a844d4abeb87318952e38e5af",
               "title": "name.doc"
-            },
-            "id": "7e6761744f48471e868876b789139320"
+            }
           }
         ],
         "value": "True"
