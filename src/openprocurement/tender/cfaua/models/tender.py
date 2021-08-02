@@ -33,7 +33,7 @@ from openprocurement.tender.cfaua.constants import QUESTIONS_STAND_STILL
 from openprocurement.tender.openua.constants import ENQUIRY_STAND_STILL_TIME
 from openprocurement.tender.core.models import (
     EnquiryPeriod, PeriodStartEndRequired, validate_lots_uniq,
-    validate_features_uniq, Question, Tender, EUDocument,
+    validate_features_uniq, default_status, Question, Tender, EUDocument,
 )
 from openprocurement.tender.core.validation import validate_minimalstep
 from openprocurement.tender.openua.constants import COMPLAINT_SUBMIT_TIME
@@ -207,7 +207,7 @@ class CloseFrameworkAgreementUA(Tender):
             "cancelled",
             "unsuccessful",
         ],
-        default="active.tendering",
+        default=default_status(),
     )
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     title_en = StringType(required=True, min_length=1)

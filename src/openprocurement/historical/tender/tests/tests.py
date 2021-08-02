@@ -378,7 +378,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
 
         self.assertEqual(complete_historical, complete)
 
-        response = self.app.get("/tenders/{}/historical".format(tender["id"]), headers={VERSION: "4"})
+        response = self.app.get("/tenders/{}/historical".format(tender["id"]), headers={VERSION: "2"})
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(complete_historical_bids, response.json["data"]["bids"])

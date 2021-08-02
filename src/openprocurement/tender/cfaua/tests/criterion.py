@@ -16,6 +16,7 @@ tender_data["status"] = "draft"
 
 
 class TenderCriteriaTest(TenderCriteriaTestMixin, BaseTenderContentWebTest):
+    initial_status = "draft"
     initial_data = tender_data
     test_lots_data = test_lots
 

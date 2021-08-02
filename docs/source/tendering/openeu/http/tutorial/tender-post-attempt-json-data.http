@@ -202,9 +202,6 @@ X-Content-Type-Options: nosniff
       "startDate": "2021-03-16T00:00:00+02:00",
       "endDate": "2021-04-16T00:00:00+02:00"
     },
-    "auctionPeriod": {
-      "shouldStartAfter": "2021-05-21T00:00:00+02:00"
-    },
     "items": [
       {
         "id": "c2eff2b9323c40a8a017e4f2fe8af8a3",
@@ -298,9 +295,8 @@ X-Content-Type-Options: nosniff
       },
       "kind": "general"
     },
-    "status": "active.tendering",
+    "status": "draft",
     "id": "5d65b887e53f4c0d97374b32fe5c6b8a",
-    "next_check": "2021-04-16T01:00:00+03:00",
     "complaintPeriod": {
       "startDate": "2021-03-16T00:00:00+02:00",
       "endDate": "2021-04-12T00:00:00+02:00"

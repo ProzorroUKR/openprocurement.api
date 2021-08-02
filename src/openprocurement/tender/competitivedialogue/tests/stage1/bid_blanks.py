@@ -2207,14 +2207,16 @@ def bids_view_j1446(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
     tender_owner_token = response.json["access"]["token"]
+    self.set_initial_status(response.json)
 
     # create bids
     bidder_data = deepcopy(self.test_bids_data[0])
+    bidder_data["status"] = "draft"
     for i in range(4):
         bidder_data["tenderers"][0]["identifier"]["id"] = "0003725" + str(i)
-        response = self.app.post_json("/tenders/{}/bids".format(tender_id), {"data": bidder_data})
-    last_bid_id = response.json["data"]["id"]
-    last_bid_token = response.json["access"]["token"]
+        bid, token = self.create_bid(tender_id, bidder_data, "pending")
+    last_bid_id = bid["id"]
+    last_bid_token = token
 
     # load document to last bid
     response = self.app.post(

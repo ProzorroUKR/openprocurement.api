@@ -27,6 +27,7 @@ from openprocurement.api.models import (
     Unit,
 )
 from openprocurement.tender.core.models import (
+    default_status,
     Tender as BaseTender,
     EnquiryPeriod,
     PeriodStartEndRequired,
@@ -617,7 +618,7 @@ class Tender(BaseTender):
             "cancelled",
             "unsuccessful",
         ],
-        default="active.tendering",
+        default=default_status(),
     )
     NBUdiscountRate = DecimalType(required=True, min_value=Decimal("0"), max_value=Decimal("0.99"), precision=-5)
     fundingKind = StringType(choices=["budget", "other"], required=True, default="other")

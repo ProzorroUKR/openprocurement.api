@@ -59,7 +59,7 @@ for bid in test_bids:
 class BaseESCOWebTest(BaseTenderWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = None
-    initial_status = None
+    initial_status = "active.tendering"
     initial_bids = None
     initial_lots = None
     initial_auth = ("Basic", ("broker", ""))
@@ -72,6 +72,7 @@ class BaseESCOContentWebTest(BaseESCOWebTest):
     """ ESCO Content Test """
 
     initialize_initial_data = True
+    initial_status = "active.tendering"
     initial_data = test_tender_data
 
     def setUp(self):

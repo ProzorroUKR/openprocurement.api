@@ -21,6 +21,7 @@ from openprocurement.api.models import (
 from openprocurement.api.utils import get_now
 from openprocurement.api.validation import validate_cpv_group, validate_items_uniq
 from openprocurement.tender.core.models import (
+    default_status,
     ITender,
     validate_features_uniq,
     validate_values_uniq,
@@ -247,7 +248,7 @@ class CompetitiveDialogEU(BaseTenderEU):
             "cancelled",
             "unsuccessful",
         ],
-        default="active.tendering",
+        default=default_status(),
     )
     # A list of all the companies who entered submissions for the tender.
     bids = SifterListType(
@@ -539,7 +540,7 @@ class TenderStage2EU(BaseTenderEU):
             "unsuccessful",
             STAGE2_STATUS,
         ],
-        default="active.tendering",
+        default=default_status(new_default_status=STAGE2_STATUS),
     )
     procurementMethod = StringType(choices=["open", "selective", "limited"], default="selective")
 
@@ -672,7 +673,7 @@ class TenderStage2UA(BaseTenderUA):
             "unsuccessful",
             STAGE2_STATUS,
         ],
-        default="active.tendering",
+        default=default_status(new_default_status=STAGE2_STATUS),
     )
     items = ListType(
         ModelType(ItemStage2UA, required=True),

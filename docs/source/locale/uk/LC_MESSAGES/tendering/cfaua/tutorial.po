@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-05 17:18+0200\n"
+"POT-Creation-Date: 2021-02-18 11:22+0200\n"
 "PO-Revision-Date: 2019-03-25 12:27+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 1.3\n"
+"Generated-By: Babel 2.9.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -47,8 +47,8 @@ msgstr "Створення тендера"
 msgid "Let's create tender with the minimal (only required) data set:"
 msgstr "Створімо тендерну пропозицію з мінімальним (обов'язковим для внесення) набором даних:"
 
-msgid "Success! Now we can see that new object was created. Response code is `201` and `Location` response header reports the location of the created object.  The body of response reveals the information about the created tender: its internal `id` (that matches the `Location` segment), its official `tenderID` and `dateModified` datestamp stating the moment in time when tender was last modified. Pay attention to the `procurementMethodType`. Note that tender is created with `active.enquiries` status."
-msgstr "Вийшло! Тепер бачимо, що створено новий об'єкт. Код відповіді - `201` а заголовок відповіді `Location` вказує на місцезнаходження створеного об'єкта. Тіло відповіді показує інформацію про створену тендерну пропозицію: її внутрішнє `id` (що співпадає з сегментом `Location`), її офіційне `tenderID` та мітку дати `dateModified`, що вказує час, коли до тендерної пропозиції востаннє вносились зміни. Зверніть увагу на `procurementMethodType`. Важливо, що тендерна пропозиція створюється зі статусом `active.enquiries`."
+msgid "Success! Now we can see that new object was created. Response code is `201` and `Location` response header reports the location of the created object.  The body of response reveals the information about the created tender: its internal `id` (that matches the `Location` segment), its official `tenderID` and `dateModified` datestamp stating the moment in time when tender was last modified. Pay attention to the `procurementMethodType`. Note that tender is created with `draft` status."
+msgstr "Вийшло! Тепер бачимо, що створено новий об'єкт. Код відповіді - `201` а заголовок відповіді `Location` вказує на місцезнаходження створеного об'єкта. Тіло відповіді показує інформацію про створену тендерну пропозицію: її внутрішнє `id` (що співпадає з сегментом `Location`), її офіційне `tenderID` та мітку дати `dateModified`, що вказує час, коли до тендерної пропозиції востаннє вносились зміни. Зверніть увагу на `procurementMethodType`. Важливо, що тендерна пропозиція створюється зі статусом `draft`."
 
 msgid "Let's access the URL of the created object (the `Location` header of the response):"
 msgstr "Використаємо URL створеного об'єкта (заголовок відповіді `Location`):"
@@ -62,11 +62,23 @@ msgstr "Ми бачимо ту ж відповідь, що і після ств�
 msgid "Let's see what listing of tenders reveals us:"
 msgstr "Подивимось, що показує список закупівель:"
 
-msgid "We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp."
-msgstr "Ми бачимо внутрішнє `id` тендерної пропозиції (що можна використати для побудови повної URL-адреси коли додамо `http://api-sandbox.openprocurement.org/api/0/tenders/`) та її мітку дати `dateModified`."
+msgid "We don't see internal `id` of tender, because tender appears in the listing from `active.enquiries` status."
+msgstr "Ми поки не бачимо внутрішнього `id` закупівлі, тому що у списку відображаються закупівлі лише після статусу `active.enquiries"
 
 msgid "You can add additional :ref:`ContactPoint` and set several :ref:`Item`. Also you can create tender with :ref:`Feature` (`https://prozorro-api-docs.readthedocs.io/uk/frameworkagreement/basic-actions/meat.html?highlight=features#announcing-meat`)."
 msgstr "Ви можете додати додаткову :ref:`ContactPoint` і декілька :ref:`Item`. Також можна створити закупівлю з :ref:`Feature` (`https://prozorro-api-docs.readthedocs.io/uk/frameworkagreement/basic-actions/meat.html?highlight=features#announcing-meat`)."
+
+msgid "Tender activating"
+msgstr "Та активувати заявку:"
+
+msgid "At first we needed to add EXCLUSION criteria to our tender(:ref:`About criteria you can read here<criteria_operation>`)."
+msgstr "Спочатку нам потрібно додати вийняткові критерії до нашої закупівлі(:ref:`Про критерії ви можете дізнатися тут<criteria_operation>`)"
+
+msgid "After adding needed criteria we can activate our tender, so let's do that:"
+msgstr "Після додавання необхідних критеріїв ми иожемо активувати закупівлю:"
+
+msgid "Now We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp."
+msgstr "Тепер ми бачимо внутрішнє `id` тендерної пропозиції (що можна використати для побудови повної URL-адреси коли додамо `http://api-sandbox.openprocurement.org/api/0/tenders/`) та її мітку дати `dateModified`."
 
 msgid "Modifying tender"
 msgstr "Внесення змін до тендера"
@@ -136,6 +148,9 @@ msgstr "Коли тендерна пропозиція перебуває в с�
 
 msgid "Bidder can register a bid in `draft` status:"
 msgstr "Учасник може зареєструвати заявку зі статусом `draft`:"
+
+msgid "And append responses for criteria requirements:"
+msgstr "Та додамо відповіді на вимоги критеріїв:"
 
 msgid "And activate a bid:"
 msgstr "Та активувати заявку:"
@@ -475,4 +490,10 @@ msgstr "Замовник може змінити статус угоди на `u
 
 msgid "This will transfer `tender` to `unsuccessful` status."
 msgstr "Переведення тендера в статус `unsuccessful`."
+
+#~ msgid "We don't see internal `id` of tender, because tender appears in the listing from `active.tendering` status."
+#~ msgstr ""
+
+#~ msgid "We don't see internal `id` of tender, because tender appears in the listing from `active.tendering` status."
+#~ msgstr ""
 

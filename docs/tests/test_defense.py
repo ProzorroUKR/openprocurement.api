@@ -7,9 +7,10 @@ from datetime import timedelta
 from openprocurement.api.models import get_now
 from openprocurement.api.utils import parse_date
 from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.criteria_utils import generate_responses
 from openprocurement.tender.openuadefense.tests.tender import BaseTenderUAWebTest
 from openprocurement.tender.openuadefense.tests.base import test_tender_data
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_criteria
 from openprocurement.tender.openua.tests.base import test_bids as base_test_bids
 
 
@@ -93,6 +94,21 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'tender-listing-no-auth.http', 'w') as self.app.file_obj:
+            self.app.authorization = None
+            response = self.app.get(request_path)
+            self.assertEqual(response.status, '200 OK')
+
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        #### Tender activating
+
+        with open(TARGET_DIR + 'tender-activating.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+                {'data': {"status": "active.tendering"}})
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'active-tender-listing-no-auth.http', 'w') as self.app.file_obj:
             self.app.authorization = None
             response = self.app.get(request_path)
             self.assertEqual(response.status, '200 OK')

@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1589
+Content-Length: 1608
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -48,7 +48,8 @@ DATA:
         "confidentiality": "buyerOnly",
         "confidentialityRationale": "Only our company sells badgers with pink hair."
       }
-    ]
+    ],
+    "status": "draft"
   }
 }
 
@@ -84,7 +85,7 @@ X-Content-Type-Options: nosniff
     "date": "2021-03-16T00:00:00+02:00",
     "id": "ebac806fe83a4f0492193afac91b47bd",
     "selfQualified": true,
-    "status": "pending",
+    "status": "draft",
     "documents": [
       {
         "id": "e0e4cbc86f6e4fe8adc624ee62d3b656",

@@ -22,6 +22,7 @@ from openprocurement.tender.core.models import (
     embedded_lot_role,
     default_lot_role,
     validate_lots_uniq,
+    default_status,
     BaseLot,
     BaseAward,
     Document,
@@ -226,7 +227,14 @@ class ReportingTender(BaseTender):
     )  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
     awards = ListType(ModelType(Award, required=True), default=list())
     contracts = ListType(ModelType(Contract, required=True), default=list())
-    status = StringType(choices=["draft", "active", "complete", "cancelled", "unsuccessful"], default="active")
+    status = StringType(
+        choices=[
+            "draft",
+            "active",
+            "complete",
+            "cancelled",
+            "unsuccessful"
+        ], default=default_status("active"))
     mode = StringType(choices=["test"])
     cancellations = ListType(ModelType(ReportingCancellation, required=True), default=list())
 

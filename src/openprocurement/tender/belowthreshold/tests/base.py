@@ -6,7 +6,12 @@ from uuid import uuid4
 
 from datetime import timedelta
 
-from openprocurement.api.constants import SANDBOX_MODE, RELEASE_2020_04_19, GUARANTEE_ALLOWED_TENDER_TYPES
+from openprocurement.api.constants import (
+    SANDBOX_MODE,
+    RELEASE_2020_04_19,
+    TWO_PHASE_COMMIT_FROM,
+    GUARANTEE_ALLOWED_TENDER_TYPES,
+)
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.models import Tender
@@ -310,7 +315,7 @@ class BaseApiWebTest(BaseWebTest):
 class BaseTenderWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data
-    initial_status = None
+    initial_status = "active.enquiries"
     initial_bids = None
     initial_lots = None
     initial_criteria = None
@@ -342,7 +347,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
     periods = PERIODS
     tender_class = Tender
     guarantee_criterion = None
-    
+
     def create_tender(self):
         data = deepcopy(self.initial_data)
         if self.initial_lots:
@@ -378,6 +383,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
         if self.initial_bids:
             self.initial_bids_tokens = {}
             response = self.set_status("active.tendering")
+            self.app.patch_json(f"/tenders/{self.tender_id}?acc_token={self.tender_token}", {"data": {}})
             status = response.json["data"]["status"]
             bids = []
             rrs = set_bid_responses(criteria)
@@ -398,7 +404,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
 class TenderContentWebTest(BaseTenderWebTest):
     initial_data = test_tender_data
-    initial_status = None
+    initial_status = "active.enquiries"
     initial_bids = None
     initial_lots = None
 

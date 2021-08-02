@@ -42,7 +42,7 @@ X-Content-Type-Options: nosniff
     "procurementMethod": "open",
     "awardCriteria": "lowestCost",
     "submissionMethod": "electronicAuction",
-    "status": "active.enquiries",
+    "status": "draft",
     "items": [
       {
         "id": "ca8069063cb44e45afe6bb5f71ef33f8",
@@ -89,11 +89,11 @@ X-Content-Type-Options: nosniff
     },
     "enquiryPeriod": {
       "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-03-25T00:00:00+02:00"
+      "endDate": "2021-03-23T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2021-03-25T00:00:00+02:00",
-      "endDate": "2021-04-03T00:00:00+02:00"
+      "startDate": "2021-03-23T00:00:00+02:00",
+      "endDate": "2021-03-30T00:00:00+02:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -122,8 +122,7 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true
     },
     "procurementMethodType": "belowThreshold",
-    "id": "4826290bfb064165b70a94d71e93a63b",
-    "next_check": "2021-03-25T00:00:00+02:00"
+    "id": "4826290bfb064165b70a94d71e93a63b"
   }
 }
 

@@ -400,6 +400,7 @@ def tender_noticePublicationDate(self):
     response = self.app.post_json("/tenders", {"data": tender_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+    response = self.set_initial_status(response.json)
     self.assertIn("noticePublicationDate", response.json["data"])
     self.assertNotEqual(response.json["data"]["noticePublicationDate"], tender_data["noticePublicationDate"])
 
@@ -922,6 +923,8 @@ def tender_fields(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+    self.assertIn(response.json["data"]["id"], response.headers["Location"])
+    response = self.set_initial_status(response.json)
     tender = response.json["data"]
     tender_set = set(tender)
     if "procurementMethodDetails" in tender_set:
@@ -931,6 +934,7 @@ def tender_fields(self):
         set(
             [
                 "id",
+                "criteria",
                 "dateModified",
                 "enquiryPeriod",
                 "auctionPeriod",
@@ -947,7 +951,6 @@ def tender_fields(self):
             ]
         ),
     )
-    self.assertIn(tender["id"], response.headers["Location"])
 
 
 def patch_tender(self):
@@ -957,9 +960,10 @@ def patch_tender(self):
 
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     self.assertEqual(response.status, "201 Created")
+    owner_token = response.json["access"]["token"]
+    response = self.set_initial_status(response.json)
     tender = response.json["data"]
     self.tender_id = response.json["data"]["id"]
-    owner_token = response.json["access"]["token"]
     dateModified = tender.pop("dateModified")
 
     response = self.app.patch_json(
@@ -1184,8 +1188,10 @@ def tender_with_nbu_discount_rate(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["NBUdiscountRate"], 0.22986)
-    tender = response.json["data"]
     owner_token = response.json["access"]["token"]
+    response = self.set_initial_status(response.json)
+    tender = response.json["data"]
+
     if "procurementMethodDetails" in tender:
         tender.pop("procurementMethodDetails")
     if "noticePublicationDate" in tender:
@@ -1196,6 +1202,7 @@ def tender_with_nbu_discount_rate(self):
             [
                 "procurementMethodType",
                 "id",
+                "criteria",
                 "dateModified",
                 "tenderID",
                 "status",
@@ -1469,6 +1476,7 @@ def invalid_bid_tender_features(self):
     tender = response.json["data"]
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    self.set_initial_status(response.json)
 
     # create bid
     bid_data = deepcopy(self.test_bids_data[0])
@@ -1494,11 +1502,8 @@ def invalid_bid_tender_features(self):
         ],
     )
 
-    response = self.app.post_json("/tenders/{}/bids".format(tender_id), {"data": bid_data})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid_id = response.json["data"]["id"]
-    bid_token = response.json["access"]["token"]
+    bid, bid_token = self.create_bid(tender_id, bid_data, "pending")
+    bid_id = bid["id"]
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
@@ -1554,6 +1559,7 @@ def create_tender_generated(self):
     response = self.app.post_json("/tenders", {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+    response = self.set_initial_status(response.json)
     tender = response.json["data"]
     if "procurementMethodDetails" in tender:
         tender.pop("procurementMethodDetails")
@@ -1565,6 +1571,7 @@ def create_tender_generated(self):
             [
                 "procurementMethodType",
                 "id",
+                "criteria",
                 "dateModified",
                 "tenderID",
                 "status",

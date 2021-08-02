@@ -1,0 +1,20 @@
+GET /api/2.5/tenders?opt_pretty=1 HTTP/1.0
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+{
+  "data": [
+    {
+      "id": "37cb590308a242a9836f51a9994c7492",
+      "dateModified": "2021-03-16T00:00:00+02:00"
+    }
+  ],
+  "next_page": {
+    "offset": "2021-03-16T00:00:00+02:00",
+    "path": "/api/2.5/tenders?offset=2021-03-16T00%3A00%3A00%2B02%3A00",
+    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders?offset=2021-03-16T00%3A00%3A00%2B02%3A00"
+  }
+}
+
