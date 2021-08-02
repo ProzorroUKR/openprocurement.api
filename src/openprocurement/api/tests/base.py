@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
+from copy import deepcopy
 from contextlib import contextmanager
 
 from paste.deploy.loadwsgi import loadapp
 from types import FunctionType
 from openprocurement.api.constants import VERSION
 from openprocurement.api.design import sync_design
+from openprocurement.api.utils import get_now
 import webtest
 import unittest
 import pytest
@@ -84,6 +86,17 @@ class BaseTestApp(webtest.TestApp):
                 docs.append(doc)
             self.app.registry.db.update(docs)
 
+    def set_initial_status(self, tender, status=None):
+        from openprocurement.tender.core.tests.criteria_utils import add_criteria
+        add_criteria(self, tender["data"]["id"], tender["access"]["token"])
+
+        response = self.patch_json(
+            f"/tenders/{tender['data']['id']}?acc_token={tender['access']['token']}",
+            {"data": {"status": status}},
+        )
+        assert response.status == "200 OK"
+        return response
+
 
 class BaseWebTest(unittest.TestCase):
     """
@@ -129,6 +142,33 @@ class BaseWebTest(unittest.TestCase):
                 doc['_deleted'] = True
                 docs.append(doc)
             database.update(docs)
+
+    def set_initial_status(self, tender, status=None):
+        if not status:
+            status = self.primary_tender_status
+
+        response = self.app.set_initial_status(tender, status)
+        assert response.status == "200 OK"
+        return response
+
+    def create_bid(self, tender_id, bid_data, status="active"):
+        bid_data = deepcopy(bid_data)
+        bid_data["status"] = "draft"
+        response = self.app.post_json("/tenders/{}/bids".format(tender_id), {"data": bid_data})
+        token = response.json["access"]["token"]
+        response = self.set_responses(tender_id, response.json, status=status)
+        return response.json["data"], token
+
+    def set_responses(self, tender_id, bid, status="active"):
+        from openprocurement.tender.core.tests.criteria_utils import generate_responses
+
+        rrs = generate_responses(self, tender_id)
+        response = self.app.patch_json(
+            f"/tenders/{tender_id}/bids/{bid['data']['id']}?acc_token={bid['access']['token']}",
+            {"data": {"status": status, "requirementResponses": rrs}},
+        )
+        assert response.status == "200 OK"
+        return response
 
 
 @pytest.fixture(scope="session")

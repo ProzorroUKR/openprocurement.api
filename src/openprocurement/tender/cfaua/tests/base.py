@@ -85,7 +85,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     ]
     min_bids_number = MIN_BIDS_NUMBER
     initial_data = deepcopy(test_tender_data)
-    initial_status = None
+    initial_status = "active.tendering"
     initial_bids = None
     initial_lots = None
     initial_auth = None
@@ -563,7 +563,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
 
 class BaseTenderContentWebTest(BaseTenderWebTest):
     initial_data = deepcopy(test_tender_data)
-    initial_status = None
+    initial_status = "active.tendering"
     initial_bids = None
     initial_lots = deepcopy(test_lots)
 

@@ -70,6 +70,18 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.get('/tenders?opt_pretty=1')
             self.assertEqual(response.status, '200 OK')
 
+        #### Tender activating
+
+        with open(TARGET_DIR + 'tutorial/tender-activating.http', 'wt') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+                {'data': {"status": "active"}})
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'tutorial/active-tender-listing-after-procuringEntity.http', 'wt') as self.app.file_obj:
+            response = self.app.get('/tenders?opt_pretty=1')
+            self.assertEqual(response.status, '200 OK')
+
         #### Modifying tender
 
         with open(TARGET_DIR + 'tutorial/patch-items-value-periods.http', 'wt') as self.app.file_obj:
@@ -255,6 +267,7 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
         tender = response.json['data']
         self.tender_id = tender['id']
         owner_token = response.json['access']['token']
+        self.set_status("active")
 
         #### Adding supplier information
 
@@ -393,6 +406,12 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
         tender_id = self.tender_id = tender['id']
         owner_token = response.json['access']['token']
 
+        with open(TARGET_DIR + 'multiple_lots_tutorial/activating-tender.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f'/tenders/{self.tender_id}?acc_token={owner_token}',
+                {'data': {"status": "active"}})
+            self.assertEqual(response.status, '200 OK')
+
         # add lots
         with open(TARGET_DIR + 'multiple_lots_tutorial/tender-add-lot.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -493,6 +512,12 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
         tender = response.json['data']
         self.tender_id = tender['id']
         owner_token = response.json['access']['token']
+
+        with open(TARGET_DIR + 'multiple_lots_tutorial/activating-negotiation-quick-tender.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f'/tenders/{self.tender_id}?acc_token={owner_token}',
+                {'data': {"status": "active"}})
+            self.assertEqual(response.status, '200 OK')
 
         #### Adding supplier information
 

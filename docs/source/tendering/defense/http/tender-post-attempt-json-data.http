@@ -164,9 +164,6 @@ X-Content-Type-Options: nosniff
       "startDate": "2021-03-27T00:00:05+02:00",
       "endDate": "2021-04-11T00:00:00+02:00"
     },
-    "auctionPeriod": {
-      "shouldStartAfter": "2021-04-11T00:00:00+02:00"
-    },
     "items": [
       {
         "id": "bb5861f586c14422bda5bd960466aede",
@@ -206,7 +203,7 @@ X-Content-Type-Options: nosniff
         }
       }
     ],
-    "status": "active.tendering",
+    "status": "draft",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -231,7 +228,6 @@ X-Content-Type-Options: nosniff
     },
     "procurementMethodType": "aboveThresholdUA.defense",
     "id": "77d0877a8eaf4e26a914156d07443d0a",
-    "next_check": "2021-04-11T01:00:00+03:00",
     "complaintPeriod": {
       "startDate": "2021-03-27T00:00:05+02:00",
       "endDate": "2021-04-08T00:00:00+02:00"

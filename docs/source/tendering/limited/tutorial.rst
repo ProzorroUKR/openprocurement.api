@@ -29,7 +29,7 @@ Let's check what tender registry contains:
 .. include:: http/tutorial/tender-listing-after-procuringEntity.http
    :code:
 
-We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp.
+We don't see internal `id` of tender, because tender appears in the listing from `active` status.
 
 
 Creating tender for negotiation procedure
@@ -48,6 +48,22 @@ To create tender for **negotiation.quick** procedure you should set ``negotiatio
 
 .. include:: http/tutorial/create-tender-negotiation-quick-procuringEntity.http
    :code:
+
+
+Tender activating
+~~~~~~~~~~~~~~~~~
+
+For activating **reporting**, **negotiation**, **negotiation.quick** procedures you should update status to ``active``:
+
+.. include:: http/tutorial/tender-activating.http
+   :code:
+
+Let's see what listing of tenders reveals us:
+
+.. include:: http/tutorial/active-tender-listing-after-procuringEntity.http
+   :code:
+
+We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp.
 
 
 Modifying tender

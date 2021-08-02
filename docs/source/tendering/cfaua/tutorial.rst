@@ -46,7 +46,7 @@ body of response reveals the information about the created tender: its internal
 `id` (that matches the `Location` segment), its official `tenderID` and
 `dateModified` datestamp stating the moment in time when tender was last
 modified. Pay attention to the `procurementMethodType`. Note that tender is
-created with `active.enquiries` status.
+created with `draft` status.
 
 Let's access the URL of the created object (the `Location` header of the response):
 
@@ -66,12 +66,34 @@ Let's see what listing of tenders reveals us:
 .. include:: tutorial/initial-tender-listing.http
    :code:
 
-We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp.
+We don't see internal `id` of tender, because tender appears in the listing from `active.enquiries` status.
 
 You can add additional :ref:`ContactPoint` and set several :ref:`Item`. Also you can create tender with :ref:`Feature` (`https://prozorro-api-docs.readthedocs.io/uk/frameworkagreement/basic-actions/meat.html?highlight=features#announcing-meat`).
 
 
 .. ПРЕЦЕДЕНТ Т2. Внести змінни в оголошення
+
+
+Tender activating
+-----------------
+
+At first we needed to add EXCLUSION criteria to our tender(:ref:`About criteria you can read here<criteria_operation>`).
+
+.. include:: tutorial/add-exclusion-criteria.http
+   :code:
+
+After adding needed criteria we can activate our tender, so let's do that:
+
+.. include:: tutorial/tender-activating.http
+   :code:
+
+Let's see what listing of tenders reveals us:
+
+.. include:: tutorial/active-tender-listing-no-auth.http
+   :code:
+
+Now We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp.
+
 
 Modifying tender
 ----------------
@@ -191,6 +213,11 @@ Tender status ``active.tendering`` allows registration of bids.
 Bidder can register a bid in `draft` status:
 
 .. include:: tutorial/register-bidder.http
+   :code:
+
+And append responses for criteria requirements:
+
+.. include:: tutorial/add-requirement-responses-to-bidder.http
    :code:
 
 And activate a bid:

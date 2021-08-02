@@ -226,7 +226,7 @@ X-Content-Type-Options: nosniff
     },
     "awardCriteria": "lowestCost",
     "procurementMethodType": "competitiveDialogueEU",
-    "status": "active.tendering",
+    "status": "draft",
     "items": [
       {
         "id": "703253b41d51418297317c843aeb1296",
@@ -297,7 +297,6 @@ X-Content-Type-Options: nosniff
     ],
     "mainProcurementCategory": "services",
     "id": "d59e1783dc5149518a3c20a016d652c6",
-    "next_check": "2021-04-16T01:00:00+03:00",
     "complaintPeriod": {
       "startDate": "2021-03-16T00:00:00+02:00",
       "endDate": "2021-04-12T00:00:00+02:00"

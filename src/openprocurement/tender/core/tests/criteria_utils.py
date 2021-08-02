@@ -1,3 +1,4 @@
+from webtest import TestApp
 from openprocurement.tender.belowthreshold.tests.base import test_criteria, language_criteria
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.utils import get_now
@@ -7,34 +8,43 @@ TENDERS_WITHOUT_CRITERIA = ["aboveThresholdUA.defense", "simple.defense", "repor
 
 
 def add_criteria(self, tender_id=None, tender_token=None, criteria=test_criteria):
+    if isinstance(self, TestApp):
+        app = self
+    else:
+        app = self.app
+
     if not tender_id:
         tender_id = self.tender_id
     if not tender_token:
         tender_token = self.tender_token
 
-    response = self.app.get("/tenders/{}".format(tender_id))
+    response = app.get("/tenders/{}".format(tender_id))
     if response.json["data"]["procurementMethodType"] in TENDERS_WITHOUT_CRITERIA:
         return
     if get_now() > RELEASE_ECRITERIA_ARTICLE_17:
-        response = self.app.post_json(
+        response = app.post_json(
             "/tenders/{}/criteria?acc_token={}".format(tender_id, tender_token),
             {"data": criteria},
         )
 
-        self.assertEqual(response.status, "201 Created")
+        assert response.status == "201 Created"
 
-        response = self.app.post_json(
+        response = app.post_json(
             "/tenders/{}/criteria?acc_token={}".format(tender_id, tender_token),
             {"data": language_criteria},
         )
 
-        self.assertEqual(response.status, "201 Created")
+        assert response.status == "201 Created"
 
 
 def generate_responses(self, tender_id=None):
+    if isinstance(self, TestApp):
+        app = self
+    else:
+        app = self.app
     if not tender_id:
         tender_id = self.tender_id
-    response = self.app.get("/tenders/{}".format(tender_id))
+    response = app.get("/tenders/{}".format(tender_id))
     tender = response.json["data"]
 
     if tender["procurementMethodType"] in TENDERS_WITHOUT_CRITERIA:

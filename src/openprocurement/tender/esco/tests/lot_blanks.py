@@ -415,6 +415,7 @@ def lot_yppr_validation(self):
     response = self.app.post_json("/tenders", {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+    self.set_initial_status(response.json)
     self.assertEqual(response.json["data"]["fundingKind"], "budget")
     self.assertIn("lots", response.json["data"])
     self.assertIn("fundingKind", response.json["data"]["lots"][0])
@@ -488,9 +489,10 @@ def lot_yppr_validation(self):
 
     bid["lotValues"][0]["value"]["yearlyPaymentsPercentage"] = 0.65
     bid["lotValues"][1]["value"]["yearlyPaymentsPercentage"] = 0.4
+    bid["status"] = "draft"
     response = self.app.post_json("/tenders/{}/bids?acc_token={}".format(tender_id, owner_token), {"data": bid})
     self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.json["data"]["status"], "pending")
+    self.assertEqual(response.json["data"]["status"], "draft")
     self.assertEqual(response.json["data"]["lotValues"][0]["value"]["yearlyPaymentsPercentage"], 0.65)
     self.assertEqual(response.json["data"]["lotValues"][1]["value"]["yearlyPaymentsPercentage"], 0.4)
 

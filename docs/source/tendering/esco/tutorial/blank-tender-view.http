@@ -97,9 +97,6 @@ X-Content-Type-Options: nosniff
       "startDate": "2021-03-16T00:00:00+02:00",
       "endDate": "2021-04-16T00:00:00+02:00"
     },
-    "auctionPeriod": {
-      "shouldStartAfter": "2021-05-21T00:00:00+02:00"
-    },
     "awardCriteria": "ratedCriteria",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -127,7 +124,7 @@ X-Content-Type-Options: nosniff
       "kind": "general"
     },
     "minimalStepPercentage": 0.006,
-    "status": "active.tendering",
+    "status": "draft",
     "NBUdiscountRate": 0.22986,
     "fundingKind": "other",
     "yearlyPaymentsPercentageRange": 0.8,
@@ -141,13 +138,11 @@ X-Content-Type-Options: nosniff
       "startDate": "2021-03-16T00:00:00+02:00",
       "endDate": "2021-04-12T00:00:00+02:00"
     },
-    "next_check": "2021-04-16T01:00:00+03:00",
     "minValue": {
       "amount": 0.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
-    },
-    "noticePublicationDate": "2021-03-16T00:00:00+02:00"
+    }
   }
 }
 

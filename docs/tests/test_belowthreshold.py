@@ -123,8 +123,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         owner_token = response.json['access']['token']
         self.tender_id = tender['id']
 
-        self.set_status('active.enquiries')
-
         with open(TARGET_DIR + 'tutorial/blank-tender-view.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}'.format(tender['id']))
             self.assertEqual(response.status, '200 OK')
@@ -138,11 +136,32 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             if feature['featureOf'] == 'item':
                 feature['relatedItem'] = tender_below_maximum['items'][0]['id']
 
+        # Tender activating
+
+        with open(TARGET_DIR + 'tender-activating.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+                {'data': {"status": "active.enquiries"}})
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'active-tender-listing-no-auth.http', 'w') as self.app.file_obj:
+            self.app.authorization = None
+            response = self.app.get(request_path)
+            self.assertEqual(response.status, '200 OK')
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        # Create second tender
+
         with open(TARGET_DIR + 'tutorial/create-tender-procuringEntity.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',
                 {'data': tender_below_maximum})
             self.assertEqual(response.status, '201 Created')
+
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(response.json["data"]["id"], response.json["access"]["token"]),
+            {'data': {"status": "active.enquiries"}})
+        self.assertEqual(response.status, '200 OK')
 
         test_tender_funders_data = deepcopy(test_tender_data)
         test_tender_funders_data['funders'] = [funder]
@@ -156,6 +175,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             '/tenders?opt_pretty=1',
             {'data': test_tender_data})
         self.assertEqual(response.status, '201 Created')
+
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(response.json["data"]["id"], response.json["access"]["token"]),
+            {'data': {"status": "active.enquiries"}})
+        self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'tutorial/tender-listing-after-procuringEntity.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders')

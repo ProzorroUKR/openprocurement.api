@@ -12,6 +12,7 @@ from openprocurement.api.utils import parse_date
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_lots
 from openprocurement.tender.openua.tests.base import lcc_criteria
 from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.tests.criteria_utils import generate_responses
 
 # TenderUAResourceTest
 
@@ -508,37 +509,41 @@ def create_tender_generated(self):
     response = self.app.post_json("/tenders", {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+    response = self.set_initial_status(response.json)
     tender = response.json["data"]
     if "procurementMethodDetails" in tender:
         tender.pop("procurementMethodDetails")
+    assert_fields = set(
+        [
+            "procurementMethodType",
+            "id",
+            "dateModified",
+            "tenderID",
+            "status",
+            "enquiryPeriod",
+            "tenderPeriod",
+            "complaintPeriod",
+            "minimalStep",
+            "items",
+            "value",
+            "procuringEntity",
+            "next_check",
+            "procurementMethod",
+            "awardCriteria",
+            "submissionMethod",
+            "auctionPeriod",
+            "title",
+            "owner",
+            "date",
+            "mainProcurementCategory",
+            "milestones",
+        ]
+    )
+    if tender["procurementMethodType"] not in ("aboveThresholdUA.defense", "simple.defense"):
+        assert_fields.add("criteria")
     self.assertEqual(
         set(tender),
-        set(
-            [
-                "procurementMethodType",
-                "id",
-                "dateModified",
-                "tenderID",
-                "status",
-                "enquiryPeriod",
-                "tenderPeriod",
-                "complaintPeriod",
-                "minimalStep",
-                "items",
-                "value",
-                "procuringEntity",
-                "next_check",
-                "procurementMethod",
-                "awardCriteria",
-                "submissionMethod",
-                "auctionPeriod",
-                "title",
-                "owner",
-                "date",
-                "mainProcurementCategory",
-                "milestones",
-            ]
-        ),
+        assert_fields,
     )
     self.assertNotEqual(data["id"], tender["id"])
     self.assertNotEqual(data["doc_id"], tender["id"])
@@ -549,6 +554,7 @@ def tender_fields(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+    response = self.set_initial_status(response.json)
     tender = response.json["data"]
     self.tender_id = tender["id"]
     tender_set = set(tender)
@@ -562,6 +568,7 @@ def tender_fields(self):
             "enquiryPeriod",
             "auctionPeriod",
             "complaintPeriod",
+            "criteria",
             "tenderID",
             "status",
             "procurementMethod",
@@ -572,7 +579,6 @@ def tender_fields(self):
             "date",
         },
     )
-    self.assertIn(tender["id"], response.headers["Location"])
 
     self.set_status("complete")
 
@@ -587,6 +593,7 @@ def tender_fields(self):
         "enquiryPeriod",
         "auctionPeriod",
         "complaintPeriod",
+        "criteria",
         "tenderID",
         "status",
         "procurementMethod",
@@ -633,12 +640,13 @@ def patch_tender(self):
 
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     self.assertEqual(response.status, "201 Created")
-    tender = response.json["data"]
-    first_date = tender["date"]
     self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
-    dateModified = tender.pop("dateModified")
 
+    response = self.set_initial_status(response.json)
+    tender = response.json["data"]
+    first_date = tender["date"]
+    dateModified = tender.pop("dateModified")
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"status": "cancelled"}}
     )
@@ -871,20 +879,15 @@ def invalid_bid_tender_features(self):
     tender = response.json["data"]
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    response = self.set_initial_status(response.json)
 
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["parameters"] = [{"code": "OCDS-123454-POSTPONEMENT", "value": 0.1}]
     bid_data["value"] = {"amount": 500}
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid_id = response.json["data"]["id"]
-    bid_token = response.json["access"]["token"]
+    bid, bid_token = self.create_bid(tender_id, bid_data)
+    bid_id = bid["id"]
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
@@ -944,6 +947,7 @@ def invalid_bid_tender_lot(self):
     tender = response.json["data"]
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    response = self.set_initial_status(response.json)
 
     lots = []
     for lot in test_lots * 2:
@@ -1025,22 +1029,17 @@ def invalid1_and_1draft_bids_tender(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    response = self.set_initial_status(response.json)
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
 
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["value"] = {"amount": 500}
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
+    bid, bid_token = self.create_bid(tender_id, bid_data, "draft")
 
-    bid_data["status"] = "draft"
     self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(tender_id, bid_data)
+
     # switch to active.qualification
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
     self.app.authorization = ("Basic", ("chronograph", ""))
@@ -1060,15 +1059,11 @@ def activate_bid_after_adding_lot(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    response = self.set_initial_status(response.json)
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
-
-    bid_id = response.json["data"]["id"]
-    bid_token = response.json["access"]["token"]
+    bid, bid_token = self.create_bid(tender_id, bid_data)
+    bid_id = bid["id"]
 
     response = self.app.post_json(
         "/tenders/{}/lots?acc_token={}".format(self.tender_id, owner_token), {"data": test_lots[0]}
@@ -1258,18 +1253,13 @@ def lost_contract_for_active_award(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    response = self.set_initial_status(response.json)
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(tender_id, bid_data)
     # create bid #2
     self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(tender_id, bid_data)
     # switch to active.auction
     self.set_status("active.auction")
 
@@ -1347,12 +1337,13 @@ def tender_with_main_procurement_category(self):
     data["mainProcurementCategory"] = "goods"
     response = self.app.post_json("/tenders", {"data": data})
     self.assertEqual(response.status, "201 Created")
+    token = response.json["access"]["token"]
+    response = self.set_initial_status(response.json)
+    tender = response.json["data"]
     self.assertIn("mainProcurementCategory", response.json["data"])
     self.assertEqual(response.json["data"]["status"], "active.tendering")
     self.assertEqual(response.json["data"]["mainProcurementCategory"], "goods")
 
-    tender = response.json["data"]
-    token = response.json["access"]["token"]
     self.tender_id = tender["id"]
 
     # test success update tender in active.tendering status

@@ -135,7 +135,7 @@ class BaseCompetitiveDialogApiWebTest(BaseWebTest):
 
 class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
     relative_to = os.path.dirname(__file__)
-    initial_data = None
+    initial_data = "active.tendering"
     initial_status = None
     initial_bids = None
     initial_lots = None
@@ -204,7 +204,7 @@ class BaseCompetitiveDialogUAWebTest(BaseCompetitiveDialogWebTest):
 
 class BaseCompetitiveDialogUAContentWebTest(BaseCompetitiveDialogUAWebTest):
     initial_data = test_tender_data_ua
-    initial_status = None
+    initial_status = "active.tendering"
     initial_bids = None
     initial_lots = None
 
@@ -219,7 +219,7 @@ class BaseCompetitiveDialogUAContentWebTest(BaseCompetitiveDialogUAWebTest):
 
 class BaseCompetitiveDialogEUContentWebTest(BaseCompetitiveDialogEUWebTest):
     initial_data = test_tender_data_eu
-    initial_status = None
+    initial_status = "active.tendering"
     initial_bids = None
     initial_lots = None
 
@@ -231,7 +231,7 @@ class BaseCompetitiveDialogEUContentWebTest(BaseCompetitiveDialogEUWebTest):
 
 class BaseCompetitiveDialogEUStage2ContentWebTest(BaseCompetitiveDialogEUWebTest):
     initial_data = test_tender_stage2_data_eu
-    initial_status = None
+    initial_status = "active.tendering"
     initial_bids = None
     initial_lots = None
     initial_features = None
@@ -256,7 +256,7 @@ class BaseCompetitiveDialogEUStage2ContentWebTest(BaseCompetitiveDialogEUWebTest
 
 class BaseCompetitiveDialogUAStage2ContentWebTest(BaseCompetitiveDialogUAWebTest):
     initial_data = test_tender_stage2_data_ua
-    initial_status = None
+    initial_status = "active.tendering"
     initial_bids = None
     initial_lots = None
     initial_features = None

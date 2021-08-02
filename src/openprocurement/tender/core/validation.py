@@ -128,7 +128,7 @@ def _validate_tender_kind(request, model):
 
 def validate_patch_tender_data_draft(request, **kwargs):
     data = request.validated["json_data"]
-    default_status = type(request.tender).fields["status"].default
+    default_status = type(request.tender).fields["status"].choices[1]
     new_status = data.get("status", request.context.status)
     if data and new_status not in ("draft", "draft.stage2", default_status):
         raise_operation_error(request, "Can't update tender to {} status".format(new_status))

@@ -126,6 +126,7 @@ def test_fail_not_draft(app, plan):
     del test_data["status"]
     response = app.post_json("/tenders", dict(data=test_data))
     assert response.status == "201 Created"
+    app.set_initial_status(response.json, "active.tendering")
     tender = response.json
 
     response = app.post_json(

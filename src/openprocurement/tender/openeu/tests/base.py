@@ -200,7 +200,7 @@ test_tender_data_multi_buyers = set_tender_multi_buyers(
 class BaseTenderWebTest(BaseTenderUAWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data
-    initial_status = None
+    initial_status = "active.tendering"
     initial_bids = None
     initial_lots = None
     initial_auth = None
@@ -234,6 +234,7 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
     def set_status(self, status, extra=None, startend="start"):
         self.now = get_now()
         self.tender_document = self.db.get(self.tender_id)
+        old_status = self.tender_document["status"]
         self.tender_document_patch = {"status": status}
         self.update_periods(status, startend=startend)
 
@@ -259,6 +260,11 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
             self.tender_document_patch.update(extra)
 
         self.save_changes()
+        if old_status == "draft" and status == "active.tendering" and startend == "start":
+            self.app.patch_json(
+                f"/tenders/{self.tender_document.id}?acc_token={self.tender_document['owner_token']}",
+                {"data": {}}
+            )
         return self.get_tender("chronograph")
 
     def prepare_award(self):
@@ -308,7 +314,7 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
 
 class BaseTenderContentWebTest(BaseTenderWebTest):
     initial_data = test_tender_data
-    initial_status = None
+    initial_status = "active.tendering"
     initial_bids = None
     initial_lots = None
 

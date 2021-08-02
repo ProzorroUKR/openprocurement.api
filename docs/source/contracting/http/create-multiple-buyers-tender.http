@@ -264,7 +264,7 @@ X-Content-Type-Options: nosniff
     "procurementMethod": "open",
     "awardCriteria": "lowestCost",
     "submissionMethod": "electronicAuction",
-    "status": "active.enquiries",
+    "status": "draft",
     "items": [
       {
         "id": "dccbebb04f7945a5a9913d5017709e45",
@@ -421,8 +421,7 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true
     },
     "procurementMethodType": "belowThreshold",
-    "id": "27449ba567ee4755b723fd5d2248425f",
-    "next_check": "2021-03-23T00:00:00+02:00"
+    "id": "27449ba567ee4755b723fd5d2248425f"
   },
   "access": {
     "token": "09fb3db5c4b0423685f58a6cf7176e7b",

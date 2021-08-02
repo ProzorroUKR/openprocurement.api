@@ -43,7 +43,7 @@ and `Location` response header reports the location of the created object.  The
 body of response reveals the information about the created tender: its internal
 `id` (that matches the `Location` segment), its official `tenderID` and
 `dateModified` datestamp stating the moment in time when tender was last
-modified.  Note that tender is created with `active.tendering` status.
+modified.  Note that tender is created with `draft` status.
 
 The peculiarity of the Defense open tender is that ``procurementMethodType`` was changed from ``belowThreshold`` to ``aboveThresholdUA.defense``.
 Also there is no opportunity to set up ``enquiryPeriod``, it will be assigned automatically.
@@ -62,7 +62,22 @@ Let's see what listing of tenders reveals us:
 .. include:: http/tender-listing-no-auth.http
    :code:
 
-We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp.
+We don't see internal `id` of tender, because tender appears in the listing from `active.tendering` status.
+
+Tender activating
+-----------------
+
+For activating tender you should update status to `active.tendering`:
+
+.. include:: http/tender-activating.http
+   :code:
+
+Let's see what listing of tenders reveals us:
+
+.. include:: http/active-tender-listing-no-auth.http
+   :code:
+
+Now We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp.
 
 Modifying tender
 ----------------
