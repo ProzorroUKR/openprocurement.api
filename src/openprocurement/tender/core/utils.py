@@ -479,9 +479,9 @@ class CancelTenderLot(object):
         self._lot_update_check_tender_status(request, tender)
 
         if tender.status == "active.auction" and all(
-                i.auctionPeriod and i.auctionPeriod.endDate
-                for i in tender.lots
-                if i.numberOfBids > 1 and i.status == "active"
+            i.auctionPeriod and i.auctionPeriod.endDate
+            for i in tender.lots
+            if i.numberOfBids > 1 and i.status == "active"
         ):
             self.add_next_award_method(request)
 

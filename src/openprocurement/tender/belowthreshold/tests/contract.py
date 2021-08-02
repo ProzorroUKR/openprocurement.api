@@ -294,6 +294,41 @@ class TenderContractMultiBuyersResourceTest(TenderContentWebTest):
     test_patch_tender_multi_contracts_cancelled = snitch(patch_tender_multi_contracts_cancelled)
 
 
+class TenderLotContractMultiBuyersResourceTest(TenderContentWebTest):
+    initial_status = "active.qualification"
+    initial_data = test_tender_data_multi_buyers
+    initial_bids = test_bids
+    initial_lots = test_lots
+
+    def setUp(self):
+        super(TenderLotContractMultiBuyersResourceTest, self).setUp()
+        # Create award
+
+        auth = self.app.authorization
+        self.app.authorization = ("Basic", ("token", ""))
+        response = self.app.post_json(
+            "/tenders/{}/awards".format(self.tender_id),
+            {
+                "data": {
+                    "suppliers": [test_organization],
+                    "status": "pending",
+                    "bid_id": self.initial_bids[0]["id"],
+                    "lotID": self.initial_lots[0]["id"],
+                    "value": self.initial_data["value"],
+                }
+            },
+        )
+        award = response.json["data"]
+        self.award_id = award["id"]
+        self.app.authorization = auth
+        self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+            {"data": {"status": "active"}},
+        )
+
+    test_patch_lot_tender_multi_contracts = snitch(patch_tender_multi_contracts)
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderContractResourceTest))
@@ -301,6 +336,7 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderContractVATNotIncludedResourceTest))
     suite.addTest(unittest.makeSuite(Tender2LotContractDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderContractMultiBuyersResourceTest))
+    suite.addTest(unittest.makeSuite(TenderLotContractMultiBuyersResourceTest))
     return suite
 
 

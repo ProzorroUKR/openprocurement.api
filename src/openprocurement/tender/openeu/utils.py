@@ -37,6 +37,10 @@ bid_qualification_documents_resource = partial(
 
 
 class CancelTenderLot(BaseTenderLot):
+    @staticmethod
+    def add_next_award_method(request):
+        raise NotImplementedError
+
     def cancel_tender(self, request):
         tender = request.validated["tender"]
         if tender.status == "active.tendering":

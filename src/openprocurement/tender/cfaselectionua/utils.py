@@ -2,8 +2,11 @@
 from logging import getLogger
 from openprocurement.api.constants import TZ
 from openprocurement.api.models import Value
-from openprocurement.tender.belowthreshold.utils import add_contracts, add_next_award
-from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.tender.belowthreshold.utils import (
+    add_contracts,
+    add_next_award,
+    contracts_allow_to_complete,
+)
 from openprocurement.tender.cfaselectionua.constants import (
     AGREEMENT_STATUS,
     AGREEMENT_ITEMS,
@@ -30,6 +33,8 @@ agreement_resource = partial(resource, error_handler=error_handler, factory=agre
 
 
 class CancelTenderLot(BaseCancelTenderLot):
+
+    @staticmethod
     def add_next_award_method(request):
         return add_next_award(request)
 
@@ -119,14 +124,19 @@ def check_tender_status(request):
                 )
                 lot.status = "unsuccessful"
                 continue
-            elif last_award.status == "active" and any(
-                [i.status == "active" and i.awardID == last_award.id for i in tender.contracts]
-            ):
-                LOGGER.info(
-                    "Switched lot {} of tender {} to {}".format(lot.id, tender.id, "complete"),
-                    extra=context_unpack(request, {"MESSAGE_ID": "switched_lot_complete"}, {"LOT_ID": lot.id}),
-                )
-                lot.status = "complete"
+            elif last_award.status == "active":
+                contracts = [
+                    contract for contract in tender.contracts
+                    if contract.awardID == last_award.id
+                ]
+                allow_complete_lot = contracts_allow_to_complete(contracts)
+                if allow_complete_lot:
+                    LOGGER.info(
+                        "Switched lot {} of tender {} to {}".format(lot.id, tender.id, "complete"),
+                        extra=context_unpack(request, {"MESSAGE_ID": "switched_lot_complete"}, {"LOT_ID": lot.id}),
+                    )
+                    lot.status = "complete"
+
         statuses = set([lot.status for lot in tender.lots])
 
         if statuses == set(["cancelled"]):
