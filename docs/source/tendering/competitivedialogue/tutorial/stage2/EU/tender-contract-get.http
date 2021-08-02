@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/contracts/f725e638eb6e4019976025c1965779b9?acc_token=3ba9d3fdf58a40ac8a19d43f43de9e28 HTTP/1.0
+GET /api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/contracts/f698f9c0c2694054a7821152c3d541dc?acc_token=3ba9d3fdf58a40ac8a19d43f43de9e28 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,7 +7,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "f725e638eb6e4019976025c1965779b9",
+    "id": "f698f9c0c2694054a7821152c3d541dc",
     "contractID": "UA-2021-03-16-000001-1",
     "contractNumber": "contract#1",
     "status": "pending",

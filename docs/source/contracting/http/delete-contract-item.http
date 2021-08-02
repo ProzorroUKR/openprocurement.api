@@ -1,4 +1,4 @@
-PATCH /api/2.5/contracts/e4e18aeb91074656a353d7429c72c077?acc_token=d7ef3060443a419f93a65b3aeb4f5f9b HTTP/1.0
+PATCH /api/2.5/contracts/b5ed3fde090742bcbe39b1c05b8bf17e?acc_token=d7ef3060443a419f93a65b3aeb4f5f9b HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1225
 Content-Type: application/json
@@ -53,7 +53,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "e4e18aeb91074656a353d7429c72c077",
+    "id": "b5ed3fde090742bcbe39b1c05b8bf17e",
     "awardID": "012bb32b7489497a82373211ac3555ba",
     "contractID": "UA-2021-03-16-000001-1",
     "period": {
@@ -166,7 +166,7 @@ X-Content-Type-Options: nosniff
         "id": "901e908a86b94c3581d0f85fd8137db3",
         "title": "contract_changes.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/e4e18aeb91074656a353d7429c72c077/documents/901e908a86b94c3581d0f85fd8137db3?download=c4a63488537c437b894d08c8f4d11e28",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/b5ed3fde090742bcbe39b1c05b8bf17e/documents/901e908a86b94c3581d0f85fd8137db3?download=c4a63488537c437b894d08c8f4d11e28",
         "datePublished": "2021-03-16T00:00:01+02:00",
         "dateModified": "2021-03-16T00:00:01+02:00",
         "relatedItem": "90238f35b68a4a7ebeb6a5632b1b0d9a",
