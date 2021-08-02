@@ -30,6 +30,7 @@ from openprocurement.api.constants import (
     RELEASE_SIMPLE_DEFENSE_FROM,
     RELEASE_GUARANTEE_CRITERION_FROM,
     GUARANTEE_ALLOWED_TENDER_TYPES,
+    TWO_PHASE_COMMIT_FROM,
     UNIT_PRICE_REQUIRED_FROM,
 )
 from openprocurement.api.utils import (
@@ -243,7 +244,16 @@ def validate_bid_data(request, **kwargs):
     update_logging_context(request, {"bid_id": "__new__"})
     _validate_bid_accreditation_level(request)
     model = type(request.tender).bids.model_class
-    bid = validate_data(request, model)
+
+    data = validate_json_data(request)
+    tender = request.validated["tender"]
+    if (
+        get_first_revision_date(tender, default=get_now()) > TWO_PHASE_COMMIT_FROM
+        and "status" in data
+        and data["status"] != "draft"
+    ):
+        del data["status"]
+    bid = validate_data(request, model, data=data)
     validated_bid = request.validated.get("bid")
     if validated_bid:
         if any([key == "documents" or "Documents" in key for key in validated_bid.keys()]):

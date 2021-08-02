@@ -52,7 +52,7 @@ def generate_responses(self, tender_id=None):
 
     rrs = []
     if get_now() > RELEASE_ECRITERIA_ARTICLE_17:
-        for criterion in tender["criteria"]:
+        for criterion in tender.get("criteria", []):
             for req in criterion["requirementGroups"][0]["requirements"]:
                 if criterion["source"] == "tenderer":
                     rrs.append(

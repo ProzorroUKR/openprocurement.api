@@ -180,7 +180,7 @@ X-Content-Type-Options: nosniff
     },
     "procurementMethodType": "aboveThresholdUA.defense",
     "id": "f8aae737ac8f4d34a52254e2f3416505",
-    "next_check": "2021-03-16T00:36:01+02:00",
+    "next_check": "2021-03-16T00:30:01+02:00",
     "complaintPeriod": {
       "startDate": "2021-02-28T00:00:01+02:00",
       "endDate": "2021-03-12T00:00:00+02:00"

@@ -124,11 +124,10 @@ class TenderBidDocumentResourceTest(BaseTenderLotsContentWebTest):
         for x in range(self.min_bids_number):
             bids_data = deepcopy(test_bids)
             self.convert_bids_for_tender_with_lots(bids_data, self.initial_lots)
-            response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bids_data[0]})
-            bid = response.json["data"]
+            bid, bid_token = self.create_bid(self.tender_id, bids_data[0])
             x = "" if x == 0 else x + 1
             setattr(self, "bid{}_id".format(x), bid["id"])
-            setattr(self, "bid{}_token".format(x), response.json["access"]["token"])
+            setattr(self, "bid{}_token".format(x), bid_token)
 
     test_patch_and_put_document_into_invalid_bid = snitch(patch_and_put_document_into_invalid_bid)
     test_create_tender_bidder_document_nopending = snitch(create_tender_bidder_document_nopending)
@@ -205,14 +204,13 @@ class CreateBidMixin(object):
             bids_data = deepcopy(test_bids)
             self.convert_bids_for_tender_with_lots(bids_data, self.initial_lots)
             bids_data[0]["status"] = self.base_bid_status
-            response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bids_data[0]})
-            bid = response.json["data"]
+            bid, bid_token = self.create_bid(self.tender_id, bids_data[0])
             x = "" if x == 0 else x + 1
             setattr(self, "bid{}_id".format(x), bid["id"])
-            setattr(self, "bid{}_token".format(x), response.json["access"]["token"])
+            setattr(self, "bid{}_token".format(x), bid_token)
 
         self.bid_id = bid["id"]
-        self.bid_token = response.json["access"]["token"]
+        self.bid_token = bid_token
 
 
 class TenderBidRequirementResponseResourceTest(

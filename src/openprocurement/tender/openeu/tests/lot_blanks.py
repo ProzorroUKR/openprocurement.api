@@ -2,7 +2,7 @@
 from datetime import timedelta
 from copy import deepcopy
 from openprocurement.tender.belowthreshold.tests.base import test_claim, test_author
-from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.constants import RELEASE_2020_04_19, TWO_PHASE_COMMIT_FROM
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
@@ -210,10 +210,11 @@ def create_tender_bidder_invalid(self):
     del bid_data["value"]
 
     response = self.app.post_json(
-        request_path,
+        f"/tenders/{self.tender_id}/bids",
         {"data": bid_data},
         status=422,
     )
+
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -330,11 +331,8 @@ def create_tender_bidder_invalid(self):
 
     bid_data["value"] = {"amount": 500}
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}]
-    response = self.app.post_json(
-        request_path,
-        {"data": bid_data},
-        status=422,
-    )
+
+    response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -350,14 +348,7 @@ def patch_tender_bidder(self):
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id}]
     del bid_data["value"]
 
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bidder = response.json["data"]
-    bid_token = response.json["access"]["token"]
+    bidder, bid_token = self.create_bid(self.tender_id, bid_data)
     lot = bidder["lotValues"][0]
 
     response = self.app.patch_json(
@@ -420,7 +411,6 @@ def create_tender_feature_bidder_invalid(self):
 
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
-
     response = self.app.post_json(
         request_path,
         {"data": bid_data},

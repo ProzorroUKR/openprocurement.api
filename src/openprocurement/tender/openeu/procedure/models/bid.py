@@ -33,9 +33,10 @@ class PostBid(BasePostBid):
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(choices=[True])
     status = StringType(
-        choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
-        default="pending",
+        choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"]
     )
+
+    _old_default_status = "pending"
 
 
 class Bid(BaseBid):

@@ -26,7 +26,8 @@ test_agreement['contracts'][0]['suppliers'][0]['scale'] = "large"
 test_lots = deepcopy(lots)
 test_tender_maximum_data = deepcopy(tender_cfaselectionua_maximum)
 
-TARGET_DIR = 'docs/source/tendering/cfaselectionua/tutorial/'
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TARGET_DIR = os.path.join(BASE_DIR, 'source/tendering/cfaselectionua/tutorial/')
 
 
 class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
@@ -368,6 +369,9 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             bids_access[bid2_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
 
+        self.app.authorization = ('Basic', ('broker', ''))
+        self.set_responses(self.tender_id, response.json)
+
         bid3 = deepcopy(bid2)
         bid3['tenderers'] = tender['agreements'][0]['contracts'][3]['suppliers']
         for document in bid3['documents']:
@@ -378,6 +382,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         bid3_id = response.json['data']['id']
         bids_access[bid3_id] = response.json['access']['token']
         self.assertEqual(response.status, '201 Created')
+        self.set_responses(self.tender_id, response.json)
 
         # Auction
 
@@ -463,16 +468,16 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 {"data": {"status": "unsuccessful"}})
 
         # post document for unsuccessful award
-        with open(TARGET_DIR + 'award-qualification-unsuccessful1_document.http', 'w') as self.app.file_obj:
-            self.app.post_json(
-                '/tenders/{}/awards/{}/documents?acc_token={}'.format(
-                    self.tender_id, award_id, owner_token),
-                {"data": {
-                    "title": "explanation.pdf",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/pdf",
-                }})
+        # with open(TARGET_DIR + 'award-qualification-unsuccessful1_document.http', 'w') as self.app.file_obj:
+        #     self.app.post_json(
+        #         '/tenders/{}/awards/{}/documents?acc_token={}'.format(
+        #             self.tender_id, award_id, owner_token),
+        #         {"data": {
+        #             "title": "explanation.pdf",
+        #             "url": self.generate_docservice_url(),
+        #             "hash": "md5:" + "0" * 32,
+        #             "format": "application/pdf",
+        #         }})
 
         # get new pending award
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))

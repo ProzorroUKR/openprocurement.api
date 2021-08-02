@@ -20,7 +20,7 @@ def switch_tender_complaints_draft(self):
     # get tender and check next_check
     response = self.app.get("/tenders/{}".format(self.tender_id))
     tender_data = response.json["data"]
-    self.assertEqual(response.json["data"].get("next_check"), tender_data["complaintPeriod"]["endDate"])
+    self.assertEqual(parse_date(response.json["data"].get("next_check")), parse_date(tender_data["complaintPeriod"]["endDate"]))
 
     # and once the date passed
     tender = self.db.get(self.tender_id)

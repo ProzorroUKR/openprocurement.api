@@ -257,13 +257,7 @@ def items_without_deliveryDate_quantity(self):
 
     # post bids
     for bid_data in self.test_bids_data:
-        bid_data = bid_data.copy()
-        rrs = generate_responses(self)
-        if rrs:
-            bid_data["requirementResponses"] = rrs
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
+        bid, bid_token = self.create_bid(self.tender_id, bid_data)
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"status": "active.tendering"})
@@ -439,13 +433,7 @@ def tender_noticePublicationDate(self):
 
     # post bids
     for bid_data in self.test_bids_data:
-        bid_data = bid_data.copy()
-        rrs = generate_responses(self)
-        if rrs:
-            bid_data["requirementResponses"] = rrs
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
+        self.create_bid(self.tender_id, bid_data)
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"status": "active.tendering"})

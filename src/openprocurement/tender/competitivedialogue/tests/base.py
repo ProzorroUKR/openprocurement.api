@@ -359,11 +359,9 @@ def create_tender_stage2(self, initial_lots=None, initial_data=None, features=No
                 i["lotValues"] = [{"value": value, "relatedLot": l["id"]} for l in self.lots]
             if self.initial_criteria:
                 i["requirementResponses"] = set_bid_responses(criteria)
-            response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": i})
-
-            self.assertEqual(response.status, "201 Created")
-            bids.append(response.json["data"])
-            self.initial_bids_tokens[response.json["data"]["id"]] = response.json["access"]["token"]
+            bid, bid_token = self.create_bid(self.tender_id, i)
+            bids.append(bid)
+            self.initial_bids_tokens[bid["id"]] = bid_token
         self.bids = self.initial_bids = bids
 
     if self.initial_status and self.initial_status != status:

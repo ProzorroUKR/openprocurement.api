@@ -95,23 +95,20 @@ class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentW
         # Create bid
         bidder_data = deepcopy(test_bids[0])
         bidder_data["tenderers"][0]["identifier"]["id"] = "00037256"
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bidder_data})
-        bid = response.json["data"]
+        bid, bid_token = self.create_bid(self.tender_id, bidder_data)
         self.bid_id = bid["id"]
-        self.bid_token = response.json["access"]["token"]
+        self.bid_token = bid_token
         # create second bid
         bidder_data = deepcopy(test_bids[1])
         bidder_data["tenderers"][0]["identifier"]["id"] = "00037257"
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bidder_data})
-        bid2 = response.json["data"]
+        bid2, bid2_token = self.create_bid(self.tender_id, bidder_data)
         self.bid2_id = bid2["id"]
-        self.bid2_token = response.json["access"]["token"]
+        self.bid2_token = bid2_token
         bidder_data = deepcopy(test_bids[1])
         bidder_data["tenderers"][0]["identifier"]["id"] = "00037258"
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bidder_data})
-        bid3 = response.json["data"]
+        bid3, bid3_token = self.create_bid(self.tender_id, bidder_data)
         self.bid3_id = bid3["id"]
-        self.bid3_token = response.json["access"]["token"]
+        self.bid3_token = bid3_token
 
     test_get_tender_bidder_document = snitch(get_tender_bidder_document)
     test_create_tender_bidder_document = snitch(create_tender_bidder_document)
@@ -138,13 +135,9 @@ class TenderUABidDocumentWithDSWebTest(TenderBidDocumentWithDSResourceTestMixin,
         bid_data["value"] = {"amount": 500}
         bid_data["tenderers"] = [test_tenderer]
 
-        response = self.app.post_json(
-            "/tenders/{}/bids".format(self.tender_id),
-            {"data": bid_data},
-        )
-        bid = response.json["data"]
+        bid, bid_token = self.create_bid(self.tender_id, bid_data)
         self.bid_id = bid["id"]
-        self.bid_token = response.json["access"]["token"]
+        self.bid_token = bid_token
 
 
 class TenderEUBidRequirementResponseResourceTest(

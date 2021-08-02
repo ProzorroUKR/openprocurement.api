@@ -55,7 +55,7 @@ class Bid(BidResponsesMixin, BaseBid):
         _qualification_view = whitelist(
             "id", "status", "tenderers", "documents", "eligibilityDocuments", "requirementResponses")
         roles = {
-            "create": _create,
+            "create": _create + whitelist("default_status"),
             "edit": _edit,
             "active.tendering": whitelist(),
             "active.enquiries": whitelist(),
@@ -103,9 +103,10 @@ class Bid(BidResponsesMixin, BaseBid):
     parameters = ListType(ModelType(BidParameter, required=True), default=list(), validators=[validate_parameters_uniq])
     status = StringType(
         choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
-        default="pending",
     )
     value = ModelType(Value)
+
+    _old_default_status = "pending"
 
     def serialize(self, role=None, context=None):
         if role and role != "create" and self.status in ["invalid", "invalid.pre-qualification", "deleted"]:

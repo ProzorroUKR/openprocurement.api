@@ -1684,10 +1684,7 @@ def one_lot_2bid_1unqualified(self):
     for i in range(self.min_bids_number):
         bid_data["lotValues"] = [{"value": self.test_bids_data[i]["value"], "relatedLot": lot_id}]
         bid_data["tenderers"] = self.test_bids_data[i]["tenderers"]
-        response = self.app.post_json(
-            "/tenders/{}/bids".format(self.tender_id),
-            {"data": bid_data},
-        )
+        self.create_bid(self.tender_id, bid_data)
 
     # switch to active.pre-qualification
     self.set_status("active.tendering", "end")
@@ -1766,6 +1763,7 @@ def create_tender_feature_bidder(self):
     self.assertEqual(response.json["errors"][0]["description"], "Can't add bid in current (unsuccessful) tender status")
 
 
+@mock.patch("openprocurement.tender.core.models.TWO_PHASE_COMMIT_FROM", get_now() + timedelta(days=1))
 def create_tender_feature_bidder_invalid(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
 

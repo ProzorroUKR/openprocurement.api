@@ -55,7 +55,8 @@ class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
     test_bids_data = test_bids
 
     test_features_bidder = snitch(features_bidder)
-    test_features_bidder_invalid = snitch(features_bidder_invalid)
+    # TODO: uncomment when bid activation will be removed
+    # test_features_bidder_invalid = snitch(features_bidder_invalid)
 
 
 class TenderBidDocumentResourceTest(BaseTenderUAContentWebTest, TenderBidDocumentResourceTestMixin):

@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
+from mock import patch
 from datetime import datetime, timedelta
 from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD
 from openprocurement.tender.cfaua.tests.base import agreement_period
-from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
+from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17, TWO_PHASE_COMMIT_FROM
 from openprocurement.api.utils import get_now
 
 
@@ -192,10 +193,8 @@ def bids_invalidation_on_tender_change(self):
 
     # submit bids
     for data in initial_bids:
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data})
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        bids_access[response.json["data"]["id"]] = response.json["access"]["token"]
+        bid, bid_token = self.create_bid(self.tender_id, data)
+        bids_access[bid["id"]] = bid_token
 
     # check initial status
     for bid_id, token in bids_access.items():
@@ -245,11 +244,9 @@ def bids_invalidation_on_tender_change(self):
     # and submit valid bid
     data = initial_bids[0]
     data["lotValues"][0]["value"]["amount"] = 299
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data})
-    self.assertEqual(response.status, "201 Created")
-    valid_bid_id = response.json["data"]["id"]
-    valid_bid_token = response.json["access"]["token"]
-    valid_bid_date = response.json["data"]["date"]
+    bid, valid_bid_token = self.create_bid(self.tender_id, data)
+    valid_bid_id = bid["id"]
+    valid_bid_date = bid["date"]
 
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
@@ -257,10 +254,7 @@ def bids_invalidation_on_tender_change(self):
 
     for i in range(1, self.min_bids_number):
         bid_data["tenderers"] = initial_bids[i]["tenderers"]
-        response = self.app.post_json(
-            "/tenders/{}/bids".format(self.tender_id),
-            {"data": bid_data},
-        )
+        self.create_bid(self.tender_id, bid_data)
 
     # switch to active.pre-qualification
     self.set_status("active.tendering", "end")
@@ -355,10 +349,7 @@ def get_tender_tenderers(self):
     initial_bids = deepcopy(self.test_bids_data)
     self.convert_bids_for_tender_with_lots(initial_bids, self.initial_lots)
 
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": initial_bids[0]})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid = response.json["data"]
+    bid, bid_token = self.create_bid(self.tender_id, initial_bids[0])
 
     response = self.app.get("/tenders/{}/bids".format(self.tender_id), status=403)
     self.assertEqual(response.status, "403 Forbidden")
@@ -367,7 +358,7 @@ def get_tender_tenderers(self):
         response.json["errors"][0]["description"], "Can't view bids in current (active.tendering) tender status"
     )
     for _ in range(self.min_bids_number - 1):
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": initial_bids[0]})
+        self.create_bid(self.tender_id, initial_bids[0])
 
     # switch to active.pre-qualification
     self.set_status("active.tendering", "end")
@@ -1498,12 +1489,10 @@ def deleted_bid_do_not_locks_tender_in_state(self):
     bid_amount = 400
     for _ in range(self.min_bids_number):
         bid_data["lotValues"][0]["value"]["amount"] = bid_amount
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
+        bid, bid_token = self.create_bid(self.tender_id, bid_data)
         bid_amount += 5
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        bids.append(response.json["data"])
-        bids_tokens.append(response.json["access"]["token"])
+        bids.append(bid)
+        bids_tokens.append(bid_token)
 
     bid_id = bids[0]["id"]
 
@@ -1515,7 +1504,7 @@ def deleted_bid_do_not_locks_tender_in_state(self):
     self.assertEqual(response.json["data"]["status"], "deleted")
 
     bid_data["lotValues"][0]["value"]["amount"] = 101
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
+    bid, bid_token = self.create_bid(self.tender_id, bid_data)
 
     # switch to active.pre-qualification
     self.set_status("active.tendering", "end")
@@ -2058,9 +2047,7 @@ def create_tender_bidder_document_nopending(self):
     self.convert_bids_for_tender_with_lots(initial_bids, self.initial_lots)
 
     bid_data = deepcopy(initial_bids[0])
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
-    bid = response.json["data"]
-    token = response.json["access"]["token"]
+    bid, token = self.create_bid(self.tender_id, bid_data)
     bid_id = bid["id"]
 
     response = self.app.post(
@@ -2170,10 +2157,8 @@ def bids_activation_on_tender_documents(self):
     initial_bids = deepcopy(self.test_bids_data)
     self.convert_bids_for_tender_with_lots(initial_bids, self.initial_lots)
     for data in initial_bids:
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data})
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        bids_access[response.json["data"]["id"]] = response.json["access"]["token"]
+        bid, bid_token = self.create_bid(self.tender_id, data)
+        bids_access[bid["id"]] = bid_token
 
     # check initial status
     for bid_id, token in bids_access.items():
@@ -2202,6 +2187,7 @@ def bids_activation_on_tender_documents(self):
         self.assertEqual(response.json["data"]["status"], "pending")
 
 
+@patch("openprocurement.tender.core.models.TWO_PHASE_COMMIT_FROM", get_now() + timedelta(days=1))
 def create_tender_biddder_invalid(self):
     initial_bids = deepcopy(self.test_bids_data)
     self.convert_bids_for_tender_with_lots(initial_bids, self.initial_lots)
@@ -2421,19 +2407,16 @@ def create_tender_bidder(self):
     self.convert_bids_for_tender_with_lots(initial_bids, self.initial_lots)
 
     bid_data = deepcopy(initial_bids[0])
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid = response.json["data"]
+    bid, bid_token = self.create_bid(self.tender_id, bid_data)
     self.assertEqual(bid["tenderers"][0]["name"], initial_bids[0]["tenderers"][0]["name"])
     self.assertIn("id", bid)
-    self.assertIn(bid["id"], response.headers["Location"])
 
-    for status in ("active", "unsuccessful", "deleted", "invalid"):
-        bid_data["lotValues"][0]["value"]["amount"] = 500
-        bid_data["status"] = status
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=403)
-        self.assertEqual(response.status, "403 Forbidden")
+    if get_now() < TWO_PHASE_COMMIT_FROM:
+        for status in ("active", "unsuccessful", "deleted", "invalid"):
+            bid_data["lotValues"][0]["value"]["amount"] = 500
+            bid_data["status"] = status
+            response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=403)
+            self.assertEqual(response.status, "403 Forbidden")
 
     bid_without_lotvalues_value = deepcopy(bid_data)
     del bid_without_lotvalues_value["lotValues"][0]["value"]
@@ -2447,7 +2430,7 @@ def create_tender_bidder(self):
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=403)
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't add bid in current (complete) tender status")
+    self.assertEqual(response.json["errors"][0]["description"], f"Can't add bid in current (complete) tender status")
 
 
 def deleted_bid_is_not_restorable(self):
@@ -2503,11 +2486,7 @@ def patch_tender_bidder(self):
     initial_bids = deepcopy(self.test_bids_data)
     self.convert_bids_for_tender_with_lots(initial_bids, self.initial_lots)
 
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": initial_bids[0]})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid = response.json["data"]
-    bid_token = response.json["access"]["token"]
+    bid, bid_token = self.create_bid(self.tender_id, initial_bids[0])
 
     bid_data = deepcopy(initial_bids[0])
     bid_data["lotValues"][0]["value"]["amount"] = 600
@@ -2615,11 +2594,8 @@ def features_bidder(self):
     ]
 
     for i in test_features_bids:
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": i})
+        bid, bid_token = self.create_bid(self.tender_id, i)
         i["status"] = "pending"
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        bid = response.json["data"]
         bid.pop("date")
         bid.pop("id")
         bid["lotValues"][0].pop("date")
@@ -2627,6 +2603,7 @@ def features_bidder(self):
         self.assertEqual(bid, i)
 
 
+@patch("openprocurement.tender.core.models.TWO_PHASE_COMMIT_FROM", get_now() + timedelta(days=1))
 def features_bidder_invalid(self):
     initial_bids = deepcopy(self.test_bids_data)
     self.convert_bids_for_tender_with_lots(initial_bids, self.initial_lots)

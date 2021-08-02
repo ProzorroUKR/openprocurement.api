@@ -225,6 +225,7 @@ class BaseUaBid(BaseBid, WeightedValueMixin):
                 "tenderers",
                 "parameters",
                 "lotValues",
+                "default_status",
                 "status",
                 "selfQualified",
                 "selfEligible",
@@ -275,7 +276,7 @@ class BaseUaBid(BaseBid, WeightedValueMixin):
 
     lotValues = ListType(ModelType(LotValue, required=True), default=list())
     subcontractingDetails = StringType()
-    status = StringType(choices=["draft", "active", "invalid", "deleted"], default="active")
+    status = StringType(choices=["draft", "active", "invalid", "deleted"])
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(choices=[True])
     parameters = ListType(ModelType(Parameter, required=True), default=list(), validators=[validate_parameters_uniq])

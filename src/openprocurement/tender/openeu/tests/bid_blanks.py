@@ -7,7 +7,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_document,
 )
 from openprocurement.tender.openeu.tests.base import test_bids
-from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
+from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17, TWO_PHASE_COMMIT_FROM
 from openprocurement.api.utils import get_now
 
 # TenderBidResourceTest
@@ -154,11 +154,7 @@ def create_tender_biddder_invalid(self):
     bid_data = deepcopy(test_bids[0])
     bid_data["tenderers"] = self.test_bids_data[0]["tenderers"]
     del bid_data["value"]
-    response = self.app.post_json(
-        request_path,
-        {"data": bid_data},
-        status=422,
-    )
+    response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -168,11 +164,7 @@ def create_tender_biddder_invalid(self):
     )
 
     bid_data["value"] = {"amount": 500, "valueAddedTaxIncluded": False}
-    response = self.app.post_json(
-        request_path,
-        {"data": bid_data},
-        status=422,
-    )
+    response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -193,11 +185,7 @@ def create_tender_biddder_invalid(self):
         "tenderers": self.test_bids_data[0]["tenderers"],
         "value": {"amount": 500, "currency": "USD"},
     })
-    response = self.app.post_json(
-        request_path,
-        {"data": bid_data},
-        status=422,
-    )
+    response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -234,12 +222,15 @@ def create_tender_bidder(self):
 
     for status in ("active", "unsuccessful", "deleted", "invalid"):
         bid_data["status"] = status
+        auth = self.app.authorization
+        self.app.authorization = ("Basic", ("brokerfdd", ""))
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
             {"data": bid_data},
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
+        self.app.authorization = auth
 
     self.set_status("complete")
 
@@ -260,14 +251,7 @@ def patch_tender_bidder(self):
         "tenderers": [self.test_bids_data[0]["tenderers"][0]],
         "value": {"amount": 500},
     })
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid = response.json["data"]
-    bid_token = response.json["access"]["token"]
+    bid, bid_token = self.create_bid(self.tender_id, bid_data, "pending")
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
@@ -369,19 +353,9 @@ def get_tender_bidder(self):
         "value": self.test_bids_data[0]["value"],
     })
     for _ in range(self.min_bids_number - 1):
-        response = self.app.post_json(
-            "/tenders/{}/bids".format(self.tender_id),
-            {"data": bid_data},
-        )
+        bid, bid_token = self.create_bid(self.tender_id,bid_data, "pending")
 
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid = response.json["data"]
-    bid_token = response.json["access"]["token"]
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(self.tender_id,bid_data, "pending")
 
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid["id"]), status=403)
     self.assertEqual(response.status, "403 Forbidden")
@@ -555,14 +529,7 @@ def delete_tender_bidder(self):
         "tenderers": self.test_bids_data[0]["tenderers"],
         "value": {"amount": 500},
     })
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid = response.json["data"]
-    bid_token = response.json["access"]["token"]
+    bid, bid_token = self.create_bid(self.tender_id,bid_data, "pending")
 
     response = self.app.delete("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token))
     self.assertEqual(response.status, "200 OK")
@@ -591,7 +558,7 @@ def delete_tender_bidder(self):
         self.assertEqual(response.json["errors"][0]["description"], "Can't add document at 'deleted' bid status")
 
     revisions = self.db.get(self.tender_id).get("revisions")
-    self.assertTrue(any([i for i in revisions[-2]["changes"] if i["op"] == "remove" and i["path"] == "/bids"]))
+    self.assertTrue(any([i for i in revisions[-3]["changes"] if i["op"] == "remove" and i["path"] == "/bids"]))
     self.assertTrue(
         any([i for i in revisions[-1]["changes"] if i["op"] == "replace" and i["path"] == "/bids/0/status"])
     )
@@ -611,14 +578,7 @@ def delete_tender_bidder(self):
     )
 
     # create new bid
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
-    self.assertEqual(response.status, "201 Created")
-    bid = response.json["data"]
-    bid_token = response.json["access"]["token"]
-
+    bid, bid_token = self.create_bid(self.tender_id, bid_data, "pending")
     # update tender. we can set value that is less than a value in bid as
     # they will be invalidated by this request
     response = self.app.patch_json(
@@ -642,10 +602,7 @@ def delete_tender_bidder(self):
 
     for i in range(self.min_bids_number):
         bid_data["value"] = {"amount": 100 + i}
-        response = self.app.post_json(
-            "/tenders/{}/bids".format(self.tender_id),
-            {"data": bid_data},
-        )
+        self.create_bid(self.tender_id,bid_data, "pending")
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
@@ -776,15 +733,10 @@ def deleted_bid_do_not_locks_tender_in_state(self):
 
     for _ in range(self.min_bids_number):
         bid_data["value"] = {"amount": bid_amount}
-        response = self.app.post_json(
-            "/tenders/{}/bids".format(self.tender_id),
-            {"data": bid_data},
-        )
+        bid, bid_token = self.create_bid(self.tender_id,bid_data, "pending")
         bid_amount += 5
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        bids.append(response.json["data"])
-        bids_tokens.append(response.json["access"]["token"])
+        bids.append(bid)
+        bids_tokens.append(bid_token)
 
     # delete first bid
     response = self.app.delete("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bids[0]["id"], bids_tokens[0]))
@@ -794,10 +746,7 @@ def deleted_bid_do_not_locks_tender_in_state(self):
     self.assertEqual(response.json["data"]["status"], "deleted")
 
     bid_data["value"] = {"amount": 101}
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(self.tender_id,bid_data, "pending")
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
@@ -852,13 +801,7 @@ def get_tender_tenderers(self):
         "tenderers": [self.test_bids_data[0]["tenderers"][0]],
         "value": self.test_bids_data[0]["value"],
     })
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid = response.json["data"]
+    bid, bid_token = self.create_bid(self.tender_id,bid_data, "pending")
 
     response = self.app.get("/tenders/{}/bids".format(self.tender_id), status=403)
     self.assertEqual(response.status, "403 Forbidden")
@@ -867,10 +810,7 @@ def get_tender_tenderers(self):
         response.json["errors"][0]["description"], "Can't view bids in current (active.tendering) tender status"
     )
     for _ in range(self.min_bids_number - 1):
-        response = self.app.post_json(
-            "/tenders/{}/bids".format(self.tender_id),
-            {"data": bid_data},
-        )
+        self.create_bid(self.tender_id,bid_data, "pending")
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
@@ -962,10 +902,8 @@ def bids_invalidation_on_tender_change(self):
 
     # submit bids
     for data in self.test_bids_data:
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data})
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        bids_access[response.json["data"]["id"]] = response.json["access"]["token"]
+        bid, bid_token = self.create_bid(self.tender_id, data, "pending")
+        bids_access[bid["id"]] = bid_token
 
     # check initial status
     for bid_id, token in bids_access.items():
@@ -1004,9 +942,7 @@ def bids_invalidation_on_tender_change(self):
 
     # check that tender status change does not invalidate bids
     # submit one more bid. check for invalid value first
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id), {"data": self.test_bids_data[0]}, status=422
-    )
+    response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": self.test_bids_data[0]}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -1023,11 +959,9 @@ def bids_invalidation_on_tender_change(self):
     # and submit valid bid
     data = deepcopy(self.test_bids_data[0])
     data["value"]["amount"] = 299
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data})
-    self.assertEqual(response.status, "201 Created")
-    valid_bid_id = response.json["data"]["id"]
-    valid_bid_token = response.json["access"]["token"]
-    valid_bid_date = response.json["data"]["date"]
+    bid, valid_bid_token = self.create_bid(self.tender_id, data, "pending")
+    valid_bid_id = bid["id"]
+    valid_bid_date = bid["date"]
 
     bid_data = deepcopy(test_bids[0])
     bid_data.update({
@@ -1038,10 +972,7 @@ def bids_invalidation_on_tender_change(self):
         bid_data.update({
             "tenderers": self.test_bids_data[i]["tenderers"]
         })
-        response = self.app.post_json(
-            "/tenders/{}/bids".format(self.tender_id),
-            {"data": bid_data},
-        )
+        bid, bid_token = self.create_bid(self.tender_id, bid_data, "pending")
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
@@ -1135,10 +1066,8 @@ def bids_activation_on_tender_documents(self):
     # submit bids
     for data in deepcopy(self.test_bids_data):
         data["tenderers"] = [self.test_bids_data[0]["tenderers"][0]]
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data})
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        bids_access[response.json["data"]["id"]] = response.json["access"]["token"]
+        bid, bid_token = self.create_bid(self.tender_id, data, "pending")
+        bids_access[bid["id"]] = bid_token
 
     # check initial status
     for bid_id, token in bids_access.items():
@@ -1193,11 +1122,8 @@ def features_bidder(self):
         test_features_bids[1]["selfEligible"] = True
 
     for i in test_features_bids:
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": i})
+        bid, bid_token = self.create_bid(self.tender_id, i, "pending")
         i["status"] = "pending"
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        bid = response.json["data"]
         bid.pop("date")
         bid.pop("id")
         for k in ("documents", "eligibilityDocuments", "financialDocuments", "qualificationDocuments", "lotValues"):
@@ -1208,7 +1134,7 @@ def features_bidder(self):
 def features_bidder_invalid(self):
     bid_data = deepcopy(test_bids[0])
     bid_data["tenderers"] = self.test_bids_data[0]["tenderers"]
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=422)
+    response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -1217,7 +1143,7 @@ def features_bidder_invalid(self):
         [{"description": ["This field is required."], "location": "body", "name": "parameters"}],
     )
     bid_data["parameters"] = [{"code": "OCDS-123454-AIR-INTAKE", "value": 0.1}]
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=422)
+    response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -1242,7 +1168,7 @@ def features_bidder_invalid(self):
     )
     bid_data["parameters"][1]["code"] = "OCDS-123454-YEARS"
     bid_data["parameters"][1]["value"] = 0.2
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=422)
+    response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -3141,8 +3067,7 @@ def download_tender_bidder_document(self):
 
 def create_tender_bidder_document_nopending(self):
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": self.test_bids_data[0]})
-    bid = response.json["data"]
-    token = response.json["access"]["token"]
+    bid, token = self.create_bid(self.tender_id, self.test_bids_data[0], "pending")
     bid_id = bid["id"]
 
     response = self.app.post_json(

@@ -67,7 +67,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/291c4bea0d1d4ffb95615993a06b785c
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/c2273631949e4fbeb8ff3a1be667e937
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -95,7 +95,7 @@ X-Content-Type-Options: nosniff
       }
     ],
     "date": "2021-03-16T00:00:00+02:00",
-    "id": "291c4bea0d1d4ffb95615993a06b785c",
+    "id": "c2273631949e4fbeb8ff3a1be667e937",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "status": "draft",
     "value": {

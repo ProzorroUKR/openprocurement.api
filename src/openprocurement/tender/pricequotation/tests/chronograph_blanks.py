@@ -12,15 +12,15 @@ from openprocurement.tender.pricequotation.tests.data import (
 
 # TenderSwitchQualificationResourceTest
 def switch_to_qualification(self):
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": {
-            "tenderers": [test_organization], "value": {"amount": 500},
-            "requirementResponses": test_requirement_response_valid
-        }},
+    bid, token = self.create_bid(
+        self.tender_id,
+        {
+            "tenderers": [test_organization],
+            "value": {"amount": 500},
+            "requirementResponses": test_requirement_response_valid,
+        },
     )
 
-    bid = response.json["data"]
     bid_id = bid["id"]
     self.set_status("active.tendering", 'end')
 

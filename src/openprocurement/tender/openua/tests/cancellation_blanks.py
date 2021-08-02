@@ -443,7 +443,7 @@ def create_tender_cancellation_2020_04_19(self):
     request_path = "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token)
 
     cancellation = dict(**test_cancellation)
-    cancellation.update({"reasonType": reasonType_choices[0], "status": "active"})
+    cancellation.update({"reasonType": reasonType_choices[0]})
     response = self.app.post_json(
         request_path,
         {"data": cancellation}

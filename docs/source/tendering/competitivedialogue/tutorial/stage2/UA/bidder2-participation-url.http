@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/db4876add6b747dfafc1b99523c02097/bids/7a54480af9574a7d958d7bd95701ec9e?acc_token=a20c70d6abdc4e11a24e172dcd5a2aed HTTP/1.0
+GET /api/2.5/tenders/db4876add6b747dfafc1b99523c02097/bids/ef3c7ebaccec4c14bae23045b5b4841e?acc_token=a20c70d6abdc4e11a24e172dcd5a2aed HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -31,22 +31,22 @@ X-Content-Type-Options: nosniff
       }
     ],
     "date": "2021-03-16T00:00:00+02:00",
-    "id": "7a54480af9574a7d958d7bd95701ec9e",
+    "id": "ef3c7ebaccec4c14bae23045b5b4841e",
     "value": {
       "amount": 499.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/db4876add6b747dfafc1b99523c02097?key_for_bid=7a54480af9574a7d958d7bd95701ec9e",
-    "status": "active",
+    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/db4876add6b747dfafc1b99523c02097?key_for_bid=ef3c7ebaccec4c14bae23045b5b4841e",
+    "status": "draft",
     "selfQualified": true,
     "documents": [
       {
-        "id": "4a233f3520e6441c97e66eed74ab00bf",
+        "id": "8d72465b1c734b34aa3e927a7550907f",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4876add6b747dfafc1b99523c02097/bids/7a54480af9574a7d958d7bd95701ec9e/documents/4a233f3520e6441c97e66eed74ab00bf?download=c004bc1fa7cf4c3c826827be00857d15",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4876add6b747dfafc1b99523c02097/bids/ef3c7ebaccec4c14bae23045b5b4841e/documents/8d72465b1c734b34aa3e927a7550907f?download=c004bc1fa7cf4c3c826827be00857d15",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender"

@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/291c4bea0d1d4ffb95615993a06b785c/eligibility_documents?acc_token=3558940bd3654d09b73766b6712599cc HTTP/1.0
+POST /api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/c2273631949e4fbeb8ff3a1be667e937/eligibility_documents?acc_token=3558940bd3654d09b73766b6712599cc HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 151
 Content-Type: multipart/form-data; boundary=---BOUNDARY
@@ -14,7 +14,7 @@ content
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/291c4bea0d1d4ffb95615993a06b785c/eligibility_documents/0f9a61626ee949fc93143f984c9c0357
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/c2273631949e4fbeb8ff3a1be667e937/eligibility_documents/0f9a61626ee949fc93143f984c9c0357
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -22,7 +22,7 @@ X-Content-Type-Options: nosniff
     "hash": "md5:00000000000000000000000000000000",
     "title": "eligibility_doc.pdf",
     "format": "application/pdf",
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/291c4bea0d1d4ffb95615993a06b785c/eligibility_documents/0f9a61626ee949fc93143f984c9c0357?download=d76b0d3e7ad945ebbd9f08a407b5b565",
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/c2273631949e4fbeb8ff3a1be667e937/eligibility_documents/0f9a61626ee949fc93143f984c9c0357?download=d76b0d3e7ad945ebbd9f08a407b5b565",
     "datePublished": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
     "documentOf": "tender",

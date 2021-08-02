@@ -332,7 +332,12 @@ def bids_validation_wrapper(validation_func):
             # in case this validation wrapper is used for subelement of bid (such as parameters)
             # traverse back to the bid to get possibility to check status  # troo-to-to =)
             data = data["__parent__"]
-        if data["status"] in ("deleted", "invalid", "invalid.pre-qualification", "draft", "unsuccessful"):
+
+        tender_date = get_first_revision_date(data, default=get_now())
+        if (
+            data["status"] in ("deleted", "invalid", "invalid.pre-qualification", "draft", "unsuccessful")
+            or (tender_date > TWO_PHASE_COMMIT_FROM and not data["status"])
+        ):
             # skip not valid bids
             return
         tender = data["__parent__"]
@@ -1215,7 +1220,17 @@ class Metric(Model):
     observations = ListType(ModelType(Observation), default=list())
 
 
-class Bid(Model):
+class BidDefaultStatusMixin(Model):
+    @serializable(serialized_name="status", serialize_when_none=True)
+    def default_status(self):
+        if not self.status:
+            if get_first_revision_date(self.__parent__, default=get_now()) > TWO_PHASE_COMMIT_FROM:
+                return "draft"
+            return self._old_default_status
+        return self.status
+
+
+class Bid(BidDefaultStatusMixin):
     class Options:
         roles = {
             "Administrator": Administrator_bid_role,
@@ -1223,6 +1238,7 @@ class Bid(Model):
             "view": view_bid_role,
             "create": whitelist(
                 "value",
+                "default_status",
                 "status",
                 "tenderers",
                 "parameters",
@@ -1272,7 +1288,7 @@ class Bid(Model):
     lotValues = ListType(ModelType(LotValue, required=True), default=list())
     date = IsoDateTimeType(default=get_now)
     id = MD5Type(required=True, default=lambda: uuid4().hex)
-    status = StringType(choices=["active", "draft"], default="active")
+    status = StringType(choices=["active", "draft"])
     value = ModelType(Value)
     documents = ListType(ModelType(Document, required=True), default=list())
     participationUrl = URLType()
@@ -1285,6 +1301,7 @@ class Bid(Model):
         validators=[validate_object_id_uniq, validate_response_requirement_uniq],
     )
 
+    _old_default_status = "active"
     __name__ = ""
 
     def import_data(self, raw_data, **kw):
@@ -2311,7 +2328,7 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
 
 
 def default_status(old_default_status="active.tendering", new_default_status="draft"):
-    def wrapper():
+    def wrapper(*args, **kwargs):
         return new_default_status if get_now() > TWO_PHASE_COMMIT_FROM else old_default_status
     return wrapper
 

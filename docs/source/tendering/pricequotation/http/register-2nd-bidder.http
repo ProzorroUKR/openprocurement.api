@@ -108,7 +108,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/bids/4f6256946cb844bc899c4570307f502a
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/bids/62632b90b4c44ebd81073e2fc9dbc000
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -135,8 +135,7 @@ X-Content-Type-Options: nosniff
       }
     ],
     "date": "2021-03-16T00:00:01+02:00",
-    "id": "4f6256946cb844bc899c4570307f502a",
-    "status": "active",
+    "id": "62632b90b4c44ebd81073e2fc9dbc000",
     "value": {
       "amount": 479.0,
       "currency": "UAH",
@@ -144,21 +143,21 @@ X-Content-Type-Options: nosniff
     },
     "documents": [
       {
-        "id": "ab4c925fdc5e443597c0ba46a646bd20",
+        "id": "02fd6af18f5e49a99a68ff73f0169903",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/bids/4f6256946cb844bc899c4570307f502a/documents/ab4c925fdc5e443597c0ba46a646bd20?download=192b7b24d38d4de6bc9a6b1e6c77960b",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/bids/62632b90b4c44ebd81073e2fc9dbc000/documents/02fd6af18f5e49a99a68ff73f0169903?download=192b7b24d38d4de6bc9a6b1e6c77960b",
         "datePublished": "2021-03-16T00:00:01+02:00",
         "dateModified": "2021-03-16T00:00:01+02:00",
         "documentOf": "tender"
       },
       {
-        "id": "13aac7e6bf354a2b8e5bf9b2d3698a67",
+        "id": "59edf3c71d23491eb00428e8efe3b9ce",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/bids/4f6256946cb844bc899c4570307f502a/documents/13aac7e6bf354a2b8e5bf9b2d3698a67?download=e6ac8b976a3445839cd998263b5ffb42",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/bids/62632b90b4c44ebd81073e2fc9dbc000/documents/59edf3c71d23491eb00428e8efe3b9ce?download=e6ac8b976a3445839cd998263b5ffb42",
         "datePublished": "2021-03-16T00:00:01+02:00",
         "dateModified": "2021-03-16T00:00:01+02:00",
         "documentOf": "tender"
@@ -166,69 +165,70 @@ X-Content-Type-Options: nosniff
     ],
     "requirementResponses": [
       {
-        "id": "1c02e80aed4c49c7a9a15382d3257881",
+        "id": "b77debb00fc84b3eacc5b1805c4cd4a7",
         "requirement": {
           "id": "655360-0001-001-01"
         },
         "value": "23.8"
       },
       {
-        "id": "22ff8af65dbc48d88f0873ec569e7609",
+        "id": "7557b12547334e7d843968e671e7d62b",
         "requirement": {
           "id": "655360-0002-001-01"
         },
         "value": "1920x1080"
       },
       {
-        "id": "2b0245851ee74e6d97798466b99920db",
+        "id": "da6ad23a4cd149a193da0e23c5574b5d",
         "requirement": {
           "id": "655360-0003-001-01"
         },
         "value": "16:9"
       },
       {
-        "id": "63c0dc036e78457cab01693b0e984dab",
+        "id": "d2d262620d534dca8229a5df601d394f",
         "requirement": {
           "id": "655360-0004-001-01"
         },
         "value": "250"
       },
       {
-        "id": "ad8f586d57c943008054098df5b9ab06",
+        "id": "95a2d29a4bb04e8db719f74ab7aa2ec1",
         "requirement": {
           "id": "655360-0005-001-01"
         },
         "value": "1000:1"
       },
       {
-        "id": "9cc05c615c31429da5600b66b8de8364",
+        "id": "65cc255132c344a2919b8367e30c56c6",
         "requirement": {
           "id": "655360-0006-001-01"
         },
         "value": "1"
       },
       {
-        "id": "fc25700491e24117bb772a8c7748efde",
+        "id": "560c11fc0b014f948780865d8456dc39",
         "requirement": {
           "id": "655360-0007-001-01"
         },
         "value": "1"
       },
       {
-        "id": "ccbbeaf7c9684eb9bebad4a9aedf5d27",
+        "id": "5a3d7f1509bc41e19235d3ea774e8f2f",
         "requirement": {
           "id": "655360-0008-001-01"
         },
         "value": "HDMI"
       },
       {
-        "id": "66f7ff5f51994de4a733cd3aa22cec38",
+        "id": "17346ca5a1d74950831f84be42c62db0",
         "requirement": {
           "id": "655360-0009-001-01"
         },
         "value": "36"
       }
-    ]
+    ],
+    "status": "draft"
   },
   "access": {
     "token": "3a9b10d6d5544c5ab63ca47f59595980",

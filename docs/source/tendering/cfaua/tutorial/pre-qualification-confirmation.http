@@ -626,7 +626,7 @@ X-Content-Type-Options: nosniff
             "scale": "micro"
           }
         ],
-        "id": "9eee26d528d9490a9e52cf6b1f696c41",
+        "id": "fa412b9bcd92484d9f8871b0ee0df130",
         "requirementResponses": [
           {
             "id": "023d5d567b2f4e16a7d938704a2fdb4b",
@@ -757,7 +757,7 @@ X-Content-Type-Options: nosniff
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_top_secrets.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/9eee26d528d9490a9e52cf6b1f696c41/documents/8e2253d474d347369064f8d7f063ba5e?download=9cdf7899f62f40fdaf9838e4676ab373",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/fa412b9bcd92484d9f8871b0ee0df130/documents/8e2253d474d347369064f8d7f063ba5e?download=9cdf7899f62f40fdaf9838e4676ab373",
             "datePublished": "2021-03-16T00:00:00+02:00",
             "dateModified": "2021-03-16T00:00:00+02:00",
             "documentOf": "tender",
@@ -806,7 +806,7 @@ X-Content-Type-Options: nosniff
             "scale": "sme"
           }
         ],
-        "id": "c4cc8a18f70745389bffcab828a9cb83",
+        "id": "dfe1f11c2ec14520b8aac4060a0fd10f",
         "requirementResponses": [
           {
             "id": "6e896d3b30c1426db34bc9c4b78ce0af",
@@ -945,7 +945,7 @@ X-Content-Type-Options: nosniff
             "scale": "mid"
           }
         ],
-        "id": "0163fc12e0c04ae08080a47a9ef3909a",
+        "id": "eac6e323ccd84f588542f76867850060",
         "requirementResponses": [
           {
             "id": "8c57eb166e04443cad4aac981bd5b9d7",
@@ -1060,7 +1060,7 @@ X-Content-Type-Options: nosniff
         ],
         "documents": [
           {
-            "id": "5c34b317e07541139937d657a7ee8dc0",
+            "id": "e69a71de908d4c4a8f9c69e527938b69",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part1.pdf",
             "format": "application/pdf",
@@ -1072,11 +1072,11 @@ X-Content-Type-Options: nosniff
             "language": "uk"
           },
           {
-            "id": "7d864dc5610746f0806d882a508796fa",
+            "id": "fadca469c6e44f0ca8086ab778e301e6",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part2.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/0163fc12e0c04ae08080a47a9ef3909a/documents/7d864dc5610746f0806d882a508796fa?download=256123ec589044029ec3f8823d26d1a4",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/eac6e323ccd84f588542f76867850060/documents/fadca469c6e44f0ca8086ab778e301e6?download=256123ec589044029ec3f8823d26d1a4",
             "datePublished": "2021-03-16T00:00:00+02:00",
             "dateModified": "2021-03-16T00:00:00+02:00",
             "documentOf": "tender",
@@ -1087,7 +1087,7 @@ X-Content-Type-Options: nosniff
         ],
         "eligibilityDocuments": [
           {
-            "id": "c1b9a785c6494f2d9c49d644a7c96c1a",
+            "id": "1973f516b53d40ecbc3f14c979bbb698",
             "hash": "md5:00000000000000000000000000000000",
             "title": "eligibility_doc.pdf",
             "format": "application/pdf",
@@ -1126,7 +1126,7 @@ X-Content-Type-Options: nosniff
             "scale": "mid"
           }
         ],
-        "id": "98b3bff73c4a4879b603800966926a71",
+        "id": "bd56332dbb8140a4b4aab9c447c7e9b6",
         "requirementResponses": [
           {
             "id": "55510c89203c4b6c9a0317dfa6525984",
@@ -1241,7 +1241,7 @@ X-Content-Type-Options: nosniff
         ],
         "documents": [
           {
-            "id": "c35f8d4cacbc4fd6acd6add768b98a00",
+            "id": "9c8a1b924ccf4492b7a52727b134d418",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part1.pdf",
             "format": "application/pdf",
@@ -1253,11 +1253,11 @@ X-Content-Type-Options: nosniff
             "language": "uk"
           },
           {
-            "id": "868925be4db74f83b75e01674ca75de3",
+            "id": "f0fd216397c24b3491388919024cac37",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part2.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/98b3bff73c4a4879b603800966926a71/documents/868925be4db74f83b75e01674ca75de3?download=256123ec589044029ec3f8823d26d1a4",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/bd56332dbb8140a4b4aab9c447c7e9b6/documents/f0fd216397c24b3491388919024cac37?download=256123ec589044029ec3f8823d26d1a4",
             "datePublished": "2021-03-16T00:00:00+02:00",
             "dateModified": "2021-03-16T00:00:00+02:00",
             "documentOf": "tender",
@@ -1268,7 +1268,7 @@ X-Content-Type-Options: nosniff
         ],
         "eligibilityDocuments": [
           {
-            "id": "c07b6f6b601a4202978aed025b48f23d",
+            "id": "e13e063a40434fea8be946daf5df01b5",
             "hash": "md5:00000000000000000000000000000000",
             "title": "eligibility_doc.pdf",
             "format": "application/pdf",
@@ -1465,7 +1465,7 @@ X-Content-Type-Options: nosniff
     "qualifications": [
       {
         "id": "ef09cd8e035b42b0a1699961b9f7dd62",
-        "bidID": "9eee26d528d9490a9e52cf6b1f696c41",
+        "bidID": "fa412b9bcd92484d9f8871b0ee0df130",
         "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
         "status": "active",
         "date": "2021-03-16T00:00:00+02:00",
@@ -1474,7 +1474,7 @@ X-Content-Type-Options: nosniff
       },
       {
         "id": "223559f5ba3246c1b155a3ef32cbe44c",
-        "bidID": "c4cc8a18f70745389bffcab828a9cb83",
+        "bidID": "dfe1f11c2ec14520b8aac4060a0fd10f",
         "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
         "status": "active",
         "date": "2021-03-16T00:00:00+02:00",
@@ -1483,7 +1483,7 @@ X-Content-Type-Options: nosniff
       },
       {
         "id": "2d10211cb2184b6faa2cb9dffe9d674e",
-        "bidID": "0163fc12e0c04ae08080a47a9ef3909a",
+        "bidID": "eac6e323ccd84f588542f76867850060",
         "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
         "status": "unsuccessful",
         "date": "2021-03-16T00:00:00+02:00",
@@ -1492,7 +1492,7 @@ X-Content-Type-Options: nosniff
       },
       {
         "id": "06288b758a524a9bbe729309e4c63db1",
-        "bidID": "98b3bff73c4a4879b603800966926a71",
+        "bidID": "bd56332dbb8140a4b4aab9c447c7e9b6",
         "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
         "status": "active",
         "date": "2021-03-16T00:00:00+02:00",

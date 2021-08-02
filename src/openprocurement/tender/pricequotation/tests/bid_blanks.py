@@ -798,13 +798,19 @@ def patch_tender_bid_document(self):
 
 def create_tender_bid_document_nopending(self):
     response = self.app.post_json(
-            "/tenders/{}/bids".format(self.tender_id),
-            {"data": {"tenderers": [test_organization], "value": {"amount": 500},
-                      "requirementResponses": test_requirement_response_valid}},
-        )
+        "/tenders/{}/bids".format(self.tender_id),
+        {"data": {"tenderers": [test_organization], "value": {"amount": 500},
+                  "requirementResponses": test_requirement_response_valid}},
+    )
+
     bid = response.json['data']
     token = response.json['access']['token']
     bid_id = bid['id']
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={token}",
+        {"data": {"status": "active"}},
+    )
 
     response = self.app.post(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, token),
@@ -818,16 +824,6 @@ def create_tender_bid_document_nopending(self):
     self.set_status("active.tendering", 'end')
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.qualification")
-    response = self.app.patch_json(
-        "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, token),
-        {"data": {"description": "document description"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update document because award of bid is not in pending state"
-    )
 
     response = self.app.put(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, token),

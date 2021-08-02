@@ -1502,10 +1502,14 @@ def one_invalid_bid_tender(self):
     owner_token = self.tender_token
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    resp = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id), {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "requirementResponses": test_requirement_response_valid}}
+    bid, token = self.create_bid(
+        self.tender_id,
+        {
+            "tenderers": [test_organization],
+            "value": {"amount": 500},
+            "requirementResponses": test_requirement_response_valid
+        },
     )
-    token = resp.json['access']['token']
     # switch to active.qualification
     self.set_status('active.tendering', 'end')
     resp = self.check_chronograph()
@@ -1530,28 +1534,26 @@ def first_bid_tender(self):
     tender_id =  self.tender_id
     owner_token = self.tender_token
     # create bid
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": {
+    bid, bid_token1 = self.create_bid(
+        self.tender_id,
+        {
             "tenderers": [test_organization],
             "value": {"amount": 450},
             "requirementResponses": test_requirement_response_valid
-        }}
+        },
     )
-    bid_1 = response.json["data"]["id"]
-    bid_token1 = response.json["access"]["token"]
+    bid_1 = bid["id"]
 
     # create second bid
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": {
+    bid, bid_token2 = self.create_bid(
+        self.tender_id,
+        {
             "tenderers": [test_organization],
             "value": {"amount": 300},
             "requirementResponses": test_requirement_response_valid
-        }}
+        },
     )
-    bid_2 = response.json["data"]["id"]
-    bid_token2 = response.json["access"]["token"]
+    bid_2 = bid["id"]
     self.set_status('active.tendering', 'end')
     resp = self.check_chronograph()
     self.assertEqual(resp.json['data']['status'], 'active.qualification')
@@ -1652,14 +1654,14 @@ def lost_contract_for_active_award(self):
     owner_token = self.tender_token
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    resp = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id), {"data": {
+    bid, token = self.create_bid(
+        self.tender_id,
+        {
             "tenderers": [test_organization],
             "value": {"amount": 500},
             "requirementResponses": test_requirement_response_valid
-        }}
+        },
     )
-    token = resp.json['access']['token']
     # switch to active.qualification
     self.set_status("active.tendering", 'end')
     resp = self.check_chronograph().json

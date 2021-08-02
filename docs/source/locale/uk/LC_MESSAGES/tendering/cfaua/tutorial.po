@@ -494,6 +494,3 @@ msgstr "Переведення тендера в статус `unsuccessful`."
 #~ msgid "We don't see internal `id` of tender, because tender appears in the listing from `active.tendering` status."
 #~ msgstr ""
 
-#~ msgid "We don't see internal `id` of tender, because tender appears in the listing from `active.tendering` status."
-#~ msgstr ""
-

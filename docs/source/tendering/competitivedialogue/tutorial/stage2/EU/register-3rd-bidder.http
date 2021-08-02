@@ -78,7 +78,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/386b23b1fec947db89ec6be78085df1d
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/cc7ed6e4bd0145a4ae0c43f4ce1ef5a5
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -106,7 +106,7 @@ X-Content-Type-Options: nosniff
       }
     ],
     "date": "2021-03-16T00:00:00+02:00",
-    "id": "386b23b1fec947db89ec6be78085df1d",
+    "id": "cc7ed6e4bd0145a4ae0c43f4ce1ef5a5",
     "value": {
       "amount": 5.0,
       "currency": "UAH",
@@ -114,11 +114,11 @@ X-Content-Type-Options: nosniff
     },
     "documents": [
       {
-        "id": "28490f04d2214b31984b57d310416601",
+        "id": "7a23572266ec4727b8718e25829f915e",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/386b23b1fec947db89ec6be78085df1d/documents/28490f04d2214b31984b57d310416601?download=bd22239ca7e843b5a9b78629492dd7ef",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/cc7ed6e4bd0145a4ae0c43f4ce1ef5a5/documents/7a23572266ec4727b8718e25829f915e?download=bd22239ca7e843b5a9b78629492dd7ef",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
@@ -126,7 +126,7 @@ X-Content-Type-Options: nosniff
         "language": "uk"
       },
       {
-        "id": "d242473c29e040d789fc1d0d05d61f16",
+        "id": "b6b2519c936a455cb87fa1c23a13cb0e",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
@@ -140,11 +140,11 @@ X-Content-Type-Options: nosniff
     ],
     "financialDocuments": [
       {
-        "id": "37c3891855df4b2484b972b8321b5ca2",
+        "id": "b643bb182b834521a137ee5e083d4702",
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/386b23b1fec947db89ec6be78085df1d/financial_documents/37c3891855df4b2484b972b8321b5ca2?download=9e201cf64846411982f1a0f22875f4f5",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/cc7ed6e4bd0145a4ae0c43f4ce1ef5a5/financial_documents/b643bb182b834521a137ee5e083d4702?download=9e201cf64846411982f1a0f22875f4f5",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
@@ -154,11 +154,11 @@ X-Content-Type-Options: nosniff
     ],
     "eligibilityDocuments": [
       {
-        "id": "26c1663160b8489eb55d15baa7a4527d",
+        "id": "e5a52507459e406fbe21aa46b85cac13",
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/386b23b1fec947db89ec6be78085df1d/eligibility_documents/26c1663160b8489eb55d15baa7a4527d?download=3c13822a2b25429caa740bfe269ec59b",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/cc7ed6e4bd0145a4ae0c43f4ce1ef5a5/eligibility_documents/e5a52507459e406fbe21aa46b85cac13?download=3c13822a2b25429caa740bfe269ec59b",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
@@ -168,11 +168,11 @@ X-Content-Type-Options: nosniff
     ],
     "qualificationDocuments": [
       {
-        "id": "15db3bbc9d7a4f968dcfa0fcc8a85abe",
+        "id": "b30d1df332ca4160b7f042294e4c0761",
         "hash": "md5:00000000000000000000000000000000",
         "title": "qualification_document.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/386b23b1fec947db89ec6be78085df1d/qualification_documents/15db3bbc9d7a4f968dcfa0fcc8a85abe?download=e3674427e5c149ebb79e2795e8537d36",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/cc7ed6e4bd0145a4ae0c43f4ce1ef5a5/qualification_documents/b30d1df332ca4160b7f042294e4c0761?download=e3674427e5c149ebb79e2795e8537d36",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
@@ -181,7 +181,7 @@ X-Content-Type-Options: nosniff
       }
     ],
     "selfQualified": true,
-    "status": "pending"
+    "status": "draft"
   },
   "access": {
     "token": "466af52b536d4077a6ab31444cabf16c",

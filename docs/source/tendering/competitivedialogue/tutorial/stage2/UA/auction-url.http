@@ -175,8 +175,8 @@ X-Content-Type-Options: nosniff
     ],
     "procurementMethod": "selective",
     "id": "db4876add6b747dfafc1b99523c02097",
-    "next_check": "2021-03-16T00:36:00+02:00",
-    "numberOfBids": 2,
+    "next_check": "2021-03-16T00:30:00+02:00",
+    "numberOfBids": 1,
     "complaintPeriod": {
       "startDate": "2021-02-28T00:00:00+02:00",
       "endDate": "2021-03-12T00:00:00+02:00"

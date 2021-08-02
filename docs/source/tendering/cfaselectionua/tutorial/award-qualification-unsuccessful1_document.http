@@ -13,21 +13,3 @@ DATA:
   }
 }
 
-Response: 201 Created
-Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/awards/f0ef44efc0054ea089ad3bf2f07fef36/documents/565e2d8c19924b8183c7e0d50130c4c9
-X-Content-Type-Options: nosniff
-{
-  "data": {
-    "id": "565e2d8c19924b8183c7e0d50130c4c9",
-    "hash": "md5:00000000000000000000000000000000",
-    "title": "explanation.pdf",
-    "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b1e8586a6be54da58c857f242f7ae959?Signature=1AC4YaYiuKVq2IAVVH1MCwoid7QsbJItQbTYAbhYmG2ZvyW45WQRC4nDaHL2r301ySz4AHDHXixgCq4cBFSgAw%3D%3D&KeyID=a8968c46",
-    "datePublished": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "author": "tender_owner",
-    "documentOf": "tender"
-  }
-}
-
