@@ -607,18 +607,11 @@ def get_tender_tenderers(self):
 
 
 def bid_Administrator_change(self):
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {
-            "data": {
-                "tenderers": [test_organization],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
-            }
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid = response.json["data"]
+    bid_data = {
+        "tenderers": [test_organization],
+        "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
+    }
+    bid, bid_token = self.create_bid(self.tender_id, bid_data)
 
     self.app.authorization = ("Basic", ("administrator", ""))
     response = self.app.patch_json(
@@ -669,10 +662,7 @@ def features_bid(self):
     ]
 
     for i in test_features_bids:
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": i})
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        bid = response.json["data"]
+        bid, bid_token = self.create_bid(self.tender_id, i)
         bid.pop("date")
         bid.pop("id")
         bid["lotValues"][0].pop("date")
@@ -698,9 +688,7 @@ def features_bid(self):
         ],
     }
     # posting only only one bid with one feature, contract has 2 features
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": feat_bid})
-    self.assertEqual((response.status, response.content_type), ("201 Created", "application/json"))
-    bid = response.json["data"]
+    bid, bid_token = self.create_bid(self.tender_id, feat_bid)
     bid.pop("date")
     bid.pop("id")
     bid["lotValues"][0].pop("date")
@@ -794,15 +782,12 @@ def patch_features_bid_invalid(self):
         ],
     }
 
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": test_bid})
-    self.assertEqual((response.status, response.content_type), ("201 Created", "application/json"))
-    bid = response.json["data"]
+    bid, token = self.create_bid(self.tender_id, test_bid)
     bid_id = bid["id"]
     bid.pop("date")
     bid.pop("id")
     bid["lotValues"][0].pop("date")
     self.assertEqual(bid, test_bid)
-    token = response.json["access"]["token"]
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, token),

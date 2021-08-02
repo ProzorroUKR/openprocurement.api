@@ -2197,15 +2197,11 @@ def one_valid_bid_tender(self):
     self.assertIn("auctionPeriod", response.json["data"]["lots"][0])
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {
-            "data": {
-                "tenderers": [test_organization],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_data["lots"][0]["id"]}],
-            }
-        },
-    )
+    bid_data = {
+        "tenderers": [test_organization],
+        "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_data["lots"][0]["id"]}],
+    }
+    self.create_bid(tender_id, bid_data)
     # switch to active.qualification
     self.set_status("active.tendering", start_end="end")
     self.app.authorization = ("Basic", ("chronograph", ""))
@@ -2256,15 +2252,11 @@ def one_invalid_bid_tender(self):
     self.set_status("active.tendering")
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {
-            "data": {
-                "tenderers": [test_organization],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_data["lots"][0]["id"]}],
-            }
-        },
-    )
+    bid_data = {
+        "tenderers": [test_organization],
+        "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_data["lots"][0]["id"]}],
+    }
+    self.create_bid(tender_id, bid_data)
     # switch to active.qualification
     self.set_status("active.tendering", start_end="end")
     self.app.authorization = ("Basic", ("chronograph", ""))
@@ -2327,28 +2319,16 @@ def first_bid_tender(self):
     self.set_status("active.tendering")
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {
-            "data": {
-                "tenderers": [test_organization],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_data["lots"][0]["id"]}],
-            }
-        },
-    )
-    bid_id = response.json["data"]["id"]
-    bid_token = response.json["access"]["token"]
+    bid_data = {
+        "tenderers": [test_organization],
+        "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_data["lots"][0]["id"]}],
+
+    }
+    bid, bid_token = self.create_bid(self.tender_id, bid_data)
+    bid_id = bid["id"]
     # create second bid
     self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {
-            "data": {
-                "tenderers": [test_organization],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_data["lots"][0]["id"]}],
-            }
-        },
-    )
+    self.create_bid(self.tender_id, bid_data)
     # switch to active.auction
     self.set_status("active.auction")
 
@@ -2479,15 +2459,11 @@ def lost_contract_for_active_award(self):
     self.set_status("active.tendering")
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {
-            "data": {
-                "tenderers": [test_organization],
-                "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_data["lots"][0]["id"]}],
-            }
-        },
-    )
+    bid_data = {
+        "tenderers": [test_organization],
+        "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_data["lots"][0]["id"]}],
+    }
+    bid, bid_token = self.create_bid(tender_id, bid_data)
     # switch to active.qualification
     self.set_status("active.tendering", start_end="end")
     self.app.authorization = ("Basic", ("chronograph", ""))

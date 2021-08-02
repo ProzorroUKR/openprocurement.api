@@ -820,6 +820,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
             bid2_id = response.json['data']['id']
             bids_access[bid2_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
+        self.set_responses(self.tender_id, response.json)
 
 
         bid_document2.update({
@@ -846,6 +847,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
             bid3_id = response.json['data']['id']
             bids_access[bid3_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
+        self.set_responses(self.tender_id, response.json)
 
         # Pre-qualification
 

@@ -386,6 +386,7 @@ class Bid(BidResponsesMixin, BaseBid, WeightedValueMixin):
                 "tenderers",
                 "parameters",
                 "lotValues",
+                "default_status",
                 "status",
                 "selfQualified",
                 "selfEligible",
@@ -466,8 +467,9 @@ class Bid(BidResponsesMixin, BaseBid, WeightedValueMixin):
     parameters = ListType(ModelType(Parameter, required=True), default=list(), validators=[validate_parameters_uniq])
     status = StringType(
         choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
-        default="pending",
     )
+
+    _old_default_status = "pending"
 
     def serialize(self, role=None, context=None):
         if role and role != "create" and self.status in ["invalid", "invalid.pre-qualification", "deleted"]:

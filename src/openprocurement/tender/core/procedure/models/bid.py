@@ -20,6 +20,8 @@ from openprocurement.tender.core.procedure.models.parameter import Parameter, Pa
 from openprocurement.tender.core.procedure.models.lot_value import LotValue, PostLotValue
 from openprocurement.tender.core.procedure.models.document import PostDocument, Document
 from openprocurement.tender.core.models import validate_parameters_uniq, Administrator_bid_role
+from openprocurement.api.utils import get_now
+from openprocurement.api.constants import TWO_PHASE_COMMIT_FROM
 
 
 # PATCH DATA ---
@@ -87,8 +89,18 @@ class PostBid(CommonBid):
     tenderers = ListType(ModelType(PostBusinessOrganization, required=True), required=True, min_size=1, max_size=1)
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq], default=list)
     lotValues = ListType(ModelType(PostLotValue, required=True), default=list)
-    status = StringType(choices=["active", "draft"], default="active")
+    status = StringType(choices=["active", "draft"])
     documents = ListType(ModelType(PostDocument, required=True), default=list)
+
+    _old_default_status = "active"
+
+    @serializable(serialized_name="status", serialize_when_none=True)
+    def default_status(self):
+        if not self.status:
+            if get_first_revision_date(self.__parent__, default=get_now()) > TWO_PHASE_COMMIT_FROM:
+                return "draft"
+            return self._old_default_status
+        return self.status
 
 # -- POST
 

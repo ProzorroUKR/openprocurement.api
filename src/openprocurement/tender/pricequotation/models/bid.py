@@ -14,6 +14,7 @@ from openprocurement.tender.core.models import Model
 from openprocurement.tender.core.models import (
     Administrator_bid_role,
     view_bid_role,
+    BidDefaultStatusMixin,
 )
 from openprocurement.tender.pricequotation.models.document import\
     Document
@@ -32,7 +33,7 @@ class RequirementResponse(Model):
     value = StringType(required=True)
 
 
-class Bid(Model):
+class Bid(BidDefaultStatusMixin):
     class Options:
         roles = {
             "Administrator": Administrator_bid_role,
@@ -67,7 +68,7 @@ class Bid(Model):
     )
     date = IsoDateTimeType(default=get_now)
     id = MD5Type(required=True, default=lambda: uuid4().hex)
-    status = StringType(choices=["active", "draft"], default="active")
+    status = StringType(choices=["active", "draft"])
     value = ModelType(Value)
     documents = ListType(ModelType(Document, required=True), default=list())
     owner_token = StringType()

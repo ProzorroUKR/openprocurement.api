@@ -668,13 +668,7 @@ def one_valid_bid_tender_ua(self):
 
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {
-            "data": self.test_bids_data[0]
-        },
-    )
-    bid_id = self.bid_id = response.json["data"]["id"]
+    self.create_bid(tender_id, self.test_bids_data[0])
 
     # switch to active.qualification
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})

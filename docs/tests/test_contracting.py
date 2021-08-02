@@ -61,9 +61,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.assertIn("auctionPeriod", response.json['data'])
         # create bid
         self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.post_json(
-            '/tenders/{}/bids'.format(tender_id),
-            {'data': {'tenderers': [test_organization], "value": {"amount": 500}}})
+        self.create_bid(self.tender_id, {'tenderers': [test_organization], "value": {"amount": 500}})
         # switch to active.qualification
         self.set_status('active.auction', {'status': 'active.tendering'})
         self.app.authorization = ('Basic', ('chronograph', ''))
@@ -480,6 +478,13 @@ class MultiContractsTenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         response = self.app.post_json(
             '/tenders/{}/bids'.format(self.tender_id),
             {'data': {'tenderers': [test_organization], "value": {"amount": 500}}})
+        bid_id = response.json['data']['id']
+        bid_token = response.json['access']['token']
+
+        response = self.app.patch_json(
+            f'/tenders/{self.tender_id}/bids/{bid_id}?acc_token={bid_token}',
+            {'data': {'status': 'active'}}
+        )
 
         # switch to active.qualification
         self.set_status('active.auction', {'status': 'active.tendering'})

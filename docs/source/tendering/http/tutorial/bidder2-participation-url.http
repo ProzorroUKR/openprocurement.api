@@ -32,7 +32,7 @@ X-Content-Type-Options: nosniff
     ],
     "date": "2021-03-16T00:00:01+02:00",
     "id": "6dc5b86cfd0b468ab72f0e6540fec137",
-    "status": "active",
+    "status": "draft",
     "value": {
       "amount": 499.0,
       "currency": "UAH",

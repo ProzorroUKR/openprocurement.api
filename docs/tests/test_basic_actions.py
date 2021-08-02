@@ -447,9 +447,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         # create second bid
         self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.post_json(
-            '/tenders/{}/bids'.format(self.tender_id),
-            {'data': bid2})
+        self.create_bid(self.tender_id, bid2)
 
         # Pre-qualification
         self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
@@ -902,9 +900,10 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         # create second bid
         self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.post_json(
-            '/tenders/{}/bids'.format(self.tender_id),
-            {'data': bid2})
+        self.create_bid(self.tender_id, bid2)
+        # response = self.app.post_json(
+        #     '/tenders/{}/bids'.format(self.tender_id),
+        #     {'data': bid2})
 
         # Pre-qualification
         self.set_status(
@@ -2237,10 +2236,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             {'data': {"status": "pending"}})
 
         # create second bid
-        self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.post_json(
-            '/tenders/{}/bids'.format(self.tender_id),
-            {'data': bid2})
+        self.create_bid(self.tender_id, bid2)
 
         # Pre-qualification
         self.set_status(
@@ -2483,9 +2479,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         # create second bid
         self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.post_json(
-            '/tenders/{}/bids'.format(self.tender_id),
-            {'data': bid2})
+        self.create_bid(self.tender_id, bid2)
 
         # Pre-qualification
         self.set_status(

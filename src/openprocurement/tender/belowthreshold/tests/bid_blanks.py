@@ -537,8 +537,7 @@ def patch_tender_with_bids_lots_none(self):
 
     set_bid_lotvalues(bid, lots)
 
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
-    self.assertEqual(response.status, "201 Created")
+    self.create_bid(self.tender_id, bid)
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"lots": [None]}}, status=422
@@ -570,10 +569,7 @@ def features_bid(self):
         },
     ]
     for i in test_features_bids:
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": i})
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        bid = response.json["data"]
+        bid, bid_token = self.create_bid(self.tender_id, i)
         bid.pop("date")
         bid.pop("id")
         for k in ("documents", "lotValues"):
@@ -926,6 +922,12 @@ def update_tender_bid_pmr_related_doc(self):
             "tenderers": [test_organization],
             "value": {"amount": 500},
         }},
+    )
+    bid_id = response.json["data"]["id"]
+    bid_token = response.json["access"]["token"]
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={bid_token}",
+        {"data": {"status": "active"}},
         status=422
     )
     self.assertEqual(
@@ -962,7 +964,7 @@ def update_tender_bid_pmr_related_doc(self):
     rr_data[0]["evidences"][0]["relatedDocument"]["id"] = "b" * 32
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={bid_token}",
-        {"data": {"requirementResponses": rr_data}},
+        {"data": {"requirementResponses": rr_data, "status": "active"}},
         status=422
     )
     self.assertEqual(

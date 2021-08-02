@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 from contextlib import contextmanager
+from mock import patch
+from datetime import timedelta
 
 from paste.deploy.loadwsgi import loadapp
 from types import FunctionType
-from openprocurement.api.constants import VERSION
+from openprocurement.api.constants import VERSION, TWO_PHASE_COMMIT_FROM
 from openprocurement.api.design import sync_design
 from openprocurement.api.utils import get_now
 import webtest
@@ -88,12 +90,14 @@ class BaseTestApp(webtest.TestApp):
 
     def set_initial_status(self, tender, status=None):
         from openprocurement.tender.core.tests.criteria_utils import add_criteria
+
         add_criteria(self, tender["data"]["id"], tender["access"]["token"])
 
-        response = self.patch_json(
-            f"/tenders/{tender['data']['id']}?acc_token={tender['access']['token']}",
-            {"data": {"status": status}},
-        )
+        with patch("openprocurement.tender.core.validation.RELEASE_GUARANTEE_CRITERION_FROM", get_now() + timedelta(days=1)):
+            response = self.patch_json(
+                f"/tenders/{tender['data']['id']}?acc_token={tender['access']['token']}",
+                {"data": {"status": status}},
+            )
         assert response.status == "200 OK"
         return response
 
@@ -146,26 +150,41 @@ class BaseWebTest(unittest.TestCase):
     def set_initial_status(self, tender, status=None):
         if not status:
             status = self.primary_tender_status
-
         response = self.app.set_initial_status(tender, status)
         assert response.status == "200 OK"
         return response
 
-    def create_bid(self, tender_id, bid_data, status="active"):
-        bid_data = deepcopy(bid_data)
-        bid_data["status"] = "draft"
+    def create_bid(self, tender_id, bid_data, status=None):
         response = self.app.post_json("/tenders/{}/bids".format(tender_id), {"data": bid_data})
         token = response.json["access"]["token"]
-        response = self.set_responses(tender_id, response.json, status=status)
-        return response.json["data"], token
 
-    def set_responses(self, tender_id, bid, status="active"):
+        bid = response.json["data"]
+        if bid_data.get("status", "") != "draft" and get_now() > TWO_PHASE_COMMIT_FROM:
+            response = self.set_responses(tender_id, response.json, status=status)
+            if response.json and "data" in response.json:
+                bid = response.json["data"]
+
+        return bid, token
+
+    def set_responses(self, tender_id, bid, status=None):
         from openprocurement.tender.core.tests.criteria_utils import generate_responses
 
-        rrs = generate_responses(self, tender_id)
+        tender = self.db.get(tender_id)
+
+        if not status:
+            status = "active"
+            if tender["procurementMethodType"] in ("aboveThresholdEU", "esco",
+                                                   "competitiveDialogueEU.stage2", "competitiveDialogueEU",
+                                                   "competitiveDialogueUA", "closeFrameworkAgreementUA"):
+                status = "pending"
+
+        patch_data = {"status": status}
+        if "requirementResponses" not in bid["data"]:
+            patch_data["requirementResponses"] = generate_responses(self, tender_id)
+
         response = self.app.patch_json(
             f"/tenders/{tender_id}/bids/{bid['data']['id']}?acc_token={bid['access']['token']}",
-            {"data": {"status": status, "requirementResponses": rrs}},
+            {"data": patch_data},
         )
         assert response.status == "200 OK"
         return response

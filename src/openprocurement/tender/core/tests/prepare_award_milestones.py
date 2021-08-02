@@ -42,7 +42,7 @@ def test_milestone_data_cases(test_data, tender_status):
     root.request.content_configurator.reverse_awarding_criteria = False
     root.request.content_configurator.awarding_criteria_key = "amount"
     bids = [
-        {"id": str(n) * 32, "value": {"amount": amount}}
+        {"id": str(n) * 32, "value": {"amount": amount}, "status": "active"}
         for n, amount in enumerate(auction_amounts)
     ]
     tender_patch = {"status": tender_status, "bids": bids}
@@ -61,7 +61,8 @@ def test_milestone_data_cases(test_data, tender_status):
         root.request.validated = {"tender_src": {"bids": [
             {
                 "id": str(n) * 32,
-                "value": {"amount": amount}
+                "value": {"amount": amount},
+                "status": "active"
             }
             for n,  amount in enumerate(tendering_amounts)
         ]}}

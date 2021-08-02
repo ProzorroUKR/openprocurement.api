@@ -726,7 +726,7 @@ X-Content-Type-Options: nosniff
     "qualifications": [
       {
         "id": "aec3b0b4e9754b75a95e53b611bb9bb0",
-        "bidID": "f2b56144728a41cb898f709142a1cc38",
+        "bidID": "d46e2205e6014884beff5e4df83a4e19",
         "status": "active",
         "date": "2021-03-16T00:00:00+02:00",
         "qualified": true,
@@ -734,7 +734,7 @@ X-Content-Type-Options: nosniff
       },
       {
         "id": "013668c1c6554de4b3c5d87fd5e1b8c6",
-        "bidID": "a3773f747f5148d58d27cfae4a38b754",
+        "bidID": "8c8ab41ca89e47269a0e8c1770185d7a",
         "status": "active",
         "date": "2021-03-16T00:00:00+02:00",
         "qualified": true,
@@ -742,7 +742,7 @@ X-Content-Type-Options: nosniff
       },
       {
         "id": "685019c58271466dabb599125f990312",
-        "bidID": "d075f39915d34bb98a8f4abb50f7e3ff",
+        "bidID": "2e01f99899594fa6939391b658c3a921",
         "status": "unsuccessful",
         "date": "2021-03-16T00:00:00+02:00",
         "qualified": false,
@@ -750,7 +750,7 @@ X-Content-Type-Options: nosniff
       },
       {
         "id": "3c016fe78a014d44899287fe135be249",
-        "bidID": "ebac806fe83a4f0492193afac91b47bd",
+        "bidID": "bf385297ea2240069057a49814810cc7",
         "status": "active",
         "date": "2021-03-16T00:00:00+02:00",
         "qualified": true,
@@ -789,7 +789,7 @@ X-Content-Type-Options: nosniff
             "scale": "micro"
           }
         ],
-        "id": "f2b56144728a41cb898f709142a1cc38",
+        "id": "d46e2205e6014884beff5e4df83a4e19",
         "status": "active",
         "documents": [
           {
@@ -810,7 +810,7 @@ X-Content-Type-Options: nosniff
             "hash": "md5:00000000000000000000000000000000",
             "title": "DescriptiveProposal.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids/f2b56144728a41cb898f709142a1cc38/documents/5f13a95c29334712a623e60b61762df8?download=a360449b0c4a4d61966532403de8287f",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids/d46e2205e6014884beff5e4df83a4e19/documents/5f13a95c29334712a623e60b61762df8?download=a360449b0c4a4d61966532403de8287f",
             "datePublished": "2021-03-16T00:00:00+02:00",
             "dateModified": "2021-03-16T00:00:00+02:00",
             "documentOf": "tender",
@@ -823,7 +823,7 @@ X-Content-Type-Options: nosniff
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_top_secrets.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids/f2b56144728a41cb898f709142a1cc38/documents/e6af73717567432c9d5ce0513caff6df?download=901e3b57b4074d16ab450a026b2a8cea",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids/d46e2205e6014884beff5e4df83a4e19/documents/e6af73717567432c9d5ce0513caff6df?download=901e3b57b4074d16ab450a026b2a8cea",
             "datePublished": "2021-03-16T00:00:00+02:00",
             "dateModified": "2021-03-16T00:00:00+02:00",
             "documentOf": "tender",
@@ -858,7 +858,7 @@ X-Content-Type-Options: nosniff
             "scale": "sme"
           }
         ],
-        "id": "a3773f747f5148d58d27cfae4a38b754",
+        "id": "8c8ab41ca89e47269a0e8c1770185d7a",
         "status": "active"
       },
       {
@@ -885,7 +885,7 @@ X-Content-Type-Options: nosniff
             "scale": "mid"
           }
         ],
-        "id": "d075f39915d34bb98a8f4abb50f7e3ff",
+        "id": "2e01f99899594fa6939391b658c3a921",
         "status": "unsuccessful"
       },
       {
@@ -912,11 +912,11 @@ X-Content-Type-Options: nosniff
             "scale": "large"
           }
         ],
-        "id": "ebac806fe83a4f0492193afac91b47bd",
+        "id": "bf385297ea2240069057a49814810cc7",
         "status": "active",
         "documents": [
           {
-            "id": "e0e4cbc86f6e4fe8adc624ee62d3b656",
+            "id": "75590b4f943f4d1ca5bf6957f1aa3acf",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part1.pdf",
             "format": "application/pdf",
@@ -929,11 +929,11 @@ X-Content-Type-Options: nosniff
             "isDescriptionDecision": false
           },
           {
-            "id": "d098a5351cf3493192450f03a0750209",
+            "id": "2379751ab69d4630b7c3ad6828a59f82",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part2.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids/ebac806fe83a4f0492193afac91b47bd/documents/d098a5351cf3493192450f03a0750209?download=aec550f71c1e47f4bb789564fdfa149c",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids/bf385297ea2240069057a49814810cc7/documents/2379751ab69d4630b7c3ad6828a59f82?download=aec550f71c1e47f4bb789564fdfa149c",
             "datePublished": "2021-03-16T00:00:00+02:00",
             "dateModified": "2021-03-16T00:00:00+02:00",
             "documentOf": "tender",

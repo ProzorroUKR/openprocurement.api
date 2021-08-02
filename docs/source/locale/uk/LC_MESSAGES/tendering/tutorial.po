@@ -343,4 +343,3 @@ msgstr "Завантаження нової версії документа"
 msgid "Activating the request and cancelling tender"
 msgstr "Активація запиту та скасування закупівлі"
 
-

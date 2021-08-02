@@ -393,10 +393,10 @@ class BaseTenderWebTest(BaseCoreWebTest):
                     set_bid_lotvalues(bid, self.initial_lots)
                 if self.initial_criteria:
                     bid["requirementResponses"] = rrs
-                response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
-                self.assertEqual(response.status, "201 Created")
-                bids.append(response.json["data"])
-                self.initial_bids_tokens[response.json["data"]["id"]] = response.json["access"]["token"]
+                bid, bid_token = self.create_bid(self.tender_id, bid)
+                bid_id = bid["id"]
+                bids.append(bid)
+                self.initial_bids_tokens[bid_id] = bid_token
             self.initial_bids = bids
         if self.initial_status and self.initial_status != status:
             self.set_status(self.initial_status)

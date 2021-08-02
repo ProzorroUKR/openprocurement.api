@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
+from mock import patch
 
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
@@ -674,14 +675,7 @@ def patch_tender_bidder(self):
         "tenderers": tenderers,
         "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}],
     })
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bidder = response.json["data"]
-    bid_token = response.json["access"]["token"]
+    bidder, bid_token = self.create_bid(self.tender_id, bid_data)
     lot = bidder["lotValues"][0]
 
     response = self.app.patch_json(
@@ -736,6 +730,7 @@ def patch_tender_bidder(self):
     )
 
 
+@patch("openprocurement.tender.core.models.TWO_PHASE_COMMIT_FROM", get_now() + timedelta(days=1))
 def create_tender_bidder_invalid(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
     bid_data = deepcopy(self.test_bids_data[0])
@@ -880,6 +875,7 @@ def create_tender_bidder_invalid(self):
 # TenderStage2EU(UA)LotFeatureBidderResourceTest
 
 
+@patch("openprocurement.tender.core.models.TWO_PHASE_COMMIT_FROM", get_now() + timedelta(days=1))
 def create_tender_with_features_bidder_invalid(self):
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
@@ -1188,16 +1184,9 @@ def one_lot_2bid_1un(self):
 
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}]
     self.app.authorization = ("Basic", ("broker", ""))
-    bid_data["requirementResponses"] = generate_responses(self)
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(self.tender_id, bid_data)
 
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(self.tender_id, bid_data)
     # switch to active.pre-qualification
     self.time_shift("active.pre-qualification")
     self.check_chronograph()
@@ -1251,12 +1240,8 @@ def one_lot_2bid(self):
     bid_data["requirementResponses"] = generate_responses(self)
 
     self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
-    bid_id = response.json["data"]["id"]
-    bid_token = response.json["access"]["token"]
+    bid, bid_token = self.create_bid(self.tender_id, bid_data)
+    bid_id = bid["id"]
     # create second bid
     self.app.authorization = ("Basic", ("broker", ""))
 
@@ -1264,10 +1249,7 @@ def one_lot_2bid(self):
         "tenderers": tenderers_2,
         "lotValues": [{"value": {"amount": 475}, "relatedLot": self.lots_id[0]}],
     })
-    self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(self.tender_id, bid_data)
     # switch to active.auction
     self.time_shift("active.pre-qualification")
     self.check_chronograph()
@@ -1451,11 +1433,8 @@ def one_lot_3bid_1del(self):
     bids = []
     for i in range(3):
         bid_data["tenderers"] = tenderers[i]
-        response = self.app.post_json(
-            "/tenders/{}/bids".format(self.tender_id),
-            {"data": bid_data},
-        )
-        bids.append({response.json["data"]["id"]: response.json["access"]["token"]})
+        bid, bid_token = self.create_bid(self.tender_id, bid_data)
+        bids.append({bid["id"]: bid_token})
 
     response = self.app.delete(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, list(bids[2].keys())[0], list(bids[2].values())[0]), status=200
@@ -1589,11 +1568,8 @@ def one_lot_3bid_1un(self):
     bid_data["requirementResponses"] = generate_responses(self)
     for i in range(bid_count):
         bid_data["tenderers"] = tenderers[i]
-        response = self.app.post_json(
-            "/tenders/{}/bids".format(self.tender_id),
-            {"data": bid_data},
-        )
-        bids.append({response.json["data"]["id"]: response.json["access"]["token"]})
+        bid, bid_token = self.create_bid(self.tender_id, bid_data)
+        bids.append({bid["id"]: bid_token})
 
     # switch to active.auction
     self.time_shift("active.pre-qualification")
@@ -1828,19 +1804,13 @@ def two_lot_2bid_0com_1can(self):
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot["id"]} for lot in self.initial_lots]
     bid_data["requirementResponses"] = generate_responses(self)
     self.app.authorization = ("Basic", ("broker", ""))
-    self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(self.tender_id, bid_data)
 
     bid_data.update({
         "tenderers": tenderers[1],
         "lotValues": [{"value": {"amount": 499}, "relatedLot": lot["id"]} for lot in self.initial_lots],
     })
-    self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(self.tender_id, bid_data)
 
     self.app.authorization = ("Basic", ("broker", ""))
     cancellation = dict(**test_cancellation)
@@ -1895,17 +1865,11 @@ def two_lot_2bid_2com_2win(self):
     })
 
     self.app.authorization = ("Basic", ("broker", ""))
-    self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(self.tender_id, bid_data)
     # create second bid
     bid_data["tenderers"] = tenderers[1]
     self.app.authorization = ("Basic", ("broker", ""))
-    self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(self.tender_id, bid_data)
     # switch to active.pre-qualification
     self.time_shift("active.pre-qualification")
     self.check_chronograph()
@@ -2140,25 +2104,15 @@ def one_lot_2bid_ua(self):
     bid_data["lotValues"] = [
         {"subcontractingDetails": "test", "value": {"amount": 450}, "relatedLot": self.lots_id[0]}
     ]
-    bid_data["requirementResponses"] = generate_responses(self)
-
-    self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
-    bid_id = response.json["data"]["id"]
-    bid_token = response.json["access"]["token"]
+    bid, bid_token = self.create_bid(self.tender_id, bid_data)
+    bid_id = bid["id"]
     # create second bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data.update({
         "tenderers": tenderers[1],
         "lotValues": [{"value": {"amount": 475}, "relatedLot": self.lots_id[0]}],
     })
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(self.tender_id, bid_data)
     # switch to active.auction
     self.set_status("active.auction")
     # get auction info
@@ -2355,12 +2309,8 @@ def one_lot_1bid_patch_ua(self):
         "lotValues": [{"value": {"amount": 500}, "relatedLot": self.lots_id[0]}],
     })
     bid_data["requirementResponses"] = generate_responses(self)
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
-    bid_id = response.json["data"]["id"]
-    bid_token = response.json["access"]["token"]
+    bid, bid_token = self.create_bid(self.tender_id, bid_data)
+    bid_id = bid["id"]
 
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, self.lots_id[0], self.tender_token),
@@ -2597,18 +2547,12 @@ def two_lot_2bid_2com_2win_ua(self):
         "tenderers": tenderers[0],
         "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in self.lots_id],
     })
-    self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(self.tender_id, bid_data)
     # create second bid
 
     bid_data["tenderers"] = tenderers[1]
     self.app.authorization = ("Basic", ("broker", ""))
-    self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(self.tender_id, bid_data)
     # switch to active.auction
     self.set_status("active.auction")
     # get auction info

@@ -163,15 +163,13 @@ class TenderBidDocumentResourceTest(BaseESCOContentWebTest):
     def setUp(self):
         super(TenderBidDocumentResourceTest, self).setUp()
         # Create bid
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": test_bids[0]})
-        bid = response.json["data"]
+        bid, token = self.create_bid(self.tender_id, test_bids[0], "pending")
         self.bid_id = bid["id"]
-        self.bid_token = response.json["access"]["token"]
+        self.bid_token = token
         # create second bid
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": test_bids[1]})
-        bid2 = response.json["data"]
+        bid2, token = self.create_bid(self.tender_id, test_bids[1], "pending")
         self.bid2_id = bid2["id"]
-        self.bid2_token = response.json["access"]["token"]
+        self.bid2_token = token
 
     test_patch_and_put_document_into_invalid_bid = snitch(patch_and_put_document_into_invalid_bid)
 

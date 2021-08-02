@@ -110,7 +110,6 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
 
     test_not_found = snitch(not_found)
     test_patch_tender_bid_document = snitch(patch_tender_bid_document)
-    test_create_tender_bid_document_nopending = snitch(create_tender_bid_document_nopending)
 
 
 class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):

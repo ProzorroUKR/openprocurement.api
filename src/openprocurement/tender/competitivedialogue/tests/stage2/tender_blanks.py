@@ -2120,20 +2120,13 @@ def first_bid_tender(self):
     bid_data["tenderers"][0]["identifier"]["scheme"] = identifier["scheme"]
     bid_data["value"] =  {"amount": 450}
 
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
-    bid_id = response.json["data"]["id"]
-    bid_token = response.json["access"]["token"]
+    bid, bid_token = self.create_bid(tender_id, bid_data)
+    bid_id = bid["id"]
     # create second bid
     bid_data["value"] = {"amount": 475}
 
     self.app.authorization = ("Basic", ("broker", ""))
-    self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(tender_id, bid_data)
     # switch to active.auction
     self.set_status("active.auction")
 

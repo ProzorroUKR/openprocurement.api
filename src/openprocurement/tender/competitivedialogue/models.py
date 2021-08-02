@@ -114,6 +114,7 @@ class Bid(BidEU):
             "create": whitelist(
                 "tenderers",
                 "lotValues",
+                "default_status",
                 "status",
                 "selfQualified",
                 "selfEligible",

@@ -52,22 +52,18 @@ from openprocurement.tender.cfaselectionua.tests.bid_blanks import (
 
 class CreateBidMixin(object):
     base_bid_status = "draft"
+
     def setUp(self):
         super(CreateBidMixin, self).setUp()
         # Create bid
-        response = self.app.post_json(
-            "/tenders/{}/bids".format(self.tender_id),
-            {
-                "data": {
-                    "status": self.base_bid_status,
-                    "tenderers": [test_organization],
-                    "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
-                }
-            },
-        )
-        bid = response.json["data"]
+        bid_data = {
+            "status": self.base_bid_status,
+            "tenderers": [test_organization],
+            "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
+        }
+        bid, bid_token = self.create_bid(self.tender_id, bid_data)
         self.bid_id = bid["id"]
-        self.bid_token = response.json["access"]["token"]
+        self.bid_token = bid_token
 
 
 class TenderBidResourceTest(TenderContentWebTest):

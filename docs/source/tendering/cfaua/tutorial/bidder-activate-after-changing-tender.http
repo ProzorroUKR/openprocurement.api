@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/9eee26d528d9490a9e52cf6b1f696c41?acc_token=c0c98c22f5594c6e99ba094d5d9a9b63 HTTP/1.0
+PATCH /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/fa412b9bcd92484d9f8871b0ee0df130?acc_token=c0c98c22f5594c6e99ba094d5d9a9b63 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 31
 Content-Type: application/json
@@ -39,7 +39,7 @@ X-Content-Type-Options: nosniff
       }
     ],
     "date": "2021-03-16T00:00:00+02:00",
-    "id": "9eee26d528d9490a9e52cf6b1f696c41",
+    "id": "fa412b9bcd92484d9f8871b0ee0df130",
     "requirementResponses": [
       {
         "id": "023d5d567b2f4e16a7d938704a2fdb4b",
@@ -158,7 +158,7 @@ X-Content-Type-Options: nosniff
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/9eee26d528d9490a9e52cf6b1f696c41/documents/8aac6a1034244423a16f6b72aa830d9d?download=34be9b5887d544b489e5950ad70c1f52",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/fa412b9bcd92484d9f8871b0ee0df130/documents/8aac6a1034244423a16f6b72aa830d9d?download=34be9b5887d544b489e5950ad70c1f52",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
@@ -170,7 +170,7 @@ X-Content-Type-Options: nosniff
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_top_secrets.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/9eee26d528d9490a9e52cf6b1f696c41/documents/8e2253d474d347369064f8d7f063ba5e?download=9cdf7899f62f40fdaf9838e4676ab373",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/fa412b9bcd92484d9f8871b0ee0df130/documents/8e2253d474d347369064f8d7f063ba5e?download=9cdf7899f62f40fdaf9838e4676ab373",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
@@ -185,7 +185,7 @@ X-Content-Type-Options: nosniff
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/9eee26d528d9490a9e52cf6b1f696c41/financial_documents/47d9ee757a374838bf177c41cdfd9e9a?download=17a3ed53d97c4f95a5c3b318bfa16c51",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/fa412b9bcd92484d9f8871b0ee0df130/financial_documents/47d9ee757a374838bf177c41cdfd9e9a?download=17a3ed53d97c4f95a5c3b318bfa16c51",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
@@ -197,7 +197,7 @@ X-Content-Type-Options: nosniff
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc2.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/9eee26d528d9490a9e52cf6b1f696c41/financial_documents/c759531b07fa4e90ad820cbb39afc07a?download=2b98f86302714a93bcada4a025c55c71",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/fa412b9bcd92484d9f8871b0ee0df130/financial_documents/c759531b07fa4e90ad820cbb39afc07a?download=2b98f86302714a93bcada4a025c55c71",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
@@ -211,7 +211,7 @@ X-Content-Type-Options: nosniff
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/9eee26d528d9490a9e52cf6b1f696c41/eligibility_documents/1e06b720ac574c24bf7f35ec1bf04e72?download=43a81def8136461dbb13abf39024ca33",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/fa412b9bcd92484d9f8871b0ee0df130/eligibility_documents/1e06b720ac574c24bf7f35ec1bf04e72?download=43a81def8136461dbb13abf39024ca33",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
@@ -225,7 +225,7 @@ X-Content-Type-Options: nosniff
         "hash": "md5:00000000000000000000000000000000",
         "title": "qualification_document.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/9eee26d528d9490a9e52cf6b1f696c41/qualification_documents/13a99a17b16648f5940131d68841cfc1?download=7cd719b4e43044d99c422791d2008a68",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/fa412b9bcd92484d9f8871b0ee0df130/qualification_documents/13a99a17b16648f5940131d68841cfc1?download=7cd719b4e43044d99c422791d2008a68",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
@@ -237,7 +237,7 @@ X-Content-Type-Options: nosniff
         "hash": "md5:00000000000000000000000000000000",
         "title": "qualification_document2.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/9eee26d528d9490a9e52cf6b1f696c41/qualification_documents/13a99a17b16648f5940131d68841cfc1?download=c5f78a532c71475fb5000733bc9a911a",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/fa412b9bcd92484d9f8871b0ee0df130/qualification_documents/13a99a17b16648f5940131d68841cfc1?download=c5f78a532c71475fb5000733bc9a911a",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",

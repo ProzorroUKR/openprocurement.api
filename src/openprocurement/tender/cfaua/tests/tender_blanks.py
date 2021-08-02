@@ -1171,9 +1171,8 @@ def one_qualificated_bid_tender(self):
     self.app.authorization = ("Basic", ("broker", ""))
 
     initial_bids[0]["tenderers"] = [bidder_data]
-    initial_bids[0]["status"] = "draft"
     for i in range(self.min_bids_number):
-        response = self.create_bid(tender_id, initial_bids[0], "pending")
+        response = self.create_bid(tender_id, initial_bids[0])
 
     # switch to active.pre-qualification
     self.set_status("active.tendering", "end")
@@ -1653,9 +1652,8 @@ def _awards_to_bids_number(self, max_awards_number, bids_number, expected_awards
     # create bids
     initial_bids = deepcopy(self.initial_bids)
     initial_bids[0]["tenderers"] = [test_organization]
-    initial_bids[0]["status"] = "draft"
     for _ in range(bids_number):
-        self.create_bid(self.tender_id, initial_bids[0], "pending")
+        self.create_bid(self.tender_id, initial_bids[0])
     # switch to active.pre-qualification
     self.set_status("active.tendering", "end")
     self.app.authorization = ("Basic", ("chronograph", ""))

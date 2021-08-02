@@ -963,14 +963,8 @@ def invalid_bid_tender_lot(self):
         "status": "draft",
         "lotValues": [{"value": {"amount": 500}, "relatedLot": i} for i in lots]
     })
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid_id = response.json["data"]["id"]
-    bid_token = response.json["access"]["token"]
+    bid, bid_token = self.create_bid(tender_id, bid_data)
+    bid_id = bid["id"]
 
     response = self.app.delete("/tenders/{}/lots/{}?acc_token={}".format(tender_id, lots[0], owner_token))
     self.assertEqual(response.status, "200 OK")
@@ -1035,7 +1029,7 @@ def invalid1_and_1draft_bids_tender(self):
 
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["value"] = {"amount": 500}
-    bid, bid_token = self.create_bid(tender_id, bid_data, "draft")
+    bid, bid_token = self.create_bid(tender_id, bid_data)
 
     self.app.authorization = ("Basic", ("broker", ""))
     self.create_bid(tender_id, bid_data)
@@ -1106,19 +1100,12 @@ def first_bid_tender(self):
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["value"] = {"amount": 450}
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
-    bid_id = response.json["data"]["id"]
-    bid_token = response.json["access"]["token"]
+    bid, bid_token = self.create_bid(self.tender_id, bid_data)
+    bid_id = bid["id"]
     # create second bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data["value"] = {"amount": 475}
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(self.tender_id, bid_data)
     # switch to active.auction
     self.set_status("active.auction")
 

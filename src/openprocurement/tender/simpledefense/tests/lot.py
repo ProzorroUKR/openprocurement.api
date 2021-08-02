@@ -76,7 +76,8 @@ class TenderLotBidderResourceTest(BaseSimpleDefContentWebTest):
     initial_lots = test_lots
     test_bids_data = test_bids
 
-    test_create_tender_bidder_invalid = snitch(create_tender_bidder_invalid)
+    # TODO: uncomment when bid activation will be removed
+    # test_create_tender_bidder_invalid = snitch(create_tender_bidder_invalid)
     test_patch_tender_bidder = snitch(patch_tender_bidder)
 
 
@@ -118,10 +119,11 @@ class TenderLotFeatureBidderResourceTest(BaseSimpleDefContentWebTest):
             },
         )
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.content_type,  "application/json")
         self.assertEqual(response.json["data"]["items"][0]["relatedLot"], self.lot_id)
 
-    test_create_tender_bidder_invalid = snitch(create_tender_bidder_feature_invalid)
+    # TODO: uncomment when bid activation will be removed
+    # test_create_tender_bidder_invalid = snitch(create_tender_bidder_feature_invalid)
     test_create_tender_bidder = snitch(create_tender_bidder_feature)
 
 

@@ -10,30 +10,27 @@ from openprocurement.tender.core.tests.cancellation import (
 
 
 def cancellation_active_qualification_j1427(self):
-    bid = deepcopy(self.initial_bids[0])
-    bid["lotValues"] = bid["lotValues"][:1]
+    bid_data = deepcopy(self.initial_bids[0])
+    bid_data["lotValues"] = bid_data["lotValues"][:1]
 
     # post three bids
-    bid["tenderers"][0]["identifier"]["id"] = "00037256"
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
-    self.assertEqual(response.status, "201 Created")
-    self.initial_bids_tokens[response.json["data"]["id"]] = response.json["access"]["token"]
-    self.initial_bids.append(response.json["data"])
-    bid_ids = [response.json["data"]["id"]]
+    bid_data["tenderers"][0]["identifier"]["id"] = "00037256"
+    bid, bid_token = self.create_bid(self.tender_id, bid_data)
+    self.initial_bids_tokens[bid["id"]] = bid_token
+    self.initial_bids.append(bid)
+    bid_ids = [bid["id"]]
 
-    bid["tenderers"][0]["identifier"]["id"] = "00037257"
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
-    self.assertEqual(response.status, "201 Created")
-    self.initial_bids_tokens[response.json["data"]["id"]] = response.json["access"]["token"]
-    self.initial_bids.append(response.json["data"])
-    bid_ids.append(response.json["data"]["id"])
+    bid_data["tenderers"][0]["identifier"]["id"] = "00037257"
+    bid, bid_token = self.create_bid(self.tender_id, bid_data)
+    self.initial_bids_tokens[bid["id"]] = bid_token
+    self.initial_bids.append(bid)
+    bid_ids.append(bid["id"])
 
-    bid["tenderers"][0]["identifier"]["id"] = "00037259"
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
-    self.assertEqual(response.status, "201 Created")
-    self.initial_bids_tokens[response.json["data"]["id"]] = response.json["access"]["token"]
-    self.initial_bids.append(response.json["data"])
-    bid_ids.append(response.json["data"]["id"])
+    bid_data["tenderers"][0]["identifier"]["id"] = "00037259"
+    bid, bid_token = self.create_bid(self.tender_id, bid_data)
+    self.initial_bids_tokens[bid["id"]] = bid_token
+    self.initial_bids.append(bid)
+    bid_ids.append(bid["id"])
 
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
     self.app.authorization = ("Basic", ("chronograph", ""))

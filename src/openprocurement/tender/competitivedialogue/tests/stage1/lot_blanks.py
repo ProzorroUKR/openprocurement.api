@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
+from mock import patch
+from datetime import timedelta
 
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
@@ -9,6 +11,7 @@ from openprocurement.tender.core.tests.cancellation import activate_cancellation
 from openprocurement.tender.belowthreshold.tests.base import test_cancellation
 
 
+@patch("openprocurement.tender.core.models.TWO_PHASE_COMMIT_FROM", get_now() + timedelta(days=1))
 def create_tender_bidder_invalid(self):
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
@@ -110,14 +113,7 @@ def patch_tender_bidder(self):
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id}]
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bidder = response.json["data"]
-    bid_token = response.json["access"]["token"]
+    bidder, bid_token = self.create_bid(self.tender_id, bid_data)
     lot = bidder["lotValues"][0]
 
     response = self.app.patch_json(
@@ -173,7 +169,7 @@ def patch_tender_bidder(self):
 
 # CompetitiveDialogueEULotFeatureBidderResourceTest
 
-
+@patch("openprocurement.tender.core.models.TWO_PHASE_COMMIT_FROM", get_now() + timedelta(days=1))
 def create_tender_with_features_bidder_invalid(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
     bid_data = deepcopy(self.test_bids_data[0])

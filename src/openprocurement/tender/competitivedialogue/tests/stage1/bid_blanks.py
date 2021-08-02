@@ -202,22 +202,12 @@ def status_jumping(self):
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
 
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid = response.json["data"]
-    bid_token = response.json["access"]["token"]
+    bid, bid_token = self.create_bid(self.tender_id, bid_data)
     bidder_data = bid_data["tenderers"][0]
     bidder_data["identifier"]["id"] = "00037256"
 
     # bid_data["tenderers"] = [bid_data]
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(self.tender_id, bid_data)
 
     bidder_data["identifier"]["id"] = "00037257"
     response = self.app.post_json(
@@ -225,10 +215,7 @@ def status_jumping(self):
         {"data": bid_data},
     )
     bidder_data["identifier"]["id"] = "00037258"
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(self.tender_id, bid_data)
 
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid["id"]), status=403)
     self.assertEqual(response.status, "403 Forbidden")
@@ -444,29 +431,16 @@ def get_tender_bidder(self):
     bidder_data = bid_data["tenderers"][0]
     bid_data["value"]["amount"] = 500
     bidder_data["identifier"]["id"] = "00037256"
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid = response.json["data"]
-    bid_token = response.json["access"]["token"]
+    bid, bid_token = self.create_bid(self.tender_id, bid_data)
 
     # Create another bidder
     bidder_data["identifier"]["id"] = "00037257"
     bid_data["value"]["amount"] = 499
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(self.tender_id, bid_data)
 
     # Create another 2 bidder
     bidder_data["identifier"]["id"] = "00037258"
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(self.tender_id, bid_data)
 
     # Try get bidder when dialog status active.tendering
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid["id"]), status=403)
@@ -557,14 +531,9 @@ def deleted_bid_do_not_locks_tender_in_state(self):
     for bid_amount in (400, 405):  # Create two bids
         bidder_data["identifier"]["id"] = "00037256" + str(bid_amount)
         bid_data["value"] = {"amount": bid_amount}
-        response = self.app.post_json(
-            "/tenders/{}/bids".format(self.tender_id),
-            {"data": bid_data},
-        )
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        bids.append(response.json["data"])
-        bids_tokens.append(response.json["access"]["token"])
+        bid, bid_token = self.create_bid(self.tender_id, bid_data)
+        bids.append(bid)
+        bids_tokens.append(bid_token)
 
     # delete first bid
     response = self.app.delete("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bids[0]["id"], bids_tokens[0]))
@@ -576,16 +545,10 @@ def deleted_bid_do_not_locks_tender_in_state(self):
     # Create new bid
     bidder_data["identifier"]["id"] = "00037258"
     bid_data["value"] = {"amount": 101}
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(self.tender_id, bid_data)
     # Create new bid
     bidder_data["identifier"]["id"] = "00037259"
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(self.tender_id, bid_data)
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
@@ -642,13 +605,7 @@ def get_tender_tenderers(self):
     bid_data["value"] = {"amount": 500}
     bidder_data = bid_data["tenderers"][0]
     bidder_data["identifier"]["id"] = "00037256"
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid = response.json["data"]  # Save bid
+    bid, bid_token = self.create_bid(self.tender_id, bid_data)
 
     # Try get bid when dialog status is active.tendering by owner
     response = self.app.get("/tenders/{}/bids".format(self.tender_id), status=403)
@@ -661,17 +618,11 @@ def get_tender_tenderers(self):
     # Create bid
     bid_data["value"]["amount"] = 101
     bidder_data["identifier"]["id"] = "00037257"
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(self.tender_id, bid_data)
     # Create another bid
     bid_data["value"]["amount"] = 111
     bidder_data["identifier"]["id"] = "00037258"
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(self.tender_id, bid_data)
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
@@ -718,10 +669,8 @@ def bids_invalidation_on_tender_change(self):
 
     # submit bids
     for data in self.test_bids_data:
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data})
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        bids_access[response.json["data"]["id"]] = response.json["access"]["token"]
+        bid, bid_token = self.create_bid(self.tender_id, data)
+        bids_access[bid["id"]] = bid_token
 
     # check initial status
     for bid_id, token in bids_access.items():
@@ -764,9 +713,8 @@ def bids_invalidation_on_tender_change(self):
     data = deepcopy(self.test_bids_data[0])
     data["value"]["amount"] = 299
     data["tenderers"][0]["identifier"]["id"] = "00037256"
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data})
-    self.assertEqual(response.status, "201 Created")
-    valid_bid_id = response.json["data"]["id"]
+    bid, valid_bid_token = self.create_bid(self.tender_id, data)
+    valid_bid_id = bid["id"]
     bidder_data = deepcopy(self.test_bids_data[0]["tenderers"][0])
     bidder_data["identifier"]["id"] = "00037257"
 
@@ -774,16 +722,10 @@ def bids_invalidation_on_tender_change(self):
         "tenderers": [bidder_data],
         "value": {"amount": 101},
     })
-    self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": data},
-    )
+    self.create_bid(self.tender_id, data)
 
     bidder_data["identifier"]["id"] = "00037258"
-    self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": data},
-    )
+    self.create_bid(self.tender_id, data)
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
@@ -2211,10 +2153,9 @@ def bids_view_j1446(self):
 
     # create bids
     bidder_data = deepcopy(self.test_bids_data[0])
-    bidder_data["status"] = "draft"
     for i in range(4):
         bidder_data["tenderers"][0]["identifier"]["id"] = "0003725" + str(i)
-        bid, token = self.create_bid(tender_id, bidder_data, "pending")
+        bid, token = self.create_bid(tender_id, bidder_data)
     last_bid_id = bid["id"]
     last_bid_token = token
 

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/0163fc12e0c04ae08080a47a9ef3909a?acc_token=fbb49b806b484733bc09390b0e01078d HTTP/1.0
+GET /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/eac6e323ccd84f588542f76867850060?acc_token=fbb49b806b484733bc09390b0e01078d HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -30,7 +30,7 @@ X-Content-Type-Options: nosniff
         "scale": "mid"
       }
     ],
-    "id": "0163fc12e0c04ae08080a47a9ef3909a",
+    "id": "eac6e323ccd84f588542f76867850060",
     "requirementResponses": [
       {
         "id": "8c57eb166e04443cad4aac981bd5b9d7",
@@ -145,7 +145,7 @@ X-Content-Type-Options: nosniff
     ],
     "documents": [
       {
-        "id": "5c34b317e07541139937d657a7ee8dc0",
+        "id": "e69a71de908d4c4a8f9c69e527938b69",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
@@ -157,11 +157,11 @@ X-Content-Type-Options: nosniff
         "language": "uk"
       },
       {
-        "id": "7d864dc5610746f0806d882a508796fa",
+        "id": "fadca469c6e44f0ca8086ab778e301e6",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/0163fc12e0c04ae08080a47a9ef3909a/documents/7d864dc5610746f0806d882a508796fa?download=256123ec589044029ec3f8823d26d1a4",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/eac6e323ccd84f588542f76867850060/documents/fadca469c6e44f0ca8086ab778e301e6?download=256123ec589044029ec3f8823d26d1a4",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
@@ -172,7 +172,7 @@ X-Content-Type-Options: nosniff
     ],
     "eligibilityDocuments": [
       {
-        "id": "c1b9a785c6494f2d9c49d644a7c96c1a",
+        "id": "1973f516b53d40ecbc3f14c979bbb698",
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",
         "format": "application/pdf",

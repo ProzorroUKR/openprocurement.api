@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/815df7967805489faa3fa1a4e74fa2d1/documents/c9983431a8f942aeb6799621933ab1a6?acc_token=4db6be0e33ad4f88b44450c99971d911 HTTP/1.0
+PATCH /api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/8995cc57868249b8aba0fd17235ed809/documents/c9983431a8f942aeb6799621933ab1a6?acc_token=4db6be0e33ad4f88b44450c99971d911 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 120
 Content-Type: application/json
@@ -20,7 +20,7 @@ X-Content-Type-Options: nosniff
     "hash": "md5:00000000000000000000000000000000",
     "title": "Proposal_top_secrets.pdf",
     "format": "application/pdf",
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/815df7967805489faa3fa1a4e74fa2d1/documents/c9983431a8f942aeb6799621933ab1a6?download=75625e3d666f4f468436a93f99d87fdd",
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/8995cc57868249b8aba0fd17235ed809/documents/c9983431a8f942aeb6799621933ab1a6?download=75625e3d666f4f468436a93f99d87fdd",
     "datePublished": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
     "documentOf": "tender",

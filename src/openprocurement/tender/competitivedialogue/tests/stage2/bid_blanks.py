@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
+from mock import patch
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization, now
+from openprocurement.api.constants import TWO_PHASE_COMMIT_FROM
 
 # TenderStage2EUBidResourceTest
 
@@ -28,14 +30,7 @@ def create_tender_bidder_firm(self):
 def delete_tender_bidder_eu(self):
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["value"] = {"amount": 500}
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid = response.json["data"]
-    bid_token = response.json["access"]["token"]
+    bid, bid_token = self.create_bid(self.tender_id, bid_data)
 
     response = self.app.delete("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token))
     self.assertEqual(response.status, "200 OK")
@@ -59,10 +54,16 @@ def delete_tender_bidder_eu(self):
         self.assertEqual(response.json["errors"][0]["description"], "Can't add document at 'deleted' bid status")
 
     revisions = self.db.get(self.tender_id).get("revisions")
-    self.assertTrue(any([i for i in revisions[-2]["changes"] if i["op"] == "remove" and i["path"] == "/bids"]))
-    self.assertTrue(
-        any([i for i in revisions[-1]["changes"] if i["op"] == "replace" and i["path"] == "/bids/0/status"])
-    )
+    if now < TWO_PHASE_COMMIT_FROM:
+        self.assertTrue(any([i for i in revisions[-2]["changes"] if i["op"] == "remove" and i["path"] == "/bids"]))
+        self.assertTrue(
+            any([i for i in revisions[-1]["changes"] if i["op"] == "replace" and i["path"] == "/bids/0/status"])
+        )
+    else:
+        self.assertTrue(any([i for i in revisions[-3]["changes"] if i["op"] == "remove" and i["path"] == "/bids"]))
+        self.assertTrue(
+            any([i for i in revisions[-2]["changes"] if i["op"] == "replace" and i["path"] == "/bids/0/status"])
+        )
 
     response = self.app.delete("/tenders/{}/bids/some_id".format(self.tender_id), status=404)
     self.assertEqual(response.status, "404 Not Found")
@@ -79,13 +80,7 @@ def delete_tender_bidder_eu(self):
     )
 
     # create new bid
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
-    self.assertEqual(response.status, "201 Created")
-    bid = response.json["data"]
-    bid_token = response.json["access"]["token"]
+    bid, bid_token = self.create_bid(self.tender_id, bid_data)
 
     response = self.app.delete("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token))
     self.assertEqual(response.status, "200 OK")
@@ -94,16 +89,10 @@ def delete_tender_bidder_eu(self):
     self.assertEqual(response.json["data"]["status"], "deleted")
 
     bid_data["value"] = {"amount": 100}
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(self.tender_id, bid_data)
 
     bid_data["value"] = {"amount": 101}
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
+    self.create_bid(self.tender_id, bid_data)
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
@@ -192,10 +181,8 @@ def bids_invalidation_on_tender_change_eu(self):
 
     for data in deepcopy(self.test_bids_data[:2]):
         data["tenderers"] = [self.test_bids_data[0]["tenderers"][0]]
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data})
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        bids_access[response.json["data"]["id"]] = response.json["access"]["token"]
+        bid, bid_token = self.create_bid(self.tender_id, data)
+        bids_access[bid["id"]] = bid_token
 
     # check initial status
     for bid_id, token in bids_access.items():
@@ -231,36 +218,32 @@ def bids_invalidation_on_tender_change_eu(self):
     test_bid = deepcopy(self.test_bids_data[0])
     test_bid["tenderers"] = [self.test_bids_data[0]["tenderers"][0]]
     test_bid["value"] = {"amount": 3000}
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": test_bid}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": ["value of bid should be less than value of tender"],
-                "location": "body",
-                "name": "value",
-            }
-        ],
-    )
+    if now < TWO_PHASE_COMMIT_FROM:
+        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": test_bid}, status=422)
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "description": ["value of bid should be less than value of tender"],
+                    "location": "body",
+                    "name": "value",
+                }
+            ],
+        )
     # and submit valid bid
     data = deepcopy(self.test_bids_data[0])
     data["tenderers"] = [self.test_bids_data[0]["tenderers"][0]]
     data["value"]["amount"] = 299
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data})
-    self.assertEqual(response.status, "201 Created")
-    valid_bid_id = response.json["data"]["id"]
-    valid_bid_token = response.json["access"]["token"]
-    valid_bid_date = response.json["data"]["date"]
+    bid, valid_bid_token = self.create_bid(self.tender_id, data)
+    valid_bid_id = bid["id"]
+    valid_bid_date = bid["date"]
 
     test_bid["value"] = {"amount": 101}
 
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": test_bid},
-    )
+    self.create_bid(self.tender_id, test_bid)
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
@@ -364,28 +347,22 @@ def ukrainian_author_id(self):
     }
     self.create_tender(initial_data=data)
 
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": bid_data},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid = response.json["data"]
+    bid, bid_token = self.create_bid(self.tender_id, bid_data)
     self.assertEqual(bid["tenderers"][0]["name"], self.test_bids_data[0]["tenderers"][0]["name"])
     self.assertIn("id", bid)
-    self.assertIn(bid["id"], response.headers["Location"])
 
-    for status in ("active", "unsuccessful", "deleted", "invalid"):
-        bid_data["status"] = status
-        response = self.app.post_json(
-            "/tenders/{}/bids".format(self.tender_id),
-            {"data": bid_data},
-            status=403,
-        )
-        self.assertEqual(response.status, "403 Forbidden")
+    if now < TWO_PHASE_COMMIT_FROM:
+        for status in ("active", "unsuccessful", "deleted", "invalid"):
+            bid_data["status"] = status
+            response = self.app.post_json(
+                "/tenders/{}/bids".format(self.tender_id),
+                {"data": bid_data},
+                status=403,
+            )
+            self.assertEqual(response.status, "403 Forbidden")
+        del bid_data["status"]
 
     self.set_status("complete")
-    del bid_data["status"]
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
@@ -393,7 +370,7 @@ def ukrainian_author_id(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't add bid in current (complete) tender status")
+    self.assertEqual(response.json["errors"][0]["description"], f"Can't add bid in current (complete) tender status")
 
 
 # TenderStage2EUBidFeaturesResourceTest
@@ -432,11 +409,8 @@ def features_bidder_eu(self):
     test_features_bids[1]["status"] = "pending"
 
     for i in test_features_bids:
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": i})
+        bid, bid_token = self.create_bid(self.tender_id, i)
         i["status"] = "pending"
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        bid = response.json["data"]
         bid.pop("date")
         bid.pop("id")
         self.assertEqual(bid, i)
@@ -448,9 +422,7 @@ def features_bidder_eu(self):
 def create_tender_bidder_document_nopending_eu(self):
     test_bid = deepcopy(self.test_bids_data[0])
     test_bid["tenderers"] = [self.test_bids_data[0]["tenderers"][0]]
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": test_bid})
-    bid = response.json["data"]
-    token = response.json["access"]["token"]
+    bid, token = self.create_bid(self.tender_id, test_bid)
     bid_id = bid["id"]
 
     response = self.app.post(
@@ -541,6 +513,7 @@ def create_tender_bidder_document_nopending_eu(self):
 # TenderStage2UABidResourceTest
 
 
+@patch("openprocurement.tender.core.models.TWO_PHASE_COMMIT_FROM", now + timedelta(days=1))
 def create_tender_biddder_invalid_ua(self):
     response = self.app.post_json(
         "/tenders/some_id/bids",
@@ -820,10 +793,8 @@ def bids_invalidation_on_tender_change_ua(self):
     # submit bids
     for data in self.test_bids_data[:2]:
         data["tenderers"] = [self.test_bids_data[0]["tenderers"][0]]
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data})
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        bids_access[response.json["data"]["id"]] = response.json["access"]["token"]
+        bid, bid_token = self.create_bid(self.tender_id, data)
+        bids_access[bid["id"]] = bid_token
 
     # check initial status
     for bid_id, token in bids_access.items():
@@ -851,26 +822,26 @@ def bids_invalidation_on_tender_change_ua(self):
     test_bid = deepcopy(self.test_bids_data[0])
     test_bid["tenderers"] = [self.test_bids_data[0]["tenderers"][0]]
     test_bid["value"]["amount"] = 3000
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": test_bid}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": ["value of bid should be less than value of tender"],
-                "location": "body",
-                "name": "value",
-            }
-        ],
-    )
+    if now < TWO_PHASE_COMMIT_FROM:
+        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": test_bid}, status=422)
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "description": ["value of bid should be less than value of tender"],
+                    "location": "body",
+                    "name": "value",
+                }
+            ],
+        )
     # and submit valid bid
     data = deepcopy(self.test_bids_data[0])
     data["value"]["amount"] = 299
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data})
-    self.assertEqual(response.status, "201 Created")
-    valid_bid_id = response.json["data"]["id"]
+    bid, bid_token = self.create_bid(self.tender_id, data)
+    valid_bid_id = bid["id"]
 
     # change tender status
     self.set_status("active.qualification")
@@ -932,10 +903,8 @@ def bids_activation_on_tender_documents_ua(self):
     # submit bids
     for data in deepcopy(self.test_bids_data):
         data["tenderers"] = [self.test_bids_data[0]["tenderers"][0]]
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data})
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        bids_access[response.json["data"]["id"]] = response.json["access"]["token"]
+        bid, bid_token = self.create_bid(self.tender_id, data)
+        bids_access[bid["id"]] = bid_token
     # check initial status
     for bid_id, token in bids_access.items():
         response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, token))
@@ -989,11 +958,8 @@ def features_bidder_ua(self):
     test_features_bids[1]["tenderers"] = [self.test_bids_data[0]["tenderers"][0]]
     test_features_bids[1]["status"] = "active"
     for i in test_features_bids:
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": i})
+        bid, bid_token = self.create_bid(self.tender_id, i)
         i["status"] = "active"
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        bid = response.json["data"]
         bid.pop("date")
         bid.pop("id")
         self.assertEqual(bid, i)
@@ -1125,6 +1091,7 @@ def deleted_bid_is_not_restorable(self):
 # TenderStage2BidFeaturesResourceTest
 
 
+@patch("openprocurement.tender.core.models.TWO_PHASE_COMMIT_FROM", now + timedelta(days=1))
 def features_bidder_invalid(self):
     tender_data = self.initial_data.copy()
     item = tender_data["items"][0].copy()

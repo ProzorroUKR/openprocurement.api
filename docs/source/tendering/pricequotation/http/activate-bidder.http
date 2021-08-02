@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/bids/29415ac0f0d54c9d9b7b4db698534302?acc_token=7e91cc260b8d4c7fbd12afe11ee24975 HTTP/1.0
+PATCH /api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/bids/2a61e50221604e168498d4a2f6a16f8e?acc_token=7e91cc260b8d4c7fbd12afe11ee24975 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -38,7 +38,7 @@ X-Content-Type-Options: nosniff
       }
     ],
     "date": "2021-03-16T00:00:01+02:00",
-    "id": "29415ac0f0d54c9d9b7b4db698534302",
+    "id": "2a61e50221604e168498d4a2f6a16f8e",
     "status": "active",
     "value": {
       "amount": 459.0,
@@ -47,63 +47,63 @@ X-Content-Type-Options: nosniff
     },
     "requirementResponses": [
       {
-        "id": "42a37c28db48487b9087887d1de9f565",
+        "id": "6151ba1204c24bb0995eda7fb759b58f",
         "requirement": {
           "id": "655360-0001-001-01"
         },
         "value": "23.8"
       },
       {
-        "id": "65416ef63bb9439b9633bc48f0e3d92a",
+        "id": "7bfb4e5c0c4e475fa54d3a526a4e1479",
         "requirement": {
           "id": "655360-0002-001-01"
         },
         "value": "1920x1080"
       },
       {
-        "id": "7b66650890ca46508873f93d32baa3b6",
+        "id": "a5087f859e184459aa0a323afe6ff6b3",
         "requirement": {
           "id": "655360-0003-001-01"
         },
         "value": "16:9"
       },
       {
-        "id": "aab0baa58eec462eb29e0c498f986f66",
+        "id": "5ebdcafc052f4e6c80f7c77ce9a91c43",
         "requirement": {
           "id": "655360-0004-001-01"
         },
         "value": "250"
       },
       {
-        "id": "c5d81c755bd649f99103701d4ac2af11",
+        "id": "568181437b714833a6997fc22c3b3f0a",
         "requirement": {
           "id": "655360-0005-001-01"
         },
         "value": "1000:1"
       },
       {
-        "id": "4cafe402e83c43aa89c477f760d00907",
+        "id": "7985689a4cac4664896ec6ffc385b621",
         "requirement": {
           "id": "655360-0006-001-01"
         },
         "value": "1"
       },
       {
-        "id": "826a01de04c3489da77a770ce8bdabd5",
+        "id": "fba749f64504449a95b43e51dd812453",
         "requirement": {
           "id": "655360-0007-001-01"
         },
         "value": "1"
       },
       {
-        "id": "cb2a26252cc545bfa45db902b929b171",
+        "id": "6ced515d86bd45059b3950e8393836c4",
         "requirement": {
           "id": "655360-0008-001-01"
         },
         "value": "HDMI"
       },
       {
-        "id": "a3b4c8e5ba15493aaf9816ecedc236f6",
+        "id": "3c7a32c3f8794b03b4d3cb915f85f151",
         "requirement": {
           "id": "655360-0009-001-01"
         },

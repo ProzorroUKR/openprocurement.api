@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/db4876add6b747dfafc1b99523c02097/bids/ecd86185d0484f91b0eb711b00a08d14?acc_token=be9d6e70703b4db0ab958756ca141e67 HTTP/1.0
+GET /api/2.5/tenders/db4876add6b747dfafc1b99523c02097/bids/59d1496c7b494028b8f4e0a997a0a4bb?acc_token=be9d6e70703b4db0ab958756ca141e67 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,7 +7,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "ecd86185d0484f91b0eb711b00a08d14",
+    "id": "59d1496c7b494028b8f4e0a997a0a4bb",
     "status": "invalid"
   }
 }

@@ -82,13 +82,9 @@ class CreateBidMixin(object):
         bid_data = deepcopy(self.test_bids_data[0])
         bid_data["value"] = {"amount": 500}
         bid_data["status"] = "draft"
-        response = self.app.post_json(
-            "/tenders/{}/bids".format(self.tender_id),
-            {"data": bid_data},
-        )
-        bid = response.json["data"]
+        bid, bid_token = self.create_bid(self.tender_id, bid_data)
         self.bid_id = bid["id"]
-        self.bid_token = response.json["access"]["token"]
+        self.bid_token = bid_token
 
 
 class TenderStage2EUBidResourceTest(
@@ -104,6 +100,8 @@ class TenderStage2EUBidResourceTest(
     test_delete_tender_bidder = snitch(delete_tender_bidder_eu)
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change_eu)
     test_ukrainian_author_id = snitch(ukrainian_author_id)
+    # TODO: undone that
+    test_create_tender_biddder_invalid = None
 
 
 class TenderStage2EU2LotBidResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
@@ -145,17 +143,15 @@ class TenderStage2EUBidDocumentResourceTest(
         # Create bid
         test_bid_1 = deepcopy(test_bids[0])
         test_bid_1["tenderers"] = [test_tenderer]
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": test_bid_1})
-        bid = response.json["data"]
+        bid, bid_token = self.create_bid(self.tender_id, test_bid_1)
         self.bid_id = bid["id"]
-        self.bid_token = response.json["access"]["token"]
+        self.bid_token = bid_token
         # create second bid
         test_bid_2 = deepcopy(test_bids[1])
         test_bid_2["tenderers"] = [test_tenderer]
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": test_bid_2})
-        bid2 = response.json["data"]
+        bid2, bid2_token = self.create_bid(self.tender_id, test_bid_2)
         self.bid2_id = bid2["id"]
-        self.bid2_token = response.json["access"]["token"]
+        self.bid2_token = bid2_token
 
     test_create_tender_bidder_document_nopending = snitch(create_tender_bidder_document_nopending_eu)
 
@@ -215,15 +211,9 @@ class BaseCDUAStage2BidContentWebTest(BaseCompetitiveDialogUAStage2ContentWebTes
         # Create bid
         bid_data = deepcopy(self.test_bids_data[0])
         bid_data["value"] = {"amount": 500}
-        if self.initial_criteria:
-            bid_data["requirementResponses"] = generate_responses(self)
-        response = self.app.post_json(
-            "/tenders/{}/bids".format(self.tender_id),
-            {"data": bid_data},
-        )
-        bid = response.json["data"]
+        bid, bid_token = self.create_bid(self.tender_id, bid_data)
         self.bid_id = bid["id"]
-        self.bid_token = response.json["access"]["token"]
+        self.bid_token = bid_token
 
 
 class TenderStage2UABidDocumentResourceTest(BaseCDUAStage2BidContentWebTest, TenderUABidDocumentResourceTestMixin):

@@ -19,34 +19,34 @@ X-Content-Type-Options: nosniff
     "status": "active",
     "date": "2021-03-16T00:00:01+02:00",
     "value": {
-      "amount": 499.0,
+      "amount": 500.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
     "suppliers": [
       {
-        "name": "ДКП «Книга»",
+        "name": "ДКП «Школяр»",
         "identifier": {
           "scheme": "UA-EDR",
-          "id": "00137226",
+          "id": "00137256",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {
-          "streetAddress": "вул. Островського, 34",
-          "locality": "м. Львів",
-          "region": "Львівська область",
-          "postalCode": "79013",
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Андрій Олексюк",
-          "email": "aagt@gmail.com",
-          "telephone": "+380322916930"
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930"
         },
-        "scale": "sme"
+        "scale": "micro"
       }
     ],
-    "bid_id": "6dc5b86cfd0b468ab72f0e6540fec137",
+    "bid_id": "eae97159b1034bdb8a19a5815b52e1de",
     "complaintPeriod": {
       "startDate": "2021-03-16T00:00:01+02:00",
       "endDate": "2021-03-19T00:00:00+02:00"

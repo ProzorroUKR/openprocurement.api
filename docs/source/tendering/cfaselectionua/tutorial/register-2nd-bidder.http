@@ -65,7 +65,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/bids/46f454094e774fd1956800003b8160f6
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/bids/eb8297a7c3984d7aad9ea624209072f5
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -92,25 +92,25 @@ X-Content-Type-Options: nosniff
       }
     ],
     "date": "2021-03-16T00:00:00+02:00",
-    "id": "46f454094e774fd1956800003b8160f6",
-    "status": "active",
+    "id": "eb8297a7c3984d7aad9ea624209072f5",
+    "status": "draft",
     "documents": [
       {
-        "id": "6a30cedaec624980a9c5692e547cb0b1",
+        "id": "8849d2d9f9e642aaac94732ae14e5057",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/bids/46f454094e774fd1956800003b8160f6/documents/6a30cedaec624980a9c5692e547cb0b1?download=6f95f83074884c4793b92674ecbf017d",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/bids/eb8297a7c3984d7aad9ea624209072f5/documents/8849d2d9f9e642aaac94732ae14e5057?download=6f95f83074884c4793b92674ecbf017d",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender"
       },
       {
-        "id": "8afd7b52afc546c38ffc2e364cc52355",
+        "id": "6985aca7291b4058b8d28661a01431cc",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/bids/46f454094e774fd1956800003b8160f6/documents/8afd7b52afc546c38ffc2e364cc52355?download=634443ba221c4aec9e80218dce5d9898",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/bids/eb8297a7c3984d7aad9ea624209072f5/documents/6985aca7291b4058b8d28661a01431cc?download=634443ba221c4aec9e80218dce5d9898",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender"

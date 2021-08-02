@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/9eee26d528d9490a9e52cf6b1f696c41/financial_documents?acc_token=c0c98c22f5594c6e99ba094d5d9a9b63 HTTP/1.0
+POST /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/fa412b9bcd92484d9f8871b0ee0df130/financial_documents?acc_token=c0c98c22f5594c6e99ba094d5d9a9b63 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 159
 Content-Type: multipart/form-data; boundary=---BOUNDARY
@@ -14,7 +14,7 @@ Content-Type: application/vnd.ms-excel
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/9eee26d528d9490a9e52cf6b1f696c41/financial_documents/eee02e6c3acd49ecabdc3b0a07cfe1f9
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/fa412b9bcd92484d9f8871b0ee0df130/financial_documents/eee02e6c3acd49ecabdc3b0a07cfe1f9
 X-Content-Type-Options: nosniff
 {
   "data": {
