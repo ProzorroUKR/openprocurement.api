@@ -1540,6 +1540,34 @@ def create_tender_bid_document_with_award_json(self):
         }
     ])
 
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}/requirement_responses/{}?acc_token={}".format(self.tender_id, self.bid_id,
+                                                                                     self.rr_guarantee_id,
+                                                                                     self.bid_token),
+        {"data": {
+            "evidences": [{
+                "title": "Документальне підтвердження",
+                "description": "Довідка в довільній формі",
+                "type": "document",
+                "relatedDocument": {
+                    "id": doc_id,
+                    "title": "test.doc"
+                },
+            }]
+        }}, status=422
+    )
+
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(response.json["errors"], [
+        {
+            "location": "body",
+            "name": "evidences",
+            "description": [
+                "available only in ['active.awarded', 'active.qualification'] status"
+            ]
+        }
+    ])
+
     with change_auth(self.app, ("Basic", ("token", ""))):  # this copied from above
         self.set_status("active.qualification")
         response = self.app.post_json(
