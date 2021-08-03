@@ -1734,13 +1734,20 @@ def lots_features_delete(self):
     bid_data = deepcopy(test_bids[0])
     del bid_data["value"]
     bid_data.update({
-        "status": "draft",
         "lotValues": [{"value": {"amount": 500}, "relatedLot": lots[1]}],
         "parameters": [{"code": "code_lot", "value": 0.01}, {"code": "code_tenderer", "value": 0.01}]
     })
 
-    bid, bid_token = self.create_bid(self.tender_id, bid_data)
-    bid_id = bid["id"]
+    response = self.app.post_json(
+        "/tenders/{}/bids".format(tender_id),
+        {"data": bid_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    bid_id = response.json["data"]["id"]
+    bid_token = response.json["access"]["token"]
+    self.set_responses(self.tender_id, response.json)
+
     # delete features
     self.app.patch_json("/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"features": []}})
     response = self.app.get("/tenders/{}?opt_pretty=1".format(tender_id))
