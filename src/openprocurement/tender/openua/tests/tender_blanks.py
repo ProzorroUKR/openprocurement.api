@@ -1029,7 +1029,7 @@ def invalid1_and_1draft_bids_tender(self):
 
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["value"] = {"amount": 500}
-    bid, bid_token = self.create_bid(tender_id, bid_data)
+    bid, bid_token = self.create_bid(tender_id, bid_data, "draft")
 
     self.app.authorization = ("Basic", ("broker", ""))
     self.create_bid(tender_id, bid_data)
