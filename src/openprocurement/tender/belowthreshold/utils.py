@@ -25,6 +25,8 @@ LOGGER = getLogger("openprocurement.tender.belowthreshold")
 
 
 class CancelTenderLot(BaseCancelTenderLot):
+
+    @staticmethod
     def add_next_award_method(request):
         return add_next_award(request)
 
@@ -85,36 +87,32 @@ def check_ignored_claim(tender):
 
 def add_contracts(request, award, now=None):
     tender = request.validated["tender"]
-    contract_item_model = type(tender).contracts.model_class.items.model_class
-
     if tender.buyers and all(item.get("relatedBuyer") for item in tender.items):
-
-        multi_contracts = len(tender.buyers) > 1
-        contract_value = generate_contract_value(tender, award, multi_contracts=multi_contracts)
-
+        is_multi_contracts = len(tender.buyers) > 1
+        contract_value = generate_contract_value(tender, award, zero=is_multi_contracts)
         for buyer in tender.buyers:
-            contract_items = []
-            for item in tender.items:
-                if buyer.id == item.relatedBuyer:
-                    if not hasattr(award, "lotID") or item.relatedLot == award.lotID:
-                        contract_items.append(contract_item_model(dict(item)))
-            add_contract_to_tender(
-                tender, contract_items, contract_value, buyer.id, award, request.registry.server_id, now
+            add_contract(
+                request, award, contract_value, now, buyer.id
             )
-
     else:
-        contract_value = generate_contract_value(tender, award, multi_contracts=False)
-        contract_items = []
-        for item in tender.items:
-            if not hasattr(award, "lotID") or item.relatedLot == award.lotID:
-                contract_items.append(contract_item_model(dict(item)))
-        add_contract_to_tender(
-            tender, contract_items, contract_value,  None, award, request.registry.server_id, now
+        contract_value = generate_contract_value(tender, award)
+        add_contract(
+            request, award, contract_value, now
         )
 
 
-def add_contract_to_tender(tender, contract_items, contract_value, buyer_id, award, server_id, now):
+def add_contract(request, award, contract_value, now=None, buyer_id=None):
+    tender = request.validated["tender"]
     contract_model = type(tender).contracts.model_class
+    contract_item_model = contract_model.items.model_class
+    contract_items = []
+    for item in tender.items:
+        if not buyer_id or buyer_id == item.relatedBuyer:
+            if not hasattr(award, "lotID") or item.relatedLot == award.lotID:
+                contract_items.append(contract_item_model(dict(item)))
+    server_id = request.registry.server_id
+    next_contract_number = len(tender.contracts) + 1
+    contract_id = "{}-{}{}".format(tender.tenderID, server_id, next_contract_number)
     tender.contracts.append(
         contract_model(
             {
@@ -124,16 +122,16 @@ def add_contract_to_tender(tender, contract_items, contract_value, buyer_id, awa
                 "value": contract_value,
                 "date": now or get_now(),
                 "items": contract_items,
-                "contractID": "{}-{}{}".format(tender.tenderID, server_id, len(tender.contracts) + 1),
+                "contractID": contract_id,
             }
         )
     )
 
 
-def generate_contract_value(tender, award, multi_contracts=False):
+def generate_contract_value(tender, award, zero=False):
     if award.value:
         value = type(tender).contracts.model_class.value.model_class(dict(award.value.items()))
-        if multi_contracts:
+        if zero:
             value.amount, value.amountNet = 0, 0
         else:
             value.amountNet = award.value.amount
@@ -251,24 +249,13 @@ def check_tender_status(request):
             pending_awards_complaints = any(
                 [i.status in tender.block_complaint_status for a in lot_awards for i in a.complaints]
             )
-            first_revision_date = get_first_revision_date(tender)
-            new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < first_revision_date < NEW_DEFENSE_COMPLAINTS_TO
-            stand_still_ends = [
-                a.complaintPeriod.endDate
-                for a in lot_awards
-                if (
-                    a.complaintPeriod
-                    and a.complaintPeriod.endDate
-                    and (a.status != "cancelled" if new_defence_complaints else True)
-                )
-            ]
-            stand_still_end = max(stand_still_ends) if stand_still_ends else now
+            stand_still_end = calculate_stand_still_end(tender, lot_awards, now)
             in_stand_still = now < stand_still_end
             skip_award_complaint_period = check_skip_award_complaint_period(tender)
             if (
-                    pending_complaints
-                    or pending_awards_complaints
-                    or (in_stand_still and not skip_award_complaint_period)
+                pending_complaints
+                or pending_awards_complaints
+                or (in_stand_still and not skip_award_complaint_period)
             ):
                 continue
             elif last_award.status == "unsuccessful":
@@ -279,13 +266,15 @@ def check_tender_status(request):
                 lot.status = "unsuccessful"
                 continue
             elif last_award.status == "active":
-                active_contracts = (
-                    [a.status == "active" for a in tender.agreements]
-                    if "agreements" in tender
-                    else [i.status == "active" and i.awardID == last_award.id for i in tender.contracts]
-                )
-
-                if any(active_contracts):
+                if "agreements" in tender:
+                    allow_complete_lot = agreements_allow_to_complete(tender.agreements)
+                else:
+                    contracts = [
+                        contract for contract in tender.contracts
+                        if contract.awardID == last_award.id
+                    ]
+                    allow_complete_lot = contracts_allow_to_complete(contracts)
+                if allow_complete_lot:
                     LOGGER.info(
                         "Switched lot {} of tender {} to {}".format(lot.id, tender.id, "complete"),
                         extra=context_unpack(request, {"MESSAGE_ID": "switched_lot_complete"}, {"LOT_ID": lot.id}),
@@ -316,18 +305,7 @@ def check_tender_status(request):
         pending_awards_complaints = any(
             [i.status in tender.block_complaint_status for a in tender.awards for i in a.complaints]
         )
-        first_revision_date = get_first_revision_date(tender)
-        new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < first_revision_date < NEW_DEFENSE_COMPLAINTS_TO
-        stand_still_ends = [
-            a.complaintPeriod.endDate
-            for a in tender.awards
-            if (
-                a.complaintPeriod
-                and a.complaintPeriod.endDate
-                and (a.status != "cancelled" if new_defence_complaints else True)
-            )
-        ]
-        stand_still_end = max(stand_still_ends) if stand_still_ends else now
+        stand_still_end = calculate_stand_still_end(tender, tender.awards, now)
         stand_still_time_expired = stand_still_end < now
         last_award_status = tender.awards[-1].status if tender.awards else ""
         if (
@@ -342,20 +320,40 @@ def check_tender_status(request):
             )
             tender.status = "unsuccessful"
 
-        contracts = (
-                tender.agreements[-1].get("contracts")
-                if tender.get("agreements")
-                else tender.get("contracts", [])
-        )
-        if (
-            contracts
-            and any([contract.status == "active" for contract in contracts])
-            and not any([contract.status == "pending" for contract in contracts])
-        ):
+        contracts = tender.get("contracts", [])
+        allow_complete_tender = contracts_allow_to_complete(contracts)
+        if allow_complete_tender:
             tender.status = "complete"
 
     if tender.procurementMethodType == "belowThreshold":
         check_ignored_claim(tender)
+
+
+def calculate_stand_still_end(tender, lot_awards, now):
+    first_revision_date = get_first_revision_date(tender)
+    new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < first_revision_date < NEW_DEFENSE_COMPLAINTS_TO
+    stand_still_ends = [
+        a.complaintPeriod.endDate
+        for a in lot_awards
+        if (
+            a.complaintPeriod
+            and a.complaintPeriod.endDate
+            and (a.status != "cancelled" if new_defence_complaints else True)
+        )
+    ]
+    return max(stand_still_ends) if stand_still_ends else now
+
+
+def contracts_allow_to_complete(contracts):
+    return (
+        contracts
+        and any([contract.status == "active" for contract in contracts])
+        and not any([contract.status == "pending" for contract in contracts])
+    )
+
+
+def agreements_allow_to_complete(agreements):
+    return any([a.status == "active" for a in agreements])
 
 
 def add_next_award(request):

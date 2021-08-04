@@ -1,4 +1,4 @@
-POST /api/2.5/contracts/e4e18aeb91074656a353d7429c72c077/documents?acc_token=d7ef3060443a419f93a65b3aeb4f5f9b HTTP/1.0
+POST /api/2.5/contracts/b5ed3fde090742bcbe39b1c05b8bf17e/documents?acc_token=d7ef3060443a419f93a65b3aeb4f5f9b HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 171
 Content-Type: multipart/form-data; boundary=---BOUNDARY
@@ -14,14 +14,14 @@ additional info
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/e4e18aeb91074656a353d7429c72c077/documents/d72c6e6b2a7741a1910849d0446b7d3f
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/b5ed3fde090742bcbe39b1c05b8bf17e/documents/d72c6e6b2a7741a1910849d0446b7d3f
 X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "d72c6e6b2a7741a1910849d0446b7d3f",
     "title": "contract_additional_docs.doc",
     "format": "application/msword",
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/e4e18aeb91074656a353d7429c72c077/documents/d72c6e6b2a7741a1910849d0446b7d3f?download=98f487db80604f78ae7d691595fa5d9b",
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/b5ed3fde090742bcbe39b1c05b8bf17e/documents/d72c6e6b2a7741a1910849d0446b7d3f?download=98f487db80604f78ae7d691595fa5d9b",
     "datePublished": "2021-03-16T00:00:01+02:00",
     "dateModified": "2021-03-16T00:00:01+02:00",
     "documentOf": "contract"

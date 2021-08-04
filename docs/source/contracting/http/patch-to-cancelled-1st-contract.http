@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/8205792550a1414cbb9eeff86db41600/contracts/27fce9096ce14a789af205b0cbf4474d?acc_token=058351be85014e5db8d4fa00a8b28181 HTTP/1.0
+PATCH /api/2.5/tenders/8205792550a1414cbb9eeff86db41600/contracts/bef9a489e2c84fdc82467cb58b860c8b?acc_token=058351be85014e5db8d4fa00a8b28181 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 33
 Content-Type: application/json
@@ -15,7 +15,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "27fce9096ce14a789af205b0cbf4474d",
+    "id": "bef9a489e2c84fdc82467cb58b860c8b",
     "buyerID": "11111111111111111111111111111111",
     "contractID": "UA-2021-03-16-000001-1",
     "status": "cancelled",

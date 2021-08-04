@@ -237,8 +237,6 @@ def patch_tender_multi_contracts(self):
     self.db.save(doc)
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
-    if response.json["data"].get("lots"):
-        return
 
     # in case any contract become active and there are no pending contracts -> tender should have complete status
     response = self.app.patch_json(
