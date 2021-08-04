@@ -95,13 +95,13 @@ X-Content-Type-Options: nosniff
         },
         "evidences": [
           {
+            "id": "86923f91c5ac4b599e903cd934b4370c",
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
               "id": "6f732f2a844d4abeb87318952e38e5af",
               "title": "name.doc"
-            },
-            "id": "c2a8286cb9dd452f83796b5576d09d01"
+            }
           }
         ],
         "value": "True"
@@ -116,13 +116,13 @@ X-Content-Type-Options: nosniff
         },
         "evidences": [
           {
+            "id": "317a57a053e546ea8bbb217ce57e576d",
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
               "id": "6f732f2a844d4abeb87318952e38e5af",
               "title": "name.doc"
-            },
-            "id": "cc97ad4b29ec4e79b842ed7ff87508c2"
+            }
           }
         ],
         "value": "True"

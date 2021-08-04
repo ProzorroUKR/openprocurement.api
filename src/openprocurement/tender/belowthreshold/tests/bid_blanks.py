@@ -1028,6 +1028,65 @@ def update_tender_bid_pmr_related_tenderer(self):
     )
 
 
+def update_tender_rr_evidence_id(self):
+    criteria = self.app.get(
+        "/tenders/{}".format(self.tender_id)
+    ).json["data"]["criteria"]
+    requirement = criteria[0]["requirementGroups"][0]["requirements"][0]
+
+    evidences = [{
+        "description": "2",
+        "id": "a" * 32,
+        "relatedDocument": None,
+        "title": "4",
+        "type": "statement"
+    }]
+
+    rr_data = [{
+        "id": "f" * 32,
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+            "id": requirement["id"],
+            "title": requirement["title"],
+        },
+        "value": "True",
+        "evidences": evidences
+    }]
+
+    # POST with passed ids
+    response = self.app.post_json(
+        "/tenders/{}/bids".format(self.tender_id),
+        {"data": {
+            "requirementResponses": rr_data,
+            "tenderers": [test_organization],
+            "value": {"amount": 500},
+        }}
+    )
+    bid = response.json["data"]
+    token = response.json["access"]["token"]
+    rr = bid["requirementResponses"][0]
+    self.assertEqual(rr["id"], "f" * 32)
+    self.assertEqual(rr["evidences"][0]["id"], "a" * 32)
+
+    # PATCH with changes to ids
+    rr_data[0]["id"] = "c" * 32
+    rr_data[0]["description"] = "changed description"
+    rr_data[0]["evidences"][0]["id"] = "b" * 32
+    rr_data[0]["evidences"][0]["description"] = "changed description"
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={token}",
+        {"data": {
+            "requirementResponses": rr_data,
+            "tenderers": [test_organization],
+            "value": {"amount": 500},
+        }}
+    )
+    rr = response.json["data"]["requirementResponses"][0]
+    self.assertEqual(rr["id"], "c" * 32)
+    self.assertEqual(rr["evidences"][0]["id"], "b" * 32)
+
+
 def patch_tender_bid_document(self):
     document = {
         "data": {

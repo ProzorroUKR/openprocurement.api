@@ -44,6 +44,7 @@ class ExtendPeriod(Period):
 
 # ECriteria
 class EligibleEvidence(Model):
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
     title = StringType()
     title_en = StringType()
     title_ru = StringType()
@@ -55,10 +56,6 @@ class EligibleEvidence(Model):
         default="statement"
     )
     relatedDocument = ModelType(Reference)
-
-    @serializable
-    def id(self):
-        return uuid4().hex
 
     def validate_relatedDocument(self, data, document_reference):
         if document_reference:

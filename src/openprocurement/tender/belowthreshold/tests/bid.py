@@ -46,6 +46,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     update_tender_bid_document_invalid_pmr,
     bid_activate_with_cancelled_tenderer_criterion,
     update_tender_bid_pmr_related_doc,
+    update_tender_rr_evidence_id,
     update_tender_bid_pmr_related_tenderer,
 )
 from openprocurement.tender.openeu.tests.bid import CreateBidMixin
@@ -137,6 +138,7 @@ class TenderBidRRResourceTest(TenderContentWebTest):
     guarantee_criterion = True
     guarantee_criterion_data = language_criteria
 
+    test_update_tender_rr_evidence_id = snitch(update_tender_rr_evidence_id)
     test_update_tender_bid_pmr_related_doc = snitch(update_tender_bid_pmr_related_doc)
     test_update_tender_bid_pmr_related_tenderer = snitch(update_tender_bid_pmr_related_tenderer)
 
