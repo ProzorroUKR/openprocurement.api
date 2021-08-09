@@ -51,7 +51,7 @@ class CommonBid(BaseBid):
     value = ModelType(Value)
     lotValues = ListType(ModelType(LotValue, required=True))
     tenderers = ListType(ModelType(PostBusinessOrganization, required=True), min_size=1, max_size=1)
-    status = StringType(choices=["active", "draft", "invalid"])
+    status = StringType(choices=["active", "draft", "invalid"], required=True)
 
     def validate_value(self, data, value):
         tender = get_tender()
@@ -96,14 +96,12 @@ class PostBid(CommonBid):
     status = StringType(choices=["active", "draft"])
     documents = ListType(ModelType(PostDocument, required=True))
 
-    _old_default_status = "active"
-
     @serializable(serialized_name="status", serialize_when_none=True)
     def default_status(self):
         if not self.status:
-            if get_first_revision_date(self.__parent__, default=get_now()) > TWO_PHASE_COMMIT_FROM:
+            if get_first_revision_date(get_tender(), default=get_now()) > TWO_PHASE_COMMIT_FROM:
                 return "draft"
-            return self._old_default_status
+            return "active"
         return self.status
 
 # -- POST

@@ -299,16 +299,10 @@ def patch_tender_bidder(self):
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
         {"data": {
+            "status": "active",
             "value": {"amount": 600},
             "lotValues": None, "parameters": None,
         }},
-        status=200,
-    )
-    self.assertEqual(response.status, "200 OK")
-
-    response = self.app.patch_json(
-        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"status": "active"}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")

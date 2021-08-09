@@ -32,9 +32,8 @@ class PostBid(BasePostBid, PostBidResponsesMixin):
     documents = ListType(ModelType(PostDocument, required=True))
 
     def validate_value(self, data, value):
-        if data.get("status") != "draft":
-            tender = get_tender()
-            validate_bid_value(tender, value)
+        tender = get_tender()
+        validate_bid_value(tender, value)
 
 
 class Bid(BaseBid, PostBidResponsesMixin):

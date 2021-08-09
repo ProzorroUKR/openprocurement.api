@@ -22,20 +22,19 @@ class ESCOMixin(Model):
     selfEligible = BooleanType(required=False)
 
     def validate_value(self, data, value):
-        if data.get("status") != "draft":
-            tender = get_tender()
-            if tender.get("lots"):
-                if value:
-                    raise ValidationError("value should be posted for each lot of bid")
-            else:
-                if not value:
-                    raise ValidationError("This field is required.")
-                if tender["minValue"].get("currency") != value.get("currency"):
-                    raise ValidationError("currency of bid should be identical to currency of minValue of tender")
-                if tender["minValue"].get("valueAddedTaxIncluded") != value.get("valueAddedTaxIncluded"):
-                    raise ValidationError(
-                        "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of tender"
-                    )
+        tender = get_tender()
+        if tender.get("lots"):
+            if value:
+                raise ValidationError("value should be posted for each lot of bid")
+        else:
+            if not value:
+                raise ValidationError("This field is required.")
+            if tender["minValue"].get("currency") != value.get("currency"):
+                raise ValidationError("currency of bid should be identical to currency of minValue of tender")
+            if tender["minValue"].get("valueAddedTaxIncluded") != value.get("valueAddedTaxIncluded"):
+                raise ValidationError(
+                    "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of tender"
+                )
 
     def validate_selfEligible(self, data, value):
         tender = get_tender()

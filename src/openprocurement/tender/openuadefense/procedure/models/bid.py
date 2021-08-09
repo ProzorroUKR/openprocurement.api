@@ -27,9 +27,8 @@ class PostBid(BasePostBid):
     documents = ListType(ConfidentialDocumentModelType(PostDocument, required=True), default=list)
 
     def validate_value(self, data, value):
-        if data.get("status") != "draft":
-            tender = get_tender()
-            validate_bid_value(tender, value)
+        tender = get_tender()
+        validate_bid_value(tender, value)
 
 
 class PatchBid(BasePatchBid):
@@ -49,7 +48,6 @@ class Bid(BaseBid):
     documents = ListType(ConfidentialDocumentModelType(Document, required=True))
 
     def validate_value(self, data, value):
-        if data.get("status") != "draft":
-            tender = get_tender()
-            validate_bid_value(tender, value)
+        tender = get_tender()
+        validate_bid_value(tender, value)
 

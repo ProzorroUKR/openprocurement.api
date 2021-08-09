@@ -4,12 +4,16 @@ from openprocurement.tender.openua.procedure.models.bid import (
     PostBid as BasePostBid,
     PatchBid as BasePatchBid,
 )
+from schematics.types.serializable import serializable
+from openprocurement.tender.core.procedure.utils import get_first_revision_date
 from openprocurement.tender.core.procedure.models.base import ListType
+from openprocurement.tender.core.procedure.context import get_tender, get_now
 from openprocurement.tender.openeu.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
 from openprocurement.tender.openua.procedure.models.document import (
     PostDocument,
     Document,
 )
+from openprocurement.api.constants import TWO_PHASE_COMMIT_FROM
 from schematics.types.compound import ModelType
 
 
@@ -36,7 +40,13 @@ class PostBid(BasePostBid):
         choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"]
     )
 
-    _old_default_status = "pending"
+    @serializable(serialized_name="status", serialize_when_none=True)
+    def default_status(self):
+        if not self.status:
+            if get_first_revision_date(get_tender(), default=get_now()) > TWO_PHASE_COMMIT_FROM:
+                return "draft"
+            return "pending"
+        return self.status
 
 
 class Bid(BaseBid):
@@ -51,4 +61,5 @@ class Bid(BaseBid):
 
     status = StringType(
         choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
+        required=True
     )
