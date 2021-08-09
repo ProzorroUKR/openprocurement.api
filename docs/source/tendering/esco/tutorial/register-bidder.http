@@ -67,7 +67,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/c2273631949e4fbeb8ff3a1be667e937
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/931f9a28ea1c44bda087fc6d9349405f
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -75,9 +75,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "ДКП «Школяр»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137256",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137256"
         },
         "address": {
           "streetAddress": "вул. Островського, 33",
@@ -87,15 +87,13 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
         },
         "scale": "micro"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "c2273631949e4fbeb8ff3a1be667e937",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "parameters": [],
     "documents": [],
@@ -106,8 +104,6 @@ X-Content-Type-Options: nosniff
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
-      "amount": 8917.4,
-      "amountPerformance": 816.29,
       "yearlyPaymentsPercentage": 0.9,
       "annualCostsReduction": [
         500.0,
@@ -135,13 +131,18 @@ X-Content-Type-Options: nosniff
       "contractDuration": {
         "years": 10,
         "days": 74
-      }
+      },
+      "amountPerformance": 816.29,
+      "amount": 8917.4
     },
-    "selfQualified": true
+    "selfQualified": true,
+    "lotValues": [],
+    "id": "931f9a28ea1c44bda087fc6d9349405f",
+    "date": "2021-03-16T00:00:00+02:00"
   },
   "access": {
-    "token": "3558940bd3654d09b73766b6712599cc",
-    "transfer": "844e527cb4ed42dc8469ac19ea0395be"
+    "token": "01d276fa7ea64637ad3be5084d677b89",
+    "transfer": "4fd880a096c546f48f705deb2ac7d61f"
   }
 }
 

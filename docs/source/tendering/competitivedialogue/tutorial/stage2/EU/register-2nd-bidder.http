@@ -38,17 +38,22 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/1ca01e93d33141beaa64330b2782968d
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/77605656b3e8479fbfa66cf3d764520c
 X-Content-Type-Options: nosniff
 {
   "data": {
+    "value": {
+      "amount": 499.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "tenderers": [
       {
         "name": "ДКП «Книга»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137226",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137226"
         },
         "address": {
           "streetAddress": "вул. Островського, 34",
@@ -58,26 +63,27 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Андрій Олексюк",
           "email": "aagt@gmail.com",
-          "telephone": "+380322916930"
+          "telephone": "+380322916930",
+          "name": "Андрій Олексюк"
         },
         "scale": "sme"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "1ca01e93d33141beaa64330b2782968d",
-    "value": {
-      "amount": 499.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
+    "parameters": [],
+    "lotValues": [],
+    "documents": [],
+    "financialDocuments": [],
+    "eligibilityDocuments": [],
+    "qualificationDocuments": [],
     "selfQualified": true,
-    "status": "draft"
+    "status": "draft",
+    "id": "77605656b3e8479fbfa66cf3d764520c",
+    "date": "2021-03-16T00:00:00+02:00"
   },
   "access": {
-    "token": "7e8ca46347264ab19ef25115a1137497",
-    "transfer": "8607c6b86d3748729db430bebc37342c"
+    "token": "b3e78d99213042d49c42838707ff72d0",
+    "transfer": "ab7f1a03a4b347b0b53b122d58edd637"
   }
 }
 

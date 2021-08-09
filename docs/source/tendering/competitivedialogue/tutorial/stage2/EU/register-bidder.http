@@ -40,17 +40,22 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/8995cc57868249b8aba0fd17235ed809
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/58e27c7c070d4d97b09d73d735ad23aa
 X-Content-Type-Options: nosniff
 {
   "data": {
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137256",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137256"
         },
         "address": {
           "streetAddress": "вул. Островського, 33",
@@ -60,27 +65,28 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
         },
         "scale": "micro"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "8995cc57868249b8aba0fd17235ed809",
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "selfQualified": true,
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "status": "draft"
+    "parameters": [],
+    "lotValues": [],
+    "documents": [],
+    "financialDocuments": [],
+    "eligibilityDocuments": [],
+    "qualificationDocuments": [],
+    "selfQualified": true,
+    "status": "draft",
+    "id": "58e27c7c070d4d97b09d73d735ad23aa",
+    "date": "2021-03-16T00:00:00+02:00"
   },
   "access": {
-    "token": "4db6be0e33ad4f88b44450c99971d911",
-    "transfer": "c47cdda575034be3ba15f0a9d3226c31"
+    "token": "2bbf824e16a045ddb68192ea4ab04754",
+    "transfer": "55f7d3bb802345c6b55190c15f467834"
   }
 }
 

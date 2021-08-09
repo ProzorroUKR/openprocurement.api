@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/f8aae737ac8f4d34a52254e2f3416505/bids/7a0d18f233564443b9093a96884d5cf8?acc_token=b6333f0eb61e422e8c473bf9f5ba0127 HTTP/1.0
+GET /api/2.5/tenders/f8aae737ac8f4d34a52254e2f3416505/bids/f8a53de01e5042089db617bd4814b778?acc_token=be887f30f06b4c0d8a0f6863e961b084 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,13 +7,18 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137256",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137256"
         },
         "address": {
           "streetAddress": "вул. Островського, 33",
@@ -23,36 +28,34 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
         },
         "scale": "micro"
       }
     ],
-    "date": "2021-03-16T00:00:01+02:00",
-    "id": "7a0d18f233564443b9093a96884d5cf8",
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "subcontractingDetails": "ДКП «Орфей», Україна",
     "status": "draft",
+    "selfEligible": true,
     "selfQualified": true,
+    "subcontractingDetails": "ДКП «Орфей», Україна",
+    "lotValues": [],
+    "parameters": [],
     "documents": [
       {
-        "id": "189fbd0e57174522bb0b44d7be761c1a",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f8aae737ac8f4d34a52254e2f3416505/bids/7a0d18f233564443b9093a96884d5cf8/documents/189fbd0e57174522bb0b44d7be761c1a?download=51a245b8c3624982921701ac24fb6451",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f8aae737ac8f4d34a52254e2f3416505/bids/f8a53de01e5042089db617bd4814b778/documents/a38bde5cd16f4abca5753048197ea87d?download=cb62bd21fee54c2798310d1f002f5979",
+        "documentOf": "tender",
+        "confidentiality": "public",
+        "id": "a38bde5cd16f4abca5753048197ea87d",
         "datePublished": "2021-03-16T00:00:01+02:00",
-        "dateModified": "2021-03-16T00:00:01+02:00",
-        "documentOf": "tender"
+        "dateModified": "2021-03-16T00:00:01+02:00"
       }
     ],
-    "selfEligible": true
+    "id": "f8a53de01e5042089db617bd4814b778",
+    "date": "2021-03-16T00:00:01+02:00"
   }
 }
 

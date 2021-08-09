@@ -45,7 +45,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d59e1783dc5149518a3c20a016d652c6/bids/e2df02eb6d714e1a83b790a96d51f777
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d59e1783dc5149518a3c20a016d652c6/bids/efd32c624d1c490a9d4e31ec0301cfa8
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -53,9 +53,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "«Снігур»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137227",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137227"
         },
         "address": {
           "streetAddress": "вул. Островського, 35",
@@ -65,34 +65,38 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Іван Іваненко",
           "email": "fake@mail.com",
-          "telephone": "+380322123456"
+          "telephone": "+380322123456",
+          "name": "Іван Іваненко"
         },
         "scale": "mid"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "e2df02eb6d714e1a83b790a96d51f777",
-    "selfQualified": true,
-    "status": "draft",
     "lotValues": [
       {
         "relatedLot": "150e2750fa2942ce9315e80ddf78a62a",
-        "date": "2021-03-16T00:00:00+02:00",
-        "status": "pending"
+        "status": "pending",
+        "date": "2021-03-16T00:00:00+02:00"
       },
       {
         "relatedLot": "a18842d9d4a349c799437d0102e40965",
-        "date": "2021-03-16T00:00:00+02:00",
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
-        "status": "pending"
+        "status": "pending",
+        "date": "2021-03-16T00:00:00+02:00"
       }
-    ]
+    ],
+    "documents": [],
+    "financialDocuments": [],
+    "eligibilityDocuments": [],
+    "qualificationDocuments": [],
+    "selfQualified": true,
+    "status": "draft",
+    "id": "efd32c624d1c490a9d4e31ec0301cfa8",
+    "date": "2021-03-16T00:00:00+02:00"
   },
   "access": {
-    "token": "8805e18d9fc448c29d6afafdbabe6561",
-    "transfer": "cbf20484eeff4ce19cc03e72ce7a776b"
+    "token": "cbe60cbe3ca24030a69d9887ffc03fa1",
+    "transfer": "3f1a6d04abad4b47af019ed7d852d4f7"
   }
 }
 

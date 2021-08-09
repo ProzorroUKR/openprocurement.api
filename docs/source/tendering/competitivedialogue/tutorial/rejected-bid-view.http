@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids/2e01f99899594fa6939391b658c3a921?acc_token=b02a0a0cbe7842149f3fab16c42f0d94 HTTP/1.0
+GET /api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids/c8cf921842b343ae90f0b4666658776e?acc_token=b02a0a0cbe7842149f3fab16c42f0d94 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -30,10 +30,10 @@ X-Content-Type-Options: nosniff
         "scale": "mid"
       }
     ],
-    "id": "2e01f99899594fa6939391b658c3a921",
+    "id": "c8cf921842b343ae90f0b4666658776e",
     "requirementResponses": [
       {
-        "id": "b898fd0ab07145dd9bc8581d43e56601",
+        "id": "41f518cbd471453a913a32fe8dcfe53e",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -43,7 +43,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "99cf06b6970e4dd28353207c433a1fe4",
+        "id": "0b94547f9bbf4955998c5661409f5213",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -53,7 +53,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "0aecab357f29449f85f49943c01837dc",
+        "id": "ec374e01f4a446479d009e418f72dac5",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -63,7 +63,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "83861b4e7a6642c289b0fd96ee51f6eb",
+        "id": "b5075bcd1e434360bf788fc0d05e3b51",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -73,7 +73,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "6f8024dbabdc4b65ae28f989c9c2db04",
+        "id": "d867925de878440e9061ad4b5baae44f",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -83,7 +83,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "8fefc919650d4b0faecdaffa3ef5d06d",
+        "id": "58430774a2c64b5596b92818235803fa",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -93,7 +93,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "c33c31022f074f6c8ba4c028419d0b9b",
+        "id": "7384ef27820f45699944b6194f69aef2",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -103,7 +103,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "6a7799a40d994f91a4cd231ef0fae3ea",
+        "id": "bca1943114f345e1b6e38fceef1be9a5",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -113,7 +113,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "cf63f96b6f07477392a7ed8f1cfc935c",
+        "id": "712c68545cea4c63bf15653934042940",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -123,7 +123,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "f7649d1f93ca4e69bc89e50cd9f3e320",
+        "id": "3c0a316602f84ca586535d5c1bceeb15",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -133,7 +133,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "1c0511fb67ea413788606e7a8924f6d0",
+        "id": "b3e5e325bb41459287cd0cde249e40a7",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -143,7 +143,6 @@ X-Content-Type-Options: nosniff
         "value": "True"
       }
     ],
-    "selfQualified": true,
     "status": "unsuccessful"
   }
 }

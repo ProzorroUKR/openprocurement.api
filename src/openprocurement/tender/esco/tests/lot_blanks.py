@@ -1031,24 +1031,11 @@ def create_tender_bid_invalid(self):
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
 
-    if get_now() < TWO_PHASE_COMMIT_FROM:
-        response = self.app.post_json(
-            request_path,
-            {"data": bid_data},
-            status=422,
-        )
-    else:
-        response = self.app.post_json(
-            request_path,
-            {"data": bid_data},
-        )
-        bid_id = response.json["data"]["id"]
-        bid_token = response.json["access"]["token"]
-        response = self.app.patch_json(
-            f"{request_path}/{bid_id}?acc_token={bid_token}",
-            {"data": {"status": "active"}},
-            status=422
-        )
+    response = self.app.post_json(
+        request_path,
+        {"data": bid_data},
+        status=422,
+    )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -1179,24 +1166,11 @@ def create_tender_bid_invalid(self):
             "relatedLot": self.initial_lots[0]["id"],
          }
     ]
-    if get_now() < TWO_PHASE_COMMIT_FROM:
-        response = self.app.post_json(
-            request_path,
-            {"data": bid_data},
-            status=422,
-        )
-    else:
-        response = self.app.post_json(
-            request_path,
-            {"data": bid_data},
-        )
-        bid_id = response.json["data"]["id"]
-        bid_token = response.json["access"]["token"]
-        response = self.app.patch_json(
-            f"{request_path}/{bid_id}?acc_token={bid_token}",
-            {"data": {"status": "active"}},
-            status=422
-        )
+    response = self.app.post_json(
+        request_path,
+        {"data": bid_data},
+        status=422,
+    )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -1223,24 +1197,11 @@ def create_tender_bid_invalid(self):
             "relatedLot": self.initial_lots[0]["id"],
         }
     ]
-    if get_now() < TWO_PHASE_COMMIT_FROM:
-        response = self.app.post_json(
-            request_path,
-            {"data": bid_data},
-            status=422,
-        )
-    else:
-        response = self.app.post_json(
-            request_path,
-            {"data": bid_data},
-        )
-        bid_id = response.json["data"]["id"]
-        bid_token = response.json["access"]["token"]
-        response = self.app.patch_json(
-            f"{request_path}/{bid_id}?acc_token={bid_token}",
-            {"data": {"status": "active"}},
-            status=422
-        )
+    response = self.app.post_json(
+        request_path,
+        {"data": bid_data},
+        status=422,
+    )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -1265,24 +1226,11 @@ def create_tender_bid_invalid(self):
         "value": self.test_bids_data[0]["value"],
         "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": self.initial_lots[0]["id"]}]
     })
-    if get_now() < TWO_PHASE_COMMIT_FROM:
-        response = self.app.post_json(
-            request_path,
-            {"data": bid_data},
-            status=422,
-        )
-    else:
-        response = self.app.post_json(
-            request_path,
-            {"data": bid_data},
-        )
-        bid_id = response.json["data"]["id"]
-        bid_token = response.json["access"]["token"]
-        response = self.app.patch_json(
-            f"{request_path}/{bid_id}?acc_token={bid_token}",
-            {"data": {"status": "active"}},
-            status=422
-        )
+    response = self.app.post_json(
+        request_path,
+        {"data": bid_data},
+        status=422,
+    )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -1473,24 +1421,11 @@ def create_tender_feature_bid_invalid(self):
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
 
-    if get_now() < TWO_PHASE_COMMIT_FROM:
-        response = self.app.post_json(
-            request_path,
-            {"data": bid_data},
-            status=422,
-        )
-    else:
-        response = self.app.post_json(
-            request_path,
-            {"data": bid_data},
-        )
-        bid_id = response.json["data"]["id"]
-        bid_token = response.json["access"]["token"]
-        response = self.app.patch_json(
-            f"{request_path}/{bid_id}?acc_token={bid_token}",
-            {"data": {"status": "active"}},
-            status=422
-        )
+    response = self.app.post_json(
+        request_path,
+        {"data": bid_data},
+        status=422,
+    )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -1558,24 +1493,11 @@ def create_tender_feature_bid_invalid(self):
 
     bid_data["lotValues"] = [{"value": self.test_bids_data[0]["value"], "relatedLot": self.lot_id}]
 
-    if get_now() < TWO_PHASE_COMMIT_FROM:
-        response = self.app.post_json(
-            request_path,
-            {"data": bid_data},
-            status=422,
-        )
-    else:
-        response = self.app.post_json(
-            request_path,
-            {"data": bid_data},
-        )
-        bid_id = response.json["data"]["id"]
-        bid_token = response.json["access"]["token"]
-        response = self.app.patch_json(
-            f"{request_path}/{bid_id}?acc_token={bid_token}",
-            {"data": {"status": "active"}},
-            status=422
-        )
+    response = self.app.post_json(
+        request_path,
+        {"data": bid_data},
+        status=422,
+    )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -1586,24 +1508,11 @@ def create_tender_feature_bid_invalid(self):
 
     bid_data["parameters"] = [{"code": "code_item", "value": 0.01}]
 
-    if get_now() < TWO_PHASE_COMMIT_FROM:
-        response = self.app.post_json(
-            request_path,
-            {"data": bid_data},
-            status=422,
-        )
-    else:
-        response = self.app.post_json(
-            request_path,
-            {"data": bid_data},
-        )
-        bid_id = response.json["data"]["id"]
-        bid_token = response.json["access"]["token"]
-        response = self.app.patch_json(
-            f"{request_path}/{bid_id}?acc_token={bid_token}",
-            {"data": {"status": "active"}},
-            status=422
-        )
+    response = self.app.post_json(
+        request_path,
+        {"data": bid_data},
+        status=422,
+    )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -1613,24 +1522,11 @@ def create_tender_feature_bid_invalid(self):
     )
 
     bid_data["parameters"] = [{"code": "code_invalid", "value": 0.01}]
-    if get_now() < TWO_PHASE_COMMIT_FROM:
-        response = self.app.post_json(
-            request_path,
-            {"data": bid_data},
-            status=422,
-        )
-    else:
-        response = self.app.post_json(
-            request_path,
-            {"data": bid_data},
-        )
-        bid_id = response.json["data"]["id"]
-        bid_token = response.json["access"]["token"]
-        response = self.app.patch_json(
-            f"{request_path}/{bid_id}?acc_token={bid_token}",
-            {"data": {"status": "active"}},
-            status=422
-        )
+    response = self.app.post_json(
+        request_path,
+        {"data": bid_data},
+        status=422,
+    )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -1651,24 +1547,11 @@ def create_tender_feature_bid_invalid(self):
         {"code": "code_lot", "value": 0.01},
     ]
 
-    if get_now() < TWO_PHASE_COMMIT_FROM:
-        response = self.app.post_json(
-            request_path,
-            {"data": bid_data},
-            status=422,
-        )
-    else:
-        response = self.app.post_json(
-            request_path,
-            {"data": bid_data},
-        )
-        bid_id = response.json["data"]["id"]
-        bid_token = response.json["access"]["token"]
-        response = self.app.patch_json(
-            f"{request_path}/{bid_id}?acc_token={bid_token}",
-            {"data": {"status": "active"}},
-            status=422
-        )
+    response = self.app.post_json(
+        request_path,
+        {"data": bid_data},
+        status=422,
+    )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")

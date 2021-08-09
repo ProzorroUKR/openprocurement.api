@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 793
+Content-Length: 769
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -29,9 +29,6 @@ DATA:
         "scale": "mid"
       }
     ],
-    "value": {
-      "amount": 5
-    },
     "selfQualified": true,
     "status": "draft"
   }
@@ -39,7 +36,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids/2e01f99899594fa6939391b658c3a921
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids/c8cf921842b343ae90f0b4666658776e
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -47,9 +44,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "«Снігур»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137227",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137227"
         },
         "address": {
           "streetAddress": "вул. Островського, 35",
@@ -59,21 +56,26 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Іван Іваненко",
           "email": "fake@mail.com",
-          "telephone": "+380322123456"
+          "telephone": "+380322123456",
+          "name": "Іван Іваненко"
         },
         "scale": "mid"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "2e01f99899594fa6939391b658c3a921",
+    "lotValues": [],
+    "documents": [],
+    "financialDocuments": [],
+    "eligibilityDocuments": [],
+    "qualificationDocuments": [],
     "selfQualified": true,
-    "status": "draft"
+    "status": "draft",
+    "id": "c8cf921842b343ae90f0b4666658776e",
+    "date": "2021-03-16T00:00:00+02:00"
   },
   "access": {
-    "token": "b31c31fe1e804438b3dcae81cd3baf40",
-    "transfer": "f8a63b300c174ae0b6a2a3dcf041907a"
+    "token": "6b6506e937f04df097c1bac68d51bb4f",
+    "transfer": "71415a6ae48e48748c063cc42b00a599"
   }
 }
 

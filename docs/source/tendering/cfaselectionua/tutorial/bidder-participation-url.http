@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/bids/c26ef6529df44b02a91cfe5ce527d74f?acc_token=9181c18d1ffd4256a3fff40d32a4c2f6 HTTP/1.0
+GET /api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/bids/03e8ecacaef043e9b20f1a36a5279ac7?acc_token=873c24dbb920470291a301faa169ce64 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -30,15 +30,15 @@ X-Content-Type-Options: nosniff
       }
     ],
     "date": "2021-03-16T00:00:00+02:00",
-    "id": "c26ef6529df44b02a91cfe5ce527d74f",
+    "id": "03e8ecacaef043e9b20f1a36a5279ac7",
     "status": "active",
     "documents": [
       {
-        "id": "82590e293cf5481bb59ac71a12ba8eeb",
+        "id": "bf871fbed76240b1a0b359332f381ebb",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/bids/c26ef6529df44b02a91cfe5ce527d74f/documents/82590e293cf5481bb59ac71a12ba8eeb?download=32dacd322185446594eb865b681b975d",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/bids/03e8ecacaef043e9b20f1a36a5279ac7/documents/bf871fbed76240b1a0b359332f381ebb?download=32dacd322185446594eb865b681b975d",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender"
@@ -62,7 +62,7 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/e08a950b18594d05b7c7318066bae24a_f2599a519a45416db792d9ee833a8e5a?key_for_bid=c26ef6529df44b02a91cfe5ce527d74f",
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/e08a950b18594d05b7c7318066bae24a_f2599a519a45416db792d9ee833a8e5a?key_for_bid=03e8ecacaef043e9b20f1a36a5279ac7",
         "date": "2021-03-16T00:00:00+02:00"
       }
     ]

@@ -1,12 +1,11 @@
 from schematics.types import StringType, MD5Type
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
-from openprocurement.api.constants import TWO_PHASE_COMMIT_FROM
 from openprocurement.api.models import Model, Value
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.procedure.context import get_tender, get_request, get_now
-from openprocurement.tender.core.procedure.utils import get_first_revision_date
+from openprocurement.tender.core.procedure.context import get_tender, get_request
+from openprocurement.tender.core.procedure.models.bid import get_default_bid_status
 from openprocurement.tender.core.procedure.models.document import PostDocument, Document
 from openprocurement.tender.core.procedure.models.base import (
     ListType,
@@ -53,7 +52,7 @@ class PostBid(PatchBid):
         min_size=1,
         max_size=1
     )
-    status = StringType(choices=["active", "draft"])
+    status = StringType(choices=["active", "draft"], default=get_default_bid_status("active"))
     value = ModelType(Value)
     documents = ListType(ModelType(PostDocument, required=True), default=list)
     requirementResponses = ListType(
@@ -61,14 +60,6 @@ class PostBid(PatchBid):
         required=True,
         min_size=1,
     )
-
-    @serializable(serialized_name="status", serialize_when_none=True)
-    def default_status(self):
-        if not self.status:
-            if get_first_revision_date(get_tender(), default=get_now()) > TWO_PHASE_COMMIT_FROM:
-                return "draft"
-            return "active"
-        return self.status
 
     def validate_value(self, data, value):
         tender = get_tender()

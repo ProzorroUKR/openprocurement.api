@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/db4876add6b747dfafc1b99523c02097/bids/59d1496c7b494028b8f4e0a997a0a4bb?acc_token=be9d6e70703b4db0ab958756ca141e67 HTTP/1.0
+PATCH /api/2.5/tenders/db4876add6b747dfafc1b99523c02097/bids/1d98255f593f4a09a2fe81564728302f?acc_token=2386f907ffa446d88f2a5e1543997879 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -15,13 +15,18 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137256",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137256"
         },
         "address": {
           "streetAddress": "вул. Островського, 33",
@@ -31,23 +36,21 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
         },
         "scale": "micro"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "59d1496c7b494028b8f4e0a997a0a4bb",
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "subcontractingDetails": "ДКП «Орфей», Україна",
     "status": "active",
-    "selfQualified": true
+    "id": "1d98255f593f4a09a2fe81564728302f",
+    "date": "2021-03-16T00:00:00+02:00",
+    "selfQualified": true,
+    "subcontractingDetails": "ДКП «Орфей», Україна",
+    "lotValues": [],
+    "parameters": [],
+    "documents": []
   }
 }
 

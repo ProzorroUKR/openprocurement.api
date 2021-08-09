@@ -872,7 +872,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'stage2/EU/register-2nd-bidder.http', 'w') as self.app.file_obj:
-            bid2_draft = deepcopy(bid2)
+            bid2_draft = deepcopy(bid2_stage2)
             response = self.app.post_json(
                 '/tenders/{}/bids'.format(self.tender_id),
                 {'data': bid2_draft})

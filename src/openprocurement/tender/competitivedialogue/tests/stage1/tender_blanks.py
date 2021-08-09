@@ -577,7 +577,6 @@ def multiple_bidders_tender_eu(self):
     bid_data = deepcopy(test_bids[0])
     bid_data["tenderers"] = [bidder_data]
     self.create_bid(tender_id, bid_data, "pending")
-    bid_data["value"]["amount"] = 499
     bidder_data["identifier"]["id"] = "00037257"
     self.create_bid(tender_id, bid_data, "pending")
     bid_id = response.json["data"]["id"]
@@ -678,11 +677,9 @@ def try_go_to_ready_stage_eu(self):
     bid_data["tenderers"] = [bidder_data]
     self.app.authorization = ("Basic", ("broker", ""))
     self.create_bid(tender_id, bid_data, "pending")
-    bid_data["value"]["amount"] = 499
     bidder_data["identifier"]["id"] = "00037257"
     bid, bid_token = self.create_bid(tender_id, bid_data, "pending")
     bid_id = bid["id"]
-    bid_data["value"]["amount"] = 498
     bidder_data["identifier"]["id"] = "00037258"
     self.create_bid(tender_id, bid_data, "pending")
     # switch to active.pre-qualification

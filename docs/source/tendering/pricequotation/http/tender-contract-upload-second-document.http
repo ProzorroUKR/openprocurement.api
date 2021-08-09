@@ -15,11 +15,11 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/contracts/96153e64cbb44972946b7588c65da1e9/documents/f24744ecea6646e09d832d9136d84890
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/contracts/96153e64cbb44972946b7588c65da1e9/documents/58630a9dee574cedba85e5d5983775ff
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "f24744ecea6646e09d832d9136d84890",
+    "id": "58630a9dee574cedba85e5d5983775ff",
     "hash": "md5:00000000000000000000000000000000",
     "title": "contract_second_document.doc",
     "format": "application/msword",

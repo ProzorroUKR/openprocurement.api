@@ -9,7 +9,7 @@ X-Content-Type-Options: nosniff
   "data": [
     {
       "id": "aec3b0b4e9754b75a95e53b611bb9bb0",
-      "bidID": "d46e2205e6014884beff5e4df83a4e19",
+      "bidID": "fd70953552a346ecbb2d7f86de89b253",
       "status": "pending",
       "date": "2021-03-16T00:00:00+02:00",
       "qualified": false,
@@ -17,7 +17,7 @@ X-Content-Type-Options: nosniff
     },
     {
       "id": "013668c1c6554de4b3c5d87fd5e1b8c6",
-      "bidID": "8c8ab41ca89e47269a0e8c1770185d7a",
+      "bidID": "5534cee2594649ccaa91a9f87caa96e2",
       "status": "pending",
       "date": "2021-03-16T00:00:00+02:00",
       "qualified": false,
@@ -25,7 +25,7 @@ X-Content-Type-Options: nosniff
     },
     {
       "id": "685019c58271466dabb599125f990312",
-      "bidID": "2e01f99899594fa6939391b658c3a921",
+      "bidID": "c8cf921842b343ae90f0b4666658776e",
       "status": "pending",
       "date": "2021-03-16T00:00:00+02:00",
       "qualified": false,
@@ -33,7 +33,7 @@ X-Content-Type-Options: nosniff
     },
     {
       "id": "3c016fe78a014d44899287fe135be249",
-      "bidID": "bf385297ea2240069057a49814810cc7",
+      "bidID": "858275d219d14850b85c83ea77b91281",
       "status": "pending",
       "date": "2021-03-16T00:00:00+02:00",
       "qualified": false,

@@ -960,6 +960,7 @@ def invalid_bid_tender_lot(self):
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data.update({
+        "value": None,
         "status": "draft",
         "lotValues": [{"value": {"amount": 500}, "relatedLot": i} for i in lots]
     })

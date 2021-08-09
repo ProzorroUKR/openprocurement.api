@@ -484,7 +484,6 @@ def get_tender_bidder(self):
 
     # Create another bidder
     bidder_data["identifier"]["id"] = "00037257"
-    bid_data["value"]["amount"] = 499
     self.create_bid(self.tender_id, bid_data)
 
     # Create another 2 bidder
@@ -579,7 +578,6 @@ def deleted_bid_do_not_locks_tender_in_state(self):
     bidder_data = bid_data["tenderers"][0]
     for bid_amount in (400, 405):  # Create two bids
         bidder_data["identifier"]["id"] = "00037256" + str(bid_amount)
-        bid_data["value"] = {"amount": bid_amount}
         bid, bid_token = self.create_bid(self.tender_id, bid_data)
         bids.append(bid)
         bids_tokens.append(bid_token)
@@ -593,7 +591,6 @@ def deleted_bid_do_not_locks_tender_in_state(self):
 
     # Create new bid
     bidder_data["identifier"]["id"] = "00037258"
-    bid_data["value"] = {"amount": 101}
     self.create_bid(self.tender_id, bid_data)
     # Create new bid
     bidder_data["identifier"]["id"] = "00037259"
@@ -2021,7 +2018,6 @@ def patch_tender_with_bids_lots_none(self):
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
-
     errors = {error["name"]: error["description"] for error in response.json["errors"]}
     self.assertEqual(errors["lots"][0], ["This field is required."])
-    self.assertEqual(errors["bids"][0]["lotValues"][0], {"relatedLot": ["relatedLot should be one of lots"]})
+    self.assertEqual(errors["items"][0], {"relatedLot": ["relatedLot should be one of lots"]})

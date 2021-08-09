@@ -24,6 +24,14 @@ from openprocurement.api.utils import get_now
 from openprocurement.api.constants import TWO_PHASE_COMMIT_FROM
 
 
+def get_default_bid_status(active_status="active"):
+    def default_status():
+        if get_first_revision_date(get_tender(), default=get_now()) > TWO_PHASE_COMMIT_FROM:
+            return "draft"
+        return active_status
+    return default_status
+
+
 # PATCH DATA ---
 class PatchBid(BaseBid):
     parameters = ListType(ModelType(PatchParameter, required=True), validators=[validate_parameters_uniq])
@@ -93,17 +101,8 @@ class PostBid(CommonBid):
     tenderers = ListType(ModelType(PostBusinessOrganization, required=True), required=True, min_size=1, max_size=1)
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
     lotValues = ListType(ModelType(PostLotValue, required=True))
-    status = StringType(choices=["active", "draft"])
+    status = StringType(choices=["active", "draft"], default=get_default_bid_status("active"))
     documents = ListType(ModelType(PostDocument, required=True))
-
-    @serializable(serialized_name="status", serialize_when_none=True)
-    def default_status(self):
-        if not self.status:
-            if get_first_revision_date(get_tender(), default=get_now()) > TWO_PHASE_COMMIT_FROM:
-                return "draft"
-            return "active"
-        return self.status
-
 # -- POST
 
 
