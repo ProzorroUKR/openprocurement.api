@@ -126,6 +126,13 @@
             "url": "http://moec.gov.af/en"
         },
         {
+            "category": "AM",
+            "code": "AM-SRLE",
+            "description": "The Agency for State Register of Legal Persons provides services in the field of state registration of legal persons — ensuring functions of state registration of legal persons (with the exception of banks and credit organisations) and individual entrepreneurs being established in the territory of the Republic of Armenia, as well as registration of separate subdivisions and institutions of legal persons and registration of the media and mass media.",
+            "public-database": false,
+            "url": "https://www.e-register.am/en/"
+        },
+        {
             "category": "AR",
             "code": "AR-CENOC",
             "description": "Law No. 25.855, de Voluntariado Social (Social Volunteering) established in 2004 a role for El Centro Nacional de Organizaciones de la Comunidad to maintain a database of civil society organisations (CSOs). \u201cThe CSOs that receive or intend to receive public funds must be included in the database, to carry out projects financed in whole or in part with state resources, whatever the subject matter.\u201d Registration for the database requests detailed information, including capturing a CUIT number for the organisation (where known), address and contact information. However, only a basic list of identifiers and names is currently published.",
