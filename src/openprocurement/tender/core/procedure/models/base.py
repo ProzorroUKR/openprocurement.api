@@ -66,7 +66,7 @@ class PatchContactPoint(Model):
         if (
             get_first_revision_date(tender, default=get_now()) >= VALIDATE_TELEPHONE_FROM
             and value
-            and re.match("^[+][0-9]+$", value) is None
+            and re.match("^(\+)?[0-9]{2,}(,( )?(\+)?[0-9]{2,})*$", value) is None
         ):
             raise ValidationError(u"wrong telephone format (could be missed +)")
 
