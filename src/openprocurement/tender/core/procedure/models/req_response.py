@@ -276,13 +276,13 @@ class PostBidResponsesMixin(PatchBidResponsesMixin):
 
         all_answered_requirements = [i.requirement.id for i in requirement_responses or ""]
         for criteria in tender.get("criteria", ""):
-            if criteria["classification"]["id"].endswith("GUARANTEE") and criteria["relatesTo"] == "lot":
+            if criteria["relatesTo"] == "lot":
                 for lotVal in data["lotValues"]:
                     if criteria["relatedItem"] == lotVal["relatedLot"]:
                         break
                 else:
                     continue
-            elif criteria["source"] != "tenderer" and not criteria["classification"]["id"].endswith("GUARANTEE"):
+            if criteria["source"] != "tenderer" and not criteria["classification"]["id"].endswith("GUARANTEE"):
                 continue
             if tender_created > CRITERION_REQUIREMENT_STATUSES_FROM:
                 active_requirements = [
