@@ -1634,26 +1634,14 @@ def validate_update_contract_value_with_award(request, **kwargs):
                 raise_operation_error(request, "Amount should be less or equal to awarded amount", name="value")
 
 
-def validate_update_contract_value_amount(
-        request, name="value", allow_equal=False, scope="tendering", **kwargs
-):
+def validate_update_contract_value_amount(request, name="value", allow_equal=False, **kwargs):
     data = request.validated["data"]
     contract_value = data.get(name)
-    updated_value = data.get("value") or data.get(name)
-
+    value = data.get("value") or data.get(name)
     if contract_value and requested_fields_changes(request, (name, "status")):
-
-        if scope == "contracting" or not request.validated.get("tender"):
-            _contracts_values = [contract_value]
-        else:
-            _contracts_values = get_contracts_values_related_to_patched_contract(
-                request.validated["tender"].contracts, request.validated["id"],
-                updated_value,  request.context.awardID
-            )
-
-        amount = to_decimal(sum([value.get("amount", 0) for value in _contracts_values]))
-        amount_net = to_decimal(sum([value.get("amountNet", 0) for value in _contracts_values]))
-        tax_included = updated_value.get("valueAddedTaxIncluded")
+        amount = to_decimal(contract_value.get("amount"))
+        amount_net = to_decimal(contract_value.get("amountNet"))
+        tax_included = value.get("valueAddedTaxIncluded")
 
         if not (amount == 0 and amount_net == 0):
             if tax_included:

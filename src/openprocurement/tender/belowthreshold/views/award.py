@@ -17,7 +17,10 @@ from openprocurement.tender.core.validation import (
 
 from openprocurement.tender.belowthreshold.constants import STAND_STILL_TIME
 
-from openprocurement.tender.belowthreshold.utils import add_next_award, add_contracts
+from openprocurement.tender.belowthreshold.utils import (
+    add_next_award, add_contracts, set_award_contracts_cancelled,
+    set_award_complaints_cancelled,
+)
 
 from openprocurement.tender.belowthreshold.validation import (
     validate_create_award_only_for_active_lot,
@@ -330,14 +333,8 @@ class TenderAwardResource(APIResource):
         elif award_status == "active" and award.status == "cancelled":
             if award.complaintPeriod.endDate > now:
                 award.complaintPeriod.endDate = now
-            for j in award.complaints:
-                if j.status not in ["invalid", "resolved", "declined"]:
-                    j.status = "cancelled"
-                    j.cancellationReason = "cancelled"
-                    j.dateCanceled = now
-            for i in tender.contracts:
-                if i.awardID == award.id:
-                    i.status = "cancelled"
+            set_award_complaints_cancelled(self.request, award, now)
+            set_award_contracts_cancelled(self.request, award)
             add_next_award(self.request)
         elif award_status == "pending" and award.status == "unsuccessful":
             award.complaintPeriod.endDate = calculate_tender_business_date(get_now(), STAND_STILL_TIME, tender, True)
@@ -351,22 +348,14 @@ class TenderAwardResource(APIResource):
                 tender.status = "active.qualification"
                 tender.awardPeriod.endDate = None
             award.complaintPeriod.endDate = now
-            cancelled_awards = []
             for i in tender.awards[tender.awards.index(award):]:
                 if i.lotID != award.lotID:
                     continue
                 if i.complaintPeriod and (not i.complaintPeriod.endDate or i.complaintPeriod.endDate > now):
                     i.complaintPeriod.endDate = now
                 i.status = "cancelled"
-                for j in i.complaints:
-                    if j.status not in ["invalid", "resolved", "declined"]:
-                        j.status = "cancelled"
-                        j.cancellationReason = "cancelled"
-                        j.dateCanceled = now
-                cancelled_awards.append(i.id)
-            for i in tender.contracts:
-                if i.awardID in cancelled_awards:
-                    i.status = "cancelled"
+                set_award_complaints_cancelled(self.request, i, now)
+                set_award_contracts_cancelled(self.request, i)
             add_next_award(self.request)
         elif self.request.authenticated_role != "Administrator" and not (
             award_status == "pending" and award.status == "pending"

@@ -6,7 +6,7 @@ from openprocurement.api.constants import (
     NEW_DEFENSE_COMPLAINTS_TO,
     MULTI_CONTRACTS_REQUIRED_FROM,
 )
-from openprocurement.api.utils import get_now, context_unpack
+from openprocurement.api.utils import get_now, context_unpack, raise_operation_error
 from openprocurement.tender.core.utils import (
     cleanup_bids_for_cancelled_lots,
     remove_draft_bids,
@@ -417,3 +417,23 @@ def add_next_award(request):
         else:
             tender.awardPeriod.endDate = now
             tender.status = "active.awarded"
+
+
+def set_award_contracts_cancelled(request, award):
+    tender = request.validated["tender"]
+    for contract in tender.contracts:
+        if contract.awardID == award.id:
+            if contract.status != "active":
+                contract.status = "cancelled"
+            else:
+                raise_operation_error(
+                    request,
+                    "Can't cancel award contract in active status"
+                )
+
+def set_award_complaints_cancelled(request, award, now):
+    for complaint in award.complaints:
+        if complaint.status not in ["invalid", "resolved", "declined"]:
+            complaint.status = "cancelled"
+            complaint.cancellationReason = "cancelled"
+            complaint.dateCanceled = now

@@ -50,6 +50,7 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     lot2_patch_tender_contract_document_by_supplier,
     patch_tender_multi_contracts,
     patch_tender_multi_contracts_cancelled,
+    patch_tender_multi_contracts_active_cancelled,
 )
 
 
@@ -245,6 +246,7 @@ class TenderContractMultiBuyersResourceTest(TenderContentWebTest):
 
     test_patch_tender_multi_contracts = snitch(patch_tender_multi_contracts)
     test_patch_tender_multi_contracts_cancelled = snitch(patch_tender_multi_contracts_cancelled)
+    test_patch_tender_multi_contracts_active_cancelled = snitch(patch_tender_multi_contracts_active_cancelled)
 
 
 def suite():

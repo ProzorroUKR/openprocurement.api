@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import get_now, json_view, APIResource, context_unpack, raise_operation_error
-from openprocurement.tender.belowthreshold.utils import add_contracts, add_next_award
+from openprocurement.tender.belowthreshold.utils import add_contracts, add_next_award, set_award_contracts_cancelled
 
 from openprocurement.tender.core.utils import (
     save_tender,
@@ -315,9 +315,7 @@ class TenderAwardResource(APIResource):
             add_contracts(self.request, award)
             add_next_award(self.request)
         elif award_status == "active" and award.status == "cancelled":
-            for i in tender.contracts:
-                if i.awardID == award.id:
-                    i.status = "cancelled"
+            set_award_contracts_cancelled(self.request, award)
             add_next_award(self.request)
         elif award_status == "pending" and award.status == "unsuccessful":
             cancelled_awards_same_bid = [

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import get_now, raise_operation_error
-from openprocurement.tender.belowthreshold.utils import add_contracts
+from openprocurement.tender.belowthreshold.utils import add_contracts, set_award_contracts_cancelled
 
 from openprocurement.tender.core.utils import (
     apply_patch,
@@ -136,7 +136,6 @@ class TenderUaAwardResource(TenderAwardResource):
             and award.status == "cancelled"
             and any([i.status == "satisfied" for i in award.complaints])
         ):
-            cancelled_awards = []
             for i in tender.awards:
                 if i.lotID != award.lotID:
                     continue
@@ -147,10 +146,7 @@ class TenderUaAwardResource(TenderAwardResource):
                 ):
                     i.complaintPeriod.endDate = now
                 i.status = "cancelled"
-                cancelled_awards.append(i.id)
-            for i in tender.contracts:
-                if i.awardID in cancelled_awards:
-                    i.status = "cancelled"
+                set_award_contracts_cancelled(self.request, i)
             add_next_award(self.request)
         elif award_status == "active" and award.status == "cancelled":
             if (
@@ -158,9 +154,7 @@ class TenderUaAwardResource(TenderAwardResource):
                 and award.complaintPeriod.endDate > now
             ):
                 award.complaintPeriod.endDate = now
-            for i in tender.contracts:
-                if i.awardID == award.id:
-                    i.status = "cancelled"
+            set_award_contracts_cancelled(self.request, award)
             add_next_award(self.request)
         elif award_status == "pending" and award.status == "unsuccessful":
             if not new_defence_complaints:
@@ -182,7 +176,6 @@ class TenderUaAwardResource(TenderAwardResource):
                 and award.complaintPeriod.endDate > now
             ):
                 award.complaintPeriod.endDate = now
-            cancelled_awards = []
             for i in tender.awards:
                 if i.lotID != award.lotID:
                     continue
@@ -193,10 +186,7 @@ class TenderUaAwardResource(TenderAwardResource):
                 ):
                     i.complaintPeriod.endDate = now
                 i.status = "cancelled"
-                cancelled_awards.append(i.id)
-            for i in tender.contracts:
-                if i.awardID in cancelled_awards:
-                    i.status = "cancelled"
+                set_award_contracts_cancelled(self.request, i)
             add_next_award(self.request)
         elif self.request.authenticated_role != "Administrator" and not (
             award_status == "pending" and award.status == "pending"

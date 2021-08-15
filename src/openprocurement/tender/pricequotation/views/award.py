@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import\
     get_now, json_view, context_unpack, raise_operation_error
+from openprocurement.tender.belowthreshold.utils import set_award_contracts_cancelled
 from openprocurement.tender.core.utils import\
     optendersresource, save_tender, apply_patch
 from openprocurement.tender.belowthreshold.views.award import\
@@ -87,9 +88,7 @@ class PQTenderAwardResource(TenderAwardResource):
             add_contracts(self.request, award, now)
             add_next_award(self.request)
         elif award_status == "active" and award.status == "cancelled":
-            for i in tender.contracts:
-                if i.awardID == award.id:
-                    i.status = "cancelled"
+            set_award_contracts_cancelled(self.request, award)
             add_next_award(self.request)
         elif award_status == "pending" and award.status == "unsuccessful":
             if is_awarded:
