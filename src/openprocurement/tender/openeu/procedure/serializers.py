@@ -1,11 +1,10 @@
 from openprocurement.tender.core.procedure.context import get_tender, get_request
 from openprocurement.tender.core.procedure.utils import is_item_owner
-from openprocurement.tender.openua.procedure.serializers import (
-    BidSerializer as BaseBidSerializer,
-)
+from openprocurement.tender.core.procedure.serializers.bid import BidSerializer as BaseBidSerializer
 
 
 def serialize_role(bid):
+    # TODO get rid of this function
     if bid["status"] not in ("draft", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"):
         tender = get_tender()
         if tender["status"] not in ("active.tendering", "cancelled") and tender.get("lots"):
@@ -22,7 +21,6 @@ def serialize_role(bid):
 
 
 class BidSerializer(BaseBidSerializer):
-    whitelist = None
 
     def __init__(self, data: dict):
         super().__init__(data)
@@ -38,7 +36,7 @@ class BidSerializer(BaseBidSerializer):
                 "selfQualified", "selfEligible", "subcontractingDetails", "requirementResponses",
             }
         elif is_item_owner(get_request(), data):
-            pass # bid_role = "view"
+            pass  # bid_role = "view"
         else:  # based on tender status
             tender = get_tender()  # bid_role = tender["status"]
             if tender["status"].startswith("active.pre-qualification"):
@@ -46,14 +44,3 @@ class BidSerializer(BaseBidSerializer):
                                   "tenderers", "requirementResponses"}
             elif tender["status"] == "active.auction":
                 self.whitelist = {"id", "status", "documents", "eligibilityDocuments", "tenderers"}
-
-    @property
-    def data(self) -> dict:
-        if self.whitelist:
-            data = {
-                k: self.serialize_value(k, v)
-                for k, v in self._data.items()
-                if k in self.whitelist
-            }
-            return data
-        return super().data

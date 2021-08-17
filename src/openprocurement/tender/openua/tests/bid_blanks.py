@@ -1589,6 +1589,14 @@ def create_tender_bidder_document_json(self):
     self.assertIn("KeyID=", response.json["data"]["url"])
     self.assertNotIn("Expires=", response.json["data"]["url"])
 
+    response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, self.bid_id))
+    self.assertEqual(response.status, "200 OK")
+    document = response.json["data"]["documents"][0]
+    self.assertIn("http://localhost/get/", document["url"])
+    self.assertIn("Signature=", document["url"])
+    self.assertIn("KeyID=", document["url"])
+    self.assertNotIn("Expires=", document["url"])
+
     response = self.app.get(
         "/tenders/{}/bids/{}/documents/{}?download={}&acc_token={}".format(
             self.tender_id, self.bid_id, doc_id, key, self.bid_token
@@ -1700,6 +1708,30 @@ def put_tender_bidder_document_json(self):
             "Can't update document because award of bid is not in pending or active state",
         )
     )
+
+    response = self.app.get(
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token)
+    )
+    dos_service_ids = []
+    for b in response.json["data"]["documents"]:
+        self.assertIn("http://localhost/get/", b["url"])
+        self.assertIn("Signature=", b["url"])
+        self.assertIn("KeyID=", b["url"])
+        start_len = len("http://localhost/get/")
+        dos_service_ids.append(
+            b["url"][start_len: start_len + 32]
+        )
+
+    # check how data is stored in db
+    tender = self.db.get(self.tender_id)
+    bid = tender["bids"][0]
+    self.assertEqual(self.bid_id, bid["id"])
+
+    for i, document in enumerate(bid["documents"]):
+        self.assertEqual(
+            f"/tenders/{self.tender_id}/bids/{self.bid_id}/documents/{doc_id}?download={dos_service_ids[i]}",
+            document["url"]
+        )
 
 
 def tender_bidder_confidential_document(self):

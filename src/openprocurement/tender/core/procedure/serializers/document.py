@@ -1,58 +1,9 @@
+from openprocurement.tender.core.procedure.serializers.base import BaseSerializer
 from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.utils import is_item_owner
 from openprocurement.api.utils import generate_docservice_url
 from urllib.parse import urlparse, parse_qs
 from string import hexdigits
-
-
-def value_amount_to_float(_, value):
-    if isinstance(value, dict) and "amount" in value:
-        value["amount"] = float(value["amount"])
-    return value
-
-
-def lot_value_serializer(s, values):
-    for item in values:
-        item["value"] = value_amount_to_float(s, item["value"])
-    return values
-
-
-class BaseSerializer:
-    _data: dict
-    serializers: dict
-    private_fields: set
-
-    def __init__(self, data: dict):
-        self._data = data
-
-    def get_raw(self, k):
-        return self._data.get(k)
-
-    @property
-    def data(self) -> dict:
-        data = {
-            k: self.serialize_value(k, v)
-            for k, v in self._data.items()
-            if k not in self.private_fields
-        }
-        return data
-
-    def serialize_value(self, key, value):
-        serializer = self.serializers.get(key)
-        if serializer:
-            value = serializer(self, value)
-        return value
-
-
-class BidSerializer(BaseSerializer):
-    serializers = {
-        "value": value_amount_to_float,
-        "lotValues": lot_value_serializer,
-    }
-    private_fields = {
-        "owner",
-        "owner_token",
-        "transfer_token",
-    }
 
 
 def download_url_serialize(s, url):
@@ -94,11 +45,27 @@ class DocumentSerializer(BaseSerializer):
         "url": download_url_serialize,
     }
 
-    @property
-    def data(self) -> dict:
-        data = {
-            k: self.serialize_value(k, v)
-            for k, v in self._data.items()
-        }
-        return data
 
+def confidential_url_serialize(serializer, url):
+    # disabling download_url_serialize. TODO: Can be done for all the documents ?
+    if serializer.get_raw("confidentiality") == "buyerOnly":
+        return url
+    return download_url_serialize(serializer, url)
+
+
+class ConfidentialDocumentSerializer(DocumentSerializer):
+    serializers = {
+        "url": confidential_url_serialize,
+    }
+
+    def __init__(self, data: dict):
+        self.private_fields = set()
+        super().__init__(data)
+        if data.get("confidentiality", "") == "buyerOnly":
+            request = get_request()
+            if (
+                request.authenticated_role not in ("aboveThresholdReviewers", "sas")
+                and not ("bid" in request.validated and is_item_owner(request, request.validated["bid"]))
+                and not is_item_owner(request, request.validated["tender"])
+            ):
+                self.private_fields.add("url")
