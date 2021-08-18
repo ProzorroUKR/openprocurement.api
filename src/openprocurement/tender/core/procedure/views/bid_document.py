@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from openprocurement.api.utils import (
     json_view,
     context_unpack,
@@ -6,7 +5,7 @@ from openprocurement.api.utils import (
 )
 from openprocurement.tender.core.procedure.validation import validate_view_bid_document
 from openprocurement.tender.core.procedure.documents import get_file, check_document, update_document_url
-from openprocurement.tender.core.procedure.serializers import DocumentSerializer
+from openprocurement.tender.core.procedure.serializers.document import DocumentSerializer
 from openprocurement.tender.core.procedure.views.bid import TenderBidResource
 from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.utils import (

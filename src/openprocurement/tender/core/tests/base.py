@@ -72,6 +72,14 @@ class BaseWebTest(BaseApiWebTest):
         query = {"Signature": signature, "KeyID": keyid}
         return "{}/get/{}?{}".format(self.docservice_url, uuid, urlencode(query))
 
+    def get_doc_id_from_url(self, url):
+        ds_url_start = "http://localhost/get/"
+        if url.startswith(ds_url_start):
+            prefix_len = len(ds_url_start)
+            return url[prefix_len:prefix_len + 32]
+        else:
+            return url.split("?download=")[1]
+
     def tearDownDS(self):
         SESSION.request = srequest
         self.app.app.registry.docservice_url = None

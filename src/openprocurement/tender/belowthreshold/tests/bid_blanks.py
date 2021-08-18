@@ -1363,7 +1363,8 @@ def create_tender_bid_document_json(self):
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
     self.assertEqual("name.doc", response.json["data"]["title"])
-    key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
+
+    uid = self.get_doc_id_from_url(document["url"])
 
     response = self.app.get("/tenders/{}/bids/{}/documents".format(self.tender_id, self.bid_id), status=403)
     self.assertEqual(response.status, "403 Forbidden")
@@ -1403,7 +1404,7 @@ def create_tender_bid_document_json(self):
     )
 
     response = self.app.get(
-        "/tenders/{}/bids/{}/documents/{}?download={}".format(self.tender_id, self.bid_id, doc_id, key), status=403
+        "/tenders/{}/bids/{}/documents/{}?download={}".format(self.tender_id, self.bid_id, doc_id, uid), status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
@@ -1414,7 +1415,7 @@ def create_tender_bid_document_json(self):
 
     response = self.app.get(
         "/tenders/{}/bids/{}/documents/{}?download={}&acc_token={}".format(
-            self.tender_id, self.bid_id, doc_id, key, self.bid_token
+            self.tender_id, self.bid_id, doc_id, uid, self.bid_token
         )
     )
     self.assertEqual(response.status, "302 Moved Temporarily")
@@ -1484,7 +1485,7 @@ def create_tender_bid_document_json(self):
 
     response = self.app.get(
         "/tenders/{}/bids/{}/documents/{}?download={}&acc_token={}".format(
-            self.tender_id, self.bid_id, doc_id, key, self.bid_token
+            self.tender_id, self.bid_id, doc_id, uid, self.bid_token
         )
     )
     self.assertIn("http://localhost/get/", response.location)
@@ -1857,11 +1858,11 @@ def put_tender_bid_document_json(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual("test description", response.json["data"]["description"])
     self.assertEqual(doc_id, response.json["data"]["id"])
-    key = response.json["data"]["url"].split("?")[-1]
 
+    uid = self.get_doc_id_from_url(document["url"])
     response = self.app.get(
-        "/tenders/{}/bids/{}/documents/{}?{}&acc_token={}".format(
-            self.tender_id, self.bid_id, doc_id, key, self.bid_token
+        "/tenders/{}/bids/{}/documents/{}?download={}&acc_token={}".format(
+            self.tender_id, self.bid_id, doc_id, uid, self.bid_token
         )
     )
     self.assertEqual(response.status, "302 Moved Temporarily")
@@ -1893,11 +1894,11 @@ def put_tender_bid_document_json(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual("test description", response.json["data"]["description"])
     self.assertEqual(doc_id, response.json["data"]["id"])
-    key = response.json["data"]["url"].split("?")[-1]
 
+    uid = self.get_doc_id_from_url(document["url"])
     response = self.app.get(
-        "/tenders/{}/bids/{}/documents/{}?{}&acc_token={}".format(
-            self.tender_id, self.bid_id, doc_id, key, self.bid_token
+        "/tenders/{}/bids/{}/documents/{}?download={}&acc_token={}".format(
+            self.tender_id, self.bid_id, doc_id, uid, self.bid_token
         )
     )
     self.assertEqual(response.status, "302 Moved Temporarily")
@@ -2053,7 +2054,8 @@ def create_tender_bid_with_document(self):
     self.assertIn(bid["id"], response.headers["Location"])
     document = bid[docs_container][0]
     self.assertEqual("name.doc", document["title"])
-    key = document["url"].split("?")[-1].split("=")[-1]
+
+    doc_id = self.get_doc_id_from_url(document["url"])
 
     response = self.app.get(
         "/tenders/{}/bids/{}/{}".format(self.tender_id, self.bid_id, docs_container_url), status=403
@@ -2098,7 +2100,7 @@ def create_tender_bid_with_document(self):
 
     response = self.app.get(
         "/tenders/{}/bids/{}/{}/{}?download={}".format(
-            self.tender_id, self.bid_id, docs_container_url, document["id"], key
+            self.tender_id, self.bid_id, docs_container_url, document["id"], doc_id
         ),
         status=403,
     )
@@ -2110,7 +2112,7 @@ def create_tender_bid_with_document(self):
 
     response = self.app.get(
         "/tenders/{}/bids/{}/{}/{}?download={}&acc_token={}".format(
-            self.tender_id, self.bid_id, docs_container_url, document["id"], key, self.bid_token
+            self.tender_id, self.bid_id, docs_container_url, document["id"], doc_id, self.bid_token
         )
     )
     self.assertEqual(response.status, "302 Moved Temporarily")
@@ -2207,7 +2209,7 @@ def create_tender_bid_with_documents(self):
     self.assertEqual(ids, [doc["id"] for doc in response.json["data"]])
 
     for index, document in enumerate(documents):
-        key = document["url"].split("?")[-1].split("=")[-1]
+        doc_id = self.get_doc_id_from_url(document["url"])
 
         response = self.app.get(
             "/tenders/{}/bids/{}/{}/{}?download=some_id&acc_token={}".format(
@@ -2224,7 +2226,7 @@ def create_tender_bid_with_documents(self):
 
         response = self.app.get(
             "/tenders/{}/bids/{}/{}/{}?download={}".format(
-                self.tender_id, self.bid_id, docs_container_url, document["id"], key
+                self.tender_id, self.bid_id, docs_container_url, document["id"], doc_id
             ),
             status=403,
         )
@@ -2237,7 +2239,7 @@ def create_tender_bid_with_documents(self):
 
         response = self.app.get(
             "/tenders/{}/bids/{}/{}/{}?download={}&acc_token={}".format(
-                self.tender_id, self.bid_id, docs_container_url, document["id"], key, self.bid_token
+                self.tender_id, self.bid_id, docs_container_url, document["id"], doc_id, self.bid_token
             )
         )
         self.assertEqual(response.status, "302 Moved Temporarily")
