@@ -70,12 +70,6 @@ X-Content-Type-Options: nosniff
         "scale": "sme"
       }
     ],
-    "parameters": [],
-    "lotValues": [],
-    "documents": [],
-    "financialDocuments": [],
-    "eligibilityDocuments": [],
-    "qualificationDocuments": [],
     "selfQualified": true,
     "status": "draft",
     "id": "77605656b3e8479fbfa66cf3d764520c",

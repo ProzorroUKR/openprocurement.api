@@ -1,7 +1,7 @@
 from openprocurement.tender.core.procedure.views.bid_document import TenderBidDocumentResource
 from openprocurement.api.utils import json_view
 from openprocurement.tender.openua.procedure.models.document import PostDocument, PatchDocument, Document
-from openprocurement.tender.openua.procedure.serializers import ConfidentialDocumentSerializer
+from openprocurement.tender.core.procedure.serializers.document import ConfidentialDocumentSerializer
 from openprocurement.tender.core.procedure.validation import (
     validate_input_data,
     validate_patch_data,
@@ -92,8 +92,8 @@ class CFTenderBidDocumentResource(TenderBidDocumentResource):
             validate_bid_document_operation_period,
             validate_update_bid_document_confidentiality,
 
-            validate_upload_document,
             update_doc_fields_on_put_document,
+            validate_upload_document,
             validate_data_model(Document),
         ),
         permission="edit_bid",

@@ -63,11 +63,6 @@ X-Content-Type-Options: nosniff
         "scale": "mid"
       }
     ],
-    "lotValues": [],
-    "documents": [],
-    "financialDocuments": [],
-    "eligibilityDocuments": [],
-    "qualificationDocuments": [],
     "selfQualified": true,
     "status": "draft",
     "id": "c8cf921842b343ae90f0b4666658776e",

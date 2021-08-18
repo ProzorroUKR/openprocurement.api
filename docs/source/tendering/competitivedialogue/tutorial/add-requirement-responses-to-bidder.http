@@ -252,11 +252,6 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "lotValues": [],
-    "documents": [],
-    "financialDocuments": [],
-    "eligibilityDocuments": [],
-    "qualificationDocuments": [],
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "selfQualified": true,
     "status": "draft"

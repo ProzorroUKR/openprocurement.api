@@ -1,5 +1,4 @@
-from openprocurement.tender.core.procedure.context import get_tender, get_request
-from openprocurement.tender.core.procedure.utils import is_item_owner
+from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.openua.procedure.serializers import BidSerializer as BaseBidSerializer
 
 
@@ -24,15 +23,4 @@ class BidSerializer(BaseBidSerializer):
                 "subcontractingDetails", "requirementResponses",
             }
         # elif is_item_owner(get_request(), data):
-        #     pass  # bid_role = "view"
-
-    @property
-    def data(self) -> dict:
-        if self.whitelist:
-            data = {
-                k: self.serialize_value(k, v)
-                for k, v in self._data.items()
-                if k in self.whitelist
-            }
-            return data
-        return super().data
+        #     pass  # bid_role = "view"a

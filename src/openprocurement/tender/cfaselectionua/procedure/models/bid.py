@@ -19,8 +19,8 @@ class PatchBid(PatchBidResponsesMixin, BasePatchBid):
 
 
 class PostBid(PostBidResponsesMixin, BasePostBid):
-    parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq], default=list)
-    lotValues = ListType(ModelType(PostLotValue, required=True), default=list)
+    parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
+    lotValues = ListType(ModelType(PostLotValue, required=True))
     subcontractingDetails = StringType()
 
 

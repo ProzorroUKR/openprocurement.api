@@ -111,7 +111,6 @@ X-Content-Type-Options: nosniff
         "scale": "mid"
       }
     ],
-    "parameters": [],
     "lotValues": [
       {
         "value": {
@@ -129,7 +128,7 @@ X-Content-Type-Options: nosniff
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/7b1decebe35a4408b2fa079344de8313/documents/fd4a6cfadb32474b8b6d2c8c045f9e1d?download=c1779fafc15841d3a83131dee57a4640",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c1779fafc15841d3a83131dee57a4640?Signature=%2BhrD5a0ABwsMn60xLG5karTIWa%2BwjvMewCmI%2B%2BoDDUQqfLk8khBp%2FiicUw3LeTRcnRt1GeY9fA8%2BxGOVwLGmBw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "confidentiality": "public",
         "id": "fd4a6cfadb32474b8b6d2c8c045f9e1d",
@@ -140,7 +139,6 @@ X-Content-Type-Options: nosniff
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/7b1decebe35a4408b2fa079344de8313/documents/4474922426e24118a49f17150ce09eb9?download=256123ec589044029ec3f8823d26d1a4",
         "documentOf": "tender",
         "confidentiality": "buyerOnly",
         "confidentialityRationale": "Only our company sells badgers with pink hair.",

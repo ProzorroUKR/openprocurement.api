@@ -95,11 +95,6 @@ X-Content-Type-Options: nosniff
       }
     ],
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "parameters": [],
-    "documents": [],
-    "financialDocuments": [],
-    "eligibilityDocuments": [],
-    "qualificationDocuments": [],
     "status": "draft",
     "value": {
       "currency": "UAH",
@@ -136,7 +131,6 @@ X-Content-Type-Options: nosniff
       "amount": 8917.4
     },
     "selfQualified": true,
-    "lotValues": [],
     "id": "931f9a28ea1c44bda087fc6d9349405f",
     "date": "2021-03-16T00:00:00+02:00"
   },

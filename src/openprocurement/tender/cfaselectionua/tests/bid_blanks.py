@@ -1100,7 +1100,7 @@ def create_tender_bid_document_json(self):
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
     self.assertEqual("name.doc", response.json["data"]["title"])
-    key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get("/tenders/{}/bids/{}/documents".format(self.tender_id, self.bid_id), status=403)
     self.assertEqual(response.status, "403 Forbidden")
@@ -1261,10 +1261,10 @@ def put_tender_bid_document_json(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual("test description", response.json["data"]["description"])
     self.assertEqual(doc_id, response.json["data"]["id"])
-    key = response.json["data"]["url"].split("?")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get(
-        "/tenders/{}/bids/{}/documents/{}?{}&acc_token={}".format(
+        "/tenders/{}/bids/{}/documents/{}?download={}&acc_token={}".format(
             self.tender_id, self.bid_id, doc_id, key, self.bid_token
         )
     )
@@ -1297,10 +1297,10 @@ def put_tender_bid_document_json(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual("test description", response.json["data"]["description"])
     self.assertEqual(doc_id, response.json["data"]["id"])
-    key = response.json["data"]["url"].split("?")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get(
-        "/tenders/{}/bids/{}/documents/{}?{}&acc_token={}".format(
+        "/tenders/{}/bids/{}/documents/{}?download={}&acc_token={}".format(
             self.tender_id, self.bid_id, doc_id, key, self.bid_token
         )
     )
@@ -1461,7 +1461,7 @@ def create_tender_bid_with_document(self):
     self.assertIn(bid["id"], response.headers["Location"])
     document = bid[docs_container][0]
     self.assertEqual("name.doc", document["title"])
-    key = document["url"].split("?")[-1].split("=")[-1]
+    key = self.get_doc_id_from_url(document["url"])
 
     response = self.app.get(
         "/tenders/{}/bids/{}/{}".format(self.tender_id, self.bid_id, docs_container_url), status=403
@@ -1617,7 +1617,7 @@ def create_tender_bid_with_documents(self):
     self.assertEqual(ids, [doc["id"] for doc in response.json["data"]])
 
     for index, document in enumerate(documents):
-        key = document["url"].split("?")[-1].split("=")[-1]
+        key = self.get_doc_id_from_url(document["url"])
 
         response = self.app.get(
             "/tenders/{}/bids/{}/{}/{}?download=some_id&acc_token={}".format(

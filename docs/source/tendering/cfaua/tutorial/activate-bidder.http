@@ -15,7 +15,6 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "parameters": [],
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -166,10 +165,6 @@ X-Content-Type-Options: nosniff
         "status": "pending"
       }
     ],
-    "documents": [],
-    "financialDocuments": [],
-    "eligibilityDocuments": [],
-    "qualificationDocuments": [],
     "selfQualified": true,
     "status": "pending"
   }

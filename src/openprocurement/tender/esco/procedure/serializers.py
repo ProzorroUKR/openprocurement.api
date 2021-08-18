@@ -1,3 +1,5 @@
+from openprocurement.tender.core.procedure.serializers.base import ListSerializer
+from openprocurement.tender.core.procedure.serializers.document import ConfidentialDocumentSerializer
 from openprocurement.tender.openeu.procedure.serializers import BidSerializer as BaseBidSerializer
 
 
@@ -32,4 +34,5 @@ class BidSerializer(BaseBidSerializer):
     serializers = {
         "value": bid_value_to_float,
         "lotValues": bid_lot_values_to_float,
+        "documents": ListSerializer(ConfidentialDocumentSerializer),
     }

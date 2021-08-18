@@ -31,14 +31,15 @@ def validate_bid_vs_agreement(request, **_):
         ):
             raise_operation_error(request, "Bid value.amount can't be greater than contact value.amount.")
 
-        contract_parameters = {p["code"]: p["value"] for p in supplier_contract.get("parameters", "")}
-        for p in data.get("parameters", ""):
-            code = p["code"]
-            if (
-                code not in contract_parameters
-                or not equals_decimal_and_corrupted(Decimal(p["value"]), contract_parameters[code])
-            ):
-                raise_operation_error(request, "Can't post inconsistent bid")
+        if data.get("parameters"):
+            contract_parameters = {p["code"]: p["value"] for p in supplier_contract.get("parameters", "")}
+            for p in data["parameters"]:
+                code = p["code"]
+                if (
+                    code not in contract_parameters
+                    or not equals_decimal_and_corrupted(Decimal(p["value"]), contract_parameters[code])
+                ):
+                    raise_operation_error(request, "Can't post inconsistent bid")
 
 
 def validate_bid_document_operation_with_not_pending_award(request, **_):

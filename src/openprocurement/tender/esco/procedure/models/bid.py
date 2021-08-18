@@ -52,7 +52,7 @@ class PatchBid(ESCOMixin, BasePatchBid):
 
 
 class PostBid(ESCOMixin, BasePostBid):
-    lotValues = ListType(ModelType(PostLotValue, required=True), default=list)
+    lotValues = ListType(ModelType(PostLotValue, required=True))
 
 
 class Bid(ESCOMixin, BaseBid):

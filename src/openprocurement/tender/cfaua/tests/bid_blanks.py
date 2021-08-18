@@ -2308,7 +2308,7 @@ def create_tender_bid_with_documents(self):
     self.assertEqual(ids, [doc["id"] for doc in response.json["data"]])
 
     for index, document in enumerate(documents):
-        key = document["url"].split("?")[-1].split("=")[-1]
+        key = self.get_doc_id_from_url(document["url"])
 
         response = self.app.get(
             "/tenders/{}/bids/{}/{}/{}?download=some_id&acc_token={}".format(
@@ -2397,7 +2397,7 @@ def create_tender_bid_with_document(self):
     self.assertIn(bid["id"], response.headers["Location"])
     document = bid[docs_container][0]
     self.assertEqual("name.doc", document["title"])
-    key = document["url"].split("?")[-1].split("=")[-1]
+    key = self.get_doc_id_from_url(document["url"])
 
     response = self.app.get(
         "/tenders/{}/bids/{}/{}".format(self.tender_id, self.bid_id, docs_container_url), status=403
@@ -3433,8 +3433,6 @@ def view_bid_in_qualification_st_st(self):   # CS-5342
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         expected_keys.add("selfEligible")
     self.assertEqual(set(bids[0].keys()), expected_keys)
-
-    expected_keys |= {"documents", "eligibilityDocuments", "parameters", "financialDocuments", "qualificationDocuments",}
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bids[0]["id"]))
     self.assertEqual(set(response.json["data"].keys()), expected_keys)
 

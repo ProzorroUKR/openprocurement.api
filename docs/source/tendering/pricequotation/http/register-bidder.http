@@ -127,7 +127,6 @@ X-Content-Type-Options: nosniff
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "documents": [],
     "requirementResponses": [
       {
         "id": "546cd5f70b71467c84e6258ac73f0503",

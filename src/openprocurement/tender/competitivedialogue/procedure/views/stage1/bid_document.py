@@ -60,8 +60,8 @@ class EUTenderBidDocumentResource(OpenEUTenderBidDocumentResource):
                 validate_bid_document_operation_period,
                 validate_update_bid_document_confidentiality,
 
-                validate_upload_document,
                 update_doc_fields_on_put_document,
+                validate_upload_document,
                 validate_data_model(Document),
         ),
         permission="edit_bid",

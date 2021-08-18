@@ -79,7 +79,6 @@ X-Content-Type-Options: nosniff
       }
     ],
     "status": "draft",
-    "documents": [],
     "parameters": [
       {
         "code": "OCDS-123454-AIR-INTAKE",

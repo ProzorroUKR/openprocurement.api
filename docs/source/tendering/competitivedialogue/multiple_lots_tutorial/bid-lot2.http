@@ -85,10 +85,6 @@ X-Content-Type-Options: nosniff
         "date": "2021-03-16T00:00:00+02:00"
       }
     ],
-    "documents": [],
-    "financialDocuments": [],
-    "eligibilityDocuments": [],
-    "qualificationDocuments": [],
     "selfQualified": true,
     "status": "draft",
     "id": "efd32c624d1c490a9d4e31ec0301cfa8",

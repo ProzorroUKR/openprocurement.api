@@ -145,13 +145,48 @@ X-Content-Type-Options: nosniff
       }
     ],
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "parameters": [],
+    "status": "pending",
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amount": 8917.4,
+      "amountPerformance": 816.29,
+      "yearlyPaymentsPercentage": 0.9,
+      "annualCostsReduction": [
+        500.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0
+      ],
+      "contractDuration": {
+        "years": 10,
+        "days": 74
+      }
+    },
+    "selfQualified": true,
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/931f9a28ea1c44bda087fc6d9349405f/documents/fe0e171a76a9484690da8f1ca3078c5c?download=bd899d26e31643489abf7981b0f34549",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bd899d26e31643489abf7981b0f34549?Signature=LSjz%2FVncGdvIXATJCtqx9wZH4qCdIX8%2Bb%2BvtoDbhNrC3l6cVeUuudEVPDjzv29iIctnFCRy%2BquIkVXebQKJBAA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "confidentiality": "public",
         "id": "fe0e171a76a9484690da8f1ca3078c5c",
@@ -220,44 +255,7 @@ X-Content-Type-Options: nosniff
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"
       }
-    ],
-    "status": "pending",
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amount": 8917.4,
-      "amountPerformance": 816.29,
-      "yearlyPaymentsPercentage": 0.9,
-      "annualCostsReduction": [
-        500.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0
-      ],
-      "contractDuration": {
-        "years": 10,
-        "days": 74
-      }
-    },
-    "lotValues": [],
-    "selfQualified": true
+    ]
   }
 }
 

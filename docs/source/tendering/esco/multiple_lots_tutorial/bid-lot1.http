@@ -98,11 +98,6 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "parameters": [],
-    "documents": [],
-    "financialDocuments": [],
-    "eligibilityDocuments": [],
-    "qualificationDocuments": [],
     "status": "draft",
     "selfQualified": true,
     "lotValues": [

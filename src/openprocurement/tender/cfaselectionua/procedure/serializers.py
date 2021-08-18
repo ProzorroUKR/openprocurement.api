@@ -1,8 +1,6 @@
-from openprocurement.tender.core.procedure.serializers import (
-    BidSerializer as BaseBidSerializer,
-    lot_value_serializer,
-    value_amount_to_float,
-)
+from openprocurement.tender.core.procedure.serializers.base import ListSerializer
+from openprocurement.tender.core.procedure.serializers.document import ConfidentialDocumentSerializer
+from openprocurement.tender.core.procedure.serializers.bid import BidSerializer as BaseBidSerializer
 
 
 def parameter_values_to_float(_, value):
@@ -13,7 +11,6 @@ def parameter_values_to_float(_, value):
 
 class BidSerializer(BaseBidSerializer):
     serializers = {
-        "value": value_amount_to_float,
-        "lotValues": lot_value_serializer,
         "parameters": parameter_values_to_float,
+        "documents": ListSerializer(ConfidentialDocumentSerializer),
     }

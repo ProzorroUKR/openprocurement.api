@@ -54,7 +54,7 @@ class PostBid(PatchBid):
     )
     status = StringType(choices=["active", "draft"], default=get_default_bid_status("active"))
     value = ModelType(Value)
-    documents = ListType(ModelType(PostDocument, required=True), default=list)
+    documents = ListType(ModelType(PostDocument, required=True))
     requirementResponses = ListType(
         ModelType(RequirementResponse),
         required=True,

@@ -130,11 +130,6 @@ X-Content-Type-Options: nosniff
         "scale": "sme"
       }
     ],
-    "parameters": [],
-    "documents": [],
-    "financialDocuments": [],
-    "eligibilityDocuments": [],
-    "qualificationDocuments": [],
     "status": "draft",
     "selfQualified": true,
     "lotValues": [

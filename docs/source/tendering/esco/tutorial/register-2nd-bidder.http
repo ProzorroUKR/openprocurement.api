@@ -93,11 +93,6 @@ X-Content-Type-Options: nosniff
         "scale": "sme"
       }
     ],
-    "parameters": [],
-    "documents": [],
-    "financialDocuments": [],
-    "eligibilityDocuments": [],
-    "qualificationDocuments": [],
     "status": "draft",
     "value": {
       "currency": "UAH",
@@ -134,7 +129,6 @@ X-Content-Type-Options: nosniff
       "amount": 9331.37
     },
     "selfQualified": true,
-    "lotValues": [],
     "id": "ae5a970874fd4292995525fb1c03d678",
     "date": "2021-03-16T00:00:00+02:00"
   },
