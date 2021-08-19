@@ -289,7 +289,7 @@ class isTender(object):
 
     def __call__(self, context, request):
         if request.tender_doc is not None:
-            return request.tender_doc.get("procurementMethodType", None) == self.val
+            return request.tender_doc.get("procurementMethodType", "belowThreshold") == self.val
         return False
 
 
