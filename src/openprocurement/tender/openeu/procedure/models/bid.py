@@ -23,12 +23,12 @@ class PatchBid(BasePatchBid):
 
 
 class PostBid(BasePostBid):
-    lotValues = ListType(ModelType(PostLotValue, required=True), default=list)
+    lotValues = ListType(ModelType(PostLotValue, required=True))
 
-    documents = ListType(ModelType(PostDocument, required=True), default=list)
-    financialDocuments = ListType(ModelType(PostDocument, required=True), default=list)
-    eligibilityDocuments = ListType(ModelType(PostDocument, required=True), default=list)
-    qualificationDocuments = ListType(ModelType(PostDocument, required=True), default=list)
+    documents = ListType(ModelType(PostDocument, required=True))
+    financialDocuments = ListType(ModelType(PostDocument, required=True))
+    eligibilityDocuments = ListType(ModelType(PostDocument, required=True))
+    qualificationDocuments = ListType(ModelType(PostDocument, required=True))
 
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(choices=[True])

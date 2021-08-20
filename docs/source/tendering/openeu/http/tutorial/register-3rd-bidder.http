@@ -109,8 +109,6 @@ X-Content-Type-Options: nosniff
         "scale": "sme"
       }
     ],
-    "parameters": [],
-    "lotValues": [],
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000",

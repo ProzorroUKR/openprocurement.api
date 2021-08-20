@@ -100,16 +100,17 @@ def validate_data_documents(request, **kwargs):
     data = request.validated["data"]
     for key in data.keys():
         if key == "documents" or "Documents" in key:
-            docs = []
-            for document in data[key]:
-                # some magic, yep
-                route_kwargs = {"bid_id": data["id"]}
-                document = check_document_batch(request, document, key, route_kwargs)
-                docs.append(document)
+            if data[key]:
+                docs = []
+                for document in data[key]:
+                    # some magic, yep
+                    route_kwargs = {"bid_id": data["id"]}
+                    document = check_document_batch(request, document, key, route_kwargs)
+                    docs.append(document)
 
-            # replacing documents in request.validated["data"]
-            if docs:
-                data[key] = docs
+                # replacing documents in request.validated["data"]
+                if docs:
+                    data[key] = docs
     return data
 
 

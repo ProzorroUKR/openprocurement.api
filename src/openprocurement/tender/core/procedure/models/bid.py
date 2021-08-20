@@ -87,10 +87,10 @@ class PostBid(CommonBid):
         return uuid4().hex
 
     tenderers = ListType(ModelType(PostBusinessOrganization, required=True), required=True, min_size=1, max_size=1)
-    parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq], default=list)
-    lotValues = ListType(ModelType(PostLotValue, required=True), default=list)
+    parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
+    lotValues = ListType(ModelType(PostLotValue, required=True))
     status = StringType(choices=["active", "draft"])
-    documents = ListType(ModelType(PostDocument, required=True), default=list)
+    documents = ListType(ModelType(PostDocument, required=True))
 
     _old_default_status = "active"
 

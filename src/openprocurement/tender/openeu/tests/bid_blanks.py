@@ -208,6 +208,9 @@ def create_tender_bidder(self):
         "tenderers": [self.test_bids_data[0]["tenderers"][0]],
         "value": {"amount": 500},
         "lotValues": None, "parameters": None, "documents": None,
+        "financialDocuments": None,
+        "eligibilityDocuments": None,
+        "qualificationDocuments": None,
     })
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
