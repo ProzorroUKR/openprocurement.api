@@ -14,4 +14,4 @@ class TenderAwardMilestone24HTestCase(TenderQualificationMilestone24HMixin, Tend
 class TenderAwardMilestoneALPTestCase(TenderQualificationMilestoneALPMixin, BaseTenderUAContentWebTest):
     initial_data = test_tender_data
     initial_bids = test_bids
-    initial_lots = test_lots
+    initial_lots = test_lots * 2

@@ -811,22 +811,14 @@ def get_mean_value_tendering_bids(tender, bids, lot_id, exclude_bid_id):
 
 def get_bids_before_auction_results(tender):
     request = tender.__parent__.request
-    if tender.status == "active.auction":  # this request is posting auction results
-        initial_doc = request.validated["tender_src"]
-    else:  # after auction results posted
-        initial_doc = tender.serialize()
-        auction_revisions = [revision for revision in reversed(list(tender.revisions))
-                             if revision["author"] == "auction"]
-        if not auction_revisions:
-            LOGGER.exception(
-                "Can't find auction revisions, tendering bid amounts will be taken as they are",
-                extra=context_unpack(request, {"MESSAGE_ID": "fail_get_auction_revisions"})
-            )
-        for revision in auction_revisions:
-            try:
-                initial_doc = apply_json_patch(initial_doc, revision["changes"])
-            except (JsonPointerException, JsonPatchException) as e:
-                LOGGER.exception(e, extra=context_unpack(request, {"MESSAGE_ID": "fail_get_tendering_bids"}))
+    initial_doc = request.validated["tender_src"]
+    auction_revisions = [revision for revision in reversed(list(tender.revisions))
+                         if revision["author"] == "auction"]
+    for revision in auction_revisions:
+        try:
+            initial_doc = apply_json_patch(initial_doc, revision["changes"])
+        except (JsonPointerException, JsonPatchException) as e:
+            LOGGER.exception(e, extra=context_unpack(request, {"MESSAGE_ID": "fail_get_tendering_bids"}))
 
     bid_model = type(tender).bids.model_class
 
