@@ -35,6 +35,12 @@ test_tender_data = deepcopy(test_tender_data)
         (600, 857.14, 850),   # second check: 1 - (600/857.14) = 29.99%               < 30%
         tuple(),  # indexes of milestone reasons
     )
+    ,
+    (
+        (185000, 182415, 1000),
+        (106500, 107000, 850),
+        tuple(),  # indexes of milestone reasons
+    )
 ])
 def test_milestone_data_cases(test_data, tender_status):
     tendering_amounts, auction_amounts, expected_reason_indexes = test_data
@@ -57,15 +63,14 @@ def test_milestone_data_cases(test_data, tender_status):
                 "date": get_now().isoformat()
             }
         ]
-    elif tender_status == "active.auction":
-        root.request.validated = {"tender_src": {"bids": [
-            {
-                "id": str(n) * 32,
-                "value": {"amount": amount},
-                "status": "active"
-            }
-            for n,  amount in enumerate(tendering_amounts)
-        ]}}
+    root.request.validated = {"tender_src": {"bids": [
+        {
+            "id": str(n) * 32,
+            "value": {"amount": amount},
+            "status": "active"
+        }
+        for n,  amount in enumerate(tendering_amounts)
+    ]}}
     test_tender_data.update(tender_patch)
     tender = Tender(test_tender_data)
     tender.__parent__ = root

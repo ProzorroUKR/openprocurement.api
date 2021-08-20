@@ -244,8 +244,8 @@ class TenderQualificationMilestoneALPMixin(object):
         more_bids = 4 - len(self.initial_bids)
         if more_bids > 0:
             self.initial_bids = deepcopy(self.initial_bids) + deepcopy(self.initial_bids)[:more_bids]
-        self.initial_bids[0]["value"]["amount"] = 29
-        self.initial_bids[1]["value"]["amount"] = 100
+        self.initial_bids[0]["value"]["amount"] = 400
+        self.initial_bids[1]["value"]["amount"] = 425
         self.initial_bids[2]["value"]["amount"] = 450
         self.initial_bids[3]["value"]["amount"] = 500
         self.assertEqual(len(self.initial_bids), 4)
@@ -268,32 +268,43 @@ class TenderQualificationMilestoneALPMixin(object):
         """
         # sending auction results
         auction_results = deepcopy(self.initial_bids)
-        if "lotValues" in self.initial_bids[0]:
-            lot_id = auction_results[0]["lotValues"][0]["relatedLot"]
-            auction_results[0]["lotValues"][0]["value"]["amount"] = 29  # only 1 case
-            auction_results[1]["lotValues"][0]["value"]["amount"] = 30  # both 1 and 2 case
+        if self.initial_lots:
+            auction_results[0]["lotValues"][0]["value"]["amount"] = 200  # only 1 case
+            auction_results[1]["lotValues"][0]["value"]["amount"] = 201  # both 1 and 2 case
             auction_results[2]["lotValues"][0]["value"]["amount"] = 350  # only 2 case
             auction_results[3]["lotValues"][0]["value"]["amount"] = 500  # no milestones
         else:
-            lot_id = None
             auction_results[0]["value"]["amount"] = 29   # only 1 case
             auction_results[1]["value"]["amount"] = 30   # both 1 and 2 case
             auction_results[2]["value"]["amount"] = 350   # only 2 case
             auction_results[3]["value"]["amount"] = 500  # no milestones
 
         with change_auth(self.app, ("Basic", ("auction", ""))):
-            url = "/tenders/{}/auction".format(self.tender_id)
-            if lot_id:
-                url += "/" + lot_id
-            response = self.app.post_json(
-                url,
-                {"data": {"bids": auction_results}},
-                status=200
-            )
+            if self.initial_lots:
+                lot_id = self.initial_lots[0]["id"]
+                for l in self.initial_lots:
+                    response = self.app.post_json(
+                        f"/tenders/{self.tender_id}/auction/{l['id']}",
+                        {"data": {"bids": auction_results}},
+                        status=200
+                    )
+            else:
+                lot_id = None
+                response = self.app.post_json(
+                    f"/tenders/{self.tender_id}",
+                    {"data": {"bids": auction_results}},
+                    status=200
+                )
+
         tender = response.json["data"]
         self.assertEqual("active.qualification", tender["status"])
         self.assertGreater(len(tender["awards"]), 0)
-        award = tender["awards"][0]
+
+        for a in response.json["data"]["awards"]:
+            if a["status"] == "pending" and a.get("lotID") == lot_id:
+                award = a
+                break
+
         bid_id = award["bid_id"]
         self.assertEqual(bid_id, auction_results[0]["id"])
 
@@ -341,12 +352,12 @@ class TenderQualificationMilestoneALPMixin(object):
             )
 
         # setting "dueDate" to now
-        self.wait_until_award_milestone_due_date(award_index=0)
+        self.wait_until_award_milestone_due_date()
 
         # after milestone dueDate tender owner can change award status
         response = self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(
-                self.tender_id, award["id"], self.tender_token
+                self.tender_id, a["id"], self.tender_token
             ),
             {"data": unsuccessful_data},
             status=200
@@ -359,12 +370,17 @@ class TenderQualificationMilestoneALPMixin(object):
             status=200
         )
         self.assertGreater(len(response.json["data"]), 1)
-        second_award = response.json["data"][1]
+
+        for a in response.json["data"]:
+            if a["status"] == "pending" and a.get("lotID") == lot_id:
+                second_award = a
+                break
+
         self.assertEqual(len(second_award.get("milestones", [])), 1)
         self.assertEqual(second_award["milestones"][0]["description"], " / ".join(ALP_MILESTONE_REASONS))
 
         # proceed to the third award
-        self.wait_until_award_milestone_due_date(award_index=1)
+        self.wait_until_award_milestone_due_date()
         response = self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(
                 self.tender_id, second_award["id"], self.tender_token
@@ -378,13 +394,15 @@ class TenderQualificationMilestoneALPMixin(object):
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
             status=200
         )
-        self.assertGreater(len(response.json["data"]), 2)
-        third_award = response.json["data"][2]
+        for a in response.json["data"]:
+            if a["status"] == "pending" and a.get("lotID") == lot_id:
+                third_award = a
+                break
         self.assertEqual(len(third_award.get("milestones", [])), 1)
         self.assertEqual(third_award["milestones"][0]["description"], ALP_MILESTONE_REASONS[1])
 
         # proceed to the last award
-        self.wait_until_award_milestone_due_date(award_index=2)
+        self.wait_until_award_milestone_due_date()
         response = self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(
                 self.tender_id, third_award["id"], self.tender_token
@@ -398,13 +416,17 @@ class TenderQualificationMilestoneALPMixin(object):
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
             status=200
         )
-        self.assertGreater(len(response.json["data"]), 3)
-        last_award = response.json["data"][3]
+        for a in response.json["data"]:
+            if a["status"] == "pending" and a.get("lotID") == lot_id:
+                last_award = a
+                break
         self.assertNotIn("milestones", last_award)
 
-    def wait_until_award_milestone_due_date(self, award_index):
+    def wait_until_award_milestone_due_date(self):
         tender = self.db.get(self.tender_id)
-        tender["awards"][award_index]["milestones"][0]["dueDate"] = get_now().isoformat()
+        for a in tender["awards"]:
+            if a.get("milestones"):
+                a["milestones"][0]["dueDate"] = get_now().isoformat()
         self.db.save(tender)
 
     def _test_doc_upload(self, procurement_method, doc_type, bid_id, bid_token, due_date):
