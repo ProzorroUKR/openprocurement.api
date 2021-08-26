@@ -8,7 +8,7 @@ from openprocurement.api.utils import (
     error_handler,
     raise_operation_error,
 )
-from openprocurement.tender.belowthreshold.utils import add_contracts
+from openprocurement.tender.belowthreshold.utils import add_contracts, set_award_contracts_cancelled
 
 from openprocurement.tender.core.utils import (
     apply_patch,
@@ -316,9 +316,7 @@ class TenderAwardResource(APIResource):
             add_contracts(self.request, award)
             # add_next_award(self.request)
         elif award_status == "active" and award.status == "cancelled":
-            for i in tender.contracts:
-                if i.awardID == award.id:
-                    i.status = "cancelled"
+            set_award_contracts_cancelled(self.request, award)
             # add_next_award(self.request)
         elif award_status == "pending" and award.status == "unsuccessful":
             pass
@@ -547,23 +545,17 @@ class TenderNegotiationAwardResource(TenderAwardResource):
             and award.status == "cancelled"
             and any([i.status == "satisfied" for i in award.complaints])
         ):
-            cancelled_awards = []
             for i in tender.awards:
                 if i.lotID != award.lotID:
                     continue
                 if i.complaintPeriod and (not i.complaintPeriod.endDate or i.complaintPeriod.endDate > now):
                     i.complaintPeriod.endDate = now
                 i.status = "cancelled"
-                cancelled_awards.append(i.id)
-            for i in tender.contracts:
-                if i.awardID in cancelled_awards:
-                    i.status = "cancelled"
+                set_award_contracts_cancelled(self.request, i)
         elif award_status == "active" and award.status == "cancelled":
             if award.complaintPeriod.endDate > now:
                 award.complaintPeriod.endDate = now
-            for i in tender.contracts:
-                if i.awardID == award.id:
-                    i.status = "cancelled"
+            set_award_contracts_cancelled(self.request, award)
         elif award_status == "pending" and award.status == "unsuccessful":
             award.complaintPeriod = {"startDate": now.isoformat(), "endDate": now}
         elif (
@@ -571,17 +563,13 @@ class TenderNegotiationAwardResource(TenderAwardResource):
             and award.status == "cancelled"
             and any([i.status == "satisfied" for i in award.complaints])
         ):
-            cancelled_awards = []
             for i in tender.awards:
                 if i.lotID != award.lotID:
                     continue
                 if i.complaintPeriod and (not i.complaintPeriod.endDate or i.complaintPeriod.endDate > now):
                     i.complaintPeriod.endDate = now
                 i.status = "cancelled"
-                cancelled_awards.append(i.id)
-            for i in tender.contracts:
-                if i.awardID in cancelled_awards:
-                    i.status = "cancelled"
+                set_award_contracts_cancelled(self.request, i)
         elif award_status != award.status:
             raise_operation_error(self.request, "Can't update award in current ({}) status".format(award_status))
         elif self.request.authenticated_role != "Administrator" and award_status != "pending":

@@ -213,20 +213,6 @@ def patch_tender_multi_contracts(self):
     self.assertEqual(response.json["data"]["value"]["amount"], 190)
     self.assertEqual(response.json["data"]["value"]["amountNet"], 185)
 
-    # overall amountNet/amount % -> (195 + 140) / (200 + 190) = 0.85 >= 0.8
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contracts[1]["id"], self.tender_token),
-        {"data": {"value": {"amount": 190, "amountNet": 140}}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["value"]["amount"], 190)
-    self.assertEqual(response.json["data"]["value"]["amountNet"], 140)
-
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contracts[1]["id"], self.tender_token),
-        {"data": {"value": {"amount": 190, "amountNet": 140}}},
-    )
-
     # prepare contract for activating
     doc = self.db.get(self.tender_id)
     for i in doc.get("awards", []):
@@ -235,8 +221,6 @@ def patch_tender_multi_contracts(self):
     if doc['contracts'][0]['value']['valueAddedTaxIncluded']:
         doc['contracts'][0]['value']['amountNet'] = str(float(doc['contracts'][0]['value']['amount']) - 1)
     self.db.save(doc)
-
-    response = self.app.get("/tenders/{}".format(self.tender_id))
 
     # in case any contract become active and there are no pending contracts -> tender should have complete status
     response = self.app.patch_json(
@@ -318,6 +302,56 @@ def patch_tender_multi_contracts_cancelled(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "cancelled")
+
+
+def patch_tender_multi_contracts_active_cancelled(self):
+    contracts_response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
+    contracts = contracts_response.json["data"]
+    self.assertEqual(len(contracts), 2)
+
+    # patch 1st contract
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contracts[0]["id"], self.tender_token),
+        {"data": {"value": {"amount": 200, "amountNet": 195}}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["value"]["amount"], 200)
+    self.assertEqual(response.json["data"]["value"]["amountNet"], 195)
+
+    # prepare contract for activating
+    doc = self.db.get(self.tender_id)
+    for i in doc.get("awards", []):
+        if 'complaintPeriod' in i:
+            i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+    if doc['contracts'][0]['value']['valueAddedTaxIncluded']:
+        doc['contracts'][0]['value']['amountNet'] = str(float(doc['contracts'][0]['value']['amount']) - 1)
+    self.db.save(doc)
+
+    # activate 1st contract
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contracts[0]["id"], self.tender_token),
+        {"data": {"status": "active"}}
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    # try to cancel award
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(
+            self.tender_id, self.award_id, self.tender_token
+        ),
+        {"data": {"status": "cancelled"}},
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"], [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Can\'t cancel award contract in active status"
+            }
+        ]
+    )
 
 
 def create_tender_contract_in_complete_status(self):
