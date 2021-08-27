@@ -1,4 +1,4 @@
-# OpenProcurement Api
+# Prozorro Openprocurement Api
 
 ## Installation
 
@@ -90,3 +90,34 @@ sphinx-intl update -p build/locale -l uk -w 0
 cd docs
 sphinx-intl build
 ```
+
+
+## Related services projects
+
+#### Document service (openprocurement.documentservice)
+https://github.com/ProzorroUKR/openprocurement.documentservice
+
+#### Tasks (prozorro_tasks)
+Integrations tasks service
+https://github.com/ProzorroUKR/prozorro_tasks
+
+#### Auction (prozorro-auction)
+Auction service
+
+#### Auctions (openprocurement.auction)
+Deprecated auction service
+https://github.com/ProzorroUKR/openprocurement.auction
+https://github.com/ProzorroUKR/openprocurement.auction.esco
+https://github.com/ProzorroUKR/openprocurement.auction.js
+https://github.com/ProzorroUKR/openprocurement.auction.esco-js
+https://github.com/ProzorroUKR/openprocurement.auction.worker
+
+#### Chronograph (prozorro_chronograph)
+Chronograph service
+
+#### Chronograph (openprocurement.chronograph)
+Deprecated chronograph service
+https://github.com/ProzorroUKR/openprocurement.chronograph
+
+#### Bridges
+API data bridges (contracting, competitive dialogue, framework agreement, price quotation)
