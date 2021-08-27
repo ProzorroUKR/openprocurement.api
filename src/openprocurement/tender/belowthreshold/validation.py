@@ -6,7 +6,6 @@ from openprocurement.tender.core.validation import (
     base_validate_operation_ecriteria_objects,
     _validate_related_criterion,
 )
-from json.decoder import JSONDecodeError
 
 
 # tender documents
@@ -198,13 +197,6 @@ def validate_put_requirement_objects(request, **kwargs):
 
 
 def validate_upload_documents_not_allowed_for_simple_pmr(request, **kwargs):
-    try:
-        doc_type = request.json["data"].get("documentType", "") == "contractGuarantees"
-    except JSONDecodeError:
-        doc_type = True
-    except AttributeError:
-        docs = request.json["data"]
-        doc_type = all(doc.get("documentType", "") != "contractGuarantees" for doc in docs)
     tender = request.validated["tender"]
     statuses = ("active.qualification",)
     if tender["status"] in statuses and tender.get("procurementMethodRationale") == "simple":
@@ -216,7 +208,7 @@ def validate_upload_documents_not_allowed_for_simple_pmr(request, **kwargs):
             needed_criterion = any(
                 [criterion["classification"]["id"] == "CRITERION.OTHER.CONTRACT.GUARANTEE" for criterion in criteria]
             )
-            if not all([doc_type, needed_criterion, bid_with_active_award]):
+            if not all([needed_criterion, bid_with_active_award]):
                 raise_operation_error(
                     request,
                     "Can't upload document with {} tender status and procurementMethodRationale simple".format(
