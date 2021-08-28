@@ -208,6 +208,9 @@ def create_tender_bidder(self):
         "tenderers": [self.test_bids_data[0]["tenderers"][0]],
         "value": {"amount": 500},
         "lotValues": None, "parameters": None, "documents": None,
+        "financialDocuments": None,
+        "eligibilityDocuments": None,
+        "qualificationDocuments": None,
     })
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -1299,21 +1302,6 @@ def not_found(self):
             response.json["errors"], [{"description": "Not Found", "location": "url", "name": "bid_id"}]
         )
 
-        response = self.app.put_json(
-            "/tenders/{}/bids/{}/{}/some_id?acc_token={}".format(
-                self.tender_id, self.bid_id, doc_resource, self.bid_token
-            ),
-            {"data": document},
-            status=404,
-        )
-        self.assertEqual(response.status, "404 Not Found")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["status"], "error")
-        self.assertEqual(
-            response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}]
-        )
-
-        self.app.authorization = ("Basic", ("invalid", ""))
         response = self.app.put_json(
             "/tenders/{}/bids/{}/{}/some_id?acc_token={}".format(
                 self.tender_id, self.bid_id, doc_resource, self.bid_token

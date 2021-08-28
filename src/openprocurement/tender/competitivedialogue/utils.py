@@ -239,9 +239,9 @@ def prepare_shortlistedFirms(shortlistedFirms):
             firm_id=firm["identifier"]["id"], firm_scheme=firm["identifier"]["scheme"]
         )
         if firm.get("lots"):
-            keys = set(["{key}_{lot_id}".format(key=key, lot_id=lot["id"]) for lot in firm.get("lots")])
+            keys = set("{key}_{lot_id}".format(key=key, lot_id=lot["id"]) for lot in firm.get("lots"))
         else:
-            keys = set([key])
+            keys = {key}
         all_keys |= keys
     return all_keys
 
@@ -271,9 +271,9 @@ def prepare_bid_identifier(bid):
     for tenderer in bid["tenderers"]:
         key = "{id}_{scheme}".format(id=tenderer["identifier"]["id"], scheme=tenderer["identifier"]["scheme"])
         if bid.get("lotValues"):
-            keys = set(["{key}_{lot_id}".format(key=key, lot_id=lot["relatedLot"]) for lot in bid.get("lotValues")])
+            keys = set("{key}_{lot_id}".format(key=key, lot_id=lot["relatedLot"]) for lot in bid.get("lotValues"))
         else:
-            keys = set([key])
+            keys = {key}
         all_keys |= keys
     return all_keys
 

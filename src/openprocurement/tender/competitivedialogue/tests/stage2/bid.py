@@ -6,7 +6,6 @@ from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderStage2UABidDocumentResourceTest
-    not_found as not_found_ua,
     patch_tender_with_bids_lots_none,
 )
 
@@ -64,8 +63,6 @@ from openprocurement.tender.competitivedialogue.tests.stage2.bid_blanks import (
     bids_activation_on_tender_documents_ua,
     # TenderStage2UABidFeaturesResourceTest
     features_bidder_ua,
-    # TenderStage2UABidDocumentResourceTest
-    put_tender_bidder_document_ua,
 )
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
@@ -90,7 +87,7 @@ class CreateBidMixin(object):
 class TenderStage2EUBidResourceTest(
     BaseCompetitiveDialogEUStage2ContentWebTest, TenderBidResourceTestMixin, Tender2BidResourceTestMixin
 ):
-
+    docservice = True
     initial_status = "active.tendering"
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_stage2_data_eu
@@ -157,6 +154,7 @@ class TenderStage2EUBidDocumentResourceTest(
 
 
 class TenderStage2UABidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
+    docservice = True
     initial_status = "active.tendering"
     initial_data = test_tender_stage2_data_ua
     test_bids_data = test_bids_stage2
@@ -214,11 +212,6 @@ class BaseCDUAStage2BidContentWebTest(BaseCompetitiveDialogUAStage2ContentWebTes
         bid, bid_token = self.create_bid(self.tender_id, bid_data)
         self.bid_id = bid["id"]
         self.bid_token = bid_token
-
-
-class TenderStage2UABidDocumentResourceTest(BaseCDUAStage2BidContentWebTest, TenderUABidDocumentResourceTestMixin):
-    test_not_found = snitch(not_found_ua)
-    test_put_tender_bidder_document = snitch(put_tender_bidder_document_ua)
 
 
 class TenderStage2UABidDocumentWithDSResourceTest(

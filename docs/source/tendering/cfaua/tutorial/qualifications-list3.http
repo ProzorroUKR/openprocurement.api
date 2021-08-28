@@ -34,7 +34,7 @@ X-Content-Type-Options: nosniff
           "scale": "mid"
         }
       ],
-      "bid_id": "bd56332dbb8140a4b4aab9c447c7e9b6",
+      "bid_id": "f2396c5eb7dc40e986705a3de1cdc13b",
       "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
       "qualified": true,
       "eligible": true,
@@ -71,7 +71,7 @@ X-Content-Type-Options: nosniff
           "scale": "sme"
         }
       ],
-      "bid_id": "dfe1f11c2ec14520b8aac4060a0fd10f",
+      "bid_id": "5502be861ff24fa281a68247002d018c",
       "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
       "qualified": true,
       "eligible": true,
@@ -108,7 +108,7 @@ X-Content-Type-Options: nosniff
           "scale": "micro"
         }
       ],
-      "bid_id": "fa412b9bcd92484d9f8871b0ee0df130",
+      "bid_id": "b142414a5dc84ec0a828ba7e3d5f3513",
       "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
       "qualified": true,
       "eligible": true,
@@ -145,7 +145,7 @@ X-Content-Type-Options: nosniff
           "scale": "mid"
         }
       ],
-      "bid_id": "bd56332dbb8140a4b4aab9c447c7e9b6",
+      "bid_id": "f2396c5eb7dc40e986705a3de1cdc13b",
       "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
       "complaintPeriod": {
         "startDate": "2021-03-16T00:00:00+02:00"
@@ -183,7 +183,7 @@ X-Content-Type-Options: nosniff
           "scale": "mid"
         }
       ],
-      "bid_id": "bd56332dbb8140a4b4aab9c447c7e9b6",
+      "bid_id": "f2396c5eb7dc40e986705a3de1cdc13b",
       "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
       "value": {
         "currency": "UAH",
@@ -218,7 +218,7 @@ X-Content-Type-Options: nosniff
           "scale": "sme"
         }
       ],
-      "bid_id": "dfe1f11c2ec14520b8aac4060a0fd10f",
+      "bid_id": "5502be861ff24fa281a68247002d018c",
       "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
       "value": {
         "currency": "UAH",
@@ -253,7 +253,7 @@ X-Content-Type-Options: nosniff
           "scale": "micro"
         }
       ],
-      "bid_id": "fa412b9bcd92484d9f8871b0ee0df130",
+      "bid_id": "b142414a5dc84ec0a828ba7e3d5f3513",
       "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
       "value": {
         "currency": "UAH",

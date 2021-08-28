@@ -169,7 +169,8 @@ X-Content-Type-Options: nosniff
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6519f568614a4206bfdb5d18cae77f6a?Signature=c0IFazilhvkkuBH%2FjSjSj2IpKQVYAbGaZxfqRt03GBAjgJ70QRsgbQLeQSTLvpDvpQhYTC5ivocgL9GkpbWZDA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "dateModified": "2021-03-16T00:00:00+02:00",
+        "confidentiality": "public"
       }
     ]
   }

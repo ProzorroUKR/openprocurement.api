@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/db4876add6b747dfafc1b99523c02097/bids/59d1496c7b494028b8f4e0a997a0a4bb?acc_token=be9d6e70703b4db0ab958756ca141e67 HTTP/1.0
+PATCH /api/2.5/tenders/db4876add6b747dfafc1b99523c02097/bids/1d98255f593f4a09a2fe81564728302f?acc_token=2386f907ffa446d88f2a5e1543997879 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -15,13 +15,18 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137256",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137256"
         },
         "address": {
           "streetAddress": "вул. Островського, 33",
@@ -31,33 +36,29 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
         },
         "scale": "micro"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "59d1496c7b494028b8f4e0a997a0a4bb",
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "subcontractingDetails": "ДКП «Орфей», Україна",
     "status": "active",
+    "id": "1d98255f593f4a09a2fe81564728302f",
+    "date": "2021-03-16T00:00:00+02:00",
     "selfQualified": true,
+    "subcontractingDetails": "ДКП «Орфей», Україна",
     "documents": [
       {
-        "id": "08799b0910164e70bd1d55ea18bce553",
+        "id": "c91902ad94c84634af4b0be8fe9e73b6",
+        "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4876add6b747dfafc1b99523c02097/bids/59d1496c7b494028b8f4e0a997a0a4bb/documents/08799b0910164e70bd1d55ea18bce553?download=4e12f5bca39842fa936d50dd814980eb",
-        "datePublished": "2021-03-16T00:00:00+02:00",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/47c968737f624b6fb2947bce2efcbbef?Signature=ui2PtOExSOnCaDAB5fD27QR5emb%2B1MNR5sfhorucH0kJEX92qtfZ38VkY9LC7RktFR68yAnqXel4jQwE0VPzBg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
         "dateModified": "2021-03-16T00:00:00+02:00",
-        "documentOf": "tender"
+        "confidentiality": "public"
       }
     ]
   }

@@ -40,6 +40,8 @@ def includeme(config):
     config.add_tender_procurementMethodType(TenderStage2UA)
     config.scan("openprocurement.tender.competitivedialogue.views.stage1")
     config.scan("openprocurement.tender.competitivedialogue.views.stage2")
+    config.scan("openprocurement.tender.competitivedialogue.procedure.views.stage1")
+    config.scan("openprocurement.tender.competitivedialogue.procedure.views.stage2")
     config.scan("openprocurement.tender.competitivedialogue.subscribers")
     config.registry.registerAdapter(TenderCDEUConfigurator, (ICDEUTender, IRequest), IContentConfigurator)
     config.registry.registerAdapter(TenderCDUAConfigurator, (ICDUATender, IRequest), IContentConfigurator)

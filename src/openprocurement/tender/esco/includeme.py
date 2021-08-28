@@ -13,5 +13,6 @@ def includeme(config):
 
     config.add_tender_procurementMethodType(Tender)
     config.scan("openprocurement.tender.esco.views")
+    config.scan("openprocurement.tender.esco.procedure.views")
     config.scan("openprocurement.tender.esco.subscribers")
     config.registry.registerAdapter(TenderESCOConfigurator, (IESCOTender, IRequest), IContentConfigurator)

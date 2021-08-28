@@ -31,10 +31,10 @@ X-Content-Type-Options: nosniff
           "scale": "micro"
         }
       ],
-      "id": "d46e2205e6014884beff5e4df83a4e19",
+      "id": "fd70953552a346ecbb2d7f86de89b253",
       "requirementResponses": [
         {
-          "id": "1a4728a64899402aa2b8394b94612dd9",
+          "id": "ef0f70d907ec4e7b9d5c56b40ce93e68",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -44,7 +44,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "5b02717efbc04bbf88ff592a58e4e5c5",
+          "id": "c59f9ddfc95e473099d6f4ac75f58e7c",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -54,7 +54,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "695baf9cd66b424490b943599e62e123",
+          "id": "37a7adf4849948b6ac35da4990eae88f",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -64,7 +64,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "8bfbcecdadd046e68d4ff6a539bae0d4",
+          "id": "77c103da1cbe4286b64fd1b7d3fe0d7e",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -74,7 +74,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "f61f804d68964dfbb2ae7db3df05524d",
+          "id": "331d67e2d65d44e7bea2623125c45228",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -84,7 +84,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "b2cdbb5633f848beb65d54cdb000a94d",
+          "id": "36055a76e38a4e579893a8f29b942621",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -94,7 +94,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "42ccee1adff545f392e3cbdbbf273490",
+          "id": "e6d1f05822fa4675853d86bdc84fa44c",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -104,7 +104,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "7d49d5e34a5443bebb710a3ea1f2a4ca",
+          "id": "77506421383c4513ae9018ffe507ed86",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -114,7 +114,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "ba84cf2d46b54d74b0ef46ef5f6aa04e",
+          "id": "b516909a270d4127b202c829d52bb542",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -124,7 +124,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "5664d4c9c7e543e5bf19663045ced09e",
+          "id": "7e23d4d2926e4a888ef7a24fcc9bc2c5",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -134,7 +134,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "b710b973cf634726ba233dd1b6952a89",
+          "id": "45534f4968854c0bbea6d604dc7b080a",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -147,11 +147,11 @@ X-Content-Type-Options: nosniff
       "status": "active",
       "documents": [
         {
-          "id": "152b6f75a906449c8301d586f336df98",
+          "id": "58c3e809e0bb499f87fda30df5d0576b",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal.pdf",
           "format": "application/pdf",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/650a2e2f970f47d3bb08d89316c71c50?Signature=feUn1vIGH58gkWYNyofuGRXRgBftI97LhfGAmjSYtLX87TIFpYuuAHGFBbaZM2DHCBUlsuUAE%2FFB1EqWw0ssAg%3D%3D&KeyID=a8968c46",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/076b981bb04b40b88ebb84ad089a3247?Signature=QFDSC7YPY4Xy9jsrJxkl9AuSufsvuSsl1U7etzrsdG%2BRyGJCmObwUvdYrGfLrWEFtIVhxcUg1FSVcwaGr1MOAQ%3D%3D&KeyID=a8968c46",
           "datePublished": "2021-03-16T00:00:00+02:00",
           "dateModified": "2021-03-16T00:00:00+02:00",
           "documentOf": "tender",
@@ -160,11 +160,11 @@ X-Content-Type-Options: nosniff
           "isDescriptionDecision": false
         },
         {
-          "id": "5f13a95c29334712a623e60b61762df8",
+          "id": "c7e495cd14fa4afe994ffceb6eb9d647",
           "hash": "md5:00000000000000000000000000000000",
           "title": "DescriptiveProposal.pdf",
           "format": "application/pdf",
-          "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids/d46e2205e6014884beff5e4df83a4e19/documents/5f13a95c29334712a623e60b61762df8?download=a360449b0c4a4d61966532403de8287f",
+          "url": "/tenders/cce509cd3c324437829f34f6d4d074fb/bids/fd70953552a346ecbb2d7f86de89b253/documents/c7e495cd14fa4afe994ffceb6eb9d647?download=5620292407bb4c8dab640c22d09475b0",
           "datePublished": "2021-03-16T00:00:00+02:00",
           "dateModified": "2021-03-16T00:00:00+02:00",
           "documentOf": "tender",
@@ -173,11 +173,11 @@ X-Content-Type-Options: nosniff
           "isDescriptionDecision": true
         },
         {
-          "id": "e6af73717567432c9d5ce0513caff6df",
+          "id": "92215fd5524a419b9adca0acb93f8e3c",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_top_secrets.pdf",
           "format": "application/pdf",
-          "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids/d46e2205e6014884beff5e4df83a4e19/documents/e6af73717567432c9d5ce0513caff6df?download=901e3b57b4074d16ab450a026b2a8cea",
+          "url": "/tenders/cce509cd3c324437829f34f6d4d074fb/bids/fd70953552a346ecbb2d7f86de89b253/documents/92215fd5524a419b9adca0acb93f8e3c?download=14275856480047db84f7f1e9779d7771",
           "datePublished": "2021-03-16T00:00:00+02:00",
           "dateModified": "2021-03-16T00:00:00+02:00",
           "documentOf": "tender",
@@ -212,10 +212,10 @@ X-Content-Type-Options: nosniff
           "scale": "sme"
         }
       ],
-      "id": "8c8ab41ca89e47269a0e8c1770185d7a",
+      "id": "5534cee2594649ccaa91a9f87caa96e2",
       "requirementResponses": [
         {
-          "id": "5dd091f3c76b4bb3a7b29630bd7df751",
+          "id": "f4d39fa6c2704f4d869054d34edac10a",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -225,7 +225,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "6e3a76bcbfe642038c14ee67c70fedc4",
+          "id": "3d43db7d53614a0e9942610218077b48",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -235,7 +235,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "1e426784a7b643b8915ebd6a9485d7bb",
+          "id": "f3ac447cd11442afabf9bdb5b9b44632",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -245,7 +245,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "4eceb072e77b4d14886a7b02cc2e6add",
+          "id": "26f1912edf194ff781ec7de1a346253f",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -255,7 +255,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "9e0569e031ce43a5a109b7059dd73b7c",
+          "id": "ce1601171f514a82a09d4820ae25add1",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -265,7 +265,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "7f2109bc822b4d26adc64555b7e9e871",
+          "id": "779f82f1183f4007985c38c6db72ee79",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -275,7 +275,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "202691d2949b4c35b83f00cad4e0c549",
+          "id": "be7450bf1ca84e22b7e18435a311511c",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -285,7 +285,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "c80a5b9303ea45069bf3449822761c2c",
+          "id": "ff7fc1212e974aba968a57a517652113",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -295,7 +295,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "173ac5f8ece5478ebb50bac7571489e1",
+          "id": "51f3670484254155a197d9b205961065",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -305,7 +305,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "4da34e4af3e04bf7a73175733bccae11",
+          "id": "ed87c180230b4c2eb95bf1b8d5a09bfd",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -315,7 +315,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "cd53366ce0174bb2aa5e4c37cabde9de",
+          "id": "2fe26a175b21458aa5d5ab99ff60173b",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -351,10 +351,10 @@ X-Content-Type-Options: nosniff
           "scale": "mid"
         }
       ],
-      "id": "2e01f99899594fa6939391b658c3a921",
+      "id": "c8cf921842b343ae90f0b4666658776e",
       "requirementResponses": [
         {
-          "id": "b898fd0ab07145dd9bc8581d43e56601",
+          "id": "41f518cbd471453a913a32fe8dcfe53e",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -364,7 +364,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "99cf06b6970e4dd28353207c433a1fe4",
+          "id": "0b94547f9bbf4955998c5661409f5213",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -374,7 +374,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "0aecab357f29449f85f49943c01837dc",
+          "id": "ec374e01f4a446479d009e418f72dac5",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -384,7 +384,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "83861b4e7a6642c289b0fd96ee51f6eb",
+          "id": "b5075bcd1e434360bf788fc0d05e3b51",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -394,7 +394,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "6f8024dbabdc4b65ae28f989c9c2db04",
+          "id": "d867925de878440e9061ad4b5baae44f",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -404,7 +404,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "8fefc919650d4b0faecdaffa3ef5d06d",
+          "id": "58430774a2c64b5596b92818235803fa",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -414,7 +414,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "c33c31022f074f6c8ba4c028419d0b9b",
+          "id": "7384ef27820f45699944b6194f69aef2",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -424,7 +424,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "6a7799a40d994f91a4cd231ef0fae3ea",
+          "id": "bca1943114f345e1b6e38fceef1be9a5",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -434,7 +434,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "cf63f96b6f07477392a7ed8f1cfc935c",
+          "id": "712c68545cea4c63bf15653934042940",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -444,7 +444,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "f7649d1f93ca4e69bc89e50cd9f3e320",
+          "id": "3c0a316602f84ca586535d5c1bceeb15",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -454,7 +454,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "1c0511fb67ea413788606e7a8924f6d0",
+          "id": "b3e5e325bb41459287cd0cde249e40a7",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -464,7 +464,6 @@ X-Content-Type-Options: nosniff
           "value": "True"
         }
       ],
-      "selfQualified": true,
       "status": "unsuccessful"
     },
     {
@@ -491,10 +490,10 @@ X-Content-Type-Options: nosniff
           "scale": "large"
         }
       ],
-      "id": "bf385297ea2240069057a49814810cc7",
+      "id": "858275d219d14850b85c83ea77b91281",
       "requirementResponses": [
         {
-          "id": "de0ff4950d0a40feb55cf93d9c196f67",
+          "id": "a396c0fb1176436b9ae4fbb99a9eefff",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -504,7 +503,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "588ec57d869c4615b88d6ff4b9591d81",
+          "id": "7dcaf38054694fd59d1cc0bcd537f424",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -514,7 +513,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "393400588cef4c80b07618fd1c766e69",
+          "id": "5d00635168024d98aaaf754fb7cbde69",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -524,7 +523,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "cf2eabe27bd74f218014b74cea90a121",
+          "id": "f7b3ee8cd3c04102bd5ee8502767739f",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -534,7 +533,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "b17d435eb2664f998fd316c1f6fb464a",
+          "id": "5099f56736b04717873f48ebcb57e279",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -544,7 +543,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "7c4f3213ea5c4e1eb59ffa327fedfc24",
+          "id": "8d939508612844debcda88a963babcf9",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -554,7 +553,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "1ad36ff775634c2db9e56e611afcfc73",
+          "id": "f05323454d2c450f8bfe1e21c39df79b",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -564,7 +563,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "16f3e66562424517855d5b346e9962f2",
+          "id": "5725cb0697e24b09a3f725d566873609",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -574,7 +573,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "c99d090cc6284a54999e674d40804417",
+          "id": "ddb520f4d694495eacbf68689f822a72",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -584,7 +583,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "87f766ba75544f1183c29d1c7fcfa895",
+          "id": "23e37a057dfb42aeb17702326a089b7f",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -594,7 +593,7 @@ X-Content-Type-Options: nosniff
           "value": "True"
         },
         {
-          "id": "d2931761b5804ff99d74345624935fed",
+          "id": "9d5ec699af5e4f648879310c66be045e",
           "title": "Requirement response",
           "description": "some description",
           "requirement": {
@@ -607,7 +606,7 @@ X-Content-Type-Options: nosniff
       "status": "active",
       "documents": [
         {
-          "id": "75590b4f943f4d1ca5bf6957f1aa3acf",
+          "id": "bf2b73185c7644999f4c772fd7dbc4b7",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part1.pdf",
           "format": "application/pdf",
@@ -620,11 +619,11 @@ X-Content-Type-Options: nosniff
           "isDescriptionDecision": false
         },
         {
-          "id": "2379751ab69d4630b7c3ad6828a59f82",
+          "id": "19fcd74e8e884158873085b65694b1dc",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part2.pdf",
           "format": "application/pdf",
-          "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids/bf385297ea2240069057a49814810cc7/documents/2379751ab69d4630b7c3ad6828a59f82?download=aec550f71c1e47f4bb789564fdfa149c",
+          "url": "/tenders/cce509cd3c324437829f34f6d4d074fb/bids/858275d219d14850b85c83ea77b91281/documents/19fcd74e8e884158873085b65694b1dc?download=aec550f71c1e47f4bb789564fdfa149c",
           "datePublished": "2021-03-16T00:00:00+02:00",
           "dateModified": "2021-03-16T00:00:00+02:00",
           "documentOf": "tender",

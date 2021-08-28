@@ -317,17 +317,29 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin):
         #### Proposal Uploading
 
         with open(TARGET_DIR + 'upload-bid-proposal.http', 'w') as self.app.file_obj:
-            response = self.app.post(
+            response = self.app.post_json(
                 '/tenders/{}/bids/{}/documents?acc_token={}'.format(
                     self.tender_id, bid1_id, bids_access[bid1_id]),
-                upload_files=[('file', 'Proposal.pdf', b'content')])
+                {"data": {
+                    "title": "Proposal.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }},
+            )
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'upload-bid-private-proposal.http', 'w') as self.app.file_obj:
-            response = self.app.post(
+            response = self.app.post_json(
                 '/tenders/{}/bids/{}/documents?acc_token={}'.format(
                     self.tender_id, bid1_id, bids_access[bid1_id]),
-                upload_files=[('file', 'Proposal_top_secrets.pdf', b'content')])
+                {"data": {
+                    "title": "Proposal_top_secrets.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }},
+            )
             self.assertEqual(response.status, '201 Created')
             priv_doc_id = response.json['data']['id']
 
@@ -343,16 +355,28 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'upload-bid-financial-document-proposal.http', 'w') as self.app.file_obj:
-            response = self.app.post(
+            response = self.app.post_json(
                 '/tenders/{}/bids/{}/financial_documents?acc_token={}'.format(
                     self.tender_id, bid1_id, bids_access[bid1_id]),
-                upload_files=[('file', 'financial_doc.pdf', b'1000$')])
+                {"data": {
+                    "title": "financial_doc.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }},
+            )
             self.assertEqual(response.status, '201 Created')
 
-            response = self.app.post(
+            response = self.app.post_json(
                 '/tenders/{}/bids/{}/financial_documents?acc_token={}'.format(
                     self.tender_id, bid1_id, bids_access[bid1_id]),
-                upload_files=[('file', 'financial_doc2.pdf', b'1000$')])
+                {"data": {
+                    "title": "financial_doc2.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }},
+            )
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'bidder-documents.http', 'w') as self.app.file_obj:
@@ -368,17 +392,29 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'upload-bid-eligibility-document-proposal.http', 'w') as self.app.file_obj:
-            response = self.app.post(
+            response = self.app.post_json(
                 '/tenders/{}/bids/{}/eligibility_documents?acc_token={}'.format(
                     self.tender_id, bid1_id, bids_access[bid1_id]),
-                upload_files=[('file', 'eligibility_doc.pdf', b'content')])
+                {"data": {
+                    "title": "eligibility_doc.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }},
+            )
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'upload-bid-qualification-document-proposal.http', 'w') as self.app.file_obj:
-            response = self.app.post(
+            response = self.app.post_json(
                 '/tenders/{}/bids/{}/qualification_documents?acc_token={}'.format(
                     self.tender_id, bid1_id, bids_access[bid1_id]),
-                upload_files=[('file', 'qualification_document.pdf', b'content')])
+                {"data": {
+                    "title": "qualification_document.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }},
+            )
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'bidder-view-financial-documents.http', 'w') as self.app.file_obj:

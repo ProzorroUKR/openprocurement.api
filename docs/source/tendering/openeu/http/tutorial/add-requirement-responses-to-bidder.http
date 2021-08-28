@@ -258,12 +258,6 @@ X-Content-Type-Options: nosniff
       }
     ],
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "parameters": [],
-    "lotValues": [],
-    "documents": [],
-    "financialDocuments": [],
-    "eligibilityDocuments": [],
-    "qualificationDocuments": [],
     "selfQualified": true,
     "status": "draft"
   }

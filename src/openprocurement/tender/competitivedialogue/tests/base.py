@@ -35,6 +35,12 @@ from openprocurement.tender.openua.tests.base import test_tender_data as base_te
 test_bids = deepcopy(test_bids)
 test_bids.append(deepcopy(test_bids[0]))  # Minimal number of bits is 3
 
+test_bids_stage1 = deepcopy(test_bids)
+for b in test_bids_stage1:
+    for f in tuple(b.keys()):
+        if f not in ("tenderers", "selfQualified", "selfEligible", "lotValues"):
+            del b[f]
+
 now = datetime.now()
 test_tender_data_eu = deepcopy(base_test_tender_data_eu)
 test_tender_data_eu["procurementMethodType"] = CD_EU_TYPE

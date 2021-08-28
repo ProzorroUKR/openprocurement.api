@@ -34,7 +34,7 @@ X-Content-Type-Options: nosniff
           "scale": "micro"
         }
       ],
-      "bid_id": "2a789548d1ca4ad1b443d94ea168868b",
+      "bid_id": "db456e258e62433f85f9eb784fdd2bcd",
       "complaintPeriod": {
         "startDate": "2021-03-16T00:00:00+02:00",
         "endDate": "2021-03-20T00:00:00+02:00"
@@ -74,7 +74,7 @@ X-Content-Type-Options: nosniff
           "scale": "micro"
         }
       ],
-      "bid_id": "8705ff09f9b44d08950a98d0c5adae4c",
+      "bid_id": "d9d386def43949398d0d96b16c8edd34",
       "complaintPeriod": {
         "startDate": "2021-03-16T00:00:00+02:00",
         "endDate": "2021-03-20T00:00:00+02:00"

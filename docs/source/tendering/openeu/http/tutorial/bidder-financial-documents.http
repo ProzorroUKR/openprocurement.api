@@ -8,28 +8,26 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "id": "8e02e8f62e594ef89dd5e2217abe653a",
       "hash": "md5:00000000000000000000000000000000",
       "title": "financial_doc.pdf",
       "format": "application/pdf",
-      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/7b97714f142c430b98dd609d94a9e441/financial_documents/8e02e8f62e594ef89dd5e2217abe653a?download=83d40b8f44aa42e8834777e83d65136a",
-      "datePublished": "2021-03-16T00:00:00+02:00",
-      "dateModified": "2021-03-16T00:00:00+02:00",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/83d40b8f44aa42e8834777e83d65136a?Signature=bip331nzCa58Ro0Y6tWxS1g%2BHW9DN299ipVOsq6tbECjK2pA5vGsJ0PxwUbedCa%2Fl1WYhi9VWRi79MuYXOeGBw%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
       "confidentiality": "public",
-      "language": "uk"
+      "id": "0c9fff4eb20b4184a98742e4b5482090",
+      "datePublished": "2021-03-16T00:00:00+02:00",
+      "dateModified": "2021-03-16T00:00:00+02:00"
     },
     {
-      "id": "9db719cc857747bbb8e8626d70bc7a85",
       "hash": "md5:00000000000000000000000000000000",
       "title": "financial_doc2.pdf",
       "format": "application/pdf",
-      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/7b97714f142c430b98dd609d94a9e441/financial_documents/9db719cc857747bbb8e8626d70bc7a85?download=c3ae1eb4787a4dca98285ad72a6c6df1",
-      "datePublished": "2021-03-16T00:00:00+02:00",
-      "dateModified": "2021-03-16T00:00:00+02:00",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c3ae1eb4787a4dca98285ad72a6c6df1?Signature=HsId8%2FAi7FCNb5ZNS0SJ%2FJIWDmG8ia0Pn4Bi9ejApc2MGp6Scz27jObFqvzofmZVb3GEYR7P351h%2BmyFqsFBBg%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
       "confidentiality": "public",
-      "language": "uk"
+      "id": "eedddc200fd242d684df6fedee82411b",
+      "datePublished": "2021-03-16T00:00:00+02:00",
+      "dateModified": "2021-03-16T00:00:00+02:00"
     }
   ]
 }

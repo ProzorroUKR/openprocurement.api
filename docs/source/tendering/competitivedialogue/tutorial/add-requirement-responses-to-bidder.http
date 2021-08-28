@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids/d46e2205e6014884beff5e4df83a4e19?acc_token=a10950a6626346cb8694ecf3e4ba0a7f HTTP/1.0
+PATCH /api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids/fd70953552a346ecbb2d7f86de89b253?acc_token=3b8122a4f9fa475ca69d57dcfb5380d6 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 14504
 Content-Type: application/json
@@ -115,34 +115,11 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "tenderers": [
-      {
-        "name": "ДКП «Школяр»",
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00137256",
-          "uri": "http://www.sc.gov.ua/"
-        },
-        "address": {
-          "streetAddress": "вул. Островського, 33",
-          "locality": "м. Вінниця",
-          "region": "Вінницька область",
-          "postalCode": "21100",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "name": "Сергій Олексюк",
-          "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
-        },
-        "scale": "micro"
-      }
-    ],
+    "id": "fd70953552a346ecbb2d7f86de89b253",
     "date": "2021-03-16T00:00:00+02:00",
-    "id": "d46e2205e6014884beff5e4df83a4e19",
     "requirementResponses": [
       {
-        "id": "1a4728a64899402aa2b8394b94612dd9",
+        "id": "ef0f70d907ec4e7b9d5c56b40ce93e68",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -152,7 +129,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "5b02717efbc04bbf88ff592a58e4e5c5",
+        "id": "c59f9ddfc95e473099d6f4ac75f58e7c",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -162,7 +139,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "695baf9cd66b424490b943599e62e123",
+        "id": "37a7adf4849948b6ac35da4990eae88f",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -172,7 +149,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "8bfbcecdadd046e68d4ff6a539bae0d4",
+        "id": "77c103da1cbe4286b64fd1b7d3fe0d7e",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -182,7 +159,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "f61f804d68964dfbb2ae7db3df05524d",
+        "id": "331d67e2d65d44e7bea2623125c45228",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -192,7 +169,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "b2cdbb5633f848beb65d54cdb000a94d",
+        "id": "36055a76e38a4e579893a8f29b942621",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -202,7 +179,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "42ccee1adff545f392e3cbdbbf273490",
+        "id": "e6d1f05822fa4675853d86bdc84fa44c",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -212,7 +189,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "7d49d5e34a5443bebb710a3ea1f2a4ca",
+        "id": "77506421383c4513ae9018ffe507ed86",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -222,7 +199,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "ba84cf2d46b54d74b0ef46ef5f6aa04e",
+        "id": "b516909a270d4127b202c829d52bb542",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -232,7 +209,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "5664d4c9c7e543e5bf19663045ced09e",
+        "id": "7e23d4d2926e4a888ef7a24fcc9bc2c5",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -242,7 +219,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "b710b973cf634726ba233dd1b6952a89",
+        "id": "45534f4968854c0bbea6d604dc7b080a",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -252,8 +229,31 @@ X-Content-Type-Options: nosniff
         "value": "True"
       }
     ],
-    "selfQualified": true,
+    "tenderers": [
+      {
+        "name": "ДКП «Школяр»",
+        "identifier": {
+          "uri": "http://www.sc.gov.ua/",
+          "scheme": "UA-EDR",
+          "id": "00137256"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
+        },
+        "scale": "micro"
+      }
+    ],
     "subcontractingDetails": "ДКП «Орфей», Україна",
+    "selfQualified": true,
     "status": "draft"
   }
 }

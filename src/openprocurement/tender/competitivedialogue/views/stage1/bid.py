@@ -67,13 +67,13 @@ def patch_bid_first_stage(self):
         return {"data": self.request.context.serialize("view")}
 
 
-@optendersresource(
-    name="{}:Tender Bids".format(CD_EU_TYPE),
-    collection_path="/tenders/{tender_id}/bids",
-    path="/tenders/{tender_id}/bids/{bid_id}",
-    procurementMethodType=CD_EU_TYPE,
-    description="Competitive Dialogue EU bids",
-)
+# @optendersresource(
+#     name="{}:Tender Bids".format(CD_EU_TYPE),
+#     collection_path="/tenders/{tender_id}/bids",
+#     path="/tenders/{tender_id}/bids/{bid_id}",
+#     procurementMethodType=CD_EU_TYPE,
+#     description="Competitive Dialogue EU bids",
+# )
 class CompetitiveDialogueEUBidResource(BaseResourceEU):
     """ Tender EU bids """
 
@@ -90,13 +90,13 @@ class CompetitiveDialogueEUBidResource(BaseResourceEU):
     )(patch_bid_first_stage)
 
 
-@optendersresource(
-    name="{}:Tender Bids".format(CD_UA_TYPE),
-    collection_path="/tenders/{tender_id}/bids",
-    path="/tenders/{tender_id}/bids/{bid_id}",
-    procurementMethodType=CD_UA_TYPE,
-    description="Competitive Dialogue UA bids",
-)
+# @optendersresource(
+#     name="{}:Tender Bids".format(CD_UA_TYPE),
+#     collection_path="/tenders/{tender_id}/bids",
+#     path="/tenders/{tender_id}/bids/{bid_id}",
+#     procurementMethodType=CD_UA_TYPE,
+#     description="Competitive Dialogue UA bids",
+# )
 class CompetitiveDialogueUABidResource(BaseResourceEU):
     """ Tender UA bids """
 

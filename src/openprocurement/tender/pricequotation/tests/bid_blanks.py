@@ -11,6 +11,7 @@ from openprocurement.tender.pricequotation.tests.base import \
     test_organization, test_requirement_response_valid, test_response_1,\
     test_response_2_1, test_response_2_2, test_response_3_1,\
     test_response_3_2, test_response_4
+from openprocurement.tender.core.tests.base import change_auth
 
 
 def create_tender_bid_invalid(self):
@@ -207,9 +208,22 @@ def create_tender_bid_invalid(self):
         [{"description": ["This field is required."], "location": "body", "name": "requirementResponses"}],
     )
 
+    non_shortlist_org = deepcopy(test_organization)
+    non_shortlist_org["identifier"]["id"] = "69"
+    response = self.app.post_json(
+        "/tenders/{}/bids".format(self.tender_id),
+        {"data": {"tenderers": [non_shortlist_org], "value": {"amount": 500},
+                  "requirementResponses": test_requirement_response_valid}},
+        status=403,
+    )
+    self.assertEqual(
+        response.json,
+        {'status': 'error', 'errors': [
+            {'location': 'body', 'name': 'data', 'description': "Can't add bid if tenderer not in shortlistedFirms"}]}
+    )
+
 
 def create_tender_bid(self):
-    dateModified = self.db.get(self.tender_id).get("dateModified")
 
     # Revert tender to statuses ('draft', 'draft.unsuccessful', 'draft.publishing')
     data = self.db.get(self.tender_id)
@@ -219,6 +233,7 @@ def create_tender_bid(self):
     for status in ('draft', 'draft.publishing', 'draft.unsuccessful'):
         data['status'] = status
         self.db.save(data)
+
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
             {
@@ -236,14 +251,27 @@ def create_tender_bid(self):
                            "name": "data",
                            "description": "Can't add bid in current ({}) tender status".format(status)}])
 
-    # Restore tender to 'active.tendering' status
-    data['status'] = current_status
+    # Restore tender to 'draft' status
+    data['status'] = "draft.publishing"
     data['criteria'] = criteria
     self.db.save(data)
 
+    # switch to tendering
+    with change_auth(self.app, ("Basic", ("pricequotation", ""))):
+        response = self.app.patch_json(
+            "/tenders/{}".format(self.tender_id),
+            {"data": {"status": "active.tendering"}}
+        )
+        date_modified = response.json["data"].get("dateModified")
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_organization], "value": {"amount": 500}, "requirementResponses": test_requirement_response_valid }},
+        {"data": {
+            "tenderers": [test_organization],
+            "value": {"amount": 500},
+            "requirementResponses": test_requirement_response_valid,
+            "documents": None,
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -252,7 +280,15 @@ def create_tender_bid(self):
     self.assertIn("id", bid)
     self.assertIn(bid["id"], response.headers["Location"])
 
-    self.assertEqual(self.db.get(self.tender_id).get("dateModified"), dateModified)
+    self.assertEqual(self.db.get(self.tender_id).get("dateModified"), date_modified)
+
+    # post second
+    response = self.app.post_json(
+        "/tenders/{}/bids".format(self.tender_id),
+        {"data": {"tenderers": [test_organization], "value": {"amount": 501},
+                  "requirementResponses": test_requirement_response_valid}},
+    )
+    self.assertEqual(response.status, "201 Created")
 
     self.set_status("complete")
 
@@ -545,6 +581,20 @@ def patch_tender_bid(self):
     self.assertEqual(response.json["data"]["date"], bid["date"])
     self.assertNotEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
+    non_shortlist_org = deepcopy(test_organization)
+    non_shortlist_org["identifier"]["id"] = "69"
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={token}",
+        {"data": {"tenderers": [non_shortlist_org]}},
+        status=403,
+    )
+    self.assertEqual(
+        response.json,
+        {'status': 'error', 'errors': [
+            {'location': 'body', 'name': 'data',
+             'description': "Can't update bid if tenderer not in shortlistedFirms"}]}
+    )
+
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
         {"data": {"value": {"amount": 500}, "tenderers": [test_organization]}},
@@ -745,20 +795,30 @@ def bid_Administrator_change(self):
     bid = response.json["data"]
 
     self.app.authorization = ("Basic", ("administrator", ""))
+    self.app.patch_json(
+        "/tenders/{}/bids/{}".format(self.tender_id, bid["id"]),
+        {"data": {"tenderers": [{"identifier": {"id": "00000000"}}]}},
+        status=403
+    )
+
     response = self.app.patch_json(
         "/tenders/{}/bids/{}".format(self.tender_id, bid["id"]),
-        {"data": {"tenderers": [{"identifier": {"id": "00000000"}}], "value": {"amount": 400}}},
+        {"data": {"tenderers": [{"identifier": {"legalName": "ТМ Валєра"}}]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertNotEqual(response.json["data"]["value"]["amount"], 400)
-    self.assertEqual(response.json["data"]["tenderers"][0]["identifier"]["id"], "00000000")
+    self.assertEqual(response.json["data"]["tenderers"][0]["identifier"]["legalName"], "ТМ Валєра")
 
 
 def patch_tender_bid_document(self):
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -812,9 +872,14 @@ def create_tender_bid_document_nopending(self):
         {"data": {"status": "active"}},
     )
 
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, token),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -825,10 +890,14 @@ def create_tender_bid_document_nopending(self):
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.qualification")
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, token),
-        "content3",
-        content_type="application/msword",
+        {"data": {
+            "title": "name_3.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -837,9 +906,14 @@ def create_tender_bid_document_nopending(self):
         response.json["errors"][0]["description"], "Can't update document because award of bid is not in pending state"
     )
 
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, token),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")

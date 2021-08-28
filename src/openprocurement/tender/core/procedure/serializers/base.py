@@ -10,7 +10,8 @@ class ListSerializer:
 
     @property
     def data(self) -> list:
-        return [self.cls(e).data for e in self._data]
+        if self._data:
+            return [self.cls(e).data for e in self._data]
 
 
 class BaseSerializer:

@@ -44,7 +44,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/dfe1f11c2ec14520b8aac4060a0fd10f
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/5502be861ff24fa281a68247002d018c
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -52,9 +52,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "ДКП «Книга»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137226",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137226"
         },
         "address": {
           "streetAddress": "вул. Островського, 34",
@@ -64,33 +64,33 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Андрій Олексюк",
           "email": "aagt@gmail.com",
-          "telephone": "+380322916930"
+          "telephone": "+380322916930",
+          "name": "Андрій Олексюк"
         },
         "scale": "sme"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "dfe1f11c2ec14520b8aac4060a0fd10f",
     "lotValues": [
       {
-        "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
-        "date": "2021-03-16T00:00:00+02:00",
-        "status": "pending",
         "value": {
+          "amount": 499.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true,
-          "amount": 499
-        }
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
+        "status": "pending",
+        "date": "2021-03-16T00:00:00+02:00"
       }
     ],
     "selfQualified": true,
-    "status": "draft"
+    "status": "draft",
+    "id": "5502be861ff24fa281a68247002d018c",
+    "date": "2021-03-16T00:00:00+02:00"
   },
   "access": {
-    "token": "acee2456fb93474caa983e9dbf3b94dc",
-    "transfer": "69c0318649d54189baafa90c5a26ea4c"
+    "token": "94c82a3cbe3d4660a173be02bec76dea",
+    "transfer": "eec3698802be4a60a60a3ea7153c5d00"
   }
 }
 

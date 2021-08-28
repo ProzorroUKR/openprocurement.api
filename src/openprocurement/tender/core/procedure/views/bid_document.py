@@ -13,12 +13,15 @@ from openprocurement.tender.core.procedure.utils import (
     get_items,
     set_item,
     save_tender,
+    apply_data_patch,
 )
 
 
 class TenderBidDocumentResource(TenderBidResource):
     serializer_class = DocumentSerializer
     model_class = Document
+    container = "documents"
+    # document_type = "qualification" ??
 
     def __init__(self, request, context=None):
         super().__init__(request, context)
@@ -26,11 +29,11 @@ class TenderBidDocumentResource(TenderBidResource):
             match_dict = request.matchdict
             if match_dict.get("document_id"):
                 document_id = match_dict["document_id"]
-                documents = get_items(request, request.validated["bid"], "documents", document_id)
+                documents = get_items(request, request.validated["bid"], self.container, document_id)
                 request.validated["documents"] = documents
                 request.validated["document"] = documents[-1]
             else:
-                request.validated["documents"] = request.validated["bid"].get("documents", tuple())
+                request.validated["documents"] = request.validated["bid"].get(self.container, tuple())
 
     def set_doc_author(self, doc):
         pass
@@ -69,9 +72,9 @@ class TenderBidDocumentResource(TenderBidResource):
 
         # attaching documents to the bid
         bid = self.request.validated["bid"]
-        if "documents" not in bid:
-            bid["documents"] = []
-        bid["documents"].extend(documents)
+        if self.container not in bid:
+            bid[self.container] = []
+        bid[self.container].extend(documents)
 
         # saving tender
         modified = self.request.validated["tender"]["status"] != "active.tendering"
@@ -112,7 +115,7 @@ class TenderBidDocumentResource(TenderBidResource):
     def put(self):
         document = self.request.validated["data"]
         bid = self.request.validated["bid"]
-        bid["documents"].append(document)
+        bid[self.container].append(document)
 
         modified = self.request.validated["tender"]["status"] != "active.tendering"
         if save_tender(self.request, modified=modified):
@@ -126,7 +129,7 @@ class TenderBidDocumentResource(TenderBidResource):
         document = self.request.validated["document"]
         updated_document = self.request.validated["data"]
         if updated_document:
-            set_item(self.request.validated["bid"], "documents", document["id"], updated_document)
+            set_item(self.request.validated["bid"], self.container, document["id"], updated_document)
 
             modified = self.request.validated["tender"]["status"] != "active.tendering"
             if save_tender(self.request, modified=modified):

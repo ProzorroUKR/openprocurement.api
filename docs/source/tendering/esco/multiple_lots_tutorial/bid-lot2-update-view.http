@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/3999e118d0d4460a8852c363407a5252/bids/819dd4a294e24e6196df664ff36aed16?acc_token=acac5f3d503545ecb1652cbdf4ccd6d0 HTTP/1.0
+PATCH /api/2.5/tenders/3999e118d0d4460a8852c363407a5252/bids/2ab7fecbd7c846c9a4c507a13f01efd8?acc_token=afd678aee3e249888d49a05e3616d8b5 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 124
 Content-Type: application/json
@@ -27,9 +27,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "ДКП «Книга»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137226",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137226"
         },
         "address": {
           "streetAddress": "вул. Островського, 34",
@@ -39,18 +39,18 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Андрій Олексюк",
           "email": "aagt@gmail.com",
-          "telephone": "+380322916930"
+          "telephone": "+380322916930",
+          "name": "Андрій Олексюк"
         },
         "scale": "sme"
       }
     ],
+    "id": "2ab7fecbd7c846c9a4c507a13f01efd8",
     "date": "2021-03-16T00:00:00+02:00",
-    "id": "819dd4a294e24e6196df664ff36aed16",
     "requirementResponses": [
       {
-        "id": "9b0bc3de986b4d639ad2c465400e4085",
+        "id": "8213963408444839b2f4f16757796fb7",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -60,7 +60,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "adb04750c55b4a75aa0a51f97ea56a2b",
+        "id": "2a85676145774877bd008514504b5e21",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -70,7 +70,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "a55ba338194d44a4883276804d92b1a0",
+        "id": "7c3f2bbc55f94f37a1e5937b89029962",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -80,7 +80,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "26b658f8b65c4974b0851813dbac9be2",
+        "id": "6bcd84a702b541fc8772e3516eafa538",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -90,7 +90,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "bf952297257b4c448e2c0132b02deb06",
+        "id": "1b510b4793074ecfb51a4845402f60b1",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -100,7 +100,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "48f384d8bca7490f85a7d71bef3e9a69",
+        "id": "894e024ea118443a89f70e132ffa21aa",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -110,7 +110,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "c6e88ca0eaad412e8e0531f754021a5a",
+        "id": "a1bdefdf823848f09830dd94157ee22d",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -120,7 +120,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "b93e1b58d0334528996ed2577030f84e",
+        "id": "95d8290779f340bc895e31f02555e2dc",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -130,7 +130,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "b6419048830e47f58bcb4664bb380fc5",
+        "id": "669f5b9a82924afeb5d599682a218c02",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -140,7 +140,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "f78dcec4b2ee433fbac7d12c9ad16e81",
+        "id": "39e04f3c2c4a49719f6198a7efcea7ef",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -150,7 +150,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "982834db85a043cd8e789b37174d8028",
+        "id": "07ed994922104283b4065bdb6cdb62cd",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -164,8 +164,6 @@ X-Content-Type-Options: nosniff
     "lotValues": [
       {
         "relatedLot": "93256198e2e7429ab4d0300cc250244f",
-        "date": "2021-03-16T00:00:00+02:00",
-        "status": "pending",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
@@ -199,7 +197,9 @@ X-Content-Type-Options: nosniff
             "years": 7,
             "days": 0
           }
-        }
+        },
+        "date": "2021-03-16T00:00:00+02:00",
+        "status": "pending"
       }
     ],
     "selfQualified": true

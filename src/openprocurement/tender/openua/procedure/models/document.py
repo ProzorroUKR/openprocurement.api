@@ -9,7 +9,7 @@ from schematics.exceptions import ValidationError
 
 
 class ConfidentialityMixin(Model):
-    confidentiality = StringType(choices=["public", "buyerOnly"])
+    confidentiality = StringType(choices=["public", "buyerOnly"], default="public")
     confidentialityRationale = StringType()
 
     def validate_confidentialityRationale(self, data, val):
@@ -26,6 +26,7 @@ class PostDocument(BasePostDocument, ConfidentialityMixin):
 
 
 class PatchDocument(BasePatchDocument, ConfidentialityMixin):
+    confidentiality = StringType(choices=["public", "buyerOnly"])
     language = StringType(choices=["uk", "en", "ru"])
 
 

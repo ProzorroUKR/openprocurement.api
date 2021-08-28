@@ -16,13 +16,13 @@ from openprocurement.tender.core.validation import (
 from openprocurement.tender.openua.validation import validate_update_bid_document_confidentiality
 
 
-@optendersresource(
-    name="aboveThresholdUA.defense:Tender Bid Documents",
-    collection_path="/tenders/{tender_id}/bids/{bid_id}/documents",
-    path="/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}",
-    procurementMethodType="aboveThresholdUA.defense",
-    description="Tender UA.defense bidder documents",
-)
+# @optendersresource(
+#     name="aboveThresholdUA.defense:Tender Bid Documents",
+#     collection_path="/tenders/{tender_id}/bids/{bid_id}/documents",
+#     path="/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}",
+#     procurementMethodType="aboveThresholdUA.defense",
+#     description="Tender UA.defense bidder documents",
+# )
 class TenderUaBidDocumentResource(TenderBidDocumentResource):
 
     @json_view(

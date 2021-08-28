@@ -653,7 +653,7 @@ X-Content-Type-Options: nosniff
     "qualifications": [
       {
         "id": "91fea63461584bbfb51af91ff7d999ed",
-        "bidID": "9af11f4c77fd4f628c26842ce608d9c3",
+        "bidID": "1364aaf7ec90441692c76ccb24a623f8",
         "lotID": "150e2750fa2942ce9315e80ddf78a62a",
         "status": "active",
         "date": "2021-03-16T00:00:00+02:00",
@@ -662,7 +662,7 @@ X-Content-Type-Options: nosniff
       },
       {
         "id": "073ef715e82d48c79e266d118dfab12b",
-        "bidID": "1a988edb87ac4900ab4f425b3e5ae9de",
+        "bidID": "5d17e351e54f4949ac1c1cee9cece058",
         "lotID": "150e2750fa2942ce9315e80ddf78a62a",
         "status": "active",
         "date": "2021-03-16T00:00:00+02:00",
@@ -671,7 +671,7 @@ X-Content-Type-Options: nosniff
       },
       {
         "id": "23909464124544bf8cc3423271906500",
-        "bidID": "e2df02eb6d714e1a83b790a96d51f777",
+        "bidID": "efd32c624d1c490a9d4e31ec0301cfa8",
         "lotID": "150e2750fa2942ce9315e80ddf78a62a",
         "status": "active",
         "date": "2021-03-16T00:00:00+02:00",
@@ -711,7 +711,7 @@ X-Content-Type-Options: nosniff
             "scale": "micro"
           }
         ],
-        "id": "9af11f4c77fd4f628c26842ce608d9c3",
+        "id": "1364aaf7ec90441692c76ccb24a623f8",
         "status": "active"
       },
       {
@@ -738,7 +738,7 @@ X-Content-Type-Options: nosniff
             "scale": "sme"
           }
         ],
-        "id": "1a988edb87ac4900ab4f425b3e5ae9de",
+        "id": "5d17e351e54f4949ac1c1cee9cece058",
         "status": "active"
       },
       {
@@ -765,7 +765,7 @@ X-Content-Type-Options: nosniff
             "scale": "mid"
           }
         ],
-        "id": "e2df02eb6d714e1a83b790a96d51f777",
+        "id": "efd32c624d1c490a9d4e31ec0301cfa8",
         "status": "active"
       }
     ],

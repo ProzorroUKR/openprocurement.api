@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/468ac9114f984d6db190c626a8aaf7d2?acc_token=f951db70a1164f61a8e890d5f458a6c5 HTTP/1.0
+GET /api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/ae5a970874fd4292995525fb1c03d678?acc_token=dabbc7c822784799ad698457d896e750 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -31,11 +31,11 @@ X-Content-Type-Options: nosniff
       }
     ],
     "date": "2021-03-16T00:00:00+02:00",
-    "id": "468ac9114f984d6db190c626a8aaf7d2",
-    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/33f610abd0a54c8bb1da547c377a3324?key_for_bid=468ac9114f984d6db190c626a8aaf7d2",
+    "id": "ae5a970874fd4292995525fb1c03d678",
+    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/33f610abd0a54c8bb1da547c377a3324?key_for_bid=ae5a970874fd4292995525fb1c03d678",
     "requirementResponses": [
       {
-        "id": "b877fc81873d47cfaa0b68738a965bab",
+        "id": "7ce7b3f20af44b8ea0038eac22b771c9",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -45,7 +45,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "56cc50ae82ef40739e33c54071281378",
+        "id": "6805aef85dcb44c2b97233b7bc05f762",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -55,7 +55,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "a62c47bdbf6a4fd4935467c8f49ab9e2",
+        "id": "28cd24546e654c5bb0bd1fb0b34e5cca",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -65,7 +65,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "e40fb445125c43928ac560b776b3bee3",
+        "id": "4a55f693d28a4429bb972d60e47067b3",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -75,7 +75,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "4d8a18c15df54d86a1a12d27ff03f15d",
+        "id": "3b0d989cebc44d159152bd94df382dae",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -85,7 +85,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "eec10e3d2fb74e768819d4d0f9471fa8",
+        "id": "bdfa0fc40f364577b77cc03a1cde6337",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -95,7 +95,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "943160f942334de488a5f4277f973468",
+        "id": "bc64d0acf5d649cf95304c1ad027aeb3",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -105,7 +105,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "2222495d0c56422685cf0cfc8739e57c",
+        "id": "b1df38da91c14f73aab5373a564512c6",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -115,7 +115,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "9d85c85e65d3473d91cc87241f7478ed",
+        "id": "8d33ee6707bf4c388c4a7da1b8d7a9e9",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -125,7 +125,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "138bcfc60c324bc1a5d0f04bf234a60e",
+        "id": "cf49cb16c7fd427ab37512a04ed3ce88",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -135,7 +135,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "253107eb122f4fc3b261e7bcb9321ac9",
+        "id": "85817bee9b3648ec8bf4813b0a78cd65",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {

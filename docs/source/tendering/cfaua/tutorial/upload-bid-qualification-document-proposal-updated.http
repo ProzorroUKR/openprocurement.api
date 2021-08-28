@@ -1,32 +1,32 @@
-PUT /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/fa412b9bcd92484d9f8871b0ee0df130/qualification_documents/13a99a17b16648f5940131d68841cfc1?acc_token=c0c98c22f5594c6e99ba094d5d9a9b63 HTTP/1.0
+PUT /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/b142414a5dc84ec0a828ba7e3d5f3513/qualification_documents/3eb8844179a441aea334906f1bf1d3c2?acc_token=4e94ef2d4d854792b5f438b3a1f289b5 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 159
-Content-Type: multipart/form-data; boundary=---BOUNDARY
+Content-Length: 335
+Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
------BOUNDARY
-Content-Disposition: form-data; name="file"; filename="qualification_document2.pdf"
-Content-Type: application/pdf
-
-content
------BOUNDARY--
-
+{
+  "data": {
+    "title": "qualification_document2.pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9595b5d341ff4269b8f0df2aa37ce8de?Signature=3Ga1RfvHAxMRaLOEdy5vpgHdOFqICFqqJ1uAKMs41HPEr6tDbURYwwEPqBwyCuvpAqGnfxehqrrEWVNfltx7Bw%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pdf"
+  }
+}
 
 Response: 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "13a99a17b16648f5940131d68841cfc1",
+    "id": "3eb8844179a441aea334906f1bf1d3c2",
+    "datePublished": "2021-03-16T00:00:00+02:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "qualification_document2.pdf",
     "format": "application/pdf",
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/fa412b9bcd92484d9f8871b0ee0df130/qualification_documents/13a99a17b16648f5940131d68841cfc1?download=c5f78a532c71475fb5000733bc9a911a",
-    "datePublished": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/b142414a5dc84ec0a828ba7e3d5f3513/qualification_documents/3eb8844179a441aea334906f1bf1d3c2?download=9595b5d341ff4269b8f0df2aa37ce8de",
     "documentOf": "tender",
-    "confidentiality": "public",
-    "language": "uk"
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "confidentiality": "public"
   }
 }
 

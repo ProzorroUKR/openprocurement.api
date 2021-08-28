@@ -255,8 +255,12 @@ def set_bid_responses(criteria):
 
 
 def set_bid_lotvalues(bid, lots):
-    value = bid.pop("value", None) or bid["lotValues"][0]["value"]
-    bid["lotValues"] = [{"value": value, "relatedLot": lot["id"]} for lot in lots]
+    try:
+        value = bid.pop("value", None) or bid["lotValues"][0]["value"]
+    except KeyError:
+        bid["lotValues"] = [{"relatedLot": lot["id"]} for lot in lots]
+    else:
+        bid["lotValues"] = [{"value": value, "relatedLot": lot["id"]} for lot in lots]
     return bid
 
 

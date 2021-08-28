@@ -110,6 +110,7 @@ bid_amount = round(
 
 
 class TenderBidResourceTest(BaseESCOContentWebTest):
+    docservice = True
     initial_status = "active.tendering"
     test_bids_data = test_bids
     author_data = test_author
@@ -159,6 +160,7 @@ class TenderBidDocumentResourceTest(BaseESCOContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "active.tendering"
     test_bids_data = test_bids
+    docservice = True
 
     def setUp(self):
         super(TenderBidDocumentResourceTest, self).setUp()
@@ -190,10 +192,6 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
     test_download_tender_bidder_document = snitch(download_tender_bidder_document)
 
     test_create_tender_bidder_document_nopending = snitch(create_tender_bidder_document_nopending)
-
-
-class TenderBidDocumentWithoutDSResourceTest(TenderBidDocumentResourceTest):
-    docservice = False
 
 
 class TenderBidBatchDocumentsWithDSResourceTest(BaseESCOContentWebTest):

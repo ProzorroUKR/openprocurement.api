@@ -17,13 +17,13 @@ from openprocurement.tender.cfaselectionua.validation import (
 from openprocurement.tender.core.utils import save_tender, optendersresource, apply_patch
 
 
-@optendersresource(
-    name="closeFrameworkAgreementSelectionUA:Tender Bids",
-    collection_path="/tenders/{tender_id}/bids",
-    path="/tenders/{tender_id}/bids/{bid_id}",
-    procurementMethodType="closeFrameworkAgreementSelectionUA",
-    description="Tender bids",
-)
+# @optendersresource(
+#     name="closeFrameworkAgreementSelectionUA:Tender Bids",
+#     collection_path="/tenders/{tender_id}/bids",
+#     path="/tenders/{tender_id}/bids/{bid_id}",
+#     procurementMethodType="closeFrameworkAgreementSelectionUA",
+#     description="Tender bids",
+# )
 class TenderBidResource(APIResource):
     @json_view(
         content_type="application/json",

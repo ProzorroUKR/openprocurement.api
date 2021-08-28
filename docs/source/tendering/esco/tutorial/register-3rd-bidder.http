@@ -106,7 +106,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/5310455e694b497a843478d8f7cf8865
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/a7cd2c260a0448f5a1bf70345eb8d414
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -114,9 +114,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "ДКП «Книга»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137226",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137226"
         },
         "address": {
           "streetAddress": "вул. Островського, 34",
@@ -126,89 +126,80 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Андрій Олексюк",
           "email": "aagt@gmail.com",
-          "telephone": "+380322916930"
+          "telephone": "+380322916930",
+          "name": "Андрій Олексюк"
         },
         "scale": "sme"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "5310455e694b497a843478d8f7cf8865",
     "documents": [
       {
-        "id": "52c71f573d024dee83d8a6e14a88b327",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/5310455e694b497a843478d8f7cf8865/documents/52c71f573d024dee83d8a6e14a88b327?download=990290f4487844639797e1f0adf02bc3",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/990290f4487844639797e1f0adf02bc3?Signature=rOXN3tFVHoQCpMt2DSVVNl%2FvV6DOQUbzdFR0SblLD6LbwpfADRlJyqoONJi60r2C0BrDVvvzEycUAUVf4cu9Aw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "confidentiality": "public",
-        "language": "uk"
+        "id": "660d0c01949547d6b6247fe90cacd4f2",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00"
       },
       {
-        "id": "131f45bdc2bb41bc82a9eb373b5c5159",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
-        "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "confidentiality": "buyerOnly",
-        "language": "uk"
+        "confidentialityRationale": "Only our company sells badgers with pink hair.",
+        "id": "e49036f82b48481fbf2ad9c4a5f855ed",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00"
       }
     ],
     "financialDocuments": [
       {
-        "id": "2182d1dbd97b461587b04d01246949b7",
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/5310455e694b497a843478d8f7cf8865/financial_documents/2182d1dbd97b461587b04d01246949b7?download=6bcaaf7011c747ef9ef05690bc0f88e8",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/a7cd2c260a0448f5a1bf70345eb8d414/financial_documents/efc5cf6d869b4dacb3ccbef948132ba3?download=6bcaaf7011c747ef9ef05690bc0f88e8",
         "documentOf": "tender",
         "confidentiality": "public",
-        "language": "uk"
+        "id": "efc5cf6d869b4dacb3ccbef948132ba3",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00"
       }
     ],
     "eligibilityDocuments": [
       {
-        "id": "ce1adf32caf64846936f8e21956b990d",
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/5310455e694b497a843478d8f7cf8865/eligibility_documents/ce1adf32caf64846936f8e21956b990d?download=f20fb61ed9de43a39a775b9f82d2faaf",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/a7cd2c260a0448f5a1bf70345eb8d414/eligibility_documents/69ea8f7c365742e9a44a3e7327d9cc59?download=f20fb61ed9de43a39a775b9f82d2faaf",
         "documentOf": "tender",
         "confidentiality": "public",
-        "language": "uk"
+        "id": "69ea8f7c365742e9a44a3e7327d9cc59",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00"
       }
     ],
     "qualificationDocuments": [
       {
-        "id": "c1e6dead94ae411a9b2222d104d8b0ac",
         "hash": "md5:00000000000000000000000000000000",
         "title": "qualification_document.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/5310455e694b497a843478d8f7cf8865/qualification_documents/c1e6dead94ae411a9b2222d104d8b0ac?download=4146517e137540559a5e012437179a7f",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/a7cd2c260a0448f5a1bf70345eb8d414/qualification_documents/72a1ad5d712e4f0983a233e53ddacf5d?download=4146517e137540559a5e012437179a7f",
         "documentOf": "tender",
         "confidentiality": "public",
-        "language": "uk"
+        "id": "72a1ad5d712e4f0983a233e53ddacf5d",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00"
       }
     ],
     "status": "draft",
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
-      "amount": 8644.77,
-      "amountPerformance": 579.45,
       "yearlyPaymentsPercentage": 0.86,
       "annualCostsReduction": [
         200.0,
@@ -236,13 +227,17 @@ X-Content-Type-Options: nosniff
       "contractDuration": {
         "years": 13,
         "days": 40
-      }
+      },
+      "amountPerformance": 579.45,
+      "amount": 8644.77
     },
-    "selfQualified": true
+    "selfQualified": true,
+    "id": "a7cd2c260a0448f5a1bf70345eb8d414",
+    "date": "2021-03-16T00:00:00+02:00"
   },
   "access": {
-    "token": "6e1d05e840cc4798a24801a4b4318ee1",
-    "transfer": "027a353e1d1e48fb9cbea951fccc5ccf"
+    "token": "aaccbb23d7a24dc3a95364e938e06aab",
+    "transfer": "822ec686f6fb423db70676a75858010b"
   }
 }
 

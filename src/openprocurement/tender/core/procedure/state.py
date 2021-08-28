@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import error_handler, handle_data_exceptions
+from openprocurement.api.utils import error_handler
 from openprocurement.tender.core.procedure.context import get_now
 
 
@@ -22,8 +22,10 @@ class BidState:
     def on_post(self):
         self._data["date"] = self.now
 
-        for lot_value in self._data.get("lotValues", ""):
-            lot_value["date"] = self.now
+        lot_values = self._data.get("lotValues")
+        if lot_values:
+            for lot_value in lot_values:
+                lot_value["date"] = self.now
 
     def on_patch(self, before, after):
         # if value.amount is going to be changed -> update "date"
@@ -33,8 +35,8 @@ class BidState:
             after["date"] = self.now
 
         # the same as above, for lots
-        for after_lot in after.get("lotValues", ""):
-            for before_lot in before.get("lotValues", ""):
+        for after_lot in after.get("lotValues") or []:
+            for before_lot in before.get("lotValues") or []:
                 if before_lot["relatedLot"] == after_lot["relatedLot"]:
                     if float(before_lot["value"]["amount"]) != after_lot["value"]["amount"]:
                         after_lot["date"] = self.now

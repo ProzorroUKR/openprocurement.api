@@ -904,7 +904,7 @@ def create_tender_bidder_feature(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
 
     bid_data = deepcopy(self.test_bids_data[0])
-    del bid_data["value"]
+    bid_data.pop("value", None)
 
     bid_data.update({
         "lotValues": [{"value": {"amount": 500}, "relatedLot": self.lot_id}],

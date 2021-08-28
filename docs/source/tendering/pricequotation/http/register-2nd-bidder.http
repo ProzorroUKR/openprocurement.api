@@ -108,7 +108,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/bids/62632b90b4c44ebd81073e2fc9dbc000
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/bids/b417921608714f3f8b317c0cf06ff72f
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -116,9 +116,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "Державне управління справами",
         "identifier": {
+          "uri": "http://www.dus.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00037256",
-          "uri": "http://www.dus.gov.ua/"
+          "id": "00037256"
         },
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
@@ -128,14 +128,13 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Державне управління справами",
-          "telephone": "+0440000000"
+          "telephone": "+0440000000",
+          "name": "Державне управління справами"
         },
         "scale": "micro"
       }
     ],
-    "date": "2021-03-16T00:00:01+02:00",
-    "id": "62632b90b4c44ebd81073e2fc9dbc000",
+    "status": "draft",
     "value": {
       "amount": 479.0,
       "currency": "UAH",
@@ -143,96 +142,97 @@ X-Content-Type-Options: nosniff
     },
     "documents": [
       {
-        "id": "02fd6af18f5e49a99a68ff73f0169903",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/bids/62632b90b4c44ebd81073e2fc9dbc000/documents/02fd6af18f5e49a99a68ff73f0169903?download=192b7b24d38d4de6bc9a6b1e6c77960b",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/192b7b24d38d4de6bc9a6b1e6c77960b?Signature=CVZKWk94K98I8qC6AG1vXsG0a%2FevBdstqBn5YpFW41JCULXAM2vtaFWQsNTa5zbc%2BatZ9y4F0ewJk9%2FrxUDLBw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "id": "22f67f6902c04a4082bf73851b786a22",
         "datePublished": "2021-03-16T00:00:01+02:00",
-        "dateModified": "2021-03-16T00:00:01+02:00",
-        "documentOf": "tender"
+        "dateModified": "2021-03-16T00:00:01+02:00"
       },
       {
-        "id": "59edf3c71d23491eb00428e8efe3b9ce",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/bids/62632b90b4c44ebd81073e2fc9dbc000/documents/59edf3c71d23491eb00428e8efe3b9ce?download=e6ac8b976a3445839cd998263b5ffb42",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e6ac8b976a3445839cd998263b5ffb42?Signature=VCjd%2BsC5JO5dsnfKlP9NMTUwhUOAFwPWrRWHJknfgB0NZ81mf7OwZLG1oVrd2EKQ8G9ZQh8hXngt7%2BbwawjsCQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "id": "4d0d26d7bce149ed83e14e127c7c4b9b",
         "datePublished": "2021-03-16T00:00:01+02:00",
-        "dateModified": "2021-03-16T00:00:01+02:00",
-        "documentOf": "tender"
+        "dateModified": "2021-03-16T00:00:01+02:00"
       }
     ],
     "requirementResponses": [
       {
-        "id": "b77debb00fc84b3eacc5b1805c4cd4a7",
+        "id": "992fe700e899420889f0352e6286eb73",
         "requirement": {
           "id": "655360-0001-001-01"
         },
         "value": "23.8"
       },
       {
-        "id": "7557b12547334e7d843968e671e7d62b",
+        "id": "83b56c80fb814252a2da8214f74c33e3",
         "requirement": {
           "id": "655360-0002-001-01"
         },
         "value": "1920x1080"
       },
       {
-        "id": "da6ad23a4cd149a193da0e23c5574b5d",
+        "id": "accabda2c98d4b9b809762e9744a262d",
         "requirement": {
           "id": "655360-0003-001-01"
         },
         "value": "16:9"
       },
       {
-        "id": "d2d262620d534dca8229a5df601d394f",
+        "id": "db0eef8d75c84ffb94ff9bcd948ecca4",
         "requirement": {
           "id": "655360-0004-001-01"
         },
         "value": "250"
       },
       {
-        "id": "95a2d29a4bb04e8db719f74ab7aa2ec1",
+        "id": "0a7e5d7437f44521934798755def58c6",
         "requirement": {
           "id": "655360-0005-001-01"
         },
         "value": "1000:1"
       },
       {
-        "id": "65cc255132c344a2919b8367e30c56c6",
+        "id": "55bc6e5a813447a4b01f59a90b180077",
         "requirement": {
           "id": "655360-0006-001-01"
         },
         "value": "1"
       },
       {
-        "id": "560c11fc0b014f948780865d8456dc39",
+        "id": "1855b2e3b8d54f509e416d7122e34764",
         "requirement": {
           "id": "655360-0007-001-01"
         },
         "value": "1"
       },
       {
-        "id": "5a3d7f1509bc41e19235d3ea774e8f2f",
+        "id": "5053f15b4faf49e9a8701042dd7ae534",
         "requirement": {
           "id": "655360-0008-001-01"
         },
         "value": "HDMI"
       },
       {
-        "id": "17346ca5a1d74950831f84be42c62db0",
+        "id": "37f55707395141288d5bbf704fc4c19d",
         "requirement": {
           "id": "655360-0009-001-01"
         },
         "value": "36"
       }
     ],
-    "status": "draft"
+    "id": "b417921608714f3f8b317c0cf06ff72f",
+    "date": "2021-03-16T00:00:01+02:00"
   },
   "access": {
-    "token": "3a9b10d6d5544c5ab63ca47f59595980",
-    "transfer": "f01b1affbdb64995941c2f15baccecf4"
+    "token": "e2f9d984fab2496baec376d1ebb9dded",
+    "transfer": "3678ab49c8df4c5dbfedf0a6acf7bcd1"
   }
 }
 

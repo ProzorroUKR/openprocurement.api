@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/3999e118d0d4460a8852c363407a5252/bids/7e24df74bd344cccb8b10df30ea5ad2b?acc_token=e25474c85dbb461bbabe5f65c722b6df HTTP/1.0
+PATCH /api/2.5/tenders/3999e118d0d4460a8852c363407a5252/bids/499825a459994ef698c1b3fe612196d2?acc_token=9963e91c78e34edbb8d8b7cb08a1bc4e HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 214
 Content-Type: application/json
@@ -28,9 +28,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "ДКП «Школяр»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137256",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137256"
         },
         "address": {
           "streetAddress": "вул. Островського, 33",
@@ -40,18 +40,18 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
         },
         "scale": "micro"
       }
     ],
+    "id": "499825a459994ef698c1b3fe612196d2",
     "date": "2021-03-16T00:00:00+02:00",
-    "id": "7e24df74bd344cccb8b10df30ea5ad2b",
     "requirementResponses": [
       {
-        "id": "e4c1973d72094680bfddfed591db840d",
+        "id": "80b0a9861a5a4eb1a1adbb39cdd22ffb",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -61,7 +61,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "0edefc28de5441449a4e787f6f88fbaa",
+        "id": "01d886d8124641a9874b303373e4c447",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -71,7 +71,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "fc722e7aea594c9f862d548adfc100c8",
+        "id": "f5e879740c7f45feb0db228045476ff2",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -81,7 +81,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "3ae91355795247998d2bebcaef673ff0",
+        "id": "ae416d09e4e54b5787e8a4e1d2229c70",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -91,7 +91,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "832a5b2fd255445ebe39f75e341a4c62",
+        "id": "748617088cd940c1b03ce093875508c9",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -101,7 +101,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "e1f9b51df9154bbbac849d586820dfcf",
+        "id": "31867020c135460897c3be55991c5f61",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -111,7 +111,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "52de314cc36544008ec82cf9ab03148b",
+        "id": "cc9f509f8a474b888297ef21590fefa6",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -121,7 +121,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "7fcf504b73d54254b2c0f866b2e30656",
+        "id": "9ab6233e3fae4351aef2ec5cbe46cc3a",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -131,7 +131,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "393df32130a24a558e72e9797f8d36dd",
+        "id": "41c761042fd247588190197051fe4072",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -141,7 +141,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "aa570ac262924de3a979f7e75b5f390a",
+        "id": "cbc9991d3ad1432fa017ab05af3cbafa",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -151,7 +151,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "7918052e491c4b27941ae30a6b84dc01",
+        "id": "804fbe1fc8cd484d8fdf703610566dda",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -165,9 +165,7 @@ X-Content-Type-Options: nosniff
     "lotValues": [
       {
         "relatedLot": "93256198e2e7429ab4d0300cc250244f",
-        "date": "2021-03-16T00:00:00+02:00",
         "subcontractingDetails": "ДКП «Орфей»",
-        "status": "pending",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
@@ -201,7 +199,9 @@ X-Content-Type-Options: nosniff
             "years": 7,
             "days": 0
           }
-        }
+        },
+        "date": "2021-03-16T00:00:00+02:00",
+        "status": "pending"
       }
     ],
     "selfQualified": true

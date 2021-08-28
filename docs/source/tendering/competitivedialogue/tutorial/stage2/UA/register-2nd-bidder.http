@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/db4876add6b747dfafc1b99523c02097/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1141
+Content-Length: 796
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -32,31 +32,28 @@ DATA:
     "value": {
       "amount": 499
     },
-    "selfQualified": true,
-    "documents": [
-      {
-        "title": "Proposal_part1.pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c004bc1fa7cf4c3c826827be00857d15?Signature=uUtdJxYhkaHr9vgDGjR%2F0LJmZ8XGzXa%2FXhqNindYza%2BTh%2F69rmbd%2BjeKES4R5%2Ff3lUCnztSrN1LsI7ZokTKtBQ%3D%3D&KeyID=a8968c46",
-        "hash": "md5:00000000000000000000000000000000",
-        "format": "application/pdf"
-      }
-    ]
+    "selfQualified": true
   }
 }
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4876add6b747dfafc1b99523c02097/bids/ef3c7ebaccec4c14bae23045b5b4841e
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4876add6b747dfafc1b99523c02097/bids/d763b870e0344234823a04cad520e0fd
 X-Content-Type-Options: nosniff
 {
   "data": {
+    "value": {
+      "amount": 499.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "tenderers": [
       {
         "name": "ДКП «Книга»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137226",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137226"
         },
         "address": {
           "streetAddress": "вул. Островського, 34",
@@ -66,38 +63,21 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Андрій Олексюк",
           "email": "aagt@gmail.com",
-          "telephone": "+380322916930"
+          "telephone": "+380322916930",
+          "name": "Андрій Олексюк"
         },
         "scale": "sme"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "ef3c7ebaccec4c14bae23045b5b4841e",
-    "value": {
-      "amount": 499.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "status": "draft",
     "selfQualified": true,
-    "documents": [
-      {
-        "id": "8d72465b1c734b34aa3e927a7550907f",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "Proposal_part1.pdf",
-        "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4876add6b747dfafc1b99523c02097/bids/ef3c7ebaccec4c14bae23045b5b4841e/documents/8d72465b1c734b34aa3e927a7550907f?download=c004bc1fa7cf4c3c826827be00857d15",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
-        "documentOf": "tender"
-      }
-    ]
+    "id": "d763b870e0344234823a04cad520e0fd",
+    "date": "2021-03-16T00:00:00+02:00"
   },
   "access": {
-    "token": "a20c70d6abdc4e11a24e172dcd5a2aed",
-    "transfer": "f1edf79abcc54c62bc5796a1beb2d132"
+    "token": "1939013889034f16a8d293037ccd4dbb",
+    "transfer": "a1fa25dc592f4d9c8e240891c7f3ca5d"
   }
 }
 

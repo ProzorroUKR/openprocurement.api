@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1608
+Content-Length: 1584
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -29,9 +29,6 @@ DATA:
         "scale": "large"
       }
     ],
-    "value": {
-      "amount": 5
-    },
     "selfQualified": true,
     "documents": [
       {
@@ -55,7 +52,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids/bf385297ea2240069057a49814810cc7
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids/858275d219d14850b85c83ea77b91281
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -63,9 +60,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "«Кенгуру»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137228",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137228"
         },
         "address": {
           "streetAddress": "вул. Коцюбинського, 15",
@@ -75,49 +72,47 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Іван Карпенко",
           "email": "fake@mail.com",
-          "telephone": "+380322123456"
+          "telephone": "+380322123456",
+          "name": "Іван Карпенко"
         },
         "scale": "large"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "bf385297ea2240069057a49814810cc7",
-    "selfQualified": true,
-    "status": "draft",
     "documents": [
       {
-        "id": "75590b4f943f4d1ca5bf6957f1aa3acf",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids/bf385297ea2240069057a49814810cc7/documents/75590b4f943f4d1ca5bf6957f1aa3acf?download=18236fa45edb456ca74c8320b4b0d2b8",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/18236fa45edb456ca74c8320b4b0d2b8?Signature=2tXvP8ECxXUCuKzXtQhvKzz2gUUTv86aaWK209GAAvOjZ1wEQIGilN5iGCXZaKNvybgsfm2Vb4kphWWkaqFFCA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "confidentiality": "public",
-        "language": "uk",
-        "isDescriptionDecision": false
+        "isDescriptionDecision": false,
+        "id": "bf2b73185c7644999f4c772fd7dbc4b7",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00"
       },
       {
-        "id": "2379751ab69d4630b7c3ad6828a59f82",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
-        "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "confidentiality": "buyerOnly",
-        "language": "uk",
-        "isDescriptionDecision": false
+        "confidentialityRationale": "Only our company sells badgers with pink hair.",
+        "isDescriptionDecision": false,
+        "id": "19fcd74e8e884158873085b65694b1dc",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00"
       }
-    ]
+    ],
+    "selfQualified": true,
+    "status": "draft",
+    "id": "858275d219d14850b85c83ea77b91281",
+    "date": "2021-03-16T00:00:00+02:00"
   },
   "access": {
-    "token": "569aa38633e3486b8f6e600c2304050a",
-    "transfer": "1f3b8ccede9e4530a2cf828e50fd51c2"
+    "token": "73b440836ebf4fe1b2829b3b2def6480",
+    "transfer": "7bb65d46411947038d62219cc5989e11"
   }
 }
 

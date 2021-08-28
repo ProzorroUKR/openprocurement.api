@@ -45,7 +45,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3353c0f1c0a0447f8f8f07367844b22f/bids/8cb0fbb8d4064e8fbe50a895e375ed38
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3353c0f1c0a0447f8f8f07367844b22f/bids/86fe022865a240c1bd311525ec54152c
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -53,9 +53,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "ДКП «Школяр»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137256",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137256"
         },
         "address": {
           "streetAddress": "вул. Островського, 33",
@@ -65,15 +65,13 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
         },
         "scale": "micro"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "8cb0fbb8d4064e8fbe50a895e375ed38",
     "lotValues": [
       {
         "value": {
@@ -82,17 +80,19 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "150e2750fa2942ce9315e80ddf78a62a",
-        "date": "2021-03-16T00:00:00+02:00",
         "subcontractingDetails": "ДКП «Орфей», Україна",
-        "status": "pending"
+        "status": "pending",
+        "date": "2021-03-16T00:00:00+02:00"
       }
     ],
     "selfQualified": true,
-    "status": "draft"
+    "status": "draft",
+    "id": "86fe022865a240c1bd311525ec54152c",
+    "date": "2021-03-16T00:00:00+02:00"
   },
   "access": {
-    "token": "ce40d654958047cb9c97c7ebd1ca7566",
-    "transfer": "5a7b363f99aa4e7aa5cb71cbbdab92a3"
+    "token": "e83a503ee76046a69588df8d588f49af",
+    "transfer": "5e8aba9c445740618b71795b81ffda10"
   }
 }
 
