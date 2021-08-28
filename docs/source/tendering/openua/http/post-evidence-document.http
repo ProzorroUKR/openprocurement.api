@@ -26,6 +26,7 @@ X-Content-Type-Options: nosniff
     "format": "application/msword",
     "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bac835240efd4adea01560554d7bfdb4/bids/0f4edde39c8440589de23c8efb2c8fb8/documents/d5d63ecba120473e91a4e4177da19fd6?download=1f678fb111d144f083459f2ab38608bd",
     "documentOf": "tender",
+    "confidentiality": "public",
     "id": "d5d63ecba120473e91a4e4177da19fd6",
     "datePublished": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00"

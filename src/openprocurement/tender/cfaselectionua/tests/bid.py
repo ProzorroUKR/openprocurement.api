@@ -36,8 +36,6 @@ from openprocurement.tender.cfaselectionua.tests.bid_blanks import (
     patch_features_bid_invalid,
     # TenderBidDocumentResourceTest
     not_found,
-    create_tender_bid_document,
-    put_tender_bid_document,
     patch_tender_bid_document,
     create_tender_bid_document_nopending,
     # TenderBidDocumentWithDSResourceTest
@@ -107,12 +105,13 @@ class TenderBidFeaturesResourceTest(TenderContentWebTest):
         self.db.save(tender)
 
 
-class TenderBidDocumentResourceTest(TenderContentWebTest):
+class TenderBidDocumentWithDSResourceTest(TenderContentWebTest):
+    docservice = True
     initial_status = "active.tendering"
     initial_lots = deepcopy(test_lots)
 
     def setUp(self):
-        super(TenderBidDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create bid
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
@@ -128,18 +127,11 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
         self.bid_token = response.json["access"]["token"]
 
     test_not_found = snitch(not_found)
-    test_create_tender_bid_document = snitch(create_tender_bid_document)
-    test_put_tender_bid_document = snitch(put_tender_bid_document)
-    test_patch_tender_bid_document = snitch(patch_tender_bid_document)
-    test_create_tender_bid_document_nopending = snitch(create_tender_bid_document_nopending)
-
-
-class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
-    docservice = True
-
     test_create_tender_bid_document_json = snitch(create_tender_bid_document_json)
     test_create_tender_bid_document_json_bulk = snitch(create_tender_bid_document_json_bulk)
     test_put_tender_bid_document_json = snitch(put_tender_bid_document_json)
+    test_patch_tender_bid_document = snitch(patch_tender_bid_document)
+    test_create_tender_bid_document_nopending = snitch(create_tender_bid_document_nopending)
 
 
 class TenderBidBatchDocumentWithDSResourceTest(TenderContentWebTest):

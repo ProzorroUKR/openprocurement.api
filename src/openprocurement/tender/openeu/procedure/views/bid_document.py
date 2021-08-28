@@ -22,6 +22,8 @@ from openprocurement.tender.openeu.procedure.validation import (
     validate_view_bid_document,
     validate_bid_document_operation_in_bid_status,
     validate_view_bid_documents_allowed_in_bid_status,
+    validate_view_financial_bid_documents_allowed_in_tender_status,
+    validate_view_financial_bid_documents_allowed_in_bid_status,
 )
 from cornice.resource import resource
 
@@ -114,3 +116,63 @@ class OpenEUTenderBidDocumentResource(TenderBidDocumentResource):
     )
     def patch(self):
         return super().patch()
+
+
+@resource(
+    name="aboveThresholdEU:Tender Bid Eligibility Documents",
+    collection_path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents",
+    path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents/{document_id}",
+    procurementMethodType="aboveThresholdEU",
+    description="Tender EU bidder eligibility documents",
+)
+class TenderEUBidEligibilityDocumentResource(OpenEUTenderBidDocumentResource):
+    """ Tender EU Bid Eligibility Documents """
+
+    container = "eligibilityDocuments"
+
+
+@resource(
+    name="aboveThresholdEU:Tender Bid Financial Documents",
+    collection_path="/tenders/{tender_id}/bids/{bid_id}/financial_documents",
+    path="/tenders/{tender_id}/bids/{bid_id}/financial_documents/{document_id}",
+    procurementMethodType="aboveThresholdEU",
+    description="Tender EU bidder financial documents",
+)
+class TenderEUBidFinancialDocumentResource(OpenEUTenderBidDocumentResource):
+    """ Tender EU Bid Financial Documents """
+
+    container = "financialDocuments"
+
+    @json_view(
+        validators=(
+            validate_view_financial_bid_documents_allowed_in_tender_status,
+            validate_view_financial_bid_documents_allowed_in_bid_status,
+        ),
+        permission="view_tender",
+    )
+    def collection_get(self):
+        return super(TenderEUBidFinancialDocumentResource, self).collection_get()
+
+    @json_view(
+        validators=(
+            validate_view_financial_bid_documents_allowed_in_tender_status,
+            validate_view_financial_bid_documents_allowed_in_bid_status,
+            validate_download_bid_document,
+        ),
+        permission="view_tender",
+    )
+    def get(self):
+        return super(TenderEUBidFinancialDocumentResource, self).get()
+
+
+@resource(
+    name="aboveThresholdEU:Tender Bid Qualification Documents",
+    collection_path="/tenders/{tender_id}/bids/{bid_id}/qualification_documents",
+    path="/tenders/{tender_id}/bids/{bid_id}/qualification_documents/{document_id}",
+    procurementMethodType="aboveThresholdEU",
+    description="Tender EU bidder qualification documents",
+)
+class TenderEUBidQualificationDocumentResource(TenderEUBidFinancialDocumentResource):
+    """ Tender EU Bid Qualification Documents """
+
+    container = "qualificationDocuments"

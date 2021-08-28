@@ -56,6 +56,7 @@ class TenderStage2EUCancellationResourceTest(
 class TenderStage2EULotCancellationResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_lots = test_lots
     initial_bids = test_bids
+    initial_bids_data = test_bids
 
     test_create_tender_cancellation = snitch(create_tender_lot_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_lot_cancellation)
@@ -65,6 +66,7 @@ class TenderStage2EULotCancellationResourceTest(BaseCompetitiveDialogEUStage2Con
 class TenderStage2EULotsCancellationResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_lots = 2 * test_lots
     initial_bids = test_bids
+    initial_bids_data = test_bids
 
     test_create_tender_cancellation = snitch(create_tender_lots_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_lots_cancellation)

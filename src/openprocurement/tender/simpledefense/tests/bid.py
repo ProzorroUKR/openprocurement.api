@@ -17,7 +17,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
 )
 from openprocurement.tender.openua.tests.bid import (
     TenderBidResourceTestMixin,
-    TenderBidDocumentResourceTestMixin,
+    TenderBidDocumentWithDSResourceTestMixin,
     TenderBidRequirementResponseTestMixin,
     TenderBidRequirementResponseEvidenceTestMixin,
 )
@@ -25,10 +25,6 @@ from openprocurement.tender.openua.tests.bid_blanks import (
     # TenderBidFeaturesResourceTest
     features_bidder,
     features_bidder_invalid,
-    # TenderBidDocumentWithDSResourceTest
-    create_tender_bidder_document_json,
-    put_tender_bidder_document_json,
-    tender_bidder_confidential_document,
 )
 from openprocurement.tender.simpledefense.tests.base import (
     BaseSimpleDefContentWebTest,
@@ -79,10 +75,11 @@ class TenderBidFeaturesResourceTest(BaseSimpleDefContentWebTest):
     # test_features_bidder_invalid = snitch(features_bidder_invalid)
 
 
-class TenderBidDocumentResourceTest(BaseSimpleDefContentWebTest, TenderBidDocumentResourceTestMixin):
+class TenderBidDocumentResourceTest(BaseSimpleDefContentWebTest, TenderBidDocumentWithDSResourceTestMixin):
     initial_status = "active.tendering"
     test_bids_data = test_bids
     author_data = test_author
+    docservice = True
 
     def setUp(self):
         super(TenderBidDocumentResourceTest, self).setUp()
@@ -112,9 +109,14 @@ class TenderBidDocumentResourceTest(BaseSimpleDefContentWebTest, TenderBidDocume
         bid_id = bid["id"]
         bid_token = response.json["access"]["token"]
 
-        response = self.app.post(
+        response = self.app.post_json(
             "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, bid_token),
-            upload_files=[("file", "name.doc", b"content")],
+            {"data": {
+                "title": "name_3.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -135,10 +137,14 @@ class TenderBidDocumentResourceTest(BaseSimpleDefContentWebTest, TenderBidDocume
             "Can't update document because award of bid is not in pending or active state",
         )
 
-        response = self.app.put(
+        response = self.app.put_json(
             "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, bid_token),
-            "content3",
-            content_type="application/msword",
+            {"data": {
+                "title": "name_3.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
@@ -148,9 +154,14 @@ class TenderBidDocumentResourceTest(BaseSimpleDefContentWebTest, TenderBidDocume
             "Can't update document because award of bid is not in pending or active state",
         )
 
-        response = self.app.post(
+        response = self.app.post_json(
             "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, bid_token),
-            upload_files=[("file", "name.doc", b"content")],
+            {"data": {
+                "title": "name_3.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
@@ -159,15 +170,6 @@ class TenderBidDocumentResourceTest(BaseSimpleDefContentWebTest, TenderBidDocume
             response.json["errors"][0]["description"],
             "Can't add document because award of bid is not in pending or active state",
         )
-
-
-class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
-    docservice = True
-    test_bids_data = test_bids
-
-    test_create_tender_bidder_document_json = snitch(create_tender_bidder_document_json)
-    test_put_tender_bidder_document_json = snitch(put_tender_bidder_document_json)
-    test_tender_bidder_confidential_document = snitch(tender_bidder_confidential_document)
 
 
 class TenderBidderBatchDocumentsWithDSResourceTest(BaseSimpleDefContentWebTest):

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/d59e1783dc5149518a3c20a016d652c6/bids/1a988edb87ac4900ab4f425b3e5ae9de?acc_token=9409f298442c431ab71ee7969e91f5a3 HTTP/1.0
+PATCH /api/2.5/tenders/d59e1783dc5149518a3c20a016d652c6/bids/5d17e351e54f4949ac1c1cee9cece058?acc_token=3f0194663d8846f4932da591af9fd4b8 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 98
 Content-Type: application/json
@@ -20,34 +20,11 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "tenderers": [
-      {
-        "name": "ДКП «Книга»",
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00137226",
-          "uri": "http://www.sc.gov.ua/"
-        },
-        "address": {
-          "streetAddress": "вул. Островського, 34",
-          "locality": "м. Львів",
-          "region": "Львівська область",
-          "postalCode": "79013",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "name": "Андрій Олексюк",
-          "email": "aagt@gmail.com",
-          "telephone": "+380322916930"
-        },
-        "scale": "sme"
-      }
-    ],
+    "id": "5d17e351e54f4949ac1c1cee9cece058",
     "date": "2021-03-16T00:00:00+02:00",
-    "id": "1a988edb87ac4900ab4f425b3e5ae9de",
     "requirementResponses": [
       {
-        "id": "acb76db7015c439b9d4d4300a87d47ac",
+        "id": "fb162f1dae3d4153afca08e73a016978",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -57,7 +34,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "6ada88bab3a34d15907dab12ef0aac20",
+        "id": "07879c1b34ab4cc1bb1cf05ff100cb1e",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -67,7 +44,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "5ae8cbdf328840e1b1f077e1d17ad94c",
+        "id": "e65264af57424a2ba73509fefb5ce0da",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -77,7 +54,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "73027024991c4a5d8a1f435843a712c7",
+        "id": "f76e8ea4702140208d9fb9b8f7c3f590",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -87,7 +64,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "f9f11adfc5ab4d46b2312989efca9072",
+        "id": "a78834dd249c482497d955eccb9713ec",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -97,7 +74,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "950167c71aa74d149a2ca93b2ea2bb6a",
+        "id": "d74e366eb5e04e2e8f74aee44355c69e",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -107,7 +84,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "858cd4e334e448f998581a8cd7aae7df",
+        "id": "a12ab0fafdfd479bbf68dbd6d2bf4da8",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -117,7 +94,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "b3a541f302cb45d4b4c29f4ca52df21c",
+        "id": "e4353db5afd844968a9be070550abc2e",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -127,7 +104,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "466caa67bb484c4e975c20706074d590",
+        "id": "3fb4cf6b90644ba0b4d6e69728a953b8",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -137,7 +114,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "6ec62b76f41b450c84302ef3793646b6",
+        "id": "2e63c0c59df04b3fbd3b28253d312920",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -147,7 +124,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "8fb2372f1f454b7ba84c3ca6417b72d6",
+        "id": "fd2a4c18a3734ac499712d2cee92fd5e",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -157,15 +134,38 @@ X-Content-Type-Options: nosniff
         "value": "True"
       }
     ],
-    "selfQualified": true,
-    "status": "pending",
+    "tenderers": [
+      {
+        "name": "ДКП «Книга»",
+        "identifier": {
+          "uri": "http://www.sc.gov.ua/",
+          "scheme": "UA-EDR",
+          "id": "00137226"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "email": "aagt@gmail.com",
+          "telephone": "+380322916930",
+          "name": "Андрій Олексюк"
+        },
+        "scale": "sme"
+      }
+    ],
     "lotValues": [
       {
         "relatedLot": "150e2750fa2942ce9315e80ddf78a62a",
-        "date": "2021-03-16T00:00:00+02:00",
-        "status": "pending"
+        "status": "pending",
+        "date": "2021-03-16T00:00:00+02:00"
       }
-    ]
+    ],
+    "selfQualified": true,
+    "status": "pending"
   }
 }
 

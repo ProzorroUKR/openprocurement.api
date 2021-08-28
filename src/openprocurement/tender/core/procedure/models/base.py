@@ -6,7 +6,7 @@ from schematics.types import (
     EmailType,
 )
 from schematics.types.compound import ModelType as BaseModelType,  ListType as BaseListType
-from openprocurement.api.models import Model
+from openprocurement.api.models import Model, DecimalType as BaseDecimalType
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import get_first_revision_date
@@ -19,6 +19,7 @@ from openprocurement.api.constants import (
     UA_REGIONS,
     VALIDATE_ADDRESS_FROM,
 )
+from decimal import Decimal
 from logging import getLogger
 import re
 
@@ -46,6 +47,14 @@ class ModelType(BaseModelType):
         if name:
             model_class.__name__ = name
         super().__init__(model_class, **kwargs)
+
+
+class DecimalType(BaseDecimalType):
+    def to_primitive(self, *args, **kwargs):
+        value = super().to_primitive(*args, **kwargs)
+        if isinstance(value, Decimal):
+            return '{0:f}'.format(value)
+        return value
 
 
 # Patch and Post models differences:

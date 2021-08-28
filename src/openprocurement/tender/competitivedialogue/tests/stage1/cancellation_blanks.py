@@ -10,8 +10,9 @@ from openprocurement.tender.core.tests.cancellation import (
 
 
 def cancellation_active_qualification_j1427(self):
-    bid_data = deepcopy(self.initial_bids[0])
-    bid_data["lotValues"] = bid_data["lotValues"][:1]
+    bid_data = deepcopy(self.test_bids_data[0])
+    lots = self.db.get(self.tender_id).get("lots")
+    bid_data["lotValues"] = [{"relatedLot": lot["id"]} for lot in lots[:1]]
 
     # post three bids
     bid_data["tenderers"][0]["identifier"]["id"] = "00037256"

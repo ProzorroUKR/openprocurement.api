@@ -20,6 +20,7 @@ def includeme(config):
     LOGGER.info("Init tender.pricequotation plugin.")
     config.add_tender_procurementMethodType(PriceQuotationTender)
     config.scan("openprocurement.tender.pricequotation.views")
+    config.scan("openprocurement.tender.pricequotation.procedure.views")
     config.scan("openprocurement.tender.pricequotation.subscribers")
     config.registry.registerAdapter(
         PQTenderConfigurator,

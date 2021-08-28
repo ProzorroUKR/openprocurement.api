@@ -52,7 +52,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/bids/c26ef6529df44b02a91cfe5ce527d74f
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/bids/03e8ecacaef043e9b20f1a36a5279ac7
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -60,9 +60,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "Державне управління справами",
         "identifier": {
+          "uri": "http://www.dus.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00037256",
-          "uri": "http://www.dus.gov.ua/"
+          "id": "00037256"
         },
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
@@ -72,14 +72,12 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Державне управління справами",
-          "telephone": "+0440000000"
+          "telephone": "+0440000000",
+          "name": "Державне управління справами"
         },
         "scale": "large"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "c26ef6529df44b02a91cfe5ce527d74f",
     "status": "draft",
     "parameters": [
       {
@@ -101,11 +99,13 @@ X-Content-Type-Options: nosniff
         "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
         "date": "2021-03-16T00:00:00+02:00"
       }
-    ]
+    ],
+    "id": "03e8ecacaef043e9b20f1a36a5279ac7",
+    "date": "2021-03-16T00:00:00+02:00"
   },
   "access": {
-    "token": "9181c18d1ffd4256a3fff40d32a4c2f6",
-    "transfer": "b52db299b839443ea9ffb1b7fe57dfba"
+    "token": "873c24dbb920470291a301faa169ce64",
+    "transfer": "2ad1e58b3e694aca836cb61b9a3a62fe"
   }
 }
 

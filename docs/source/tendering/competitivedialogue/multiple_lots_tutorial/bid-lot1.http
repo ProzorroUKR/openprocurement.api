@@ -42,7 +42,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d59e1783dc5149518a3c20a016d652c6/bids/9af11f4c77fd4f628c26842ce608d9c3
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d59e1783dc5149518a3c20a016d652c6/bids/1364aaf7ec90441692c76ccb24a623f8
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -50,9 +50,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "ДКП «Школяр»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137256",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137256"
         },
         "address": {
           "streetAddress": "вул. Островського, 33",
@@ -62,29 +62,29 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
         },
         "scale": "micro"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "9af11f4c77fd4f628c26842ce608d9c3",
-    "selfQualified": true,
-    "status": "draft",
     "lotValues": [
       {
         "relatedLot": "150e2750fa2942ce9315e80ddf78a62a",
-        "date": "2021-03-16T00:00:00+02:00",
         "subcontractingDetails": "ДКП «Орфей», Україна",
-        "status": "pending"
+        "status": "pending",
+        "date": "2021-03-16T00:00:00+02:00"
       }
-    ]
+    ],
+    "selfQualified": true,
+    "status": "draft",
+    "id": "1364aaf7ec90441692c76ccb24a623f8",
+    "date": "2021-03-16T00:00:00+02:00"
   },
   "access": {
-    "token": "b5604f3b514541e2b6a672c16b386e73",
-    "transfer": "c8415282d7994eaba8560801e197aea0"
+    "token": "4b019a2cc7984b79b9f32ffd6b7af577",
+    "transfer": "0e82a5225b374e7f9e97f92f44c9fa56"
   }
 }
 

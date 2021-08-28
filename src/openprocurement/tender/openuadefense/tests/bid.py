@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 import unittest
-from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import test_author, test_organization, test_lots
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
-    # TenderBidDocumentResourceTest
-    not_found,
     # TenderBidderBatchDocumentWithDSResourceTest
     create_tender_bid_with_documents,
     create_tender_bid_with_document_invalid,
@@ -17,15 +14,11 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
 )
 
 
-from openprocurement.tender.openua.tests.bid import TenderBidResourceTestMixin, TenderBidDocumentResourceTestMixin
+from openprocurement.tender.openua.tests.bid import TenderBidResourceTestMixin, TenderBidDocumentWithDSResourceTestMixin
 from openprocurement.tender.openua.tests.bid_blanks import (
     # TenderBidFeaturesResourceTest
     features_bidder,
     features_bidder_invalid,
-    # TenderBidDocumentWithDSResourceTest
-    create_tender_bidder_document_json,
-    put_tender_bidder_document_json,
-    tender_bidder_confidential_document,
 )
 
 from openprocurement.tender.openuadefense.tests.base import (
@@ -59,95 +52,8 @@ class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
     # test_features_bidder_invalid = snitch(features_bidder_invalid)
 
 
-class TenderBidDocumentResourceTest(BaseTenderUAContentWebTest, TenderBidDocumentResourceTestMixin):
-    initial_status = "active.tendering"
+class TenderBidDocumentWithDSResourceTest(TenderBidDocumentWithDSResourceTestMixin):
     test_bids_data = test_bids
-    author_data = test_author
-
-    def setUp(self):
-        super(TenderBidDocumentResourceTest, self).setUp()
-
-        bid_data = deepcopy(self.test_bids_data[0])
-        bid_data["value"] = {"amount": 500}
-        # Create bid
-        response = self.app.post_json(
-            "/tenders/{}/bids".format(self.tender_id),
-            {"data": bid_data},
-        )
-        bid = response.json["data"]
-        self.bid_id = bid["id"]
-        self.bid_token = response.json["access"]["token"]
-
-    test_not_found = snitch(not_found)
-
-    def test_create_tender_bidder_document_nopending(self):
-        bid_data = deepcopy(self.test_bids_data[0])
-        bid_data["value"] = {"amount": 500}
-
-        response = self.app.post_json(
-            "/tenders/{}/bids".format(self.tender_id),
-            {"data": bid_data},
-        )
-        bid = response.json["data"]
-        bid_id = bid["id"]
-        bid_token = response.json["access"]["token"]
-
-        response = self.app.post(
-            "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, bid_token),
-            upload_files=[("file", "name.doc", b"content")],
-        )
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        doc_id = response.json["data"]["id"]
-        self.assertIn(doc_id, response.headers["Location"])
-
-        self.set_status("active.qualification")
-
-        response = self.app.patch_json(
-            "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, bid_token),
-            {"data": {"description": "document description"}},
-            status=403,
-        )
-        self.assertEqual(response.status, "403 Forbidden")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(
-            response.json["errors"][0]["description"],
-            "Can't update document because award of bid is not in pending or active state",
-        )
-
-        response = self.app.put(
-            "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, bid_token),
-            "content3",
-            content_type="application/msword",
-            status=403,
-        )
-        self.assertEqual(response.status, "403 Forbidden")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(
-            response.json["errors"][0]["description"],
-            "Can't update document because award of bid is not in pending or active state",
-        )
-
-        response = self.app.post(
-            "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, bid_token),
-            upload_files=[("file", "name.doc", b"content")],
-            status=403,
-        )
-        self.assertEqual(response.status, "403 Forbidden")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(
-            response.json["errors"][0]["description"],
-            "Can't add document because award of bid is not in pending or active state",
-        )
-
-
-class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
-    docservice = True
-    test_bids_data = test_bids
-
-    test_create_tender_bidder_document_json = snitch(create_tender_bidder_document_json)
-    test_put_tender_bidder_document_json = snitch(put_tender_bidder_document_json)
-    test_tender_bidder_confidential_document = snitch(tender_bidder_confidential_document)
 
 
 class TenderBidderBatchDocumentsWithDSResourceTest(BaseTenderUAContentWebTest):
@@ -169,7 +75,7 @@ class TenderBidderBatchDocumentsWithDSResourceTest(BaseTenderUAContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderBidDocumentResourceTest))
+    suite.addTest(unittest.makeSuite(TenderBidderBatchDocumentsWithDSResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidDocumentWithDSResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidFeaturesResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidResourceTest))

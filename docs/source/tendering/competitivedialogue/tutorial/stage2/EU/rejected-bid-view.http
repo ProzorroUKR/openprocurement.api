@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/cc7ed6e4bd0145a4ae0c43f4ce1ef5a5?acc_token=3ba9d3fdf58a40ac8a19d43f43de9e28 HTTP/1.0
+GET /api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/9ee879e314fd487584383884598ae7c7?acc_token=3ba9d3fdf58a40ac8a19d43f43de9e28 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -30,10 +30,10 @@ X-Content-Type-Options: nosniff
         "scale": "large"
       }
     ],
-    "id": "cc7ed6e4bd0145a4ae0c43f4ce1ef5a5",
+    "id": "9ee879e314fd487584383884598ae7c7",
     "documents": [
       {
-        "id": "7a23572266ec4727b8718e25829f915e",
+        "id": "866c3ddfea9249e9a4953a1943facdf4",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
@@ -45,11 +45,11 @@ X-Content-Type-Options: nosniff
         "language": "uk"
       },
       {
-        "id": "b6b2519c936a455cb87fa1c23a13cb0e",
+        "id": "6be95b29d2d749a2ad53f32098040908",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/cc7ed6e4bd0145a4ae0c43f4ce1ef5a5/documents/b6b2519c936a455cb87fa1c23a13cb0e?download=f2990cef9058446d95845fcdd7c796d2",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/9ee879e314fd487584383884598ae7c7/documents/6be95b29d2d749a2ad53f32098040908?download=f2990cef9058446d95845fcdd7c796d2",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
@@ -60,7 +60,7 @@ X-Content-Type-Options: nosniff
     ],
     "eligibilityDocuments": [
       {
-        "id": "e5a52507459e406fbe21aa46b85cac13",
+        "id": "84ff8dfd2a4a46d489c225ca4658fa42",
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",
         "format": "application/pdf",

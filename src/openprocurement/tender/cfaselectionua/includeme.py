@@ -15,6 +15,7 @@ def includeme(config):
 
     config.add_tender_procurementMethodType(CFASelectionUATender)
     config.scan("openprocurement.tender.cfaselectionua.views")
+    config.scan("openprocurement.tender.cfaselectionua.procedure.views")
     config.scan("openprocurement.tender.cfaselectionua.subscribers")
     config.registry.registerAdapter(
         TenderCfaSelectionUAConfigurator, (ICFASelectionUATender, IRequest), IContentConfigurator

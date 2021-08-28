@@ -83,8 +83,7 @@ X-Content-Type-Options: nosniff
         "scale": "sme"
       }
     ],
-    "parameters": [],
-    "lotValues": [],
+    "status": "draft",
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000",
@@ -108,7 +107,6 @@ X-Content-Type-Options: nosniff
       }
     ],
     "id": "6dc5b86cfd0b468ab72f0e6540fec137",
-    "status": "draft",
     "date": "2021-03-16T00:00:01+02:00"
   },
   "access": {

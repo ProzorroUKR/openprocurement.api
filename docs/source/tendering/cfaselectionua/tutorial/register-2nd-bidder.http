@@ -65,7 +65,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/bids/eb8297a7c3984d7aad9ea624209072f5
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/bids/51b3dee8818a41fea7a6bb43777476ec
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -73,9 +73,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "Державне управління справами",
         "identifier": {
+          "uri": "http://www.dus.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00037257",
-          "uri": "http://www.dus.gov.ua/"
+          "id": "00037257"
         },
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
@@ -85,35 +85,33 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Державне управління справами",
-          "telephone": "+0440000000"
+          "telephone": "+0440000000",
+          "name": "Державне управління справами"
         },
         "scale": "micro"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "eb8297a7c3984d7aad9ea624209072f5",
     "status": "draft",
     "documents": [
       {
-        "id": "8849d2d9f9e642aaac94732ae14e5057",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/bids/eb8297a7c3984d7aad9ea624209072f5/documents/8849d2d9f9e642aaac94732ae14e5057?download=6f95f83074884c4793b92674ecbf017d",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6f95f83074884c4793b92674ecbf017d?Signature=QoHCra37U%2FEXoEYg1Srz%2B%2BHfziG7TmHsS1Kwof8nkEHMWsbVlY%2BKnuoZbhVUBdcBnfmDucQGTJIjynfLt3wnAQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "id": "9383d40f6e404558827b2b7481dea5da",
         "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
-        "documentOf": "tender"
+        "dateModified": "2021-03-16T00:00:00+02:00"
       },
       {
-        "id": "6985aca7291b4058b8d28661a01431cc",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/bids/eb8297a7c3984d7aad9ea624209072f5/documents/6985aca7291b4058b8d28661a01431cc?download=634443ba221c4aec9e80218dce5d9898",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/634443ba221c4aec9e80218dce5d9898?Signature=mtYQ%2BQUtqn3VyRg2qigXiCQOJfMEg%2BRShGSWo%2FvohBcnk2ajfiLnZJNPsiMteYmwwhdGgs6kU9vbSfMfOIdnCw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "id": "d155a202959247a9b7d090c41ca410e7",
         "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
-        "documentOf": "tender"
+        "dateModified": "2021-03-16T00:00:00+02:00"
       }
     ],
     "parameters": [
@@ -136,11 +134,13 @@ X-Content-Type-Options: nosniff
         "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
         "date": "2021-03-16T00:00:00+02:00"
       }
-    ]
+    ],
+    "id": "51b3dee8818a41fea7a6bb43777476ec",
+    "date": "2021-03-16T00:00:00+02:00"
   },
   "access": {
-    "token": "fcecc7b508824957a0052bbe66a485de",
-    "transfer": "23ef92d66c944d4aadd56605ad4e9456"
+    "token": "03dd1b90184d488cbb3507a375df1a68",
+    "transfer": "f298d4a6eee1483e85b5688314f3139d"
   }
 }
 

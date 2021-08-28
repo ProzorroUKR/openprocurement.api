@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/d59e1783dc5149518a3c20a016d652c6/bids/e2df02eb6d714e1a83b790a96d51f777?acc_token=8805e18d9fc448c29d6afafdbabe6561 HTTP/1.0
+PATCH /api/2.5/tenders/d59e1783dc5149518a3c20a016d652c6/bids/efd32c624d1c490a9d4e31ec0301cfa8?acc_token=cbe60cbe3ca24030a69d9887ffc03fa1 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 98
 Content-Type: application/json
@@ -20,34 +20,11 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "tenderers": [
-      {
-        "name": "«Снігур»",
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00137227",
-          "uri": "http://www.sc.gov.ua/"
-        },
-        "address": {
-          "streetAddress": "вул. Островського, 35",
-          "locality": "м. Львів",
-          "region": "Львівська область",
-          "postalCode": "79013",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "name": "Іван Іваненко",
-          "email": "fake@mail.com",
-          "telephone": "+380322123456"
-        },
-        "scale": "mid"
-      }
-    ],
+    "id": "efd32c624d1c490a9d4e31ec0301cfa8",
     "date": "2021-03-16T00:00:00+02:00",
-    "id": "e2df02eb6d714e1a83b790a96d51f777",
     "requirementResponses": [
       {
-        "id": "ccdd83479ad142158f3d7c5f998b7626",
+        "id": "26b90b9029a449cb9ec5af9e20d10b86",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -57,7 +34,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "78853e9a42c5411ba5088a1458e07d7a",
+        "id": "da81b9752da64bd9be435815262f4016",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -67,7 +44,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "283c7e503f2e4485966ae7216f1337a6",
+        "id": "63beebe83cac4c87b6b739943d71d022",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -77,7 +54,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "3a8742cf775c41b387996752ae306ad4",
+        "id": "b30f7e45d9904b3787a3a99063406f46",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -87,7 +64,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "0c57eccd488e406d80140fd960b16f48",
+        "id": "49ed38ed30334d5cb0db742bba6e451d",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -97,7 +74,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "4f781f17f203453b9b4c3465f9538c28",
+        "id": "ea9711fdc285477caa3b752f84fbbd26",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -107,7 +84,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "e3c39f0534854615bcea0d2cb5d89de9",
+        "id": "b220b04beb1b4bacbedf615b8f88470c",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -117,7 +94,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "b3b1ea0b0f004ebbbaa3fac8d8f946cc",
+        "id": "5e8c4cf8393e4c85aa43019b00f8ef39",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -127,7 +104,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "c155405ffcbf4b28acff1a5a24400036",
+        "id": "1e27aede623f4f4798b6fc669032053c",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -137,7 +114,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "6acbf47a8d754c9a9b5129120e63b1aa",
+        "id": "fe21b78d98b1431695823b988f670ce7",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -147,7 +124,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "0c6b6c9b2eda4d5fac113507e7ed42e4",
+        "id": "c9d63c0f615b4a61a98dd8c6597150d0",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -157,15 +134,38 @@ X-Content-Type-Options: nosniff
         "value": "True"
       }
     ],
-    "selfQualified": true,
-    "status": "pending",
+    "tenderers": [
+      {
+        "name": "«Снігур»",
+        "identifier": {
+          "uri": "http://www.sc.gov.ua/",
+          "scheme": "UA-EDR",
+          "id": "00137227"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 35",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "email": "fake@mail.com",
+          "telephone": "+380322123456",
+          "name": "Іван Іваненко"
+        },
+        "scale": "mid"
+      }
+    ],
     "lotValues": [
       {
         "relatedLot": "150e2750fa2942ce9315e80ddf78a62a",
-        "date": "2021-03-16T00:00:00+02:00",
-        "status": "pending"
+        "status": "pending",
+        "date": "2021-03-16T00:00:00+02:00"
       }
-    ]
+    ],
+    "selfQualified": true,
+    "status": "pending"
   }
 }
 

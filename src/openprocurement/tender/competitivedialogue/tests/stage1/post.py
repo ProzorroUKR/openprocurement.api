@@ -6,7 +6,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogUAContentWebTest,
     BaseCompetitiveDialogEUContentWebTest,
     test_author,
-    test_bids,
+    test_bids_stage1 as test_bids,
 )
 from openprocurement.tender.openua.tests.post import (
     ComplaintPostResourceMixin,
@@ -79,7 +79,6 @@ class TenderCompetitiveDialogUAQualificationComplaintPostResourceTest(
         super(TenderCompetitiveDialogUAQualificationComplaintPostResourceTest, self).setUp()
         # Create bid
         bid_data = deepcopy(test_bids[0])
-        bid_data["value"] = {"amount": 500}
         bidder_data = bid_data["tenderers"][0]
         bidder_data["identifier"]["id"] = "00037256"
         response = self.app.post_json(
@@ -90,14 +89,12 @@ class TenderCompetitiveDialogUAQualificationComplaintPostResourceTest(
         self.assertEqual(response.content_type, "application/json")
 
         # Create bid
-        bid_data["value"] = {"amount": 101}
         bidder_data["identifier"]["id"] = "00037257"
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
             {"data": bid_data},
         )
         # Create another bid
-        bid_data["value"] = {"amount": 111}
         bidder_data["identifier"]["id"] = "00037258"
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
@@ -166,14 +163,14 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
     docservice = True
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_bids
+    initial_bid_data = test_bids
     initial_auth = ("Basic", ("broker", ""))
     author_data = test_author
 
     def setUp(self):
         super(TenderCompetitiveDialogEUQualificationComplaintPostResourceTest, self).setUp()
         # Create bid
-        bid_data = deepcopy(self.initial_bids[0])
-        bid_data["value"] = {"amount": 500}
+        bid_data = deepcopy(self.initial_bid_data[0])
         bidder_data = bid_data["tenderers"][0]
         bidder_data["identifier"]["id"] = "00037256"
         response = self.app.post_json(
@@ -184,14 +181,12 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
         self.assertEqual(response.content_type, "application/json")
 
         # Create bid
-        bid_data["value"] = {"amount": 101}
         bidder_data["identifier"]["id"] = "00037257"
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
             {"data": bid_data},
         )
         # Create another bid
-        bid_data["value"] = {"amount": 111}
         bidder_data["identifier"]["id"] = "00037258"
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),

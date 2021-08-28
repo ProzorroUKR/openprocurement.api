@@ -15,11 +15,11 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/cancellations/0ba60a6120604826bc9b170d0949cd4d/documents/205cc90c9da944499f541b2219b6ec36
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/cancellations/0ba60a6120604826bc9b170d0949cd4d/documents/f24744ecea6646e09d832d9136d84890
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "205cc90c9da944499f541b2219b6ec36",
+    "id": "f24744ecea6646e09d832d9136d84890",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Notice.pdf",
     "format": "application/pdf",

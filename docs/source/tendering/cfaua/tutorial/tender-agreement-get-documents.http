@@ -8,11 +8,11 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "id": "2d45d008024549f885f6c42b6fe570f2",
+      "id": "6b3def02d8e044b2a003ce65d16b212a",
       "hash": "md5:00000000000000000000000000000000",
       "title": "agreement_first_document.doc",
-      "format": "application/msword",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/257b51818ec24ff7ba9bd1536cabbe1a?Signature=iDFXj6P4QP4EFu7aFSqGrJNK2CPGgPIy8kNLT4lexv1ScfBy%2BvGvd1JURyrmiQ2pFlxy2ocEuEI8%2BrTMDBRQDw%3D%3D&KeyID=a8968c46",
+      "format": "application/msdoc",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e73683eb573b462197fba52699c470e6?Signature=t5gVoF4QbfJd4GE1RR7XX058cfTiAcAm2fsY4%2BdL%2BtUCH3%2FBEMg5HIXT202dnnG%2Fw%2B62aFOEigVThfvB1%2FEVDg%3D%3D&KeyID=a8968c46",
       "datePublished": "2021-03-16T00:00:00+02:00",
       "dateModified": "2021-03-16T00:00:00+02:00",
       "documentOf": "tender"

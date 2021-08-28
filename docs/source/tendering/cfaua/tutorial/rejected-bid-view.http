@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/eac6e323ccd84f588542f76867850060?acc_token=fbb49b806b484733bc09390b0e01078d HTTP/1.0
+GET /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/7b1decebe35a4408b2fa079344de8313?acc_token=fbb49b806b484733bc09390b0e01078d HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -30,10 +30,10 @@ X-Content-Type-Options: nosniff
         "scale": "mid"
       }
     ],
-    "id": "eac6e323ccd84f588542f76867850060",
+    "id": "7b1decebe35a4408b2fa079344de8313",
     "requirementResponses": [
       {
-        "id": "8c57eb166e04443cad4aac981bd5b9d7",
+        "id": "0ef28e17f81b4e138e0546c3f697a29e",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -43,7 +43,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "664434fa7e554b37b40d4222de69a4ae",
+        "id": "adcd53d47a854c359b3df89f512ea6c2",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -53,7 +53,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "031e3b514c47431fafb02e05139d81f3",
+        "id": "0191cb8c4dcd43569ccf39a00a51292c",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -63,7 +63,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "82c8466df30449d6893f11bee2a222f9",
+        "id": "e0b59b74b8e945be805fe0b50bea2f2e",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -73,7 +73,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "4719898b6a8f419fa8781a57d1f364ad",
+        "id": "21476cbbf0ef4e74baffabad940f6aa4",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -83,7 +83,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "049b4f7c671a479796620517cd5dd6de",
+        "id": "a5b22812253c4fdbb9b02dd5b4394557",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -93,7 +93,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "3c5ce4fcc54644aeaae393f7a84789e7",
+        "id": "c11c3429709e4e11ab68e916861d5eff",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -103,7 +103,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "c93733231988472cb8e471dd2b97cabf",
+        "id": "b49ca3954cf74a96be2acdd9c929a3dc",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -113,7 +113,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "2978cde5e3d940b5b1f32dc32d9637f6",
+        "id": "1c596bd32d484eefa12335a0263d9b85",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -123,7 +123,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "92d40082b82d4a9b9bdba99840874913",
+        "id": "ec6e243b29e145b187bbfb0e69640be5",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -133,7 +133,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "d5e187d3ea744450866cb1683e5884ac",
+        "id": "0c54cbd308cd4bb98ced698cfae54587",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
@@ -145,7 +145,7 @@ X-Content-Type-Options: nosniff
     ],
     "documents": [
       {
-        "id": "e69a71de908d4c4a8f9c69e527938b69",
+        "id": "fd4a6cfadb32474b8b6d2c8c045f9e1d",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
@@ -157,11 +157,11 @@ X-Content-Type-Options: nosniff
         "language": "uk"
       },
       {
-        "id": "fadca469c6e44f0ca8086ab778e301e6",
+        "id": "4474922426e24118a49f17150ce09eb9",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/eac6e323ccd84f588542f76867850060/documents/fadca469c6e44f0ca8086ab778e301e6?download=256123ec589044029ec3f8823d26d1a4",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/7b1decebe35a4408b2fa079344de8313/documents/4474922426e24118a49f17150ce09eb9?download=256123ec589044029ec3f8823d26d1a4",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
@@ -172,7 +172,7 @@ X-Content-Type-Options: nosniff
     ],
     "eligibilityDocuments": [
       {
-        "id": "1973f516b53d40ecbc3f14c979bbb698",
+        "id": "e60c97b6416945de8eafcde527d04901",
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",
         "format": "application/pdf",
@@ -184,7 +184,6 @@ X-Content-Type-Options: nosniff
         "language": "uk"
       }
     ],
-    "selfQualified": true,
     "status": "unsuccessful"
   }
 }

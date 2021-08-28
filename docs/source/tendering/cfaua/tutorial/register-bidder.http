@@ -45,7 +45,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/fa412b9bcd92484d9f8871b0ee0df130
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/b142414a5dc84ec0a828ba7e3d5f3513
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -53,9 +53,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "ДКП «Школяр»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137256",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137256"
         },
         "address": {
           "streetAddress": "вул. Островського, 33",
@@ -65,34 +65,34 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
         },
         "scale": "micro"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "fa412b9bcd92484d9f8871b0ee0df130",
+    "subcontractingDetails": "ДКП «Орфей», Україна",
     "lotValues": [
       {
-        "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
-        "date": "2021-03-16T00:00:00+02:00",
-        "status": "pending",
         "value": {
+          "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true,
-          "amount": 500.0
-        }
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
+        "status": "pending",
+        "date": "2021-03-16T00:00:00+02:00"
       }
     ],
     "selfQualified": true,
-    "subcontractingDetails": "ДКП «Орфей», Україна",
-    "status": "draft"
+    "status": "draft",
+    "id": "b142414a5dc84ec0a828ba7e3d5f3513",
+    "date": "2021-03-16T00:00:00+02:00"
   },
   "access": {
-    "token": "c0c98c22f5594c6e99ba094d5d9a9b63",
-    "transfer": "ed942033e52245b78cf59661f2525d99"
+    "token": "4e94ef2d4d854792b5f438b3a1f289b5",
+    "transfer": "b97a2619ab214b80aab5fa96c23c9799"
   }
 }
 

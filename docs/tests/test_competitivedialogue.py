@@ -33,10 +33,13 @@ bid_stage2 = deepcopy(bid_draft)
 bid = deepcopy(bid_draft)
 bid_with_bad_participant = deepcopy(bid_draft)
 bid2 = deepcopy(bid2)
+bid2_stage2 = deepcopy(bid2)
 bid3 = deepcopy(bid3)
 bid4 = deepcopy(bid4)
 bid2_with_docs = deepcopy(bid2)
+bid2_with_docs_st2 = deepcopy(bid2)
 bid4_with_docs = deepcopy(bid4)
+bid4_with_docs_st2 = deepcopy(bid4)
 bid_document2 = deepcopy(bid_document2)
 
 bid_stage2.update(subcontracting)
@@ -46,12 +49,20 @@ bid.update(qualified)
 bid_with_bad_participant.update(subcontracting)
 bid_with_bad_participant.update(qualified)
 bid2.update(qualified)
+bid2_stage2.update(qualified)
 bid3.update(qualified)
 bid4.update(qualified)
 bid2_with_docs.update(qualified)
+bid2_with_docs_st2.update(qualified)
 bid4_with_docs.update(qualified)
+bid4_with_docs_st2.update(qualified)
 
 del bid['value']
+del bid2['value']
+del bid3['value']
+del bid4['value']
+del bid2_with_docs['value']
+del bid4_with_docs['value']
 bid_with_bad_participant['tenderers'] = [bad_participant]
 test_lots[0]['value'] = test_tender_data_stage1['value']
 test_lots[0]['minimalStep'] = test_tender_data_stage1['minimalStep']
@@ -304,15 +315,27 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
         #### Proposal Uploading
 
         with open(TARGET_DIR + 'upload-bid-proposal.http', 'w') as self.app.file_obj:
-            response = self.app.post('/tenders/{}/bids/{}/documents?acc_token={}'.format(
+            response = self.app.post_json('/tenders/{}/bids/{}/documents?acc_token={}'.format(
                 self.tender_id, bid1_id, bids_access[bid1_id]),
-                upload_files=[('file', 'Proposal.pdf', b'content')])
+                {"data": {
+                    "title": "Proposal.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }},
+            )
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'upload-bid-descriptive-decision-proposal.http', 'w') as self.app.file_obj:
-            response = self.app.post('/tenders/{}/bids/{}/documents?acc_token={}'.format(
+            response = self.app.post_json('/tenders/{}/bids/{}/documents?acc_token={}'.format(
                 self.tender_id, bid1_id, bids_access[bid1_id]),
-                upload_files=[('file', 'DescriptiveProposal.pdf', b'content')])
+                {"data": {
+                    "title": "DescriptiveProposal.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }},
+            )
             self.assertEqual(response.status, '201 Created')
 
         priv_doc_id1 = response.json['data']['id']
@@ -326,9 +349,15 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'upload-bid-private-proposal.http', 'w') as self.app.file_obj:
-            response = self.app.post('/tenders/{}/bids/{}/documents?acc_token={}'.format(
+            response = self.app.post_json('/tenders/{}/bids/{}/documents?acc_token={}'.format(
                 self.tender_id, bid1_id, bids_access[bid1_id]),
-                upload_files=[('file', 'Proposal_top_secrets.pdf', b'content')])
+                {"data": {
+                    "title": "Proposal_top_secrets.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }},
+            )
             self.assertEqual(response.status, '201 Created')
             priv_doc_id = response.json['data']['id']
 
@@ -735,15 +764,27 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
         #### Proposal Uploading
 
         with open(TARGET_DIR + 'stage2/EU/upload-bid-proposal.http', 'w') as self.app.file_obj:
-            response = self.app.post('/tenders/{}/bids/{}/documents?acc_token={}'.format(
+            response = self.app.post_json('/tenders/{}/bids/{}/documents?acc_token={}'.format(
                 self.tender_id, bid1_id, bids_access[bid1_id]),
-                upload_files=[('file', 'Proposal.pdf', b'content')])
+                {"data": {
+                    "title": "Proposal.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }},
+            )
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'stage2/EU/upload-bid-private-proposal.http', 'w') as self.app.file_obj:
-            response = self.app.post('/tenders/{}/bids/{}/documents?acc_token={}'.format(
+            response = self.app.post_json('/tenders/{}/bids/{}/documents?acc_token={}'.format(
                 self.tender_id, bid1_id, bids_access[bid1_id]),
-                upload_files=[('file', 'Proposal_top_secrets.pdf', b'content')])
+                {"data": {
+                    "title": "Proposal_top_secrets.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }},
+            )
             self.assertEqual(response.status, '201 Created')
             priv_doc_id = response.json['data']['id']
 
@@ -763,15 +804,27 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'stage2/EU/upload-bid-financial-document-proposal.http', 'w') as self.app.file_obj:
-            response = self.app.post('/tenders/{}/bids/{}/financial_documents?acc_token={}'.format(
+            response = self.app.post_json('/tenders/{}/bids/{}/financial_documents?acc_token={}'.format(
                 self.tender_id, bid1_id, bids_access[bid1_id]),
-                upload_files=[('file', 'financial_doc.pdf', b'1000$')])
+                {"data": {
+                    "title": "financial_doc.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }},
+            )
             self.assertEqual(response.status, '201 Created')
             financial_doc_id = response.json['data']['id']
 
-        response = self.app.post('/tenders/{}/bids/{}/financial_documents?acc_token={}'.format(
+        response = self.app.post_json('/tenders/{}/bids/{}/financial_documents?acc_token={}'.format(
             self.tender_id, bid1_id, bids_access[bid1_id]),
-            upload_files=[('file', 'financial_doc2.pdf', b'1000$')])
+            {"data": {
+                "title": "financial_doc2.pdf",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pdf",
+            }},
+        )
         self.assertEqual(response.status, '201 Created')
         financial_doc_id = response.json['data']['id']
 
@@ -781,9 +834,15 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'stage2/EU/upload-bid-qualification-document-proposal.http', 'w') as self.app.file_obj:
-            response = self.app.post('/tenders/{}/bids/{}/qualification_documents?acc_token={}'.format(
+            response = self.app.post_json('/tenders/{}/bids/{}/qualification_documents?acc_token={}'.format(
                 self.tender_id, bid1_id, bids_access[bid1_id]),
-                upload_files=[('file', 'qualification_document.pdf', b'content')])
+                {"data": {
+                    "title": "qualification_document.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }},
+            )
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'stage2/EU/bidder-view-financial-documents.http', 'w') as self.app.file_obj:
@@ -813,7 +872,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'stage2/EU/register-2nd-bidder.http', 'w') as self.app.file_obj:
-            bid2_draft = deepcopy(bid2)
+            bid2_draft = deepcopy(bid2_stage2)
             response = self.app.post_json(
                 '/tenders/{}/bids'.format(self.tender_id),
                 {'data': bid2_draft})
@@ -827,23 +886,23 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
             'confidentiality': 'buyerOnly',
             'confidentialityRationale': 'Only our company sells badgers with pink hair.'
         })
-        bid4_with_docs["documents"] = [bid_document, bid_document2]
-        bid4_with_docs["eligibilityDocuments"] = [bid_document3_eligibility]
-        bid4_with_docs["financialDocuments"] = [bid_document4_financialy]
-        bid4_with_docs["qualificationDocuments"] = [bid_document5_qualification]
-        for document in bid4_with_docs['documents']:
+        bid4_with_docs_st2["documents"] = [bid_document, bid_document2]
+        bid4_with_docs_st2["eligibilityDocuments"] = [bid_document3_eligibility]
+        bid4_with_docs_st2["financialDocuments"] = [bid_document4_financialy]
+        bid4_with_docs_st2["qualificationDocuments"] = [bid_document5_qualification]
+        for document in bid4_with_docs_st2['documents']:
             document['url'] = self.generate_docservice_url()
-        for document in bid4_with_docs['eligibilityDocuments']:
+        for document in bid4_with_docs_st2['eligibilityDocuments']:
             document['url'] = self.generate_docservice_url()
-        for document in bid4_with_docs['financialDocuments']:
+        for document in bid4_with_docs_st2['financialDocuments']:
             document['url'] = self.generate_docservice_url()
-        for document in bid4_with_docs['qualificationDocuments']:
+        for document in bid4_with_docs_st2['qualificationDocuments']:
             document['url'] = self.generate_docservice_url()
 
         with open(TARGET_DIR + 'stage2/EU/register-3rd-bidder.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/bids'.format(self.tender_id),
-                {'data': bid4_with_docs})
+                {'data': bid4_with_docs_st2})
             bid3_id = response.json['data']['id']
             bids_access[bid3_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
@@ -1618,9 +1677,15 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTe
         #### Proposal Uploading
 
         with open(TARGET_DIR + 'stage2/UA/upload-bid-proposal.http', 'w') as self.app.file_obj:
-            response = self.app.post('/tenders/{}/bids/{}/documents?acc_token={}'.format(
+            response = self.app.post_json('/tenders/{}/bids/{}/documents?acc_token={}'.format(
                 self.tender_id, bid1_id, bids_access[bid1_id]),
-                upload_files=[('file', 'Proposal.pdf', b'content')])
+                {"data": {
+                    "title": "Proposal.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }},
+            )
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'stage2/UA/bidder-documents.http', 'w') as self.app.file_obj:
@@ -1655,7 +1720,7 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTe
         with open(TARGET_DIR + 'stage2/UA/register-2nd-bidder.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/bids'.format(self.tender_id),
-                {'data': bid2_with_docs})
+                {'data': bid2_with_docs_st2})
             bid2_id = response.json['data']['id']
             bids_access[bid2_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')

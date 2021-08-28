@@ -71,7 +71,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3999e118d0d4460a8852c363407a5252/bids/7e24df74bd344cccb8b10df30ea5ad2b
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3999e118d0d4460a8852c363407a5252/bids/499825a459994ef698c1b3fe612196d2
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -79,9 +79,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "ДКП «Школяр»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137256",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137256"
         },
         "address": {
           "streetAddress": "вул. Островського, 33",
@@ -91,27 +91,22 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
         },
         "scale": "micro"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "7e24df74bd344cccb8b10df30ea5ad2b",
     "status": "draft",
+    "selfQualified": true,
     "lotValues": [
       {
         "relatedLot": "93256198e2e7429ab4d0300cc250244f",
-        "date": "2021-03-16T00:00:00+02:00",
         "subcontractingDetails": "ДКП «Орфей», Україна",
-        "status": "pending",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amount": 5572.77,
-          "amountPerformance": 1320.62,
           "yearlyPaymentsPercentage": 0.87,
           "annualCostsReduction": [
             200.0,
@@ -139,15 +134,19 @@ X-Content-Type-Options: nosniff
           "contractDuration": {
             "years": 7,
             "days": 0
-          }
-        }
+          },
+          "amountPerformance": 1320.62,
+          "amount": 5572.77
+        },
+        "date": "2021-03-16T00:00:00+02:00"
       }
     ],
-    "selfQualified": true
+    "id": "499825a459994ef698c1b3fe612196d2",
+    "date": "2021-03-16T00:00:00+02:00"
   },
   "access": {
-    "token": "e25474c85dbb461bbabe5f65c722b6df",
-    "transfer": "131d51540e104948a22bf2662dd697f9"
+    "token": "9963e91c78e34edbb8d8b7cb08a1bc4e",
+    "transfer": "f28a4f8e0b3e4e69bfced40827a16855"
   }
 }
 

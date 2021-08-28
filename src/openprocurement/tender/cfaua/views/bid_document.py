@@ -34,13 +34,13 @@ from openprocurement.tender.cfaua.validation import (
 )
 
 
-@optendersresource(
-    name="closeFrameworkAgreementUA:Tender Bid Documents",
-    collection_path="/tenders/{tender_id}/bids/{bid_id}/documents",
-    path="/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}",
-    procurementMethodType="closeFrameworkAgreementUA",
-    description="Tender EU bidder documents",
-)
+# @optendersresource(
+#     name="closeFrameworkAgreementUA:Tender Bid Documents",
+#     collection_path="/tenders/{tender_id}/bids/{bid_id}/documents",
+#     path="/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}",
+#     procurementMethodType="closeFrameworkAgreementUA",
+#     description="Tender EU bidder documents",
+# )
 class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
     container = "documents"
 
@@ -114,24 +114,24 @@ class TenderEUBidDocumentResource(TenderUaBidDocumentResource):
         return super(TenderEUBidDocumentResource, self).put()
 
 
-@bid_eligibility_documents_resource(
-    name="closeFrameworkAgreementUA:Tender Bid Eligibility Documents",
-    collection_path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents",
-    path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents/{document_id}",
-    procurementMethodType="closeFrameworkAgreementUA",
-    description="Tender EU bidder eligibility documents",
-)
+# @bid_eligibility_documents_resource(
+#     name="closeFrameworkAgreementUA:Tender Bid Eligibility Documents",
+#     collection_path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents",
+#     path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents/{document_id}",
+#     procurementMethodType="closeFrameworkAgreementUA",
+#     description="Tender EU bidder eligibility documents",
+# )
 class TenderEUBidEligibilityDocumentResource(TenderEUBidDocumentResource):
     container = "eligibilityDocuments"
 
 
-@bid_financial_documents_resource(
-    name="closeFrameworkAgreementUA:Tender Bid Financial Documents",
-    collection_path="/tenders/{tender_id}/bids/{bid_id}/financial_documents",
-    path="/tenders/{tender_id}/bids/{bid_id}/financial_documents/{document_id}",
-    procurementMethodType="closeFrameworkAgreementUA",
-    description="Tender EU bidder financial documents",
-)
+# @bid_financial_documents_resource(
+#     name="closeFrameworkAgreementUA:Tender Bid Financial Documents",
+#     collection_path="/tenders/{tender_id}/bids/{bid_id}/financial_documents",
+#     path="/tenders/{tender_id}/bids/{bid_id}/financial_documents/{document_id}",
+#     procurementMethodType="closeFrameworkAgreementUA",
+#     description="Tender EU bidder financial documents",
+# )
 class TenderEUBidFinancialDocumentResource(TenderEUBidDocumentResource):
     container = "financialDocuments"
 
@@ -205,13 +205,13 @@ class TenderEUBidFinancialDocumentResource(TenderEUBidDocumentResource):
         return super(TenderEUBidFinancialDocumentResource, self).put()
 
 
-@bid_qualification_documents_resource(
-    name="closeFrameworkAgreementUA:Tender Bid Qualification Documents",
-    collection_path="/tenders/{tender_id}/bids/{bid_id}/qualification_documents",
-    path="/tenders/{tender_id}/bids/{bid_id}/qualification_documents/{document_id}",
-    procurementMethodType="closeFrameworkAgreementUA",
-    description="Tender EU bidder qualification documents",
-)
+# @bid_qualification_documents_resource(
+#     name="closeFrameworkAgreementUA:Tender Bid Qualification Documents",
+#     collection_path="/tenders/{tender_id}/bids/{bid_id}/qualification_documents",
+#     path="/tenders/{tender_id}/bids/{bid_id}/qualification_documents/{document_id}",
+#     procurementMethodType="closeFrameworkAgreementUA",
+#     description="Tender EU bidder qualification documents",
+# )
 class TenderEUBidQualificationDocumentResource(TenderEUBidFinancialDocumentResource):
     container = "qualificationDocuments"
 

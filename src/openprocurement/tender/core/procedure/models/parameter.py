@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from schematics.exceptions import ValidationError
 from schematics.types import FloatType
 from openprocurement.api.models import Model

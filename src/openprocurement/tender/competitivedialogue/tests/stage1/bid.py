@@ -3,12 +3,9 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.bid_blanks import (
-    # CompetitiveDialogEU2LotBidResourceTest
-    patch_tender_with_bids_lots_none,
-)
 
-from openprocurement.tender.openeu.tests.bid import TenderBidResourceTestMixin, CreateBidMixin
+from openprocurement.tender.openeu.tests.bid import CreateBidMixin
+from openprocurement.tender.openeu.tests.bid_blanks import bids_activation_on_tender_documents
 from openprocurement.tender.openua.tests.bid import (
     TenderBidDocumentWithDSResourceTestMixin,
     TenderBidRequirementResponseTestMixin,
@@ -17,13 +14,16 @@ from openprocurement.tender.openua.tests.bid import (
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogUAContentWebTest,
     BaseCompetitiveDialogEUContentWebTest,
-    test_bids,
+    test_bids_stage1 as test_bids,
     test_tenderer,
     test_features_tender_eu_data,
     test_lots,
 )
 from openprocurement.tender.competitivedialogue.tests.stage1.bid_blanks import (
+    patch_tender_with_bids_lots_none,
     # CompetitiveDialogEUBidResourceTest
+    create_tender_bidder,
+    deleted_bid_is_not_restorable,
     create_tender_bidder_invalid,
     status_jumping,
     create_bid_without_parameters,
@@ -38,9 +38,6 @@ from openprocurement.tender.competitivedialogue.tests.stage1.bid_blanks import (
     # CompetitiveDialogEUBidDocumentResourceTest
     get_tender_bidder_document,
     create_tender_bidder_document,
-    put_tender_bidder_document,
-    patch_tender_bidder_document,
-    patch_tender_bidder_document_private,
     patch_and_put_document_into_invalid_bid,
     download_tender_bidder_document,
     create_tender_bidder_document_nopending,
@@ -51,11 +48,17 @@ from openprocurement.tender.competitivedialogue.tests.stage1.bid_blanks import (
 )
 
 
-class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest, TenderBidResourceTestMixin):
+class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
 
     initial_status = "active.tendering"
     initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_bids
+    docservice = True
+
+    # overwriting TenderBidResourceTestMixin.test_create_tender_bidder
+    test_create_tender_bidder = snitch(create_tender_bidder)
+    test_deleted_bid_is_not_restorable = snitch(deleted_bid_is_not_restorable)
+    test_bids_activation_on_tender_documents = snitch(bids_activation_on_tender_documents)
 
     test_create_tender_bidder_invalid = snitch(create_tender_bidder_invalid)
     test_status_jumping = snitch(status_jumping)
@@ -89,6 +92,7 @@ class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentW
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "active.tendering"
     test_bids_data = test_bids
+    docservice = True
 
     def setUp(self):
         super(CompetitiveDialogEUBidDocumentResourceTest, self).setUp()
@@ -112,9 +116,6 @@ class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentW
 
     test_get_tender_bidder_document = snitch(get_tender_bidder_document)
     test_create_tender_bidder_document = snitch(create_tender_bidder_document)
-    test_put_tender_bidder_document = snitch(put_tender_bidder_document)
-    test_patch_tender_bidder_document = snitch(patch_tender_bidder_document)
-    test_patch_tender_bidder_document_private = snitch(patch_tender_bidder_document_private)
     test_patch_and_put_document_into_invalid_bid = snitch(patch_and_put_document_into_invalid_bid)
     test_download_tender_bidder_document = snitch(download_tender_bidder_document)
     test_create_tender_bidder_document_nopending = snitch(create_tender_bidder_document_nopending)
@@ -132,7 +133,6 @@ class TenderUABidDocumentWithDSWebTest(TenderBidDocumentWithDSResourceTestMixin,
         super(TenderUABidDocumentWithDSWebTest, self).setUp()
         # Create bid
         bid_data = deepcopy(self.test_bids_data[0])
-        bid_data["value"] = {"amount": 500}
         bid_data["tenderers"] = [test_tenderer]
 
         bid, bid_token = self.create_bid(self.tender_id, bid_data)

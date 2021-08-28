@@ -46,8 +46,6 @@ X-Content-Type-Options: nosniff
     "id": "fca5f46a77484fe09b1038555f0e2bb2",
     "date": "2021-03-16T00:00:00+02:00",
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "parameters": [],
-    "lotValues": [],
     "documents": [
       {
         "id": "6f732f2a844d4abeb87318952e38e5af",
@@ -57,12 +55,10 @@ X-Content-Type-Options: nosniff
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/101a4c542c25418797557f7601d4dc8d?Signature=K26ZyzFLAGitE5vmaETTasDXeOkxZQmoSREf3jTyHtKdUX%2FHnAMvZTD0cCXy6qihSzuWZT0YiRp1bjQCRVj%2FDQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "dateModified": "2021-03-16T00:00:00+02:00",
+        "confidentiality": "public"
       }
     ],
-    "financialDocuments": [],
-    "eligibilityDocuments": [],
-    "qualificationDocuments": [],
     "selfQualified": true,
     "status": "draft"
   }

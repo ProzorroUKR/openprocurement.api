@@ -103,7 +103,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3999e118d0d4460a8852c363407a5252/bids/819dd4a294e24e6196df664ff36aed16
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3999e118d0d4460a8852c363407a5252/bids/2ab7fecbd7c846c9a4c507a13f01efd8
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -111,9 +111,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "ДКП «Книга»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137226",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137226"
         },
         "address": {
           "streetAddress": "вул. Островського, 34",
@@ -123,26 +123,21 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Андрій Олексюк",
           "email": "aagt@gmail.com",
-          "telephone": "+380322916930"
+          "telephone": "+380322916930",
+          "name": "Андрій Олексюк"
         },
         "scale": "sme"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "819dd4a294e24e6196df664ff36aed16",
     "status": "draft",
+    "selfQualified": true,
     "lotValues": [
       {
         "relatedLot": "93256198e2e7429ab4d0300cc250244f",
-        "date": "2021-03-16T00:00:00+02:00",
-        "status": "pending",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amount": 9565.89,
-          "amountPerformance": 2009.5,
           "yearlyPaymentsPercentage": 0.9,
           "annualCostsReduction": [
             700.0,
@@ -170,19 +165,18 @@ X-Content-Type-Options: nosniff
           "contractDuration": {
             "years": 7,
             "days": 0
-          }
-        }
+          },
+          "amountPerformance": 2009.5,
+          "amount": 9565.89
+        },
+        "date": "2021-03-16T00:00:00+02:00"
       },
       {
         "relatedLot": "ae36b7ca7b4a44d8b3c015a3e4043f4f",
-        "date": "2021-03-16T00:00:00+02:00",
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
-        "status": "pending",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amount": 10028.71,
-          "amountPerformance": 892.71,
           "yearlyPaymentsPercentage": 0.96,
           "annualCostsReduction": [
             600.0,
@@ -210,15 +204,19 @@ X-Content-Type-Options: nosniff
           "contractDuration": {
             "years": 9,
             "days": 0
-          }
-        }
+          },
+          "amountPerformance": 892.71,
+          "amount": 10028.71
+        },
+        "date": "2021-03-16T00:00:00+02:00"
       }
     ],
-    "selfQualified": true
+    "id": "2ab7fecbd7c846c9a4c507a13f01efd8",
+    "date": "2021-03-16T00:00:00+02:00"
   },
   "access": {
-    "token": "acac5f3d503545ecb1652cbdf4ccd6d0",
-    "transfer": "1fab6efc4f6d4e38b1ad58cc418385ac"
+    "token": "afd678aee3e249888d49a05e3616d8b5",
+    "transfer": "71ad2064cd1b4bad9a0cfb6e233e4117"
   }
 }
 

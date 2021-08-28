@@ -72,10 +72,7 @@ X-Content-Type-Options: nosniff
       }
     ],
     "status": "draft",
-    "lotValues": [],
-    "parameters": [],
     "selfQualified": true,
-    "documents": [],
     "id": "e655b89d64014a8dbe2668687696ed52",
     "date": "2021-03-16T00:00:00+02:00"
   },
@@ -1099,10 +1096,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       }
     ],
-    "selfQualified": true,
-    "parameters": [],
-    "lotValues": [],
-    "documents": []
+    "selfQualified": true
   }
 }
 

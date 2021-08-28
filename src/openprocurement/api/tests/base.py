@@ -180,7 +180,9 @@ class BaseWebTest(unittest.TestCase):
 
         patch_data = {"status": status}
         if "requirementResponses" not in bid["data"]:
-            patch_data["requirementResponses"] = generate_responses(self, tender_id)
+            rr = generate_responses(self, tender_id)
+            if rr:
+                patch_data["requirementResponses"] = rr
 
         response = self.app.patch_json(
             f"/tenders/{tender_id}/bids/{bid['data']['id']}?acc_token={bid['access']['token']}",

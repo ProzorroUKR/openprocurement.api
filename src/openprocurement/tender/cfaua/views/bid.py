@@ -12,13 +12,13 @@ from openprocurement.tender.openua.views.bid import TenderUABidResource as BaseR
 from openprocurement.tender.cfaua.validation import validate_view_bids_in_active_tendering
 
 
-@optendersresource(
-    name="closeFrameworkAgreementUA:Tender Bids",
-    collection_path="/tenders/{tender_id}/bids",
-    path="/tenders/{tender_id}/bids/{bid_id}",
-    procurementMethodType="closeFrameworkAgreementUA",
-    description="Tender EU bids",
-)
+# @optendersresource(
+#     name="closeFrameworkAgreementUA:Tender Bids",
+#     collection_path="/tenders/{tender_id}/bids",
+#     path="/tenders/{tender_id}/bids/{bid_id}",
+#     procurementMethodType="closeFrameworkAgreementUA",
+#     description="Tender EU bids",
+# )
 class TenderBidResource(BaseResource):
 
     allowed_bid_status_on_create = ["draft", "pending"]

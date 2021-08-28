@@ -100,16 +100,17 @@ def validate_data_documents(request, **kwargs):
     data = request.validated["data"]
     for key in data.keys():
         if key == "documents" or "Documents" in key:
-            docs = []
-            for document in data[key]:
-                # some magic, yep
-                route_kwargs = {"bid_id": data["id"]}
-                document = check_document_batch(request, document, key, route_kwargs)
-                docs.append(document)
+            if data[key]:
+                docs = []
+                for document in data[key]:
+                    # some magic, yep
+                    route_kwargs = {"bid_id": data["id"]}
+                    document = check_document_batch(request, document, key, route_kwargs)
+                    docs.append(document)
 
-            # replacing documents in request.validated["data"]
-            if docs:
-                data[key] = docs
+                # replacing documents in request.validated["data"]
+                if docs:
+                    data[key] = docs
     return data
 
 
@@ -154,11 +155,11 @@ def validate_bid_accreditation_level(request, **kwargs):
 
 def validate_bid_operation_period(request, **kwargs):
     tender = request.validated["tender"]
-    tender_periond = tender.get("tenderPeriod", {})
+    tender_period = tender.get("tenderPeriod", {})
     if (
-        tender_periond.get("startDate")
-        and get_now().isoformat() < tender_periond.get("startDate")
-        or get_now().isoformat() > tender_periond.get("endDate", "")  # TODO: may "endDate" be missed ?
+        tender_period.get("startDate")
+        and get_now().isoformat() < tender_period.get("startDate")
+        or get_now().isoformat() > tender_period.get("endDate", "")  # TODO: may "endDate" be missed ?
     ):
         operation = "added" if request.method == "POST" else "deleted"
         if request.authenticated_role != "Administrator" and request.method in ("PUT", "PATCH"):
@@ -167,13 +168,24 @@ def validate_bid_operation_period(request, **kwargs):
             request,
             "Bid can be {} only during the tendering period: from ({}) to ({}).".format(
                 operation,
-                tender_periond.get("startDate"),
-                tender_periond.get("endDate"),
+                tender_period.get("startDate"),
+                tender_period.get("endDate"),
             ),
         )
 
 
-def validate_bid_operation_not_in_tendering(request, **kwargs):
+def validate_bid_operation_in_tendering(request, **_):
+    tender_status = request.validated["tender"]["status"]
+    if tender_status == "active.tendering":
+        raise_operation_error(
+            request,
+            "Can't view {} in current ({}) tender status".format(
+                "bid" if request.matchdict.get("bid_id") else "bids", tender_status
+            ),
+        )
+
+
+def validate_bid_operation_not_in_tendering(request, **_):
     status = request.validated["tender"]["status"]
     if status != "active.tendering":
         operation = "add" if request.method == "POST" else "delete"

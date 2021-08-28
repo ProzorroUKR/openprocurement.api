@@ -22,5 +22,18 @@ class PostLotValue(Model):
         validate_relatedlot(tender, related_lot)
 
 
+class PatchLotValue(PostLotValue):
+    value = ModelType(Value)
+    relatedLot = MD5Type()
+
+    def validate_value(self, data, value):
+        if value is not None:
+            super().validate_value(self, data, value)
+
+    def validate_relatedLot(self, data, related_lot):
+        if related_lot is not None:
+            super().validate_relatedLot(self, data, related_lot)
+
+
 class LotValue(PostLotValue):
     date = StringType()

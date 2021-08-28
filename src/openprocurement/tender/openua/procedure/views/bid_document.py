@@ -30,7 +30,7 @@ from cornice.resource import resource
     procurementMethodType="aboveThresholdUA",
     description="Tender UA bidder documents",
 )
-class BelowThresholdTenderBidDocumentResource(TenderBidDocumentResource):
+class TenderUaBidDocumentResource(TenderBidDocumentResource):
     serializer_class = ConfidentialDocumentSerializer
 
     @json_view(
@@ -57,7 +57,7 @@ class BelowThresholdTenderBidDocumentResource(TenderBidDocumentResource):
         permission="edit_bid",
     )
     def collection_post(self):
-        return super(BelowThresholdTenderBidDocumentResource, self).collection_post()
+        return super(TenderUaBidDocumentResource, self).collection_post()
 
     @json_view(
         validators=(
@@ -79,7 +79,7 @@ class BelowThresholdTenderBidDocumentResource(TenderBidDocumentResource):
         permission="edit_bid",
     )
     def put(self):
-        return super(BelowThresholdTenderBidDocumentResource, self).put()
+        return super(TenderUaBidDocumentResource, self).put()
 
     @json_view(
         content_type="application/json",
@@ -99,4 +99,4 @@ class BelowThresholdTenderBidDocumentResource(TenderBidDocumentResource):
         permission="edit_bid",
     )
     def patch(self):
-        return super(BelowThresholdTenderBidDocumentResource, self).patch()
+        return super(TenderUaBidDocumentResource, self).patch()

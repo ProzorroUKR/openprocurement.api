@@ -1,66 +1,66 @@
-POST /api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/c2273631949e4fbeb8ff3a1be667e937/financial_documents?acc_token=3558940bd3654d09b73766b6712599cc HTTP/1.0
+POST /api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/931f9a28ea1c44bda087fc6d9349405f/financial_documents?acc_token=01d276fa7ea64637ad3be5084d677b89 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 147
-Content-Type: multipart/form-data; boundary=---BOUNDARY
+Content-Length: 333
+Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
------BOUNDARY
-Content-Disposition: form-data; name="file"; filename="financial_doc.pdf"
-Content-Type: application/pdf
-
-1000$
------BOUNDARY--
-
-
-Response: 201 Created
-Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/c2273631949e4fbeb8ff3a1be667e937/financial_documents/dbeee3fef6f94ff9ba686a4592ed20b1
-X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "dbeee3fef6f94ff9ba686a4592ed20b1",
-    "hash": "md5:00000000000000000000000000000000",
     "title": "financial_doc.pdf",
-    "format": "application/pdf",
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/c2273631949e4fbeb8ff3a1be667e937/financial_documents/dbeee3fef6f94ff9ba686a4592ed20b1?download=d10c185327ec4bbebe4e3ad70a99817c",
-    "datePublished": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "documentOf": "tender",
-    "confidentiality": "public",
-    "language": "uk"
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e205d4bfb1664749a31410c1fcbc0273?Signature=Q70sm5xAnJ3v%2FepNwI%2FV7HeySlw%2Bm5RBIj0bXcSLvceRh%2BKuQIIa3f1zsLKRCpnyV4NyHLEKGZek37pzuh5RCw%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pdf"
   }
 }
 
-POST /api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/c2273631949e4fbeb8ff3a1be667e937/financial_documents?acc_token=3558940bd3654d09b73766b6712599cc HTTP/1.0
-Authorization: Bearer broker
-Content-Length: 148
-Content-Type: multipart/form-data; boundary=---BOUNDARY
-Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
------BOUNDARY
-Content-Disposition: form-data; name="file"; filename="financial_doc2.pdf"
-Content-Type: application/pdf
-
-1000$
------BOUNDARY--
-
-
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/c2273631949e4fbeb8ff3a1be667e937/financial_documents/0dd418a59806492e96538c63ea053a6e
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/931f9a28ea1c44bda087fc6d9349405f/financial_documents/e51f3496da644d008f4ebf28bf244426
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "0dd418a59806492e96538c63ea053a6e",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "financial_doc.pdf",
+    "format": "application/pdf",
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/931f9a28ea1c44bda087fc6d9349405f/financial_documents/e51f3496da644d008f4ebf28bf244426?download=e205d4bfb1664749a31410c1fcbc0273",
+    "documentOf": "tender",
+    "confidentiality": "public",
+    "id": "e51f3496da644d008f4ebf28bf244426",
+    "datePublished": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00"
+  }
+}
+
+POST /api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/931f9a28ea1c44bda087fc6d9349405f/financial_documents?acc_token=01d276fa7ea64637ad3be5084d677b89 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 326
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "title": "financial_doc2.pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e306562479754a0d8a0d64cb0036fcae?Signature=urBWMefeYcuvQlY0M6L5klAgqYfm23fcJgUftK2nKUxFcVg7aBNmtuCyVuL9ythoimlsA6LUnym2LGOY73YuDA%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pdf"
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/931f9a28ea1c44bda087fc6d9349405f/financial_documents/6478d18120e944b3875dbec011f545be
+X-Content-Type-Options: nosniff
+{
+  "data": {
     "hash": "md5:00000000000000000000000000000000",
     "title": "financial_doc2.pdf",
     "format": "application/pdf",
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/c2273631949e4fbeb8ff3a1be667e937/financial_documents/0dd418a59806492e96538c63ea053a6e?download=7313decb01c14f3ba03a500fcfa366a3",
-    "datePublished": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/931f9a28ea1c44bda087fc6d9349405f/financial_documents/6478d18120e944b3875dbec011f545be?download=e306562479754a0d8a0d64cb0036fcae",
     "documentOf": "tender",
     "confidentiality": "public",
-    "language": "uk"
+    "id": "6478d18120e944b3875dbec011f545be",
+    "datePublished": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00"
   }
 }
 
