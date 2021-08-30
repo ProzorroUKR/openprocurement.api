@@ -198,12 +198,20 @@ def validate_put_requirement_objects(request, **kwargs):
 
 def validate_upload_documents_not_allowed_for_simple_pmr(request, **kwargs):
     tender = request.validated["tender"]
-    upload_document_not_allowed_tender_statuses = ("active.qualification", )
-    if request.validated["tender_status"] in upload_document_not_allowed_tender_statuses:
+    statuses = ("active.qualification",)
+    if tender["status"] in statuses and tender.get("procurementMethodRationale") == "simple":
         if tender.get("procurementMethodRationale") == "simple":
-            raise_operation_error(
-                request,
-                "Can't upload document with {} tender status and procurementMethodRationale simple".format(
-                    upload_document_not_allowed_tender_statuses
-                ),
+            bid_id = request.validated["bid"]["id"]
+            criteria = tender["criteria"]
+            awards = tender["awards"]
+            bid_with_active_award = any([award["status"] == "active" and award["bid_id"] == bid_id for award in awards])
+            needed_criterion = any(
+                [criterion["classification"]["id"] == "CRITERION.OTHER.CONTRACT.GUARANTEE" for criterion in criteria]
             )
+            if not all([needed_criterion, bid_with_active_award]):
+                raise_operation_error(
+                    request,
+                    "Can't upload document with {} tender status and procurementMethodRationale simple".format(
+                        statuses
+                    ),
+                )

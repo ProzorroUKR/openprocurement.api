@@ -1186,8 +1186,6 @@ def validate_bid_document_operation_in_not_allowed_tender_status(request, **kwar
         bid_id = request.validated["bid_id"]
         criteria = tender["criteria"]
         awards = tender["awards"]
-        data = request.validated.get("data", {})
-
         bid_with_active_award = any([
             award.status == "active" and award.bid_id == bid_id
             for award in awards
@@ -1196,17 +1194,14 @@ def validate_bid_document_operation_in_not_allowed_tender_status(request, **kwar
             criterion.classification.id == "CRITERION.OTHER.CONTRACT.GUARANTEE"
             for criterion in criteria
         ])
-        documents_data = data if isinstance(data, list) else [data]
-        for document_data in documents_data:
-            doc_type = document_data.get("documentType", "") == "contractGuarantees"
-            if not all([doc_type, needed_criterion, bid_with_active_award]):
-                raise_operation_error(
-                    request,
-                    "Can't {} document in current ({}) tender status".format(
-                        OPERATIONS.get(request.method),
-                        request.validated["tender_status"]
-                    ),
-                )
+        if not all([needed_criterion, bid_with_active_award]):
+            raise_operation_error(
+                request,
+                "Can't {} document in current ({}) tender status".format(
+                    OPERATIONS.get(request.method),
+                    request.validated["tender_status"]
+                ),
+            )
 
     elif request.validated["tender_status"] not in ["active.tendering", "active.qualification"]:
         raise_operation_error(

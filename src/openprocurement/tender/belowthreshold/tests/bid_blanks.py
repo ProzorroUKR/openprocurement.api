@@ -1652,12 +1652,10 @@ def create_tender_bid_document_with_award_json(self):
             "title": "test.doc",
             "url": self.generate_docservice_url(),
             "format": "application/msword",
-            "documentType": "contractGuarantees",
             "hash": "md5:" + "0" * 32
         }},
         status=201
     )
-    self.assertEqual(response.json["data"]["documentType"], "contractGuarantees")
 
     doc_id = response.json["data"]["id"]
     self.app.post_json(
