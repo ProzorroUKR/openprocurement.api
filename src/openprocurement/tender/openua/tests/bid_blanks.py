@@ -673,8 +673,9 @@ def draft1_bid(self):
 
     self.set_status("active.auction")
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+
+    response = self.check_chronograph()
+
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
     response = self.app.get("/tenders/{}/bids".format(self.tender_id))
     self.assertEqual(response.json["data"], [])
@@ -699,8 +700,9 @@ def draft2_bids(self):
 
     self.set_status("active.auction")
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+
+    response = self.check_chronograph()
+
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
     response = self.app.get("/tenders/{}/bids".format(self.tender_id))
     self.assertEqual(response.json["data"], [])

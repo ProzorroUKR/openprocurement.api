@@ -173,12 +173,12 @@ class TenderResource(APIResource):
             }
         """
         tender = self.context
-        if self.request.authenticated_role == "chronograph":
-            apply_patch(self.request, save=False, src=self.request.validated["tender_src"])
-            check_status(self.request)
-            save_tender(self.request)
-        else:
-            apply_patch(self.request, src=self.request.validated["tender_src"])
+        # if self.request.authenticated_role == "chronograph":
+        #     apply_patch(self.request, save=False, src=self.request.validated["tender_src"])
+        #     check_status(self.request)
+        #     save_tender(self.request)
+        # else:
+        apply_patch(self.request, src=self.request.validated["tender_src"])
         self.LOGGER.info(
             "Updated tender {}".format(tender.id), extra=context_unpack(self.request, {"MESSAGE_ID": "tender_patch"})
         )

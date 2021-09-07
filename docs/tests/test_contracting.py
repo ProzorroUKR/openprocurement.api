@@ -64,10 +64,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.create_bid(self.tender_id, {'tenderers': [test_organization], "value": {"amount": 500}})
         # switch to active.qualification
         self.set_status('active.auction', {'status': 'active.tendering'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json(
-            '/tenders/{}'.format(tender_id),
-            {'data': {"id": tender_id}})
+        response = self.check_chronograph()
         self.assertNotIn('auctionPeriod', response.json['data'])
         # get awards
         self.app.authorization = ('Basic', ('broker', ''))
@@ -82,7 +79,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         response = self.app.get('/tenders/{}'.format(tender_id))
         contract_id = response.json['data']['contracts'][-1]['id']
         # after stand slill period
-        self.app.authorization = ('Basic', ('chronograph', ''))
+        # self.app.authorization = ('Basic', ('chronograph', ''))
         self.set_status('complete', {'status': 'active.awarded'})
         self.tick()
         # time travel
@@ -488,15 +485,12 @@ class MultiContractsTenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         # switch to active.qualification
         self.set_status('active.auction', {'status': 'active.tendering'})
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json(
-            '/tenders/{}'.format(self.tender_id),
-            {'data': {"id": self.tender_id}})
+        response = self.check_chronograph()
         self.assertNotIn('auctionPeriod', response.json['data'])
 
     def process_tender_to_awarded(self):
         # after stand still period
-        self.app.authorization = ('Basic', ('chronograph', ''))
+        # self.app.authorization = ('Basic', ('chronograph', ''))
         self.set_status('complete', {'status': 'active.awarded'})
         self.tick()
 

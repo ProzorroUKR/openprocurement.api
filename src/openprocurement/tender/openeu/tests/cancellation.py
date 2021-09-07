@@ -229,7 +229,7 @@ class TenderCancellationBidsAvailabilityUtils(object):
             },
         )
         response = self.app.post_json(
-            "/tenders/{}/auction".format(self.tender_id), {"data": {"bids": auction_bids_data}}
+            "/tenders/{}/auction".format(self.tender_id), {"data": {"bids": [{"id": b["id"]} for b in auction_bids_data]}}
         )
         self.assertEqual(response.status, "200 OK")
         self.app.authorization = ("Basic", ("broker", ""))

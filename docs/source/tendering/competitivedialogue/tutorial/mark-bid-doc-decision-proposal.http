@@ -24,6 +24,7 @@ X-Content-Type-Options: nosniff
     "documentOf": "tender",
     "dateModified": "2021-03-16T00:00:00+02:00",
     "confidentiality": "public",
+    "language": "uk",
     "isDescriptionDecision": true
   }
 }

@@ -38,20 +38,26 @@ def switch_to_unsuccessful(self):
     if self.initial_lots:
         self.assertEqual(
             set([i["status"] for i in response.json["data"]["lots"]]),
-            set(["unsuccessful"])
+            {"unsuccessful"}
         )
 
 
 def switch_to_unsuccessful_by_chronograph(self):
     self.set_status("active.qualification", 'end')
-    after_two_days = calculate_tender_business_date(get_now(), QUALIFICATION_DURATION)
 
-    with freeze_time(after_two_days):
-        response = self.check_chronograph()
-        self.assertEqual(response.json["data"]["status"], "active.qualification")
-        self.assertEqual(len(response.json["data"]["awards"]), 2)
-        self.assertEqual(response.json["data"]["awards"][0]["status"], "unsuccessful")
-        self.assertEqual(response.json["data"]["awards"][1]["status"], "pending")
+    tender = self.db.get(self.tender_id)
+    two_days_before = calculate_tender_business_date(
+        get_now(), -QUALIFICATION_DURATION,
+        tender, working_days=True
+    ).isoformat()
+    tender['awards'][0]['date'] = two_days_before
+    self.db.save(tender)
+
+    response = self.check_chronograph()
+    self.assertEqual(response.json["data"]["status"], "active.qualification")
+    self.assertEqual(len(response.json["data"]["awards"]), 2)
+    self.assertEqual(response.json["data"]["awards"][0]["status"], "unsuccessful")
+    self.assertEqual(response.json["data"]["awards"][1]["status"], "pending")
 
     award = self.app.get("/tenders/{}/awards".format(self.tender_id)).json["data"][-1]
     response = self.app.patch_json(
@@ -63,10 +69,13 @@ def switch_to_unsuccessful_by_chronograph(self):
     response = self.app.get("/tenders/{}/awards".format(self.tender_id))
     self.assertEqual(len(response.json["data"]), 3)
 
-    with freeze_time(after_two_days):
-        response = self.check_chronograph()
-        self.assertEqual(response.json["data"]["status"], "unsuccessful")
-        self.assertEqual(len(response.json["data"]["awards"]), 3)
-        self.assertEqual(response.json["data"]["awards"][0]["status"], "unsuccessful")
-        self.assertEqual(response.json["data"]["awards"][1]["status"], "cancelled")
-        self.assertEqual(response.json["data"]["awards"][2]["status"], "unsuccessful")
+    tender = self.db.get(self.tender_id)
+    tender['awards'][-1]['date'] = two_days_before
+    self.db.save(tender)
+
+    response = self.check_chronograph()
+    self.assertEqual(response.json["data"]["status"], "unsuccessful")
+    self.assertEqual(len(response.json["data"]["awards"]), 3)
+    self.assertEqual(response.json["data"]["awards"][0]["status"], "unsuccessful")
+    self.assertEqual(response.json["data"]["awards"][1]["status"], "cancelled")
+    self.assertEqual(response.json["data"]["awards"][2]["status"], "unsuccessful")

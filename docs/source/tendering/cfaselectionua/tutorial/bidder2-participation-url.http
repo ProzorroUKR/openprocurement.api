@@ -11,9 +11,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "Державне управління справами",
         "identifier": {
+          "uri": "http://www.dus.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00037257",
-          "uri": "http://www.dus.gov.ua/"
+          "id": "00037257"
         },
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
@@ -23,35 +23,35 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Державне управління справами",
-          "telephone": "+0440000000"
+          "telephone": "+0440000000",
+          "name": "Державне управління справами"
         },
         "scale": "micro"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "51b3dee8818a41fea7a6bb43777476ec",
     "status": "active",
+    "id": "51b3dee8818a41fea7a6bb43777476ec",
+    "date": "2021-03-16T00:00:00+02:00",
     "documents": [
       {
         "id": "9383d40f6e404558827b2b7481dea5da",
+        "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6f95f83074884c4793b92674ecbf017d?Signature=QoHCra37U%2FEXoEYg1Srz%2B%2BHfziG7TmHsS1Kwof8nkEHMWsbVlY%2BKnuoZbhVUBdcBnfmDucQGTJIjynfLt3wnAQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
-        "documentOf": "tender"
+        "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:00+02:00"
       },
       {
         "id": "d155a202959247a9b7d090c41ca410e7",
+        "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/634443ba221c4aec9e80218dce5d9898?Signature=mtYQ%2BQUtqn3VyRg2qigXiCQOJfMEg%2BRShGSWo%2FvohBcnk2ajfiLnZJNPsiMteYmwwhdGgs6kU9vbSfMfOIdnCw%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
-        "documentOf": "tender"
+        "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:00+02:00"
       }
     ],
     "parameters": [
@@ -72,8 +72,8 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/e08a950b18594d05b7c7318066bae24a_f2599a519a45416db792d9ee833a8e5a?key_for_bid=51b3dee8818a41fea7a6bb43777476ec",
-        "date": "2021-03-16T00:00:00+02:00"
+        "date": "2021-03-16T00:00:00+02:00",
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/e08a950b18594d05b7c7318066bae24a_f2599a519a45416db792d9ee833a8e5a?key_for_bid=51b3dee8818a41fea7a6bb43777476ec"
       }
     ]
   }

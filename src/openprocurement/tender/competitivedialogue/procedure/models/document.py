@@ -1,4 +1,4 @@
-from openprocurement.tender.openua.procedure.models.document import (
+from openprocurement.tender.openeu.procedure.models.document import (
     PostDocument as BasePostDocument,
     PatchDocument as BasePatchDocument,
     Document as BaseDocument,

@@ -48,7 +48,7 @@ def validate_lot_values(values):
         raise ValidationError("This field is required.")
     date = get_first_revision_date(tender, default=None)
     if date and date > BID_LOTVALUES_VALIDATION_FROM and values:
-        lots = [i.relatedLot for i in values]
+        lots = [i["relatedLot"] for i in values]
         if len(lots) != len(set(lots)):
             raise ValidationError("bids don't allow duplicated proposals")
 

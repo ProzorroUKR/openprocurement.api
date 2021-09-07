@@ -442,12 +442,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         # Pre-qualification
 
         self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
-        auth = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json(
-            '/tenders/{}'.format(self.tender_id),
-            {'data': {"id": self.tender_id}})
-        self.app.authorization = auth
+        self.check_chronograph()
 
         with open(TARGET_DIR + 'qualifications-listing.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}'.format(
@@ -549,7 +544,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         auction_bids_data = response.json['data']['bids']
         response = self.app.post_json(
             '/tenders/{}/auction'.format(self.tender_id),
-            {'data': {'bids': auction_bids_data}})
+            {'data': {'bids': [{"id": b["id"], "value": {}} for b in auction_bids_data]}})
 
         self.app.authorization = ('Basic', ('broker', ''))
 

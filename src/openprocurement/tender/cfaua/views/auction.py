@@ -6,13 +6,13 @@ from openprocurement.tender.openua.views.auction import TenderUaAuctionResource 
 from openprocurement.tender.cfaua.utils import add_next_awards
 
 
-@optendersresource(
-    name="closeFrameworkAgreementUA:Tender Auction",
-    collection_path="/tenders/{tender_id}/auction",
-    path="/tenders/{tender_id}/auction/{auction_lot_id}",
-    procurementMethodType="closeFrameworkAgreementUA",
-    description="Tender EU auction data",
-)
+# @optendersresource(
+#     name="closeFrameworkAgreementUA:Tender Auction",
+#     collection_path="/tenders/{tender_id}/auction",
+#     path="/tenders/{tender_id}/auction/{auction_lot_id}",
+#     procurementMethodType="closeFrameworkAgreementUA",
+#     description="Tender EU auction data",
+# )
 class TenderAuctionResource(BaseResource):
     """ Auctions resouce """
 

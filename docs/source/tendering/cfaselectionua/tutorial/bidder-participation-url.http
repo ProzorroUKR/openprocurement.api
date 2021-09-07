@@ -11,9 +11,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "Державне управління справами",
         "identifier": {
+          "uri": "http://www.dus.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00037256",
-          "uri": "http://www.dus.gov.ua/"
+          "id": "00037256"
         },
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
@@ -23,27 +23,15 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Державне управління справами",
-          "telephone": "+0440000000"
+          "telephone": "+0440000000",
+          "name": "Державне управління справами"
         },
         "scale": "large"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "03e8ecacaef043e9b20f1a36a5279ac7",
     "status": "active",
-    "documents": [
-      {
-        "id": "bf871fbed76240b1a0b359332f381ebb",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "Proposal.pdf",
-        "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/32dacd322185446594eb865b681b975d?Signature=85b5nciCwPI27%2BpzlbJkhTXxKofcDEfqcJBl3NaonZpWyuMxZpx3sqVSNgt4mOL9%2F4%2FqnBEEcq%2FO6AQ6ndybAQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
-        "documentOf": "tender"
-      }
-    ],
+    "id": "03e8ecacaef043e9b20f1a36a5279ac7",
+    "date": "2021-03-16T00:00:00+02:00",
     "parameters": [
       {
         "code": "OCDS-123454-AIR-INTAKE",
@@ -62,8 +50,20 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/e08a950b18594d05b7c7318066bae24a_f2599a519a45416db792d9ee833a8e5a?key_for_bid=03e8ecacaef043e9b20f1a36a5279ac7",
-        "date": "2021-03-16T00:00:00+02:00"
+        "date": "2021-03-16T00:00:00+02:00",
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/e08a950b18594d05b7c7318066bae24a_f2599a519a45416db792d9ee833a8e5a?key_for_bid=03e8ecacaef043e9b20f1a36a5279ac7"
+      }
+    ],
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/32dacd322185446594eb865b681b975d?Signature=85b5nciCwPI27%2BpzlbJkhTXxKofcDEfqcJBl3NaonZpWyuMxZpx3sqVSNgt4mOL9%2F4%2FqnBEEcq%2FO6AQ6ndybAQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "id": "bf871fbed76240b1a0b359332f381ebb",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00"
       }
     ]
   }

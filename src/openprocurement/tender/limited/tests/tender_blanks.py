@@ -966,7 +966,6 @@ def tender_status_change(self):
     self.app.authorization = ("Basic", ("chronograph", ""))
     response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"status": "complete"}}, status=403)
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json["errors"][0]["description"], "Chronograph has no power over me!")
 
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"status": "complete"}}, status=403)

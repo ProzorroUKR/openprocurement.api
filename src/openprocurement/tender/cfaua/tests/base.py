@@ -479,8 +479,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     def prepare_awards(self):
         # switch to active.pre-qualification
         self.set_status("active.pre-qualification", extra={"id": self.tender_id, "status": "active.tendering"})
-        self.app.authorization = ("Basic", ("chronograph", ""))
-        response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+        response = self.check_chronograph()
         self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
         # qualify bids
@@ -506,8 +505,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         self.set_status(
             "active.auction", extra={"id": self.tender_id, "status": "active.pre-qualification.stand-still"}
         )
-        self.app.authorization = ("Basic", ("chronograph", ""))
-        response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+        response = self.check_chronograph()
         self.assertEqual(response.json["data"]["status"], "active.auction")
 
         self.app.authorization = ("Basic", ("auction", ""))

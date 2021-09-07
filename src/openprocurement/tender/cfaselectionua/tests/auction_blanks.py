@@ -420,37 +420,27 @@ def post_tender_lot_auction(self):
     self.app.authorization = ("Basic", ("auction", ""))
     patch_data = {
         "bids": [
-            {
-                "id": self.initial_bids[1]["id"],
-                "lotValues": [{"value": {"amount": 409, "currency": "UAH", "valueAddedTaxIncluded": True}}],
-            },
+            {"lotValues": [{"value": {"amount": 409, "currency": "UAH", "valueAddedTaxIncluded": True}}]},
             {"lotValues": [{"value": {"amount": 419, "currency": "UAH", "valueAddedTaxIncluded": True}}]},
         ]
     }
 
-    patch_data["bids"][1]["id"] = self.initial_bids[0]["id"]
     for lot in self.initial_lots:
         response = self.app.post_json("/tenders/{}/auction/{}".format(self.tender_id, lot["id"]), {"data": patch_data})
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         tender = response.json["data"]
-    self.assertNotEqual(
-        tender["bids"][0]["lotValues"][0]["value"]["amount"], self.initial_bids[0]["lotValues"][0]["value"]["amount"]
-    )
-    self.assertNotEqual(
-        tender["bids"][1]["lotValues"][0]["value"]["amount"], self.initial_bids[1]["lotValues"][0]["value"]["amount"]
+    self.assertEqual(
+        tender["bids"][0]["lotValues"][0]["value"]["amount"], patch_data["bids"][0]["lotValues"][0]["value"]["amount"]
     )
     self.assertEqual(
-        tender["bids"][0]["lotValues"][0]["value"]["amount"], patch_data["bids"][1]["lotValues"][0]["value"]["amount"]
-    )
-    self.assertEqual(
-        tender["bids"][1]["lotValues"][0]["value"]["amount"], patch_data["bids"][0]["lotValues"][0]["value"]["amount"]
+        tender["bids"][1]["lotValues"][0]["value"]["amount"], patch_data["bids"][1]["lotValues"][0]["value"]["amount"]
     )
     self.assertEqual("active.qualification", tender["status"])
     self.assertIn("tenderers", tender["bids"][0])
     self.assertIn("name", tender["bids"][0]["tenderers"][0])
     # self.assertIn(tender["awards"][0]["id"], response.headers['Location'])
-    self.assertEqual(tender["awards"][0]["bid_id"], patch_data["bids"][0]["id"])
+    self.assertEqual(tender["awards"][0]["bid_id"], self.initial_bids[0]["id"])
     self.assertEqual(tender["awards"][0]["value"]["amount"], patch_data["bids"][0]["lotValues"][0]["value"]["amount"])
     self.assertEqual(tender["awards"][0]["suppliers"], self.initial_bids[0]["tenderers"])
 
@@ -469,48 +459,38 @@ def patch_tender_lot_auction(self):
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.patch_json("/tenders/{}/auction".format(self.tender_id), {"data": {}}, status=405)
     self.assertEqual(response.status, "405 Method Not Allowed")
-    self.assertEqual(response.content_type, "text/plain")
+    self.assertEqual(response.content_type, "application/json")
 
     self.set_status("active.auction")
     self.check_chronograph()
 
     patch_data = {
         "bids": [
-            {"id": self.initial_bids[1]["id"], "lotValues": []},
-            {"id": self.initial_bids[0]["id"], "lotValues": []},
+            {"lotValues": [
+                {"participationUrl": f"http://auction.prozorro.gov.ua/{b['id']}/{l['relatedLot']}"}
+                for l in b["lotValues"]
+            ]}
+            for b in self.initial_bids
         ],
-        "lots": [],
+        "lots": [
+            {
+                "auctionUrl": f"http://auction.prozorro.gov.ua/{l['id']}"
+            } for l in self.initial_lots
+        ],
     }
 
     for lot in self.initial_lots:
-        for bid in patch_data["bids"]:
-            bid["lotValues"].append(
-                {
-                    "relatedLot": lot["id"],
-                    "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/{}_{}?key_for_bid={}".format(
-                        self.tender_id, lot["id"], self.initial_bids[0]["id"]
-                    ),
-                }
-            )
-        patch_data["lots"].append(
-            {
-                "auctionUrl": "http://auction-sandbox.openprocurement.org/tenders/{}_{}".format(
-                    self.tender_id, lot["id"]
-                )
-            }
-        )
         response = self.app.patch_json("/tenders/{}/auction/{}".format(self.tender_id, lot["id"]), {"data": patch_data})
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         tender = response.json["data"]
 
-    self.assertEqual(
-        tender["bids"][0]["lotValues"][0]["participationUrl"], patch_data["bids"][1]["lotValues"][0]["participationUrl"]
-    )
-    self.assertEqual(
-        tender["bids"][1]["lotValues"][0]["participationUrl"], patch_data["bids"][0]["lotValues"][0]["participationUrl"]
-    )
-    self.assertEqual(tender["lots"][0]["auctionUrl"], patch_data["lots"][0]["auctionUrl"])
+    for lot in tender["lots"]:
+        self.assertEqual(lot["auctionUrl"], f"http://auction.prozorro.gov.ua/{lot['id']}")
+
+    for bid in tender["bids"]:
+        for lv in bid["lotValues"]:
+            self.assertEqual(lv["participationUrl"], f"http://auction.prozorro.gov.ua/{bid['id']}/{lv['relatedLot']}")
 
     self.set_status("complete")
 
@@ -560,11 +540,9 @@ def post_tender_lot_auction_document(self):
     patch_data = {
         "bids": [
             {
-                "id": self.initial_bids[1]["id"],
                 "lotValues": [{"value": {"amount": 409, "currency": "UAH", "valueAddedTaxIncluded": True}}],
             },
             {
-                "id": self.initial_bids[0]["id"],
                 "lotValues": [{"value": {"amount": 419, "currency": "UAH", "valueAddedTaxIncluded": True}}],
             },
         ]
@@ -1154,7 +1132,6 @@ def get_tender_lot_auction_features(self):
     auction = response.json["data"]
     self.assertNotEqual(auction, self.initial_data)
     self.assertIn("dateModified", auction)
-    self.assertIn("minimalStep", auction)
     self.assertNotIn("procuringEntity", auction)
     self.assertNotIn("tenderers", auction["bids"][0])
     self.assertIn("lots", auction)
@@ -1179,15 +1156,10 @@ def post_tender_lot_auction_features(self):
 
     patch_data = {
         "bids": [
-            {
-                "id": self.initial_bids[1]["id"],
-                "lotValues": [{"value": {"amount": 409, "currency": "UAH", "valueAddedTaxIncluded": True}}],
-            },
+            {"lotValues": [{"value": {"amount": 409, "currency": "UAH", "valueAddedTaxIncluded": True}}]},
             {"lotValues": [{"value": {"amount": 409, "currency": "UAH", "valueAddedTaxIncluded": True}}]},
         ]
     }
-
-    patch_data["bids"][1]["id"] = self.initial_bids[0]["id"]
     for lot in self.initial_lots:
         response = self.app.post_json("/tenders/{}/auction/{}".format(self.tender_id, lot["id"]), {"data": patch_data})
         self.assertEqual(response.status, "200 OK")
@@ -1195,12 +1167,6 @@ def post_tender_lot_auction_features(self):
         tender = response.json["data"]
     self.assertIn("features", tender)
     self.assertIn("parameters", tender["bids"][0])
-    self.assertNotEqual(
-        tender["bids"][0]["lotValues"][0]["value"]["amount"], self.initial_bids[0]["lotValues"][0]["value"]["amount"]
-    )
-    self.assertNotEqual(
-        tender["bids"][1]["lotValues"][0]["value"]["amount"], self.initial_bids[1]["lotValues"][0]["value"]["amount"]
-    )
     self.assertEqual(
         tender["bids"][0]["lotValues"][0]["value"]["amount"], patch_data["bids"][1]["lotValues"][0]["value"]["amount"]
     )
@@ -1211,9 +1177,9 @@ def post_tender_lot_auction_features(self):
     self.assertIn("tenderers", tender["bids"][0])
     self.assertIn("name", tender["bids"][0]["tenderers"][0])
     # self.assertIn(tender["awards"][0]["id"], response.headers['Location'])
-    self.assertEqual(tender["awards"][0]["bid_id"], patch_data["bids"][0]["id"])
+    self.assertEqual(tender["awards"][0]["bid_id"], self.initial_bids[1]["id"])
     self.assertEqual(tender["awards"][0]["value"]["amount"], patch_data["bids"][0]["lotValues"][0]["value"]["amount"])
-    self.assertEqual(tender["awards"][0]["suppliers"], self.initial_bids[0]["tenderers"])
+    self.assertEqual(tender["awards"][0]["suppliers"], self.initial_bids[1]["tenderers"])
 
     response = self.app.post_json(
         "/tenders/{}/auction/{}".format(self.tender_id, self.initial_lots[0]["id"]), {"data": patch_data}, status=403

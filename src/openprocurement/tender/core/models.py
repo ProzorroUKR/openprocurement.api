@@ -2306,6 +2306,7 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
         acl.extend(acl_cancellation_complaints)
 
     def append_award(self, bid, all_bids, lot_id=None):
+        # TODO: is going to be replaced by .procedure.awarding.tender_append_award function
         now = get_now()
         award_data = {
             "bid_id": bid["id"],

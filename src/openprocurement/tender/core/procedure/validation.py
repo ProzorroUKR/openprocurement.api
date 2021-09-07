@@ -1,4 +1,4 @@
-from openprocurement.api.utils import get_now, raise_operation_error, handle_data_exceptions
+from openprocurement.api.utils import raise_operation_error, handle_data_exceptions, error_handler, context_unpack
 from openprocurement.api.validation import (
     validate_json_data,
     _validate_accreditation_level,
@@ -7,8 +7,13 @@ from openprocurement.api.validation import (
 from openprocurement.tender.core.validation import TYPEMAP
 from openprocurement.tender.core.procedure.utils import is_item_owner, apply_data_patch, delete_nones
 from openprocurement.tender.core.procedure.documents import check_document_batch, check_document, update_document_url
+from openprocurement.tender.core.procedure.context import get_now
 from schematics.exceptions import ValidationError
 from decimal import Decimal
+import logging
+
+
+LOGGER = logging.getLogger(__name__)
 
 
 def validate_input_data(input_model, allow_bulk=False, filters=None, none_means_remove=False):
@@ -34,6 +39,7 @@ def validate_input_data(input_model, allow_bulk=False, filters=None, none_means_
                 # None means that the field value is deleted
                 # IMPORTANT: input_data can contain more fields than are allowed to update
                 # validate_data will raise Rogue field error then
+                # Update: doesn't work with sub-models {'auctionPeriod': {'startDate': None}}
                 for k, v in input_data.items():
                     if (
                         v is None
@@ -93,7 +99,7 @@ def validate_data_model(input_model):
     return validate
 
 
-def validate_data(request, model, data):
+def validate_data(request, model, data, to_patch=False):
     with handle_data_exceptions(request):
         instance = model(data)
         instance.validate()
@@ -364,3 +370,44 @@ def unless_allowed_by_qualification_milestone(*validations):
             validation(request)
 
     return decorated_validation
+
+
+# auction
+def validate_auction_tender_status(request, **_):
+    tender_status = request.validated["tender"]["status"]
+    if tender_status != "active.auction":
+        operations = {
+            "GET": "get auction info",
+            "POST": "report auction results",
+            "PATCH": "update auction urls",
+        }
+        raise_operation_error(
+            request, f"Can't {operations[request.method]} in current ({tender_status}) tender status"
+        )
+
+
+def validate_auction_tender_non_lot(request, **_):
+    tender = request.validated["tender"]
+    if tender.get("lots"):
+        raise_operation_error(
+            request,
+            [{"participationUrl": ["url should be posted for each lot of bid"]}],
+            location="body", name="bids",
+            status=422,
+        )
+
+
+def validate_active_lot(request, **_):
+    tender = request.validated["tender"]
+    lot_id = request.matchdict.get("auction_lot_id")
+    if not any(
+        lot["status"] == "active"
+        for lot in tender.get("lots", "")
+        if lot["id"] == lot_id
+    ):
+        raise_operation_error(
+            request,
+            "Can {} only in active lot status".format(
+                "report auction results" if request.method == "POST" else "update auction urls"
+            ),
+        )

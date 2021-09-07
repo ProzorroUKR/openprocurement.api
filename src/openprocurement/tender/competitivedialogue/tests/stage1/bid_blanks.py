@@ -290,8 +290,7 @@ def status_jumping(self):
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
     self.app.authorization = ("Basic", ("broker", ""))
@@ -506,8 +505,7 @@ def get_tender_bidder(self):
 
     # switch to active.pre-qualification, and check chronograph work
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
     # Get bidders when dialog status is pre-qualification
@@ -516,12 +514,12 @@ def get_tender_bidder(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
     for b in response.json["data"]:
-        self.assertEqual(set(b.keys()), set(["id", "status", "tenderers"]))
+        self.assertEqual(set(b.keys()), {"id", "status", "tenderers"})
 
     # Get bidder
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid["id"]))
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(set(response.json["data"].keys()), set(["id", "status", "tenderers"]))
+    self.assertEqual(set(response.json["data"].keys()), {"id", "status", "tenderers"})
 
     # qualify bids
     response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
@@ -555,8 +553,7 @@ def get_tender_bidder(self):
 
     # try switch to active.stage2.pending
     self.set_status("active.stage2.pending", {"id": self.tender_id, "status": "active.pre-qualification.stand-still"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.stage2.pending")
 
     # switch to qualification
@@ -598,9 +595,7 @@ def deleted_bid_do_not_locks_tender_in_state(self):
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    # Update tender status
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
     # qualify bids
@@ -621,8 +616,7 @@ def deleted_bid_do_not_locks_tender_in_state(self):
 
     # switch to active.stage2.pending
     self.set_status("active.stage2.pending", {"id": self.tender_id, "status": "active.pre-qualification.stand-still"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.stage2.pending")
 
     # switch to qualification
@@ -669,8 +663,7 @@ def get_tender_tenderers(self):
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
     # qualify bids
@@ -691,8 +684,7 @@ def get_tender_tenderers(self):
 
     # switch to active.stage2.pending
     self.set_status("active.stage2.pending", {"id": self.tender_id, "status": "active.pre-qualification.stand-still"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.stage2.pending")
 
     response = self.app.get("/tenders/some_id/bids", status=404)
@@ -780,8 +772,7 @@ def bids_invalidation_on_tender_change(self):
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
     # qualify bids
@@ -802,8 +793,7 @@ def bids_invalidation_on_tender_change(self):
 
     # switch to active.stage2.pending
     self.set_status("active.stage2.pending", {"id": self.tender_id, "status": "active.pre-qualification.stand-still"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.stage2.pending")
 
     # Try switch to qualification
@@ -1132,19 +1122,19 @@ def get_tender_bidder_document(self):
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
     self.app.authorization = ("Basic", ("anon", ""))
     response = self.app.get("/tenders/{}/bids".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0].keys()), set(["id", "status", "documents", "tenderers"]))
-    self.assertEqual(set(response.json["data"][1].keys()), set(["id", "status", "tenderers"]))
+    self.assertEqual(set(response.json["data"][0].keys()), {"id", "status", "documents", "tenderers"})
+    self.assertTrue(response.json["data"][0]["documents"])
+    self.assertEqual(set(response.json["data"][1].keys()), {"id", "status", "tenderers"})
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(set(response.json["data"].keys()), set(["id", "status", "documents", "tenderers"]))
+    self.assertEqual(set(response.json["data"].keys()), {"id", "status", "documents", "tenderers"})
     response = self.app.get("/tenders/{}/bids/{}/documents".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 2)
@@ -1305,10 +1295,7 @@ def create_tender_bidder_document(self):
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"status": "active.tendering"})
-    auth = self.app.authorization
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
-    self.app.authorization = auth
+    response = self.check_chronograph()
 
     doc_resource = "documents"
     response = self.app.post_json(
@@ -1615,8 +1602,7 @@ def create_tender_bidder_document_nopending(self):
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
     # qualify bids
@@ -1934,8 +1920,7 @@ def bids_view_j1446(self):
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": tender_id, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+    response = self.check_chronograph()
 
     # tender should switch to "active.pre-qualification"
     response = self.app.get("/tenders/{}".format(tender_id))
@@ -1985,10 +1970,10 @@ def bids_view_j1446(self):
 
     # try switch to active.stage2.pending
     self.set_status("active.stage2.pending", {"id": self.tender_id, "status": "active.pre-qualification.stand-still"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.stage2.pending")
     # check bids are available
+    response = self.app.get("/tenders/{}".format(tender_id))
     self.assertIn("numberOfBids", response.json["data"])
     self.assertIn("bids", response.json["data"])
 

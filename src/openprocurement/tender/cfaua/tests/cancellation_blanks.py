@@ -9,11 +9,11 @@ from openprocurement.tender.belowthreshold.tests.base import test_complaint, tes
 from openprocurement.tender.cfaua.tests.base import test_cancellation
 
 
-def assert_statuses(self, rules={}):
+def assert_statuses(self, rules: dict):
     data = self.get_tender(role="broker").json
     for rule in rules:
         value = jmespath.search(rule, data)
-        self.assertEqual(value, rules[rule])
+        self.assertEqual(value, rules[rule], f"{rule} is not {rules[rule]}: {value}")
 
 
 def add_tender_complaints(self, statuses):

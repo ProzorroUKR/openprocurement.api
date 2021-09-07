@@ -2051,8 +2051,7 @@ def one_valid_bid_tender_ua(self):
 
     # switch to active.qualification
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
     self.assertNotEqual(response.json["data"]["date"], tender["date"])
 
@@ -2090,8 +2089,7 @@ def one_invalid_and_1draft_bids_tender(self):
     )
     # switch to active.qualification
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+    response = self.check_chronograph()
     # get awards
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
@@ -2133,7 +2131,7 @@ def first_bid_tender(self):
     # get auction info
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.get("/tenders/{}/auction".format(tender_id))
-    auction_bids_data = response.json["data"]["bids"]
+    auction_bids_data = [{"id": b["id"], "value": b["value"]} for b in response.json["data"]["bids"]]
     # posting auction urls
     self.app.patch_json(
         "/tenders/{}/auction".format(tender_id),

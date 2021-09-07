@@ -261,8 +261,7 @@ def items_without_deliveryDate_quantity(self):
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
     # qualify bids
@@ -284,14 +283,14 @@ def items_without_deliveryDate_quantity(self):
 
     # switch to active.auction
     self.set_status("active.auction", {"status": "active.pre-qualification.stand-still"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.auction")
 
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.get("/tenders/{}/auction".format(self.tender_id))
     auction_bids_data = response.json["data"]["bids"]
-    response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": {"bids": auction_bids_data}})
+    response = self.app.post_json("/tenders/{}/auction".format(self.tender_id),
+                                  {"data": {"bids": [{"id": b["id"]} for b in auction_bids_data]}})
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -437,8 +436,7 @@ def tender_noticePublicationDate(self):
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
     # try to patch noticePublicationDate in pre-qualification
@@ -478,14 +476,14 @@ def tender_noticePublicationDate(self):
 
     # switch to active.auction
     self.set_status("active.auction", {"status": "active.pre-qualification.stand-still"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.auction")
 
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.get("/tenders/{}/auction".format(self.tender_id))
     auction_bids_data = response.json["data"]["bids"]
-    response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": {"bids": auction_bids_data}})
+    response = self.app.post_json("/tenders/{}/auction".format(self.tender_id),
+                                  {"data": {"bids": [{"id": b["id"]} for b in auction_bids_data]}})
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -1533,8 +1531,7 @@ def invalid_bid_tender_features(self):
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": tender_id, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
     self.assertNotEqual(response.json["data"]["date"], tender["date"])
 

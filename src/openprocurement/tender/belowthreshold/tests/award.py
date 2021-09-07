@@ -162,7 +162,13 @@ class TenderLotAwardCheckResourceTest(TenderContentWebTest, TenderLotAwardCheckR
         super(TenderLotAwardCheckResourceTest, self).setUp()
         self.app.authorization = ("Basic", ("auction", ""))
         response = self.app.get("/tenders/{}/auction".format(self.tender_id))
-        auction_bids_data = response.json["data"]["bids"]
+        auction_bids_data = [
+            {
+                # "id": b["id"],
+                "lotValues": b["lotValues"],
+            }
+            for b in response.json["data"]["bids"]
+        ]
         for lot_id in self.initial_lots:
             response = self.app.post_json(
                 "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]), {"data": {"bids": auction_bids_data}}

@@ -2,7 +2,7 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.openua.procedure.views.bid import TenderBidResource
 from openprocurement.tender.core.procedure.models.bid import filter_administrator_bid_update
 from openprocurement.tender.cfaua.procedure.models.bid import PostBid, PatchBid, Bid
-from openprocurement.tender.cfaua.procedure.state import BidState
+from openprocurement.tender.cfaua.procedure.state.bid import BidState
 from openprocurement.tender.cfaua.procedure.validation import (
     validate_bid_posted_status,
 )

@@ -38,7 +38,7 @@ X-Content-Type-Options: nosniff
     "enquiryPeriod": {
       "startDate": "2021-02-13T00:00:00+02:00",
       "endDate": "2021-03-06T00:00:00+02:00",
-      "clarificationsUntil": "2021-03-12T00:00:00+02:00",
+      "clarificationsUntil": "2021-03-18T00:00:00+02:00",
       "invalidationDate": "2021-03-16T00:00:00+02:00"
     },
     "documents": [
@@ -255,7 +255,7 @@ X-Content-Type-Options: nosniff
     ],
     "qualifications": [
       {
-        "id": "784dd1ba748a41edaa99a3da0b96fbdb",
+        "id": "37b5b987176b4b91a1d5894c22777487",
         "bidID": "58e27c7c070d4d97b09d73d735ad23aa",
         "status": "pending",
         "date": "2021-03-16T00:00:00+02:00",
@@ -263,7 +263,7 @@ X-Content-Type-Options: nosniff
         "eligible": false
       },
       {
-        "id": "6c5bffc0c6844c22832a5852e18d1f1b",
+        "id": "020c6650d6ff49a88cffac8f06fc97dd",
         "bidID": "77605656b3e8479fbfa66cf3d764520c",
         "status": "pending",
         "date": "2021-03-16T00:00:00+02:00",
@@ -271,7 +271,7 @@ X-Content-Type-Options: nosniff
         "eligible": false
       },
       {
-        "id": "2424671f78c54835a110b7dc443c6ca6",
+        "id": "1a5abc583b654e1a954ce9cd81eb5288",
         "bidID": "9ee879e314fd487584383884598ae7c7",
         "status": "pending",
         "date": "2021-03-16T00:00:00+02:00",

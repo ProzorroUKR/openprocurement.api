@@ -1,11 +1,14 @@
-# -*- coding: utf-8 -*-
+from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.context import set_request, set_now
 from copy import deepcopy
 from logging import getLogger
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 
 
-class TenderBaseResource(object):
+class TenderBaseResource:
+
+    state_class = TenderState
+
     def __acl__(self):
         acl = [
             (Allow, Everyone, "view_tender"),
@@ -14,6 +17,9 @@ class TenderBaseResource(object):
             # (Allow, Everyone, "edit_bid"),
             (Allow, "g:Administrator", "edit_bid"),  # wtf ???
             (Allow, "g:admins", ALL_PERMISSIONS),    # some tests use this, idk why
+
+            (Allow, "g:auction", "auction"),
+            (Allow, "g:chronograph", "chronograph"),
         ]
         return acl
 
@@ -22,6 +28,8 @@ class TenderBaseResource(object):
         self.db = request.registry.db
         self.server_id = request.registry.server_id
         self.LOGGER = getLogger(type(self).__module__)
+        # init state class that handles tender business logic
+        self.state = self.state_class(request)
 
         # https://github.com/Cornices/cornice/issues/479#issuecomment-388407385
         # init is called twice (with and without context), thanks to cornice.

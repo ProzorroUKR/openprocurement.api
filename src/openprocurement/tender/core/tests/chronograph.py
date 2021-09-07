@@ -25,7 +25,7 @@ def switch_tender_complaints_draft(self):
     # and once the date passed
     tender = self.db.get(self.tender_id)
     start_date = get_now() - timedelta(days=40)
-    tender["tenderPeriod"] = dict(
+    tender["complaintPeriod"] = dict(   # tenderPeriod was here before, must be a mistake
         startDate=start_date.isoformat(),
         endDate=calculate_tender_business_date(start_date, timedelta(days=30)).isoformat()
     )

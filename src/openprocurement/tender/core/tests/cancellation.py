@@ -72,10 +72,14 @@ def activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(cancellation["status"], "pending")
 
-    with mock.patch(
-            "openprocurement.tender.core.utils.get_now",
-            return_value=get_now() + timedelta(days=11)):
-        response = self.check_chronograph()
+    # go to complaintPeriod end
+    tender = self.db.get(tender_id)
+    for c in tender["cancellations"]:
+        if c["status"] == "pending":
+            c["complaintPeriod"]["endDate"] = get_now().isoformat()
+    self.db.save(tender)
+
+    self.check_chronograph()
 
     response = self.app.get("/tenders/{}/cancellations/{}".format(self.tender_id, cancellation_id))
     self.assertEqual(response.status, "200 OK")

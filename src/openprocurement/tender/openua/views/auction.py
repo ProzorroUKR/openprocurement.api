@@ -6,13 +6,13 @@ from openprocurement.tender.belowthreshold.views.auction import TenderAuctionRes
 from openprocurement.tender.belowthreshold.utils import add_next_award
 
 
-@optendersresource(
-    name="aboveThresholdUA:Tender Auction",
-    collection_path="/tenders/{tender_id}/auction",
-    path="/tenders/{tender_id}/auction/{auction_lot_id}",
-    procurementMethodType="aboveThresholdUA",
-    description="Tender UA auction data",
-)
+# @optendersresource(
+#     name="aboveThresholdUA:Tender Auction",
+#     collection_path="/tenders/{tender_id}/auction",
+#     path="/tenders/{tender_id}/auction/{auction_lot_id}",
+#     procurementMethodType="aboveThresholdUA",
+#     description="Tender UA auction data",
+# )
 class TenderUaAuctionResource(TenderAuctionResource):
     @json_view(content_type="application/json", permission="auction", validators=(validate_tender_auction_data))
     def collection_post(self):

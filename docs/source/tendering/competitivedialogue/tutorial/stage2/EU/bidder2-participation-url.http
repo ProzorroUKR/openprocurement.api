@@ -37,9 +37,9 @@ X-Content-Type-Options: nosniff
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/db1ddb06a5a44954bc0b9f555776112d?key_for_bid=77605656b3e8479fbfa66cf3d764520c",
     "selfQualified": true,
-    "status": "active"
+    "status": "active",
+    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/db1ddb06a5a44954bc0b9f555776112d?key_for_bid=77605656b3e8479fbfa66cf3d764520c"
   }
 }
 

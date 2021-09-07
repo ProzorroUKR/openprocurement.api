@@ -135,6 +135,7 @@ X-Content-Type-Options: nosniff
     "lotValues": [
       {
         "relatedLot": "93256198e2e7429ab4d0300cc250244f",
+        "status": "pending",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
@@ -174,6 +175,7 @@ X-Content-Type-Options: nosniff
       {
         "relatedLot": "ae36b7ca7b4a44d8b3c015a3e4043f4f",
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
+        "status": "pending",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,

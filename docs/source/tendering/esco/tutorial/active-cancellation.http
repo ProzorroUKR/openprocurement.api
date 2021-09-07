@@ -9,7 +9,7 @@ X-Content-Type-Options: nosniff
   "data": {
     "id": "1a7fd97b190247ac867d8efbe3763e01",
     "reason": "cancellation reason",
-    "date": "2021-03-27T00:00:02+02:00",
+    "date": "2021-03-16T00:00:01+02:00",
     "status": "active",
     "cancellationOf": "tender",
     "reasonType": "expensesCut",

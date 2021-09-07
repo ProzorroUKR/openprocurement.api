@@ -2204,8 +2204,7 @@ def one_valid_bid_tender(self):
     self.create_bid(tender_id, bid_data)
     # switch to active.qualification
     self.set_status("active.tendering", start_end="end")
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+    response = self.check_chronograph()
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}/awards?acc_token={}".format(tender_id, owner_token))
@@ -2259,8 +2258,7 @@ def one_invalid_bid_tender(self):
     self.create_bid(tender_id, bid_data)
     # switch to active.qualification
     self.set_status("active.tendering", start_end="end")
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+    response = self.check_chronograph()
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}/awards?acc_token={}".format(tender_id, owner_token))
@@ -2373,7 +2371,10 @@ def first_bid_tender(self):
     # posting auction results
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.post_json(
-        "/tenders/{}/auction/{}".format(tender_id, lot_id), {"data": {"bids": auction_bids_data}}
+        "/tenders/{}/auction/{}".format(tender_id, lot_id),
+        {"data": {"bids": [
+            {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+            for b in auction_bids_data]}}
     )
 
     ## get awards
@@ -2466,8 +2467,7 @@ def lost_contract_for_active_award(self):
     bid, bid_token = self.create_bid(tender_id, bid_data)
     # switch to active.qualification
     self.set_status("active.tendering", start_end="end")
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+    response = self.check_chronograph()
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}/awards?acc_token={}".format(tender_id, owner_token))
@@ -2479,7 +2479,7 @@ def lost_contract_for_active_award(self):
     )
     # lost contract
     tender = self.db.get(tender_id)
-    tender["contracts"] = None
+    del tender["contracts"]
     self.db.save(tender)
     # check tender
     response = self.app.get("/tenders/{}".format(tender_id))
@@ -2487,8 +2487,7 @@ def lost_contract_for_active_award(self):
     self.assertNotIn("contracts", response.json["data"])
     self.assertIn("next_check", response.json["data"])
     # create lost contract
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.awarded")
     self.assertIn("contracts", response.json["data"])
     self.assertNotIn("next_check", response.json["data"])

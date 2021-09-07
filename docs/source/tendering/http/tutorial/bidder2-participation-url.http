@@ -7,13 +7,18 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
+    "value": {
+      "amount": 499.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "tenderers": [
       {
         "name": "ДКП «Книга»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137226",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137226"
         },
         "address": {
           "streetAddress": "вул. Островського, 34",
@@ -23,43 +28,38 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Андрій Олексюк",
           "email": "aagt@gmail.com",
-          "telephone": "+380322916930"
+          "telephone": "+380322916930",
+          "name": "Андрій Олексюк"
         },
         "scale": "sme"
       }
     ],
-    "date": "2021-03-16T00:00:01+02:00",
-    "id": "6dc5b86cfd0b468ab72f0e6540fec137",
     "status": "draft",
-    "value": {
-      "amount": 499.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "documents": [
       {
-        "id": "63cd06866d7f4b70970fdab01b6d6e74",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4723ad37c9a04058983e5acc8d0ce9f4?Signature=0ZVrM3IuFoNW6QI1eBPPulKeh2ywRON%2Fwp8nKbq7KJPS8w5gx4Tod6BQpwOwiAudl9IK%2BZ7ql7%2BA0kcRAeLjBg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "id": "63cd06866d7f4b70970fdab01b6d6e74",
         "datePublished": "2021-03-16T00:00:01+02:00",
-        "dateModified": "2021-03-16T00:00:01+02:00",
-        "documentOf": "tender"
+        "dateModified": "2021-03-16T00:00:01+02:00"
       },
       {
-        "id": "af46509a855b496d9679368935810e7a",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/200d1dfb2afc4cf791ec2fea005cefde?Signature=vYRIxu%2F3oNjZ5mS1jHC3LFWwaYWC6jkFS4ilfqT%2B3cs75hjSzwVqfOXfYkKe0maf4S88STYJeupj6X%2FfGDMDDg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "id": "af46509a855b496d9679368935810e7a",
         "datePublished": "2021-03-16T00:00:01+02:00",
-        "dateModified": "2021-03-16T00:00:01+02:00",
-        "documentOf": "tender"
+        "dateModified": "2021-03-16T00:00:01+02:00"
       }
     ],
+    "id": "6dc5b86cfd0b468ab72f0e6540fec137",
+    "date": "2021-03-16T00:00:01+02:00",
     "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/4826290bfb064165b70a94d71e93a63b?key_for_bid=6dc5b86cfd0b468ab72f0e6540fec137"
   }
 }

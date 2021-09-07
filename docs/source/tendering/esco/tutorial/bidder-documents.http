@@ -14,6 +14,7 @@ X-Content-Type-Options: nosniff
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bd899d26e31643489abf7981b0f34549?Signature=LSjz%2FVncGdvIXATJCtqx9wZH4qCdIX8%2Bb%2BvtoDbhNrC3l6cVeUuudEVPDjzv29iIctnFCRy%2BquIkVXebQKJBAA%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
       "confidentiality": "public",
+      "language": "uk",
       "id": "fe0e171a76a9484690da8f1ca3078c5c",
       "datePublished": "2021-03-16T00:00:00+02:00",
       "dateModified": "2021-03-16T00:00:00+02:00"
@@ -28,7 +29,8 @@ X-Content-Type-Options: nosniff
       "documentOf": "tender",
       "dateModified": "2021-03-16T00:00:00+02:00",
       "confidentiality": "buyerOnly",
-      "confidentialityRationale": "Only our company sells badgers with pink hair."
+      "confidentialityRationale": "Only our company sells badgers with pink hair.",
+      "language": "uk"
     }
   ]
 }

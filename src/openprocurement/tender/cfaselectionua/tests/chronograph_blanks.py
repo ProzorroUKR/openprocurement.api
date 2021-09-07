@@ -44,15 +44,14 @@ def switch_to_tendering_by_tenderPeriod_startDate(self):
         )
 
     # testing min 1 day delta before patching from active.enquiries to active.tendering by chronograph
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
     self.assertEqual(response.json["data"]["status"], "active.enquiries")  # not changed
 
     # time travel  change enquiryPeriod.endDate && tenderPeriod.startDate <= they are equal
     self.set_status("active.enquiries", start_end="end")
 
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
     self.assertEqual(response.json["data"]["status"], "active.tendering")  # now changed
 

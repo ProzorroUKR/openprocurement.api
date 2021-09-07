@@ -1,8 +1,15 @@
 
+def evaluate_serializer(serializer, value, obj=None):
+    if type(serializer).__name__ == "function":
+        value = serializer(obj, value)
+    else:
+        value = serializer(value).data
+    return value
+
 
 class ListSerializer:
-    def __init__(self, cls):
-        self.cls = cls
+    def __init__(self, serializer):
+        self.serializer = serializer
 
     def __call__(self, data):
         self._data = data
@@ -11,7 +18,7 @@ class ListSerializer:
     @property
     def data(self) -> list:
         if self._data:
-            return [self.cls(e).data for e in self._data]
+            return [evaluate_serializer(self.serializer, e, self) for e in self._data]
 
 
 class BaseSerializer:
@@ -47,8 +54,13 @@ class BaseSerializer:
     def serialize_value(self, key, value):
         serializer = self.serializers.get(key)
         if serializer:
-            if type(serializer).__name__ == "function":
-                value = serializer(self, value)
-            else:
-                value = serializer(value).data
+            value = evaluate_serializer(serializer, value, self)
         return value
+
+
+class BaseUIDSerializer(BaseSerializer):
+    @property
+    def data(self) -> dict:
+        data = super().data
+        data["id"] = data.pop("_id")
+        return data

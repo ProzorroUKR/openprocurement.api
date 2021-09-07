@@ -154,7 +154,10 @@ def cancellation_active_award(self):
     auction_bids_data = response.json["data"]["bids"]
     for i in self.initial_lots:
         response = self.app.post_json(
-            "/tenders/{}/auction/{}".format(self.tender_id, i["id"]), {"data": {"bids": auction_bids_data}}
+            "/tenders/{}/auction/{}".format(self.tender_id, i["id"]),
+            {"data": {"bids": [
+                    {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                    for b in auction_bids_data]}}
         )
 
     self.app.authorization = ("Basic", ("token", ""))
@@ -219,7 +222,10 @@ def cancellation_unsuccessful_award(self):
     auction_bids_data = response.json["data"]["bids"]
     for i in self.initial_lots:
         response = self.app.post_json(
-            "/tenders/{}/auction/{}".format(self.tender_id, i["id"]), {"data": {"bids": auction_bids_data}}
+            "/tenders/{}/auction/{}".format(self.tender_id, i["id"]),
+            {"data": {"bids": [
+                    {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                    for b in auction_bids_data]}}
         )
 
     self.app.authorization = ("Basic", ("token", ""))
@@ -914,10 +920,13 @@ def patch_tender_cancellation_2020_04_19(self):
     cancellation = response.json["data"]
     self.assertEqual(cancellation["status"], "pending")
 
-    with patch(
-            "openprocurement.tender.core.utils.get_now",
-            return_value=get_now() + timedelta(days=11)):
-        response = self.check_chronograph()
+    tender = self.db.get(self.tender_id)
+    for c in tender["cancellations"]:
+        if c["status"] == "pending":
+            c["complaintPeriod"]["endDate"] = get_now().isoformat()
+    self.db.save(tender)
+
+    self.check_chronograph()
 
     response = self.app.get("/tenders/{}/cancellations/{}".format(self.tender_id, cancellation_id))
     self.assertEqual(response.status, "200 OK")
@@ -1377,10 +1386,11 @@ def activate_cancellation(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(complaint["status"], "invalid")
 
-    with patch(
-            "openprocurement.tender.core.utils.get_now",
-            return_value=get_now() + timedelta(days=11)):
-        response = self.check_chronograph()
+    tender = self.db.get(self.tender_id)
+    tender["cancellations"][0]["complaintPeriod"]["endDate"] = get_now().isoformat()
+    self.db.save(tender)
+
+    self.check_chronograph()
 
     response = self.app.get("/tenders/{}/cancellations/{}".format(self.tender_id, cancellation_id))
     self.assertEqual(response.status, "200 OK")

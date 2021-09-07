@@ -929,8 +929,7 @@ def invalid_bid_tender_features(self):
 
     # switch to active.qualification
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
     self.assertNotEqual(response.json["data"]["date"], tender["date"])
 
@@ -973,8 +972,7 @@ def invalid_bid_tender_lot(self):
 
     # switch to active.qualification
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
     self.assertNotEqual(response.json["data"]["date"], tender["date"])
 
@@ -1009,8 +1007,7 @@ def one_valid_bid_tender_ua(self):
 
     # switch to active.qualification
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
     self.assertNotEqual(response.json["data"]["date"], tender["date"])
 
@@ -1037,8 +1034,7 @@ def invalid1_and_1draft_bids_tender(self):
 
     # switch to active.qualification
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+    response = self.check_chronograph()
     # get awards
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
@@ -1080,8 +1076,7 @@ def activate_bid_after_adding_lot(self):
     self.assertNotIn("value", response.json)
     # switch to active.qualification
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+    response = self.check_chronograph()
     # get awards
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
@@ -1134,7 +1129,8 @@ def first_bid_tender(self):
 
     # posting auction results
     self.app.authorization = ("Basic", ("auction", ""))
-    response = self.app.post_json("/tenders/{}/auction".format(tender_id), {"data": {"bids": auction_bids_data}})
+    response = self.app.post_json("/tenders/{}/auction".format(tender_id),
+                                  {"data": {"bids": [{"id": b["id"]} for b in auction_bids_data]}})
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}/awards?acc_token={}".format(tender_id, owner_token))
@@ -1257,7 +1253,8 @@ def lost_contract_for_active_award(self):
     auction_bids_data = response.json["data"]["bids"]
     # posting auction results
     self.app.authorization = ("Basic", ("auction", ""))
-    response = self.app.post_json("/tenders/{}/auction".format(tender_id), {"data": {"bids": auction_bids_data}})
+    response = self.app.post_json("/tenders/{}/auction".format(tender_id),
+                                  {"data": {"bids": [{"id": b["id"]} for b in auction_bids_data]}})
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}/awards?acc_token={}".format(tender_id, owner_token))
@@ -1270,7 +1267,7 @@ def lost_contract_for_active_award(self):
     )
     # lost contract
     tender = self.db.get(tender_id)
-    tender["contracts"] = None
+    del tender["contracts"]
     self.db.save(tender)
     # check tender
     response = self.app.get("/tenders/{}".format(tender_id))
@@ -1278,8 +1275,7 @@ def lost_contract_for_active_award(self):
     self.assertNotIn("contracts", response.json["data"])
     self.assertIn("next_check", response.json["data"])
     # create lost contract
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.awarded")
     self.assertIn("contracts", response.json["data"])
     self.assertNotIn("next_check", response.json["data"])

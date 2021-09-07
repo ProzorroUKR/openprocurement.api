@@ -82,6 +82,7 @@ class TenderStage2EUAuctionPeriodResourceTest(BaseCompetitiveDialogEUStage2Conte
 
 
 class TenderStage2EUComplaintSwitchResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
+    initial_status = "active.tendering"
     initial_bids = test_tender_bids
     author_data = test_author  # TODO: change attribute identifier
 
@@ -89,14 +90,14 @@ class TenderStage2EUComplaintSwitchResourceTest(BaseCompetitiveDialogEUStage2Con
 
 
 class TenderStage2UASwitch0BidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
-
+    initial_status = "active.tendering"
     test_switch_to_unsuccessful = snitch(switch_to_unsuccessful)
 
     test_set_auction_period = snitch(set_auction_period_0bid)
 
 
 class TenderStage2UASwitch1BidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
-
+    initial_status = "active.tendering"
     initial_bids = test_tender_bids[:1]
 
     test_switch_to_unsuccessful = snitch(switch_to_unsuccessful)
@@ -105,6 +106,7 @@ class TenderStage2UASwitch1BidResourceTest(BaseCompetitiveDialogUAStage2ContentW
 class TenderStage2UASwitchAuctionResourceTest(
     BaseCompetitiveDialogUAStage2ContentWebTest, TenderSwitchAuctionResourceTestMixin
 ):
+    initial_status = "active.tendering"
     initial_bids = test_tender_bids
     author_data = test_author  # TODO: change attribute identifier
 
@@ -112,6 +114,7 @@ class TenderStage2UASwitchAuctionResourceTest(
 
 
 class TenderStage2UALotSwitch0BidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
+    initial_status = "active.tendering"
     initial_lots = test_lots
 
     test_switch_to_unsuccessful = snitch(switch_to_unsuccessful_lot_0bid)
@@ -120,6 +123,7 @@ class TenderStage2UALotSwitch0BidResourceTest(BaseCompetitiveDialogUAStage2Conte
 
 
 class TenderStage2UALotSwitch1BidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
+    initial_status = "active.tendering"
     initial_lots = test_lots
     initial_bids = test_tender_bids[:1]
 
@@ -129,11 +133,13 @@ class TenderStage2UALotSwitch1BidResourceTest(BaseCompetitiveDialogUAStage2Conte
 class TenderStage2UALotSwitchAuctionResourceTest(
     BaseCompetitiveDialogUAStage2ContentWebTest, TenderLotSwitchAuctionResourceTestMixin
 ):
+    initial_status = "active.tendering"
     initial_lots = test_lots
     initial_bids = test_tender_bids
 
 
 class TenderStage2UA2LotSwitch0BidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
+    initial_status = "active.tendering"
     initial_lots = deepcopy(2 * test_lots)
 
     test_switch_to_unsuccessful = snitch(switch_to_unsuccessful_lot_0bid)

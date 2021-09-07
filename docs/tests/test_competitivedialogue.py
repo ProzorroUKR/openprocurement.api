@@ -454,12 +454,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
         # Pre-qualification
 
         self.set_status('active.pre-qualification', {'id': self.tender_id, 'status': 'active.tendering'})
-        auth = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json(
-            '/tenders/{}'.format(self.tender_id),
-            {'data': {'id': self.tender_id}})
-        self.app.authorization = auth
+        response = self.check_chronograph()
 
         with open(TARGET_DIR + 'qualifications-listing.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
@@ -519,12 +514,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
         self.set_status(
             'active.stage2.pending',
             {'id': self.tender_id, 'status': 'active.pre-qualification.stand-still'})
-        auth = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json(
-            '/tenders/{}'.format(self.tender_id),
-            {'data': {'id': self.tender_id}})
-        self.app.authorization = auth
+        response = self.check_chronograph()
 
         with open(TARGET_DIR + 'stage2-pending.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}?acc_token={}'.format(self.tender_id, owner_token))
@@ -911,12 +901,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
         # Pre-qualification
 
         self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
-        auth = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json(
-            '/tenders/{}'.format(self.tender_id),
-            {'data': {'id': self.tender_id}})
-        self.app.authorization = auth
+        response = self.check_chronograph()
 
         with open(TARGET_DIR + 'stage2/EU/qualifications-listing.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}'.format(self.tender_id))
@@ -1013,9 +998,9 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
         self.app.authorization = ('Basic', ('auction', ''))
         response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
         auction_bids_data = response.json['data']['bids']
-        response = self.app.post_json(
+        self.app.post_json(
             '/tenders/{}/auction'.format(self.tender_id),
-            {'data': {'bids': auction_bids_data}})
+            {'data': {'bids': [{"id": b["id"], "value": b["value"]} for b in auction_bids_data]}})
 
         self.app.authorization = ('Basic', ('broker', ''))
 
@@ -1370,12 +1355,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
         self.set_status(
             'active.stage2.pending',
             {'id': self.tender_id, 'status': 'active.pre-qualification.stand-still'})
-        auth = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json(
-            '/tenders/{}'.format(self.tender_id),
-            {'data': {'id': self.tender_id}})
-        self.app.authorization = auth
+        response = self.check_chronograph()
 
         with open(TARGET_DIR_MULTIPLE + 'stage2-pending.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}?acc_token={}'.format(self.tender_id, owner_token))
@@ -1770,7 +1750,7 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTe
         auction_bids_data = response.json['data']['bids']
         response = self.app.post_json(
             '/tenders/{}/auction'.format(self.tender_id),
-            {'data': {'bids': auction_bids_data}})
+            {'data': {'bids': [{"id": b["id"], "value": b["value"]} for b in auction_bids_data]}})
 
         self.app.authorization = ('Basic', ('broker', ''))
 

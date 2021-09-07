@@ -652,8 +652,8 @@ X-Content-Type-Options: nosniff
     "title_en": "Services in school canteens",
     "enquiryPeriod": {
       "startDate": "2021-02-03T00:00:00+02:00",
-      "endDate": "2021-02-24T00:00:00+02:00",
-      "clarificationsUntil": "2021-02-27T00:00:00+02:00",
+      "endDate": "2021-02-14T00:00:00+02:00",
+      "clarificationsUntil": "2021-03-12T00:00:00+02:00",
       "invalidationDate": "2021-03-16T00:00:00+02:00"
     },
     "tenderPeriod": {
@@ -725,7 +725,7 @@ X-Content-Type-Options: nosniff
     },
     "qualifications": [
       {
-        "id": "aec3b0b4e9754b75a95e53b611bb9bb0",
+        "id": "0ef3fa036ea7478199bf19be785c807f",
         "bidID": "fd70953552a346ecbb2d7f86de89b253",
         "status": "active",
         "date": "2021-03-16T00:00:00+02:00",
@@ -733,7 +733,7 @@ X-Content-Type-Options: nosniff
         "eligible": true
       },
       {
-        "id": "013668c1c6554de4b3c5d87fd5e1b8c6",
+        "id": "9184916e99354409964d0f87cdf6e709",
         "bidID": "5534cee2594649ccaa91a9f87caa96e2",
         "status": "active",
         "date": "2021-03-16T00:00:00+02:00",
@@ -741,7 +741,7 @@ X-Content-Type-Options: nosniff
         "eligible": true
       },
       {
-        "id": "685019c58271466dabb599125f990312",
+        "id": "15b5dcc603f942ccb16be05cc2dedfa6",
         "bidID": "c8cf921842b343ae90f0b4666658776e",
         "status": "unsuccessful",
         "date": "2021-03-16T00:00:00+02:00",
@@ -749,7 +749,7 @@ X-Content-Type-Options: nosniff
         "eligible": false
       },
       {
-        "id": "3c016fe78a014d44899287fe135be249",
+        "id": "6c9beae67b074584850ff51fa67d8297",
         "bidID": "858275d219d14850b85c83ea77b91281",
         "status": "active",
         "date": "2021-03-16T00:00:00+02:00",

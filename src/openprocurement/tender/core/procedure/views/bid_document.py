@@ -13,7 +13,6 @@ from openprocurement.tender.core.procedure.utils import (
     get_items,
     set_item,
     save_tender,
-    apply_data_patch,
 )
 
 

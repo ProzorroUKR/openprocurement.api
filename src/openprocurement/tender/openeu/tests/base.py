@@ -270,8 +270,7 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
     def prepare_award(self):
         # switch to active.pre-qualification
         self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
-        self.app.authorization = ("Basic", ("chronograph", ""))
-        response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+        response = self.check_chronograph()
         self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
         # qualify bids
@@ -295,8 +294,7 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
 
         # switch to active.auction
         self.set_status("active.auction", {"id": self.tender_id, "status": "active.pre-qualification.stand-still"})
-        self.app.authorization = ("Basic", ("chronograph", ""))
-        response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+        response = self.check_chronograph()
         self.assertEqual(response.json["data"]["status"], "active.auction")
 
         self.app.authorization = ("Basic", ("auction", ""))
@@ -304,7 +302,18 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
         auction_bids_data = response.json["data"]["bids"]
         for lot_id in self.initial_lots:
             response = self.app.post_json(
-                "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]), {"data": {"bids": auction_bids_data}}
+                "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]),
+                {"data": {"bids": [
+                    {"id": b["id"],
+                     "lotValues": [
+                         {"relatedLot": l["relatedLot"],
+                          "value": {
+                              "yearlyPaymentsPercentage": l["value"]["yearlyPaymentsPercentage"],
+                              "contractDuration": l["value"]["contractDuration"]
+                          } if "contractDuration" in l["value"] else {
+                              "amount": l["value"]["amount"]}
+                          } for l in b["lotValues"]]}
+                    for b in auction_bids_data]}}
             )
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.content_type, "application/json")

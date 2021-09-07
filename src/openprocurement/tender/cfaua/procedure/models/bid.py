@@ -8,7 +8,7 @@ from openprocurement.tender.core.procedure.models.bid import (
 )
 from openprocurement.tender.core.procedure.models.base import ListType
 from openprocurement.tender.cfaua.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
-from openprocurement.tender.openua.procedure.models.document import (
+from openprocurement.tender.openeu.procedure.models.document import (
     PostDocument,
     Document,
 )

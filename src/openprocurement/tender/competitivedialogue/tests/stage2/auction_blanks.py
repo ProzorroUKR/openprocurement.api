@@ -8,8 +8,9 @@ from openprocurement.api.constants import RELEASE_2020_04_19
 
 
 def patch_tender_with_lots_auction(self):
+    lot_id = self.initial_lots[0]["id"]
     self.app.authorization = ("Basic", ("auction", ""))
-    response = self.app.patch_json("/tenders/{}/auction".format(self.tender_id), {"data": {}}, status=403)
+    response = self.app.patch_json(f"/tenders/{self.tender_id}/auction/{lot_id}", {"data": {}}, status=403)
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
@@ -21,7 +22,7 @@ def patch_tender_with_lots_auction(self):
     response = self.check_chronograph()
 
     response = self.app.patch_json(
-        "/tenders/{}/auction".format(self.tender_id),
+        f"/tenders/{self.tender_id}/auction/{lot_id}",
         {"data": {"bids": [{"invalid_field": "invalid_value"}]}},
         status=422,
     )
@@ -44,18 +45,13 @@ def patch_tender_with_lots_auction(self):
         ],
     }
 
-    response = self.app.patch_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=422)
+    response = self.app.patch_json(f"/tenders/{self.tender_id}/auction/{lot_id}", {"data": patch_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [
-            {
-                "description": [{"participationUrl": ["url should be posted for each lot of bid"]}],
-                "location": "body",
-                "name": "bids",
-            }
-        ],
+        [{'location': 'body', 'name': 'auctionUrl', 'description': 'Rogue field'},
+         {'location': 'body', 'name': 'bids', 'description': {'participationUrl': 'Rogue field'}}]
     )
 
     del patch_data["bids"][0]["participationUrl"]
@@ -72,7 +68,9 @@ def patch_tender_with_lots_auction(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{"description": ["url should be posted for each lot"], "location": "body", "name": "auctionUrl"}],
+        [{"description": [{"participationUrl": ["url should be posted for each lot of bid"]}],
+          "location": "body",
+          "name": "bids"}],
     )
     auctionUrl = patch_data.pop("auctionUrl")
     patch_data["lots"] = [{"auctionUrl": auctionUrl}, {"auctionUrl": auctionUrl}]
@@ -94,74 +92,46 @@ def patch_tender_with_lots_auction(self):
 
     patch_data["bids"][1]["id"] = "some_id"
 
-    response = self.app.patch_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=422)
+    response = self.app.patch_json(f"/tenders/{self.tender_id}/auction/{lot_id}", {"data": patch_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"], {"id": ["Hash value is wrong length."]})
 
     patch_data["bids"][1]["id"] = "00000000000000000000000000000000"
 
-    response = self.app.patch_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=422)
+    response = self.app.patch_json(f"/tenders/{self.tender_id}/auction/{lot_id}", {"data": patch_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Auction bids should be identical to the tender bids")
+    self.assertEqual(response.json["errors"][0]["description"], ["Auction bids should be identical to the tender bids"])
 
-    patch_data["bids"][1]["id"] = self.bids[0]["id"]
-
-    response = self.app.patch_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        [{"lotValues": ["Number of lots of auction results did not match the number of tender lots"]}],
-    )
-
+    patch_data["bids"] = [{} for b in self.initial_bids]
     patch_data["lots"] = [patch_data["lots"][0].copy() for i in self.lots]
     patch_data["lots"][1]["id"] = "00000000000000000000000000000000"
 
-    response = self.app.patch_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=422)
+    response = self.app.patch_json(f"/tenders/{self.tender_id}/auction/{lot_id}", {"data": patch_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][-1]["description"],
-        [
-            {"lots": [{"id": ["id should be one of lots"]}]},
-            {"lots": [{"id": ["id should be one of lots"]}]},
-            {"lots": [{"id": ["id should be one of lots"]}]},
-        ],
+        ["Auction lots should be identical to the tender lots"],
     )
 
     patch_data["lots"][1]["id"] = self.lots[1]["id"]
+    patch_data["bids"][0]["lotValues"] = [{"participationUrl": "http://example.com"}, {}, {}]
 
-    response = self.app.patch_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=422)
+    response = self.app.patch_json(f"/tenders/{self.tender_id}/auction/{lot_id}", {"data": patch_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        [{"lotValues": ["Number of lots of auction results did not match the number of tender lots"]}],
+        ["Number of lots of auction results did not match the number of tender lots"],
     )
 
-    for bid in patch_data["bids"]:
-        bid["lotValues"] = [bid["lotValues"][0].copy() for i in self.lots]
-
-    patch_data["bids"][0]["lotValues"][1]["relatedLot"] = self.bids[0]["lotValues"][0]["relatedLot"]
-
-    response = self.app.patch_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    # self.assertEqual(response.json['errors'][0]["description"],
-    # [{u'lotValues': [{u'relatedLot': [u'relatedLot should be one of lots of bid']}]}])
-    self.assertEqual(
-        response.json["errors"][0]["description"], [{"lotValues": ["bids don't allow duplicated proposals"]}]
-    )
-
-    patch_data["bids"][0]["lotValues"][1]["relatedLot"] = self.bids[0]["lotValues"][1]["relatedLot"]
-
-    response = self.app.patch_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data})
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertIsNone(response.json)
-
+    patch_data = {
+        "lots": [{"auctionUrl": f"http://example.com/{l['id']}"} for l in self.initial_lots],
+        "bids": [{"lotValues": [{"participationUrl": f"http://example.com/{l['relatedLot']}"}
+                                for l in b["lotValues"]]} for b in self.initial_bids]
+    }
     for lot in self.lots:
         response = self.app.patch_json("/tenders/{}/auction/{}".format(self.tender_id, lot["id"]), {"data": patch_data})
         self.assertEqual(response.status, "200 OK")
@@ -169,13 +139,12 @@ def patch_tender_with_lots_auction(self):
         tender = response.json["data"]
 
     self.assertEqual(
-        tender["bids"][0]["lotValues"][0]["participationUrl"], patch_data["bids"][1]["lotValues"][0]["participationUrl"]
+        tender["bids"][0]["lotValues"][0]["participationUrl"], patch_data["bids"][0]["lotValues"][0]["participationUrl"]
     )
 
     self.assertEqual(
-        tender["bids"][1]["lotValues"][0]["participationUrl"], patch_data["bids"][0]["lotValues"][0]["participationUrl"]
+        tender["bids"][1]["lotValues"][0]["participationUrl"], patch_data["bids"][1]["lotValues"][0]["participationUrl"]
     )
-
     self.assertEqual(tender["lots"][0]["auctionUrl"], patch_data["lots"][0]["auctionUrl"])
 
     self.app.authorization = ("Basic", ("broker", ""))
@@ -202,7 +171,7 @@ def patch_tender_with_lots_auction(self):
 
         self.app.authorization = ("Basic", ("auction", ""))
         response = self.app.patch_json(
-            "/tenders/{}/auction/{}".format(self.tender_id, self.lots[0]["id"]), {"data": patch_data}, status=403
+            f"/tenders/{self.tender_id}/auction/{lot_id}", {"data": patch_data}, status=403
         )
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(response.content_type, "application/json")

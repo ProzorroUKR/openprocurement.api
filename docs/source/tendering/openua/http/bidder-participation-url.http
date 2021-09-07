@@ -7,13 +7,18 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137256",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137256"
         },
         "address": {
           "streetAddress": "вул. Островського, 33",
@@ -23,21 +28,16 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
         },
         "scale": "micro"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
+    "status": "active",
     "id": "0f4edde39c8440589de23c8efb2c8fb8",
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/bac835240efd4adea01560554d7bfdb4?key_for_bid=0f4edde39c8440589de23c8efb2c8fb8",
+    "date": "2021-03-16T00:00:00+02:00",
     "requirementResponses": [
       {
         "id": "92015eb98d24402f939b0761db90587d",
@@ -150,22 +150,22 @@ X-Content-Type-Options: nosniff
         "value": "True"
       }
     ],
-    "subcontractingDetails": "ДКП «Орфей», Україна",
-    "status": "active",
     "selfQualified": true,
+    "subcontractingDetails": "ДКП «Орфей», Україна",
     "documents": [
       {
         "id": "bf5ede681c9e431a992a12f7fe492b7c",
+        "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6519f568614a4206bfdb5d18cae77f6a?Signature=c0IFazilhvkkuBH%2FjSjSj2IpKQVYAbGaZxfqRt03GBAjgJ70QRsgbQLeQSTLvpDvpQhYTC5ivocgL9GkpbWZDA%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "confidentiality": "public"
       }
-    ]
+    ],
+    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/bac835240efd4adea01560554d7bfdb4?key_for_bid=0f4edde39c8440589de23c8efb2c8fb8"
   }
 }
 

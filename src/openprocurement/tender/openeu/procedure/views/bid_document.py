@@ -1,6 +1,6 @@
 from openprocurement.tender.core.procedure.views.bid_document import TenderBidDocumentResource
 from openprocurement.api.utils import json_view
-from openprocurement.tender.openua.procedure.models.document import PostDocument, PatchDocument, Document
+from openprocurement.tender.openeu.procedure.models.document import PostDocument, PatchDocument, Document
 from openprocurement.tender.core.procedure.serializers.document import ConfidentialDocumentSerializer
 from openprocurement.tender.core.procedure.validation import (
     validate_input_data,

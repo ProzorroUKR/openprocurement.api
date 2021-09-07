@@ -25,9 +25,7 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (
     post_tender_auction_reversed,
     # TenderLotAuctionResourceTest
     get_tender_lot_auction,
-    post_tender_lot_auction,
     post_tender_lot_auction_weighted_value,
-    patch_tender_lot_auction,
     post_tender_lot_auction_document,
     # TenderMultipleLotAuctionResourceTest
     get_tender_lots_auction,
@@ -38,9 +36,6 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (
     # TenderFeaturesAuctionResourceTest
     get_tender_auction_feature,
     post_tender_auction_feature,
-    # TenderFeaturesLotAuctionResourceTest
-    get_tender_lot_auction_features,
-    post_tender_lot_auction_features,
     # TenderFeaturesMultilotAuctionResourceTest
     get_tender_lots_auction_features,
     post_tender_lots_auction_features,
@@ -62,9 +57,7 @@ class TenderAuctionResourceTestMixin(object):
 
 class TenderLotAuctionResourceTestMixin(object):
     test_get_tender_auction = snitch(get_tender_lot_auction)
-    test_post_tender_auction = snitch(post_tender_lot_auction)
     test_post_tender_auction_weighted_value = snitch(post_tender_lot_auction_weighted_value)
-    test_patch_tender_auction = snitch(patch_tender_lot_auction)
     test_post_tender_auction_document = snitch(post_tender_lot_auction_document)
 
 
@@ -73,6 +66,7 @@ class TenderMultipleLotAuctionResourceTestMixin(object):
     test_post_tender_auction = snitch(post_tender_lots_auction)
     test_post_tender_auction_weighted_value = snitch(post_tender_lots_auction_weighted_value)
     test_post_tender_auction_document = snitch(post_tender_lots_auction_document)
+    test_patch_tender_auction = snitch(patch_tender_lots_auction)
 
 
 class TenderAuctionResourceTest(TenderContentWebTest, TenderAuctionResourceTestMixin):
@@ -111,8 +105,6 @@ class TenderMultipleLotAuctionResourceTest(TenderContentWebTest, TenderMultipleL
     initial_bids = deepcopy(test_bids)
     initial_auth = ("Basic", ("broker", ""))
 
-    test_patch_tender_auction = snitch(patch_tender_lots_auction)
-
 
 class TenderFeaturesAuctionResourceTest(TenderContentWebTest):
     initial_data = test_features_tender_data
@@ -134,12 +126,6 @@ class TenderFeaturesAuctionResourceTest(TenderContentWebTest):
     test_post_tender_auction = snitch(post_tender_auction_feature)
 
 
-class TenderFeaturesLotAuctionResourceTest(TenderLotAuctionResourceTestMixin, TenderFeaturesAuctionResourceTest):
-    initial_lots = test_lots
-    test_get_tender_auction = snitch(get_tender_lot_auction_features)
-    test_post_tender_auction = snitch(post_tender_lot_auction_features)
-
-
 class TenderFeaturesMultilotAuctionResourceTest(
     TenderMultipleLotAuctionResourceTestMixin, TenderFeaturesAuctionResourceTest
 ):
@@ -153,7 +139,6 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderSameValueAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderFeaturesAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderFeaturesLotAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderFeaturesMultilotAuctionResourceTest))
     return suite
 

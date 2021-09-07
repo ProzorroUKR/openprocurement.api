@@ -66,7 +66,10 @@ def switch_to_unsuccessful(self):
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.get("/tenders/{}/auction".format(self.tender_id))
     response = self.app.post_json(
-        "/tenders/{}/auction".format(self.tender_id), {"data": {"bids": response.json["data"]["bids"]}}
+        "/tenders/{}/auction".format(self.tender_id),
+        {"data": {"bids": [
+            {} for b in response.json["data"]["bids"]
+        ]}}
     )
     self.assertEqual(response.json["data"]["status"], "active.qualification")
 
@@ -166,7 +169,10 @@ def switch_to_unsuccessful_lot(self):
         auction_bids_data = response.json["data"]["bids"]
         for lot in response.json["data"]["lots"]:
             response = self.app.post_json(
-                "/tenders/{}/auction/{}".format(self.tender_id, lot["id"]), {"data": {"bids": auction_bids_data}}
+                "/tenders/{}/auction/{}".format(self.tender_id, lot["id"]),
+                {"data": {"bids": [
+                    {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                    for b in auction_bids_data]}}
             )
             self.assertEqual(response.status, "200 OK")
 

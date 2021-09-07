@@ -141,6 +141,7 @@ X-Content-Type-Options: nosniff
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/990290f4487844639797e1f0adf02bc3?Signature=rOXN3tFVHoQCpMt2DSVVNl%2FvV6DOQUbzdFR0SblLD6LbwpfADRlJyqoONJi60r2C0BrDVvvzEycUAUVf4cu9Aw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "confidentiality": "public",
+        "language": "uk",
         "id": "660d0c01949547d6b6247fe90cacd4f2",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"
@@ -152,6 +153,7 @@ X-Content-Type-Options: nosniff
         "documentOf": "tender",
         "confidentiality": "buyerOnly",
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
+        "language": "uk",
         "id": "e49036f82b48481fbf2ad9c4a5f855ed",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"
@@ -165,6 +167,7 @@ X-Content-Type-Options: nosniff
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/a7cd2c260a0448f5a1bf70345eb8d414/financial_documents/efc5cf6d869b4dacb3ccbef948132ba3?download=6bcaaf7011c747ef9ef05690bc0f88e8",
         "documentOf": "tender",
         "confidentiality": "public",
+        "language": "uk",
         "id": "efc5cf6d869b4dacb3ccbef948132ba3",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"
@@ -178,6 +181,7 @@ X-Content-Type-Options: nosniff
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/a7cd2c260a0448f5a1bf70345eb8d414/eligibility_documents/69ea8f7c365742e9a44a3e7327d9cc59?download=f20fb61ed9de43a39a775b9f82d2faaf",
         "documentOf": "tender",
         "confidentiality": "public",
+        "language": "uk",
         "id": "69ea8f7c365742e9a44a3e7327d9cc59",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"
@@ -191,6 +195,7 @@ X-Content-Type-Options: nosniff
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/a7cd2c260a0448f5a1bf70345eb8d414/qualification_documents/72a1ad5d712e4f0983a233e53ddacf5d?download=4146517e137540559a5e012437179a7f",
         "documentOf": "tender",
         "confidentiality": "public",
+        "language": "uk",
         "id": "72a1ad5d712e4f0983a233e53ddacf5d",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"

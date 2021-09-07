@@ -254,6 +254,7 @@ class TenderQualificationMilestoneALPMixin(object):
 
         tender = self.db.get(self.tender_id)
         for b in tender["bids"]:
+            b["status"] = "active"
             for l in b["lotValues"]:
                 if "status" in l:
                     l["status"] = "active"  # in case they were "pending" #openeu
@@ -267,7 +268,12 @@ class TenderQualificationMilestoneALPMixin(object):
         :return:
         """
         # sending auction results
-        auction_results = deepcopy(self.initial_bids)
+        auction_results = [
+            {
+                "id": b["id"],
+                "lotValues": [{"relatedLot": l["relatedLot"], "value": l["value"]} for l in b["lotValues"]]
+            } for b in self.initial_bids
+        ]
         if self.initial_lots:
             auction_results[0]["lotValues"][0]["value"]["amount"] = 200  # only 1 case
             auction_results[1]["lotValues"][0]["value"]["amount"] = 201  # both 1 and 2 case
@@ -326,6 +332,7 @@ class TenderQualificationMilestoneALPMixin(object):
             {"data": unsuccessful_data},
             status=403
         )
+        tender = self.db.get(self.tender_id)
         expected_due_date = calculate_complaint_business_date(
             parse_date(milestone["date"]),
             timedelta(days=1),
