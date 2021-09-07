@@ -34,6 +34,7 @@ from openprocurement.tender.openua.tests.bid_blanks import (
     # TenderBidResourceTest
     create_tender_biddder_invalid,
     create_tender_bidder,
+    create_bid_after_removing_lot,
     patch_tender_bidder,
     get_tender_bidder,
     delete_tender_bidder,
@@ -221,6 +222,7 @@ class Tender2LotBidResourceTest(BaseTenderUAContentWebTest):
     initial_status = "active.tendering"
 
     test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
+    test_create_bid_after_removing_lot = snitch(create_bid_after_removing_lot)
 
 
 class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):

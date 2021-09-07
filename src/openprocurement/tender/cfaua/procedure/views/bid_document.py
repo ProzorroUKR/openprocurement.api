@@ -105,7 +105,7 @@ class CFTenderBidDocumentResource(TenderBidDocumentResource):
         content_type="application/json",
         validators=(
             validate_item_owner("bid"),
-            validate_input_data(PatchDocument),
+            validate_input_data(PatchDocument, none_means_remove=True),
             validate_patch_data(Document, item_name="document"),
             validate_bid_document_operation_in_award_status,
             unless_allowed_by_qualification_milestone(
@@ -208,7 +208,7 @@ class CFBidFinancialDocumentResource(CFTenderBidDocumentResource):
         content_type="application/json",
         validators=(
                 validate_item_owner("bid"),
-                validate_input_data(PatchDocument),
+                validate_input_data(PatchDocument, none_means_remove=True),
                 validate_patch_data(Document, item_name="document"),
                 validate_bid_document_operation_in_award_status,
                 unless_allowed_by_qualification_milestone(

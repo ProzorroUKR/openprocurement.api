@@ -57,6 +57,7 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
 from openprocurement.tender.esco.tests.bid_blanks import (
     create_tender_bid_invalid,
     create_tender_bid,
+    create_tender_bid_lot,
     patch_tender_bid,
     deleted_bid_is_not_restorable,
     bid_Administrator_change,
@@ -145,6 +146,7 @@ class Tender2LotBidResourceTest(BaseESCOContentWebTest):
     initial_status = "active.tendering"
 
     test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
+    test_create_tender_bid = snitch(create_tender_bid_lot)
 
 
 class TenderBidFeaturesResourceTest(BaseESCOContentWebTest):

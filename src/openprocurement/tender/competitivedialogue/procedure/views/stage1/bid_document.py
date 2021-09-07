@@ -33,15 +33,15 @@ from cornice.resource import resource
 class EUTenderBidDocumentResource(OpenEUTenderBidDocumentResource):
     @json_view(
         validators=(
-                validate_item_owner("bid"),
-                validate_input_data(PostDocument, allow_bulk=True),
+            validate_item_owner("bid"),
+            validate_input_data(PostDocument, allow_bulk=True),
 
-                unless_allowed_by_qualification_milestone(
-                    validate_bid_document_in_tender_status,
-                    validate_bid_document_operation_in_award_status,
-                ),
-                validate_bid_document_operation_period,
-                validate_bid_document_operation_in_bid_status,
+            unless_allowed_by_qualification_milestone(
+                validate_bid_document_in_tender_status,
+                validate_bid_document_operation_in_award_status,
+            ),
+            validate_bid_document_operation_period,
+            validate_bid_document_operation_in_bid_status,
         ),
         permission="edit_bid",
     )
@@ -50,19 +50,19 @@ class EUTenderBidDocumentResource(OpenEUTenderBidDocumentResource):
 
     @json_view(
         validators=(
-                validate_item_owner("bid"),
-                validate_input_data(PostDocument),
+            validate_item_owner("bid"),
+            validate_input_data(PostDocument),
 
-                unless_allowed_by_qualification_milestone(
-                    validate_bid_document_in_tender_status,
-                    validate_bid_document_operation_in_award_status,
-                ),
-                validate_bid_document_operation_period,
-                validate_update_bid_document_confidentiality,
+            unless_allowed_by_qualification_milestone(
+                validate_bid_document_in_tender_status,
+                validate_bid_document_operation_in_award_status,
+            ),
+            validate_bid_document_operation_period,
+            validate_update_bid_document_confidentiality,
 
-                update_doc_fields_on_put_document,
-                validate_upload_document,
-                validate_data_model(Document),
+            update_doc_fields_on_put_document,
+            validate_upload_document,
+            validate_data_model(Document),
         ),
         permission="edit_bid",
     )
@@ -72,15 +72,15 @@ class EUTenderBidDocumentResource(OpenEUTenderBidDocumentResource):
     @json_view(
         content_type="application/json",
         validators=(
-                validate_item_owner("bid"),
-                validate_input_data(PatchDocument),
-                validate_patch_data(Document, item_name="document"),
-                unless_allowed_by_qualification_milestone(
-                    validate_bid_document_in_tender_status,
-                    validate_bid_document_operation_in_award_status,
-                ),
-                validate_bid_document_operation_period,
-                validate_update_bid_document_confidentiality,
+            validate_item_owner("bid"),
+            validate_input_data(PatchDocument, none_means_remove=True),
+            validate_patch_data(Document, item_name="document"),
+            unless_allowed_by_qualification_milestone(
+                validate_bid_document_in_tender_status,
+                validate_bid_document_operation_in_award_status,
+            ),
+            validate_bid_document_operation_period,
+            validate_update_bid_document_confidentiality,
         ),
         permission="edit_bid",
     )

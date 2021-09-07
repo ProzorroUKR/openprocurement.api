@@ -86,7 +86,7 @@ class TenderUaBidDocumentResource(TenderBidDocumentResource):
         validators=(
             validate_item_owner("bid"),
 
-            validate_input_data(PatchDocument),
+            validate_input_data(PatchDocument, none_means_remove=True),
             validate_patch_data(Document, item_name="document"),
 
             unless_allowed_by_qualification_milestone(

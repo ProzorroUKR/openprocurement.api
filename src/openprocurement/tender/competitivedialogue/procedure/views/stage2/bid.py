@@ -33,13 +33,13 @@ class CompetitiveDialogueStage2EUBidResource(BaseResourceEU):
         content_type="application/json",
         permission="create_bid",
         validators=(
-                validate_bid_accreditation_level,
-                validate_bid_operation_not_in_tendering,
-                validate_bid_operation_period,
-                validate_input_data(PostBidEU),
-                validate_post_bid_status,
-                validate_firm_to_create_bid,
-                validate_data_documents,
+            validate_bid_accreditation_level,
+            validate_bid_operation_not_in_tendering,
+            validate_bid_operation_period,
+            validate_input_data(PostBidEU),
+            validate_post_bid_status,
+            validate_firm_to_create_bid,
+            validate_data_documents,
         ),
     )
     def collection_post(self):
@@ -58,12 +58,12 @@ class CompetitiveDialogueStage2UABidResource(BaseResourceUA):
         content_type="application/json",
         permission="create_bid",
         validators=(
-                validate_bid_accreditation_level,
-                validate_bid_operation_not_in_tendering,
-                validate_bid_operation_period,
-                validate_input_data(PostBidUA),
-                validate_firm_to_create_bid,
-                validate_data_documents,
+            validate_bid_accreditation_level,
+            validate_bid_operation_not_in_tendering,
+            validate_bid_operation_period,
+            validate_input_data(PostBidUA),
+            validate_firm_to_create_bid,
+            validate_data_documents,
         ),
     )
     def collection_post(self):
