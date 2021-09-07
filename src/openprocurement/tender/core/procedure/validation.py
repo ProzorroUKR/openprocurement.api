@@ -11,14 +11,14 @@ from schematics.exceptions import ValidationError
 from decimal import Decimal
 
 
-def validate_input_data(input_model, allow_bulk=False, filters=None):
+def validate_input_data(input_model, allow_bulk=False, filters=None, none_means_remove=False):
     """
     :param input_model: a model to validate data against
     :param allow_bulk: if True, request.validated["data"] will be a list of valid inputs
     :param filters: list of filter function that applied on valid data
+    :param none_means_remove: null values passed cause deleting saved values at those keys
     :return:
     """
-
     def validate(request, **_):
         request.validated["json_data"] = json_data = validate_json_data(request, allow_bulk=allow_bulk)
         # now you can use context.get_json_data() in model validators to access the whole passed object
@@ -28,14 +28,19 @@ def validate_input_data(input_model, allow_bulk=False, filters=None):
 
         data = []
         for input_data in json_data:
-            # if None is passed it should be added to the result
-            # None means that the field value is deleted
-            # IMPORTANT: input_data can contain more fields than are allowed to update
-            # validate_data will raise Rogue field error then
-            result = {k: v
-                      for k, v in input_data.items()
-                      if v is None
-                      or isinstance(v, list) and len(v) == 0}
+            result = {}
+            if none_means_remove:
+                # if None is passed it should be added to the result
+                # None means that the field value is deleted
+                # IMPORTANT: input_data can contain more fields than are allowed to update
+                # validate_data will raise Rogue field error then
+                for k, v in input_data.items():
+                    if (
+                        v is None
+                        or isinstance(v, list) and len(v) == 0  # for list fields, an empty list does the same
+                    ):
+                        result[k] = v
+
             valid_data = validate_data(request, input_model, input_data)
             if valid_data is not None:
                 result.update(valid_data)
@@ -244,7 +249,7 @@ def validate_value_type(value, datatype):
 
 
 def validate_relatedlot(tender, relatedLot):
-    if relatedLot not in [lot["id"] for lot in tender.get("lots") if lot]:
+    if relatedLot not in [lot["id"] for lot in tender.get("lots") or [] if lot]:
         raise ValidationError("relatedLot should be one of lots")
 
 

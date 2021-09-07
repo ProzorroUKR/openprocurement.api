@@ -65,7 +65,7 @@ class BelowThresholdTenderBidDocumentResource(TenderBidDocumentResource):
         content_type="application/json",
         validators=(
             validate_item_owner("bid"),
-            validate_input_data(PatchDocument),
+            validate_input_data(PatchDocument, none_means_remove=True),
             validate_patch_data(Document, item_name="document"),
             validate_bid_document_operation_in_not_allowed_tender_status,
             validate_bid_document_operation_period,

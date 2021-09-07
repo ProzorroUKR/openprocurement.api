@@ -7,7 +7,9 @@ from datetime import datetime, timedelta
 # TenderBidResourceTest
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17, TWO_PHASE_COMMIT_FROM
-from openprocurement.tender.esco.tests.base import test_bids
+from openprocurement.tender.esco.tests.base import test_bids, NBU_DISCOUNT_RATE
+from openprocurement.tender.esco.utils import to_decimal
+from esculator import npv, escp
 
 
 def create_tender_bid_invalid(self):
@@ -527,6 +529,72 @@ def create_tender_bid(self):
         response.json["errors"][0]["description"],
         f"Can't add bid in current (complete) tender status",
     )
+
+
+def create_tender_bid_lot(self):
+    data = deepcopy(self.test_bids_data[0])
+    data["lotValues"] = [{
+        "value": data["value"],
+        "relatedLot": self.initial_lots[0]["id"]
+    }]
+    data.update(
+        {
+            "value": None, "parameters": None, "documents": None,
+            "financialDocuments": None, "eligibilityDocuments": None, "qualificationDocuments": None,
+        }
+    )
+
+    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    bid = response.json["data"]
+    self.assertEqual(bid["tenderers"][0]["name"], self.test_bids_data[0]["tenderers"][0]["name"])
+    self.assertIn("id", bid)
+    self.assertIn(bid["id"], response.headers["Location"])
+    value = bid["lotValues"][0]["value"]
+    expected_value = self.test_bids_data[0]["value"]
+    self.assertEqual(
+        value["contractDuration"]["years"], self.test_bids_data[0]["value"]["contractDuration"]["years"]
+    )
+    self.assertEqual(
+        value["contractDuration"]["days"], self.test_bids_data[0]["value"]["contractDuration"]["days"]
+    )
+    self.assertEqual(value["annualCostsReduction"], self.test_bids_data[0]["value"]["annualCostsReduction"])
+    self.assertEqual(
+        value["yearlyPaymentsPercentage"], self.test_bids_data[0]["value"]["yearlyPaymentsPercentage"]
+    )
+    expected_bid_amount = round(
+        float(
+            to_decimal(
+                escp(
+                    expected_value["contractDuration"]["years"],
+                    expected_value["contractDuration"]["days"],
+                    expected_value["yearlyPaymentsPercentage"],
+                    expected_value["annualCostsReduction"],
+                    get_now(),
+                )
+            )
+        ),
+        2,
+    )
+    self.assertEqual(value["amount"], expected_bid_amount)
+
+    expected_amount_performance = round(
+        float(
+            to_decimal(
+                npv(
+                    test_bids[0]["value"]["contractDuration"]["years"],
+                    test_bids[0]["value"]["contractDuration"]["days"],
+                    test_bids[0]["value"]["yearlyPaymentsPercentage"],
+                    test_bids[0]["value"]["annualCostsReduction"],
+                    get_now(),
+                    NBU_DISCOUNT_RATE,
+                )
+            )
+        ),
+        2,
+    )
+    self.assertEqual(value["amountPerformance"], expected_amount_performance)
 
 
 def create_tender_bid_31_12(self):

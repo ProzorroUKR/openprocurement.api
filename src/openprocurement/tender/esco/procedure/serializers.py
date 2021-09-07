@@ -4,22 +4,22 @@ from openprocurement.tender.openeu.procedure.serializers import BidSerializer as
 
 
 def bid_value_to_float(_, value):
-    costs_reduction = value.get("annualCostsReduction")
-    if isinstance(costs_reduction, list):
-        value["annualCostsReduction"] = tuple(float(e) for e in costs_reduction)
+    if isinstance(value, dict):
+        costs_reduction = value.get("annualCostsReduction")
+        if isinstance(costs_reduction, list):
+            value["annualCostsReduction"] = tuple(float(e) for e in costs_reduction)
 
-    yearly_percentage = value.get("yearlyPaymentsPercentage")
-    if yearly_percentage:
-        value["yearlyPaymentsPercentage"] = float(yearly_percentage)
+        yearly_percentage = value.get("yearlyPaymentsPercentage")
+        if yearly_percentage:
+            value["yearlyPaymentsPercentage"] = float(yearly_percentage)
 
-    amount = value.get("amount")
-    if amount:
-        value["amount"] = float(amount)
+        amount = value.get("amount")
+        if amount:
+            value["amount"] = float(amount)
 
-    amount_performance = value.get("amountPerformance")
-    if amount_performance:
-        value["amountPerformance"] = float(amount_performance)
-
+        amount_performance = value.get("amountPerformance")
+        if amount_performance:
+            value["amountPerformance"] = float(amount_performance)
     return value
 
 

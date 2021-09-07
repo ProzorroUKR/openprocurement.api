@@ -382,6 +382,44 @@ def patch_tender_bidder(self):
     self.assertEqual(response.json["errors"][0]["description"], "Can't update bid in current (complete) tender status")
 
 
+def create_bid_after_removing_lot(self):
+
+    # create bid
+    bid_data = deepcopy(self.test_bids_data[0])
+    bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}]
+    bid_data["documents"] = None
+    bid_data["parameters"] = None
+    bid_data.pop("value")
+    response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data})
+    bid, bid_token = response.json["data"], response.json["access"]["token"]
+    bid_id = bid["id"]
+    self.assertNotIn("documents", bid)
+    self.assertNotIn("parameters", bid)
+
+    # removing tender lots
+    tender = self.db.get(self.tender_id)
+    del tender["lots"]
+    self.db.save(tender)
+
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    self.assertNotIn("lots", response.json["data"])
+
+    # patch bid to delete lotValues
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={bid_token}",
+        {"data": {
+            "lotValues": None,
+            "value": {"amount": 500},
+            "parameters": None,
+        }}
+    )
+    data = response.json["data"]
+    self.assertEquals(data["value"]["amount"], 500)
+    self.assertNotIn("lotValues", data)
+    self.assertNotIn("documents", data)
+    self.assertNotIn("parameters", data)
+
+
 def get_tender_bidder(self):
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data.update({
