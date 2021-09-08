@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from collections import defaultdict
-from copy import deepcopy
 
 from math import floor, ceil
-from decimal import Decimal, ROUND_UP
+from decimal import Decimal, ROUND_UP, ROUND_FLOOR
 
 from schematics.types import BaseType
 
@@ -1773,13 +1772,13 @@ def validate_contract_items_unit_value_amount(request, contract, **kwargs):
                         request, "Item.unit.value.amount should be updated to 0 if item.quantity equal to 0"
                     )
                 items_unit_value_amount.append(
-                    Decimal(str(item.quantity)) * Decimal(str(item.unit.value.amount))
+                    to_decimal(item.quantity) * to_decimal(item.unit.value.amount)
                 )
 
     if items_unit_value_amount and contract.value:
-        calculated_value = float(sum(items_unit_value_amount))
+        calculated_value = sum(items_unit_value_amount)
 
-        if calculated_value > contract.value.amount:
+        if calculated_value.quantize(Decimal("1E-2"), rounding=ROUND_FLOOR) > to_decimal(contract.value.amount):
             raise_operation_error(
                 request, "Total amount of unit values can't be greater than contract.value.amount"
             )
