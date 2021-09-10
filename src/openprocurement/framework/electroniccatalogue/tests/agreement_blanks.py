@@ -10,9 +10,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.framework.electroniccatalogue.tests.base import (
     test_electronicCatalogue_data,
     ban_milestone_data,
-    disqualification_milestone_data,
     ban_milestone_data_with_documents,
-    disqualification_milestone_data_with_documents,
 )
 from openprocurement.framework.electroniccatalogue.utils import CONTRACT_BAN_DURATION, MILESTONE_CONTRACT_STATUSES
 
