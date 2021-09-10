@@ -2,7 +2,7 @@
 import re
 from contextlib import contextmanager
 from decimal import Decimal
-
+from six import b
 import couchdb.json
 import pytz
 from couchdb import util, ResourceConflict
@@ -809,13 +809,13 @@ def fix_url(item, app_url):
 def encrypt(uuid, name, key):
     iv = "{:^{}.{}}".format(name, AES.block_size, AES.block_size)
     text = "{:^{}}".format(key, AES.block_size)
-    return hexlify(AES.new(uuid, AES.MODE_CBC, iv).encrypt(text))
+    return hexlify(AES.new(b(uuid), AES.MODE_CBC, b(iv)).encrypt(b(text)))
 
 
 def decrypt(uuid, name, key):
     iv = "{:^{}.{}}".format(name, AES.block_size, AES.block_size)
     try:
-        text = AES.new(uuid, AES.MODE_CBC, iv).decrypt(unhexlify(key)).strip()
+        text = AES.new(b(uuid), AES.MODE_CBC, b(iv)).decrypt(unhexlify(b(key))).strip()
     except:
         text = ""
     return text
