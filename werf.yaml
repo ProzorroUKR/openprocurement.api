@@ -2,7 +2,7 @@ project: prozorro-api
 configVersion: 1
 ---
 image: ~
-from: python:3.8-slim-buster
+from: python:3.8-slim
 docker:
   WORKDIR: /app
   EXPOSE: "80"

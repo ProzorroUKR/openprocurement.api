@@ -200,7 +200,7 @@ stop_review:
   when: manual
 
 .setuptools:
-  image: python:3.8-slim-buster
+  image: python:3.8-slim
   services:
     - couchdb:1.6
   tags:
