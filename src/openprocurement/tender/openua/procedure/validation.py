@@ -50,7 +50,7 @@ def validate_update_bid_document_confidentiality(request, **_):
     tender_status = request.validated["tender"]["status"]
     if tender_status != "active.tendering" and "confidentiality" in request.validated.get("data", {}):
         document = request.validated["document"]
-        if document.get("confidentiality") != request.validated["data"]["confidentiality"]:
+        if document.get("confidentiality", "public") != request.validated["data"]["confidentiality"]:
             raise_operation_error(
                 request,
                 "Can't update document confidentiality in current ({}) tender status".format(tender_status),
