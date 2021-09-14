@@ -967,6 +967,44 @@ def patch_contract_single_item_unit_value_with_status(self):
     self.assertEqual(response.json["data"]["status"], "active")
 
 
+def patch_contract_single_item_unit_value_round(self):
+    response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
+    contract = response.json["data"][0]
+    contract_id = contract["id"]
+    self.assertEqual(len(contract["items"]), 1)
+    quantity = contract["items"][0]["quantity"]
+
+    # prepare contract
+    doc = self.db.get(self.tender_id)
+    for i in doc.get("awards", []):
+        if 'complaintPeriod' in i:
+            i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+    if doc['contracts'][0]['value']['valueAddedTaxIncluded']:
+        doc['contracts'][0]['value']['amountNet'] = str(float(doc['contracts'][0]['value']['amount']) - 1)
+    self.db.save(doc)
+
+    unit_value_amount = doc['contracts'][0]['value']['amount'] / quantity + 0.001
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
+        {"data": {
+            "status": "active",
+            "items": [
+                {
+                    "unit": {
+                        "value": {
+                            "amount": unit_value_amount
+                        },
+                    }
+                }
+            ]
+        }},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], unit_value_amount)
+    self.assertEqual(response.json["data"]["status"], "active")
+
+
 def patch_contract_multi_items_unit_value(self):
 
     auth = self.app.authorization
