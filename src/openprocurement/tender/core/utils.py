@@ -752,6 +752,7 @@ def prepare_award_milestones(tender, bid, all_bids, lot_id=None):
 
     if (
         getattr(tender, "procurementMethodType", "") in skip_method_types
+        or get_first_revision_date(tender, default=get_now()) < RELEASE_2020_04_19
     ):
         return milestones   # skipping
 
