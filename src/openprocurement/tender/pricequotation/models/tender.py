@@ -82,6 +82,7 @@ class TenderItem(BaseItem):
             'bots': whitelist(
                 'classification',
                 'additionalClassifications',
+                'unit'
             ),
             "edit_contract": whitelist("unit")
         }
