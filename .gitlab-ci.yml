@@ -91,23 +91,23 @@ cleanup:
 .deploy: &deploy
   <<: *base_deploy
   script:
-    - helm repo add prozorro $REPO_URL
-    - helm repo update
-    - helm --debug upgrade $CI_COMMIT_REF_SLUG --install prozorro/$HELM_CHART --namespace $HELM_NAMESPACE --set $HELM_TAG_PARAMETER=$TAG --set deployAuctions=false --set deployAuction=false --wait
+    - helm3 repo add prozorro $REPO_URL
+    - helm3 repo update
+    - helm3 --debug upgrade $CI_COMMIT_REF_SLUG --install prozorro/$HELM_CHART --namespace $HELM_NAMESPACE --set $HELM_TAG_PARAMETER=$TAG --set deployAuctions=false --set deployAuction=false --wait 
 
 .deploy_with_auction: &deploy_with_auction
   <<: *base_deploy
   script:
-    - helm repo add prozorro $REPO_URL
-    - helm repo update
-    - helm --debug upgrade $CI_COMMIT_REF_SLUG --install prozorro/$HELM_CHART --namespace $HELM_NAMESPACE --set $HELM_TAG_PARAMETER=$TAG --set deployAuctions=false --set deployAuction=true --wait
+    - helm3 repo add prozorro $REPO_URL
+    - helm3 repo update
+    - helm3 --debug upgrade $CI_COMMIT_REF_SLUG --install prozorro/$HELM_CHART --namespace $HELM_NAMESPACE --set $HELM_TAG_PARAMETER=$TAG --set deployAuctions=false --set deployAuction=true  --wait
 
 .deploy_with_auctions: &deploy_with_auctions
   <<: *base_deploy
   script:
-    - helm repo add prozorro $REPO_URL
-    - helm repo update
-    - helm --debug upgrade $CI_COMMIT_REF_SLUG --install prozorro/$HELM_CHART --namespace $HELM_NAMESPACE --set $HELM_TAG_PARAMETER=$TAG --set deployAuctions=true --set deployAuction=false --wait
+    - helm3 repo add prozorro $REPO_URL
+    - helm3 repo update
+    - helm3 --debug upgrade $CI_COMMIT_REF_SLUG --install prozorro/$HELM_CHART --namespace $HELM_NAMESPACE --set $HELM_TAG_PARAMETER=$TAG --set deployAuctions=true --set deployAuction=false --wait
 
 .base_review: &base_review
   environment:
@@ -186,7 +186,7 @@ robot_tests:
 stop_review:
   stage: deploy
   script:
-    - helm delete $CI_COMMIT_REF_SLUG --purge
+    - helm3 delete $CI_COMMIT_REF_SLUG
   environment:
     name: review/${CI_COMMIT_REF_SLUG}
     action: stop
@@ -204,7 +204,7 @@ stop_review:
   services:
     - couchdb:1.6
   tags:
-    - kube
+    - kube-dev
   variables:
     GIT_STRATEGY: clone
   only:
@@ -244,7 +244,7 @@ docs:
   services:
     - couchdb:1.6
   tags:
-    - kube
+    - kube-dev
   only:
     - branches
   except:
