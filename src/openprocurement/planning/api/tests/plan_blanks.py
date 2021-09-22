@@ -2,9 +2,9 @@
 import mock
 import uuid
 from copy import deepcopy
-
+from urllib.parse import quote
 from datetime import datetime, timedelta
-
+from freezegun import freeze_time
 from openprocurement.api.constants import (
     ROUTE_PREFIX,
     CPV_ITEMS_CLASS_FROM,
@@ -15,6 +15,7 @@ from openprocurement.api.utils import get_now, parse_date
 
 from openprocurement.planning.api.models import Plan
 from openprocurement.planning.api.constants import PROCEDURES
+from openprocurement.api.database import MongodbResourceConflict
 
 
 # PlanTest
@@ -23,23 +24,63 @@ from openprocurement.tender.core.tests.base import change_auth
 
 def simple_add_plan(self):
     u = Plan(self.initial_data)
+    u.dateModified = get_now().isoformat()
     u.planID = "UA-P-X"
 
     assert u.id is None
     assert u.rev is None
 
-    u.store(self.databases.plans)
+    uid = uuid.uuid4().hex
+    u.id = uid
 
-    assert u.id is not None
+    self.mongodb.plans.save(u, insert=True)
+
+    assert u.id == uid
     assert u.rev is not None
 
-    fromdb = self.databases.plans.get(u.id)
+    from_db = self.mongodb.plans.get(uid)
 
-    assert u.planID == fromdb["planID"]
+    assert u.planID == from_db["planID"]
     assert u.doc_type == "Plan"
 
-    u.delete_instance(self.databases.plans)
+    self.mongodb.plans.flush()
 
+
+def concurrent_plan_update(self):
+    """
+    Checking that only valid _id and _rev can update the document
+    otherwise the whole request should be repeated to pass all validations again in case anything's been changed
+    """
+    u = Plan(self.initial_data)
+    u.dateModified = get_now().isoformat()
+    u.planID = "UA-P-X"
+    u.id = uuid.uuid4().hex
+
+    self.mongodb.plans.save(u, insert=True)
+    first_rev = u.rev
+
+    u.status = "scheduled"
+
+    u._rev = None
+    with self.assertRaises(MongodbResourceConflict):
+        self.mongodb.plans.save(u)
+
+    u._rev = first_rev
+    self.mongodb.plans.save(u)
+    second_rev = u.rev
+
+    u._rev = first_rev
+    with self.assertRaises(MongodbResourceConflict):
+        self.mongodb.plans.save(u)
+
+    u._rev = second_rev
+    self.mongodb.plans.save(u)
+    self.assertGreater(u._rev, second_rev)
+
+    from_db = self.mongodb.plans.get(u.id)
+    self.assertEqual(from_db["_rev"], u.rev)
+
+    self.mongodb.plans.flush()
 
 # AccreditationPlanTest
 
@@ -102,7 +143,17 @@ def empty_listing(self):
     self.assertIn('{\n    "', response.body.decode())
     self.assertIn("callback({", response.body.decode())
 
-    response = self.app.get("/plans?offset=2015-01-01T00:00:00+02:00&descending=1&limit=10")
+    response = self.app.get(f"/plans?offset={quote('2015-01-01T00:00:00+02:00')}&descending=1&limit=10", status=404)
+    self.assertEqual(
+        response.json,
+        {"status": "error", "errors": [
+            {"location": "querystring", "name": "offset",
+             "description": "Invalid offset provided: 2015-01-01T00:00:00+02:00"}]}
+    )
+
+    response = self.app.get(
+        f"/plans?offset={datetime.fromisoformat('2015-01-01T00:00:00+02:00').timestamp()}&descending=1&limit=10"
+    )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"], [])
@@ -117,15 +168,6 @@ def empty_listing(self):
     self.assertEqual(response.json["data"], [])
     self.assertEqual(response.json["next_page"]["offset"], "")
     self.assertNotIn("prev_page", response.json)
-
-    response = self.app.get("/plans?feed=changes&offset=0", status=404)
-    self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{"description": "Offset expired/invalid", "location": "url", "name": "offset"}],
-    )
 
     response = self.app.get("/plans?feed=changes&descending=1&limit=10")
     self.assertEqual(response.status, "200 OK")
@@ -145,10 +187,10 @@ def listing(self):
     plans = []
 
     for i in range(3):
-        offset = get_now().isoformat()
         response = self.app.post_json("/plans", {"data": self.initial_data})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
+        offset = datetime.fromisoformat(response.json["data"]["dateModified"]).timestamp() - 1e-6
         plans.append(response.json["data"])
 
     ids = ",".join([i["id"] for i in plans])
@@ -159,7 +201,7 @@ def listing(self):
 
     self.assertEqual(len(response.json["data"]), 3)
     self.assertEqual(",".join([i["id"] for i in response.json["data"]]), ids)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in plans]))
     self.assertEqual(set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in plans]))
     self.assertEqual([i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in plans]))
@@ -186,20 +228,22 @@ def listing(self):
     response = self.app.get("/plans", params=[("opt_fields", "budget")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
+    modified = datetime.fromisoformat(response.json["data"][0]["dateModified"])
+    self.assertIsNotNone(modified.tzinfo)
     self.assertNotIn("opt_fields=budget", response.json["next_page"]["uri"])
 
     response = self.app.get("/plans", params=[("opt_fields", "planID")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "planID"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified", "planID"})
     self.assertIn("opt_fields=planID", response.json["next_page"]["uri"])
 
     response = self.app.get("/plans?descending=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in plans]))
     self.assertEqual(
         [i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in plans], reverse=True)
@@ -235,97 +279,69 @@ def listing(self):
     self.assertEqual(len(response.json["data"]), 4)
 
 
-def listing_changes(self):
-    response = self.app.get("/plans?feed=changes")
+def listing_moves_from_dts(self):
+    """
+    test ensures that feed is built by timestamp
+    (or by any other time representation that always sorts dates right)
+    See example why sorting isoformat strings wouldn't work here
+    2021-10-31T03:58:00+03:00
+    2021-10-31T03:59:00+03:00
+    2021-10-31T03:00:00+02:00 -> this time is actually bigger than previous, but the string doesn't
+    2021-10-31T03:01:00+02:00
+    :param self:
+    :return:
+    """
+    response = self.app.get("/plans")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 0)
 
     plans = []
+    dt = TZ.localize(datetime(2021, 10, 31, 2, 30))
+    for i in range(4):
+        dt += timedelta(seconds=60 * 30)
+        with freeze_time(dt):
+            response = self.app.post_json("/plans", {"data": self.initial_data})
+            self.assertEqual(response.status, "201 Created")
+            plans.append(response.json["data"])
 
-    for i in range(3):
-        response = self.app.post_json("/plans", {"data": self.initial_data})
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        plans.append(response.json["data"])
-
-    ids = ",".join([i["id"] for i in plans])
-
-    response = self.app.get("/plans?feed=changes")
-    self.assertEqual(response.status, "200 OK")
-    self.assertTrue(ids.startswith(",".join([i["id"] for i in response.json["data"]])))
-
-    self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(",".join([i["id"] for i in response.json["data"]]), ids)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in plans]))
-    self.assertEqual(set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in plans]))
-    self.assertEqual([i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in plans]))
-
-    response = self.app.get("/plans?feed=changes&limit=2")
-    self.assertEqual(response.status, "200 OK")
-    self.assertNotIn("prev_page", response.json)
-    self.assertEqual(len(response.json["data"]), 2)
-
-    response = self.app.get(response.json["next_page"]["path"].replace(ROUTE_PREFIX, ""))
-    self.assertEqual(response.status, "200 OK")
-    self.assertIn("descending=1", response.json["prev_page"]["uri"])
-    self.assertEqual(len(response.json["data"]), 1)
-
-    response = self.app.get(response.json["next_page"]["path"].replace(ROUTE_PREFIX, ""))
-    self.assertEqual(response.status, "200 OK")
-    self.assertIn("descending=1", response.json["prev_page"]["uri"])
-    self.assertEqual(len(response.json["data"]), 0)
-
-    response = self.app.get("/plans?feed=changes", params=[("opt_fields", "budget")])
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
-    self.assertNotIn("opt_fields=budget", response.json["next_page"]["uri"])
-
-    response = self.app.get("/plans?feed=changes", params=[("opt_fields", "planID")])
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "planID"]))
-    self.assertIn("opt_fields=planID", response.json["next_page"]["uri"])
-
-    response = self.app.get("/plans?feed=changes&descending=1")
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in plans]))
     self.assertEqual(
-        [i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in plans], reverse=True)
+        ["2021-10-31T03:00:00+03:00",
+         "2021-10-31T03:30:00+03:00",
+         "2021-10-31T03:00:00+02:00",
+         "2021-10-31T03:30:00+02:00"],
+        [p["dateModified"] for p in plans]
     )
 
-    response = self.app.get("/plans?feed=changes&descending=1&limit=2")
-    self.assertEqual(response.status, "200 OK")
-    self.assertNotIn("descending=1", response.json["prev_page"]["uri"])
-    self.assertEqual(len(response.json["data"]), 2)
-
-    response = self.app.get(response.json["next_page"]["path"].replace(ROUTE_PREFIX, ""))
-    self.assertEqual(response.status, "200 OK")
-    self.assertNotIn("descending=1", response.json["prev_page"]["uri"])
-    self.assertEqual(len(response.json["data"]), 1)
-
-    response = self.app.get(response.json["next_page"]["path"].replace(ROUTE_PREFIX, ""))
-    self.assertEqual(response.status, "200 OK")
-    self.assertNotIn("descending=1", response.json["prev_page"]["uri"])
-    self.assertEqual(len(response.json["data"]), 0)
-
-    test_plan_data2 = self.initial_data.copy()
-    test_plan_data2["mode"] = "test"
-    response = self.app.post_json("/plans", {"data": test_plan_data2})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-
-    response = self.app.get("/plans?mode=test")
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(len(response.json["data"]), 1)
-
-    response = self.app.get("/plans?feed=changes&mode=_all_")
+    response = self.app.get("/plans")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 4)
+    result = response.json["data"]
+    self.assertEqual(
+        ["2021-10-31T03:00:00+03:00",
+         "2021-10-31T03:30:00+03:00",
+         "2021-10-31T03:00:00+02:00",
+         "2021-10-31T03:30:00+02:00"],
+        [p["dateModified"] for p in result]
+    )
+
+    response = self.app.get("/plans?limit=1")
+    self.assertEqual(len(response.json["data"]), 1)
+    self.assertEqual(response.json["data"][0]["dateModified"], "2021-10-31T03:00:00+03:00")
+
+    offset = response.json["next_page"]["offset"]
+    response = self.app.get(f"/plans?limit=1&offset={offset}")
+    self.assertEqual(len(response.json["data"]), 1)
+    self.assertEqual(response.json["data"][0]["dateModified"], "2021-10-31T03:30:00+03:00")
+
+    offset = response.json["next_page"]["offset"]
+    response = self.app.get(f"/plans?limit=1&offset={offset}")
+    self.assertEqual(len(response.json["data"]), 1)
+    self.assertEqual(response.json["data"][0]["dateModified"], "2021-10-31T03:00:00+02:00")
+
+    offset = response.json["next_page"]["offset"]
+    response = self.app.get(f"/plans?limit=1&offset={offset}")
+    self.assertEqual(len(response.json["data"]), 1)
+    self.assertEqual(response.json["data"][0]["dateModified"], "2021-10-31T03:30:00+02:00")
 
 
 def create_plan_invalid(self):
@@ -1202,6 +1218,7 @@ def create_plan_generated(self):
         set(plan),
         {
             "id",
+            "dateCreated",
             "dateModified",
             "datePublished",
             "planID",
@@ -1219,6 +1236,16 @@ def create_plan_generated(self):
     self.assertNotEqual(data["id"], plan["id"])
     self.assertNotEqual(data["doc_id"], plan["id"])
     self.assertNotEqual(data["planID"], plan["planID"])
+    self.assertAlmostEqual(
+        datetime.fromisoformat(plan["dateCreated"]),
+        datetime.fromisoformat(plan["dateModified"]),
+        delta=timedelta(seconds=1)
+    )
+
+    response = self.app.get(f"/plans/{plan['id']}")
+    g_plan = response.json["data"]
+    self.assertEqual(g_plan["dateCreated"], plan["dateCreated"])
+    self.assertEqual(g_plan["dateModified"], plan["dateModified"])
 
 
 def create_plan(self):
@@ -1231,7 +1258,8 @@ def create_plan(self):
     self.assertEqual(response.content_type, "application/json")
     plan = response.json["data"]
     self.assertEqual(
-        set(plan) - set(self.initial_data), {"id", "dateModified", "datePublished", "planID", "owner", "status"}
+        set(plan) - set(self.initial_data),
+        {"id", "dateCreated", "dateModified", "datePublished", "planID", "owner", "status"}
     )
     self.assertIn(plan["id"], response.headers["Location"])
 
@@ -1327,7 +1355,7 @@ def patch_plan(self):
     self.assertEqual(new_plan, new_plan2)
     self.assertEqual(new_dateModified, new_dateModified2)
 
-    revisions = self.databases.plans.get(plan["id"]).get("revisions")
+    revisions = self.mongodb.plans.get(plan["id"]).get("revisions")
     self.assertEqual(revisions[-1]["changes"][0]["op"], "replace")
     self.assertEqual(revisions[-1]["changes"][0]["path"], "/budget/id")
 
@@ -1586,7 +1614,8 @@ def esco_plan(self):
     self.assertEqual(response.content_type, "application/json")
     plan = response.json["data"]
     self.assertEqual(
-        set(plan) - set(self.initial_data), {"id", "dateModified", "datePublished", "planID", "owner", "status"}
+        set(plan) - set(self.initial_data),
+        {"id", "dateCreated", "dateModified", "datePublished", "planID", "owner", "status"}
     )
     self.assertNotIn("budget", plan)
     self.assertIn(plan["id"], response.headers["Location"])
@@ -1597,7 +1626,8 @@ def esco_plan(self):
     self.assertEqual(response.content_type, "application/json")
     plan = response.json["data"]
     self.assertEqual(
-        set(plan) - set(self.initial_data), {"id", "dateModified", "datePublished", "planID", "owner", "status"}
+        set(plan) - set(self.initial_data),
+        {"id", "dateCreated", "dateModified", "datePublished", "planID", "owner", "status"}
     )
     self.assertIn("budget", plan)
     self.assertIn(plan["id"], response.headers["Location"])
@@ -1616,7 +1646,8 @@ def cfaua_plan(self):
     self.assertEqual(response.content_type, "application/json")
     plan = response.json["data"]
     self.assertEqual(
-        set(plan) - set(self.initial_data), {"id", "dateModified", "datePublished", "planID", "owner", "status"}
+        set(plan) - set(self.initial_data),
+        {"id", "dateCreated", "dateModified", "datePublished", "planID", "owner", "status"}
     )
     self.assertIn("budget", plan)
     period = plan["budget"]["period"]
@@ -1678,7 +1709,7 @@ def create_plan_budget_year(self):
     plan = response.json["data"]
     self.assertEqual(
         set(plan) - set(self.initial_data_with_year),
-        {"id", "dateModified", "datePublished", "planID", "owner", "status"},
+        {"id", "dateCreated", "dateModified", "datePublished", "planID", "owner", "status"},
     )
     self.assertIn(plan["id"], response.headers["Location"])
     self.assertIn("year", plan["budget"])

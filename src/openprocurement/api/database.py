@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import argparse
 import os
+from uuid import uuid4
 from pbkdf2 import PBKDF2
 from configparser import ConfigParser
 from couchdb import Server as CouchdbServer, Session, Database
@@ -8,6 +9,8 @@ from couchdb.http import Unauthorized, extract_credentials
 from openprocurement.api.design import sync_design, sync_design_databases
 from logging import getLogger
 from dataclasses import dataclass, fields
+from pymongo import MongoClient, ReturnDocument, DESCENDING, ASCENDING
+from datetime import datetime, timezone
 
 LOGGER = getLogger("{}.init".format(__name__))
 
@@ -225,3 +228,126 @@ def bootstrap_api_security():
         conf.read(params.config)
         settings = {k: v for k, v in conf.items(params.section)}
         set_api_security(settings)
+
+
+#  mongodb
+class MongodbResourceConflict(Exception):
+    """
+    On doc update we pass _id and _rev as filter
+    _rev can be changed by concurrent requests
+    then update_one(or replace_one) doesn't find any document to update and returns matched_count = 0
+    that causes MongodbResourceConflict that is shown to the User as 409 response code
+    that means they have to retry his request
+    """
+
+
+COLLECTION_CLASSES = {}
+
+
+class MongodbStore:
+
+    def __init__(self, settings):
+        db_name = os.environ.get("DB_NAME", settings["mongodb.db_name"])
+        mongodb_uri = os.environ.get("MONGODB_URI", settings["mongodb.uri"])
+        self.connection = MongoClient(mongodb_uri)
+        self.database = getattr(self.connection, db_name)
+
+        # code related to specific packages, like:
+        # store.plans.get(uid) or store.tenders.save(doc) or store.tenders.count(filters)
+        for name, cls in COLLECTION_CLASSES.items():
+            setattr(self, name, cls(self, settings))
+
+    def get_sequences_collection(self):
+        return self.database.sequences
+
+    def get_next_sequence_value(self, uid):
+        collection = self.get_sequences_collection()
+        result = collection.find_one_and_update(
+            {'_id': uid},
+            {"$inc": {"value": 1}},
+            return_document=ReturnDocument.AFTER,
+            upsert=True
+        )
+        return result["value"]
+
+    def flush_sequences(self):
+        collection = self.get_sequences_collection()
+        self.flush(collection)
+
+    @staticmethod
+    def get_next_rev(current_rev=None):
+        """
+        This mimics couchdb _rev field
+        that prevents concurrent updates
+        :param current_rev:
+        :return:
+        """
+        if current_rev:
+            version, _ = current_rev.split("-")
+            version = int(version)
+        else:
+            version = 1
+        next_rev = f"{version + 1}-{uuid4().hex}"
+        return next_rev
+
+    @staticmethod
+    def get(collection, uid):
+        res = collection.find_one(
+            {'_id': uid},
+            projection={"is_public": False, "is_test": False, "public_modified": False}
+        )
+        return res
+
+    def list(self, collection, fields, offset_field="_id", offset_value=None, mode="all", descending=False, limit=0):
+        filters = {"is_public": True}
+        if mode == "test":
+            filters["is_test"] = True
+        elif mode != "_all_":
+            filters["is_test"] = False
+        if offset_value:
+            filters[offset_field] = {"$gt": offset_value}
+        results = list(collection.find(
+            filter=filters,
+            projection={f: 1 for f in fields | {offset_field}},
+            limit=limit,
+            sort=((offset_field, DESCENDING if descending else ASCENDING),)
+        ))
+        for e in results:
+            self.rename_id(e)
+        return results
+
+    def save_data(self, collection, data, insert=False):
+        uid = data.pop("id" if "id" in data else "_id")
+        revision = data.pop("rev" if "rev" in data else "_rev", None)
+
+        data['_id'] = uid
+        data["_rev"] = self.get_next_rev(revision)
+        data["is_public"] = data.get("status") != "draft"
+        data["is_test"] = data.get("mode") == "test"
+        data["public_modified"] = datetime.fromisoformat(data["dateModified"]).timestamp()
+        if insert:
+            data["dateCreated"] = data["dateModified"]
+            collection.insert_one(data)
+        else:
+            result = collection.replace_one(  # replace one also deletes fields ($unset)
+                {
+                    "_id": uid,
+                    "_rev": revision
+                },
+                data
+            )
+            if result.matched_count == 0:
+                raise MongodbResourceConflict("Conflict while updating document. Please, retry")
+        return data
+
+    @staticmethod
+    def flush(collection):
+        result = collection.delete_many({})
+        return result
+
+    @staticmethod
+    def rename_id(obj):
+        if obj:
+            obj["id"] = obj.pop("_id")
+        return obj
+

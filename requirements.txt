@@ -5,6 +5,7 @@ pyramid==1.10.5
 pyramid_exclog==1.0
 schematics==1.1.1 # TODO schematics==2.1.1
 couchdb-schematics==1.1.1
+pymongo>=3.12.0, <4
 repoze.profile==2.3
 pycryptodome==3.10.1
 jsonpointer==2.0

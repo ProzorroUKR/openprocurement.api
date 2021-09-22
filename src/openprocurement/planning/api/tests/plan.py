@@ -11,12 +11,13 @@ from openprocurement.planning.api.tests.base import test_plan_data, BasePlanTest
 from openprocurement.planning.api.tests.plan_blanks import (
     # PlanTest
     simple_add_plan,
+    concurrent_plan_update,
     # AccreditationPlanTest
     create_plan_accreditation,
     # PlanResourceTest
     empty_listing,
     listing,
-    listing_changes,
+    listing_moves_from_dts,
     create_plan_invalid,
     create_plan_generated,
     create_plan,
@@ -65,6 +66,7 @@ class PlanTest(BasePlanTest):
     initial_data = test_plan_data
 
     test_simple_add_plan = snitch(simple_add_plan)
+    test_concurrent_plan_update = snitch(concurrent_plan_update)
 
 
 class AccreditationPlanTest(BasePlanTest):
@@ -80,7 +82,7 @@ class PlanResourceTest(BasePlanTest):
 
     test_empty_listing = snitch(empty_listing)
     test_listing = snitch(listing)
-    test_listing_changes = snitch(listing_changes)
+    test_listing_moves_from_dts = snitch(listing_moves_from_dts)
     test_create_plan_invalid = snitch(create_plan_invalid)
     test_create_plan_invalid_procurement_method_type = snitch(create_plan_invalid_procurement_method_type)
     test_create_plan_invalid_procuring_entity = snitch(create_plan_invalid_procuring_entity)

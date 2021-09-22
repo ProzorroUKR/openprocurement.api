@@ -52,7 +52,7 @@ class PlanMilestoneResource(APIResource):
         access = set_ownership(milestone, self.request)
         plan.milestones.append(milestone)
         plan.dateModified = milestone.dateModified
-        plan.modified = False
+        plan.is_modified = False
         if save_plan(self.request):
             self.LOGGER.info(
                 "Created plan milestone {}".format(milestone.id),
@@ -84,7 +84,7 @@ class PlanMilestoneResource(APIResource):
 
         if apply_patch(self.request, src=self.request.context.serialize(), save=False):
             plan.dateModified = milestone.dateModified = get_now()
-            plan.modified = False
+            plan.is_modified = False
             if status != milestone.status:  # Allowed status changes: scheduled -> met/notMet
                 if (
                         status == Milestone.STATUS_SCHEDULED

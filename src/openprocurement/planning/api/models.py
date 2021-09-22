@@ -5,7 +5,7 @@ from copy import deepcopy
 
 from openprocurement.api.models import OpenprocurementSchematicsDocument as SchematicsDocument
 from openprocurement.api.models import Document as BaseDocument
-from openprocurement.api.models import Model, Period, Revision
+from openprocurement.api.models import Model, Period, Revision, IsoDateTimeTypeWithTimestamp
 from openprocurement.api.models import Unit, CPVClassification, Classification, Identifier, Guarantee, Address
 from openprocurement.api.models import schematics_embedded_role, schematics_default_role, IsoDateTimeType, ListType
 from openprocurement.api.utils import get_now, get_first_revision_date, to_decimal
@@ -317,7 +317,7 @@ class Plan(SchematicsDocument, Model):
         )
         _create_role = _edit_role + whitelist("mode")
         _common_view = _create_role + whitelist(
-            "doc_id", "tender_id", "planID", "datePublished", "owner", "milestones", "switch_status",
+            "doc_id", "tender_id", "planID", "datePublished", "owner", "milestones", "switch_status", "dateCreated",
         )
         roles = {
             "plain": _common_view + whitelist("owner_token", "transfer_token"),
@@ -325,7 +325,7 @@ class Plan(SchematicsDocument, Model):
             "create": _create_role,
             "edit": _edit_role,
             "view": _common_view + whitelist("dateModified"),
-            "listing": whitelist("dateModified", "doc_id"),
+            "listing": whitelist("dateModified", "doc_id"),  # not used since MongodbResourceListing?
             "Administrator": whitelist("status", "mode", "procuringEntity"),
             "default": schematics_default_role,
         }
@@ -377,6 +377,7 @@ class Plan(SchematicsDocument, Model):
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq], default=list())
 
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
+    dateCreated = IsoDateTimeType()
     dateModified = IsoDateTimeType()
     datePublished = IsoDateTimeType(default=get_now)
     owner_token = StringType()

@@ -23,7 +23,7 @@ class PlanMilestoneDocumentResource(PlansDocumentResource):
         plan = self.request.validated["plan"]
         milestone = self.request.validated["milestone"]
         plan.dateModified = milestone.dateModified = get_now()
-        plan.modified = False
+        plan.is_modified = False
 
     @json_view(
         permission="update_milestone",
