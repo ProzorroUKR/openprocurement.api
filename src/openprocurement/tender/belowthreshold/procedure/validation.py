@@ -52,16 +52,16 @@ def validate_upload_documents_not_allowed_for_simple_pmr(request, **kwargs):
     statuses = ("active.qualification",)
     if tender["status"] in statuses and tender.get("procurementMethodRationale") == "simple":
         bid_id = request.validated["bid"]["id"]
-        criteria = tender["criteria"]
-        awards = tender["awards"]
-        bid_with_active_award = any([award["status"] == "active" and award["bid_id"] == bid_id for award in awards])
+        bid_with_active_award = any(
+            award["status"] == "active" and award["bid_id"] == bid_id
+            for award in tender.get("awards", "")
+        )
         needed_criterion = any(
-            [criterion["classification"]["id"] == "CRITERION.OTHER.CONTRACT.GUARANTEE" for criterion in criteria]
+            criterion["classification"]["id"] == "CRITERION.OTHER.CONTRACT.GUARANTEE"
+            for criterion in tender.get("criteria", "")
         )
         if not all([needed_criterion, bid_with_active_award]):
             raise_operation_error(
                 request,
-                "Can't upload document with {} tender status and procurementMethodRationale simple".format(
-                    statuses
-                ),
+                f"Can't upload document with {statuses} tender status and procurementMethodRationale simple"
             )

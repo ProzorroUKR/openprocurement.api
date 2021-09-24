@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -9,6 +8,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_organization,
     test_lots,
     test_bids,
+    test_simple_tender_data,
 )
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderBidResourceTest
@@ -36,6 +36,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     put_tender_bid_document_json,
     create_tender_bid_document_with_award_json,
     create_tender_bid_document_with_award_json_bulk,
+    create_tender_bid_document_active_qualification,
     # TenderBidBatchDocumentWithDSResourceTest
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
@@ -152,6 +153,27 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
     test_put_tender_bid_document_json = snitch(put_tender_bid_document_json)
     test_create_tender_bid_document_with_award_json = snitch(create_tender_bid_document_with_award_json)
     test_create_tender_bid_document_with_award_json_bulk = snitch(create_tender_bid_document_with_award_json_bulk)
+
+
+class SimpleTenderBidDocumentResourceTest(TenderContentWebTest):
+    docservice = True
+    guarantee_criterion = False
+    initial_status = "active.tendering"
+    initial_data = test_simple_tender_data
+    test_create_tender_bid_document_active_qualification = snitch(create_tender_bid_document_active_qualification)
+
+    def setUp(self):
+        super(SimpleTenderBidDocumentResourceTest, self).setUp()
+        # Create bid
+        response = self.app.post_json(
+            "/tenders/{}/bids".format(self.tender_id),
+            {"data": {"status": "draft", "tenderers": [test_organization], "value": {"amount": 500}}},
+        )
+        bid = response.json["data"]
+        self.bid_id = bid["id"]
+        self.bid_token = response.json["access"]["token"]
+        self.app.patch_json("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+                            {"data": {"status": "active"}})
 
 
 class TenderBidBatchDocumentWithDSResourceTest(TenderContentWebTest):
