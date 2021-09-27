@@ -11,6 +11,11 @@ class BidSerializer(BaseBidSerializer):
         tender_status = get_tender()["status"]
         if data["status"] in ("invalid", "deleted"):
             self.whitelist = {"id", "status"}
+        elif tender_status == "unsuccessful":
+            self.whitelist = {
+                "id", "status", "tenderers", "documents", "selfQualified", "selfEligible",
+                "subcontractingDetails", "requirementResponses",
+            }
         elif is_item_owner(get_request(), data):
             self.whitelist = None
         elif tender_status in ("active.pre-qualification", "active.pre-qualification.stand-still"):
@@ -20,8 +25,3 @@ class BidSerializer(BaseBidSerializer):
             self.whitelist = {"id", "status", "documents", "tenderers"}
         elif tender_status in ("active.stage2.pending", "active.stage2.waiting"):
             self.whitelist = {"id", "status", "documents", "tenderers"}
-        elif tender_status == "unsuccessful":
-            self.whitelist = {
-                "id", "status", "tenderers", "documents", "selfQualified", "selfEligible",
-                "subcontractingDetails", "requirementResponses",
-            }

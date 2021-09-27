@@ -34,14 +34,13 @@ class BidSerializer(BaseBidSerializer):
         tender = get_tender()
         if data["status"] in ("invalid", "deleted"):
             self.whitelist = {"id", "status"}
-        elif is_item_owner(get_request(), data):
-            self.whitelist = None
-        elif tender["status"] in ("invalid.pre-qualification", "active.pre-qualification",
-                                  "active.pre-qualification.stand-still", "active.auction"):
-            self.whitelist = {"id", "status", "tenderers", "documents", "eligibilityDocuments", "requirementResponses"}
-
         elif data["status"] == "unsuccessful":
             self.whitelist = {
                 "id", "status", "tenderers", "documents", "eligibilityDocuments", "requirementResponses",
                 "selfEligible", "selfQualified", "parameters", "subcontractingDetails",
             }
+        elif is_item_owner(get_request(), data):
+            self.whitelist = None
+        elif tender["status"] in ("invalid.pre-qualification", "active.pre-qualification",
+                                  "active.pre-qualification.stand-still", "active.auction"):
+            self.whitelist = {"id", "status", "tenderers", "documents", "eligibilityDocuments", "requirementResponses"}

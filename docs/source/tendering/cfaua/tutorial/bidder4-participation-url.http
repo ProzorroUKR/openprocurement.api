@@ -30,6 +30,7 @@ X-Content-Type-Options: nosniff
         "scale": "mid"
       }
     ],
+    "date": "2021-03-16T00:00:00+02:00",
     "id": "f2396c5eb7dc40e986705a3de1cdc13b",
     "requirementResponses": [
       {
@@ -170,6 +171,20 @@ X-Content-Type-Options: nosniff
         "language": "uk"
       }
     ],
+    "financialDocuments": [
+      {
+        "id": "f01b93bdd6d94869810295085a657b49",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "financial_doc.pdf",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/f2396c5eb7dc40e986705a3de1cdc13b/financial_documents/f01b93bdd6d94869810295085a657b49?download=c70126ac67864f0eb83440e79dc1dc23",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00",
+        "documentOf": "tender",
+        "confidentiality": "public",
+        "language": "uk"
+      }
+    ],
     "eligibilityDocuments": [
       {
         "id": "7be151f4800e4be0a81acb90d6ba667a",
@@ -184,6 +199,34 @@ X-Content-Type-Options: nosniff
         "language": "uk"
       }
     ],
+    "qualificationDocuments": [
+      {
+        "id": "d545ee8b49944aa3afbd52f9d7c4539d",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "qualification_document.pdf",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/f2396c5eb7dc40e986705a3de1cdc13b/qualification_documents/d545ee8b49944aa3afbd52f9d7c4539d?download=a0af3b8478774cd09f9005ac47f372cb",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00",
+        "documentOf": "tender",
+        "confidentiality": "public",
+        "language": "uk"
+      }
+    ],
+    "lotValues": [
+      {
+        "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/37cb590308a242a9836f51a9994c7492_52815e9d01914c7a9bf4ba18ebb5e783?key_for_bid=f2396c5eb7dc40e986705a3de1cdc13b",
+        "date": "2021-03-16T00:00:00+02:00",
+        "status": "active",
+        "value": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true,
+          "amount": 485.0
+        }
+      }
+    ],
+    "selfQualified": true,
     "status": "active"
   }
 }
