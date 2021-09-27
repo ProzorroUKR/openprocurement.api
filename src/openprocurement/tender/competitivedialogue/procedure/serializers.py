@@ -1,4 +1,5 @@
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.tender.core.procedure.context import get_tender, get_request
+from openprocurement.tender.core.procedure.utils import is_item_owner
 from openprocurement.tender.openua.procedure.serializers import BidSerializer as BaseBidSerializer
 
 
@@ -10,6 +11,8 @@ class BidSerializer(BaseBidSerializer):
         tender_status = get_tender()["status"]
         if data["status"] in ("invalid", "deleted"):
             self.whitelist = {"id", "status"}
+        elif is_item_owner(get_request(), data):
+            self.whitelist = None
         elif tender_status in ("active.pre-qualification", "active.pre-qualification.stand-still"):
             self.whitelist = {"id", "status", "documents", "tenderers", "requirementResponses"}
 
@@ -22,5 +25,3 @@ class BidSerializer(BaseBidSerializer):
                 "id", "status", "tenderers", "documents", "selfQualified", "selfEligible",
                 "subcontractingDetails", "requirementResponses",
             }
-        # elif is_item_owner(get_request(), data):
-        #     pass  # bid_role = "view"a
