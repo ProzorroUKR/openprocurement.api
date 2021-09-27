@@ -504,6 +504,7 @@ X-Content-Type-Options: nosniff
           "language": "uk"
         }
       ],
+      "selfQualified": true,
       "status": "unsuccessful"
     },
     {
