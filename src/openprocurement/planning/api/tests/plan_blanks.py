@@ -930,7 +930,8 @@ def create_plan_invalid_procuring_entity(self):
         response.json["errors"], [
             {
                 'description': 'procuringEntity with other kind cannot publish this type of procedure. '
-                                'Procurement method types allowed for this kind: belowThreshold, reporting.',
+                                'Procurement method types allowed for this kind: '
+                               'belowThreshold, reporting, priceQuotation.',
                                 'location': 'body', 'name': 'kind'
             }
         ]
