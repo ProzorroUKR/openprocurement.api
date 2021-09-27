@@ -71,7 +71,7 @@ def _validate_tender_procurement_method_type(request):
         "central": procurement_method_types_without_above_threshold_ua_defense,
         "authority": procurement_method_types_without_above_threshold_ua_defense,
         "social": procurement_method_types_without_above_threshold_ua_defense,
-        "other": ["belowThreshold", "reporting"],
+        "other": ["belowThreshold", "reporting", "priceQuotation"],
     }
 
     data = request.validated["data"]
