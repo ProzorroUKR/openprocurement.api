@@ -3,7 +3,8 @@ from openprocurement.api.tests.base import BaseWebTest
 import configparser
 from os.path import dirname, join
 import unittest
-
+from os import environ
+from openprocurement.api.constants import parse_constant_date
 
 class ConstantsTestCase(unittest.TestCase):
 
@@ -43,5 +44,11 @@ class HealthTestBase(BaseWebTest):
         config = configparser.ConfigParser()
         config.read(file_path)
         result = {k.upper(): v for k, v in config["DEFAULT"].items()}
+        if "DEFAULT_RELEASE_2020_04_19" in environ:
+            date = environ['DEFAULT_RELEASE_2020_04_19']
+            result["RELEASE_2020_04_19"] = parse_constant_date(date).isoformat()
+        elif "DEFAULT_RELEASE_ECRITERIA_ARTICLE_17" in environ:
+            date = environ['DEFAULT_RELEASE_ECRITERIA_ARTICLE_17']
+            result["RELEASE_ECRITERIA_ARTICLE_17"] = parse_constant_date(date).isoformat()
 
         self.assertEqual(response.json, result)
