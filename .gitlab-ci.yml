@@ -1,12 +1,12 @@
 stages:
   - build
   - deploy
+  - customize
   - robot
   - docs
   - test
   - test_before_2020_04_19
   - test_before_ecriteria
-  - repos
   - cleanup
 
 variables:
@@ -52,19 +52,6 @@ build_tag:
     - tags
   variables:
     WERF_TAG_GIT_TAG: $CI_COMMIT_TAG
-
-add_to_repo:
-  stage: repos
-  tags:
-    - repo-staging
-  script:
-    - echo "Who run user = ${GITLAB_USER_NAME} ; email = ${GITLAB_USER_EMAIL} ; login =  ${GITLAB_USER_LOGIN} ;"
-    - 'curl --header "PRIVATE-TOKEN: $API_TOKEN_REPO_STAGING" https://git.prozorro.gov.ua/api/v4/projects/$CI_PROJECT_ID/repository/archive?sha=$CI_COMMIT_SHORT_SHA -o ~/pkg/$CI_PROJECT_NAME-$CI_COMMIT_TAG.tar.gz'
-    - 'curl --header "PRIVATE-TOKEN: $API_TOKEN_REPO_STAGING" https://git.prozorro.gov.ua/api/v4/projects/$CI_PROJECT_ID/repository/archive.zip?sha=$CI_COMMIT_SHORT_SHA -o ~/pkg/$CI_PROJECT_NAME-$CI_COMMIT_TAG.zip'
-  only:
-    - /^v?([0-9]{1}).([0-9]{1})/
-  variables:
-    GIT_STRATEGY: none
 
 cleanup:
   extends: .werf
@@ -156,6 +143,7 @@ deploy_sandbox2:
   only:
     - tags
   script:
+    - rm -rf ./k8s-sandbox
     - git config --global user.email "gitlab@gitlab.dc.prozorro.gov.ua"
     - git config --global user.name "GitLab CI/CD Bot"
     - git clone git@git.prozorro.gov.ua:DP/k8s-sandbox.git
@@ -167,6 +155,44 @@ deploy_sandbox2:
     - git push origin master
   when: manual    
 
+.customize_dev_consts:
+  stage: customize
+  tags:
+    - k8s-sandbox
+  script:
+    - uname -a && ip a | grep "10\." && pwd && export KUBECONFIG=~/.kube/config-new-dev && echo 'Setup for deployment ${CI_COMMIT_REF_SLUG}-prozorro-api variables:' && env | grep ^DEFAULT_ 
+    - env | grep ^DEFAULT_ | kubectl set env -e - deployment/$CI_COMMIT_REF_SLUG-prozorro-api -n $HELM_NAMESPACE 
+    - while read var; do unset $var; done < <(env | grep ^DEFAULT_ | awk -F "=" '{print $1}' )
+    - unset KUBECONFIG
+  when: manual
+
+1_customize_dev_consts:
+  extends: .customize_dev_consts
+
+2_customize_dev_consts:
+  extends: .customize_dev_consts
+
+3_customize_dev_consts:
+  extends: .customize_dev_consts
+
+4_customize_dev_consts:
+  extends: .customize_dev_consts
+
+5_customize_dev_consts:
+  extends: .customize_dev_consts
+
+remove_customize_dev_consts:
+  stage: customize
+  tags:
+    - k8s-sandbox
+  script:
+    - uname -a && ip a | grep "10\." && pwd && export KUBECONFIG=~/.kube/config-new-dev && echo 'Remove for deployment $CI_COMMIT_REF_SLUG-prozorro-api variables:'
+    - kubectl set env deployment/$CI_COMMIT_REF_SLUG-prozorro-api --list -n $HELM_NAMESPACE | grep ^DEFAULT_ || true
+    - kubectl set env deployment/$CI_COMMIT_REF_SLUG-prozorro-api --list -n $HELM_NAMESPACE | grep ^DEFAULT_ | awk -F\, -F "=" '{print $1 "-"}' | xargs -d '\n' kubectl set env deployment/$CI_COMMIT_REF_SLUG-prozorro-api -n $HELM_NAMESPACE || true
+    - kubectl set env deployment/$CI_COMMIT_REF_SLUG-prozorro-api --list -n $HELM_NAMESPACE | grep ^DEFAULT_ || true
+    - while read var; do unset $var; done < <(env | grep ^DEFAULT_ | awk -F "=" '{print $1}' )
+    - unset KUBECONFIG
+  when: manual
 
 robot_tests:
   stage: robot
