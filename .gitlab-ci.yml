@@ -315,8 +315,8 @@ docs:
   script:
     - cd /app
     - py.test $TESTS_PATH --cov=$COV_PATH --cov-config=$COV_FILE -v --color=yes --dist=each
-      --tx=popen//id=sand//env:DB_NAME=test_sandbox//env:DB_NAME_PREFIX=test_sandbox//env:SANDBOX_MODE=1//env:SINGLE_APP=1//env:DEFAULT_ECRITERIA_ARTICLE_17=2030-01-01
-      --tx=popen//id=prod//env:DB_NAME=test_prod//env:DB_NAME_PREFIX=test_prod//env:SANDBOX_MODE=//env:SINGLE_APP=1//env:DEFAULT_ECRITERIA_ARTICLE_17=2030-01-01
+      --tx=popen//id=sand//env:DB_NAME=test_sandbox//env:DB_NAME_PREFIX=test_sandbox//env:SANDBOX_MODE=1//env:SINGLE_APP=1//env:DEFAULT_RELEASE_ECRITERIA_ARTICLE_17=2030-01-01
+      --tx=popen//id=prod//env:DB_NAME=test_prod//env:DB_NAME_PREFIX=test_prod//env:SANDBOX_MODE=//env:SINGLE_APP=1//env:DEFAULT_RELEASE_ECRITERIA_ARTICLE_17=2030-01-01
 
 
 .test_relocation_api:
