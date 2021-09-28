@@ -105,6 +105,10 @@ test_tender_data = {
 }
 if SANDBOX_MODE:
     test_tender_data["procurementMethodDetails"] = "quick, accelerator=1440"
+
+test_simple_tender_data = deepcopy(test_tender_data)
+test_simple_tender_data["procurementMethodRationale"] = "simple"
+
 test_features_tender_data = test_tender_data.copy()
 test_features_item = test_features_tender_data["items"][0].copy()
 test_features_item["id"] = "1"

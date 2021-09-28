@@ -1673,6 +1673,41 @@ def create_tender_bid_document_with_award_json(self):
     )
 
 
+def create_tender_bid_document_active_qualification(self):
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    if response.json["data"]["procurementMethodType"] not in GUARANTEE_ALLOWED_TENDER_TYPES:
+        return
+
+    with change_auth(self.app, ("Basic", ("token", ""))):  # this copied from above
+        self.set_status("active.qualification")
+        self.app.post_json(
+            "/tenders/{}/awards".format(self.tender_id),
+            {"data": {
+                "suppliers": [test_organization],
+                "status": "pending",
+                "bid_id": self.bid_id,
+            }},
+            status=201
+        )
+
+    response = self.app.post_json(
+        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+        {"data": {
+            "title": "test.doc",
+            "url": self.generate_docservice_url(),
+            "format": "application/msword",
+            "hash": "md5:" + "0" * 32
+        }},
+        status=403
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "data",
+          "description": "Can't upload document with ('active.qualification',) tender status "
+                         "and procurementMethodRationale simple"}]
+    )
+
+
 def create_tender_bid_document_with_award_json_bulk(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     procurementMethodType = response.json["data"]["procurementMethodType"]
