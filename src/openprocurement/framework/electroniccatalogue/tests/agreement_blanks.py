@@ -196,6 +196,22 @@ def patch_contract_suppliers(self):
                          contract_patch_fields["suppliers"][0].get(field))
 
 
+def post_submission_with_active_contract(self):
+    response = self.app.get(f"/agreements/{self.agreement_id}")
+    agreement = response.json["data"]
+    self.assertEqual(agreement["contracts"][0]["status"], "active")
+
+    response = self.app.post_json(
+        f"/submissions",
+        {"data": self.initial_submission_data},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["errors"][0]["description"],
+                     "Can't add submission when contract in agreement with same identifier.id in active status")
+
+
 def patch_agreement_terminated_status(self):
     response = self.app.patch_json(
         f"/frameworks/{self.framework_id}?acc_token={self.framework_token}",
@@ -248,17 +264,12 @@ def patch_contract_active_status(self):
     self.assertEqual(response.json["data"]["status"], "active")
     self.assertEqual(response.json["data"]["contracts"][0]["status"], "active")
 
-    response = self.app.post_json(
-        "/submissions",
-        {"data": self.initial_submission_data},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    submission_id = response.json["data"]["id"]
-    submission_token = response.json["access"]["token"]
+    submission = self.databases.submissions.get(self.submission_id)
+    submission["status"] = "draft"
+    self.databases.submissions.save(submission)
 
     response = self.app.patch_json(
-        f"/submissions/{submission_id}?acc_token={submission_token}",
+        f"/submissions/{self.submission_id}?acc_token={self.submission_token}",
         {"data": {"status": "active"}},
         status=403,
     )

@@ -374,15 +374,18 @@ def agreement_serialize(request, agreement_data, fields):
 
 
 def get_submission_by_id(request, submission_id):
-    return request.registry.databases.submissions.get(submission_id)
+    if submission_id:
+        return request.registry.databases.submissions.get(submission_id)
 
 
 def get_framework_by_id(request, framework_id):
-    return request.registry.databases.frameworks.get(framework_id)
+    if framework_id:
+        return request.registry.databases.frameworks.get(framework_id)
 
 
 def get_agreement_by_id(request, agreement_id):
-    return request.registry.databases.agreements.get(agreement_id)
+    if agreement_id:
+        return request.registry.databases.agreements.get(agreement_id)
 
 
 def set_agreement_ownership(item, request):
