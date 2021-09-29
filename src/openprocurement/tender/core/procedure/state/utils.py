@@ -7,7 +7,7 @@ def cancellation_blocks_tender(tender):
     if get_first_revision_date(tender, default=get_now()) < RELEASE_2020_04_19:
         return False
 
-    if tender["procurementMethodType"] not in ("belowThreshold", "closeFrameworkAgreementSelectionUA"):
+    if tender["procurementMethodType"] in ("belowThreshold", "closeFrameworkAgreementSelectionUA"):
         return False
 
     if any(i["status"] == "pending" for i in tender.get("cancellations", "")):

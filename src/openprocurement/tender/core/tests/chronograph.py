@@ -2,8 +2,10 @@
 from datetime import timedelta
 from openprocurement.api.utils import get_now, parse_date
 from openprocurement.tender.belowthreshold.tests.base import test_draft_complaint, test_cancellation
+from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.openeu.models import Cancellation
+from freezegun import freeze_time
 from copy import deepcopy
 from mock import patch
 
@@ -187,3 +189,85 @@ def switch_award_complaints_draft(self):
     self.assertEqual(complaint["status"], "mistaken")
     self.assertEqual(complaint["rejectReason"], "complaintPeriodEnded")
     self.assertNotEqual(data.get("next_check"), award_data["complaintPeriod"]["endDate"])
+
+
+@patch("openprocurement.tender.core.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+def switch_tender_after_cancellation_unsuccessful(self):
+    """
+    https://jira.prozorro.org/browse/CS-11455
+    """
+    # cancellation
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/cancellations?acc_token={self.tender_token}",
+        {"data": {
+            "reason": "cancellation reason",
+            "cancellationOf": "tender",
+            "reasonType": "noDemand",
+            "documents": [{
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }],
+
+        }},
+    )
+    cancellation_id = response.json["data"]["id"]
+    self.app.post_json(
+        f"/tenders/{self.tender_id}/cancellations/{cancellation_id}/documents?acc_token={self.tender_token}",
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
+    )
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/cancellations/{cancellation_id}?acc_token={self.tender_token}",
+        {"data": {"status": "pending"}},
+    )
+    self.assertEqual("pending", response.json["data"]["status"])
+
+    # complaint
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/cancellations/{cancellation_id}/complaints",
+        {"data": test_draft_complaint},
+    )
+    complaint_id = response.json["data"]["id"]
+    with change_auth(self.app, ("Basic", ("bot", ""))):
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}/cancellations/{cancellation_id}/complaints/{complaint_id}",
+            {"data": dict(status="pending")},
+        )
+    self.assertEqual("pending", response.json["data"]["status"])
+
+    # review complaint
+    with change_auth(self.app, ("Basic", ("reviewer", ""))):
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}/cancellations/{cancellation_id}/complaints/{complaint_id}",
+            {"data": {
+                "status": "accepted",
+                "reviewDate": get_now().isoformat(),
+                "reviewPlace": "there",
+            }},
+        )
+        self.assertEqual("accepted", response.json["data"]["status"])
+
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}/cancellations/{cancellation_id}/complaints/{complaint_id}",
+            {"data": {"status": "satisfied"}},
+        )
+        self.assertEqual("satisfied", response.json["data"]["status"])
+
+    # check tender state
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender_data = response.json["data"]
+    self.assertEqual("active.tendering", tender_data["status"])
+    self.assertEqual("pending", tender_data["cancellations"][0]["status"])
+    self.assertEqual("satisfied", tender_data["cancellations"][0]["complaints"][0]["status"])
+
+    with freeze_time(response.json["data"]["tenderPeriod"]["endDate"]):
+        response = self.check_chronograph()
+
+    # !!! check tender is blocked
+    self.assertEqual("active.tendering", response.json["data"]["status"])
