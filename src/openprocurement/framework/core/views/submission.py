@@ -18,6 +18,7 @@ from openprocurement.framework.core.validation import (
     validate_submission_data,
     validate_operation_submission_in_not_allowed_period,
     validate_action_in_not_allowed_framework_status,
+    validate_post_submission_with_active_contract,
 )
 
 VIEW_MAP = {
@@ -58,6 +59,7 @@ class SubmissionResource(APIResourceListing):
             validate_submission_data,
             validate_operation_submission_in_not_allowed_period,
             validate_action_in_not_allowed_framework_status("submission"),
+            validate_post_submission_with_active_contract,
         )
     )
     def post(self):

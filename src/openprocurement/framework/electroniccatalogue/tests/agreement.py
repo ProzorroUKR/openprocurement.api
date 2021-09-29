@@ -20,6 +20,7 @@ from openprocurement.framework.electroniccatalogue.tests.agreement_blanks import
     patch_activation_milestone,
     patch_ban_milestone,
     agreement_chronograph_milestones,
+    post_submission_with_active_contract,
 )
 from openprocurement.framework.electroniccatalogue.tests.base import (
     test_electronicCatalogue_data,
@@ -59,6 +60,7 @@ class TestAgreementChanges(AgreementContentWebTest):
 
     test_change_agreement = snitch(change_agreement)
     test_patch_contract_suppliers = snitch(patch_contract_suppliers)
+    test_post_submission_with_active_contract = snitch(post_submission_with_active_contract)
 
 
 class TestAgreementResource(AgreementContentWebTest):

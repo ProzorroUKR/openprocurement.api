@@ -110,6 +110,26 @@ def validate_operation_submission_in_not_allowed_period(request, **kwargs):
         )
 
 
+def validate_post_submission_with_active_contract(request, **kwargs):
+    framework = request.validated["framework"]
+    agreement = get_agreement_by_id(request, framework.get("agreementID"))
+    submission_identifier_id = request.validated["submission"].tenderers[0].identifier.id
+    if not agreement:
+        return
+    submission_contract = None
+    for contract in agreement["contracts"]:
+        if contract["suppliers"][0]["identifier"]["id"] == submission_identifier_id:
+            submission_contract = contract
+            break
+
+    if submission_contract and submission_contract["status"] in ("active", "suspended"):
+        raise_operation_error(
+            request,
+            f"Can't add submission when contract in "
+            f"agreement with same identifier.id in {submission_contract['status']} status"
+        )
+
+
 def validate_submission_status(request, **kwargs):
     status_map = {
         "draft": ("draft", "active", "deleted"),
