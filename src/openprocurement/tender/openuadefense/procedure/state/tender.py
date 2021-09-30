@@ -3,12 +3,13 @@ from openprocurement.api.constants import NEW_DEFENSE_COMPLAINTS_FROM, NEW_DEFEN
 from openprocurement.tender.core.procedure.context import get_request, get_now
 from openprocurement.tender.core.procedure.utils import get_first_revision_date
 from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.openuadefense.procedure.awarding import DefenseTenderStateAwardingMixing
 from logging import getLogger
 
 LOGGER = getLogger(__name__)
 
 
-class OpenUADefenseTenderState(TenderState):
+class OpenUADefenseTenderState(DefenseTenderStateAwardingMixing, TenderState):
     min_bids_number = 2
     block_complaint_status = ("pending", "accepted", "satisfied", "stopping")
 
@@ -74,23 +75,11 @@ class OpenUADefenseTenderState(TenderState):
 
             statuses = {lot["status"] for lot in tender["lots"]}
             if statuses == {"cancelled"}:
-                LOGGER.info(
-                    f"Switched tender {tender['_id']} to cancelled",
-                    extra=context_unpack(get_request(), {"MESSAGE_ID": "switched_tender_cancelled"}),
-                )
-                tender["status"] = "cancelled"
+                self.get_change_tender_status_handler("cancelled")(tender)
             elif not statuses.difference({"unsuccessful", "cancelled"}):
-                LOGGER.info(
-                    f"Switched tender {tender['_id']} to unsuccessful",
-                    extra=context_unpack(get_request(), {"MESSAGE_ID": "switched_tender_unsuccessful"}),
-                )
-                tender["status"] = "unsuccessful"
+                self.get_change_tender_status_handler("unsuccessful")(tender)
             elif not statuses.difference({"complete", "unsuccessful", "cancelled"}):
-                LOGGER.info(
-                    f"Switched tender {tender['_id']} to complete",
-                    extra=context_unpack(get_request(), {"MESSAGE_ID": "switched_tender_complete"}),
-                )
-                tender["status"] = "complete"
+                self.get_change_tender_status_handler("complete")(tender)
         else:
             now = get_now().isoformat()
             pending_complaints = any(i["status"] in self.block_complaint_status
@@ -119,11 +108,7 @@ class OpenUADefenseTenderState(TenderState):
                     and not pending_awards_complaints
                     and stand_still_time_expired
             ):
-                LOGGER.info(
-                    f"Switched tender {tender['_id']} to unsuccessful",
-                    extra=context_unpack(get_request(), {"MESSAGE_ID": "switched_tender_unsuccessful"}),
-                )
-                tender["status"] = "unsuccessful"
+                self.get_change_tender_status_handler("unsuccessful")(tender)
 
             contracts = (
                 tender["agreements"][-1].get("contracts", [])
@@ -135,7 +120,7 @@ class OpenUADefenseTenderState(TenderState):
                     and any(contract["status"] == "active" for contract in contracts)
                     and not any(contract["status"] == "pending" for contract in contracts)
             ):
-                tender["status"] = "complete"
+                self.get_change_tender_status_handler("complete")(tender)
 
     # utils
     def check_tender_lot_status(self, tender):
@@ -238,7 +223,7 @@ class OpenUADefenseTenderState(TenderState):
 
             # should be moved to tender_status_check ?
             if not set(i["status"] for i in tender["lots"]).difference({"unsuccessful", "cancelled"}):
-                tender["status"] = "unsuccessful"
+                self.get_change_tender_status_handler("unsuccessful")(tender)
         else:
             bid_number = self.count_bids_number(tender)
             if bid_number < self.min_bids_number:
@@ -250,4 +235,4 @@ class OpenUADefenseTenderState(TenderState):
                 if bid_number == 1:
                     self.add_next_award(get_request())
                 else:
-                    tender["status"] = "unsuccessful"
+                    self.get_change_tender_status_handler("unsuccessful")(tender)

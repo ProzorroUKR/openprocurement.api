@@ -70,7 +70,7 @@ class BelowThresholdTenderState(TenderState):
 
             self.cleanup_bids_for_cancelled_lots(tender)
             if not set(i["status"] for i in tender["lots"]).difference({"unsuccessful", "cancelled"}):
-                tender["status"] = "unsuccessful"
+                self.get_change_tender_status_handler("unsuccessful")(tender)
 
             elif max(self.count_lot_bids_number(tender, i["id"])
                      for i in tender["lots"] if i["status"] == "active") == 1:
@@ -82,7 +82,7 @@ class BelowThresholdTenderState(TenderState):
                 if not tender["auctionPeriod"]:
                     del tender["auctionPeriod"]
             if bid_number == 0:
-                tender["status"] = "unsuccessful"
+                self.get_change_tender_status_handler("unsuccessful")(tender)
             if bid_number == 1:
                 self.add_next_award(get_request())
         self.check_ignored_claim(tender)

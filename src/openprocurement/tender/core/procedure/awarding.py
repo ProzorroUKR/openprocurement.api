@@ -248,68 +248,76 @@ def exclude_unsuccessful_awarded_bids(tender, bids, lot_id):
     return bids
 
 
-def add_next_award(request, award_class=Award):
-    tender = request.validated["tender"]
-    now = get_now()
+class TenderStateAwardingMixing:
+    award_class = Award
+    get_change_tender_status_handler: callable
 
-    tender["awardPeriod"] = award_period = tender.get("awardPeriod", {})
-    if "startDate" not in award_period:
-        award_period["startDate"] = now.isoformat()
+    def add_next_award(self, request):
+        tender = request.validated["tender"]
+        now = get_now()
 
-    lots = tender.get("lots")
-    if lots:
-        statuses = set()
-        for lot in lots:
-            if lot["status"] != "active":
-                continue
+        tender["awardPeriod"] = award_period = tender.get("awardPeriod", {})
+        if "startDate" not in award_period:
+            award_period["startDate"] = now.isoformat()
 
-            lot_awards = tuple(a for a in tender.get("awards", "")
-                               if a["lotID"] == lot["id"])
-            if lot_awards and lot_awards[-1]["status"] in ["pending", "active"]:
-                statuses.add(lot_awards[-1]["status"])
-                continue
+        lots = tender.get("lots")
+        if lots:
+            statuses = set()
+            for lot in lots:
+                if lot["status"] != "active":
+                    continue
 
-            all_bids = prepare_bids_for_awarding(tender, tender.get("bids", []), lot_id=lot["id"])
-            if all_bids:
-                bids = exclude_unsuccessful_awarded_bids(tender, all_bids, lot_id=lot["id"])
+                lot_awards = tuple(a for a in tender.get("awards", "")
+                                   if a["lotID"] == lot["id"])
+                if lot_awards and lot_awards[-1]["status"] in ["pending", "active"]:
+                    statuses.add(lot_awards[-1]["status"])
+                    continue
+
+                all_bids = prepare_bids_for_awarding(tender, tender.get("bids", []), lot_id=lot["id"])
+                if all_bids:
+                    bids = exclude_unsuccessful_awarded_bids(tender, all_bids, lot_id=lot["id"])
+                    if bids:
+                        tender_append_award(tender, self.award_class, bids[0], all_bids, lot_id=lot["id"])
+                        request.response.headers["Location"] = request.route_url(
+                            "{}:Tender Awards".format(tender["procurementMethodType"]),
+                            tender_id=tender["_id"],
+                            award_id=tender["awards"][-1]["id"]
+                        )
+                        statuses.add("pending")
+                    else:
+                        statuses.add("unsuccessful")
+                else:
+                    lot["status"] = "unsuccessful"
+                    statuses.add("unsuccessful")
+
+            if statuses.difference({"unsuccessful", "active"}):
+                if tender["status"] != "active.qualification":
+                    tender["awardPeriod"]["endDate"] = None
+                    self.get_change_tender_status_handler("active.qualification")(tender)
+            else:
+                if tender["status"] != "active.awarded":
+                    tender["awardPeriod"]["endDate"] = now.isoformat()
+                    self.get_change_tender_status_handler("active.awarded")(tender)
+        else:
+            awards = tender.get("awards")
+            if not awards or awards[-1]["status"] not in ("pending", "active"):
+                all_bids = prepare_bids_for_awarding(tender, tender.get("bids", []), lot_id=None)
+                bids = exclude_unsuccessful_awarded_bids(tender, all_bids, lot_id=None)
                 if bids:
-                    tender_append_award(tender, award_class, bids[0], all_bids, lot_id=lot["id"])
+                    tender_append_award(tender, self.award_class, bids[0], all_bids)
                     request.response.headers["Location"] = request.route_url(
                         "{}:Tender Awards".format(tender["procurementMethodType"]),
                         tender_id=tender["_id"],
                         award_id=tender["awards"][-1]["id"]
                     )
-                    statuses.add("pending")
-                else:
-                    statuses.add("unsuccessful")
+            if tender["awards"][-1]["status"] == "pending":
+                if tender["status"] != "active.qualification":
+                    tender["awardPeriod"]["endDate"] = None
+                    self.get_change_tender_status_handler("active.qualification")(tender)
             else:
-                lot["status"] = "unsuccessful"
-                statuses.add("unsuccessful")
-
-        if statuses.difference({"unsuccessful", "active"}):
-            tender["awardPeriod"]["endDate"] = None
-            tender["status"] = "active.qualification"
-        else:
-            tender["awardPeriod"]["endDate"] = now.isoformat()
-            tender["status"] = "active.awarded"
-    else:
-        awards = tender.get("awards")
-        if not awards or awards[-1]["status"] not in ("pending", "active"):
-            all_bids = prepare_bids_for_awarding(tender, tender.get("bids", []), lot_id=None)
-            bids = exclude_unsuccessful_awarded_bids(tender, all_bids, lot_id=None)
-            if bids:
-                tender_append_award(tender, award_class, bids[0], all_bids)
-                request.response.headers["Location"] = request.route_url(
-                    "{}:Tender Awards".format(tender["procurementMethodType"]),
-                    tender_id=tender["_id"],
-                    award_id=tender["awards"][-1]["id"]
-                )
-        if tender["awards"][-1]["status"] == "pending":
-            tender["awardPeriod"]["endDate"] = None
-            tender["status"] = "active.qualification"
-        else:
-            tender["awardPeriod"]["endDate"] = now.isoformat()
-            tender["status"] = "active.awarded"
+                if tender["status"] != "active.awarded":
+                    tender["awardPeriod"]["endDate"] = now.isoformat()
+                    self.get_change_tender_status_handler("active.awarded")(tender)
 
 
 def cleanup_bids_for_cancelled_lots(tender):

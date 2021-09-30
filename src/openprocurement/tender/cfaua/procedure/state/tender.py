@@ -68,17 +68,9 @@ class CFAUATenderTenderState(TenderState):
             statuses.add(lot["status"])
 
         if not statuses.difference({"unsuccessful"}):
-            LOGGER.info(
-                "Switched tender {} to {}".format(tender["_id"], "unsuccessful"),
-                extra=context_unpack(get_request(), {"MESSAGE_ID": "switched_tender_unsuccessful"}),
-            )
-            tender["status"] = "unsuccessful"
+            self.get_change_tender_status_handler("unsuccessful")(tender)
         else:
-            LOGGER.info(
-                "Switched tender {} to {}".format(tender["_id"], "active.awarded"),
-                extra=context_unpack(get_request(), {"MESSAGE_ID": "switched_tender_active_awarded"}),
-            )
-            tender["status"] = "active.awarded"
+            self.get_change_tender_status_handler("active.awarded")(tender)
             clarification_date = calculate_tender_business_date(get_now(), CLARIFICATIONS_UNTIL_PERIOD, tender, False)
             tender["contractPeriod"] = {
                 "startDate": get_now().isoformat(),
@@ -154,12 +146,12 @@ class CFAUATenderTenderState(TenderState):
                     if lot_statuses == {"cancelled"}:
                         if tender["status"] in ("active.tendering", "active.auction"):
                             tender["bids"] = []
-                        tender["status"] = "cancelled"
+                        self.get_change_tender_status_handler("cancelled")(tender)
 
                     elif not lot_statuses.difference({"unsuccessful", "cancelled"}):
-                        tender["status"] = "unsuccessful"
+                        self.get_change_tender_status_handler("unsuccessful")(tender)
                     elif not lot_statuses.difference({"complete", "unsuccessful", "cancelled"}):
-                        tender["status"] = "complete"
+                        self.get_change_tender_status_handler("complete")(tender)
 
                     # 5 no need to make add_next_award for active lots, because there is only one and it's cancelled
                 else:
@@ -175,7 +167,7 @@ class CFAUATenderTenderState(TenderState):
                             if bid["status"] in ("pending", "active"):
                                 bid["status"] = "invalid.pre-qualification"
 
-                    tender["status"] = "cancelled"
+                    self.get_change_tender_status_handler("cancelled")(tender)
 
                     for agreement in tender.get("agreements", ""):
                         if agreement["status"] in ("pending", "active"):

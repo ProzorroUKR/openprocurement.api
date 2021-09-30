@@ -1,17 +1,13 @@
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.context import get_now, get_request
-from openprocurement.tender.core.procedure.awarding import add_next_award
 from openprocurement.tender.openeu.procedure.models.award import Award
 from openprocurement.tender.core.procedure.models.qualification import Qualification
 
 
 class OpenEUTenderState(TenderState):
+    award_class = Award
     active_bid_statuses = ("active", "pending")
     block_complaint_status = ("pending", "accepted", "satisfied", "stopping")
-
-    @staticmethod
-    def add_next_award(request):
-        add_next_award(request, award_class=Award)
 
     def tendering_end_handler(self, tender):
         for complaint in tender.get("complaints", ""):
@@ -115,11 +111,11 @@ class OpenEUTenderState(TenderState):
                     # 4
                     lot_statuses = {lot["status"] for lot in tender["lots"]}
                     if lot_statuses == {"cancelled"}:
-                        tender["status"] = "cancelled"
+                        self.get_change_tender_status_handler("cancelled")(tender)
                     elif not lot_statuses.difference({"unsuccessful", "cancelled"}):
-                        tender["status"] = "unsuccessful"
+                        self.get_change_tender_status_handler("unsuccessful")(tender)
                     elif not lot_statuses.difference({"complete", "unsuccessful", "cancelled"}):
-                        tender["status"] = "complete"
+                        self.get_change_tender_status_handler("complete")(tender)
 
                     # 5
                     if tender["status"] == "active.auction" and all(
@@ -140,5 +136,5 @@ class OpenEUTenderState(TenderState):
                             if bid["status"] in ("pending", "active"):
                                 bid["status"] = "invalid.pre-qualification"
                                 # which doesn't delete data, but they are hidden by serialization functionality
-                    tender["status"] = "cancelled"
+                    self.get_change_tender_status_handler("cancelled")(tender)
         return handler

@@ -32,7 +32,7 @@ class CFASelectionTenderState(TenderState):
 
             # should be moved to tender_status_check ?
             if not set(i["status"] for i in tender["lots"]).difference({"unsuccessful", "cancelled"}):
-                tender["status"] = "unsuccessful"
+                self.get_change_tender_status_handler("unsuccessful")(tender)
 
             elif max(self.count_lot_bids_number(tender, i["id"])
                      for i in tender["lots"] if i["status"] == "active") == 1:
@@ -46,4 +46,4 @@ class CFASelectionTenderState(TenderState):
                     del tender["auctionPeriod"]["startDate"]
                     if not tender["auctionPeriod"]:
                         del tender["auctionPeriod"]
-                tender["status"] = "unsuccessful"
+                self.get_change_tender_status_handler("unsuccessful")(tender)

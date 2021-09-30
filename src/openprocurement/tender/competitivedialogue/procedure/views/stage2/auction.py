@@ -1,4 +1,3 @@
-from openprocurement.tender.core.procedure.awarding import add_next_award as add_award
 from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
 from openprocurement.tender.competitivedialogue.procedure.models.award import Award
 from openprocurement.tender.openeu.procedure.views.auction import EUTenderAuctionResource
@@ -14,8 +13,7 @@ from cornice.resource import resource
     description="Competitive Dialogue Stage 2 EU auction data",
 )
 class CompetitiveDialogueStage2EUAuctionResource(EUTenderAuctionResource):
-    def add_next_award(self):
-        return add_award(self.request, award_class=Award)
+    award_class=Award
 
 
 @resource(
@@ -26,5 +24,4 @@ class CompetitiveDialogueStage2EUAuctionResource(EUTenderAuctionResource):
     description="Competitive Dialogue Stage 2 UA auction data",
 )
 class CompetitiveDialogueStage2UAAuctionResource(UATenderAuctionResource):
-    def add_next_award(self):
-        return add_award(self.request, award_class=Award)
+    award_class=Award

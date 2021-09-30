@@ -50,7 +50,7 @@ class PriceQuotationTenderState(TenderState):
         if not any(i["status"] not in ("active", "unsuccessful")
                    for i in tender.get("cancellations", "")):
             if len(tender.get("bids", "")) == 0:
-                tender["status"] = "unsuccessful"
+                self.get_change_tender_status_handler("unsuccessful")(tender)
             else:
                 self.add_next_award(get_request())
 
@@ -69,8 +69,7 @@ class PriceQuotationTenderState(TenderState):
             handler = self.get_change_tender_status_handler("complete")
             handler(tender)
 
-    @staticmethod
-    def add_next_award(request):
+    def add_next_award(self, request):
         tender = request.validated["tender"]
         if not tender.get("awardPeriod"):
             tender["awardPeriod"] = {}
@@ -109,12 +108,14 @@ class PriceQuotationTenderState(TenderState):
                     award_id=award["id"]
                 )
             else:
-                tender["status"] = 'unsuccessful'
+                self.get_change_tender_status_handler("unsuccessful")(tender)
                 return
         if tender["awards"][-1]["status"] == "pending":
-            if "endDate" in tender["awardPeriod"]:
-                del tender["awardPeriod"]["endDate"]
-            tender["status"] = "active.qualification"
+            if tender["status"] != "active.qualification":
+                if "endDate" in tender["awardPeriod"]:
+                    del tender["awardPeriod"]["endDate"]
+                self.get_change_tender_status_handler("active.qualification")(tender)
         else:
-            tender["awardPeriod"]["endDate"] = get_now().isoformat()
-            tender["status"] = "active.awarded"
+            if tender["status"] != "active.awarded":
+                tender["awardPeriod"]["endDate"] = get_now().isoformat()
+                self.get_change_tender_status_handler("active.awarded")(tender)

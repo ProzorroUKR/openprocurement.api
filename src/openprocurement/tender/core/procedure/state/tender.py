@@ -1,8 +1,7 @@
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import context_unpack
 from openprocurement.tender.core.procedure.contracting import add_contracts
-from openprocurement.tender.core.procedure.awarding import add_next_award
-from openprocurement.tender.core.procedure.models.award import Award
+from openprocurement.tender.core.procedure.awarding import TenderStateAwardingMixing
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.context import get_now, get_request
 from openprocurement.tender.core.procedure.utils import (
@@ -20,7 +19,7 @@ from logging import getLogger
 LOGGER = getLogger(__name__)
 
 
-class TenderState(BaseState):
+class TenderState(TenderStateAwardingMixing, BaseState):
     min_bids_number = 2
     active_bid_statuses = ("active",)  # are you intrigued ?
     # used by bid counting methods
@@ -288,10 +287,11 @@ class TenderState(BaseState):
             self.add_next_award(request)
         return handler
 
-    @staticmethod
-    def get_change_tender_status_handler(status):
+    def get_change_tender_status_handler(self, status):
         def handler(tender):
+            before = tender["status"]
             tender["status"] = status
+            self.status_up(before, status, tender)
             LOGGER.info(
                 f"Switched tender {tender['_id']} to {status}",
                 extra=context_unpack(get_request(), {"MESSAGE_ID": f"switched_tender_{status}"}),
@@ -322,23 +322,14 @@ class TenderState(BaseState):
 
             statuses = {lot["status"] for lot in tender["lots"]}
             if statuses == {"cancelled"}:
-                LOGGER.info(
-                    f"Switched tender {tender['_id']} to cancelled",
-                    extra=context_unpack(get_request(), {"MESSAGE_ID": "switched_tender_cancelled"}),
-                )
-                tender["status"] = "cancelled"
+                handler = self.get_change_tender_status_handler("cancelled")
+                handler(tender)
             elif not statuses.difference({"unsuccessful", "cancelled"}):
-                LOGGER.info(
-                    f"Switched tender {tender['_id']} to unsuccessful",
-                    extra=context_unpack(get_request(), {"MESSAGE_ID": "switched_tender_unsuccessful"}),
-                )
-                tender["status"] = "unsuccessful"
+                handler = self.get_change_tender_status_handler("unsuccessful")
+                handler(tender)
             elif not statuses.difference({"complete", "unsuccessful", "cancelled"}):
-                LOGGER.info(
-                    f"Switched tender {tender['_id']} to complete",
-                    extra=context_unpack(get_request(), {"MESSAGE_ID": "switched_tender_complete"}),
-                )
-                tender["status"] = "complete"
+                handler = self.get_change_tender_status_handler("complete")
+                handler(tender)
         else:
             now = get_now().isoformat()
             pending_complaints = any(i["status"] in self.block_complaint_status
@@ -362,11 +353,8 @@ class TenderState(BaseState):
                     and not pending_awards_complaints
                     and stand_still_time_expired
             ):
-                LOGGER.info(
-                    f"Switched tender {tender['_id']} to unsuccessful",
-                    extra=context_unpack(get_request(), {"MESSAGE_ID": "switched_tender_unsuccessful"}),
-                )
-                tender["status"] = "unsuccessful"
+                handler = self.get_change_tender_status_handler("unsuccessful")
+                handler(tender)
 
             contracts = (
                 tender["agreements"][-1].get("contracts", [])
@@ -378,7 +366,8 @@ class TenderState(BaseState):
                     and any(contract["status"] == "active" for contract in contracts)
                     and not any(contract["status"] == "pending" for contract in contracts)
             ):
-                tender["status"] = "complete"
+                handler = self.get_change_tender_status_handler("complete")
+                handler(tender)
 
     def auction_handler(self, _):
         LOGGER.info("Tender auction chronograph event",
@@ -405,12 +394,12 @@ class TenderState(BaseState):
                     if lot_statuses == {"cancelled"}:
                         if tender["status"] in ("active.tendering", "active.auction"):
                             tender["bids"] = []
-                        tender["status"] = "cancelled"
+                        self.get_change_tender_status_handler("cancelled")(tender)
 
                     elif not lot_statuses.difference({"unsuccessful", "cancelled"}):
-                        tender["status"] = "unsuccessful"
+                        self.get_change_tender_status_handler("unsuccessful")(tender)
                     elif not lot_statuses.difference({"complete", "unsuccessful", "cancelled"}):
-                        tender["status"] = "complete"
+                        self.get_change_tender_status_handler("complete")(tender)
 
                     # TODO: seems cancellation can block awarding process, refactoring ?
                     # should awarding be also an event
@@ -424,7 +413,7 @@ class TenderState(BaseState):
                 else:
                     if tender["status"] in ("active.tendering", "active.auction"):
                         tender["bids"] = []
-                    tender["status"] = "cancelled"
+                    self.get_change_tender_status_handler("cancelled")(tender)
         return handler
 
     # UTILS (move to state ?)
@@ -461,7 +450,7 @@ class TenderState(BaseState):
 
             # should be moved to tender_status_check ?
             if not set(i["status"] for i in tender["lots"]).difference({"unsuccessful", "cancelled"}):
-                tender["status"] = "unsuccessful"
+                self.get_change_tender_status_handler("unsuccessful")(tender)
         else:
             bid_number = self.count_bids_number(tender)
             if bid_number < self.min_bids_number:
@@ -469,7 +458,7 @@ class TenderState(BaseState):
                     del tender["auctionPeriod"]["startDate"]
                     if not tender["auctionPeriod"]:
                         del tender["auctionPeriod"]
-                tender["status"] = "unsuccessful"
+                self.get_change_tender_status_handler("unsuccessful")(tender)
 
     @classmethod
     def count_bids_number(cls, tender):
@@ -561,10 +550,6 @@ class TenderState(BaseState):
                                              {"LOT_ID": lot['id']}),
                     )
                     lot["status"] = "complete"
-
-    @staticmethod
-    def add_next_award(request):
-        add_next_award(request, award_class=Award)
 
     def has_unanswered_tender_complaints(self, tender):
         lots = tender.get("lots")

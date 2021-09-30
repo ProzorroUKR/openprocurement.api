@@ -1,6 +1,6 @@
 from openprocurement.tender.core.utils import context_unpack
 from openprocurement.tender.core.procedure.utils import get_first_revision_date
-from openprocurement.tender.core.procedure.awarding import add_next_award as base_add_award
+from openprocurement.tender.core.procedure.awarding import TenderStateAwardingMixing
 from openprocurement.tender.openuadefense.procedure.settings import BLOCK_COMPLAINT_STATUSES
 from openprocurement.api.constants import NEW_DEFENSE_COMPLAINTS_FROM, NEW_DEFENSE_COMPLAINTS_TO
 from logging import getLogger
@@ -8,12 +8,14 @@ from logging import getLogger
 LOGGER = getLogger("openprocurement.tender.openuadefense")
 
 
-def add_next_award(request):
-    base_add_award(request)
-    process_new_defense_complaints(request)
+class DefenseTenderStateAwardingMixing(TenderStateAwardingMixing):
+
+    def add_next_award(self, request):
+        super().add_next_award(request)
+        process_new_defense_complaints(self, request)
 
 
-def process_new_defense_complaints(request):
+def process_new_defense_complaints(state, request):
     tender = request.validated["tender"]
     first_revision_date = get_first_revision_date(tender)
     new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < first_revision_date < NEW_DEFENSE_COMPLAINTS_TO
@@ -62,11 +64,7 @@ def process_new_defense_complaints(request):
 
             lot_statuses = {lot["status"] for lot in lots}
             if not lot_statuses.difference({"unsuccessful", "cancelled"}):
-                LOGGER.info(
-                    "Switched tender {} to {}".format(tender.id, "unsuccessful"),
-                    extra=context_unpack(request, {"MESSAGE_ID": "switched_tender_unsuccessful"}),
-                )
-                tender["status"] = "unsuccessful"
+                state.get_change_tender_status_handler("unsuccessful")(tender)
 
     else:
         if (
@@ -79,8 +77,4 @@ def process_new_defense_complaints(request):
                 if a["status"] == "unsuccessful"
             )
         ):
-            LOGGER.info(
-                "Switched tender {} to {}".format(tender["id"], "unsuccessful"),
-                extra=context_unpack(request, {"MESSAGE_ID": "switched_tender_unsuccessful"}),
-            )
-            tender["status"] = "unsuccessful"
+            state.get_change_tender_status_handler("unsuccessful")(tender)
