@@ -1,15 +1,34 @@
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.serializers.base import BaseSerializer, ListSerializer
 from openprocurement.tender.core.procedure.serializers.feature import FeatureSerializer
+from decimal import Decimal
 
 
-def auction_bids(_, bids):
-    if isinstance(bids, list):
-        bids = [b for b in bids]
-    return bids
+def decimal_serializer(_, value):
+    if isinstance(value, str):
+        return Decimal(value)
+    return value
+
+
+class ValueSerializer(BaseSerializer):
+    serializers = {
+        "amount": decimal_serializer,
+    }
+
+
+class LotValueSerializer(BaseSerializer):
+    serializers = {
+        "value": ValueSerializer,
+        "weightedValue": ValueSerializer,
+    }
 
 
 class AuctionBidSerializer(BaseSerializer):
+    serializers = {
+        "value": ValueSerializer,
+        "weightedValue": ValueSerializer,
+        "lotValues": ListSerializer(LotValueSerializer),
+    }
 
     def __init__(self, data: dict):
         super().__init__(data)
