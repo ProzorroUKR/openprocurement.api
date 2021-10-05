@@ -1,15 +1,36 @@
 from openprocurement.api.utils import get_now, handle_store_exceptions, context_unpack
 from openprocurement.api.auth import extract_access_token
+from openprocurement.api.constants import SANDBOX_MODE, TZ, NORMALIZE_SHOULD_START_AFTER
 from openprocurement.tender.core.procedure.context import get_now
+from openprocurement.tender.core.utils import QUICK
+from dateorro import calc_normalized_datetime
 from jsonpatch import make_patch, apply_patch
 from jsonpointer import resolve_pointer
 from hashlib import sha512
 from uuid import uuid4
 from logging import getLogger
 from datetime import datetime
+import re
 
 
 LOGGER = getLogger(__name__)
+
+
+def dt_from_iso(string):
+    """
+    datetime.fromisofomat() works fine if we don't change the object
+    it add a static offset that is not aware of day light saving time
+    tzinfo=datetime.timezone(datetime.timedelta(seconds=10800))
+    and if we add timedelta +100 days, the result will be
+    "2021-08-03T10:29:47.976944+03:00"
+    not
+    "2021-08-03T09:29:47.976944+02:00"
+    :param string:
+    :return:
+    """
+    dt = datetime.fromisoformat(string)
+    dt = dt.astimezone(tz=TZ)
+    return dt
 
 
 def get_first_revision_date(document, default=None):
@@ -153,20 +174,28 @@ def apply_tender_patch(request, data, src, save=True, modified=True):
         return save_tender(request, modified=modified)
 
 
-def apply_data_patch(item, changes):
+def apply_data_patch(item, changes, none_means_remove=False):
+    """
+    :param item:
+    :param changes:
+    :param none_means_remove:  if True, passing for ex. {"period": {"startDate": None}}
+    will actually delete field's value instead of replacing it with None
+    :return:
+    """
     patch_changes = []
-    prepare_patch(patch_changes, item, changes)
+    prepare_patch(patch_changes, item, changes, none_means_remove=none_means_remove)
     if not patch_changes:
         return {}
     r = apply_patch(item, patch_changes)
     return r
 
 
-def prepare_patch(changes, orig, patch, basepath=""):
+def prepare_patch(changes, orig, patch, basepath="", none_means_remove=False):
     if isinstance(patch, dict):
         for i in patch:
             if i in orig:
-                prepare_patch(changes, orig[i], patch[i], "{}/{}".format(basepath, i))
+                prepare_patch(changes, orig[i], patch[i], "{}/{}".format(basepath, i),
+                              none_means_remove=none_means_remove)
             else:
                 changes.append({"op": "add", "path": "{}/{}".format(basepath, i), "value": patch[i]})
     elif isinstance(patch, list):
@@ -175,12 +204,35 @@ def prepare_patch(changes, orig, patch, basepath=""):
                 changes.append({"op": "remove", "path": "{}/{}".format(basepath, i)})
         for i, j in enumerate(patch):
             if len(orig) > i:
-                prepare_patch(changes, orig[i], patch[i], "{}/{}".format(basepath, i))
+                prepare_patch(changes, orig[i], patch[i], "{}/{}".format(basepath, i),
+                              none_means_remove=none_means_remove)
             else:
                 changes.append({"op": "add", "path": "{}/{}".format(basepath, i), "value": j})
+    elif none_means_remove and patch is None:
+        changes.append({"op": "remove", "path": basepath})
     else:
         for x in make_patch(orig, patch).patch:
             x["path"] = "{}{}".format(basepath, x["path"])
             changes.append(x)
 
 # --- PATCHING
+
+
+def submission_search(pattern, tender):
+    patterns = pattern if isinstance(pattern, (tuple, list)) else (pattern,)
+    details = tender.get("submissionMethodDetails")
+    if SANDBOX_MODE and details:
+        return any(re.search(pattern, details) for pattern in patterns)
+    return False
+
+
+def normalize_should_start_after(start_after, tender):
+    if submission_search(QUICK, tender):
+        return start_after
+    if tender.get("enquiryPeriod", {}).get("startDate"):
+        date = dt_from_iso(tender["enquiryPeriod"]["startDate"])
+    else:
+        date = get_now()
+    if NORMALIZE_SHOULD_START_AFTER < date:
+        return calc_normalized_datetime(start_after, ceil=True)
+    return start_after

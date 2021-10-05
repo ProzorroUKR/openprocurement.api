@@ -68,8 +68,7 @@ def bids_on_tender_cancellation_in_pre_qualification(self):
         )
 
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
     tender = self._cancel_tender()
@@ -92,8 +91,7 @@ def bids_on_tender_cancellation_in_pre_qualification_stand_still(self):
     self._mark_one_bid_deleted()
 
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
     self._qualify_bids_and_switch_to_pre_qualification_stand_still()
@@ -119,15 +117,13 @@ def bids_on_tender_cancellation_in_auction(self):
     self._mark_one_bid_deleted()
 
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
     self._qualify_bids_and_switch_to_pre_qualification_stand_still()
 
     self.set_status("active.auction", {"id": self.tender_id, "status": "active.pre-qualification.stand-still"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.auction")
 
     if RELEASE_2020_04_19 > get_now():
@@ -166,15 +162,13 @@ def bids_on_tender_cancellation_in_qualification(self):
     deleted_bid_id = self._mark_one_bid_deleted()
 
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
     self._qualify_bids_and_switch_to_pre_qualification_stand_still(qualify_all=False)
 
     self.set_status("active.auction", {"id": self.tender_id, "status": "active.pre-qualification.stand-still"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.auction")
 
     self._set_auction_results()
@@ -261,15 +255,13 @@ def bids_on_tender_cancellation_in_awarded(self):
     self._mark_one_bid_deleted()
 
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
     self._qualify_bids_and_switch_to_pre_qualification_stand_still()
 
     self.set_status("active.auction", {"id": self.tender_id, "status": "active.pre-qualification.stand-still"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.auction")
 
     self._set_auction_results()
@@ -369,8 +361,7 @@ def cancellation_active_tendering_j708(self):
     self.initial_bids.append(response.json["data"])
 
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
 
@@ -389,8 +380,7 @@ def cancellation_active_qualification_j1427(self):
         bid_ids.append(bid["id"])
 
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
     response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
@@ -439,8 +429,7 @@ def cancellation_active_qualification_j1427(self):
 
 def cancellation_active_qualification(self):
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
     self.app.authorization = ("Basic", ("token", ""))
@@ -499,8 +488,7 @@ def cancellation_active_qualification(self):
 
 def cancellation_unsuccessful_qualification(self):
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
     self.app.authorization = ("Basic", ("token", ""))
@@ -574,8 +562,7 @@ def cancellation_unsuccessful_qualification(self):
 
 def cancellation_active_award(self):
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
     response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
@@ -594,8 +581,7 @@ def cancellation_active_award(self):
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification.stand-still")
 
     self.set_status("active.auction", {"id": self.tender_id, "status": "active.pre-qualification.stand-still"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.auction")
 
     self.app.authorization = ("Basic", ("auction", ""))
@@ -603,7 +589,10 @@ def cancellation_active_award(self):
     auction_bids_data = response.json["data"]["bids"]
     for lot_id in self.initial_lots:
         response = self.app.post_json(
-            "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]), {"data": {"bids": auction_bids_data}}
+            "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]),
+            {"data": {"bids": [
+                {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                for b in auction_bids_data]}}
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
@@ -668,8 +657,7 @@ def cancellation_active_award(self):
 
 def cancellation_unsuccessful_award(self):
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
     response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
@@ -688,8 +676,7 @@ def cancellation_unsuccessful_award(self):
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification.stand-still")
 
     self.set_status("active.auction", {"id": self.tender_id, "status": "active.pre-qualification.stand-still"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.auction")
 
     self.app.authorization = ("Basic", ("auction", ""))
@@ -697,7 +684,10 @@ def cancellation_unsuccessful_award(self):
     auction_bids_data = response.json["data"]["bids"]
     for lot_id in self.initial_lots:
         response = self.app.post_json(
-            "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]), {"data": {"bids": auction_bids_data}}
+            "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]),
+            {"data": {"bids": [
+                {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                for b in auction_bids_data]}}
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")

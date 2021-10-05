@@ -97,8 +97,7 @@ def claim_blocking(self):
     if RELEASE_2020_04_19 < get_now():
         activate_cancellation_after_2020_04_19(self, cancellation_id)
 
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
 
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -745,8 +744,7 @@ def one_lot_2bid_1unqualified(self):
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification.stand-still")
 
     self.set_status("active.auction", {"id": tender_id, "status": "active.pre-qualification.stand-still"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
@@ -857,7 +855,10 @@ def one_lot_2bid(self):
     # posting auction results
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.post_json(
-        "/tenders/{}/auction/{}".format(tender_id, lot_id), {"data": {"bids": auction_bids_data}}
+        "/tenders/{}/auction/{}".format(tender_id, lot_id),
+        {"data": {"bids": [
+            {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+            for b in auction_bids_data]}}
     )
     # # get awards
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1042,19 +1043,19 @@ def one_lot_3bid_1del(self):
             "lots": [
                 {"id": i["id"], "auctionUrl": "https://tender.auction.url"} for i in response.json["data"]["lots"]
             ],
-            "bids": list(auction_bids_data),
+            "bids": [
+                {
+                    "id": b["id"],
+                    "lotValues": [
+                        {"participationUrl": "https://tender.auction.url/for_bid/{}".format(b["id"])}
+                        for l in b.get("lotValues", "")
+                    ]
+                }
+                for b in auction_bids_data
+                if b.get("status", "active") == "active"
+            ],
         }
     }
-
-    for bid_index, bid in enumerate(auction_bids_data):
-        if bid.get("status", "active") == "active":
-            for lot_index, lot_bid in enumerate(bid["lotValues"]):
-                if lot_bid["relatedLot"] == lot_id and lot_bid.get("status", "active") == "active":
-                    data["data"]["bids"][bid_index]["lotValues"][lot_index][
-                        "participationUrl"
-                    ] = "https://tender.auction.url/for_bid/{}".format(bid["id"])
-                    break
-
     response = self.app.patch_json("/tenders/{}/auction/{}".format(tender_id, lot_id), data)
     # view bid participationUrl
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1074,7 +1075,10 @@ def one_lot_3bid_1del(self):
     # posting auction results
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.post_json(
-        "/tenders/{}/auction/{}".format(tender_id, lot_id), {"data": {"bids": auction_bids_data}}
+        "/tenders/{}/auction/{}".format(tender_id, lot_id),
+        {"data": {"bids": [
+            {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b.get("lotValues", "")]}
+            for b in auction_bids_data]}}
     )
     # # get awards
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1192,18 +1196,19 @@ def one_lot_3bid_1un(self):
             "lots": [
                 {"id": i["id"], "auctionUrl": "https://tender.auction.url"} for i in response.json["data"]["lots"]
             ],
-            "bids": list(auction_bids_data),
+            "bids": [
+                {
+                    "id": b["id"],
+                    "lotValues": [
+                        {"participationUrl": "https://tender.auction.url/for_bid/{}".format(b["id"])}
+                        for l in b["lotValues"]
+                    ]
+                }
+                for b in auction_bids_data
+                if b.get("status", "active") == "active"
+            ],
         }
     }
-
-    for bid_index, bid in enumerate(auction_bids_data):
-        if bid.get("status", "active") == "active":
-            for lot_index, lot_bid in enumerate(bid["lotValues"]):
-                if lot_bid["relatedLot"] == lot_id and lot_bid.get("status", "active") == "active":
-                    data["data"]["bids"][bid_index]["lotValues"][lot_index][
-                        "participationUrl"
-                    ] = "https://tender.auction.url/for_bid/{}".format(bid["id"])
-                    break
 
     response = self.app.patch_json("/tenders/{}/auction/{}".format(tender_id, lot_id), data)
     # view bid participationUrl
@@ -1224,7 +1229,10 @@ def one_lot_3bid_1un(self):
     # posting auction results
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.post_json(
-        "/tenders/{}/auction/{}".format(tender_id, lot_id), {"data": {"bids": auction_bids_data}}
+        "/tenders/{}/auction/{}".format(tender_id, lot_id),
+        {"data": {"bids": [
+            {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+            for b in auction_bids_data]}}
     )
     # # get awards
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1533,7 +1541,10 @@ def two_lot_2bid_2com_2win(self):
         # posting auction results
         self.app.authorization = ("Basic", ("auction", ""))
         response = self.app.post_json(
-            "/tenders/{}/auction/{}".format(tender_id, lot_id), {"data": {"bids": auction_bids_data}}
+            "/tenders/{}/auction/{}".format(tender_id, lot_id),
+            {"data": {"bids": [
+                {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                for b in auction_bids_data]}}
         )
     # for first lot
     lot_id = lots[0]
@@ -1722,7 +1733,10 @@ def two_lot_3bid_1win_bug(self):
         # posting auction results
         self.app.authorization = ("Basic", ("auction", ""))
         response = self.app.post_json(
-            "/tenders/{}/auction/{}".format(tender_id, lot_id), {"data": {"bids": auction_bids_data}}
+            "/tenders/{}/auction/{}".format(tender_id, lot_id),
+            {"data": {"bids": [
+                {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                for b in auction_bids_data]}}
         )
     # for first lot
     lot_id = lots[0]

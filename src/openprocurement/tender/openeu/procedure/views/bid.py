@@ -2,7 +2,7 @@ from openprocurement.api.utils import json_view, context_unpack
 from openprocurement.tender.core.procedure.views.bid import TenderBidResource
 from openprocurement.tender.core.procedure.models.bid import filter_administrator_bid_update
 from openprocurement.tender.openeu.procedure.models.bid import PostBid, PatchBid, Bid
-from openprocurement.tender.openeu.procedure.state import BidState
+from openprocurement.tender.openeu.procedure.state.bid import BidState
 from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.openeu.procedure.validation import (
     validate_post_bid_status,
@@ -107,6 +107,8 @@ class TenderBidResource(TenderBidResource):
     def delete(self):
         bid = self.request.validated["bid"]
         bid["status"] = "deleted"
+        if bid.get("lotValues"):
+            bid["lotValues"] = []
         if save_tender(self.request, modified=False):
             self.LOGGER.info(
                 "Deleted tender bid {}".format(bid["id"]),

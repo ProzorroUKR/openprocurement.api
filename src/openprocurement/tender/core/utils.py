@@ -718,7 +718,10 @@ def sort_bids(tender, bids, features=None):
                     awarding_criteria = jmespath.search(award_criteria_path, bid)
                 return awarding_criteria
         else:
-            awarding_criteria_func = partial(jmespath.search, award_criteria_path)
+            def awarding_criteria_func(bid):
+                result = jmespath.search(award_criteria_path, bid)
+                return result
+            # awarding_criteria_func = partial(jmespath.search, award_criteria_path)
         bids = sorted(bids, key=lambda bid: (
             [1, -1][configurator.reverse_awarding_criteria] * awarding_criteria_func(bid), bid['date']
         ))

@@ -48,8 +48,7 @@ def tender_has_unanswered_questions(self):
     question_id = self.create_question_for("tender", self.tender_id)
 
     self.set_status("active.auction", {"status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     self.app.authorization = ("Basic", ("broker", ""))
@@ -75,8 +74,7 @@ def lot_has_unanswered_questions(self):
     question_id = self.create_question_for("lot", self.initial_lots[0]["id"])
 
     self.set_status("active.auction", {"status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     self.app.authorization = ("Basic", ("broker", ""))
@@ -99,8 +97,7 @@ def lot_has_unanswered_questions(self):
         response = self.app.get("/tenders/{}".format(self.tender_id))
         self.assertEqual(response.json["data"]["status"], "unsuccessful")
     else:
-        self.app.authorization = ("Basic", ("chronograph", ""))
-        response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+        response = self.check_chronograph()
         self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
 
@@ -109,8 +106,7 @@ def item_has_unanswered_questions(self):
     question_id = self.create_question_for("item", items[0]["id"])
 
     self.set_status("active.auction", {"status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     self.app.authorization = ("Basic", ("broker", ""))
@@ -132,6 +128,5 @@ def item_has_unanswered_questions(self):
         response = self.app.get("/tenders/{}".format(self.tender_id))
         self.assertEqual(response.json["data"]["status"], "unsuccessful")
     else:
-        self.app.authorization = ("Basic", ("chronograph", ""))
-        response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+        response = self.check_chronograph()
         self.assertEqual(response.json["data"]["status"], "unsuccessful")

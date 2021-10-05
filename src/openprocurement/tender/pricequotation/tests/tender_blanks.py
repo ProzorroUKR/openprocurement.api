@@ -1465,8 +1465,7 @@ def one_valid_bid_tender(self):
     token = resp.json['access']['token']
     # switch to active.qualification
     self.set_status("active.qualification")
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+    response = self.check_chronograph()
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}/awards?acc_token={}".format(tender_id, owner_token))
@@ -1678,7 +1677,7 @@ def lost_contract_for_active_award(self):
     )
     # lost contract
     tender = self.db.get(tender_id)
-    tender["contracts"] = None
+    del tender["contracts"]
     self.db.save(tender)
     # check tender
     response = self.app.get("/tenders/{}".format(tender_id))
@@ -1686,8 +1685,7 @@ def lost_contract_for_active_award(self):
     self.assertNotIn("contracts", response.json["data"])
     self.assertIn("next_check", response.json["data"])
     # create lost contract
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.awarded")
     self.assertIn("contracts", response.json["data"])
     self.assertNotIn("next_check", response.json["data"])

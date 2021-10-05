@@ -816,7 +816,6 @@ class Tender(BaseTender):
             for award in self.awards:
                 if award.status == "active" and not any([i.awardID == award.id for i in self.contracts]):
                     checks.append(award.date)
-
         return min(checks).isoformat() if checks else None
 
     @serializable

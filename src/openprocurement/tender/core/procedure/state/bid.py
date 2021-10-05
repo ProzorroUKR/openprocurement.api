@@ -1,17 +1,12 @@
-# -*- coding: utf-8 -*-
 from openprocurement.api.utils import error_handler
+from openprocurement.tender.core.procedure.state.base import BaseState
 from openprocurement.tender.core.procedure.context import get_now
 
 
-class BidState:
+class BidState(BaseState):
 
-    def __init__(self, request, data):
-        self.request = request
-        self._data = data
-        self.now = get_now().isoformat()
-
-    def status_up(self, before, after):
-        assert before != after, "Statuses must be different"
+    def status_up(self, before, after, data):
+        super().status_up(before, after, data)
         # this logic moved here from validate_update_bid_status validator
         # if request.authenticated_role != "Administrator":
         if after != "active":
@@ -19,31 +14,31 @@ class BidState:
             self.request.errors.status = 403
             raise error_handler(self.request)
 
-    def on_post(self):
-        self._data["date"] = self.now
+    def on_post(self, data):
+        now = get_now().isoformat()
+        data["date"] = now
 
-        lot_values = self._data.get("lotValues")
+        lot_values = data.get("lotValues")
         if lot_values:
             for lot_value in lot_values:
-                lot_value["date"] = self.now
+                lot_value["date"] = now
+        super().on_post(data)
 
     def on_patch(self, before, after):
         # if value.amount is going to be changed -> update "date"
         amount_before = (before.get("value") or {}).get("amount")
         amount_after = (after.get("value") or {}).get("amount")
         if amount_before != amount_after:
-            after["date"] = self.now
+            after["date"] = get_now().isoformat()
 
         # the same as above, for lots
         for after_lot in after.get("lotValues") or []:
             for before_lot in before.get("lotValues") or []:
                 if before_lot["relatedLot"] == after_lot["relatedLot"]:
                     if float(before_lot["value"]["amount"]) != after_lot["value"]["amount"]:
-                        after_lot["date"] = self.now
+                        after_lot["date"] = get_now().isoformat()
                     break
             else:  # lotValue has been just added
-                after_lot["date"] = self.now
+                after_lot["date"] = get_now().isoformat()
 
-        # if status has changed, we should take additional actions according to procedure
-        if "status" in after and before["status"] != after["status"]:
-            self.status_up(before["status"], after["status"])
+        super().on_patch(before, after)

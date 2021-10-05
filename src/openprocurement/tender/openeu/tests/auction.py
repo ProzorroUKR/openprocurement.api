@@ -7,7 +7,6 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_lots
 from openprocurement.tender.belowthreshold.tests.auction import (
     TenderAuctionResourceTestMixin,
-    TenderLotAuctionResourceTestMixin,
     TenderMultipleLotAuctionResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.auction_blanks import (
@@ -17,19 +16,12 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (
     # TenderFeaturesAuctionResourceTest
     get_tender_auction_feature,
     post_tender_auction_feature,
-    # TenderFeaturesLotAuctionResourceTest
-    get_tender_lot_auction_features,
-    post_tender_lot_auction_features,
     # TenderFeaturesMultilotAuctionResourceTest
     get_tender_lots_auction_features,
     post_tender_lots_auction_features,
 )
 
 from openprocurement.tender.openeu.tests.base import BaseTenderContentWebTest, test_features_tender_data, test_bids
-from openprocurement.tender.openeu.tests.auction_blanks import (
-    # TenderMultipleLotAuctionResourceTest
-    patch_tender_2lot_auction,
-)
 
 
 class TenderAuctionResourceTest(BaseTenderContentWebTest, TenderAuctionResourceTestMixin):
@@ -41,8 +33,7 @@ class TenderAuctionResourceTest(BaseTenderContentWebTest, TenderAuctionResourceT
         super(TenderAuctionResourceTest, self).setUp()
         # switch to active.pre-qualification
         self.time_shift("active.pre-qualification")
-        self.app.authorization = ("Basic", ("chronograph", ""))
-        response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+        response = self.check_chronograph()
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
@@ -77,8 +68,7 @@ class TenderSameValueAuctionResourceTest(BaseTenderContentWebTest):
         auth = self.app.authorization
         # switch to active.pre-qualification
         self.set_status("active.pre-qualification", {"status": "active.tendering"})
-        self.app.authorization = ("Basic", ("chronograph", ""))
-        response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+        response = self.check_chronograph()
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
         self.app.authorization = auth
@@ -101,25 +91,13 @@ class TenderSameValueAuctionResourceTest(BaseTenderContentWebTest):
 
         # switch to active.auction
         self.set_status("active.auction", {"status": "active.pre-qualification.stand-still"})
-        self.app.authorization = ("Basic", ("chronograph", ""))
-        response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+        response = self.check_chronograph()
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "active.auction")
         self.app.authorization = auth
 
     test_post_tender_auction_not_changed = snitch(post_tender_auction_not_changed)
     test_post_tender_auction_reversed = snitch(post_tender_auction_reversed)
-
-
-class TenderLotAuctionResourceTest(TenderLotAuctionResourceTestMixin, TenderAuctionResourceTest):
-    initial_lots = test_lots
-    # initial_data = test_tender_data
-
-
-class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestMixin, TenderAuctionResourceTest):
-    initial_lots = 2 * test_lots
-
-    test_patch_tender_auction = snitch(patch_tender_2lot_auction)
 
 
 class TenderFeaturesAuctionResourceTest(TenderAuctionResourceTest):
@@ -136,19 +114,12 @@ class TenderFeaturesAuctionResourceTest(TenderAuctionResourceTest):
         super(TenderFeaturesAuctionResourceTest, self).setUp()
 
 
-class TenderFeaturesLotAuctionResourceTest(TenderLotAuctionResourceTestMixin, TenderFeaturesAuctionResourceTest):
-    initial_lots = test_lots
-    test_get_tender_auction = snitch(get_tender_lot_auction_features)
-    test_post_tender_auction = snitch(post_tender_lot_auction_features)
-
-
 class TenderFeaturesMultilotAuctionResourceTest(
     TenderMultipleLotAuctionResourceTestMixin, TenderFeaturesAuctionResourceTest
 ):
     initial_lots = test_lots * 2
     test_get_tender_auction = snitch(get_tender_lots_auction_features)
     test_post_tender_auction = snitch(post_tender_lots_auction_features)
-    test_patch_tender_auction = snitch(patch_tender_2lot_auction)
 
 
 def suite():

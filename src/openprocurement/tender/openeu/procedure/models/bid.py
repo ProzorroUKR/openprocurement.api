@@ -7,7 +7,7 @@ from openprocurement.tender.openua.procedure.models.bid import (
 )
 from openprocurement.tender.core.procedure.models.base import ListType
 from openprocurement.tender.openeu.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
-from openprocurement.tender.openua.procedure.models.document import (
+from openprocurement.tender.openeu.procedure.models.document import (
     PostDocument,
     Document,
 )
@@ -53,3 +53,4 @@ class Bid(BaseBid):
         choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
         required=True
     )
+    # TODO: should I add here serializible status? (that makes Bid "active" if all lotValues arer "active" etc)

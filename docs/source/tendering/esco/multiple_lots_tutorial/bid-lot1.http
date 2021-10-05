@@ -104,6 +104,7 @@ X-Content-Type-Options: nosniff
       {
         "relatedLot": "93256198e2e7429ab4d0300cc250244f",
         "subcontractingDetails": "ДКП «Орфей», Україна",
+        "status": "pending",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,

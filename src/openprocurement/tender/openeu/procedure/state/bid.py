@@ -1,17 +1,10 @@
-# -*- coding: utf-8 -*-
 from openprocurement.api.utils import error_handler
-from openprocurement.tender.core.procedure.context import get_now
-from openprocurement.tender.core.procedure.state import BidState as BaseBidState
+from openprocurement.tender.core.procedure.state.bid import BidState as BaseBidState
 
 
 class BidState(BaseBidState):
 
-    def __init__(self, request, data):
-        self.request = request
-        self._data = data
-        self.now = get_now().isoformat()
-
-    def status_up(self, before, after):
+    def status_up(self, before, after, data):
         assert before != after, "Statuses must be different"
         # this logic moved here from validate_update_bid_status validator
         # if request.authenticated_role != "Administrator":

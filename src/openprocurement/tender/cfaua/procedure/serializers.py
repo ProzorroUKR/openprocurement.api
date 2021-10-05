@@ -2,7 +2,7 @@ from openprocurement.tender.core.procedure.context import get_tender, get_reques
 from openprocurement.tender.core.procedure.utils import is_item_owner
 from openprocurement.tender.core.procedure.serializers.base import ListSerializer
 from openprocurement.tender.core.procedure.serializers.document import ConfidentialDocumentSerializer
-from openprocurement.tender.openua.procedure.serializers import (
+from openprocurement.tender.core.procedure.serializers.bid import (
     BidSerializer as BaseBidSerializer,
 )
 

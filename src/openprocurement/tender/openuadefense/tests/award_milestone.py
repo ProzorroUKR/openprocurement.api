@@ -6,7 +6,6 @@ from openprocurement.tender.core.tests.qualification_milestone import (
     TenderQualificationMilestone24HMixin,
     TenderQualificationMilestoneALPMixin,
 )
-from copy import deepcopy
 
 
 class TenderAwardMilestoneTestCase(TenderQualificationMilestone24HMixin, TenderAwardPendingResourceTestCase):
@@ -22,7 +21,12 @@ class TenderAwardMilestoneALPTestCase(TenderQualificationMilestoneALPMixin, Base
         Redefine original method, to check that the milestone won't appear
         """
         # sending auction results
-        auction_results = deepcopy(self.initial_bids)
+        auction_results = [
+            {"id": b["id"], "lotValues": [
+                {"relatedLot": l["relatedLot"], "value": l["value"]} for l in b["lotValues"]
+            ]}
+            for b in self.initial_bids
+        ]
         lot_id = auction_results[0]["lotValues"][0]["relatedLot"]
         auction_results[0]["lotValues"][0]["value"]["amount"] = 1
         with change_auth(self.app, ("Basic", ("auction", ""))):

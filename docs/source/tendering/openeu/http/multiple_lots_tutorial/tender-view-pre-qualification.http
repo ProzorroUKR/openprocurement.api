@@ -619,9 +619,9 @@ X-Content-Type-Options: nosniff
     "procurementMethodType": "aboveThresholdEU",
     "title_en": "Services in school canteens",
     "enquiryPeriod": {
-      "startDate": "2021-02-13T00:00:00+02:00",
+      "startDate": "2021-02-14T00:00:00+02:00",
       "endDate": "2021-03-06T00:00:00+02:00",
-      "clarificationsUntil": "2021-03-12T00:00:00+02:00",
+      "clarificationsUntil": "2021-04-09T00:00:00+02:00",
       "invalidationDate": "2021-03-16T00:00:00+02:00"
     },
     "tenderPeriod": {
@@ -1005,7 +1005,7 @@ X-Content-Type-Options: nosniff
     ],
     "qualifications": [
       {
-        "id": "dad5d663985f4e1f89fed69eb21d3b97",
+        "id": "7fe28c22371e4b38a6d00e48a2f1d299",
         "bidID": "491e23c37ed44b8b85e972f227307b80",
         "lotID": "5563fbab2bd848b398a5de9cb3ac555b",
         "status": "pending",
@@ -1014,7 +1014,7 @@ X-Content-Type-Options: nosniff
         "eligible": false
       },
       {
-        "id": "eb923e797e5045e78c90c59bdb3fc212",
+        "id": "ba14405d2f23479eb6e70d629d7b7944",
         "bidID": "6a589730254f47ac99ab0eee03d6770f",
         "lotID": "5563fbab2bd848b398a5de9cb3ac555b",
         "status": "pending",

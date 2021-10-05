@@ -172,12 +172,11 @@ class BaseCoreWebTest(BaseWebTest):
             self.assertEqual(response.content_type, "application/json")
         return response
 
-    def check_chronograph(self, data=None):
+    def check_chronograph(self, data=None, status=200):
         with change_auth(self.app, ("Basic", ("chronograph", ""))):
-            url = "/tenders/{}".format(self.tender_id)
+            url = "/tenders/{}/chronograph".format(self.tender_id)
             data = data or {"data": {"id": self.tender_id}}
-            response = self.app.patch_json(url, data)
-            self.assertEqual(response.status, "200 OK")
+            response = self.app.patch_json(url, data, status=status)
             self.assertEqual(response.content_type, "application/json")
         return response
 

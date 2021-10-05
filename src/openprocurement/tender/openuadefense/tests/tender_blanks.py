@@ -672,8 +672,7 @@ def one_valid_bid_tender_ua(self):
 
     # switch to active.qualification
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.qualification")
 
 
@@ -692,8 +691,7 @@ def one_invalid_bid_tender(self):
     self.create_bid(tender_id, self.test_bids_data[0])
     # switch to active.qualification
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+    response = self.check_chronograph()
     # get awards
     self.assertEqual(response.json["data"]["status"], "active.qualification")
     self.app.authorization = ("Basic", ("broker", ""))
@@ -718,8 +716,7 @@ def one_invalid_bid_tender(self):
                 i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
         self.db.save(tender)
         # set tender status after stand slill period
-        self.app.authorization = ("Basic", ("chronograph", ""))
-        response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+        response = self.check_chronograph()
 
     # check status
     self.assertEqual(response.json["data"]["status"], "unsuccessful")

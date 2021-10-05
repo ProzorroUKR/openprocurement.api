@@ -12,13 +12,13 @@ from openprocurement.tender.belowthreshold.utils import add_next_award
 from openprocurement.tender.cfaselectionua.validation import validate_auction_info_view
 
 
-@optendersresource(
-    name="closeFrameworkAgreementSelectionUA:Tender Auction",
-    collection_path="/tenders/{tender_id}/auction",
-    path="/tenders/{tender_id}/auction/{auction_lot_id}",
-    procurementMethodType="closeFrameworkAgreementSelectionUA",
-    description="Tender auction data",
-)
+# @optendersresource(
+#     name="closeFrameworkAgreementSelectionUA:Tender Auction",
+#     collection_path="/tenders/{tender_id}/auction",
+#     path="/tenders/{tender_id}/auction/{auction_lot_id}",
+#     procurementMethodType="closeFrameworkAgreementSelectionUA",
+#     description="Tender auction data",
+# )
 class TenderAuctionResource(APIResource):
     @json_view(permission="auction", validators=(validate_auction_info_view))
     def collection_get(self):

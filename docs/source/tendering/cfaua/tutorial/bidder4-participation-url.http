@@ -216,14 +216,14 @@ X-Content-Type-Options: nosniff
     "lotValues": [
       {
         "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/37cb590308a242a9836f51a9994c7492_52815e9d01914c7a9bf4ba18ebb5e783?key_for_bid=f2396c5eb7dc40e986705a3de1cdc13b",
         "date": "2021-03-16T00:00:00+02:00",
         "status": "active",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
           "amount": 485.0
-        }
+        },
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/37cb590308a242a9836f51a9994c7492_52815e9d01914c7a9bf4ba18ebb5e783?key_for_bid=f2396c5eb7dc40e986705a3de1cdc13b"
       }
     ],
     "selfQualified": true,

@@ -5,6 +5,7 @@ from schematics.types import (
     BaseType,
     EmailType,
 )
+from schematics.transforms import export_loop
 from schematics.types.compound import ModelType as BaseModelType,  ListType as BaseListType
 from openprocurement.api.models import Model, DecimalType as BaseDecimalType
 from openprocurement.api.utils import get_now
@@ -47,6 +48,36 @@ class ModelType(BaseModelType):
         if name:
             model_class.__name__ = name
         super().__init__(model_class, **kwargs)
+
+
+class NoneAllowedModelType(BaseModelType):
+    """
+    without overwriting export_loop
+    the following data provided to model {'auctionPeriod': {'startDate': None}}
+    would result with None as output from .serialize()
+    """
+
+    def export_loop(self, model_instance, field_converter,
+                    role=None, print_none=False):
+        """
+        Calls the main `export_loop` implementation because they are both
+        supposed to operate on models.
+        """
+        if isinstance(model_instance, self.model_class):
+            model_class = model_instance.__class__
+        else:
+            model_class = self.model_class
+
+        shaped = export_loop(model_class, model_instance,
+                             field_converter,
+                             role=role, print_none=True)
+
+        if shaped and len(shaped) == 0 and self.allow_none():
+            return shaped
+        elif shaped:
+            return shaped
+        elif print_none:
+            return shaped
 
 
 class DecimalType(BaseDecimalType):
@@ -124,6 +155,10 @@ class PostAddress(PatchAddress):
         return False
 
 
+class Address(PostAddress):
+    pass
+
+
 class PatchIdentifier(Model):
     scheme = StringType(
         choices=ORA_CODES
@@ -169,6 +204,10 @@ class PostBusinessOrganization(PostOrganization, PatchBusinessOrganization):
         validation_date = get_first_revision_date(tender, default=get_now())
         if validation_date >= ORGANIZATION_SCALE_FROM and value is None:
             raise ValidationError(BaseType.MESSAGES["required"])
+
+
+class BusinessOrganization(PostBusinessOrganization):
+    pass
 
 
 class BaseBid(Model):

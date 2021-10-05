@@ -11,6 +11,7 @@ from openprocurement.tender.core.tests.chronograph import (
     switch_tender_complaints_draft,
     switch_tender_cancellation_complaints_draft,
     switch_qualification_complaints_draft,
+    switch_tender_after_cancellation_unsuccessful,
 )
 from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     # TenderSwitchUnsuccessfulResourceTest
@@ -92,9 +93,11 @@ class TenderComplaintSwitchResourceTest(BaseTenderContentWebTest):
     initial_status = "active.tendering"
     initial_bids = test_bids
     author_data = test_author
+    docservice = True
 
     test_switch_to_complaint = snitch(switch_to_complaint)
     test_switch_qualification_complaints_draft = snitch(switch_qualification_complaints_draft)
+    test_switch_tender_after_cancellation_unsuccessful = snitch(switch_tender_after_cancellation_unsuccessful)
 
 
 class TenderLotComplaintSwitchResourceTest(TenderComplaintSwitchResourceTest):

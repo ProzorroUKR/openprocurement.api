@@ -14,6 +14,7 @@ X-Content-Type-Options: nosniff
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/076b981bb04b40b88ebb84ad089a3247?Signature=QFDSC7YPY4Xy9jsrJxkl9AuSufsvuSsl1U7etzrsdG%2BRyGJCmObwUvdYrGfLrWEFtIVhxcUg1FSVcwaGr1MOAQ%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
       "confidentiality": "public",
+      "language": "uk",
       "isDescriptionDecision": false,
       "id": "58c3e809e0bb499f87fda30df5d0576b",
       "datePublished": "2021-03-16T00:00:00+02:00",
@@ -29,6 +30,7 @@ X-Content-Type-Options: nosniff
       "documentOf": "tender",
       "dateModified": "2021-03-16T00:00:00+02:00",
       "confidentiality": "buyerOnly",
+      "language": "uk",
       "isDescriptionDecision": true
     },
     {
@@ -42,6 +44,7 @@ X-Content-Type-Options: nosniff
       "dateModified": "2021-03-16T00:00:00+02:00",
       "confidentiality": "buyerOnly",
       "confidentialityRationale": "Only our company sells badgers with pink hair.",
+      "language": "uk",
       "isDescriptionDecision": false
     }
   ]

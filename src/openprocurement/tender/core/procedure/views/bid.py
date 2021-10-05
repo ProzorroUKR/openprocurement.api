@@ -8,7 +8,7 @@ from openprocurement.tender.core.procedure.utils import (
 )
 from openprocurement.tender.core.procedure.serializers.bid import BidSerializer
 from openprocurement.tender.core.procedure.validation import validate_view_bids, unless_item_owner
-from openprocurement.tender.core.procedure.state import BidState
+from openprocurement.tender.core.procedure.state.bid import BidState
 from logging import getLogger
 
 LOGGER = getLogger(__name__)
@@ -40,7 +40,7 @@ class TenderBidResource(TenderBaseResource):
         tender["bids"].append(bid)
         # tender["numberOfBids"] = len(tender["bids"])
 
-        self.state_class(self.request, bid).on_post()
+        self.state.on_post(bid)
 
         if save_tender(self.request, modified=False):
             LOGGER.info(
@@ -84,7 +84,7 @@ class TenderBidResource(TenderBaseResource):
         updated_bid = self.request.validated["data"]
         if updated_bid:
             bid = self.request.validated["bid"]
-            self.state_class(self.request, updated_bid).on_patch(bid, updated_bid)
+            self.state.on_patch(bid, updated_bid)
             set_item(self.request.validated["tender"], "bids", bid["id"], updated_bid)
             if save_tender(self.request, modified=False):
                 self.LOGGER.info(

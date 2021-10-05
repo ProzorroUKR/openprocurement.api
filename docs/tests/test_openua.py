@@ -372,9 +372,10 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
         auction_bids_data = response.json['data']['bids']
         auction_bids_data[0]["value"]["amount"] = 250  # too low price
+        print("here")
         response = self.app.post_json(
             '/tenders/{}/auction'.format(self.tender_id),
-            {'data': {'bids': auction_bids_data}})
+            {'data': {'bids': [{"id": b["id"], "value": b["value"]} for b in auction_bids_data]}})
 
         self.app.authorization = ('Basic', ('broker', ''))
 

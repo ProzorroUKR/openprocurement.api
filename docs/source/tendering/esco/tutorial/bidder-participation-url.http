@@ -32,7 +32,6 @@ X-Content-Type-Options: nosniff
     ],
     "date": "2021-03-16T00:00:00+02:00",
     "id": "931f9a28ea1c44bda087fc6d9349405f",
-    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/33f610abd0a54c8bb1da547c377a3324?key_for_bid=931f9a28ea1c44bda087fc6d9349405f",
     "requirementResponses": [
       {
         "id": "3c64debf715f4421a988da1427307ea2",
@@ -262,7 +261,8 @@ X-Content-Type-Options: nosniff
         "days": 74
       }
     },
-    "selfQualified": true
+    "selfQualified": true,
+    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/33f610abd0a54c8bb1da547c377a3324?key_for_bid=931f9a28ea1c44bda087fc6d9349405f"
   }
 }
 

@@ -37,7 +37,6 @@ X-Content-Type-Options: nosniff
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/db1ddb06a5a44954bc0b9f555776112d?key_for_bid=58e27c7c070d4d97b09d73d735ad23aa",
     "documents": [
       {
         "id": "495d6da3c2b040ffa35339eb84d63c2e",
@@ -107,7 +106,8 @@ X-Content-Type-Options: nosniff
     ],
     "selfQualified": true,
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "status": "active"
+    "status": "active",
+    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/db1ddb06a5a44954bc0b9f555776112d?key_for_bid=58e27c7c070d4d97b09d73d735ad23aa"
   }
 }
 

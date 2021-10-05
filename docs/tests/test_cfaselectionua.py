@@ -301,10 +301,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         # Switch tender to active.tendering
 
         self.set_status('active.enquiries', start_end='end')
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json(
-            '/tenders/{}'.format(tender['id']),
-            {'data': {}})
+        response = self.check_chronograph()
         self.assertEqual(response.json['data']['status'], 'active.tendering')
 
         # Registering bid
@@ -430,9 +427,9 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.app.authorization = ('Basic', ('auction', ''))
         response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
         auction_bids_data = response.json['data']['bids']
-        response = self.app.post_json(
-            '/tenders/{}/auction/{}'.format(self.tender_id, lot['id']),
-            {'data': {'bids': auction_bids_data}})
+        response = self.app.post_json('/tenders/{}/auction/{}'.format(self.tender_id, lot['id']),
+            {'data': {'bids': [{"id": b["id"], "lotValues": [{"value": b["lotValues"][0]["value"]}]}
+                               for b in auction_bids_data]}})
 
         self.app.authorization = ('Basic', ('broker', ''))
 

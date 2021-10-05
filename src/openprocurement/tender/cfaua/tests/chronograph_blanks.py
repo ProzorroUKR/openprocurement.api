@@ -118,7 +118,9 @@ def switch_to_unsuccessful_from_qualification_stand_still(self):
 def switch_to_awarded(self):
     self.set_status(self.initial_status, "end")
     response = self.check_chronograph()
+    self.assertEqual(response.json["data"]["status"], "active.awarded")
 
+    response = self.app.get(f'/tenders/{self.tender_id}')
     self.assertEqual(response.json["data"]["status"], "active.awarded")
     self.assertEqual(len(response.json["data"]["agreements"]), 1)
     self.app.authorization = ("Basic", ("broker", ""))
@@ -134,10 +136,17 @@ def switch_to_awarded(self):
 
 
 def set_auction_period_0bid(self):
-    start_date = "9999-01-01T00:00:00+00:00"
-    response = self.check_chronograph({"data": {"auctionPeriod": {"startDate": start_date}}})
-    self.assertEqual(response.json["data"]["auctionPeriod"]["startDate"], start_date)
+    response = self.check_chronograph()
     should_start_after = response.json["data"]["lots"][0]["auctionPeriod"]["shouldStartAfter"]
-    response = self.check_chronograph({"data": {"auctionPeriod": {"startDate": None}}})
+
+    start_date = "9999-01-01T00:00:00+00:00"
+    response = self.check_chronograph({"data": {"auctionPeriod": {"startDate": start_date}}}, status=422)
+    self.assertEqual(
+        response.json,
+        {"status": "error", "errors": [
+            {"location": "body", "name": "auctionPeriod", "description": ["Auction url at tender lvl forbidden"]}]}
+    )
+
+    response = self.check_chronograph()
     self.assertNotIn("auctionPeriod", response.json["data"])
     self.assertEqual(should_start_after, response.json["data"]["lots"][0]["auctionPeriod"]["shouldStartAfter"])

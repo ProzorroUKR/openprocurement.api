@@ -55,12 +55,13 @@ def switch_to_unsuccessful_after_new(self):
 @patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
 def switch_to_unsuccessful_new(self):
     self.set_status("active.auction", {"status": self.initial_status})
-    response = self.check_chronograph()
+    self.check_chronograph()
 
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.get("/tenders/{}/auction".format(self.tender_id))
     response = self.app.post_json(
-        "/tenders/{}/auction".format(self.tender_id), {"data": {"bids": response.json["data"]["bids"]}}
+        "/tenders/{}/auction".format(self.tender_id),
+        {"data": {"bids": [{} for b in response.json["data"]["bids"]]}}
     )
     self.assertEqual(response.json["data"]["status"], "active.qualification")
 
@@ -96,12 +97,13 @@ def switch_to_unsuccessful_new(self):
 @patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
 def switch_to_active_to_unsuccessful(self):
     self.set_status("active.auction", {"status": self.initial_status})
-    response = self.check_chronograph()
+    self.check_chronograph()
 
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.get("/tenders/{}/auction".format(self.tender_id))
     response = self.app.post_json(
-        "/tenders/{}/auction".format(self.tender_id), {"data": {"bids": response.json["data"]["bids"]}}
+        "/tenders/{}/auction".format(self.tender_id),
+        {"data": {"bids": [{} for b in response.json["data"]["bids"]]}}
     )
     self.assertEqual(response.json["data"]["status"], "active.qualification")
 
@@ -183,7 +185,10 @@ def switch_to_unsuccessful_lot_new(self):
         auction_bids_data = response.json["data"]["bids"]
         for lot in response.json["data"]["lots"]:
             response = self.app.post_json(
-                "/tenders/{}/auction/{}".format(self.tender_id, lot["id"]), {"data": {"bids": auction_bids_data}}
+                "/tenders/{}/auction/{}".format(self.tender_id, lot["id"]),
+                {"data": {"bids": [
+                    {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                    for b in auction_bids_data]}}
             )
             self.assertEqual(response.status, "200 OK")
 
@@ -223,7 +228,10 @@ def switch_to_active_to_unsuccessful_lot(self):
         auction_bids_data = response.json["data"]["bids"]
         for lot in response.json["data"]["lots"]:
             response = self.app.post_json(
-                "/tenders/{}/auction/{}".format(self.tender_id, lot["id"]), {"data": {"bids": auction_bids_data}}
+                "/tenders/{}/auction/{}".format(self.tender_id, lot["id"]),
+                {"data": {"bids": [
+                    {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                    for b in auction_bids_data]}}
             )
             self.assertEqual(response.status, "200 OK")
 

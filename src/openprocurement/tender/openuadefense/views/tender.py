@@ -98,9 +98,7 @@ class TenderUAResource(TenderResource):
                 ].enquiryPeriod.serialize()
 
         apply_patch(self.request, save=False, src=self.request.validated["tender_src"])
-        if self.request.authenticated_role == "chronograph":
-            check_status(self.request)
-        elif self.request.authenticated_role == "tender_owner" and tender.status == "active.tendering":
+        if self.request.authenticated_role == "tender_owner" and tender.status == "active.tendering":
             # invalidate bids on tender change
             tender.invalidate_bids_data()
         save_tender(self.request)

@@ -55,11 +55,8 @@ def question_blocking(self):
     if RELEASE_2020_04_19 < get_now():
         activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id)
 
-    orig_auth = self.app.authorization
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    self.check_chronograph()
 
-    self.app.authorization = orig_auth
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "active.auction")
 
@@ -99,11 +96,7 @@ def claim_blocking(self):
     if RELEASE_2020_04_19 < get_now():
         activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id)
 
-    orig_auth = self.app.authorization
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
-
-    self.app.authorization = orig_auth
+    self.check_chronograph()
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "active.auction")
 
@@ -243,8 +236,7 @@ def one_lot_1bid(self):
     bid, bid_token = self.create_bid(tender_id, bid_data)
     # switch to active.qualification
     self.set_status("active.auction", {"lots": [{"auctionPeriod": {"startDate": None}}], "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["lots"][0]["status"], "active")
     self.assertEqual(response.json["data"]["status"], "active.qualification")
 
@@ -288,8 +280,7 @@ def two_lot_1bid_0com_1can(self):
     self.set_status(
         "active.auction", {"lots": [{"auctionPeriod": {"startDate": None}} for i in lots], "status": "active.tendering"}
     )
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.qualification")
     # for first lot
     lot_id = lots[0]
@@ -331,8 +322,7 @@ def two_lot_1bid_0com_1can(self):
             i["complaintPeriod"] = {"startDate": now, "endDate": now}
         self.db.save(tender)
         # check tender status
-        self.app.authorization = ("Basic", ("chronograph", ""))
-        self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+        response = self.check_chronograph()
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
@@ -379,8 +369,7 @@ def two_lot_1bid_2com_1win(self):
     self.set_status(
         "active.auction", {"lots": [{"auctionPeriod": {"startDate": None}} for i in lots], "status": "active.tendering"}
     )
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+    response = self.check_chronograph()
     for lot_id in lots:
         # get awards
         self.app.authorization = ("Basic", ("broker", ""))
@@ -458,8 +447,7 @@ def two_lot_1bid_0com_0win(self):
     self.set_status(
         "active.auction", {"lots": [{"auctionPeriod": {"startDate": None}} for i in lots], "status": "active.tendering"}
     )
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.qualification")
 
     new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < get_now() < NEW_DEFENSE_COMPLAINTS_TO
@@ -487,8 +475,7 @@ def two_lot_1bid_0com_0win(self):
     if not new_defence_complaints:
         # check tender status
         self.set_status("complete", {"status": "active.awarded"})
-        self.app.authorization = ("Basic", ("chronograph", ""))
-        self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+        response = self.check_chronograph()
 
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
@@ -536,8 +523,7 @@ def two_lot_1bid_1com_1win(self):
     self.set_status(
         "active.auction", {"lots": [{"auctionPeriod": {"startDate": None}} for i in lots], "status": "active.tendering"}
     )
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.qualification")
     # for first lot
     lot_id = lots[0]
@@ -588,8 +574,7 @@ def two_lot_1bid_1com_1win(self):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.db.save(tender)
     # check tender status
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+    response = self.check_chronograph()
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
@@ -641,8 +626,7 @@ def two_lot_2bid_on_first_and_1_on_second_awarding(self):
     self.create_bid(tender_id, bid_data)
     # switch to active.auction
     self.set_status("active.auction", {"status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
 
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}?acc_token={}".format(tender_id, owner_token))
@@ -690,7 +674,10 @@ def two_lot_2bid_on_first_and_1_on_second_awarding(self):
 
     # posting auction results
     self.app.authorization = ("Basic", ("auction", ""))
-    self.app.post_json("/tenders/{}/auction/{}".format(tender_id, lot_id), {"data": {"bids": auction_bids_data}})
+    self.app.post_json("/tenders/{}/auction/{}".format(tender_id, lot_id),
+                       {"data": {"bids": [
+                            {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                            for b in auction_bids_data]}})
 
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))

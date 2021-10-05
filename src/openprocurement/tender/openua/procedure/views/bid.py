@@ -76,6 +76,12 @@ class TenderBidResource(TenderBidResource):
     def delete(self):
         bid = self.request.validated["bid"]
         bid["status"] = "deleted"
+
+        # this wasn't in the original method, I believe it should've been
+        # openeu has it, but tests fail if uncomment...
+        # if bid.get("lotValues"):
+        #     bid["lotValues"] = []
+
         if save_tender(self.request, modified=False):
             self.LOGGER.info(
                 "Deleted tender bid {}".format(bid["id"]),

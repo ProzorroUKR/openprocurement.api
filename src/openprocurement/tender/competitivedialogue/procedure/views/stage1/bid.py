@@ -4,16 +4,14 @@ from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_
 from openprocurement.tender.core.procedure.models.bid import filter_administrator_bid_update
 from openprocurement.tender.competitivedialogue.procedure.models.bid import PostBid, PatchBid, Bid
 from openprocurement.tender.competitivedialogue.procedure.serializers import BidSerializer
-from openprocurement.tender.competitivedialogue.procedure.state import Stage1BidState
+from openprocurement.tender.competitivedialogue.procedure.state.bid import Stage1BidState
 from openprocurement.tender.openeu.procedure.validation import (
     validate_post_bid_status,
-    validate_view_bids,
     validate_bid_status_update_not_to_pending,
 )
 from openprocurement.tender.core.procedure.validation import (
     unless_administrator,
     validate_bid_accreditation_level,
-    unless_item_owner,
     validate_item_owner,
     validate_input_data,
     validate_patch_data,

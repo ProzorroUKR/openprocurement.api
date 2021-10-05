@@ -34,8 +34,7 @@ def cancellation_active_qualification_j1427(self):
     bid_ids.append(bid["id"])
 
     self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
     response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))

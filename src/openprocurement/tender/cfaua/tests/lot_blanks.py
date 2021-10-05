@@ -1659,8 +1659,7 @@ def proc_1lot_0bid(self):
     self.assertEqual(response.status, "200 OK")
     # switch to unsuccessful
     response = self.set_status("active.tendering", "end")
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["lots"][0]["status"], "unsuccessful")
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
@@ -1721,8 +1720,7 @@ def one_lot_2bid_1unqualified(self):
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification.stand-still")
 
     self.set_status("active.pre-qualification.stand-still", "end")
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+    response = self.check_chronograph()
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 

@@ -58,11 +58,8 @@ class TenderQualificationComplaintPostResourceTest(
         self.set_status("active.pre-qualification", extra={"status": "active.tendering"})
 
         # simulate chronograph tick
-        auth = self.app.authorization
-        self.app.authorization = ("Basic", ("chronograph", ""))
-        response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})
+        response = self.check_chronograph()
         self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
-        self.app.authorization = auth
 
         response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
         self.assertEqual(response.content_type, "application/json")

@@ -2,7 +2,7 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.openeu.procedure.views.bid import TenderBidResource
 from openprocurement.tender.core.procedure.models.bid import filter_administrator_bid_update
 from openprocurement.tender.esco.procedure.models.bid import PostBid, PatchBid, Bid
-from openprocurement.tender.esco.procedure.serializers import BidSerializer
+from openprocurement.tender.esco.procedure.serializers.bid import BidSerializer
 from openprocurement.tender.openeu.procedure.validation import (
     validate_post_bid_status,
     validate_view_bids,

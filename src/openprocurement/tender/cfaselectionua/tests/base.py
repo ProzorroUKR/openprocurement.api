@@ -147,12 +147,18 @@ class BaseTenderWebTest(BaseCoreWebTest):
         if not bids and self.initial_bids:
             self.tender_document_patch["bids"] = []
             self.initial_bids_tokens = {}
+            now = get_now().isoformat()
             for bid in self.initial_bids:
                 bid = bid.copy()
                 value = bid.pop("value")
-                bid.update({"id": uuid4().hex, "owner_token": uuid4().hex, "owner": "broker", "status": "active"})
+                bid.update({
+                    "id": uuid4().hex, "owner_token": uuid4().hex,
+                    "owner": "broker", "status": "active",
+                    "date": now,
+                })
                 if self.initial_lots:
-                    bid.update({"lotValues": [{"value": value, "relatedLot": l["id"]} for l in self.initial_lots]})
+                    bid.update({"lotValues": [{"value": value, "relatedLot": l["id"], "date": now}
+                                              for l in self.initial_lots]})
                 self.tender_document_patch["bids"].append(bid)
             self.initial_bids = self.tender_document_patch["bids"]
             bids = self.initial_bids

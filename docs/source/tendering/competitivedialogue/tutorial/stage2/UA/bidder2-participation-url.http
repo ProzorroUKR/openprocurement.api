@@ -7,13 +7,18 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
+    "value": {
+      "amount": 499.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "tenderers": [
       {
         "name": "ДКП «Книга»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137226",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137226"
         },
         "address": {
           "streetAddress": "вул. Островського, 34",
@@ -23,23 +28,18 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Андрій Олексюк",
           "email": "aagt@gmail.com",
-          "telephone": "+380322916930"
+          "telephone": "+380322916930",
+          "name": "Андрій Олексюк"
         },
         "scale": "sme"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "d763b870e0344234823a04cad520e0fd",
-    "value": {
-      "amount": 499.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/db4876add6b747dfafc1b99523c02097?key_for_bid=d763b870e0344234823a04cad520e0fd",
     "status": "draft",
-    "selfQualified": true
+    "selfQualified": true,
+    "id": "d763b870e0344234823a04cad520e0fd",
+    "date": "2021-03-16T00:00:00+02:00",
+    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/db4876add6b747dfafc1b99523c02097?key_for_bid=d763b870e0344234823a04cad520e0fd"
   }
 }
 

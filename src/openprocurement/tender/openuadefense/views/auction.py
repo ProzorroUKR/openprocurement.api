@@ -7,13 +7,13 @@ from openprocurement.tender.belowthreshold.views.auction import TenderAuctionRes
 from openprocurement.tender.openuadefense.utils import add_next_award
 
 
-@optendersresource(
-    name="aboveThresholdUA.defense:Auction",
-    collection_path="/tenders/{tender_id}/auction",
-    path="/tenders/{tender_id}/auction/{auction_lot_id}",
-    procurementMethodType="aboveThresholdUA.defense",
-    description="Tender UA.defense auction data",
-)
+# @optendersresource(
+#     name="aboveThresholdUA.defense:Auction",
+#     collection_path="/tenders/{tender_id}/auction",
+#     path="/tenders/{tender_id}/auction/{auction_lot_id}",
+#     procurementMethodType="aboveThresholdUA.defense",
+#     description="Tender UA.defense auction data",
+# )
 class TenderUaAuctionResource(TenderAuctionResource):
     """ """
 

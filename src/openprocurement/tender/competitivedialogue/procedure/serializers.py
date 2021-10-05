@@ -1,10 +1,9 @@
 from openprocurement.tender.core.procedure.context import get_tender, get_request
 from openprocurement.tender.core.procedure.utils import is_item_owner
-from openprocurement.tender.openua.procedure.serializers import BidSerializer as BaseBidSerializer
+from openprocurement.tender.core.procedure.serializers.bid import BidSerializer as BaseBidSerializer
 
 
 class BidSerializer(BaseBidSerializer):
-    whitelist = None
 
     def __init__(self, data: dict):
         super().__init__(data)

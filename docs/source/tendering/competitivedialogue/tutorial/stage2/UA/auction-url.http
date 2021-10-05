@@ -93,8 +93,8 @@ X-Content-Type-Options: nosniff
     "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/db4876add6b747dfafc1b99523c02097",
     "enquiryPeriod": {
       "startDate": "2021-02-28T00:00:00+02:00",
-      "endDate": "2021-03-06T00:00:00+02:00",
-      "clarificationsUntil": "2021-03-12T00:00:00+02:00",
+      "endDate": "2021-03-13T00:00:00+02:00",
+      "clarificationsUntil": "2021-03-18T00:00:00+02:00",
       "invalidationDate": "2021-03-16T00:00:00+02:00"
     },
     "auctionPeriod": {

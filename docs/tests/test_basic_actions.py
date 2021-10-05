@@ -451,12 +451,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         # Pre-qualification
         self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
-        auth = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json(
-            '/tenders/{}'.format(self.tender_id),
-            {'data': {"id": self.tender_id}})
-        self.app.authorization = auth
+
+        self.check_chronograph()
 
         response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
         self.assertEqual(response.status, "200 OK")
@@ -909,12 +905,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.set_status(
             'active.pre-qualification',
             {"id": self.tender_id, 'status': 'active.tendering'})
-        auth = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json(
-            '/tenders/{}'.format(self.tender_id),
-            {'data': {"id": self.tender_id}})
-        self.app.authorization = auth
+        self.check_chronograph()
 
         response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
         self.assertEqual(response.status, "200 OK")
@@ -2242,12 +2233,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.set_status(
             'active.pre-qualification',
             {"id": self.tender_id, 'status': 'active.tendering'})
-        auth = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json(
-            '/tenders/{}'.format(self.tender_id),
-            {'data': {"id": self.tender_id}})
-        self.app.authorization = auth
+        self.check_chronograph()
 
         response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
         self.assertEqual(response.status, "200 OK")
@@ -2485,12 +2471,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.set_status(
             'active.pre-qualification',
             {"id": self.tender_id, 'status': 'active.tendering'})
-        auth = self.app.authorization
-        self.app.authorization = ('Basic', ('chronograph', ''))
-        response = self.app.patch_json(
-            '/tenders/{}'.format(self.tender_id),
-            {'data': {"id": self.tender_id}})
-        self.app.authorization = auth
+        self.check_chronograph()
 
         response = self.app.get('/tenders/{}/qualifications'.format(self.tender_id))
         self.assertEqual(response.status, "200 OK")

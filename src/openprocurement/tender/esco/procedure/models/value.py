@@ -119,3 +119,7 @@ class ESCOValue(BaseESCOValue):
                                 tender["yearlyPaymentsPercentageRange"]
                             )
                         )
+
+
+class ContractESCOValue(BaseESCOValue):
+    amountNet = DecimalType(min_value=Decimal("0"), precision=-2)

@@ -188,9 +188,8 @@ def one_lot_0bid(self):
     response = self.set_status("active.tendering")
     self.assertNotIn("auctionPeriod", response.json["data"]["lots"][0])
     # switch to unsuccessful
-    response = self.set_status("active.stage2.pending", {"status": "active.tendering"})
-    self.app.authorization = ("Basic", ("chronograph", ""))
-    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"id": tender_id}})
+    self.set_status("active.stage2.pending", {"status": "active.tendering"})
+    response = self.check_chronograph()
     self.assertEqual(response.json["data"]["lots"][0]["status"], "unsuccessful")
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
