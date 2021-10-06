@@ -150,6 +150,8 @@ class TransactionDocument(BaseDocument):
 class ContactPoint(BaseContactPoint):
     availableLanguage = StringType()
 
+    def validate_telephone(self, data, value):
+        pass
 
 class Organization(BaseOrganization):
     """An organization."""

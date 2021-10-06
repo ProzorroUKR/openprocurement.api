@@ -63,7 +63,10 @@ class Address(BaseAddress):
 
 class ContactPoint(BaseContactPoint):
     email = EmailType(required=True)
-    telephone = StringType(required=True)
+    # telephone = StringType(required=True)
+
+    def validate_telephone(self, data, value):
+        pass
 
 
 class CentralProcuringEntity(Model):
@@ -244,10 +247,9 @@ class ContactPointForSubmission(BaseContactPoint):
         super().validate_email(self, data, value)
         return value
 
-    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    # @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
     def validate_telephone(self, data, value):
-        super().validate_telephone(self, data, value)
-        return value
+        pass
 
 
 class OrganizationForSubmission(BaseOrganization):
@@ -291,7 +293,17 @@ class Qualification(BaseQualification):
     qualificationType = StringType(default="electronicCatalogue", required=True)
 
 
-class BusinessOrganization(BaseBusinessOrganization):
+class ContactPointForContract(BaseContactPoint):
+
+    def validate_telephone(self, data, value):
+        pass
+
+
+class OrganizationForContract(BaseOrganization):
+    contactPoint = ModelType(ContactPointForContract, required=True)
+
+
+class BusinessOrganizationForContract(OrganizationForContract, BaseBusinessOrganization):
     class Options:
         roles = {
             "edit": whitelist("contactPoint", "address"),
@@ -336,7 +348,7 @@ class Contract(Model):
     qualificationID = StringType()
     status = StringType(choices=["active", "suspended", "terminated"])
     submissionID = StringType()
-    suppliers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, )
+    suppliers = ListType(ModelType(BusinessOrganizationForContract, required=True), required=True, min_size=1, )
     milestones = ListType(ModelType(Milestone, required=True), required=True, min_size=1, )
     date = IsoDateTimeType(default=get_now)
 

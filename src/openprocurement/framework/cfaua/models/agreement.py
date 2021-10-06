@@ -65,6 +65,9 @@ class ContactPoint(BaseContactPoint):
 
     availableLanguage = StringType(required=True, choices=["uk", "en", "ru"], default="uk")
 
+    def validate_telephone(self, data, value):
+        pass
+
 
 class FeatureValue(Model):
     value = DecimalType(required=True, min_value=Decimal("0.0"), max_value=Decimal("0.3"))

@@ -8,3 +8,6 @@ class ContactPoint(BaseContactPoint):
         roles = RolesFromCsv("ContactPoint.csv", relative_to=__file__)
 
     availableLanguage = StringType(choices=["uk", "en", "ru"])
+
+    def validate_telephone(self, data, value):
+        pass
