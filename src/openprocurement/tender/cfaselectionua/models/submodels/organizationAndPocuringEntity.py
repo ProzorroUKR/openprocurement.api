@@ -17,6 +17,9 @@ class Organization(BaseOrganization):
 
     contactPoint = ModelType(ContactPoint)
 
+    def validate_telephone(self, data, value):
+        pass
+
 
 class ProcuringEntity(Organization):
     """An organization."""

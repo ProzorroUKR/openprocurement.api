@@ -19,6 +19,8 @@ from openprocurement.api.models import (
     ListType,
     BusinessOrganization,
     Document,
+    Organization as BaseOrganization,
+    ContactPoint as BaseContactPoint
 )
 from openprocurement.api.utils import get_now
 
@@ -155,6 +157,20 @@ class ISubmission(IOPContent):
     pass
 
 
+class ContactPoint(BaseContactPoint):
+    def validate_telephone(self, data, value):
+        pass
+
+
+class Organization(BaseOrganization):
+    contactPoint = ModelType(ContactPoint, required=True)
+    pass
+
+
+class SubmissionBusinessOrganization(BusinessOrganization):
+    pass
+
+
 @implementer(ISubmission)
 class Submission(OpenprocurementSchematicsDocument, Model):
     class Options:
@@ -184,7 +200,7 @@ class Submission(OpenprocurementSchematicsDocument, Model):
             "embedded":  blacklist("_id", "_rev", "doc_type", "__parent__"),
         }
 
-    tenderers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1,)
+    tenderers = ListType(ModelType(SubmissionBusinessOrganization, required=True), required=True, min_size=1,)
     documents = ListType(ModelType(Document, required=True), default=list())
     qualificationID = StringType()
     frameworkID = StringType(required=True)
