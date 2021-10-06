@@ -107,6 +107,11 @@ def main(global_config, **settings):
     config.registry.docservice_password = settings.get("docservice_password")
     config.registry.docservice_upload_url = settings.get("docservice_upload_url")
 
+    # deprecated doc service url (for switching to the new host)
+    # you can upload documents from it, then urls will be changed to registry.docservice_url
+    # so they both must be the same document service
+    config.registry.dep_docservice_url = settings.get("dep_docservice_url")
+
     signing_key = settings.get('dockey', '')
     signer = SigningKey(signing_key, encoder=HexEncoder) if signing_key else SigningKey.generate()
     config.registry.docservice_key = signer
