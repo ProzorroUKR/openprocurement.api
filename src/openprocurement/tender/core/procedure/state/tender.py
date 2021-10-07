@@ -242,7 +242,7 @@ class TenderState(TenderStateAwardingMixing, BaseState):
 
     def lots_qualification_events(self, tender):
         lots = tender.get("lots")
-        non_lot_complaints = (i for i in tender.get("complaints", "") if i["relatedLot"] is None)
+        non_lot_complaints = (i for i in tender.get("complaints", "") if i.get("relatedLot") is None)
         if not any(i["status"] in self.block_complaint_status for i in non_lot_complaints):
             for lot in lots:
                 if lot["status"] == "active":
