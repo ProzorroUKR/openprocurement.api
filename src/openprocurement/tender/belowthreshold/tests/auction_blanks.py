@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
-from openprocurement.tender.belowthreshold.tests.base import test_cancellation
+from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.belowthreshold.tests.base import test_cancellation, test_draft_claim
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
 
@@ -610,6 +611,13 @@ def post_tender_lots_auction(self):
         response.json["errors"][0]["description"],
         "Can't report auction results in current ({}) tender status".format(self.forbidden_auction_actions_status),
     )
+
+    # should not affect changing status
+    with change_auth(self.app, ("Basic", ("token", ""))):
+        self.app.post_json(
+            f"/tenders/{self.tender_id}/complaints",
+            {"data": test_draft_claim},
+        )
 
     self.set_status("active.auction")
 
