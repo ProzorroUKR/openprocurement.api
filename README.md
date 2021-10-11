@@ -108,6 +108,10 @@ https://github.com/ProzorroUKR/prozorro_tasks
 
 Auction service
 
+https://github.com/ProzorroUKR/prozorro-auction
+
+https://github.com/ProzorroUKR/prozorro-auction-frontend
+
 #### Auctions (openprocurement.auction)
 
 Deprecated auction service
