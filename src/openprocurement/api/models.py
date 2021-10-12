@@ -51,7 +51,7 @@ from openprocurement.api.constants import (
     VALIDATE_TELEPHONE_FROM,
     CURRENCIES,
     VALIDATE_CURRENCY_FROM,
-    UNIT_PRICE_REQUIRED_FROM,
+    UNIT_CODE_REQUIRED_FROM,
 )
 
 schematics_default_role = SchematicsDocument.Options.roles["default"] + blacklist("__parent__")
@@ -423,7 +423,7 @@ class Unit(Model):
     def validate_code(self, data, value):
         root = get_root(data['__parent__'])
         validation_date = get_first_revision_date(root, default=get_now())
-        if validation_date >= UNIT_PRICE_REQUIRED_FROM:
+        if validation_date >= UNIT_CODE_REQUIRED_FROM:
             if value not in UNIT_CODES:
                 raise ValidationError(u"Code should be one of valid unit codes.")
 
