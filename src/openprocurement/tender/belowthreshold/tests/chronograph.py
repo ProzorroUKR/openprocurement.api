@@ -83,6 +83,24 @@ class TenderLotAuctionPeriodResourceTest(TenderAuctionPeriodResourceTest):
     initial_lots = test_lots
 
 
+class TenderUnsuccessfulLotAuctionPeriodResourceTest(TenderAuctionPeriodResourceTest):
+    initial_lots = test_lots * 2
+    initial_status = "active.tendering"
+
+    def setUp(self):
+        super(TenderUnsuccessfulLotAuctionPeriodResourceTest, self).setUp()
+        # Create award with an unsuccessful lot
+        for bid in self.initial_bids:
+            bid_id = bid["id"]
+            lot_values = bid["lotValues"][:1]
+            del lot_values[0]["date"]
+            response = self.app.patch_json(
+                f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={self.initial_bids_tokens[bid_id]}",
+                {"data": {"lotValues": bid["lotValues"][:1]}}
+            )
+            self.assertEqual(response.status, "200 OK")
+
+
 class TenderComplaintSwitchResourceTest(TenderContentWebTest):
     initial_status = "active.tendering"
     test_switch_to_ignored_on_complete = snitch(switch_to_ignored_on_complete)
