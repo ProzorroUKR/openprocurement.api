@@ -42,7 +42,7 @@ X-Content-Type-Options: nosniff
         "scale": "micro",
         "identifier": {
           "scheme": "UA-EDR",
-          "id": "00137257",
+          "id": "00137256",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {

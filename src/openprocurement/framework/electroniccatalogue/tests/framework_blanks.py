@@ -522,7 +522,6 @@ def create_framework_draft_invalid(self):
                 'description': {
                     'contactPoint': {
                         'email': ['This field is required.'],
-                        'telephone': ['This field is required.']
                     }
                 },
                 'location': 'body', 'name': 'procuringEntity'

@@ -61,8 +61,8 @@ X-Content-Type-Options: nosniff
       },
       "contactPoint": {
         "name": "зміна",
-        "email": "ab@aa.com",
-        "telephone": "+0440000002"
+        "telephone": "+0440000002",
+        "email": "ab@aa.com"
       },
       "kind": "central"
     },

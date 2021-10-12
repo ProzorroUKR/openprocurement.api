@@ -421,7 +421,6 @@ def create_submission_draft_invalid(self):
                 },
                 'contactPoint': {
                     'email': ['This field is required.'],
-                    'telephone': ['This field is required.'],
                 }
             }]
         }],

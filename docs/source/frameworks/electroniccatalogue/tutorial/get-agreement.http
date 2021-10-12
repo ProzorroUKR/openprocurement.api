@@ -35,8 +35,8 @@ X-Content-Type-Options: nosniff
       },
       "contactPoint": {
         "name": "Назва організації(ЦЗО)",
-        "email": "aa@aa.com",
-        "telephone": "+0440000001"
+        "telephone": "+0440000001",
+        "email": "aa@aa.com"
       },
       "kind": "central"
     },
@@ -63,7 +63,7 @@ X-Content-Type-Options: nosniff
             "name": "ДКП «Школяр»",
             "identifier": {
               "scheme": "UA-EDR",
-              "id": "00137257",
+              "id": "00137256",
               "uri": "http://www.sc.gov.ua/"
             },
             "address": {
@@ -73,12 +73,12 @@ X-Content-Type-Options: nosniff
               "postalCode": "21100",
               "countryName": "Україна"
             },
+            "scale": "micro",
             "contactPoint": {
               "name": "Сергій Олексюк",
               "email": "soleksuk@gmail.com",
               "telephone": "+380432216930"
-            },
-            "scale": "micro"
+            }
           }
         ],
         "milestones": [
