@@ -35,8 +35,8 @@ X-Content-Type-Options: nosniff
       },
       "contactPoint": {
         "name": "Назва організації(ЦЗО)",
-        "email": "aa@aa.com",
-        "telephone": "+0440000000"
+        "telephone": "+0440000000",
+        "email": "aa@aa.com"
       },
       "kind": "central"
     },
@@ -73,12 +73,12 @@ X-Content-Type-Options: nosniff
               "postalCode": "21100",
               "countryName": "Україна"
             },
+            "scale": "micro",
             "contactPoint": {
               "name": "Сергій Олексюк",
               "email": "soleksuk@gmail.com",
               "telephone": "+380432216930"
-            },
-            "scale": "micro"
+            }
           }
         ],
         "milestones": [
@@ -112,12 +112,12 @@ X-Content-Type-Options: nosniff
               "postalCode": "21100",
               "countryName": "Україна"
             },
+            "scale": "micro",
             "contactPoint": {
               "name": "Сергій Олексюк",
               "email": "soleksuk@gmail.com",
               "telephone": "+380432216930"
-            },
-            "scale": "micro"
+            }
           }
         ],
         "milestones": [
