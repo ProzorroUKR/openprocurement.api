@@ -15,7 +15,7 @@ from openprocurement.api.models import ListType, Period, Value, Guarantee, Model
 from openprocurement.api.utils import get_now, get_first_revision_date
 from openprocurement.api.constants import (
     TZ, RELEASE_2020_04_19, CPV_ITEMS_CLASS_FROM, UNIT_PRICE_REQUIRED_FROM,
-    MULTI_CONTRACTS_REQUIRED_FROM,
+    MULTI_CONTRACTS_REQUIRED_FROM, UNIT_CODE_REQUIRED_FROM,
 )
 from openprocurement.api.validation import validate_items_uniq, validate_cpv_group, validate_classification_id
 from openprocurement.tender.core.constants import COMPLAINT_STAND_STILL_TIME
@@ -157,7 +157,7 @@ class Item(BaseItem):
     def validate_unit(self, data, value):
         tender = get_tender(data["__parent__"])
         validation_date = get_first_revision_date(tender, default=get_now())
-        if validation_date >= UNIT_PRICE_REQUIRED_FROM and not value:
+        if validation_date >= UNIT_CODE_REQUIRED_FROM and not value:
             raise ValidationError(BaseType.MESSAGES["required"])
 
     def validate_quantity(self, data, value):
