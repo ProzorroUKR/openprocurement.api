@@ -90,7 +90,11 @@ def set_auction_period(self):
 def reset_auction_period(self):
     def check_chronograph(auction_period_data=None):
         if self.initial_lots:
-            data = {"data": {"lots": [{"auctionPeriod": auction_period_data}]}} if auction_period_data else None
+            data = None
+            if auction_period_data:
+                data = {"data": {"lots": [{"auctionPeriod": auction_period_data}]}}
+                for _ in range(1, len(self.initial_lots)):
+                    data["data"]["lots"].append({})
             ch_response = self.check_chronograph(data)
             ch_response_item = ch_response.json["data"]["lots"][0]
         else:
@@ -137,7 +141,12 @@ def reset_auction_period(self):
     )
     self.assertIn("9999-01-01T00:00:00", item["auctionPeriod"]["startDate"])
     self.assertIn("9999-01-01T00:00:00", response.json["data"]["next_check"])
-
+    if self.initial_lots:
+        for l in response.json["data"]["lots"]:
+            if l.get("status", "active") == "active":
+                self.assertIn("auctionPeriod", l)
+            elif l.get("status", "active") == "unsuccessful":
+                self.assertNotIn("auctionPeriod", l)
     now = get_now()
     response, item = check_chronograph(auction_period_data={"startDate": now.isoformat()})
     self.assertEqual(response.json["data"]["status"], "active.auction")
@@ -155,7 +164,6 @@ def reset_auction_period(self):
         response.json["data"]["next_check"],
         self.db.get(self.tender_id)["next_check"]
     )
-
     tender_period_end_date = response.json["data"]["tenderPeriod"]["endDate"]
     response, item = check_chronograph(auction_period_data={"startDate": tender_period_end_date})
     self.assertEqual(response.status, "200 OK")
