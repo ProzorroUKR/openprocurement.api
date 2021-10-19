@@ -43,6 +43,17 @@ services:
     ports:
       - 27017:27017
 
+#  replica:
+#    image: 'bitnami/mongodb:latest'
+#    environment:
+#      MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD: example
+#      MONGODB_INITIAL_PRIMARY_HOST: mongo
+#      MONGODB_REPLICA_SET_MODE: secondary
+#      MONGODB_REPLICA_SET_NAME: rs0
+#      MONGODB_REPLICA_SET_KEY: replicaSetKey
+#    depends_on:
+#      - mongo
+
 #  mongo-express:
 #    image: mongo-express
 #    depends_on:

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import argparse
 import os
 from uuid import uuid4
@@ -9,7 +8,13 @@ from couchdb.http import Unauthorized, extract_credentials
 from openprocurement.api.design import sync_design, sync_design_databases
 from logging import getLogger
 from dataclasses import dataclass, fields
-from pymongo import MongoClient, ReturnDocument, DESCENDING, ASCENDING
+from pymongo import MongoClient, ReturnDocument, DESCENDING, ASCENDING, ReadPreference
+from pymongo.write_concern import WriteConcern
+from pymongo.read_concern import ReadConcern
+from bson.codec_options import TypeRegistry
+from bson.codec_options import CodecOptions
+from bson.decimal128 import Decimal128
+from decimal import Decimal
 from datetime import datetime, timezone
 
 LOGGER = getLogger("{}.init".format(__name__))
@@ -241,6 +246,14 @@ class MongodbResourceConflict(Exception):
     """
 
 
+def fallback_encoder(value):
+    if isinstance(value, Decimal):
+        return Decimal128(value)
+    return value
+
+
+type_registry = TypeRegistry(fallback_encoder=fallback_encoder)
+codec_options = CodecOptions(type_registry=type_registry)
 COLLECTION_CLASSES = {}
 
 
@@ -249,8 +262,28 @@ class MongodbStore:
     def __init__(self, settings):
         db_name = os.environ.get("DB_NAME", settings["mongodb.db_name"])
         mongodb_uri = os.environ.get("MONGODB_URI", settings["mongodb.uri"])
+
+        # https://docs.mongodb.com/manual/core/causal-consistency-read-write-concerns/#causal-consistency-and-read-and-write-concerns
+        raw_read_preference = os.environ.get(
+            "READ_PREFERENCE",
+            settings.get("mongodb.read_preference", "SECONDARY_PREFERRED")
+        )
+        raw_w_concert = os.environ.get(
+            "WRITE_CONCERN",
+            settings.get("mongodb.write_concern", "majority")
+        )
+        raw_r_concern = os.environ.get(
+            "READ_CONCERN",
+            settings.get("mongodb.read_concern", "majority")
+        )
         self.connection = MongoClient(mongodb_uri)
-        self.database = getattr(self.connection, db_name)
+        self.database = self.connection.get_database(
+            db_name,
+            read_preference=getattr(ReadPreference, raw_read_preference),
+            write_concern=WriteConcern(w=int(raw_w_concert) if raw_w_concert.isnumeric() else raw_w_concert),
+            read_concern=ReadConcern(level=raw_r_concern),
+            codec_options=codec_options,
+        )
 
         # code related to specific packages, like:
         # store.plans.get(uid) or store.tenders.save(doc) or store.tenders.count(filters)

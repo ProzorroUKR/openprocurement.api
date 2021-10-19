@@ -1,0 +1,12 @@
+---
+version: '3'
+
+services:
+  master:
+    image: locustio/locust
+    ports:
+      - "8089:8089"
+    volumes:
+      - ./:/mnt/locust
+    command: -f /mnt/locust/plans.py --host http://host.docker.internal:8000
+#    command: -f /mnt/locust/locustfile.py --headless -u 1 -r 1 -t 30m --host http://api.bid-improvements.k8s.prozorro.gov.ua
