@@ -23,7 +23,6 @@ from openprocurement.tender.pricequotation.tests.data import test_milestones
 # TenderTest
 from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.pricequotation.constants import PMT, PQ_KINDS
-from openprocurement.tender.belowthreshold.tests.tender_blanks import create_tender_with_earlier_non_required_unit
 
 
 def listing(self):
@@ -1407,12 +1406,6 @@ def patch_tender_by_pq_bot(self):
     self.assertEqual(tender["unsuccessfulReason"], ["Profile not found in catalogue"])
     self.assertNotIn("classification", tender["items"][0])
     self.assertNotIn("shortlistedFirms", tender)
-
-# TenderProcessTest
-@mock.patch(
-    "openprocurement.tender.pricequotation.models.tender.UNIT_PRICE_REQUIRED_FROM", get_now() + timedelta(days=1))
-def create_pricequotation_tender_with_earlier_non_required_unit(self):
-    create_tender_with_earlier_non_required_unit(self)
 
 
 def invalid_tender_conditions(self):

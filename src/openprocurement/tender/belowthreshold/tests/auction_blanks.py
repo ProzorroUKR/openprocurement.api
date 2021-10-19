@@ -613,11 +613,12 @@ def post_tender_lots_auction(self):
     )
 
     # should not affect changing status
-    with change_auth(self.app, ("Basic", ("token", ""))):
-        self.app.post_json(
-            f"/tenders/{self.tender_id}/complaints",
-            {"data": test_draft_claim},
-        )
+    if self.initial_data["procurementMethodType"] == "belowThreshold":
+        with change_auth(self.app, ("Basic", ("token", ""))):
+            self.app.post_json(
+                f"/tenders/{self.tender_id}/complaints",
+                {"data": test_draft_claim},
+            )
 
     self.set_status("active.auction")
 

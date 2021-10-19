@@ -56,6 +56,8 @@ from openprocurement.api.constants import (
     RELEASE_GUARANTEE_CRITERION_FROM,
     GUARANTEE_ALLOWED_TENDER_TYPES,
     TWO_PHASE_COMMIT_FROM,
+    UNIT_CODE_REQUIRED_FROM,
+    UNIT_PRICE_REQUIRED_FROM,
 )
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
 
@@ -540,6 +542,20 @@ class Item(BaseItem):
         parent = data["__parent__"]
         if relatedLot and isinstance(parent, Model):
             validate_relatedlot(get_tender(parent), relatedLot)
+
+
+def validate_unit_required(data, value):
+    tender = get_tender(data["__parent__"])
+    validation_date = get_first_revision_date(tender, default=get_now())
+    if validation_date >= UNIT_CODE_REQUIRED_FROM and not value:
+        raise ValidationError(BaseType.MESSAGES["required"])
+
+
+def validate_quantity_required(data, value):
+    tender = get_tender(data["__parent__"])
+    validation_date = get_first_revision_date(tender, default=get_now())
+    if validation_date >= UNIT_PRICE_REQUIRED_FROM and value is None:
+        raise ValidationError(BaseType.MESSAGES["required"])
 
 
 class ContractValue(Value):

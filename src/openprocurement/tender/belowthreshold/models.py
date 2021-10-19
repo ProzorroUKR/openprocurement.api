@@ -41,6 +41,8 @@ from openprocurement.tender.core.models import (
     validate_features_uniq,
     validate_lots_uniq,
     get_tender,
+    validate_unit_required,
+    validate_quantity_required,
 )
 
 from openprocurement.tender.core.utils import (
@@ -155,16 +157,10 @@ class Item(BaseItem):
             raise ValidationError(BaseType.MESSAGES["required"])
 
     def validate_unit(self, data, value):
-        tender = get_tender(data["__parent__"])
-        validation_date = get_first_revision_date(tender, default=get_now())
-        if validation_date >= UNIT_CODE_REQUIRED_FROM and not value:
-            raise ValidationError(BaseType.MESSAGES["required"])
+        return validate_unit_required(data, value)
 
     def validate_quantity(self, data, value):
-        tender = get_tender(data["__parent__"])
-        validation_date = get_first_revision_date(tender, default=get_now())
-        if validation_date >= UNIT_PRICE_REQUIRED_FROM and value is None:
-            raise ValidationError(BaseType.MESSAGES["required"])
+        return validate_quantity_required(data, value)
 
 
 class Contract(BaseContract):
