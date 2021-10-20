@@ -630,6 +630,7 @@ def create_cancellation_with_award_complaint(self):
 @patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.core.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.state.tender.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def patch_tender_cancellation_2020_04_19(self):
     reasonType_choices = self.valid_reasonType_choices
 
@@ -1225,6 +1226,7 @@ def permission_cancellation_pending(self):
 @patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.core.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.state.tender.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def activate_cancellation(self):
 
     complaint_data = {

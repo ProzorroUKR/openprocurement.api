@@ -1041,8 +1041,8 @@ def create_tender_with_inn_before(self):
     self.assertGreater(validation.CPV_336_INN_FROM, get_now())
 
 
-@mock.patch(
-    "openprocurement.tender.belowthreshold.models.UNIT_PRICE_REQUIRED_FROM", get_now() + timedelta(days=1))
+@mock.patch("openprocurement.tender.core.models.UNIT_PRICE_REQUIRED_FROM", get_now() + timedelta(days=1))
+@mock.patch("openprocurement.tender.core.models.UNIT_CODE_REQUIRED_FROM", get_now() + timedelta(days=1))
 def create_tender_with_earlier_non_required_unit(self):
     # can be removed later
 
@@ -1065,6 +1065,8 @@ def create_tender_with_earlier_non_required_unit(self):
     self.assertNotIn("unit", response.json["data"]['items'][0])
 
 
+@mock.patch("openprocurement.tender.core.models.UNIT_PRICE_REQUIRED_FROM", get_now() - timedelta(days=1))
+@mock.patch("openprocurement.tender.core.models.UNIT_CODE_REQUIRED_FROM", get_now() - timedelta(days=1))
 def create_tender_with_required_unit(self):
     response = self.app.get("/tenders")
     self.assertEqual(response.status, "200 OK")

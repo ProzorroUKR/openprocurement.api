@@ -3,7 +3,7 @@ import jmespath
 from datetime import timedelta
 from copy import deepcopy
 from openprocurement.api.utils import get_now
-
+from unittest.mock import patch
 from openprocurement.tender.belowthreshold.tests.base import test_claim, test_cancellation
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
 
@@ -1005,6 +1005,7 @@ def patch_contract_single_item_unit_value_round(self):
     self.assertEqual(response.json["data"]["status"], "active")
 
 
+@patch("openprocurement.tender.core.validation.UNIT_PRICE_REQUIRED_FROM", get_now() - timedelta(days=1))
 def patch_contract_multi_items_unit_value(self):
 
     auth = self.app.authorization

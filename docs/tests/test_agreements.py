@@ -275,12 +275,13 @@ class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTes
         self.submission_1_id = response.json["data"]["id"]
         self.submission_1_token = response.json["access"]["token"]
 
-        tenderer["identifier"]["id"] = "00137257"
+        local_tenderer = deepcopy(tenderer)
+        local_tenderer["identifier"]["id"] = "00137257"
 
         response = self.app.post_json(
             '/submissions',
             {'data': {
-                "tenderers": [tenderer],
+                "tenderers": [local_tenderer],
                 "frameworkID": self.framework_id,
             }}
         )

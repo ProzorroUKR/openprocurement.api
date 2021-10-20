@@ -13,7 +13,6 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.utils import get_now, parse_date
 from openprocurement.tender.belowthreshold.tests.base import test_organization
-from openprocurement.tender.belowthreshold.tests.tender_blanks import create_tender_with_earlier_non_required_unit
 from openprocurement.tender.cfaua.constants import MAX_AGREEMENT_PERIOD
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 
@@ -1950,12 +1949,8 @@ def tender_with_main_procurement_category(self):
     self.assertEqual(response.json["data"]["mainProcurementCategory"], "goods")
 
 
-@mock.patch(
-    "openprocurement.tender.cfaua.models.submodels.item.UNIT_PRICE_REQUIRED_FROM", get_now() + timedelta(days=1))
-def create_cfaua_tender_with_earlier_non_required_unit(self):
-    create_tender_with_earlier_non_required_unit(self)
-
-
+@mock.patch("openprocurement.tender.core.models.UNIT_PRICE_REQUIRED_FROM", get_now() - timedelta(days=1))
+@mock.patch("openprocurement.tender.core.models.UNIT_CODE_REQUIRED_FROM", get_now() - timedelta(days=1))
 def create_tender_with_required_unit(self):
     response = self.app.get("/tenders")
     self.assertEqual(response.status, "200 OK")

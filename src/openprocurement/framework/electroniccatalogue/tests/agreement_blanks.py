@@ -247,7 +247,7 @@ def patch_contract_active_status(self):
     response = self.app.patch_json(
         f"/frameworks/{self.framework_id}?acc_token={self.framework_token}",
         {"data": {
-            "qualificationPeriod": {"endDate": (get_now() + timedelta(days=CONTRACT_BAN_DURATION+1)).isoformat()}
+            "qualificationPeriod": {"endDate": (get_now() + timedelta(days=CONTRACT_BAN_DURATION+2)).isoformat()}
         }}
     )
     self.assertEqual(response.status, "200 OK")
