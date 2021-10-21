@@ -34,6 +34,22 @@ def validate_submit_claim_time(request, **kwargs):
         )
 
 
+def validate_submit_complaint_time(request, **kwargs):
+    tender = request.validated["tender"]
+    complaint_submit_time = request.content_configurator.tender_complaint_submit_time
+    complaint_end_date = calculate_tender_business_date(
+        tender.tenderPeriod.endDate, -complaint_submit_time, tender, True
+    )
+    if get_now() > complaint_end_date:
+        raise_operation_error(
+            request,
+            "Can submit complaint not later than {duration.days} "
+            "full business days before tenderPeriod ends".format(
+                duration=complaint_submit_time
+            )
+        )
+
+
 def validate_only_complaint_allowed(request, **kwargs):
     tender = request.validated["tender"]
     tender_created = get_first_revision_date(tender, default=get_now())
