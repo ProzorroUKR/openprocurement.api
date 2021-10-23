@@ -1052,17 +1052,24 @@ def create_tender_with_earlier_non_required_unit(self):
     tender_data = deepcopy(self.initial_data)
 
     _unit = tender_data["items"][0].pop("unit")
-    response = self.app.post_json("/tenders", {"data": tender_data})
-    self.assertEqual(response.status, "201 Created")
+    response = self.app.post_json("/tenders", {"data": tender_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
-    self.assertNotIn("unit", response.json["data"]['items'][0])
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{'description': [{'unit': ['This field is required.']}],
+          'location': 'body',
+          'name': 'items'}]
 
+    )
+
+    tender_data = deepcopy(self.initial_data)
     _quantity = tender_data["items"][0].pop("quantity")
     response = self.app.post_json("/tenders", {"data": tender_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertNotIn("quantity", response.json["data"]['items'][0])
-    self.assertNotIn("unit", response.json["data"]['items'][0])
 
 
 @mock.patch("openprocurement.tender.core.models.UNIT_PRICE_REQUIRED_FROM", get_now() - timedelta(days=1))
@@ -1084,7 +1091,6 @@ def create_tender_with_required_unit(self):
                 'description': [
                     {
                         'unit': ['This field is required.'],
-                        'quantity': ['This field is required.']
                     }
                 ],
                 'location': 'body', 'name': 'items'

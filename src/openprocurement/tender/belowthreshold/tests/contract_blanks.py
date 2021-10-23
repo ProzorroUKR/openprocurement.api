@@ -1176,9 +1176,11 @@ def patch_contract_multi_items_unit_value(self):
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
-        {"data": {"status": "active"}}, status=403
+        {"data": {"status": "active"}}
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json['data']["status"], "active")
+    # self.assertEqual(response.status, "403 Forbidden")
 
     self.assertEqual(
         response.json["errors"], [{

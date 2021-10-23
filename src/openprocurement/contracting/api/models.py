@@ -27,6 +27,8 @@ from openprocurement.api.models import plain_role, schematics_default_role, sche
 from openprocurement.api.interfaces import IOPContent
 from openprocurement.tender.core.models import Tender, ContractValue, PROCURING_ENTITY_KINDS
 from openprocurement.api.models import BankAccount
+from openprocurement.api.models import Unit as BaseUnit
+
 
 contract_create_role = whitelist(
     "id",
@@ -189,12 +191,18 @@ class AdditionalClassification(BaseAdditionalClassification):
         pass
 
 
+class UnitForContracting(BaseUnit):
+    def validate_code(self, data, value):
+        pass
+
+
 class Item(BaseItem):
     class Options:
         roles = {"edit_active": item_edit_role, "view": schematics_default_role, "embedded": schematics_embedded_role}
 
     classification = ModelType(CPVClassification, required=True)
     additionalClassifications = ListType(ModelType(AdditionalClassification, required=True), default=list())
+    unit = ModelType(UnitForContracting)
 
 
 class Change(Model):
