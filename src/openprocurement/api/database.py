@@ -338,7 +338,7 @@ class MongodbStore:
         elif mode != "_all_":
             filters["is_test"] = False
         if offset_value:
-            filters[offset_field] = {"$gt": offset_value}
+            filters[offset_field] = {"$lt" if descending else "$gt": offset_value}
         results = list(collection.find(
             filter=filters,
             projection={f: 1 for f in fields | {offset_field}},
