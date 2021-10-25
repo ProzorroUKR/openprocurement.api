@@ -613,7 +613,7 @@ def post_tender_lots_auction(self):
     )
 
     # should not affect changing status
-    if self.initial_data["procurementMethodType"] == "belowThreshold":
+    if self.initial_data["procurementMethodType"] in ("belowThreshold", "simple.defense"):
         with change_auth(self.app, ("Basic", ("token", ""))):
             self.app.post_json(
                 f"/tenders/{self.tender_id}/complaints",

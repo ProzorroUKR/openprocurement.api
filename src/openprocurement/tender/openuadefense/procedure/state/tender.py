@@ -36,7 +36,7 @@ class OpenUADefenseTenderState(DefenseTenderStateAwardingMixing, TenderState):
 
     def lots_qualification_events(self, tender):
         lots = tender.get("lots")
-        non_lot_complaints = (i for i in tender.get("complaints", "") if i["relatedLot"] is None)
+        non_lot_complaints = (i for i in tender.get("complaints", "") if i.get("relatedLot") is None)
         if not any(i["status"] in self.block_complaint_status for i in non_lot_complaints):
             first_revision_date = get_first_revision_date(tender)
             new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < first_revision_date < NEW_DEFENSE_COMPLAINTS_TO
