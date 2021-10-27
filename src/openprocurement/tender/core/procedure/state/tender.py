@@ -434,7 +434,7 @@ class TenderState(TenderStateAwardingMixing, BaseState):
                         if not lot["auctionPeriod"]:
                             del lot["auctionPeriod"]
 
-                    if lot["status"] == "active":
+                    if lot.get("status") == "active":  # defense procedures doesn't have lot status, for ex
                         lot["status"] = "unsuccessful"
 
                         # for procedures where lotValues have "status" field (openeu, competitive_dialogue, cfaua, )
