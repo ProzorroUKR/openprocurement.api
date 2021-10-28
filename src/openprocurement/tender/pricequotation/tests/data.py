@@ -12,7 +12,7 @@ now = get_now()
 PQ_MULTI_PROFILE_RELEASED = get_now() > PQ_MULTI_PROFILE_FROM
 
 test_agreement_data = {
-    "_id": "2e14a78a2074952d5a2d256c3c004dda",
+    # "_id": "2e14a78a2074952d5a2d256c3c004dda",
     "doc_type": "Agreement",
     "agreementID": "UA-2021-11-12-000001",
     "agreementType": "electronicCatalogue",
@@ -232,9 +232,9 @@ test_tender_data_before_multiprofile = deepcopy(test_tender_data_base)
 test_tender_data_before_multiprofile["profile"] = "655360-30230000-889652-40000777"
 
 test_tender_data_after_multiprofile = deepcopy(test_tender_data_base)
-test_tender_data_after_multiprofile["agreement"] = {
-    "id": test_agreement_data["_id"],
-}
+# test_tender_data_after_multiprofile["agreement"] = {
+#     "id": "",
+# }
 # test_tender_data_after_multiprofile["items"][0]["profile"] = "655360-30230000-889652-40000777"
 # test_tender_data_after_multiprofile["items"][1]["profile"] = "655361-30230000-889652-40000777"
 

@@ -51,6 +51,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
         super(BaseTenderWebTest, self).setUp()
         if PQ_MULTI_PROFILE_RELEASED:
             self.create_agreement()
+            self.initial_data["agreement"] = {"id": self.agreement_id}
 
     def tearDown(self):
         if PQ_MULTI_PROFILE_RELEASED:
@@ -215,8 +216,8 @@ class BaseTenderWebTest(BaseCoreWebTest):
             self.set_status(self.initial_status)
 
     def create_agreement(self):
-        self.databases.agreements.create(test_agreement_data)
-        self.agreement_id = test_agreement_data["_id"]
+        agreement_id = self.databases.agreements.create(test_agreement_data)
+        self.agreement_id = agreement_id
 
     def delete_agreement(self):
         if self.agreement_id:
