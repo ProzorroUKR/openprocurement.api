@@ -1042,7 +1042,7 @@ def create_tender_with_inn_before(self):
 
 
 @mock.patch("openprocurement.tender.core.models.UNIT_PRICE_REQUIRED_FROM", get_now() + timedelta(days=1))
-@mock.patch("openprocurement.tender.core.models.UNIT_CODE_REQUIRED_FROM", get_now() + timedelta(days=1))
+@mock.patch("openprocurement.tender.core.models.UNIT_CODE_REQUIRED_FROM", get_now() - timedelta(days=1))
 def create_tender_with_earlier_non_required_unit(self):
     # can be removed later
 
@@ -1072,7 +1072,7 @@ def create_tender_with_earlier_non_required_unit(self):
     self.assertNotIn("quantity", response.json["data"]['items'][0])
 
 
-@mock.patch("openprocurement.tender.core.models.UNIT_PRICE_REQUIRED_FROM", get_now() - timedelta(days=1))
+@mock.patch("openprocurement.tender.core.models.UNIT_PRICE_REQUIRED_FROM", get_now() + timedelta(days=1))
 @mock.patch("openprocurement.tender.core.models.UNIT_CODE_REQUIRED_FROM", get_now() - timedelta(days=1))
 def create_tender_with_required_unit(self):
     response = self.app.get("/tenders")

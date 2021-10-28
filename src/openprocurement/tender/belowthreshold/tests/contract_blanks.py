@@ -1176,12 +1176,9 @@ def patch_contract_multi_items_unit_value(self):
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
-        {"data": {"status": "active"}}
+        {"data": {"status": "active"}},
+        status=403
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json['data']["status"], "active")
-    # self.assertEqual(response.status, "403 Forbidden")
-
     self.assertEqual(
         response.json["errors"], [{
             "description": "Can't activate contract while unit.value is not set for each item",
