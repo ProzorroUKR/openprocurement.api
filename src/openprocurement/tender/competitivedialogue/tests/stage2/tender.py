@@ -111,8 +111,6 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
     test_patch_not_author = snitch(patch_not_author)
     test_tender_funders = snitch(tender_funders)
     test_tender_milestones_not_required = snitch(tender_milestones_not_required)
-    test_create_tender_with_non_required_unit = snitch(create_tender_with_non_required_unit)
-    test_create_tender_with_earlier_non_required_unit = snitch(create_tender_with_earlier_non_required_unit)
 
 
 class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
