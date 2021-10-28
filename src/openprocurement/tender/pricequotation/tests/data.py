@@ -5,11 +5,23 @@ from datetime import timedelta
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import set_tender_multi_buyers
 from openprocurement.tender.pricequotation.constants import PMT
-from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.constants import SANDBOX_MODE, PQ_MULTI_PROFILE_FROM
 
 
 now = get_now()
+PQ_MULTI_PROFILE_RELEASED = get_now() > PQ_MULTI_PROFILE_FROM
 
+test_agreement_data = {
+    "_id": "2e14a78a2074952d5a2d256c3c004dda",
+    "doc_type": "Agreement",
+    "agreementID": "UA-2021-11-12-000001",
+    "agreementType": "electronicCatalogue",
+    "frameworkID": "985a2e3eab47427283a5c51e84d0986d",
+    "period": {
+        "startDate": "2021-11-12T00:00:00.318051+02:00",
+        "endDate": "2022-02-24T20:14:24.577158+03:00"
+    }
+}
 
 PERIODS = {
     "active.tendering": {
@@ -174,7 +186,7 @@ del test_author["scale"]
 test_procuringEntity = test_author.copy()
 test_procuringEntity["kind"] = "general"
 
-test_item = {
+test_item_base = {
     "description": "Комп’ютерне обладнання",
     "classification": {"scheme": "ДК021", "id": "44617100-9", "description": "Cartons"},
     "additionalClassifications": [
@@ -198,10 +210,16 @@ test_item = {
         "streetAddress": "вул. Банкова 1",
     },
 }
+test_item_before_multiprofile = deepcopy(test_item_base)
+test_item_after_multiprofile = deepcopy(test_item_base)
+test_item_after_multiprofile["profile"] = "655360-30230000-889652-40000777"
+if PQ_MULTI_PROFILE_RELEASED:
+    test_item = test_item_after_multiprofile
+else:
+    test_item = test_item_before_multiprofile
 
-test_tender_data = {
+test_tender_data_base = {
     "title": "Комп’ютерне обладнання",
-    "profile": "655360-30230000-889652-40000777",
     "mainProcurementCategory": "goods",
     "procuringEntity": test_procuringEntity,
     "items": [deepcopy(test_item)],
@@ -210,6 +228,22 @@ test_tender_data = {
     "procurementMethodType": PMT,
     "procurementMethod": 'selective',
 }
+test_tender_data_before_multiprofile = deepcopy(test_tender_data_base)
+test_tender_data_before_multiprofile["profile"] = "655360-30230000-889652-40000777"
+
+test_tender_data_after_multiprofile = deepcopy(test_tender_data_base)
+test_tender_data_after_multiprofile["agreement"] = {
+    "id": test_agreement_data["_id"],
+}
+# test_tender_data_after_multiprofile["items"][0]["profile"] = "655360-30230000-889652-40000777"
+# test_tender_data_after_multiprofile["items"][1]["profile"] = "655361-30230000-889652-40000777"
+
+
+if PQ_MULTI_PROFILE_RELEASED:
+    test_tender_data = test_tender_data_after_multiprofile
+else:
+    test_tender_data = test_tender_data_before_multiprofile
+
 if SANDBOX_MODE:
     test_tender_data["procurementMethodDetails"] = "quick, accelerator=1440"
 
@@ -516,7 +550,6 @@ test_short_profile = {
         "valueAddedTaxIncluded": True
     }
 }
-
 
 test_criteria_1 = [
     {

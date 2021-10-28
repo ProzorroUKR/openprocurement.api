@@ -10,6 +10,7 @@ from openprocurement.tender.pricequotation.tests.base import (
     test_bids,
     bid_with_docs,
     test_short_profile,
+    test_reason,
     test_shortlisted_firms
 )
 from openprocurement.tender.core.tests.base import change_auth
@@ -56,7 +57,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             }
 
         tender_data_1 = deepcopy(tender_data)
-        tender_data_1['profile'] = test_short_profile["id"]
+        tender_data_1['reason'] = test_reason
         response = self.app.post_json("/tenders", {"data": tender_data_1})
         self.assertEqual(response.status, "201 Created")
         tender_id_1 = response.json["data"]["id"]
@@ -68,7 +69,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.assertNotIn("shortlistedFirms", tender)
         self.assertNotIn("classification", tender["items"][0])
         self.assertIn("unit", tender["items"][0])
-        self.assertEqual(tender["profile"], test_short_profile["id"])
+        self.assertEqual(tender["reason"], test_reason)
 
         with open(TARGET_DIR + 'publish-tender.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
@@ -91,8 +92,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             }
         }
 
-        test_tender_data2 = deepcopy(tender_data)
-        test_tender_data2["profile"] += "bad_profile"
+        test_tender_data2 = deepcopy(tender_data_1)
+        test_tender_data2["reason"]["profiles"].append(test_short_profile["id"]+"bad_profile")
 
         response = self.app.post_json(
             '/tenders?opt_pretty=1',

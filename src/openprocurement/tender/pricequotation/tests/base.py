@@ -21,6 +21,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
     initial_data = test_tender_data
     initial_status = None
     maxDiff = None
+    initial_agreement_data = test_agreement_data
 
     initial_bids = None
     initial_auth = ("Basic", ("broker", ""))
@@ -45,6 +46,16 @@ class BaseTenderWebTest(BaseCoreWebTest):
     meta_initial_bids = test_bids
     init_awards = True
     tender_class = PriceQuotationTender
+
+    def setUp(self):
+        super(BaseTenderWebTest, self).setUp()
+        if PQ_MULTI_PROFILE_RELEASED:
+            self.create_agreement()
+
+    def tearDown(self):
+        if PQ_MULTI_PROFILE_RELEASED:
+            self.delete_agreement()
+        super(BaseTenderWebTest, self).tearDown()
 
     def generate_awards(self, status, startend):
         bids = self.tender_document.get("bids", []) or self.tender_document_patch.get("bids", [])
@@ -194,6 +205,8 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
     def create_tender(self):
         data = deepcopy(self.initial_data)
+        if PQ_MULTI_PROFILE_RELEASED:
+            data["agreement"] = {"id": self.agreement_id}
         response = self.app.post_json("/tenders", {"data": data})
         tender = response.json["data"]
         self.tender_id = tender["id"]
@@ -201,12 +214,22 @@ class BaseTenderWebTest(BaseCoreWebTest):
         if self.initial_status and self.initial_status != status:
             self.set_status(self.initial_status)
 
+    def create_agreement(self):
+        self.databases.agreements.create(test_agreement_data)
+        self.agreement_id = test_agreement_data["_id"]
+
+    def delete_agreement(self):
+        if self.agreement_id:
+            db = self.databases.agreements
+            db.delete(db[self.agreement_id])
+
 
 class TenderContentWebTest(BaseTenderWebTest):
     initial_data = test_tender_data
     initial_status = None
     initial_bids = None
     need_tender = True
+
     def setUp(self):
         super(TenderContentWebTest, self).setUp()
         if self.need_tender:

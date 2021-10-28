@@ -208,3 +208,6 @@ MULTI_CONTRACTS_REQUIRED_FROM = get_constant(CONSTANTS_CONFIG, "MULTI_CONTRACTS_
 
 # CS-11202 add new constant for validate code
 UNIT_CODE_REQUIRED_FROM = get_constant(CONSTANTS_CONFIG, "UNIT_CODE_REQUIRED_FROM")
+
+# CS-11411 multi profile available for pq tenders
+PQ_MULTI_PROFILE_FROM = get_constant(CONSTANTS_CONFIG, "PQ_MULTI_PROFILE_FROM")
