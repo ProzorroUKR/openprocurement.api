@@ -35,7 +35,7 @@ from openprocurement.contracting.api.utils import get_transaction_by_id
 
 
 COUNTRY_OF_ORIGIN_SCHEMA_NAME = "COO"
-ALLOWED_SCHEME_NAMES = [COUNTRY_OF_ORIGIN_SCHEMA_NAME]
+ALLOWED_TO_MODIFY_SCHEME_NAMES = [COUNTRY_OF_ORIGIN_SCHEMA_NAME]
 
 
 def validate_contract_data(request, **kwargs):
@@ -242,14 +242,14 @@ def validate_update_contract_item_country_code(request, **kwargs):
             )
 
 
-def validate_update_contract_item_all_classification_provided(request, **kwargs):
+def validate_update_item_required_classifications_unchanged(request, **kwargs):
     old_contract = request.contract
     new_contract = request.validated["data"]
     for new_item, old_item in zip_longest(new_contract.get('items') or [],  old_contract.items or []):
         if not new_item or not old_item:
             continue
         old_item = old_item.serialize()
-        item_validation_errors = validate_item_updates(old_item, new_item)
+        item_validation_errors = validate_item_classifications_unchanged(old_item, new_item)
         if not item_validation_errors:
             return
         for e in item_validation_errors:
@@ -258,22 +258,31 @@ def validate_update_contract_item_all_classification_provided(request, **kwargs)
         raise error_handler(request)
 
 
-def validate_item_updates(old_item, new_item):
+def validate_item_classifications_unchanged(old_item, new_item):
     errors = []
-    new_classification_items_set = set((i['scheme'], i['id'])
-                                       for i in new_item.get('additionalClassifications') or [])
-    old_classification_items_set = set((i['scheme'], i['id'])
-                                       for i in old_item.get('additionalClassifications') or [])
+    new_items_list = [
+        i for i in new_item.get('additionalClassifications') or []
+        if i['scheme'] not in ALLOWED_TO_MODIFY_SCHEME_NAMES
+    ]
+    new_classification_items_set = {
+        (i['scheme'], i['id'])
+        for i in new_items_list
+    }
 
-    if len(new_classification_items_set) < len(new_item.get('additionalClassifications') or []):
+    old_classification_items_set = {
+        (i['scheme'], i['id'])
+        for i in old_item.get('additionalClassifications') or []
+        if i['scheme'] not in ALLOWED_TO_MODIFY_SCHEME_NAMES
+    }
+
+    if len(new_classification_items_set) < len(new_items_list):
         errors.append("Duplicates in additionalClassifications are prohibited.")
 
     deleted_items = old_classification_items_set - new_classification_items_set
     if deleted_items:
         errors.append("Removing items from additionalClassifications is forbidden.")
 
-    new_classifications = new_classification_items_set - old_classification_items_set
-    new_prohibited_classifications = [c for c in new_classifications if c[0] not in ALLOWED_SCHEME_NAMES]
+    new_prohibited_classifications = new_classification_items_set - old_classification_items_set
     for i in new_prohibited_classifications:
         errors.append(
             f"Cannot add new additionalClassifications with scheme=\"{i[0]}\". "

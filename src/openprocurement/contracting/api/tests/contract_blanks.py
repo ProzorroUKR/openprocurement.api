@@ -1425,9 +1425,6 @@ def contract_update_items_on_termination(self):
     self.assertEqual(
         response.json["errors"],
         [
-            {'description': 'Duplicates in additionalClassifications are prohibited.',
-             'location': 'body',
-             'name': 'data.items'},
             {'description': 'Cannot add new additionalClassifications with '
                             'scheme="not_a_scheme". Only scheme="COO" could be added on '
                             'this stage.',
@@ -1493,6 +1490,123 @@ def contract_update_items_on_termination(self):
             'name': 'data'
         }]
     )
+
+
+def contract_crud_on_additional_classifications(self):
+    tender_token = self.initial_data["tender_token"]
+
+    response = self.app.patch_json(
+        "/contracts/{}/credentials?acc_token={}".format(self.contract["id"], tender_token), {"data": ""}
+    )
+    self.assertEqual(response.status, "200 OK")
+    token = response.json["access"]["token"]
+
+    response = self.app.get("/contracts/{}".format(self.contract["id"]))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    item = response.json["data"]["items"][0]
+    existing_additional_classifications = item['additionalClassifications'][0]
+
+    # create correct COO
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token), {
+            "data": {
+                "items":
+                    [{
+                        "id": item['id'],
+                        "additionalClassifications": [
+                            existing_additional_classifications,
+                            {'scheme': 'COO', 'description': 'Україна', 'id': 'UA'},
+                        ]
+                    }],
+            }
+        }
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    coo_classificcations = [
+        i for i in response.json['data']['items'][0]["additionalClassifications"]
+        if i['scheme'] == 'COO'
+    ]
+
+    self.assertEqual(len(coo_classificcations), 1)
+    classifications_item = coo_classificcations[0]
+
+    self.assertEqual("COO", classifications_item["scheme"])
+    self.assertEqual("UA", classifications_item["id"])
+
+    # update correct COO
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token), {
+            "data": {
+                "items":
+                    [{
+                        "id": item['id'],
+                        "additionalClassifications": [
+                            existing_additional_classifications,
+                            {'scheme': 'COO', 'description': 'Японія', 'id': 'JP'},
+                        ]
+                    }],
+            }
+        }
+    )
+    self.assertEqual(response.status, "200 OK")
+    coo_classificcations = [
+        i for i in response.json['data']['items'][0]["additionalClassifications"]
+        if i['scheme'] == 'COO'
+    ]
+
+    self.assertEqual(len(coo_classificcations), 1)
+    classifications_item = coo_classificcations[0]
+
+    self.assertEqual("COO", classifications_item["scheme"])
+    self.assertEqual("JP", classifications_item["id"])
+
+    # delete COO
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token), {
+            "data": {
+                "items":
+                    [{
+                        "id": item['id'],
+                        "additionalClassifications": [
+                            existing_additional_classifications,
+                        ]
+                    }],
+            }
+        }
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertNotIn("COO", [s["scheme"] for s in response.json['data']['items'][0]["additionalClassifications"]])
+
+    # re-create COO over deleted one
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token), {
+            "data": {
+                "items":
+                    [{
+                        "id": item['id'],
+                        "additionalClassifications": [
+                            existing_additional_classifications,
+                            {'scheme': 'COO', 'description': 'Республіка Польща', 'id': 'PL'},
+                        ]
+                    }],
+            }
+        }
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    coo_classificcations = [
+        i for i in response.json['data']['items'][0]["additionalClassifications"]
+        if i['scheme'] == 'COO'
+    ]
+
+    self.assertEqual(len(coo_classificcations), 1)
+    classifications_item = coo_classificcations[0]
+
+    self.assertEqual("COO", classifications_item["scheme"])
+    self.assertEqual("PL", classifications_item["id"])
+
 
 @mock.patch("openprocurement.contracting.api.validation.VAT_FROM", get_now() - timedelta(days=1))
 def patch_tender_contract(self):
