@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.constants import VAT_FROM
+from collections import namedtuple
+from itertools import zip_longest
+
+from openprocurement.api.constants import VAT_FROM, COUNTRIES_MAP
 from openprocurement.api.utils import (
     update_logging_context,
     raise_operation_error,
     get_first_revision_date,
     get_now,
     get_schematics_document,
+    error_handler,
 )
 from openprocurement.api.validation import (
     validate_json_data,
@@ -28,6 +32,10 @@ from schematics.types import StringType
 from schematics.types.compound import ModelType
 from openprocurement.api.models import schematics_default_role
 from openprocurement.contracting.api.utils import get_transaction_by_id
+
+
+COUNTRY_OF_ORIGIN_SCHEMA_NAME = "COO"
+ALLOWED_SCHEME_NAMES = [COUNTRY_OF_ORIGIN_SCHEMA_NAME]
 
 
 def validate_contract_data(request, **kwargs):
@@ -185,6 +193,93 @@ def validate_update_contracting_paid_amount(request, **kwargs):
                     raise_operation_error(
                         request, "AmountPaid {} can`t be greater than value {}".format(attr, attr), name="amountPaid"
                     )
+
+
+def validate_update_contract_item_country_code(request, **kwargs):
+    old_contract = request.contract
+    new_contract = request.validated["data"]
+    for item in new_contract.get('items') or []:
+        if not item:
+            continue
+        country_codes_classifications = [
+            c for c in item.get("additionalClassifications") or [] if c["scheme"] == COUNTRY_OF_ORIGIN_SCHEMA_NAME
+        ]
+        if not country_codes_classifications:
+            continue
+
+        if old_contract.status == "terminated" and country_codes_classifications:
+            raise_operation_error(
+                request, f"Additional classification {COUNTRY_OF_ORIGIN_SCHEMA_NAME} can't "
+                         f"be provided after termination."
+            )
+
+        if len(country_codes_classifications) > 1:
+            raise_operation_error(
+                request,
+                f"Only one instance of item:additionalClassifications with scheme:{COUNTRY_OF_ORIGIN_SCHEMA_NAME}"
+                f" must be provided."
+            )
+
+        classification_item = country_codes_classifications[0]
+        if classification_item['id'] not in COUNTRIES_MAP:
+            raise_operation_error(
+                request,
+                f"Country id {classification_item['id']} from "
+                f"item:additionalClassifications:{COUNTRY_OF_ORIGIN_SCHEMA_NAME} is not in the countries list."
+            )
+        if classification_item['description'] != COUNTRIES_MAP[classification_item['id']]['name_uk']:
+            raise_operation_error(
+                request, f"description {classification_item['description']} from item:additionalClassifications "
+                        "is not in the countries list."
+            )
+
+        if (classification_item.get('description_en') and
+                classification_item['description_en'] != COUNTRIES_MAP[classification_item['id']]['name_en']):
+            error_msg = "description_en {} from item:additionalClassifications " \
+                        "is not in the countries list.".format(classification_item['description_en'])
+            raise_operation_error(
+                request, error_msg
+            )
+
+
+def validate_update_contract_item_all_classification_provided(request, **kwargs):
+    old_contract = request.contract
+    new_contract = request.validated["data"]
+    for new_item, old_item in zip_longest(new_contract.get('items') or [],  old_contract.items or []):
+        if not new_item or not old_item:
+            continue
+        old_item = old_item.serialize()
+        item_validation_errors = validate_item_updates(old_item, new_item)
+        if not item_validation_errors:
+            return
+        for e in item_validation_errors:
+            request.errors.add("body", "data.items", e)
+        request.errors.status = 403
+        raise error_handler(request)
+
+
+def validate_item_updates(old_item, new_item):
+    errors = []
+    new_classification_items_set = set((i['scheme'], i['id'])
+                                       for i in new_item.get('additionalClassifications') or [])
+    old_classification_items_set = set((i['scheme'], i['id'])
+                                       for i in old_item.get('additionalClassifications') or [])
+
+    if len(new_classification_items_set) < len(new_item.get('additionalClassifications') or []):
+        errors.append("Duplicates in additionalClassifications are prohibited.")
+
+    deleted_items = old_classification_items_set - new_classification_items_set
+    if deleted_items:
+        errors.append("Removing items from additionalClassifications is forbidden.")
+
+    new_classifications = new_classification_items_set - old_classification_items_set
+    new_prohibited_classifications = [c for c in new_classifications if c[0] not in ALLOWED_SCHEME_NAMES]
+    for i in new_prohibited_classifications:
+        errors.append(
+            f"Cannot add new additionalClassifications with scheme=\"{i[0]}\". "
+            f"Only scheme=\"{COUNTRY_OF_ORIGIN_SCHEMA_NAME}\" could be added on this stage."
+        )
+    return errors
 
 
 def validate_update_contracting_value_readonly(request, **kwargs):
