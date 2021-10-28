@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from json import JSONDecodeError
+
 from schematics.exceptions import ValidationError, ModelValidationError
 from openprocurement.api.auth import check_user_accreditations, ACCR_TEST, ACCR_EXIT
 from openprocurement.api.constants import INN_SCHEME, CPV_PHARM_PRODUCTS, CPV_336_INN_FROM

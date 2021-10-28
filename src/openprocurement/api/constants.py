@@ -156,8 +156,11 @@ NEW_NEGOTIATION_CAUSES_FROM = get_constant(CONSTANTS_CONFIG, "NEW_NEGOTIATION_CA
 # CS-8167 tender/lot minimalStep validation
 MINIMAL_STEP_VALIDATION_FROM = get_constant(CONSTANTS_CONFIG, "MINIMAL_STEP_VALIDATION_FROM")
 
+# CS-11442 contract/items/additionalClassifications scheme: COO
+COUNTRIES_MAP = standards.load("classifiers/countries.json")
+
 # Address validation
-COUNTRIES = read_json("data/countries.json")
+COUNTRIES = {c["name_uk"] for c in COUNTRIES_MAP.values()}
 UA_REGIONS = read_json("data/ua_regions.json")
 VALIDATE_ADDRESS_FROM = get_constant(CONSTANTS_CONFIG, "VALIDATE_ADDRESS_FROM")
 

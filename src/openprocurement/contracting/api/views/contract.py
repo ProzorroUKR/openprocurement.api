@@ -23,6 +23,8 @@ from openprocurement.contracting.api.validation import (
     validate_put_transaction_to_contract,
     validate_transaction_existence,
     validate_update_contracting_items_unit_value_amount,
+    validate_update_contract_item_country_code,
+    validate_update_contract_item_all_classification_provided,
 )
 from openprocurement.contracting.api.design import (
     FIELDS,
@@ -105,6 +107,8 @@ class ContractResource(ContractsResource):
             validate_update_contracting_value_amount,
             validate_update_contracting_paid_amount,
             validate_contract_update_not_in_allowed_status,
+            validate_update_contract_item_all_classification_provided,
+            validate_update_contract_item_country_code,
         ),
     )
     def patch(self):

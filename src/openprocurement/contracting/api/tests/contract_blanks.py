@@ -1114,10 +1114,11 @@ def contract_items_change(self):
     item_classific = deepcopy(self.initial_data["items"][0]["classification"])
     response = self.app.patch_json(
         "/contracts/{}?acc_token={}".format(self.contract["id"], token),
-        {"data": {"items": [{"additionalClassifications": [{}, item_classific]}]}},
+        {"data": {"items": [{"additionalClassifications": [
+            {}, {'scheme': 'COO', 'description': 'Україна', 'id': 'UA'}
+        ]}]}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json, None)
 
     # update item fields
     startDate = get_now().isoformat()
@@ -1151,6 +1152,347 @@ def contract_items_change(self):
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
 
+
+def contract_update_items_on_termination(self):
+    tender_token = self.initial_data["tender_token"]
+
+    response = self.app.patch_json(
+        "/contracts/{}/credentials?acc_token={}".format(self.contract["id"], tender_token), {"data": ""}
+    )
+    self.assertEqual(response.status, "200 OK")
+    token = response.json["access"]["token"]
+
+    response = self.app.get("/contracts/{}".format(self.contract["id"]))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    item = response.json["data"]["items"][0]
+    existing_additional_classifications = item['additionalClassifications'][0]
+
+    # add object to additionalClassifications instead of list
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token), {
+            "data": {
+                "items":
+                    [{
+                        "id": item['id'],
+                        "additionalClassifications":
+                            {'scheme': 'COO', 'description': 'Україна', 'id': 'UA'},
+                    }],
+            }
+        },
+        status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {'description': "'scheme' is not a valid sequence index",
+             'location': 'body',
+             'name': 'data'}
+        ]
+    )
+
+    # multiple COO countries on one item
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token), {
+            "data": {
+                "items":
+                    [{
+                        "id": item['id'],
+                        "additionalClassifications": [
+                            existing_additional_classifications,
+                            {'scheme': 'COO', 'description': 'Україна', 'id': 'UA'},
+                            {'scheme': 'COO', 'description': 'Australia', 'id': 'AU'},
+                        ]
+                    }],
+                "status": "terminated",
+                "amountPaid": {
+                    "amount": 200,
+                    "amountNet": 190
+                }
+            }
+        },
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            'description': 'Only one instance of item:additionalClassifications with '
+                           'scheme:COO must be provided.',
+            'location': 'body',
+            'name': 'data'
+        }]
+    )
+    # try to delete existing additionalClassifications
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token), {
+            "data": {
+                "items":
+                    [{
+                        "id": item['id'],
+                        "additionalClassifications": [
+                            {'scheme': 'COO', 'description': 'Україна', 'id': 'UA'},
+                        ]
+                    }],
+                "status": "terminated",
+                "amountPaid": {
+                    "amount": 200,
+                    "amountNet": 190
+                }
+            }
+        },
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            'description': 'Removing items from additionalClassifications is forbidden.',
+            'location': 'body',
+            'name': 'data.items'
+        }]
+    )
+    # try to add some not existing scheme to contract
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token), {
+            "data": {
+                "items":
+                    [{
+                        "id": item['id'],
+                        "additionalClassifications": [
+                            existing_additional_classifications,
+                            {'scheme': 'not_existing_scheme', 'description': 'test', 'id': 'test'},
+                            {'scheme': '', 'description': '', 'id': ''},
+                        ]
+                    }],
+                "status": "terminated",
+                "amountPaid": {
+                    "amount": 200,
+                    "amountNet": 190
+                }
+            }
+        },
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                'description': 'Cannot add new additionalClassifications with '
+                               'scheme="not_existing_scheme". Only scheme="COO" could be '
+                               'added on this stage.',
+                'location': 'body',
+                'name': 'data.items'
+            },
+            {
+                'description': 'Cannot add new additionalClassifications with scheme="". '
+                               'Only scheme="COO" could be added on this stage.',
+                'location': 'body',
+                'name': 'data.items'
+            }
+        ]
+    )
+    # try to add duplicate to existing scheme
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token), {
+            "data": {
+                "items":
+                    [{
+                        "id": item['id'],
+                        "additionalClassifications": [
+                            existing_additional_classifications,
+                            {'scheme': 'ДКПП', 'id': '17.21.1',
+                             'description': 'папір і картон гофровані, паперова й картонна тара'},
+                            {'scheme': 'COO', 'description': 'Україна', 'id': 'UA'},
+                        ]
+                    }],
+                "status": "terminated",
+                "amountPaid": {
+                    "amount": 200,
+                    "amountNet": 190
+                }
+            }
+        },
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            'description': 'Duplicates in additionalClassifications are prohibited.',
+            'location': 'body',
+            'name': 'data.items'
+        }]
+    )
+
+    # try to add wrong id
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token), {
+            "data": {
+                "items":
+                    [{
+                        "id": item['id'],
+                        "additionalClassifications": [
+                            existing_additional_classifications,
+                            {'scheme': 'COO', 'description': 'Україна', 'id': 'not_an_id'},
+                        ]
+                    }],
+                "status": "terminated",
+                "amountPaid": {
+                    "amount": 200,
+                    "amountNet": 190
+                }
+            }
+        },
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            'description': 'Country id not_an_id from item:additionalClassifications:COO '
+                           'is not in the countries list.',
+            'location': 'body',
+            'name': 'data'
+        }]
+    )
+
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token), {
+            "data": {
+                "items":
+                    [{
+                        "id": item['id'],
+                        "additionalClassifications": [
+                            existing_additional_classifications,
+                            {
+                                'scheme': 'COO',
+                                'description': 'Україна',
+                                'description_en': 'not_a_description',
+                                'id': 'UA'
+                            },
+                        ]
+                    }],
+                "status": "terminated",
+                "amountPaid": {
+                    "amount": 200,
+                    "amountNet": 190
+                }
+            }
+        },
+        status=403
+    )
+    # try to add wrong description in en
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            'description': 'description_en not_a_description from '
+                           'item:additionalClassifications is not in the countries list.',
+            'location': 'body',
+            'name': 'data'
+        }]
+    )
+
+    # all the cases together
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token), {
+            "data": {
+                "items":
+                    [{
+                        "id": item['id'],
+                        "additionalClassifications": [
+                            existing_additional_classifications,
+                            {'scheme': 'COO', 'description': 'Україна', 'id': 'UA'},
+                            {'scheme': 'COO', 'description': 'Україна', 'id': 'UA'},
+                            {'scheme': 'COO', 'description': 'Україна', 'id': 'not_an_id'},
+
+                            {'scheme': 'not_a_scheme', 'description': 'test', 'id': 'no'},
+                        ]
+                    }],
+                "status": "terminated",
+                "amountPaid": {
+                    "amount": 200,
+                    "amountNet": 190
+                }
+            }
+        },
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {'description': 'Duplicates in additionalClassifications are prohibited.',
+             'location': 'body',
+             'name': 'data.items'},
+            {'description': 'Cannot add new additionalClassifications with '
+                            'scheme="not_a_scheme". Only scheme="COO" could be added on '
+                            'this stage.',
+             'location': 'body',
+             'name': 'data.items'},
+         ]
+    )
+    # success termination
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token), {
+            "data": {
+                "items":
+                    [{
+                        "id": item['id'],
+                        "additionalClassifications": [
+                            existing_additional_classifications,
+                            {'scheme': 'COO', 'description': 'Україна', 'id': 'UA'},
+                        ]
+                    }],
+                "status": "terminated",
+                "amountPaid": {
+                    "amount": 200,
+                    "amountNet": 190
+                }
+            }
+        }
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertIn("COO", [s["scheme"] for s in response.json['data']['items'][0]["additionalClassifications"]])
+
+    # try to modify additionalClassifications after termination
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token), {
+            "data": {
+                "items":
+                    [{
+                        "id": item['id'],
+                        "additionalClassifications": [
+                            existing_additional_classifications,
+                            {
+                                'scheme': 'COO',
+                                'description': 'Україна',
+                                'description_en': 'Україна',
+                                'id': 'UA'
+                            },
+                        ]
+                    }],
+                "status": "terminated",
+                "amountPaid": {
+                    "amount": 200,
+                    "amountNet": 190
+                }
+            }
+        },
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            'description': "Can't update contract in current (terminated) status",
+            'location': 'body',
+            'name': 'data'
+        }]
+    )
 
 @mock.patch("openprocurement.contracting.api.validation.VAT_FROM", get_now() - timedelta(days=1))
 def patch_tender_contract(self):

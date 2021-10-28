@@ -2,6 +2,8 @@
 import re
 from contextlib import contextmanager
 from decimal import Decimal
+
+from jsonpointer import JsonPointerException
 from six import b
 import couchdb.json
 import pytz
@@ -904,6 +906,10 @@ def handle_data_exceptions(request):
         request.errors.status = 422
         raise error_handler(request)
     except ValueError as e:
+        request.errors.add("body", "data", str(e))
+        request.errors.status = 422
+        raise error_handler(request)
+    except JsonPointerException as e:
         request.errors.add("body", "data", str(e))
         request.errors.status = 422
         raise error_handler(request)
