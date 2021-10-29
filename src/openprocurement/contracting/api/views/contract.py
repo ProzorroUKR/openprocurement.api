@@ -24,7 +24,7 @@ from openprocurement.contracting.api.validation import (
     validate_transaction_existence,
     validate_update_contracting_items_unit_value_amount,
     validate_update_contract_item_country_code,
-    validate_update_contract_item_all_classification_provided,
+    validate_update_item_required_classifications_unchanged,
 )
 from openprocurement.contracting.api.design import (
     FIELDS,
@@ -99,16 +99,16 @@ class ContractResource(ContractsResource):
         content_type="application/json",
         permission="edit_contract",
         validators=(
-            validate_patch_contract_data,
-            validate_update_contract_value_net_required,
-            validate_update_contract_paid_net_required,
-            validate_update_contracting_value_readonly,
-            validate_update_contracting_value_identical,
-            validate_update_contracting_value_amount,
-            validate_update_contracting_paid_amount,
-            validate_contract_update_not_in_allowed_status,
-            validate_update_contract_item_all_classification_provided,
-            validate_update_contract_item_country_code,
+                validate_patch_contract_data,
+                validate_update_contract_value_net_required,
+                validate_update_contract_paid_net_required,
+                validate_update_contracting_value_readonly,
+                validate_update_contracting_value_identical,
+                validate_update_contracting_value_amount,
+                validate_update_contracting_paid_amount,
+                validate_contract_update_not_in_allowed_status,
+                validate_update_item_required_classifications_unchanged,
+                validate_update_contract_item_country_code,
         ),
     )
     def patch(self):
