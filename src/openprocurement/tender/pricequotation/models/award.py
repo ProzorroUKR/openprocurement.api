@@ -1,9 +1,32 @@
 from schematics.transforms import whitelist, blacklist
-from schematics.types import MD5Type
-from openprocurement.api.models import\
-    schematics_default_role, schematics_embedded_role
-from openprocurement.tender.core.models import BaseAward
+from schematics.exceptions import ValidationError
+from schematics.types import MD5Type, StringType, BaseType
+from schematics.types.compound import ModelType
+from openprocurement.api.models import (
+    schematics_default_role,
+    schematics_embedded_role,
+    ListType,
+)
+from openprocurement.api.constants import PQ_MULTI_PROFILE_FROM
+from openprocurement.api.utils import get_now, get_first_revision_date
+
+from openprocurement.tender.core.models import BaseAward, Item as BaseAwardItem
 from openprocurement.tender.pricequotation.utils import get_bid_owned_award_acl
+from openprocurement.tender.pricequotation.validation import validate_profile_pattern
+
+
+class AwardItem(BaseAwardItem):
+    profile = StringType()
+
+    def validate_profile(self, data, value):
+        multi_profile_released = get_first_revision_date(data, default=get_now()) > PQ_MULTI_PROFILE_FROM
+
+        if multi_profile_released and not value:
+            raise ValidationError(BaseType.MESSAGES["required"])
+        if multi_profile_released and value:
+            validate_profile_pattern(value)
+        if not multi_profile_released and value:
+            raise ValidationError("Rogue field.")
 
 
 class Award(BaseAward):
@@ -33,6 +56,7 @@ class Award(BaseAward):
         }
 
     bid_id = MD5Type(required=True)
+    items = ListType(ModelType(AwardItem, required=True))
 
     def __acl__(self):
         return get_bid_owned_award_acl(self)

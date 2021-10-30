@@ -188,19 +188,15 @@ test_procuringEntity["kind"] = "general"
 
 test_item_base = {
     "description": "Комп’ютерне обладнання",
-    "classification": {"scheme": "ДК021", "id": "44617100-9", "description": "Cartons"},
-    "additionalClassifications": [
-        {"scheme": "INN", "id": "17.21.1", "description": "папір і картон гофровані, паперова й картонна тара"}
-    ],
-    "unit": {
-        "name": "кг",
-        "code": "KGM",
-        "value": {"amount": 6},
-    },
     "quantity": 5,
     "deliveryDate": {
         "startDate": (now + timedelta(days=2)).isoformat(),
         "endDate": (now + timedelta(days=5)).isoformat(),
+    },
+    "unit": {
+        "name": "кг",
+        "code": "KGM",
+        "value": {"amount": 6},
     },
     "deliveryAddress": {
         "countryName": "Україна",
@@ -213,6 +209,15 @@ test_item_base = {
 test_item_before_multiprofile = deepcopy(test_item_base)
 test_item_after_multiprofile = deepcopy(test_item_base)
 test_item_after_multiprofile["profile"] = "655360-30230000-889652-40000777"
+test_item_after_multiprofile["classification"] = {"scheme": "ДК021", "id": "44617100-9", "description": "Cartons"}
+test_item_after_multiprofile["additionalClassifications"] = [
+    {
+        "scheme": "INN",
+        "id": "17.21.1",
+        "description": "папір і картон гофровані, паперова й картонна тара",
+    },
+]
+
 if PQ_MULTI_PROFILE_RELEASED:
     test_item = test_item_after_multiprofile
 else:
@@ -222,7 +227,6 @@ test_tender_data_base = {
     "title": "Комп’ютерне обладнання",
     "mainProcurementCategory": "goods",
     "procuringEntity": test_procuringEntity,
-    "items": [deepcopy(test_item)],
     "value": {"amount": 22000, "currency": "UAH"},
     "tenderPeriod": {"endDate": (now + timedelta(days=14)).isoformat()},
     "procurementMethodType": PMT,
@@ -230,13 +234,10 @@ test_tender_data_base = {
 }
 test_tender_data_before_multiprofile = deepcopy(test_tender_data_base)
 test_tender_data_before_multiprofile["profile"] = "655360-30230000-889652-40000777"
+test_tender_data_before_multiprofile["items"] = [test_item_before_multiprofile]
 
 test_tender_data_after_multiprofile = deepcopy(test_tender_data_base)
-# test_tender_data_after_multiprofile["agreement"] = {
-#     "id": "",
-# }
-# test_tender_data_after_multiprofile["items"][0]["profile"] = "655360-30230000-889652-40000777"
-# test_tender_data_after_multiprofile["items"][1]["profile"] = "655361-30230000-889652-40000777"
+test_tender_data_after_multiprofile["items"] = [test_item_after_multiprofile]
 
 
 if PQ_MULTI_PROFILE_RELEASED:
@@ -412,7 +413,7 @@ test_short_profile = {
                         {
                             "dataType": "integer",
                             "id": "655360-0004-001-01",
-                            "maxValue": 250,
+                            "maxValue": "250",
                             "title": "Яскравість дисплея",
                             "unit": {
                                 "code": "A24",
@@ -466,7 +467,7 @@ test_short_profile = {
                         {
                             "dataType": "integer",
                             "id": "655360-0006-001-01",
-                            "minValue": 1,
+                            "minValue": "1",
                             "title": "Кількість портів HDMI",
                             "unit": {
                                 "code": "H87",
@@ -489,7 +490,7 @@ test_short_profile = {
                         {
                             "dataType": "integer",
                             "id": "655360-0007-001-01",
-                            "minValue": 1,
+                            "minValue": "1",
                             "title": "Кількість портів D-sub",
                             "unit": {
                                 "code": "H87",
@@ -531,7 +532,7 @@ test_short_profile = {
                         {
                             "dataType": "integer",
                             "id": "655360-0009-001-01",
-                            "minValue": 36,
+                            "minValue": "36",
                             "title": "Гарантія",
                             "unit": {
                                 "code": "MON",

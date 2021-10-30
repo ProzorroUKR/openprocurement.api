@@ -149,6 +149,17 @@ class ContractItem(BaseItem):
         }
 
     unit = ModelType(Unit)
+    profile = StringType()
+
+    def validate_profile(self, data, value):
+        multi_profile_released = get_first_revision_date(data, default=get_now()) > PQ_MULTI_PROFILE_FROM
+
+        if multi_profile_released and not value:
+            raise ValidationError(BaseType.MESSAGES["required"])
+        if multi_profile_released and value:
+            validate_profile_pattern(value)
+        if not multi_profile_released and value:
+            raise ValidationError("Rogue field.")
 
 
 class Contract(BaseContract):
@@ -200,6 +211,7 @@ class PriceQuotationTender(Tender):
                 "value",
                 "profile",
                 "agreement",
+                "criteria",
             )
         _create_role = _core_roles["create"] \
                        + _core_roles["edit"] \
@@ -208,7 +220,8 @@ class PriceQuotationTender(Tender):
                                    "numberOfBids",
                                    "value",
                                    "profile",
-                                   "agreement")
+                                   "agreement",
+                                   "criteria")
         _edit_pq_bot_role = whitelist(
             "items", "shortlistedFirms",
             "status", "criteria", "value", "unsuccessfulReason"
