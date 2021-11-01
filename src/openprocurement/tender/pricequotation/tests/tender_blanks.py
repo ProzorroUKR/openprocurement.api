@@ -3,7 +3,6 @@ import mock
 from uuid import uuid4
 from copy import deepcopy
 from datetime import timedelta
-from mock import patch
 
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import (
@@ -1393,7 +1392,7 @@ def patch_tender_status(self):
     )
 
 
-@patch("openprocurement.tender.pricequotation.models.tender.PQ_MULTI_PROFILE_FROM", get_now() + timedelta(days=1))
+@mock.patch("openprocurement.tender.pricequotation.models.tender.PQ_MULTI_PROFILE_FROM", get_now() + timedelta(days=1))
 def patch_tender_by_pq_bot_before_multiprofile(self):
     response = self.app.post_json("/tenders", {"data": deepcopy(test_tender_data_before_multiprofile)})
     self.assertEqual(response.status, "201 Created")
@@ -1500,7 +1499,7 @@ def patch_tender_by_pq_bot_before_multiprofile(self):
     self.assertNotIn("shortlistedFirms", tender)
 
 
-@patch("openprocurement.tender.pricequotation.models.tender.PQ_MULTI_PROFILE_FROM", get_now() - timedelta(days=1))
+@mock.patch("openprocurement.tender.pricequotation.models.tender.PQ_MULTI_PROFILE_FROM", get_now() - timedelta(days=1))
 def patch_tender_by_pq_bot_after_multiprofile(self):
     response = self.app.post_json("/tenders", {"data": deepcopy(test_tender_data_after_multiprofile)})
     self.assertEqual(response.status, "201 Created")

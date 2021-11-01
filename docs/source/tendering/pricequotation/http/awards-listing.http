@@ -38,10 +38,18 @@ X-Content-Type-Options: nosniff
           "scale": "micro"
         }
       ],
+      "bid_id": "635dac1cc52641d2a557b66099e10483",
       "items": [
         {
           "id": "61a6737049384b08876fb0407eda182f",
           "description": "Комп’ютерне обладнання",
+          "additionalClassifications": [
+            {
+              "scheme": "INN",
+              "id": "17.21.1",
+              "description": "папір і картон гофровані, паперова й картонна тара"
+            }
+          ],
           "unit": {
             "name": "штук",
             "value": {
@@ -67,10 +75,10 @@ X-Content-Type-Options: nosniff
             "description": "Комп’ютерне обладнанн",
             "scheme": "ДК021",
             "id": "30230000-0"
-          }
+          },
+          "profile": "655360-30230000-889652-40000777"
         }
-      ],
-      "bid_id": "635dac1cc52641d2a557b66099e10483"
+      ]
     },
     {
       "id": "2457dbf1f0fa43daaf6148695865ce39",
@@ -103,10 +111,18 @@ X-Content-Type-Options: nosniff
           "scale": "micro"
         }
       ],
+      "bid_id": "b417921608714f3f8b317c0cf06ff72f",
       "items": [
         {
           "id": "61a6737049384b08876fb0407eda182f",
           "description": "Комп’ютерне обладнання",
+          "additionalClassifications": [
+            {
+              "scheme": "INN",
+              "id": "17.21.1",
+              "description": "папір і картон гофровані, паперова й картонна тара"
+            }
+          ],
           "unit": {
             "name": "штук",
             "value": {
@@ -132,10 +148,10 @@ X-Content-Type-Options: nosniff
             "description": "Комп’ютерне обладнанн",
             "scheme": "ДК021",
             "id": "30230000-0"
-          }
+          },
+          "profile": "655360-30230000-889652-40000777"
         }
-      ],
-      "bid_id": "b417921608714f3f8b317c0cf06ff72f"
+      ]
     }
   ]
 }

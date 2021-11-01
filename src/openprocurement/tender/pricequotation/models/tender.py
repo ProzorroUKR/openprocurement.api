@@ -18,7 +18,7 @@ from openprocurement.api.models import (
 )
 from openprocurement.api.models import Item as BaseItem
 from openprocurement.api.models import ListType, Period, Value
-from openprocurement.api.utils import get_now, get_first_revision_date, get_doc_by_id, get_root
+from openprocurement.api.utils import get_now, get_first_revision_date
 from openprocurement.api.validation import (
     validate_classification_id,
     validate_cpv_group,
