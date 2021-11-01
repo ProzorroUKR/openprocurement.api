@@ -84,6 +84,7 @@ class BaseTenderComplaintResource(ComplaintBotPatchMixin, ComplaintAdminPatchMix
             complaint.dateSubmitted = get_now()
             complaint.type = "complaint"
         else:
+            validate_submit_complaint_time(self.request)
             complaint.status = "draft"
         return complaint
     
