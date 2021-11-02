@@ -77,8 +77,7 @@ X-Content-Type-Options: nosniff
               "currency": "UAH",
               "valueAddedTaxIncluded": true
             }
-          },
-          "profile": "655360-30230000-889652-40000777"
+          }
         }
       ]
     }
