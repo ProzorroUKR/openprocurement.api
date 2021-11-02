@@ -83,7 +83,6 @@ class TenderContractResourceTest(TenderContentWebTest, TenderContractResourceTes
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "value": self.initial_data["value"],
-                    "items": self.initial_data["items"],
                 }
             },
         )
@@ -92,7 +91,6 @@ class TenderContractResourceTest(TenderContentWebTest, TenderContractResourceTes
         self.award_id = award["id"]
         self.award_value = award["value"]
         self.award_suppliers = award["suppliers"]
-        self.award_items = award["items"]
         response = self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active"}},

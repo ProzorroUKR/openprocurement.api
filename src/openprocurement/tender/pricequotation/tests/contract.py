@@ -40,7 +40,6 @@ class TenderContractResourceTest(TenderContentWebTest,
         award = resp.json["data"]
         self.award_value = award["value"]
         self.award_suppliers = award["suppliers"]
-        self.award_items = award["items"]
         self.award_date = award["date"]
 
     def setUp(self):

@@ -55,7 +55,6 @@ from openprocurement.tender.pricequotation.validation import validate_profile_pa
 
 
 class Agreement(Model):
-    # profiles = ListType(StringType(validators=[validate_profile_pattern]), required=True, min_size=1)
     id = MD5Type(required=True)
 
     def validate_id(self, data, value):
@@ -149,17 +148,6 @@ class ContractItem(BaseItem):
         }
 
     unit = ModelType(Unit)
-    profile = StringType()
-
-    def validate_profile(self, data, value):
-        multi_profile_released = get_first_revision_date(data, default=get_now()) > PQ_MULTI_PROFILE_FROM
-
-        if multi_profile_released and not value:
-            raise ValidationError(BaseType.MESSAGES["required"])
-        if multi_profile_released and value:
-            validate_profile_pattern(value)
-        if not multi_profile_released and value:
-            raise ValidationError("Rogue field.")
 
 
 class Contract(BaseContract):

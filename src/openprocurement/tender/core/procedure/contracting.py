@@ -3,6 +3,13 @@ from collections import defaultdict
 from copy import deepcopy
 
 
+def prepare_tender_item_for_contract(item):
+    prepated_item = dict(item)
+    if prepated_item.get("profile", None):
+        prepated_item.pop("profile")
+    return prepated_item
+
+
 def add_contracts(request, award, contract_model):
     tender = request.validated["tender"]
 
@@ -11,7 +18,8 @@ def add_contracts(request, award, contract_model):
     for item in tender["items"]:
         if item.get("relatedLot") == award.get("lotID"):  # None == None in case of non-lots
             buyer_id = item.get("relatedBuyer")  # can be None
-            items_by_buyer[buyer_id].append(item)
+            prepared_item = prepare_tender_item_for_contract(item)
+            items_by_buyer[buyer_id].append(prepared_item)
 
     multi_contracts = (
         tender.get("buyers") and len(tender["buyers"]) > 1

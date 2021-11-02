@@ -8,6 +8,7 @@ from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.core.tests.base import BaseCoreWebTest
 from openprocurement.api.constants import TZ
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
+from openprocurement.tender.belowthreshold.utils import prepare_tender_item_for_contract
 from openprocurement.tender.pricequotation.models import PriceQuotationTender
 from openprocurement.tender.pricequotation.tests.data import *
 
@@ -22,6 +23,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
     initial_status = None
     maxDiff = None
     initial_agreement_data = test_agreement_data
+    agreement_id = initial_agreement_data["_id"]
 
     initial_bids = None
     initial_auth = ("Basic", ("broker", ""))
@@ -71,7 +73,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
                     "suppliers": bid["tenderers"],
                     "bid_id": bid["id"],
                     "value": bid["value"],
-                    'items': self.tender_document['items'],
+                    # 'items': self.tender_document['items'],
                     "date": awardPeriod_startDate,
                     "documents": [],
                     "id": id_,
@@ -128,6 +130,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
                         amount_net = float(award["value"]["amount"]) - 1
                     else:
                         amount_net = award["value"]["amount"]
+                    prepared_items = [prepare_tender_item_for_contract(i) for i in self.tender_document["items"]]
                     contract = {
                         "id": uuid4().hex,
                         "title": "contract title",
@@ -143,7 +146,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
                         "status": "pending",
                         "contractID": "UA-2017-06-21-000001-1",
                         "date": datetime.now(TZ).isoformat(),
-                        "items": self.tender_document["items"],
+                        "items": prepared_items,
                     }
                     self.contract_id = contract["id"]
                     self.tender_document_patch.update({"contracts": [contract]})
@@ -216,13 +219,13 @@ class BaseTenderWebTest(BaseCoreWebTest):
             self.set_status(self.initial_status)
 
     def create_agreement(self):
-        agreement_id = self.databases.agreements.create(test_agreement_data)
-        self.agreement_id = agreement_id
+        if self.databases.agreements.get(self.agreement_id):
+            self.delete_agreement()
+        self.databases.agreements.create(test_agreement_data)
 
     def delete_agreement(self):
-        if self.agreement_id:
-            db = self.databases.agreements
-            db.delete(db[self.agreement_id])
+        db = self.databases.agreements
+        db.delete(db[self.agreement_id])
 
 
 class TenderContentWebTest(BaseTenderWebTest):
