@@ -858,7 +858,7 @@ def get_contracts_values_related_to_patched_contract(contracts, patched_contract
     _contracts_values = []
 
     for contract in contracts:
-        if contract.status != "terminated" and contract.awardID == award_id:
+        if contract.status != "cancelled" and contract.awardID == award_id:
             if contract.id != patched_contract_id:
                 _contracts_values.append(contract.get("value", {}))
             else:

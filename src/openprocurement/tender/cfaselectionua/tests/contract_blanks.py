@@ -111,10 +111,6 @@ def create_tender_contract(self):
     self.assertIn("suppliers", contract)
     self.assertIn(contract["id"], response.headers["Location"])
 
-    tender = self.db.get(self.tender_id)
-    tender["contracts"][-1]["status"] = "terminated"
-    self.db.save(tender)
-
     self.set_status("unsuccessful")
 
     response = self.app.post_json(
@@ -152,10 +148,6 @@ def create_tender_contract_in_complete_status(self):
     contract = response.json["data"]
     self.assertIn("id", contract)
     self.assertIn(contract["id"], response.headers["Location"])
-
-    tender = self.db.get(self.tender_id)
-    tender["contracts"][-1]["status"] = "terminated"
-    self.db.save(tender)
 
     self.set_status("complete")
 
