@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
 from datetime import timedelta
-
+from copy import deepcopy
 from openprocurement.api.utils import get_now, parse_date
 from openprocurement.tender.belowthreshold.tests.base import test_claim
 
@@ -36,6 +35,23 @@ def switch_to_auction(self):
     self.assertEqual(response.json["data"]["status"], "active.auction")
 
 
+def switch_to_auction_lot_items(self):
+    """
+    Test lot tender with non lot items (item.relatedLot is missed)
+    """
+    self.app.patch_json(
+        f'/tenders/{self.tender_id}?acc_token={self.tender_token}',
+        {'data': {
+            "items": self.initial_data["items"] * 2
+        }}
+    )
+    self.set_status("active.auction", {"status": "active.tendering"})
+    response = self.check_chronograph()
+    self.assertEqual(response.json["data"]["status"], "active.auction")
+
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    self.assertEqual(len(response.json["data"]["items"]), 2)  # non lot items are still there for no reason
+
 # TenderSwitchUnsuccessfulResourceTest
 
 
@@ -44,7 +60,7 @@ def switch_to_unsuccessful(self):
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
     if self.initial_lots:
-        self.assertEqual(set([i["status"] for i in response.json["data"]["lots"]]), set(["unsuccessful"]))
+        self.assertEqual({i["status"] for i in response.json["data"]["lots"]}, {"unsuccessful"})
 
 
 # TenderAuctionPeriodResourceTest
