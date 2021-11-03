@@ -48,7 +48,7 @@ class OpenUADefenseTenderState(DefenseTenderStateAwardingMixing, TenderState):
                         pending_complaints = any(
                             i["status"] in self.block_complaint_status
                             for i in tender.get("complaints", "")
-                            if i["relatedLot"] == lot["id"]
+                            if i.get("relatedLot") == lot["id"]
                         )
                         pending_award_complaints = any(
                             i["status"] in self.block_complaint_status
@@ -139,7 +139,7 @@ class OpenUADefenseTenderState(DefenseTenderStateAwardingMixing, TenderState):
 
             last_award = lot_awards[-1]
             pending_complaints = any(
-                i["status"] in self.block_complaint_status and i["relatedLot"] == lot["id"]
+                i["status"] in self.block_complaint_status and i.get("relatedLot") == lot["id"]
                 for i in tender.get("complaints", "")
             )
             pending_awards_complaints = any(

@@ -182,7 +182,7 @@ class CFAUATenderTenderState(TenderState):
 
         for lot in tender.get("lots"):
             if lot["status"] == "active":
-                items = [i for i in tender.get("items", "") if i["relatedLot"] == lot["id"]]
+                items = [i for i in tender.get("items", "") if i.get("relatedLot") == lot["id"]]
                 unit_prices = [
                     {
                         "relatedItem": item["id"],

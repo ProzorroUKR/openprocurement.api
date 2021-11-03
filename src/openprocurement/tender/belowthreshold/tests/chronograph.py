@@ -16,6 +16,7 @@ from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     switch_to_qualification,
     # TenderSwitchAuctionResourceTest
     switch_to_auction,
+    switch_to_auction_lot_items,
     # TenderSwitchUnsuccessfulResourceTest
     switch_to_unsuccessful,
     # TenderAuctionPeriodResourceTest
@@ -66,6 +67,13 @@ class TenderLotSwitchQualificationResourceTest(TenderSwitchQualificationResource
 
 class TenderLotSwitchAuctionResourceTest(TenderSwitchAuctionResourceTest):
     initial_lots = test_lots
+
+
+class TenderLotItemsSwitchAuctionResourceTest(TenderContentWebTest):
+    initial_status = "active.enquiries"
+    initial_lots = test_lots
+    initial_bids = test_bids
+    test_switch_to_auction_lot_items = snitch(switch_to_auction_lot_items)
 
 
 class TenderLotSwitchUnsuccessfulResourceTest(TenderSwitchUnsuccessfulResourceTest):
