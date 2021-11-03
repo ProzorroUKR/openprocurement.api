@@ -1,13 +1,7 @@
 from openprocurement.tender.core.procedure.context import get_now, get_request
+from openprocurement.tender.belowthreshold.utils import prepare_tender_item_for_contract
 from collections import defaultdict
 from copy import deepcopy
-
-
-def prepare_tender_item_for_contract(item):
-    prepated_item = dict(item)
-    if prepated_item.get("profile", None):
-        prepated_item.pop("profile")
-    return prepated_item
 
 
 def add_contracts(request, award, contract_model):

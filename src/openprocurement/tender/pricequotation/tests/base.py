@@ -73,7 +73,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
                     "suppliers": bid["tenderers"],
                     "bid_id": bid["id"],
                     "value": bid["value"],
-                    # 'items': self.tender_document['items'],
                     "date": awardPeriod_startDate,
                     "documents": [],
                     "id": id_,
