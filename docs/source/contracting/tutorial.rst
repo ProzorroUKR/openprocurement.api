@@ -142,13 +142,6 @@ See examples of `items` customization below. You can:
 .. include:: http/update-contract-item.http
    :code:
 
-* delete item:
-
-Request example for cases when contract has several items:
-
-.. include:: http/delete-contract-item.http
-   :code:
-
 Applying the change
 ~~~~~~~~~~~~~~~~~~~
 

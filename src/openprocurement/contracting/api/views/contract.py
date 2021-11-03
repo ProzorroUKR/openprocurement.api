@@ -25,6 +25,7 @@ from openprocurement.contracting.api.validation import (
     validate_update_contracting_items_unit_value_amount,
     validate_update_contract_item_country_code,
     validate_update_item_required_classifications_unchanged,
+    validate_contract_patch_items_amount_unchanged,
 )
 from openprocurement.contracting.api.design import (
     FIELDS,
@@ -107,6 +108,7 @@ class ContractResource(ContractsResource):
                 validate_update_contracting_value_amount,
                 validate_update_contracting_paid_amount,
                 validate_contract_update_not_in_allowed_status,
+                validate_contract_patch_items_amount_unchanged,
                 validate_update_item_required_classifications_unchanged,
                 validate_update_contract_item_country_code,
         ),

@@ -223,14 +223,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             item2 = response.json['data']['items'][0]
             self.assertEqual(item2['quantity'], 2)
 
-        # delete item
-        with open(TARGET_DIR + 'delete-contract-item.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/contracts/{}?acc_token={}'.format(contract_id, contract_token),
-                {"data": {"items": [item2]}, })
-            self.assertEqual(response.status, '200 OK')
-            self.assertEqual(len(response.json['data']['items']), 1)
-
         # apply contract change
         with open(TARGET_DIR + 'apply-contract-change.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(

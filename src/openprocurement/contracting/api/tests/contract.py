@@ -3,7 +3,11 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.contracting.api.tests.base import BaseContractWebTest, BaseContractTest
+from openprocurement.contracting.api.tests.base import (
+    BaseContractWebTest,
+    BaseContractTest,
+    BaseContractWebTestTwoItems
+)
 from openprocurement.contracting.api.tests.data import (
     test_contract_data,
     test_contract_data_wo_items,
@@ -41,7 +45,9 @@ from openprocurement.contracting.api.tests.contract_blanks import (
     patch_tender_without_value,
     skip_address_validation,
     put_transaction_to_contract,
-    contract_update_items_on_termination, contract_crud_on_additional_classifications,
+    contract_update_items_on_termination,
+    contract_crud_on_additional_classifications,
+    contract_update_add_remove_items,
 )
 
 
@@ -75,7 +81,6 @@ class ContractResource4BrokersTest(BaseContractWebTest):
     test_contract_token_invalid = snitch(contract_token_invalid)
     test_contract_status_change = snitch(contract_status_change)
     test_contract_items_change = snitch(contract_items_change)
-    test_contract_update_items_on_termination = snitch(contract_update_items_on_termination)
     test_contract_crud_on_additional_classifications = snitch(contract_crud_on_additional_classifications)
     test_patch_tender_contract = snitch(patch_tender_contract)
     test_patch_tender_contract_identical = snitch(patch_tender_contract_identical)
@@ -90,6 +95,11 @@ class ContractResource4BrokersTest(BaseContractWebTest):
     test_generate_credentials = snitch(generate_credentials)
     test_generate_credentials_invalid = snitch(generate_credentials_invalid)
     test_put_transaction_to_contract = snitch(put_transaction_to_contract)
+
+
+class ContractResource4BrokersTestMultipleItems(BaseContractWebTestTwoItems):
+    test_contract_update_add_remove_items = snitch(contract_update_add_remove_items)
+    test_contract_update_items_on_termination = snitch(contract_update_items_on_termination)
 
 
 class ContractResource4AdministratorTest(BaseContractWebTest):
