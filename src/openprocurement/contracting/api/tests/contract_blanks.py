@@ -1165,6 +1165,7 @@ def contract_update_items_on_termination(self):
     response = self.app.get("/contracts/{}".format(self.contract["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
+    items = response.json["data"]["items"]
     item = response.json["data"]["items"][0]
     existing_additional_classifications = item['additionalClassifications'][0]
 
@@ -1197,10 +1198,10 @@ def contract_update_items_on_termination(self):
         "/contracts/{}?acc_token={}".format(self.contract["id"], token), {
             "data": {
                 "items":
-                    [{
-                        "id": item['id'],
+                    [items[0], {
+                        "id": items[1]['id'],
                         "additionalClassifications": [
-                            existing_additional_classifications,
+                            items[1]['additionalClassifications'][0],
                             {'scheme': 'COO', 'description': 'Україна', 'id': 'UA'},
                             {'scheme': 'COO', 'description': 'Australia', 'id': 'AU'},
                         ]
@@ -1229,12 +1230,14 @@ def contract_update_items_on_termination(self):
         "/contracts/{}?acc_token={}".format(self.contract["id"], token), {
             "data": {
                 "items":
-                    [{
-                        "id": item['id'],
-                        "additionalClassifications": [
-                            {'scheme': 'COO', 'description': 'Україна', 'id': 'UA'},
-                        ]
-                    }],
+                    [
+                        items[0],
+                        {
+                            "additionalClassifications": [
+                                {'scheme': 'COO', 'description': 'Україна', 'id': 'UA'},
+                            ]
+                        }
+                    ],
                 "status": "terminated",
                 "amountPaid": {
                     "amount": 200,
@@ -1258,14 +1261,16 @@ def contract_update_items_on_termination(self):
         "/contracts/{}?acc_token={}".format(self.contract["id"], token), {
             "data": {
                 "items":
-                    [{
-                        "id": item['id'],
-                        "additionalClassifications": [
-                            existing_additional_classifications,
-                            {'scheme': 'not_existing_scheme', 'description': 'test', 'id': 'test'},
-                            {'scheme': '', 'description': '', 'id': ''},
-                        ]
-                    }],
+                    [
+                        items[0],
+                        {
+                            "additionalClassifications": [
+                                items[1]['additionalClassifications'][0],
+                                {'scheme': 'not_existing_scheme', 'description': 'test', 'id': 'test'},
+                                {'scheme': '', 'description': '', 'id': ''},
+                            ]
+                        }
+                    ],
                 "status": "terminated",
                 "amountPaid": {
                     "amount": 200,
@@ -1299,10 +1304,11 @@ def contract_update_items_on_termination(self):
         "/contracts/{}?acc_token={}".format(self.contract["id"], token), {
             "data": {
                 "items":
-                    [{
-                        "id": item['id'],
+                    [
+                        items[0],
+                        {
                         "additionalClassifications": [
-                            existing_additional_classifications,
+                            items[1]['additionalClassifications'][0],
                             {'scheme': 'ДКПП', 'id': '17.21.1',
                              'description': 'папір і картон гофровані, паперова й картонна тара'},
                             {'scheme': 'COO', 'description': 'Україна', 'id': 'UA'},
@@ -1332,13 +1338,15 @@ def contract_update_items_on_termination(self):
         "/contracts/{}?acc_token={}".format(self.contract["id"], token), {
             "data": {
                 "items":
-                    [{
-                        "id": item['id'],
-                        "additionalClassifications": [
-                            existing_additional_classifications,
-                            {'scheme': 'COO', 'description': 'Україна', 'id': 'not_an_id'},
-                        ]
-                    }],
+                    [
+                        items[0],
+                        {
+                            "additionalClassifications": [
+                                items[1]['additionalClassifications'][0],
+                                {'scheme': 'COO', 'description': 'Україна', 'id': 'not_an_id'},
+                            ]
+                        }
+                    ],
                 "status": "terminated",
                 "amountPaid": {
                     "amount": 200,
@@ -1363,18 +1371,20 @@ def contract_update_items_on_termination(self):
         "/contracts/{}?acc_token={}".format(self.contract["id"], token), {
             "data": {
                 "items":
-                    [{
-                        "id": item['id'],
-                        "additionalClassifications": [
-                            existing_additional_classifications,
-                            {
-                                'scheme': 'COO',
-                                'description': 'Україна',
-                                'description_en': 'not_a_description',
-                                'id': 'UA'
-                            },
-                        ]
-                    }],
+                    [
+                        items[0],
+                        {
+                            "additionalClassifications": [
+                                items[1]['additionalClassifications'][0],
+                                {
+                                    'scheme': 'COO',
+                                    'description': 'Україна',
+                                    'description_en': 'not_a_description',
+                                    'id': 'UA'
+                                },
+                            ]
+                        }
+                    ],
                 "status": "terminated",
                 "amountPaid": {
                     "amount": 200,
@@ -1401,17 +1411,19 @@ def contract_update_items_on_termination(self):
         "/contracts/{}?acc_token={}".format(self.contract["id"], token), {
             "data": {
                 "items":
-                    [{
-                        "id": item['id'],
-                        "additionalClassifications": [
-                            existing_additional_classifications,
-                            {'scheme': 'COO', 'description': 'Україна', 'id': 'UA'},
-                            {'scheme': 'COO', 'description': 'Україна', 'id': 'UA'},
-                            {'scheme': 'COO', 'description': 'Україна', 'id': 'not_an_id'},
+                    [
+                        items[0],
+                        {
+                            "additionalClassifications": [
+                                items[1]['additionalClassifications'][0],
+                                {'scheme': 'COO', 'description': 'Україна', 'id': 'UA'},
+                                {'scheme': 'COO', 'description': 'Україна', 'id': 'UA'},
+                                {'scheme': 'COO', 'description': 'Україна', 'id': 'not_an_id'},
 
-                            {'scheme': 'not_a_scheme', 'description': 'test', 'id': 'no'},
-                        ]
-                    }],
+                                {'scheme': 'not_a_scheme', 'description': 'test', 'id': 'no'},
+                            ]
+                        }
+                    ],
                 "status": "terminated",
                 "amountPaid": {
                     "amount": 200,
@@ -1432,19 +1444,20 @@ def contract_update_items_on_termination(self):
              'name': 'data.items'},
          ]
     )
-    # success termination
+    # success add classification to 0 item
     response = self.app.patch_json(
         "/contracts/{}?acc_token={}".format(self.contract["id"], token), {
             "data": {
                 "items":
-                    [{
-                        "id": item['id'],
-                        "additionalClassifications": [
-                            existing_additional_classifications,
-                            {'scheme': 'COO', 'description': 'Україна', 'id': 'UA'},
-                        ]
-                    }],
-                "status": "terminated",
+                    [
+                        {
+                            "additionalClassifications": [
+                                items[0]['additionalClassifications'][0],
+                                {'scheme': 'COO', 'description': 'Україна', 'id': 'UA'},
+                            ]
+                        },
+                        items[1],
+                    ],
                 "amountPaid": {
                     "amount": 200,
                     "amountNet": 190
@@ -1454,24 +1467,60 @@ def contract_update_items_on_termination(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertIn("COO", [s["scheme"] for s in response.json['data']['items'][0]["additionalClassifications"]])
+    items = response.json["data"]["items"]
+
+    # success add classification to 1 item
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token), {
+            "data": {
+                "items":
+                    [
+                        items[0],
+                        {
+                            "additionalClassifications": [
+                                items[1]['additionalClassifications'][0],
+                                {'scheme': 'COO', 'description': 'Україна', 'id': 'UA'},
+                            ]
+                        }
+                    ],
+                "amountPaid": {
+                    "amount": 200,
+                    "amountNet": 190
+                }
+            }
+        }
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertIn("COO", [s["scheme"] for s in response.json['data']['items'][0]["additionalClassifications"]])
+    self.assertIn("COO", [s["scheme"] for s in response.json['data']['items'][1]["additionalClassifications"]])
+
+    # terminate
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token), {
+            "data": {
+                "status": "terminated",
+                "amountPaid": {
+                    "amount": 200,
+                    "amountNet": 190
+                }
+            }
+        }
+    )
 
     # try to modify additionalClassifications after termination
     response = self.app.patch_json(
         "/contracts/{}?acc_token={}".format(self.contract["id"], token), {
             "data": {
                 "items":
-                    [{
-                        "id": item['id'],
-                        "additionalClassifications": [
-                            existing_additional_classifications,
-                            {
-                                'scheme': 'COO',
-                                'description': 'Україна',
-                                'description_en': 'Україна',
-                                'id': 'UA'
-                            },
-                        ]
-                    }],
+                    [
+                        items[0],
+                        {
+                            "additionalClassifications": [
+                                items[1]['additionalClassifications'][0],
+                                {'scheme': 'COO', 'description': 'Україна', 'id': 'UA'},
+                            ]
+                        }
+                    ],
                 "status": "terminated",
                 "amountPaid": {
                     "amount": 200,
@@ -1606,6 +1655,72 @@ def contract_crud_on_additional_classifications(self):
 
     self.assertEqual("COO", classifications_item["scheme"])
     self.assertEqual("PL", classifications_item["id"])
+
+
+def contract_update_add_remove_items(self):
+    tender_token = self.initial_data["tender_token"]
+
+    response = self.app.patch_json(
+        "/contracts/{}/credentials?acc_token={}".format(self.contract["id"], tender_token), {"data": ""}
+    )
+    self.assertEqual(response.status, "200 OK")
+    token = response.json["access"]["token"]
+
+    response = self.app.get("/contracts/{}".format(self.contract["id"]))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    items = response.json["data"]["items"]
+
+    # try to remove one item
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token), {"data": {"items": [items[0]]}},
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "data",
+            "description": "Can\'t add or remove items."
+        }]
+    )
+
+    # try to remove all items
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token), {"data": {"items": []}},
+        status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "items",
+            "description": ['Please provide at least 1 item.']
+        }]
+    )
+
+    # try to add item
+    new_item = deepcopy(items[0])
+    new_item['id'] = "new_id"
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token), {"data": {"items": [
+            items[0],
+            items[1],
+            new_item,
+        ]}},
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "data",
+            "description": "Can\'t add or remove items."
+        }]
+    )
 
 
 @mock.patch("openprocurement.contracting.api.validation.VAT_FROM", get_now() - timedelta(days=1))

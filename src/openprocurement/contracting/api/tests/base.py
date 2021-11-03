@@ -5,6 +5,7 @@ from copy import deepcopy
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.contracting.api.tests.data import (
     test_contract_data,
+    test_contract_data_two_items,
 )
 from openprocurement.tender.core.tests.base import BaseWebTest as BaseCoreWebTest
 
@@ -48,3 +49,7 @@ class BaseContractContentWebTest(BaseContractWebTest):
             {"data": {}},
         )
         self.contract_token = response.json["access"]["token"]
+
+
+class BaseContractWebTestTwoItems(BaseContractWebTest):
+    initial_data = test_contract_data_two_items

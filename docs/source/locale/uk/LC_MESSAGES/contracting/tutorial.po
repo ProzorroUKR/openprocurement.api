@@ -266,14 +266,6 @@ msgstr "Дивіться приклади зміни елемента (`items`) 
 msgid "update item:"
 msgstr "оновити елемент (`items`):"
 
-#: ../../source/contracting/tutorial.rst:145
-msgid "delete item:"
-msgstr "видалити елемент (`items`):"
-
-#: ../../source/contracting/tutorial.rst:147
-msgid "Request example for cases when contract has several items:"
-msgstr ""
-
 #: ../../source/contracting/tutorial.rst:153
 msgid "Applying the change"
 msgstr "Застосування зміни"

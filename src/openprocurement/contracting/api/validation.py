@@ -251,11 +251,22 @@ def validate_update_item_required_classifications_unchanged(request, **kwargs):
         old_item = old_item.serialize()
         item_validation_errors = validate_item_classifications_unchanged(old_item, new_item)
         if not item_validation_errors:
-            return
+            continue
         for e in item_validation_errors:
             request.errors.add("body", "data.items", e)
         request.errors.status = 403
         raise error_handler(request)
+
+
+def validate_contract_patch_items_amount_unchanged(request, **kwargs):
+    if 'items' not in request.validated["data"]:
+        return
+    old_contract_items = request.contract.items or []
+    new_contract_items = request.validated["data"].get('items') or []
+    if len(old_contract_items) != len(new_contract_items):
+        raise_operation_error(
+            request, f"Can't add or remove items."
+        )
 
 
 def validate_item_classifications_unchanged(old_item, new_item):
