@@ -65,6 +65,7 @@ class CompetitiveDialogueUABidResource(TenderBidResource):
 
             validate_input_data(PatchBid, filters=(filter_administrator_bid_update,), none_means_remove=True),
             validate_patch_data(Bid, item_name="bid"),
+            validate_bid_status_update_not_to_pending,
         ),
     )
     def patch(self):
