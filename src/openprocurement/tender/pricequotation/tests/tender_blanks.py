@@ -1172,7 +1172,6 @@ def patch_tender(self):
     owner_token = response.json["access"]["token"]
     dateModified = tender.pop("dateModified")
 
-    
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
         {"data": {"milestones": test_milestones}},

@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import os
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -42,8 +41,6 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
 )
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     guarantee,
-    create_tender_with_inn_before,
-    tender_milestones_required,
     get_tender,
     tender_not_found,
     dateModified_tender,
