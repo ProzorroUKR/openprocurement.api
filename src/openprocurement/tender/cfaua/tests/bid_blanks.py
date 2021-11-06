@@ -99,6 +99,8 @@ def get_tender_bidder(self):
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.get("/tenders/{}/auction".format(self.tender_id))
     auction_bids_data = response.json["data"]["bids"]
+    for b in auction_bids_data:
+        b.pop("status", None)
     response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": {"bids": auction_bids_data}})
     self.assertEqual(response.status, "200 OK")
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -1031,6 +1033,8 @@ def delete_tender_bidder(self):
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.get("/tenders/{}/auction".format(self.tender_id))
     auction_bids_data = response.json["data"]["bids"]
+    for b in auction_bids_data:
+        b.pop("status", None)
     response = self.app.post_json(
         "/tenders/{}/auction/{}".format(self.tender_id, self.initial_lots[0]["id"]),
         {"data": {"bids": auction_bids_data}},

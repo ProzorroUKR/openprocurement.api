@@ -49,12 +49,12 @@ class ESCOTenderAuctionResource(TenderAuctionResource):
         )
     )
     def post(self):
-        bid_values = {b["id"]: {l["relatedLot"]: l["value"] for l in b["lotValues"]}
+        bid_values = {b["id"]: {l["relatedLot"]: l["value"] for l in b.get("lotValues", "")}
                       for b in self.request.validated["tender"].get("bids", "")}
 
         for passed_bid in self.request.validated["data"]["bids"]:
             if "lotValues" in passed_bid:
-                for lv in passed_bid["lotValues"]:
+                for lv in passed_bid.get("lotValues", ""):
                     value = lv.get("value")
                     if value:
                         value = bid_values[passed_bid["id"]][lv["relatedLot"]].copy()

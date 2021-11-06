@@ -703,6 +703,8 @@ def one_lot_3bid_1del(self):
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.get("/tenders/{}/auction".format(tender_id))
     auction_bids_data = response.json["data"]["bids"]
+    for b in auction_bids_data:
+        b.pop("status", None)
     # posting auction urls
     data = {
         "data": {
@@ -858,6 +860,8 @@ def one_lot_3bid_1un(self):
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.get("/tenders/{}/auction".format(tender_id))
     auction_bids_data = response.json["data"]["bids"]
+    for b in auction_bids_data:
+        b.pop("status", None)
     # posting auction urls
     data = {
         "data": {

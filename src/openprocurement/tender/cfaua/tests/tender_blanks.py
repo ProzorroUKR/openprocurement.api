@@ -1451,6 +1451,8 @@ def lost_contract_for_active_award(self):
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.get("/tenders/{}/auction".format(tender_id))
     auction_bids_data = response.json["data"]["bids"]
+    for b in auction_bids_data:
+        b.pop("status", None)
     # posting auction results
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.post_json("/tenders/{}/auction".format(tender_id), {"data": {"bids": auction_bids_data}})

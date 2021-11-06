@@ -130,6 +130,8 @@ def delete_tender_bidder_eu(self):
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.get("/tenders/{}/auction".format(self.tender_id))
     auction_bids_data = response.json["data"]["bids"]
+    for b in auction_bids_data:
+        b.pop("status", None)
     response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": {"bids": auction_bids_data}})
     self.assertEqual(response.status, "200 OK")
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -285,6 +287,8 @@ def bids_invalidation_on_tender_change_eu(self):
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.get("/tenders/{}/auction".format(self.tender_id))
     auction_bids_data = response.json["data"]["bids"]
+    for b in auction_bids_data:
+        b.pop("status", None)
     response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": {"bids": auction_bids_data}})
     self.assertEqual(response.status, "200 OK")
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -475,6 +479,8 @@ def create_tender_bidder_document_nopending_eu(self):
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.get("/tenders/{}/auction".format(self.tender_id))
     auction_bids_data = response.json["data"]["bids"]
+    for b in auction_bids_data:
+        b.pop("status", None)
     response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": {"bids": auction_bids_data}})
     self.assertEqual(response.status, "200 OK")
     response = self.app.get("/tenders/{}".format(self.tender_id))

@@ -11,8 +11,8 @@ class LotValue(BaseLotValue):
 
 
 class PostLotValue(BasePostLotValue):
-    status = StringType(choices=["pending", "active", "unsuccessful"], default="pending")
+    status = StringType(choices=["pending", "active"], default="pending")
 
 
 class PatchLotValue(BasePatchLotValue):
-    pass
+    status = StringType(choices=["pending", "active"], default="pending")
