@@ -49,6 +49,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     update_tender_bid_pmr_related_doc,
     update_tender_rr_evidence_id,
     update_tender_bid_pmr_related_tenderer,
+    patch_tender_lot_values_any_order,
 )
 from openprocurement.tender.openeu.tests.bid import CreateBidMixin
 from openprocurement.tender.openeu.tests.bid import (
@@ -78,6 +79,7 @@ class Tender2LotBidResourceTest(TenderContentWebTest):
     initial_status = "active.tendering"
 
     test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
+    test_patch_tender_lot_values_any_order= snitch(patch_tender_lot_values_any_order)
 
 
 class TenderBidFeaturesResourceTest(TenderContentWebTest):

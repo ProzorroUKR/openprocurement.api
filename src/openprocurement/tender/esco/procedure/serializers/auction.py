@@ -25,6 +25,7 @@ class AuctionBidSerializer(BidSerializer):
             "weightedValue",
             "lotValues",
             "date",
+            "status",
             "participationUrl",
             "parameters",
         }

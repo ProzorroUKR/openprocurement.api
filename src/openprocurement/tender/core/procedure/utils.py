@@ -196,6 +196,8 @@ def prepare_patch(changes, orig, patch, basepath="", none_means_remove=False):
             if i in orig:
                 prepare_patch(changes, orig[i], patch[i], "{}/{}".format(basepath, i),
                               none_means_remove=none_means_remove)
+            elif patch[i] is None and none_means_remove:
+                pass  # already deleted
             else:
                 changes.append({"op": "add", "path": "{}/{}".format(basepath, i), "value": patch[i]})
     elif isinstance(patch, list):

@@ -28,6 +28,7 @@ from openprocurement.tender.openeu.tests.chronograph_blanks import (
     pre_qual_switch_to_auction,
     pre_qual_switch_to_stand_still,
     active_tendering_to_pre_qual,
+    active_tendering_to_pre_qual_unsuccessful,
 )
 
 from openprocurement.tender.openua.tests.chronograph_blanks import (
@@ -61,6 +62,28 @@ class TenderSwitchUnsuccessfulResourceTest(BaseTenderContentWebTest):
 
 class TenderLotSwitchPreQualificationResourceTest(TenderSwitchPreQualificationResourceTest):
     initial_lots = test_lots
+
+
+class TenderLotSwitchPreQualificationUnsuccessfulTest(BaseTenderContentWebTest):
+    initial_bids = test_bids
+    initial_lots = test_lots * 3
+    initial_status = "active.tendering"
+
+    def setUp(self):
+        super().setUp()
+        # Create award with an unsuccessful lot
+        for bid in self.initial_bids:
+            bid_id = bid["id"]
+            lot_values = bid["lotValues"][:1]
+            del lot_values[0]["date"]
+            del lot_values[0]["status"]
+            response = self.app.patch_json(
+                f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={self.initial_bids_tokens[bid_id]}",
+                {"data": {"lotValues": bid["lotValues"][:1]}}
+            )
+            self.assertEqual(response.status, "200 OK")
+
+    test_switch_to_pre_qual_unsuccessful = snitch(active_tendering_to_pre_qual_unsuccessful)
 
 
 class TenderLotSwitchAuctionResourceTest(TenderSwitchAuctionResourceTest):

@@ -14,6 +14,37 @@ def active_tendering_to_pre_qual(self):
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
 
+def active_tendering_to_pre_qual_unsuccessful(self):
+    response = self.set_status("active.pre-qualification", {"status": "active.tendering"})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "active.tendering")
+    response = self.check_chronograph()
+    self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
+    self.check_chronograph()
+
+    response = self.check_chronograph(data={"data": {"lots": [
+        {"auctionPeriod": {"startDate": "2021-11-04T14:05:00+02:00"}},
+        {},
+        {}
+    ]}})
+    lots = response.json["data"]["lots"]
+    self.assertEqual(lots[0]["auctionPeriod"]["startDate"], "2021-11-04T14:05:00+02:00")
+    self.assertNotIn("auctionPeriod", lots[1])
+    self.assertNotIn("auctionPeriod", lots[2])
+
+    # second update had a bug, and `"auctionPeriod": null` appeared for second and third lots
+    response = self.check_chronograph(data={"data": {"lots": [
+        {"auctionPeriod": {"startDate": "2021-11-05T14:05:00+02:00"}},
+        {},
+        {}
+    ]}})
+    lots = response.json["data"]["lots"]
+    self.assertEqual(lots[0]["auctionPeriod"]["startDate"], "2021-11-05T14:05:00+02:00")
+    self.assertNotIn("auctionPeriod", lots[1])
+    self.assertNotIn("auctionPeriod", lots[2])
+
+
 def pre_qual_switch_to_auction(self):
     response = self.set_status("active.auction", {"status": "active.pre-qualification"})
     response = self.check_chronograph()

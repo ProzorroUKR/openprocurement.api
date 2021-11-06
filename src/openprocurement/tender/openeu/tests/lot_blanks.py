@@ -1051,8 +1051,9 @@ def one_lot_3bid_1del(self):
                         for l in b.get("lotValues", "")
                     ]
                 }
+                if b.get("status", "active") == "active" else
+                {}
                 for b in auction_bids_data
-                if b.get("status", "active") == "active"
             ],
         }
     }
@@ -1077,7 +1078,8 @@ def one_lot_3bid_1del(self):
     response = self.app.post_json(
         "/tenders/{}/auction/{}".format(tender_id, lot_id),
         {"data": {"bids": [
-            {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b.get("lotValues", "")]}
+            {"id": b["id"],
+             "lotValues": [{"relatedLot": l["relatedLot"]} for l in b.get("lotValues", "")]}
             for b in auction_bids_data]}}
     )
     # # get awards
@@ -1204,8 +1206,9 @@ def one_lot_3bid_1un(self):
                         for l in b["lotValues"]
                     ]
                 }
+                if b.get("status", "active") == "active" else
+                {}
                 for b in auction_bids_data
-                if b.get("status", "active") == "active"
             ],
         }
     }

@@ -251,7 +251,7 @@ class TenderState(TenderStateAwardingMixing, BaseState):
                         pending_complaints = any(
                             i["status"] in self.block_complaint_status
                             for i in tender.get("complaints", "")
-                            if i["relatedLot"] == lot["id"]
+                            if i.get("relatedLot") == lot["id"]
                         )
                         pending_award_complaints = any(
                             i["status"] in self.block_complaint_status
@@ -584,7 +584,7 @@ class TenderState(TenderStateAwardingMixing, BaseState):
         return result
 
     def calc_auction_periods(self, tender):
-        if tender.get("status") in ("active.tendering", "active.auction"):
+        if tender.get("status") in ("active.tendering", "active.pre-qualification.stand-still", "active.auction"):
             lots = tender.get("lots")
             if lots:
                 for lot in lots:
