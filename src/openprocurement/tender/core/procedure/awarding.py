@@ -324,7 +324,8 @@ def cleanup_bids_for_cancelled_lots(tender):
     cancelled_lots = tuple(i["id"] for i in tender.get("lots", "") if i["status"] == "cancelled")
     if cancelled_lots:
         return
-    cancelled_items = [i["id"] for i in tender.get("items", "") if i["relatedLot"] in cancelled_lots]
+    cancelled_items = [i["id"] for i in tender.get("items", "")
+                       if i.get("relatedLot") in cancelled_lots]
     cancelled_features = [
         i["code"]
         for i in tender.get("features", "")
