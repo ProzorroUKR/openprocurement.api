@@ -69,6 +69,7 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
     create_tender_bid_with_financial_documents,
     create_tender_bid_with_eligibility_documents,
     create_tender_bid_with_qualification_documents,
+    patch_tender_draft_bidder,
 )
 
 from openprocurement.tender.openua.tests.bid_blanks import (
@@ -103,6 +104,7 @@ class TenderBidResourceTestMixin(object):
 class Tender2BidResourceTestMixin(object):
     test_create_tender_biddder_invalid = snitch(create_tender_biddder_invalid)
     test_patch_tender_bidder = snitch(patch_tender_bidder)
+    test_patch_tender_draft_bidder = snitch(patch_tender_draft_bidder)
     test_get_tender_bidder = snitch(get_tender_bidder)
     test_deleted_bid_do_not_locks_tender_in_state = snitch(deleted_bid_do_not_locks_tender_in_state)
     test_get_tender_tenderers = snitch(get_tender_tenderers)

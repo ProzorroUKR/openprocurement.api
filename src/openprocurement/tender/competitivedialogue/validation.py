@@ -157,6 +157,9 @@ def validate_tender_update(request, **kwargs):
 def validate_bid_status_update_not_to_pending_or_draft(request, **kwargs):
     if request.authenticated_role != "Administrator":
         bid_status_to = request.validated["data"].get("status", request.context.status)
+        bid_status_from = request.validated["bid"].get("status")
+        if bid_status_from == bid_status_to:
+            return
         if bid_status_to not in ["pending", "draft"]:
             request.errors.add("body", "bid", "Can't update bid to ({}) status".format(bid_status_to))
             request.errors.status = 403

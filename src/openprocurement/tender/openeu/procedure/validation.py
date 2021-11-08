@@ -24,6 +24,9 @@ def validate_view_bids(request, **_):
 def validate_bid_status_update_not_to_pending(request, **_):
     if request.authenticated_role != "Administrator":
         bid_status_to = request.validated["json_data"].get("status")
+        bid_status_from = request.validated["bid"].get("status")
+        if bid_status_from == bid_status_to:
+            return
         if bid_status_to and bid_status_to != "pending":
             raise_operation_error(request, "Can't update bid to ({}) status".format(bid_status_to))
 

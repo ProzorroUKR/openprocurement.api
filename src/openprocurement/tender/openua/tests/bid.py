@@ -77,6 +77,7 @@ from openprocurement.tender.openua.tests.bid_blanks import (
     bid_activate,
     # TenderBidDocumentActivateResourceTest
     doc_date_modified,
+    patch_tender_draft_bidder,
 )
 
 
@@ -84,6 +85,7 @@ class TenderBidResourceTestMixin(object):
     test_create_tender_biddder_invalid = snitch(create_tender_biddder_invalid)
     test_create_tender_bidder = snitch(create_tender_bidder)
     test_patch_tender_bidder = snitch(patch_tender_bidder)
+    test_patch_tender_draft_bidder = snitch(patch_tender_draft_bidder)
     test_get_tender_bidder = snitch(get_tender_bidder)
     test_delete_tender_bidder = snitch(delete_tender_bidder)
     test_deleted_bid_is_not_restorable = snitch(deleted_bid_is_not_restorable)

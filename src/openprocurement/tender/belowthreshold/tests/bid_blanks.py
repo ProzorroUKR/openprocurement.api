@@ -284,8 +284,20 @@ def patch_tender_bid(self):
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
         {"data": {
-            "value": {"amount": 400},
+            "value": {"amount": 450},
             "lotValues": None, "parameters": None,
+        }},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["value"]["amount"], 450)
+    self.assertNotEqual(response.json["data"]["date"], bid["date"])
+
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
+        {"data": {
+            "status": "draft",
+            "value": {"amount": 400},
         }},
     )
     self.assertEqual(response.status, "200 OK")
