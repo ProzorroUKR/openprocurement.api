@@ -6,7 +6,7 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
+from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author, test_criteria
 
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderBidBatchDocumentWithDSResourceTest
@@ -15,6 +15,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_document,
     # Tender2LotBidResourceTest
     patch_tender_with_bids_lots_none,
+    patch_tender_lot_values_any_order,
     # TenderBidDocumentWithDSResourceTest
     create_tender_bid_document_json_bulk,
 )
@@ -124,10 +125,12 @@ class TenderBidResourceTest(BaseTenderContentWebTest, TenderBidResourceTestMixin
 
 class Tender2LotBidResourceTest(BaseTenderContentWebTest):
     test_bids_data = test_bids
-    initial_lots = 2 * test_lots
+    initial_lots = 3 * test_lots
     initial_status = "active.tendering"
+    initial_criteria = test_criteria
 
     test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
+    test_patch_tender_lot_values_any_order = snitch(patch_tender_lot_values_any_order)
 
 
 class TenderBidFeaturesResourceTest(BaseTenderContentWebTest):

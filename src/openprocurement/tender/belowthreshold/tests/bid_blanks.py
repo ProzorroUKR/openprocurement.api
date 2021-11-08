@@ -554,26 +554,33 @@ def patch_tender_lot_values_any_order(self):
     lots = self.db.get(self.tender_id).get("lots")
 
     bid = deepcopy(self.test_bids_data[0])
-    value = bid.pop("value", None)
+    value_1 = bid.pop("value", None)
+    value_2 = deepcopy(value_1)
+    value_2["amount"] = 453
 
     # applying for the first lot
-    bid["lotValues"] = [{"value": value, "relatedLot": lots[0]["id"]}]
+    bid["lotValues"] = [{"value": value_1, "relatedLot": lots[0]["id"]}]
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
     bid_id = response.json["data"]["id"]
     token = response.json["access"]["token"]
 
     self.assertEqual(len(response.json["data"]["lotValues"]), 1)
     self.assertIn("date", response.json["data"]["lotValues"][0])
+    expected_status = response.json["data"]["lotValues"][0].get("status")
 
     # applying for the second lot
     bid["lotValues"] = [
-        {"value": value, "relatedLot": lots[1]["id"]},
-        {"value": value, "relatedLot": lots[0]["id"]},
+        {"value": value_2, "relatedLot": lots[1]["id"]},
+        {"value": value_1, "relatedLot": lots[0]["id"]},
     ]
     response = self.app.patch_json(f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={token}", {"data": bid})
     self.assertEqual(len(response.json["data"]["lotValues"]), 2)
     self.assertIn("date", response.json["data"]["lotValues"][0])
     self.assertIn("date", response.json["data"]["lotValues"][1])
+    self.assertEqual(response.json["data"]["lotValues"][0].get("status"), expected_status)
+    self.assertEqual(response.json["data"]["lotValues"][1].get("status"), expected_status)
+    self.assertEqual(value_2["amount"], response.json["data"]["lotValues"][0]["value"]["amount"])
+    self.assertEqual(value_1["amount"], response.json["data"]["lotValues"][1]["value"]["amount"])
 
 # TenderBidFeaturesResourceTest
 
