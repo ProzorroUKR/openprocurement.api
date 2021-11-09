@@ -1,7 +1,7 @@
 from datetime import timedelta
 from copy import deepcopy
 from openprocurement.api.utils import get_now, parse_date
-from openprocurement.tender.belowthreshold.tests.base import test_claim
+from openprocurement.tender.belowthreshold.tests.base import test_claim, test_bids
 
 
 # TenderSwitchTenderingResourceTest
@@ -25,6 +25,26 @@ def switch_to_qualification(self):
     self.assertEqual(response.json["data"]["status"], "active.qualification")
     self.assertEqual(len(response.json["data"]["awards"]), 1)
 
+
+def switch_to_qualification_one_bid(self):
+    # # switch to tendering
+    self.set_status(
+        "active.tendering",
+        {"status": "active.enquiries",
+         "tenderPeriod": {"startDate": get_now().isoformat()}}
+    )
+    response = self.check_chronograph(data={"data": {"auctionPeriod": {"startDate": get_now().isoformat()}}})
+    self.assertEqual(response.json["data"]["status"], "active.tendering")
+
+    self.create_bid(self.tender_id, test_bids[0])
+
+    # switch to auction
+    self.set_status("active.auction", {"status": "active.tendering"})
+    response = self.check_chronograph()
+
+    self.assertEqual(response.json["data"]["status"], "active.qualification")
+    self.assertNotIn("auctionPeriod", response.json["data"])
+    self.assertEqual(len(response.json["data"]["awards"]), 1)
 
 # TenderSwitchAuctionResourceTest
 

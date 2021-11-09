@@ -14,6 +14,7 @@ from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     switch_to_tendering_by_tenderPeriod_startDate,
     # TenderSwitchQualificationResourceTest
     switch_to_qualification,
+    switch_to_qualification_one_bid,
     # TenderSwitchAuctionResourceTest
     switch_to_auction,
     switch_to_auction_lot_items,
@@ -46,6 +47,11 @@ class TenderSwitchQualificationResourceTest(TenderContentWebTest):
     initial_bids = test_bids[:1]
 
     test_switch_to_qualification = snitch(switch_to_qualification)
+
+
+class TenderSwitchQualificationOneBidResourceTest(TenderContentWebTest):
+    initial_status = "active.enquires"
+    test_switch_to_qualification = snitch(switch_to_qualification_one_bid)
 
 
 class TenderSwitchAuctionResourceTest(TenderContentWebTest):

@@ -583,50 +583,73 @@ class TenderState(TenderStateAwardingMixing, BaseState):
             result = any(not i.get("answer") for i in tender.get("questions", ""))
         return result
 
-    def calc_auction_periods(self, tender):
+    # -- auctionPeriod.shouldStartAfter --
+    def get_lot_auction_should_start_after(self, tender, lot):
         if tender.get("status") in ("active.tendering", "active.pre-qualification.stand-still", "active.auction"):
-            lots = tender.get("lots")
-            if lots:
-                for lot in lots:
-                    period = lot.get("auctionPeriod", {})
-                    if period is None:  # auctionPeriod = null can be set by chronograph
-                        del lot["auctionPeriod"]
-                        continue
+            period = lot.get("auctionPeriod") or {}
+            if not period.get("endDate") and lot.get("status", "active") == "active":
+                start_date = period.get("startDate")
+                if start_date:
+                    number_of_bids = self.count_lot_bids_number(tender, lot["id"])
+                    expected_value = calc_auction_end_time(number_of_bids, dt_from_iso(start_date))
+                    if get_now() > expected_value:
+                        return normalize_should_start_after(expected_value, tender).isoformat()
 
-                    if not period.get("endDate") and lot.get("status", "active") == "active":
-                        start_date = period.get("startDate")
-                        start_after = None
-                        if start_date:
-                            number_of_bids = self.count_lot_bids_number(tender, lot["id"])
-                            expected_value = calc_auction_end_time(number_of_bids, dt_from_iso(start_date))
-                            if get_now() > expected_value:
-                                start_after = expected_value
-                        if start_after is None:
-                            decision_dates = [
-                                dt_from_iso(complaint["dateDecision"]).replace(
-                                    hour=0, minute=0, second=0, microsecond=0,
-                                ) + timedelta(days=3)
-                                for complaint in tender.get("complaints", "")
-                                if complaint.get("dateDecision")
-                            ]
-                            decision_dates.append(dt_from_iso(tender["tenderPeriod"]["endDate"]))
-                            start_after = max(decision_dates)
-                        period["shouldStartAfter"] = normalize_should_start_after(start_after, tender).isoformat()
-                        lot["auctionPeriod"] = period
-            else:
-                period = tender.get("auctionPeriod", {})
+                decision_dates = [
+                    dt_from_iso(complaint["dateDecision"]).replace(
+                        hour=0, minute=0, second=0, microsecond=0,
+                    ) + timedelta(days=3)
+                    for complaint in tender.get("complaints", "")
+                    if complaint.get("dateDecision")
+                ]
+                decision_dates.append(dt_from_iso(tender["tenderPeriod"]["endDate"]))
+                start_after = max(decision_dates)
+                return normalize_should_start_after(start_after, tender).isoformat()
+
+    def get_auction_should_start_after(self, tender):
+        if tender.get("status") in ("active.tendering", "active.pre-qualification.stand-still", "active.auction"):
+            period = tender.get("auctionPeriod") or {}
+            if not period.get("endDate"):
+                start_date = period.get("startDate")
+                if start_date:
+                    number_of_bids = self.count_bids_number(tender)
+                    expected_value = calc_auction_end_time(number_of_bids, dt_from_iso(start_date))
+                    if get_now() > expected_value:
+                        return normalize_should_start_after(expected_value, tender).isoformat()
+                start_after = dt_from_iso(tender["tenderPeriod"]["endDate"])
+                return normalize_should_start_after(start_after, tender).isoformat()
+
+    def calc_auction_periods(self, tender):
+        lots = tender.get("lots")
+        if lots:
+            for lot in lots:
+                period = lot.get("auctionPeriod", {})
                 if period is None:  # auctionPeriod = null can be set by chronograph
-                    del tender["auctionPeriod"]
+                    del lot["auctionPeriod"]
+                    continue
 
-                elif not period.get("endDate", {}):
-                    start_date = period.get("startDate")
-                    start_after = None
-                    if start_date:
-                        number_of_bids = self.count_bids_number(tender)
-                        expected_value = calc_auction_end_time(number_of_bids, dt_from_iso(start_date))
-                        if get_now() > expected_value:
-                            start_after = expected_value
-                    if start_after is None:
-                        start_after = dt_from_iso(tender["tenderPeriod"]["endDate"])
-                    period["shouldStartAfter"] = normalize_should_start_after(start_after, tender).isoformat()
-                    tender["auctionPeriod"] = period
+                start_after = self.get_lot_auction_should_start_after(tender, lot)
+                if start_after:
+                    period["shouldStartAfter"] = start_after
+                    lot["auctionPeriod"] = period
+
+                elif "shouldStartAfter" in period:
+                    del period["shouldStartAfter"]
+                    if not period:
+                        del lot["auctionPeriod"]
+
+        else:
+            period = tender.get("auctionPeriod", {})
+            if period is None:  # auctionPeriod = null can be set by chronograph
+                del tender["auctionPeriod"]
+
+            start_after = self.get_auction_should_start_after(tender)
+            if start_after:
+                period["shouldStartAfter"] = start_after
+                tender["auctionPeriod"] = period
+
+            elif "shouldStartAfter" in period:
+                del period["shouldStartAfter"]
+                if not period:
+                    del tender["auctionPeriod"]
+    # -- auctionPeriod.shouldStartAfter --
