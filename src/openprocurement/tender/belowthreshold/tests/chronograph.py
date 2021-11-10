@@ -23,6 +23,7 @@ from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     # TenderAuctionPeriodResourceTest
     set_auction_period,
     reset_auction_period,
+    set_auction_period_lot_separately,
     # TenderComplaintSwitchResourceTest
     switch_to_ignored_on_complete,
     switch_from_pending_to_ignored,
@@ -95,6 +96,12 @@ class TenderAuctionPeriodResourceTest(TenderContentWebTest):
 
 class TenderLotAuctionPeriodResourceTest(TenderAuctionPeriodResourceTest):
     initial_lots = test_lots
+
+
+class TenderLotsAuctionPeriodResourceTest(TenderContentWebTest):
+    initial_bids = test_bids
+    initial_lots = test_lots * 2
+    test_set_auction_period_lot_separately = snitch(set_auction_period_lot_separately)
 
 
 class TenderUnsuccessfulLotAuctionPeriodResourceTest(TenderAuctionPeriodResourceTest):

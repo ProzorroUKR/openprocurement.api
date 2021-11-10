@@ -624,9 +624,9 @@ class TenderState(TenderStateAwardingMixing, BaseState):
         if lots:
             for lot in lots:
                 period = lot.get("auctionPeriod", {})
-                if period is None:  # auctionPeriod = null can be set by chronograph
-                    del lot["auctionPeriod"]
-                    continue
+                # if period is None:  # auctionPeriod = null can be set by chronograph
+                #     del lot["auctionPeriod"]
+                #     continue
 
                 start_after = self.get_lot_auction_should_start_after(tender, lot)
                 if start_after:
@@ -640,8 +640,8 @@ class TenderState(TenderStateAwardingMixing, BaseState):
 
         else:
             period = tender.get("auctionPeriod", {})
-            if period is None:  # auctionPeriod = null can be set by chronograph
-                del tender["auctionPeriod"]
+            # if period is None:  # auctionPeriod = null can be set by chronograph
+            #     del tender["auctionPeriod"]
 
             start_after = self.get_auction_should_start_after(tender)
             if start_after:

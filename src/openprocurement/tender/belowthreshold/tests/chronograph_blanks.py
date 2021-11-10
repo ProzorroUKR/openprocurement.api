@@ -118,9 +118,48 @@ def set_auction_period(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(item["auctionPeriod"]["startDate"], "9999-01-01T00:00:00+02:00")
 
-    response, item = check_chronograph(auction_period_data={"startDate": None})
-    self.assertEqual(response.status, "200 OK")
-    self.assertNotIn("startDate", item["auctionPeriod"])
+
+def set_auction_period_lot_separately(self):
+
+    self.set_status("active.tendering", {"status": "active.enquiries"})
+    response = self.check_chronograph()
+    data = response.json["data"]
+
+    self.assertEqual(data["status"], "active.tendering")
+
+    for lot in data["lots"]:
+        self.assertIn("auctionPeriod", lot)
+        self.assertIn("shouldStartAfter", lot["auctionPeriod"])
+
+    # set startDate for the first lot
+    start_date = (get_now() + timedelta(days=1)).isoformat()
+    response = self.check_chronograph({"data": {
+        "auctionPeriod": None,
+        "lots": [
+            {"auctionPeriod": {"startDate": start_date}},
+            {}
+        ]
+    }})
+
+    lot = response.json["data"]["lots"][0]
+    self.assertIn("auctionPeriod", lot)
+    self.assertIn("shouldStartAfter", lot["auctionPeriod"])
+    self.assertIn("startDate", lot["auctionPeriod"])
+
+    lot = response.json["data"]["lots"][1]
+    self.assertIn("auctionPeriod", lot)
+    self.assertIn("shouldStartAfter", lot["auctionPeriod"])
+    self.assertNotIn("startDate", lot["auctionPeriod"])
+
+    # set startDate for the second lot
+    response = self.check_chronograph({"data": {"lots": [
+        {},
+        {"auctionPeriod": {"startDate": start_date}},
+    ]}})
+    for lot in response.json["data"]["lots"]:
+        self.assertIn("auctionPeriod", lot)
+        self.assertIn("shouldStartAfter", lot["auctionPeriod"])
+        self.assertIn("startDate", lot["auctionPeriod"])
 
 
 def reset_auction_period(self):

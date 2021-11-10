@@ -13,10 +13,6 @@ def set_auction_period_0bid(self):
     response = self.check_chronograph({"data": {"auctionPeriod": {"startDate": start_date}}})
     self.assertEqual(response.json["data"]["auctionPeriod"]["startDate"], start_date)
 
-    response = self.check_chronograph({"data": {"auctionPeriod": {"startDate": None}}})
-    self.assertIn("auctionPeriod", response.json["data"])
-    self.assertNotIn("startDate", response.json["data"]["auctionPeriod"])
-
 
 # TenderSwitch1BidResourceTest
 
@@ -112,10 +108,6 @@ def set_auction_period(self):
     item = response.json["data"]
     self.assertEqual(item["auctionPeriod"]["startDate"], start_date)
 
-    response = self.check_chronograph({"data": {"auctionPeriod": {"startDate": None}}})
-    item = response.json["data"]
-    self.assertNotIn("startDate", item["auctionPeriod"])
-
 
 # TenderLotSwitch0BidResourceTest
 # TenderLotSwitchAuctionResourceTest
@@ -137,9 +129,8 @@ def set_auction_period_lot_0bid(self):
     response = self.check_chronograph(data)
     self.assertEqual(response.json["data"]["lots"][0]["auctionPeriod"]["startDate"], start_date)
 
-    response = self.check_chronograph({"data": {"lots": [{"auctionPeriod": {"startDate": None}}]}})
-    self.assertIn("auctionPeriod", response.json["data"]["lots"][0])
-    self.assertNotIn("startDate", response.json["data"]["lots"][0]["auctionPeriod"])
+    response = self.check_chronograph({"data": {"lots": [{"auctionPeriod": None}]}})
+    self.assertEqual(response.json["data"]["lots"][0]["auctionPeriod"]["startDate"], start_date)
 
 
 # TenderLotSwitch1BidResourceTest
@@ -214,9 +205,3 @@ def set_auction_period_lot(self):
     item = response.json["data"]["lots"][0]
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(item["auctionPeriod"]["startDate"], start_date)
-
-    data = {"data": {"lots": [{"auctionPeriod": {"startDate": None}} for i in self.initial_lots]}}
-    response = self.check_chronograph(data)
-    item = response.json["data"]["lots"][0]
-    self.assertEqual(response.status, "200 OK")
-    self.assertNotIn("startDate", item["auctionPeriod"])
