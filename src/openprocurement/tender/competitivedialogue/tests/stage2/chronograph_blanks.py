@@ -17,7 +17,3 @@ def set_auction_period_2_lot_0_bid_ua(self):
     response = self.check_chronograph(data)
     self.assertEqual(response.json["data"]["lots"][0]["auctionPeriod"]["startDate"], start_date)
 
-    data = {"data": {"lots": [{"auctionPeriod": {"startDate": None}}, {"auctionPeriod": {"startDate": None}}]}}
-    response = self.check_chronograph(data)
-    self.assertIn("auctionPeriod", response.json["data"]["lots"][0])
-    self.assertNotIn("startDate", response.json["data"]["lots"][0]["auctionPeriod"])

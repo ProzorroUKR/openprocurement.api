@@ -14,6 +14,7 @@ from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     switch_to_tendering_by_tenderPeriod_startDate,
     # TenderSwitchQualificationResourceTest
     switch_to_qualification,
+    switch_to_qualification_one_bid,
     # TenderSwitchAuctionResourceTest
     switch_to_auction,
     switch_to_auction_lot_items,
@@ -22,6 +23,7 @@ from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     # TenderAuctionPeriodResourceTest
     set_auction_period,
     reset_auction_period,
+    set_auction_period_lot_separately,
     # TenderComplaintSwitchResourceTest
     switch_to_ignored_on_complete,
     switch_from_pending_to_ignored,
@@ -46,6 +48,11 @@ class TenderSwitchQualificationResourceTest(TenderContentWebTest):
     initial_bids = test_bids[:1]
 
     test_switch_to_qualification = snitch(switch_to_qualification)
+
+
+class TenderSwitchQualificationOneBidResourceTest(TenderContentWebTest):
+    initial_status = "active.enquires"
+    test_switch_to_qualification = snitch(switch_to_qualification_one_bid)
 
 
 class TenderSwitchAuctionResourceTest(TenderContentWebTest):
@@ -89,6 +96,12 @@ class TenderAuctionPeriodResourceTest(TenderContentWebTest):
 
 class TenderLotAuctionPeriodResourceTest(TenderAuctionPeriodResourceTest):
     initial_lots = test_lots
+
+
+class TenderLotsAuctionPeriodResourceTest(TenderContentWebTest):
+    initial_bids = test_bids
+    initial_lots = test_lots * 2
+    test_set_auction_period_lot_separately = snitch(set_auction_period_lot_separately)
 
 
 class TenderUnsuccessfulLotAuctionPeriodResourceTest(TenderAuctionPeriodResourceTest):

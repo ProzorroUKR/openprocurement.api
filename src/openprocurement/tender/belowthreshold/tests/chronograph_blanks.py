@@ -1,7 +1,7 @@
 from datetime import timedelta
 from copy import deepcopy
 from openprocurement.api.utils import get_now, parse_date
-from openprocurement.tender.belowthreshold.tests.base import test_claim
+from openprocurement.tender.belowthreshold.tests.base import test_claim, test_bids
 
 
 # TenderSwitchTenderingResourceTest
@@ -25,6 +25,26 @@ def switch_to_qualification(self):
     self.assertEqual(response.json["data"]["status"], "active.qualification")
     self.assertEqual(len(response.json["data"]["awards"]), 1)
 
+
+def switch_to_qualification_one_bid(self):
+    # # switch to tendering
+    self.set_status(
+        "active.tendering",
+        {"status": "active.enquiries",
+         "tenderPeriod": {"startDate": get_now().isoformat()}}
+    )
+    response = self.check_chronograph(data={"data": {"auctionPeriod": {"startDate": get_now().isoformat()}}})
+    self.assertEqual(response.json["data"]["status"], "active.tendering")
+
+    self.create_bid(self.tender_id, test_bids[0])
+
+    # switch to auction
+    self.set_status("active.auction", {"status": "active.tendering"})
+    response = self.check_chronograph()
+
+    self.assertEqual(response.json["data"]["status"], "active.qualification")
+    self.assertNotIn("auctionPeriod", response.json["data"])
+    self.assertEqual(len(response.json["data"]["awards"]), 1)
 
 # TenderSwitchAuctionResourceTest
 
@@ -98,9 +118,48 @@ def set_auction_period(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(item["auctionPeriod"]["startDate"], "9999-01-01T00:00:00+02:00")
 
-    response, item = check_chronograph(auction_period_data={"startDate": None})
-    self.assertEqual(response.status, "200 OK")
-    self.assertNotIn("startDate", item["auctionPeriod"])
+
+def set_auction_period_lot_separately(self):
+
+    self.set_status("active.tendering", {"status": "active.enquiries"})
+    response = self.check_chronograph()
+    data = response.json["data"]
+
+    self.assertEqual(data["status"], "active.tendering")
+
+    for lot in data["lots"]:
+        self.assertIn("auctionPeriod", lot)
+        self.assertIn("shouldStartAfter", lot["auctionPeriod"])
+
+    # set startDate for the first lot
+    start_date = (get_now() + timedelta(days=1)).isoformat()
+    response = self.check_chronograph({"data": {
+        "auctionPeriod": None,
+        "lots": [
+            {"auctionPeriod": {"startDate": start_date}},
+            {}
+        ]
+    }})
+
+    lot = response.json["data"]["lots"][0]
+    self.assertIn("auctionPeriod", lot)
+    self.assertIn("shouldStartAfter", lot["auctionPeriod"])
+    self.assertIn("startDate", lot["auctionPeriod"])
+
+    lot = response.json["data"]["lots"][1]
+    self.assertIn("auctionPeriod", lot)
+    self.assertIn("shouldStartAfter", lot["auctionPeriod"])
+    self.assertNotIn("startDate", lot["auctionPeriod"])
+
+    # set startDate for the second lot
+    response = self.check_chronograph({"data": {"lots": [
+        {},
+        {"auctionPeriod": {"startDate": start_date}},
+    ]}})
+    for lot in response.json["data"]["lots"]:
+        self.assertIn("auctionPeriod", lot)
+        self.assertIn("shouldStartAfter", lot["auctionPeriod"])
+        self.assertIn("startDate", lot["auctionPeriod"])
 
 
 def reset_auction_period(self):
