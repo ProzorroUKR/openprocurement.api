@@ -176,9 +176,14 @@ Schema
     All qualifications (disqualifications and awards).
 
 :agreements:
-    List of :ref:`Agreement` objects
+    List of :ref:`Agreement <agreement_cfaua>` objects
 
     Only in :ref:`cfaua` or :ref:`cfaselectionua`
+
+:agreement:
+    :ref:`Agreement <agreement_pricequotation>` object
+
+    Only in :ref:`pricequotation`
 
 :contracts:
     List of :ref:`Contract` objects

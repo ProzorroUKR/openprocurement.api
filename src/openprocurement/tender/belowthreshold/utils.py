@@ -101,6 +101,13 @@ def add_contracts(request, award, now=None):
         )
 
 
+def prepare_tender_item_for_contract(item):
+    prepated_item = dict(item)
+    if prepated_item.get("profile", None):
+        prepated_item.pop("profile")
+    return prepated_item
+
+
 def add_contract(request, award, contract_value, now=None, buyer_id=None):
     tender = request.validated["tender"]
     contract_model = type(tender).contracts.model_class
@@ -109,7 +116,8 @@ def add_contract(request, award, contract_value, now=None, buyer_id=None):
     for item in tender.items:
         if not buyer_id or buyer_id == item.relatedBuyer:
             if not hasattr(award, "lotID") or item.relatedLot == award.lotID:
-                contract_items.append(contract_item_model(dict(item)))
+                prepared_item = prepare_tender_item_for_contract(item)
+                contract_items.append(contract_item_model(prepared_item))
     server_id = request.registry.server_id
     next_contract_number = len(tender.contracts) + 1
     contract_id = "{}-{}{}".format(tender.tenderID, server_id, next_contract_number)
@@ -430,6 +438,7 @@ def set_award_contracts_cancelled(request, award):
                     request,
                     "Can't cancel award contract in active status"
                 )
+
 
 def set_award_complaints_cancelled(request, award, now):
     for complaint in award.complaints:

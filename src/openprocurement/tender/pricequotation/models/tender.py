@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist
-from schematics.types import IntType, StringType, BaseType
+from schematics.types import IntType, StringType, BaseType, MD5Type
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from pyramid.security import Allow
 from zope.interface import implementer
-from openprocurement.api.constants import TZ, MULTI_CONTRACTS_REQUIRED_FROM
+from openprocurement.api.constants import (
+    TZ, MULTI_CONTRACTS_REQUIRED_FROM, PQ_MULTI_PROFILE_FROM
+)
 from openprocurement.api.models import (
     BusinessOrganization,
     CPVClassification,
@@ -38,7 +40,6 @@ from openprocurement.tender.pricequotation.constants import (
     PMT,
     QUALIFICATION_DURATION,
     PQ_KINDS,
-    PROFILE_PATTERN,
     TENDERING_DURATION,
 )
 from openprocurement.tender.pricequotation.interfaces import IPriceQuotationTender
@@ -50,6 +51,18 @@ from openprocurement.tender.pricequotation.models import (
     Award,
 )
 from openprocurement.tender.pricequotation.models.criterion import Criterion
+from openprocurement.tender.pricequotation.validation import validate_profile_pattern
+
+
+class Agreement(Model):
+    id = MD5Type(required=True)
+
+    def validate_id(self, data, value):
+        root = data['__parent__']['__parent__']
+        if root:
+            agreement = root.request.registry.databases.agreements.get(value)
+            if not agreement:
+                raise ValidationError("id must be one of exists agreement")
 
 
 class ShortlistedFirm(BusinessOrganization):
@@ -69,7 +82,10 @@ class TenderItem(BaseItem):
                 'quantity',
                 'deliveryDate',
                 'deliveryAddress',
-                'deliveryLocation'
+                'deliveryLocation',
+                'profile',
+                'classification',
+                'additionalClassifications',
             ),
             'edit': whitelist(
                 'description',
@@ -80,6 +96,9 @@ class TenderItem(BaseItem):
                 'deliveryDate',
                 'deliveryAddress',
                 'deliveryLocation',
+                'profile',
+                'classification',
+                'additionalClassifications',
             ),
             'bots': whitelist(
                 'classification',
@@ -92,6 +111,17 @@ class TenderItem(BaseItem):
     """A good, service, or work to be contracted."""
     classification = ModelType(CPVClassification)
     unit = ModelType(Unit)
+    profile = StringType()
+
+    def validate_profile(self, data, value):
+        multi_profile_released = get_first_revision_date(data, default=get_now()) > PQ_MULTI_PROFILE_FROM
+
+        if multi_profile_released and not value:
+            raise ValidationError(BaseType.MESSAGES["required"])
+        if multi_profile_released and value:
+            validate_profile_pattern(value)
+        if not multi_profile_released and value:
+            raise ValidationError("Rogue field.")
 
     def validate_relatedBuyer(self, data, related_buyer):
         tender = get_tender(data["__parent__"])
@@ -167,7 +197,9 @@ class PriceQuotationTender(Tender):
                 "numberOfBids",
                 "status",
                 "value",
-                "profile"
+                "profile",
+                "agreement",
+                "criteria",
             )
         _create_role = _core_roles["create"] \
                        + _core_roles["edit"] \
@@ -175,7 +207,9 @@ class PriceQuotationTender(Tender):
                        + whitelist("contracts",
                                    "numberOfBids",
                                    "value",
-                                   "profile")
+                                   "profile",
+                                   "agreement",
+                                   "criteria")
         _edit_pq_bot_role = whitelist(
             "items", "shortlistedFirms",
             "status", "criteria", "value", "unsuccessfulReason"
@@ -190,6 +224,7 @@ class PriceQuotationTender(Tender):
                 "cancellations",
                 "contracts",
                 "profile",
+                "agreement",
                 "shortlistedFirms",
                 "criteria",
                 "noticePublicationDate",
@@ -283,7 +318,8 @@ class PriceQuotationTender(Tender):
         choices=["selective"], default="selective"
     )
     procurementMethodType = StringType(default=PMT)
-    profile = StringType(required=True)
+    profile = StringType()
+    agreement = ModelType(Agreement)
     shortlistedFirms = ListType(ModelType(ShortlistedFirm), default=list())
     criteria = ListType(ModelType(Criterion), default=list())
     classification = ModelType(Classification)
@@ -291,6 +327,22 @@ class PriceQuotationTender(Tender):
     unsuccessfulReason = ListType(StringType)
 
     procuring_entity_kinds = PQ_KINDS
+
+    def validate_agreement(self, data, value):
+        multi_profile_released = get_first_revision_date(data, default=get_now()) > PQ_MULTI_PROFILE_FROM
+
+        if not multi_profile_released and value:
+            raise ValidationError("Rogue field.")
+
+    def validate_profile(self, data, value):
+        multi_profile_released = get_first_revision_date(data, default=get_now()) > PQ_MULTI_PROFILE_FROM
+
+        if not multi_profile_released and not value:
+            raise ValidationError(BaseType.MESSAGES["required"])
+        if not multi_profile_released and value:
+            validate_profile_pattern(value)
+        if multi_profile_released and value:
+            raise ValidationError("Rogue field.")
 
     def validate_buyers(self, data, value):
         pass
@@ -362,12 +414,6 @@ class PriceQuotationTender(Tender):
     def validate_tenderPeriod(self, data, period):
         if period and period.startDate and period.endDate:
             _validate_tender_period_duration(data, period, TENDERING_DURATION, working_days=True)
-
-
-    def validate_profile(self, data, profile):
-        result = PROFILE_PATTERN.findall(profile)
-        if len(result) != 1:
-            raise ValidationError("The profile value doesn't match id pattern")
 
     def __local_roles__(self):
         roles = dict([("{}_{}".format(self.owner, self.owner_token), "tender_owner")])

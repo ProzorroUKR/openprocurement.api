@@ -45,38 +45,6 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "items": [
-      {
-        "id": "61a6737049384b08876fb0407eda182f",
-        "description": "Комп’ютерне обладнання",
-        "unit": {
-          "name": "штук",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "H87"
-        },
-        "quantity": 5.0,
-        "deliveryDate": {
-          "startDate": "2021-03-18T00:00:00+02:00",
-          "endDate": "2021-03-21T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "classification": {
-          "description": "Комп’ютерне обладнанн",
-          "scheme": "ДК021",
-          "id": "30230000-0"
-        }
-      }
-    ],
     "bid_id": "b417921608714f3f8b317c0cf06ff72f"
   }
 }

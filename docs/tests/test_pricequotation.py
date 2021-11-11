@@ -12,14 +12,14 @@ from openprocurement.tender.pricequotation.tests.base import (
     test_short_profile,
     test_shortlisted_firms
 )
+from openprocurement.tender.pricequotation.tests.data import PQ_MULTI_PROFILE_RELEASED
+
 from openprocurement.tender.core.tests.base import change_auth
 
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.base.constants import DOCS_URL, AUCTIONS_URL
 
 test_tender_data = deepcopy(test_tender_data)
-test_tender_data['items'][0].pop('classification')
-test_tender_data['items'][0].pop('additionalClassifications')
 bid_draft = deepcopy(test_bids[0])
 bid_draft["status"] = "draft"
 
@@ -54,9 +54,13 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 "startDate": (get_now() + timedelta(days=2)).isoformat(),
                 "endDate": (get_now() + timedelta(days=5)).isoformat()
             }
+        criteria = deepcopy(test_short_profile["criteria"])
+        if PQ_MULTI_PROFILE_RELEASED:
+            agreement = {"id": self.agreement_id}
+            tender_data["agreement"] = agreement
+            tender_data["criteria"] = criteria
 
         tender_data_1 = deepcopy(tender_data)
-        tender_data_1['profile'] = test_short_profile["id"]
         response = self.app.post_json("/tenders", {"data": tender_data_1})
         self.assertEqual(response.status, "201 Created")
         tender_id_1 = response.json["data"]["id"]
@@ -66,9 +70,16 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.assertEqual(tender["status"], "draft")
         self.assertEqual(len(tender["items"]), 1)
         self.assertNotIn("shortlistedFirms", tender)
-        self.assertNotIn("classification", tender["items"][0])
         self.assertIn("unit", tender["items"][0])
-        self.assertEqual(tender["profile"], test_short_profile["id"])
+
+        if PQ_MULTI_PROFILE_RELEASED:
+            self.assertIn("classification", tender["items"][0])
+            self.assertIn("additionalClassifications", tender["items"][0])
+            self.assertEqual(tender["agreement"], agreement)
+        else:
+            self.assertNotIn("classification", tender["items"][0])
+            self.assertNotIn("additionalClassifications", tender["items"][0])
+            self.assertNotEqual("agreement", tender)
 
         with open(TARGET_DIR + 'publish-tender.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
@@ -79,20 +90,30 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         tender = response.json["data"]
         self.assertEqual(tender["status"], "draft.publishing")
 
-        items = deepcopy(tender["items"])
-        items[0]["classification"] = test_short_profile["classification"]
-        criteria = deepcopy(test_short_profile["criteria"])
-        data = {
-            "data": {
-                "status": "active.tendering",
-                "items": items,
-                "shortlistedFirms": test_shortlisted_firms,
-                "criteria": criteria
+        if PQ_MULTI_PROFILE_RELEASED:
+            data = {
+                "data": {
+                    "status": "active.tendering",
+                    "shortlistedFirms": test_shortlisted_firms,
+                }
             }
-        }
+        else:
+            items = deepcopy(tender["items"])
+            items[0]["classification"] = test_short_profile["classification"]
+            data = {
+                "data": {
+                    "status": "active.tendering",
+                    "items": items,
+                    "shortlistedFirms": test_shortlisted_firms,
+                    "criteria": criteria
+                }
+            }
 
-        test_tender_data2 = deepcopy(tender_data)
-        test_tender_data2["profile"] += "bad_profile"
+        test_tender_data2 = deepcopy(tender_data_1)
+        if PQ_MULTI_PROFILE_RELEASED:
+            test_tender_data2["items"][0]["profile"] = test_short_profile["id"]+"bad_profile"
+        else:
+            test_tender_data2["profiles"].append(test_short_profile["id"]+"bad_profile")
 
         response = self.app.post_json(
             '/tenders?opt_pretty=1',

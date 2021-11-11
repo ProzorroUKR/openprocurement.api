@@ -3,7 +3,6 @@
 .. index:: Agreement
 .. _agreement:
 
-
 Agreement in :ref:`frameworks_electroniccatalogue`
 ==================================================
 
@@ -60,6 +59,8 @@ Schema
 :frameworkDetails:
     string
 
+
+.. _agreement_cfaua:
 
 Agreement in :ref:`cfaua`
 =========================
@@ -166,7 +167,21 @@ Schema
     string, required
     
     Agreement title
-    
+
+.. _agreement_pricequotation:
+
+Agreement in :ref:`pricequotation`
+==================================
+
+Schema
+------
+
+:id:
+    uid, required
+
+    ID for related Agreement from :ref:`frameworks_electroniccatalogue`
+
+
 Workflow
 --------
 

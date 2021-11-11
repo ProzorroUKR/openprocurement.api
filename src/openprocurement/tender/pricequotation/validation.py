@@ -8,6 +8,7 @@ from openprocurement.tender.pricequotation.utils import\
     responses_to_tree, criteria_to_tree
 from openprocurement.tender.core.validation import TYPEMAP
 from openprocurement.framework.core.design import agreements_search_contracts
+from openprocurement.tender.pricequotation.constants import PROFILE_PATTERN
 
 
 # tender documents
@@ -208,3 +209,9 @@ def validate_tender_publish(request, **kwargs):
                               error_message.format(request.authenticated_role,
                                                    current_status,
                                                    tender_status))
+
+
+def validate_profile_pattern(profile):
+    result = PROFILE_PATTERN.findall(profile)
+    if len(result) != 1:
+        raise ValidationError("The profile value doesn't match id pattern")
