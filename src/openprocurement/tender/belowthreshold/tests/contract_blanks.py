@@ -5,6 +5,7 @@ from copy import deepcopy
 from openprocurement.api.utils import get_now
 from unittest.mock import patch
 from openprocurement.tender.belowthreshold.tests.base import test_claim, test_cancellation
+from openprocurement.tender.belowthreshold.utils import prepare_tender_item_for_contract
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
 
 # TenderContractResourceTest
@@ -86,7 +87,8 @@ def create_tender_contract_invalid(self):
 
 def create_tender_contract(self):
     self.app.authorization = ("Basic", ("token", ""))
-    contract_items = deepcopy(self.award_items)
+    tender = self.db.get(self.tender_id)
+    contract_items = [prepare_tender_item_for_contract(i) for i in deepcopy(tender["items"])]
     for item in contract_items:
         item["quantity"] += 0.5
 
@@ -1031,6 +1033,8 @@ def patch_contract_multi_items_unit_value(self):
         "amount": 100,
         "currency": "UAH",
     }
+
+    contract_items = [prepare_tender_item_for_contract(i) for i in contract_items]
 
     response = self.app.post_json(
         "/tenders/{}/contracts".format(self.tender_id),

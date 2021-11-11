@@ -1,7 +1,9 @@
 from schematics.transforms import whitelist, blacklist
 from schematics.types import MD5Type
-from openprocurement.api.models import\
-    schematics_default_role, schematics_embedded_role
+from openprocurement.api.models import (
+    schematics_default_role,
+    schematics_embedded_role,
+)
 from openprocurement.tender.core.models import BaseAward
 from openprocurement.tender.pricequotation.utils import get_bid_owned_award_acl
 

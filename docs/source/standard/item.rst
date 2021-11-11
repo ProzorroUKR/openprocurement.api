@@ -100,6 +100,13 @@ Schema
 
     Id of related :ref:`lot`.
 
+Additionally in :ref:`pricequotation`:
+
+:profile:
+    string, required
+
+    ID for related profile
+
 
 .. _Classification:
 

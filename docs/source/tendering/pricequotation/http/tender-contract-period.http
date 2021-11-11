@@ -66,6 +66,13 @@ X-Content-Type-Options: nosniff
           "scheme": "ДК021",
           "id": "30230000-0"
         },
+        "additionalClassifications": [
+          {
+            "scheme": "INN",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
         "quantity": 5.0,
         "deliveryDate": {
           "startDate": "2021-03-18T00:00:00+02:00",

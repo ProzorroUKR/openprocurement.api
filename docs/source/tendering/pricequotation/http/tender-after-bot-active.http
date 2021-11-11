@@ -20,6 +20,13 @@ X-Content-Type-Options: nosniff
       {
         "id": "58875aff79b44134818670145fe82398",
         "description": "Комп’ютерне обладнання",
+        "additionalClassifications": [
+          {
+            "scheme": "INN",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
         "quantity": 5.0,
         "deliveryDate": {
           "startDate": "2021-03-18T00:00:00+02:00",
@@ -33,9 +40,9 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "classification": {
-          "description": "Комп’ютерне обладнанн",
+          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "30230000-0"
+          "id": "44617100-9"
         },
         "unit": {
           "name": "кг",
@@ -45,7 +52,8 @@ X-Content-Type-Options: nosniff
             "currency": "UAH",
             "valueAddedTaxIncluded": true
           }
-        }
+        },
+        "profile": "655360-30230000-889652-40000777"
       }
     ],
     "value": {
@@ -79,7 +87,9 @@ X-Content-Type-Options: nosniff
     },
     "procurementMethod": "selective",
     "procurementMethodType": "priceQuotation",
-    "profile": "655360-30230000-889652-40000777",
+    "agreement": {
+      "id": "2e14a78a2074952d5a2d256c3c004dda"
+    },
     "shortlistedFirms": [
       {
         "name": "Товариство з обмеженою відповідальністю «Пікселі»",

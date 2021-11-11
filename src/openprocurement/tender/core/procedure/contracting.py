@@ -1,4 +1,5 @@
 from openprocurement.tender.core.procedure.context import get_now, get_request
+from openprocurement.tender.belowthreshold.utils import prepare_tender_item_for_contract
 from collections import defaultdict
 from copy import deepcopy
 
@@ -11,7 +12,8 @@ def add_contracts(request, award, contract_model):
     for item in tender["items"]:
         if item.get("relatedLot") == award.get("lotID"):  # None == None in case of non-lots
             buyer_id = item.get("relatedBuyer")  # can be None
-            items_by_buyer[buyer_id].append(item)
+            prepared_item = prepare_tender_item_for_contract(item)
+            items_by_buyer[buyer_id].append(prepared_item)
 
     multi_contracts = (
         tender.get("buyers") and len(tender["buyers"]) > 1

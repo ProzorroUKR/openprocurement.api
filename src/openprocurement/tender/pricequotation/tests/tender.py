@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import os
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -29,7 +28,8 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
 
     invalid_tender_conditions,
     patch_tender,
-    patch_tender_by_pq_bot,
+    patch_tender_by_pq_bot_before_multiprofile,
+    patch_tender_by_pq_bot_after_multiprofile,
     tender_owner_can_change_in_draft,
     tender_owner_cannot_change_in_draft,
     required_field_deletion,
@@ -41,8 +41,6 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
 )
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     guarantee,
-    create_tender_with_inn_before,
-    tender_milestones_required,
     get_tender,
     tender_not_found,
     dateModified_tender,
@@ -98,7 +96,8 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_required_field_deletion = snitch(required_field_deletion)
     test_create_tender_with_inn = snitch(create_tender_with_inn)
     test_create_tender_with_inn_before = snitch(create_tender_with_inn_before)
-    test_patch_tender_by_pq_bot = snitch(patch_tender_by_pq_bot)
+    test_patch_tender_by_pq_bot_before_multiprofile = snitch(patch_tender_by_pq_bot_before_multiprofile)
+    test_patch_tender_by_pq_bot_after_multiprofile = snitch(patch_tender_by_pq_bot_after_multiprofile)
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_patch_tender_status = snitch(patch_tender_status)
     test_create_pricequotation_tender_with_earlier_non_required_unit = snitch(

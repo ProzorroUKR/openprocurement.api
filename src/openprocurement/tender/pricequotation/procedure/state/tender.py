@@ -4,9 +4,11 @@ from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.procedure.models.award import Award
 from openprocurement.tender.pricequotation.constants import QUALIFICATION_DURATION
+from openprocurement.tender.pricequotation.models.tender import Contract
 
 
 class PriceQuotationTenderState(TenderState):
+    contract_model = Contract
 
     def get_events(self, tender):
         status = tender["status"]

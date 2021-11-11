@@ -3,14 +3,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-26 15:46+0300\n"
-"PO-Revision-Date: 2020-06-03 00:11+0300\n"
+"POT-Creation-Date: 2021-10-26 12:55+0300\n"
+"PO-Revision-Date: 2021-10-26 13:16+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.1\n"
+"Generated-By: Babel 2.9.0\n"
+"Language: uk\n"
+"X-Generator: Poedit 2.4.2\n"
 
 msgid "Tender"
 msgstr "Tender"
@@ -295,11 +297,20 @@ msgstr "Усі  кваліфікації (дискваліфікації та п
 msgid "agreements"
 msgstr ""
 
-msgid "List of :ref:`Agreement` objects"
-msgstr "Список об’єктів :ref:`Agreement`"
+msgid "List of :ref:`Agreement <agreement_cfaua>` objects"
+msgstr "Список об’єктів :ref:`Agreement <agreement_cfaua>`"
 
 msgid "Only in :ref:`cfaua` or :ref:`cfaselectionua`"
 msgstr "Тільки у :ref:`cfaua` та :ref:`cfaselectionua`"
+
+msgid "agreement"
+msgstr ""
+
+msgid ":ref:`Agreement <agreement_pricequotation>` object"
+msgstr "Об’єкт :ref:`Agreement <agreement_pricequotation>`"
+
+msgid "Only in :ref:`pricequotation`"
+msgstr "Тільки у :ref:`pricequotation`"
 
 msgid "contracts"
 msgstr ""
@@ -828,4 +839,3 @@ msgstr "Робочий процес у :ref:`limited`"
 
 msgid "\\* marks initial state"
 msgstr "\\* позначає початковий стан"
-
