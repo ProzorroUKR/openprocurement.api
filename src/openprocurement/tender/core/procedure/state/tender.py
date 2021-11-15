@@ -588,9 +588,12 @@ class TenderState(TenderStateAwardingMixing, BaseState):
         if tender.get("status") in ("active.tendering", "active.pre-qualification.stand-still", "active.auction"):
             period = lot.get("auctionPeriod") or {}
             if not period.get("endDate") and lot.get("status", "active") == "active":
+                number_of_bids = self.count_lot_bids_number(tender, lot["id"])
+                if tender["status"] == "active.auction" and number_of_bids < 2:
+                    return  # there is no sense to run this auction, shouldStartAfter should be deleted
+
                 start_date = period.get("startDate")
                 if start_date:
-                    number_of_bids = self.count_lot_bids_number(tender, lot["id"])
                     expected_value = calc_auction_end_time(number_of_bids, dt_from_iso(start_date))
                     if get_now() > expected_value:
                         return normalize_should_start_after(expected_value, tender).isoformat()
