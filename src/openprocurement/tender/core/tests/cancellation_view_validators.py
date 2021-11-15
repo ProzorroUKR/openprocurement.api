@@ -161,10 +161,6 @@ def test_post_cancellation_openeu(app):
 
     # award complaint
     complaint = deepcopy(test_complaint)
-    complaint.update(
-        resolutionType="resolved",
-        cancellationReason="whatever",
-    )
     tender_data["awards"] = [
         {
             "id": "0" * 32,
@@ -192,8 +188,6 @@ def test_post_cancellation_openeu(app):
         complaint = deepcopy(test_complaint)
         complaint.update(
             status="accepted",
-            resolutionType="resolved",
-            cancellationReason="whatever",
         )
         tender_data["qualifications"] = [
             {
@@ -219,8 +213,6 @@ def test_post_cancellation_openeu(app):
         complaint = deepcopy(test_complaint)
         complaint.update(
             status="satisfied",
-            resolutionType="resolved",
-            cancellationReason="whatever",
         )
         tender_data["complaints"] = [complaint]
         app.app.registry.db.save(tender_data)

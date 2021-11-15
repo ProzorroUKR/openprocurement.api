@@ -45,6 +45,8 @@ from openprocurement.api.utils import (
     append_revision,
     parse_date,
 )
+from openprocurement.api.validation import validate_json_data
+from openprocurement.api.traversal import get_child_items
 from openprocurement.tender.core.constants import (
     BIDDER_TIME,
     SERVICE_TIME,
@@ -237,7 +239,7 @@ def has_unanswered_complaints(tender, filter_cancelled_lots=True):
     return any([i.status in tender.block_tender_complaint_status for i in tender.complaints])
 
 
-def extract_tender_id(request):
+def extract_path(request):
     try:
         # empty if mounted under a path in mod_wsgi, for example
         path = decode_path_info(request.environ["PATH_INFO"] or "/")
@@ -245,6 +247,11 @@ def extract_tender_id(request):
         path = "/"
     except UnicodeDecodeError as e:
         raise URLDecodeError(e.encoding, e.object, e.start, e.end, e.reason)
+    return path
+
+
+def extract_tender_id(request):
+    path = extract_path(request)
 
     # extract tender id
     parts = path.split("/")
@@ -276,8 +283,64 @@ def extract_tender(request):
         return request.tender_from_data(doc)
 
 
+def matchdict_from_path(path, root_resource="tenders"):
+    path_parts = path.split("/")
+    start_index = path_parts.index(root_resource)
+    resource_path = path_parts[start_index:]
+    return {"{}_id".format(k[:-1]): v for k, v in zip(resource_path[::2], resource_path[1::2])}
+
+
+def _extract_resource(request, matchdict, parent_resource, resource_name):
+    resource_id = matchdict.get(f'{resource_name}_id')
+    if resource_id:
+        resources = get_child_items(parent_resource, f'{resource_name}s', resource_id)
+        if not resources:
+            request.errors.add("url", f'{resource_name}_id', "Not Found")
+            request.errors.status = 404
+            raise error_handler(request)
+        return resources[-1]
+    return None
+
+
+def extract_complaint_type(request):
+    """
+        request method
+        determines which type of complaint is processed
+        returns complaint_type
+        used in isComplaint route predicate factory
+        to match complaintType predicate
+        to route to Claim or Complaint view
+    """
+
+    path = extract_path(request)
+    matchdict = matchdict_from_path(path)
+
+    complaint_id = matchdict.get("complaint_id")
+    # extract complaint type from POST request
+    if not complaint_id:
+        data = validate_json_data(request)
+        complaint_type = data.get("type", None)
+        # before RELEASE_2020_04_19 claim type is default if no value provided
+        if not complaint_type:
+            complaint_type = "claim"
+        return complaint_type
+
+    # extract complaint type from tender for PATCH request
+    complaint_resource_names = ["award", "qualification"]
+    for complaint_resource_name in complaint_resource_names:
+        complaint_resource = _extract_resource(request, matchdict, request.tender, complaint_resource_name)
+        if complaint_resource:
+            break
+
+    if not complaint_resource:
+        complaint_resource = request.tender
+
+    complaint = _extract_resource(request, matchdict, complaint_resource, "complaint")
+    return complaint.type
+
+
 class isTender(object):
-    """ Route predicate. """
+    """ Route predicate factory for procurementMethodType route predicate. """
 
     def __init__(self, val, config):
         self.val = val
@@ -291,6 +354,21 @@ class isTender(object):
         if request.tender_doc is not None:
             return request.tender_doc.get("procurementMethodType", "belowThreshold") == self.val
         return False
+
+
+class isComplaint(object):
+    """ Route predicate factory for complaintType route predicate. """
+
+    def __init__(self, val, config):
+        self.val = val
+
+    def text(self):
+        return "complaintType = %s" % (self.val,)
+
+    phash = text
+
+    def __call__(self, context, request):
+        return request.complaint_type == self.val
 
 
 class SubscribersPicker(isTender):

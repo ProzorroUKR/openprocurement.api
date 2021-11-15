@@ -78,16 +78,8 @@ def validate_update_complaint_not_in_allowed_tender_status(request, **kwargs):
 
 
 def validate_update_complaint_not_in_allowed_status(request, **kwargs):
-    if request.context.status not in ["draft", "claim", "answered", "pending"]:
+    if request.context.status not in ["draft", "claim", "answered"]:
         raise_operation_error(request, "Can't update complaint in current ({}) status".format(request.context.status))
-
-
-def validate_only_claim_allowed(request, **kwargs):
-    if request.validated["complaint"]["type"] != "claim":
-        raise_operation_error(
-            request,
-            "Can't add complaint of '{}' type".format(request.validated["complaint"]["type"])
-        )
 
 
 # complaint document

@@ -5,6 +5,7 @@ from openprocurement.tender.openua.validation import (
     validate_award_complaint_post_data,
     validate_complaint_post,
     validate_complaint_post_complaint_status,
+    validate_complaint_post_complaint_type,
 )
 from openprocurement.tender.openua.views.award_complaint_post import (
     TenderAwardComplaintPostResource as BaseTenderAwardComplaintPostResource
@@ -23,6 +24,7 @@ class TenderAwardComplaintPostResource(BaseTenderAwardComplaintPostResource):
     @json_view(
         content_type="application/json",
         validators=(
+            validate_complaint_post_complaint_type,
             validate_award_complaint_post_data,
             validate_complaint_post,
             validate_complaint_post_complaint_status,

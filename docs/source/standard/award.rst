@@ -87,7 +87,11 @@ Schema
     All documents and attachments related to the award, including any notices. 
     
 :complaints:
-    List of :ref:`Complaint` objects
+    |    List of :ref:`Complaint` and :ref:`Claim` objects.
+
+    |    List of :ref:`Claim` objects for  `belowThreshold`.
+    |    List of :ref:`Complaint` objects for  `negotiation` and `negotiation.quick`.
+
 
 :complaintPeriod:
     :ref:`period`

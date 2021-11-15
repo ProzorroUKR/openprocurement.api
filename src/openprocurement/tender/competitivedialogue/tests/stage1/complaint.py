@@ -10,7 +10,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_author,
 )
 from openprocurement.tender.openeu.tests.base import test_bids
-from openprocurement.tender.belowthreshold.tests.base import test_draft_claim
+from openprocurement.tender.belowthreshold.tests.base import test_draft_complaint
 from openprocurement.tender.belowthreshold.tests.complaint import TenderComplaintResourceTestMixin
 from openprocurement.tender.openua.tests.complaint import TenderUAComplaintResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
@@ -50,7 +50,7 @@ class CompetitiveDialogEUComplaintDocumentResourceTest(BaseCompetitiveDialogEUCo
         # Create complaint
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
-            {"data": test_draft_claim},
+            {"data": test_draft_complaint},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]
@@ -85,7 +85,7 @@ class CompetitiveDialogUAComplaintDocumentResourceTest(BaseCompetitiveDialogUACo
         # Create complaint
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
-            {"data": test_draft_claim},
+            {"data": test_draft_complaint},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]

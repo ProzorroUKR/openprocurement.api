@@ -1056,19 +1056,13 @@ def create_tender_award_complaint_invalid(self):
 
     request_path = "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token)
 
-    response = self.app.post(request_path, "data", status=415)
-    self.assertEqual(response.status, "415 Unsupported Media Type")
+    response = self.app.post(request_path, "data", status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [
-            {
-                "description": "Content-Type header should be one of ['application/json']",
-                "location": "header",
-                "name": "Content-Type",
-            }
-        ],
+        [{"description": "Expecting value: line 1 column 1 (char 0)", "location": "body", "name": "data"}],
     )
 
     response = self.app.post(request_path, "data", content_type="application/json", status=422)
@@ -1125,7 +1119,7 @@ def create_tender_award_complaint_invalid(self):
         [
             {
                 "description": {
-                    "identifier": ["Please use a mapping for this field or ComplaintIdentifier instance instead of str."]
+                    "identifier": ["Please use a mapping for this field or Identifier instance instead of str."]
                 },
                 "location": "body",
                 "name": "author",
@@ -1200,15 +1194,10 @@ def create_tender_award_complaint(self):
         {
             "data": test_complaint
         },
-        status=403,
+        status=404,
     )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Can't add complaint of 'complaint' type"
-    )
+    self.assertEqual(response.status, "404 Not Found")
+    self.assertEqual(response.content_type, "text/plain")
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),

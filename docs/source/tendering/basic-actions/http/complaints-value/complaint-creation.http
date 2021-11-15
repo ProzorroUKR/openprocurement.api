@@ -36,11 +36,11 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bd77709146ed440f9a1cc223d3a11e18/complaints/8935a945c0d645179be29f5502e7fb48
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bd77709146ed440f9a1cc223d3a11e18/complaints/16ef0a88901e4e48af543a50d7ea6120
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "8935a945c0d645179be29f5502e7fb48",
+    "id": "16ef0a88901e4e48af543a50d7ea6120",
     "complaintID": "UA-2021-03-16-000001.1",
     "date": "2021-03-16T00:00:00+02:00",
     "type": "complaint",

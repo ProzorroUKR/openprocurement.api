@@ -301,6 +301,7 @@ def switch_to_ignored_on_complete(self):
     self.assertEqual(response.json["data"]["complaints"][0]["status"], "ignored")
 
 
+# TODO we keep pending status for claims for now: to check if we can depreciate it
 def switch_from_pending_to_ignored(self):
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
@@ -319,6 +320,7 @@ def switch_from_pending_to_ignored(self):
     self.assertEqual(response.json["data"]["complaints"][0]["status"], "ignored")
 
 
+# TODO we keep pending status for claims for now: to check if we can depreciate it
 def switch_from_pending(self):
     for status in ["invalid", "resolved", "declined"]:
         response = self.app.post_json(
@@ -408,6 +410,7 @@ def award_switch_to_ignored_on_complete(self):
     self.assertEqual(response.json["data"]["awards"][0]["complaints"][0]["status"], "ignored")
 
 
+# TODO we keep pending status for claims for now: to check if we can depreciate it
 def award_switch_from_pending_to_ignored(self):
     token = list(self.initial_bids_tokens.values())[0]
     response = self.app.post_json(
@@ -427,6 +430,7 @@ def award_switch_from_pending_to_ignored(self):
     self.assertEqual(response.json["data"]["awards"][0]["complaints"][0]["status"], "ignored")
 
 
+# TODO we keep pending status for claims for now: to check if we can depreciate it
 def award_switch_from_pending(self):
     token = list(self.initial_bids_tokens.values())[0]
     for status in ["invalid", "resolved", "declined"]:

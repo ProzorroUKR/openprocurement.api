@@ -34,16 +34,21 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/423ce3389d0f48b1a1ee6cd5a8dad65f/complaints/ce3a72672bc74b59a4da68e1b19b26d2
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/423ce3389d0f48b1a1ee6cd5a8dad65f/complaints/95af65ce526b4245867b1805b25091a6
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "ce3a72672bc74b59a4da68e1b19b26d2",
+    "id": "95af65ce526b4245867b1805b25091a6",
     "complaintID": "UA-2021-03-16-000001.1",
     "date": "2021-03-16T00:00:00+02:00",
     "type": "claim",
     "author": {
       "name": "ДКП «Школяр»",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00137256",
+        "uri": "http://www.sc.gov.ua/"
+      },
       "address": {
         "streetAddress": "вул. Островського, 33",
         "locality": "м. Вінниця",
@@ -55,11 +60,6 @@ X-Content-Type-Options: nosniff
         "name": "Сергій Олексюк",
         "email": "soleksuk@gmail.com",
         "telephone": "+380432216930"
-      },
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "00137256",
-        "uri": "http://www.sc.gov.ua/"
       }
     },
     "title": "Недостатньо інформації",

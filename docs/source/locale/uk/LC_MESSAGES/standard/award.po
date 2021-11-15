@@ -3,14 +3,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-26 16:27+0300\n"
-"PO-Revision-Date: 2018-08-17 14:42+0300\n"
+"POT-Creation-Date: 2021-03-03 21:14+0200\n"
+"PO-Revision-Date: 2021-03-03 21:36+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 1.3\n"
+"Generated-By: Babel 2.9.0\n"
+"Language: uk\n"
+"X-Generator: Poedit 2.4.2\n"
 
 msgid "Award"
 msgstr "Award"
@@ -135,8 +137,14 @@ msgstr "|ocdsDescription| Усі документи та додатки пов�
 msgid "complaints"
 msgstr ""
 
-msgid "List of :ref:`Complaint` objects"
-msgstr "Список об’єктів :ref:`Complaint`"
+msgid "List of :ref:`Complaint` and :ref:`Claim` objects."
+msgstr "Список об’єктів :ref:`Complaint` та :ref:`Claim`."
+
+msgid "List of :ref:`Claim` objects for  `belowThreshold`."
+msgstr "Список об’єктів :ref:`Claim` для `belowThreshold`."
+
+msgid "List of :ref:`Complaint` objects for  `negotiation` and `negotiation.quick`."
+msgstr "Список об’єктів :ref:`Complaint` для `negotiation` and `negotiation.quick`."
 
 msgid "complaintPeriod"
 msgstr ""
@@ -190,7 +198,7 @@ msgid "requirementResponses"
 msgstr ""
 
 msgid "List of :ref:`RequirementResponse` objects."
-msgstr "Список об’єктів :ref:`RequirementResponse`"
+msgstr "Список об’єктів :ref:`RequirementResponse`."
 
 msgid "Award workflow in :ref:`limited`:"
 msgstr "Робочий процес нагороди в :ref:`limited`:"
@@ -200,4 +208,3 @@ msgstr "\\* marks initial state"
 
 msgid "Workflow in :ref:`openeu` and :ref:`esco`:"
 msgstr "Робочий процес у :ref:`openeu` та :ref:`esco`:"
-

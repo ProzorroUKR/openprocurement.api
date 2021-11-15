@@ -1637,7 +1637,7 @@ def patch_award_on_cancel_lot(self):
 def create_tender_award_complaint_invalid(self):
     response = self.app.post_json(
         "/tenders/some_id/awards/some_id/complaints",
-        {"data": test_draft_claim},
+        {"data": test_draft_complaint},
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
@@ -1649,19 +1649,13 @@ def create_tender_award_complaint_invalid(self):
 
     request_path = "/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id)
 
-    response = self.app.post(request_path, "data", status=415)
-    self.assertEqual(response.status, "415 Unsupported Media Type")
+    response = self.app.post(request_path, {"data": test_draft_complaint}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [
-            {
-                "description": "Content-Type header should be one of ['application/json']",
-                "location": "header",
-                "name": "Content-Type",
-            }
-        ],
+        [{"description": "Expecting value: line 1 column 1 (char 0)", "location": "body", "name": "data"}],
     )
 
     response = self.app.post(request_path, "data", content_type="application/json", status=422)
@@ -1689,7 +1683,7 @@ def create_tender_award_complaint_invalid(self):
         response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
-    response = self.app.post_json(request_path, {"data": {}}, status=422)
+    response = self.app.post_json(request_path, {"data": {"type": "complaint"}}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -1701,7 +1695,10 @@ def create_tender_award_complaint_invalid(self):
         ],
     )
 
-    response = self.app.post_json(request_path, {"data": {"invalid_field": "invalid_value"}}, status=422)
+    response = self.app.post_json(request_path, {"data": {
+        "type": "complaint",
+        "invalid_field": "invalid_value"
+    }}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -1709,7 +1706,10 @@ def create_tender_award_complaint_invalid(self):
         response.json["errors"], [{"description": "Rogue field", "location": "body", "name": "invalid_field"}]
     )
 
-    response = self.app.post_json(request_path, {"data": {"author": {"identifier": "invalid_value"}}}, status=422)
+    response = self.app.post_json(request_path, {"data": {
+        "type": "complaint",
+        "author": {"identifier": "invalid_value"}
+    }}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -1771,14 +1771,10 @@ def create_tender_negotiation_award_complaints(self):
         {
             "data": test_claim
         },
+        status=404,
     )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    complaint = response.json["data"]
-    self.assertEqual(complaint["author"]["name"], test_organization["name"])
-    self.assertIn("id", complaint)
-    self.assertIn(complaint["id"], response.headers["Location"])
-    self.assertEqual(complaint["type"], "claim")
+    self.assertEqual(response.status, "404 Not Found")
+    self.assertEqual(response.content_type, "text/plain")
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
@@ -1789,7 +1785,7 @@ def create_tender_negotiation_award_complaints(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id),
-        {"data": test_draft_claim},
+        {"data": test_draft_complaint},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1845,7 +1841,7 @@ def patch_tender_award_complaint(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id),
-        {"data": test_draft_claim},
+        {"data": test_draft_complaint},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1894,7 +1890,7 @@ def patch_tender_award_complaint(self):
 
     response = self.app.patch_json(
         "/tenders/{}/awards/some_id/complaints/some_id".format(self.tender_id),
-        {"data": {"status": "resolved", "resolution": "resolution text"}},
+        {"data": {"status": "resolved"}},
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
@@ -1906,7 +1902,7 @@ def patch_tender_award_complaint(self):
 
     response = self.app.patch_json(
         "/tenders/{}/awards/{}/complaints/some_id".format(self.tender_id, self.award_id),
-        {"data": {"status": "resolved", "resolution": "resolution text"}},
+        {"data": {"status": "resolved"}},
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
@@ -1918,7 +1914,7 @@ def patch_tender_award_complaint(self):
 
     response = self.app.patch_json(
         "/tenders/some_id/awards/some_id/complaints/some_id",
-        {"data": {"status": "resolved", "resolution": "resolution text"}},
+        {"data": {"status": "resolved"}},
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
@@ -1977,7 +1973,7 @@ def patch_tender_award_complaint(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id),
-        {"data": test_draft_claim},
+        {"data": test_draft_complaint},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1990,7 +1986,7 @@ def patch_tender_award_complaint(self):
         "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
             self.tender_id, self.award_id, complaint["id"], owner_token
         ),
-        {"data": {"status": "claim"}},
+        {"data": {"status": "mistaken"}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -2217,7 +2213,7 @@ def get_tender_award_complaint(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id),
-        {"data": test_draft_claim},
+        {"data": test_draft_complaint},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -2257,7 +2253,7 @@ def get_tender_award_complaints(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id),
-        {"data": test_draft_claim},
+        {"data": test_draft_complaint},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -2283,7 +2279,7 @@ def get_tender_award_complaints(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id),
-        {"data": test_draft_claim},
+        {"data": test_draft_complaint},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -2487,7 +2483,7 @@ def create_tender_lot_award_complaints(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id),
-        {"data": test_draft_claim},
+        {"data": test_draft_complaint},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")

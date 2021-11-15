@@ -20,7 +20,12 @@ from openprocurement.tender.cfaua.models.submodels.agreement import Agreement
 from openprocurement.tender.cfaua.models.submodels.award import Award
 from openprocurement.tender.cfaua.models.submodels.bids import BidModelType, Bid
 from openprocurement.tender.cfaua.models.submodels.cancellation import Cancellation
-from openprocurement.tender.cfaua.models.submodels.complaint import ComplaintModelType, Complaint
+from openprocurement.tender.cfaua.models.submodels.complaint import (
+    ComplaintPolyModelType,
+    Complaint,
+    Claim,
+)
+from openprocurement.tender.openua.models import get_complaint_type_model
 from openprocurement.tender.cfaua.models.submodels.item import Item
 from openprocurement.tender.cfaua.models.submodels.guarantee import Guarantee
 from openprocurement.tender.cfaua.models.submodels.feature import Feature
@@ -164,7 +169,14 @@ class CloseFrameworkAgreementUA(Tender):
         filter_in_values=["invalid", "invalid.pre-qualification", "deleted"],
     )  # A list of all the companies who entered submissions for the tender.
     cancellations = ListType(ModelType(Cancellation, required=True), default=list())
-    complaints = ListType(ComplaintModelType(Complaint, required=True), default=list())
+    complaints = ListType(
+        ComplaintPolyModelType(
+            [Complaint, Claim],
+            claim_function=get_complaint_type_model,
+            required=True,
+        ),
+        default=list(),
+    )
     contractPeriod = ModelType(ContractPeriod, required=False)
     agreements = ListType(ModelType(Agreement, required=True), default=list())
     documents = ListType(

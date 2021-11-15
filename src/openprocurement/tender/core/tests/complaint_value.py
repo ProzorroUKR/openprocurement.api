@@ -3,7 +3,7 @@ from openprocurement.api.tests.base import singleton_app, app
 from openprocurement.tender.belowthreshold.tests.base import test_author, test_draft_complaint, test_lots
 from openprocurement.tender.openua.tests.base import test_tender_data
 from openprocurement.tender.core.utils import round_up_to_ten
-from openprocurement.tender.core.models import Complaint, Award
+from openprocurement.tender.core.models import Complaint, Award, Claim
 from openprocurement.tender.core.constants import (
     COMPLAINT_MIN_AMOUNT, COMPLAINT_MAX_AMOUNT, COMPLAINT_ENHANCED_AMOUNT_RATE,
     COMPLAINT_ENHANCED_MIN_AMOUNT, COMPLAINT_ENHANCED_MAX_AMOUNT
@@ -148,7 +148,7 @@ def test_post_draft_claim():
     """
     claims don't have value
     """
-    complaint = Complaint(
+    complaint = Claim(
         {
             "title": "complaint title",
             "status": "draft",

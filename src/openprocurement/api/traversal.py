@@ -18,6 +18,10 @@ class Root(object):
         self.db = request.registry.db
 
 
+def get_child_items(parent, item_field, item_id):
+    return [i for i in getattr(parent, item_field, []) if i.id == item_id]
+
+
 def get_item(parent, key, request, where_search=None):
     if "document" in key and key != "document":
         item_type = "document"
@@ -31,7 +35,7 @@ def get_item(parent, key, request, where_search=None):
     item_id = request.matchdict[item_id_key]
 
     request.validated[item_id_key] = item_id
-    items = [i for i in getattr(parent, item_field, []) if i.id == item_id]
+    items = get_child_items(parent, item_field, item_id)
 
     if not items:
         from openprocurement.api.utils import error_handler

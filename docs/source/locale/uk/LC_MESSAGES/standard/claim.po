@@ -1,0 +1,182 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-03-03 21:14+0200\n"
+"PO-Revision-Date: 2021-03-03 22:32+0200\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.0\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: uk\n"
+"X-Generator: Poedit 2.4.2\n"
+
+msgid "Claim"
+msgstr "Claim"
+
+msgid "Schema"
+msgstr "Схема"
+
+msgid "id"
+msgstr ""
+
+msgid "uid, auto-generated"
+msgstr "uid, генерується автоматично"
+
+msgid "author"
+msgstr ""
+
+msgid ":ref:`Organization`, required"
+msgstr ":ref:`Organization`, обов’язково"
+
+msgid "Organization filing a claim (contactPoint - person, identification - organization that person represents)."
+msgstr "Організація, яка подає вимогу (contactPoint - людина, identification - організація, яку ця людина представляє)."
+
+msgid "title"
+msgstr ""
+
+msgid "string, required"
+msgstr "рядок, обов’язковий"
+
+msgid "Title of the claim."
+msgstr "Заголовок вимоги."
+
+msgid "description"
+msgstr ""
+
+msgid "Description of the issue."
+msgstr "Опис запитання."
+
+msgid "date"
+msgstr ""
+
+msgid "string, :ref:`date`, auto-generated"
+msgstr "рядок, :ref:`date`, генерується автоматично"
+
+msgid "Date of posting."
+msgstr "Дата подання."
+
+msgid "dateSubmitted"
+msgstr ""
+
+msgid "Date when claim was submitted."
+msgstr "Дата, коли вимога була подана."
+
+msgid "dateAnswered"
+msgstr ""
+
+msgid "Date when Procuring entity answered the claim."
+msgstr "Дата, коли замовник відповів на вимогу."
+
+msgid "dateDecision"
+msgstr ""
+
+msgid "Date of claim decision."
+msgstr "День прийняття рішення по вимозі."
+
+msgid "dateCanceled"
+msgstr ""
+
+msgid "Date of cancelling."
+msgstr "Дата відхилення."
+
+msgid "status"
+msgstr ""
+
+msgid "string"
+msgstr "рядок"
+
+msgid "Possible values are:"
+msgstr "Можливі значення:"
+
+msgid "`draft`"
+msgstr "`draft` - чорновик, початковий етап"
+
+msgid "`claim`"
+msgstr "`claim` - вимога"
+
+msgid "`answered`"
+msgstr "`answered` - дано відповідь"
+
+msgid "`invalid`"
+msgstr "`invalid` - недійсно"
+
+msgid "`declined`"
+msgstr "`declined` - відхилено"
+
+msgid "`resolved`"
+msgstr "`resolved` - вирішено"
+
+msgid "`cancelled`"
+msgstr "`cancelled` - відхилено"
+
+msgid "type"
+msgstr ""
+
+msgid "Possible values of type are:"
+msgstr "Можливі значення типу:"
+
+msgid "resolution"
+msgstr ""
+
+msgid "Resolution of Procuring entity."
+msgstr "Рішення замовника."
+
+msgid "resolutionType"
+msgstr ""
+
+msgid "Possible values of resolution type are:"
+msgstr "Можливі значення типу вирішення:"
+
+msgid "satisfied"
+msgstr ""
+
+msgid "bool"
+msgstr "bool"
+
+msgid "Claim is satisfied?"
+msgstr "Вимога задовільнена?"
+
+msgid "decision"
+msgstr ""
+
+msgid "Reviewer decision."
+msgstr "Рішення органу оскарження."
+
+msgid "cancellationReason"
+msgstr ""
+
+msgid "Cancellation reason."
+msgstr "Причини відхилення."
+
+msgid "documents"
+msgstr ""
+
+msgid "List of :ref:`Document` objects"
+msgstr "Список об’єктів :ref:`Document`"
+
+msgid "relatedLot"
+msgstr ""
+
+msgid "Id of related :ref:`lot`."
+msgstr "Ідентифікатор пов’язаного :ref:`lot`-а."
+
+msgid "tendererAction"
+msgstr ""
+
+msgid "Tenderer action."
+msgstr "Дія учасника."
+
+msgid "tendererActionDate"
+msgstr ""
+
+msgid "Date of tenderer action."
+msgstr "Дата дії учасника."

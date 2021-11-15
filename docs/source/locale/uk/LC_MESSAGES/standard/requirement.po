@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the openprocurement.api package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
@@ -132,7 +131,7 @@ msgid "eligibleEvidences"
 msgstr ""
 
 msgid "List of :ref:`EligibleEvidence` objects."
-msgstr "Список об'єктів :ref:`EligibleEvidence`"
+msgstr "Список об'єктів :ref:`EligibleEvidence`."
 
 msgid "datePublished"
 msgstr ""

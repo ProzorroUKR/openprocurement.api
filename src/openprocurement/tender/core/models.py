@@ -6,7 +6,7 @@ from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.transforms import whitelist, blacklist, export_loop
 from schematics.exceptions import ValidationError
-from schematics.types.compound import ModelType, DictType
+from schematics.types.compound import ModelType, DictType, PolyModelType
 from schematics.types.serializable import serializable
 from schematics.types import StringType, FloatType, URLType, BooleanType, BaseType, MD5Type, IntType
 from urllib.parse import urlparse, parse_qs
@@ -198,6 +198,31 @@ class ComplaintModelType(ModelType):
             role = "view_claim"
 
         shaped = export_loop(model_class, model_instance, field_converter, role=role, print_none=print_none)
+
+        if shaped and len(shaped) == 0 and self.allow_none():
+            return shaped
+        elif shaped:
+            return shaped
+        elif print_none:
+            return shaped
+
+
+class ComplaintPolyModelType(PolyModelType):
+    view_claim_statuses = ["active.enquiries", "active.tendering", "active.auction"]
+
+    def export_loop(self, model_instance, field_converter,
+                    role=None, print_none=False):
+
+        model_class = model_instance.__class__
+        if not self.is_allowed_model(model_instance):
+            raise Exception("Cannot export: {} is not an allowed type".format(model_class))
+
+        if role in self.view_claim_statuses and getattr(model_instance, "type") == "claim":
+            role = "view_claim"
+
+        shaped = export_loop(model_class, model_instance,
+                             field_converter,
+                             role=role, print_none=print_none)
 
         if shaped and len(shaped) == 0 and self.allow_none():
             return shaped
@@ -1519,19 +1544,15 @@ class ComplaintIdentifier(Identifier):
 
     def validate_id(self, data, identifier_id):
         if not identifier_id:
-            complaint = data["__parent__"]["__parent__"]
-            if complaint.type == "complaint":
-                tender = get_root(data["__parent__"])
-                if get_first_revision_date(tender, default=get_now()) > COMPLAINT_IDENTIFIER_REQUIRED_FROM:
-                    raise ValidationError("This field is required.")
+            tender = get_root(data["__parent__"])
+            if get_first_revision_date(tender, default=get_now()) > COMPLAINT_IDENTIFIER_REQUIRED_FROM:
+                raise ValidationError("This field is required.")
 
     def validate_legalName(self, data, legalName):
         if not legalName:
-            complaint = data["__parent__"]["__parent__"]
-            if complaint.type == "complaint":
-                tender = get_root(data["__parent__"])
-                if get_first_revision_date(tender, default=get_now()) > COMPLAINT_IDENTIFIER_REQUIRED_FROM:
-                    raise ValidationError("This field is required.")
+            tender = get_root(data["__parent__"])
+            if get_first_revision_date(tender, default=get_now()) > COMPLAINT_IDENTIFIER_REQUIRED_FROM:
+                raise ValidationError("This field is required.")
 
 
 class ComplaintOrganization(Organization):
@@ -1540,7 +1561,7 @@ class ComplaintOrganization(Organization):
 
 class ComplaintAuthorModelType(ModelType):
     def export_loop(self, model_instance, field_converter, role=None, print_none=False):
-        if role == "draft" and getattr(model_instance.__parent__, "type") == "complaint":
+        if role == "draft":
             request = model_instance.get_root().request
             tender = request.validated["tender"]
             if get_first_revision_date(tender, default=get_now()) > COMPLAINT_IDENTIFIER_REQUIRED_FROM:
@@ -1555,10 +1576,167 @@ class Complaint(Model):
             "create": whitelist("author", "title", "description", "status", "type", "relatedLot"),
             "draft": whitelist("author", "title", "description", "status"),
             "cancellation": whitelist("cancellationReason", "status"),
-            "satisfy": whitelist("satisfied", "status"),
-            "answer": whitelist("resolution", "resolutionType", "status", "tendererAction"),
             "action": whitelist("tendererAction"),
             "review": whitelist("decision", "status"),
+            "view": view_bid_role,
+            "Administrator": whitelist("value"),
+        }
+        for _tender_status in (
+            "active.enquiries",
+            "active.tendering",
+            "active.auction",
+            "active.qualification",
+            "active.awarded",
+            "complete",
+            "unsuccessful",
+            "cancelled",
+            "active.pre-qualification",  # openeu
+            "active.pre-qualification.stand-still",
+            "active.qualification.stand-still",  # cfaua
+            "active.stage2.pending",  # competitive dialogue
+            "active.stage2.waiting",
+            "draft.stage2",
+            "active",  # limited
+        ):  # if there is no role, all the fields including(tokens) will be shown if context is the tender
+            roles[_tender_status] = view_bid_role
+
+    # system
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    complaintID = StringType()
+    date = IsoDateTimeType(default=get_now)  # autogenerated date of posting
+    status = StringType(
+        choices=[
+            "draft",
+            "pending",
+            "invalid",
+            "resolved",
+            "declined",
+            "cancelled",
+            "mistaken"
+        ],
+        default="draft",
+    )
+    documents = ListType(ModelType(Document, required=True), default=list())
+    type = StringType(
+        choices=["complaint"],
+    )
+    owner_token = StringType()
+    transfer_token = StringType()
+    owner = StringType()
+    relatedLot = MD5Type()
+    # complainant
+    author = ComplaintAuthorModelType(ComplaintOrganization, required=True)
+    title = StringType(required=True)
+    description = StringType()
+    dateSubmitted = IsoDateTimeType()
+    # tender owner
+    tendererAction = StringType()
+    tendererActionDate = IsoDateTimeType()
+    # complainant
+    dateEscalated = IsoDateTimeType()
+    # reviewer
+    decision = StringType()
+    dateDecision = IsoDateTimeType()
+    # complainant
+    cancellationReason = StringType()
+    dateCanceled = IsoDateTimeType()
+
+    value = ModelType(Guarantee)
+    rejectReason = StringType(choices=[
+        "buyerViolationsCorrected",
+        "lawNonCompliance",
+        "alreadyExists",
+        "tenderCancelled",
+        "cancelledByComplainant",
+        "complaintPeriodEnded",
+        "incorrectPayment"
+    ])
+
+    @serializable(serialized_name="value", serialize_when_none=False)
+    def calculate_value(self):
+        # should be calculated only once for draft complaints
+        if not self.value and self.status == "draft":
+            request = self.get_root().request
+            tender = request.validated["tender"]
+            if get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19:
+                if tender["procurementMethodType"] == "esco":
+                    amount = get_esco_complaint_amount(request, tender, self)
+                else:
+                    related_lot = self.get_related_lot_obj(tender)
+                    value = related_lot["value"] if related_lot else tender["value"]
+                    base_amount = get_uah_amount_from_value(
+                        request, value, {"complaint_id": self.id}
+                    )
+                    if tender["status"] == "active.tendering":
+                        amount = restrict_value_to_bounds(
+                            base_amount * COMPLAINT_AMOUNT_RATE,
+                            COMPLAINT_MIN_AMOUNT,
+                            COMPLAINT_MAX_AMOUNT
+                        )
+                    else:
+                        amount = restrict_value_to_bounds(
+                            base_amount * COMPLAINT_ENHANCED_AMOUNT_RATE,
+                            COMPLAINT_ENHANCED_MIN_AMOUNT,
+                            COMPLAINT_ENHANCED_MAX_AMOUNT
+                        )
+                return dict(amount=round_up_to_ten(amount), currency="UAH")
+
+    def get_role(self):
+        root = self.get_root()
+        request = root.request
+        data = request.json["data"]
+        auth_role = request.authenticated_role
+        status = data.get("status", self.status)
+        if auth_role == "Administrator":
+            role = auth_role
+        elif auth_role == "complaint_owner" and status == "cancelled":
+            role = "cancellation"
+        elif auth_role == "complaint_owner" and self.status == "draft":
+            role = "draft"
+        else:
+            role = "invalid"
+        return role
+
+    def __local_roles__(self):
+        return dict([("{}_{}".format(self.owner, self.owner_token), "complaint_owner")])
+
+    def __acl__(self):
+        return [
+            (Allow, "g:reviewers", "edit_complaint"),
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_complaint"),
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_complaint_documents"),
+        ]
+
+    def validate_cancellationReason(self, data, cancellationReason):
+        if not cancellationReason and data.get("status") == "cancelled":
+            raise ValidationError("This field is required.")
+
+    def validate_relatedLot(self, data, relatedLot):
+        parent = data["__parent__"]
+        if relatedLot and isinstance(parent, Model):
+            validate_relatedlot(get_tender(parent), relatedLot)
+
+    def get_related_lot_obj(self, tender):
+        lot_id = (
+            self.get("relatedLot")  # tender lot
+            or self.get("__parent__").get("lotID")  # award or qualification
+            or self.get("__parent__").get("relatedLot")  # cancellation
+        )
+        if lot_id:
+            for lot in tender.get("lots", ""):
+                if lot["id"] == lot_id:
+                    return lot
+
+
+class Claim(Model):
+    class Options:
+        namespace = "Complaint"
+        roles = {
+            "create": whitelist("author", "title", "description", "status", "type", "relatedLot"),
+            "draft": whitelist("author", "title", "description", "status"),
+            "cancellation": whitelist("cancellationReason", "status"),
+            "satisfy": whitelist("satisfied", "status"),
+            "answer": whitelist("resolution", "resolutionType", "status", "tendererAction"),
             "view": view_bid_role,
             "view_claim": (blacklist("author") + view_bid_role),
             "Administrator": whitelist("value"),
@@ -1591,28 +1769,27 @@ class Complaint(Model):
             "draft",
             "claim",
             "answered",
-            "pending",
+            "pending",  # TODO delete pending status for claims?
             "invalid",
             "resolved",
             "declined",
             "cancelled",
             "ignored",
-            "mistaken"
         ],
         default="draft",
     )
     documents = ListType(ModelType(Document, required=True), default=list())
     type = StringType(
-        choices=["claim", "complaint"],
-    )  # 'complaint' if status in ['pending'] or 'claim' if status in ['draft', 'claim', 'answered']
+        choices=["claim"],
+    )
     owner_token = StringType()
     transfer_token = StringType()
     owner = StringType()
     relatedLot = MD5Type()
     # complainant
-    author = ComplaintAuthorModelType(ComplaintOrganization, required=True)  # author of claim
-    title = StringType(required=True)  # title of the claim
-    description = StringType()  # description of the claim
+    author = ModelType(Organization, required=True)
+    title = StringType(required=True)
+    description = StringType()
     dateSubmitted = IsoDateTimeType()
     # tender owner
     resolution = StringType()
@@ -1622,7 +1799,7 @@ class Complaint(Model):
     tendererActionDate = IsoDateTimeType()
     # complainant
     satisfied = BooleanType()
-    dateEscalated = IsoDateTimeType()
+    dateEscalated = IsoDateTimeType()  # TODO delete this field for claims?
     # reviewer
     decision = StringType()
     dateDecision = IsoDateTimeType()
@@ -1630,54 +1807,13 @@ class Complaint(Model):
     cancellationReason = StringType()
     dateCanceled = IsoDateTimeType()
 
-    value = ModelType(Guarantee)
-    rejectReason = StringType(choices=[
-        "buyerViolationsCorrected",
-        "lawNonCompliance",
-        "alreadyExists",
-        "tenderCancelled",
-        "cancelledByComplainant",
-        "complaintPeriodEnded",
-        "incorrectPayment"
-    ])
-
-    @serializable(serialized_name="value", serialize_when_none=False)
-    def calculate_value(self):
-        # should be calculated only once for draft complaints
-        if not self.value and self.status == "draft" and self.type == "complaint":
-            request = self.get_root().request
-            tender = request.validated["tender"]
-            if get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19:
-                if tender["procurementMethodType"] == "esco":
-                    amount = get_esco_complaint_amount(request, tender, self)
-                else:
-                    related_lot = self.get_related_lot_obj(tender)
-                    value = related_lot["value"] if related_lot else tender["value"]
-                    base_amount = get_uah_amount_from_value(
-                        request, value, {"complaint_id": self.id}
-                    )
-                    if tender["status"] == "active.tendering":
-                        amount = restrict_value_to_bounds(
-                            base_amount * COMPLAINT_AMOUNT_RATE,
-                            COMPLAINT_MIN_AMOUNT,
-                            COMPLAINT_MAX_AMOUNT
-                        )
-                    else:
-                        amount = restrict_value_to_bounds(
-                            base_amount * COMPLAINT_ENHANCED_AMOUNT_RATE,
-                            COMPLAINT_ENHANCED_MIN_AMOUNT,
-                            COMPLAINT_ENHANCED_MAX_AMOUNT
-                        )
-                return dict(amount=round_up_to_ten(amount), currency="UAH")
-
     def serialize(self, role=None, context=None):
         if (
             role == "view"
-            and self.type == "claim"
             and get_tender(self).status in ["active.enquiries", "active.tendering"]
         ):
             role = "view_claim"
-        return super(Complaint, self).serialize(role=role, context=context)
+        return super(Claim, self).serialize(role=role, context=context)
 
     def get_role(self):
         root = self.get_root()
@@ -1909,7 +2045,7 @@ class Award(BaseAward):
 
     bid_id = MD5Type(required=True)
     lotID = MD5Type()
-    complaints = ListType(ModelType(Complaint, required=True), default=list())
+    complaints = ListType(ModelType(Claim, required=True), default=list())
     complaintPeriod = ModelType(Period)
 
     def validate_lotID(self, data, lotID):

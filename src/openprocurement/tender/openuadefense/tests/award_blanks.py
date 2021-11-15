@@ -961,7 +961,7 @@ def patch_tender_lots_award_complaint(self):
             "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
                 self.tender_id, self.award_id, complaint["id"], owner_token
             ),
-            {"data": {"status": "pending"}},
+            {"data": {"status": "claim"}},
             status=403,
         )
 
