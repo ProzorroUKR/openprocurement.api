@@ -23,6 +23,19 @@ from openprocurement.tender.limited.validation import (
 )
 
 from openprocurement.tender.core.views.award_complaint import BaseTenderAwardComplaintResource
+from openprocurement.tender.core.views.complaint import BaseComplaintGetResource
+
+
+@optendersresource(
+    name="negotiation:Tender Award Complaints Get",
+    collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
+    path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
+    procurementMethodType="negotiation",
+    request_method=["GET"],
+    description="Tender negotiation award complaints get",
+)
+class TenderNegotiationAwardComplaintGetResource(BaseComplaintGetResource):
+    """ """
 
 
 @optendersresource(
@@ -30,6 +43,8 @@ from openprocurement.tender.core.views.award_complaint import BaseTenderAwardCom
     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
     procurementMethodType="negotiation",
+    request_method=["POST", "PATCH"],
+    complaintType="complaint",
     description="Tender negotiation award complaints",
 )
 class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
@@ -38,11 +53,6 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
 
     def complaints_len(self, tender):
         return sum([len(i.complaints) for i in tender.awards])
-
-    def validate_posting_claim(self):
-        award = self.request.validated["award"]
-        if award.status == "pending":
-            raise_operation_error(self.request, "Claim submission is not allowed on pending award")
 
     def pre_create(self):
         tender = self.request.validated["tender"]
@@ -95,15 +105,9 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
 
         if (
             new_status == "cancelled"
-            and status in ["draft", "claim", "answered"]
-            and self.context.type == "claim"
-        ) or (
-            new_status == "cancelled"
             and status == "draft"
-            and self.context.type == "complaint"
             and not rules_2020_04_19
         ):
-            # claim ? There is no way to post claim, so this must be a backward-compatibility option
             apply_patch(self.request, save=False, src=self.context.serialize())
             self.context.dateCanceled = get_now()
         elif status in ["pending", "accepted"] and new_status == "stopping" and not rules_2020_04_19:
@@ -136,14 +140,12 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif (
             rules_2020_04_19
-            and self.context.type == "complaint"
             and new_status == "mistaken"
         ):
             self.context.rejectReason = "cancelledByComplainant"
             apply_patch(self.request, save=False, src=self.context.serialize())
         elif new_status == "pending" and not rules_2020_04_19:
             apply_patch(self.request, save=False, src=self.context.serialize())
-            self.context.type = "complaint"
             self.context.dateSubmitted = get_now()
         else:
             raise_operation_error(self.request, "Can't update draft complaint to {} status".format(new_status))
@@ -206,10 +208,24 @@ class TenderNegotiationAwardComplaintResource(BaseTenderAwardComplaintResource):
 
 
 @optendersresource(
+    name="negotiation.quick:Tender Award Complaints Get",
+    collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
+    path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
+    procurementMethodType="negotiation.quick",
+    request_method=["GET"],
+    description="Tender negotiation.quick award complaints get",
+)
+class TenderNegotiationQuickAwardComplaintGetResource(BaseComplaintGetResource):
+    """ """
+
+
+@optendersresource(
     name="negotiation.quick:Tender Award Complaints",
     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
     procurementMethodType="negotiation.quick",
+    request_method=["POST", "PATCH"],
+    complaintType="complaint",
     description="Tender negotiation.quick award complaints",
 )
 class TenderNegotiationQuickAwardComplaintResource(TenderNegotiationAwardComplaintResource):

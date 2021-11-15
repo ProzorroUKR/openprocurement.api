@@ -3,16 +3,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-08 10:47+0300\n"
-"PO-Revision-Date: 2020-04-08 16:44+0300\n"
+"POT-Creation-Date: 2021-03-03 21:14+0200\n"
+"PO-Revision-Date: 2021-03-03 22:32+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language: uk\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.8.0\n"
-"Language: uk\n"
-"X-Generator: Poedit 2.2.3\n"
+"Generated-By: Babel 2.9.0\n"
+"X-Generator: Poedit 2.4.2\n"
 
 msgid "Complaint"
 msgstr "Complaint"
@@ -62,14 +63,8 @@ msgstr "Дата подання."
 msgid "dateSubmitted"
 msgstr ""
 
-msgid "Date when claim was submitted."
-msgstr "Дата, коли вимога була подана."
-
-msgid "dateAnswered"
-msgstr ""
-
-msgid "Date when Procuring entity answered the claim."
-msgstr "Дата, коли замовник відповів на вимогу."
+msgid "Date when complaint was submitted."
+msgstr "Дата, коли скарга була подана."
 
 msgid "dateEscalated"
 msgstr ""
@@ -81,7 +76,7 @@ msgid "dateDecision"
 msgstr ""
 
 msgid "Date of complaint decision."
-msgstr "День прийняття рішення по вимозі."
+msgstr "День прийняття рішення по скарзі."
 
 msgid "dateCanceled"
 msgstr ""
@@ -101,14 +96,20 @@ msgstr "Можливі значення:"
 msgid "`draft`"
 msgstr "`draft` - чорновик, початковий етап"
 
-msgid "`claim`"
-msgstr "`claim` - вимога"
-
-msgid "`answered`"
-msgstr "`answered` - дано відповідь"
-
 msgid "`pending`"
 msgstr "`pending` - не вирішено, ще обробляється"
+
+msgid "`accepted`"
+msgstr "`accepted` - прийнято"
+
+msgid "`stopping`"
+msgstr "`stopping` - відкликано"
+
+msgid "`satisfied`"
+msgstr "`satisfied` - задоволено"
+
+msgid "`mistaken`"
+msgstr "`mistaken` - помилкова"
 
 msgid "`invalid`"
 msgstr "`invalid` - недійсно"
@@ -116,20 +117,14 @@ msgstr "`invalid` - недійсно"
 msgid "`declined`"
 msgstr "`declined` - відхилено"
 
+msgid "`stopped`"
+msgstr "`stopped`- припинено"
+
 msgid "`resolved`"
 msgstr "`resolved` - вирішено"
 
 msgid "`cancelled`"
 msgstr "`cancelled` - відхилено"
-
-msgid "`mistaken`"
-msgstr ""
-
-msgid "Possible values in :ref:`defense`, :ref:`esco`, :ref:`openua` and :ref:`openeu` are:"
-msgstr "Можливі значення у :ref:`defense`, :ref:`esco`, :ref:`openua` та :ref:`openeu`:"
-
-msgid "`accepted`"
-msgstr ""
 
 msgid "type"
 msgstr ""
@@ -139,27 +134,6 @@ msgstr "Можливі значення типу:"
 
 msgid "`complaint`"
 msgstr "`complaint` - скарга"
-
-msgid "resolution"
-msgstr ""
-
-msgid "Resolution of Procuring entity."
-msgstr "Рішення замовника."
-
-msgid "resolutionType"
-msgstr ""
-
-msgid "Possible values of resolution type are:"
-msgstr "Можливі значення типу вирішення:"
-
-msgid "satisfied"
-msgstr ""
-
-msgid "bool"
-msgstr "булеве значення"
-
-msgid "Claim is satisfied?"
-msgstr "Вимога задовільнена?"
 
 msgid "decision"
 msgstr ""
@@ -236,11 +210,14 @@ msgstr "`complaintPeriodEnded` - Період оскарження закінч�
 msgid "`incorrectPayment` - The payment received does not match the estimated amount for the complaint"
 msgstr "`incorrectPayment` - Отримана сума оплати не співпадає з розрахованою для даної скарги"
 
-msgid "Additionally in :ref:`defense`, :ref:`esco`, :ref:`openua` and :ref:`openeu`:"
-msgstr "Можливі значення у :ref:`defense`, :ref:`esco`, :ref:`openua` та :ref:`openeu`:"
-
 msgid "acceptance"
 msgstr ""
+
+msgid "bool"
+msgstr "булеве значення"
+
+msgid "Complaint is satisfied?"
+msgstr "Скарга задовільнена?"
 
 msgid "rejectReasonDescription"
 msgstr ""
@@ -262,3 +239,24 @@ msgstr ""
 
 msgid "Place of review."
 msgstr "Місце розгляду."
+
+#~ msgid "Date when Procuring entity answered the claim."
+#~ msgstr "Дата, коли замовник відповів на вимогу."
+
+#~ msgid "`claim`"
+#~ msgstr "`claim` - вимога"
+
+#~ msgid "`answered`"
+#~ msgstr "`answered` - дано відповідь"
+
+#~ msgid "Possible values in :ref:`defense`, :ref:`esco`, :ref:`openua` and :ref:`openeu` are:"
+#~ msgstr "Можливі значення у :ref:`defense`, :ref:`esco`, :ref:`openua` та :ref:`openeu`:"
+
+#~ msgid "Resolution of Procuring entity."
+#~ msgstr "Рішення замовника."
+
+#~ msgid "Possible values of resolution type are:"
+#~ msgstr "Можливі значення типу вирішення:"
+
+#~ msgid "Additionally in :ref:`defense`, :ref:`esco`, :ref:`openua` and :ref:`openeu`:"
+#~ msgstr "Можливі значення у :ref:`defense`, :ref:`esco`, :ref:`openua` та :ref:`openeu`:"

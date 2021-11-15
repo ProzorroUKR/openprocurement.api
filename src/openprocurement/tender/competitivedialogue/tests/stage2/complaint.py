@@ -3,7 +3,7 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_draft_claim
+from openprocurement.tender.belowthreshold.tests.base import test_draft_complaint
 from openprocurement.tender.belowthreshold.tests.complaint import TenderComplaintResourceTestMixin
 from openprocurement.tender.openua.tests.complaint import TenderUAComplaintResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
@@ -51,7 +51,7 @@ class TenderStage2EUComplaintDocumentResourceTest(BaseCompetitiveDialogEUStage2C
     def setUp(self):
         super(TenderStage2EUComplaintDocumentResourceTest, self).setUp()
         # Create complaint
-        claim_data = deepcopy(test_draft_claim)
+        claim_data = deepcopy(test_draft_complaint)
         claim_data["author"] = test_author
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
@@ -86,7 +86,7 @@ class TenderStage2UAComplaintDocumentResourceTest(
     def setUp(self):
         super(TenderStage2UAComplaintDocumentResourceTest, self).setUp()
         # Create complaint
-        claim_data = deepcopy(test_draft_claim)
+        claim_data = deepcopy(test_draft_complaint)
         claim_data["author"] = test_author
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),

@@ -61,17 +61,20 @@ from openprocurement.tender.core.utils import (
     validate_features_custom_weight,
 )
 from openprocurement.tender.openua.models import Tender as OpenUATender
+from openprocurement.tender.openua.models import get_complaint_type_model
 from openprocurement.tender.openua.constants import COMPLAINT_SUBMIT_TIME, ENQUIRY_STAND_STILL_TIME
 from openprocurement.tender.openeu.models import (
     IAboveThresholdEUTender,
     Bid as BaseEUBid,
     LotValue as BaseLotValue,
     ComplaintModelType,
+    ComplaintPolyModelType,
     Item as BaseItem,
     TenderAuctionPeriod,
     ProcuringEntity,
     Award as BaseEUAward,
     Complaint,
+    Claim,
     Cancellation,
     Qualification,
     LotAuctionPeriod,
@@ -594,7 +597,14 @@ class Tender(BaseTender):
         required=True, min_value=Decimal("0.005"), max_value=Decimal("0.03"), precision=-5
     )
     questions = ListType(ModelType(Question, required=True), default=list())
-    complaints = ListType(ComplaintModelType(Complaint, required=True), default=list())
+    complaints = ListType(
+        ComplaintPolyModelType(
+            [Complaint, Claim],
+            claim_function=get_complaint_type_model,
+            required=True,
+        ),
+        default=list(),
+    )
     auctionUrl = URLType()
     cancellations = ListType(ModelType(Cancellation, required=True), default=list())
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])

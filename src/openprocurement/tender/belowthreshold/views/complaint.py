@@ -4,28 +4,41 @@ from openprocurement.api.utils import (
     json_view,
     raise_operation_error
 )
-from openprocurement.api.constants import RELEASE_2020_04_19
 
-from openprocurement.tender.core.views.complaint import BaseTenderComplaintResource
-from openprocurement.tender.core.utils import optendersresource, apply_patch, get_first_revision_date
+from openprocurement.tender.core.views.complaint import BaseTenderClaimResource
+from openprocurement.tender.core.views.complaint import BaseComplaintGetResource
+from openprocurement.tender.core.utils import optendersresource, apply_patch
 from openprocurement.tender.core.validation import validate_complaint_data, validate_patch_complaint_data
 
 from openprocurement.tender.belowthreshold.validation import (
     validate_update_complaint_not_in_allowed_status,
     validate_add_complaint_not_in_allowed_tender_status,
     validate_update_complaint_not_in_allowed_tender_status,
-    validate_only_claim_allowed,
 )
 
 
 @optendersresource(
-    name="belowThreshold:Tender Complaints",
+    name="belowThreshold:Tender Complaints Get",
     collection_path="/tenders/{tender_id}/complaints",
     path="/tenders/{tender_id}/complaints/{complaint_id}",
     procurementMethodType="belowThreshold",
-    description="Tender complaints",
+    request_method=["GET"],
+    description="Tender complaints get",
 )
-class TenderComplaintResource(BaseTenderComplaintResource):
+class TenderComplaintGetResource(BaseComplaintGetResource):
+    """ """
+
+
+@optendersresource(
+    name="belowThreshold:Tender Claims",
+    collection_path="/tenders/{tender_id}/complaints",
+    path="/tenders/{tender_id}/complaints/{complaint_id}",
+    procurementMethodType="belowThreshold",
+    request_method=["POST", "PATCH"],
+    complaintType="claim",
+    description="Tender claims",
+)
+class TenderClaimResource(BaseTenderClaimResource):
 
     patch_check_tender_excluded_statuses = ("draft", "claim", "answered")
 
@@ -43,7 +56,6 @@ class TenderComplaintResource(BaseTenderComplaintResource):
         content_type="application/json",
         validators=(
             validate_complaint_data,
-            validate_only_claim_allowed,
             validate_add_complaint_not_in_allowed_tender_status
         ),
         permission="create_complaint",
@@ -51,7 +63,7 @@ class TenderComplaintResource(BaseTenderComplaintResource):
     def collection_post(self):
         """Post a complaint
         """
-        return super(TenderComplaintResource, self).collection_post()
+        return super(TenderClaimResource, self).collection_post()
 
     @json_view(
         content_type="application/json",
@@ -63,7 +75,7 @@ class TenderComplaintResource(BaseTenderComplaintResource):
         permission="edit_complaint",
     )
     def patch(self):
-        return super(TenderComplaintResource, self).patch()
+        return super(TenderClaimResource, self).patch()
 
     def patch_as_complaint_owner(self, data):
         context = self.context
@@ -76,12 +88,6 @@ class TenderComplaintResource(BaseTenderComplaintResource):
             apply_patch(self.request, save=False, src=context.serialize())
             context.dateCanceled = get_now()
         elif (
-            get_first_revision_date(tender, get_now()) > RELEASE_2020_04_19
-            and new_status == "mistaken"
-        ):
-            context.rejectReason = "cancelledByComplainant"
-            apply_patch(self.request, save=False, src=context.serialize())
-        elif (
             tender.status in ["active.enquiries", "active.tendering"]
             and status == "draft"
             and new_status == status
@@ -92,6 +98,7 @@ class TenderComplaintResource(BaseTenderComplaintResource):
             and status == "draft"
             and new_status == "claim"
         ):
+            # TODO why not implemented validate_submit_claim_time_method?
             apply_patch(self.request, save=False, src=context.serialize())
             context.dateSubmitted = get_now()
         elif status == "answered" and new_status == status:

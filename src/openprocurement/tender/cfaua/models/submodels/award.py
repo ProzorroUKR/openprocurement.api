@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.models import ListType
 from openprocurement.api.roles import RolesFromCsv
-from openprocurement.tender.cfaua.models.submodels.complaint import Complaint
+from openprocurement.tender.cfaua.models.submodels.complaint import (
+    ComplaintPolyModelType,
+    Complaint,
+    Claim,
+)
+from openprocurement.tender.openua.models import get_complaint_type_model
 from openprocurement.tender.cfaua.models.submodels.item import Item
 from openprocurement.tender.cfaua.models.submodels.value import Value
 from openprocurement.tender.core.models import Award as BaseAward, EUDocument, QualificationMilestoneListMixin
@@ -33,7 +38,14 @@ class Award(BaseAward, QualificationMilestoneListMixin):
             "view": _all
         }
 
-    complaints = ListType(ModelType(Complaint, required=True), default=list())
+    complaints = ListType(
+        ComplaintPolyModelType(
+            [Complaint, Claim],
+            claim_function=get_complaint_type_model,
+            required=True,
+        ),
+        default=list(),
+    )
     items = ListType(ModelType(Item, required=True))
     documents = ListType(ModelType(EUDocument, required=True), default=list())
     qualified = BooleanType()

@@ -54,7 +54,7 @@ X-Content-Type-Options: nosniff
     },
     "complaints": [
       {
-        "id": "17d57490b21d4bc48ae2f1e7d0130aaf",
+        "id": "4a38f00694774a2e846f7e2a6535703d",
         "complaintID": "UA-2021-03-16-000001.1",
         "date": "2021-03-16T00:00:03+02:00",
         "type": "complaint",
@@ -122,7 +122,7 @@ X-Content-Type-Options: nosniff
         ]
       },
       {
-        "id": "c810a00070bd40cd934c42d88b2b9a37",
+        "id": "fc2383286ea0471cb51c0fd1b1d3dc87",
         "complaintID": "UA-2021-03-16-000001.2",
         "date": "2021-03-16T00:00:03+02:00",
         "type": "complaint",
@@ -160,7 +160,7 @@ X-Content-Type-Options: nosniff
         "acceptance": false
       },
       {
-        "id": "66818f2899b04fe2a64483c15fd2656e",
+        "id": "1934840b9d0b464592d1272058558854",
         "complaintID": "UA-2021-03-16-000001.3",
         "date": "2021-03-16T00:00:03+02:00",
         "type": "complaint",
@@ -200,7 +200,7 @@ X-Content-Type-Options: nosniff
         "reviewPlace": "Place of review"
       },
       {
-        "id": "57862bd50abe415ab99f8c499dc613e3",
+        "id": "0bc3d41127fd48b186aea4539f7a966a",
         "complaintID": "UA-2021-03-16-000001.4",
         "date": "2021-03-16T00:00:03+02:00",
         "type": "complaint",
@@ -241,7 +241,7 @@ X-Content-Type-Options: nosniff
         "reviewPlace": "Place of review"
       },
       {
-        "id": "51dd152c70a44075808ddc036b040a58",
+        "id": "919c0cd060d44c4cafe858bb1371122d",
         "complaintID": "UA-2021-03-16-000001.5",
         "date": "2021-03-16T00:00:03+02:00",
         "type": "complaint",
@@ -284,12 +284,17 @@ X-Content-Type-Options: nosniff
         "reviewPlace": "Place of review"
       },
       {
-        "id": "c3d356b5eeaf46b980ab69d192b556ab",
+        "id": "df36b0ae7ee947e4acefcafa990fdc06",
         "complaintID": "UA-2021-03-16-000001.6",
         "date": "2021-03-16T00:00:03+02:00",
         "type": "claim",
         "author": {
           "name": "ДКП «Школяр»",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00137256",
+            "uri": "http://www.sc.gov.ua/"
+          },
           "address": {
             "streetAddress": "вул. Островського, 33",
             "locality": "м. Вінниця",
@@ -301,11 +306,6 @@ X-Content-Type-Options: nosniff
             "name": "Сергій Олексюк",
             "email": "soleksuk@gmail.com",
             "telephone": "+380432216930"
-          },
-          "identifier": {
-            "scheme": "UA-EDR",
-            "id": "00137256",
-            "uri": "http://www.sc.gov.ua/"
           }
         },
         "title": "Недостатньо інформації",
@@ -318,12 +318,17 @@ X-Content-Type-Options: nosniff
         "status": "answered"
       },
       {
-        "id": "25d656e8a2b8468d9075c206f83f0a8f",
+        "id": "65c7d6259ac447c48362a0c3b0716958",
         "complaintID": "UA-2021-03-16-000001.7",
         "date": "2021-03-16T00:00:03+02:00",
         "type": "claim",
         "author": {
           "name": "ДКП «Школяр»",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00137256",
+            "uri": "http://www.sc.gov.ua/"
+          },
           "address": {
             "streetAddress": "вул. Островського, 33",
             "locality": "м. Вінниця",
@@ -335,11 +340,6 @@ X-Content-Type-Options: nosniff
             "name": "Сергій Олексюк",
             "email": "soleksuk@gmail.com",
             "telephone": "+380432216930"
-          },
-          "identifier": {
-            "scheme": "UA-EDR",
-            "id": "00137256",
-            "uri": "http://www.sc.gov.ua/"
           }
         },
         "title": "Недостатньо інформації",
@@ -352,7 +352,7 @@ X-Content-Type-Options: nosniff
         "status": "answered"
       },
       {
-        "id": "3a2168662be1471a85b469fb014329da",
+        "id": "b4864402ba1d4a8ab6c44010b2f3f4a3",
         "complaintID": "UA-2021-03-16-000001.8",
         "date": "2021-03-16T00:00:03+02:00",
         "type": "complaint",
@@ -449,12 +449,17 @@ X-Content-Type-Options: nosniff
         ]
       },
       {
-        "id": "a5c65b0cedfd4992b5463cac3a438f6b",
+        "id": "d7a2d592c58a4ca7a483be64b913301b",
         "complaintID": "UA-2021-03-16-000001.9",
         "date": "2021-03-16T00:00:03+02:00",
         "type": "claim",
         "author": {
           "name": "ДКП «Школяр»",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00137256",
+            "uri": "http://www.sc.gov.ua/"
+          },
           "address": {
             "streetAddress": "вул. Островського, 33",
             "locality": "м. Вінниця",
@@ -466,11 +471,6 @@ X-Content-Type-Options: nosniff
             "name": "Сергій Олексюк",
             "email": "soleksuk@gmail.com",
             "telephone": "+380432216930"
-          },
-          "identifier": {
-            "scheme": "UA-EDR",
-            "id": "00137256",
-            "uri": "http://www.sc.gov.ua/"
           }
         },
         "title": "Недостатньо інформації",

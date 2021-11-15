@@ -3,7 +3,6 @@ from openprocurement.api.utils import (
     get_now,
     json_view,
     raise_operation_error,
-    get_first_revision_date,
 )
 from openprocurement.tender.core.validation import (
     validate_complaint_data,
@@ -13,23 +12,36 @@ from openprocurement.tender.core.validation import (
     validate_award_complaint_update_only_for_active_lots,
     validate_award_complaint_operation_not_in_allowed_status,
 )
-from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.tender.core.views.award_complaint import BaseTenderAwardComplaintResource
+from openprocurement.tender.core.views.award_complaint import BaseTenderAwardClaimResource
+from openprocurement.tender.core.views.complaint import BaseComplaintGetResource
 from openprocurement.tender.core.utils import optendersresource, apply_patch
 from openprocurement.tender.belowthreshold.validation import (
     validate_award_complaint_update_not_in_allowed_status,
-    validate_only_claim_allowed,
 )
 
 
 @optendersresource(
-    name="belowThreshold:Tender Award Complaints",
+    name="belowThreshold:Tender Award Complaints Get",
     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
     procurementMethodType="belowThreshold",
-    description="Tender award complaints",
+    request_method=["GET"],
+    description="Tender award complaints get",
 )
-class TenderAwardComplaintResource(BaseTenderAwardComplaintResource):
+class TenderAwardComplaintGetResource(BaseComplaintGetResource):
+    """ """
+
+
+@optendersresource(
+    name="belowThreshold:Tender Award Claims",
+    collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
+    path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
+    procurementMethodType="belowThreshold",
+    request_method=["POST", "PATCH"],
+    complaintType="claim",
+    description="Tender award claims",
+)
+class TenderAwardClaimResource(BaseTenderAwardClaimResource):
     patch_check_tender_excluded_statuses = ("draft", "claim", "answered")
 
     def pre_create(self):
@@ -48,14 +60,13 @@ class TenderAwardComplaintResource(BaseTenderAwardComplaintResource):
         permission="create_award_complaint",
         validators=(
             validate_complaint_data,
-            validate_only_claim_allowed,
             validate_award_complaint_operation_not_in_allowed_status,
             validate_award_complaint_add_only_for_active_lots,
             validate_add_complaint_not_in_complaint_period,
         ),
     )
     def collection_post(self):
-        return super(TenderAwardComplaintResource, self).collection_post()
+        return super(TenderAwardClaimResource, self).collection_post()
 
     @json_view(
         content_type="application/json",
@@ -68,7 +79,7 @@ class TenderAwardComplaintResource(BaseTenderAwardComplaintResource):
         ),
     )
     def patch(self):
-        return super(TenderAwardComplaintResource, self).patch()
+        return super(TenderAwardClaimResource, self).patch()
 
     def patch_as_complaint_owner(self, data):
         award = self.request.validated["award"]
@@ -82,7 +93,6 @@ class TenderAwardComplaintResource(BaseTenderAwardComplaintResource):
         else:
             is_complaint_period = False
 
-        tender = self.request.validated["tender"]
         context = self.context
         status = context.status
         new_status = data.get("status", status)
@@ -97,12 +107,7 @@ class TenderAwardComplaintResource(BaseTenderAwardComplaintResource):
 
             if new_status == status:
                 apply_patch(self.request, save=False, src=context.serialize())
-            elif (
-                get_first_revision_date(tender, get_now()) > RELEASE_2020_04_19
-                and new_status == "mistaken"
-            ):
-                context.rejectReason = "cancelledByComplainant"
-                apply_patch(self.request, save=False, src=context.serialize())
+
             elif new_status == "claim":
                 apply_patch(self.request, save=False, src=context.serialize())
                 context.dateSubmitted = get_now()

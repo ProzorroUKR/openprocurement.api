@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/9eb167a6c08a4130af77258c680e4ebf/awards/828aac1838d5499ab27cf1ae0a7d2dcb/complaints/a5c65b0cedfd4992b5463cac3a438f6b?acc_token=a5c7828561eb4d68937d466009ad644a HTTP/1.0
+PATCH /api/2.5/tenders/9eb167a6c08a4130af77258c680e4ebf/awards/828aac1838d5499ab27cf1ae0a7d2dcb/complaints/d7a2d592c58a4ca7a483be64b913301b?acc_token=a5c7828561eb4d68937d466009ad644a HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 29
 Content-Type: application/json
@@ -15,12 +15,17 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "a5c65b0cedfd4992b5463cac3a438f6b",
+    "id": "d7a2d592c58a4ca7a483be64b913301b",
     "complaintID": "UA-2021-03-16-000001.9",
     "date": "2021-03-16T00:00:03+02:00",
     "type": "claim",
     "author": {
       "name": "ДКП «Школяр»",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00137256",
+        "uri": "http://www.sc.gov.ua/"
+      },
       "address": {
         "streetAddress": "вул. Островського, 33",
         "locality": "м. Вінниця",
@@ -32,11 +37,6 @@ X-Content-Type-Options: nosniff
         "name": "Сергій Олексюк",
         "email": "soleksuk@gmail.com",
         "telephone": "+380432216930"
-      },
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "00137256",
-        "uri": "http://www.sc.gov.ua/"
       }
     },
     "title": "Недостатньо інформації",

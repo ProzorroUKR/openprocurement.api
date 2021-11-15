@@ -1039,19 +1039,13 @@ def create_tender_qualification_complaint_invalid(self):
         self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
     )
 
-    response = self.app.post(request_path, "data", status=415)
-    self.assertEqual(response.status, "415 Unsupported Media Type")
+    response = self.app.post(request_path, "data", status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [
-            {
-                "description": "Content-Type header should be one of ['application/json']",
-                "location": "header",
-                "name": "Content-Type",
-            }
-        ],
+        [{"description": "Expecting value: line 1 column 1 (char 0)", "location": "body", "name": "data"}],
     )
 
     response = self.app.post(request_path, "data", content_type="application/json", status=422)
@@ -1108,7 +1102,7 @@ def create_tender_qualification_complaint_invalid(self):
         [
             {
                 "description": {
-                    "identifier": ["Please use a mapping for this field or ComplaintIdentifier instance instead of str."]
+                    "identifier": ["Please use a mapping for this field or Identifier instance instead of str."]
                 },
                 "location": "body",
                 "name": "author",
@@ -1118,8 +1112,7 @@ def create_tender_qualification_complaint_invalid(self):
 
 
 def create_tender_qualification_complaint(self):
-    complaint_data = deepcopy(test_draft_complaint)
-    complaint_data['status'] = "claim"
+    complaint_data = deepcopy(test_draft_claim)
     response = self.app.post_json(
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
@@ -1246,6 +1239,18 @@ def patch_tender_qualification_complaint(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["title"], "claim title")
 
+    complaint_data = deepcopy(test_draft_complaint)
+    response = self.app.post_json(
+        "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
+            self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
+        ),
+        {"data": complaint_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    complaint = response.json["data"]
+    owner_token = response.json["access"]["token"]
+
     if get_now() < RELEASE_2020_04_19:
         response = self.app.patch_json(
             "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
@@ -1368,12 +1373,14 @@ def patch_tender_qualification_complaint(self):
             self.tender_id, self.qualification_id, complaint["id"], owner_token
         ),
         {"data": {"status": "claim"}},
-        status=403,
+        status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"],
-                     "Can't update complaint from draft to claim status")
+    self.assertEqual(
+        response.json["errors"][0]["description"][0],
+        "Value must be one of ['draft', 'pending', 'accepted', 'invalid', 'resolved', 'declined', 'cancelled', 'satisfied', 'stopping', 'stopped', 'mistaken']."
+    )
 
     self.set_status("complete")
 
@@ -1381,7 +1388,7 @@ def patch_tender_qualification_complaint(self):
         "/tenders/{}/qualifications/{}/complaints/{}?acc_token={}".format(
             self.tender_id, self.qualification_id, complaint["id"], owner_token
         ),
-        {"data": {"status": "claim"}},
+        {"data": {"status": "mistaken"}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1893,7 +1900,7 @@ def patch_tender_lot_qualification_complaint(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
         ),
-        {"data": test_draft_claim},
+        {"data": test_draft_complaint},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")

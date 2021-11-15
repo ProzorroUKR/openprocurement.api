@@ -77,7 +77,7 @@ class TenderNegotiationAwardComplaintPostResourceTest(
             "/tenders/{}/awards/{}/complaints".format(
                 self.tender_id, self.award_id
             ),
-            {"data": test_draft_claim},
+            {"data": test_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]

@@ -99,7 +99,7 @@ def create_complaint_post_claim_forbidden(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't submit or edit post in current (claim) complaint status"
+        "Can't submit or edit post in current (claim) complaint type"
     )
 
 

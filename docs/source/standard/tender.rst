@@ -147,9 +147,10 @@ Schema
    Questions to ``procuringEntity`` and answers to them.
 
 :complaints:
-   List of :ref:`complaint` objects
+   |   List of :ref:`Complaint` and :ref:`Claim` objects.
+   |   List of :ref:`Claim` objects for  `belowThreshold`.
 
-   Complaints to tender conditions and their resolutions.
+   Complaints and Claims to tender conditions and their resolutions.
 
 :bids:
    List of :ref:`bid` objects

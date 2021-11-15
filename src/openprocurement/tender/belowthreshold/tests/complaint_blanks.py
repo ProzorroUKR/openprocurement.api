@@ -22,22 +22,15 @@ def create_tender_complaint_invalid(self):
     self.assertEqual(
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
-
     request_path = "/tenders/{}/complaints".format(self.tender_id)
 
-    response = self.app.post(request_path, "data", status=415)
-    self.assertEqual(response.status, "415 Unsupported Media Type")
+    response = self.app.post(request_path, {"data": test_draft_claim}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [
-            {
-                "description": "Content-Type header should be one of ['application/json']",
-                "location": "header",
-                "name": "Content-Type",
-            }
-        ],
+        [{"description": "Expecting value: line 1 column 1 (char 0)", "location": "body", "name": "data"}],
     )
 
     response = self.app.post(request_path, "data", content_type="application/json", status=422)
@@ -94,7 +87,7 @@ def create_tender_complaint_invalid(self):
         [
             {
                 "description": {
-                    "identifier": ["Please use a mapping for this field or ComplaintIdentifier instance instead of str."]
+                    "identifier": ["Please use a mapping for this field or Identifier instance instead of str."]
                 },
                 "location": "body",
                 "name": "author",
@@ -199,14 +192,10 @@ def create_tender_complaint_invalid(self):
             {
                 "data": claim_data
             },
-            status=403
+            status=404
         )
-        self.assertEqual(
-            response.json,
-            {'status': 'error',
-             'errors': [{'description': "Can't add complaint of 'complaint' type",
-                          'location': 'body', 'name': 'data'}]}
-        )
+        self.assertEqual(response.status, "404 Not Found")
+        self.assertEqual(response.content_type, "text/plain")
 
 
 def create_tender_complaint(self):

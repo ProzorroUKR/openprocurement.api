@@ -5,6 +5,8 @@ from math import floor, ceil
 from decimal import Decimal, ROUND_UP, ROUND_FLOOR
 
 from schematics.types import BaseType
+from schematics.types.compound import PolyModelType
+
 
 from openprocurement.api.validation import (
     validate_data,
@@ -399,9 +401,14 @@ def validate_complaint_data(request, **kwargs):
     _validate_complaint_accreditation_level(request)
     if "cancellation" in request.validated:
         model = type(request.validated["cancellation"]).complaints.model_class
+        return validate_data(request, model)
+    elif isinstance(type(request.tender).complaints.field, PolyModelType):
+        data = validate_json_data(request)
+        model = type(request.tender).complaints.field.find_model(data)
+        return validate_data(request, model, data=data)
     else:
         model = type(request.tender).complaints.model_class
-    return validate_data(request, model)
+        return validate_data(request, model)
 
 
 def _validate_complaint_accreditation_level(request, **kwargs):
@@ -415,7 +422,7 @@ def validate_patch_complaint_data(request, **kwargs):
     if "cancellation" in request.validated:
         model = type(request.validated["cancellation"]).complaints.model_class
     else:
-        model = type(request.tender).complaints.model_class
+        model = type(request.context)
     return validate_data(request, model, True)
 
 
@@ -1442,7 +1449,6 @@ def validate_add_complaint_with_tender_cancellation_in_pending(request, **kwargs
 
 
 def validate_add_complaint_with_lot_cancellation_in_pending(type_name):
-
     type_name = type_name.lower()
 
     def validation(request, **kwargs):
@@ -1535,7 +1541,12 @@ def validate_update_cancellation_complaint_not_in_allowed_complaint_status(reque
 
 
 def validate_update_complaint_not_in_allowed_complaint_status(request, **kwargs):
-    if request.context.status not in ["draft", "claim", "answered", "pending", "accepted", "satisfied", "stopping"]:
+    if request.context.status not in ["draft", "pending", "accepted", "satisfied", "stopping"]:
+        raise_operation_error(request, "Can't update complaint in current ({}) status".format(request.context.status))
+
+
+def validate_update_complaint_not_in_allowed_claim_status(request, **kwargs):
+    if request.context.status not in ["draft", "claim", "answered"]:
         raise_operation_error(request, "Can't update complaint in current ({}) status".format(request.context.status))
 
 
@@ -1934,14 +1945,6 @@ def validate_tender_plan_data(request, **kwargs):
         plan.validate()
     request.validated["plan"] = plan
     request.validated["plan_src"] = plan.serialize("plain")
-
-
-def validate_complaint_type_change(request, **kwargs):
-    tender = request.validated["tender"]
-    if get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19:
-        complaint = request.validated["complaint"]
-        if complaint.type == "claim":
-            raise_operation_error(request, "Can't update claim to complaint")
 
 
 def validate_update_contract_status_by_supplier(request, **kwargs):

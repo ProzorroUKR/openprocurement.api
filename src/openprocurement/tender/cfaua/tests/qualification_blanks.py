@@ -71,8 +71,7 @@ def create_tender_lot_qualification_complaint(self):
 
 
 def create_tender_qualification_complaint(self):
-    complaint_data = deepcopy(test_draft_complaint)
-    complaint_data['status'] = "claim"
+    complaint_data = deepcopy(test_draft_claim)
     response = self.app.post_json(
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]

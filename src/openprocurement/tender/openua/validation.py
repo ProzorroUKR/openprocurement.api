@@ -225,7 +225,7 @@ def _validate_post_accreditation_level(request, **kwargs):
 def validate_complaint_post_data(request, **kwargs):
     update_logging_context(request, {"post_id": "__new__"})
     _validate_post_accreditation_level(request)
-    model = type(request.tender).complaints.model_class.posts.model_class
+    model = type(request.context).posts.model_class
     post = validate_data(request, model)
     upload_objects_documents(
         request, request.validated["post"],
@@ -237,7 +237,7 @@ def validate_complaint_post_data(request, **kwargs):
 def validate_award_complaint_post_data(request, **kwargs):
     update_logging_context(request, {"post_id": "__new__"})
     _validate_post_accreditation_level(request)
-    model = type(request.tender).awards.model_class.complaints.model_class.posts.model_class
+    model = type(request.context).posts.model_class
     post = validate_data(request, model)
     upload_objects_documents(
         request, request.validated["post"],
@@ -261,13 +261,23 @@ def validate_cancellation_complaint_post_data(request, **kwargs):
 def validate_qualification_complaint_post_data(request, **kwargs):
     update_logging_context(request, {"post_id": "__new__"})
     _validate_post_accreditation_level(request)
-    model = type(request.tender).qualifications.model_class.complaints.model_class.posts.model_class
+    model = type(request.context).posts.model_class
     post = validate_data(request, model)
     upload_objects_documents(
         request, request.validated["post"],
         route_kwargs={"post_id": request.validated["post"].id}
     )
     return post
+
+
+def validate_complaint_post_complaint_type(request, **kwargs):
+    complaint = request.validated["complaint"]
+    if complaint.type != "complaint":
+        raise_operation_error(
+            request, "Can't submit or edit post in current ({}) complaint type".format(
+                complaint.type
+            )
+        )
 
 
 def validate_complaint_post_complaint_status(request, **kwargs):

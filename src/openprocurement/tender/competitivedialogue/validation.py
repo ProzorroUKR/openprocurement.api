@@ -97,7 +97,9 @@ def validate_author(request, shortlistedFirms, obj):
 def validate_complaint_data_stage2(request, **kwargs):
     update_logging_context(request, {"complaint_id": "__new__"})
     _validate_complaint_accreditation_level(request)
-    data = validate_data(request, type(request.tender).complaints.model_class)
+    json_data = validate_json_data(request)
+    model = type(request.tender).complaints.field.find_model(json_data)
+    data = validate_data(request, model)
     if data:
         if validate_author(request, request.tender["shortlistedFirms"], request.validated["complaint"]):
             return data  # validate is OK
@@ -107,7 +109,7 @@ def validate_complaint_data_stage2(request, **kwargs):
 
 
 def validate_patch_complaint_data_stage2(request, **kwargs):
-    model = type(request.tender).complaints.model_class
+    model = type(request.context)
     data = validate_data(request, model, True)
     if data:
         if validate_author(request, request.tender["shortlistedFirms"], request.validated["complaint"]):

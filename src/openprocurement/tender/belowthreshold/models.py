@@ -36,7 +36,7 @@ from openprocurement.tender.core.models import (
     Cancellation as BaseCancellation,
     Feature,
     LotWithMinimalStepLimitsValidation as BaseLot,
-    Complaint,
+    Claim,
     BidResponsesMixin,
     validate_features_uniq,
     validate_lots_uniq,
@@ -270,7 +270,7 @@ class Tender(BaseTender):
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
     minimalStep = ModelType(Value, required=True)
     questions = ListType(ModelType(Question, required=True), default=list())
-    complaints = ListType(ComplaintModelType(Complaint, required=True), default=list())
+    complaints = ListType(ComplaintModelType(Claim, required=True), default=list())
     auctionUrl = URLType()
     cancellations = ListType(ModelType(Cancellation, required=True), default=list())
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])

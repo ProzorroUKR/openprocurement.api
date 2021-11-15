@@ -36,6 +36,7 @@ from openprocurement.tender.core.models import (
     EUDocument,
     LotValue as BaseLotValue,
     ComplaintModelType as BaseComplaintModelType,
+    ComplaintPolyModelType as BaseComplaintPolyModelType,
     EnquiryPeriod,
     PeriodStartEndRequired,
     view_bid_role,
@@ -76,7 +77,9 @@ from openprocurement.tender.core.constants import (
     AWARD_CRITERIA_LIFE_CYCLE_COST,
 )
 from openprocurement.tender.openua.models import (
+    get_complaint_type_model,
     Complaint as BaseComplaint,
+    Claim as BaseClaim,
     Award as BaseAward,
     Item as BaseItem,
     Tender as OpenUATender,
@@ -140,6 +143,15 @@ class ComplaintModelType(BaseComplaintModelType):
     ]
 
 
+class ComplaintPolyModelType(BaseComplaintPolyModelType):
+    view_claim_statuses = [
+        "active.tendering",
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+        "active.auction",
+    ]
+
+
 class Item(BaseItem):
     """A good, service, or work to be contracted."""
 
@@ -194,10 +206,13 @@ class Contract(BaseContract):
 class Complaint(BaseComplaint):
     documents = ListType(ModelType(EUDocument, required=True), default=list())
 
+
+class Claim(BaseClaim):
+    documents = ListType(ModelType(EUDocument, required=True), default=list())
+
     def serialize(self, role=None, context=None):
         if (
             role == "view"
-            and self.type == "claim"
             and get_tender(self).status
             in [
                 "active.tendering",
@@ -207,7 +222,7 @@ class Complaint(BaseComplaint):
             ]
         ):
             role = "view_claim"
-        return super(Complaint, self).serialize(role=role, context=context)
+        return super(Claim, self).serialize(role=role, context=context)
 
 
 class Cancellation(BaseCancellation):
@@ -523,7 +538,14 @@ class Award(BaseAward):
         different providers, or because it is a standing offer.
     """
 
-    complaints = ListType(ModelType(Complaint, required=True), default=list())
+    complaints = ListType(
+        ComplaintPolyModelType(
+            [Complaint, Claim],
+            claim_function=get_complaint_type_model,
+            required=True,
+        ),
+        default=list(),
+    )
     items = ListType(ModelType(Item, required=True))
     documents = ListType(ModelType(EUDocument, required=True), default=list())
     qualified = BooleanType()
@@ -570,7 +592,14 @@ class Qualification(QualificationMilestoneListMixin):
     status = StringType(choices=["pending", "active", "unsuccessful", "cancelled"], default="pending")
     date = IsoDateTimeType()
     documents = ListType(ModelType(EUDocument, required=True), default=list())
-    complaints = ListType(ModelType(Complaint, required=True), default=list())
+    complaints = ListType(
+        ComplaintPolyModelType(
+            [Complaint, Claim],
+            claim_function=get_complaint_type_model,
+            required=True,
+        ),
+        default=list(),
+    )
     qualified = BooleanType(default=False)
     eligible = BooleanType(default=False)
 
@@ -668,7 +697,14 @@ class Tender(BaseTender):
         min_size=1,
         validators=[validate_cpv_group, validate_items_uniq, validate_classification_id],
     )  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
-    complaints = ListType(ComplaintModelType(Complaint, required=True), default=list())
+    complaints = ListType(
+        ComplaintPolyModelType(
+            [Complaint, Claim],
+            claim_function=get_complaint_type_model,
+            required=True,
+        ),
+        default=list(),
+    )
     contracts = ListType(ModelType(Contract, required=True), default=list())
     cancellations = ListType(ModelType(Cancellation, required=True), default=list())
     awards = ListType(ModelType(Award, required=True), default=list())

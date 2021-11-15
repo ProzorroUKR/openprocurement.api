@@ -7,12 +7,19 @@ from openprocurement.tender.core.validation import (
     validate_award_complaint_add_only_for_active_lots,
     validate_award_complaint_update_only_for_active_lots,
     validate_update_complaint_not_in_allowed_complaint_status,
+    validate_update_complaint_not_in_allowed_claim_status,
     validate_add_complaint_with_tender_cancellation_in_pending,
     validate_add_complaint_with_lot_cancellation_in_pending,
 )
 from openprocurement.tender.core.utils import optendersresource, get_first_revision_date
-from openprocurement.tender.core.views.award_complaint import BaseTenderAwardComplaintResource, get_bid_id
-
+from openprocurement.tender.core.views.award_complaint import (
+    BaseTenderAwardComplaintResource,
+    BaseTenderAwardClaimResource,
+    get_bid_id,
+)
+from openprocurement.tender.core.views.complaint import (
+    BaseComplaintGetResource,
+)
 from openprocurement.tender.cfaua.utils import check_tender_status_on_active_qualification_stand_still
 from openprocurement.tender.cfaua.validation import (
     validate_add_complaint_not_in_complaint_period,
@@ -22,10 +29,24 @@ from openprocurement.tender.cfaua.validation import (
 
 
 @optendersresource(
+    name="closeFrameworkAgreementUA:Tender Award Complaints Get",
+    collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
+    path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
+    procurementMethodType="closeFrameworkAgreementUA",
+    request_method=["GET"],
+    description="Tender EU award complaints get",
+)
+class TenderEUAwardComplaintGetResource(BaseComplaintGetResource):
+    """"""
+
+
+@optendersresource(
     name="closeFrameworkAgreementUA:Tender Award Complaints",
     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
     procurementMethodType="closeFrameworkAgreementUA",
+    request_method=["POST", "PATCH"],
+    complaintType="complaint",
     description="Tender EU award complaints",
 )
 class TenderEUAwardComplaintResource(BaseTenderAwardComplaintResource):
@@ -43,11 +64,7 @@ class TenderEUAwardComplaintResource(BaseTenderAwardComplaintResource):
         complaint.relatedLot = self.context.lotID
         complaint.bid_id = get_bid_id(self.request)
 
-        if complaint.status == "claim" and complaint.type == "claim":
-            self.validate_posting_claim()
-            complaint.dateSubmitted = get_now()
-        elif old_rules and complaint.status == "pending":
-            complaint.type = "complaint"
+        if old_rules and complaint.status == "pending":
             complaint.dateSubmitted = get_now()
         else:
             complaint.status = "draft"
@@ -94,3 +111,61 @@ class TenderEUAwardComplaintResource(BaseTenderAwardComplaintResource):
         tender.status = "active.qualification"
         if tender.awardPeriod.endDate:
             tender.awardPeriod.endDate = None
+
+
+@optendersresource(
+    name="closeFrameworkAgreementUA:Tender Award Claims",
+    collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
+    path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
+    procurementMethodType="closeFrameworkAgreementUA",
+    request_method=["POST", "PATCH"],
+    complaintType="claim",
+    description="Tender EU award claims",
+)
+class TenderEUAwardClaimResource(BaseTenderAwardClaimResource):
+    patch_check_tender_statuses = ("active.qualification.stand-still",)
+
+    def check_tender_status_method(self, request):
+        return check_tender_status_on_active_qualification_stand_still(request)
+
+    def pre_create(self):
+        complaint = self.request.validated["complaint"]
+        complaint.date = get_now()
+        complaint.relatedLot = self.context.lotID
+        complaint.bid_id = get_bid_id(self.request)
+
+        if complaint.status == "claim":
+            self.validate_posting_claim()
+            complaint.dateSubmitted = get_now()
+        else:
+            complaint.status = "draft"
+
+        return complaint
+
+    @json_view(
+        content_type="application/json",
+        permission="create_award_complaint",
+        validators=(
+                validate_complaint_data,
+                validate_add_complaint_not_in_qualification_stand_still,
+                validate_award_complaint_add_only_for_active_lots,
+                validate_add_complaint_not_in_complaint_period,
+                validate_add_complaint_with_tender_cancellation_in_pending,
+                validate_add_complaint_with_lot_cancellation_in_pending("award"),
+        ),
+    )
+    def collection_post(self):
+        return super(TenderEUAwardClaimResource, self).collection_post()
+
+    @json_view(
+        content_type="application/json",
+        permission="edit_complaint",
+        validators=(
+                validate_patch_complaint_data,
+                validate_update_complaint_not_in_qualification,
+                validate_award_complaint_update_only_for_active_lots,
+                validate_update_complaint_not_in_allowed_claim_status,
+        ),
+    )
+    def patch(self):
+        return super(TenderEUAwardClaimResource, self).patch()

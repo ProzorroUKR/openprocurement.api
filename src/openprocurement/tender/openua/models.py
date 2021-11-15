@@ -7,7 +7,7 @@ from pyramid.security import Allow
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist, blacklist
 from schematics.types import StringType, BooleanType, MD5Type, BaseType
-from schematics.types.compound import ModelType
+from schematics.types.compound import ModelType, PolyModelType
 from schematics.types.serializable import serializable
 from openprocurement.api.utils import get_now, get_first_revision_date, is_new_created
 from openprocurement.api.models import (
@@ -36,11 +36,12 @@ from openprocurement.tender.core.models import (
     bids_validation_wrapper,
     default_status,
     LotWithMinimalStepLimitsValidation as Lot,
-    ComplaintModelType,
+    ComplaintPolyModelType,
     Award as BaseAward,
     Parameter as BaseParameter,
     Bid as BaseBid,
     Complaint as BaseComplaint,
+    Claim as BaseClaim,
     LotValue as BaseLotValue,
     Contract as BaseContract,
     Cancellation as BaseCancellation,
@@ -94,6 +95,14 @@ from openprocurement.tender.openua.validation import (
     _validate_tender_period_start_date,
 )
 
+
+def get_complaint_type_model(poly_model, data):
+    complaint_type = data.get("type")
+    if not complaint_type:
+        complaint_type = "claim"
+
+    complaint_type_models = {model_class.__name__.lower(): model_class for model_class in poly_model.model_classes}
+    return complaint_type_models[complaint_type]
 
 
 class IAboveThresholdUATender(ITender):
@@ -387,10 +396,7 @@ class Complaint(BaseComplaint):
             "draft": whitelist("author", "title", "description", "status"),
             "bot": whitelist("rejectReason", "status"),
             "cancellation": whitelist("cancellationReason", "status"),
-            "satisfy": whitelist("satisfied", "status"),
-            "escalate": whitelist("status"),
             "resolve": whitelist("status", "tendererAction"),
-            "answer": whitelist("resolution", "resolutionType", "status", "tendererAction"),
             "action": whitelist("tendererAction"),
             "review": whitelist(
                 "decision", "status",
@@ -404,8 +410,6 @@ class Complaint(BaseComplaint):
     status = StringType(
         choices=[
             "draft",
-            "claim",
-            "answered",
             "pending",
             "accepted",
             "invalid",
@@ -449,18 +453,12 @@ class Complaint(BaseComplaint):
             role = "cancellation"
         elif auth_role == "complaint_owner" and self.status == "draft":
             role = "draft"
-        elif auth_role == "complaint_owner" and self.status == "claim":
-            role = "escalate"
         elif auth_role == "bots" and self.status == "draft":
             role = "bot"
-        elif auth_role == "tender_owner" and self.status == "claim":
-            role = "answer"
         elif auth_role == "tender_owner" and self.status in ["pending", "accepted"]:
             role = "action"
         elif auth_role == "tender_owner" and self.status == "satisfied":
             role = "resolve"
-        elif auth_role == "complaint_owner" and self.status == "answered":
-            role = "satisfy"
         elif auth_role == "aboveThresholdReviewers" and self.status in ["pending", "accepted", "stopping"]:
             role = "review"
         else:
@@ -475,7 +473,7 @@ class Complaint(BaseComplaint):
         tender_date = get_first_revision_date(get_tender(data["__parent__"]), default=get_now())
         if tender_date < RELEASE_2020_04_19:
             return
-        if not rejectReason and data.get("status") in ["invalid", "stopped"] and data.get("type") == "complaint":
+        if not rejectReason and data.get("status") in ["invalid", "stopped"]:
             raise ValidationError("This field is required.")
 
     def validate_reviewDate(self, data, reviewDate):
@@ -493,6 +491,68 @@ class Complaint(BaseComplaint):
             raise ValidationError("This field is required.")
 
 
+class Claim(BaseClaim):
+    class Options:
+        namespace = "Complaint"
+        _base_roles = BaseComplaint.Options.roles
+        roles = {
+            "create": _base_roles["create"],  # TODO inherit the rest of the roles
+            "draft": whitelist("author", "title", "description", "status"),
+            "cancellation": whitelist("cancellationReason", "status"),
+            "satisfy": whitelist("satisfied", "status"),
+            "answer": whitelist("resolution", "resolutionType", "status", "tendererAction"),
+            "embedded": (blacklist("owner_token", "owner", "transfer_token", "bid_id") + schematics_embedded_role),
+            "view": (blacklist("owner_token", "owner", "transfer_token", "bid_id") + schematics_default_role),
+        }
+
+    status = StringType(
+        choices=[
+            "draft",
+            "claim",
+            "answered",
+            "pending",
+            "invalid",
+            "resolved",
+            "declined",
+            "cancelled",
+        ],
+        default="draft",
+    )
+    bid_id = StringType()
+
+    def __acl__(self):
+        return [
+            (Allow, "g:bots", "edit_complaint"),
+            (Allow, "g:aboveThresholdReviewers", "edit_complaint"),
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "edit_complaint"),
+            (Allow, "{}_{}".format(self.owner, self.owner_token), "upload_complaint_documents"),
+        ]
+
+    def get_role(self):
+        root = self.get_root()
+        request = root.request
+        data = request.json["data"]
+        auth_role = request.authenticated_role
+        status = data.get("status", self.status)
+        if auth_role == "Administrator":
+            role = auth_role
+        elif auth_role == "complaint_owner" and self.status != "mistaken" and status == "cancelled":
+            role = "cancellation"
+        elif auth_role == "complaint_owner" and self.status == "draft":
+            role = "draft"
+        elif auth_role == "tender_owner" and self.status == "claim":
+            role = "answer"
+        elif auth_role == "complaint_owner" and self.status == "answered":
+            role = "satisfy"
+        else:
+            role = "invalid"
+        return role
+
+    def validate_cancellationReason(self, data, cancellationReason):
+        if not cancellationReason and data.get("status") in ["cancelled"]:
+            raise ValidationError("This field is required.")
+
+
 class CancellationComplaint(Complaint):
     class Options:
         _base_roles = Complaint.Options.roles
@@ -502,7 +562,6 @@ class CancellationComplaint(Complaint):
             "draft": _base_roles["draft"],
             "bot": _base_roles["bot"],
             "cancellation": _base_roles["cancellation"],
-            "satisfy": _base_roles["satisfy"],
             "resolve": _base_roles["resolve"],
             "action": _base_roles["action"],
             # "pending": whitelist("decision", "status", "rejectReason", "rejectReasonDescription"),
@@ -586,8 +645,14 @@ class Award(BaseAward, QualificationMilestoneListMixin, WeightedValueMixin):
                 "requirementResponses",
             )
         }
-
-    complaints = ListType(ModelType(Complaint, required=True), default=list())
+    complaints = ListType(
+        PolyModelType(
+            [Complaint, Claim],
+            claim_function=get_complaint_type_model,
+            required=True,
+        ),
+        default=list(),
+    )
     items = ListType(ModelType(Item, required=True))
     qualified = BooleanType(default=False)
     eligible = BooleanType(default=False)
@@ -666,7 +731,14 @@ class Tender(BaseTender):
     )  # A list of all the companies who entered submissions for the tender.
     awards = ListType(ModelType(Award, required=True), default=list())
     contracts = ListType(ModelType(Contract, required=True), default=list())
-    complaints = ListType(ComplaintModelType(Complaint, required=True), default=list())
+    complaints = ListType(
+        ComplaintPolyModelType(
+            [Complaint, Claim],
+            claim_function=get_complaint_type_model,
+            required=True,
+        ),
+        default=list(),
+    )
     procurementMethodType = StringType(default="aboveThresholdUA")
     items = ListType(
         ModelType(Item, required=True),

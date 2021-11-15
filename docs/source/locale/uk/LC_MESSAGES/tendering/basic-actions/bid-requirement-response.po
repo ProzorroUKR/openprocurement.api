@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the openprocurement.api package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
@@ -78,10 +77,10 @@ msgid "Bid activation"
 msgstr "Активація пропозіції"
 
 msgid "When you update bid to `active`/`pending` status or PATCH bid in these statuses, the validation is triggered that checks the compliance of the responses and criteria requirements."
-msgstr "Коли пропозіція переходить до стаусу `active`/`pending` або оновлюється в цих статусах, спрацьoвує валідація яка перевіряє відповідність відповідей та критерій"
+msgstr "Коли пропозіція переходить до стаусу `active`/`pending` або оновлюється в цих статусах, спрацьoвує валідація яка перевіряє відповідність відповідей та критерій."
 
 msgid "Responses are necessary only for criteria that have at least one requirement in status \"active\"."
-msgstr "Відповіді обов'язкові лише для критеріїв, які мають хоча б одину вимогу у статусі `active`"
+msgstr "Відповіді обов'язкові лише для критеріїв, які мають хоча б одину вимогу у статусі `active`."
 
 msgid "Error when bid doesn't have response for one of criteria:"
 msgstr "Помилка, коли в пропозіції немає відповідей на один з критеріїв:"

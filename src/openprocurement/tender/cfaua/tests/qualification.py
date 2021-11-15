@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_author, test_draft_claim
+from openprocurement.tender.belowthreshold.tests.base import test_author, test_draft_complaint
 from openprocurement.tender.cfaua.tests.base import BaseTenderContentWebTest, test_bids, test_lots
 from openprocurement.tender.openeu.tests.qualification import (
     TenderQualificationRequirementResponseTestMixin,
@@ -174,7 +174,7 @@ class TenderQualificationComplaintDocumentResourceTest(TenderQualificationBaseTe
             "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
                 self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
             ),
-            {"data": test_draft_claim},
+            {"data": test_draft_complaint},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]

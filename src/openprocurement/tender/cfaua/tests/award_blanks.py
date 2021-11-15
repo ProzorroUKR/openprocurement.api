@@ -1632,8 +1632,7 @@ def review_tender_award_stopping_complaint(self):
 def create_tender_award_complaint(self):
     self.set_status("active.qualification.stand-still")
 
-    complaint_data = deepcopy(test_draft_complaint)
-    complaint_data["status"] = "claim"
+    complaint_data = deepcopy(test_draft_claim)
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, self.bid_token),
         {

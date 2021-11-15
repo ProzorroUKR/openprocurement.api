@@ -3,161 +3,118 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-10 13:47+0300\n"
-"PO-Revision-Date: 2016-09-16 12:49+0200\n"
+"POT-Creation-Date: 2021-03-03 21:14+0200\n"
+"PO-Revision-Date: 2021-03-03 22:15+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 1.3\n"
+"Generated-By: Babel 2.9.0\n"
+"Language: uk\n"
+"X-Generator: Poedit 2.4.2\n"
 
-#: ../../source/standard/qualification.rst:7
 msgid "Qualification"
 msgstr "Qualification"
 
-#: ../../source/standard/qualification.rst:10
 msgid "Schema"
 msgstr "Схема"
 
-#: ../../source/standard/qualification.rst:0
 msgid "id"
 msgstr ""
 
-#: ../../source/standard/qualification.rst:13
-#: ../../source/standard/qualification.rst:38
-#: ../../source/standard/qualification.rst:43
 msgid "string, auto-generated"
 msgstr "рядок, генерується автоматично"
 
-#: ../../source/standard/qualification.rst:0
 msgid "title"
 msgstr ""
 
-#: ../../source/standard/qualification.rst:16
-#: ../../source/standard/qualification.rst:22
 msgid "string, multilingual"
 msgstr "рядок, багатомовний"
 
-#: ../../source/standard/qualification.rst:18
 msgid "|ocdsDescription| Qualification title."
 msgstr "|ocdsDescription| Назва кваліфікації."
 
-#: ../../source/standard/qualification.rst:0
 msgid "description"
 msgstr ""
 
-#: ../../source/standard/qualification.rst:24
 msgid "|ocdsDescription| Qualification description."
 msgstr "|ocdsDescription| Опис кваліфікації."
 
-#: ../../source/standard/qualification.rst:0
 msgid "eligible"
 msgstr ""
 
-#: ../../source/standard/qualification.rst:28
-#: ../../source/standard/qualification.rst:33
 msgid "bool"
 msgstr "bool"
 
-#: ../../source/standard/qualification.rst:30
-msgid ""
-"Confirms compliance of eligibility criteria set by the procuring entity "
-"in the tendering documents."
-msgstr ""
-"Підтверджує відповідність критеріям прийнятності, встановлених замовником"
-" в тендерній документації."
+msgid "Confirms compliance of eligibility criteria set by the procuring entity in the tendering documents."
+msgstr "Підтверджує відповідність критеріям прийнятності, встановлених замовником в тендерній документації."
 
-#: ../../source/standard/qualification.rst:0
 msgid "qualified"
 msgstr ""
 
-#: ../../source/standard/qualification.rst:35
-msgid ""
-"Confirms the absence of grounds for refusal to participate in accordance "
-"with Article 17 of the Law of Ukraine \"On Public Procurement\"."
-msgstr ""
-"Підтверджує відсутність підстав для відмови від участі відповідно до "
-"статті 17 Закону України \"Про державні закупівлі\"."
+msgid "Confirms the absence of grounds for refusal to participate in accordance with Article 17 of the Law of Ukraine \"On Public Procurement\"."
+msgstr "Підтверджує відсутність підстав для відмови від участі відповідно до статті 17 Закону України \"Про державні закупівлі\"."
 
-#: ../../source/standard/qualification.rst:0
 msgid "bidID"
 msgstr ""
 
-#: ../../source/standard/qualification.rst:40
 msgid "Bid that this Qualification protocol relates to."
 msgstr "Пропозиція, з якою пов’язаний протокол кваліфікації."
 
-#: ../../source/standard/qualification.rst:0
 msgid "lotID"
 msgstr ""
 
-#: ../../source/standard/qualification.rst:45
 msgid "In Multilot tenders, lot that this Qualification protocol relates to."
-msgstr ""
-"В багатолотових закупівлях це лот, з яким пов’язаний протокол "
-"кваліфікації."
+msgstr "В багатолотових закупівлях це лот, з яким пов’язаний протокол кваліфікації."
 
-#: ../../source/standard/qualification.rst:0
 msgid "date"
 msgstr ""
 
-#: ../../source/standard/qualification.rst:48
 msgid "string, :ref:`Date`, auto-generated, read-only"
 msgstr "рядок, :ref:`Date`, генерується автоматично"
 
-#: ../../source/standard/qualification.rst:50
 msgid "The date of the qualification."
 msgstr "Дата кваліфікації."
 
-#: ../../source/standard/qualification.rst:0
 msgid "documents"
 msgstr ""
 
-#: ../../source/standard/qualification.rst:53
 msgid "List of :ref:`Document` objects"
 msgstr "Список об’єктів :ref:`Document`"
 
-#: ../../source/standard/qualification.rst:55
-msgid ""
-"Container for Qualification documentation, protocols, reasons for "
-"qualification or disqualification. Uploaded by tender committee."
-msgstr ""
-"Контейнер для кваліфікаційних документів, протоколів, причин для "
-"кваліфікації чи дискваліфікації. Завантажується закупівельним комітетом."
+msgid "Container for Qualification documentation, protocols, reasons for qualification or disqualification. Uploaded by tender committee."
+msgstr "Контейнер для кваліфікаційних документів, протоколів, причин для кваліфікації чи дискваліфікації. Завантажується закупівельним комітетом."
 
-#: ../../source/standard/qualification.rst:0
+msgid "complaints"
+msgstr ""
+
+msgid "List of :ref:`Complaint` and :ref:`Claim` objects."
+msgstr "Список об’єктів :ref:`Complaint` та :ref:`Claim`."
+
 msgid "status"
 msgstr ""
 
-#: ../../source/standard/qualification.rst:59
 msgid "string"
 msgstr "рядок"
 
-#: ../../source/standard/qualification.rst:61
 msgid "Possible values are:"
 msgstr "Можливі значення:"
 
-#: ../../source/standard/qualification.rst:63
 msgid "`pending` - waiting for qualification"
 msgstr "`pending` - очікує на кваліфікацію"
 
-#: ../../source/standard/qualification.rst:64
 msgid "`active` - qualification has been confirmed"
 msgstr "`active` - кваліфікацію підтверджено"
 
-#: ../../source/standard/qualification.rst:65
 msgid "`unsuccessful` - participant didn't pass qualification"
 msgstr "`unsuccessful` - учасник не пройшов кваліфікації"
 
-#: ../../source/standard/qualification.rst:66
 msgid "`cancelled`- qualification decision has been cancelled"
 msgstr "`cancelled`- відміна рішення по кваліфікації"
 
-#: ../../source/standard/qualification.rst:69
 msgid "Workflow"
 msgstr "Схема роботи"
 
-#: ../../source/standard/qualification.rst:85
 msgid "\\* marks initial state"
 msgstr "\\* позначає початковий стан"

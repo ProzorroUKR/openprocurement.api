@@ -12,6 +12,7 @@ from openprocurement.tender.openua.validation import (
     validate_complaint_post_complaint_status,
     validate_complaint_post,
     validate_complaint_post_review_date,
+    validate_complaint_post_complaint_type,
 )
 
 
@@ -26,6 +27,7 @@ class TenderComplaintPostResource(APIResource):
     @json_view(
         content_type="application/json",
         validators=(
+                validate_complaint_post_complaint_type,
                 validate_complaint_post_data,
                 validate_complaint_post,
                 validate_complaint_post_complaint_status,
@@ -62,7 +64,7 @@ class TenderComplaintPostResource(APIResource):
         """
         List complaints
         """
-        return {"data": [i.serialize("view") for i in self.context.posts]}
+        return {"data": [i.serialize("view") for i in self.context.get("posts", [])]}
 
     @json_view(permission="view_tender")
     def get(self):

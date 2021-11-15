@@ -5,7 +5,9 @@ from openprocurement.tender.core.utils import (
     resolve_tender_model,
     extract_tender_doc,
     extract_tender,
+    extract_complaint_type,
     isTender,
+    isComplaint,
     register_tender_procurementMethodType,
     tender_from_data,
     SubscribersPicker,
@@ -26,10 +28,12 @@ def includeme(config):
     config.add_request_method(resolve_tender_model, "tender_model", reify=True)
     config.add_request_method(extract_tender_doc, "tender_doc", reify=True)
     config.add_request_method(extract_tender, "tender", reify=True)
+    config.add_request_method(extract_complaint_type, "complaint_type", reify=True)
 
     # tender procurementMethodType plugins support
     config.registry.tender_procurementMethodTypes = {}
     config.add_route_predicate("procurementMethodType", isTender)
+    config.add_route_predicate("complaintType", isComplaint)
     config.add_subscriber_predicate("procurementMethodType", SubscribersPicker)
     config.add_request_method(tender_from_data)
     config.add_directive("add_tender_procurementMethodType", register_tender_procurementMethodType)
