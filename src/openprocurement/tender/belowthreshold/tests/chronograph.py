@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -24,6 +23,7 @@ from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     set_auction_period,
     reset_auction_period,
     set_auction_period_lot_separately,
+    switch_to_auction_with_non_auction_lot,
     # TenderComplaintSwitchResourceTest
     switch_to_ignored_on_complete,
     switch_from_pending_to_ignored,
@@ -120,6 +120,27 @@ class TenderUnsuccessfulLotAuctionPeriodResourceTest(TenderAuctionPeriodResource
                 {"data": {"lotValues": bid["lotValues"][:1]}}
             )
             self.assertEqual(response.status, "200 OK")
+
+
+class TenderLotNoAuctionResourceTest(TenderContentWebTest):
+    initial_lots = test_lots * 2
+    initial_bids = test_bids
+    initial_status = "active.tendering"
+
+    def setUp(self):
+        super().setUp()
+        # 2 lots: with 2 bids and with only one
+        bid = self.initial_bids[0]
+        bid_id = bid["id"]
+        lot_values = bid["lotValues"][:1]
+        del lot_values[0]["date"]
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={self.initial_bids_tokens[bid_id]}",
+            {"data": {"lotValues": bid["lotValues"][:1]}}
+        )
+        self.assertEqual(response.status, "200 OK")
+
+    test_switch_to_auction_with_non_auction_lot = snitch(switch_to_auction_with_non_auction_lot)
 
 
 class TenderComplaintSwitchResourceTest(TenderContentWebTest):

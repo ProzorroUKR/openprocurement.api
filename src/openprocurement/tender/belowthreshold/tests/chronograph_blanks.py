@@ -1,7 +1,8 @@
 from datetime import timedelta
-from copy import deepcopy
 from openprocurement.api.utils import get_now, parse_date
 from openprocurement.tender.belowthreshold.tests.base import test_claim, test_bids
+from openprocurement.tender.core.tests.base import change_auth
+from freezegun import freeze_time
 
 
 # TenderSwitchTenderingResourceTest
@@ -71,6 +72,32 @@ def switch_to_auction_lot_items(self):
 
     response = self.app.get(f"/tenders/{self.tender_id}")
     self.assertEqual(len(response.json["data"]["items"]), 2)  # non lot items are still there for no reason
+
+
+def switch_to_auction_with_non_auction_lot(self):
+    """
+    Test lot tender with non lot items (item.relatedLot is missed)
+    """
+    response = self.check_chronograph()
+    self.assertEqual(response.json["data"]["status"], "active.tendering")
+    lots = response.json["data"]["lots"]
+    self.assertIn("auctionPeriod", lots[0])
+    self.assertIn("auctionPeriod", lots[1])
+
+    # move to auction
+    with freeze_time(response.json["data"]["tenderPeriod"]["endDate"]):
+        response = self.check_chronograph()
+        self.assertEqual(response.json["data"]["status"], "active.auction")
+
+    # check that auction doesn't see auctionPeriod in lots
+    # where less than two bidders
+    with change_auth(self.app, ("Basic", ("auction", ""))):
+        response = self.app.get(f"/tenders/{self.tender_id}/auction")
+    lots = response.json["data"]["lots"]
+    self.assertEqual("active", lots[0]["status"])
+    self.assertIn("auctionPeriod", lots[0])
+    self.assertEqual("active", lots[1]["status"])
+    self.assertNotIn("auctionPeriod", lots[1])
 
 # TenderSwitchUnsuccessfulResourceTest
 
