@@ -1558,6 +1558,35 @@ def tender_items_float_quantity(self):
     self.assertEqual(tender["items"][0]["quantity"], quantity)
 
 
+def tender_items_zero_quantity(self):
+    data = deepcopy(self.initial_data)
+    quantity = 0
+    data["items"][0]["quantity"] = quantity
+    response = self.app.post_json("/tenders", {"data": data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
+    self.assertEqual(tender["items"][0]["quantity"], quantity)
+
+
+def tender_items_negative_quantity(self):
+    data = deepcopy(self.initial_data)
+    quantity = -1
+    data["items"][0]["quantity"] = quantity
+    response = self.app.post_json("/tenders", {"data": data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "description": [{"quantity": ["Float value should be greater than 0."]}], 
+            "location": "body", 
+            "name": "items"
+        }],
+    )
+
+
 def get_tender(self):
     response = self.app.get("/tenders")
     self.assertEqual(response.status, "200 OK")

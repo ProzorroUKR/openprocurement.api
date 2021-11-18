@@ -1067,6 +1067,21 @@ def contract_items_change(self):
 
     response = self.app.patch_json(
         "/contracts/{}?acc_token={}".format(self.contract["id"], token),
+        {"data": {"items": [{"quantity": -1}]}},
+        status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "description": [{"quantity": ["Float value should be greater than 0."]}],
+            "location": "body",
+            "name": "items"
+        }],
+    )
+
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token),
         {
             "data":
                 {
