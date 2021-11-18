@@ -143,7 +143,7 @@ class PlanItem(Model):
     classification = ModelType(CPVClassification, required=True)
     additionalClassifications = ListType(ModelType(Classification, required=True), default=list())
     unit = ModelType(Unit)  # Description of the unit which the good comes in e.g. hours, kilograms
-    quantity = FloatType()  # The number of units required
+    quantity = FloatType(min_value=0)  # The number of units required
     deliveryDate = ModelType(Period)
     description = StringType(required=True)  # A description of the goods, services to be provided.
     description_en = StringType()
