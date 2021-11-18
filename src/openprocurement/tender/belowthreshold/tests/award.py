@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 import mock
 
@@ -26,7 +25,6 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     check_tender_award_complaint_period_dates,
     patch_tender_award_unsuccessful,
     get_tender_award,
-    patch_tender_award_Administrator_change,
     # TenderLotAwardCheckResourceTest
     check_tender_award,
     # TenderLotAwardResourceTest
@@ -84,7 +82,6 @@ class TenderAwardResourceTestMixin(object):
     test_create_tender_award_invalid = snitch(create_tender_award_invalid)
     test_create_tender_award_no_scale_invalid = snitch(create_tender_award_no_scale_invalid)
     test_get_tender_award = snitch(get_tender_award)
-    test_patch_tender_award_Administrator_change = snitch(patch_tender_award_Administrator_change)
     test_check_tender_award_complaint_period_dates = snitch(check_tender_award_complaint_period_dates)
 
 
@@ -97,6 +94,7 @@ class TenderAwardComplaintResourceTestMixin(object):
 class TenderAwardDocumentResourceTestMixin(object):
     test_not_found_award_document = snitch(not_found_award_document)
     test_create_tender_award_document = snitch(create_tender_award_document)
+    test_create_tender_award_document_json_bulk = snitch(create_tender_award_document_json_bulk)
     test_put_tender_award_document = snitch(put_tender_award_document)
     test_patch_tender_award_document = snitch(patch_tender_award_document)
     test_create_award_document_bot = snitch(create_award_document_bot)
@@ -122,6 +120,7 @@ class Tender2LotAwardDocumentResourceTestMixin(object):
 class TenderAwardResourceTest(TenderContentWebTest, TenderAwardResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_bids
+    docservice = True
 
     test_create_tender_award = snitch(create_tender_award)
     test_patch_tender_award = snitch(patch_tender_award)
@@ -130,6 +129,7 @@ class TenderAwardResourceTest(TenderContentWebTest, TenderAwardResourceTestMixin
 
 class TenderAwardResourceScaleTest(TenderContentWebTest):
     initial_status = "active.qualification"
+    docservice = True
 
     def setUp(self):
         patcher = mock.patch("openprocurement.tender.core.procedure.models.base.ORGANIZATION_SCALE_FROM",
@@ -157,6 +157,7 @@ class TenderLotAwardCheckResourceTest(TenderContentWebTest, TenderLotAwardCheckR
     initial_bids[2]["tenderers"][0]["identifier"]["id"] = "44437256"
     reverse = TenderBelowThersholdConfigurator.reverse_awarding_criteria
     awarding_key = TenderBelowThersholdConfigurator.awarding_criteria_key
+    docservice = True
 
     def setUp(self):
         super(TenderLotAwardCheckResourceTest, self).setUp()
@@ -183,6 +184,7 @@ class TenderLotAwardResourceTest(TenderContentWebTest):
     initial_status = "active.qualification"
     initial_lots = test_lots
     initial_bids = test_bids
+    docservice = True
 
     test_create_tender_lot_award = snitch(create_tender_lot_award)
     test_patch_tender_lot_award = snitch(patch_tender_lot_award)
@@ -194,6 +196,7 @@ class Tender2LotAwardResourceTest(TenderContentWebTest):
     initial_status = "active.qualification"
     initial_lots = 2 * test_lots
     initial_bids = test_bids
+    docservice = True
 
     test_create_tender_lots_award = snitch(create_tender_lots_award)
     test_patch_tender_lots_award = snitch(patch_tender_lots_award)
@@ -202,6 +205,7 @@ class Tender2LotAwardResourceTest(TenderContentWebTest):
 class TenderAwardComplaintResourceTest(TenderContentWebTest, TenderAwardComplaintResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_bids
+    docservice = True
 
     def setUp(self):
         super(TenderAwardComplaintResourceTest, self).setUp()
@@ -231,6 +235,7 @@ class TenderLotAwardComplaintResourceTest(TenderContentWebTest):
     initial_status = "active.qualification"
     initial_lots = test_lots
     initial_bids = test_bids
+    docservice = True
 
     def setUp(self):
         super(TenderLotAwardComplaintResourceTest, self).setUp()
@@ -275,6 +280,7 @@ class Tender2LotAwardComplaintResourceTest(TenderLotAwardComplaintResourceTest):
 class TenderAwardComplaintDocumentResourceTest(TenderContentWebTest, TenderAwardComplaintDocumentResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_bids
+    docservice = True
 
     def setUp(self):
         super(TenderAwardComplaintDocumentResourceTest, self).setUp()
@@ -312,6 +318,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(TenderContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_bids
     initial_lots = 2 * test_lots
+    docservice = True
 
     def setUp(self):
         super(Tender2LotAwardComplaintDocumentResourceTest, self).setUp()
@@ -359,6 +366,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(TenderContentWebTest):
 class TenderAwardDocumentResourceTest(TenderContentWebTest, TenderAwardDocumentResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_bids
+    docservice = True
 
     def setUp(self):
         super(TenderAwardDocumentResourceTest, self).setUp()
@@ -374,16 +382,11 @@ class TenderAwardDocumentResourceTest(TenderContentWebTest, TenderAwardDocumentR
         self.app.authorization = auth
 
 
-class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
-    docservice = True
-
-    test_create_tender_award_document_json_bulk = snitch(create_tender_award_document_json_bulk)
-
-
 class Tender2LotAwardDocumentResourceTest(TenderContentWebTest, Tender2LotAwardDocumentResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_bids
     initial_lots = 2 * test_lots
+    docservice = True
 
     def setUp(self):
         super(Tender2LotAwardDocumentResourceTest, self).setUp()

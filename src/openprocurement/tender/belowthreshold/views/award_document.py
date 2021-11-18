@@ -14,13 +14,13 @@ from openprocurement.tender.core.validation import (
 )
 
 
-@optendersresource(
-    name="belowThreshold:Tender Award Documents",
-    collection_path="/tenders/{tender_id}/awards/{award_id}/documents",
-    path="/tenders/{tender_id}/awards/{award_id}/documents/{document_id}",
-    procurementMethodType="belowThreshold",
-    description="Tender award documents",
-)
+# @optendersresource(
+#     name="belowThreshold:Tender Award Documents",
+#     collection_path="/tenders/{tender_id}/awards/{award_id}/documents",
+#     path="/tenders/{tender_id}/awards/{award_id}/documents/{document_id}",
+#     procurementMethodType="belowThreshold",
+#     description="Tender award documents",
+# )
 class TenderAwardDocumentResource(CoreDocumentResource):
     context_name = "tender_award"
 

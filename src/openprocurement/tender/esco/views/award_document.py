@@ -5,12 +5,12 @@ from openprocurement.tender.openeu.views.award_document import (
 )
 
 
-@optendersresource(
-    name="esco:Tender Award Documents",
-    collection_path="/tenders/{tender_id}/awards/{award_id}/documents",
-    path="/tenders/{tender_id}/awards/{award_id}/documents/{document_id}",
-    procurementMethodType="esco",
-    description="Tender ESCO Award documents",
-)
+# @optendersresource(
+#     name="esco:Tender Award Documents",
+#     collection_path="/tenders/{tender_id}/awards/{award_id}/documents",
+#     path="/tenders/{tender_id}/awards/{award_id}/documents/{document_id}",
+#     procurementMethodType="esco",
+#     description="Tender ESCO Award documents",
+# )
 class TenderESCOAwardDocumentResource(TenderEUAwardDocumentResource):
     """ Tender ESCO Award Document Resource """

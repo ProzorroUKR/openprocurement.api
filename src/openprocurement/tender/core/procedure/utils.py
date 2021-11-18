@@ -107,7 +107,7 @@ def append_revision(request, obj, patch):
     revision_data = {
         "author": request.authenticated_userid,
         "changes": patch,
-        "rev": obj.rev,
+        "rev": obj["_rev"],
         "date": get_now().isoformat(),
     }
     if "revisions" not in obj:

@@ -28,13 +28,13 @@ from openprocurement.tender.belowthreshold.validation import (
 )
 
 
-@optendersresource(
-    name="belowThreshold:Tender Awards",
-    collection_path="/tenders/{tender_id}/awards",
-    path="/tenders/{tender_id}/awards/{award_id}",
-    description="Tender awards",
-    procurementMethodType="belowThreshold",
-)
+# @optendersresource(
+#     name="belowThreshold:Tender Awards",
+#     collection_path="/tenders/{tender_id}/awards",
+#     path="/tenders/{tender_id}/awards/{award_id}",
+#     description="Tender awards",
+#     procurementMethodType="belowThreshold",
+# )
 class TenderAwardResource(APIResource):
     @json_view(permission="view_tender")
     def collection_get(self):

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/27449ba567ee4755b723fd5d2248425f/awards/6e00b18367e449c1a33be1e7f6595005?acc_token=09fb3db5c4b0423685f58a6cf7176e7b HTTP/1.0
+PATCH /api/2.5/tenders/27449ba567ee4755b723fd5d2248425f/awards/42bede1bbad64dabbd9f67ce4a5b2ba9?acc_token=09fb3db5c4b0423685f58a6cf7176e7b HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -15,7 +15,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "6e00b18367e449c1a33be1e7f6595005",
+    "id": "42bede1bbad64dabbd9f67ce4a5b2ba9",
     "status": "active",
     "date": "2021-03-16T00:00:00+02:00",
     "value": {
@@ -27,10 +27,10 @@ X-Content-Type-Options: nosniff
       {
         "name": "Державне управління справами",
         "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00037256",
           "legalName": "Державне управління справами",
-          "uri": "http://www.dus.gov.ua/"
+          "uri": "http://www.dus.gov.ua/",
+          "scheme": "UA-EDR",
+          "id": "00037256"
         },
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
@@ -40,8 +40,8 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Державне управління справами",
-          "telephone": "+0440000000"
+          "telephone": "+0440000000",
+          "name": "Державне управління справами"
         },
         "scale": "micro"
       }

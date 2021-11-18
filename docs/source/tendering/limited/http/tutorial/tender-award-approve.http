@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/378a1443b2704a2e9f13816acfe5898f/awards/53db061080344f04a635da34f911ca1e?acc_token=31c9e71e63b64c82b49271b02ebc3c7b HTTP/1.0
+PATCH /api/2.5/tenders/378a1443b2704a2e9f13816acfe5898f/awards/f44436fd825440d78a99dd57365363a3?acc_token=31c9e71e63b64c82b49271b02ebc3c7b HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -15,7 +15,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "53db061080344f04a635da34f911ca1e",
+    "id": "f44436fd825440d78a99dd57365363a3",
     "status": "active",
     "date": "2021-03-16T00:00:00+02:00",
     "value": {
@@ -27,9 +27,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "ДКП «Школяр»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137256",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137256"
         },
         "address": {
           "streetAddress": "вул. Островського, 33",
@@ -39,35 +39,35 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
         },
         "scale": "micro"
       }
     ],
     "documents": [
       {
-        "id": "fe45fac1d880437d8b78c1d65aabbf27",
+        "id": "467528027f7041d499db9c6c497d16d4",
+        "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "award_first_document.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/373734ba074849cab80d59c90ace3d4a?Signature=AJ%2BBExJ4hcUTp25WvaL5MU4zIs91xG3XlW0XJS%2FxiT7sJkDa27JcFbOxwBMXYb5FP01IXTpa4eYfGJWh45YaCw%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2727941c3c1d4b398e0ef21c294d50f8?Signature=XVdH%2BLOTsgYF3J849jqk9w0Oivjv96KP1vF11T2pawV8wnAcIPzqxWiQWkKBo6SZdysuzHcTtpSV3ETS4xHUAw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
         "dateModified": "2021-03-16T00:00:00+02:00",
-        "author": "tender_owner",
-        "documentOf": "tender"
+        "author": "brokers"
       },
       {
-        "id": "083de034d9f845da805e45b6fff8d5e4",
+        "id": "37b672b185d04f20afdefe6f19cf0f3c",
+        "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "award_second_document.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2577420cd1a14530b2fbc2b59f62d059?Signature=KH74Yt1CgRKOOGp3bWhG3lNRsBmWaTvLjnAKDkEP3LgpwL%2FcoNZCyyGPr62z4BaypQEp3MnCzjJL2EShaontDQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/874e2d950c434ca091040d1cb962a12f?Signature=tJmoLThnmmO1LrBsq4zKBdXkEU0fobXZDnRIXNNFrNR%2F1rigH3hgsbkVejHIrH3qc9dAQfnmVUAcmuUyfLbfDw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
         "dateModified": "2021-03-16T00:00:00+02:00",
-        "author": "tender_owner",
-        "documentOf": "tender"
+        "author": "brokers"
       }
     ]
   }

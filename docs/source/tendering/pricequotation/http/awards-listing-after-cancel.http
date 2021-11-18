@@ -20,9 +20,9 @@ X-Content-Type-Options: nosniff
         {
           "name": "Державне управління справами",
           "identifier": {
+            "uri": "http://www.dus.gov.ua/",
             "scheme": "UA-EDR",
-            "id": "00037256",
-            "uri": "http://www.dus.gov.ua/"
+            "id": "00037256"
           },
           "address": {
             "streetAddress": "вул. Банкова, 11, корпус 1",
@@ -32,8 +32,8 @@ X-Content-Type-Options: nosniff
             "countryName": "Україна"
           },
           "contactPoint": {
-            "name": "Державне управління справами",
-            "telephone": "+0440000000"
+            "telephone": "+0440000000",
+            "name": "Державне управління справами"
           },
           "scale": "micro"
         }
@@ -41,21 +41,14 @@ X-Content-Type-Options: nosniff
       "bid_id": "635dac1cc52641d2a557b66099e10483"
     },
     {
-      "id": "2457dbf1f0fa43daaf6148695865ce39",
       "status": "pending",
-      "date": "2021-03-16T00:00:01+02:00",
-      "value": {
-        "amount": 479.0,
-        "currency": "UAH",
-        "valueAddedTaxIncluded": true
-      },
       "suppliers": [
         {
           "name": "Державне управління справами",
           "identifier": {
+            "uri": "http://www.dus.gov.ua/",
             "scheme": "UA-EDR",
-            "id": "00037256",
-            "uri": "http://www.dus.gov.ua/"
+            "id": "00037256"
           },
           "address": {
             "streetAddress": "вул. Банкова, 11, корпус 1",
@@ -65,13 +58,20 @@ X-Content-Type-Options: nosniff
             "countryName": "Україна"
           },
           "contactPoint": {
-            "name": "Державне управління справами",
-            "telephone": "+0440000000"
+            "telephone": "+0440000000",
+            "name": "Державне управління справами"
           },
           "scale": "micro"
         }
       ],
-      "bid_id": "b417921608714f3f8b317c0cf06ff72f"
+      "bid_id": "b417921608714f3f8b317c0cf06ff72f",
+      "value": {
+        "amount": 479.0,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true
+      },
+      "date": "2021-03-16T00:00:01+02:00",
+      "id": "2457dbf1f0fa43daaf6148695865ce39"
     }
   ]
 }

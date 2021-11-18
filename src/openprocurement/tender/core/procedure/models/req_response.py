@@ -25,10 +25,9 @@ from openprocurement.tender.core.procedure.models.base import (
     BaseBid,
     validate_object_id_uniq,
 )
-from openprocurement.tender.core.models import (
-    BaseAward, QualificationMilestoneListMixin,
-    validate_response_requirement_uniq,
-)
+from openprocurement.tender.core.procedure.models.base import BaseAward
+from openprocurement.tender.core.procedure.models.milestone import QualificationMilestoneListMixin
+from openprocurement.tender.core.models import validate_response_requirement_uniq
 from logging import getLogger
 
 LOGGER = getLogger(__name__)

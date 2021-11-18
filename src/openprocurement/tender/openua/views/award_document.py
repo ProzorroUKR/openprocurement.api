@@ -15,13 +15,13 @@ from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.openua.validation import validate_accepted_complaints
 
 
-@optendersresource(
-    name="aboveThresholdUA:Tender Award Documents",
-    collection_path="/tenders/{tender_id}/awards/{award_id}/documents",
-    path="/tenders/{tender_id}/awards/{award_id}/documents/{document_id}",
-    procurementMethodType="aboveThresholdUA",
-    description="Tender award documents",
-)
+# @optendersresource(
+#     name="aboveThresholdUA:Tender Award Documents",
+#     collection_path="/tenders/{tender_id}/awards/{award_id}/documents",
+#     path="/tenders/{tender_id}/awards/{award_id}/documents/{document_id}",
+#     procurementMethodType="aboveThresholdUA",
+#     description="Tender award documents",
+# )
 class TenderUaAwardDocumentResource(TenderAwardDocumentResource):
     @json_view(
         validators=(

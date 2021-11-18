@@ -1314,7 +1314,7 @@ X-Content-Type-Options: nosniff
     },
     "awards": [
       {
-        "id": "620dd14020b6435c8c613e84c285914f",
+        "id": "2bef142c8e064f96a734caccd8b89ae0",
         "status": "active",
         "date": "2021-03-16T00:00:00+02:00",
         "suppliers": [
@@ -1385,7 +1385,7 @@ X-Content-Type-Options: nosniff
     ],
     "contracts": [
       {
-        "id": "3949a5798dc343c49a7021f7363ae6e0",
+        "id": "50fd544f07894953927212c4e2a4cb9c",
         "contractID": "UA-2021-03-16-000001-1",
         "contractNumber": "contract#1",
         "status": "pending",
@@ -1418,7 +1418,7 @@ X-Content-Type-Options: nosniff
           }
         ],
         "date": "2021-03-16T00:00:00+02:00",
-        "awardID": "620dd14020b6435c8c613e84c285914f",
+        "awardID": "2bef142c8e064f96a734caccd8b89ae0",
         "documents": [
           {
             "id": "684c8d2eb94141d79dbe3d4d2eee7ae6",

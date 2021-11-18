@@ -4,7 +4,8 @@ from openprocurement.tender.core.procedure.serializers.auction import (
     AuctionSerializer as BaseAuctionSerializer,
 )
 from openprocurement.tender.core.procedure.serializers.feature import FeatureSerializer
-from openprocurement.tender.esco.procedure.serializers.bid import BidSerializer, bid_value_to_float
+from openprocurement.tender.esco.procedure.serializers.bid import BidSerializer
+from openprocurement.tender.esco.procedure.serializers.value import ValueSerializer
 from decimal import Decimal
 
 
@@ -37,7 +38,7 @@ class AuctionBidSerializer(BidSerializer):
 
 class AuctionAwardSerializer(BaseSerializer):
     serializers = {
-        "value": bid_value_to_float,
+        "value": ValueSerializer,
     }
 
 

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/2093f4e9bf3a4d7eb82c15d9c5321604/awards/d56814f82c4a49deabda4d947264d2f5?acc_token=9bfc00e9aaf843b5abd64a61388484b1 HTTP/1.0
+PATCH /api/2.5/tenders/2093f4e9bf3a4d7eb82c15d9c5321604/awards/47631e11049e4bb0bfb9799016019797?acc_token=9bfc00e9aaf843b5abd64a61388484b1 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 4255
 Content-Type: application/json
@@ -18,7 +18,7 @@ DATA:
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "c65147a94df44da6b69e8e9069817647",
+              "id": "6bd7284745554a92a8eb69543466fd40",
               "title": "name.doc"
             },
             "type": "document"
@@ -37,7 +37,7 @@ DATA:
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "c65147a94df44da6b69e8e9069817647",
+              "id": "6bd7284745554a92a8eb69543466fd40",
               "title": "name.doc"
             },
             "type": "document"
@@ -54,7 +54,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "d56814f82c4a49deabda4d947264d2f5",
+    "id": "47631e11049e4bb0bfb9799016019797",
     "status": "pending",
     "date": "2021-03-16T00:00:00+02:00",
     "value": {
@@ -66,9 +66,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "ДКП «Книга»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137226",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137226"
         },
         "address": {
           "streetAddress": "вул. Островського, 34",
@@ -78,16 +78,30 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Андрій Олексюк",
           "email": "aagt@gmail.com",
-          "telephone": "+380322916930"
+          "telephone": "+380322916930",
+          "name": "Андрій Олексюк"
         },
         "scale": "sme"
       }
     ],
+    "bid_id": "22f95e7fc7ab4aa79280df3421304688",
+    "documents": [
+      {
+        "id": "6bd7284745554a92a8eb69543466fd40",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "name.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3cf57765098c49819ecff4f12286d56c?Signature=WqJnPucg6uXIzJnh5ontPpNqXoiHKwOUZj1EeVdoGYNJmFJJs%2FdUmA0R9p4n5M2hEAQjx1jXGMgWWWNWRjHsCw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:00+02:00",
+        "author": "brokers"
+      }
+    ],
     "requirementResponses": [
       {
-        "id": "9945e981b87c4c9fb2047e74e93a371f",
+        "id": "d71b5d17b34847c3b5a564afaa2914e9",
         "title": "Requirement response 1",
         "description": "some description",
         "requirement": {
@@ -96,11 +110,11 @@ X-Content-Type-Options: nosniff
         },
         "evidences": [
           {
-            "id": "f76960ecd7a1427186771cbb9f1bff5a",
+            "id": "57ca29296bf440c5bf974fae91a51a8b",
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "c65147a94df44da6b69e8e9069817647",
+              "id": "6bd7284745554a92a8eb69543466fd40",
               "title": "name.doc"
             }
           }
@@ -108,7 +122,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "1e11461b381642cab025eaa6fdfcc82e",
+        "id": "93c409ee4410438bb3e327366f5026d5",
         "title": "Requirement response 2",
         "description": "some description",
         "requirement": {
@@ -117,31 +131,16 @@ X-Content-Type-Options: nosniff
         },
         "evidences": [
           {
-            "id": "155b3976058849a7b17f918e3b34a5b0",
+            "id": "194e9ea8dbe94411898e8284a97de82d",
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "c65147a94df44da6b69e8e9069817647",
+              "id": "6bd7284745554a92a8eb69543466fd40",
               "title": "name.doc"
             }
           }
         ],
         "value": "True"
-      }
-    ],
-    "bid_id": "22f95e7fc7ab4aa79280df3421304688",
-    "documents": [
-      {
-        "id": "c65147a94df44da6b69e8e9069817647",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "name.doc",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3cf57765098c49819ecff4f12286d56c?Signature=WqJnPucg6uXIzJnh5ontPpNqXoiHKwOUZj1EeVdoGYNJmFJJs%2FdUmA0R9p4n5M2hEAQjx1jXGMgWWWNWRjHsCw%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
-        "author": "tender_owner",
-        "documentOf": "tender",
-        "language": "uk"
       }
     ]
   }

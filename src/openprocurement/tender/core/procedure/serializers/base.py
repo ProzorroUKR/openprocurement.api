@@ -1,3 +1,5 @@
+from openprocurement.api.utils import to_decimal
+
 
 def evaluate_serializer(serializer, value, obj=None):
     if type(serializer).__name__ == "function":
@@ -64,3 +66,7 @@ class BaseUIDSerializer(BaseSerializer):
         data = super().data
         data["id"] = data.pop("_id")
         return data
+
+
+def decimal_serializer(_, value):
+    return to_decimal(value)

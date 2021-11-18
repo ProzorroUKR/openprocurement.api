@@ -97,7 +97,7 @@ class TenderAuctionResource(TenderBaseResource):
         if updated:
             self.request.validated["tender"] = tender = updated
 
-        self.state.add_next_award(self.request)
+        self.state.add_next_award()
         auction_period = self.get_auction_period()
         tender["auctionPeriod"].update(auction_period)
 
@@ -140,7 +140,7 @@ class TenderAuctionResource(TenderBaseResource):
                 if i["status"] == "active" and self.state.count_lot_bids_number(tender, i["id"]) > 1
         ):
             cleanup_bids_for_cancelled_lots(tender)
-            self.state.add_next_award(self.request)
+            self.state.add_next_award()
 
         self.state.on_patch(self.request.validated["tender_src"], self.request.validated["tender"])
         if save_tender(self.request):

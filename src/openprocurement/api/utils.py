@@ -873,7 +873,7 @@ def to_decimal(value):
     """
     if isinstance(value, Decimal):
         return value
-    if isinstance(value, int):
+    if isinstance(value, int) or isinstance(value, str):
         return Decimal(value)
     if isinstance(value, float):
         return Decimal(repr(value))

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.api.constants import GUARANTEE_ALLOWED_TENDER_TYPES

@@ -88,11 +88,14 @@ def tender_award_complaint_period(
 
 
 # TenderAwardResourceTest
-
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.procedure.state.award.NEW_DEFENSE_COMPLAINTS_FROM",
+       get_now() + timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.procedure.state.tender.NEW_DEFENSE_COMPLAINTS_FROM",
+       get_now() + timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO",
+       get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.procedure.state.tender.NEW_DEFENSE_COMPLAINTS_TO",
+       get_now() + timedelta(days=100))
 def check_tender_award_complaint_period_dates_before_new(self):
     auth = self.app.authorization
     self.app.authorization = ("Basic", ("token", ""))
@@ -138,20 +141,23 @@ def check_tender_award_complaint_period_dates_before_new(self):
     self.assertIn("endDate", updated_award["complaintPeriod"])
 
 
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.procedure.state.award.NEW_DEFENSE_COMPLAINTS_FROM",
+       get_now() - timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.procedure.state.tender.NEW_DEFENSE_COMPLAINTS_FROM",
+       get_now() - timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO",
+       get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.procedure.state.tender.NEW_DEFENSE_COMPLAINTS_TO",
+       get_now() - timedelta(days=1))
 def check_tender_award_complaint_period_dates_after_new(self):
     return check_tender_award_complaint_period_dates_before_new(self)
 
 
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.procedure.state.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.procedure.state.tender.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.procedure.state.tender.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
 def check_tender_award_complaint_period_dates_new(self):
-    auth = self.app.authorization
     self.app.authorization = ("Basic", ("token", ""))
     request_path = "/tenders/{}/awards".format(self.tender_id)
     response = self.app.post_json(
@@ -329,31 +335,31 @@ def patch_tender_award_active(self):
     self.assertEqual(len(response.json["data"]), 4)
 
 
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.procedure.state.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.procedure.state.tender.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.procedure.state.tender.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
 @patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
 def patch_tender_award_active_before_new(self):
     return patch_tender_award_active(self)
 
 
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.procedure.state.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.procedure.state.tender.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
 @patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.procedure.state.tender.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
 def patch_tender_award_active_after_new(self):
     return patch_tender_award_active(self)
 
 
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.procedure.state.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.procedure.state.tender.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.procedure.state.tender.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
 @patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
 def patch_tender_award_active_new(self):
     return patch_tender_award_active(self)
@@ -484,31 +490,31 @@ def patch_tender_award_unsuccessful(self):
     self.assertEqual(len(response.json["data"]), 4)
 
 
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.procedure.state.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.procedure.state.tender.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.procedure.state.tender.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
 @patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
 def patch_tender_award_unsuccessful_before_new(self):
     return patch_tender_award_unsuccessful(self)
 
 
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.procedure.state.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.procedure.state.tender.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
 @patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.procedure.state.tender.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
 def patch_tender_award_unsuccessful_after_new(self):
     return patch_tender_award_unsuccessful(self)
 
 
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.procedure.state.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.procedure.state.tender.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.procedure.state.tender.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
 @patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
 def patch_tender_award_unsuccessful_new(self):
     return patch_tender_award_unsuccessful(self)
@@ -651,11 +657,11 @@ def patch_tender_lot_award_unsuccessful(self):
     self.assertEqual(len(response.json["data"]), 4)
 
 
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.procedure.state.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.procedure.state.tender.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.procedure.state.tender.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
 @patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
 @patch("openprocurement.tender.openuadefense.validation.NO_DEFENSE_AWARD_CLAIMS_FROM", get_now() + timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.tests.award_blanks.NO_DEFENSE_AWARD_CLAIMS_FROM", get_now() + timedelta(days=1))
@@ -663,11 +669,11 @@ def patch_tender_lot_award_unsuccessful_before_new(self):
     return patch_tender_lot_award_unsuccessful(self)
 
 
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.procedure.state.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.procedure.state.tender.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
 @patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=100))
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.procedure.state.tender.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_TO", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.validation.NO_DEFENSE_AWARD_CLAIMS_FROM", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.tests.award_blanks.NO_DEFENSE_AWARD_CLAIMS_FROM", get_now() - timedelta(days=1))
@@ -675,11 +681,11 @@ def patch_tender_lot_award_unsuccessful_after_new(self):
     return patch_tender_lot_award_unsuccessful(self)
 
 
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.procedure.state.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.procedure.state.tender.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
-@patch("openprocurement.tender.openuadefense.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.procedure.state.tender.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
 @patch("openprocurement.tender.openuadefense.tests.award_blanks.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
 @patch("openprocurement.tender.openuadefense.validation.NO_DEFENSE_AWARD_CLAIMS_FROM", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.openuadefense.tests.award_blanks.NO_DEFENSE_AWARD_CLAIMS_FROM", get_now() - timedelta(days=1))
@@ -690,8 +696,8 @@ def patch_tender_lot_award_unsuccessful_new(self):
 # TenderAwardComplaintResourceTest
 
 @patch("openprocurement.tender.openuadefense.validation.NO_DEFENSE_AWARD_CLAIMS_FROM", get_now() + timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
-@patch("openprocurement.tender.openuadefense.views.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+@patch("openprocurement.tender.openuadefense.procedure.state.award.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.openuadefense.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
 def create_tender_award_claim(self):
     return create_tender_award_claim_ua(self)
 

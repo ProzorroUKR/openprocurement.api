@@ -4,6 +4,7 @@ from schematics.types import (
     URLType,
     BaseType,
     EmailType,
+    FloatType,
 )
 from schematics.transforms import export_loop
 from schematics.types.compound import ModelType as BaseModelType,  ListType as BaseListType
@@ -19,6 +20,8 @@ from openprocurement.api.constants import (
     COUNTRIES,
     UA_REGIONS,
     VALIDATE_ADDRESS_FROM,
+    VALIDATE_CURRENCY_FROM,
+    CURRENCIES,
 )
 from decimal import Decimal
 from logging import getLogger
@@ -176,6 +179,10 @@ class PostIdentifier(PatchIdentifier):
     id = BaseType(required=True)
 
 
+class Identifier(PostIdentifier):
+    pass
+
+
 class PatchOrganization(Model):
     name = StringType()
     name_en = StringType()
@@ -192,6 +199,10 @@ class PostOrganization(PatchOrganization):
     additionalIdentifiers = ListType(ModelType(PostIdentifier))
     address = ModelType(PostAddress, required=True)
     contactPoint = ModelType(PostContactPoint, required=True)
+
+
+class Organization(PostOrganization):
+    pass
 
 
 class PatchBusinessOrganization(PatchOrganization):
@@ -214,6 +225,10 @@ class BaseBid(Model):
     pass
 
 
+class BaseAward(Model):
+    pass
+
+
 def validate_object_id_uniq(objs, *args):
     if objs:
         obj_name = objs[0].__class__.__name__
@@ -221,3 +236,13 @@ def validate_object_id_uniq(objs, *args):
         ids = [i.id for i in objs]
         if [i for i in set(ids) if ids.count(i) > 1]:
             raise ValidationError("{} id should be uniq for all {}s".format(obj_name, obj_name_multiple))
+
+
+class Guarantee(Model):
+    amount = FloatType(required=True, min_value=0)  # Amount as a number.
+    currency = StringType(required=True, default="UAH", max_length=3, min_length=3)  # 3-letter ISO 4217 format.
+
+    def validate_currency(self, data, value):
+        is_valid_date = get_first_revision_date(get_tender(), default=get_now()) >= VALIDATE_CURRENCY_FROM
+        if is_valid_date and value not in CURRENCIES:
+            raise ValidationError(f"Currency must be only {', '.join(CURRENCIES)}.")

@@ -74,7 +74,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
                     "bid_id": bid["id"],
                     "value": bid["value"],
                     "date": awardPeriod_startDate,
-                    "documents": [],
+                    # "documents": [],
                     "id": id_,
                 }
                 self.tender_document_patch["awards"].append(award)

@@ -40,13 +40,11 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/378a1443b2704a2e9f13816acfe5898f/awards/53db061080344f04a635da34f911ca1e
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/378a1443b2704a2e9f13816acfe5898f/awards/f44436fd825440d78a99dd57365363a3
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "53db061080344f04a635da34f911ca1e",
     "status": "pending",
-    "date": "2021-03-16T00:00:00+02:00",
     "value": {
       "amount": 475000.0,
       "currency": "UAH",
@@ -56,9 +54,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "ДКП «Школяр»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137256",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137256"
         },
         "address": {
           "streetAddress": "вул. Островського, 33",
@@ -68,13 +66,15 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
         },
         "scale": "micro"
       }
-    ]
+    ],
+    "id": "f44436fd825440d78a99dd57365363a3",
+    "date": "2021-03-16T00:00:00+02:00"
   }
 }
 

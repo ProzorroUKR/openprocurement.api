@@ -51,7 +51,7 @@ class TenderAuctionResource(TenderAuctionResource):
             for i in tender["lots"]
             if i["status"] == "active" and self.state.count_lot_bids_number(tender, i["id"]) > 1
         ):
-            self.state.add_next_award(self.request)
+            self.state.add_next_award()
 
         self.state.on_patch(self.request.validated["tender_src"], self.request.validated["tender"])
         if save_tender(self.request):

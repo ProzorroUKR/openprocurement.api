@@ -19,13 +19,13 @@ from openprocurement.tender.core.utils import (
 from openprocurement.tender.openua.constants import STAND_STILL_TIME
 
 
-@optendersresource(
-    name="aboveThresholdUA:Tender Awards",
-    collection_path="/tenders/{tender_id}/awards",
-    path="/tenders/{tender_id}/awards/{award_id}",
-    description="Tender awards",
-    procurementMethodType="aboveThresholdUA",
-)
+# @optendersresource(
+#     name="aboveThresholdUA:Tender Awards",
+#     collection_path="/tenders/{tender_id}/awards",
+#     path="/tenders/{tender_id}/awards/{award_id}",
+#     description="Tender awards",
+#     procurementMethodType="aboveThresholdUA",
+# )
 class TenderUaAwardResource(TenderAwardResource):
 
     def pre_save(self):
@@ -51,62 +51,6 @@ class TenderUaAwardResource(TenderAwardResource):
         ),
     )
     def patch(self):
-        """Update of award
-
-        Example request to change the award:
-
-        .. sourcecode:: http
-
-            PATCH /tenders/4879d3f8ee2443169b5fbbc9f89fa607/awards/71b6c23ed8944d688e92a31ec8c3f61a HTTP/1.1
-            Host: example.com
-            Accept: application/json
-
-            {
-                "data": {
-                    "value": {
-                        "amount": 600
-                    }
-                }
-            }
-
-        And here is the response to be expected:
-
-        .. sourcecode:: http
-
-            HTTP/1.0 200 OK
-            Content-Type: application/json
-
-            {
-                "data": {
-                    "id": "4879d3f8ee2443169b5fbbc9f89fa607",
-                    "date": "2014-10-28T11:44:17.947Z",
-                    "status": "active",
-                    "suppliers": [
-                        {
-                            "id": {
-                                "name": "Державне управління справами",
-                                "scheme": "https://ns.openprocurement.org/ua/edrpou",
-                                "uid": "00037256",
-                                "uri": "http://www.dus.gov.ua/"
-                            },
-                            "address": {
-                                "countryName": "Україна",
-                                "postalCode": "01220",
-                                "region": "м. Київ",
-                                "locality": "м. Київ",
-                                "streetAddress": "вул. Банкова, 11, корпус 1"
-                            }
-                        }
-                    ],
-                    "value": {
-                        "amount": 600,
-                        "currency": "UAH",
-                        "valueAddedTaxIncluded": true
-                    }
-                }
-            }
-
-        """
         tender = self.request.validated["tender"]
         award = self.request.context
         award_status = award.status

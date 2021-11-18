@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/27449ba567ee4755b723fd5d2248425f/contracts/bc96d4718f344a19ad7cb5e90058a98e?acc_token=09fb3db5c4b0423685f58a6cf7176e7b HTTP/1.0
+PATCH /api/2.5/tenders/27449ba567ee4755b723fd5d2248425f/contracts/e4738aed3ffb4fb987bfb759fc0ee71b?acc_token=09fb3db5c4b0423685f58a6cf7176e7b HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 53
 Content-Type: application/json
@@ -18,7 +18,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "bc96d4718f344a19ad7cb5e90058a98e",
+    "id": "e4738aed3ffb4fb987bfb759fc0ee71b",
     "buyerID": "11111111111111111111111111111111",
     "contractID": "UA-2021-03-16-000001-1",
     "status": "pending",
@@ -52,7 +52,7 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true,
       "amountNet": 95.0
     },
-    "awardID": "6e00b18367e449c1a33be1e7f6595005",
+    "awardID": "42bede1bbad64dabbd9f67ce4a5b2ba9",
     "items": [
       {
         "id": "dccbebb04f7945a5a9913d5017709e45",

@@ -176,6 +176,7 @@ class Tender2LotAwardResourceTest(BaseTenderUAContentWebTest):
 class TenderAwardPendingResourceTestCase(BaseTenderUAContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_bids
+    docservice = True
 
     def setUp(self):
         super(TenderAwardPendingResourceTestCase, self).setUp()
@@ -312,10 +313,15 @@ class TenderAwardRequirementResponsEvidenceResourceTest(
         self.assertEqual(response.content_type, "application/json")
         self.rr_id = response.json["data"][0]["id"]
 
-        response = self.app.post(
+        response = self.app.post_json(
             "/tenders/{}/awards/{}/documents?acc_token={}".format(
                 self.tender_id, self.award_id, self.tender_token),
-            upload_files=[("file", "name.doc", b"content")],
+            {"data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")

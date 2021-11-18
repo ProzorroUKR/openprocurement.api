@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/awards/6c34dbdc51ab4911a3ec8b3e6198d4e4?acc_token=fbb49b806b484733bc09390b0e01078d HTTP/1.0
+PATCH /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/awards/bd36af15721f42bbb07fbdfb809d97be?acc_token=fbb49b806b484733bc09390b0e01078d HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 67
 Content-Type: application/json
@@ -17,16 +17,21 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "6c34dbdc51ab4911a3ec8b3e6198d4e4",
+    "id": "bd36af15721f42bbb07fbdfb809d97be",
     "status": "active",
     "date": "2021-03-16T00:00:00+02:00",
+    "value": {
+      "amount": 485.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "suppliers": [
       {
         "name": "«Снігур»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137227",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137227"
         },
         "address": {
           "streetAddress": "вул. Островського, 35",
@@ -36,9 +41,9 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Іван Іваненко",
           "email": "fake@mail.com",
-          "telephone": "+380322123456"
+          "telephone": "+380322123456",
+          "name": "Іван Іваненко"
         },
         "scale": "mid"
       }
@@ -46,12 +51,7 @@ X-Content-Type-Options: nosniff
     "bid_id": "f2396c5eb7dc40e986705a3de1cdc13b",
     "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
     "qualified": true,
-    "eligible": true,
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amount": 485
-    }
+    "eligible": true
   }
 }
 

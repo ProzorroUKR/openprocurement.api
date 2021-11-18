@@ -80,6 +80,7 @@ class TenderLotAwardCheckResourceTest(TenderContentWebTest, TenderLotAwardCheckR
     # initial_bids[2]['tenderers'][0]['identifier']['id'] = u'44437256'
     reverse = TenderCfaSelectionUAConfigurator.reverse_awarding_criteria
     awarding_key = TenderCfaSelectionUAConfigurator.awarding_criteria_key
+    docservice = True
 
     def setUp(self):
         super(TenderLotAwardCheckResourceTest, self).setUp()
@@ -104,6 +105,7 @@ class TenderLotAwardResourceTest(TenderContentWebTest):
     initial_status = "active.qualification"
     initial_lots = test_lots
     initial_bids = test_bids
+    docservice = True
 
     test_create_tender_lot_award = snitch(create_tender_lot_award)
     test_patch_tender_lot_award = snitch(patch_tender_lot_award)
@@ -116,6 +118,7 @@ class Tender2LotAwardResourceTest(TenderContentWebTest):
     initial_status = "active.qualification"
     initial_lots = 2 * test_lots
     initial_bids = test_bids
+    docservice = True
 
     test_create_tender_lots_award = snitch(create_tender_lots_award)
     test_patch_tender_lots_award = snitch(patch_tender_lots_award)
@@ -125,6 +128,7 @@ class TenderAwardDocumentResourceTest(TenderContentWebTest, TenderAwardDocumentR
     initial_status = "active.qualification"
     initial_bids = test_bids
     initial_lots = test_lots
+    docservice = True
 
 
 class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):

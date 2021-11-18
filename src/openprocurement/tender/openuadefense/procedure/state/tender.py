@@ -219,7 +219,7 @@ class OpenUADefenseTenderState(DefenseTenderStateAwardingMixing, TenderState):
                                 bid["status"] = "unsuccessful"
 
             if max_bid_number == 1:
-                self.add_next_award(get_request())
+                self.add_next_award()
 
             # should be moved to tender_status_check ?
             if not set(i["status"] for i in tender["lots"]).difference({"unsuccessful", "cancelled"}):
@@ -233,6 +233,6 @@ class OpenUADefenseTenderState(DefenseTenderStateAwardingMixing, TenderState):
                         del tender["auctionPeriod"]
 
                 if bid_number == 1:
-                    self.add_next_award(get_request())
+                    self.add_next_award()
                 else:
                     self.get_change_tender_status_handler("unsuccessful")(tender)

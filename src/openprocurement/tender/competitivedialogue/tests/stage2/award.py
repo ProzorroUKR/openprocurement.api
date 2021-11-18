@@ -75,7 +75,6 @@ from openprocurement.tender.competitivedialogue.tests.stage2.award_blanks import
     # TenderAwardResourseTest UA
     create_tender_award_invalid,
     get_tender_award,
-    patch_tender_award_Administrator_change,
     # TenderAwardComplaintDocumentResourceTest
     patch_tender_award_complaint_document,
 )
@@ -91,6 +90,7 @@ class TenderStage2EUAwardResourceTest(BaseCompetitiveDialogEUStage2ContentWebTes
     initial_lots = test_lots
     initial_auth = ("Basic", ("broker", ""))
     expected_award_amount = initial_bids[0]["value"]["amount"]
+    docservice = True
 
     def setUp(self):
         """ Create tender with lots add 2 bids, play auction and get award """
@@ -150,6 +150,7 @@ class TenderStage2EULotAwardResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
     initial_lots = test_lots
     initial_auth = ("Basic", ("broker", ""))
     expected_award_amount = test_bids[0]["value"]["amount"]
+    docservice = True
 
     def setUp(self):
         super(TenderStage2EULotAwardResourceTest, self).setUp()
@@ -208,6 +209,7 @@ class TenderStage2EU2LotAwardResourceTest(
     initial_lots = deepcopy(2 * test_lots)
     initial_bids = test_tender_bids
     initial_auth = ("Basic", ("broker", ""))
+    docservice = True
 
     def setUp(self):
         super(TenderStage2EU2LotAwardResourceTest, self).setUp()
@@ -267,6 +269,7 @@ class TenderStage2EUAwardComplaintResourceTest(
     initial_bids = test_tender_bids
     initial_lots = deepcopy(2 * test_lots)
     initial_auth = ("Basic", ("broker", ""))
+    docservice = True
 
     def setUp(self):
         super(TenderStage2EUAwardComplaintResourceTest, self).setUp()
@@ -331,6 +334,7 @@ class TenderStage2EULotAwardComplaintResourceTest(
     initial_lots = deepcopy(test_lots)
     initial_bids = test_tender_bids
     initial_auth = ("Basic", ("broker", ""))
+    docservice = True
 
     def setUp(self):
         super(TenderStage2EULotAwardComplaintResourceTest, self).setUp()
@@ -415,6 +419,7 @@ class TenderStage2EUAwardComplaintDocumentResourceTest(
 ):
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
+    docservice = True
 
     def setUp(self):
         super(TenderStage2EUAwardComplaintDocumentResourceTest, self).setUp()
@@ -446,6 +451,7 @@ class TenderStage2EU2LotAwardComplaintDocumentResourceTest(BaseCompetitiveDialog
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
     initial_lots = deepcopy(2 * test_lots)
+    docservice = True
 
     def setUp(self):
         super(TenderStage2EU2LotAwardComplaintDocumentResourceTest, self).setUp()
@@ -501,15 +507,16 @@ class TenderStage2EUAwardDocumentResourceTest(
 ):
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
+    docservice = True
 
     def setUp(self):
         super(TenderStage2EUAwardDocumentResourceTest, self).setUp()
         # Create award
-        self.app.authorization = ("Basic", ("token", ""))
-        response = self.app.post_json(
-            "/tenders/{}/awards".format(self.tender_id),
-            {"data": {"suppliers": [test_tenderer], "status": "pending", "bid_id": self.bids[0]["id"]}},
-        )
+        with change_auth(self.app, ("Basic", ("token", ""))):
+            response = self.app.post_json(
+                "/tenders/{}/awards".format(self.tender_id),
+                {"data": {"suppliers": [test_tenderer], "status": "pending", "bid_id": self.bids[0]["id"]}},
+            )
         award = response.json["data"]
         self.award_id = award["id"]
 
@@ -520,23 +527,24 @@ class TenderStage2EU2LotAwardDocumentResourceTest(
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
     initial_lots = deepcopy(2 * test_lots)
+    docservice = True
 
     def setUp(self):
         super(TenderStage2EU2LotAwardDocumentResourceTest, self).setUp()
         # Create award
         bid = self.bids[0]
-        self.app.authorization = ("Basic", ("token", ""))
-        response = self.app.post_json(
-            "/tenders/{}/awards".format(self.tender_id),
-            {
-                "data": {
-                    "suppliers": [test_tenderer],
-                    "status": "pending",
-                    "bid_id": bid["id"],
-                    "lotID": bid["lotValues"][0]["relatedLot"],
-                }
-            },
-        )
+        with change_auth(self.app, ("Basic", ("token", ""))):
+            response = self.app.post_json(
+                "/tenders/{}/awards".format(self.tender_id),
+                {
+                    "data": {
+                        "suppliers": [test_tenderer],
+                        "status": "pending",
+                        "bid_id": bid["id"],
+                        "lotID": bid["lotValues"][0]["relatedLot"],
+                    }
+                },
+            )
         award = response.json["data"]
         self.award_id = award["id"]
 
@@ -554,7 +562,6 @@ class TenderStage2UAAwardResourceTest(BaseCompetitiveDialogUAStage2ContentWebTes
     test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
     test_create_tender_award_invalid = snitch(create_tender_award_invalid)
     test_get_tender_award = snitch(get_tender_award)
-    test_patch_tender_award_Administrator_change = snitch(patch_tender_award_Administrator_change)
 
 
 class TenderStage2UALotAwardResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
@@ -579,6 +586,7 @@ class TenderStage2UA2LotAwardResourceTest(BaseCompetitiveDialogUAStage2ContentWe
 class BaseTenderUAAwardPendingTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
+    docservice = True
 
     def setUp(self):
         super(BaseTenderUAAwardPendingTest, self).setUp()
@@ -657,6 +665,7 @@ class TenderStage2UAAwardComplaintDocumentResourceTest(
 
 class TenderStage2UA2LotAwardComplaintDocumentResourceTest(BaseTenderUAAwardActiveTest):
     initial_lots = deepcopy(2 * test_lots)
+    docservice = True
 
     def setUp(self):
         super(TenderStage2UA2LotAwardComplaintDocumentResourceTest, self).setUp()
@@ -680,14 +689,14 @@ class TenderStage2UA2LotAwardComplaintDocumentResourceTest(BaseTenderUAAwardActi
 class TenderStage2UAAwardDocumentResourceTest(
     BaseTenderUAAwardPendingTest, TenderAwardDocumentResourceTestMixin
 ):
-    pass
+    docservice = True
 
 
 class TenderStage2UA2LotAwardDocumentResourceTest(
     BaseTenderUAAwardPendingTest, Tender2LotAwardDocumentResourceTestMixin
 ):
     initial_lots = deepcopy(2 * test_lots)
-    pass
+    docservice = True
 
 
 def suite():

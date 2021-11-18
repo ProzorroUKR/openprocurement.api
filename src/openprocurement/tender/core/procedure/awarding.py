@@ -1,5 +1,5 @@
 from openprocurement.tender.core.procedure.models.award import Award
-from openprocurement.tender.core.procedure.context import get_now, get_request
+from openprocurement.tender.core.procedure.context import get_now, get_request, get_tender
 from openprocurement.tender.core.procedure.utils import get_first_revision_date
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import context_unpack
@@ -9,7 +9,6 @@ from openprocurement.tender.core.constants import (
 )
 from jsonpointer import JsonPointerException
 from jsonpatch import JsonPatchException, apply_patch as apply_json_patch
-from functools import partial
 from barbecue import chef
 from decimal import Decimal
 from copy import deepcopy
@@ -229,7 +228,9 @@ def tender_append_award(tender, award_class, bid, all_bids, lot_id=None):
         award_data["weightedValue"] = bid["weightedValue"]
     # append an "alp" milestone if it's the case
     if hasattr(award_class, "milestones"):
-        award_data["milestones"] = prepare_award_milestones(tender, bid, all_bids, lot_id)
+        milestones = prepare_award_milestones(tender, bid, all_bids, lot_id)
+        if milestones:
+            award_data["milestones"] = milestones
 
     if "awards" not in tender:
         tender["awards"] = []
@@ -252,8 +253,8 @@ class TenderStateAwardingMixing:
     award_class = Award
     get_change_tender_status_handler: callable
 
-    def add_next_award(self, request):
-        tender = request.validated["tender"]
+    def add_next_award(self):
+        tender = get_tender()
         now = get_now()
 
         tender["awardPeriod"] = award_period = tender.get("awardPeriod", {})
@@ -278,6 +279,7 @@ class TenderStateAwardingMixing:
                     bids = exclude_unsuccessful_awarded_bids(tender, all_bids, lot_id=lot["id"])
                     if bids:
                         tender_append_award(tender, self.award_class, bids[0], all_bids, lot_id=lot["id"])
+                        request = get_request()
                         request.response.headers["Location"] = request.route_url(
                             "{}:Tender Awards".format(tender["procurementMethodType"]),
                             tender_id=tender["_id"],
@@ -305,6 +307,7 @@ class TenderStateAwardingMixing:
                 bids = exclude_unsuccessful_awarded_bids(tender, all_bids, lot_id=None)
                 if bids:
                     tender_append_award(tender, self.award_class, bids[0], all_bids)
+                    request = get_request()
                     request.response.headers["Location"] = request.route_url(
                         "{}:Tender Awards".format(tender["procurementMethodType"]),
                         tender_id=tender["_id"],

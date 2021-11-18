@@ -38,16 +38,12 @@ class BaseESCOValue(Value):
     annualCostsReduction = ListType(DecimalType())  # Buyer's annual costs reduction
     contractDuration = ModelType(ContractDuration)
 
-    def validate_annualCostsReduction(self, data, value):
-        if len(value) != 21:
-            raise ValidationError("annual costs reduction should be set for 21 period")
-
 
 class PatchESCOValue(BaseESCOValue):
 
     def validate_annualCostsReduction(self, data, value):
-        if value is not None:
-            return super().validate_annualCostsReduction(self, data, value)
+        if value is not None and len(value) != 21:
+            raise ValidationError("annual costs reduction should be set for 21 period")
 
 
 class ESCOValue(BaseESCOValue):

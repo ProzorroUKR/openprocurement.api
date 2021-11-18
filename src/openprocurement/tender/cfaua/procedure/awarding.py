@@ -1,5 +1,5 @@
 from openprocurement.tender.cfaua.procedure.models.award import Award
-from openprocurement.tender.core.procedure.context import get_now
+from openprocurement.tender.core.procedure.context import get_now, get_request
 from openprocurement.tender.core.procedure.awarding import (
     prepare_bids_for_awarding,
     exclude_unsuccessful_awarded_bids,
@@ -7,7 +7,8 @@ from openprocurement.tender.core.procedure.awarding import (
 )
 
 
-def add_next_awards(request, regenerate_all_awards=False, lot_id=None):
+def add_next_awards(regenerate_all_awards=False, lot_id=None):
+    request = get_request()
     tender = request.validated["tender"]
     if not tender.get("awardPeriod"):
         tender["awardPeriod"] = {}

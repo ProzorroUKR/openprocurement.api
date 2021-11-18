@@ -31,13 +31,13 @@ from openprocurement.tender.limited.validation import (
 )
 
 
-@optendersresource(
-    name="reporting:Tender Awards",
-    collection_path="/tenders/{tender_id}/awards",
-    path="/tenders/{tender_id}/awards/{award_id}",
-    description="Tender awards",
-    procurementMethodType="reporting",
-)
+# @optendersresource(
+#     name="reporting:Tender Awards",
+#     collection_path="/tenders/{tender_id}/awards",
+#     path="/tenders/{tender_id}/awards/{award_id}",
+#     description="Tender awards",
+#     procurementMethodType="reporting",
+# )
 class TenderAwardResource(APIResource):
     @json_view(permission="view_tender")
     def collection_get(self):
@@ -334,13 +334,13 @@ class TenderAwardResource(APIResource):
             return {"data": award.serialize("view")}
 
 
-@optendersresource(
-    name="negotiation:Tender Awards",
-    collection_path="/tenders/{tender_id}/awards",
-    path="/tenders/{tender_id}/awards/{award_id}",
-    description="Tender awards",
-    procurementMethodType="negotiation",
-)
+# @optendersresource(
+#     name="negotiation:Tender Awards",
+#     collection_path="/tenders/{tender_id}/awards",
+#     path="/tenders/{tender_id}/awards/{award_id}",
+#     description="Tender awards",
+#     procurementMethodType="negotiation",
+# )
 class TenderNegotiationAwardResource(TenderAwardResource):
     """ Tender Negotiation Award Resource """
 
@@ -535,6 +535,7 @@ class TenderNegotiationAwardResource(TenderAwardResource):
             self.request.errors.add("body", "lotID", "Another award is already using this lotID.")
             self.request.errors.status = 403
             raise error_handler(self.request)
+
         if award_status == "pending" and award.status == "active":
             award.complaintPeriod = {"startDate": now.isoformat(),
                                      "endDate": calculate_complaint_business_date(now, self.stand_still_delta, tender)
@@ -583,13 +584,13 @@ class TenderNegotiationAwardResource(TenderAwardResource):
             return {"data": award.serialize("view")}
 
 
-@optendersresource(
-    name="negotiation.quick:Tender Awards",
-    collection_path="/tenders/{tender_id}/awards",
-    path="/tenders/{tender_id}/awards/{award_id}",
-    description="Tender awards",
-    procurementMethodType="negotiation.quick",
-)
+# @optendersresource(
+#     name="negotiation.quick:Tender Awards",
+#     collection_path="/tenders/{tender_id}/awards",
+#     path="/tenders/{tender_id}/awards/{award_id}",
+#     description="Tender awards",
+#     procurementMethodType="negotiation.quick",
+# )
 class TenderNegotiationQuickAwardResource(TenderNegotiationAwardResource):
     """ Tender Negotiation Quick Award Resource """
 

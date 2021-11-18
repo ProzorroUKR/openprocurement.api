@@ -1,14 +1,23 @@
 from openprocurement.api.utils import raise_operation_error, handle_data_exceptions, error_handler, context_unpack
+from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.validation import (
     validate_json_data,
     _validate_accreditation_level,
     _validate_accreditation_level_mode,
+    OPERATIONS,
 )
 from openprocurement.tender.core.validation import TYPEMAP
-from openprocurement.tender.core.procedure.utils import is_item_owner, apply_data_patch, delete_nones
+from openprocurement.tender.core.procedure.utils import (
+    is_item_owner,
+    apply_data_patch,
+    delete_nones,
+    get_first_revision_date,
+)
 from openprocurement.tender.core.procedure.documents import check_document_batch, check_document, update_document_url
-from openprocurement.tender.core.procedure.context import get_now
+from openprocurement.tender.core.procedure.context import get_now, get_tender, get_request
 from schematics.exceptions import ValidationError
+from pyramid.httpexceptions import HTTPError
+from copy import deepcopy
 from decimal import Decimal
 import logging
 
@@ -152,6 +161,54 @@ def unless_administrator(*validations):
         if request.authenticated_role != "Administrator":
             for validation in validations:
                 validation(request)
+    return decorated
+
+
+def unless_admins(*validations):
+    def decorated(request, **_):
+        if request.authenticated_role != "admins":
+            for validation in validations:
+                validation(request)
+    return decorated
+
+
+def unless_bots(*validations):
+    def decorated(request, **_):
+        if request.authenticated_role != "bots":
+            for validation in validations:
+                validation(request)
+    return decorated
+
+
+def validate_any(*validations):
+    """
+    use case:
+    @json_view(
+        validators=(
+            validate_any(
+                validate_item_owner("tender"),
+                validate_item_owner("bid"),
+            ),
+            ...
+        ),
+        ...
+    )
+    :param validations:
+    :return:
+    """
+    def decorated(request, **_):
+        e = AssertionError("validations list can't be empty")
+        errors_on_start = deepcopy(request.errors)
+        for validation in validations:
+            try:
+                validation(request)
+            except HTTPError as e:
+                pass
+            else:  # on success
+                request.errors = errors_on_start
+                break
+        else:
+            raise e
     return decorated
 
 
@@ -410,4 +467,136 @@ def validate_active_lot(request, **_):
             "Can {} only in active lot status".format(
                 "report auction results" if request.method == "POST" else "update auction urls"
             ),
+        )
+
+
+# award
+def validate_create_award_not_in_allowed_period(request, **kwargs):
+    tender = request.validated["tender"]
+    if tender["status"] != "active.qualification":
+        raise_operation_error(request, f"Can't create award in current ({tender['status']}) tender status")
+
+
+def validate_create_award_only_for_active_lot(request, **kwargs):
+    tender = request.validated["tender"]
+    award = request.validated["data"]
+    if any(lot.get("status") != "active" for lot in tender.get("lots", "")
+           if lot["id"] == award.get("lotID")):
+        raise_operation_error(request, "Can create award only in active lot status")
+
+
+def validate_update_award_in_not_allowed_status(request, **kwargs):
+    tender = request.validated["tender"]
+    if tender["status"] not in ("active.qualification", "active.awarded"):
+        raise_operation_error(request, f"Can't update award in current ({tender['status']}) tender status")
+
+
+def validate_update_award_only_for_active_lots(request, **kwargs):
+    tender = request.validated["tender"]
+    award = request.validated["award"]
+    if any(lot.get("status") != "active" for lot in tender.get("lots", "")
+           if lot.get("id") == award.get("lotID")):
+        raise_operation_error(request, "Can update award only in active lot status")
+
+
+def validate_award_with_lot_cancellation_in_pending(request, **kwargs):
+    if request.authenticated_role != "tender_owner":
+        return
+
+    tender = get_tender()
+    lot_id = request.validated["award"].get("lotID")
+    if not lot_id:
+        return
+
+    tender_created = get_first_revision_date(tender, default=get_now())
+    if tender_created < RELEASE_2020_04_19:
+        return
+
+    accept_lot = all(
+        any(
+            complaint.get("status") == "resolved"
+            for complaint in cancellation["complaints"]
+        )
+        for cancellation in tender.get("cancellations", [])
+        if cancellation.get("status") == "unsuccessful"
+        and cancellation.get("complaints")
+        and cancellation.get("relatedLot") == lot_id
+    )
+    has_lot_pending_cancellations = any(
+        cancellation.get("relatedLot") == lot_id
+        and cancellation.get("status") == "pending"
+        for cancellation in tender.get("cancellations", [])
+    )
+    if (
+        has_lot_pending_cancellations
+        or not accept_lot
+    ):
+        raise_operation_error(
+            request,
+            f"Can't {OPERATIONS.get(request.method)} award with lot that have active cancellation",
+        )
+
+
+def validate_update_award_with_accepted_complaint(request, **kwargs):
+    tender = get_tender()
+    lot_id = request.validated["award"].get("lotID")
+    if any(
+        any(c.get("status") == "accepted"
+            for c in i.get("complaints", ""))
+        for i in tender.get("awards", "")
+        if i.get("lotID") == lot_id
+    ):
+        raise_operation_error(request, "Can't update award with accepted complaint")
+
+
+def validate_update_award_status_before_milestone_due_date(request, **kwargs):
+    from openprocurement.tender.core.models import QualificationMilestone
+    award = request.validated["award"]
+    sent_status = request.json.get("data", {}).get("status")
+    if award.get("status") == "pending" and sent_status != "pending":
+        now = get_now().isoformat()
+        for milestone in award.get("milestones", ""):
+            if (
+                milestone["code"] in (QualificationMilestone.CODE_24_HOURS, QualificationMilestone.CODE_LOW_PRICE)
+                and milestone["date"] <= now <= milestone["dueDate"]
+            ):
+                raise_operation_error(
+                    request,
+                    f"Can't change status to '{sent_status}' until milestone.dueDate: {milestone['dueDate']}"
+                )
+
+
+# AWARD DOCUMENTS
+def validate_award_document_tender_not_in_allowed_status_base(
+    request, allowed_bot_statuses=("active.awarded",), **kwargs
+):
+    allowed_tender_statuses = ["active.qualification"]
+    if request.authenticated_role == "bots":
+        allowed_tender_statuses.extend(allowed_bot_statuses)
+    status = request.validated["tender"]["status"]
+    if status not in allowed_tender_statuses:
+        raise_operation_error(
+            request,
+            f"Can't {OPERATIONS.get(request.method)} document in current ({status}) tender status"
+        )
+
+
+def validate_award_document_lot_not_in_allowed_status(request, **kwargs):
+    award_lot_id = request.validated["award"].get("lotID")
+    if any(
+        i.get("status", "active") != "active"
+        for i in request.validated["tender"].get("lots", "")
+        if i["id"] == award_lot_id
+    ):
+        raise_operation_error(request, f"Can {OPERATIONS.get(request.method)} document only in active lot status")
+
+
+def validate_award_document_author(request, **kwargs):
+    doc_author = request.validated["document"].get("author") or "tender_owner"
+    if request.authenticated_role != doc_author:
+        raise_operation_error(
+            request,
+            "Can update document only author",
+            location="url",
+            name="role",
         )

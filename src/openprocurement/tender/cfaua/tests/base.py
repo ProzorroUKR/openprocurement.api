@@ -158,7 +158,12 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                 bid = deepcopy(meta_bid)
                 if lots:
                     value = bid.pop("value")
-                    bid["lotValues"] = [{"status": "pending", "value": value, "relatedLot": l["id"]} for l in lots]
+                    bid["lotValues"] = [{
+                        "status": "pending",
+                        "value": value,
+                        "relatedLot": l["id"],
+                        "date": (tenderPeriod_startDate + timedelta(seconds=(position + 1))).isoformat(),
+                    } for l in lots]
                 bid.update(
                     {
                         "id": uuid4().hex,

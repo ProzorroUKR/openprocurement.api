@@ -24,13 +24,13 @@ from openprocurement.tender.openuadefense.utils import add_next_award
 from openprocurement.tender.openuadefense.utils import calculate_complaint_business_date
 
 
-@optendersresource(
-    name="aboveThresholdUA.defense:Tender Awards",
-    collection_path="/tenders/{tender_id}/awards",
-    path="/tenders/{tender_id}/awards/{award_id}",
-    description="Tender awards",
-    procurementMethodType="aboveThresholdUA.defense",
-)
+# @optendersresource(
+#     name="aboveThresholdUA.defense:Tender Awards",
+#     collection_path="/tenders/{tender_id}/awards",
+#     path="/tenders/{tender_id}/awards/{award_id}",
+#     description="Tender awards",
+#     procurementMethodType="aboveThresholdUA.defense",
+# )
 class TenderUaAwardResource(TenderAwardResource):
     @json_view(
         content_type="application/json",

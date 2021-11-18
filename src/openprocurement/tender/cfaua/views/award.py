@@ -13,13 +13,13 @@ from openprocurement.tender.cfaua.utils import add_next_awards
 from openprocurement.tender.cfaua.validation import validate_update_award_in_not_allowed_status
 
 
-@optendersresource(
-    name="closeFrameworkAgreementUA:Tender Awards",
-    collection_path="/tenders/{tender_id}/awards",
-    path="/tenders/{tender_id}/awards/{award_id}",
-    description="Tender EU awards",
-    procurementMethodType="closeFrameworkAgreementUA",
-)
+# @optendersresource(
+#     name="closeFrameworkAgreementUA:Tender Awards",
+#     collection_path="/tenders/{tender_id}/awards",
+#     path="/tenders/{tender_id}/awards/{award_id}",
+#     description="Tender EU awards",
+#     procurementMethodType="closeFrameworkAgreementUA",
+# )
 class TenderAwardResource(BaseResource):
     """ EU award resource """
 

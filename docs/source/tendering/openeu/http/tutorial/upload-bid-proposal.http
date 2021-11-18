@@ -22,7 +22,7 @@ X-Content-Type-Options: nosniff
     "hash": "md5:00000000000000000000000000000000",
     "title": "Proposal.pdf",
     "format": "application/pdf",
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/bids/7b97714f142c430b98dd609d94a9e441/documents/9c6c487bd8474272aeeef2b98848640e?download=3436c5b74fae4a6396cb495b38c4a7bf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3436c5b74fae4a6396cb495b38c4a7bf?Signature=xb6zEhLUtq25zw4gaPuLWfObN9WzWu8L0bT1AeU9fbbc85DYWxTWoUVERSTcq7ZE4RhUSV8MsAENb59z0a8XDA%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "confidentiality": "public",
     "language": "uk",

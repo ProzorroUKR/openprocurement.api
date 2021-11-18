@@ -1632,13 +1632,11 @@ def patch_tender_bot(self):
     reasons = set(response.json["data"]["unsuccessfulReason"])
     self.assertFalse(
         reasons.difference(
-            set(
-                [
-                    "agreements[0] status is not active",
-                    "agreements[0] items is not subset of tender items",
-                    "agreements[0] has less than 3 active contracts",
-                ]
-            )
+            {
+                "agreements[0] status is not active",
+                "agreements[0] items is not subset of tender items",
+                "agreements[0] has less than 3 active contracts",
+            }
         )
     )
 

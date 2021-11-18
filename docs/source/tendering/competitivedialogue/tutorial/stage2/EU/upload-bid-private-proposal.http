@@ -22,7 +22,7 @@ X-Content-Type-Options: nosniff
     "hash": "md5:00000000000000000000000000000000",
     "title": "Proposal_top_secrets.pdf",
     "format": "application/pdf",
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/58e27c7c070d4d97b09d73d735ad23aa/documents/5e01113a41914e4d92cdd02641398220?download=0798ddc1fc8c46dd8a2d87c9f95d7a30",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0798ddc1fc8c46dd8a2d87c9f95d7a30?Signature=20AJfOxal2dtOCz4JJxLXz%2FUDNFsjbCPZT527W0cTZ1Ief9CLoyYGbXqyNcEFekRLAHQg5tVz%2Flxff%2Bf0MM4DQ%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "confidentiality": "public",
     "language": "uk",
