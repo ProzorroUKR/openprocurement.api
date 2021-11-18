@@ -14,6 +14,7 @@ from openprocurement.api.constants import (
     GMDN_SCHEME,
     GMDN,
     UNIT_PRICE_REQUIRED_FROM,
+    MULTI_CONTRACTS_REQUIRED_FROM,
 )
 from uuid import uuid4
 
@@ -91,3 +92,27 @@ class Item(Model):
     deliveryLocation = ModelType(Location)
     relatedLot = MD5Type()
     relatedBuyer = MD5Type()
+
+    def validate_relatedBuyer(self, data, related_buyer):
+        if not related_buyer:
+            tender = get_tender()
+            if (
+                tender.get("buyers")
+                and tender.get("status") != "draft"
+                and get_first_revision_date(tender, default=get_now()) >= MULTI_CONTRACTS_REQUIRED_FROM
+            ):
+                raise ValidationError(BaseType.MESSAGES["required"])
+
+    def validate_unit(self, data, value):
+        if not value:
+            tender = get_tender()
+            validation_date = get_first_revision_date(tender, default=get_now())
+            if validation_date >= UNIT_PRICE_REQUIRED_FROM:
+                raise ValidationError(BaseType.MESSAGES["required"])
+
+    def validate_quantity(self, data, value):
+        if value is None:
+            tender = get_tender()
+            validation_date = get_first_revision_date(tender, default=get_now())
+            if validation_date >= UNIT_PRICE_REQUIRED_FROM:
+                raise ValidationError(BaseType.MESSAGES["required"])

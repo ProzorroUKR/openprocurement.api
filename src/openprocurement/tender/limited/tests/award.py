@@ -24,6 +24,7 @@ from openprocurement.tender.limited.tests.base import (
     test_tender_negotiation_quick_data_2items,
 )
 from openprocurement.tender.limited.tests.award_blanks import (
+    get_award_data,
     # TenderAwardDocumentResourceTest
     create_tender_award_document_invalid,
     # TenderNegotiationAwardComplaintDocumentResourceTest
@@ -63,7 +64,6 @@ from openprocurement.tender.limited.tests.award_blanks import (
     create_award_on_cancel_lot,
     patch_award_on_cancel_lot,
     # TenderNegotiationAwardResourceTest
-    patch_tender_award_Administrator_change,
     patch_active_not_qualified,
     create_two_awards_on_one_lot,
     # TenderAwardComplaintResourceTest
@@ -84,6 +84,7 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
     initial_data = test_tender_data
     test_tender_data_local = test_tender_data
     initial_bids = None
+    docservice = True
 
     test_create_tender_award_invalid = snitch(create_tender_award_invalid)
     test_create_tender_award = snitch(create_tender_award)
@@ -101,6 +102,7 @@ class TenderAwardComplaintResourceTest(BaseTenderContentWebTest):
     initial_status = "active"
     initial_data = test_tender_data
     initial_bids = None
+    docservice = True
 
     test_create_tender_award_complaints = snitch(create_tender_award_complaints)
 
@@ -111,7 +113,6 @@ class TenderNegotiationAwardResourceTest(TenderAwardResourceTest):
     test_lots_data = test_lots  # TODO: change attribute identifier
 
     test_check_tender_award_complaint_period_dates = snitch(check_tender_award_complaint_period_dates)
-    test_patch_tender_award_Administrator_change = snitch(patch_tender_award_Administrator_change)
     test_patch_active_not_qualified = snitch(patch_active_not_qualified)
     test_create_two_awards_on_one_lot = snitch(create_two_awards_on_one_lot)
 
@@ -137,6 +138,7 @@ class TenderNegotiationLotAwardResourceTest(TenderAwardResourceTest):
 class TenderNegotiation2LotAwardResourceTest(BaseTenderContentWebTest):
     initial_data = test_tender_negotiation_data
     initial_lots = 2 * test_lots
+    docservice = True
 
     test_patch_tender_lot_award_lots_none = snitch(patch_tender_lot_award_lots_none)
 
@@ -147,6 +149,7 @@ class TenderNegotiationQuickAwardResourceTest(TenderNegotiationAwardResourceTest
 
 class TenderNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
     initial_data = test_tender_negotiation_data
+    docservice = True
 
     def create_award(self):
         # Create award
@@ -385,6 +388,7 @@ class TenderLotNegotiationQuickAwardComplaintResourceTest(TenderLotNegotiationAw
 class TenderNegotiationAwardComplaintDocumentResourceTest(
     BaseTenderContentWebTest, TenderAwardComplaintDocumentResourceTestMixin
 ):
+    docservice = True
     initial_data = test_tender_negotiation_data
 
     def setUp(self):
@@ -423,6 +427,7 @@ class TenderNegotiationQuickAwardComplaintDocumentResourceTest(TenderNegotiation
 
 
 class TenderAwardDocumentResourceTest(BaseTenderContentWebTest, TenderAwardDocumentResourceTestMixin):
+    docservice = True
     initial_status = "active"
     initial_data = test_tender_data
     initial_bids = None
@@ -432,7 +437,7 @@ class TenderAwardDocumentResourceTest(BaseTenderContentWebTest, TenderAwardDocum
         # Create award
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"suppliers": [test_organization], "qualified": True, "status": "pending"}},
+            {"data": get_award_data(self)},
         )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -451,6 +456,7 @@ class TenderAwardNegotiationQuickDocumentResourceTest(TenderAwardNegotiationDocu
 
 
 class TenderLotAwardNegotiationDocumentResourceTest(TenderAwardNegotiationDocumentResourceTest):
+
     def setUp(self):
         super(TenderAwardDocumentResourceTest, self).setUp()
         # Create lot
@@ -471,6 +477,7 @@ class TenderLotAwardNegotiationDocumentResourceTest(TenderAwardNegotiationDocume
 
 
 class TenderLotAwardNegotiationQuickDocumentResourceTest(TenderLotAwardNegotiationDocumentResourceTest):
+    docservice = True
     initial_data = test_tender_negotiation_quick_data
 
 

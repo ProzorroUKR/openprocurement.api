@@ -101,6 +101,7 @@ class Document(BaseDocument):
     url = StringType(required=True)  # Link to the document or attachment.
     documentOf = StringType(required=True, choices=["tender", "item", "lot"], default="tender")
     dateModified = StringType()
+    author = StringType()
 
     def validate_relatedItem(self, data, related_item):
         validate_relatedItem(related_item, data.get("documentOf"))

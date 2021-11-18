@@ -74,7 +74,7 @@ class BelowThresholdTenderState(TenderState):
 
             elif max(self.count_lot_bids_number(tender, i["id"])
                      for i in tender["lots"] if i["status"] == "active") == 1:
-                self.add_next_award(get_request())
+                self.add_next_award()
         else:
             bid_number = self.count_bids_number(tender)
             if bid_number < 2 and tender.get("auctionPeriod", {}).get("startDate"):
@@ -84,7 +84,7 @@ class BelowThresholdTenderState(TenderState):
             if bid_number == 0:
                 self.get_change_tender_status_handler("unsuccessful")(tender)
             if bid_number == 1:
-                self.add_next_award(get_request())
+                self.add_next_award()
         self.check_ignored_claim(tender)
 
     @staticmethod

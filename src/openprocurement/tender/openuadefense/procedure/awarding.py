@@ -1,4 +1,5 @@
 from openprocurement.tender.core.utils import context_unpack
+from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.utils import get_first_revision_date
 from openprocurement.tender.core.procedure.awarding import TenderStateAwardingMixing
 from openprocurement.tender.openuadefense.procedure.settings import BLOCK_COMPLAINT_STATUSES
@@ -10,12 +11,13 @@ LOGGER = getLogger("openprocurement.tender.openuadefense")
 
 class DefenseTenderStateAwardingMixing(TenderStateAwardingMixing):
 
-    def add_next_award(self, request):
-        super().add_next_award(request)
-        process_new_defense_complaints(self, request)
+    def add_next_award(self):
+        super().add_next_award()
+        process_new_defense_complaints(self)
 
 
-def process_new_defense_complaints(state, request):
+def process_new_defense_complaints(state):
+    request = get_request()
     tender = request.validated["tender"]
     first_revision_date = get_first_revision_date(tender)
     new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < first_revision_date < NEW_DEFENSE_COMPLAINTS_TO
@@ -53,7 +55,7 @@ def process_new_defense_complaints(state, request):
                         and awards_no_complaint_periods
                     ):
                         LOGGER.info(
-                            "Switched lot {} of tender {} to {}".format(lot["id"], tender["id"], "unsuccessful"),
+                            "Switched lot {} of tender {} to {}".format(lot["id"], tender["_id"], "unsuccessful"),
                             extra=context_unpack(
                                 request,
                                 {"MESSAGE_ID": "switched_lot_unsuccessful"},
@@ -72,7 +74,7 @@ def process_new_defense_complaints(state, request):
             all(i["status"] not in BLOCK_COMPLAINT_STATUSES
                 for i in tender.get("complaints", "")) and
             all(
-                not a["complaintPeriod"]
+                not a.get("complaintPeriod")
                 for a in tender.get("awards", "")
                 if a["status"] == "unsuccessful"
             )

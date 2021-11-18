@@ -37,7 +37,6 @@ from openprocurement.tender.openeu.tests.award_blanks import (
     # TenderAwardResourceTest
     create_tender_award_invalid,
     get_tender_award,
-    patch_tender_award_Administrator_change,
 )
 from openprocurement.tender.cfaua.tests.base import BaseTenderContentWebTest, test_bids, test_lots
 from openprocurement.tender.cfaua.tests.award_blanks import (
@@ -63,14 +62,13 @@ from openprocurement.tender.cfaua.tests.award_blanks import (
     award_complaint_document_in_active_qualification,
 )
 
-no_lot_logic = True
-
 
 class TenderAwardResourceTest(BaseTenderContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_bids
     initial_auth = ("Basic", ("broker", ""))
     expected_award_amount = test_bids[0]["value"]["amount"]
+    docservice = True
 
     def setUp(self):
         super(TenderAwardResourceTest, self).setUp()
@@ -86,7 +84,6 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
     test_patch_tender_award_active = snitch(patch_tender_award_active)
     test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
     test_get_tender_award = snitch(get_tender_award)
-    test_patch_tender_award_Administrator_change = snitch(patch_tender_award_Administrator_change)
     test_patch_tender_award_in_qualification_st_st = snitch(patch_tender_award_in_qualification_st_st)
 
 
@@ -103,6 +100,7 @@ class TenderLotAwardResourceTest(BaseTenderContentWebTest):
     initial_lots = test_lots
     initial_auth = ("Basic", ("broker", ""))
     expected_award_amount = test_bids[0]["value"]["amount"]
+    docservice = True
 
     def setUp(self):
         super(TenderLotAwardResourceTest, self).setUp()
@@ -118,7 +116,6 @@ class TenderLotAwardResourceTest(BaseTenderContentWebTest):
     test_patch_tender_award_active = snitch(patch_tender_award_active)
     test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
     test_get_tender_award = snitch(get_tender_award)
-    test_patch_tender_award_Administrator_change = snitch(patch_tender_award_Administrator_change)
     test_patch_tender_lot_award_lots_none = snitch(patch_tender_lot_award_lots_none)
 
 
@@ -126,6 +123,7 @@ class TenderAwardComplaintResourceTest(BaseTenderContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_bids
     initial_auth = ("Basic", ("broker", ""))
+    docservice = True
 
     def setUp(self):
         super(TenderAwardComplaintResourceTest, self).setUp()
@@ -158,6 +156,7 @@ class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest):
     initial_lots = test_lots
     initial_bids = test_bids
     initial_auth = ("Basic", ("broker", ""))
+    docservice = True
 
     def setUp(self):
         super(TenderLotAwardComplaintResourceTest, self).setUp()
@@ -177,6 +176,7 @@ class TenderAwardComplaintExtendedResourceTest(BaseTenderContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_bids
     initial_auth = ("Basic", ("broker", ""))
+    docservice = True
 
     def setUp(self):
         super(TenderAwardComplaintExtendedResourceTest, self).setUp()
@@ -200,6 +200,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_bids
     initial_lots = test_lots
+    docservice = True
 
     def setUp(self):
         super(TenderAwardComplaintDocumentResourceTest, self).setUp()
@@ -231,6 +232,7 @@ class TenderAwardDocumentResourceTest(BaseTenderContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_bids
     initial_lots = test_lots
+    docservice = True
 
     def setUp(self):
         super(TenderAwardDocumentResourceTest, self).setUp()
@@ -247,7 +249,6 @@ class TenderAwardDocumentResourceTest(BaseTenderContentWebTest):
 
 class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
     docservice = True
-
     test_create_tender_award_document_json_bulk = snitch(create_tender_award_document_json_bulk)
 
 

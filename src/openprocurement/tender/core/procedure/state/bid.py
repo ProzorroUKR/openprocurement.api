@@ -19,7 +19,7 @@ class BidState(BaseState):
         data["date"] = now
 
         lot_values = data.get("lotValues")
-        if lot_values:
+        if lot_values:  # TODO: move to post model as serializible
             for lot_value in lot_values:
                 lot_value["date"] = now
         super().on_post(data)

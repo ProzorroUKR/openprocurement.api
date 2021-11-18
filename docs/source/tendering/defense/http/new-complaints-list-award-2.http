@@ -8,17 +8,17 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "id": "e9c9c5a0451a4c3485d932b4b45b9055",
+      "id": "e307a2653c6841c1b2b3dfa95dbc6d7e",
       "status": "unsuccessful",
       "date": "2021-03-16T00:00:00+02:00",
       "suppliers": [
         {
           "name": "Державне управління справами",
           "identifier": {
-            "scheme": "UA-EDR",
-            "id": "00037256",
             "legalName": "Державне управління справами",
-            "uri": "http://www.dus.gov.ua/"
+            "uri": "http://www.dus.gov.ua/",
+            "scheme": "UA-EDR",
+            "id": "00037256"
           },
           "address": {
             "streetAddress": "вул. Банкова, 11, корпус 1",
@@ -28,22 +28,22 @@ X-Content-Type-Options: nosniff
             "countryName": "Україна"
           },
           "contactPoint": {
-            "name": "Державне управління справами",
-            "telephone": "+0440000000"
+            "telephone": "+0440000000",
+            "name": "Державне управління справами"
           },
           "scale": "micro"
         }
       ],
       "bid_id": "db456e258e62433f85f9eb784fdd2bcd",
+      "qualified": false,
+      "eligible": false,
       "complaintPeriod": {
         "startDate": "2021-03-16T00:00:00+02:00",
         "endDate": "2021-03-20T00:00:00+02:00"
-      },
-      "qualified": false,
-      "eligible": false
+      }
     },
     {
-      "id": "5201fef95f8a42cd9cfc63036495a26d",
+      "id": "c759e30935e1474087b780419c963aac",
       "status": "active",
       "date": "2021-03-16T00:00:00+02:00",
       "value": {
@@ -55,10 +55,10 @@ X-Content-Type-Options: nosniff
         {
           "name": "Державне управління справами",
           "identifier": {
-            "scheme": "UA-EDR",
-            "id": "00037256",
             "legalName": "Державне управління справами",
-            "uri": "http://www.dus.gov.ua/"
+            "uri": "http://www.dus.gov.ua/",
+            "scheme": "UA-EDR",
+            "id": "00037256"
           },
           "address": {
             "streetAddress": "вул. Банкова, 11, корпус 1",
@@ -68,19 +68,19 @@ X-Content-Type-Options: nosniff
             "countryName": "Україна"
           },
           "contactPoint": {
-            "name": "Державне управління справами",
-            "telephone": "+0440000000"
+            "telephone": "+0440000000",
+            "name": "Державне управління справами"
           },
           "scale": "micro"
         }
       ],
       "bid_id": "d9d386def43949398d0d96b16c8edd34",
+      "qualified": true,
+      "eligible": true,
       "complaintPeriod": {
         "startDate": "2021-03-16T00:00:00+02:00",
         "endDate": "2021-03-20T00:00:00+02:00"
-      },
-      "qualified": true,
-      "eligible": true
+      }
     }
   ]
 }

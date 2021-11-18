@@ -979,7 +979,7 @@ def create_tender_bidder_document(self):
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
     self.assertEqual("name.doc", response.json["data"]["title"])
-    key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get("/tenders/{}/bids/{}/documents".format(self.tender_id, self.bid_id), status=403)
     self.assertEqual(response.status, "403 Forbidden")
@@ -1019,7 +1019,7 @@ def create_tender_bidder_document(self):
     )
 
     response = self.app.get(
-        "/tenders/{}/bids/{}/documents/{}?{}".format(self.tender_id, self.bid_id, doc_id, key), status=403
+        "/tenders/{}/bids/{}/documents/{}?download={}".format(self.tender_id, self.bid_id, doc_id, key), status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
@@ -1109,7 +1109,7 @@ def put_tender_bidder_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     if self.docservice:
         response = self.app.get(
@@ -1149,7 +1149,7 @@ def put_tender_bidder_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     if self.docservice:
         response = self.app.get(
@@ -1572,7 +1572,7 @@ def create_tender_bidder_document_json(self):
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
     self.assertEqual("name.doc", response.json["data"]["title"])
-    key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get("/tenders/{}/bids/{}/documents".format(self.tender_id, self.bid_id), status=403)
     self.assertEqual(response.status, "403 Forbidden")
@@ -1745,10 +1745,10 @@ def put_tender_bidder_document_json(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    key = response.json["data"]["url"].split("?")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get(
-        "/tenders/{}/bids/{}/documents/{}?{}&acc_token={}".format(
+        "/tenders/{}/bids/{}/documents/{}?download={}&acc_token={}".format(
             self.tender_id, self.bid_id, doc_id, key, self.bid_token
         )
     )
@@ -1780,10 +1780,10 @@ def put_tender_bidder_document_json(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    key = response.json["data"]["url"].split("?")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get(
-        "/tenders/{}/bids/{}/documents/{}?{}&acc_token={}".format(
+        "/tenders/{}/bids/{}/documents/{}?download={}&acc_token={}".format(
             self.tender_id, self.bid_id, doc_id, key, self.bid_token
         )
     )

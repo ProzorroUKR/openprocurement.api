@@ -599,7 +599,7 @@ X-Content-Type-Options: nosniff
     },
     "awards": [
       {
-        "id": "6c34dbdc51ab4911a3ec8b3e6198d4e4",
+        "id": "bd36af15721f42bbb07fbdfb809d97be",
         "status": "cancelled",
         "date": "2021-03-16T00:00:00+02:00",
         "suppliers": [
@@ -636,7 +636,7 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "a3f529668baa49f9bc1274f2f0071bc1",
+        "id": "34c413aa2e2e43b1aa0a5d3fd6c24aa5",
         "status": "cancelled",
         "date": "2021-03-16T00:00:00+02:00",
         "suppliers": [
@@ -673,7 +673,7 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "7431240634bd466cba99b4d5866ca904",
+        "id": "096e7314cd574b1e9389cf36bb74f42d",
         "status": "cancelled",
         "date": "2021-03-16T00:00:00+02:00",
         "suppliers": [
@@ -710,7 +710,7 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "54a4269c065e40998826dd96d399112b",
+        "id": "7a35ad4320a34ae4b0f64e11506f761d",
         "status": "cancelled",
         "date": "2021-03-16T00:00:00+02:00",
         "suppliers": [
@@ -739,7 +739,8 @@ X-Content-Type-Options: nosniff
         "bid_id": "f2396c5eb7dc40e986705a3de1cdc13b",
         "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
         "complaintPeriod": {
-          "startDate": "2021-03-16T00:00:00+02:00"
+          "startDate": "2021-03-16T00:00:00+02:00",
+          "endDate": "2021-03-16T00:00:00+02:00"
         },
         "value": {
           "currency": "UAH",
@@ -748,7 +749,7 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "05a621257252432fa202ba058a22a2cd",
+        "id": "6efdbaca87454c56a43f66a0b2479c78",
         "status": "active",
         "date": "2021-03-16T00:00:00+02:00",
         "suppliers": [
@@ -789,7 +790,7 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "3697fd1be39e487da32bc85c8f8af500",
+        "id": "d2527d5a606e4e96a27c7716be0d54bf",
         "status": "active",
         "date": "2021-03-16T00:00:00+02:00",
         "suppliers": [
@@ -830,7 +831,7 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "26ffb17c93b84851b599dafde1c1d897",
+        "id": "8c1e3d2462f1441b85241f4957ab7094",
         "status": "active",
         "date": "2021-03-16T00:00:00+02:00",
         "suppliers": [
@@ -1848,7 +1849,7 @@ X-Content-Type-Options: nosniff
                 }
               }
             ],
-            "awardID": "05a621257252432fa202ba058a22a2cd",
+            "awardID": "6efdbaca87454c56a43f66a0b2479c78",
             "bidID": "f2396c5eb7dc40e986705a3de1cdc13b",
             "date": "2021-03-16T00:00:00+02:00"
           },
@@ -1896,7 +1897,7 @@ X-Content-Type-Options: nosniff
                 }
               }
             ],
-            "awardID": "3697fd1be39e487da32bc85c8f8af500",
+            "awardID": "d2527d5a606e4e96a27c7716be0d54bf",
             "bidID": "5502be861ff24fa281a68247002d018c",
             "date": "2021-03-16T00:00:00+02:00"
           },
@@ -1944,7 +1945,7 @@ X-Content-Type-Options: nosniff
                 }
               }
             ],
-            "awardID": "26ffb17c93b84851b599dafde1c1d897",
+            "awardID": "8c1e3d2462f1441b85241f4957ab7094",
             "bidID": "b142414a5dc84ec0a828ba7e3d5f3513",
             "date": "2021-03-16T00:00:00+02:00"
           }

@@ -16,7 +16,6 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     # TenderAwardResourceTest
     create_tender_award_invalid,
     get_tender_award,
-    patch_tender_award_Administrator_change,
     # TenderAwardComplaintResourceTest
     create_tender_award_complaint_invalid,
     # TenderAwardComplaintDocumentResourceTest
@@ -122,7 +121,6 @@ class TenderAwardResourceTest(BaseTenderUAContentWebTest):
     test_patch_tender_award_unsuccessful_after_new = snitch(patch_tender_award_unsuccessful_after_new)
     test_patch_tender_award_unsuccessful_new = snitch(patch_tender_award_unsuccessful_new)
     test_get_tender_award = snitch(get_tender_award)
-    test_patch_tender_award_Administrator_change = snitch(patch_tender_award_Administrator_change)
     test_create_tender_award_no_scale_invalid = snitch(create_tender_award_no_scale_invalid)
 
 
@@ -242,6 +240,7 @@ class Tender2LotAwardResourceTest(BaseTenderUAContentWebTest):
 class TenderAwardPendingResourceTestCase(BaseTenderUAContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_bids
+    docservice = True
 
     def setUp(self):
         super(TenderAwardPendingResourceTestCase, self).setUp()

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/4826290bfb064165b70a94d71e93a63b/awards/398c8a7125c64b2f9a4eec7d8a1c3cc2?acc_token=e6b4c4ef7b894e8da225bae574bf7b61 HTTP/1.0
+PATCH /api/2.5/tenders/4826290bfb064165b70a94d71e93a63b/awards/8870406ca2534a028261c3b198af96eb?acc_token=e6b4c4ef7b894e8da225bae574bf7b61 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -15,7 +15,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "398c8a7125c64b2f9a4eec7d8a1c3cc2",
+    "id": "8870406ca2534a028261c3b198af96eb",
     "status": "active",
     "date": "2021-03-16T00:00:01+02:00",
     "value": {
@@ -27,9 +27,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "ДКП «Школяр»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137256",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137256"
         },
         "address": {
           "streetAddress": "вул. Островського, 33",
@@ -39,9 +39,9 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
         },
         "scale": "micro"
       }

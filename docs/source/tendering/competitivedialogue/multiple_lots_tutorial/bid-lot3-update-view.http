@@ -20,8 +20,6 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "efd32c624d1c490a9d4e31ec0301cfa8",
-    "date": "2021-03-16T00:00:00+02:00",
     "requirementResponses": [
       {
         "id": "26b90b9029a449cb9ec5af9e20d10b86",
@@ -134,6 +132,8 @@ X-Content-Type-Options: nosniff
         "value": "True"
       }
     ],
+    "id": "efd32c624d1c490a9d4e31ec0301cfa8",
+    "date": "2021-03-16T00:00:00+02:00",
     "tenderers": [
       {
         "name": "«Снігур»",

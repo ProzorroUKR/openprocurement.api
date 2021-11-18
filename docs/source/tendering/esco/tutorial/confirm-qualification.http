@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/awards/620dd14020b6435c8c613e84c285914f?acc_token=7cb87b2d0f3d446993a6da1f03746396 HTTP/1.0
+PATCH /api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/awards/2bef142c8e064f96a734caccd8b89ae0?acc_token=7cb87b2d0f3d446993a6da1f03746396 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 67
 Content-Type: application/json
@@ -17,16 +17,16 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "620dd14020b6435c8c613e84c285914f",
+    "id": "2bef142c8e064f96a734caccd8b89ae0",
     "status": "active",
     "date": "2021-03-16T00:00:00+02:00",
     "suppliers": [
       {
         "name": "ДКП «Школяр»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137256",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137256"
         },
         "address": {
           "streetAddress": "вул. Островського, 33",
@@ -36,20 +36,15 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
         },
         "scale": "micro"
       }
     ],
     "bid_id": "931f9a28ea1c44bda087fc6d9349405f",
-    "complaintPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-03-26T00:00:00+02:00"
-    },
     "qualified": true,
-    "eligible": true,
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
@@ -57,32 +52,37 @@ X-Content-Type-Options: nosniff
       "amountPerformance": 816.29,
       "yearlyPaymentsPercentage": 0.9,
       "annualCostsReduction": [
-        500.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
       ],
       "contractDuration": {
         "years": 10,
         "days": 74
       }
+    },
+    "eligible": true,
+    "complaintPeriod": {
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-03-26T00:00:00+02:00"
     }
   }
 }

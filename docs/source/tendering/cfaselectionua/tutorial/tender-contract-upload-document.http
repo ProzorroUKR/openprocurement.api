@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/contracts/55ae8eb20ed4497d8c1022990d75e1b0/documents?acc_token=1649f66a8e4c4492affe5b291314ebf9 HTTP/1.0
+POST /api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/contracts/b7554b0bec8a4cf7a50a48a1c454141f/documents?acc_token=1649f66a8e4c4492affe5b291314ebf9 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 338
 Content-Type: application/json
@@ -15,7 +15,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/contracts/55ae8eb20ed4497d8c1022990d75e1b0/documents/82590e293cf5481bb59ac71a12ba8eeb
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/contracts/b7554b0bec8a4cf7a50a48a1c454141f/documents/82590e293cf5481bb59ac71a12ba8eeb
 X-Content-Type-Options: nosniff
 {
   "data": {

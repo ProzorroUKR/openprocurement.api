@@ -20,13 +20,13 @@ from openprocurement.tender.pricequotation.validation import (
 )
 
 
-@optendersresource(
-    name="{}:Tender Awards".format(PMT),
-    collection_path="/tenders/{tender_id}/awards",
-    path="/tenders/{tender_id}/awards/{award_id}",
-    description="Tender awards",
-    procurementMethodType=PMT,
-)
+# @optendersresource(
+#     name="{}:Tender Awards".format(PMT),
+#     collection_path="/tenders/{tender_id}/awards",
+#     path="/tenders/{tender_id}/awards/{award_id}",
+#     description="Tender awards",
+#     procurementMethodType=PMT,
+# )
 class PQTenderAwardResource(TenderAwardResource):
     """ PriceQuotation award resource """
     @json_view(

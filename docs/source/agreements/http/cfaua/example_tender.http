@@ -194,7 +194,7 @@ X-Content-Type-Options: nosniff
         "lotValues": [
           {
             "relatedLot": "27c4a15dce034406ba16156354632d9b",
-            "date": "2021-03-16T00:00:00+02:00",
+            "date": "2021-01-17T00:00:01+02:00",
             "status": "active",
             "value": {
               "currency": "UAH",
@@ -237,7 +237,7 @@ X-Content-Type-Options: nosniff
         "lotValues": [
           {
             "relatedLot": "27c4a15dce034406ba16156354632d9b",
-            "date": "2021-03-16T00:00:00+02:00",
+            "date": "2021-01-17T00:00:02+02:00",
             "status": "active",
             "value": {
               "currency": "UAH",
@@ -280,7 +280,7 @@ X-Content-Type-Options: nosniff
         "lotValues": [
           {
             "relatedLot": "27c4a15dce034406ba16156354632d9b",
-            "date": "2021-03-16T00:00:00+02:00",
+            "date": "2021-01-17T00:00:03+02:00",
             "status": "active",
             "value": {
               "currency": "UAH",

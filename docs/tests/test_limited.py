@@ -110,17 +110,27 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin):
         #### Uploading documentation
 
         with open(TARGET_DIR + 'tutorial/upload-tender-notice.http', 'wt') as self.app.file_obj:
-            response = self.app.post('/tenders/{}/documents?acc_token={}'.format(
+            response = self.app.post_json('/tenders/{}/documents?acc_token={}'.format(
                 self.tender_id, owner_token),
-                upload_files=[('file', 'Notice.pdf', b'content')])
+                {"data": {
+                    "title": "Notice.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }})
             self.assertEqual(response.status, '201 Created')
 
         doc_id = response.json["data"]["id"]
 
         with open(TARGET_DIR + 'tutorial/update-tender-notice.http', 'wt') as self.app.file_obj:
-            response = self.app.put('/tenders/{}/documents/{}?acc_token={}'.format(
+            response = self.app.put_json('/tenders/{}/documents/{}?acc_token={}'.format(
                 self.tender_id, doc_id, owner_token),
-                upload_files=[('file', 'Notice-2.pdf', b'content2')])
+                {"data": {
+                    "title": "Notice-2.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }})
             self.assertEqual(response.status, '200 OK')
 
         #### Adding supplier information
@@ -135,9 +145,15 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin):
         #### Uploading Award documentation
 
         with open(TARGET_DIR + 'tutorial/tender-award-upload-document.http', 'w') as self.app.file_obj:
-            response = self.app.post('/tenders/{}/awards/{}/documents?acc_token={}'.format(
+            response = self.app.post_json('/tenders/{}/awards/{}/documents?acc_token={}'.format(
                 self.tender_id, self.award_id, owner_token),
-                upload_files=[('file', 'award_first_document.doc', b'content')])
+                {"data": {
+                    "title": "award_first_document.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }},
+            )
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'tutorial/tender-award-get-documents.http', 'w') as self.app.file_obj:
@@ -146,9 +162,15 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'tutorial/tender-award-upload-second-document.http', 'w') as self.app.file_obj:
-            response = self.app.post('/tenders/{}/awards/{}/documents?acc_token={}'.format(
+            response = self.app.post_json('/tenders/{}/awards/{}/documents?acc_token={}'.format(
                 self.tender_id, self.award_id, owner_token),
-                upload_files=[('file', 'award_second_document.doc', b'content')])
+                {"data": {
+                    "title": "award_second_document.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }},
+            )
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'tutorial/tender-award-get-documents-again.http', 'w') as self.app.file_obj:
@@ -215,9 +237,14 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin):
         #### Uploading Contract documentation
 
         with open(TARGET_DIR + 'tutorial/tender-contract-upload-document.http', 'w') as self.app.file_obj:
-            response = self.app.post('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
+            response = self.app.post_json('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
                 self.tender_id, self.contract_id, owner_token),
-                upload_files=[('file', 'contract_first_document.doc', b'content')])
+                {"data": {
+                    "title": "contract_first_document.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }})
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'tutorial/tender-contract-get-documents.http', 'w') as self.app.file_obj:
@@ -226,9 +253,14 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'tutorial/tender-contract-upload-second-document.http', 'w') as self.app.file_obj:
-            response = self.app.post('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
+            response = self.app.post_json('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
                 self.tender_id, self.contract_id, owner_token),
-                upload_files=[('file', 'contract_second_document.doc', b'content')])
+                {"data": {
+                    "title": "contract_second_document.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }})
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'tutorial/tender-contract-get-documents-again.http', 'w') as self.app.file_obj:
@@ -348,9 +380,14 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
             #### Filling cancellation with protocol and supplementary documentation
 
             with open(TARGET_DIR + 'tutorial/upload-cancellation-doc.http', 'w') as self.app.file_obj:
-                response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
+                response = self.app.post_json('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
                     self.tender_id, cancellation_id, owner_token),
-                    upload_files=[('file', 'Notice.pdf', b'content')])
+                    {"data": {
+                        "title": "Notice.pdf",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/pdf",
+                    }})
                 cancellation_doc_id = response.json['data']['id']
                 self.assertEqual(response.status, '201 Created')
 
@@ -362,9 +399,14 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
                 self.assertEqual(response.status, '200 OK')
 
             with open(TARGET_DIR + 'tutorial/update-cancellation-doc.http', 'w') as self.app.file_obj:
-                response = self.app.put('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
+                response = self.app.put_json('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
                     self.tender_id, cancellation_id, cancellation_doc_id, owner_token),
-                    upload_files=[('file', 'Notice-2.pdf', b'content2')])
+                    {"data": {
+                        "title": "Notice-2.pdf",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/pdf",
+                    }})
                 self.assertEqual(response.status, '200 OK')
 
             #### Activating the request and cancelling tender

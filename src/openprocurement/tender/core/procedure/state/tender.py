@@ -284,7 +284,7 @@ class TenderState(TenderStateAwardingMixing, BaseState):
         def handler(*_):
             request = get_request()
             add_contracts(request, award, self.contract_model)
-            self.add_next_award(request)
+            self.add_next_award()
         return handler
 
     def get_change_tender_status_handler(self, status):

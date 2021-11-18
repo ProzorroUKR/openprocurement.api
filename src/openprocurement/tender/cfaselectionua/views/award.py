@@ -23,13 +23,13 @@ from openprocurement.tender.cfaselectionua.validation import (
 from openprocurement.tender.cfaselectionua.utils import check_tender_status
 
 
-@optendersresource(
-    name="closeFrameworkAgreementSelectionUA:Tender Awards",
-    collection_path="/tenders/{tender_id}/awards",
-    path="/tenders/{tender_id}/awards/{award_id}",
-    description="Tender awards",
-    procurementMethodType="closeFrameworkAgreementSelectionUA",
-)
+# @optendersresource(
+#     name="closeFrameworkAgreementSelectionUA:Tender Awards",
+#     collection_path="/tenders/{tender_id}/awards",
+#     path="/tenders/{tender_id}/awards/{award_id}",
+#     description="Tender awards",
+#     procurementMethodType="closeFrameworkAgreementSelectionUA",
+# )
 class TenderAwardResource(APIResource):
     @json_view(permission="view_tender")
     def collection_get(self):

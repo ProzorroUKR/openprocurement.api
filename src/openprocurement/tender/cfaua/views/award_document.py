@@ -11,13 +11,13 @@ from openprocurement.tender.openua.validation import validate_accepted_complaint
 from openprocurement.tender.openua.views.award_document import TenderUaAwardDocumentResource as BaseResource
 
 
-@optendersresource(
-    name="closeFrameworkAgreementUA:Tender Award Documents",
-    collection_path="/tenders/{tender_id}/awards/{award_id}/documents",
-    path="/tenders/{tender_id}/awards/{award_id}/documents/{document_id}",
-    procurementMethodType="closeFrameworkAgreementUA",
-    description="Tender award documents",
-)
+# @optendersresource(
+#     name="closeFrameworkAgreementUA:Tender Award Documents",
+#     collection_path="/tenders/{tender_id}/awards/{award_id}/documents",
+#     path="/tenders/{tender_id}/awards/{award_id}/documents/{document_id}",
+#     procurementMethodType="closeFrameworkAgreementUA",
+#     description="Tender award documents",
+# )
 class TenderAwardDocumentResource(BaseResource):
     """ Tender Award Document """
     @json_view(

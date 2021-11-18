@@ -22,7 +22,7 @@ X-Content-Type-Options: nosniff
     "hash": "md5:00000000000000000000000000000000",
     "title": "prices.xls",
     "format": "application/exl",
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/b142414a5dc84ec0a828ba7e3d5f3513/financial_documents/f70ee714fd4947ada7cf33eecfc598f5?download=e0d4f99d68104577927f59cb6d8f7fab",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e0d4f99d68104577927f59cb6d8f7fab?Signature=FhQf0km46Nd8Y7NN95lG1TMVRYB3L%2F6jus6cieljEfKNNzIwPgOWUFNqNzkxsaPHcIc6880dtkOfGNlgG2x0DQ%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "confidentiality": "public",
     "language": "uk",

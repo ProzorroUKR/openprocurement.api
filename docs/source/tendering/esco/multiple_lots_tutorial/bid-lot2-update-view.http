@@ -23,31 +23,6 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "tenderers": [
-      {
-        "name": "ДКП «Книга»",
-        "identifier": {
-          "uri": "http://www.sc.gov.ua/",
-          "scheme": "UA-EDR",
-          "id": "00137226"
-        },
-        "address": {
-          "streetAddress": "вул. Островського, 34",
-          "locality": "м. Львів",
-          "region": "Львівська область",
-          "postalCode": "79013",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "email": "aagt@gmail.com",
-          "telephone": "+380322916930",
-          "name": "Андрій Олексюк"
-        },
-        "scale": "sme"
-      }
-    ],
-    "id": "2ab7fecbd7c846c9a4c507a13f01efd8",
-    "date": "2021-03-16T00:00:00+02:00",
     "requirementResponses": [
       {
         "id": "8213963408444839b2f4f16757796fb7",
@@ -160,6 +135,31 @@ X-Content-Type-Options: nosniff
         "value": "True"
       }
     ],
+    "tenderers": [
+      {
+        "name": "ДКП «Книга»",
+        "identifier": {
+          "uri": "http://www.sc.gov.ua/",
+          "scheme": "UA-EDR",
+          "id": "00137226"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "email": "aagt@gmail.com",
+          "telephone": "+380322916930",
+          "name": "Андрій Олексюк"
+        },
+        "scale": "sme"
+      }
+    ],
+    "id": "2ab7fecbd7c846c9a4c507a13f01efd8",
+    "date": "2021-03-16T00:00:00+02:00",
     "status": "pending",
     "lotValues": [
       {
@@ -171,27 +171,27 @@ X-Content-Type-Options: nosniff
           "amountPerformance": 2009.5,
           "yearlyPaymentsPercentage": 0.9,
           "annualCostsReduction": [
-            700.0,
-            1600.0,
-            1600.0,
-            1600.0,
-            1600.0,
-            1600.0,
-            1600.0,
-            1600.0,
-            1600.0,
-            1600.0,
-            1600.0,
-            1600.0,
-            1600.0,
-            1600.0,
-            1600.0,
-            1600.0,
-            1600.0,
-            1600.0,
-            1600.0,
-            1600.0,
-            1600.0
+            700,
+            1600,
+            1600,
+            1600,
+            1600,
+            1600,
+            1600,
+            1600,
+            1600,
+            1600,
+            1600,
+            1600,
+            1600,
+            1600,
+            1600,
+            1600,
+            1600,
+            1600,
+            1600,
+            1600,
+            1600
           ],
           "contractDuration": {
             "years": 7,

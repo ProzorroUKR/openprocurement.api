@@ -26,7 +26,6 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     create_tender_award_with_scale_not_required,
     create_tender_award_no_scale,
     create_tender_award_no_scale_invalid,
-    patch_tender_award_Administrator_change,
     create_tender_award_no_scale_invalid,
     create_tender_award_document_json_bulk,
 )
@@ -69,6 +68,7 @@ class TenderAwardResourceScaleTest(TenderContentWebTest):
 class TenderAwardDocumentResourceTest(TenderContentWebTest, TenderAwardDocumentResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_bids
+    docservice = True
 
     def setUp(self):
         super(TenderAwardDocumentResourceTest, self).setUp()
@@ -81,16 +81,9 @@ class TenderAwardDocumentResourceTest(TenderContentWebTest, TenderAwardDocumentR
         return data['awards'][-1]['id'] if data.get('awards') else None
 
 
-class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
-    docservice = True
-
-    test_create_tender_award_document_json_bulk = snitch(create_tender_award_document_json_bulk)
-
-
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderAwardDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardDocumentWithDSResourceTest))
     suite.addTest(unittest.makeSuite(TenderAwardResourceTest))
     suite.addTest(unittest.makeSuite(TenderAwardResourceScaleTest))
     return suite

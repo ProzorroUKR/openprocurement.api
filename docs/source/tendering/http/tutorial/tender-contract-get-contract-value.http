@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/4826290bfb064165b70a94d71e93a63b/contracts/9044c4f5547141c2a3105506261f0c2e HTTP/1.0
+GET /api/2.5/tenders/4826290bfb064165b70a94d71e93a63b/contracts/b8fc5ea92b2f49949263befaaef2db53 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,7 +7,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "9044c4f5547141c2a3105506261f0c2e",
+    "id": "b8fc5ea92b2f49949263befaaef2db53",
     "contractID": "UA-2021-03-16-000001-1",
     "status": "pending",
     "suppliers": [
@@ -40,7 +40,7 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true,
       "amountNet": 500.0
     },
-    "awardID": "398c8a7125c64b2f9a4eec7d8a1c3cc2",
+    "awardID": "8870406ca2534a028261c3b198af96eb",
     "items": [
       {
         "id": "ca8069063cb44e45afe6bb5f71ef33f8",

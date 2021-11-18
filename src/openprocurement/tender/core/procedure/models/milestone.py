@@ -18,14 +18,6 @@ class QualificationMilestone(Model):
     description = StringType()
     date = IsoDateTimeType(default=get_now)
 
-    # class Options:
-    #     namespace = "Milestone"
-    #     roles = {
-    #         "create": whitelist("code", "description"),
-    #         "Administrator": whitelist("dueDate"),
-    #         "view": schematics_default_role,
-    #     }
-
     @serializable(serialized_name="dueDate")
     def set_due_date(self):
         if not self.dueDate:
@@ -41,7 +33,7 @@ class QualificationMilestone(Model):
 
 
 class QualificationMilestoneListMixin(Model):
-    milestones = ListType(ModelType(QualificationMilestone, required=True), default=list)
+    milestones = ListType(ModelType(QualificationMilestone, required=True))
 
     def validate_milestones(self, data, milestones):
         """
@@ -49,5 +41,5 @@ class QualificationMilestoneListMixin(Model):
         because there is a way to post milestone to different zones (couchdb masters)
         and concord will merge them, that shouldn't be the case
         """
-        if len(list([m for m in milestones if m.code == QualificationMilestone.CODE_24_HOURS])) > 1:
+        if milestones and len(list([m for m in milestones if m.code == QualificationMilestone.CODE_24_HOURS])) > 1:
             raise ValidationError("There can be only one '24h' milestone")

@@ -24,31 +24,6 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "tenderers": [
-      {
-        "name": "ДКП «Школяр»",
-        "identifier": {
-          "uri": "http://www.sc.gov.ua/",
-          "scheme": "UA-EDR",
-          "id": "00137256"
-        },
-        "address": {
-          "streetAddress": "вул. Островського, 33",
-          "locality": "м. Вінниця",
-          "region": "Вінницька область",
-          "postalCode": "21100",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
-        },
-        "scale": "micro"
-      }
-    ],
-    "id": "499825a459994ef698c1b3fe612196d2",
-    "date": "2021-03-16T00:00:00+02:00",
     "requirementResponses": [
       {
         "id": "80b0a9861a5a4eb1a1adbb39cdd22ffb",
@@ -161,6 +136,31 @@ X-Content-Type-Options: nosniff
         "value": "True"
       }
     ],
+    "tenderers": [
+      {
+        "name": "ДКП «Школяр»",
+        "identifier": {
+          "uri": "http://www.sc.gov.ua/",
+          "scheme": "UA-EDR",
+          "id": "00137256"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
+        },
+        "scale": "micro"
+      }
+    ],
+    "id": "499825a459994ef698c1b3fe612196d2",
+    "date": "2021-03-16T00:00:00+02:00",
     "status": "pending",
     "lotValues": [
       {
@@ -173,27 +173,27 @@ X-Content-Type-Options: nosniff
           "amountPerformance": 1320.62,
           "yearlyPaymentsPercentage": 0.87,
           "annualCostsReduction": [
-            200.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0
+            200,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000
           ],
           "contractDuration": {
             "years": 7,

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/awards/9784928b290b4ac1a3edb1680968b297?acc_token=3ba9d3fdf58a40ac8a19d43f43de9e28 HTTP/1.0
+PATCH /api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/awards/e5a7cb400a054a178d92228c67a06cfa?acc_token=3ba9d3fdf58a40ac8a19d43f43de9e28 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 67
 Content-Type: application/json
@@ -17,7 +17,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "9784928b290b4ac1a3edb1680968b297",
+    "id": "e5a7cb400a054a178d92228c67a06cfa",
     "status": "active",
     "date": "2021-03-16T00:00:00+02:00",
     "value": {
@@ -29,9 +29,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "ДКП «Книга»",
         "identifier": {
+          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137226",
-          "uri": "http://www.sc.gov.ua/"
+          "id": "00137226"
         },
         "address": {
           "streetAddress": "вул. Островського, 34",
@@ -41,20 +41,20 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Андрій Олексюк",
           "email": "aagt@gmail.com",
-          "telephone": "+380322916930"
+          "telephone": "+380322916930",
+          "name": "Андрій Олексюк"
         },
         "scale": "sme"
       }
     ],
     "bid_id": "77605656b3e8479fbfa66cf3d764520c",
+    "qualified": true,
+    "eligible": true,
     "complaintPeriod": {
       "startDate": "2021-03-16T00:00:00+02:00",
       "endDate": "2021-03-26T00:00:00+02:00"
-    },
-    "qualified": true,
-    "eligible": true
+    }
   }
 }
 

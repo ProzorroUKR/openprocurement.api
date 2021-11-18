@@ -2175,17 +2175,18 @@ def put_tender_lots_award_complaint_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    key = response.json["data"]["url"].split("?")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get(
-        "/tenders/{}/awards/{}/complaints/{}/documents/{}?{}".format(
+        "/tenders/{}/awards/{}/complaints/{}/documents/{}?download={}".format(
             self.tender_id, self.award_id, self.complaint_id, doc_id, key
         )
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 8)
-    self.assertEqual(response.body, b"content2")
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
+    self.assertNotIn("Expires=", response.location)
 
     response = self.app.get(
         "/tenders/{}/awards/{}/complaints/{}/documents/{}".format(
@@ -2207,17 +2208,18 @@ def put_tender_lots_award_complaint_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    key = response.json["data"]["url"].split("?")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get(
-        "/tenders/{}/awards/{}/complaints/{}/documents/{}?{}".format(
+        "/tenders/{}/awards/{}/complaints/{}/documents/{}?download={}".format(
             self.tender_id, self.award_id, self.complaint_id, doc_id, key
         )
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 8)
-    self.assertEqual(response.body, b"content3")
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
+    self.assertNotIn("Expires=", response.location)
 
     if get_now() < RELEASE_2020_04_19:
         response = self.app.patch_json(

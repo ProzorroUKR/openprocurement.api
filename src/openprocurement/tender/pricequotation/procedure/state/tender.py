@@ -42,7 +42,7 @@ class PriceQuotationTenderState(TenderState):
                 status_handler = self.get_change_tender_status_handler("unsuccessful")
                 status_handler(tender)
             else:
-                self.add_next_award(get_request())
+                self.add_next_award()
                 if tender["status"] == "active.awarded":
                     self.check_tender_status(tender)
         return handler
@@ -54,7 +54,7 @@ class PriceQuotationTenderState(TenderState):
             if len(tender.get("bids", "")) == 0:
                 self.get_change_tender_status_handler("unsuccessful")(tender)
             else:
-                self.add_next_award(get_request())
+                self.add_next_award()
 
     def check_tender_status(self, tender):
         last_award_status = tender["awards"][-1]["status"]
@@ -71,7 +71,8 @@ class PriceQuotationTenderState(TenderState):
             handler = self.get_change_tender_status_handler("complete")
             handler(tender)
 
-    def add_next_award(self, request):
+    def add_next_award(self):
+        request = get_request()
         tender = request.validated["tender"]
         if not tender.get("awardPeriod"):
             tender["awardPeriod"] = {}

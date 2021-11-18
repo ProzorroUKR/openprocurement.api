@@ -21,8 +21,6 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "1364aaf7ec90441692c76ccb24a623f8",
-    "date": "2021-03-16T00:00:00+02:00",
     "requirementResponses": [
       {
         "id": "d8cde36c35bc4fcf90d2fccbefb786ee",
@@ -135,6 +133,8 @@ X-Content-Type-Options: nosniff
         "value": "True"
       }
     ],
+    "id": "1364aaf7ec90441692c76ccb24a623f8",
+    "date": "2021-03-16T00:00:00+02:00",
     "tenderers": [
       {
         "name": "ДКП «Школяр»",

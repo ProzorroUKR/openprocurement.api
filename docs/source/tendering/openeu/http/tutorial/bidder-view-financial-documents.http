@@ -7,36 +7,6 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "tenderers": [
-      {
-        "name": "ДКП «Школяр»",
-        "identifier": {
-          "uri": "http://www.sc.gov.ua/",
-          "scheme": "UA-EDR",
-          "id": "00137256"
-        },
-        "address": {
-          "streetAddress": "вул. Островського, 33",
-          "locality": "м. Вінниця",
-          "region": "Вінницька область",
-          "postalCode": "21100",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
-        },
-        "scale": "micro"
-      }
-    ],
-    "id": "7b97714f142c430b98dd609d94a9e441",
-    "date": "2021-03-16T00:00:00+02:00",
     "requirementResponses": [
       {
         "id": "039ef29aab6c4459b0d7c44cf5f00fd3",
@@ -149,6 +119,36 @@ X-Content-Type-Options: nosniff
         "value": "True"
       }
     ],
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "tenderers": [
+      {
+        "name": "ДКП «Школяр»",
+        "identifier": {
+          "uri": "http://www.sc.gov.ua/",
+          "scheme": "UA-EDR",
+          "id": "00137256"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
+        },
+        "scale": "micro"
+      }
+    ],
+    "id": "7b97714f142c430b98dd609d94a9e441",
+    "date": "2021-03-16T00:00:00+02:00",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "selfQualified": true,
     "status": "pending",

@@ -115,37 +115,6 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "tenderers": [
-      {
-        "name": "ДКП «Школяр»",
-        "identifier": {
-          "uri": "http://www.sc.gov.ua/",
-          "scheme": "UA-EDR",
-          "id": "00137256"
-        },
-        "address": {
-          "streetAddress": "вул. Островського, 33",
-          "locality": "м. Вінниця",
-          "region": "Вінницька область",
-          "postalCode": "21100",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
-        },
-        "scale": "micro"
-      }
-    ],
-    "status": "draft",
-    "id": "0f4edde39c8440589de23c8efb2c8fb8",
-    "date": "2021-03-16T00:00:00+02:00",
     "requirementResponses": [
       {
         "id": "92015eb98d24402f939b0761db90587d",
@@ -258,6 +227,37 @@ X-Content-Type-Options: nosniff
         "value": "True"
       }
     ],
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "tenderers": [
+      {
+        "name": "ДКП «Школяр»",
+        "identifier": {
+          "uri": "http://www.sc.gov.ua/",
+          "scheme": "UA-EDR",
+          "id": "00137256"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
+        },
+        "scale": "micro"
+      }
+    ],
+    "status": "draft",
+    "id": "0f4edde39c8440589de23c8efb2c8fb8",
+    "date": "2021-03-16T00:00:00+02:00",
     "selfQualified": true,
     "subcontractingDetails": "ДКП «Орфей», Україна"
   }

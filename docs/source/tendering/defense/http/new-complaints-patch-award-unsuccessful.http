@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/4e26fc6d9ddf44cb997c219b4d7c25f7/awards/e9c9c5a0451a4c3485d932b4b45b9055?acc_token=ad9fe16460044cee848ba21b924cdc59 HTTP/1.0
+PATCH /api/2.5/tenders/4e26fc6d9ddf44cb997c219b4d7c25f7/awards/e307a2653c6841c1b2b3dfa95dbc6d7e?acc_token=ad9fe16460044cee848ba21b924cdc59 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 36
 Content-Type: application/json
@@ -12,21 +12,21 @@ DATA:
 
 Response: 200 OK
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4e26fc6d9ddf44cb997c219b4d7c25f7/awards/5201fef95f8a42cd9cfc63036495a26d
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4e26fc6d9ddf44cb997c219b4d7c25f7/awards/c759e30935e1474087b780419c963aac
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "e9c9c5a0451a4c3485d932b4b45b9055",
+    "id": "e307a2653c6841c1b2b3dfa95dbc6d7e",
     "status": "unsuccessful",
     "date": "2021-03-16T00:00:00+02:00",
     "suppliers": [
       {
         "name": "Державне управління справами",
         "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00037256",
           "legalName": "Державне управління справами",
-          "uri": "http://www.dus.gov.ua/"
+          "uri": "http://www.dus.gov.ua/",
+          "scheme": "UA-EDR",
+          "id": "00037256"
         },
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
@@ -36,8 +36,8 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Державне управління справами",
-          "telephone": "+0440000000"
+          "telephone": "+0440000000",
+          "name": "Державне управління справами"
         },
         "scale": "micro"
       }

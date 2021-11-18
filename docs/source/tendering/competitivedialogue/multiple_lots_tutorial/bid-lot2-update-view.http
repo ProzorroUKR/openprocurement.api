@@ -20,8 +20,6 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "5d17e351e54f4949ac1c1cee9cece058",
-    "date": "2021-03-16T00:00:00+02:00",
     "requirementResponses": [
       {
         "id": "fb162f1dae3d4153afca08e73a016978",
@@ -134,6 +132,8 @@ X-Content-Type-Options: nosniff
         "value": "True"
       }
     ],
+    "id": "5d17e351e54f4949ac1c1cee9cece058",
+    "date": "2021-03-16T00:00:00+02:00",
     "tenderers": [
       {
         "name": "ДКП «Книга»",

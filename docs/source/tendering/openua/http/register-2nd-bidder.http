@@ -953,37 +953,6 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "value": {
-      "amount": 499.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "tenderers": [
-      {
-        "name": "ДКП «Книга»",
-        "identifier": {
-          "uri": "http://www.sc.gov.ua/",
-          "scheme": "UA-EDR",
-          "id": "00137226"
-        },
-        "address": {
-          "streetAddress": "вул. Островського, 34",
-          "locality": "м. Львів",
-          "region": "Львівська область",
-          "postalCode": "79013",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "email": "aagt@gmail.com",
-          "telephone": "+380322916930",
-          "name": "Андрій Олексюк"
-        },
-        "scale": "sme"
-      }
-    ],
-    "status": "active",
-    "id": "e655b89d64014a8dbe2668687696ed52",
-    "date": "2021-03-16T00:00:00+02:00",
     "requirementResponses": [
       {
         "id": "86d876c4f3994222a4560cb9b07f550d",
@@ -1096,6 +1065,37 @@ X-Content-Type-Options: nosniff
         "value": "True"
       }
     ],
+    "value": {
+      "amount": 499.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "tenderers": [
+      {
+        "name": "ДКП «Книга»",
+        "identifier": {
+          "uri": "http://www.sc.gov.ua/",
+          "scheme": "UA-EDR",
+          "id": "00137226"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "email": "aagt@gmail.com",
+          "telephone": "+380322916930",
+          "name": "Андрій Олексюк"
+        },
+        "scale": "sme"
+      }
+    ],
+    "status": "active",
+    "id": "e655b89d64014a8dbe2668687696ed52",
+    "date": "2021-03-16T00:00:00+02:00",
     "selfQualified": true
   }
 }

@@ -703,17 +703,18 @@ def patch_tender_award_complaint_document(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    key = response.json["data"]["url"].split("?")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get(
-        "/tenders/{}/awards/{}/complaints/{}/documents/{}?{}".format(
+        "/tenders/{}/awards/{}/complaints/{}/documents/{}?download={}".format(
             self.tender_id, self.award_id, self.complaint_id, doc_id, key
         )
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 8)
-    self.assertEqual(response.body, b"content2")
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
+    self.assertNotIn("Expires=", response.location)
 
     self.set_status("complete")
 
@@ -757,7 +758,7 @@ def create_tender_2lot_award_complaint_document(self):
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
     self.assertEqual("name.doc", response.json["data"]["title"])
-    key = response.json["data"]["url"].split("?")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get(
         "/tenders/{}/awards/{}/complaints/{}/documents".format(self.tender_id, self.award_id, self.complaint_id)
@@ -791,7 +792,7 @@ def create_tender_2lot_award_complaint_document(self):
     )
 
     response = self.app.get(
-        "/tenders/{}/awards/{}/complaints/{}/documents/{}?{}".format(
+        "/tenders/{}/awards/{}/complaints/{}/documents/{}?download={}".format(
             self.tender_id, self.award_id, self.complaint_id, doc_id, key
         )
     )
@@ -878,10 +879,10 @@ def put_tender_2lot_award_complaint_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    key = response.json["data"]["url"].split("?")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get(
-        "/tenders/{}/awards/{}/complaints/{}/documents/{}?{}".format(
+        "/tenders/{}/awards/{}/complaints/{}/documents/{}?download={}".format(
             self.tender_id, self.award_id, self.complaint_id, doc_id, key
         )
     )
@@ -910,10 +911,10 @@ def put_tender_2lot_award_complaint_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    key = response.json["data"]["url"].split("?")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get(
-        "/tenders/{}/awards/{}/complaints/{}/documents/{}?{}".format(
+        "/tenders/{}/awards/{}/complaints/{}/documents/{}?download={}".format(
             self.tender_id, self.award_id, self.complaint_id, doc_id, key
         )
     )
@@ -950,10 +951,10 @@ def put_tender_2lot_award_complaint_document(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    key = response.json["data"]["url"].split("?")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get(
-        "/tenders/{}/awards/{}/complaints/{}/documents/{}?{}".format(
+        "/tenders/{}/awards/{}/complaints/{}/documents/{}?download={}".format(
             self.tender_id, self.award_id, self.complaint_id, doc_id, key
         )
     )
@@ -2058,7 +2059,7 @@ def award_complaint_document_in_active_qualification(self):
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
     self.assertEqual("name.doc", response.json["data"]["title"])
-    key = response.json["data"]["url"].split("?")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get(
         "/tenders/{}/awards/{}/complaints/{}/documents".format(self.tender_id, self.award_id, self.complaint_id)
@@ -2092,14 +2093,15 @@ def award_complaint_document_in_active_qualification(self):
     )
 
     response = self.app.get(
-        "/tenders/{}/awards/{}/complaints/{}/documents/{}?{}".format(
+        "/tenders/{}/awards/{}/complaints/{}/documents/{}?download={}".format(
             self.tender_id, self.award_id, self.complaint_id, doc_id, key
         )
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 7)
-    self.assertEqual(response.body, b"content")
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
+    self.assertNotIn("Expires=", response.location)
 
     response = self.app.get(
         "/tenders/{}/awards/{}/complaints/{}/documents/{}".format(

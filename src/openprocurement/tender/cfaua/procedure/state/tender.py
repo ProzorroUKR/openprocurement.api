@@ -18,8 +18,8 @@ class CFAUATenderTenderState(TenderState):
     block_complaint_status = ("pending", "accepted", "satisfied", "stopping")
 
     @staticmethod
-    def add_next_award(request):
-        add_next_awards(get_request())
+    def add_next_award(regenerate_all_awards=False, lot_id=None):
+        add_next_awards(regenerate_all_awards=regenerate_all_awards, lot_id=lot_id)
 
     def contract_events(self, tender):
         yield from ()   # empty , this procedure doesn't have contracts

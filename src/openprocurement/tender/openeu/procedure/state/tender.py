@@ -123,7 +123,7 @@ class OpenEUTenderState(TenderState):
                             for i in tender["lots"]
                             if i["status"] == "active"   # TODO: no checks for bids count (like in core method)
                     ):
-                        self.add_next_award(get_request())
+                        self.add_next_award()
                 else:
                     if tender["status"] == "active.tendering":
                         tender["bids"] = []

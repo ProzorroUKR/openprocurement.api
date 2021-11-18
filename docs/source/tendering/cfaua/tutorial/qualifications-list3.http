@@ -8,16 +8,21 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "id": "6c34dbdc51ab4911a3ec8b3e6198d4e4",
+      "id": "bd36af15721f42bbb07fbdfb809d97be",
       "status": "cancelled",
       "date": "2021-03-16T00:00:00+02:00",
+      "value": {
+        "amount": 485.0,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true
+      },
       "suppliers": [
         {
           "name": "«Снігур»",
           "identifier": {
+            "uri": "http://www.sc.gov.ua/",
             "scheme": "UA-EDR",
-            "id": "00137227",
-            "uri": "http://www.sc.gov.ua/"
+            "id": "00137227"
           },
           "address": {
             "streetAddress": "вул. Островського, 35",
@@ -27,9 +32,9 @@ X-Content-Type-Options: nosniff
             "countryName": "Україна"
           },
           "contactPoint": {
-            "name": "Іван Іваненко",
             "email": "fake@mail.com",
-            "telephone": "+380322123456"
+            "telephone": "+380322123456",
+            "name": "Іван Іваненко"
           },
           "scale": "mid"
         }
@@ -37,24 +42,24 @@ X-Content-Type-Options: nosniff
       "bid_id": "f2396c5eb7dc40e986705a3de1cdc13b",
       "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
       "qualified": true,
-      "eligible": true,
-      "value": {
-        "currency": "UAH",
-        "valueAddedTaxIncluded": true,
-        "amount": 485
-      }
+      "eligible": true
     },
     {
-      "id": "a3f529668baa49f9bc1274f2f0071bc1",
+      "id": "34c413aa2e2e43b1aa0a5d3fd6c24aa5",
       "status": "cancelled",
       "date": "2021-03-16T00:00:00+02:00",
+      "value": {
+        "amount": 499.0,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true
+      },
       "suppliers": [
         {
           "name": "ДКП «Книга»",
           "identifier": {
+            "uri": "http://www.sc.gov.ua/",
             "scheme": "UA-EDR",
-            "id": "00137226",
-            "uri": "http://www.sc.gov.ua/"
+            "id": "00137226"
           },
           "address": {
             "streetAddress": "вул. Островського, 34",
@@ -64,9 +69,9 @@ X-Content-Type-Options: nosniff
             "countryName": "Україна"
           },
           "contactPoint": {
-            "name": "Андрій Олексюк",
             "email": "aagt@gmail.com",
-            "telephone": "+380322916930"
+            "telephone": "+380322916930",
+            "name": "Андрій Олексюк"
           },
           "scale": "sme"
         }
@@ -74,24 +79,24 @@ X-Content-Type-Options: nosniff
       "bid_id": "5502be861ff24fa281a68247002d018c",
       "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
       "qualified": true,
-      "eligible": true,
-      "value": {
-        "currency": "UAH",
-        "valueAddedTaxIncluded": true,
-        "amount": 499
-      }
+      "eligible": true
     },
     {
-      "id": "7431240634bd466cba99b4d5866ca904",
+      "id": "096e7314cd574b1e9389cf36bb74f42d",
       "status": "cancelled",
       "date": "2021-03-16T00:00:00+02:00",
+      "value": {
+        "amount": 500.0,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true
+      },
       "suppliers": [
         {
           "name": "ДКП «Школяр»",
           "identifier": {
+            "uri": "http://www.sc.gov.ua/",
             "scheme": "UA-EDR",
-            "id": "00137256",
-            "uri": "http://www.sc.gov.ua/"
+            "id": "00137256"
           },
           "address": {
             "streetAddress": "вул. Островського, 33",
@@ -101,9 +106,9 @@ X-Content-Type-Options: nosniff
             "countryName": "Україна"
           },
           "contactPoint": {
-            "name": "Сергій Олексюк",
             "email": "soleksuk@gmail.com",
-            "telephone": "+380432216930"
+            "telephone": "+380432216930",
+            "name": "Сергій Олексюк"
           },
           "scale": "micro"
         }
@@ -111,24 +116,24 @@ X-Content-Type-Options: nosniff
       "bid_id": "b142414a5dc84ec0a828ba7e3d5f3513",
       "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
       "qualified": true,
-      "eligible": true,
-      "value": {
-        "currency": "UAH",
-        "valueAddedTaxIncluded": true,
-        "amount": 500.0
-      }
+      "eligible": true
     },
     {
-      "id": "54a4269c065e40998826dd96d399112b",
+      "id": "7a35ad4320a34ae4b0f64e11506f761d",
       "status": "cancelled",
       "date": "2021-03-16T00:00:00+02:00",
+      "value": {
+        "amount": 485.0,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true
+      },
       "suppliers": [
         {
           "name": "«Снігур»",
           "identifier": {
+            "uri": "http://www.sc.gov.ua/",
             "scheme": "UA-EDR",
-            "id": "00137227",
-            "uri": "http://www.sc.gov.ua/"
+            "id": "00137227"
           },
           "address": {
             "streetAddress": "вул. Островського, 35",
@@ -138,9 +143,9 @@ X-Content-Type-Options: nosniff
             "countryName": "Україна"
           },
           "contactPoint": {
-            "name": "Іван Іваненко",
             "email": "fake@mail.com",
-            "telephone": "+380322123456"
+            "telephone": "+380322123456",
+            "name": "Іван Іваненко"
           },
           "scale": "mid"
         }
@@ -148,25 +153,26 @@ X-Content-Type-Options: nosniff
       "bid_id": "f2396c5eb7dc40e986705a3de1cdc13b",
       "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
       "complaintPeriod": {
-        "startDate": "2021-03-16T00:00:00+02:00"
-      },
-      "value": {
-        "currency": "UAH",
-        "valueAddedTaxIncluded": true,
-        "amount": 485
+        "startDate": "2021-03-16T00:00:00+02:00",
+        "endDate": "2021-03-16T00:00:00+02:00"
       }
     },
     {
-      "id": "05a621257252432fa202ba058a22a2cd",
+      "id": "6efdbaca87454c56a43f66a0b2479c78",
       "status": "pending",
       "date": "2021-03-16T00:00:00+02:00",
+      "value": {
+        "amount": 485.0,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true
+      },
       "suppliers": [
         {
           "name": "«Снігур»",
           "identifier": {
+            "uri": "http://www.sc.gov.ua/",
             "scheme": "UA-EDR",
-            "id": "00137227",
-            "uri": "http://www.sc.gov.ua/"
+            "id": "00137227"
           },
           "address": {
             "streetAddress": "вул. Островського, 35",
@@ -176,32 +182,32 @@ X-Content-Type-Options: nosniff
             "countryName": "Україна"
           },
           "contactPoint": {
-            "name": "Іван Іваненко",
             "email": "fake@mail.com",
-            "telephone": "+380322123456"
+            "telephone": "+380322123456",
+            "name": "Іван Іваненко"
           },
           "scale": "mid"
         }
       ],
       "bid_id": "f2396c5eb7dc40e986705a3de1cdc13b",
-      "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
-      "value": {
-        "currency": "UAH",
-        "valueAddedTaxIncluded": true,
-        "amount": 485
-      }
+      "lotID": "52815e9d01914c7a9bf4ba18ebb5e783"
     },
     {
-      "id": "3697fd1be39e487da32bc85c8f8af500",
+      "id": "d2527d5a606e4e96a27c7716be0d54bf",
       "status": "pending",
       "date": "2021-03-16T00:00:00+02:00",
+      "value": {
+        "amount": 499.0,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true
+      },
       "suppliers": [
         {
           "name": "ДКП «Книга»",
           "identifier": {
+            "uri": "http://www.sc.gov.ua/",
             "scheme": "UA-EDR",
-            "id": "00137226",
-            "uri": "http://www.sc.gov.ua/"
+            "id": "00137226"
           },
           "address": {
             "streetAddress": "вул. Островського, 34",
@@ -211,32 +217,32 @@ X-Content-Type-Options: nosniff
             "countryName": "Україна"
           },
           "contactPoint": {
-            "name": "Андрій Олексюк",
             "email": "aagt@gmail.com",
-            "telephone": "+380322916930"
+            "telephone": "+380322916930",
+            "name": "Андрій Олексюк"
           },
           "scale": "sme"
         }
       ],
       "bid_id": "5502be861ff24fa281a68247002d018c",
-      "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
-      "value": {
-        "currency": "UAH",
-        "valueAddedTaxIncluded": true,
-        "amount": 499
-      }
+      "lotID": "52815e9d01914c7a9bf4ba18ebb5e783"
     },
     {
-      "id": "26ffb17c93b84851b599dafde1c1d897",
+      "id": "8c1e3d2462f1441b85241f4957ab7094",
       "status": "pending",
       "date": "2021-03-16T00:00:00+02:00",
+      "value": {
+        "amount": 500.0,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true
+      },
       "suppliers": [
         {
           "name": "ДКП «Школяр»",
           "identifier": {
+            "uri": "http://www.sc.gov.ua/",
             "scheme": "UA-EDR",
-            "id": "00137256",
-            "uri": "http://www.sc.gov.ua/"
+            "id": "00137256"
           },
           "address": {
             "streetAddress": "вул. Островського, 33",
@@ -246,20 +252,15 @@ X-Content-Type-Options: nosniff
             "countryName": "Україна"
           },
           "contactPoint": {
-            "name": "Сергій Олексюк",
             "email": "soleksuk@gmail.com",
-            "telephone": "+380432216930"
+            "telephone": "+380432216930",
+            "name": "Сергій Олексюк"
           },
           "scale": "micro"
         }
       ],
       "bid_id": "b142414a5dc84ec0a828ba7e3d5f3513",
-      "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
-      "value": {
-        "currency": "UAH",
-        "valueAddedTaxIncluded": true,
-        "amount": 500.0
-      }
+      "lotID": "52815e9d01914c7a9bf4ba18ebb5e783"
     }
   ]
 }

@@ -2351,13 +2351,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'criteria/delete-requirement-response-from-award.http', 'wb') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/awards/{}?acc_token={}'.format(
-                    self.tender_id, award_id, owner_token),
-                {'data': {'requirementResponses': []}},
-            )
-            self.assertEqual(response.status, '200 OK')
+        tender = self.db.get(self.tender_id)
+        for a in tender["awards"]:
+            if a["id"] == award_id:
+                del a["requirementResponses"]
+        self.db.save(tender)
 
         test_rr_data = [deepcopy(rr_mock), ]
 
