@@ -349,6 +349,45 @@ def patch_tender_bidder(self):
     self.assertEqual(response.json["errors"][0]["description"], "Can't update bid in current (complete) tender status")
 
 
+def patch_tender_draft_bidder(self):
+
+    bid_data = deepcopy(self.test_bids_data[0])
+    bid_data.update({
+        "value": {"amount": 500},
+        "status": "draft",
+    })
+
+    response = self.app.post_json(
+        "/tenders/{}/bids".format(self.tender_id),
+        {"data": bid_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    bid = response.json["data"]
+    bid_token = response.json["access"]["token"]
+
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
+        {"data": {"status": "draft", "value": {"amount": 499}}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
+        {"data": {"status": "draft", "value": {"amount": 498}}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
+        {"data": {"status": "pending"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+
 def get_tender_bidder(self):
     bid_data = deepcopy(test_bids[0])
     bid_data.update({
