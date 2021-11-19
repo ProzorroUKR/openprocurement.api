@@ -170,6 +170,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()}
         })
 
+        criteria = deepcopy(test_short_profile["criteria"])
+        if PQ_MULTI_PROFILE_RELEASED:
+            agreement = {"id": self.agreement_id}
+            test_tender_data["agreement"] = agreement
+            test_tender_data["criteria"] = criteria
+
         with open(TARGET_DIR + 'tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',

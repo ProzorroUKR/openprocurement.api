@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 2374
+Content-Length: 9310
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -76,7 +76,212 @@ DATA:
     ],
     "agreement": {
       "id": "2e14a78a2074952d5a2d256c3c004dda"
-    }
+    },
+    "criteria": [
+      {
+        "description": "Діагональ екрану",
+        "id": "655360-0001",
+        "requirementGroups": [
+          {
+            "description": "Діагональ екрану, не менше 23.8 дюймів",
+            "id": "655360-0001-001",
+            "requirements": [
+              {
+                "dataType": "number",
+                "id": "655360-0001-001-01",
+                "minValue": "23.8",
+                "title": "Діагональ екрану",
+                "unit": {
+                  "code": "INH",
+                  "name": "дюйм"
+                }
+              }
+            ]
+          }
+        ],
+        "title": "Діагональ екрану"
+      },
+      {
+        "description": "Роздільна здатність",
+        "id": "655360-0002",
+        "requirementGroups": [
+          {
+            "description": "Роздільна здатність - 1920x1080",
+            "id": "655360-0002-001",
+            "requirements": [
+              {
+                "dataType": "string",
+                "expectedValue": "1920x1080",
+                "id": "655360-0002-001-01",
+                "title": "Роздільна здатність"
+              }
+            ]
+          }
+        ],
+        "title": "Роздільна здатність"
+      },
+      {
+        "description": "Співвідношення сторін",
+        "id": "655360-0003",
+        "requirementGroups": [
+          {
+            "description": "Співвідношення сторін",
+            "id": "655360-0003-001",
+            "requirements": [
+              {
+                "dataType": "string",
+                "expectedValue": "16:9",
+                "id": "655360-0003-001-01",
+                "title": "Співвідношення сторін"
+              }
+            ]
+          }
+        ],
+        "title": "Співвідношення сторін"
+      },
+      {
+        "description": "Яскравість дисплея",
+        "id": "655360-0004",
+        "requirementGroups": [
+          {
+            "description": "Яскравість дисплея, не менше 250 кд/м²",
+            "id": "655360-0004-001",
+            "requirements": [
+              {
+                "dataType": "integer",
+                "id": "655360-0004-001-01",
+                "maxValue": "250",
+                "title": "Яскравість дисплея",
+                "unit": {
+                  "code": "A24",
+                  "name": "кд/м²"
+                }
+              }
+            ]
+          }
+        ],
+        "title": "Яскравість дисплея"
+      },
+      {
+        "description": "Контрастність (статична)",
+        "id": "655360-0005",
+        "requirementGroups": [
+          {
+            "description": "Контрастність (статична) - 1000:1",
+            "id": "655360-0005-001",
+            "requirements": [
+              {
+                "dataType": "string",
+                "expectedValue": "1000:1",
+                "id": "655360-0005-001-01",
+                "title": "Контрастність (статична)"
+              }
+            ]
+          },
+          {
+            "description": "Контрастність (статична) - 3000:1",
+            "id": "655360-0005-002",
+            "requirements": [
+              {
+                "dataType": "string",
+                "expectedValue": "3000:1",
+                "id": "655360-0005-002-01",
+                "title": "Контрастність (статична)"
+              }
+            ]
+          }
+        ],
+        "title": "Контрастність (статична)"
+      },
+      {
+        "description": "Кількість портів HDMI",
+        "id": "655360-0006",
+        "requirementGroups": [
+          {
+            "description": "Кількість портів HDMI, не менше 1 шт.",
+            "id": "655360-0006-001",
+            "requirements": [
+              {
+                "dataType": "integer",
+                "id": "655360-0006-001-01",
+                "minValue": "1",
+                "title": "Кількість портів HDMI",
+                "unit": {
+                  "code": "H87",
+                  "name": "штук"
+                }
+              }
+            ]
+          }
+        ],
+        "title": "Кількість портів HDMI"
+      },
+      {
+        "description": "Кількість портів D-sub",
+        "id": "655360-0007",
+        "requirementGroups": [
+          {
+            "description": "Кількість портів D-sub, не менше 1 шт.",
+            "id": "655360-0007-001",
+            "requirements": [
+              {
+                "dataType": "integer",
+                "id": "655360-0007-001-01",
+                "minValue": "1",
+                "title": "Кількість портів D-sub",
+                "unit": {
+                  "code": "H87",
+                  "name": "штук"
+                }
+              }
+            ]
+          }
+        ],
+        "title": "Кількість портів D-sub"
+      },
+      {
+        "description": "Кабель для під’єднання",
+        "id": "655360-0008",
+        "requirementGroups": [
+          {
+            "description": "Кабель для під’єднання",
+            "id": "655360-0008-001",
+            "requirements": [
+              {
+                "dataType": "string",
+                "expectedValue": "HDMI",
+                "id": "655360-0008-001-01",
+                "title": "Кабель для під’єднання"
+              }
+            ]
+          }
+        ],
+        "title": "Кабель для під’єднання"
+      },
+      {
+        "description": "Строк дії гарантії",
+        "id": "655360-0009",
+        "requirementGroups": [
+          {
+            "description": "Гарантія, не менше 36 місяців",
+            "id": "655360-0009-001",
+            "requirements": [
+              {
+                "dataType": "integer",
+                "id": "655360-0009-001-01",
+                "minValue": "36",
+                "title": "Гарантія",
+                "unit": {
+                  "code": "MON",
+                  "name": "місяців"
+                }
+              }
+            ]
+          }
+        ],
+        "title": "Гарантія"
+      }
+    ]
   }
 }
 
@@ -169,6 +374,211 @@ X-Content-Type-Options: nosniff
     "agreement": {
       "id": "2e14a78a2074952d5a2d256c3c004dda"
     },
+    "criteria": [
+      {
+        "id": "655360-0001",
+        "title": "Діагональ екрану",
+        "description": "Діагональ екрану",
+        "requirementGroups": [
+          {
+            "id": "655360-0001-001",
+            "description": "Діагональ екрану, не менше 23.8 дюймів",
+            "requirements": [
+              {
+                "id": "655360-0001-001-01",
+                "title": "Діагональ екрану",
+                "dataType": "number",
+                "unit": {
+                  "code": "INH",
+                  "name": "дюйм"
+                },
+                "minValue": "23.8"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "655360-0002",
+        "title": "Роздільна здатність",
+        "description": "Роздільна здатність",
+        "requirementGroups": [
+          {
+            "id": "655360-0002-001",
+            "description": "Роздільна здатність - 1920x1080",
+            "requirements": [
+              {
+                "id": "655360-0002-001-01",
+                "title": "Роздільна здатність",
+                "dataType": "string",
+                "expectedValue": "1920x1080"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "655360-0003",
+        "title": "Співвідношення сторін",
+        "description": "Співвідношення сторін",
+        "requirementGroups": [
+          {
+            "id": "655360-0003-001",
+            "description": "Співвідношення сторін",
+            "requirements": [
+              {
+                "id": "655360-0003-001-01",
+                "title": "Співвідношення сторін",
+                "dataType": "string",
+                "expectedValue": "16:9"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "655360-0004",
+        "title": "Яскравість дисплея",
+        "description": "Яскравість дисплея",
+        "requirementGroups": [
+          {
+            "id": "655360-0004-001",
+            "description": "Яскравість дисплея, не менше 250 кд/м²",
+            "requirements": [
+              {
+                "id": "655360-0004-001-01",
+                "title": "Яскравість дисплея",
+                "dataType": "integer",
+                "unit": {
+                  "code": "A24",
+                  "name": "кд/м²"
+                },
+                "maxValue": "250"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "655360-0005",
+        "title": "Контрастність (статична)",
+        "description": "Контрастність (статична)",
+        "requirementGroups": [
+          {
+            "id": "655360-0005-001",
+            "description": "Контрастність (статична) - 1000:1",
+            "requirements": [
+              {
+                "id": "655360-0005-001-01",
+                "title": "Контрастність (статична)",
+                "dataType": "string",
+                "expectedValue": "1000:1"
+              }
+            ]
+          },
+          {
+            "id": "655360-0005-002",
+            "description": "Контрастність (статична) - 3000:1",
+            "requirements": [
+              {
+                "id": "655360-0005-002-01",
+                "title": "Контрастність (статична)",
+                "dataType": "string",
+                "expectedValue": "3000:1"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "655360-0006",
+        "title": "Кількість портів HDMI",
+        "description": "Кількість портів HDMI",
+        "requirementGroups": [
+          {
+            "id": "655360-0006-001",
+            "description": "Кількість портів HDMI, не менше 1 шт.",
+            "requirements": [
+              {
+                "id": "655360-0006-001-01",
+                "title": "Кількість портів HDMI",
+                "dataType": "integer",
+                "unit": {
+                  "code": "H87",
+                  "name": "штук"
+                },
+                "minValue": "1"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "655360-0007",
+        "title": "Кількість портів D-sub",
+        "description": "Кількість портів D-sub",
+        "requirementGroups": [
+          {
+            "id": "655360-0007-001",
+            "description": "Кількість портів D-sub, не менше 1 шт.",
+            "requirements": [
+              {
+                "id": "655360-0007-001-01",
+                "title": "Кількість портів D-sub",
+                "dataType": "integer",
+                "unit": {
+                  "code": "H87",
+                  "name": "штук"
+                },
+                "minValue": "1"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "655360-0008",
+        "title": "Кабель для під’єднання",
+        "description": "Кабель для під’єднання",
+        "requirementGroups": [
+          {
+            "id": "655360-0008-001",
+            "description": "Кабель для під’єднання",
+            "requirements": [
+              {
+                "id": "655360-0008-001-01",
+                "title": "Кабель для під’єднання",
+                "dataType": "string",
+                "expectedValue": "HDMI"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "655360-0009",
+        "title": "Гарантія",
+        "description": "Строк дії гарантії",
+        "requirementGroups": [
+          {
+            "id": "655360-0009-001",
+            "description": "Гарантія, не менше 36 місяців",
+            "requirements": [
+              {
+                "id": "655360-0009-001-01",
+                "title": "Гарантія",
+                "dataType": "integer",
+                "unit": {
+                  "code": "MON",
+                  "name": "місяців"
+                },
+                "minValue": "36"
+              }
+            ]
+          }
+        ]
+      }
+    ],
     "id": "e821f507458c4e99bdd9928981355ffa"
   },
   "access": {
