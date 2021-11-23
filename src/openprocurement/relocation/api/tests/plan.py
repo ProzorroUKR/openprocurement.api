@@ -300,9 +300,9 @@ class PlanOwnerOwnershipChangeTest(BasePlanOwnershipChangeTest):
         transfer = response.json["data"]
         transfer_tokens = response.json["access"]
 
-        plan_doc = self.databases.plans.get(self.plan_id)
+        plan_doc = self.mongodb.plans.get(self.plan_id)
         plan_doc["owner"] = "deleted_broker"
-        self.databases.plans.save(plan_doc)
+        self.mongodb.save_data(self.mongodb.plans.collection, plan_doc)
 
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
             response = self.app.post_json(

@@ -63,7 +63,6 @@ entry_points = {
     "openprocurement.api.migrations": [
         "tenders = openprocurement.api.migration:migrate_data",
         "contracts = openprocurement.contracting.api.migration:migrate_data",
-        "plans = openprocurement.planning.api.migration:migrate_data",
         "frameworks = openprocurement.framework.core.migration:migrate_data",
     ],
     "console_scripts": [

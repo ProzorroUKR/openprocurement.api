@@ -8,6 +8,7 @@ services:
       SANDBOX_MODE: 'True'
     depends_on:
       - couchdb
+      - mongo
     volumes:
       - "./src/openprocurement:/app/src/openprocurement:delegated"
       - "./docs:/app/docs:delegated"
@@ -31,3 +32,35 @@ services:
     environment:
       COUCHDB_USER: op
       COUCHDB_PASSWORD: op
+
+  mongo:
+    image: 'bitnami/mongodb:latest'
+    environment:
+      MONGODB_ROOT_PASSWORD: example
+      MONGODB_REPLICA_SET_MODE: primary
+      MONGODB_REPLICA_SET_NAME: rs0
+      MONGODB_REPLICA_SET_KEY: replicaSetKey
+    ports:
+      - 27017:27017
+
+#  replica:
+#    image: 'bitnami/mongodb:latest'
+#    environment:
+#      MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD: example
+#      MONGODB_INITIAL_PRIMARY_HOST: mongo
+#      MONGODB_REPLICA_SET_MODE: secondary
+#      MONGODB_REPLICA_SET_NAME: rs0
+#      MONGODB_REPLICA_SET_KEY: replicaSetKey
+#    depends_on:
+#      - mongo
+
+#  mongo-express:
+#    image: mongo-express
+#    depends_on:
+#      - mongo
+#    environment:
+#      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+#      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+#      ME_CONFIG_MONGODB_SERVER: mongo
+#    ports:
+#      - 8081:8081

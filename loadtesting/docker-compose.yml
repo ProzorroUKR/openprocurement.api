@@ -1,0 +1,31 @@
+---
+version: '3'
+
+services:
+  master:
+    image: locustio/locust
+    ports:
+      - "8089:8089"
+    volumes:
+      - ./:/mnt/locust
+#    command: -f /mnt/locust/plans.py --host http://host.docker.internal:8000
+    command: -f /mnt/locust/plans.py --headless --master -u 200 -r 10 -t 2m --host https://lb-api-mongo.prozorro.gov.ua
+#    command: -f /mnt/locust/plans.py --headless --master -u 100 -r 10 -t 10m --host https://public.api.openprocurement.org
+
+  worker1:
+    image: locustio/locust
+    volumes:
+      - ./:/mnt/locust
+    command: -f /mnt/locust/plans.py --worker --master-host=master
+
+  worker2:
+    image: locustio/locust
+    volumes:
+      - ./:/mnt/locust
+    command: -f /mnt/locust/plans.py --worker --master-host=master
+
+  worker3:
+    image: locustio/locust
+    volumes:
+      - ./:/mnt/locust
+    command: -f /mnt/locust/plans.py --worker --master-host=master

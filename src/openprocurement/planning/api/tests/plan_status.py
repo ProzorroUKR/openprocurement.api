@@ -4,6 +4,7 @@ from mock import patch
 from datetime import timedelta
 
 from openprocurement.planning.api.tests.base import app, singleton_app, test_plan_data, generate_docservice_url
+from openprocurement.planning.api.models import Plan
 from openprocurement.api.utils import get_now
 import pytest
 
@@ -59,9 +60,9 @@ def test_fail_update_back_to_draft(app, initial_status):
     acc_token = response.json["access"]["token"]
 
     if initial_status is None:
-        plan = app.app.registry.databases.plans.get(plan_id)
+        plan = app.app.registry.mongodb.plans.get(plan_id)
         del plan["status"]
-        app.app.registry.databases.plans.save(plan)
+        app.app.registry.mongodb.plans.save(Plan(plan))
 
     response = app.patch_json(
         "/plans/{}?acc_token={}".format(plan_id, acc_token), {"data": {"status": "draft"}}, status=422
@@ -220,7 +221,7 @@ def test_cancel_plan_1_step(app):
     assert response.json["data"]["cancellation"]["status"] == "active"
     assert response.json["data"]["status"] == "cancelled"
 
-    plan = app.app.registry.databases.plans.get(plan_id)
+    plan = app.app.registry.mongodb.plans.get(plan_id)
     assert {c["path"] for c in plan["revisions"][-1]["changes"]} == {"/cancellation", "/status"}
 
 
@@ -247,10 +248,10 @@ def test_cancel_compatibility_completed_plan(app):
     plan = response.json["data"]
     acc_token = response.json["access"]["token"]
 
-    obj = app.app.registry.databases.plans.get(plan["id"])
+    obj = app.app.registry.mongodb.plans.get(plan["id"])
     del obj["status"]
     obj["tender_id"] = "a" * 32
-    app.app.registry.databases.plans.save(obj)
+    app.app.registry.mongodb.save_data(app.app.registry.mongodb.plans.collection, obj)
 
     response = app.get("/plans/{}".format(plan["id"]))
     assert response.json["data"]["status"] == "complete"  # complete !

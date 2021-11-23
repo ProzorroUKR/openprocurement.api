@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
 import standards
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 from isodate import ISO8601Error, parse_duration, duration_isoformat
 from isodate.duration import Duration
@@ -170,6 +169,17 @@ class IsoDateTimeType(BaseType):
         if isinstance(value, datetime):
             return value.isoformat()
         return value
+
+
+class IsoDateTimeTypeWithTimestamp(IsoDateTimeType):
+    """
+    can also parse timestamp
+    """
+    def to_native(self, value, context=None):
+        if isinstance(value, float):
+            dt = datetime.fromtimestamp(value, tz=timezone.utc)  # timestamp stored in utc timezone
+            return dt.astimezone(TZ)  # converted to Kiev before display
+        return super().to_native(value, context)
 
 
 class IsoDurationType(BaseType):

@@ -118,21 +118,40 @@ class BaseWebTest(unittest.TestCase):
     database_keys = tuple()  # specify database keys that used in a test class
     databases = None
 
+    enable_couch = True
+    mongodb_collections = None
+    mongodb = None
+
     @classmethod
     def setUpClass(cls):
         cls.app = cls.AppClass(loadwsgiapp(cls.relative_uri, relative_to=cls.relative_to))
-        cls.db = cls.app.recreate_db()
-        cls.databases = cls.app.app.registry.databases
-        if cls.database_keys:   # work with specific databases
-            cls.clean_databases()
+        if cls.enable_couch:
+            cls.db = cls.app.recreate_db()
+            cls.databases = cls.app.app.registry.databases
+
+            if cls.database_keys:   # work with specific databases
+                cls.clean_databases()
+
+        cls.mongodb = cls.app.app.registry.mongodb
+        cls.clean_mongodb()
 
     def setUp(self):
         self.app.authorization = self.initial_auth
 
     def tearDown(self):
-        self.app.clean_db()
-        if self.database_keys:
-            self.clean_databases()
+        if self.enable_couch:
+            self.app.clean_db()
+            if self.database_keys:
+                self.clean_databases()
+        self.clean_mongodb()
+
+    @classmethod
+    def clean_mongodb(cls):
+        collections = getattr(cls, "mongodb_collections", None)
+        if collections:
+            for collection in collections:
+                getattr(cls.mongodb, collection).flush()
+            cls.mongodb.flush_sequences()
 
     @classmethod
     def clean_databases(cls):
