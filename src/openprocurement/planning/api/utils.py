@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 from functools import partial
 from logging import getLogger
-from time import sleep
 from cornice.resource import resource
-from couchdb.http import ResourceConflict
 from openprocurement.api.utils import (
     update_logging_context,
     context_unpack,
@@ -20,44 +18,26 @@ from openprocurement.planning.api.traversal import factory
 LOGGER = getLogger("openprocurement.planning.api")
 
 
-def generate_plan_id(ctime, db, server_id=""):
+def generate_plan_id(request, server_id=""):
     """ Generate ID for new plan in format "UA-P-YYYY-MM-DD-NNNNNN" + ["-server_id"]
         YYYY - year, MM - month (start with 1), DD - day, NNNNNN - sequence number per 1 day
         and save plans count per day in database document with _id = "planID" as { key, value } = { "2015-12-03": 2 }
-    :param ctime: system date-time
-    :param db: couchdb database object
+    :param request:
     :param server_id: server mark (for claster mode)
     :return: planID in "UA-2015-05-08-000005"
     """
-    key = ctime.date().isoformat()  # key (YYYY-MM-DD)
-    plan_id_doc = "planID_" + server_id if server_id else "planID"  # document _id
-    index = 1
-    while True:
-        try:
-            plan_id = db.get(plan_id_doc, {"_id": plan_id_doc})  # find root document
-            index = plan_id.get(key, 1)
-            plan_id[key] = index + 1  # count of plans in db (+1 ?)
-            db.save(plan_id)
-        except ResourceConflict:  # pragma: no cover
-            pass
-        except Exception:  # pragma: no cover
-            sleep(1)
-        else:
-            break
+    now = get_now()
+    uid = f"plan_{server_id}_{now.date().isoformat()}"
+    index = request.registry.mongodb.get_next_sequence_value(uid)
     return "UA-P-{:04}-{:02}-{:02}-{:06}{}".format(
-        ctime.year, ctime.month, ctime.day, index, server_id and "-" + server_id
+        now.year, now.month, now.day, index, server_id and "-" + server_id
     )
 
 
-def plan_serialize(request, plan_data, fields):
-    plan = request.plan_from_data(plan_data, raise_error=False)
-    plan.__parent__ = request.context
-    return dict([(i, j) for i, j in plan.serialize("view").items() if i in fields])
-
-
-def save_plan(request):
+def save_plan(request, insert=False):
     """ Save plan object to database
     :param request:
+    :param insert:
     :return: True if Ok
     """
     plan = request.validated["plan"]
@@ -67,14 +47,17 @@ def save_plan(request):
         append_revision(request, plan, patch)
         old_date_modified = plan.dateModified
 
-        if getattr(plan, "modified", True):
+        if getattr(plan, "is_modified", True):
             now = get_now()
             plan.dateModified = now
             if any(c for c in patch if c["path"].startswith("/cancellation/")):
                 plan.cancellation.date = now
 
         with handle_store_exceptions(request):
-            plan.store(request.registry.databases.plans)
+            request.registry.mongodb.plans.save(
+                plan,
+                insert=insert,
+            )
             LOGGER.info(
                 "Saved plan {}: dateModified {} -> {}".format(
                     plan.id,
@@ -122,13 +105,8 @@ def set_logging_context(event):
 
 def extract_plan_doc(request, plan_id=None):
     plan_id = plan_id or request.matchdict["plan_id"]
-    db = request.registry.databases.plans
-    doc = db.get(plan_id)
-    if doc is not None and doc.get("doc_type") == "plan":
-        request.errors.add("url", "plan_id", "Archived")
-        request.errors.status = 410
-        raise error_handler(request)
-    if doc is None or doc.get("doc_type") != "Plan":
+    doc = request.registry.mongodb.plans.get(plan_id)
+    if doc is None:
         request.errors.add("url", "plan_id", "Not Found")
         request.errors.status = 404
         raise error_handler(request)

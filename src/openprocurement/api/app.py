@@ -15,13 +15,14 @@ if not is_test():
 import os
 import simplejson
 import sentry_sdk
+from datetime import datetime
 from nacl.encoding import HexEncoder
 from nacl.signing import SigningKey, VerifyKey
 from logging import getLogger
 from openprocurement.api.auth import AuthenticationPolicy, authenticated_role, check_accreditations
-from openprocurement.api.database import set_api_security, Databases
+from openprocurement.api.database import set_api_security, Databases, MongodbStore
 from openprocurement.api.utils import forbidden, request_params, couchdb_json_decode, precondition, get_currency_rates
-from openprocurement.api.constants import ROUTE_PREFIX
+from openprocurement.api.constants import ROUTE_PREFIX, TZ
 from pkg_resources import iter_entry_points
 from pyramid.authorization import ACLAuthorizationPolicy as AuthorizationPolicy
 from pyramid.config import Configurator
@@ -30,9 +31,25 @@ from pyramid.settings import asbool
 from pyramid.httpexceptions import HTTPPreconditionFailed
 from sentry_sdk.integrations.logging import LoggingIntegration
 from sentry_sdk.integrations.pyramid import PyramidIntegration
+from pytz import utc
 
 
 LOGGER = getLogger("{}.init".format(__name__))
+
+
+class CustomJSONEncoder(simplejson.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, datetime):
+            if not obj.tzinfo:
+                obj = utc.localize(obj).astimezone(TZ)
+            return obj.isoformat()
+        return super().default(self, obj)
+
+
+def json_dumps(data, **kw):
+    kw["cls"] = CustomJSONEncoder
+    del kw["default"]  # ignore pyramids default function provided, to use CustomJSONEncoder.default
+    return simplejson.dumps(data, **kw)
 
 
 def main(global_config, **settings):
@@ -65,10 +82,10 @@ def main(global_config, **settings):
     config.add_request_method(authenticated_role, reify=True)
     config.add_request_method(check_accreditations)
     config.add_request_method(get_currency_rates, name="currency_rates", reify=True)
-    config.add_renderer("json", JSON(serializer=simplejson.dumps))
-    config.add_renderer("prettyjson", JSON(indent=4, serializer=simplejson.dumps))
-    config.add_renderer("jsonp", JSONP(param_name="opt_jsonp", serializer=simplejson.dumps))
-    config.add_renderer("prettyjsonp", JSONP(indent=4, param_name="opt_jsonp", serializer=simplejson.dumps))
+    config.add_renderer("json", JSON(serializer=json_dumps))
+    config.add_renderer("prettyjson", JSON(indent=4, serializer=json_dumps))
+    config.add_renderer("jsonp", JSONP(param_name="opt_jsonp", serializer=json_dumps))
+    config.add_renderer("prettyjsonp", JSONP(indent=4, param_name="opt_jsonp", serializer=json_dumps))
 
     # search for plugins
     plugins = settings.get("plugins") and [plugin.strip() for plugin in settings["plugins"].split(",")]
@@ -97,6 +114,9 @@ def main(global_config, **settings):
         plans=settings.get("couchdb.plans_db_name"),
         contracts=settings.get("couchdb.contracts_db_name"),
     )
+
+    # mongodb
+    config.registry.mongodb = MongodbStore(settings)
 
     # readjust couchdb json decoder
     couchdb_json_decode()

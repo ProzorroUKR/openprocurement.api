@@ -84,7 +84,7 @@ def create_plan_document(self):
         self.assertIn("KeyID=", response.json["data"]["url"])
         self.assertNotIn("Expires=", response.json["data"]["url"])
         key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        plan = self.databases.plans.get(self.plan_id)
+        plan = self.mongodb.plans.get(self.plan_id)
         self.assertIn(key, plan["documents"][-1]["url"])
         self.assertIn("Signature=", plan["documents"][-1]["url"])
         self.assertIn("KeyID=", plan["documents"][-1]["url"])
@@ -160,7 +160,7 @@ def put_plan_document(self):
         self.assertIn("KeyID=", response.json["data"]["url"])
         self.assertNotIn("Expires=", response.json["data"]["url"])
         key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        plan = self.databases.plans.get(self.plan_id)
+        plan = self.mongodb.plans.get(self.plan_id)
         self.assertIn(key, plan["documents"][-1]["url"])
         self.assertIn("Signature=", plan["documents"][-1]["url"])
         self.assertIn("KeyID=", plan["documents"][-1]["url"])
@@ -231,7 +231,7 @@ def put_plan_document(self):
         self.assertIn("KeyID=", response.json["data"]["url"])
         self.assertNotIn("Expires=", response.json["data"]["url"])
         key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        plan = self.databases.plans.get(self.plan_id)
+        plan = self.mongodb.plans.get(self.plan_id)
         self.assertIn(key, plan["documents"][-1]["url"])
         self.assertIn("Signature=", plan["documents"][-1]["url"])
         self.assertIn("KeyID=", plan["documents"][-1]["url"])
@@ -421,7 +421,7 @@ def create_plan_document_json(self):
     self.assertIn("KeyID=", response.json["data"]["url"])
     self.assertNotIn("Expires=", response.json["data"]["url"])
     key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-    plan = self.databases.plans.get(self.plan_id)
+    plan = self.mongodb.plans.get(self.plan_id)
     self.assertIn(key, plan["documents"][-1]["url"])
     self.assertIn("Signature=", plan["documents"][-1]["url"])
     self.assertIn("KeyID=", plan["documents"][-1]["url"])
@@ -510,7 +510,7 @@ def put_plan_document_json(self):
     self.assertIn("KeyID=", response.json["data"]["url"])
     self.assertNotIn("Expires=", response.json["data"]["url"])
     key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-    plan = self.databases.plans.get(self.plan_id)
+    plan = self.mongodb.plans.get(self.plan_id)
     self.assertIn(key, plan["documents"][-1]["url"])
     self.assertIn("Signature=", plan["documents"][-1]["url"])
     self.assertIn("KeyID=", plan["documents"][-1]["url"])
@@ -579,7 +579,7 @@ def put_plan_document_json(self):
     self.assertIn("KeyID=", response.json["data"]["url"])
     self.assertNotIn("Expires=", response.json["data"]["url"])
     key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-    plan = self.databases.plans.get(self.plan_id)
+    plan = self.mongodb.plans.get(self.plan_id)
     self.assertIn(key, plan["documents"][-1]["url"])
     self.assertIn("Signature=", plan["documents"][-1]["url"])
     self.assertIn("KeyID=", plan["documents"][-1]["url"])

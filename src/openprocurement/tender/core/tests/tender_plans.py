@@ -173,10 +173,10 @@ def test_fail_duplicate(app, tender, plan):
         {'description': "Can't update plan in 'complete' status", 'location': 'body', 'name': 'status'}]}
 
     # what if plan hasn't been updated for an unknown reason
-    plan_obj = app.app.registry.databases.plans.get(plan["data"]["id"])
+    plan_obj = app.app.registry.mongodb.plans.get(plan["data"]["id"])
     del plan_obj["tender_id"]
     plan_obj["status"] = "scheduled"
-    app.app.registry.databases.plans.save(plan_obj)
+    app.app.registry.mongodb.save_data(app.app.registry.mongodb.plans.collection, plan_obj)
 
     response = app.post_json(
         "/tenders/{}/plans?acc_token={}".format(tender["data"]["id"], tender["access"]["token"]),
@@ -189,9 +189,9 @@ def test_fail_duplicate(app, tender, plan):
 
 
 def test_fail_saving_plan(app, tender, plan):
-    plan_obj = app.app.registry.databases.plans.get(plan["data"]["id"])
+    plan_obj = app.app.registry.mongodb.plans.get(plan["data"]["id"])
     plan_obj["status"] = "will cause a data validation error"
-    app.app.registry.databases.plans.save(plan_obj)
+    app.app.registry.mongodb.save_data(app.app.registry.mongodb.plans.collection, plan_obj)
 
     # got an error
     response = app.post_json(

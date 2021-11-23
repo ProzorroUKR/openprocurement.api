@@ -94,21 +94,20 @@ test_plan_data = {
 }
 
 
-class BaseApiWebTest(BaseWebTest):
-    relative_to = os.path.dirname(__file__)
-
-
 class BasePlanTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
     initial_auth = ("Basic", ("broker", ""))
-    database_keys = ("plans",)
+    enable_couch = False
+    mongodb_collections = ("plans",)
+    docservice = True
 
 
 class BasePlanWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_plan_data
-    docservice = False
-    database_keys = ("plans",)
+    enable_couch = False
+    mongodb_collections = ("plans",)
+    docservice = True
 
     def setUp(self):
         super(BasePlanWebTest, self).setUp()
@@ -130,24 +129,12 @@ def singleton_app():
     return app
 
 
-def flush_db(db):
-    # delete docs
-    docs = []
-    for row in db.get("_all_docs", include_docs=True).get("rows", ""):
-        if row['id'].startswith('_'):
-            continue
-        doc = row['doc']
-        doc['_deleted'] = True
-        docs.append(doc)
-    db.update(docs)
-
-
 @pytest.fixture(scope="function")
 def app(singleton_app):
     singleton_app.authorization = None
-    flush_db(singleton_app.app.registry.databases.plans)
+    singleton_app.app.registry.mongodb.plans.flush()
     yield singleton_app
-    flush_db(singleton_app.app.registry.databases.plans)
+    singleton_app.app.registry.mongodb.plans.flush()
 
 
 @pytest.fixture(scope="function")

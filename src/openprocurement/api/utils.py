@@ -9,7 +9,7 @@ import couchdb.json
 import pytz
 from couchdb import util, ResourceConflict
 from logging import getLogger
-from datetime import datetime
+from datetime import datetime, timezone
 from base64 import b64encode, b64decode
 from cornice.resource import resource, view
 from email.header import decode_header
@@ -49,6 +49,7 @@ from openprocurement.api.constants import (
     GMDN_CPV_PREFIXES,
     UA_ROAD_CPV_PREFIXES,
 )
+from openprocurement.api.database import MongodbResourceConflict
 from openprocurement.api.interfaces import IOPContent
 from openprocurement.api.interfaces import IContentConfigurator
 import requests
@@ -763,6 +764,94 @@ class APIResourcePaginatedListing(APIResource):
         return data
 
 
+class MongodbResourceListing(APIResource):
+
+    listing_name = "Items"
+    offset_field = "public_modified"
+    listing_default_fields = {"dateModified"}
+    all_fields = {"dateModified", "created", "modified"}
+    default_limit = 100
+    max_limit = 1000
+    db_listing_method: callable
+
+    @json_view(permission='view_listing')
+    def get(self):
+        params = {}
+        if self.request.params.get('mode'):
+            params["mode"] = self.request.params.get('mode')
+
+        offset = None
+        if self.request.params.get('offset'):
+            params["offset"] = self.request.params.get('offset')
+            try:
+                offset = float(params["offset"])
+            except ValueError:
+                raise_operation_error(
+                    self.request,
+                    f"Invalid offset provided: {params['offset']}",
+                    status=404, location="querystring", name="offset")
+
+        if self.request.params.get('limit'):
+            try:
+                limit = int(self.request.params.get('limit'))
+            except ValueError as e:
+                raise_operation_error(self.request, e.args[0], status=400, location="querystring", name="offset")
+            else:
+                params["limit"] = min(limit, self.max_limit)
+        if self.request.params.get('descending'):
+            params["descending"] = 1
+        if self.request.params.get('opt_fields'):
+            fields = set(self.request.params.get('opt_fields', '').split(",")) & self.all_fields
+            filtered_fields = fields - self.listing_default_fields
+            if filtered_fields:
+                params["opt_fields"] = ",".join(filtered_fields)
+        else:
+            fields = set()
+
+        prev_params = dict(**params)
+        if params.get("descending"):
+            del prev_params["descending"]
+        else:
+            prev_params["descending"] = 1
+
+        # call db method
+        results = self.db_listing_method(
+            offset_field=self.offset_field,
+            offset_value=offset,
+            fields=fields | self.listing_default_fields,
+            descending=params.get("descending"),
+            limit=params.get("limit", self.default_limit),
+            mode=params.get("mode"),
+        )
+
+        if results:
+            params['offset'] = results[-1][self.offset_field]
+            prev_params['offset'] = results[-1][self.offset_field]
+            if self.offset_field not in self.all_fields:
+                for r in results:
+                    r.pop(self.offset_field)
+        data = {
+            'data': [r for r in results],
+            'next_page': {
+                "offset": params.get("offset", ""),
+                "path": self.request.route_path(self.listing_name,
+                                                _query=params),
+                "uri": self.request.route_url(self.listing_name,
+                                              _query=params)
+            }
+        }
+        if self.request.params.get('descending') or self.request.params.get('offset'):
+            data['prev_page'] = {
+                "offset": prev_params.get("offset", ""),
+                "path": self.request.route_path(self.listing_name,
+                                                _query=prev_params),
+                "uri": self.request.route_url(self.listing_name,
+                                              _query=prev_params)
+            }
+
+        return data
+
+
 def forbidden(request):
     request.errors.add("url", "permission", "Forbidden")
     request.errors.status = 403
@@ -923,7 +1012,7 @@ def handle_store_exceptions(request):
         for i in e.messages:
             request.errors.add("body", i, e.messages[i])
         request.errors.status = 422
-    except ResourceConflict as e:  # pragma: no cover
+    except (ResourceConflict, MongodbResourceConflict) as e:  # pragma: no cover
         request.errors.add("body", "data", str(e))
         request.errors.status = 409
     except Exception as e:  # pragma: no cover
