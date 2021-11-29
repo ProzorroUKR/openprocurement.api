@@ -1836,6 +1836,21 @@ def change_status_to_standstill_with_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification.stand-still")
 
+    data = response.json["data"]
+    if "lots" in data:
+        expected_start_after = data["lots"][0]["auctionPeriod"]["shouldStartAfter"]
+    else:
+        expected_start_after = data["auctionPeriod"]["shouldStartAfter"]
+
+    response = self.check_chronograph()
+    data = response.json["data"]
+    if "lots" in data:
+        actual_start_after = data["lots"][0]["auctionPeriod"]["shouldStartAfter"]
+    else:
+        actual_start_after = data["auctionPeriod"]["shouldStartAfter"]
+
+    self.assertEqual(expected_start_after, actual_start_after)
+
 
 # TenderLotQualificationComplaintResourceTest
 
