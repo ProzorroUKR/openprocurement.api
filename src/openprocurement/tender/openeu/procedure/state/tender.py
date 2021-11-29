@@ -1,10 +1,10 @@
-from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.core.procedure.state.tender import TenderState, PreQualificationShouldStartAfterMixing
 from openprocurement.tender.core.procedure.context import get_now, get_request
 from openprocurement.tender.openeu.procedure.models.award import Award
 from openprocurement.tender.core.procedure.models.qualification import Qualification
 
 
-class OpenEUTenderState(TenderState):
+class OpenEUTenderState(PreQualificationShouldStartAfterMixing, TenderState):
     award_class = Award
     active_bid_statuses = ("active", "pending")
     block_complaint_status = ("pending", "accepted", "satisfied", "stopping")
