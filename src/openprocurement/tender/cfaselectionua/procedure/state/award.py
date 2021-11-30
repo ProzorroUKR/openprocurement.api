@@ -10,7 +10,6 @@ import logging
 LOGGER = logging.getLogger(__name__)
 
 
-
 class AwardState(AwardStateMixing, CFASelectionTenderState):
     award_stand_still_time = STAND_STILL_TIME
 
@@ -69,7 +68,7 @@ class AwardState(AwardStateMixing, CFASelectionTenderState):
                                                      {"MESSAGE_ID": "switched_lot_unsuccessful"},
                                                      {"LOT_ID": lot["id"]}),
                             )
-                            lot["status"] = "unsuccessful"
+                            self.set_object_status(lot, "unsuccessful")
 
                         elif last_award["status"] == "active":
                             contract_statuses = {
@@ -88,7 +87,7 @@ class AwardState(AwardStateMixing, CFASelectionTenderState):
                                                          {"MESSAGE_ID": "switched_lot_complete"},
                                                          {"LOT_ID": lot["id"]}),
                                 )
-                                lot["status"] = "complete"
+                                self.set_object_status(lot, "complete")
 
             statuses = {lot.get("status") for lot in tender.get("lots", [])}
             if statuses == {"cancelled"}:

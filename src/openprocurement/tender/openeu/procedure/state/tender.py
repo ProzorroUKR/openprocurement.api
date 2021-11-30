@@ -66,7 +66,7 @@ class OpenEUTenderState(PreQualificationShouldStartAfterMixing, TenderState):
                     related_lot = cancellation["relatedLot"]
                     for lot in tender["lots"]:
                         if lot["id"] == related_lot:
-                            lot["status"] = "cancelled"
+                            self.set_object_status(lot, "cancelled")
 
                     # 2
                     cancelled_lots = {i["id"] for i in tender.get("lots") if i["status"] == "cancelled"}

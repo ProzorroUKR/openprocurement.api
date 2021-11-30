@@ -1,3 +1,7 @@
+from openprocurement.tender.core.procedure.context import get_now
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class BaseState:
@@ -18,3 +22,11 @@ class BaseState:
 
     def always(self, data):  # post or patch
         pass
+
+    @staticmethod
+    def set_object_status(obj, status):
+        if obj["status"] != status:
+            obj["status"] = status
+            obj["date"] = get_now().isoformat()
+        else:
+            logger.warning(f"Obj status already set", extra={"CONTEXT": obj})

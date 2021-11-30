@@ -22,7 +22,7 @@ class CFASelectionTenderState(TenderState):
                             del lot["auctionPeriod"]
 
                     if lot["status"] == "active":
-                        lot["status"] = "unsuccessful"
+                        self.set_object_status(lot, "unsuccessful")
 
                         # for procedures where lotValues have "status" field (openeu, competitive_dialogue, more ?)
                         for bid in tender.get("bids", ""):

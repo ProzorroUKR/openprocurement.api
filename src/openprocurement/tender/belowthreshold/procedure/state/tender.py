@@ -1,6 +1,5 @@
 from openprocurement.tender.core.constants import COMPLAINT_STAND_STILL_TIME
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.utils import calculate_tender_date
 from datetime import datetime
 
@@ -66,7 +65,7 @@ class BelowThresholdTenderState(TenderState):
                             del lot["auctionPeriod"]
 
                     if bid_number == 0 and lot["status"] == "active":
-                        lot["status"] = "unsuccessful"
+                        self.set_object_status(lot, "unsuccessful")
 
             self.cleanup_bids_for_cancelled_lots(tender)
             if not set(i["status"] for i in tender["lots"]).difference({"unsuccessful", "cancelled"}):
