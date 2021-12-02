@@ -1,5 +1,7 @@
-# -*- coding: utf-8 -*-
 import unittest
+from unittest.mock import patch
+from datetime import timedelta
+from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.pricequotation.tests.base import (
     TenderContentWebTest,
@@ -28,6 +30,7 @@ from openprocurement.tender.pricequotation.tests.contract_blanks import (
 )
 
 
+@patch("openprocurement.tender.pricequotation.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
 class TenderContractResourceTest(TenderContentWebTest,
                                  TenderContractResourceTestMixin):
     initial_status = "active.awarded"
@@ -60,6 +63,7 @@ class TenderContractResourceTest(TenderContentWebTest,
     test_patch_contract_multi_items_unit_value = snitch(patch_contract_multi_items_unit_value)
 
 
+@patch("openprocurement.tender.pricequotation.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
 class TenderContractVATNotIncludedResourceTest(TenderContentWebTest,
                                                TenderContractResourceTestMixin):
     initial_status = "active.awarded"
@@ -74,6 +78,7 @@ class TenderContractVATNotIncludedResourceTest(TenderContentWebTest,
     )
 
 
+@patch("openprocurement.tender.pricequotation.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
 class TenderContractDocumentResourceTest(TenderContentWebTest,
                                          TenderContractDocumentResourceTestMixin):
     initial_status = "active.awarded"
@@ -83,6 +88,7 @@ class TenderContractDocumentResourceTest(TenderContentWebTest,
         super(TenderContractDocumentResourceTest, self).setUp()
 
 
+@patch("openprocurement.tender.pricequotation.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
 class TenderContractMultiBuyersResourceTest(TenderContentWebTest):
     initial_data = test_tender_data_multi_buyers
     initial_status = "active.qualification"

@@ -1,6 +1,7 @@
-# -*- coding: utf-8 -*-
 import unittest
-
+from unittest.mock import patch
+from datetime import timedelta
+from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.pricequotation.tests.base import (
@@ -30,8 +31,7 @@ class TenderCancellationResourceTestMixin(object):
     test_get_tender_cancellations = snitch(get_tender_cancellations)
 
 
-
-
+@patch("openprocurement.tender.pricequotation.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
 class TenderCancellationActiveTenderingResourceTest(
     TenderContentWebTest,
     TenderCancellationResourceTestMixin,

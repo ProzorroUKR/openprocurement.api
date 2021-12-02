@@ -1,12 +1,18 @@
-# -*- coding: utf-8 -*-
 import unittest
-
+from unittest.mock import patch
+from copy import deepcopy
+from datetime import timedelta
+from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.pricequotation.tests.base import (
     TenderContentWebTest,
     test_organization,
     test_bids,
     test_requirement_response_valid,
+    copy_criteria_req_id,
+    test_criteria,
+    test_requirement_response,
+    criteria_drop_uuids,
 )
 from openprocurement.tender.pricequotation.tests.data import (
     test_criteria_1,
@@ -43,8 +49,10 @@ from openprocurement.tender.pricequotation.tests.bid_blanks import (
 )
 
 
+@patch("openprocurement.tender.pricequotation.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
 class TenderBidResourceTest(TenderContentWebTest):
     initial_status = "active.tendering"
+    test_criteria = test_criteria
 
     test_create_tender_bid_invalid = snitch(create_tender_bid_invalid)
     test_create_tender_bid = snitch(create_tender_bid)
@@ -57,7 +65,7 @@ class TenderBidResourceTest(TenderContentWebTest):
 
 class TenderBidCriteriaTest(TenderContentWebTest):
     initial_status = "active.tendering"
-    test_criteria = test_criteria_1
+    test_criteria = criteria_drop_uuids(deepcopy(test_criteria_1))
 
     test_multiple_criterias = snitch(
         requirement_response_validation_multiple_criterias
@@ -66,7 +74,7 @@ class TenderBidCriteriaTest(TenderContentWebTest):
 
 class TenderBidCriteriaGroupTest(TenderContentWebTest):
     initial_status = "active.tendering"
-    test_criteria = test_criteria_2
+    test_criteria = criteria_drop_uuids(deepcopy(test_criteria_2))
 
     test_multiple_groups = snitch(
         requirement_response_validation_multiple_groups
@@ -75,7 +83,7 @@ class TenderBidCriteriaGroupTest(TenderContentWebTest):
 
 class TenderBidCriteriaMultipleGroupTest(TenderContentWebTest):
     initial_status = "active.tendering"
-    test_criteria = test_criteria_3
+    test_criteria = criteria_drop_uuids(deepcopy(test_criteria_3))
 
     test_multiple_groups_multiple_requirements = snitch(
         requirement_response_validation_multiple_groups_multiple_requirements
@@ -84,7 +92,7 @@ class TenderBidCriteriaMultipleGroupTest(TenderContentWebTest):
 
 class TenderBidCriteriaOneGroupMultipleRequirementsTest(TenderContentWebTest):
     initial_status = "active.tendering"
-    test_criteria = test_criteria_4
+    test_criteria = criteria_drop_uuids(deepcopy(test_criteria_4))
 
     test_multiple_groups_multiple_requirements = snitch(
         requirement_response_validation_one_group_multiple_requirements
@@ -94,6 +102,7 @@ class TenderBidCriteriaOneGroupMultipleRequirementsTest(TenderContentWebTest):
 class TenderBidDocumentResourceTest(TenderContentWebTest):
     docservice = True
     initial_status = "active.tendering"
+    test_criteria = test_criteria
 
     def setUp(self):
         super(TenderBidDocumentResourceTest, self).setUp()
@@ -101,7 +110,7 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
             {"data": {"tenderers": [test_organization], "value": {"amount": 500},
-                      "requirementResponses": test_requirement_response_valid}},
+                      "requirementResponses": test_requirement_response}},
         )
         bid = response.json["data"]
         self.bid = bid
@@ -123,11 +132,13 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
 class TenderBidBatchDocumentWithDSResourceTest(TenderContentWebTest):
     docservice = True
     initial_status = "active.tendering"
+    test_criteria = test_criteria
+
     bid_data_wo_docs = {
         "tenderers": [test_organization],
         "value": {"amount": 500},
         "documents": [],
-        "requirementResponses": test_requirement_response_valid
+        "requirementResponses": test_requirement_response,
     }
 
     test_create_tender_bid_with_document_invalid = snitch(create_tender_bid_with_document_invalid)

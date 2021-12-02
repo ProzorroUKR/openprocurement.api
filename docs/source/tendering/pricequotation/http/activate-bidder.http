@@ -49,65 +49,16 @@ X-Content-Type-Options: nosniff
       {
         "id": "546cd5f70b71467c84e6258ac73f0503",
         "requirement": {
-          "id": "655360-0001-001-01"
+          "id": "77037c6ab770461db67b4bdae9766251"
         },
-        "value": "23.8"
+        "value": "Розчин для інфузій"
       },
       {
         "id": "087d0e39ec974050a890f4675eabe410",
         "requirement": {
-          "id": "655360-0002-001-01"
+          "id": "34da453e53fa4b47b232127c1ba54d05"
         },
-        "value": "1920x1080"
-      },
-      {
-        "id": "5f2b1501bc04447db467290093454886",
-        "requirement": {
-          "id": "655360-0003-001-01"
-        },
-        "value": "16:9"
-      },
-      {
-        "id": "d0fe323b8cc1407394e8a57962d8b538",
-        "requirement": {
-          "id": "655360-0004-001-01"
-        },
-        "value": "250"
-      },
-      {
-        "id": "f3931668644e466dbc94eebe4abdcfb5",
-        "requirement": {
-          "id": "655360-0005-001-01"
-        },
-        "value": "1000:1"
-      },
-      {
-        "id": "0532ce1a936946f99de8c4b95ac9d66a",
-        "requirement": {
-          "id": "655360-0006-001-01"
-        },
-        "value": "1"
-      },
-      {
-        "id": "26239f3d179b4b0f89fc96008803adde",
-        "requirement": {
-          "id": "655360-0007-001-01"
-        },
-        "value": "1"
-      },
-      {
-        "id": "2d825a12a07e423a9c316d804123e128",
-        "requirement": {
-          "id": "655360-0008-001-01"
-        },
-        "value": "HDMI"
-      },
-      {
-        "id": "0241310053384fe39feed458a1606524",
-        "requirement": {
-          "id": "655360-0009-001-01"
-        },
-        "value": "36"
+        "value": "5"
       }
     ]
   }

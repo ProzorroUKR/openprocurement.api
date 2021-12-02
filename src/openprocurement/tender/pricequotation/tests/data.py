@@ -145,6 +145,61 @@ test_requirement_response_valid = [
     }
 ]
 
+test_criteria = [
+        {
+            "description": "Діагональ екрану",
+            "requirementGroups": [
+                {
+                    "description": "Діагональ екрану, не менше 23.8 дюймів",
+                    "requirements": [
+                        {
+                            "dataType": "number",
+                            "id": "a" * 32,
+                            "minValue": "23.8",
+                            "title": "Діагональ екрану",
+                            "unit": {
+                                "code": "INH",
+                                "name": "дюйм"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "title": "Діагональ екрану"
+        },
+        {
+            "description": "Роздільна здатність",
+            "requirementGroups": [
+                {
+                    "description": "Роздільна здатність - 1920x1080",
+                    "requirements": [
+                        {
+                            "dataType": "string",
+                            "expectedValue": "1920x1080",
+                            "id": "b" * 32,
+                            "title": "Роздільна здатність"
+                        }
+                    ]
+                }
+            ],
+            "title": "Роздільна здатність"
+        },
+]
+test_requirement_response = [
+    {
+        "value": "23.8",
+        'requirement': {
+            'id': "a" * 32
+        }
+    },
+    {
+        "value": "1920x1080",
+        'requirement': {
+            'id': "b" * 32
+        }
+    },
+]
+
 test_organization = {
     "name": "Державне управління справами",
     "identifier": {"scheme": "UA-EDR", "id": "00037256", "uri": "http://www.dus.gov.ua/"},
@@ -254,8 +309,10 @@ test_tender_data_multi_buyers = set_tender_multi_buyers(
 )
 
 test_bids = [
-    {"tenderers": [test_organization], "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True}, "requirementResponses": test_requirement_response_valid},
-    {"tenderers": [test_organization], "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True}, "requirementResponses": test_requirement_response_valid},
+    {"tenderers": [test_organization], "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+     "requirementResponses": test_requirement_response},
+    {"tenderers": [test_organization], "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
+     "requirementResponses": test_requirement_response},
 ]
 bid_with_docs = deepcopy(test_bids[1])
 bid_with_docs["documents"] = [
@@ -437,18 +494,6 @@ test_short_profile = {
                             "dataType": "string",
                             "expectedValue": "1000:1",
                             "id": "655360-0005-001-01",
-                            "title": "Контрастність (статична)"
-                        }
-                    ]
-                },
-                {
-                    "description": "Контрастність (статична) - 3000:1",
-                    "id": "655360-0005-002",
-                    "requirements": [
-                        {
-                            "dataType": "string",
-                            "expectedValue": "3000:1",
-                            "id": "655360-0005-002-01",
                             "title": "Контрастність (статична)"
                         }
                     ]
@@ -719,6 +764,30 @@ test_criteria_4 = [
 ]
 
 
+def criteria_drop_uuids(data: list, key: str = "id"):
+    for e in data:
+        if key in e:
+            del e[key]
+
+        for g in e.get("requirementGroups", ""):
+            if key in g:
+                del g[key]
+
+            for r in g.get("requirements", ""):
+                if key in r:
+                    del r[key]
+    return data
+
+
+def copy_criteria_req_id(criteria, responses):
+    requirements = [r for e in criteria
+                    for g in e.get("requirementGroups", "")
+                    for r in g.get("requirements", "")]
+    for r, resp in zip(requirements, responses):
+        resp["requirement"]["id"] = r["id"]
+    return responses
+
+
 test_response_1 = [
     {
         "requirement": {
@@ -735,17 +804,13 @@ test_response_1 = [
 ]
 
 
-test_response_2_1 = [
+test_response_2 = [
     {
         "requirement": {
             "id": "400496-0001-001-01"
         },
         "value": "Розчин"
-    }
-]
-
-
-test_response_2_2 = [
+    },
     {
         "requirement": {
             "id": "400496-0001-002-01"
@@ -755,7 +820,7 @@ test_response_2_2 = [
 ]
 
 
-test_response_3_1 = [
+test_response_3 = [
     {
         "requirement": {
             "id": "400496-0001-001-01"
@@ -767,11 +832,7 @@ test_response_3_1 = [
             "id": "400496-0001-001-02"
         },
         "value": 500
-    }
-]
-
-
-test_response_3_2 = [
+    },
     {
         "requirement": {
             "id": "400496-0001-002-01"

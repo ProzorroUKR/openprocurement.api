@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist
 from schematics.types import IntType, StringType, BaseType, MD5Type
@@ -51,6 +50,9 @@ from openprocurement.tender.pricequotation.models import (
     Award,
 )
 from openprocurement.tender.pricequotation.models.criterion import Criterion
+from openprocurement.tender.pricequotation.models.requirement import (
+    validate_criteria_id_uniq,
+)
 from openprocurement.tender.pricequotation.validation import validate_profile_pattern
 
 
@@ -321,7 +323,11 @@ class PriceQuotationTender(Tender):
     profile = StringType()
     agreement = ModelType(Agreement)
     shortlistedFirms = ListType(ModelType(ShortlistedFirm), default=list())
-    criteria = ListType(ModelType(Criterion), default=list())
+    criteria = ListType(
+        ModelType(Criterion),
+        default=list,
+        validators=[validate_criteria_id_uniq],
+    )
     classification = ModelType(Classification)
     noticePublicationDate = IsoDateTimeType()
     unsuccessfulReason = ListType(StringType)
