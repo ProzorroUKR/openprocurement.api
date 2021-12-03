@@ -645,7 +645,7 @@ class Item(Model):
     classification = ModelType(CPVClassification)
     additionalClassifications = ListType(ModelType(AdditionalClassification), default=list())
     unit = ModelType(Unit)  # Description of the unit which the good comes in e.g. hours, kilograms
-    quantity = FloatType()  # The number of units required
+    quantity = FloatType(min_value=0)  # The number of units required
     deliveryDate = ModelType(Period)
     deliveryAddress = ModelType(Address)
     deliveryLocation = ModelType(Location)
