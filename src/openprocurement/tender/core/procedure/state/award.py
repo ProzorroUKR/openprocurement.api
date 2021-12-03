@@ -36,7 +36,6 @@ class AwardStateMixing:
         tender = get_tender()
         now = get_now().isoformat()
 
-        print(f"swap status {before} -> {after}")
         if before == "pending" and after == "active":
             award["complaintPeriod"]["endDate"] = calculate_tender_business_date(
                 get_now(), self.award_stand_still_time, tender, True

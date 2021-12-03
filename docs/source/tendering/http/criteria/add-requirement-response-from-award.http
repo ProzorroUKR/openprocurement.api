@@ -1,0 +1,148 @@
+PATCH /api/2.5/tenders/2093f4e9bf3a4d7eb82c15d9c5321604/awards/47631e11049e4bb0bfb9799016019797?acc_token=9bfc00e9aaf843b5abd64a61388484b1 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 4253
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "requirementResponses": [
+      {
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+          "id": "411e25f3563845f589c2548988c2d8db",
+          "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
+        },
+        "evidences": [
+          {
+            "title": "Requirement response",
+            "relatedDocument": {
+              "id": "6bd7284745554a92a8eb69543466fd40",
+              "title": "name.doc"
+            },
+            "type": "document"
+          }
+        ],
+        "value": "True"
+      },
+      {
+        "title": "Requirement response 2",
+        "description": "some description",
+        "requirement": {
+          "id": "614790d1644244fb90e43164600fe4ee",
+          "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі"
+        },
+        "evidences": [
+          {
+            "title": "Requirement response",
+            "relatedDocument": {
+              "id": "6bd7284745554a92a8eb69543466fd40",
+              "title": "name.doc"
+            },
+            "type": "document"
+          }
+        ],
+        "value": "True"
+      }
+    ]
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+{
+  "data": {
+    "id": "47631e11049e4bb0bfb9799016019797",
+    "status": "pending",
+    "date": "2021-03-16T00:00:00+02:00",
+    "value": {
+      "amount": 499.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "suppliers": [
+      {
+        "name": "ДКП «Книга»",
+        "identifier": {
+          "uri": "http://www.sc.gov.ua/",
+          "scheme": "UA-EDR",
+          "id": "00137226"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "email": "aagt@gmail.com",
+          "telephone": "+380322916930",
+          "name": "Андрій Олексюк"
+        },
+        "scale": "sme"
+      }
+    ],
+    "bid_id": "22f95e7fc7ab4aa79280df3421304688",
+    "documents": [
+      {
+        "id": "6bd7284745554a92a8eb69543466fd40",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "name.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3cf57765098c49819ecff4f12286d56c?Signature=WqJnPucg6uXIzJnh5ontPpNqXoiHKwOUZj1EeVdoGYNJmFJJs%2FdUmA0R9p4n5M2hEAQjx1jXGMgWWWNWRjHsCw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:00+02:00",
+        "author": "brokers"
+      }
+    ],
+    "requirementResponses": [
+      {
+        "id": "03433b7c4a744fe28715c50ac34b1c10",
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+          "id": "411e25f3563845f589c2548988c2d8db",
+          "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
+        },
+        "evidences": [
+          {
+            "id": "9eec01e0b21d45f59d639181194995f6",
+            "title": "Requirement response",
+            "type": "document",
+            "relatedDocument": {
+              "id": "6bd7284745554a92a8eb69543466fd40",
+              "title": "name.doc"
+            }
+          }
+        ],
+        "value": "True"
+      },
+      {
+        "id": "9fef4edef7574a5fb16cb293f2a8ea0f",
+        "title": "Requirement response 2",
+        "description": "some description",
+        "requirement": {
+          "id": "614790d1644244fb90e43164600fe4ee",
+          "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі"
+        },
+        "evidences": [
+          {
+            "id": "38d7126a3ebc4fddb39d633c1012db44",
+            "title": "Requirement response",
+            "type": "document",
+            "relatedDocument": {
+              "id": "6bd7284745554a92a8eb69543466fd40",
+              "title": "name.doc"
+            }
+          }
+        ],
+        "value": "True"
+      }
+    ]
+  }
+}
+

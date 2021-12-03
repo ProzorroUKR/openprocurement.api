@@ -173,7 +173,7 @@ class OpenUADefenseTenderState(DefenseTenderStateAwardingMixing, TenderState):
                     extra=context_unpack(get_request(), {"MESSAGE_ID": "switched_lot_unsuccessful"},
                                          {"LOT_ID": lot["id"]}),
                 )
-                lot["status"] = "unsuccessful"
+                self.set_object_status(lot, "unsuccessful")
                 continue
 
             elif last_award["status"] == "active":
@@ -190,7 +190,7 @@ class OpenUADefenseTenderState(DefenseTenderStateAwardingMixing, TenderState):
                         extra=context_unpack(get_request(), {"MESSAGE_ID": "switched_lot_complete"},
                                              {"LOT_ID": lot['id']}),
                     )
-                    lot["status"] = "complete"
+                    self.set_object_status(lot, "complete")
 
     def check_bids_number(self, tender):
         if tender.get("lots"):
@@ -205,7 +205,7 @@ class OpenUADefenseTenderState(DefenseTenderStateAwardingMixing, TenderState):
                             del lot["auctionPeriod"]
 
                     if bid_number == 0 and lot["status"] == "active":
-                        lot["status"] = "unsuccessful"
+                        self.set_object_status(lot, "unsuccessful")
 
                         # for procedures where lotValues have "status" field (openeu, competitive_dialogue, cfaua, )
                         for bid in tender.get("bids", ""):

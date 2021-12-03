@@ -2,7 +2,7 @@ from openprocurement.tender.core.procedure.context import get_now, get_request
 from openprocurement.tender.core.procedure.state.tender import TenderState, PreQualificationShouldStartAfterMixing
 from openprocurement.tender.core.procedure.models.qualification import Qualification
 from openprocurement.tender.cfaua.procedure.models.agreement import Agreement
-from openprocurement.tender.cfaua.procedure.awarding import add_next_awards
+from openprocurement.tender.cfaua.procedure.awarding import CFAUATenderStateAwardingMixing
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.api.utils import context_unpack
 from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD
@@ -11,15 +11,11 @@ from logging import getLogger
 LOGGER = getLogger(__name__)
 
 
-class CFAUATenderTenderState(PreQualificationShouldStartAfterMixing, TenderState):
+class CFAUATenderTenderState(CFAUATenderStateAwardingMixing, PreQualificationShouldStartAfterMixing, TenderState):
     min_bids_number = 3
     active_bid_statuses = ("active", "pending")
     block_tender_complaint_status = ("claim", "pending", "accepted", "satisfied", "stopping")
     block_complaint_status = ("pending", "accepted", "satisfied", "stopping")
-
-    @staticmethod
-    def add_next_award(regenerate_all_awards=False, lot_id=None):
-        add_next_awards(regenerate_all_awards=regenerate_all_awards, lot_id=lot_id)
 
     def contract_events(self, tender):
         yield from ()   # empty , this procedure doesn't have contracts
@@ -64,7 +60,7 @@ class CFAUATenderTenderState(PreQualificationShouldStartAfterMixing, TenderState
                     extra=context_unpack(get_request(), {"MESSAGE_ID": "switched_lot_unsuccessful"},
                                          {"LOT_ID": lot["id"]}),
                 )
-                lot["status"] = "unsuccessful"
+                self.set_object_status(lot, "unsuccessful")
             statuses.add(lot["status"])
 
         if not statuses.difference({"unsuccessful"}):
@@ -95,7 +91,7 @@ class CFAUATenderTenderState(PreQualificationShouldStartAfterMixing, TenderState
                     related_lot = cancellation["relatedLot"]
                     for lot in tender["lots"]:
                         if lot["id"] == related_lot:
-                            lot["status"] = "cancelled"
+                            self.set_object_status(lot, "cancelled")
                     cancelled_lots = {i["id"] for i in tender["lots"] if i["status"] == "cancelled"}
                     cancelled_items = {i["id"] for i in tender.get("items", "")
                                        if i.get("relatedLot") in cancelled_lots}

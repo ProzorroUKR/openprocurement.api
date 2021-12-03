@@ -252,6 +252,7 @@ def exclude_unsuccessful_awarded_bids(tender, bids, lot_id):
 class TenderStateAwardingMixing:
     award_class = Award
     get_change_tender_status_handler: callable
+    set_object_status: callable
 
     def add_next_award(self):
         tender = get_tender()
@@ -289,7 +290,7 @@ class TenderStateAwardingMixing:
                     else:
                         statuses.add("unsuccessful")
                 else:
-                    lot["status"] = "unsuccessful"
+                    self.set_object_status(lot, "unsuccessful")
                     statuses.add("unsuccessful")
 
             if statuses.difference({"unsuccessful", "active"}):

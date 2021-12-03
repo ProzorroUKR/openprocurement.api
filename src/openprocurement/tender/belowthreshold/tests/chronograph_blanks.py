@@ -104,10 +104,18 @@ def switch_to_auction_with_non_auction_lot(self):
 
 def switch_to_unsuccessful(self):
     self.set_status("active.auction", {"status": self.initial_status})
+
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    if self.initial_lots:
+        lot_date = response.json["data"]["lots"][0]["date"]
+
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
     if self.initial_lots:
         self.assertEqual({i["status"] for i in response.json["data"]["lots"]}, {"unsuccessful"})
+
+        response = self.app.get(f"/tenders/{self.tender_id}")
+        self.assertGreater(response.json["data"]["lots"][0]["date"], lot_date)
 
 
 # TenderAuctionPeriodResourceTest
