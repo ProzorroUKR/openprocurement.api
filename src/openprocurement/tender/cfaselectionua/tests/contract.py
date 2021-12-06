@@ -240,6 +240,10 @@ class TenderContractMultiBuyersResourceTest(TenderContentWebTest):
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active"}},
         )
+        # check contracts are buyer related
+        response = self.app.get(f"/tenders/{self.tender_id}")
+        for c in response.json["data"]["contracts"]:
+            self.assertIn("buyerID", c)
 
     def setUp(self):
         super(TenderContractMultiBuyersResourceTest, self).setUp()
