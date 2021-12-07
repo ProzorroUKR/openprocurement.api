@@ -26,6 +26,7 @@ from openprocurement.api.constants import RELEASE_SIMPLE_DEFENSE_FROM
 from openprocurement.api.utils import get_now
 from copy import deepcopy
 import pytest
+from mock import MagicMock
 
 
 def test_get_plan_tenders_405(app, plan):
@@ -313,6 +314,10 @@ def test_success_plan_tenders_creation(app, request_tender_data):
     if request_tender_data["procurementMethodType"] in ("aboveThresholdUA.defense", "simple.defense"):
         request_plan_data['procuringEntity']['kind'] = 'defense'
     plan = create_plan_for_tender(app, request_tender_data, request_plan_data)
+
+    if request_tender_data["procurementMethodType"] == "priceQuotation" and "agreement" in request_tender_data:
+        db = app.app.registry.databases.agreements
+        db.get = MagicMock(return_value={"id": request_tender_data["agreement"]["id"]})
 
     response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {"data": request_tender_data})
     assert response.status == "201 Created"

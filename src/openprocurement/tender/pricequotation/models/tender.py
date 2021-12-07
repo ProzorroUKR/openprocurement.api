@@ -60,6 +60,9 @@ class Agreement(Model):
     def validate_id(self, data, value):
         root = data['__parent__']['__parent__']
         if root:
+            while root.__parent__ is not None:
+                root = root.__parent__
+
             agreement = root.request.registry.databases.agreements.get(value)
             if not agreement:
                 raise ValidationError("id must be one of exists agreement")
@@ -333,6 +336,8 @@ class PriceQuotationTender(Tender):
 
         if not multi_profile_released and value:
             raise ValidationError("Rogue field.")
+        elif multi_profile_released and not value:
+            raise ValidationError(BaseType.MESSAGES["required"])
 
     def validate_profile(self, data, value):
         multi_profile_released = get_first_revision_date(data, default=get_now()) > PQ_MULTI_PROFILE_FROM
