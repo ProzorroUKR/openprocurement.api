@@ -60,8 +60,12 @@ For ban contract, you just need to add milestone to contract with status `ban`:
 
 Contract disqualification
 ~~~~~~~~~~~~~~~~~~~~~~~~~
+Let's see our created mailestone. In our mailestone you can see the ``id``.
 
-For disqualification contract, you just need to add milestone to contract with status `disqualification`:
+.. include:: http/frameworks/mailestone-view.http
+   :code:
 
-.. include:: http/frameworks/post-milestone-disqualification.http
+When we know ``id`` of our mailestone we can patch contract for disqualification, you just need to patch milestone 'type' : 'activation' to status ``met``:
+
+.. include:: http/frameworks/patch-milestone-met.http
    :code:

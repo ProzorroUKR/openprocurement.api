@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-07 14:32+0300\n"
+"POT-Creation-Date: 2021-09-09 10:53+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.0\n"
+"Generated-By: Babel 2.9.1\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -35,14 +35,8 @@ msgstr "Угода автоматично переноситься з модул
 msgid "Creating agreement"
 msgstr "Створення реєстру"
 
-msgid ""
-"Let's say that we have conducted framework, submission and qualification and it has ``active`` status. "
-"When the framework is active and you change qualification status to active, system **automatically** created agreement(from framework) with contract(from qualification)."
-
-msgstr ""
-"Припустимо, що є кваліфікація, заявка та рішення по заявці в статусах ``active``. "
-"Коли заявка в стаусі `active` і ви оновлюєте рішення по заявці до `active` статусу "
-"система **автоматично** створює реєстр(з кваліфікації) з контрактом(з рішення по заявці)."
+msgid "Let's say that we have conducted framework, submission and qualification and it has ``active`` status. When the framework is active and you change qualification status to active, system **automatically** created agreement(from framework) with contract(from qualification)."
+msgstr "Припустимо, що є кваліфікація, заявка та рішення по заявці в статусах ``active``. Коли заявка в стаусі `active` і ви оновлюєте рішення по заявці до `active` статусу система **автоматично** створює реєстр(з кваліфікації) з контрактом(з рішення по заявці)."
 
 msgid "Getting agreement"
 msgstr "Отримання реєстру"
@@ -74,5 +68,9 @@ msgstr "Для того щоб забанити контракт, потрібн
 msgid "Contract disqualification"
 msgstr "Дискваліфікація контракту"
 
-msgid "For disqualification contract, you just need to add milestone to contract with status `disqualification`:"
-msgstr "Для дискваліфікації контракту, потрібно додати майлстон до контракту в статусі `disqualification`:"
+msgid "Let's see our created mailestone. In our mailestone you can see the ``id``."
+msgstr "Давайте подивимось на створений майлстон. В ньому міститься ``id``"
+
+msgid "When we know ``id`` of our mailestone we can patch contract for disqualification, you just need to patch milestone 'type' : 'activation' to status ``met``:"
+msgstr "Для дискваліфікації використовуючи майлстон ``id`` можно пропатчити майлстон з 'type' : 'activation' переводом статус  в ``met``:"
+

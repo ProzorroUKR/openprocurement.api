@@ -11,7 +11,7 @@ from openprocurement.tender.cfaua.tests.base import (
 from openprocurement.framework.electroniccatalogue.tests.base import (
     test_electronicCatalogue_data,
     ban_milestone_data_with_documents,
-    disqualification_milestone_data_with_documents,
+    disqualification_milestone_data,
     BaseElectronicCatalogueWebTest,
 )
 
@@ -342,6 +342,15 @@ class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTes
                 {'data': ban_milestone},
             )
 
-        disqualification_milestone = deepcopy(disqualification_milestone_data_with_documents)
-        disqualification_milestone["documents"][0]["url"] = self.generate_docservice_url()
+        with open(TARGET_EC_DIR + 'mailestone-view.http', 'wb') as self.app.file_obj:
+            response = self.app.get(
+                f"/agreements/{self.agreement_id}/contracts/{contract_2_id}/milestones?acc_token={self.framework_token}")
+            self.assertEqual(response.status, '200 OK')
 
+        mailestone_id = response.json['data'][0]['id']
+
+        with open(TARGET_EC_DIR + 'patch-milestone-met.http', 'wb') as self.app.file_obj:
+            response = self.app.patch_json(
+                f"/agreements/{self.agreement_id}/contracts/{contract_2_id}/milestones/{mailestone_id}?acc_token={self.framework_token}",
+                {'data': disqualification_milestone_data}
+            )
