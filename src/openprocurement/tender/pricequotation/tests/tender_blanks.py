@@ -585,6 +585,19 @@ def create_tender_invalid(self):
             }],
         )
 
+        del data["agreement"]
+        response = self.app.post_json(request_path, {"data": data}, status=422)
+        self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"], [{
+                "description": ["This field is required."],
+                "location": "body",
+                "name": "agreement"
+            }],
+        )
+
         data = deepcopy(test_tender_data_after_multiprofile)
         data["items"] = [test_item_before_multiprofile]
         response = self.app.post_json(request_path, {"data": data}, status=422)

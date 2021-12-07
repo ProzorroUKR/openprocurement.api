@@ -238,6 +238,7 @@ test_tender_data_before_multiprofile["items"] = [test_item_before_multiprofile]
 
 test_tender_data_after_multiprofile = deepcopy(test_tender_data_base)
 test_tender_data_after_multiprofile["items"] = [test_item_after_multiprofile]
+test_tender_data_after_multiprofile["agreement"] = {"id": "0" * 32}
 
 
 if PQ_MULTI_PROFILE_RELEASED:
