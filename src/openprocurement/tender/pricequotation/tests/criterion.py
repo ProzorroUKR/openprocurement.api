@@ -1,5 +1,7 @@
 import unittest
-
+from unittest.mock import patch
+from datetime import timedelta
+from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.pricequotation.tests.base import (
     BaseTenderWebTest,
@@ -10,6 +12,7 @@ from openprocurement.tender.pricequotation.tests.criterion_blanks import (
 )
 
 
+@patch("openprocurement.tender.pricequotation.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
 class TenderPQCriteriaTest(BaseTenderWebTest):
     initial_data = test_tender_data
     initial_auth = ("Basic", ("broker", ""))

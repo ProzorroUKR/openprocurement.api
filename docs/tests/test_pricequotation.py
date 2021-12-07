@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
 from datetime import timedelta
@@ -6,11 +5,15 @@ from datetime import timedelta
 from openprocurement.api.models import get_now
 from openprocurement.tender.pricequotation.tests.base import (
     BaseTenderWebTest,
+    test_criteria_1,
+    test_response_1,
+    copy_criteria_req_id,
     test_tender_data,
     test_bids,
     bid_with_docs,
     test_short_profile,
-    test_shortlisted_firms
+    test_shortlisted_firms,
+    criteria_drop_uuids,
 )
 from openprocurement.tender.pricequotation.tests.data import PQ_MULTI_PROFILE_RELEASED
 
@@ -54,7 +57,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 "startDate": (get_now() + timedelta(days=2)).isoformat(),
                 "endDate": (get_now() + timedelta(days=5)).isoformat()
             }
-        criteria = deepcopy(test_short_profile["criteria"])
+        criteria = criteria_drop_uuids(deepcopy(test_criteria_1))
         if PQ_MULTI_PROFILE_RELEASED:
             agreement = {"id": self.agreement_id}
             tender_data["agreement"] = agreement
@@ -167,7 +170,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             }
 
         test_tender_data.update({
-            "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()}
+            "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()},
+            "criteria": criteria_drop_uuids(deepcopy(test_criteria_1))
         })
 
         with open(TARGET_DIR + 'tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
@@ -222,10 +226,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         self.app.authorization = ('Basic', ('broker', ''))
         bids_access = {}
+        bid_data = deepcopy(bid_draft)
+        bid_data["requirementResponses"] = copy_criteria_req_id(tender["criteria"], test_response_1)
         with open(TARGET_DIR + 'register-bidder.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/bids'.format(self.tender_id),
-                {'data': bid_draft})
+                {'data': bid_data})
             bid1_id = response.json['data']['id']
             bids_access[bid1_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
@@ -266,13 +272,14 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         # Second bid registration with documents
-
+        bid_with_docs_data = deepcopy(bid_with_docs)
+        bid_with_docs_data["requirementResponses"] = copy_criteria_req_id(tender["criteria"], test_response_1)
         with open(TARGET_DIR + 'register-2nd-bidder.http', 'w') as self.app.file_obj:
-            for document in bid_with_docs['documents']:
+            for document in bid_with_docs_data['documents']:
                 document['url'] = self.generate_docservice_url()
             response = self.app.post_json(
                 '/tenders/{}/bids'.format(self.tender_id),
-                {'data': bid_with_docs})
+                {'data': bid_with_docs_data})
             bid2_id = response.json['data']['id']
             bids_access[bid2_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')

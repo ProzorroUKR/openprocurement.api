@@ -92,203 +92,42 @@ X-Content-Type-Options: nosniff
     },
     "criteria": [
       {
-        "id": "655360-0001",
-        "title": "Діагональ екрану",
-        "description": "Діагональ екрану",
+        "id": "78d784aa23e64749aff5905ba24a9aa2",
+        "title": "Форма випуску",
+        "description": "Форма випуску",
         "requirementGroups": [
           {
-            "id": "655360-0001-001",
-            "description": "Діагональ екрану, не менше 23.8 дюймів",
+            "id": "8a8e674ef85843fab68d0a34f4a727a9",
+            "description": "Форма випуску",
             "requirements": [
               {
-                "id": "655360-0001-001-01",
-                "title": "Діагональ екрану",
-                "dataType": "number",
-                "unit": {
-                  "code": "INH",
-                  "name": "дюйм"
-                },
-                "minValue": "23.8"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "655360-0002",
-        "title": "Роздільна здатність",
-        "description": "Роздільна здатність",
-        "requirementGroups": [
-          {
-            "id": "655360-0002-001",
-            "description": "Роздільна здатність - 1920x1080",
-            "requirements": [
-              {
-                "id": "655360-0002-001-01",
-                "title": "Роздільна здатність",
+                "id": "e6d6dad9e0834beb81393ee5fbc32318",
+                "title": "Форма випуску",
                 "dataType": "string",
-                "expectedValue": "1920x1080"
+                "expectedValue": "Розчин для інфузій"
               }
             ]
           }
         ]
       },
       {
-        "id": "655360-0003",
-        "title": "Співвідношення сторін",
-        "description": "Співвідношення сторін",
+        "id": "0fc92cfdd3634bf1a8584403481a063a",
+        "title": "Доза діючої речовини",
+        "description": "Доза діючої речовини",
         "requirementGroups": [
           {
-            "id": "655360-0003-001",
-            "description": "Співвідношення сторін",
+            "id": "78148017617142f38e29cc5ed0df64cf",
+            "description": "Доза діючої речовини",
             "requirements": [
               {
-                "id": "655360-0003-001-01",
-                "title": "Співвідношення сторін",
-                "dataType": "string",
-                "expectedValue": "16:9"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "655360-0004",
-        "title": "Яскравість дисплея",
-        "description": "Яскравість дисплея",
-        "requirementGroups": [
-          {
-            "id": "655360-0004-001",
-            "description": "Яскравість дисплея, не менше 250 кд/м²",
-            "requirements": [
-              {
-                "id": "655360-0004-001-01",
-                "title": "Яскравість дисплея",
+                "id": "78411e627e2d425c9883ef293b425305",
+                "title": "Доза діючої речовини",
                 "dataType": "integer",
                 "unit": {
-                  "code": "A24",
-                  "name": "кд/м²"
+                  "code": "KGM",
+                  "name": "кілограми"
                 },
-                "maxValue": "250"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "655360-0005",
-        "title": "Контрастність (статична)",
-        "description": "Контрастність (статична)",
-        "requirementGroups": [
-          {
-            "id": "655360-0005-001",
-            "description": "Контрастність (статична) - 1000:1",
-            "requirements": [
-              {
-                "id": "655360-0005-001-01",
-                "title": "Контрастність (статична)",
-                "dataType": "string",
-                "expectedValue": "1000:1"
-              }
-            ]
-          },
-          {
-            "id": "655360-0005-002",
-            "description": "Контрастність (статична) - 3000:1",
-            "requirements": [
-              {
-                "id": "655360-0005-002-01",
-                "title": "Контрастність (статична)",
-                "dataType": "string",
-                "expectedValue": "3000:1"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "655360-0006",
-        "title": "Кількість портів HDMI",
-        "description": "Кількість портів HDMI",
-        "requirementGroups": [
-          {
-            "id": "655360-0006-001",
-            "description": "Кількість портів HDMI, не менше 1 шт.",
-            "requirements": [
-              {
-                "id": "655360-0006-001-01",
-                "title": "Кількість портів HDMI",
-                "dataType": "integer",
-                "unit": {
-                  "code": "H87",
-                  "name": "штук"
-                },
-                "minValue": "1"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "655360-0007",
-        "title": "Кількість портів D-sub",
-        "description": "Кількість портів D-sub",
-        "requirementGroups": [
-          {
-            "id": "655360-0007-001",
-            "description": "Кількість портів D-sub, не менше 1 шт.",
-            "requirements": [
-              {
-                "id": "655360-0007-001-01",
-                "title": "Кількість портів D-sub",
-                "dataType": "integer",
-                "unit": {
-                  "code": "H87",
-                  "name": "штук"
-                },
-                "minValue": "1"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "655360-0008",
-        "title": "Кабель для під’єднання",
-        "description": "Кабель для під’єднання",
-        "requirementGroups": [
-          {
-            "id": "655360-0008-001",
-            "description": "Кабель для під’єднання",
-            "requirements": [
-              {
-                "id": "655360-0008-001-01",
-                "title": "Кабель для під’єднання",
-                "dataType": "string",
-                "expectedValue": "HDMI"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "655360-0009",
-        "title": "Гарантія",
-        "description": "Строк дії гарантії",
-        "requirementGroups": [
-          {
-            "id": "655360-0009-001",
-            "description": "Гарантія, не менше 36 місяців",
-            "requirements": [
-              {
-                "id": "655360-0009-001-01",
-                "title": "Гарантія",
-                "dataType": "integer",
-                "unit": {
-                  "code": "MON",
-                  "name": "місяців"
-                },
-                "minValue": "36"
+                "minValue": "5"
               }
             ]
           }

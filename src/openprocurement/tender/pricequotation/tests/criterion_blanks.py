@@ -129,4 +129,15 @@ def create_tender_criteria_multi_profile(self):
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.content_type, "application/json")
             tender = response.json["data"]
-            self.assertEqual(tender["criteria"], criteria)
+
+            expected_criteria = deepcopy(criteria)
+            for c in expected_criteria:
+                c.update(id=mock.ANY)
+
+                for g in c.get("requirementGroups"):
+                    g.update(id=mock.ANY)
+
+                    for r in g.get("requirements"):
+                        r.update(id=mock.ANY)
+
+            self.assertEqual(tender["criteria"], expected_criteria)

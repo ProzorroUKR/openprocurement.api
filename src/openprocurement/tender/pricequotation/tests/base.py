@@ -187,10 +187,10 @@ class BaseTenderWebTest(BaseCoreWebTest):
         value = deepcopy(test_short_profile['value'])
         amount = sum([item["quantity"] for item in items]) * test_short_profile['value']['amount']
         value["amount"] = amount
-        criteria = getattr(self, "test_criteria", test_short_profile['criteria'])
+        # criteria = getattr(self, "test_criteria", test_short_profile['criteria'])
         self.tender_document_patch.update({
             "shortlistedFirms": test_shortlisted_firms,
-            'criteria': criteria,
+            # 'criteria': criteria,
             "items": items,
             'value': value
         })
@@ -210,6 +210,8 @@ class BaseTenderWebTest(BaseCoreWebTest):
         data = deepcopy(self.initial_data)
         if PQ_MULTI_PROFILE_RELEASED:
             data["agreement"] = {"id": self.agreement_id}
+        data["criteria"] = getattr(self, "test_criteria", test_criteria)
+
         response = self.app.post_json("/tenders", {"data": data})
         tender = response.json["data"]
         self.tender_id = tender["id"]

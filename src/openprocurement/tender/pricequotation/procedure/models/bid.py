@@ -67,7 +67,7 @@ class PostBid(PatchBid):
 
     def validate_requirementResponses(self, data, value):
         tender = get_tender()
-        criterion = tender['criteria']
+        criterion = tender.get("criteria", [])
         _validate_requirement_responses(criterion, value)
 
 

@@ -1,9 +1,12 @@
-# -*- coding: utf-8 -*-
 import unittest
-
+from copy import deepcopy
+from unittest.mock import patch
+from datetime import timedelta
+from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.tender import TenderTestMixin
 from openprocurement.tender.pricequotation.models import PriceQuotationTender
+from openprocurement.tender.pricequotation.tests.data import test_criteria_1, criteria_drop_uuids, test_short_profile
 from openprocurement.tender.pricequotation.tests.base import (
     BaseTenderWebTest,
     TenderContentWebTest,
@@ -25,6 +28,7 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     create_tender_generated,
     create_tender_invalid,
     create_tender_with_inn,
+    create_tender_draft_with_criteria,
 
     invalid_tender_conditions,
     patch_tender,
@@ -58,11 +62,12 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
 )
 
 
-class TenderResourceTestMixin(object):
+class TenderResourceTestMixin:
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)
     test_listing = snitch(listing)
     test_create_tender_draft = snitch(create_tender_draft)
+    test_create_tender_draft_with_criteria = snitch(create_tender_draft_with_criteria)
     test_tender_owner_can_change_in_draft = snitch(tender_owner_can_change_in_draft)
     test_tender_owner_cannot_change_in_draft = snitch(tender_owner_cannot_change_in_draft)
     test_create_tender = snitch(create_tender)
@@ -83,9 +88,12 @@ class TenderTest(TenderTestMixin, BaseApiWebTest):
     initial_data = test_tender_data
 
 
+@patch("openprocurement.tender.pricequotation.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     initial_data = test_tender_data
     initial_auth = ("Basic", ("broker", ""))
+    test_criteria = test_short_profile['criteria']
+    test_criteria_1 = test_criteria_1
 
     Test_guarantee = snitch(guarantee)
     test_create_tender_invalid = snitch(create_tender_invalid)
@@ -108,6 +116,16 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
 
 
+@patch("openprocurement.tender.pricequotation.models.requirement.PQ_CRITERIA_ID_FROM", get_now() - timedelta(days=1))
+class MD5UidTenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
+    initial_data = test_tender_data
+    initial_auth = ("Basic", ("broker", ""))
+
+    test_criteria_1 = criteria_drop_uuids(deepcopy(test_criteria_1))
+    test_criteria = criteria_drop_uuids(deepcopy(test_short_profile['criteria']))
+
+
+@patch("openprocurement.tender.pricequotation.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
 class TenderProcessTest(TenderContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_data

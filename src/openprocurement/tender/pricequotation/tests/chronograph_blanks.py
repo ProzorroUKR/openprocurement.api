@@ -6,7 +6,7 @@ from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.pricequotation.constants import QUALIFICATION_DURATION
 from openprocurement.tender.pricequotation.tests.data import (
     test_organization,
-    test_requirement_response_valid
+    test_requirement_response,
 )
 
 
@@ -17,7 +17,7 @@ def switch_to_qualification(self):
         {
             "tenderers": [test_organization],
             "value": {"amount": 500},
-            "requirementResponses": test_requirement_response_valid,
+            "requirementResponses": test_requirement_response,
         },
     )
 

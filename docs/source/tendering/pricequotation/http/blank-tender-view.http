@@ -90,6 +90,50 @@ X-Content-Type-Options: nosniff
     "agreement": {
       "id": "2e14a78a2074952d5a2d256c3c004dda"
     },
+    "criteria": [
+      {
+        "id": "7f1633d05c7e48dc896de91ee5a8ddbd",
+        "title": "Форма випуску",
+        "description": "Форма випуску",
+        "requirementGroups": [
+          {
+            "id": "04c0a4108de048ea957540a95b01e4d4",
+            "description": "Форма випуску",
+            "requirements": [
+              {
+                "id": "77037c6ab770461db67b4bdae9766251",
+                "title": "Форма випуску",
+                "dataType": "string",
+                "expectedValue": "Розчин для інфузій"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "9532c79b2fa6429e97698d4e5929fbbe",
+        "title": "Доза діючої речовини",
+        "description": "Доза діючої речовини",
+        "requirementGroups": [
+          {
+            "id": "bf1788f1201f4ca8a7417e3ab44f959d",
+            "description": "Доза діючої речовини",
+            "requirements": [
+              {
+                "id": "34da453e53fa4b47b232127c1ba54d05",
+                "title": "Доза діючої речовини",
+                "dataType": "integer",
+                "unit": {
+                  "code": "KGM",
+                  "name": "кілограми"
+                },
+                "minValue": "5"
+              }
+            ]
+          }
+        ]
+      }
+    ],
     "id": "e821f507458c4e99bdd9928981355ffa"
   }
 }

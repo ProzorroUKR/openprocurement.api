@@ -1,13 +1,7 @@
-# -*- coding: utf-8 -*-
 from schematics.exceptions import ValidationError
-
-from openprocurement.api.utils import error_handler, raise_operation_error
-from openprocurement.api.validation import\
-    validate_data, OPERATIONS, validate_json_data
-from openprocurement.tender.pricequotation.utils import\
-    responses_to_tree, criteria_to_tree
+from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.validation import validate_data, OPERATIONS, validate_json_data
 from openprocurement.tender.core.validation import TYPEMAP
-from openprocurement.framework.core.design import agreements_search_contracts
 from openprocurement.tender.pricequotation.constants import PROFILE_PATTERN
 
 
@@ -106,38 +100,26 @@ def validate_post_bid(request, **kwargs):
 
 
 def _validate_requirement_responses(criterias, req_responses):
-    criterias = criteria_to_tree(criterias)
-    responses = responses_to_tree(req_responses)
-    # top level criterias. all required
-    diff = set(criterias).difference(responses)
-    if diff:
-        raise ValidationError('Missing references for criterias: {}'.format(
-            list(diff)
-        ))
+    requirements = {r["id"]: r
+                    for c in criterias
+                    for g in c.get("requirementGroups", "")
+                    for r in g.get("requirements", "")}
+    expected_ids = set(requirements.keys())
+    actual_ids = {r["requirement"]["id"] for r in req_responses}
+    if len(actual_ids) != len(req_responses):
+        raise ValidationError(f'Duplicate references for criterias')
 
-    for criteria_id, group_response in responses.items():
-        # OR for requirementGroup
-        if len(group_response) > 1:
-            raise ValidationError(
-                'Provided groups {} conflicting in criteria {}'.format(
-                    list(group_response.keys()), criteria_id
-                ))
-        criteria_groups = criterias.get(criteria_id, {})
-        if not criteria_groups:
-            raise ValidationError('No such criteria with id {}'.format(criteria_id))
-        for group_id, requirements in criteria_groups.items():
-            if group_id not in group_response:
-                continue
-            # response satisfies requirement
-            responses = group_response.get(group_id, set())
-            diff = set(requirements).difference(responses)
-            if diff:
-                raise ValidationError(
-                    'Missing references for reqirements: {}'.format(
-                        list(diff)
-                    ))
-            for response_id, response in responses.items():
-                _matches(requirements[response_id], response)
+    diff = expected_ids - actual_ids
+    if diff:
+        raise ValidationError(f'Missing references for criterias: {list(diff)}')
+
+    additional = actual_ids - expected_ids
+    if additional:
+        raise ValidationError(f'No such criteria with id {additional}')
+
+    for response in req_responses:
+        response_id = response["requirement"]["id"]
+        _matches(requirements[response_id], response)
 
 
 def _matches(criteria, response):
