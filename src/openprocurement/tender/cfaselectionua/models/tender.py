@@ -28,6 +28,7 @@ from openprocurement.tender.core.models import (
     Tender as BaseTender,
     Cancellation as BaseCancellation,
     validate_features_uniq,
+    validate_item_related_buyers,
 )
 from openprocurement.tender.core.utils import calc_auction_end_time, validate_features_custom_weight
 from openprocurement.tender.core.validation import validate_minimalstep
@@ -391,6 +392,7 @@ class CFASelectionUATender(BaseTender):
             raise ValidationError("CPV class of items should be identical")
         else:
             validate_cpv_group(items)
+        validate_item_related_buyers(data, items)
 
     def validate_lots(self, data, lots):
         if len(set([lot.guarantee.currency for lot in lots if lot.guarantee])) > 1:

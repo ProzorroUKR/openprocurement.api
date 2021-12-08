@@ -30,6 +30,7 @@ from openprocurement.tender.core.models import (
     ITender,
     Contract as BaseContract,
     ProcuringEntity as BaseProcuringEntity,
+    validate_item_related_buyers,
 )
 
 from openprocurement.tender.core.utils import (
@@ -276,6 +277,9 @@ class ReportingTender(BaseTender):
     def validate_milestones(self, data, value):
         pass
 
+    def validate_items(self, data, items):
+        validate_item_related_buyers(data, items)
+
 
 Item = BaseItem
 
@@ -424,6 +428,9 @@ class NegotiationTender(ReportingTender):
         # Add checks here if needed
 
         return min(checks).isoformat() if checks else None
+
+    def validate_items(self, data, items):
+        validate_item_related_buyers(data, items)
 
 
 @implementer(INegotiationQuickTender)

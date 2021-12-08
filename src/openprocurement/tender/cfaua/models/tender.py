@@ -39,6 +39,7 @@ from openprocurement.tender.openua.constants import ENQUIRY_STAND_STILL_TIME
 from openprocurement.tender.core.models import (
     EnquiryPeriod, PeriodStartEndRequired, validate_lots_uniq,
     validate_features_uniq, default_status, Question, Tender, EUDocument,
+    validate_item_related_buyers,
 )
 from openprocurement.tender.core.validation import validate_minimalstep
 from openprocurement.tender.openua.constants import COMPLAINT_SUBMIT_TIME
@@ -457,6 +458,7 @@ class CloseFrameworkAgreementUA(Tender):
             raise ValidationError("CPV class of items should be identical")
         else:
             validate_cpv_group(items)
+        validate_item_related_buyers(data, items)
 
     def validate_lots(self, data, lots):
         if len(set([lot.guarantee.currency for lot in lots if lot.guarantee])) > 1:

@@ -499,6 +499,15 @@ def validate_observation_ids_uniq(metrics):
             raise ValidationError(u"Observation identifier should be uniq for all observation in tender")
 
 
+def validate_item_related_buyers(data, items):
+    if data.get("buyers") and items:
+        buyer_ids = {b["id"] for b in data["buyers"]}
+        for item in items:
+            buyer = item.get("relatedBuyer")
+            if buyer and buyer not in buyer_ids:
+                raise ValidationError("relatedBuyer not found in buyers")
+
+
 class LotAuctionPeriod(Period):
     """The auction period."""
 
