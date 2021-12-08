@@ -3,7 +3,6 @@ from logging import getLogger
 from openprocurement.api.constants import TZ
 from openprocurement.api.models import Value
 from openprocurement.tender.belowthreshold.utils import (
-    add_contracts,
     add_next_award,
     contracts_allow_to_complete,
 )
@@ -61,49 +60,6 @@ def check_bids(request):
             tender.status = "unsuccessful"
         if tender.numberOfBids == 1:
             add_next_award(request)
-
-
-def check_status(request):
-    tender = request.validated["tender"]
-    now = get_now()
-    for award in tender.awards:
-        if award.status == "active" and not any([i.awardID == award.id for i in tender.contracts]):
-            add_contracts(request, award, now)
-            add_next_award(request)
-
-    after_enquiryPeriod_endDate = (
-        not tender.tenderPeriod.startDate and tender.enquiryPeriod.endDate.astimezone(TZ) <= now
-    )
-    after_tenderPeriod_startDate = tender.tenderPeriod.startDate and tender.tenderPeriod.startDate.astimezone(TZ) <= now
-    if tender.status == "active.enquiries" and (after_enquiryPeriod_endDate or after_tenderPeriod_startDate):
-        LOGGER.info(
-            "Switched tender {} to {}".format(tender.id, "active.tendering"),
-            extra=context_unpack(request, {"MESSAGE_ID": "switched_tender_active.tendering"}),
-        )
-        tender.status = "active.tendering"
-        return
-
-    elif not tender.lots and tender.status == "active.tendering" and tender.tenderPeriod.endDate <= now:
-        LOGGER.info(
-            "Switched tender {} to {}".format(tender["id"], "active.auction"),
-            extra=context_unpack(request, {"MESSAGE_ID": "switched_tender_active.auction"}),
-        )
-        tender.status = "active.auction"
-        remove_draft_bids(request)
-        check_bids(request)
-        if tender.numberOfBids < 2 and tender.auctionPeriod:
-            tender.auctionPeriod.startDate = None
-        return
-    elif tender.lots and tender.status == "active.tendering" and tender.tenderPeriod.endDate <= now:
-        LOGGER.info(
-            "Switched tender {} to {}".format(tender["id"], "active.auction"),
-            extra=context_unpack(request, {"MESSAGE_ID": "switched_tender_active.auction"}),
-        )
-        tender.status = "active.auction"
-        remove_draft_bids(request)
-        check_bids(request)
-        [setattr(i.auctionPeriod, "startDate", None) for i in tender.lots if i.numberOfBids < 2 and i.auctionPeriod]
-        return
 
 
 def check_tender_status(request):

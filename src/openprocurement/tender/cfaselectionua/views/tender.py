@@ -16,7 +16,6 @@ from openprocurement.tender.cfaselectionua.validation import (
     validate_patch_tender_bot_only_in_draft_pending,
 )
 from openprocurement.tender.cfaselectionua.utils import (
-    check_status,
     check_agreement,
     calculate_agreement_contracts_value_amount,
     calculate_tender_features,
@@ -187,9 +186,6 @@ class TenderResource(APIResource):
             }
         """
         tender = self.context
-        # if self.request.authenticated_role == "chronograph":
-        #     apply_patch(self.request, save=False, src=self.request.validated["tender_src"])
-        #     check_status(self.request)
         if self.request.authenticated_role == "agreement_selection":
             apply_patch(self.request, save=False, src=self.request.validated["tender_src"])
             if self.request.tender.status == "active.enquiries":

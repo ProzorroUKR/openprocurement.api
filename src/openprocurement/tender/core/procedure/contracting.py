@@ -15,10 +15,7 @@ def add_contracts(request, award, contract_model):
             prepared_item = prepare_tender_item_for_contract(item)
             items_by_buyer[buyer_id].append(prepared_item)
 
-    multi_contracts = (
-        tender.get("buyers") and len(tender["buyers"]) > 1
-        and all(item.get("relatedBuyer") for item in tender.get("items", ""))
-    )
+    multi_contracts = tender.get("buyers") and all(item.get("relatedBuyer") for item in tender.get("items", ""))
     value = generate_contract_value(award, multi_contracts=multi_contracts)
 
     # prepare contract for every buyer

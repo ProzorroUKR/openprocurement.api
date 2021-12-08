@@ -1,16 +1,6 @@
-# -*- coding: utf-8 -*-
-from collections import defaultdict
 from logging import getLogger
 from pyramid.security import Allow
 from openprocurement.api.utils import get_now, context_unpack
-from openprocurement.tender.core.utils import (
-    remove_draft_bids,
-    calculate_tender_business_date,
-)
-
-from openprocurement.tender.belowthreshold.utils import add_contracts
-from openprocurement.tender.pricequotation.constants import QUALIFICATION_DURATION
-
 
 LOGGER = getLogger("openprocurement.tender.pricequotation")
 
@@ -34,51 +24,6 @@ def cancel_tender(request):
     if tender.status in ["active.tendering"]:
         tender.bids = []
     tender.status = "cancelled"
-
-
-def check_award_status(request):
-    tender = request.validated["tender"]
-    now = get_now()
-    awards = tender.awards
-    is_cancelled = [award for award in tender.awards if award.status == 'cancelled']
-    for award in awards:
-        if (award.status == 'pending' and
-                calculate_tender_business_date(award.date, QUALIFICATION_DURATION, tender) <= now):
-            award.status = 'unsuccessful'
-            if is_cancelled:
-                tender.status = 'unsuccessful'
-                LOGGER.info(
-                    "Switched tender {} to {}".format(tender["id"], tender.status),
-                    extra=context_unpack(request,
-                                         {"MESSAGE_ID": "switched_tender_{}".format(tender.status)}),
-                )
-            else:
-                add_next_award(request)
-        if award.status == "active" and not any([i.awardID == award.id for i in tender.contracts]):
-            add_contracts(request, award, now)
-            add_next_award(request)
-
-
-def check_status(request):
-
-    check_award_status(request)
-
-    tender = request.validated["tender"]
-    now = get_now()
-
-    if tender.status == "active.tendering" and tender.tenderPeriod.endDate <= now:
-        tender.status = "active.qualification"
-        remove_draft_bids(request)
-        check_bids(request)
-        status = tender.status
-        LOGGER.info(
-            "Switched tender {} to {}".format(tender["id"], status),
-            extra=context_unpack(request,
-                                 {"MESSAGE_ID": "switched_tender_{}".format(status)}),
-        )
-        return
-    elif tender.status == "active.awarded":
-        check_tender_status(request)
 
 
 def check_tender_status(request):
