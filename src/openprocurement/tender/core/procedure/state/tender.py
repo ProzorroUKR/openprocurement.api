@@ -188,7 +188,10 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, BaseSta
 
     def always(self, data):
         super().always(data)
+        self.update_next_check(data)
+        self.calc_auction_periods(data)
 
+    def update_next_check(self, data):
         # this part's come from serializible fields of schematics tender model
         # since we do not convert to schematics the whole tender on every request
         next_check = self.get_next_check(data)
@@ -196,7 +199,6 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, BaseSta
             data["next_check"] = next_check
         elif "next_check" in data:
             del data["next_check"]
-        self.calc_auction_periods(data)
 
     # CHRONOGRAPH
     # (only tenders are updated by chronograph at the moment)
@@ -624,10 +626,11 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, BaseSta
     def count_lot_bids_number(cls, tender, lot_id):
         count = 0
         for bid in tender.get("bids", ""):
-            for lot_value in bid.get("lotValues", ""):
-                if lot_value.get("status", "active") in cls.active_bid_statuses and lot_value["relatedLot"] == lot_id:
-                    count += 1
-                    break  # proceed to the next bid check
+            if bid.get("status", "active") in cls.active_bid_statuses:
+                for lot_value in bid.get("lotValues", ""):
+                    if lot_value.get("status", "active") in cls.active_bid_statuses and lot_value["relatedLot"] == lot_id:
+                        count += 1
+                        break  # proceed to the next bid check
         return count
 
     @staticmethod
