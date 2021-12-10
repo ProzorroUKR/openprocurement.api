@@ -1,13 +1,11 @@
-# -*- coding: utf-8 -*-
 import unittest
-
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.pricequotation.tests.base import TenderContentWebTest
 from openprocurement.tender.pricequotation.tests.chronograph_blanks import (
     switch_to_qualification,
     switch_to_unsuccessful,
     switch_to_unsuccessful_by_chronograph,
+    ensure_no_auction_period,
 )
 from openprocurement.tender.pricequotation.tests.data import test_bids
 
@@ -20,7 +18,7 @@ class TenderChronographResourceTest(TenderContentWebTest):
     test_switch_to_qualification = snitch(switch_to_qualification)
     test_switch_to_unsuccessful = snitch(switch_to_unsuccessful)
     test_switch_to_unsuccessful_by_chronograph = snitch(switch_to_unsuccessful_by_chronograph)
-
+    test_ensure_no_auction_period = snitch(ensure_no_auction_period)
 
 
 def suite():

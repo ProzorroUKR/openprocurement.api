@@ -9,3 +9,6 @@ class NegotiationTenderState(TenderState):
         yield from self.complaint_events(tender)
         # there is no other events ...
 
+    def always(self, data):  # disables auctionPeriod calculations
+        super().always(data)
+        self.update_next_check(data)

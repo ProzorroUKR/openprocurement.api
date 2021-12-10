@@ -79,3 +79,10 @@ def switch_to_unsuccessful_by_chronograph(self):
     self.assertEqual(response.json["data"]["awards"][0]["status"], "unsuccessful")
     self.assertEqual(response.json["data"]["awards"][1]["status"], "cancelled")
     self.assertEqual(response.json["data"]["awards"][2]["status"], "unsuccessful")
+
+
+def ensure_no_auction_period(self):
+    self.check_chronograph()
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    self.assertEqual(response.json["data"]["status"], "active.tendering")
+    self.assertNotIn("auctionPeriod", response.json["data"])

@@ -226,7 +226,7 @@ class CFAUATenderTenderState(CFAUATenderStateAwardingMixing, PreQualificationSho
         for bid in tender.get("bids", ""):
             if bid["status"] not in ("invalid", "deleted"):
                 for lotValue in bid.get("lotValues", ""):
-                    if lotValue["status"] == "pending" and lotValue["relatedLot"] in active_lots:
+                    if lotValue.get("status", "pending") == "pending" and lotValue["relatedLot"] in active_lots:
                         qualification = Qualification({
                             "bidID": bid["id"],
                             "status": "pending",

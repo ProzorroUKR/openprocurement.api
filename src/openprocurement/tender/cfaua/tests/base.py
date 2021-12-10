@@ -187,10 +187,11 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
             if active_bids:
                 self.tender_document_patch["qualifications"] = []
                 for bid in bids:
-                    if bid["status"] not in ["invalid", "deleted"]:
+                    if bid.get("status") not in ["invalid", "deleted"]:
                         if lots:
                             for lotValue in bid["lotValues"]:
-                                if lotValue["status"] == "pending" and lotValue["relatedLot"] in active_lots:
+                                if lotValue.get("status", "pending") == "pending" \
+                                        and lotValue["relatedLot"] in active_lots:
                                     self.tender_document_patch["qualifications"].append(
                                         {
                                             "id": uuid4().hex,

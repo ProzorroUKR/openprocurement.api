@@ -30,9 +30,9 @@ class OpenEUTenderState(PreQualificationShouldStartAfterMixing, TenderState):
         if lots:
             active_lots = tuple(lot["id"] for lot in lots if lot["status"] == "active")
             for bid in bids:
-                if bid["status"] not in ("invalid", "deleted"):
+                if bid.get("status") not in ("invalid", "deleted"):
                     for lotValue in bid.get("lotValues", ""):
-                        if lotValue["status"] == "pending" and lotValue["relatedLot"] in active_lots:
+                        if lotValue.get("status", "pending") == "pending" and lotValue["relatedLot"] in active_lots:
                             qualification = Qualification({
                                 "bidID": bid["id"],
                                 "status": "pending",
