@@ -591,9 +591,20 @@ def validate_award_document_lot_not_in_allowed_status(request, **kwargs):
         raise_operation_error(request, f"Can {OPERATIONS.get(request.method)} document only in active lot status")
 
 
+def get_award_document_role(request):
+    tender = request.validated["tender"]
+    if is_item_owner(request, tender):
+        role = "tender_owner"
+    else:
+        role = request.authenticated_role
+    return role
+
+
 def validate_award_document_author(request, **kwargs):
     doc_author = request.validated["document"].get("author") or "tender_owner"
-    if request.authenticated_role != doc_author:
+    role = get_award_document_role(request)
+    if doc_author == "bots" and role != "bots":
+    # if role != doc_author:   # TODO: unkoment when "author": "brokers" fixed
         raise_operation_error(
             request,
             "Can update document only author",
