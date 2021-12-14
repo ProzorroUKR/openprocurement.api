@@ -1,6 +1,7 @@
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.views.award import TenderAwardResource
 from openprocurement.tender.core.procedure.views.document import BaseDocumentResource
+from openprocurement.tender.core.procedure.validation import get_award_document_role
 
 
 class BaseAwardDocumentResource(BaseDocumentResource, TenderAwardResource):
@@ -11,7 +12,7 @@ class BaseAwardDocumentResource(BaseDocumentResource, TenderAwardResource):
         BaseDocumentResource.__init__(self, request, context)
 
     def set_doc_author(self, doc):
-        doc["author"] = self.request.authenticated_role
+        doc["author"] = get_award_document_role(self.request)
         return doc
 
     @json_view(permission="view_tender")
