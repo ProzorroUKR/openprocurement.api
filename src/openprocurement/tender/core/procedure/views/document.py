@@ -35,6 +35,9 @@ class BaseDocumentResource(TenderBaseResource):
     def set_doc_author(self, doc):
         pass
 
+    def get_modified(self):
+        return True
+
     def collection_get(self):
         collection_data = self.request.validated["documents"]
         if not self.request.params.get("all", ""):
@@ -70,8 +73,7 @@ class BaseDocumentResource(TenderBaseResource):
         item[self.container].extend(documents)
 
         # saving tender
-        modified = self.request.validated["tender"]["status"] != "active.tendering"
-        if save_tender(self.request, modified=modified):
+        if save_tender(self.request, modified=self.get_modified()):
             for document in documents:
                 self.LOGGER.info(
                     f"Created {self.item_name} document {document['id']}",
@@ -109,8 +111,7 @@ class BaseDocumentResource(TenderBaseResource):
         item = self.request.validated[self.item_name]
         item[self.container].append(document)
 
-        modified = self.request.validated["tender"]["status"] != "active.tendering"
-        if save_tender(self.request, modified=modified):
+        if save_tender(self.request, modified=self.get_modified()):
             self.LOGGER.info(
                 f"Updated {self.item_name} document {item['id']}",
                 extra=context_unpack(self.request, {"MESSAGE_ID": f"{self.item_name}_document_put"}),
@@ -123,8 +124,7 @@ class BaseDocumentResource(TenderBaseResource):
         if updated_document:
             set_item(self.request.validated[self.item_name], self.container, document["id"], updated_document)
 
-            modified = self.request.validated["tender"]["status"] != "active.tendering"
-            if save_tender(self.request, modified=modified):
+            if save_tender(self.request, modified=self.get_modified()):
                 update_file_content_type(self.request)
                 self.LOGGER.info(
                     f"Updated {self.item_name} document {document['id']}",

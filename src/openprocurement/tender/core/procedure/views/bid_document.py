@@ -7,6 +7,9 @@ from openprocurement.tender.core.procedure.views.document import BaseDocumentRes
 class TenderBidDocumentResource(BaseDocumentResource, TenderBidResource):
     item_name = "bid"
 
+    def get_modified(self):
+        return self.request.validated["tender"]["status"] != "active.tendering"
+
     def __init__(self, request, context=None):
         TenderBidResource.__init__(self, request, context)
         BaseDocumentResource.__init__(self, request, context)
