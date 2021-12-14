@@ -18,8 +18,7 @@ from openprocurement.tender.core.models import (
 )
 from openprocurement.tender.pricequotation.models.document import\
     Document
-from openprocurement.tender.pricequotation.validation import\
-    _validate_bid_value, _validate_requirement_responses
+from openprocurement.tender.pricequotation.validation import _validate_bid_value
 
 
 class RequirementReference(Model):
@@ -105,9 +104,3 @@ class Bid(BidDefaultStatusMixin):
         parent = data["__parent__"]
         if isinstance(parent, Model):
             _validate_bid_value(parent, value)
-
-    def validate_requirementResponses(self, data, value):
-        criterion = data["__parent__"]['criteria']
-        _validate_requirement_responses(
-            criterion, value
-        )

@@ -1,5 +1,6 @@
 from schematics.exceptions import ValidationError
-from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.utils import raise_operation_error, get_first_revision_date
+from openprocurement.api.constants import PQ_CRITERIA_RESPONSES_ALL_FROM
 from openprocurement.api.validation import validate_data, OPERATIONS, validate_json_data
 from openprocurement.tender.core.validation import TYPEMAP
 from openprocurement.tender.pricequotation.constants import PROFILE_PATTERN
@@ -97,81 +98,6 @@ def validate_post_bid(request, **kwargs):
     tenderer_id = bid["tenderers"][0]["identifier"]["id"]
     if tenderer_id not in [i.identifier.id for i in tender.shortlistedFirms]:
         raise_operation_error(request, f"Can't add bid if tenderer not in shortlistedFirms")
-
-
-def _validate_requirement_responses(criterias, req_responses):
-    requirements = {r["id"]: r
-                    for c in criterias
-                    for g in c.get("requirementGroups", "")
-                    for r in g.get("requirements", "")}
-    expected_ids = set(requirements.keys())
-    actual_ids = {r["requirement"]["id"] for r in req_responses}
-    if len(actual_ids) != len(req_responses):
-        raise ValidationError(f'Duplicate references for criterias')
-
-    diff = expected_ids - actual_ids
-    if diff:
-        raise ValidationError(f'Missing references for criterias: {list(diff)}')
-
-    additional = actual_ids - expected_ids
-    if additional:
-        raise ValidationError(f'No such criteria with id {additional}')
-
-    for response in req_responses:
-        response_id = response["requirement"]["id"]
-        _matches(requirements[response_id], response)
-
-
-def _matches(criteria, response):
-    datatype = TYPEMAP[criteria['dataType']]
-    # validate value
-    value = datatype.to_native(response['value'])
-
-    expected = criteria.get('expectedValue')
-    min_value = criteria.get('minValue')
-    max_value = criteria.get('maxValue')
-
-    if expected:
-        expected = datatype.to_native(expected)
-        if datatype.to_native(expected) != value:
-            raise ValidationError(
-                'Value "{}" does not match expected value "{}" in reqirement {}'.format(
-                    value, expected, criteria['id']
-                )
-            )
-    if min_value and max_value:
-        min_value = datatype.to_native(min_value)
-        max_value = datatype.to_native(max_value)
-        if value < min_value or value > max_value:
-            raise ValidationError(
-                'Value "{}" does not match range from "{}" to "{}" in reqirement {}'.format(
-                    value,
-                    min_value,
-                    max_value,
-                    criteria['id']
-                )
-            )
-
-    if min_value and not max_value:
-        min_value = datatype.to_native(min_value)
-        if value < min_value:
-            raise ValidationError(
-                'Value {} is lower then minimal required {} in reqirement {}'.format(
-                    value,
-                    min_value,
-                    criteria['id']
-                )
-            )
-    if not min_value and max_value:
-        if value > datatype.to_native(max_value):
-            raise ValidationError(
-                'Value {} is higher then required {} in reqirement {}'.format(
-                    value,
-                    max_value,
-                    criteria['id']
-                )
-            )
-    return response
 
 
 def validate_tender_publish(request, **kwargs):
