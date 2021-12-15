@@ -1652,6 +1652,12 @@ class Complaint(Model):
         "incorrectPayment"
     ])
 
+    # backward compatibility fields, that exist in prod db
+    dateAnswered = IsoDateTimeType()
+    resolution = StringType()
+    resolutionType = StringType(choices=["invalid", "resolved", "declined"])
+    satisfied = BooleanType()
+
     @serializable(serialized_name="value", serialize_when_none=False)
     def calculate_value(self):
         # should be calculated only once for draft complaints

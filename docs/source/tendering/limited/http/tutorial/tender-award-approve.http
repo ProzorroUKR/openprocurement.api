@@ -56,7 +56,7 @@ X-Content-Type-Options: nosniff
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2727941c3c1d4b398e0ef21c294d50f8?Signature=XVdH%2BLOTsgYF3J849jqk9w0Oivjv96KP1vF11T2pawV8wnAcIPzqxWiQWkKBo6SZdysuzHcTtpSV3ETS4xHUAw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2021-03-16T00:00:00+02:00",
-        "author": "brokers"
+        "author": "tender_owner"
       },
       {
         "id": "37b672b185d04f20afdefe6f19cf0f3c",
@@ -67,7 +67,7 @@ X-Content-Type-Options: nosniff
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/874e2d950c434ca091040d1cb962a12f?Signature=tJmoLThnmmO1LrBsq4zKBdXkEU0fobXZDnRIXNNFrNR%2F1rigH3hgsbkVejHIrH3qc9dAQfnmVUAcmuUyfLbfDw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2021-03-16T00:00:00+02:00",
-        "author": "brokers"
+        "author": "tender_owner"
       }
     ]
   }
