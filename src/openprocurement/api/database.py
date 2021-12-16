@@ -262,6 +262,8 @@ class MongodbStore:
     def __init__(self, settings):
         db_name = os.environ.get("DB_NAME", settings["mongodb.db_name"])
         mongodb_uri = os.environ.get("MONGODB_URI", settings["mongodb.uri"])
+        max_pool_size = int(os.environ.get("MONGODB_MAX_POOL_SIZE", settings["mongodb.max_pool_size"]))
+        min_pool_size = int(os.environ.get("MONGODB_MIN_POOL_SIZE", settings["mongodb.min_pool_size"]))
 
         # https://docs.mongodb.com/manual/core/causal-consistency-read-write-concerns/#causal-consistency-and-read-and-write-concerns
         raw_read_preference = os.environ.get(
@@ -276,7 +278,11 @@ class MongodbStore:
             "READ_CONCERN",
             settings.get("mongodb.read_concern", "majority")
         )
-        self.connection = MongoClient(mongodb_uri)
+        self.connection = MongoClient(
+            mongodb_uri,
+            maxPoolSize=max_pool_size,
+            minPoolSize=min_pool_size,
+        )
         self.database = self.connection.get_database(
             db_name,
             read_preference=getattr(ReadPreference, raw_read_preference),

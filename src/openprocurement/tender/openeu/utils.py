@@ -3,7 +3,7 @@ from logging import getLogger
 from functools import partial
 from cornice.resource import resource
 from openprocurement.api.utils import error_handler, context_unpack, get_now, TZ
-from openprocurement.tender.belowthreshold.utils import check_tender_status, add_contracts, add_next_award
+from openprocurement.tender.belowthreshold.utils import check_tender_status
 from openprocurement.tender.openua.utils import add_next_award, check_complaint_status
 from openprocurement.tender.core.utils import (
     remove_draft_bids,
@@ -197,90 +197,3 @@ def all_bids_are_reviewed(request):
         )
     else:
         return all([bid.status != "pending" for bid in request.validated["tender"].bids])
-
-
-def check_status(request):
-    tender = request.validated["tender"]
-    now = get_now()
-
-    check_complaint_statuses_at_complaint_period_end(tender, now)
-    check_cancellation_status(request, CancelTenderLot)
-
-    for award in tender.awards:
-        if award.status == "active" and not any([i.awardID == award.id for i in tender.contracts]):
-            add_contracts(request, award, now)
-            add_next_award(request)
-
-    if cancellation_block_tender(tender):
-        return
-
-    active_lots = [
-        lot.id for lot in tender.lots
-        if lot.status == "active"
-    ] if tender.lots else [None]
-
-    if (
-        tender.status == "active.tendering"
-        and tender.tenderPeriod.endDate <= now
-        and not has_unanswered_complaints(tender)
-        and not has_unanswered_questions(tender)
-
-    ):
-        for complaint in tender.complaints:
-            check_complaint_status(request, complaint)
-        LOGGER.info(
-            "Switched tender {} to {}".format(tender["id"], "active.pre-qualification"),
-            extra=context_unpack(request, {"MESSAGE_ID": "switched_tender_active.pre-qualification"}),
-        )
-        tender.status = "active.pre-qualification"
-        tender.qualificationPeriod = type(tender).qualificationPeriod({"startDate": now})
-        remove_draft_bids(request)
-        check_initial_bids_count(request)
-        prepare_qualifications(request)
-
-    elif (
-        tender.status == "active.pre-qualification.stand-still"
-        and tender.qualificationPeriod
-        and tender.qualificationPeriod.endDate <= now
-        and not any(
-            [
-                i.status in tender.block_complaint_status
-                for q in tender.qualifications
-                for i in q.complaints
-                if q.lotID in active_lots
-            ]
-        )
-    ):
-        LOGGER.info(
-            "Switched tender {} to {}".format(tender["id"], "active.auction"),
-            extra=context_unpack(request, {"MESSAGE_ID": "switched_tender_active.auction"}),
-        )
-        tender.status = "active.auction"
-        check_initial_bids_count(request)
-
-    elif not tender.lots and tender.status == "active.awarded":
-        standStillEnds = [
-            a.complaintPeriod.endDate.astimezone(TZ)
-            for a in tender.awards
-            if a.complaintPeriod and a.complaintPeriod.endDate
-        ]
-        if standStillEnds:
-            standStillEnd = max(standStillEnds)
-            if standStillEnd <= now:
-                check_tender_status(request)
-    elif tender.lots and tender.status in ["active.qualification", "active.awarded"]:
-        for lot in tender.lots:
-            if lot["status"] != "active":
-                continue
-            lot_awards = [i for i in tender.awards if i.lotID == lot.id]
-            standStillEnds = [
-                a.complaintPeriod.endDate.astimezone(TZ)
-                for a in lot_awards
-                if a.complaintPeriod and a.complaintPeriod.endDate
-            ]
-            if not standStillEnds:
-                continue
-            standStillEnd = max(standStillEnds)
-            if standStillEnd <= now:
-                check_tender_status(request)
-                break

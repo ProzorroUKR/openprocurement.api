@@ -3062,6 +3062,21 @@ def patch_items_related_buyer_id(self):
             'name': 'items'}
         ],
     )
+
+    response = self.app.patch_json(
+        patch_request_path,
+        {"data": {"items": [{"relatedBuyer": "a" * 32}]}},
+        status=422
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            'description': ["relatedBuyer not found in buyers"],
+            'location': 'body',
+            'name': 'items'
+        }],
+    )
+
     response = self.app.patch_json(
         patch_request_path,
         {"data": {"items": [{"relatedBuyer": buyer1_id}]}},

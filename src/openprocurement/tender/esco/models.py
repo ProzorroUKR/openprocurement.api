@@ -35,7 +35,7 @@ from openprocurement.tender.core.models import (
     Feature as BaseFeature,
     BaseLot,
     FeatureValue as BaseFeatureValue,
-    AWARD_CRITERIA_RATED_CRITERIA,
+    validate_item_related_buyers,
 )
 from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
 from openprocurement.tender.core.models import (
@@ -895,6 +895,7 @@ class Tender(BaseTender):
             raise ValidationError("CPV class of items should be identical")
         else:
             validate_cpv_group(items)
+        validate_item_related_buyers(data, items)
 
     def validate_features(self, data, features):
         validate_features_custom_weight(data, features, 0.25)

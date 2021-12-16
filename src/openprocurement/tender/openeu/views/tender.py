@@ -18,7 +18,7 @@ from openprocurement.tender.core.validation import (
     validate_tender_guarantee_multilot,
 )
 from openprocurement.tender.belowthreshold.views.tender import TenderResource
-from openprocurement.tender.openeu.utils import check_status, all_bids_are_reviewed
+from openprocurement.tender.openeu.utils import all_bids_are_reviewed
 from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
 from openprocurement.tender.openeu.constants import PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
 from openprocurement.tender.core.events import TenderInitializeEvent

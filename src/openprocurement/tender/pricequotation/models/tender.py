@@ -32,6 +32,7 @@ from openprocurement.tender.core.models import (
     Model, get_tender,
     validate_quantity_required,
     validate_unit_required,
+    validate_item_related_buyers,
 )
 from openprocurement.tender.belowthreshold.models import Unit
 from openprocurement.tender.openua.validation import _validate_tender_period_duration
@@ -396,6 +397,7 @@ class PriceQuotationTender(Tender):
         return len(self.bids)
 
     def validate_items(self, data, items):
+        validate_item_related_buyers(data, items)
         if data["status"] in ("draft", "draft.publishing", "draft.unsuccessful"):
             return
         if not all((i.classification for i in items)):

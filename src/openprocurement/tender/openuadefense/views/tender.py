@@ -11,7 +11,6 @@ from openprocurement.tender.core.validation import (
 )
 from openprocurement.tender.belowthreshold.views.tender import TenderResource
 from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
-from openprocurement.tender.openuadefense.utils import check_status
 from openprocurement.tender.openuadefense.validation import validate_tender_period_extension_with_working_days
 from openprocurement.tender.core.events import TenderInitializeEvent
 

@@ -18,7 +18,7 @@ from openprocurement.tender.openua.utils import (
     check_cancellation_status,
     add_next_award as add_next_award_base,
 )
-from openprocurement.tender.belowthreshold.utils import check_tender_status, add_contracts
+from openprocurement.tender.belowthreshold.utils import check_tender_status
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date as calculate_tender_business_date_base,
     calculate_clarif_business_date as calculate_clarif_business_date_base,
@@ -71,122 +71,6 @@ def check_bids(request):
             tender.status = "unsuccessful"
         if tender.numberOfBids == 1:
             add_next_award(request)
-
-
-def check_status(request):
-    tender = request.validated["tender"]
-    now = get_now()
-
-    check_complaint_statuses_at_complaint_period_end(tender, now)
-    check_cancellation_status(request)
-
-    if cancellation_block_tender(tender):
-        return
-
-    for award in tender.awards:
-        if award.status == "active" and not any([i.awardID == award.id for i in tender.contracts]):
-            add_contracts(request, award, now)
-            add_next_award(request)
-    if (
-        not tender.lots
-        and tender.status == "active.tendering"
-        and tender.tenderPeriod.endDate <= now
-        and not has_unanswered_complaints(tender)
-        and not has_unanswered_questions(tender)
-    ):
-        for complaint in tender.complaints:
-            check_complaint_status(request, complaint)
-        LOGGER.info(
-            "Switched tender {} to {}".format(tender["id"], "active.auction"),
-            extra=context_unpack(request, {"MESSAGE_ID": "switched_tender_active.auction"}),
-        )
-        tender.status = "active.auction"
-        check_bids(request)
-        if tender.numberOfBids < 2 and tender.auctionPeriod:
-            tender.auctionPeriod.startDate = None
-        return
-    elif (
-        tender.lots
-        and tender.status == "active.tendering"
-        and tender.tenderPeriod.endDate <= now
-        and not has_unanswered_complaints(tender)
-        and not has_unanswered_questions(tender)
-    ):
-        for complaint in tender.complaints:
-            check_complaint_status(request, complaint)
-        LOGGER.info(
-            "Switched tender {} to {}".format(tender["id"], "active.auction"),
-            extra=context_unpack(request, {"MESSAGE_ID": "switched_tender_active.auction"}),
-        )
-        tender.status = "active.auction"
-        check_bids(request)
-        [setattr(i.auctionPeriod, "startDate", None) for i in tender.lots if i.numberOfBids < 2 and i.auctionPeriod]
-        return
-    elif not tender.lots and tender.status == "active.awarded":
-        first_revision_date = get_first_revision_date(tender)
-        new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < first_revision_date < NEW_DEFENSE_COMPLAINTS_TO
-        standStillEnds = [
-            a.complaintPeriod.endDate.astimezone(TZ)
-            for a in tender.awards
-            if (
-                    a.complaintPeriod
-                    and a.complaintPeriod.endDate
-                    and (a.status != "cancelled" if new_defence_complaints else True)
-            )
-        ]
-        if not standStillEnds:
-            return
-        standStillEnd = max(standStillEnds)
-        if standStillEnd <= now:
-            pending_complaints = any([i["status"] in tender.block_complaint_status for i in tender.complaints])
-            pending_awards_complaints = any(
-                [i["status"] in tender.block_complaint_status for a in tender.awards for i in a.complaints]
-            )
-            awarded = any([i["status"] == "active" for i in tender.awards])
-            if not pending_complaints and not pending_awards_complaints and not awarded:
-                LOGGER.info(
-                    "Switched tender {} to {}".format(tender.id, "unsuccessful"),
-                    extra=context_unpack(request, {"MESSAGE_ID": "switched_tender_unsuccessful"}),
-                )
-                check_tender_status(request)
-                return
-    elif tender.lots and tender.status in ["active.qualification", "active.awarded"]:
-        if any([i["status"] in tender.block_complaint_status and i.relatedLot is None for i in tender.complaints]):
-            return
-        first_revision_date = get_first_revision_date(tender)
-        new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < first_revision_date < NEW_DEFENSE_COMPLAINTS_TO
-        for lot in tender.lots:
-            if lot["status"] != "active":
-                continue
-            lot_awards = [i for i in tender.awards if i.lotID == lot.id]
-            standStillEnds = [
-                a.complaintPeriod.endDate.astimezone(TZ)
-                for a in lot_awards
-                if (
-                        a.complaintPeriod
-                        and a.complaintPeriod.endDate
-                        and (a.status != "cancelled" if new_defence_complaints else True)
-                )
-            ]
-            if not standStillEnds:
-                continue
-            standStillEnd = max(standStillEnds)
-            if standStillEnd <= now:
-                pending_complaints = any(
-                    [i["status"] in tender.block_complaint_status and i.relatedLot == lot.id for i in tender.complaints]
-                )
-                pending_awards_complaints = any(
-                    [i["status"] in tender.block_complaint_status for a in lot_awards for i in a.complaints]
-                )
-                awarded = any([i["status"] == "active" for i in lot_awards])
-                if not pending_complaints and not pending_awards_complaints and not awarded:
-                    LOGGER.info(
-                        "Switched lot {} of tender {} to {}".format(lot["id"], tender.id, "unsuccessful"),
-                        extra=context_unpack(
-                            request, {"MESSAGE_ID": "switched_lot_unsuccessful"}, {"LOT_ID": lot["id"]}
-                        ),
-                    )
-                    check_tender_status(request)
 
 
 def add_next_award(request):

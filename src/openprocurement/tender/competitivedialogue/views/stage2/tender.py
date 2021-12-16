@@ -20,8 +20,7 @@ from openprocurement.tender.core.validation import (
 from openprocurement.tender.openua.views.tender import TenderUAResource
 from openprocurement.tender.openeu.views.tender import TenderEUResource
 from openprocurement.tender.openeu.constants import PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
-from openprocurement.tender.openeu.utils import check_status as check_status_eu, all_bids_are_reviewed
-from openprocurement.tender.openua.utils import check_status as check_status_ua
+from openprocurement.tender.openeu.utils import all_bids_are_reviewed
 from openprocurement.tender.competitivedialogue.validation import validate_patch_tender_stage2_data
 from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE, STAGE2_STATUS
 from openprocurement.tender.core.events import TenderInitializeEvent

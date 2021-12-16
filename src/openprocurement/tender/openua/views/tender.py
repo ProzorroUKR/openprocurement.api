@@ -11,7 +11,6 @@ from openprocurement.tender.core.validation import (
 )
 from openprocurement.tender.belowthreshold.views.tender import TenderResource
 from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
-from openprocurement.tender.openua.utils import check_status
 from openprocurement.api.utils import json_view, context_unpack
 from openprocurement.tender.core.utils import (
     save_tender,
@@ -108,8 +107,6 @@ class TenderUAResource(TenderResource):
                 ].enquiryPeriod.serialize()
 
         apply_patch(self.request, save=False, src=self.request.validated["tender_src"])
-        # if self.request.authenticated_role == "chronograph":
-        #     check_status(self.request)
         if self.request.authenticated_role == "tender_owner" and tender.status == "active.tendering":
             # invalidate bids on tender change
             tender.invalidate_bids_data()
