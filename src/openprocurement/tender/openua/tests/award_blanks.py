@@ -440,6 +440,56 @@ def patch_tender_award_unsuccessful(self):
     self.assertEqual(len(response.json["data"]), 4)
 
 
+def last_award_unsuccessful_next_check(self):
+        with change_auth(self.app, ("Basic", ("token", ""))):
+            response = self.app.post_json(
+                "/tenders/{}/awards".format(self.tender_id),
+                {
+                    "data": {
+                        "suppliers": [test_organization],
+                        "status": "pending",
+                        "bid_id": self.initial_bids[0]["id"],
+                        "value": {"amount": 500},
+                    }
+                },
+            )
+        award = response.json["data"]
+
+        self.check_chronograph()  # deletes next_check
+
+        # disqualify all
+        award_location = "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token)
+        with change_auth(self.app, ("Basic", ("token", ""))):
+            for _ in range(4):
+                response = self.app.patch_json(
+                    award_location,
+                    {"data": {"status": "unsuccessful"}},
+                )
+                award = response.json["data"]
+                if "Location" not in response.headers:
+                    break
+                award_location = response.headers["Location"][-81:]
+
+        response = self.app.get("/tenders/{}/awards".format(self.tender_id))
+        self.assertEqual(len(response.json["data"]), 2)
+        self.assertEqual(
+            ['unsuccessful', 'unsuccessful'],
+            [a["status"] for a in response.json["data"]]
+        )
+
+        # next_check
+        response = self.app.get("/tenders/{}".format(self.tender_id))
+        tender = response.json["data"]
+        self.assertEqual("active.awarded", tender["status"])
+        self.assertIn("next_check", tender)
+
+        response = self.app.get("/tenders?opt_fields=next_check")
+        tender = response.json["data"][0]
+        self.assertEqual(self.tender_id, tender["id"])
+        self.assertIn("next_check", tender)
+        self.assertEqual(tender["next_check"], award["complaintPeriod"]["endDate"])
+
+
 def create_tender_award_no_scale_invalid(self):
     self.app.authorization = ("Basic", ("token", ""))
     suppliers = [{key: value for key, value in test_organization.items() if key != "scale"}]

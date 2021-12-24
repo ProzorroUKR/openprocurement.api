@@ -107,6 +107,7 @@ class TenderAwardResource(TenderBaseResource):
             award = self.request.validated["award"]
             set_item(self.request.validated["tender"], "awards", award["id"], updated)
             self.state.award_on_patch(award, updated)
+            self.state.always(self.request.validated["tender"])
             if save_tender(self.request):
                 self.LOGGER.info(
                     "Updated tender award {}".format(award["id"]),

@@ -31,8 +31,8 @@ def validate_lot_cancellation(request, **kwargs):
     if new_rules:
         return
 
-    award = request.validated["award"]
-    lot_id = award.get("lot_id")
+    award = request.validated.get("award", request.validated["data"])
+    lot_id = award.get("lotID")
     if (
         tender.get("lots")
         and tender.get("cancellations")
