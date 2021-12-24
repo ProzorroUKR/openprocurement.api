@@ -76,6 +76,7 @@ from openprocurement.tender.openua.tests.award_blanks import (
     put_tender_lots_award_complaint_document,
     patch_tender_lots_award_complaint_document,
     tender_award_complaint_period,
+    last_award_unsuccessful_next_check,
     bot_patch_tender_award_complaint,
     bot_patch_tender_award_complaint_forbidden,
     # TenderAwardRequirementResponseResourceTest
@@ -130,6 +131,7 @@ class TenderAwardResourceTest(BaseTenderUAContentWebTest, TenderAwardResourceTes
     test_patch_tender_award_active = snitch(patch_tender_award_active)
     test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
     test_tender_award_complaint_period = snitch(tender_award_complaint_period)
+    test_last_award_unsuccessful_next_check = snitch(last_award_unsuccessful_next_check)
 
 
 class TenderAwardResourceScaleTest(BaseTenderUAContentWebTest):
