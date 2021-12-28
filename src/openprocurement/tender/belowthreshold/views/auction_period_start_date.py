@@ -38,7 +38,10 @@ class TenderAuctionPeriodResource(TenderBaseResource):
     def collection_put(self):
         tender = self.request.validated["tender"]
         data = self.request.validated["data"]
+        if "auctionPeriod" not in tender:
+            tender["auctionPeriod"] = {}
         tender["auctionPeriod"]["startDate"] = data["startDate"]
+
         save_tender(self.request)
         return tender["auctionPeriod"]
 
@@ -58,6 +61,8 @@ class TenderAuctionPeriodResource(TenderBaseResource):
         tender = self.request.validated["tender"]
         for lot in tender["lots"]:
             if lot["id"] == lot_id:
+                if "auctionPeriod" not in lot:
+                    lot["auctionPeriod"] = {}
                 lot["auctionPeriod"]["startDate"] = data["startDate"]
                 save_tender(self.request)
                 return lot["auctionPeriod"]
