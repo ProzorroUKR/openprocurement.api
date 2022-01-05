@@ -95,17 +95,21 @@ sphinx-intl build
 
 ## Related services projects
 
-#### Document service (openprocurement.documentservice)
+### Current services projects
+
+#### openprocurement.documentservice
+
+Document service
 
 https://github.com/ProzorroUKR/openprocurement.documentservice
 
-#### Tasks (prozorro_tasks)
+#### prozorro_tasks
 
-Integrations tasks service
+Integration tasks service
 
 https://github.com/ProzorroUKR/prozorro_tasks
 
-#### Auction (prozorro-auction)
+#### prozorro-auction
 
 Auction service
 
@@ -113,30 +117,32 @@ https://github.com/ProzorroUKR/prozorro-auction
 
 https://github.com/ProzorroUKR/prozorro-auction-frontend
 
-#### Auctions (openprocurement.auction)
-
-Deprecated auction service
-
-https://github.com/ProzorroUKR/openprocurement.auction
-
-https://github.com/ProzorroUKR/openprocurement.auction.esco
-
-https://github.com/ProzorroUKR/openprocurement.auction.js
-
-https://github.com/ProzorroUKR/openprocurement.auction.esco-js
-
-https://github.com/ProzorroUKR/openprocurement.auction.worker
-
-#### Chronograph (prozorro_chronograph)
+#### prozorro_chronograph
 
 Chronograph service
 
-#### Chronograph (openprocurement.chronograph)
+https://github.com/ProzorroUKR/prozorro_chronograph
 
-Deprecated chronograph service
+#### prozorro-bridge-contracting
 
-https://github.com/ProzorroUKR/openprocurement.chronograph
+Contracting bridge
 
-#### Bridges
+https://github.com/ProzorroUKR/prozorro-bridge-contracting
 
-API data bridges (contracting, competitive dialogue, framework agreement, price quotation)
+#### prozorro-bridge-frameworkagreement
+
+Frameworkagreement bridge
+
+https://github.com/ProzorroUKR/prozorro-bridge-frameworkagreement
+
+#### prozorro-bridge-competitivedialogue
+
+Competitivedialogue bridge
+
+https://github.com/ProzorroUKR/prozorro-bridge-competitivedialogue
+
+#### prozorro-bridge-pricequotation
+
+Price Quotation bridge
+
+https://github.com/ProzorroUKR/prozorro-bridge-pricequotation
