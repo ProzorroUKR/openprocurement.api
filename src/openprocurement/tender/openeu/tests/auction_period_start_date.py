@@ -21,7 +21,7 @@ from openprocurement.tender.openeu.tests.base import (
 
 
 class TenderAuctionPeriodStartDateResourceTest(BaseTenderContentWebTest):
-    days_till_auction_starts = 10
+    days_till_auction_starts = 65
     test_tender_collection_put_auction_period_in_active_tendering = snitch(
         tender_collection_put_auction_period_in_active_tendering)
     test_tender_collection_put_auction_period_in_active_pre_qualification = snitch(

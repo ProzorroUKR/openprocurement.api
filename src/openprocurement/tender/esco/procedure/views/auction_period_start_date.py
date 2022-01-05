@@ -1,4 +1,4 @@
-from openprocurement.tender.core.procedure.views.auction_period_start_date import TenderAuctionPeriodResource
+from openprocurement.tender.openua.procedure.views.auction_period_start_date import UATenderAuctionPeriodResource
 from cornice.resource import resource
 
 
@@ -9,5 +9,5 @@ from cornice.resource import resource
     procurementMethodType="esco",
     description="Tender ESCO auctionPeriod start date",
 )
-class TenderAuctionPeriodResource(TenderAuctionPeriodResource):
+class TenderAuctionPeriodResource(UATenderAuctionPeriodResource):
     pass

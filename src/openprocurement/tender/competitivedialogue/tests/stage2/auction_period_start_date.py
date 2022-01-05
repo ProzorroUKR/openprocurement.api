@@ -19,12 +19,10 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest, test_lots,
     BaseCompetitiveDialogUAStage2ContentWebTest,
 )
-from freezegun import freeze_time
 
 
-@freeze_time("2022-01-04")
 class TenderStage2EUAuctionPeriodStartDateResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
-    days_till_auction_starts = 10
+    days_till_auction_starts = 65
     test_tender_collection_put_auction_period_in_active_tendering = snitch(
         tender_collection_put_auction_period_in_active_tendering)
     test_tender_collection_put_auction_period_in_active_pre_qualification = snitch(
@@ -33,9 +31,9 @@ class TenderStage2EUAuctionPeriodStartDateResourceTest(BaseCompetitiveDialogEUSt
     test_tender_collection_put_auction_period_for_not_allowed_tender_status = snitch(
         tender_collection_put_auction_period_for_not_allowed_tender_status)
 
-@freeze_time("2022-01-04")
+
 class TenderStage2UAAuctionPeriodStartDateResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
-    days_till_auction_starts = 10
+    days_till_auction_starts = 16
     test_tender_collection_put_auction_period_in_active_tendering = snitch(
         tender_collection_put_auction_period_in_active_tendering)
     test_tender_collection_put_auction_period_in_active_auction = snitch(
@@ -44,10 +42,10 @@ class TenderStage2UAAuctionPeriodStartDateResourceTest(BaseCompetitiveDialogUASt
     test_tender_collection_put_auction_period_for_not_allowed_tender_status = snitch(
         tender_collection_put_auction_period_for_not_allowed_tender_status)
 
-@freeze_time("2022-01-04")
+
 class TenderStage2EULotAuctionPeriodStartDateResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_lots = test_lots
-    days_till_auction_starts = 10
+    days_till_auction_starts = 16
     test_tender_lot_put_auction_period_for_not_allowed_tender_status = snitch(
         tender_lot_put_auction_period_for_not_allowed_tender_status)
     test_tender_lot_put_auction_period_in_active_tendering = snitch(
@@ -55,10 +53,10 @@ class TenderStage2EULotAuctionPeriodStartDateResourceTest(BaseCompetitiveDialogE
     test_tender_lot_put_auction_period_in_active_pre_qualification = snitch(
         tender_lot_put_auction_period_in_active_pre_qualification)
 
-@freeze_time("2022-01-04")
+
 class TenderStage2UALotAuctionPeriodStartDateResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_lots = test_lots
-    days_till_auction_starts = 10
+    days_till_auction_starts = 16
     test_tender_lot_put_auction_period_for_not_allowed_tender_status = snitch(
         tender_lot_put_auction_period_for_not_allowed_tender_status)
     test_tender_lot_put_auction_period_in_active_tendering = snitch(
@@ -66,9 +64,9 @@ class TenderStage2UALotAuctionPeriodStartDateResourceTest(BaseCompetitiveDialogU
     test_tender_lot_put_auction_period_in_active_auction = snitch(
         tender_lot_put_auction_period_in_active_auction)
 
-@freeze_time("2022-01-04")
+
 class TenderStage2EUMultipleLotAuctionPeriodStartDateResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
-    days_till_auction_starts = 10
+    days_till_auction_starts = 16
     initial_lots = 2 * test_lots
     test_tender_multe_lot_put_auction_period_for_not_allowed_tender_status = snitch(
         tender_multe_lot_put_auction_period_for_not_allowed_tender_status)
@@ -77,9 +75,9 @@ class TenderStage2EUMultipleLotAuctionPeriodStartDateResourceTest(BaseCompetitiv
     test_tender_multe_lot_put_auction_period_in_active_pre_qualification = snitch(
         tender_multe_lot_put_auction_period_in_active_pre_qualification)
 
-@freeze_time("2022-01-04")
+
 class TenderStage2UAMultipleLotAuctionPeriodStartDateResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
-    days_till_auction_starts = 10
+    days_till_auction_starts = 16
     initial_lots = 2 * test_lots
     test_tender_multe_lot_put_auction_period_for_not_allowed_tender_status = snitch(
         tender_multe_lot_put_auction_period_for_not_allowed_tender_status)
@@ -87,7 +85,6 @@ class TenderStage2UAMultipleLotAuctionPeriodStartDateResourceTest(BaseCompetitiv
         tender_multe_lot_put_auction_period_in_active_tendering)
     test_tender_multe_lot_put_auction_period_in_active_auction = snitch(
         tender_multe_lot_put_auction_period_in_active_auction)
-
 
 
 def suite():

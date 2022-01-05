@@ -16,14 +16,12 @@ from openprocurement.tender.esco.tests.auction_period_start_date_blanks import (
     tender_multe_lot_put_auction_period_in_active_auction,
 )
 from openprocurement.tender.esco.tests.base import (
-    BaseESCOContentWebTest, test_lots,
+    BaseESCOContentWebTest, test_lots
 )
-from freezegun import freeze_time
 
 
-@freeze_time("2022-01-04")
 class TenderAuctionPeriodStartDateResourceTest(BaseESCOContentWebTest):
-    days_till_auction_starts = 10
+    days_till_auction_starts = 65
     test_tender_collection_put_auction_period_in_active_tendering = snitch(
         tender_collection_put_auction_period_in_active_tendering)
     test_tender_collection_put_auction_period_in_active_pre_qualification = snitch(
@@ -35,10 +33,9 @@ class TenderAuctionPeriodStartDateResourceTest(BaseESCOContentWebTest):
         tender_collection_put_auction_period_in_active_auction)
 
 
-@freeze_time("2022-01-04")
 class TenderLotAuctionPeriodStartDateResourceTest(BaseESCOContentWebTest):
     initial_lots = test_lots
-    days_till_auction_starts = 10
+    days_till_auction_starts = 16
     test_tender_lot_put_auction_period_for_not_allowed_tender_status = snitch(
         tender_lot_put_auction_period_for_not_allowed_tender_status)
     test_tender_lot_put_auction_period_in_active_tendering = snitch(
@@ -49,9 +46,8 @@ class TenderLotAuctionPeriodStartDateResourceTest(BaseESCOContentWebTest):
         tender_lot_put_auction_period_in_active_auction)
 
 
-@freeze_time("2022-01-04")
 class TenderMultipleLotAuctionPeriodStartDateResourceTest(BaseESCOContentWebTest):
-    days_till_auction_starts = 10
+    days_till_auction_starts = 16
     initial_lots = 2 * test_lots
     test_tender_multe_lot_put_auction_period_for_not_allowed_tender_status = snitch(
         tender_multe_lot_put_auction_period_for_not_allowed_tender_status)
