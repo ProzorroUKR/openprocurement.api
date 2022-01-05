@@ -1,4 +1,3 @@
-from openprocurement.tender.belowthreshold.procedure.state.tender import BelowThresholdTenderState
 from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.models.auction import AuctionPeriodStartDate
@@ -9,20 +8,10 @@ from openprocurement.tender.core.procedure.validation import (
     validate_input_data
 )
 from openprocurement.api.utils import json_view
-from cornice.resource import resource
 from pyramid.security import Allow
 
 
-@resource(
-    name="belowThreshold:Tender Auction Period Start Date",
-    collection_path="/tenders/{tender_id}/auctionPeriod",
-    path="/tenders/{tender_id}/lots/{lot_id}/auctionPeriod",
-    procurementMethodType="belowThreshold",
-    description="Tender auctionPeriod start date",
-)
 class TenderAuctionPeriodResource(TenderBaseResource):
-    state_class = BelowThresholdTenderState
-
     def __acl__(self):
         return [(Allow, "g:Administrator", "edit_action_period")]
 

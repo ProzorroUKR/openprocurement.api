@@ -1,6 +1,6 @@
 import unittest
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.auction_period_start_date_blanks import (
+from openprocurement.tender.openua.tests.auction_period_start_date_blanks import (
     tender_collection_put_auction_period_in_active_tendering,
     tender_collection_put_auction_period_in_active_auction,
     tender_put_auction_period_permission_error,
@@ -12,12 +12,12 @@ from openprocurement.tender.belowthreshold.tests.auction_period_start_date_blank
     tender_multe_lot_put_auction_period_in_active_tendering,
     tender_multe_lot_put_auction_period_in_active_auction,
 )
-from openprocurement.tender.belowthreshold.tests.base import (
-    TenderContentWebTest, test_lots
+from openprocurement.tender.openua.tests.base import (
+    BaseTenderUAContentWebTest, test_lots
 )
 
 
-class TenderAuctionPeriodStartDateResourceTest(TenderContentWebTest):
+class TenderAuctionPeriodStartDateResourceTest(BaseTenderUAContentWebTest):
     days_till_auction_starts = 10
     test_tender_collection_put_auction_period_in_active_tendering = snitch(
         tender_collection_put_auction_period_in_active_tendering)
@@ -28,7 +28,7 @@ class TenderAuctionPeriodStartDateResourceTest(TenderContentWebTest):
         tender_collection_put_auction_period_for_not_allowed_tender_status)
 
 
-class TenderLotAuctionPeriodStartDateResourceTest(TenderContentWebTest):
+class TenderLotAuctionPeriodStartDateResourceTest(BaseTenderUAContentWebTest):
     initial_lots = test_lots
     days_till_auction_starts = 10
     test_tender_lot_put_auction_period_for_not_allowed_tender_status = snitch(
@@ -39,7 +39,7 @@ class TenderLotAuctionPeriodStartDateResourceTest(TenderContentWebTest):
         tender_lot_put_auction_period_in_active_auction)
 
 
-class TenderMultipleLotAuctionPeriodStartDateResourceTest(TenderContentWebTest):
+class TenderMultipleLotAuctionPeriodStartDateResourceTest(BaseTenderUAContentWebTest):
     days_till_auction_starts = 10
     initial_lots = 2 * test_lots
     test_tender_multe_lot_put_auction_period_for_not_allowed_tender_status = snitch(

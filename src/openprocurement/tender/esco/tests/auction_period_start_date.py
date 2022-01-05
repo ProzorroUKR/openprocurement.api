@@ -1,51 +1,64 @@
 import unittest
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.auction_period_start_date_blanks import (
+from openprocurement.tender.esco.tests.auction_period_start_date_blanks import (
     tender_collection_put_auction_period_in_active_tendering,
+    tender_collection_put_auction_period_in_active_pre_qualification,
     tender_collection_put_auction_period_in_active_auction,
     tender_put_auction_period_permission_error,
     tender_collection_put_auction_period_for_not_allowed_tender_status,
     tender_lot_put_auction_period_for_not_allowed_tender_status,
     tender_lot_put_auction_period_in_active_tendering,
+    tender_lot_put_auction_period_in_active_pre_qualification,
     tender_lot_put_auction_period_in_active_auction,
     tender_multe_lot_put_auction_period_for_not_allowed_tender_status,
     tender_multe_lot_put_auction_period_in_active_tendering,
+    tender_multe_lot_put_auction_period_in_active_pre_qualification,
     tender_multe_lot_put_auction_period_in_active_auction,
 )
-from openprocurement.tender.belowthreshold.tests.base import (
-    TenderContentWebTest, test_lots
+from openprocurement.tender.esco.tests.base import (
+    BaseESCOContentWebTest, test_lots,
 )
+from freezegun import freeze_time
 
 
-class TenderAuctionPeriodStartDateResourceTest(TenderContentWebTest):
+@freeze_time("2022-01-04")
+class TenderAuctionPeriodStartDateResourceTest(BaseESCOContentWebTest):
     days_till_auction_starts = 10
     test_tender_collection_put_auction_period_in_active_tendering = snitch(
         tender_collection_put_auction_period_in_active_tendering)
-    test_tender_collection_put_auction_period_in_active_auction = snitch(
-        tender_collection_put_auction_period_in_active_auction)
+    test_tender_collection_put_auction_period_in_active_pre_qualification = snitch(
+        tender_collection_put_auction_period_in_active_pre_qualification)
     test_tender_put_auction_period_permission_error = snitch(tender_put_auction_period_permission_error)
     test_tender_collection_put_auction_period_for_not_allowed_tender_status = snitch(
         tender_collection_put_auction_period_for_not_allowed_tender_status)
+    test_tender_collection_put_auction_period_in_active_auction = snitch(
+        tender_collection_put_auction_period_in_active_auction)
 
 
-class TenderLotAuctionPeriodStartDateResourceTest(TenderContentWebTest):
+@freeze_time("2022-01-04")
+class TenderLotAuctionPeriodStartDateResourceTest(BaseESCOContentWebTest):
     initial_lots = test_lots
     days_till_auction_starts = 10
     test_tender_lot_put_auction_period_for_not_allowed_tender_status = snitch(
         tender_lot_put_auction_period_for_not_allowed_tender_status)
     test_tender_lot_put_auction_period_in_active_tendering = snitch(
         tender_lot_put_auction_period_in_active_tendering)
+    test_tender_lot_put_auction_period_in_active_pre_qualification = snitch(
+        tender_lot_put_auction_period_in_active_pre_qualification)
     test_tender_lot_put_auction_period_in_active_auction = snitch(
         tender_lot_put_auction_period_in_active_auction)
 
 
-class TenderMultipleLotAuctionPeriodStartDateResourceTest(TenderContentWebTest):
+@freeze_time("2022-01-04")
+class TenderMultipleLotAuctionPeriodStartDateResourceTest(BaseESCOContentWebTest):
     days_till_auction_starts = 10
     initial_lots = 2 * test_lots
     test_tender_multe_lot_put_auction_period_for_not_allowed_tender_status = snitch(
         tender_multe_lot_put_auction_period_for_not_allowed_tender_status)
     test_tender_multe_lot_put_auction_period_in_active_tendering = snitch(
         tender_multe_lot_put_auction_period_in_active_tendering)
+    test_tender_multe_lot_put_auction_period_in_active_pre_qualification = snitch(
+        tender_multe_lot_put_auction_period_in_active_pre_qualification)
     test_tender_multe_lot_put_auction_period_in_active_auction = snitch(
         tender_multe_lot_put_auction_period_in_active_auction)
 

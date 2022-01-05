@@ -1,26 +1,31 @@
 import unittest
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.auction_period_start_date_blanks import (
+from openprocurement.tender.openeu.tests.auction_period_start_date_blanks import (
     tender_collection_put_auction_period_in_active_tendering,
+    tender_collection_put_auction_period_in_active_pre_qualification,
     tender_collection_put_auction_period_in_active_auction,
     tender_put_auction_period_permission_error,
     tender_collection_put_auction_period_for_not_allowed_tender_status,
     tender_lot_put_auction_period_for_not_allowed_tender_status,
     tender_lot_put_auction_period_in_active_tendering,
+    tender_lot_put_auction_period_in_active_pre_qualification,
     tender_lot_put_auction_period_in_active_auction,
     tender_multe_lot_put_auction_period_for_not_allowed_tender_status,
     tender_multe_lot_put_auction_period_in_active_tendering,
     tender_multe_lot_put_auction_period_in_active_auction,
+    tender_multe_lot_put_auction_period_in_active_pre_qualification,
 )
-from openprocurement.tender.belowthreshold.tests.base import (
-    TenderContentWebTest, test_lots
+from openprocurement.tender.openeu.tests.base import (
+    BaseTenderContentWebTest, test_lots
 )
 
 
-class TenderAuctionPeriodStartDateResourceTest(TenderContentWebTest):
+class TenderAuctionPeriodStartDateResourceTest(BaseTenderContentWebTest):
     days_till_auction_starts = 10
     test_tender_collection_put_auction_period_in_active_tendering = snitch(
         tender_collection_put_auction_period_in_active_tendering)
+    test_tender_collection_put_auction_period_in_active_pre_qualification = snitch(
+        tender_collection_put_auction_period_in_active_pre_qualification)
     test_tender_collection_put_auction_period_in_active_auction = snitch(
         tender_collection_put_auction_period_in_active_auction)
     test_tender_put_auction_period_permission_error = snitch(tender_put_auction_period_permission_error)
@@ -28,18 +33,20 @@ class TenderAuctionPeriodStartDateResourceTest(TenderContentWebTest):
         tender_collection_put_auction_period_for_not_allowed_tender_status)
 
 
-class TenderLotAuctionPeriodStartDateResourceTest(TenderContentWebTest):
+class TenderLotAuctionPeriodStartDateResourceTest(BaseTenderContentWebTest):
     initial_lots = test_lots
     days_till_auction_starts = 10
     test_tender_lot_put_auction_period_for_not_allowed_tender_status = snitch(
         tender_lot_put_auction_period_for_not_allowed_tender_status)
     test_tender_lot_put_auction_period_in_active_tendering = snitch(
         tender_lot_put_auction_period_in_active_tendering)
+    test_tender_lot_put_auction_period_in_active_pre_qualification = snitch(
+        tender_lot_put_auction_period_in_active_pre_qualification)
     test_tender_lot_put_auction_period_in_active_auction = snitch(
         tender_lot_put_auction_period_in_active_auction)
 
 
-class TenderMultipleLotAuctionPeriodStartDateResourceTest(TenderContentWebTest):
+class TenderMultipleLotAuctionPeriodStartDateResourceTest(BaseTenderContentWebTest):
     days_till_auction_starts = 10
     initial_lots = 2 * test_lots
     test_tender_multe_lot_put_auction_period_for_not_allowed_tender_status = snitch(
@@ -48,6 +55,8 @@ class TenderMultipleLotAuctionPeriodStartDateResourceTest(TenderContentWebTest):
         tender_multe_lot_put_auction_period_in_active_tendering)
     test_tender_multe_lot_put_auction_period_in_active_auction = snitch(
         tender_multe_lot_put_auction_period_in_active_auction)
+    test_tender_multe_lot_put_auction_period_in_active_pre_qualification = snitch(
+        tender_multe_lot_put_auction_period_in_active_pre_qualification)
 
 
 def suite():
