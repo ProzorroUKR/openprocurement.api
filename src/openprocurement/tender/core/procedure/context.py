@@ -35,11 +35,26 @@ def get_json_data() -> Union[list, dict]:
     return bid
 
 
-# request time
-# we set it once at the request begging and use everywhere
 def set_now(now=None):
+    """
+    request time
+    we set it once at the request begging and use everywhere
+    """
     thread_context.now = now or datetime.now(TZ)
 
 
 def get_now() -> datetime:
     return thread_context.now
+
+
+def get_bids_before_auction_results_context():
+    """
+    get_bids_before_auction_results
+    we need it for each lot, so we set it on first call
+    and use it multiple times for one request
+    """
+    if "bids_before_auction" not in thread_context.request.validated:
+        tender = thread_context.request.validated["tender"]
+        from openprocurement.tender.core.procedure.awarding import get_bids_before_auction_results
+        thread_context.request.validated["bids_before_auction"] = get_bids_before_auction_results(tender)
+    return thread_context.request.validated["bids_before_auction"]

@@ -1,5 +1,10 @@
 from openprocurement.tender.core.procedure.models.award import Award
-from openprocurement.tender.core.procedure.context import get_now, get_request, get_tender
+from openprocurement.tender.core.procedure.context import (
+    get_now,
+    get_request,
+    get_tender,
+    get_bids_before_auction_results_context,
+)
 from openprocurement.tender.core.procedure.utils import get_first_revision_date
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import context_unpack
@@ -130,7 +135,7 @@ def get_bids_before_auction_results(tender):
 
 
 def get_mean_value_tendering_bids(tender, bids, lot_id, exclude_bid_id):
-    before_auction_bids = get_bids_before_auction_results(tender)
+    before_auction_bids = get_bids_before_auction_results_context()
     before_auction_bids = prepare_bids_for_awarding(
         tender, before_auction_bids, lot_id=lot_id,
     )
