@@ -8,9 +8,6 @@ from openprocurement.tender.belowthreshold.tests.auction_period_start_date_blank
     tender_lot_put_auction_period_for_not_allowed_tender_status,
     tender_lot_put_auction_period_in_active_tendering,
     tender_lot_put_auction_period_in_active_auction,
-    tender_multe_lot_put_auction_period_for_not_allowed_tender_status,
-    tender_multe_lot_put_auction_period_in_active_tendering,
-    tender_multe_lot_put_auction_period_in_active_auction,
 )
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest, test_lots
@@ -39,22 +36,10 @@ class TenderLotAuctionPeriodStartDateResourceTest(TenderContentWebTest):
         tender_lot_put_auction_period_in_active_auction)
 
 
-class TenderMultipleLotAuctionPeriodStartDateResourceTest(TenderContentWebTest):
-    days_till_auction_starts = 10
-    initial_lots = 2 * test_lots
-    test_tender_multe_lot_put_auction_period_for_not_allowed_tender_status = snitch(
-        tender_multe_lot_put_auction_period_for_not_allowed_tender_status)
-    test_tender_multe_lot_put_auction_period_in_active_tendering = snitch(
-        tender_multe_lot_put_auction_period_in_active_tendering)
-    test_tender_multe_lot_put_auction_period_in_active_auction = snitch(
-        tender_multe_lot_put_auction_period_in_active_auction)
-
-
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderAuctionPeriodStartDateResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotAuctionPeriodStartDateResourceTest))
-    suite.addTest(unittest.makeSuite(TenderMultipleLotAuctionPeriodStartDateResourceTest))
     return suite
 
 

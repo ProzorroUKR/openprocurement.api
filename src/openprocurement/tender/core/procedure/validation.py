@@ -746,7 +746,6 @@ def validate_auction_tender_status(request, **_):
             "GET": "get auction info",
             "POST": "report auction results",
             "PATCH": "update auction urls",
-            "PUT": "replaces auction urls",
         }
         raise_operation_error(
             request, f"Can't {operations[request.method]} in current ({tender_status}) tender status"

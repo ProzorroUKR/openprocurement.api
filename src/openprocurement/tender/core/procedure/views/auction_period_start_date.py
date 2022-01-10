@@ -9,8 +9,15 @@ from openprocurement.tender.core.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from pyramid.security import Allow
+from cornice.resource import resource
 
 
+@resource(
+    name="Tender Auction Period Start Date",
+    collection_path="/tenders/{tender_id}/auctionPeriod",
+    path="/tenders/{tender_id}/lots/{lot_id}/auctionPeriod",
+    description="Tender auctionPeriod start date",
+)
 class TenderAuctionPeriodResource(TenderBaseResource):
     def __acl__(self):
         return [(Allow, "g:Administrator", "edit_action_period")]

@@ -268,4 +268,4 @@ class AuctionLotResults(Model):
 
 
 class AuctionPeriodStartDate(Model):
-    startDate = StringType()
+    startDate = IsoDateTimeType()
