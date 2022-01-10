@@ -87,7 +87,8 @@ class AwardState(AwardStateMixing, OpenUADefenseTenderState):
         ):
             if tender["status"] == "active.awarded":
                 tender["status"] = "active.qualification"
-                del tender["awardPeriod"]
+                if "endDate" in tender["awardPeriod"]:
+                    del tender["awardPeriod"]["endDate"]
 
             if not new_defence_complaints and award["complaintPeriod"]["endDate"] > now:
                 award["complaintPeriod"]["endDate"] = now

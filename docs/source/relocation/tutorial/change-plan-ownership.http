@@ -51,8 +51,8 @@ X-Content-Type-Options: nosniff
         "name": "proj_name"
       },
       "period": {
-        "startDate": "2021-01-01T00:00:00+02:00",
-        "endDate": "2021-12-31T00:00:00+02:00"
+        "startDate": "2022-01-01T00:00:00+02:00",
+        "endDate": "2022-12-31T00:00:00+02:00"
       },
       "breakdown": [
         {
