@@ -64,7 +64,8 @@ class AwardStateMixing:
         ):
             if tender["status"] == "active.awarded":
                 self.get_change_tender_status_handler("active.qualification")(tender)
-                del tender["awardPeriod"]
+                if "endDate" in tender["awardPeriod"]:
+                    del tender["awardPeriod"]["endDate"]
 
             award["complaintPeriod"]["endDate"] = now
 
