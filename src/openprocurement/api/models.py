@@ -55,7 +55,8 @@ from openprocurement.api.constants import (
 
 schematics_default_role = SchematicsDocument.Options.roles["default"] + blacklist("__parent__")
 schematics_embedded_role = SchematicsDocument.Options.roles["embedded"] + blacklist("__parent__")
-UNIT_CODES = standards.load("unit_codes/recommended.json")
+unit_codes = standards.load("unit_codes/recommended.json")
+UNIT_CODES = unit_codes.keys()
 
 plain_role = blacklist("_attachments", "revisions", "dateModified") + schematics_embedded_role
 listing_role = whitelist("dateModified", "doc_id")
