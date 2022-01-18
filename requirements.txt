@@ -50,4 +50,4 @@ git+https://github.com/ProzorroUKR/couchdb-python.git@1.2-bad-status-line#egg=co
 # https://github.com/ProzorroUKR/openprocurement.audit.api
 # https://github.com/ProzorroUKR/prozorro_tasks
 
-git+https://github.com/ProzorroUKR/standards.git@1.0.22#egg=standards
+git+https://github.com/ProzorroUKR/standards.git@1.0.25#egg=standards
