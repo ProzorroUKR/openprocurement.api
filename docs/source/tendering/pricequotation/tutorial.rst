@@ -50,6 +50,11 @@ modified.  Note that tender is created with `draft` status.
 
 Price Quotation procedure has ``procurementMethodType``: ``priceQuotation`` and ``procurementMethod``: ``selective``.
 
+Also you can create tender with multiple number of items, just add more items to ``tender["items"]``:
+
+.. include:: http/tender-post-with-multiple-items-data.http
+   :code:
+
 Let's access the URL of the created object (the `Location` header of the response):
 
 .. include:: http/blank-tender-view.http

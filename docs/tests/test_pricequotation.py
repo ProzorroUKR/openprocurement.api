@@ -9,6 +9,7 @@ from openprocurement.tender.pricequotation.tests.base import (
     test_response_1,
     copy_criteria_req_id,
     test_tender_data,
+    test_item,
     test_bids,
     bid_with_docs,
     test_short_profile,
@@ -183,6 +184,20 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         tender = response.json['data']
         owner_token = response.json['access']['token']
         self.tender_id = tender['id']
+
+        test_tender_data['items'].append(test_item)
+        test_tender_data['items'][-1]['deliveryDate'] = {
+            'startDate': (get_now() + timedelta(days=2)).isoformat(),
+            'endDate': (get_now() + timedelta(days=5)).isoformat()
+        }
+
+        with open(TARGET_DIR + 'tender-post-with-multiple-items-data.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders?opt_pretty=1',
+                {'data': test_tender_data})
+            self.assertEqual(response.status, '201 Created')
+
+        test_tender_data['items'].pop()
 
         with open(TARGET_DIR + 'blank-tender-view.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}'.format(tender['id']))
@@ -481,3 +496,24 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     self.tender_id, cancellation_id, owner_token),
                 {'data': {"status": "active"}})
             self.assertEqual(response.status, '200 OK')
+
+    def test_tender_with_multiple_items(self):
+        test_tender_data["items"].append(test_item)
+
+        for item in test_tender_data['items']:
+            item['deliveryDate'] = {
+                "startDate": (get_now() + timedelta(days=2)).isoformat(),
+                "endDate": (get_now() + timedelta(days=5)).isoformat()
+            }
+
+        test_tender_data.update({
+            "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()},
+            "criteria": criteria_drop_uuids(deepcopy(test_criteria_1))
+        })
+
+        with open(TARGET_DIR + 'tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders?opt_pretty=1',
+                {'data': test_tender_data})
+            self.assertEqual(response.status, '201 Created')
+
