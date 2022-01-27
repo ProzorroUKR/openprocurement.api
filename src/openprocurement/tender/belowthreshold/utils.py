@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
 from openprocurement.api.constants import (
-    TZ,
     NEW_DEFENSE_COMPLAINTS_FROM,
     NEW_DEFENSE_COMPLAINTS_TO,
-    MULTI_CONTRACTS_REQUIRED_FROM,
 )
 from openprocurement.api.utils import get_now, context_unpack, raise_operation_error
 from openprocurement.tender.core.utils import (
-    cleanup_bids_for_cancelled_lots,
-    remove_draft_bids,
     calculate_tender_date,
     check_skip_award_complaint_period,
     prepare_bids_for_awarding,
@@ -45,7 +41,6 @@ def check_bids(request):
             for i in tender.lots
             if i.numberOfBids == 0 and i.status == "active"
         ]
-        cleanup_bids_for_cancelled_lots(tender)
         if not set([i.status for i in tender.lots]).difference(set(["unsuccessful", "cancelled"])):
             tender.status = "unsuccessful"
         elif max([i.numberOfBids for i in tender.lots if i.status == "active"]) < 2:

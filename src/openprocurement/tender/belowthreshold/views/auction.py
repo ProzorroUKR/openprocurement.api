@@ -5,7 +5,6 @@ from openprocurement.tender.core.utils import (
     save_tender,
     optendersresource,
     apply_patch,
-    cleanup_bids_for_cancelled_lots,
 )
 
 from openprocurement.tender.core.validation import validate_tender_auction_data
@@ -196,7 +195,6 @@ class TenderAuctionResource(APIResource):
                 if i.numberOfBids > 1 and i.status == "active"
             ]
         ):
-            cleanup_bids_for_cancelled_lots(self.request.validated["tender"])
             add_next_award(self.request)
         if save_tender(self.request):
             self.LOGGER.info(

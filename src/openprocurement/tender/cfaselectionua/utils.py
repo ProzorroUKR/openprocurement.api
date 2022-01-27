@@ -17,8 +17,6 @@ from openprocurement.tender.cfaselectionua.constants import (
 )
 from openprocurement.tender.cfaselectionua.traversal import agreement_factory
 from openprocurement.tender.core.utils import (
-    cleanup_bids_for_cancelled_lots,
-    remove_draft_bids,
     calculate_tender_date,
     CancelTenderLot as BaseCancelTenderLot,
 )
@@ -48,7 +46,6 @@ def check_bids(request):
             if i.numberOfBids < 2 and i.auctionPeriod and i.auctionPeriod.startDate
         ]
         [setattr(i, "status", "unsuccessful") for i in tender.lots if i.numberOfBids == 0 and i.status == "active"]
-        cleanup_bids_for_cancelled_lots(tender)
         if not set([i.status for i in tender.lots]).difference(set(["unsuccessful", "cancelled"])):
             tender.status = "unsuccessful"
         elif max([i.numberOfBids for i in tender.lots if i.status == "active"]) < 2:

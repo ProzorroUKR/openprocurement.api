@@ -91,18 +91,7 @@ class CancelTenderLot(BaseTenderLot):
             "active.auction",
         )
         if tender.status in check_statuses:
-            def filter_docs(items):
-                result = [i for i in items
-                          if i.documentOf != "lot"
-                          or i.relatedItem not in cancelled_lots]
-                return result
-
             for bid in tender.bids:
-                if tender.status == "active.tendering":
-                    bid.documents = filter_docs(bid.documents)
-                bid.financialDocuments = filter_docs(bid.financialDocuments)
-                bid.eligibilityDocuments = filter_docs(bid.eligibilityDocuments)
-                bid.qualificationDocuments = filter_docs(bid.qualificationDocuments)
                 bid.parameters = [i for i in bid.parameters if i.code not in cancelled_features]
                 bid.lotValues = [i for i in bid.lotValues if i.relatedLot not in cancelled_lots]
                 if not bid.lotValues and bid.status in ["pending", "active"]:

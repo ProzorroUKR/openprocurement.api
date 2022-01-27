@@ -1,6 +1,5 @@
 from openprocurement.api.utils import json_view, context_unpack
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.tender.core.procedure.awarding import cleanup_bids_for_cancelled_lots
 from openprocurement.tender.core.procedure.validation import (
     validate_auction_tender_status,
     validate_auction_tender_non_lot,
@@ -139,7 +138,6 @@ class TenderAuctionResource(TenderBaseResource):
                 for i in tender["lots"]
                 if i["status"] == "active" and self.state.count_lot_bids_number(tender, i["id"]) > 1
         ):
-            cleanup_bids_for_cancelled_lots(tender)
             self.state.add_next_award()
 
         self.state.on_patch(self.request.validated["tender_src"], self.request.validated["tender"])
