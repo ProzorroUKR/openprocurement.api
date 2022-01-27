@@ -67,7 +67,6 @@ class BelowThresholdTenderState(TenderState):
                     if bid_number == 0 and lot["status"] == "active":
                         self.set_object_status(lot, "unsuccessful")
 
-            self.cleanup_bids_for_cancelled_lots(tender)
             if not set(i["status"] for i in tender["lots"]).difference({"unsuccessful", "cancelled"}):
                 self.get_change_tender_status_handler("unsuccessful")(tender)
 
@@ -86,27 +85,6 @@ class BelowThresholdTenderState(TenderState):
                 self.add_next_award()
         self.check_ignored_claim(tender)
 
-    @staticmethod
-    def cleanup_bids_for_cancelled_lots(tender):
-        cancelled_lots = [i["id"] for i in tender["lots"] if i["status"] == "cancelled"]
-        if cancelled_lots:
-            return
-        cancelled_items = [i["id"] for i in tender.get("items", "") if i.get("relatedLot") in cancelled_lots]
-        cancelled_features = [
-            i["code"]
-            for i in tender.get("features", "")
-            if i["featureOf"] == "lot" and i["relatedItem"] in cancelled_lots
-               or i["featureOf"] == "item" and i["relatedItem"] in cancelled_items
-        ]
-        for bid in tender.get("bids", ""):
-            bid["documents"] = [i for i in bid.get("documents", "")
-                                if i.get("documentOf") != "lot" or i.get("relatedItem") not in cancelled_lots]
-            bid["parameters"] = [i for i in bid.get("parameters", "")
-                                 if i["code"] not in cancelled_features]
-            bid["lotValues"] = [i for i in bid.get("lotValues", "")
-                                if i["relatedLot"] not in cancelled_lots]
-            if not bid["lotValues"]:
-                tender["bids"].remove(bid)
 
     @staticmethod
     def check_ignored_claim(tender):

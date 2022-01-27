@@ -116,18 +116,7 @@ class CFAUATenderTenderState(CFAUATenderStateAwardingMixing, PreQualificationSho
                         "active.pre-qualification.stand-still",
                         "active.auction",
                     ):
-                        def filter_docs(b, key):
-                            if b.get(key):
-                                b[key] = [i for i in b[key]
-                                          if i.get("documentOf") != "lot"
-                                          or i["relatedItem"] not in cancelled_lots]
-
                         for bid in tender.get("bids", ""):
-                            if tender["status"] == "active.tendering":
-                                filter_docs(bid, "documents")
-                            filter_docs(bid, "financialDocuments")
-                            filter_docs(bid, "eligibilityDocuments")
-                            filter_docs(bid, "qualificationDocuments")
                             bid["parameters"] = [i for i in bid.get("parameters", "")
                                                  if i["code"] not in cancelled_features]
                             bid["lotValues"] = [i for i in bid.get("lotValues", "")

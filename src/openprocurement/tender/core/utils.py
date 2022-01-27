@@ -187,27 +187,6 @@ def remove_draft_bids(request):
         tender.bids = [bid for bid in tender.bids if getattr(bid, "status", "active") != "draft"]
 
 
-def cleanup_bids_for_cancelled_lots(tender):
-    cancelled_lots = [i.id for i in tender.lots if i.status == "cancelled"]
-    if cancelled_lots:
-        return
-    cancelled_items = [i.id for i in tender.items if i.relatedLot in cancelled_lots]
-    cancelled_features = [
-        i.code
-        for i in (tender.features or [])
-        if i.featureOf == "lot"
-        and i.relatedItem in cancelled_lots
-        or i.featureOf == "item"
-        and i.relatedItem in cancelled_items
-    ]
-    for bid in tender.bids:
-        bid.documents = [i for i in bid.documents if i.documentOf != "lot" or i.relatedItem not in cancelled_lots]
-        bid.parameters = [i for i in bid.parameters if i.code not in cancelled_features]
-        bid.lotValues = [i for i in bid.lotValues if i.relatedLot not in cancelled_lots]
-        if not bid.lotValues:
-            tender.bids.remove(bid)
-
-
 def has_unanswered_questions(tender, filter_cancelled_lots=True):
     if filter_cancelled_lots and tender.lots:
         active_lots = [l.id for l in tender.lots if l.status == "active"]

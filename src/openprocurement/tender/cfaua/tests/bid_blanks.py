@@ -2913,7 +2913,6 @@ def get_tender_bidder_document_ds(self):
         "id",
         "lotValues",
         "tenderers",
-        "parameters",
         "documents",
         "eligibilityDocuments",
         "qualificationDocuments",
@@ -2921,7 +2920,7 @@ def get_tender_bidder_document_ds(self):
         "selfQualified",
     }
 
-    assert_data_2 = {"date", "status", "id", "lotValues", "tenderers", "selfQualified", "parameters", "documents"}
+    assert_data_2 = {"date", "status", "id", "lotValues", "tenderers", "selfQualified"}
 
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         assert_data_1.add("selfEligible")
