@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 import unittest
-
+from copy import deepcopy
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
     create_tender_award_no_scale_invalid,
     create_tender_award_with_scale_not_required,
     create_tender_award_no_scale,
-    patch_tender_lot_award_lots_none,
     create_tender_award_document_json_bulk,
 )
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author, test_draft_complaint
@@ -135,14 +134,6 @@ class TenderNegotiationLotAwardResourceTest(TenderAwardResourceTest):
     test_patch_award_on_cancel_lot = snitch(patch_award_on_cancel_lot)
 
 
-class TenderNegotiation2LotAwardResourceTest(BaseTenderContentWebTest):
-    initial_data = test_tender_negotiation_data
-    initial_lots = 2 * test_lots
-    docservice = True
-
-    test_patch_tender_lot_award_lots_none = snitch(patch_tender_lot_award_lots_none)
-
-
 class TenderNegotiationQuickAwardResourceTest(TenderNegotiationAwardResourceTest):
     initial_data = test_tender_negotiation_quick_data
 
@@ -191,9 +182,15 @@ class TenderLotNegotiationAwardComplaintResourceTest(TenderNegotiationAwardCompl
         self.lot_id = self.lot["id"]
 
         # set items to lot
+
+        response = self.app.get("/tenders/{}".format(self.tender_id))
+        tender = response.json["data"]
+        items = deepcopy(tender["items"])
+        items[0]["relatedLot"] = self.lot_id
+
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"items": [{"relatedLot": self.lot["id"]}]}},
+            {"data": {"items": items}},
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["items"][0]["relatedLot"], self.lot["id"])
@@ -244,9 +241,16 @@ class Tender2LotNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
         self.second_lot = response.json["data"]
 
         # set items to lot
+
+        response = self.app.get("/tenders/{}".format(self.tender_id))
+        tender = response.json["data"]
+        items = deepcopy(tender["items"])
+        items[0]["relatedLot"] = self.first_lot["id"]
+        items[1]["relatedLot"] = self.second_lot["id"]
+
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"items": [{"relatedLot": self.first_lot["id"]}, {"relatedLot": self.second_lot["id"]}]}},
+            {"data": {"items": items}},
         )
 
         self.assertEqual(response.status, "200 OK")
@@ -322,9 +326,16 @@ class Tender2LotNegotiationAwardComplaint2ResourceTest(BaseTenderContentWebTest)
         self.second_lot = response.json["data"]
 
         # set items to lot
+
+        response = self.app.get("/tenders/{}".format(self.tender_id))
+        tender = response.json["data"]
+        items = deepcopy(tender["items"])
+        items[0]["relatedLot"] = self.first_lot["id"]
+        items[1]["relatedLot"] = self.second_lot["id"]
+
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"items": [{"relatedLot": self.first_lot["id"]}, {"relatedLot": self.second_lot["id"]}]}},
+            {"data": {"items": items}},
         )
 
         self.assertEqual(response.status, "200 OK")

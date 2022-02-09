@@ -8,7 +8,7 @@ from mock import patch
 
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import TWO_PHASE_COMMIT_FROM
-from openprocurement.tender.belowthreshold.tests.base import test_organization, now, test_criteria
+from openprocurement.tender.belowthreshold.tests.base import test_organization, now, set_bid_lotvalues
 from openprocurement.tender.core.tests.base import change_auth
 
 from openprocurement.tender.openua.tests.base import test_bids
@@ -249,15 +249,21 @@ def create_tender_bidder(self):
     self.assertIn("id", bid)
     self.assertIn(bid["id"], response.headers["Location"])
 
-    # set tender period in future
-    data = deepcopy(self.initial_data)
-    data["tenderPeriod"]["endDate"] = (now + timedelta(days=17)).isoformat()
-    data["tenderPeriod"]["startDate"] = (now + timedelta(days=1)).isoformat()
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"tenderPeriod": data["tenderPeriod"]}},
-    )
-    self.assertEqual(response.status, "200 OK")
+    # set tender period in future  # WTF this change, tender in active.tendering
+    # data = deepcopy(self.initial_data)
+    # data["tenderPeriod"]["endDate"] = (now + timedelta(days=17)).isoformat()
+    # data["tenderPeriod"]["startDate"] = (now + timedelta(days=1)).isoformat()
+    # response = self.app.patch_json(
+    #     "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+    #     {"data": {"tenderPeriod": data["tenderPeriod"]}},
+    # )
+    # self.assertEqual(response.status, "200 OK")
+    tender = self.db.get(self.tender_id)
+    tender["tenderPeriod"] = {
+        "startDate": (now + timedelta(days=1)).isoformat(),
+        "endDate": (now + timedelta(days=17)).isoformat()
+    }
+    self.db.save(tender)
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -867,9 +873,14 @@ def bids_activation_on_tender_documents(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "active")
 
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-        upload_files=[("file", "укр.doc", b"content")],
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }}
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -901,7 +912,7 @@ def create_tender_bid_no_scale_invalid(self):
 
 
 @mock.patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
-@mock.patch("openprocurement.tender.core.procedure.models.base.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
+@mock.patch("openprocurement.tender.core.procedure.models.organization.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
 def create_tender_bid_with_scale_not_required(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
 
@@ -916,7 +927,7 @@ def create_tender_bid_with_scale_not_required(self):
 
 
 @mock.patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
-@mock.patch("openprocurement.tender.core.procedure.models.base.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
+@mock.patch("openprocurement.tender.core.procedure.models.organization.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
 def create_tender_bid_no_scale(self):
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data.update({
@@ -1009,9 +1020,14 @@ def features_bidder_invalid(self):
 
 
 def create_tender_bidder_document(self):
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }}
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1066,27 +1082,16 @@ def create_tender_bidder_document(self):
         response.json["errors"][0]["description"], "Can't view bid documents in current (active.tendering) tender status"
     )
 
-    if self.docservice:
-        response = self.app.get(
-            "/tenders/{}/bids/{}/documents/{}?download={}&acc_token={}".format(
-                self.tender_id, self.bid_id, doc_id, key, self.bid_token
-            )
+    response = self.app.get(
+        "/tenders/{}/bids/{}/documents/{}?download={}&acc_token={}".format(
+            self.tender_id, self.bid_id, doc_id, key, self.bid_token
         )
-        self.assertEqual(response.status, "302 Moved Temporarily")
-        self.assertIn("http://localhost/get/", response.location)
-        self.assertIn("Signature=", response.location)
-        self.assertIn("KeyID=", response.location)
-        self.assertIn("Expires=", response.location)
-    else:
-        response = self.app.get(
-            "/tenders/{}/bids/{}/documents/{}?download={}&acc_token={}".format(
-                self.tender_id, self.bid_id, doc_id, key, self.bid_token
-            )
-        )
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/msword")
-        self.assertEqual(response.content_length, 7)
-        self.assertEqual(response.body, b"content")
+    )
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
+    self.assertIn("Expires=", response.location)
 
     response = self.app.get("/tenders/{}/bids/{}/documents/{}".format(self.tender_id, self.bid_id, doc_id), status=403)
     self.assertEqual(response.status, "403 Forbidden")
@@ -1105,9 +1110,14 @@ def create_tender_bidder_document(self):
 
     self.set_status("active.awarded")
 
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1122,55 +1132,59 @@ def create_tender_bidder_document(self):
 
 
 def put_tender_bidder_document(self):
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }}
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token),
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=404,
-        upload_files=[("invalid_name", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token),
-        upload_files=[("file", "name.doc", b"content2")],
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
     key = self.get_doc_id_from_url(response.json["data"]["url"])
 
-    if self.docservice:
-        response = self.app.get(
-            "/tenders/{}/bids/{}/documents/{}?download={}&acc_token={}".format(
-                self.tender_id, self.bid_id, doc_id, key, self.bid_token
-            )
+    response = self.app.get(
+        "/tenders/{}/bids/{}/documents/{}?download={}&acc_token={}".format(
+            self.tender_id, self.bid_id, doc_id, key, self.bid_token
         )
-        self.assertEqual(response.status, "302 Moved Temporarily")
-        self.assertIn("http://localhost/get/", response.location)
-        self.assertIn("Signature=", response.location)
-        self.assertIn("KeyID=", response.location)
-        self.assertIn("Expires=", response.location)
-    else:
-        response = self.app.get(
-            "/tenders/{}/bids/{}/documents/{}?download={}&acc_token={}".format(
-                self.tender_id, self.bid_id, doc_id, key, self.bid_token
-            )
-        )
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/msword")
-        self.assertEqual(response.content_length, 8)
-        self.assertEqual(response.body, b"content2")
+    )
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
+    self.assertIn("Expires=", response.location)
 
     response = self.app.get(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token)
@@ -1190,33 +1204,27 @@ def put_tender_bidder_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     key = self.get_doc_id_from_url(response.json["data"]["url"])
 
-    if self.docservice:
-        response = self.app.get(
-            "/tenders/{}/bids/{}/documents/{}?download={}&acc_token={}".format(
-                self.tender_id, self.bid_id, doc_id, key, self.bid_token
-            )
+    response = self.app.get(
+        "/tenders/{}/bids/{}/documents/{}?download={}&acc_token={}".format(
+            self.tender_id, self.bid_id, doc_id, key, self.bid_token
         )
-        self.assertEqual(response.status, "302 Moved Temporarily")
-        self.assertIn("http://localhost/get/", response.location)
-        self.assertIn("Signature=", response.location)
-        self.assertIn("KeyID=", response.location)
-        self.assertIn("Expires=", response.location)
-    else:
-        response = self.app.get(
-            "/tenders/{}/bids/{}/documents/{}?download={}&acc_token={}".format(
-                self.tender_id, self.bid_id, doc_id, key, self.bid_token
-            )
-        )
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/msword")
-        self.assertEqual(response.content_length, 8)
-        self.assertEqual(response.body, b"content3")
+    )
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
+    self.assertIn("Expires=", response.location)
 
     self.set_status("active.awarded")
 
     response = self.app.put(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token),
-        upload_files=[("file", "name.doc", b"content3")],
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1231,9 +1239,14 @@ def put_tender_bidder_document(self):
 
 
 def patch_tender_bidder_document(self):
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }}
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1467,9 +1480,14 @@ def create_tender_bidder_document_nopending(self):
     bid_id = bid["id"]
     bid_token = response.json["access"]["token"]
 
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, bid_token),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }}
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1506,9 +1524,14 @@ def create_tender_bidder_document_nopending(self):
         "Can't update document because award of bid is not active",
     )
 
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, bid_token),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -2809,3 +2832,23 @@ def doc_date_modified(self):
 
     document = response.json["data"]["documents"][0]
     self.assertEqual(document["datePublished"], document["dateModified"])
+
+
+def patch_tender_with_bids_lots_none(self):
+    bid = self.test_bids_data[0].copy()
+    lots = self.db.get(self.tender_id).get("lots")
+
+    set_bid_lotvalues(bid, lots)
+
+    self.create_bid(self.tender_id, bid)
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"lots": None}},
+        status=422
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "items",
+          "description": [{"relatedLot": ["relatedLot should be one of lots"]}]}]
+    )

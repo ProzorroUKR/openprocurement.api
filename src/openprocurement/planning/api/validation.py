@@ -14,6 +14,7 @@ from openprocurement.api.utils import (
 )
 from openprocurement.planning.api.models import Plan, Milestone
 from openprocurement.planning.api.constants import PROCEDURES
+from openprocurement.tender.core.constants import FIRST_STAGE_PROCUREMENT_TYPES
 from itertools import chain
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import PLAN_ADDRESS_KIND_REQUIRED_FROM
@@ -214,3 +215,17 @@ def validate_milestone_status_scheduled(request, **kwargs):
         )
         request.errors.status = 422
         raise error_handler(request)
+
+
+def validate_tender_data(request, **kwargs):
+    data = validate_json_data(request)
+    if data.get("procurementMethodType") not in FIRST_STAGE_PROCUREMENT_TYPES:
+        request.errors.add(
+            "body",
+            "procurementMethodType",
+            "Should be one of the first stage values: {}".format(FIRST_STAGE_PROCUREMENT_TYPES),
+        )
+        request.errors.status = 403
+        raise error_handler(request)
+
+    request.validated["tender_data"] = data

@@ -31,6 +31,7 @@ from openprocurement.tender.simpledefense.tests.base import (
 
 
 class TenderAuctionResourceTest(BaseSimpleDefContentWebTest, TenderAuctionResourceTestMixin):
+    docservice = True
     initial_status = "active.tendering"
     initial_bids = test_bids
 
@@ -57,9 +58,10 @@ class TenderSameValueAuctionResourceTest(BaseSimpleDefContentWebTest):
 
     test_post_tender_auction_reversed = snitch(post_tender_auction_reversed)
 
+
 class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestMixin, TenderAuctionResourceTest):
     initial_lots = 2 * test_lots
-
+    docservice = True
     test_patch_tender_auction = snitch(patch_tender_lots_auction)
 
 
@@ -93,6 +95,7 @@ class TenderFeaturesAuctionResourceTest(BaseSimpleDefContentWebTest):
 class TenderFeaturesMultilotAuctionResourceTest(
     TenderMultipleLotAuctionResourceTestMixin, TenderFeaturesAuctionResourceTest
 ):
+    docservice = True
     initial_lots = test_lots * 2
     test_get_tender_auction = snitch(get_tender_lots_auction_features)
     test_post_tender_auction = snitch(post_tender_lots_auction_features)

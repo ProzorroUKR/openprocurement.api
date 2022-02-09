@@ -16,13 +16,13 @@ from openprocurement.tender.core.validation import validate_tender_document_upda
 from openprocurement.tender.cfaselectionua.validation import validate_document_operation_in_not_allowed_tender_status
 
 
-@optendersresource(
-    name="closeFrameworkAgreementSelectionUA:Tender Documents",
-    collection_path="/tenders/{tender_id}/documents",
-    path="/tenders/{tender_id}/documents/{document_id}",
-    procurementMethodType="closeFrameworkAgreementSelectionUA",
-    description="Tender related binary files (PDFs, etc.)",
-)
+# @optendersresource(
+#     name="closeFrameworkAgreementSelectionUA:Tender Documents",
+#     collection_path="/tenders/{tender_id}/documents",
+#     path="/tenders/{tender_id}/documents/{document_id}",
+#     procurementMethodType="closeFrameworkAgreementSelectionUA",
+#     description="Tender related binary files (PDFs, etc.)",
+# )
 class TenderDocumentResource(TenderDocumentResource):
 
     @json_view(

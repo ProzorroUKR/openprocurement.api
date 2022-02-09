@@ -22,3 +22,5 @@ COMPLAINT_OLD_SUBMIT_TIME = timedelta(days=3)
 COMPLAINT_OLD_SUBMIT_TIME_BEFORE = datetime(2016, 7, 5, tzinfo=TZ)
 ENQUIRY_PERIOD_TIME = timedelta(days=3)
 TENDERING_EXTRA_PERIOD = timedelta(days=2)
+ABOVE_THRESHOLD_UA_DEFENSE = "aboveThresholdUA.defense"
+DEFENSE_KINDS = ("authority", "central", "defense", "general", "social", "special")

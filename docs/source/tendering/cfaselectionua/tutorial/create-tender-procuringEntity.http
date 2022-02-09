@@ -100,46 +100,19 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6a9111a80b224889a4c5dffd123fa6c9
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b0d3f918c2d74546a8f25c296bada627
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "title": "[ТЕСТУВАННЯ] футляри до державних нагород",
-    "title_en": "[TESTING] Cases with state awards",
-    "title_ru": "[ТЕСТИРОВАНИЕ] футляры к государственным наградам",
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "tenderID": "UA-2021-03-16-000002",
-    "owner": "broker",
+    "mainProcurementCategory": "services",
+    "title_en": "[TESTING] ",
+    "title_ru": "[ТЕСТИРОВАНИЕ] ",
+    "title": "[ТЕСТУВАННЯ] ",
     "mode": "test",
-    "awardCriteria": "lowestCost",
+    "procurementMethodType": "closeFrameworkAgreementSelectionUA",
     "submissionMethod": "electronicAuction",
-    "items": [
-      {
-        "id": "7d353f82463140ec8b5d524f868962f3",
-        "description": "футляри до державних нагород",
-        "description_en": "Cases with state awards",
-        "description_ru": "футляры к государственным наградам",
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "unit": {
-          "name": "кілограм",
-          "code": "KGM"
-        },
-        "quantity": 5.0,
-        "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        }
-      }
-    ],
+    "awardCriteria": "lowestCost",
+    "procurementMethod": "selective",
     "procuringEntity": {
       "name": "Державне управління справами",
       "identifier": {
@@ -155,33 +128,88 @@ X-Content-Type-Options: nosniff
         "countryName": "Україна"
       },
       "contactPoint": {
+        "telephone": "+0440000000",
         "name": "Державне управління справами",
-        "telephone": "+0440000000"
+        "availableLanguage": "uk"
       },
       "kind": "general"
     },
-    "lots": [
-      {
-        "id": "f2599a519a45416db792d9ee833a8e5a",
-        "title": "Лот №1",
-        "description": "Опис Лот №1",
-        "date": "2021-03-16T00:00:00+02:00",
-        "status": "active"
-      }
-    ],
     "status": "draft",
     "agreements": [
       {
         "id": "b29bf3b2d53a43bb9103fbab098eb983"
       }
     ],
-    "procurementMethod": "selective",
-    "procurementMethodType": "closeFrameworkAgreementSelectionUA",
-    "id": "6a9111a80b224889a4c5dffd123fa6c9"
+    "items": [
+      {
+        "id": "7d353f82463140ec8b5d524f868962f3",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "relatedLot": "f2599a519a45416db792d9ee833a8e5a"
+      }
+    ],
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "id": "f2599a519a45416db792d9ee833a8e5a",
+        "status": "active",
+        "date": "2021-03-16T00:00:00+02:00"
+      }
+    ],
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      },
+      {
+        "id": "242e35eee4364a05a0b311c40ae39c1d",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 0
+      }
+    ],
+    "tenderID": "UA-2021-03-16-000002",
+    "owner": "broker",
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "id": "b0d3f918c2d74546a8f25c296bada627"
   },
   "access": {
-    "token": "ba77939a069b43b7a0d08eb2c72231ac",
-    "transfer": "2093406efcab48afa559c6e50f971013"
+    "token": "2e7c9fa0747644bfbb861fc87fa17e13",
+    "transfer": "8b591e36c1b347ca85d31328262babfb"
   }
 }
 

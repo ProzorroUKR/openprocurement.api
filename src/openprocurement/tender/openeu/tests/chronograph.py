@@ -29,6 +29,7 @@ from openprocurement.tender.openeu.tests.chronograph_blanks import (
     pre_qual_switch_to_stand_still,
     active_tendering_to_pre_qual,
     active_tendering_to_pre_qual_unsuccessful,
+    active_tendering_to_unsuccessful,
 )
 
 from openprocurement.tender.openua.tests.chronograph_blanks import (
@@ -84,6 +85,19 @@ class TenderLotSwitchPreQualificationUnsuccessfulTest(BaseTenderContentWebTest):
             self.assertEqual(response.status, "200 OK")
 
     test_switch_to_pre_qual_unsuccessful = snitch(active_tendering_to_pre_qual_unsuccessful)
+
+
+class TenderLotUnsuccessfulTenderingTest(BaseTenderContentWebTest):
+    initial_bids = test_bids[:1]
+    initial_lots = test_lots
+    initial_status = "active.tendering"
+    test_lot_active_tendering_to_unsuccessful = snitch(active_tendering_to_unsuccessful)
+
+
+class TenderUnsuccessfulTenderingTest(BaseTenderContentWebTest):
+    initial_bids = test_bids[:1]
+    initial_status = "active.tendering"
+    test_lot_active_tendering_to_unsuccessful = snitch(active_tendering_to_unsuccessful)
 
 
 class TenderLotSwitchAuctionResourceTest(TenderSwitchAuctionResourceTest):

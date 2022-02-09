@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/bids/51b3dee8818a41fea7a6bb43777476ec?acc_token=03dd1b90184d488cbb3507a375df1a68 HTTP/1.0
+GET /api/2.5/tenders/16198a81806a4fd9bf0d5b437bc44f7a/bids/51b3dee8818a41fea7a6bb43777476ec?acc_token=03dd1b90184d488cbb3507a375df1a68 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -11,9 +11,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "Державне управління справами",
         "identifier": {
-          "uri": "http://www.dus.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00037257"
+          "id": "00037257",
+          "uri": "http://www.dus.gov.ua/"
         },
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
@@ -34,7 +34,7 @@ X-Content-Type-Options: nosniff
     "date": "2021-03-16T00:00:00+02:00",
     "documents": [
       {
-        "id": "9383d40f6e404558827b2b7481dea5da",
+        "id": "77e7b782c82940e1a28e15b36c1a82f4",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
@@ -44,7 +44,7 @@ X-Content-Type-Options: nosniff
         "dateModified": "2021-03-16T00:00:00+02:00"
       },
       {
-        "id": "d155a202959247a9b7d090c41ca410e7",
+        "id": "cf18c9397efb4273bb6edca3f8d93296",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
@@ -73,7 +73,7 @@ X-Content-Type-Options: nosniff
         },
         "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
         "date": "2021-03-16T00:00:00+02:00",
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/e08a950b18594d05b7c7318066bae24a_f2599a519a45416db792d9ee833a8e5a?key_for_bid=51b3dee8818a41fea7a6bb43777476ec"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/16198a81806a4fd9bf0d5b437bc44f7a_f2599a519a45416db792d9ee833a8e5a?key_for_bid=51b3dee8818a41fea7a6bb43777476ec"
       }
     ]
   }

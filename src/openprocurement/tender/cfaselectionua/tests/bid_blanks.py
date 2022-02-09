@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
+from openprocurement.tender.belowthreshold.tests.base import set_bid_lotvalues
 from openprocurement.tender.cfaselectionua.tests.base import test_organization, test_agreement, test_features
 
 
@@ -1675,3 +1676,30 @@ def create_tender_bid_with_documents(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(document["id"], response.json["data"]["id"])
+
+
+def patch_tender_with_bids_lots_none(self):
+    bid = self.test_bids_data[0].copy()
+    lots = self.db.get(self.tender_id).get("lots")
+
+    set_bid_lotvalues(bid, lots)
+
+    self.create_bid(self.tender_id, bid)
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"lots": None}},
+        status=422
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "lots",
+                "description": [
+                    "This field is required."
+                ]
+            }
+        ]
+    )

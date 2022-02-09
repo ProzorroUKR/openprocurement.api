@@ -66,7 +66,7 @@ class ESCOTenderBidResource(TenderBidResource):
             validate_bid_operation_period,
             validate_input_data(PostBid),
             validate_post_bid_status,
-            validate_data_documents,
+            validate_data_documents(route_key="bid_id", uid_key="id"),
         ),
     )
     def collection_post(self):

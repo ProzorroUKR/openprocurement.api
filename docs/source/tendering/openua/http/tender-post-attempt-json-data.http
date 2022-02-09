@@ -107,16 +107,24 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aaa5710764414d869967dd7b7264b58e
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4d1993c98d0f4727996abf4a5aa6da88
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "title": "футляри до державних нагород",
-    "date": "2021-03-27T00:00:02+02:00",
-    "dateModified": "2021-03-27T00:00:02+02:00",
-    "tenderID": "UA-2021-03-27-000001",
-    "owner": "broker",
     "mainProcurementCategory": "services",
+    "title": "футляри до державних нагород",
+    "submissionMethod": "electronicAuction",
+    "procurementMethod": "open",
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "minimalStep": {
+      "amount": 5.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -131,7 +139,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "7946c5396696487a8c111907791647ef",
+        "id": "46611f4da176403c80debb007d6febb0",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -143,13 +151,6 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       }
     ],
-    "procurementMethod": "open",
-    "submissionMethod": "electronicAuction",
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "identifier": {
@@ -165,32 +166,28 @@ X-Content-Type-Options: nosniff
         "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
         "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/"
+        "url": "http://sch10.edu.vn.ua/",
+        "name": "Куца Світлана Валентинівна"
       },
       "kind": "special"
     },
-    "minimalStep": {
-      "amount": 5.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
+    "status": "draft",
+    "procurementMethodType": "aboveThresholdUA",
     "awardCriteria": "lowestCost",
-    "enquiryPeriod": {
-      "startDate": "2021-03-27T00:00:02+02:00",
-      "endDate": "2021-04-06T00:00:00+02:00",
-      "clarificationsUntil": "2021-04-09T00:00:00+02:00"
-    },
     "tenderPeriod": {
       "startDate": "2021-03-27T00:00:02+02:00",
       "endDate": "2021-04-16T00:00:00+02:00"
     },
-    "procurementMethodType": "aboveThresholdUA",
     "items": [
       {
-        "id": "b5bef97d40ca4b4eaddb6c578e051e64",
+        "id": "764dfbfe8ad54555b270d6cb1665def0",
         "description": "Послуги шкільних їдалень",
+        "classification": {
+          "description": "Послуги з харчування у школах",
+          "scheme": "ДК021",
+          "id": "55523100-3"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -198,21 +195,16 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "quantity": 1.0,
-        "classification": {
-          "description": "Послуги з харчування у школах",
-          "scheme": "ДК021",
-          "id": "55523100-3"
-        },
         "unit": {
           "name": "папір",
-          "code": "KGM",
           "value": {
             "amount": 10.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
-          }
+          },
+          "code": "KGM"
         },
+        "quantity": 1.0,
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
           "endDate": "2021-05-05T00:00:00+02:00"
@@ -226,16 +218,24 @@ X-Content-Type-Options: nosniff
         }
       }
     ],
-    "status": "draft",
-    "id": "aaa5710764414d869967dd7b7264b58e",
+    "tenderID": "UA-2021-03-27-000001",
     "complaintPeriod": {
       "startDate": "2021-03-27T00:00:02+02:00",
       "endDate": "2021-04-12T00:00:00+02:00"
-    }
+    },
+    "enquiryPeriod": {
+      "startDate": "2021-03-27T00:00:02+02:00",
+      "endDate": "2021-04-06T00:00:00+02:00",
+      "clarificationsUntil": "2021-04-09T00:00:00+02:00"
+    },
+    "owner": "broker",
+    "date": "2021-03-27T00:00:02+02:00",
+    "dateModified": "2021-03-27T00:00:02+02:00",
+    "id": "4d1993c98d0f4727996abf4a5aa6da88"
   },
   "access": {
-    "token": "43408d4dbd4a46fc9db78a0b7ede3161",
-    "transfer": "a565141cb17745769929a67a1ef5d154"
+    "token": "42b260f2b89644738c72355ae2267c22",
+    "transfer": "715748a4eace447684ad1fa6ba260e3e"
   }
 }
 

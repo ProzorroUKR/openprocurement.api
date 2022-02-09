@@ -155,11 +155,14 @@ class CompetitiveDialogueUALotFeatureBidderResourceTest(BaseCompetitiveDialogUAC
     def setUp(self):
         super(CompetitiveDialogueUALotFeatureBidderResourceTest, self).setUp()
         self.lot_id = self.initial_lots[0]["id"]
+        items = deepcopy(self.initial_data["items"])
+        items[0]["id"] = "1"
+        items[0]["relatedLot"] = self.lot_id
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
             {
                 "data": {
-                    "items": [{"relatedLot": self.lot_id, "id": "1"}],
+                    "items": items,
                     "features": [
                         {
                             "code": "code_item",

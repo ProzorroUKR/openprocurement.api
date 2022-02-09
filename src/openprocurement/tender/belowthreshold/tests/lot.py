@@ -2,7 +2,7 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
+from copy import deepcopy
 from openprocurement.tender.belowthreshold.tests.base import BaseTenderWebTest, TenderContentWebTest, test_lots
 from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     # Tender Lot Resouce Test
@@ -72,6 +72,7 @@ class TenderLotProcessTestMixin(object):
 
 
 class TenderLotResourceTest(TenderContentWebTest, TenderLotResourceTestMixin, TenderLotValueTestMixin):
+    docservice = True
     test_lots_data = test_lots
 
     test_get_tender_lot = snitch(get_tender_lot)
@@ -81,6 +82,7 @@ class TenderLotResourceTest(TenderContentWebTest, TenderLotResourceTestMixin, Te
 
 
 class TenderLotFeatureResourceTest(TenderContentWebTest, TenderLotFeatureResourceTestMixin):
+    docservice = True
     initial_status = None
     initial_lots = 2 * test_lots
     invalid_feature_value = 0.5
@@ -89,6 +91,7 @@ class TenderLotFeatureResourceTest(TenderContentWebTest, TenderLotFeatureResourc
 
 
 class TenderLotBidResourceTest(TenderContentWebTest):
+    docservice = True
     initial_status = "active.tendering"
     initial_lots = test_lots
 
@@ -97,16 +100,20 @@ class TenderLotBidResourceTest(TenderContentWebTest):
 
 
 class TenderLotFeatureBidResourceTest(TenderContentWebTest):
+    docservice = True
     initial_lots = test_lots
 
     def setUp(self):
         super(TenderLotFeatureBidResourceTest, self).setUp()
         self.lot_id = self.initial_lots[0]["id"]
+        items = deepcopy(self.initial_data["items"])
+        items[0]["relatedLot"] = self.lot_id
+        items[0]["id"] = "1"
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
             {
                 "data": {
-                    "items": [{"relatedLot": self.lot_id, "id": "1"}],
+                    "items": items,
                     "features": [
                         {
                             "code": "code_item",
@@ -142,6 +149,7 @@ class TenderLotFeatureBidResourceTest(TenderContentWebTest):
 
 
 class TenderLotProcessTest(BaseTenderWebTest, TenderLotProcessTestMixin):
+    docservice = True
     test_lots_data = test_lots
 
     days_till_auction_starts = 10

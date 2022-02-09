@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/27df7be06fc64a558437b0ae4fb65cc8?acc_token=924dac1197f34d7c8f7e51a5a330ccb0 HTTP/1.0
+PATCH /api/2.5/tenders/422eb97a63c542908053af8cca817f6d?acc_token=cb71798fe3e04a70bdd2565ce454760e HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 40
 Content-Type: application/json
@@ -15,12 +15,69 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "title": "футляри до державних нагород",
     "date": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
     "tenderID": "UA-2021-03-16-000001",
+    "status": "active.enquiries",
     "owner": "broker",
+    "title": "футляри до державних нагород",
     "mainProcurementCategory": "goods",
+    "submissionMethod": "electronicAuction",
+    "procurementMethod": "open",
+    "awardCriteria": "lowestCost",
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "minimalStep": {
+      "amount": 15.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "tenderPeriod": {
+      "startDate": "2021-03-23T00:00:00+02:00",
+      "endDate": "2021-03-30T00:00:00+02:00"
+    },
+    "items": [
+      {
+        "id": "b12ca1e2c2c84f33898aa6b1ae4071a4",
+        "description": "футляри до державних нагород",
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "deliveryDate": {
+          "startDate": "2021-03-18T00:00:00+02:00",
+          "endDate": "2021-03-21T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        }
+      }
+    ],
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -35,7 +92,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "0174014545cc414987c10fef65d9752e",
+        "id": "983afe6ba47a451fbf6249d93fcd23d3",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -47,62 +104,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       }
     ],
-    "procurementMethod": "open",
-    "awardCriteria": "lowestCost",
-    "submissionMethod": "electronicAuction",
-    "status": "active.enquiries",
-    "items": [
-      {
-        "id": "309c04518be74274a1c7babccfc269f3",
-        "description": "футляри до державних нагород",
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "quantity": 5.0,
-        "deliveryDate": {
-          "startDate": "2021-03-18T00:00:00+02:00",
-          "endDate": "2021-03-21T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
-        "unit": {
-          "name": "кг",
-          "code": "KGM",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          }
-        }
-      }
-    ],
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "enquiryPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-03-23T00:00:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2021-03-23T00:00:00+02:00",
-      "endDate": "2021-03-30T00:00:00+02:00"
-    },
+    "procurementMethodType": "belowThreshold",
     "procuringEntity": {
       "name": "Державне управління справами",
       "identifier": {
@@ -119,19 +121,17 @@ X-Content-Type-Options: nosniff
         "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Державне управління справами",
-        "telephone": "+0440000000"
+        "telephone": "+0440000000",
+        "name": "Державне управління справами"
       },
       "kind": "general"
     },
-    "minimalStep": {
-      "amount": 15.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
+    "enquiryPeriod": {
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-03-23T00:00:00+02:00"
     },
-    "procurementMethodType": "belowThreshold",
-    "id": "27df7be06fc64a558437b0ae4fb65cc8",
-    "next_check": "2021-03-23T00:00:00+02:00"
+    "next_check": "2021-03-23T00:00:00+02:00",
+    "id": "422eb97a63c542908053af8cca817f6d"
   }
 }
 

@@ -8,7 +8,6 @@ from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
-    patch_tender_with_bids_lots_none,
     create_tender_bid_document_json_bulk,
 )
 from openprocurement.tender.cfaua.tests.base import (
@@ -97,7 +96,6 @@ class TenderBidResourceTest(BaseTenderLotsContentWebTest):
     test_deleted_bid_do_not_locks_tender_in_state = snitch(deleted_bid_do_not_locks_tender_in_state)
     test_get_tender_tenderers = snitch(get_tender_tenderers)
     test_bid_Administrator_change = snitch(bid_Administrator_change)
-    test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
 
 
 class TenderBidFeaturesResourceTest(BaseTenderLotsContentWebTest):

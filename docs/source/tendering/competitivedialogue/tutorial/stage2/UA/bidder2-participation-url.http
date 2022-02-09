@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/db4876add6b747dfafc1b99523c02097/bids/d763b870e0344234823a04cad520e0fd?acc_token=1939013889034f16a8d293037ccd4dbb HTTP/1.0
+GET /api/2.5/tenders/42b066abf8d74e769bd368279e46441b/bids/d763b870e0344234823a04cad520e0fd?acc_token=1939013889034f16a8d293037ccd4dbb HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -16,9 +16,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "ДКП «Книга»",
         "identifier": {
-          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137226"
+          "id": "00137226",
+          "uri": "http://www.sc.gov.ua/"
         },
         "address": {
           "streetAddress": "вул. Островського, 34",
@@ -39,7 +39,7 @@ X-Content-Type-Options: nosniff
     "selfQualified": true,
     "id": "d763b870e0344234823a04cad520e0fd",
     "date": "2021-03-16T00:00:00+02:00",
-    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/db4876add6b747dfafc1b99523c02097?key_for_bid=d763b870e0344234823a04cad520e0fd"
+    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/42b066abf8d74e769bd368279e46441b?key_for_bid=d763b870e0344234823a04cad520e0fd"
   }
 }
 

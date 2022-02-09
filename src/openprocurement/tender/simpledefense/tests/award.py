@@ -137,7 +137,7 @@ class TenderAwardResourceScaleTest(BaseSimpleDefContentWebTest):
         patcher.start()
         self.addCleanup(patcher.stop)
 
-        patcher = mock.patch("openprocurement.tender.core.procedure.models.base.ORGANIZATION_SCALE_FROM",
+        patcher = mock.patch("openprocurement.tender.core.procedure.models.organization.ORGANIZATION_SCALE_FROM",
                              get_now() + timedelta(days=1))
         patcher.start()
         self.addCleanup(patcher.stop)

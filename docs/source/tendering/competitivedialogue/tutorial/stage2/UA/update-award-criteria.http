@@ -1,31 +1,32 @@
-PUT /api/2.5/tenders/db4876add6b747dfafc1b99523c02097/documents/5e32d91324444a31869c260cf1f4737c?acc_token=9234ea997d5a428fb67b1ae603020b64 HTTP/1.0
+PUT /api/2.5/tenders/42b066abf8d74e769bd368279e46441b/documents/6999744bdf6d4fb19dd1326dfee6ffda?acc_token=bdb6664c7ada49b0b6ce349566740a47 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 152
-Content-Type: multipart/form-data; boundary=---BOUNDARY
+Content-Length: 333
+Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
------BOUNDARY
-Content-Disposition: form-data; name="file"; filename="AwardCriteria-2.pdf"
-Content-Type: application/pdf
-
-content2
------BOUNDARY--
-
+{
+  "data": {
+    "title": "AwardCriteria-2.pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ac487d4ec7e447d99d63d250e29aa574?Signature=juegegxzWErremMFdODk%2B7V3xn6PRrvY2UYuCLQ2ejpZghDN8hPshC1TCmf2EhStOd3%2B5Ec0x6%2FiRqtdCs5ZCA%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pdf"
+  }
+}
 
 Response: 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "5e32d91324444a31869c260cf1f4737c",
+    "id": "6999744bdf6d4fb19dd1326dfee6ffda",
+    "datePublished": "2021-03-16T00:00:00+02:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "AwardCriteria-2.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/28985d99efc9467f8bdd281c3db8346a?Signature=wIqSd3E63XMPdyGFtd7k9YI5yYfOupIR0G7JOVJzc93y20Inbc1SdZ3JPK4Cw5MDM7y70HIZz3UIn%2FCTv1vAAA%3D%3D&KeyID=a8968c46",
-    "datePublished": "2021-03-16T00:00:00+02:00",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ac487d4ec7e447d99d63d250e29aa574?Signature=okeD52UH%2BlwEFY48LEjZF6oYS6D%2Fx1VpT002FJnhEdLM2saeMiM4x%2BM2GQqeYWcLfpHoek24Xo4NhdBrPEuVCQ%3D%3D&KeyID=a8968c46",
+    "documentOf": "tender",
     "dateModified": "2021-03-16T00:00:00+02:00",
-    "author": "tender_owner",
-    "documentOf": "tender"
+    "author": "tender_owner"
   }
 }
 

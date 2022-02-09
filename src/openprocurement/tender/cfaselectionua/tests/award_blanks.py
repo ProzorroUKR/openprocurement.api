@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.belowthreshold.tests.base import test_cancellation
 from openprocurement.tender.cfaselectionua.tests.base import test_organization
 
@@ -1592,3 +1593,34 @@ def check_tender_award(self):
         response.json["data"]["suppliers"][0]["identifier"]["id"], sorted_bids[1]["tenderers"][0]["identifier"]["id"]
     )
     self.assertEqual(response.json["data"]["bid_id"], sorted_bids[1]["id"])
+
+
+def patch_tender_lot_award_lots_none(self):
+    request_path = "/tenders/{}/awards".format(self.tender_id)
+    bid = {"suppliers": [test_organization], "status": "pending", "lotID": self.initial_lots[0]["id"]}
+    if getattr(self, "initial_bids", None):
+        bid["bid_id"] = self.initial_bids[0]["id"]
+
+    with change_auth(self.app, ("Basic", ("token", ""))):
+        response = self.app.post_json(request_path, {"data": bid})
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"lots": [None]}}, status=422
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "lots",
+                "description": [
+                    [
+                        "This field is required."
+                    ]
+                ]
+            }
+        ]
+    )

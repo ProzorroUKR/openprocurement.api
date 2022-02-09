@@ -199,10 +199,7 @@ class OpenUADefenseTenderState(DefenseTenderStateAwardingMixing, TenderState):
                 bid_number = self.count_lot_bids_number(tender, lot["id"])
                 max_bid_number = max(max_bid_number, bid_number)
                 if bid_number < self.min_bids_number:
-                    if lot.get("auctionPeriod", {}).get("startDate"):
-                        del lot["auctionPeriod"]["startDate"]
-                        if not lot["auctionPeriod"]:
-                            del lot["auctionPeriod"]
+                    self.remove_auction_period(lot)
 
                     if bid_number == 0 and lot["status"] == "active":
                         self.set_object_status(lot, "unsuccessful")
@@ -227,10 +224,7 @@ class OpenUADefenseTenderState(DefenseTenderStateAwardingMixing, TenderState):
         else:
             bid_number = self.count_bids_number(tender)
             if bid_number < self.min_bids_number:
-                if tender.get("auctionPeriod", {}).get("startDate"):
-                    del tender["auctionPeriod"]["startDate"]
-                    if not tender["auctionPeriod"]:
-                        del tender["auctionPeriod"]
+                self.remove_auction_period(tender)
 
                 if bid_number == 1:
                     self.add_next_award()

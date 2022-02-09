@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids/b142414a5dc84ec0a828ba7e3d5f3513?acc_token=4e94ef2d4d854792b5f438b3a1f289b5 HTTP/1.0
+PATCH /api/2.5/tenders/6f00022409bb4e73b5f698801518e0db/bids/b142414a5dc84ec0a828ba7e3d5f3513?acc_token=4e94ef2d4d854792b5f438b3a1f289b5 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 14504
 Content-Type: application/json
@@ -231,9 +231,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "ДКП «Школяр»",
         "identifier": {
-          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137256"
+          "id": "00137256",
+          "uri": "http://www.sc.gov.ua/"
         },
         "address": {
           "streetAddress": "вул. Островського, 33",

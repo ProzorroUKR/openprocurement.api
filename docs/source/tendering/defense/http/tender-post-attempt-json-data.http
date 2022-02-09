@@ -107,16 +107,24 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77d0877a8eaf4e26a914156d07443d0a
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6082a909db464dfd9a8bee3396030e16
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "title": "футляри до державних нагород",
-    "date": "2021-03-27T00:00:05+02:00",
-    "dateModified": "2021-03-27T00:00:05+02:00",
-    "tenderID": "UA-2021-03-27-000001",
-    "owner": "broker",
     "mainProcurementCategory": "services",
+    "title": "футляри до державних нагород",
+    "submissionMethod": "electronicAuction",
+    "procurementMethod": "open",
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "minimalStep": {
+      "amount": 5.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -131,7 +139,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "7ed7a1a5e5b748e5ac20234e900125bb",
+        "id": "9740d19eb03b4ed99f7ff101c9081f1f",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -143,31 +151,21 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       }
     ],
-    "procurementMethod": "open",
-    "submissionMethod": "electronicAuction",
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "minimalStep": {
-      "amount": 5.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "enquiryPeriod": {
-      "startDate": "2021-03-27T00:00:05+02:00",
-      "endDate": "2021-04-07T00:00:00+02:00",
-      "clarificationsUntil": "2021-04-09T00:00:00+02:00"
-    },
+    "status": "draft",
+    "awardCriteria": "lowestCost",
     "tenderPeriod": {
       "startDate": "2021-03-27T00:00:05+02:00",
       "endDate": "2021-04-11T00:00:00+02:00"
     },
     "items": [
       {
-        "id": "bb5861f586c14422bda5bd960466aede",
+        "id": "96b8821a069f49e7a9549c4044719a24",
         "description": "Послуги шкільних їдалень",
+        "classification": {
+          "description": "Послуги з харчування у школах",
+          "scheme": "ДК021",
+          "id": "55523100-3"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -175,21 +173,16 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "quantity": 1.0,
-        "classification": {
-          "description": "Послуги з харчування у школах",
-          "scheme": "ДК021",
-          "id": "55523100-3"
-        },
         "unit": {
           "name": "папір",
-          "code": "KGM",
           "value": {
             "amount": 10.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
-          }
+          },
+          "code": "KGM"
         },
+        "quantity": 1.0,
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
           "endDate": "2021-05-05T00:00:00+02:00"
@@ -203,8 +196,7 @@ X-Content-Type-Options: nosniff
         }
       }
     ],
-    "status": "draft",
-    "awardCriteria": "lowestCost",
+    "procurementMethodType": "aboveThresholdUA.defense",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "identifier": {
@@ -219,23 +211,32 @@ X-Content-Type-Options: nosniff
         "postalCode": "21027",
         "countryName": "Україна"
       },
-      "kind": "defense",
       "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
         "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/"
-      }
+        "url": "http://sch10.edu.vn.ua/",
+        "name": "Куца Світлана Валентинівна",
+        "availableLanguage": "uk"
+      },
+      "kind": "defense"
     },
-    "procurementMethodType": "aboveThresholdUA.defense",
-    "id": "77d0877a8eaf4e26a914156d07443d0a",
+    "tenderID": "UA-2021-03-27-000001",
     "complaintPeriod": {
       "startDate": "2021-03-27T00:00:05+02:00",
-      "endDate": "2021-04-08T00:00:00+02:00"
-    }
+      "endDate": "2021-04-07T00:00:00+02:00"
+    },
+    "enquiryPeriod": {
+      "startDate": "2021-03-27T00:00:05+02:00",
+      "endDate": "2021-04-01T00:00:00+02:00",
+      "clarificationsUntil": "2021-04-06T00:00:00+02:00"
+    },
+    "owner": "broker",
+    "date": "2021-03-27T00:00:05+02:00",
+    "dateModified": "2021-03-27T00:00:05+02:00",
+    "id": "6082a909db464dfd9a8bee3396030e16"
   },
   "access": {
-    "token": "c418ad97fc5f4c2ea3c8d3ff52164864",
-    "transfer": "37a6299aa5324644b9ddc1953185ae5e"
+    "token": "2415a35be8344c0b872c9a65d6d5bd04",
+    "transfer": "9703fcaa031b448ca2d29e7ddee51898"
   }
 }
 

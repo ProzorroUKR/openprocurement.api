@@ -734,10 +734,9 @@ tender_stage2UA = {
 
 tender_limited = {
     "items": items_ua,
-    "owner": "broker",
     "procurementMethod": "limited",
     "procurementMethodType": "reporting",
-    "status": "active",
+    "status": "draft",
     "procuringEntity": procuring_entity_ua,
     "value": {
         "amount": 500000,
@@ -795,8 +794,10 @@ tender_openua = {
 }
 
 items_esco = deepcopy(items_en)
-items_esco[0].pop("unit")
-items_esco[1].pop("unit")
+for item in items_esco:
+    del item["unit"]
+    del item["quantity"]
+    del item["deliveryDate"]
 
 tender_esco = {
     "tenderPeriod": {

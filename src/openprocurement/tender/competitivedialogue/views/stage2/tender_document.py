@@ -15,13 +15,13 @@ from openprocurement.tender.openua.views.tender_document import TenderUaDocument
 from openprocurement.tender.competitivedialogue.constants import STAGE_2_UA_TYPE, STAGE_2_EU_TYPE
 
 
-@optendersresource(
-    name="{}:Tender Documents".format(STAGE_2_EU_TYPE),
-    collection_path="/tenders/{tender_id}/documents",
-    path="/tenders/{tender_id}/documents/{document_id}",
-    procurementMethodType=STAGE_2_EU_TYPE,
-    description="Competitive Dialogue Stage 2 EU related binary files (PDFs, etc.)",
-)
+# @optendersresource(
+#     name="{}:Tender Documents".format(STAGE_2_EU_TYPE),
+#     collection_path="/tenders/{tender_id}/documents",
+#     path="/tenders/{tender_id}/documents/{document_id}",
+#     procurementMethodType=STAGE_2_EU_TYPE,
+#     description="Competitive Dialogue Stage 2 EU related binary files (PDFs, etc.)",
+# )
 class CompetitiveDialogueStage2EUDocumentResource(TenderEUDocumentResource):
     @json_view(
         permission="upload_tender_documents",
@@ -60,12 +60,12 @@ class CompetitiveDialogueStage2EUDocumentResource(TenderEUDocumentResource):
         return super(TenderEUDocumentResource, self).patch()
 
 
-@optendersresource(
-    name="{}:Tender Documents".format(STAGE_2_UA_TYPE),
-    collection_path="/tenders/{tender_id}/documents",
-    path="/tenders/{tender_id}/documents/{document_id}",
-    procurementMethodType=STAGE_2_UA_TYPE,
-    description="Competitive Dialogue Stage 2 UA related binary files (PDFs, etc.)",
-)
+# @optendersresource(
+#     name="{}:Tender Documents".format(STAGE_2_UA_TYPE),
+#     collection_path="/tenders/{tender_id}/documents",
+#     path="/tenders/{tender_id}/documents/{document_id}",
+#     procurementMethodType=STAGE_2_UA_TYPE,
+#     description="Competitive Dialogue Stage 2 UA related binary files (PDFs, etc.)",
+# )
 class CompetitiveDialogueStage2UADocumentResource(TenderUaDocumentResource):
     pass

@@ -150,8 +150,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         # Exploring basic rules
 
         with open(TARGET_DIR + 'tender-post-attempt.http', 'w') as self.app.file_obj:
-            response = self.app.post(request_path, 'data', status=415)
-            self.assertEqual(response.status, '415 Unsupported Media Type')
+            response = self.app.post(request_path, 'data', status=422)
 
         self.app.authorization = ('Basic', ('broker', ''))
 
@@ -207,11 +206,17 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         self.tick()
 
+        response = self.app.get(f"/tenders/{self.tender_id}")
+        tender = response.json["data"]
+
         tenderPeriod_endDate = get_now() + timedelta(days=15, seconds=10)
         with open(TARGET_DIR + 'patch-tender-data.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                {'data': {"tenderPeriod": {"endDate": tenderPeriod_endDate.isoformat()}}})
+                {'data': {"tenderPeriod": {
+                    "startDate": tender["tenderPeriod"]["startDate"],
+                    "endDate": tenderPeriod_endDate.isoformat()
+                }}})
 
         self.app.authorization = ('Basic', ('broker', ''))
 

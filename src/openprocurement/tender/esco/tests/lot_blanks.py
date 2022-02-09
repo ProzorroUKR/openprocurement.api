@@ -3,6 +3,7 @@ from copy import deepcopy
 from mock import patch
 from datetime import timedelta
 from openprocurement.api.constants import TWO_PHASE_COMMIT_FROM
+from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.api.utils import get_now
 
 # Tender Lot Resouce Test
@@ -81,9 +82,11 @@ def create_tender_lot_invalid(self):
         response.json["errors"], [{"description": "Rogue field", "location": "body", "name": "invalid_field"}]
     )
 
+    items = deepcopy(self.initial_data["items"])
+    items[0]["relatedLot"] = "0" * 32
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": [{"relatedLot": "0" * 32}]}},
+        {"data": {"items": items}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -230,7 +233,7 @@ def lot_minimal_step_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertNotIn("minimalStep", response.json["data"])
 
-    data = self.test_lots_data[0]
+    data = deepcopy(self.test_lots_data[0])
     data["minimalStep"] = {"amount": 100}
     response = self.app.post_json(
         "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": data}
@@ -552,20 +555,13 @@ def tender_2lot_fundingKind_default(self):
     del data["fundingKind"]
     data["lots"][0]["fundingKind"] = "other"
     data["lots"][1]["fundingKind"] = "budget"
-    response = self.app.post_json("/tenders", {"data": data}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": ["lot funding kind should be identical to tender funding kind"],
-                "location": "body",
-                "name": "lots",
-            }
-        ],
-    )
+    response = self.app.post_json("/tenders", {"data": data})
+    self.assertEqual(response.json["data"]["fundingKind"], "other")
+    self.assertIn("lots", response.json["data"])
+    self.assertIn("fundingKind", response.json["data"]["lots"][0])
+    self.assertEqual(response.json["data"]["lots"][0]["fundingKind"], "other")
+    self.assertIn("fundingKind", response.json["data"]["lots"][1])
+    self.assertEqual(response.json["data"]["lots"][1]["fundingKind"], "other")
 
 
 def tender_lot_yearlyPaymentsPercentageRange(self):
@@ -815,11 +811,7 @@ def tender_lot_fundingKind_yppr(self):
         [
             {
                 "description": [
-                    {
-                        "yearlyPaymentsPercentageRange": [
-                            "when tender fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8"
-                        ]
-                    }
+                    "when tender fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8"
                 ],
                 "location": "body",
                 "name": "lots",
@@ -853,16 +845,7 @@ def tender_lot_fundingKind_yppr(self):
         [
             {
                 "description": [
-                    {
-                        "yearlyPaymentsPercentageRange": [
-                            "when tender fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8"
-                        ]
-                    },
-                    {
-                        "yearlyPaymentsPercentageRange": [
-                            "when tender fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8"
-                        ]
-                    },
+                    "when tender fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8"
                 ],
                 "location": "body",
                 "name": "lots",
@@ -880,11 +863,7 @@ def tender_lot_fundingKind_yppr(self):
         [
             {
                 "description": [
-                    {
-                        "yearlyPaymentsPercentageRange": [
-                            "when tender fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8"
-                        ]
-                    }
+                    "when tender fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8"
                 ],
                 "location": "body",
                 "name": "lots",
@@ -919,8 +898,9 @@ def tender_lot_Administrator_change_yppr(self):
     self.assertEqual(response.json["data"]["fundingKind"], "budget")
     tender_id = response.json["data"]["id"]
 
-    self.app.authorization = ("Basic", ("administrator", ""))
-    response = self.app.patch_json("/tenders/{}".format(tender_id), {"data": {"yearlyPaymentsPercentageRange": 0.7}})
+    with change_auth(self.app, ("Basic", ("administrator", ""))):
+        response = self.app.patch_json("/tenders/{}".format(tender_id),
+                                       {"data": {"yearlyPaymentsPercentageRange": 0.7}})
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.7)
@@ -941,10 +921,11 @@ def tender_lot_Administrator_change_yppr(self):
     self.assertEqual(response.json["data"]["lots"][0]["fundingKind"], "budget")
     lot1_id = response.json["data"]["lots"][0]["id"]
 
-    self.app.authorization = ("Basic", ("administrator", ""))
-    response = self.app.patch_json(
-        "/tenders/{}/lots/{}".format(tender_id, lot1_id), {"data": {"yearlyPaymentsPercentageRange": 0.5}}
-    )
+    with change_auth(self.app, ("Basic", ("administrator", ""))):
+        response = self.app.patch_json(
+            "/tenders/{}/lots/{}".format(tender_id, lot1_id),
+            {"data": {"yearlyPaymentsPercentageRange": 0.5}}
+        )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.5)
@@ -969,10 +950,10 @@ def tender_lot_Administrator_change_yppr(self):
     self.assertEqual(response.json["data"]["lots"][1]["fundingKind"], "budget")
     lot2_id = response.json["data"]["lots"][1]["id"]
 
-    self.app.authorization = ("Basic", ("administrator", ""))
-    response = self.app.patch_json(
-        "/tenders/{}/lots/{}".format(tender_id, lot2_id), {"data": {"yearlyPaymentsPercentageRange": 0.5}}
-    )
+    with change_auth(self.app, ("Basic", ("administrator", ""))):
+        response = self.app.patch_json(
+            "/tenders/{}/lots/{}".format(tender_id, lot2_id), {"data": {"yearlyPaymentsPercentageRange": 0.5}}
+        )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.5)
@@ -1606,21 +1587,22 @@ def create_tender_feature_bid(self):
 
 def tender_features_invalid(self):
     request_path = "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token)
-    data = self.initial_data.copy()
-    item = data["items"][0].copy()
+    item = deepcopy(self.initial_data["items"][0])
     item["id"] = "1"
-    data["items"] = [item]
-    data["features"] = [
-        {
-            "featureOf": "lot",
-            "relatedItem": self.initial_lots[0]["id"],
-            "title": "Потужність всмоктування",
-            "enum": [
-                {"value": self.invalid_feature_value, "title": "До 1000 Вт"},
-                {"value": 0.01, "title": "Більше 1000 Вт"},
-            ],
-        }
-    ]
+    data = {
+        "items": [item],
+        "features": [
+            {
+                "featureOf": "lot",
+                "relatedItem": self.initial_lots[0]["id"],
+                "title": "Потужність всмоктування",
+                "enum": [
+                    {"value": self.invalid_feature_value, "title": "До 1000 Вт"},
+                    {"value": 0.01, "title": "Більше 1000 Вт"},
+                ],
+            }
+        ]
+    }
     response = self.app.patch_json(request_path, {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")

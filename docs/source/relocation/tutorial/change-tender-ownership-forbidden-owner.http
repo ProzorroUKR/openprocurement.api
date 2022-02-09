@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/99b2cdff172144fea50cc5ac1ee1d29b/ownership HTTP/1.0
+POST /api/2.5/tenders/238757362b204c3baaf61b5f2eccd446/ownership HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 100
 Content-Type: application/json
@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "id": "613e891d848e466d8f43447511e0f5ff",
-    "transfer": "2e4e62ddc11d4d5f824a5099431067e0"
+    "transfer": "9a824d95cc2e4eb2bb3a8f417843a9c3"
   }
 }
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from schematics.types.compound import ModelType
 from schematics.types import MD5Type, StringType
 from openprocurement.api.models import Model, Value

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/8205792550a1414cbb9eeff86db41600/awards/edb662d1a45c45ca91735eb5d895bb29?acc_token=058351be85014e5db8d4fa00a8b28181 HTTP/1.0
+PATCH /api/2.5/tenders/b600b544877e456caa86c2037f36c0c4/awards/edb662d1a45c45ca91735eb5d895bb29?acc_token=ee8a0627377f40318a55afaf9852adbc HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 33
 Content-Type: application/json
@@ -12,7 +12,7 @@ DATA:
 
 Response: 200 OK
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8205792550a1414cbb9eeff86db41600/awards/b603af3384c146cb9cdfaf14cd4e6685
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b600b544877e456caa86c2037f36c0c4/awards/b603af3384c146cb9cdfaf14cd4e6685
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -28,10 +28,10 @@ X-Content-Type-Options: nosniff
       {
         "name": "Державне управління справами",
         "identifier": {
-          "legalName": "Державне управління справами",
-          "uri": "http://www.dus.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00037256"
+          "id": "00037256",
+          "legalName": "Державне управління справами",
+          "uri": "http://www.dus.gov.ua/"
         },
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",

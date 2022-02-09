@@ -59,10 +59,7 @@ class BelowThresholdTenderState(TenderState):
             for lot in tender["lots"]:
                 bid_number = self.count_lot_bids_number(tender, lot["id"])
                 if bid_number < 2:
-                    if lot.get("auctionPeriod", {}).get("startDate"):
-                        del lot["auctionPeriod"]["startDate"]
-                        if not lot["auctionPeriod"]:
-                            del lot["auctionPeriod"]
+                    self.remove_auction_period(lot)
 
                     if bid_number == 0 and lot["status"] == "active":
                         self.set_object_status(lot, "unsuccessful")
@@ -76,9 +73,7 @@ class BelowThresholdTenderState(TenderState):
         else:
             bid_number = self.count_bids_number(tender)
             if bid_number < 2 and tender.get("auctionPeriod", {}).get("startDate"):
-                del tender["auctionPeriod"]["startDate"]
-                if not tender["auctionPeriod"]:
-                    del tender["auctionPeriod"]
+                self.remove_auction_period(tender)
             if bid_number == 0:
                 self.get_change_tender_status_handler("unsuccessful")(tender)
             if bid_number == 1:

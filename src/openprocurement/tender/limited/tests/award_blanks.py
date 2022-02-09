@@ -697,9 +697,14 @@ def create_two_awards_on_one_lot(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     lot = response.json["data"]
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+    items = deepcopy(tender["items"])
+    items[0]["relatedLot"] = lot["id"]
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": [{"relatedLot": lot["id"]}]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -1354,9 +1359,15 @@ def two_lot_two_awards(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     lot2 = response.json["data"]
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+    items = deepcopy(tender["items"])
+    items[0]["relatedLot"] = lot1["id"]
+    items[1]["relatedLot"] = lot2["id"]
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": [{"relatedLot": lot1["id"]}, {"relatedLot": lot2["id"]}]}},
+        {"data": {"items": items}},
     )
     # create first award
     response = self.app.post_json(
@@ -1500,9 +1511,14 @@ def create_award_on_cancel_lot(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     lot = response.json["data"]
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+    items = deepcopy(tender["items"])
+    items[0]["relatedLot"] = lot["id"]
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": [{"relatedLot": lot["id"]}]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -1573,9 +1589,14 @@ def patch_award_on_cancel_lot(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     lot = response.json["data"]
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+    items = deepcopy(tender["items"])
+    items[0]["relatedLot"] = lot["id"]
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": [{"relatedLot": lot["id"]}]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
 

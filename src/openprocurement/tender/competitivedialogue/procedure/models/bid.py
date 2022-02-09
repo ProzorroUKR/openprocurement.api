@@ -1,9 +1,5 @@
-from openprocurement.tender.core.procedure.models.base import (
-    ListType,
-    BaseBid,
-    PatchBusinessOrganization,
-    PostBusinessOrganization,
-)
+from openprocurement.tender.core.procedure.models.organization import PatchBusinessOrganization, PostBusinessOrganization
+from openprocurement.tender.core.procedure.models.base import ListType, BaseBid
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.validation import validate_bid_value
 from openprocurement.tender.competitivedialogue.procedure.models.lot_value import LotValue, PatchLotValue, PostLotValue

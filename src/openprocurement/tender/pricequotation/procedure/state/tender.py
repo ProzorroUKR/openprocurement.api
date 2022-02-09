@@ -11,7 +11,7 @@ class PriceQuotationTenderState(TenderState):
     contract_model = Contract
 
     def always(self, data):  # disables auctionPeriod calculations
-        super(TenderState, self).always(data)
+        # super(TenderState, self).always(data)
         self.update_next_check(data)
 
     def get_events(self, tender):

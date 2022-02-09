@@ -170,13 +170,19 @@ def create_tender_lot(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertNotIn("guarantee", response.json["data"])
 
-    self.app.patch_json(
+    response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"guarantee": {"currency": "EUR", "amount": 300}}},
+        status=422
     )
-    response = self.app.get("/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token))
-
-    self.assertNotIn("guarantee", response.json["data"])
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "guarantee",
+            "description": "Field change's not allowed"
+        }]
+    )
 
     response = self.app.post_json(
         "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token),
@@ -288,7 +294,7 @@ def patch_tender_currency(self):
     # update tender currency without mimimalStep currency change
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"value": {"currency": "GBP"}}},
+        {"data": {"value": {"currency": "GBP", "amount": 500}}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -296,79 +302,12 @@ def patch_tender_currency(self):
         response.json["errors"],
         [
             {
-                "description": ["currency should be identical to currency of value of tender"],
                 "location": "body",
-                "name": "minimalStep",
+                "name": "value",
+                "description": "Field change's not allowed"
             }
         ],
     )
-
-    # try update tender currency
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"value": {"currency": "GBP"}, "minimalStep": {"currency": "GBP"}}},
-    )
-    # log currency is updated too
-    response = self.app.get("/tenders/{}/lots/{}".format(self.tender_id, lot["id"]))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    lot = response.json["data"]
-    self.assertEqual(lot["value"]["currency"], "UAH")
-
-    # try to update lot currency
-    response = self.app.patch_json(
-        "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"value": {"currency": "USD"}}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"],
-        [{"location": "body", "name": "data", "description": "Can't update lot for tender stage2"}],
-    )
-    # but the value stays unchanged
-    response = self.app.get("/tenders/{}/lots/{}".format(self.tender_id, lot["id"]))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    lot = response.json["data"]
-    self.assertEqual(lot["value"]["currency"], "UAH")  # it's still UAH
-
-    # try to update minimalStep currency
-    response = self.app.patch_json(
-        "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"minimalStep": {"currency": "USD"}}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"],
-        [{"location": "body", "name": "data", "description": "Can't update lot for tender stage2"}],
-    )
-    # but the value stays unchanged
-    response = self.app.get("/tenders/{}/lots/{}".format(self.tender_id, lot["id"]))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    lot = response.json["data"]
-    self.assertEqual(lot["minimalStep"]["currency"], "UAH")
-
-    # try to update lot minimalStep currency and lot value currency in single request
-    response = self.app.patch_json(
-        "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"value": {"currency": "USD"}, "minimalStep": {"currency": "USD"}}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"],
-        [{"location": "body", "name": "data", "description": "Can't update lot for tender stage2"}],
-    )
-    # but the value stays unchanged
-    response = self.app.get("/tenders/{}/lots/{}".format(self.tender_id, lot["id"]))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    lot = response.json["data"]
-    self.assertEqual(lot["value"]["currency"], "UAH")
-    self.assertEqual(lot["minimalStep"]["currency"], "UAH")
 
 
 def patch_tender_vat(self):
@@ -378,57 +317,27 @@ def patch_tender_vat(self):
     self.create_tender(initial_data=data)
 
     response = self.app.get("/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token))
-    lot = response.json["data"]["lots"][0]
+    tender = response.json["data"]
+    lot = tender["lots"][0]
     self.assertTrue(lot["value"]["valueAddedTaxIncluded"])
 
     # Try update tender VAT
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"value": {"valueAddedTaxIncluded": False}, "minimalStep": {"valueAddedTaxIncluded": False}}},
+        {"data": {"value": {"valueAddedTaxIncluded": False, "amount": tender["value"]["amount"]},
+                  "minimalStep": {"valueAddedTaxIncluded": False, "amount": tender["minimalStep"]["amount"]}}},
+        status=422
     )
-    self.assertEqual(response.status, "200 OK")
-    # log VAT is not updated too
-    response = self.app.get("/tenders/{}/lots/{}".format(self.tender_id, lot["id"]))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    lot = response.json["data"]
-    self.assertTrue(lot["value"]["valueAddedTaxIncluded"])
-
-    # try to update lot VAT
-    response = self.app.patch_json(
-        "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"value": {"valueAddedTaxIncluded": True}}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "data", "description": "Can't update lot for tender stage2"}],
+        [
+            {
+                "location": "body",
+                "name": "value",
+                "description": "Field change's not allowed"
+            }
+        ],
     )
-    # but the value stays unchanged
-    response = self.app.get("/tenders/{}/lots/{}".format(self.tender_id, lot["id"]))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    lot = response.json["data"]
-    self.assertTrue(lot["value"]["valueAddedTaxIncluded"])
-
-    # try to update minimalStep VAT
-    response = self.app.patch_json(
-        "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"minimalStep": {"valueAddedTaxIncluded": True}}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"],
-        [{"location": "body", "name": "data", "description": "Can't update lot for tender stage2"}],
-    )
-    # but the value stays unchanged
-    response = self.app.get("/tenders/{}/lots/{}".format(self.tender_id, lot["id"]))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    lot = response.json["data"]
-    self.assertTrue(lot["minimalStep"]["valueAddedTaxIncluded"])
 
 
 def get_tender_lot(self):
@@ -535,9 +444,12 @@ def delete_tender_lot(self):
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    items = deepcopy(response.json["data"]["items"])
+    items[0]["relatedLot"] = lot["id"]
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": [{"relatedLot": lot["id"]}]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -622,42 +534,21 @@ def tender_lot_guarantee_v2(self):
     self.assertEqual(response.json["data"]["guarantee"]["amount"], 60)
     self.assertEqual(response.json["data"]["guarantee"]["currency"], "GBP")
 
-    self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"guarantee": {"amount": 55}}}
-    )
-    response = self.app.get("/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token))
-    self.assertEqual(response.json["data"]["guarantee"]["amount"], 60)
-    self.assertEqual(response.json["data"]["guarantee"]["currency"], "GBP")
-
-    self.app.patch_json(
+    response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"guarantee": {"amount": 35, "currency": "GBP"}}},
+        status=422
     )
-
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertIn("guarantee", response.json["data"])
-    self.assertEqual(response.json["data"]["guarantee"]["amount"], 60)
-    self.assertEqual(response.json["data"]["guarantee"]["currency"], "GBP")
-
-    for l_id in (lot_id, lot2_id):
-        response = self.app.patch_json(
-            "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, l_id, self.tender_token),
-            {"data": {"guarantee": {"amount": 0, "currency": "GBP"}}},
-            status=403,
-        )
-        self.assertEqual(response.status, "403 Forbidden")
-        self.assertEqual(
-            response.json["errors"],
-            [{"location": "body", "name": "data", "description": "Can't update lot for tender stage2"}],
-        )
-        response = self.app.get("/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, l_id, self.tender_token))
-        self.assertNotEqual(response.json["data"]["guarantee"]["amount"], 0)
-        self.assertEqual(response.json["data"]["guarantee"]["currency"], "GBP")
-
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertIn("guarantee", response.json["data"])
-    self.assertEqual(response.json["data"]["guarantee"]["amount"], 60)
-    self.assertEqual(response.json["data"]["guarantee"]["currency"], "GBP")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "guarantee",
+                "description": "Field change's not allowed"
+            }
+        ],
+    )
 
 
 # TenderStage2EU(UA)LotBidderResourceTest

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/bids/635dac1cc52641d2a557b66099e10483?acc_token=7432920eba3141d69a91ef109c9ee4ec HTTP/1.0
+PATCH /api/2.5/tenders/055dc73de1b14564a3409fbcd31c287f/bids/635dac1cc52641d2a557b66099e10483?acc_token=7432920eba3141d69a91ef109c9ee4ec HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 36
 Content-Type: application/json
@@ -23,9 +23,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "Державне управління справами",
         "identifier": {
-          "uri": "http://www.dus.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00037256"
+          "id": "00037256",
+          "uri": "http://www.dus.gov.ua/"
         },
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
@@ -51,14 +51,14 @@ X-Content-Type-Options: nosniff
       {
         "id": "546cd5f70b71467c84e6258ac73f0503",
         "requirement": {
-          "id": "77037c6ab770461db67b4bdae9766251"
+          "id": "4b646712480a49e8bc73f81c45756cf4"
         },
         "value": "Розчин для інфузій"
       },
       {
         "id": "087d0e39ec974050a890f4675eabe410",
         "requirement": {
-          "id": "34da453e53fa4b47b232127c1ba54d05"
+          "id": "f7a6209ad4bd4e9a882ae46df39d8561"
         },
         "value": "5"
       }

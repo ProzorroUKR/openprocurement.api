@@ -49,7 +49,6 @@ from openprocurement.tender.esco.tests.tender_blanks import (
     tender_yearlyPaymentsPercentageRange,
     tender_yearlyPaymentsPercentageRange_invalid,
     tender_fundingKind_default,
-    items_without_deliveryDate_quantity,
     tender_noticePublicationDate,
     # TestTenderEU
     create_tender_invalid,
@@ -61,11 +60,13 @@ from openprocurement.tender.esco.tests.tender_blanks import (
     invalid_bid_tender_features,
     create_tender_generated,
     patch_item_with_zero_quantity,
+    patch_tender_draft,
 )
 from openprocurement.tender.competitivedialogue.tests.stage2.tender_blanks import create_tender_with_non_required_unit
 
 
 class TenderESCOTest(BaseESCOWebTest):
+    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_data
     test_bids_data = test_bids
@@ -77,7 +78,6 @@ class TenderESCOTest(BaseESCOWebTest):
     test_tender_minimal_step_invalid = snitch(tender_minimal_step_invalid)
     test_tender_yearlyPaymentsPercentageRange_invalid = snitch(tender_yearlyPaymentsPercentageRange_invalid)
     test_tender_yearlyPaymentsPercentageRange = snitch(tender_yearlyPaymentsPercentageRange)
-    test_items_without_deliveryDate_quantity = snitch(items_without_deliveryDate_quantity)
     test_tender_fundingKind_default = snitch(tender_fundingKind_default)
     test_tender_noticePublicationDate = snitch(tender_noticePublicationDate)
     test_tender_milestones_not_required = snitch(tender_milestones_not_required)
@@ -85,7 +85,7 @@ class TenderESCOTest(BaseESCOWebTest):
 
 class TestTenderEU(BaseESCOContentWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):
     """ ESCO tender test """
-
+    docservice = True
     initialize_initial_data = False
     initial_data = test_tender_data
     # for passing test from TenderUAResourceTestMixin
@@ -111,10 +111,11 @@ class TestTenderEU(BaseESCOContentWebTest, TenderResourceTestMixin, TenderUAReso
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
     test_patch_item_with_zero_quantity = snitch(patch_item_with_zero_quantity)
     test_patch_items_related_buyer_id = snitch(patch_items_related_buyer_id)
+    test_patch_tender_draft = snitch(patch_tender_draft)
 
 
 class TestTenderEUProcess(BaseESCOContentWebTest):
-
+    docservice = True
     initialize_initial_data = False
     initial_data = test_tender_data
     test_bids_data = test_bids

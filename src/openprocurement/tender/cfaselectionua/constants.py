@@ -28,3 +28,5 @@ AGREEMENT_IDENTIFIER = (
     "doesnt match tender.agreements[0].procuringEntity.identifier (scheme of id)"
 )
 AGREEMENT_NOT_FOUND = "agreement[0] not found in agreements"
+CFA_SELECTION = "closeFrameworkAgreementSelectionUA"
+CFA_SELECTION_KINDS = ("authority", "central", "defense", "general", "other", "social", "special")

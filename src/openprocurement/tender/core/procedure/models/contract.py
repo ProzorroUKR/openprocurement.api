@@ -1,7 +1,6 @@
-from openprocurement.api.models import IsoDateTimeType, Value, Period
-from openprocurement.tender.core.procedure.models.base import (
-    Model, ModelType, ListType, BusinessOrganization,
-)
+from openprocurement.api.models import IsoDateTimeType, Value, Period, Model
+from openprocurement.tender.core.procedure.models.base import ModelType, ListType
+from openprocurement.tender.core.procedure.models.organization import BusinessOrganization
 from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.models.item import Item
 from schematics.types import StringType, MD5Type, FloatType

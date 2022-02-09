@@ -4,6 +4,7 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 
+from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.belowthreshold.tests.auction import (
     TenderAuctionResourceTestMixin,
     TenderLotAuctionResourceTestMixin,
@@ -63,6 +64,7 @@ def prepare_for_auction(self):
 
 class TenderAuctionResourceTest(BaseESCOContentWebTest, TenderAuctionResourceTestMixin):
     # initial_data = tender_data
+    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_bids = test_bids
     initial_bids[1]["value"] = {
@@ -80,6 +82,7 @@ class TenderAuctionResourceTest(BaseESCOContentWebTest, TenderAuctionResourceTes
 
 
 class TenderSameValueAuctionResourceTest(BaseESCOContentWebTest):
+    docservice = True
     initial_status = "active.auction"
     tenderer_info = deepcopy(test_bids[0]["tenderers"])
 
@@ -99,8 +102,9 @@ class TenderSameValueAuctionResourceTest(BaseESCOContentWebTest):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
-        self.app.authorization = ("Basic", ("token", ""))
-        response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
+        with change_auth(self.app, ("Basic", ("token", ""))):
+            response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
+
         for qualific in response.json["data"]:
             response = self.app.patch_json(
                 "/tenders/{}/qualifications/{}".format(self.tender_id, qualific["id"]),
@@ -128,6 +132,7 @@ class TenderSameValueAuctionResourceTest(BaseESCOContentWebTest):
 
 
 class TenderAuctionFieldsTest(BaseESCOContentWebTest):
+    docservice = True
     # initial_data = tender_data
     initial_auth = ("Basic", ("broker", ""))
     initial_bids = test_bids
@@ -141,6 +146,7 @@ class TenderAuctionFieldsTest(BaseESCOContentWebTest):
 
 
 class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestMixin, TenderAuctionResourceTest):
+    docservice = True
     initial_lots = 2 * test_lots
 
     test_get_tender_auction = snitch(get_tender_lots_auction)

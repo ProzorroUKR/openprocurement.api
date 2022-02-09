@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/4826290bfb064165b70a94d71e93a63b/contracts/b8fc5ea92b2f49949263befaaef2db53/documents HTTP/1.0
+GET /api/2.5/tenders/0fb28ed17f544dfa8a89ddb534e0b3d9/contracts/b8fc5ea92b2f49949263befaaef2db53/documents HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,7 +8,7 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "id": "04c0b960c0db4aacbdf77fddef51149b",
+      "id": "7ca7263e081c464cb08d676e9305f821",
       "hash": "md5:00000000000000000000000000000000",
       "title": "contract_first_document.doc",
       "format": "application/msword",

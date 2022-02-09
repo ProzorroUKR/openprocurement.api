@@ -28,6 +28,7 @@ class BaseSerializer:
     serializers = {}
     private_fields = None
     whitelist = None
+    # defaults = None
 
     def __init__(self, data: dict):
         self._data = data
@@ -47,10 +48,16 @@ class BaseSerializer:
                      for k, v in items
                      if k in self.whitelist)
 
-        data = {
-            k: self.serialize_value(k, v)
-            for k, v in items
-        }
+        data = {}
+        for k, v in items:
+            s = self.serialize_value(k, v)
+            if s is not None:  # we don't show null in our outputs
+                data[k] = s
+        #
+        # if self.defaults:
+        #     for k, v in self.defaults.items():
+        #         if k not in data:
+        #             data[k] = v
         return data
 
     def serialize_value(self, key, value):

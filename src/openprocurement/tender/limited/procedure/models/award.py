@@ -1,7 +1,6 @@
 from openprocurement.api.models import IsoDateTimeType, ValidationError, Value, Period
-from openprocurement.tender.core.procedure.models.base import (
-    Model, ModelType, ListType, PostBusinessOrganization,
-)
+from openprocurement.tender.core.procedure.models.organization import PostBusinessOrganization
+from openprocurement.tender.core.procedure.models.base import Model, ModelType, ListType
 from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.context import get_tender, get_now
 from schematics.types import StringType, MD5Type, BooleanType, BaseType

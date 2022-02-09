@@ -15,13 +15,13 @@ from openprocurement.tender.belowthreshold.validation import validate_document_o
 from openprocurement.tender.core.views.document import CoreDocumentResource
 
 
-@optendersresource(
-    name="belowThreshold:Tender Documents",
-    collection_path="/tenders/{tender_id}/documents",
-    path="/tenders/{tender_id}/documents/{document_id}",
-    procurementMethodType="belowThreshold",
-    description="Tender related binary files (PDFs, etc.)",
-)
+# @optendersresource(
+#     name="belowThreshold:Tender Documents",
+#     collection_path="/tenders/{tender_id}/documents",
+#     path="/tenders/{tender_id}/documents/{document_id}",
+#     procurementMethodType="belowThreshold",
+#     description="Tender related binary files (PDFs, etc.)",
+# )
 class TenderDocumentResource(CoreDocumentResource):
 
     def set_doc_author(self, doc):

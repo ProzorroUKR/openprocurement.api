@@ -1,6 +1,6 @@
-PATCH /api/2.5/tenders/3999e118d0d4460a8852c363407a5252?acc_token=f99bcc9314684664a35ef7bb9975975d HTTP/1.0
+PATCH /api/2.5/tenders/4f76860c8cb34f99bc14e0def3bcbc5a?acc_token=4ce0e72a69954a87b19385c16717eecc HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 125
+Content-Length: 1847
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -8,9 +8,53 @@ DATA:
   "data": {
     "items": [
       {
+        "id": "b9558d4fd0b34050a2f33769d7594f9e",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
         "relatedLot": "93256198e2e7429ab4d0300cc250244f"
       },
       {
+        "id": "197ec05cd81e4a35b648f4108a84121d",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
         "relatedLot": "ae36b7ca7b4a44d8b3c015a3e4043f4f"
       }
     ]
@@ -22,40 +66,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "title": "Послуги шкільних їдалень",
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "tenderID": "UA-2021-03-16-000001",
-    "owner": "broker",
-    "mainProcurementCategory": "services",
-    "milestones": [
-      {
-        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "title": "signingTheContract",
-        "type": "financing",
-        "code": "prepayment",
-        "percentage": 45.55,
-        "duration": {
-          "days": 2,
-          "type": "banking"
-        },
-        "sequenceNumber": 0
-      },
-      {
-        "id": "891fb68f2d894029b3f64ffc8a0d1a5e",
-        "title": "deliveryOfGoods",
-        "type": "financing",
-        "code": "postpayment",
-        "percentage": 54.45,
-        "duration": {
-          "days": 900,
-          "type": "calendar"
-        },
-        "sequenceNumber": 0
-      }
-    ],
-    "procurementMethod": "open",
-    "submissionMethod": "electronicAuction",
+    "title_en": "Services in school canteens",
     "criteria": [
       {
         "id": "44e290265d784afa805cd9ff81619721",
@@ -620,65 +631,27 @@ X-Content-Type-Options: nosniff
         ]
       }
     ],
-    "procurementMethodType": "esco",
-    "title_en": "Services in school canteens",
-    "items": [
-      {
-        "id": "3e6891ff95384a6bae0fec7eb217d1db",
-        "description": "Послуги шкільних їдалень",
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "Послуги шкільних їдалень"
-          }
-        ],
-        "relatedLot": "93256198e2e7429ab4d0300cc250244f",
-        "classification": {
-          "description": "Test",
-          "scheme": "ДК021",
-          "id": "37810000-9"
-        },
-        "description_en": "Services in school canteens",
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        }
-      },
-      {
-        "id": "921c1a54826d48889f630ac8cc6cfe1e",
-        "description": "Послуги шкільних їдалень",
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "Послуги шкільних їдалень"
-          }
-        ],
-        "relatedLot": "ae36b7ca7b4a44d8b3c015a3e4043f4f",
-        "classification": {
-          "description": "Test",
-          "scheme": "ДК021",
-          "id": "37810000-9"
-        },
-        "description_en": "Services in school canteens",
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        }
-      }
-    ],
-    "tenderPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-04-16T00:00:00+02:00"
-    },
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "tenderID": "UA-2021-03-16-000001",
+    "owner": "broker",
+    "title": "Послуги шкільних їдалень",
+    "mainProcurementCategory": "services",
+    "procurementMethod": "open",
     "awardCriteria": "ratedCriteria",
+    "submissionMethod": "electronicAuction",
+    "procurementMethodType": "esco",
+    "status": "active.tendering",
+    "minimalStepPercentage": 0.006,
+    "minValue": {
+      "amount": 0.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "yearlyPaymentsPercentageRange": 0.8,
+    "NBUdiscountRate": 0.22986,
+    "fundingKind": "other",
+    "noticePublicationDate": "2021-03-16T00:00:00+02:00",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "name_en": "School #10 of Vinnytsia",
@@ -696,15 +669,14 @@ X-Content-Type-Options: nosniff
         "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/",
+        "name": "Куца Світлана Валентинівна",
         "name_en": "Kutsa Svitlana V.",
         "availableLanguage": "uk"
       },
       "kind": "general"
     },
-    "minimalStepPercentage": 0.006,
     "lots": [
       {
         "id": "93256198e2e7429ab4d0300cc250244f",
@@ -718,11 +690,11 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         },
         "minimalStepPercentage": 0.006,
-        "auctionPeriod": {
-          "shouldStartAfter": "2021-05-21T00:00:00+02:00"
-        },
         "fundingKind": "other",
-        "yearlyPaymentsPercentageRange": 0.8
+        "yearlyPaymentsPercentageRange": 0.8,
+        "auctionPeriod": {
+          "shouldStartAfter": "2021-05-22T00:00:00+03:00"
+        }
       },
       {
         "id": "ae36b7ca7b4a44d8b3c015a3e4043f4f",
@@ -736,18 +708,95 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         },
         "minimalStepPercentage": 0.006,
-        "auctionPeriod": {
-          "shouldStartAfter": "2021-05-21T00:00:00+02:00"
-        },
         "fundingKind": "other",
-        "yearlyPaymentsPercentageRange": 0.8
+        "yearlyPaymentsPercentageRange": 0.8,
+        "auctionPeriod": {
+          "shouldStartAfter": "2021-05-22T00:00:00+03:00"
+        }
       }
     ],
-    "status": "active.tendering",
-    "NBUdiscountRate": 0.22986,
-    "fundingKind": "other",
-    "yearlyPaymentsPercentageRange": 0.8,
-    "id": "3999e118d0d4460a8852c363407a5252",
+    "items": [
+      {
+        "id": "b9558d4fd0b34050a2f33769d7594f9e",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "relatedLot": "93256198e2e7429ab4d0300cc250244f"
+      },
+      {
+        "id": "197ec05cd81e4a35b648f4108a84121d",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "relatedLot": "ae36b7ca7b4a44d8b3c015a3e4043f4f"
+      }
+    ],
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      },
+      {
+        "id": "a341f7e5e54d419685d2a203d77e899a",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 0
+      }
+    ],
+    "tenderPeriod": {
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-04-16T00:00:00+02:00"
+    },
     "enquiryPeriod": {
       "startDate": "2021-03-16T00:00:00+02:00",
       "endDate": "2021-04-06T00:00:00+02:00",
@@ -756,15 +805,10 @@ X-Content-Type-Options: nosniff
     },
     "complaintPeriod": {
       "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-04-12T00:00:00+02:00"
+      "endDate": "2021-04-12T00:00:00+03:00"
     },
-    "next_check": "2021-04-16T01:00:00+03:00",
-    "minValue": {
-      "amount": 0.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "noticePublicationDate": "2021-03-16T00:00:00+02:00"
+    "next_check": "2021-04-16T00:00:00+02:00",
+    "id": "4f76860c8cb34f99bc14e0def3bcbc5a"
   }
 }
 

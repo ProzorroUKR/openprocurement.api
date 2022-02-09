@@ -19,6 +19,17 @@ from logging import getLogger
 LOGGER = getLogger(__name__)
 
 
+def resolve_award(request):
+    match_dict = request.matchdict
+    if match_dict.get("award_id"):
+        awards = get_items(request, request.validated["tender"], "awards", match_dict["award_id"])
+        request.validated["award"] = awards[0]
+        # used by item validator in pq award patch endpoint
+        if "bid_id" in awards[0]:  # reporting
+            bids = get_items(request, request.validated["tender"], "bids", awards[0]["bid_id"])
+            request.validated["bid"] = bids[0]
+
+
 class TenderAwardResource(TenderBaseResource):
 
     serializer_class = AwardSerializer
@@ -28,29 +39,16 @@ class TenderAwardResource(TenderBaseResource):
         acl = [
             (Allow, Everyone, "view_tender"),
             (Allow, "g:brokers", "edit_award"),
-            (Allow, "g:brokers", "upload_award_documents"),
-            (Allow, "g:brokers", "edit_award_documents"),
 
             (Allow, "g:admins", "create_award"),
             (Allow, "g:admins", "edit_award"),
-            (Allow, "g:admins", "upload_award_documents"),
-            (Allow, "g:admins", "edit_award_documents"),
-
-            (Allow, "g:bots", "upload_award_documents"),
         ]
         return acl
 
     def __init__(self, request, context=None):
         super().__init__(request, context)
         if context and request.matchdict:
-            match_dict = request.matchdict
-            if match_dict.get("award_id"):
-                awards = get_items(request, request.validated["tender"], "awards", match_dict["award_id"])
-                request.validated["award"] = awards[0]
-                # used by item validator in pq award patch endpoint
-                if "bid_id" in awards[0]:  # reporting
-                    bids = get_items(request, request.validated["tender"], "bids", awards[0]["bid_id"])
-                    request.validated["bid"] = bids[0]
+            resolve_award(request)
 
     @json_view(
         content_type="application/json",

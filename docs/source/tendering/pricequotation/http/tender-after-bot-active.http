@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/fd1a15553b7047a9b514d57529cb5a44 HTTP/1.0
+GET /api/2.5/tenders/3918c546cae44ca28c93e2cacf0db558 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,53 +7,66 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "title": "Комп’ютерне обладнання",
     "date": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
     "tenderID": "UA-2021-03-16-000001",
     "owner": "broker",
+    "title": "Комп’ютерне обладнання",
     "mainProcurementCategory": "goods",
-    "awardCriteria": "lowestCost",
+    "procurementMethodType": "priceQuotation",
+    "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
+    "awardCriteria": "lowestCost",
     "status": "active.tendering",
-    "items": [
+    "agreement": {
+      "id": "2e14a78a2074952d5a2d256c3c004dda"
+    },
+    "shortlistedFirms": [
       {
-        "id": "58875aff79b44134818670145fe82398",
-        "description": "Комп’ютерне обладнання",
-        "additionalClassifications": [
-          {
-            "scheme": "INN",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "quantity": 5.0,
-        "deliveryDate": {
-          "startDate": "2021-03-18T00:00:00+02:00",
-          "endDate": "2021-03-21T00:00:00+02:00"
+        "name": "Товариство з обмеженою відповідальністю «Пікселі»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00037256",
+          "legalName": "Товариство з обмеженою відповідальністю «Пікселі»"
         },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
+        "address": {
+          "streetAddress": "бул.Дружби Народів, 8",
+          "locality": "м.Київ",
+          "region": "Київська область",
+          "postalCode": "01100",
           "countryName": "Україна"
         },
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
+        "contactPoint": {
+          "email": "contact@pixel.pix",
+          "telephone": "+0671234567",
+          "name": "Оксана Піксель"
         },
-        "unit": {
-          "name": "кг",
-          "code": "KGM",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          }
+        "scale": "large",
+        "id": "UA-EDR-12345678",
+        "status": "active"
+      },
+      {
+        "name": "Товариство з обмеженою відповідальністю «Штекер-Пекер»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "87654321",
+          "legalName": "Товариство з обмеженою відповідальністю «Штекер-Пекер»"
         },
-        "profile": "655360-30230000-889652-40000777"
+        "address": {
+          "streetAddress": "вул. Кластерна, 777-К",
+          "locality": "м.Тернопіль",
+          "region": "Тернопільська область",
+          "postalCode": "46000",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "email": "info@shteker.pek",
+          "telephone": "+0951234567",
+          "name": "Олег Штекер"
+        },
+        "scale": "large",
+        "id": "UA-EDR-87654321",
+        "status": "active"
       }
     ],
     "value": {
@@ -80,76 +93,64 @@ X-Content-Type-Options: nosniff
         "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Державне управління справами",
-        "telephone": "+0440000000"
+        "telephone": "+0440000000",
+        "name": "Державне управління справами"
       },
       "kind": "general"
     },
-    "procurementMethod": "selective",
-    "procurementMethodType": "priceQuotation",
-    "agreement": {
-      "id": "2e14a78a2074952d5a2d256c3c004dda"
-    },
-    "shortlistedFirms": [
+    "noticePublicationDate": "2021-03-16T00:00:00+02:00",
+    "items": [
       {
-        "name": "Товариство з обмеженою відповідальністю «Пікселі»",
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00037256",
-          "legalName": "Товариство з обмеженою відповідальністю «Пікселі»"
+        "id": "54cdabf79a754698b0592a2e5d5c5932",
+        "description": "Комп’ютерне обладнання",
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
         },
-        "address": {
-          "streetAddress": "бул.Дружби Народів, 8",
-          "locality": "м.Київ",
-          "region": "Київська область",
-          "postalCode": "01100",
+        "quantity": 5.0,
+        "deliveryDate": {
+          "startDate": "2021-03-18T00:00:00+02:00",
+          "endDate": "2021-03-21T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
           "countryName": "Україна"
         },
-        "contactPoint": {
-          "name": "Оксана Піксель",
-          "email": "contact@pixel.pix",
-          "telephone": "+0671234567"
+        "additionalClassifications": [
+          {
+            "scheme": "INN",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
         },
-        "scale": "large",
-        "id": "UA-EDR-12345678",
-        "status": "active"
-      },
-      {
-        "name": "Товариство з обмеженою відповідальністю «Штекер-Пекер»",
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "87654321",
-          "legalName": "Товариство з обмеженою відповідальністю «Штекер-Пекер»"
-        },
-        "address": {
-          "streetAddress": "вул. Кластерна, 777-К",
-          "locality": "м.Тернопіль",
-          "region": "Тернопільська область",
-          "postalCode": "46000",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "name": "Олег Штекер",
-          "email": "info@shteker.pek",
-          "telephone": "+0951234567"
-        },
-        "scale": "large",
-        "id": "UA-EDR-87654321",
-        "status": "active"
+        "profile": "655360-30230000-889652-40000777"
       }
     ],
     "criteria": [
       {
-        "id": "89acb58e4096400c8204f6916a04aa2b",
+        "id": "fa13028ce0244c8f9efd63ba6aaeb944",
         "title": "Форма випуску",
         "description": "Форма випуску",
         "requirementGroups": [
           {
-            "id": "b33a476eeadc4fcea35eb0b6cf65924c",
+            "id": "203626cf05e349a4b3188d73094d63bc",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "7f4bed36c3d8428a8d739835fb573223",
+                "id": "f5b563ac3cdc4b8086afed04d7f611a5",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "expectedValue": "Розчин для інфузій"
@@ -159,16 +160,16 @@ X-Content-Type-Options: nosniff
         ]
       },
       {
-        "id": "b64b12de686344d3b506b9c5c3f3d96b",
+        "id": "b7ef5599cab04f8b871198befe65bcc0",
         "title": "Доза діючої речовини",
         "description": "Доза діючої речовини",
         "requirementGroups": [
           {
-            "id": "93dd697f97684ab2ad4c3db08fd319b7",
+            "id": "3a24c6377f8549eaa7ca5bc41e23265a",
             "description": "Доза діючої речовини",
             "requirements": [
               {
-                "id": "95e5613769884852aec9291204e0efba",
+                "id": "c980769ffb5d441a8f6336bc4c915b94",
                 "title": "Доза діючої речовини",
                 "dataType": "integer",
                 "unit": {
@@ -182,9 +183,8 @@ X-Content-Type-Options: nosniff
         ]
       }
     ],
-    "noticePublicationDate": "2021-03-16T00:00:00+02:00",
-    "id": "fd1a15553b7047a9b514d57529cb5a44",
-    "next_check": "2021-03-30T01:00:00+03:00"
+    "next_check": "2021-03-30T00:00:00+02:00",
+    "id": "3918c546cae44ca28c93e2cacf0db558"
   }
 }
 

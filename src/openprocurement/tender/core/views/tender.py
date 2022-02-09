@@ -38,11 +38,11 @@ CHANGES_VIEW_MAP = {
 FEED = {"dateModified": VIEW_MAP, "changes": CHANGES_VIEW_MAP}
 
 
-@optendersresource(
-    name="Tenders",
-    path="/tenders",
-    description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info",
-)
+# @optendersresource(
+#     name="Tenders",
+#     path="/tenders",
+#     description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info",
+# )
 class TendersResource(APIResourceListing):
     def __init__(self, request, context):
         super(TendersResource, self).__init__(request, context)

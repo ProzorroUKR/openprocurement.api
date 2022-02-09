@@ -32,6 +32,7 @@ from openprocurement.api.constants import (
     RELEASE_2020_04_19,
     NORMALIZED_TENDER_PERIOD_FROM,
 )
+from openprocurement.api.validation import validate_json_data
 from openprocurement.api.utils import (
     get_now,
     context_unpack,
@@ -332,6 +333,12 @@ class isTender(object):
     def __call__(self, context, request):
         if request.tender_doc is not None:
             return request.tender_doc.get("procurementMethodType", "belowThreshold") == self.val
+
+        # that's how we can have a "POST /tender" view for every tender type
+        if request.method == "POST" and request.path.endswith("/tenders"):  # very specific, isn't it
+            data = validate_json_data(request)
+            return data.get("procurementMethodType", "belowThreshold") == self.val
+
         return False
 
 
@@ -466,10 +473,13 @@ def requested_fields_changes(request, fieldnames):
 
 
 def check_auction_period(period, tender):
-    if period and period.startDate and period.shouldStartAfter:
-        start = parse_date(period.shouldStartAfter)
+    if period and period.get("startDate") and period.get("shouldStartAfter"):
+        start = parse_date(period["shouldStartAfter"])
         date = calculate_tender_date(start, AUCTION_PERIOD_TIME, tender, True)
-        return period.startDate > date
+        start_date = period["startDate"]
+        if isinstance(start_date, str):
+            start_date = parse_date(period["startDate"])
+        return start_date > date
     return False
 
 

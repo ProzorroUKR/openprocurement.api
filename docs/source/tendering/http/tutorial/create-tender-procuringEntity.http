@@ -142,55 +142,44 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2f65d75dc90b4213936ce4a2515ced76
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1e8fada4745e4bf6b3721cb33e9fc4de
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "title": "[ТЕСТУВАННЯ] футляри до державних нагород",
-    "title_en": "[TESTING] Cases with state awards",
-    "title_ru": "[ТЕСТИРОВАНИЕ] футляры к государственным наградам",
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "tenderID": "UA-2021-03-16-000002",
-    "owner": "broker",
-    "mode": "test",
     "mainProcurementCategory": "services",
-    "milestones": [
-      {
-        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "title": "signingTheContract",
-        "type": "financing",
-        "code": "prepayment",
-        "percentage": 45.55,
-        "duration": {
-          "days": 2,
-          "type": "banking"
-        },
-        "sequenceNumber": 0
-      },
-      {
-        "id": "fb260d80e19e4e609762c0a115c79cf2",
-        "title": "deliveryOfGoods",
-        "type": "financing",
-        "code": "postpayment",
-        "percentage": 54.45,
-        "duration": {
-          "days": 900,
-          "type": "calendar"
-        },
-        "sequenceNumber": 0
-      }
-    ],
+    "title_en": "[TESTING] ",
+    "title_ru": "[ТЕСТИРОВАНИЕ] ",
+    "title": "[ТЕСТУВАННЯ] ",
+    "mode": "test",
+    "status": "draft",
+    "submissionMethod": "electronicAuction",
     "procurementMethod": "open",
     "awardCriteria": "lowestCost",
-    "submissionMethod": "electronicAuction",
-    "status": "draft",
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "minimalStep": {
+      "amount": 5.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "tenderPeriod": {
+      "startDate": "2021-03-23T00:00:00+02:00",
+      "endDate": "2021-03-30T00:00:00+02:00"
+    },
     "items": [
       {
         "id": "13df1db379a941f8bda8154f00ffcdb0",
         "description": "футляри до державних нагород",
         "description_en": "Cases with state awards",
         "description_ru": "футляры к государственным наградам",
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -198,56 +187,13 @@ X-Content-Type-Options: nosniff
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "quantity": 5.0,
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
         "unit": {
           "name": "кілограм",
           "code": "KGM"
-        }
+        },
+        "quantity": 5.0
       }
     ],
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "enquiryPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-03-23T00:00:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2021-03-23T00:00:00+02:00",
-      "endDate": "2021-03-30T00:00:00+02:00"
-    },
-    "procuringEntity": {
-      "name": "Державне управління справами",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "00037256",
-        "uri": "http://www.dus.gov.ua/"
-      },
-      "address": {
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Державне управління справами",
-        "telephone": "+0440000000"
-      },
-      "kind": "general"
-    },
-    "minimalStep": {
-      "amount": 5.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "features": [
       {
         "code": "OCDS-123454-AIR-INTAKE",
@@ -289,12 +235,66 @@ X-Content-Type-Options: nosniff
         ]
       }
     ],
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      },
+      {
+        "id": "e4a39791a1264c8a9d5c4a9f6dc0b09b",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 0
+      }
+    ],
     "procurementMethodType": "belowThreshold",
-    "id": "2f65d75dc90b4213936ce4a2515ced76"
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "telephone": "+0440000000",
+        "name": "Державне управління справами"
+      },
+      "kind": "general"
+    },
+    "enquiryPeriod": {
+      "endDate": "2021-03-23T00:00:00+02:00",
+      "startDate": "2021-03-16T00:00:00+02:00"
+    },
+    "tenderID": "UA-2021-03-16-000002",
+    "owner": "broker",
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "id": "1e8fada4745e4bf6b3721cb33e9fc4de"
   },
   "access": {
-    "token": "97a2483d5b524bd6b15bacc6a505cca0",
-    "transfer": "4833e9409564474db4b4690268bec152"
+    "token": "80ef9bab070f482da0518dca09e66a31",
+    "transfer": "4555b47034f44abe9400a9a13e20b963"
   }
 }
 

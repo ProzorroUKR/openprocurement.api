@@ -28,12 +28,12 @@ from openprocurement.tender.cfaselectionua.validation import (
 from openprocurement.tender.cfaselectionua.constants import AGREEMENT_NOT_FOUND
 
 
-@optendersresource(
-    name="closeFrameworkAgreementSelectionUA:Tender",
-    path="/tenders/{tender_id}",
-    procurementMethodType="closeFrameworkAgreementSelectionUA",
-    description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info",
-)
+# @optendersresource(
+#     name="closeFrameworkAgreementSelectionUA:Tender",
+#     path="/tenders/{tender_id}",
+#     procurementMethodType="closeFrameworkAgreementSelectionUA",
+#     description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info",
+# )
 class TenderResource(APIResource):
     @json_view(permission="view_tender")
     def get(self):

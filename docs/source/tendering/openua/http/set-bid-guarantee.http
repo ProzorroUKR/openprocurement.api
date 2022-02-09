@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/bac835240efd4adea01560554d7bfdb4?acc_token=ecfd2afb0d2844039379a26cddd96d93 HTTP/1.0
+PATCH /api/2.5/tenders/136495241d564e1d82d365ed3977761d?acc_token=65acc4d62e5146a8905f976ac9a4fc21 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 57
 Content-Type: application/json
@@ -18,40 +18,10 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "title": "футляри до державних нагород",
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "tenderID": "UA-2021-03-16-000001",
-    "owner": "broker",
-    "mainProcurementCategory": "services",
-    "milestones": [
-      {
-        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "title": "signingTheContract",
-        "type": "financing",
-        "code": "prepayment",
-        "percentage": 45.55,
-        "duration": {
-          "days": 2,
-          "type": "banking"
-        },
-        "sequenceNumber": 0
-      },
-      {
-        "id": "194bf6a24651493799fced01ec0c874f",
-        "title": "deliveryOfGoods",
-        "type": "financing",
-        "code": "postpayment",
-        "percentage": 54.45,
-        "duration": {
-          "days": 900,
-          "type": "calendar"
-        },
-        "sequenceNumber": 0
-      }
-    ],
-    "procurementMethod": "open",
-    "submissionMethod": "electronicAuction",
+    "guarantee": {
+      "amount": 8.0,
+      "currency": "USD"
+    },
     "criteria": [
       {
         "id": "dc721d2d1d8c46de9a01c6133e50df2e",
@@ -616,11 +586,54 @@ X-Content-Type-Options: nosniff
         ]
       }
     ],
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "tenderID": "UA-2021-03-16-000001",
+    "owner": "broker",
+    "title": "футляри до державних нагород",
+    "mainProcurementCategory": "services",
+    "submissionMethod": "electronicAuction",
+    "procurementMethod": "open",
     "value": {
       "amount": 500.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
+    "next_check": "2021-04-01T00:00:00+02:00",
+    "minimalStep": {
+      "amount": 5.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "auctionPeriod": {
+      "shouldStartAfter": "2021-04-02T00:00:00+03:00"
+    },
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      },
+      {
+        "id": "52d11ec14b0f46c99f8c8d0750d7466c",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 0
+      }
+    ],
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "identifier": {
@@ -636,21 +649,14 @@ X-Content-Type-Options: nosniff
         "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
         "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/"
+        "url": "http://sch10.edu.vn.ua/",
+        "name": "Куца Світлана Валентинівна"
       },
       "kind": "special"
     },
-    "minimalStep": {
-      "amount": 5.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "guarantee": {
-      "amount": 8.0,
-      "currency": "USD"
-    },
+    "status": "active.tendering",
+    "procurementMethodType": "aboveThresholdUA",
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
       "startDate": "2021-03-16T00:00:00+02:00",
@@ -662,14 +668,15 @@ X-Content-Type-Options: nosniff
       "startDate": "2021-03-16T00:00:00+02:00",
       "endDate": "2021-04-01T00:00:00+02:00"
     },
-    "auctionPeriod": {
-      "shouldStartAfter": "2021-04-01T00:00:00+02:00"
-    },
-    "procurementMethodType": "aboveThresholdUA",
     "items": [
       {
-        "id": "c8240ac851604470952a8ad2038fd9aa",
+        "id": "b0ac6a98397c41a3ac3206a50b0efb25",
         "description": "Послуги шкільних їдалень",
+        "classification": {
+          "description": "Послуги з харчування у школах",
+          "scheme": "ДК021",
+          "id": "55523100-3"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -677,21 +684,16 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "quantity": 1.0,
-        "classification": {
-          "description": "Послуги з харчування у школах",
-          "scheme": "ДК021",
-          "id": "55523100-3"
-        },
         "unit": {
           "name": "папір",
-          "code": "KGM",
           "value": {
             "amount": 10.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
-          }
+          },
+          "code": "KGM"
         },
+        "quantity": 1.0,
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
           "endDate": "2021-05-05T00:00:00+02:00"
@@ -705,13 +707,11 @@ X-Content-Type-Options: nosniff
         }
       }
     ],
-    "status": "active.tendering",
-    "id": "bac835240efd4adea01560554d7bfdb4",
-    "next_check": "2021-04-01T01:00:00+03:00",
     "complaintPeriod": {
       "startDate": "2021-03-16T00:00:00+02:00",
       "endDate": "2021-03-28T00:00:00+02:00"
-    }
+    },
+    "id": "136495241d564e1d82d365ed3977761d"
   }
 }
 

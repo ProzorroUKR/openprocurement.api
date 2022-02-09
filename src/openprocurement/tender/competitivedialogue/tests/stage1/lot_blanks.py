@@ -171,6 +171,7 @@ def one_lot_0bid(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
     response = self.app.post_json("/tenders", {"data": self.test_tender_data})
+    tender = response.json["data"]
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     # add lot
@@ -180,8 +181,11 @@ def one_lot_0bid(self):
     self.assertEqual(response.status, "201 Created")
     lot_id = response.json["data"]["id"]
     # add relatedLot for item
+    items = deepcopy(tender["items"])
+    items[0]["relatedLot"] = lot_id
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": [{"relatedLot": lot_id}]}}
+        "/tenders/{}?acc_token={}".format(tender_id, owner_token),
+        {"data": {"items": items}}
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
@@ -207,6 +211,7 @@ def one_lot_2bid_1unqualified(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
     response = self.app.post_json("/tenders", {"data": self.test_tender_data})
+    tender = response.json["data"]
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     self.set_initial_status(response.json)
@@ -217,8 +222,11 @@ def one_lot_2bid_1unqualified(self):
     self.assertEqual(response.status, "201 Created")
     lot_id = response.json["data"]["id"]
     # add relatedLot for item
+    items = deepcopy(tender["items"])
+    items[0]["relatedLot"] = lot_id
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": [{"relatedLot": lot_id}]}}
+        "/tenders/{}?acc_token={}".format(tender_id, owner_token),
+        {"data": {"items": items}}
     )
     self.assertEqual(response.status, "200 OK")
     # create bid
@@ -275,6 +283,7 @@ def one_lot_2bid(self):
     # create tender
     response = self.app.post_json("/tenders", {"data": self.test_tender_data})
     tender_id = self.tender_id = response.json["data"]["id"]
+    tender = response.json["data"]
     owner_token = response.json["access"]["token"]
     self.set_initial_status(response.json)
     # add lot
@@ -285,8 +294,11 @@ def one_lot_2bid(self):
     lot_id = response.json["data"]["id"]
     self.initial_lots = [response.json["data"]]
     # add relatedLot for item
+    items = deepcopy(tender["items"])
+    items[0]["relatedLot"] = lot_id
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": [{"relatedLot": lot_id}]}}
+        "/tenders/{}?acc_token={}".format(tender_id, owner_token),
+        {"data": {"items": items}}
     )
     self.assertEqual(response.status, "200 OK")
     # create bid
@@ -390,6 +402,7 @@ def one_lot_3bid_1del(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
     response = self.app.post_json("/tenders", {"data": self.test_tender_data})
+    tender = response.json["data"]
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     self.set_initial_status(response.json)
@@ -401,8 +414,10 @@ def one_lot_3bid_1del(self):
     lot_id = response.json["data"]["id"]
     self.initial_lots = [response.json["data"]]
     # add relatedLot for item
+    items = deepcopy(tender["items"])
+    items[0]["relatedLot"] = lot_id
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": [{"relatedLot": lot_id}]}}
+        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": items}}
     )
     self.assertEqual(response.status, "200 OK")
     # create bids
@@ -433,6 +448,7 @@ def one_lot_3bid_1un(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
     response = self.app.post_json("/tenders", {"data": self.test_tender_data})
+    tender = response.json["data"]
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     self.set_initial_status(response.json)
@@ -444,8 +460,10 @@ def one_lot_3bid_1un(self):
     lot_id = response.json["data"]["id"]
     self.initial_lots = [response.json["data"]]
     # add relatedLot for item
+    items = deepcopy(tender["items"])
+    items[0]["relatedLot"] = lot_id
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": [{"relatedLot": lot_id}]}}
+        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": items}}
     )
     self.assertEqual(response.status, "200 OK")
     # create bid
@@ -517,10 +535,14 @@ def two_lot_0bid(self):
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
         {"data": {"items": [self.test_tender_data["items"][0] for i in lots]}},
     )
+    tender = response.json["data"]
     # add relatedLot for item
+    items = deepcopy(tender["items"])
+    for n, i in enumerate(lots):
+        items[n]["relatedLot"] = i
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [{"relatedLot": i} for i in lots]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -552,10 +574,14 @@ def two_lot_2can(self):
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
         {"data": {"items": [self.test_tender_data["items"][0] for i in lots]}},
     )
+    tender = response.json["data"]
     # add relatedLot for item
+    items = deepcopy(tender["items"])
+    for n, i in enumerate(lots):
+        items[n]["relatedLot"] = i
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [{"relatedLot": i} for i in lots]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -604,10 +630,14 @@ def two_lot_2bid_0com_1can(self):
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
         {"data": {"items": [self.test_tender_data["items"][0] for i in lots]}},
     )
+    tender = response.json["data"]
     # add relatedLot for item
+    items = deepcopy(tender["items"])
+    for n, i in enumerate(lots):
+        items[n]["relatedLot"] = i
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [{"relatedLot": i} for i in lots]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
     # create bid
@@ -687,14 +717,18 @@ def two_lot_2bid_2com_2win(self):
         lots.append(response.json["data"]["id"])
     self.initial_lots = lots
     # add item
-    self.app.patch_json(
+    response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
         {"data": {"items": [self.test_tender_data["items"][0] for i in lots]}},
     )
+    tender = response.json["data"]
     # add relatedLot for item
+    items = deepcopy(tender["items"])
+    for n, i in enumerate(lots):
+        items[n]["relatedLot"] = i
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [{"relatedLot": i} for i in lots]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
     # create bid

@@ -1,32 +1,32 @@
-PUT /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/documents/edd6d8cc91904eaa96c615d1e4c054a3?acc_token=fbb49b806b484733bc09390b0e01078d HTTP/1.0
+PUT /api/2.5/tenders/6f00022409bb4e73b5f698801518e0db/documents/1dec1ea8c0da484a996dabdc76a5173c?acc_token=a4dab218398a4cc8a8004a91d3ba9744 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 152
-Content-Type: multipart/form-data; boundary=---BOUNDARY
+Content-Length: 337
+Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
------BOUNDARY
-Content-Disposition: form-data; name="file"; filename="AwardCriteria-2.pdf"
-Content-Type: application/pdf
-
-content2
------BOUNDARY--
-
+{
+  "data": {
+    "title": "AwardCriteria-2.pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1d6de0bad71f4f41927965001d34373c?Signature=JtNVwddHvKr%2FQvM%2F%2F5QWOBuzVhv3%2FxFRxh09SKm1zoi5eyHaxGjGtxl0mn3qRCVohHoaIxf8luyMM6%2FY9CXPBw%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pdf"
+  }
+}
 
 Response: 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "edd6d8cc91904eaa96c615d1e4c054a3",
+    "id": "1dec1ea8c0da484a996dabdc76a5173c",
+    "datePublished": "2021-03-16T00:00:00+02:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "AwardCriteria-2.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0a7e6172d6a246d389b7617a61e3418e?Signature=7hcCPxYJHGFxl9DSy2mThnOMWNUniQdpspYZqmVMBLo5WBrz32WkBucPXOIeCV%2ByHMWZicI09Bez1avcCYUTCA%3D%3D&KeyID=a8968c46",
-    "datePublished": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "author": "tender_owner",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1d6de0bad71f4f41927965001d34373c?Signature=IxMhGxVkp53NYCibHDauvqD95DSKyqx4aP3afqxLCEWGZrFI%2Fl1I7ZTMcffq8ScTc2y9IdsdOtKOCuQnGP5jCg%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
-    "language": "uk"
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "author": "tender_owner"
   }
 }
 

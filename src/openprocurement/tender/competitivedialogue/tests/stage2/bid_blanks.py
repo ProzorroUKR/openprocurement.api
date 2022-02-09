@@ -3,6 +3,7 @@ from copy import deepcopy
 from datetime import timedelta
 from mock import patch
 
+from openprocurement.tender.core.procedure.context import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_organization, now
 from openprocurement.api.constants import TWO_PHASE_COMMIT_FROM
 
@@ -197,9 +198,13 @@ def bids_invalidation_on_tender_change_eu(self):
 
     # update tender. we can set value that is less than a value in bids as
     # they will be invalidated by this request
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    items = deepcopy(response.json["data"]["items"])
+    items[0]["deliveryDate"]["startDate"] = get_now().isoformat()
+    items[0]["deliveryDate"]["endDate"] = (get_now() + timedelta(days=2)).isoformat()
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"value": {"amount": 300.0}, "minimalStep": {"amount": 9.0}}}
+        {"data": {"items": items}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["value"]["amount"], 500)
@@ -780,15 +785,12 @@ def create_tender_bidder_ua(self):
     self.assertIn(bid["id"], response.headers["Location"])
 
     # set tender period in future
-    data = deepcopy(self.initial_data)
-    tenderPeriod = {
+    tender = self.db.get(self.tender_id)
+    tender["tenderPeriod"] = {
         "startDate": (now + timedelta(days=1)).isoformat(),
-        "endDate": (now + timedelta(days=17)).isoformat(),
+        "endDate": (now + timedelta(days=17)).isoformat()
     }
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"tenderPeriod": tenderPeriod}}
-    )
-    self.assertEqual(response.status, "200 OK")
+    self.db.save(tender)
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -828,12 +830,14 @@ def bids_invalidation_on_tender_change_ua(self):
 
     # update tender. we can set value that is less than a value in bids as
     # they will be invalidated by this request
-    response = self.app.patch_json(
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    items = deepcopy(response.json["data"]["items"])
+    items[0]["deliveryDate"]["startDate"] = get_now().isoformat()
+    items[0]["deliveryDate"]["endDate"] = (get_now() + timedelta(days=2)).isoformat()
+    self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"value": {"amount": 300.0}, "minimalStep": {"amount": 9.0}}}
+        {"data": {"items": items}}
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["value"]["amount"], 500)
 
     # check bids status
     for bid_id, token in bids_access.items():

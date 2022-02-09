@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
 import unittest
-
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import test_author, test_organization, test_lots
@@ -9,8 +7,6 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_documents,
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
-    # Tender2LotBidResourceTest
-    patch_tender_with_bids_lots_none,
 )
 
 
@@ -19,6 +15,7 @@ from openprocurement.tender.openua.tests.bid_blanks import (
     # TenderBidFeaturesResourceTest
     features_bidder,
     features_bidder_invalid,
+    patch_tender_with_bids_lots_none,
 )
 
 from openprocurement.tender.openuadefense.tests.base import (
@@ -29,12 +26,14 @@ from openprocurement.tender.openuadefense.tests.base import (
 
 
 class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMixin):
+    docservice = True
     initial_status = "active.tendering"
     test_bids_data = test_bids  # TODO: change attribute identifier
     author_data = test_author
 
 
 class Tender2LotBidResourceTest(BaseTenderUAContentWebTest):
+    docservice = True
     test_bids_data = test_bids
     initial_lots = 2 * test_lots
     initial_status = "active.tendering"
@@ -43,6 +42,7 @@ class Tender2LotBidResourceTest(BaseTenderUAContentWebTest):
 
 
 class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
+    docservice = True
     initial_data = test_features_tender_ua_data
     initial_status = "active.tendering"
     test_bids_data = test_bids
@@ -53,6 +53,7 @@ class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
 
 
 class TenderBidDocumentWithDSResourceTest(TenderBidDocumentWithDSResourceTestMixin):
+    docservice = True
     test_bids_data = test_bids
 
 

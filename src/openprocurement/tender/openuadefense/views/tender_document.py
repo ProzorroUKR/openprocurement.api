@@ -14,13 +14,13 @@ from openprocurement.tender.openua.views.tender_document import TenderUaDocument
 from openprocurement.tender.openuadefense.validation import validate_update_tender
 
 
-@optendersresource(
-    name="aboveThresholdUA.defense:Tender Documents",
-    collection_path="/tenders/{tender_id}/documents",
-    path="/tenders/{tender_id}/documents/{document_id}",
-    procurementMethodType="aboveThresholdUA.defense",
-    description="Tender UA.defense related binary files (PDFs, etc.)",
-)
+# @optendersresource(
+#     name="aboveThresholdUA.defense:Tender Documents",
+#     collection_path="/tenders/{tender_id}/documents",
+#     path="/tenders/{tender_id}/documents/{document_id}",
+#     procurementMethodType="aboveThresholdUA.defense",
+#     description="Tender UA.defense related binary files (PDFs, etc.)",
+# )
 class TenderUaDocumentResource(TenderDocumentResource):
     @json_view(
         permission="upload_tender_documents",

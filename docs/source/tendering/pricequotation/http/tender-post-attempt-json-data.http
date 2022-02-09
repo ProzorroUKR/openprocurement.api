@@ -59,12 +59,12 @@ DATA:
           "locality": "м. Київ",
           "streetAddress": "вул. Банкова 1"
         },
-        "profile": "655360-30230000-889652-40000777",
         "classification": {
           "scheme": "ДК021",
           "id": "44617100-9",
           "description": "Cartons"
         },
+        "profile": "655360-30230000-889652-40000777",
         "additionalClassifications": [
           {
             "scheme": "INN",
@@ -120,67 +120,28 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e821f507458c4e99bdd9928981355ffa
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/055dc73de1b14564a3409fbcd31c287f
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "title": "Комп’ютерне обладнання",
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "tenderID": "UA-2021-03-16-000001",
-    "owner": "broker",
     "mainProcurementCategory": "goods",
-    "awardCriteria": "lowestCost",
+    "title": "Комп’ютерне обладнання",
+    "procurementMethodType": "priceQuotation",
+    "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
+    "awardCriteria": "lowestCost",
     "status": "draft",
-    "items": [
-      {
-        "id": "61a6737049384b08876fb0407eda182f",
-        "description": "Комп’ютерне обладнання",
-        "additionalClassifications": [
-          {
-            "scheme": "INN",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "quantity": 5.0,
-        "deliveryDate": {
-          "startDate": "2021-03-18T00:00:00+02:00",
-          "endDate": "2021-03-21T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
-        "unit": {
-          "name": "кг",
-          "code": "KGM",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          }
-        },
-        "profile": "655360-30230000-889652-40000777"
-      }
-    ],
+    "agreement": {
+      "id": "2e14a78a2074952d5a2d256c3c004dda"
+    },
     "value": {
       "amount": 22000.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-03-30T00:00:00+02:00"
+      "endDate": "2021-03-30T00:00:00+02:00",
+      "startDate": "2021-03-16T00:00:00+02:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -197,28 +158,63 @@ X-Content-Type-Options: nosniff
         "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Державне управління справами",
-        "telephone": "+0440000000"
+        "telephone": "+0440000000",
+        "name": "Державне управління справами"
       },
       "kind": "general"
     },
-    "procurementMethod": "selective",
-    "procurementMethodType": "priceQuotation",
-    "agreement": {
-      "id": "2e14a78a2074952d5a2d256c3c004dda"
-    },
+    "items": [
+      {
+        "id": "154f6580f26f44dea680eaf67b309152",
+        "description": "Комп’ютерне обладнання",
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "quantity": 5.0,
+        "deliveryDate": {
+          "startDate": "2021-03-18T00:00:00+02:00",
+          "endDate": "2021-03-21T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "INN",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "profile": "655360-30230000-889652-40000777"
+      }
+    ],
     "criteria": [
       {
-        "id": "7f1633d05c7e48dc896de91ee5a8ddbd",
+        "id": "b62bab1ae41247c89c014e144b46c95d",
         "title": "Форма випуску",
         "description": "Форма випуску",
         "requirementGroups": [
           {
-            "id": "04c0a4108de048ea957540a95b01e4d4",
+            "id": "64bc52bccc274ba193eb753a9b7373b6",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "77037c6ab770461db67b4bdae9766251",
+                "id": "4b646712480a49e8bc73f81c45756cf4",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "expectedValue": "Розчин для інфузій"
@@ -228,16 +224,16 @@ X-Content-Type-Options: nosniff
         ]
       },
       {
-        "id": "9532c79b2fa6429e97698d4e5929fbbe",
+        "id": "358f0a84f5884643ac1fdf791e6dfd0b",
         "title": "Доза діючої речовини",
         "description": "Доза діючої речовини",
         "requirementGroups": [
           {
-            "id": "bf1788f1201f4ca8a7417e3ab44f959d",
+            "id": "f46538e43b0240d99cc0043bdbc88a4d",
             "description": "Доза діючої речовини",
             "requirements": [
               {
-                "id": "34da453e53fa4b47b232127c1ba54d05",
+                "id": "f7a6209ad4bd4e9a882ae46df39d8561",
                 "title": "Доза діючої речовини",
                 "dataType": "integer",
                 "unit": {
@@ -251,11 +247,15 @@ X-Content-Type-Options: nosniff
         ]
       }
     ],
-    "id": "e821f507458c4e99bdd9928981355ffa"
+    "tenderID": "UA-2021-03-16-000001",
+    "owner": "broker",
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "id": "055dc73de1b14564a3409fbcd31c287f"
   },
   "access": {
-    "token": "c87b58b4160f425b8973621e89008a15",
-    "transfer": "c6bbee2535374aad82bcce629cad7d95"
+    "token": "52d0ea2cfc1b4667b659befc1200e843",
+    "transfer": "3fae249fdaa14ff28c53eb2a818ca2ab"
   }
 }
 

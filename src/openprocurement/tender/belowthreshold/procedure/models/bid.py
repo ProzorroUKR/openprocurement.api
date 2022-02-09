@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from openprocurement.tender.core.procedure.models.req_response import PostBidResponsesMixin, PatchBidResponsesMixin
 from openprocurement.tender.core.procedure.models.bid import (
     PostBid as BasePostBid,

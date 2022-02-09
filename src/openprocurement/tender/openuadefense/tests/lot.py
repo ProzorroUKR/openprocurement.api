@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
-
+from copy import deepcopy
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import test_lots
@@ -47,6 +47,7 @@ from openprocurement.tender.openuadefense.tests.lot_blanks import (
 
 
 class TenderLotResourceTest(BaseTenderUAContentWebTest, TenderLotResourceTestMixin, TenderUALotResourceTestMixin):
+    docservice = True
     test_lots_data = test_lots
     test_tender_lot_milestones = snitch(tender_lot_milestones)
     test_create_tender_lot_minimalstep_validation = snitch(create_tender_lot_minimalstep_validation)
@@ -54,6 +55,7 @@ class TenderLotResourceTest(BaseTenderUAContentWebTest, TenderLotResourceTestMix
 
 
 class TenderLotEdgeCasesTest(BaseTenderUAContentWebTest):
+    docservice = True
     initial_lots = test_lots * 2
     initial_bids = test_bids
 
@@ -64,6 +66,7 @@ class TenderLotEdgeCasesTest(BaseTenderUAContentWebTest):
 
 
 class TenderLotFeatureResourceTest(BaseTenderUAContentWebTest, TenderLotFeatureResourceTestMixin):
+    docservice = True
     initial_data = test_tender_data
     initial_lots = 2 * test_lots
     invalid_feature_value = 0.5
@@ -72,6 +75,7 @@ class TenderLotFeatureResourceTest(BaseTenderUAContentWebTest, TenderLotFeatureR
 
 
 class TenderLotBidderResourceTest(BaseTenderUAContentWebTest):
+    docservice = True
     # initial_status = 'active.tendering'
     initial_lots = test_lots
     test_bids_data = test_bids
@@ -82,17 +86,21 @@ class TenderLotBidderResourceTest(BaseTenderUAContentWebTest):
 
 
 class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
+    docservice = True
     initial_lots = test_lots
     test_bids_data = test_bids
 
     def setUp(self):
         super(TenderLotFeatureBidderResourceTest, self).setUp()
         self.lot_id = self.initial_lots[0]["id"]
+        items = deepcopy(self.initial_data["items"])
+        items[0]["id"] = "1"
+        items[0]["relatedLot"] = self.lot_id
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
             {
                 "data": {
-                    "items": [{"relatedLot": self.lot_id, "id": "1"}],
+                    "items": items,
                     "features": [
                         {
                             "code": "code_item",
@@ -127,6 +135,7 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
 
 
 class TenderLotProcessTest(BaseTenderUAContentWebTest, TenderLotProcessTestMixin, TenderUALotProcessTestMixin):
+    docservice = True
     setUp = BaseTenderUAContentWebTest.setUp
     initial_data = test_tender_data
     test_bids_data = test_bids

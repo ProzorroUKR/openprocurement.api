@@ -24,12 +24,12 @@ from openprocurement.tender.openeu.constants import PREQUALIFICATION_COMPLAINT_S
 from openprocurement.tender.core.events import TenderInitializeEvent
 
 
-@optendersresource(
-    name="aboveThresholdEU:Tender",
-    path="/tenders/{tender_id}",
-    procurementMethodType="aboveThresholdEU",
-    description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info",
-)
+# @optendersresource(
+#     name="aboveThresholdEU:Tender",
+#     path="/tenders/{tender_id}",
+#     procurementMethodType="aboveThresholdEU",
+#     description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info",
+# )
 class TenderEUResource(TenderResource):
     """ Resource handler for TenderEU """
 
@@ -39,6 +39,7 @@ class TenderEUResource(TenderResource):
             validate_patch_tender_ua_data,
             validate_tender_not_in_terminated_status,
             validate_tender_status_update_not_in_pre_qualificaton,
+
             validate_tender_change_status_with_cancellation_lot_pending,
             validate_tender_activate_with_criteria,
             validate_tender_activate_with_language_criteria,

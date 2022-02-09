@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
-
+from copy import deepcopy
 from esculator import npv, escp
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
@@ -99,7 +99,7 @@ lot_bid_amount = round(
 
 
 class TenderLotResourceTest(BaseESCOContentWebTest):
-
+    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     test_lots_data = test_lots  # TODO: change attribute identifier
     test_bids = test_bids
@@ -135,6 +135,7 @@ class TenderLotEdgeCasesTest(BaseESCOContentWebTest, TenderLotEdgeCasesTestMixin
 
 
 class TenderLotFeatureResourceTest(BaseESCOContentWebTest):
+    docservice = True
     initial_lots = 2 * test_lots
     # for passing test_tender_min_value while min value = 0
     initial_lots[0]["minValue"] = {"amount": 0}
@@ -152,6 +153,7 @@ class TenderLotFeatureResourceTest(BaseESCOContentWebTest):
 
 
 class TenderLotBidResourceTest(BaseESCOContentWebTest):
+    docservice = True
     initial_lots = test_lots
     initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_bids  # TODO: change attribute identifier
@@ -164,6 +166,7 @@ class TenderLotBidResourceTest(BaseESCOContentWebTest):
 
 
 class TenderLotFeatureBidResourceTest(BaseESCOContentWebTest):
+    docservice = True
     initial_lots = test_lots
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_data
@@ -172,11 +175,13 @@ class TenderLotFeatureBidResourceTest(BaseESCOContentWebTest):
     def setUp(self):
         super(TenderLotFeatureBidResourceTest, self).setUp()
         self.lot_id = self.initial_lots[0]["id"]
+        items = deepcopy(self.initial_data["items"])
+        items[0].update(relatedLot=self.lot_id, id="1")
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
             {
                 "data": {
-                    "items": [{"relatedLot": self.lot_id, "id": "1"}],
+                    "items": items,
                     "features": [
                         {
                             "code": "code_item",
@@ -211,6 +216,7 @@ class TenderLotFeatureBidResourceTest(BaseESCOContentWebTest):
 
 
 class TenderLotProcessTest(BaseESCOContentWebTest, TenderLotProcessTestMixin):
+    docservice = True
     setUp = BaseESCOContentWebTest.setUp
     test_lots_data = test_lots  # TODO: change attribute identifier
     test_bids_data = test_bids

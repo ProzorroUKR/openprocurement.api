@@ -10,11 +10,11 @@ from openprocurement.tender.pricequotation.constants import PMT
 from openprocurement.tender.pricequotation.validation import validate_patch_tender_data, validate_tender_publish
 
 
-@optendersresource(
-    name="{}:Tender".format(PMT),
-    path="/tenders/{tender_id}",
-    procurementMethodType=PMT,
-)
+# @optendersresource(
+#     name="{}:Tender".format(PMT),
+#     path="/tenders/{tender_id}",
+#     procurementMethodType=PMT,
+# )
 class PriceQuotationTenderResource(TenderResource):
     """
     PriceQuotation tender creation and updation

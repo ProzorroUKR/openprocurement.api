@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/bac835240efd4adea01560554d7bfdb4/bids HTTP/1.0
+POST /api/2.5/tenders/136495241d564e1d82d365ed3977761d/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 815
 Content-Type: application/json
@@ -39,7 +39,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bac835240efd4adea01560554d7bfdb4/bids/e655b89d64014a8dbe2668687696ed52
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/136495241d564e1d82d365ed3977761d/bids/e655b89d64014a8dbe2668687696ed52
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -52,9 +52,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "ДКП «Книга»",
         "identifier": {
-          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137226"
+          "id": "00137226",
+          "uri": "http://www.sc.gov.ua/"
         },
         "address": {
           "streetAddress": "вул. Островського, 34",
@@ -82,7 +82,7 @@ X-Content-Type-Options: nosniff
   }
 }
 
-GET /api/2.5/tenders/bac835240efd4adea01560554d7bfdb4 HTTP/1.0
+GET /api/2.5/tenders/136495241d564e1d82d365ed3977761d HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -91,75 +91,10 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "title": "футляри до державних нагород",
-    "documents": [
-      {
-        "id": "37931b79e4a24a4b922ef4a7bf83b52e",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "Notice.pdf",
-        "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2b8ffb74c36644aa9b216aa7ca82eacc?Signature=JOMmyJAJFER3rDIS%2Bhkp0ZMWcnqafAyoOuiUYZbDHf6HN37Vk9mCzJBG%2BrkP8YAc7gxhwXiDqIDpB3RnrONABw%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
-        "author": "tender_owner",
-        "documentOf": "tender"
-      },
-      {
-        "id": "ccd5c0b5cc364863ac6db661d6b9aec8",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "AwardCriteria.pdf",
-        "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/47ac6dae16dd4b85b4557e53aa4e2e16?Signature=lBVqQ7kdbBww5wWKmNMJpEsDj0fK8mjWYF9THgNq%2FFblvEKDX9XF3WogyErTpoCt675VomKfuMtWUKO1QPgQBA%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
-        "author": "tender_owner",
-        "documentOf": "tender"
-      },
-      {
-        "id": "ccd5c0b5cc364863ac6db661d6b9aec8",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "AwardCriteria-2.pdf",
-        "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b733241fbd1c4542b551b3d5c23e04f9?Signature=yLiAUV50iyFKP6fXrHYOLIqWl4hwG9dCUkqgpB%2F0yuhmDaa4IMZzaWa8Bt%2BMdkyDBnVgwo0ZdoW1JcTz29IwDw%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
-        "author": "tender_owner",
-        "documentOf": "tender"
-      }
-    ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "tenderID": "UA-2021-03-16-000001",
-    "owner": "broker",
-    "mainProcurementCategory": "services",
-    "milestones": [
-      {
-        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "title": "signingTheContract",
-        "type": "financing",
-        "code": "prepayment",
-        "percentage": 45.55,
-        "duration": {
-          "days": 2,
-          "type": "banking"
-        },
-        "sequenceNumber": 0
-      },
-      {
-        "id": "194bf6a24651493799fced01ec0c874f",
-        "title": "deliveryOfGoods",
-        "type": "financing",
-        "code": "postpayment",
-        "percentage": 54.45,
-        "duration": {
-          "days": 900,
-          "type": "calendar"
-        },
-        "sequenceNumber": 0
-      }
-    ],
-    "procurementMethod": "open",
-    "submissionMethod": "electronicAuction",
+    "guarantee": {
+      "amount": 8.0,
+      "currency": "USD"
+    },
     "criteria": [
       {
         "id": "dc721d2d1d8c46de9a01c6133e50df2e",
@@ -724,11 +659,121 @@ X-Content-Type-Options: nosniff
         ]
       }
     ],
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "tenderID": "UA-2021-03-16-000001",
+    "questions": [
+      {
+        "id": "a5e2fe3c430a428a8bf1c2f8bab1974d",
+        "author": {
+          "name": "ДКП «Книга»",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00137226",
+            "uri": "http://www.sc.gov.ua/"
+          },
+          "address": {
+            "streetAddress": "вул. Островського, 34",
+            "locality": "м. Львів",
+            "region": "Львівська область",
+            "postalCode": "79013",
+            "countryName": "Україна"
+          },
+          "contactPoint": {
+            "email": "aagt@gmail.com",
+            "telephone": "+380322916930",
+            "name": "Андрій Олексюк"
+          }
+        },
+        "title": "Калорійність",
+        "description": "Просимо додати таблицю потрібної калорійності харчування",
+        "date": "2021-03-16T00:00:00+02:00",
+        "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"",
+        "questionOf": "tender",
+        "dateAnswered": "2021-03-16T00:00:00+02:00"
+      }
+    ],
+    "documents": [
+      {
+        "id": "bf5ede681c9e431a992a12f7fe492b7c",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Notice.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2b8ffb74c36644aa9b216aa7ca82eacc?Signature=JOMmyJAJFER3rDIS%2Bhkp0ZMWcnqafAyoOuiUYZbDHf6HN37Vk9mCzJBG%2BrkP8YAc7gxhwXiDqIDpB3RnrONABw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:00+02:00",
+        "author": "tender_owner"
+      },
+      {
+        "id": "628e69bbb3be4d8a8a46541a60d09b3f",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "AwardCriteria.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/47ac6dae16dd4b85b4557e53aa4e2e16?Signature=lBVqQ7kdbBww5wWKmNMJpEsDj0fK8mjWYF9THgNq%2FFblvEKDX9XF3WogyErTpoCt675VomKfuMtWUKO1QPgQBA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:00+02:00",
+        "author": "tender_owner"
+      },
+      {
+        "id": "628e69bbb3be4d8a8a46541a60d09b3f",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "AwardCriteria-2.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b733241fbd1c4542b551b3d5c23e04f9?Signature=yLiAUV50iyFKP6fXrHYOLIqWl4hwG9dCUkqgpB%2F0yuhmDaa4IMZzaWa8Bt%2BMdkyDBnVgwo0ZdoW1JcTz29IwDw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:00+02:00",
+        "author": "tender_owner"
+      }
+    ],
+    "owner": "broker",
+    "title": "футляри до державних нагород",
+    "mainProcurementCategory": "services",
+    "submissionMethod": "electronicAuction",
+    "procurementMethod": "open",
     "value": {
       "amount": 501.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
+    "next_check": "2021-03-24T00:00:00+02:00",
+    "minimalStep": {
+      "amount": 5.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "auctionPeriod": {
+      "startDate": "2021-03-18T00:00:00+02:00",
+      "shouldStartAfter": "2021-03-24T00:00:00+02:00"
+    },
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      },
+      {
+        "id": "52d11ec14b0f46c99f8c8d0750d7466c",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 0
+      }
+    ],
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "identifier": {
@@ -744,32 +789,14 @@ X-Content-Type-Options: nosniff
         "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
         "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/"
+        "url": "http://sch10.edu.vn.ua/",
+        "name": "Куца Світлана Валентинівна"
       },
       "kind": "special"
     },
-    "minimalStep": {
-      "amount": 5.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "questions": [
-      {
-        "id": "a5e2fe3c430a428a8bf1c2f8bab1974d",
-        "title": "Калорійність",
-        "description": "Просимо додати таблицю потрібної калорійності харчування",
-        "date": "2021-03-16T00:00:00+02:00",
-        "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"",
-        "questionOf": "tender",
-        "dateAnswered": "2021-03-16T00:00:00+02:00"
-      }
-    ],
-    "guarantee": {
-      "amount": 8.0,
-      "currency": "USD"
-    },
+    "status": "active.tendering",
+    "procurementMethodType": "aboveThresholdUA",
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
       "startDate": "2021-03-01T00:00:00+02:00",
@@ -781,15 +808,15 @@ X-Content-Type-Options: nosniff
       "startDate": "2021-03-01T00:00:00+02:00",
       "endDate": "2021-03-24T00:00:00+02:00"
     },
-    "auctionPeriod": {
-      "startDate": "2021-03-18T00:00:00+02:00",
-      "shouldStartAfter": "2021-03-24T00:00:00+02:00"
-    },
-    "procurementMethodType": "aboveThresholdUA",
     "items": [
       {
-        "id": "c8240ac851604470952a8ad2038fd9aa",
+        "id": "b0ac6a98397c41a3ac3206a50b0efb25",
         "description": "Послуги шкільних їдалень",
+        "classification": {
+          "description": "Послуги з харчування у школах",
+          "scheme": "ДК021",
+          "id": "55523100-3"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -797,21 +824,16 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "quantity": 1.0,
-        "classification": {
-          "description": "Послуги з харчування у школах",
-          "scheme": "ДК021",
-          "id": "55523100-3"
-        },
         "unit": {
           "name": "папір",
-          "code": "KGM",
           "value": {
             "amount": 10.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
-          }
+          },
+          "code": "KGM"
         },
+        "quantity": 1.0,
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
           "endDate": "2021-05-05T00:00:00+02:00"
@@ -825,17 +847,15 @@ X-Content-Type-Options: nosniff
         }
       }
     ],
-    "status": "active.tendering",
-    "id": "bac835240efd4adea01560554d7bfdb4",
-    "next_check": "2021-03-24T00:00:00+02:00",
     "complaintPeriod": {
       "startDate": "2021-03-01T00:00:00+02:00",
       "endDate": "2021-03-20T00:00:00+02:00"
-    }
+    },
+    "id": "136495241d564e1d82d365ed3977761d"
   }
 }
 
-PATCH /api/2.5/tenders/bac835240efd4adea01560554d7bfdb4/bids/e655b89d64014a8dbe2668687696ed52?acc_token=90743f6a09384008b018b0062ca9345a HTTP/1.0
+PATCH /api/2.5/tenders/136495241d564e1d82d365ed3977761d/bids/e655b89d64014a8dbe2668687696ed52?acc_token=90743f6a09384008b018b0062ca9345a HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 14524
 Content-Type: application/json
@@ -1074,9 +1094,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "ДКП «Книга»",
         "identifier": {
-          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137226"
+          "id": "00137226",
+          "uri": "http://www.sc.gov.ua/"
         },
         "address": {
           "streetAddress": "вул. Островського, 34",

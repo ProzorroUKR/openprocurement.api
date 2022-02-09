@@ -1,15 +1,13 @@
-# -*- coding: utf-8 -*-
 from uuid import uuid4
 from schematics.exceptions import ValidationError
 from schematics.types.compound import ModelType
-from schematics.types.serializable import serializable
 from schematics.types import MD5Type, IntType
 from openprocurement.api.models import (
-    Model,
     Period,
     IsoDateTimeType,
     ListType,
     Reference,
+    Model,
 )
 from schematics.types import StringType
 from openprocurement.api.constants import (
@@ -21,10 +19,7 @@ from openprocurement.tender.core.procedure.validation import (
 )
 from openprocurement.tender.core.procedure.context import get_tender, get_bid, get_json_data, get_now
 from openprocurement.tender.core.procedure.utils import get_first_revision_date
-from openprocurement.tender.core.procedure.models.base import (
-    BaseBid,
-    validate_object_id_uniq,
-)
+from openprocurement.tender.core.procedure.models.base import BaseBid, validate_object_id_uniq
 from openprocurement.tender.core.procedure.models.base import BaseAward
 from openprocurement.tender.core.procedure.models.milestone import QualificationMilestoneListMixin
 from openprocurement.tender.core.models import validate_response_requirement_uniq

@@ -1,6 +1,6 @@
-PATCH /api/2.5/tenders/6fc7b4a587f847fcb61cdc861ce4d752?acc_token=4838b1114c2645c0b455f9615e48ecf4 HTTP/1.0
+PATCH /api/2.5/tenders/0baa3be7ec374aeda829cbc4b875dddb?acc_token=385a1b964fc04c10a6acb22ee6e53ea6 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 73
+Content-Length: 1296
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -8,6 +8,41 @@ DATA:
   "data": {
     "items": [
       {
+        "id": "82dd3be3d3ce4eee93e60bfb334ddd05",
+        "description": "Послуги шкільних їдалень",
+        "classification": {
+          "description": "Послуги з харчування у школах",
+          "scheme": "ДК021",
+          "id": "55523100-3"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "unit": {
+          "name": "папір",
+          "value": {
+            "amount": 10.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "deliveryDate": {
+          "startDate": "2021-04-05T00:00:00+02:00",
+          "endDate": "2021-05-05T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
         "relatedLot": "9c7ee9a761404c7cad1359f248e41f71"
       }
     ]
@@ -19,7 +54,6 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "title": "Послуги шкільних їдалень",
     "title_en": "Services in school canteens",
     "title_ru": "Услуги школьных столовых",
     "description_en": "Services in school canteens",
@@ -28,38 +62,8 @@ X-Content-Type-Options: nosniff
     "dateModified": "2021-03-16T00:00:00+02:00",
     "tenderID": "UA-2021-03-16-000001",
     "owner": "broker",
+    "title": "Послуги шкільних їдалень",
     "mainProcurementCategory": "services",
-    "milestones": [
-      {
-        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "title": "signingTheContract",
-        "type": "financing",
-        "code": "prepayment",
-        "percentage": 45.55,
-        "duration": {
-          "days": 2,
-          "type": "banking"
-        },
-        "sequenceNumber": 0
-      },
-      {
-        "id": "6cda74b8a38146df871e040f436b5fc4",
-        "title": "deliveryOfGoods",
-        "type": "financing",
-        "code": "postpayment",
-        "percentage": 54.45,
-        "duration": {
-          "days": 900,
-          "type": "calendar"
-        },
-        "sequenceNumber": 0
-      }
-    ],
-    "value": {
-      "amount": 500000.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "procurementMethod": "limited",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -76,17 +80,27 @@ X-Content-Type-Options: nosniff
         "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
         "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/"
+        "url": "http://sch10.edu.vn.ua/",
+        "name": "Куца Світлана Валентинівна"
       },
       "kind": "special"
     },
     "status": "active",
+    "value": {
+      "amount": 500000.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "items": [
       {
-        "id": "0745cdf70d2545d4a8fe4c14cb23bf14",
+        "id": "82dd3be3d3ce4eee93e60bfb334ddd05",
         "description": "Послуги шкільних їдалень",
+        "classification": {
+          "description": "Послуги з харчування у школах",
+          "scheme": "ДК021",
+          "id": "55523100-3"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -94,22 +108,17 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "quantity": 1.0,
-        "relatedLot": "9c7ee9a761404c7cad1359f248e41f71",
-        "classification": {
-          "description": "Послуги з харчування у школах",
-          "scheme": "ДК021",
-          "id": "55523100-3"
-        },
         "unit": {
           "name": "папір",
-          "code": "KGM",
           "value": {
             "amount": 10.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
-          }
+          },
+          "code": "KGM"
         },
+        "quantity": 1.0,
+        "relatedLot": "9c7ee9a761404c7cad1359f248e41f71",
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
           "endDate": "2021-05-05T00:00:00+02:00"
@@ -140,9 +149,35 @@ X-Content-Type-Options: nosniff
         }
       }
     ],
-    "cause": "twiceUnsuccessful",
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      },
+      {
+        "id": "f63166a63f304a87bc662020528e820d",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 0
+      }
+    ],
     "procurementMethodType": "negotiation.quick",
-    "id": "6fc7b4a587f847fcb61cdc861ce4d752"
+    "cause": "twiceUnsuccessful",
+    "id": "0baa3be7ec374aeda829cbc4b875dddb"
   }
 }
 

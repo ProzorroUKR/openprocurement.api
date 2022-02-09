@@ -64,8 +64,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.app.file_obj.write("\n")
 
         with open(TARGET_DIR + 'tender-post-attempt.http', 'w') as self.app.file_obj:
-            response = self.app.post(request_path, 'data', status=415)
-            self.assertEqual(response.status, '415 Unsupported Media Type')
+            response = self.app.post(request_path, 'data', status=422)
 
         with open(TARGET_DIR + 'tender-post-attempt-json.http', 'w') as self.app.file_obj:
             self.app.authorization = ('Basic', ('broker', ''))
@@ -127,6 +126,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.get('/tenders/{}'.format(tender['id']))
             self.assertEqual(response.status, '200 OK')
 
+        tender = response.json["data"]
+
         with open(TARGET_DIR + 'initial-tender-listing.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders')
             self.assertEqual(response.status, '200 OK')
@@ -139,7 +140,10 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'patch-items-value-periods.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                {'data': {"tenderPeriod": {"endDate": tender_period_end_date.isoformat()}}})
+                {'data': {"tenderPeriod": {
+                    "startDate": tender["tenderPeriod"]["startDate"],
+                    "endDate": tender_period_end_date.isoformat(),
+                }}})
 
         with open(TARGET_DIR + 'tender-listing-after-patch.http', 'w') as self.app.file_obj:
             self.app.authorization = None
@@ -161,8 +165,15 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         # Uploading documentation
 
         with open(TARGET_DIR + 'upload-tender-notice.http', 'w') as self.app.file_obj:
-            response = self.app.post('/tenders/{}/documents?acc_token={}'.format(self.tender_id, owner_token),
-                                     upload_files=[('file', 'Notice.pdf', b'content')])
+            response = self.app.post_json(
+                '/tenders/{}/documents?acc_token={}'.format(self.tender_id, owner_token),
+                {"data": {
+                     "title": "Notice.pdf",
+                     "url": self.generate_docservice_url(),
+                     "hash": "md5:" + "0" * 32,
+                     "format": "application/pdf",
+                }}
+            )
             self.assertEqual(response.status, '201 Created')
 
         doc_id = response.json["data"]["id"]
@@ -171,8 +182,15 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'upload-award-criteria.http', 'w') as self.app.file_obj:
-            response = self.app.post('/tenders/{}/documents?acc_token={}'.format(self.tender_id, owner_token),
-                                     upload_files=[('file', 'AwardCriteria.pdf', b'content')])
+            response = self.app.post_json(
+                '/tenders/{}/documents?acc_token={}'.format(self.tender_id, owner_token),
+                {"data": {
+                    "title": "AwardCriteria.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }}
+            )
             self.assertEqual(response.status, '201 Created')
 
         doc_id = response.json["data"]["id"]
@@ -182,8 +200,15 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'update-award-criteria.http', 'w') as self.app.file_obj:
-            response = self.app.put('/tenders/{}/documents/{}?acc_token={}'.format(self.tender_id, doc_id, owner_token),
-                                    upload_files=[('file', 'AwardCriteria-2.pdf', b'content2')])
+            response = self.app.put_json(
+                '/tenders/{}/documents/{}?acc_token={}'.format(self.tender_id, doc_id, owner_token),
+                {"data": {
+                    "title": "AwardCriteria-2.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }},
+            )
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'tender-documents-3.http', 'w') as self.app.file_obj:
@@ -220,6 +245,9 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         self.app.authorization = ('Basic', ('broker', ''))
 
+        response = self.app.get(f"/tenders/{self.tender_id}")
+        tender = response.json["data"]
+
         with open(TARGET_DIR + 'ask-question-after-enquiry-period.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/questions'.format(self.tender_id),
@@ -237,6 +265,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                         "currency": "UAH"
                     },
                     "tenderPeriod": {
+                        "startDate": tender["tenderPeriod"]["startDate"],
                         "endDate": tender_period_end_date.isoformat()
                     }
                 }})

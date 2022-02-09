@@ -1,33 +1,33 @@
-POST /api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/documents?acc_token=b02a0a0cbe7842149f3fab16c42f0d94 HTTP/1.0
+POST /api/2.5/tenders/e16419902ba94afd92483305d6369505/documents?acc_token=afb4b304b0aa4ea4ba19e1f03725bf1e HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 142
-Content-Type: multipart/form-data; boundary=---BOUNDARY
+Content-Length: 322
+Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
------BOUNDARY
-Content-Disposition: form-data; name="file"; filename="Notice.pdf"
-Content-Type: application/pdf
-
-content
------BOUNDARY--
-
+{
+  "data": {
+    "title": "Notice.pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/076b981bb04b40b88ebb84ad089a3247?Signature=BIv%2FSFC2l2riSxoVYvtT22VXPim71RUhLeQC7QU%2F3l9srVUjqUX8LTIuYkX3Mgtpsz53g2bgT0qrStnwO6o8DA%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pdf"
+  }
+}
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/documents/bc481173b96c400ab8fd4ccd98114bd6
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e16419902ba94afd92483305d6369505/documents/bf2b73185c7644999f4c772fd7dbc4b7
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "bc481173b96c400ab8fd4ccd98114bd6",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Notice.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ded60bbbed08443ca0d5ebff5baa4abd?Signature=9Yed611xEAsDTWwfXBNh1VvISHBdIL0dHBWLjLpoNC1Jp2ejfuetjCGYZUXjj8Sqxrgw6gNeX39JHLuNGX23BA%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/076b981bb04b40b88ebb84ad089a3247?Signature=QFDSC7YPY4Xy9jsrJxkl9AuSufsvuSsl1U7etzrsdG%2BRyGJCmObwUvdYrGfLrWEFtIVhxcUg1FSVcwaGr1MOAQ%3D%3D&KeyID=a8968c46",
+    "documentOf": "tender",
+    "id": "bf2b73185c7644999f4c772fd7dbc4b7",
     "datePublished": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
-    "author": "tender_owner",
-    "documentOf": "tender",
-    "language": "uk"
+    "author": "tender_owner"
   }
 }
 

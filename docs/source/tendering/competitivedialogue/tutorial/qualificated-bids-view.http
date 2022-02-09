@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids?acc_token=b02a0a0cbe7842149f3fab16c42f0d94 HTTP/1.0
+GET /api/2.5/tenders/e16419902ba94afd92483305d6369505/bids?acc_token=afb4b304b0aa4ea4ba19e1f03725bf1e HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -151,7 +151,7 @@ X-Content-Type-Options: nosniff
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal.pdf",
           "format": "application/pdf",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/076b981bb04b40b88ebb84ad089a3247?Signature=QFDSC7YPY4Xy9jsrJxkl9AuSufsvuSsl1U7etzrsdG%2BRyGJCmObwUvdYrGfLrWEFtIVhxcUg1FSVcwaGr1MOAQ%3D%3D&KeyID=a8968c46",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6fd15993186d4a1a9ee707acf1c674f7?Signature=fkPQ53A9kziXGk1d7ccA71hK8jAvjNIVLY4gyXifPf19DoCMua2%2Bm1kUaHHFiB%2BBywBxYdyntWfw3zKWi50LAg%3D%3D&KeyID=a8968c46",
           "datePublished": "2021-03-16T00:00:00+02:00",
           "dateModified": "2021-03-16T00:00:00+02:00",
           "documentOf": "tender",
@@ -164,7 +164,7 @@ X-Content-Type-Options: nosniff
           "hash": "md5:00000000000000000000000000000000",
           "title": "DescriptiveProposal.pdf",
           "format": "application/pdf",
-          "url": "/tenders/cce509cd3c324437829f34f6d4d074fb/bids/fd70953552a346ecbb2d7f86de89b253/documents/c7e495cd14fa4afe994ffceb6eb9d647?download=5620292407bb4c8dab640c22d09475b0",
+          "url": "/tenders/e16419902ba94afd92483305d6369505/bids/fd70953552a346ecbb2d7f86de89b253/documents/c7e495cd14fa4afe994ffceb6eb9d647?download=ae93541a5c9f4b64a861457a816489d1",
           "datePublished": "2021-03-16T00:00:00+02:00",
           "dateModified": "2021-03-16T00:00:00+02:00",
           "documentOf": "tender",
@@ -177,7 +177,7 @@ X-Content-Type-Options: nosniff
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_top_secrets.pdf",
           "format": "application/pdf",
-          "url": "/tenders/cce509cd3c324437829f34f6d4d074fb/bids/fd70953552a346ecbb2d7f86de89b253/documents/92215fd5524a419b9adca0acb93f8e3c?download=14275856480047db84f7f1e9779d7771",
+          "url": "/tenders/e16419902ba94afd92483305d6369505/bids/fd70953552a346ecbb2d7f86de89b253/documents/92215fd5524a419b9adca0acb93f8e3c?download=154a4e2c544443d7a5d3c86aae5d0df9",
           "datePublished": "2021-03-16T00:00:00+02:00",
           "dateModified": "2021-03-16T00:00:00+02:00",
           "documentOf": "tender",
@@ -606,7 +606,7 @@ X-Content-Type-Options: nosniff
       "status": "active",
       "documents": [
         {
-          "id": "bf2b73185c7644999f4c772fd7dbc4b7",
+          "id": "2271f332282f4f48b584b5bcf8941d26",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part1.pdf",
           "format": "application/pdf",
@@ -619,11 +619,11 @@ X-Content-Type-Options: nosniff
           "isDescriptionDecision": false
         },
         {
-          "id": "19fcd74e8e884158873085b65694b1dc",
+          "id": "aa24281615704a47a0974bc06cf4ce44",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part2.pdf",
           "format": "application/pdf",
-          "url": "/tenders/cce509cd3c324437829f34f6d4d074fb/bids/858275d219d14850b85c83ea77b91281/documents/19fcd74e8e884158873085b65694b1dc?download=aec550f71c1e47f4bb789564fdfa149c",
+          "url": "/tenders/e16419902ba94afd92483305d6369505/bids/858275d219d14850b85c83ea77b91281/documents/aa24281615704a47a0974bc06cf4ce44?download=aec550f71c1e47f4bb789564fdfa149c",
           "datePublished": "2021-03-16T00:00:00+02:00",
           "dateModified": "2021-03-16T00:00:00+02:00",
           "documentOf": "tender",

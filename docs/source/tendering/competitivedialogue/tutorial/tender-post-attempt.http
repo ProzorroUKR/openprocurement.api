@@ -5,16 +5,16 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 data
 
-Response: 415 Unsupported Media Type
+Response: 422 Unprocessable Entity
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "status": "error",
   "errors": [
     {
-      "location": "header",
-      "name": "Content-Type",
-      "description": "Content-Type header should be one of ['application/json']"
+      "location": "body",
+      "name": "data",
+      "description": "Expecting value: line 1 column 1 (char 0)"
     }
   ]
 }

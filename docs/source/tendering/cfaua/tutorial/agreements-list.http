@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/agreements HTTP/1.0
+GET /api/2.5/tenders/6f00022409bb4e73b5f698801518e0db/agreements HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -13,7 +13,7 @@ X-Content-Type-Options: nosniff
       "date": "2021-03-16T00:00:00+02:00",
       "items": [
         {
-          "id": "fb692f97b807462b94668d4091b2779b",
+          "id": "aaec8afa6e6a4743b3942b45d02e6457",
           "description": "футляри до державних нагород",
           "additionalClassifications": [
             {
@@ -47,7 +47,7 @@ X-Content-Type-Options: nosniff
           }
         },
         {
-          "id": "eda37d51e2854d93aedc7e1d31e01cea",
+          "id": "84dbeb94478645759b67a2fa88293b0e",
           "description": "футляри до державних нагород",
           "additionalClassifications": [
             {
@@ -111,14 +111,14 @@ X-Content-Type-Options: nosniff
           ],
           "unitPrices": [
             {
-              "relatedItem": "fb692f97b807462b94668d4091b2779b",
+              "relatedItem": "aaec8afa6e6a4743b3942b45d02e6457",
               "value": {
                 "currency": "UAH",
                 "valueAddedTaxIncluded": true
               }
             },
             {
-              "relatedItem": "eda37d51e2854d93aedc7e1d31e01cea",
+              "relatedItem": "84dbeb94478645759b67a2fa88293b0e",
               "value": {
                 "currency": "UAH",
                 "valueAddedTaxIncluded": true
@@ -157,14 +157,14 @@ X-Content-Type-Options: nosniff
           ],
           "unitPrices": [
             {
-              "relatedItem": "fb692f97b807462b94668d4091b2779b",
+              "relatedItem": "aaec8afa6e6a4743b3942b45d02e6457",
               "value": {
                 "currency": "UAH",
                 "valueAddedTaxIncluded": true
               }
             },
             {
-              "relatedItem": "eda37d51e2854d93aedc7e1d31e01cea",
+              "relatedItem": "84dbeb94478645759b67a2fa88293b0e",
               "value": {
                 "currency": "UAH",
                 "valueAddedTaxIncluded": true
@@ -203,14 +203,14 @@ X-Content-Type-Options: nosniff
           ],
           "unitPrices": [
             {
-              "relatedItem": "fb692f97b807462b94668d4091b2779b",
+              "relatedItem": "aaec8afa6e6a4743b3942b45d02e6457",
               "value": {
                 "currency": "UAH",
                 "valueAddedTaxIncluded": true
               }
             },
             {
-              "relatedItem": "eda37d51e2854d93aedc7e1d31e01cea",
+              "relatedItem": "84dbeb94478645759b67a2fa88293b0e",
               "value": {
                 "currency": "UAH",
                 "valueAddedTaxIncluded": true

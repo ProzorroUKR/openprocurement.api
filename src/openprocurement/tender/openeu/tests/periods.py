@@ -89,6 +89,10 @@ PERIODS = {
                 "startDate": -TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2),
                 "endDate": -COMPLAINT_STAND_STILL - timedelta(days=1),
             },
+            "complaintPeriod": {
+                "startDate": -TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2),
+                "endDate": -COMPLAINT_STAND_STILL - timedelta(days=1),
+            },
             "auctionPeriod": {"startDate": -timedelta(days=1), "endDate": timedelta()},
             "awardPeriod": {"startDate": timedelta()},
         }

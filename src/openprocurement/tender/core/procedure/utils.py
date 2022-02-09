@@ -56,11 +56,6 @@ def delete_nones(data: dict):
 
 def save_tender(request, modified: bool = True) -> bool:
     tender = request.validated["tender"]
-
-    # TODO move this to post tender view
-    # if tender.get("mode") == "test":
-    #     set_mode_test_titles(tender)
-
     patch = get_revision_changes(tender, request.validated["tender_src"])
     if patch:
         now = get_now()
@@ -107,7 +102,7 @@ def append_revision(request, obj, patch):
     revision_data = {
         "author": request.authenticated_userid,
         "changes": patch,
-        "rev": obj["_rev"],
+        "rev": obj.get("_rev"),
         "date": get_now().isoformat(),
     }
     if "revisions" not in obj:

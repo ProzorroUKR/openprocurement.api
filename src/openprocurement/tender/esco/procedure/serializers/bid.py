@@ -3,7 +3,7 @@ from openprocurement.tender.core.procedure.serializers.document import Confident
 from openprocurement.tender.core.procedure.serializers.parameter import ParameterSerializer
 from openprocurement.tender.esco.procedure.serializers.lot_value import LotValueSerializer
 from openprocurement.tender.esco.procedure.serializers.value import ValueSerializer
-from openprocurement.tender.openeu.procedure.serializers import BidSerializer as BaseBidSerializer
+from openprocurement.tender.openeu.procedure.serializers.bid import BidSerializer as BaseBidSerializer
 
 
 class BidSerializer(BaseBidSerializer):

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/agreements/0fea7d7c4c8649f5a499885d630671f5?acc_token=fbb49b806b484733bc09390b0e01078d HTTP/1.0
+PATCH /api/2.5/tenders/6f00022409bb4e73b5f698801518e0db/agreements/0fea7d7c4c8649f5a499885d630671f5?acc_token=a4dab218398a4cc8a8004a91d3ba9744 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 124
 Content-Type: application/json
@@ -29,7 +29,7 @@ X-Content-Type-Options: nosniff
         "hash": "md5:00000000000000000000000000000000",
         "title": "agreement_first_document.doc",
         "format": "application/msdoc",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e73683eb573b462197fba52699c470e6?Signature=t5gVoF4QbfJd4GE1RR7XX058cfTiAcAm2fsY4%2BdL%2BtUCH3%2FBEMg5HIXT202dnnG%2Fw%2B62aFOEigVThfvB1%2FEVDg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/79e167453f5a401fb8cf408f6e3f2580?Signature=23bscymQYesYOw%2FZpHY7funx9xxU82w8GGZQSF0jYm1mwr9no2e7NHI2oej4xx%2B9tkhdeyxVjXB4ye6L4Kg9DQ%3D%3D&KeyID=a8968c46",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender"
@@ -41,7 +41,7 @@ X-Content-Type-Options: nosniff
         "title_en": "Title of Document",
         "description_en": "Description of Document",
         "format": "application/msdoc",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3027eefe15874090b7f07268478684a8?Signature=K3fBx1%2Fyk8KIqqGTnsCQXb0V%2BSOaMzke3czX5kY%2FJ25gl2FeG8R1ZE1WOsxtX94kamY03G30%2B9vf7B7O9xU7DQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/19d8247422d744baac8d227f47d1c28c?Signature=6LIfqdeMREwFZds4MdkMI5It2QgX%2FidPLIeMnHRAZQ2dlg%2FqGMM49QlTd0JISwsMdCs9BVxTYfGxYaUyeF86Ag%3D%3D&KeyID=a8968c46",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "language": "en",
@@ -50,7 +50,7 @@ X-Content-Type-Options: nosniff
     ],
     "items": [
       {
-        "id": "fb692f97b807462b94668d4091b2779b",
+        "id": "aaec8afa6e6a4743b3942b45d02e6457",
         "description": "футляри до державних нагород",
         "additionalClassifications": [
           {
@@ -84,7 +84,7 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "eda37d51e2854d93aedc7e1d31e01cea",
+        "id": "84dbeb94478645759b67a2fa88293b0e",
         "description": "футляри до державних нагород",
         "additionalClassifications": [
           {
@@ -152,7 +152,7 @@ X-Content-Type-Options: nosniff
         ],
         "unitPrices": [
           {
-            "relatedItem": "fb692f97b807462b94668d4091b2779b",
+            "relatedItem": "aaec8afa6e6a4743b3942b45d02e6457",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -160,7 +160,7 @@ X-Content-Type-Options: nosniff
             }
           },
           {
-            "relatedItem": "eda37d51e2854d93aedc7e1d31e01cea",
+            "relatedItem": "84dbeb94478645759b67a2fa88293b0e",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -200,7 +200,7 @@ X-Content-Type-Options: nosniff
         ],
         "unitPrices": [
           {
-            "relatedItem": "fb692f97b807462b94668d4091b2779b",
+            "relatedItem": "aaec8afa6e6a4743b3942b45d02e6457",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -208,7 +208,7 @@ X-Content-Type-Options: nosniff
             }
           },
           {
-            "relatedItem": "eda37d51e2854d93aedc7e1d31e01cea",
+            "relatedItem": "84dbeb94478645759b67a2fa88293b0e",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -248,7 +248,7 @@ X-Content-Type-Options: nosniff
         ],
         "unitPrices": [
           {
-            "relatedItem": "fb692f97b807462b94668d4091b2779b",
+            "relatedItem": "aaec8afa6e6a4743b3942b45d02e6457",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -256,7 +256,7 @@ X-Content-Type-Options: nosniff
             }
           },
           {
-            "relatedItem": "eda37d51e2854d93aedc7e1d31e01cea",
+            "relatedItem": "84dbeb94478645759b67a2fa88293b0e",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,

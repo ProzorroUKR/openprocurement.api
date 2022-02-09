@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/e08a950b18594d05b7c7318066bae24a HTTP/1.0
+GET /api/2.5/tenders/16198a81806a4fd9bf0d5b437bc44f7a HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,43 +8,6 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "title": "футляри до державних нагород",
-    "documents": [
-      {
-        "id": "f70cc27451a242f183aa969976341718",
-        "hash": "md5:00000000000000000000000000000000",
-        "documentType": "technicalSpecifications",
-        "title": "Notice.pdf",
-        "description": "document description modified",
-        "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cf0e4034ede1473fa34a7079593bf6d4?Signature=Rl%2BCb4iESnawWX9KZwdRqhsxVxjND0bFBNB4XK8l%2Bul2fjNe%2FPC8lOP%2Bj30kb4Lord7xA%2FJj9H%2BItTcjXlE5CA%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
-        "author": "tender_owner",
-        "documentOf": "tender"
-      },
-      {
-        "id": "860508a52298440486b9e15153aee3ba",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "AwardCriteria.pdf",
-        "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c54fe67f58c84e789e764701ecc69e32?Signature=m0AZKANNz1HddLboF1HHflXqj5r1EXyBg5AA7EPkGnCZ%2BYnT1jOr1AKI5Nt2NRVZW4kLnUPfBGo9%2FT%2FeooWZDA%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
-        "author": "tender_owner",
-        "documentOf": "tender"
-      },
-      {
-        "id": "860508a52298440486b9e15153aee3ba",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "AwardCriteria-2.pdf",
-        "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6e8b1d9784784942a6b37f5041f729f5?Signature=zKOJJYR83YcTMuUIRUG52Ici77P2rKgUjAYdibD2IVV3cCfGCXKyAwNahfE59Cy8%2BkkDJP2LjKXWXuabr07TDg%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
-        "author": "tender_owner",
-        "documentOf": "tender"
-      }
-    ],
     "date": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
     "tenderID": "UA-2021-03-16-000004",
@@ -93,9 +56,9 @@ X-Content-Type-Options: nosniff
       }
     ],
     "value": {
-      "amount": 600.666,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 600.666
     },
     "enquiryPeriod": {
       "startDate": "2021-03-10T00:00:00+02:00",
@@ -133,11 +96,8 @@ X-Content-Type-Options: nosniff
         }
       ]
     },
-    "auctionPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00"
-    },
     "minimalStep": {
-      "amount": 3.0033300000000005,
+      "amount": 2.5,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
@@ -151,11 +111,11 @@ X-Content-Type-Options: nosniff
         "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
         "enum": [
           {
-            "value": 0.1,
+            "value": "0.1",
             "title": "До 1000 Вт"
           },
           {
-            "value": 0.15,
+            "value": "0.15",
             "title": "Більше 1000 Вт"
           }
         ]
@@ -168,15 +128,15 @@ X-Content-Type-Options: nosniff
         "description": "Кількість років, які організація учасник працює на ринку",
         "enum": [
           {
-            "value": 0.05,
+            "value": "0.05",
             "title": "До 3 років"
           },
           {
-            "value": 0.1,
+            "value": "0.1",
             "title": "Більше 3 років, менше 5 років"
           },
           {
-            "value": 0.15,
+            "value": "0.15",
             "title": "Більше 5 років"
           }
         ]
@@ -189,31 +149,27 @@ X-Content-Type-Options: nosniff
         "description": "Опис Лот №1",
         "date": "2021-03-16T00:00:00+02:00",
         "status": "active",
-        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/e08a950b18594d05b7c7318066bae24a_f2599a519a45416db792d9ee833a8e5a",
         "guarantee": {
           "amount": 8.0,
           "currency": "USD"
         },
         "value": {
-          "amount": 600.666,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": true,
+          "amount": 600.666
         },
         "minimalStep": {
-          "amount": 3.0033300000000005,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": true,
+          "amount": 3.0033300000000005
         },
         "auctionPeriod": {
           "startDate": "2021-03-16T00:00:00+02:00",
           "shouldStartAfter": "2021-03-16T00:00:00+02:00"
-        }
+        },
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/16198a81806a4fd9bf0d5b437bc44f7a_f2599a519a45416db792d9ee833a8e5a"
       }
     ],
-    "guarantee": {
-      "amount": 8.0,
-      "currency": "USD"
-    },
     "status": "active.auction",
     "agreements": [
       {
@@ -225,11 +181,11 @@ X-Content-Type-Options: nosniff
             "parameters": [
               {
                 "code": "OCDS-123454-AIR-INTAKE",
-                "value": 0.1
+                "value": "0.1"
               },
               {
                 "code": "OCDS-123454-YEARS",
-                "value": 0.1
+                "value": "0.1"
               }
             ],
             "status": "active",
@@ -269,9 +225,9 @@ X-Content-Type-Options: nosniff
             "bidID": "0a292b6466274139ad3d973fd64830ff",
             "date": "2018-07-30T17:40:15.471158+03:00",
             "value": {
-              "amount": 600.0,
               "currency": "UAH",
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": true,
+              "amount": 600.0
             }
           },
           {
@@ -279,11 +235,11 @@ X-Content-Type-Options: nosniff
             "parameters": [
               {
                 "code": "OCDS-123454-AIR-INTAKE",
-                "value": 0.1
+                "value": "0.1"
               },
               {
                 "code": "OCDS-123454-YEARS",
-                "value": 0.1
+                "value": "0.1"
               }
             ],
             "status": "active",
@@ -323,9 +279,9 @@ X-Content-Type-Options: nosniff
             "bidID": "d85ef51272f14087abb2eed535340493",
             "date": "2018-07-30T17:40:15.471207+03:00",
             "value": {
-              "amount": 600.666,
               "currency": "UAH",
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": true,
+              "amount": 600.666
             }
           },
           {
@@ -333,11 +289,11 @@ X-Content-Type-Options: nosniff
             "parameters": [
               {
                 "code": "OCDS-123454-AIR-INTAKE",
-                "value": 0.1
+                "value": "0.1"
               },
               {
                 "code": "OCDS-123454-YEARS",
-                "value": 0.1
+                "value": "0.1"
               }
             ],
             "status": "unsuccessful",
@@ -377,9 +333,9 @@ X-Content-Type-Options: nosniff
             "bidID": "d85ef51272f14087abb2eed535340493",
             "date": "2018-07-30T17:40:15.471207+03:00",
             "value": {
-              "amount": 600.666,
               "currency": "UAH",
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": true,
+              "amount": 600.666
             }
           },
           {
@@ -387,11 +343,11 @@ X-Content-Type-Options: nosniff
             "parameters": [
               {
                 "code": "OCDS-123454-AIR-INTAKE",
-                "value": 0.1
+                "value": "0.1"
               },
               {
                 "code": "OCDS-123454-YEARS",
-                "value": 0.1
+                "value": "0.1"
               }
             ],
             "status": "active",
@@ -431,9 +387,9 @@ X-Content-Type-Options: nosniff
             "bidID": "fc02090c338a477f8013156a4fa2da10",
             "date": "2018-07-30T17:40:15.471264+03:00",
             "value": {
-              "amount": 600.0,
               "currency": "UAH",
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": true,
+              "amount": 600.0
             }
           }
         ],
@@ -484,11 +440,11 @@ X-Content-Type-Options: nosniff
             "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
             "enum": [
               {
-                "value": 0.1,
+                "value": "0.1",
                 "title": "До 1000 Вт"
               },
               {
-                "value": 0.15,
+                "value": "0.15",
                 "title": "Більше 1000 Вт"
               }
             ]
@@ -501,15 +457,15 @@ X-Content-Type-Options: nosniff
             "description": "Кількість років, які організація учасник працює на ринку",
             "enum": [
               {
-                "value": 0.05,
+                "value": "0.05",
                 "title": "До 3 років"
               },
               {
-                "value": 0.1,
+                "value": "0.1",
                 "title": "Більше 3 років, менше 5 років"
               },
               {
-                "value": 0.15,
+                "value": "0.15",
                 "title": "Більше 5 років"
               }
             ]
@@ -519,7 +475,7 @@ X-Content-Type-Options: nosniff
         "owner": "broker",
         "period": {
           "startDate": "2018-09-11T11:23:20.418390+03:00",
-          "endDate": "2022-01-23T11:23:20.418436+03:00"
+          "endDate": "2222-01-23T11:23:20.418436+03:00"
         },
         "procuringEntity": {
           "name": "Шевченківська районна в місті Києві державна адміністрація",
@@ -558,8 +514,52 @@ X-Content-Type-Options: nosniff
     ],
     "procurementMethod": "selective",
     "procurementMethodType": "closeFrameworkAgreementSelectionUA",
-    "id": "e08a950b18594d05b7c7318066bae24a",
-    "next_check": "2021-03-16T00:42:00+02:00"
+    "guarantee": {
+      "amount": 8.0,
+      "currency": "USD"
+    },
+    "next_check": "2021-03-16T00:42:00+02:00",
+    "documents": [
+      {
+        "documentType": "technicalSpecifications",
+        "description": "document description modified",
+        "id": "bf871fbed76240b1a0b359332f381ebb",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Notice.pdf",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/16198a81806a4fd9bf0d5b437bc44f7a/documents/bf871fbed76240b1a0b359332f381ebb?download=cf0e4034ede1473fa34a7079593bf6d4",
+        "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:00+02:00",
+        "author": "tender_owner"
+      },
+      {
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "AwardCriteria.pdf",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/16198a81806a4fd9bf0d5b437bc44f7a/documents/9383d40f6e404558827b2b7481dea5da?download=c54fe67f58c84e789e764701ecc69e32",
+        "documentOf": "tender",
+        "id": "9383d40f6e404558827b2b7481dea5da",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2021-03-16T00:00:00+02:00",
+        "author": "tender_owner"
+      },
+      {
+        "id": "9383d40f6e404558827b2b7481dea5da",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "AwardCriteria-2.pdf",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/16198a81806a4fd9bf0d5b437bc44f7a/documents/9383d40f6e404558827b2b7481dea5da?download=6e8b1d9784784942a6b37f5041f729f5",
+        "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:00+02:00",
+        "author": "tender_owner"
+      }
+    ],
+    "auctionPeriod": {
+      "startDate": "2021-03-16T00:00:00+02:00"
+    },
+    "id": "16198a81806a4fd9bf0d5b437bc44f7a"
   }
 }
 

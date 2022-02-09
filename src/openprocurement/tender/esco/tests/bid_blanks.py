@@ -9,6 +9,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17, TWO_PHASE_COMMIT_FROM
 from openprocurement.tender.esco.tests.base import test_bids, NBU_DISCOUNT_RATE
 from openprocurement.tender.esco.utils import to_decimal
+from openprocurement.tender.core.tests.base import change_auth
 from esculator import npv, escp
 
 
@@ -909,13 +910,13 @@ def delete_tender_bidder(self):
 
     # qualify bids
     response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
-    self.app.authorization = ("Basic", ("token", ""))
-    for qualification in response.json["data"]:
-        response = self.app.patch_json(
-            "/tenders/{}/qualifications/{}".format(self.tender_id, qualification["id"]),
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
-        )
-        self.assertEqual(response.status, "200 OK")
+    with change_auth(self.app, ("Basic", ("token", ""))):
+        for qualification in response.json["data"]:
+            response = self.app.patch_json(
+                "/tenders/{}/qualifications/{}".format(self.tender_id, qualification["id"]),
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
+            )
+            self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
     response = self.app.patch_json(
@@ -930,12 +931,12 @@ def delete_tender_bidder(self):
     self.assertEqual(response.json["data"]["status"], "active.auction")
 
     # switch to qualification
-    self.app.authorization = ("Basic", ("auction", ""))
-    response = self.app.get("/tenders/{}/auction".format(self.tender_id))
-    auction_bids_data = response.json["data"]["bids"]
-    response = self.app.post_json("/tenders/{}/auction".format(self.tender_id),
-                                  {"data": {"bids": [{"id": b["id"]} for b in auction_bids_data]}})
-    self.assertEqual(response.status, "200 OK")
+    with change_auth(self.app, ("Basic", ("auction", ""))):
+        response = self.app.get("/tenders/{}/auction".format(self.tender_id))
+        auction_bids_data = response.json["data"]["bids"]
+        response = self.app.post_json("/tenders/{}/auction".format(self.tender_id),
+                                      {"data": {"bids": [{"id": b["id"]} for b in auction_bids_data]}})
+        self.assertEqual(response.status, "200 OK")
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "active.qualification")
 
@@ -944,11 +945,11 @@ def delete_tender_bidder(self):
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
 
-    self.app.authorization = ("Basic", ("token", ""))
-    self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
-    )
+    with change_auth(self.app, ("Basic", ("token", ""))):
+        self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
+            {"data": {"status": "active", "qualified": True, "eligible": True}},
+        )
     self.assertEqual(response.status, "200 OK")
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "active.awarded")
@@ -1056,9 +1057,14 @@ def bids_activation_on_tender_documents(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "pending")
 
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-        upload_files=[("file", "укр.doc", b"content")],
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }}
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1152,19 +1158,21 @@ def bids_invalidation_on_tender_change(self):
 
     # qualify bids
     response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
-    self.app.authorization = ("Basic", ("token", ""))
-    for qualification in response.json["data"]:
-        response = self.app.patch_json(
-            "/tenders/{}/qualifications/{}".format(self.tender_id, qualification["id"]),
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
-        )
-        self.assertEqual(response.status, "200 OK")
+    with change_auth(self.app, ("Basic", ("token", ""))):
+        for qualification in response.json["data"]:
+            response = self.app.patch_json(
+                "/tenders/{}/qualifications/{}".format(self.tender_id, qualification["id"]),
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
+            )
+            self.assertEqual(response.status, "200 OK")
+
     response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, valid_bid_id, valid_bid_token))
     self.assertEqual(response.json["data"]["status"], "active")
 
     # switch to active.pre-qualification.stand-still
     response = self.app.patch_json(
-        "/tenders/{}".format(self.tender_id), {"data": {"status": "active.pre-qualification.stand-still"}}
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"status": "active.pre-qualification.stand-still"}}
     )
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification.stand-still")
 
@@ -1267,17 +1275,18 @@ def deleted_bid_do_not_locks_tender_in_state(self):
 
     # qualify bids
     response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
-    self.app.authorization = ("Basic", ("token", ""))
-    for qualification in response.json["data"]:
-        response = self.app.patch_json(
-            "/tenders/{}/qualifications/{}".format(self.tender_id, qualification["id"]),
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
-        )
-        self.assertEqual(response.status, "200 OK")
+    with change_auth(self.app, ("Basic", ("token", ""))):
+        for qualification in response.json["data"]:
+            response = self.app.patch_json(
+                "/tenders/{}/qualifications/{}".format(self.tender_id, qualification["id"]),
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
+            )
+            self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
     response = self.app.patch_json(
-        "/tenders/{}".format(self.tender_id), {"data": {"status": "active.pre-qualification.stand-still"}}
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"status": "active.pre-qualification.stand-still"}}
     )
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification.stand-still")
 
@@ -1287,12 +1296,12 @@ def deleted_bid_do_not_locks_tender_in_state(self):
     self.assertEqual(response.json["data"]["status"], "active.auction")
 
     # switch to qualification
-    self.app.authorization = ("Basic", ("auction", ""))
-    response = self.app.get("/tenders/{}/auction".format(self.tender_id))
-    auction_bids_data = response.json["data"]["bids"]
-    response = self.app.post_json("/tenders/{}/auction".format(self.tender_id),
-                                  {"data": {"bids": [{"id": b["id"]} for b in auction_bids_data]}})
-    self.assertEqual(response.status, "200 OK")
+    with change_auth(self.app, ("Basic", ("auction", ""))):
+        response = self.app.get("/tenders/{}/auction".format(self.tender_id))
+        auction_bids_data = response.json["data"]["bids"]
+        response = self.app.post_json("/tenders/{}/auction".format(self.tender_id),
+                                      {"data": {"bids": [{"id": b["id"]} for b in auction_bids_data]}})
+        self.assertEqual(response.status, "200 OK")
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "active.qualification")
 
@@ -1329,7 +1338,8 @@ def create_tender_bid_no_scale_invalid(self):
 
 
 @mock.patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
-@mock.patch("openprocurement.tender.core.procedure.models.base.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
+@mock.patch("openprocurement.tender.core.procedure.models.organization.ORGANIZATION_SCALE_FROM",
+            get_now() + timedelta(days=1))
 def create_tender_bid_with_scale_not_required(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
     bid_data = {
@@ -1349,7 +1359,8 @@ def create_tender_bid_with_scale_not_required(self):
 
 
 @mock.patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
-@mock.patch("openprocurement.tender.core.procedure.models.base.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
+@mock.patch("openprocurement.tender.core.procedure.models.organization.ORGANIZATION_SCALE_FROM",
+            get_now() + timedelta(days=1))
 def create_tender_bid_no_scale(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
     bid_data = {

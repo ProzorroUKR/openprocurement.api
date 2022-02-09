@@ -53,11 +53,13 @@ from openprocurement.tender.competitivedialogue.tests.stage1.tender_blanks impor
 
 
 class TenderTestEU(TenderTestMixin, BaseApiWebTest):
+    docservice = True
     tender_model = CompetitiveDialogEU
     initial_data = test_tender_data_eu
 
 
 class TenderTestUA(TenderTestMixin, BaseApiWebTest):
+    docservice = True
     tender_model = CompetitiveDialogUA
     initial_data = test_tender_data_ua
 
@@ -66,7 +68,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderReso
     """
       Check base work with tender. (crete, get, edit)
     """
-
+    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_data_eu
     test_lots_data = test_lots
@@ -95,6 +97,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderReso
 
 
 class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest, TenderResourceTestMixin):
+    docservice = True
     initial_data = test_tender_data_ua
     test_lots_data = test_lots
 

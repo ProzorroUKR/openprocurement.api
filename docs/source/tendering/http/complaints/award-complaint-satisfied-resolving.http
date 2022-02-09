@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/9eb167a6c08a4130af77258c680e4ebf/awards/fa643eda48dd450bb2a289aa80f13e85?acc_token=31b8a74b09184367bc5da559557b06ba HTTP/1.0
+PATCH /api/2.5/tenders/eff507bb175146d79ff6ae32a0c94c04/awards/fa643eda48dd450bb2a289aa80f13e85?acc_token=7aa6799999354bad859e9d43ba7fca55 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 33
 Content-Type: application/json
@@ -12,7 +12,7 @@ DATA:
 
 Response: 200 OK
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9eb167a6c08a4130af77258c680e4ebf/awards/c88dabb6731245c2a244e77d1c1b5cb1
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eff507bb175146d79ff6ae32a0c94c04/awards/c88dabb6731245c2a244e77d1c1b5cb1
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -28,9 +28,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "ДКП «Книга»",
         "identifier": {
-          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137226"
+          "id": "00137226",
+          "uri": "http://www.sc.gov.ua/"
         },
         "address": {
           "streetAddress": "вул. Островського, 34",
@@ -58,9 +58,6 @@ X-Content-Type-Options: nosniff
         "complaintID": "UA-2021-03-16-000001.1",
         "date": "2021-03-16T00:00:03+02:00",
         "type": "complaint",
-        "owner_token": "249b799c48dc4e29a11355eb1ed6b251",
-        "transfer_token": "c6de926770356b041c1cb8d800a59473dca4e585d415520ab18168244920286213f61946534d23a9388708dcfc45784a191b4de53e0dd4aa2dac28b214078253",
-        "owner": "broker",
         "author": {
           "name": "ДКП «Школяр»",
           "address": {
@@ -130,9 +127,6 @@ X-Content-Type-Options: nosniff
         "complaintID": "UA-2021-03-16-000001.2",
         "date": "2021-03-16T00:00:03+02:00",
         "type": "complaint",
-        "owner_token": "7726b205c235428e85d54a46465a3acc",
-        "transfer_token": "88f4bfb908f7358d8e50efeee6b843ad145b293119bc14b88c3d569a656ece62dbacb7511227d4a712e60cf805e1419f7e71c553a4274fe7e9855675efb29068",
-        "owner": "broker",
         "author": {
           "name": "ДКП «Школяр»",
           "address": {
@@ -172,9 +166,6 @@ X-Content-Type-Options: nosniff
         "complaintID": "UA-2021-03-16-000001.3",
         "date": "2021-03-16T00:00:03+02:00",
         "type": "complaint",
-        "owner_token": "a20fc663e57e496f9989ec20daf680f6",
-        "transfer_token": "f9c0bd17dce1eea4ef721bc86e9ac50ee2226233fc76534d6c27d7a8a38ba368cccdd2ad1ae5b4aa5a3173b0f885eaaa62e11bc2746de30008770d083500358f",
-        "owner": "broker",
         "author": {
           "name": "ДКП «Школяр»",
           "address": {
@@ -216,9 +207,6 @@ X-Content-Type-Options: nosniff
         "complaintID": "UA-2021-03-16-000001.4",
         "date": "2021-03-16T00:00:03+02:00",
         "type": "complaint",
-        "owner_token": "62bd41dd00494dd5a512787a97edafea",
-        "transfer_token": "09dd2b9995b0603a37065cdbece9626456609fb87ce89ec226b287c591645fac74afabfc73863534a9c94063354041cd40351fb8de821de747674acd2314fde8",
-        "owner": "broker",
         "author": {
           "name": "ДКП «Школяр»",
           "address": {
@@ -261,9 +249,6 @@ X-Content-Type-Options: nosniff
         "complaintID": "UA-2021-03-16-000001.5",
         "date": "2021-03-16T00:00:03+02:00",
         "type": "complaint",
-        "owner_token": "fa5838c139114dd2ab91817445b19b5b",
-        "transfer_token": "0791c56168e85393341d32ed7a87a2c71bddf3431a65598840a753fd4327dcb44fff549b3de659b97adbd540ff3286fd0d5b0852fe89aa103f506cc2f4e12ee8",
-        "owner": "broker",
         "author": {
           "name": "ДКП «Школяр»",
           "address": {
@@ -308,9 +293,6 @@ X-Content-Type-Options: nosniff
         "complaintID": "UA-2021-03-16-000001.6",
         "date": "2021-03-16T00:00:03+02:00",
         "type": "claim",
-        "owner_token": "a66705a4c2f640d892e7c82cccc2a425",
-        "transfer_token": "3ded94fded02ced2f0c2059e49a7972df9d00de2b1554f675042a72326ebd25cac7cabd34d2e2af7352efe3959ba41b4bc87dee1321f24310e3eedb6959bdf64",
-        "owner": "broker",
         "author": {
           "name": "ДКП «Школяр»",
           "identifier": {
@@ -346,9 +328,6 @@ X-Content-Type-Options: nosniff
         "complaintID": "UA-2021-03-16-000001.7",
         "date": "2021-03-16T00:00:03+02:00",
         "type": "claim",
-        "owner_token": "66c90c2ace85408eb2941fc9f92903d1",
-        "transfer_token": "a19bdfd4c9ab39532f099da414b0aef138932c8e069c56361c0cce5d0f28c8df78c3cc5be1577135e138be984071734a39436c114ddf80c91ac5535c1507e2a9",
-        "owner": "broker",
         "author": {
           "name": "ДКП «Школяр»",
           "identifier": {
@@ -384,9 +363,6 @@ X-Content-Type-Options: nosniff
         "complaintID": "UA-2021-03-16-000001.8",
         "date": "2021-03-16T00:00:03+02:00",
         "type": "complaint",
-        "owner_token": "b144bd5d0ee84a8b87171b7deed03aea",
-        "transfer_token": "bd44b58f5de1a71b9683e48719dde7196475e3a66256bda34b657ba8b6981f3dc85f22d5c9e723fb8001e9900b5bfa79c94ad25fc03541207a640410f09a0fe5",
-        "owner": "broker",
         "author": {
           "name": "ДКП «Школяр»",
           "address": {
@@ -485,9 +461,6 @@ X-Content-Type-Options: nosniff
         "complaintID": "UA-2021-03-16-000001.9",
         "date": "2021-03-16T00:00:03+02:00",
         "type": "claim",
-        "owner_token": "a5c7828561eb4d68937d466009ad644a",
-        "transfer_token": "0e8c3c01eb86a87f373fead78320fdc919575fea0aa8770fe0c999646db5e41ff73d6e5d2444c87a3f10268165a5f7e51a3232b66edfeeb1bb29fe00e1cc646f",
-        "owner": "broker",
         "author": {
           "name": "ДКП «Школяр»",
           "identifier": {

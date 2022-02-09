@@ -16,10 +16,7 @@ class CFASelectionTenderState(TenderState):
             for lot in tender["lots"]:
                 bid_number = self.count_lot_bids_number(tender, lot["id"])
                 if bid_number < self.min_bids_number:
-                    if lot.get("auctionPeriod", {}).get("startDate"):
-                        del lot["auctionPeriod"]["startDate"]
-                        if not lot["auctionPeriod"]:
-                            del lot["auctionPeriod"]
+                    self.remove_auction_period(lot)
 
                     if lot["status"] == "active":
                         self.set_object_status(lot, "unsuccessful")
@@ -42,8 +39,5 @@ class CFASelectionTenderState(TenderState):
             if bid_number == 1:
                 self.add_next_award()
             elif bid_number < self.min_bids_number:
-                if tender.get("auctionPeriod", {}).get("startDate"):
-                    del tender["auctionPeriod"]["startDate"]
-                    if not tender["auctionPeriod"]:
-                        del tender["auctionPeriod"]
+                self.remove_auction_period(tender)
                 self.get_change_tender_status_handler("unsuccessful")(tender)

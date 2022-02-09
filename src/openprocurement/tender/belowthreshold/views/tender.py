@@ -12,12 +12,12 @@ from openprocurement.tender.core.validation import (
 )
 
 
-@optendersresource(
-    name="belowThreshold:Tender",
-    path="/tenders/{tender_id}",
-    procurementMethodType="belowThreshold",
-    description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info",
-)
+# @optendersresource(
+#     name="belowThreshold:Tender",
+#     path="/tenders/{tender_id}",
+#     procurementMethodType="belowThreshold",
+#     description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info",
+# )
 class TenderResource(APIResource):
     @json_view(permission="view_tender")
     def get(self):

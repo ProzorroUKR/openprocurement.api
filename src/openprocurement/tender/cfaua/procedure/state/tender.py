@@ -11,7 +11,7 @@ from logging import getLogger
 LOGGER = getLogger(__name__)
 
 
-class CFAUATenderTenderState(CFAUATenderStateAwardingMixing, PreQualificationShouldStartAfterMixing, TenderState):
+class CFAUATenderState(CFAUATenderStateAwardingMixing, PreQualificationShouldStartAfterMixing, TenderState):
     min_bids_number = 3
     active_bid_statuses = ("active", "pending")
     block_tender_complaint_status = ("claim", "pending", "accepted", "satisfied", "stopping")
@@ -22,16 +22,13 @@ class CFAUATenderTenderState(CFAUATenderStateAwardingMixing, PreQualificationSho
 
     def qualification_stand_still_events(self, tender):
         active_lots = [lot["id"] for lot in tender.get("lots", "") if lot["status"] == "active"]
-        award_period_end = tender.get("awardPeriod", {}).get("endDate")
-        if (
-            award_period_end
-            and award_period_end <= get_now().isoformat()
-            and not any(
-                i["status"] in self.block_complaint_status
-                for a in tender.get("awards", "")
-                for i in a.get("complaints", "")
-                if a["lotID"] in active_lots
-            )
+        # should be set on change status to active.qualification.stand-still
+        award_period_end = tender["awardPeriod"]["endDate"]
+        if not any(
+            i["status"] in self.block_complaint_status
+            for a in tender.get("awards", "")
+            for i in a.get("complaints", "")
+            if a["lotID"] in active_lots
         ):
             yield award_period_end, self.qualification_stand_still_handler
 

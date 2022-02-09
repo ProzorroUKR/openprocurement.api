@@ -9,12 +9,31 @@ from openprocurement.tender.core.procedure.utils import (
 from openprocurement.tender.core.procedure.serializers.bid import BidSerializer
 from openprocurement.tender.core.procedure.validation import validate_view_bids, unless_item_owner
 from openprocurement.tender.core.procedure.state.bid import BidState
+from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 from logging import getLogger
 
 LOGGER = getLogger(__name__)
 
 
+def resolve_bid(request):
+    match_dict = request.matchdict
+    if match_dict.get("bid_id"):
+        bid_id = match_dict["bid_id"]
+        bids = get_items(request, request.validated["tender"], "bids", bid_id)
+        request.validated["bid"] = bids[0]
+
+
 class TenderBidResource(TenderBaseResource):
+
+    def __acl__(self):
+        acl = [
+            (Allow, Everyone, "view_tender"),
+            (Allow, "g:brokers", "create_bid"),
+            (Allow, "g:brokers", "edit_bid"),
+            (Allow, "g:Administrator", "edit_bid"),  # wtf ???
+            (Allow, "g:admins", ALL_PERMISSIONS),    # some tests use this, idk why
+        ]
+        return acl
 
     serializer_class = BidSerializer
     state_class = BidState
@@ -22,11 +41,7 @@ class TenderBidResource(TenderBaseResource):
     def __init__(self, request, context=None):
         super().__init__(request, context)
         if context and request.matchdict:
-            match_dict = request.matchdict
-            if match_dict.get("bid_id"):
-                bid_id = match_dict["bid_id"]
-                bids = get_items(request, request.validated["tender"], "bids", bid_id)
-                request.validated["bid"] = bids[0]
+            resolve_bid(request)
 
     def collection_post(self):
         update_logging_context(self.request, {"bid_id": "__new__"})

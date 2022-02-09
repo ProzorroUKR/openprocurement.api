@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/37cb590308a242a9836f51a9994c7492 HTTP/1.0
+GET /api/2.5/tenders/6f00022409bb4e73b5f698801518e0db HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -632,7 +632,7 @@ X-Content-Type-Options: nosniff
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amount": 485
+          "amount": "485"
         }
       },
       {
@@ -669,7 +669,7 @@ X-Content-Type-Options: nosniff
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amount": 499
+          "amount": "499"
         }
       },
       {
@@ -706,7 +706,7 @@ X-Content-Type-Options: nosniff
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amount": 500.0
+          "amount": "5E+2"
         }
       },
       {
@@ -745,7 +745,7 @@ X-Content-Type-Options: nosniff
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amount": 485
+          "amount": "485"
         }
       },
       {
@@ -786,7 +786,7 @@ X-Content-Type-Options: nosniff
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amount": 485
+          "amount": "485"
         }
       },
       {
@@ -827,7 +827,7 @@ X-Content-Type-Options: nosniff
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amount": 499
+          "amount": "499"
         }
       },
       {
@@ -868,7 +868,7 @@ X-Content-Type-Options: nosniff
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amount": 500.0
+          "amount": "5E+2"
         }
       }
     ],
@@ -893,7 +893,7 @@ X-Content-Type-Options: nosniff
             "hash": "md5:00000000000000000000000000000000",
             "title": "agreement_first_document.doc",
             "format": "application/msdoc",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e73683eb573b462197fba52699c470e6?Signature=t5gVoF4QbfJd4GE1RR7XX058cfTiAcAm2fsY4%2BdL%2BtUCH3%2FBEMg5HIXT202dnnG%2Fw%2B62aFOEigVThfvB1%2FEVDg%3D%3D&KeyID=a8968c46",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/79e167453f5a401fb8cf408f6e3f2580?Signature=23bscymQYesYOw%2FZpHY7funx9xxU82w8GGZQSF0jYm1mwr9no2e7NHI2oej4xx%2B9tkhdeyxVjXB4ye6L4Kg9DQ%3D%3D&KeyID=a8968c46",
             "datePublished": "2021-03-16T00:00:00+02:00",
             "dateModified": "2021-03-16T00:00:00+02:00",
             "documentOf": "tender"
@@ -905,7 +905,7 @@ X-Content-Type-Options: nosniff
             "title_en": "Title of Document",
             "description_en": "Description of Document",
             "format": "application/msdoc",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3027eefe15874090b7f07268478684a8?Signature=K3fBx1%2Fyk8KIqqGTnsCQXb0V%2BSOaMzke3czX5kY%2FJ25gl2FeG8R1ZE1WOsxtX94kamY03G30%2B9vf7B7O9xU7DQ%3D%3D&KeyID=a8968c46",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/19d8247422d744baac8d227f47d1c28c?Signature=6LIfqdeMREwFZds4MdkMI5It2QgX%2FidPLIeMnHRAZQ2dlg%2FqGMM49QlTd0JISwsMdCs9BVxTYfGxYaUyeF86Ag%3D%3D&KeyID=a8968c46",
             "datePublished": "2021-03-16T00:00:00+02:00",
             "dateModified": "2021-03-16T00:00:00+02:00",
             "language": "en",
@@ -914,7 +914,7 @@ X-Content-Type-Options: nosniff
         ],
         "items": [
           {
-            "id": "fb692f97b807462b94668d4091b2779b",
+            "id": "aaec8afa6e6a4743b3942b45d02e6457",
             "description": "футляри до державних нагород",
             "additionalClassifications": [
               {
@@ -948,7 +948,7 @@ X-Content-Type-Options: nosniff
             }
           },
           {
-            "id": "eda37d51e2854d93aedc7e1d31e01cea",
+            "id": "84dbeb94478645759b67a2fa88293b0e",
             "description": "футляри до державних нагород",
             "additionalClassifications": [
               {
@@ -1016,19 +1016,19 @@ X-Content-Type-Options: nosniff
             ],
             "unitPrices": [
               {
-                "relatedItem": "fb692f97b807462b94668d4091b2779b",
+                "relatedItem": "aaec8afa6e6a4743b3942b45d02e6457",
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": true,
-                  "amount": 0.5
+                  "amount": "0.5"
                 }
               },
               {
-                "relatedItem": "eda37d51e2854d93aedc7e1d31e01cea",
+                "relatedItem": "84dbeb94478645759b67a2fa88293b0e",
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": true,
-                  "amount": 0.5
+                  "amount": "0.5"
                 }
               }
             ],
@@ -1064,19 +1064,19 @@ X-Content-Type-Options: nosniff
             ],
             "unitPrices": [
               {
-                "relatedItem": "fb692f97b807462b94668d4091b2779b",
+                "relatedItem": "aaec8afa6e6a4743b3942b45d02e6457",
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": true,
-                  "amount": 0.5
+                  "amount": "0.5"
                 }
               },
               {
-                "relatedItem": "eda37d51e2854d93aedc7e1d31e01cea",
+                "relatedItem": "84dbeb94478645759b67a2fa88293b0e",
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": true,
-                  "amount": 0.5
+                  "amount": "0.5"
                 }
               }
             ],
@@ -1112,19 +1112,19 @@ X-Content-Type-Options: nosniff
             ],
             "unitPrices": [
               {
-                "relatedItem": "fb692f97b807462b94668d4091b2779b",
+                "relatedItem": "aaec8afa6e6a4743b3942b45d02e6457",
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": true,
-                  "amount": 0.5
+                  "amount": "0.5"
                 }
               },
               {
-                "relatedItem": "eda37d51e2854d93aedc7e1d31e01cea",
+                "relatedItem": "84dbeb94478645759b67a2fa88293b0e",
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": true,
-                  "amount": 0.5
+                  "amount": "0.5"
                 }
               }
             ],
@@ -1137,11 +1137,11 @@ X-Content-Type-Options: nosniff
     ],
     "documents": [
       {
-        "id": "3e3577c5d9a94e7aa38186c2fdfe1cac",
+        "id": "e5d2ba0b59284460a205a7c7f9e09add",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f4bcaf7737144372b0bf3ec0dbd28fd0?Signature=%2BTgbGGWC0tK8LDEGB1KAxgRZ3kPRumiNxJIP9SbIY4cNBS2H%2BwRptqJb9dJk1fR8Z0ywXOpZwkvAZhj9DJI3DQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/576584a3773a4d2799e4af16de7afaef?Signature=eLr29Kwl9WC3bjpcqLZYIIPp41L4E%2FKcaKZalupTpM0kWURXdbQQr7PXvXZTL8bXB1vYeJ2KPUkp2AnlTPbGDQ%3D%3D&KeyID=a8968c46",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "author": "tender_owner",
@@ -1149,11 +1149,11 @@ X-Content-Type-Options: nosniff
         "language": "uk"
       },
       {
-        "id": "edd6d8cc91904eaa96c615d1e4c054a3",
+        "id": "1dec1ea8c0da484a996dabdc76a5173c",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/df818a0ff3ad4e1386d325021145b501?Signature=znmGUfAvSd%2B56PNtOKSa4e58qG8L9GKZkfTK5dgPuprqojPQ9JxdIafV6RscIxEcLMy3eSI2ytfY%2BAiGIU6RAw%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/65f052828dd54fb59acfc5e598d928a2?Signature=heifngteUxe7sJxD%2FySvJnqghe0I1JuzLw3abCE3wK4ot8LGLOjJI2KnqEguk1LuSLwoxoVnT5QWw73X40T0CQ%3D%3D&KeyID=a8968c46",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "author": "tender_owner",
@@ -1161,11 +1161,11 @@ X-Content-Type-Options: nosniff
         "language": "uk"
       },
       {
-        "id": "edd6d8cc91904eaa96c615d1e4c054a3",
+        "id": "1dec1ea8c0da484a996dabdc76a5173c",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0a7e6172d6a246d389b7617a61e3418e?Signature=7hcCPxYJHGFxl9DSy2mThnOMWNUniQdpspYZqmVMBLo5WBrz32WkBucPXOIeCV%2ByHMWZicI09Bez1avcCYUTCA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1d6de0bad71f4f41927965001d34373c?Signature=IxMhGxVkp53NYCibHDauvqD95DSKyqx4aP3afqxLCEWGZrFI%2Fl1I7ZTMcffq8ScTc2y9IdsdOtKOCuQnGP5jCg%3D%3D&KeyID=a8968c46",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "author": "tender_owner",
@@ -1185,7 +1185,7 @@ X-Content-Type-Options: nosniff
     },
     "items": [
       {
-        "id": "fb692f97b807462b94668d4091b2779b",
+        "id": "aaec8afa6e6a4743b3942b45d02e6457",
         "description": "футляри до державних нагород",
         "additionalClassifications": [
           {
@@ -1219,7 +1219,7 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "eda37d51e2854d93aedc7e1d31e01cea",
+        "id": "84dbeb94478645759b67a2fa88293b0e",
         "description": "футляри до державних нагород",
         "additionalClassifications": [
           {
@@ -1256,7 +1256,7 @@ X-Content-Type-Options: nosniff
     "minimalStep": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
-      "amount": 5
+      "amount": "5"
     },
     "maxAwardsCount": 4,
     "lots": [
@@ -1266,7 +1266,7 @@ X-Content-Type-Options: nosniff
         "description": "Опис Лот №1",
         "date": "2021-03-16T00:00:00+02:00",
         "status": "active",
-        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/37cb590308a242a9836f51a9994c7492_52815e9d01914c7a9bf4ba18ebb5e783",
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/6f00022409bb4e73b5f698801518e0db_52815e9d01914c7a9bf4ba18ebb5e783",
         "auctionPeriod": {
           "startDate": "2021-03-05T00:00:00+02:00",
           "endDate": "2021-03-06T00:00:00+02:00"
@@ -1394,16 +1394,15 @@ X-Content-Type-Options: nosniff
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
-      "amount": 500.0
+      "amount": "5E+2"
     },
     "agreementDuration": "P3Y3M3D",
     "mainProcurementCategory": "goods",
-    "id": "37cb590308a242a9836f51a9994c7492",
     "complaintPeriod": {
       "startDate": "2021-01-23T00:00:00+02:00",
       "endDate": "2021-02-19T00:00:00+02:00"
     },
-    "numberOfBids": 0
+    "id": "6f00022409bb4e73b5f698801518e0db"
   }
 }
 

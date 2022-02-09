@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/bids?acc_token=fbb49b806b484733bc09390b0e01078d HTTP/1.0
+GET /api/2.5/tenders/6f00022409bb4e73b5f698801518e0db/bids?acc_token=a4dab218398a4cc8a8004a91d3ba9744 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -146,11 +146,11 @@ X-Content-Type-Options: nosniff
       ],
       "documents": [
         {
-          "id": "e5d2ba0b59284460a205a7c7f9e09add",
+          "id": "31e362b1e4e84669be8fb843c90ed601",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal.pdf",
           "format": "application/pdf",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/576584a3773a4d2799e4af16de7afaef?Signature=eLr29Kwl9WC3bjpcqLZYIIPp41L4E%2FKcaKZalupTpM0kWURXdbQQr7PXvXZTL8bXB1vYeJ2KPUkp2AnlTPbGDQ%3D%3D&KeyID=a8968c46",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/566a898dcb5e4d6cbac7c19df3f2255d?Signature=uRLkxT9CU4hrZUvYjGFb1R3jqEVUUstlAOBI3Qcw0AYoq21jRnXFMBrr%2B2%2B%2B5Kr1qdf%2B9WSx003edlY64PwqAw%3D%3D&KeyID=a8968c46",
           "datePublished": "2021-03-16T00:00:00+02:00",
           "dateModified": "2021-03-16T00:00:00+02:00",
           "documentOf": "tender",
@@ -158,11 +158,11 @@ X-Content-Type-Options: nosniff
           "language": "uk"
         },
         {
-          "id": "1dec1ea8c0da484a996dabdc76a5173c",
+          "id": "5c0c8fe670df41848d71771bf7710cb7",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_top_secrets.pdf",
           "format": "application/pdf",
-          "url": "/tenders/37cb590308a242a9836f51a9994c7492/bids/b142414a5dc84ec0a828ba7e3d5f3513/documents/1dec1ea8c0da484a996dabdc76a5173c?download=65f052828dd54fb59acfc5e598d928a2",
+          "url": "/tenders/6f00022409bb4e73b5f698801518e0db/bids/b142414a5dc84ec0a828ba7e3d5f3513/documents/5c0c8fe670df41848d71771bf7710cb7?download=a4fc3e46d4b34911bd554c3e3420e9d4",
           "datePublished": "2021-03-16T00:00:00+02:00",
           "dateModified": "2021-03-16T00:00:00+02:00",
           "documentOf": "tender",
@@ -173,11 +173,11 @@ X-Content-Type-Options: nosniff
       ],
       "eligibilityDocuments": [
         {
-          "id": "08fb6807769849b6bffb778344e61be6",
+          "id": "fd4a6cfadb32474b8b6d2c8c045f9e1d",
           "hash": "md5:00000000000000000000000000000000",
           "title": "eligibility_doc.pdf",
           "format": "application/pdf",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a4fc3e46d4b34911bd554c3e3420e9d4?Signature=26yB6ZiVTBL5q9Fb%2BLECZB5PoAYfiO3sZAE13zw0WZakcBgwrhRjoIt6Qf7c9DUYBFH%2BRi0LcGMSeMbqEmZfCA%3D%3D&KeyID=a8968c46",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e0d4f99d68104577927f59cb6d8f7fab?Signature=FhQf0km46Nd8Y7NN95lG1TMVRYB3L%2F6jus6cieljEfKNNzIwPgOWUFNqNzkxsaPHcIc6880dtkOfGNlgG2x0DQ%3D%3D&KeyID=a8968c46",
           "datePublished": "2021-03-16T00:00:00+02:00",
           "dateModified": "2021-03-16T00:00:00+02:00",
           "documentOf": "tender",
@@ -465,7 +465,7 @@ X-Content-Type-Options: nosniff
       ],
       "documents": [
         {
-          "id": "fd4a6cfadb32474b8b6d2c8c045f9e1d",
+          "id": "a4384c91c3e2423f82aee43f19130ac2",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part1.pdf",
           "format": "application/pdf",
@@ -477,11 +477,11 @@ X-Content-Type-Options: nosniff
           "language": "uk"
         },
         {
-          "id": "4474922426e24118a49f17150ce09eb9",
+          "id": "e60c97b6416945de8eafcde527d04901",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part2.pdf",
           "format": "application/pdf",
-          "url": "/tenders/37cb590308a242a9836f51a9994c7492/bids/7b1decebe35a4408b2fa079344de8313/documents/4474922426e24118a49f17150ce09eb9?download=256123ec589044029ec3f8823d26d1a4",
+          "url": "/tenders/6f00022409bb4e73b5f698801518e0db/bids/7b1decebe35a4408b2fa079344de8313/documents/e60c97b6416945de8eafcde527d04901?download=256123ec589044029ec3f8823d26d1a4",
           "datePublished": "2021-03-16T00:00:00+02:00",
           "dateModified": "2021-03-16T00:00:00+02:00",
           "documentOf": "tender",
@@ -492,7 +492,7 @@ X-Content-Type-Options: nosniff
       ],
       "eligibilityDocuments": [
         {
-          "id": "e60c97b6416945de8eafcde527d04901",
+          "id": "b85ae26451e547cda0810ef04c777cf9",
           "hash": "md5:00000000000000000000000000000000",
           "title": "eligibility_doc.pdf",
           "format": "application/pdf",
@@ -646,7 +646,7 @@ X-Content-Type-Options: nosniff
       ],
       "documents": [
         {
-          "id": "b85ae26451e547cda0810ef04c777cf9",
+          "id": "f01b93bdd6d94869810295085a657b49",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part1.pdf",
           "format": "application/pdf",
@@ -658,11 +658,11 @@ X-Content-Type-Options: nosniff
           "language": "uk"
         },
         {
-          "id": "a18e17da85ee43b5bb4a3dc4117715de",
+          "id": "7be151f4800e4be0a81acb90d6ba667a",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part2.pdf",
           "format": "application/pdf",
-          "url": "/tenders/37cb590308a242a9836f51a9994c7492/bids/f2396c5eb7dc40e986705a3de1cdc13b/documents/a18e17da85ee43b5bb4a3dc4117715de?download=256123ec589044029ec3f8823d26d1a4",
+          "url": "/tenders/6f00022409bb4e73b5f698801518e0db/bids/f2396c5eb7dc40e986705a3de1cdc13b/documents/7be151f4800e4be0a81acb90d6ba667a?download=256123ec589044029ec3f8823d26d1a4",
           "datePublished": "2021-03-16T00:00:00+02:00",
           "dateModified": "2021-03-16T00:00:00+02:00",
           "documentOf": "tender",
@@ -673,7 +673,7 @@ X-Content-Type-Options: nosniff
       ],
       "eligibilityDocuments": [
         {
-          "id": "7be151f4800e4be0a81acb90d6ba667a",
+          "id": "f70ee714fd4947ada7cf33eecfc598f5",
           "hash": "md5:00000000000000000000000000000000",
           "title": "eligibility_doc.pdf",
           "format": "application/pdf",

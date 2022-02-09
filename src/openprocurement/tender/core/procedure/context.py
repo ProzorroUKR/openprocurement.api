@@ -16,8 +16,8 @@ def set_request(request):
     thread_context.request = request
 
 
-def get_tender() -> dict:
-    tender = thread_context.request.validated["tender"]
+def get_tender() -> Union[dict, None]:
+    tender = thread_context.request.validated.get("tender")
     return tender
 
 
@@ -32,6 +32,11 @@ def get_document() -> dict:
 
 def get_json_data() -> Union[list, dict]:
     bid = thread_context.request.validated.get("json_data")
+    return bid
+
+
+def get_data() -> Union[list, dict]:
+    bid = thread_context.request.validated.get("data")
     return bid
 
 

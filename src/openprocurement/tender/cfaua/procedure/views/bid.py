@@ -6,7 +6,7 @@ from openprocurement.tender.cfaua.procedure.state.bid import BidState
 from openprocurement.tender.cfaua.procedure.validation import (
     validate_bid_posted_status,
 )
-from openprocurement.tender.cfaua.procedure.serializers import BidSerializer
+from openprocurement.tender.cfaua.procedure.serializers.bid import BidSerializer
 from openprocurement.tender.core.procedure.validation import (
     unless_item_owner,
     unless_administrator,
@@ -68,7 +68,7 @@ class TenderBidResource(TenderBidResource):
             validate_bid_operation_period,
             validate_input_data(PostBid),
             validate_bid_posted_status,
-            validate_data_documents,
+            validate_data_documents(route_key="bid_id", uid_key="id"),
         ),
     )
     def collection_post(self):

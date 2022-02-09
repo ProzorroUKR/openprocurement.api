@@ -86,3 +86,23 @@ def validate_bid_document_operation_in_not_allowed_tender_status(request, **_):
             f"Can't {OPERATIONS.get(request.method)} document "
             f"in current ({tender['status']}) tender status"
         )
+
+
+def unless_selection_bot(*validations):
+    def decorated(request, **_):
+        if request.authenticated_role != "agreement_selection":
+            for validation in validations:
+                validation(request)
+    return decorated
+
+
+def validate_document_operation_in_not_allowed_period(request, **_):
+    tender_status = request.validated["tender"]["status"]
+    if (
+        request.authenticated_role != "auction" and tender_status not in ("draft", "draft.pending", "active.enquiries")
+        or request.authenticated_role == "auction" and tender_status not in ("active.auction", "active.qualification")
+    ):
+        raise_operation_error(
+            request,
+            f"Can't {OPERATIONS.get(request.method)} document in current ({tender_status}) tender status",
+        )

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/8205792550a1414cbb9eeff86db41600/contracts HTTP/1.0
+GET /api/2.5/tenders/b600b544877e456caa86c2037f36c0c4/contracts HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -45,7 +45,7 @@ X-Content-Type-Options: nosniff
       "awardID": "edb662d1a45c45ca91735eb5d895bb29",
       "items": [
         {
-          "id": "14b543e7ea7f41a4ad204ee51ba55efb",
+          "id": "3f0592fa39714309a0917f98ca4182ac",
           "description": "телевізори",
           "additionalClassifications": [
             {
@@ -122,7 +122,7 @@ X-Content-Type-Options: nosniff
       "awardID": "edb662d1a45c45ca91735eb5d895bb29",
       "items": [
         {
-          "id": "02ac9abf9af341c1ae973c6935ca84b2",
+          "id": "b3cc82abb36e4848b6e77f82bc05ac42",
           "description": "портфелі",
           "additionalClassifications": [
             {
@@ -160,7 +160,7 @@ X-Content-Type-Options: nosniff
           }
         },
         {
-          "id": "67d881f921f9446f9bb04c8ec4aed2f2",
+          "id": "198f9335b8b5498eb588ab7c40e2b350",
           "description": "портфелі",
           "additionalClassifications": [
             {

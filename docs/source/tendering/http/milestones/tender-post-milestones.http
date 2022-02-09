@@ -109,50 +109,39 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cc1418f989634e5ebec00becb174f72d
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/03cb080621504b00bd90c89de86ff376
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "title": "футляри до державних нагород",
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "tenderID": "UA-2021-03-16-000001",
-    "owner": "broker",
     "mainProcurementCategory": "goods",
-    "milestones": [
-      {
-        "id": "356c9c8a670647a3b548c10e0b85316b",
-        "title": "signingTheContract",
-        "type": "financing",
-        "code": "prepayment",
-        "percentage": 45.55,
-        "duration": {
-          "days": 5,
-          "type": "banking"
-        },
-        "sequenceNumber": 0
-      },
-      {
-        "id": "a26e16936f294618af8d0531339331d3",
-        "title": "deliveryOfGoods",
-        "type": "financing",
-        "code": "postpayment",
-        "percentage": 54.45,
-        "duration": {
-          "days": 7,
-          "type": "calendar"
-        },
-        "sequenceNumber": 1
-      }
-    ],
+    "title": "футляри до державних нагород",
+    "status": "draft",
+    "submissionMethod": "electronicAuction",
     "procurementMethod": "open",
     "awardCriteria": "lowestCost",
-    "submissionMethod": "electronicAuction",
-    "status": "draft",
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "minimalStep": {
+      "amount": 15.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "tenderPeriod": {
+      "startDate": "2021-03-23T00:00:00+02:00",
+      "endDate": "2021-03-30T00:00:00+02:00"
+    },
     "items": [
       {
-        "id": "60ffd7cbd43d4b8b93e58e914f4e5b19",
+        "id": "b1a343fb2d564e7289008ce7f4b3d304",
         "description": "футляри до державних нагород",
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -160,6 +149,15 @@ X-Content-Type-Options: nosniff
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
         "quantity": 5.0,
         "deliveryDate": {
           "startDate": "2021-03-18T00:00:00+02:00",
@@ -171,36 +169,36 @@ X-Content-Type-Options: nosniff
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
-        "unit": {
-          "name": "кг",
-          "code": "KGM",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          }
         }
       }
     ],
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "enquiryPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-03-23T00:00:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2021-03-23T00:00:00+02:00",
-      "endDate": "2021-03-30T00:00:00+02:00"
-    },
+    "milestones": [
+      {
+        "id": "d1ea9c0b4e1147bd92e26af014173eb0",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 5,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      },
+      {
+        "id": "40f2f09425d94dd0a15da3ce7b26011f",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 7,
+          "type": "calendar"
+        },
+        "sequenceNumber": 1
+      }
+    ],
+    "procurementMethodType": "belowThreshold",
     "procuringEntity": {
       "name": "Державне управління справами",
       "identifier": {
@@ -217,22 +215,24 @@ X-Content-Type-Options: nosniff
         "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Державне управління справами",
-        "telephone": "+0440000000"
+        "telephone": "+0440000000",
+        "name": "Державне управління справами"
       },
       "kind": "general"
     },
-    "minimalStep": {
-      "amount": 15.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
+    "enquiryPeriod": {
+      "endDate": "2021-03-23T00:00:00+02:00",
+      "startDate": "2021-03-16T00:00:00+02:00"
     },
-    "procurementMethodType": "belowThreshold",
-    "id": "cc1418f989634e5ebec00becb174f72d"
+    "tenderID": "UA-2021-03-16-000001",
+    "owner": "broker",
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "id": "03cb080621504b00bd90c89de86ff376"
   },
   "access": {
-    "token": "e52663fc65a840e998dfd864e35d273c",
-    "transfer": "ba09e5edede8459f92b1fd1cb76bd246"
+    "token": "d1ca6b79e87d4d3a9df981a5e814315e",
+    "transfer": "c2d07a7b46c5489bbb24dce1e913db4c"
   }
 }
 

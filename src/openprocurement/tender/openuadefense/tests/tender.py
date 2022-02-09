@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_lots
@@ -52,6 +51,7 @@ class TenderUATest(TenderTestMixin, BaseApiWebTest):
 
 
 class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin):
+    docservice = True
     initial_data = test_tender_data
     test_lots_data = test_lots
 
@@ -74,6 +74,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin):
 
 
 class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):
+    docservice = True
     initial_data = test_tender_data
     test_bids_data = test_bids
 
@@ -92,8 +93,14 @@ class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):
         authorization = self.app.authorization
         self.app.authorization = ("Basic", ("bot", "bot"))
 
-        response = self.app.post(
-            "/tenders/{}/documents".format(tender["id"]), upload_files=[("file", "name.doc", b"content")]
+        response = self.app.post_json(
+            "/tenders/{}/documents".format(tender["id"]),
+            {"data": {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }}
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")

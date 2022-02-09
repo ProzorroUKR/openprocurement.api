@@ -302,7 +302,8 @@ def status_jumping(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update tender status")
+    self.assertEqual(response.json["errors"][0]["description"],
+                     "Can't update tender at 'active.pre-qualification' status")
 
 
 def create_bid_without_parameters(self):
@@ -323,9 +324,10 @@ def create_bid_without_parameters(self):
     response = self.app.get("/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token))
     item = response.json["data"]["items"][0]
     # Set relatedLot for item
+    item["relatedLot"] = lot["id"]
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": [{"relatedLot": lot["id"]}]}},
+        {"data": {"items": [item]}},
     )
     self.assertEqual(response.status, "200 OK")
     # Add features
@@ -1974,7 +1976,6 @@ def bids_view_j1446(self):
     self.assertEqual(response.json["data"]["status"], "active.stage2.pending")
     # check bids are available
     response = self.app.get("/tenders/{}".format(tender_id))
-    self.assertIn("numberOfBids", response.json["data"])
     self.assertIn("bids", response.json["data"])
 
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1982,7 +1983,6 @@ def bids_view_j1446(self):
         "/tenders/{}?acc_token={}".format(tender_id, tender_owner_token), {"data": {"status": "active.stage2.waiting"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertIn("numberOfBids", response.json["data"])
     self.assertIn("bids", response.json["data"])
     # private info is hidden
     self.assertNotIn("owner", response.json["data"]["bids"][0])
@@ -2005,4 +2005,3 @@ def patch_tender_with_bids_lots_none(self):
     self.assertEqual(response.content_type, "application/json")
     errors = {error["name"]: error["description"] for error in response.json["errors"]}
     self.assertEqual(errors["lots"][0], ["This field is required."])
-    self.assertEqual(errors["items"][0], {"relatedLot": ["relatedLot should be one of lots"]})

@@ -73,6 +73,7 @@ from openprocurement.tender.core.utils import (
 from openprocurement.tender.core.validation import (
     validate_lotvalue_value,
     validate_relatedlot,
+    validate_tender_period_duration,
 )
 from openprocurement.tender.core.constants import (
     AWARD_CRITERIA_LOWEST_COST,
@@ -91,7 +92,6 @@ from openprocurement.tender.openua.constants import (
     PERIOD_END_REQUIRED_FROM,
 )
 from openprocurement.tender.openua.validation import (
-    _validate_tender_period_duration,
     _validate_tender_period_start_date,
 )
 
@@ -807,7 +807,7 @@ class Tender(BaseTender):
         if period:
             if is_new_created(data):
                 _validate_tender_period_start_date(data, period)
-            _validate_tender_period_duration(data, period, TENDERING_DURATION)
+            validate_tender_period_duration(data, period, TENDERING_DURATION)
 
     def validate_targets(self, data, value):
         if get_first_revision_date(data, default=get_now()) > RELEASE_METRICS_FROM:

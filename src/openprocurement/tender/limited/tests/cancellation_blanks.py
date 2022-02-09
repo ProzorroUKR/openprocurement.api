@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from mock import patch
 from datetime import timedelta
-
+from copy import deepcopy
 from openprocurement.tender.core.utils import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.tests.cancellation import (
@@ -364,9 +364,14 @@ def cancelled_lot_without_relatedLot(self):
 
 def delete_first_lot_second_cancel(self):
     """ One lot we delete another cancel and check tender status """
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+    items = deepcopy(tender["items"])
+    items[0]["relatedLot"] = self.initial_lots[1]["id"]
+
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": [{"relatedLot": self.initial_lots[1]["id"]}]}},
+        {"data": {"items": items}},
     )
 
     response = self.app.delete(

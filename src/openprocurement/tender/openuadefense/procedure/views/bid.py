@@ -6,7 +6,7 @@ from openprocurement.tender.core.procedure.validation import (
 from openprocurement.tender.openua.procedure.views.bid import TenderBidResource
 from openprocurement.tender.core.procedure.models.bid import filter_administrator_bid_update
 from openprocurement.tender.openuadefense.procedure.models.bid import PostBid, PatchBid, Bid
-from openprocurement.tender.openua.procedure.serializers import BidSerializer
+from openprocurement.tender.core.procedure.serializers.bid import BidSerializer
 from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.validation import (
     unless_administrator,
@@ -42,7 +42,7 @@ class TenderBidResource(TenderBidResource):
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,
             validate_input_data(PostBid),
-            validate_data_documents,
+            validate_data_documents(route_key="bid_id", uid_key="id"),
         ),
     )
     def collection_post(self):

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/d59e1783dc5149518a3c20a016d652c6?acc_token=08f1e8ef6e2a42278777917b90121d0d HTTP/1.0
+GET /api/2.5/tenders/f0e38a03b8d54356ae7ac183c03ef91d?acc_token=246ec66b60c4448880a5156363cb2000 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -26,7 +26,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "c59dad417eb54ba3a23e2a223f11673a",
+        "id": "98c1076599d947058d27717e01c28fee",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -650,67 +650,11 @@ X-Content-Type-Options: nosniff
       },
       "kind": "general"
     },
-    "qualifications": [
-      {
-        "id": "18fb47c42742485db315de8298d24caa",
-        "bidID": "1364aaf7ec90441692c76ccb24a623f8",
-        "lotID": "150e2750fa2942ce9315e80ddf78a62a",
-        "status": "pending",
-        "date": "2021-03-16T00:00:00+02:00",
-        "qualified": false,
-        "eligible": false
-      },
-      {
-        "id": "bb4daf99179d4c6c86616e379f9726d9",
-        "bidID": "5d17e351e54f4949ac1c1cee9cece058",
-        "lotID": "150e2750fa2942ce9315e80ddf78a62a",
-        "status": "pending",
-        "date": "2021-03-16T00:00:00+02:00",
-        "qualified": false,
-        "eligible": false
-      },
-      {
-        "id": "537d5c5f318e4f16bd4583ae3d0828ac",
-        "bidID": "efd32c624d1c490a9d4e31ec0301cfa8",
-        "lotID": "150e2750fa2942ce9315e80ddf78a62a",
-        "status": "pending",
-        "date": "2021-03-16T00:00:00+02:00",
-        "qualified": false,
-        "eligible": false
-      }
-    ],
-    "qualificationPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00"
-    },
     "awardCriteria": "lowestCost",
     "procurementMethodType": "competitiveDialogueEU",
     "status": "active.pre-qualification",
     "bids": [
       {
-        "tenderers": [
-          {
-            "name": "ДКП «Школяр»",
-            "identifier": {
-              "scheme": "UA-EDR",
-              "id": "00137256",
-              "uri": "http://www.sc.gov.ua/"
-            },
-            "address": {
-              "streetAddress": "вул. Островського, 33",
-              "locality": "м. Вінниця",
-              "region": "Вінницька область",
-              "postalCode": "21100",
-              "countryName": "Україна"
-            },
-            "contactPoint": {
-              "name": "Сергій Олексюк",
-              "email": "soleksuk@gmail.com",
-              "telephone": "+380432216930"
-            },
-            "scale": "micro"
-          }
-        ],
-        "id": "1364aaf7ec90441692c76ccb24a623f8",
         "requirementResponses": [
           {
             "id": "d8cde36c35bc4fcf90d2fccbefb786ee",
@@ -823,33 +767,33 @@ X-Content-Type-Options: nosniff
             "value": "True"
           }
         ],
-        "status": "pending"
-      },
-      {
+        "id": "1364aaf7ec90441692c76ccb24a623f8",
         "tenderers": [
           {
-            "name": "ДКП «Книга»",
+            "name": "ДКП «Школяр»",
             "identifier": {
               "scheme": "UA-EDR",
-              "id": "00137226",
+              "id": "00137256",
               "uri": "http://www.sc.gov.ua/"
             },
             "address": {
-              "streetAddress": "вул. Островського, 34",
-              "locality": "м. Львів",
-              "region": "Львівська область",
-              "postalCode": "79013",
+              "streetAddress": "вул. Островського, 33",
+              "locality": "м. Вінниця",
+              "region": "Вінницька область",
+              "postalCode": "21100",
               "countryName": "Україна"
             },
             "contactPoint": {
-              "name": "Андрій Олексюк",
-              "email": "aagt@gmail.com",
-              "telephone": "+380322916930"
+              "email": "soleksuk@gmail.com",
+              "telephone": "+380432216930",
+              "name": "Сергій Олексюк"
             },
-            "scale": "sme"
+            "scale": "micro"
           }
         ],
-        "id": "5d17e351e54f4949ac1c1cee9cece058",
+        "status": "pending"
+      },
+      {
         "requirementResponses": [
           {
             "id": "fb162f1dae3d4153afca08e73a016978",
@@ -962,33 +906,33 @@ X-Content-Type-Options: nosniff
             "value": "True"
           }
         ],
-        "status": "pending"
-      },
-      {
+        "id": "5d17e351e54f4949ac1c1cee9cece058",
         "tenderers": [
           {
-            "name": "«Снігур»",
+            "name": "ДКП «Книга»",
             "identifier": {
               "scheme": "UA-EDR",
-              "id": "00137227",
+              "id": "00137226",
               "uri": "http://www.sc.gov.ua/"
             },
             "address": {
-              "streetAddress": "вул. Островського, 35",
+              "streetAddress": "вул. Островського, 34",
               "locality": "м. Львів",
               "region": "Львівська область",
               "postalCode": "79013",
               "countryName": "Україна"
             },
             "contactPoint": {
-              "name": "Іван Іваненко",
-              "email": "fake@mail.com",
-              "telephone": "+380322123456"
+              "email": "aagt@gmail.com",
+              "telephone": "+380322916930",
+              "name": "Андрій Олексюк"
             },
-            "scale": "mid"
+            "scale": "sme"
           }
         ],
-        "id": "efd32c624d1c490a9d4e31ec0301cfa8",
+        "status": "pending"
+      },
+      {
         "requirementResponses": [
           {
             "id": "26b90b9029a449cb9ec5af9e20d10b86",
@@ -1101,6 +1045,30 @@ X-Content-Type-Options: nosniff
             "value": "True"
           }
         ],
+        "id": "efd32c624d1c490a9d4e31ec0301cfa8",
+        "tenderers": [
+          {
+            "name": "«Снігур»",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137227",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Островського, 35",
+              "locality": "м. Львів",
+              "region": "Львівська область",
+              "postalCode": "79013",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "email": "fake@mail.com",
+              "telephone": "+380322123456",
+              "name": "Іван Іваненко"
+            },
+            "scale": "mid"
+          }
+        ],
         "status": "pending"
       }
     ],
@@ -1142,7 +1110,7 @@ X-Content-Type-Options: nosniff
     ],
     "items": [
       {
-        "id": "703253b41d51418297317c843aeb1296",
+        "id": "f57b130047564f2d98e31cb511b74bc3",
         "description": "Послуги шкільних їдалень",
         "additionalClassifications": [
           {
@@ -1176,7 +1144,7 @@ X-Content-Type-Options: nosniff
         "description_en": "Services in school canteens"
       },
       {
-        "id": "5896ec7b8cfb474b9e59135157f705e9",
+        "id": "6da734c6b3d54f02b2214564d4374f0a",
         "description": "Послуги шкільних їдалень",
         "additionalClassifications": [
           {
@@ -1211,12 +1179,43 @@ X-Content-Type-Options: nosniff
       }
     ],
     "mainProcurementCategory": "services",
-    "id": "d59e1783dc5149518a3c20a016d652c6",
-    "numberOfBids": 3,
     "complaintPeriod": {
-      "startDate": "2021-02-13T00:00:00+02:00",
-      "endDate": "2021-03-12T00:00:00+02:00"
-    }
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-04-12T00:00:00+02:00"
+    },
+    "qualificationPeriod": {
+      "startDate": "2021-03-16T00:00:00+02:00"
+    },
+    "qualifications": [
+      {
+        "id": "18fb47c42742485db315de8298d24caa",
+        "bidID": "1364aaf7ec90441692c76ccb24a623f8",
+        "lotID": "150e2750fa2942ce9315e80ddf78a62a",
+        "status": "pending",
+        "date": "2021-03-16T00:00:00+02:00",
+        "qualified": false,
+        "eligible": false
+      },
+      {
+        "id": "bb4daf99179d4c6c86616e379f9726d9",
+        "bidID": "5d17e351e54f4949ac1c1cee9cece058",
+        "lotID": "150e2750fa2942ce9315e80ddf78a62a",
+        "status": "pending",
+        "date": "2021-03-16T00:00:00+02:00",
+        "qualified": false,
+        "eligible": false
+      },
+      {
+        "id": "537d5c5f318e4f16bd4583ae3d0828ac",
+        "bidID": "efd32c624d1c490a9d4e31ec0301cfa8",
+        "lotID": "150e2750fa2942ce9315e80ddf78a62a",
+        "status": "pending",
+        "date": "2021-03-16T00:00:00+02:00",
+        "qualified": false,
+        "eligible": false
+      }
+    ],
+    "id": "f0e38a03b8d54356ae7ac183c03ef91d"
   }
 }
 

@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 4060
+Content-Length: 4040
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -42,10 +42,9 @@ DATA:
         "quantity": 1
       }
     ],
-    "owner": "broker",
     "procurementMethod": "limited",
     "procurementMethodType": "negotiation",
-    "status": "active",
+    "status": "draft",
     "procuringEntity": {
       "kind": "special",
       "address": {
@@ -112,51 +111,17 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/378a1443b2704a2e9f13816acfe5898f
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/16238a7e94e64b3a8b53106493d5d424
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "title": "Послуги шкільних їдалень",
+    "mainProcurementCategory": "services",
     "title_en": "Services in school canteens",
     "title_ru": "Услуги школьных столовых",
     "description_en": "Services in school canteens",
     "description_ru": "Услуги школьных столовых",
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "tenderID": "UA-2021-03-16-000001",
-    "owner": "broker",
-    "mainProcurementCategory": "services",
-    "milestones": [
-      {
-        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "title": "signingTheContract",
-        "type": "financing",
-        "code": "prepayment",
-        "percentage": 45.55,
-        "duration": {
-          "days": 2,
-          "type": "banking"
-        },
-        "sequenceNumber": 0
-      },
-      {
-        "id": "23ee031df29e47a982899e183ba3edcd",
-        "title": "deliveryOfGoods",
-        "type": "financing",
-        "code": "postpayment",
-        "percentage": 54.45,
-        "duration": {
-          "days": 900,
-          "type": "calendar"
-        },
-        "sequenceNumber": 0
-      }
-    ],
-    "value": {
-      "amount": 500000.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": false
-    },
+    "title": "Послуги шкільних їдалень",
+    "procurementMethodType": "negotiation",
     "procurementMethod": "limited",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -173,17 +138,27 @@ X-Content-Type-Options: nosniff
         "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
         "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/"
+        "url": "http://sch10.edu.vn.ua/",
+        "name": "Куца Світлана Валентинівна"
       },
       "kind": "special"
     },
     "status": "draft",
+    "value": {
+      "amount": 500000.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false
+    },
     "items": [
       {
-        "id": "29b83bc8742844269e773cdec2f4531f",
+        "id": "e95b4fd27c5d41a0b251c7acf79ca0f0",
         "description": "Послуги шкільних їдалень",
+        "classification": {
+          "description": "Послуги з харчування у школах",
+          "scheme": "ДК021",
+          "id": "55523100-3"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -191,21 +166,16 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "quantity": 1.0,
-        "classification": {
-          "description": "Послуги з харчування у школах",
-          "scheme": "ДК021",
-          "id": "55523100-3"
-        },
         "unit": {
           "name": "папір",
-          "code": "KGM",
           "value": {
             "amount": 10.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": false
-          }
+          },
+          "code": "KGM"
         },
+        "quantity": 1.0,
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
           "endDate": "2021-05-05T00:00:00+02:00"
@@ -223,12 +193,41 @@ X-Content-Type-Options: nosniff
     "causeDescription": "оригінальний тендер не вдався двічі",
     "causeDescription_en": "original tender has failed twice",
     "causeDescription_ru": "оригинальный тендер не получился дважды",
-    "procurementMethodType": "negotiation",
-    "id": "378a1443b2704a2e9f13816acfe5898f"
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      },
+      {
+        "id": "ffe9f382a2224f5dbfc9a5da1c3c452b",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 0
+      }
+    ],
+    "tenderID": "UA-2021-03-16-000001",
+    "owner": "broker",
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "id": "16238a7e94e64b3a8b53106493d5d424"
   },
   "access": {
-    "token": "31c9e71e63b64c82b49271b02ebc3c7b",
-    "transfer": "e9e9d200dfdd4fe8b1db5edca3dc6371"
+    "token": "9147c49d3e8844889bffab7629a63b5b",
+    "transfer": "fcbd019ec8ea405da85dff7c2898bced"
   }
 }
 

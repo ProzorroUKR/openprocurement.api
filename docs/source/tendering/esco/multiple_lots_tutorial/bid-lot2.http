@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/3999e118d0d4460a8852c363407a5252/bids HTTP/1.0
+POST /api/2.5/tenders/4f76860c8cb34f99bc14e0def3bcbc5a/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1520
 Content-Type: application/json
@@ -103,7 +103,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3999e118d0d4460a8852c363407a5252/bids/2ab7fecbd7c846c9a4c507a13f01efd8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4f76860c8cb34f99bc14e0def3bcbc5a/bids/2ab7fecbd7c846c9a4c507a13f01efd8
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -111,9 +111,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "ДКП «Книга»",
         "identifier": {
-          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137226"
+          "id": "00137226",
+          "uri": "http://www.sc.gov.ua/"
         },
         "address": {
           "streetAddress": "вул. Островського, 34",

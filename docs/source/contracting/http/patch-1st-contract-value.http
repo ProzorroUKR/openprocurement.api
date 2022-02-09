@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/27449ba567ee4755b723fd5d2248425f/contracts/e4738aed3ffb4fb987bfb759fc0ee71b?acc_token=09fb3db5c4b0423685f58a6cf7176e7b HTTP/1.0
+PATCH /api/2.5/tenders/cf875be3275f4169b40f01afcf7b0d72/contracts/e4738aed3ffb4fb987bfb759fc0ee71b?acc_token=277ac79c7489473da2556f332958298b HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 53
 Content-Type: application/json
@@ -55,7 +55,7 @@ X-Content-Type-Options: nosniff
     "awardID": "42bede1bbad64dabbd9f67ce4a5b2ba9",
     "items": [
       {
-        "id": "dccbebb04f7945a5a9913d5017709e45",
+        "id": "c79eac0a227f44aea56ba55c2e373b53",
         "description": "телевізори",
         "additionalClassifications": [
           {

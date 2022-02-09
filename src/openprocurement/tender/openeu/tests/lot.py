@@ -2,7 +2,7 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
+from copy import deepcopy
 from openprocurement.tender.belowthreshold.tests.lot import (
     TenderLotResourceTestMixin,
     TenderLotValueTestMixin,
@@ -58,7 +58,7 @@ class TenderLotEdgeCasesTestMixin(object):
 
 
 class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin, TenderLotValueTestMixin):
-
+    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     test_lots_data = test_lots  # TODO: change attribute identifier
     initial_data = test_tender_data
@@ -70,6 +70,7 @@ class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin
 
 
 class TenderLotEdgeCasesTest(BaseTenderContentWebTest, TenderLotEdgeCasesTestMixin):
+    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_lots = test_lots * 2
     initial_bids = test_bids
@@ -77,6 +78,7 @@ class TenderLotEdgeCasesTest(BaseTenderContentWebTest, TenderLotEdgeCasesTestMix
 
 
 class TenderLotFeatureResourceTest(BaseTenderContentWebTest, TenderLotFeatureResourceTestMixin):
+    docservice = True
     initial_lots = 2 * test_lots
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_data
@@ -86,6 +88,7 @@ class TenderLotFeatureResourceTest(BaseTenderContentWebTest, TenderLotFeatureRes
 
 
 class TenderLotBidderResourceTest(BaseTenderContentWebTest):
+    docservice = True
     initial_lots = test_lots
     initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_bids  # TODO: change attribute identifier
@@ -95,6 +98,7 @@ class TenderLotBidderResourceTest(BaseTenderContentWebTest):
 
 
 class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
+    docservice = True
     initial_lots = test_lots
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_data
@@ -103,11 +107,13 @@ class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
     def setUp(self):
         super(TenderLotFeatureBidderResourceTest, self).setUp()
         self.lot_id = self.initial_lots[0]["id"]
+        items = deepcopy(self.initial_data["items"])
+        items[0].update({"relatedLot": self.lot_id, "id": "1"})
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
             {
                 "data": {
-                    "items": [{"relatedLot": self.lot_id, "id": "1"}],
+                    "items": items,
                     "features": [
                         {
                             "code": "code_item",
@@ -142,6 +148,7 @@ class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
 
 
 class TenderLotProcessTest(BaseTenderContentWebTest, TenderLotProcessTestMixin):
+    docservice = True
     setUp = BaseTenderContentWebTest.setUp
     test_lots_data = test_lots  # TODO: change attribute identifier
     initial_data = test_tender_data

@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+from copy import deepcopy
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.models import get_now
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
@@ -96,9 +96,14 @@ def create_tender_lot_invalid(self):
         ],
     )
 
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+    items = deepcopy(tender["items"])
+    items[0]["relatedLot"] = "0" * 32
+
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": [{"relatedLot": "0" * 32}]}},
+        {"data": {"items": items}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -292,8 +297,13 @@ def patch_tender_currency(self):
     self.assertEqual(lot["value"]["currency"], "UAH")
 
     # update tender currency
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"value": {"currency": "GBP"}}}
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {
+            "value": {"currency": "GBP", "amount": tender["value"]["amount"]}
+        }}
     )
 
     self.assertEqual(response.status, "200 OK")
@@ -332,10 +342,13 @@ def patch_tender_currency(self):
 
 
 def patch_tender_vat(self):
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+
     # set tender VAT
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"value": {"valueAddedTaxIncluded": True}}},
+        {"data": {"value": {"valueAddedTaxIncluded": True, "amount": tender["value"]["amount"]}}},
     )
 
     self.assertEqual(response.status, "200 OK")
@@ -353,7 +366,7 @@ def patch_tender_vat(self):
     # update tender VAT
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"value": {"valueAddedTaxIncluded": False}}},
+        {"data": {"value": {"valueAddedTaxIncluded": False, "amount": tender["value"]["amount"]}}},
     )
 
     self.assertEqual(response.status, "200 OK")
@@ -428,9 +441,13 @@ def delete_unsuccessful_tender_lot(self):
     self.assertEqual(response.content_type, "application/json")
     lot = response.json["data"]
 
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+    items = deepcopy(tender["items"])
+    items[0]["relatedLot"] = lot["id"]
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": [{"relatedLot": lot["id"]}]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -502,9 +519,13 @@ def delete_tender_lot(self):
     self.assertEqual(response.content_type, "application/json")
     lot = response.json["data"]
 
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+    items = deepcopy(tender["items"])
+    items[0]["relatedLot"] = lot["id"]
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": [{"relatedLot": lot["id"]}]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -525,9 +546,13 @@ def delete_tender_lot(self):
         ],
     )
 
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+    items = deepcopy(tender["items"])
+    items[0]["relatedLot"] = None
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": [{"relatedLot": None}]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -581,9 +606,13 @@ def delete_complete_tender_lot(self):
     self.assertEqual(response.content_type, "application/json")
     lot = response.json["data"]
 
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+    items = deepcopy(tender["items"])
+    items[0]["relatedLot"] = lot["id"]
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": [{"relatedLot": lot["id"]}]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -626,9 +655,13 @@ def cancel_lot_after_sing_contract(self):
     lot = response.json["data"]
 
     #  Update item with relatedLot field
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+    items = deepcopy(tender["items"])
+    items[0]["relatedLot"] = lot["id"]
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": [{"relatedLot": lot["id"]}]}},
+        {"data": {"items": items}},
     )
     # Create award
     response = self.app.post_json(
@@ -705,9 +738,14 @@ def cancel_lot_with_complaint(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     lot = response.json["data"]
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+    items = deepcopy(tender["items"])
+    items[0]["relatedLot"] = lot["id"]
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": [{"relatedLot": lot["id"]}]}},
+        {"data": {"items": items}},
     )
 
     # Create award
@@ -817,17 +855,26 @@ def last_lot_complete(self):
     )
     self.assertEqual(response.status, "201 Created")
     third_lot = response.json["data"]
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+    items = deepcopy(tender["items"])
+    items[0]["relatedLot"] = first_lot["id"]
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": [{"relatedLot": first_lot["id"]}]}},
+        {"data": {"items": items}},
     )
+
+    items[0]["relatedLot"] = second_lot["id"]
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": [{"relatedLot": second_lot["id"]}]}},
+        {"data": {"items": items}},
     )
+
+    items[0]["relatedLot"] = third_lot["id"]
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": [{"relatedLot": third_lot["id"]}]}},
+        {"data": {"items": items}},
     )
 
     # Cancel 1 lot
@@ -936,13 +983,21 @@ def all_cancelled_lots(self):
     )
     self.assertEqual(response.status, "201 Created")
     second_lot = response.json["data"]
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+    items = deepcopy(tender["items"])
+    items[0]["relatedLot"] = first_lot["id"]
+
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": [{"relatedLot": first_lot["id"]}]}},
+        {"data": {"items": items}},
     )
+
+    items[0]["relatedLot"] = second_lot["id"]
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": [{"relatedLot": second_lot["id"]}]}},
+        {"data": {"items": items}},
     )
 
     # Cancel lots

@@ -1,7 +1,7 @@
 from openprocurement.api.models import IsoDateTimeType, ValidationError
 from openprocurement.tender.core.procedure.models.milestone import QualificationMilestoneListMixin
 from openprocurement.tender.core.procedure.context import get_tender
-from schematics.types import StringType, MD5Type
+from schematics.types import StringType, MD5Type, BooleanType
 from uuid import uuid4
 
 
@@ -17,6 +17,8 @@ class Qualification(QualificationMilestoneListMixin):
     lotID = MD5Type()
     status = StringType(choices=["pending", "active", "unsuccessful", "cancelled"], default="pending")
     date = IsoDateTimeType()
+    qualified = BooleanType(default=False)
+    eligible = BooleanType(default=False)
 
     def validate_lotID(self, data, value):
         lots = get_tender().get("lots")

@@ -6,10 +6,8 @@ from schematics.types.compound import ModelType
 from zope.interface import implementer
 from schematics.types.serializable import serializable
 from openprocurement.api.constants import TZ, CPV_ITEMS_CLASS_FROM
-from barbecue import vnmax
 from schematics.exceptions import ValidationError
 from decimal import Decimal
-
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.models import Period, ListType, SifterListType, IsoDurationType
 from openprocurement.api.utils import get_now, is_new_created, get_first_revision_date
@@ -41,7 +39,7 @@ from openprocurement.tender.core.models import (
     validate_features_uniq, default_status, Question, Tender, EUDocument,
     validate_item_related_buyers,
 )
-from openprocurement.tender.core.validation import validate_minimalstep
+from openprocurement.tender.core.validation import validate_minimalstep, validate_tender_period_duration
 from openprocurement.tender.openua.constants import COMPLAINT_SUBMIT_TIME
 from openprocurement.tender.core.utils import (
     check_auction_period,
@@ -58,7 +56,6 @@ from openprocurement.tender.core.utils import (
 from openprocurement.tender.cfaua.constants import TENDERING_DURATION
 from openprocurement.tender.openua.validation import (
     _validate_tender_period_start_date,
-    _validate_tender_period_duration,
 )
 
 
@@ -471,4 +468,4 @@ class CloseFrameworkAgreementUA(Tender):
         if period:
             if is_new_created(data):
                 _validate_tender_period_start_date(data, period)
-            _validate_tender_period_duration(data, period, TENDERING_DURATION)
+            validate_tender_period_duration(data, period, TENDERING_DURATION)

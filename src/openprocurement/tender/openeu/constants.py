@@ -8,3 +8,5 @@ QUESTIONS_STAND_STILL = timedelta(days=10)
 PREQUALIFICATION_COMPLAINT_STAND_STILL = timedelta(days=5)
 COMPLAINT_STAND_STILL = timedelta(days=10)
 BID_UNSUCCESSFUL_FROM = datetime(2016, 10, 18, tzinfo=TZ)
+ABOVE_THRESHOLD_EU = "aboveThresholdEU"
+EU_KINDS = ("authority", "central", "defense", "general", "social", "special")

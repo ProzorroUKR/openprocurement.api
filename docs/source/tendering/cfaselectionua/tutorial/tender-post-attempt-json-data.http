@@ -92,22 +92,59 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/86632d7f051f455881abee60f4fef31d
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3428b15d425f4131b4c7ade02386b63f
 X-Content-Type-Options: nosniff
 {
   "data": {
     "title": "футляри до державних нагород",
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "tenderID": "UA-2021-03-16-000001",
-    "owner": "broker",
-    "awardCriteria": "lowestCost",
+    "procurementMethodType": "closeFrameworkAgreementSelectionUA",
     "submissionMethod": "electronicAuction",
+    "awardCriteria": "lowestCost",
+    "procurementMethod": "selective",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "telephone": "+0440000000",
+        "name": "Державне управління справами",
+        "availableLanguage": "en"
+      },
+      "additionalContactPoints": [
+        {
+          "telephone": "+0440000000",
+          "name": "Державне управління справами 1",
+          "availableLanguage": "uk"
+        }
+      ],
+      "kind": "general"
+    },
+    "status": "draft",
+    "agreements": [
+      {
+        "id": "b29bf3b2d53a43bb9103fbab098eb983"
+      }
+    ],
     "items": [
       {
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
         "description": "футляри до державних нагород",
         "description_en": "futliary do derzhavnyh nagorod",
+        "classification": {
+          "description": "New Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -136,64 +173,27 @@ X-Content-Type-Options: nosniff
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
-        "classification": {
-          "description": "New Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        }
+        "relatedLot": "f2599a519a45416db792d9ee833a8e5a"
       }
     ],
-    "procuringEntity": {
-      "name": "Державне управління справами",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "00037256",
-        "uri": "http://www.dus.gov.ua/"
-      },
-      "address": {
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Державне управління справами",
-        "telephone": "+0440000000",
-        "availableLanguage": "en"
-      },
-      "kind": "general",
-      "additionalContactPoints": [
-        {
-          "name": "Державне управління справами 1",
-          "telephone": "+0440000000",
-          "availableLanguage": "uk"
-        }
-      ]
-    },
     "lots": [
       {
-        "id": "f2599a519a45416db792d9ee833a8e5a",
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "date": "2021-03-16T00:00:00+02:00",
-        "status": "active"
+        "id": "f2599a519a45416db792d9ee833a8e5a",
+        "status": "active",
+        "date": "2021-03-16T00:00:00+02:00"
       }
     ],
-    "status": "draft",
-    "agreements": [
-      {
-        "id": "b29bf3b2d53a43bb9103fbab098eb983"
-      }
-    ],
-    "procurementMethod": "selective",
-    "procurementMethodType": "closeFrameworkAgreementSelectionUA",
-    "id": "86632d7f051f455881abee60f4fef31d"
+    "tenderID": "UA-2021-03-16-000001",
+    "owner": "broker",
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "id": "3428b15d425f4131b4c7ade02386b63f"
   },
   "access": {
-    "token": "5f55703c993f40bd917c8a5d407a7529",
-    "transfer": "07da50b4679a4f509514d80ed154cc06"
+    "token": "e464c0419b9c46a9b59da4a21fd2dbd4",
+    "transfer": "2eab366df87c4b4783093298ff060460"
   }
 }
 

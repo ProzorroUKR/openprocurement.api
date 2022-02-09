@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/contracts HTTP/1.0
+GET /api/2.5/tenders/055dc73de1b14564a3409fbcd31c287f/contracts HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -43,7 +43,7 @@ X-Content-Type-Options: nosniff
       "awardID": "2457dbf1f0fa43daaf6148695865ce39",
       "items": [
         {
-          "id": "61a6737049384b08876fb0407eda182f",
+          "id": "154f6580f26f44dea680eaf67b309152",
           "description": "Комп’ютерне обладнання",
           "classification": {
             "description": "Комп’ютерне обладнанн",

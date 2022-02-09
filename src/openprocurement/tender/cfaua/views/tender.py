@@ -28,13 +28,13 @@ from openprocurement.tender.cfaua.constants import (
 )
 
 
-@optendersresource(
-    name="closeFrameworkAgreementUA:Tender",
-    path="/tenders/{tender_id}",
-    procurementMethodType="closeFrameworkAgreementUA",
-    description="Open Contracting compatible data exchange format. "
-    "See http://ocds.open-contracting.org/standard/r/master/#tender for more info",
-)
+# @optendersresource(
+#     name="closeFrameworkAgreementUA:Tender",
+#     path="/tenders/{tender_id}",
+#     procurementMethodType="closeFrameworkAgreementUA",
+#     description="Open Contracting compatible data exchange format. "
+#     "See http://ocds.open-contracting.org/standard/r/master/#tender for more info",
+# )
 class TenderEUResource(TenderResource):
     """ Resource handler for TenderEU """
 

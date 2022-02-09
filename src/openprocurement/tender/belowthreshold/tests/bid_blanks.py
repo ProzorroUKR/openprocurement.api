@@ -515,7 +515,7 @@ def create_tender_bid_no_scale_invalid(self):
     )
 
 
-@mock.patch("openprocurement.tender.core.procedure.models.base.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
+@mock.patch("openprocurement.tender.core.procedure.models.organization.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
 def create_tender_bid_with_scale_not_required(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
     bid_data = {"data": {"value": {"amount": 500}, "tenderers": [test_organization]}}
@@ -525,7 +525,7 @@ def create_tender_bid_with_scale_not_required(self):
     self.assertNotIn("scale", response.json["data"])
 
 
-@mock.patch("openprocurement.tender.core.procedure.models.base.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
+@mock.patch("openprocurement.tender.core.procedure.models.organization.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
 def create_tender_bid_no_scale(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
     bid_data = {
@@ -552,14 +552,20 @@ def patch_tender_with_bids_lots_none(self):
     self.create_bid(self.tender_id, bid)
 
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"lots": [None]}}, status=422
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"lots": None}},
+        status=403
     )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-
-    errors = {error["name"]: error["description"] for error in response.json["errors"]}
-    self.assertEqual(errors["lots"][0], ["This field is required."])
-    self.assertEqual(errors["bids"][0]["lotValues"][0], {"relatedLot": ["relatedLot should be one of lots"]})
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Can't update tender in current (active.tendering) status"
+            }
+        ]
+    )
 
 
 def patch_tender_lot_values_any_order(self):

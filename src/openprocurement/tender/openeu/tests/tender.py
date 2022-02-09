@@ -53,7 +53,7 @@ class TenderTest(TenderTestMixin, BaseTenderWebTest):
 
 
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):
-
+    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_data
     test_lots_data = test_lots
@@ -88,8 +88,14 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUARes
         authorization = self.app.authorization
         self.app.authorization = ("Basic", ("bot", "bot"))
 
-        response = self.app.post(
-            "/tenders/{}/documents".format(tender["id"]), upload_files=[("file", "name.doc", b"content")]
+        response = self.app.post_json(
+            "/tenders/{}/documents".format(tender["id"]),
+            {"data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }}
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -108,7 +114,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUARes
 
 
 class TenderProcessTest(BaseTenderWebTest):
-
+    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_data
     test_bids_data = test_bids
@@ -122,6 +128,7 @@ class TenderProcessTest(BaseTenderWebTest):
 
 
 class TenderGuarantee(BaseTenderWebTest):
+    docservice = True
     initial_status = "draft"
     test_lots_data = test_lots
     test_bids_data = test_bids

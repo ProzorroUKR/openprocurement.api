@@ -4,8 +4,6 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
-    # TenderBidResourceTest
-    patch_tender_with_bids_lots_none,
     # TenderBidDocumentWithDSResourceTest
     create_tender_bid_document_json_bulk,
 )
@@ -45,6 +43,7 @@ from openprocurement.tender.cfaselectionua.tests.bid_blanks import (
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
     create_tender_bid_with_documents,
+    patch_tender_with_bids_lots_none,
 )
 
 

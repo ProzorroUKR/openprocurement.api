@@ -311,8 +311,15 @@ def patch_tender_auction(self):
 
 def post_tender_auction_document(self):
     self.app.authorization = ("Basic", ("auction", ""))
-    response = self.app.post(
-        "/tenders/{}/documents".format(self.tender_id), upload_files=[("file", "name.doc", b"content")], status=403
+    response = self.app.post_json(
+        "/tenders/{}/documents".format(self.tender_id),
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
+        status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
@@ -325,13 +332,19 @@ def post_tender_auction_document(self):
 
     self.set_status("active.auction")
 
-    response = self.app.post(
-        "/tenders/{}/documents".format(self.tender_id), upload_files=[("file", "name.doc", b"content")]
+    response = self.app.post_json(
+        "/tenders/{}/documents".format(self.tender_id),
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     doc_id = response.json["data"]["id"]
-    key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
+    url = response.json["data"]["url"]
 
     response = self.app.post_json("/tenders/{}/auction".format(self.tender_id),
                                   {"data": {"bids": [{"id": b["id"]} for b in self.initial_bids]}})
@@ -339,19 +352,31 @@ def post_tender_auction_document(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active.qualification")
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/documents/{}".format(self.tender_id, doc_id),
-        upload_files=[("file", "name.doc", b"content_with_names")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    key2 = response.json["data"]["url"].split("?")[-1].split("=")[-1]
-    self.assertNotEqual(key, key2)
+    self.assertEqual(doc_id, response.json["data"]["id"])
+    self.assertNotEqual(url, response.json["data"]["url"])
 
     self.set_status("complete")
-    response = self.app.post(
-        "/tenders/{}/documents".format(self.tender_id), upload_files=[("file", "name.doc", b"content")], status=403
+    response = self.app.post_json(
+        "/tenders/{}/documents".format(self.tender_id),
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
+        status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
@@ -491,8 +516,15 @@ def post_tender_lot_auction_weighted_value(self):
 
 def post_tender_lot_auction_document(self):
     self.app.authorization = ("Basic", ("auction", ""))
-    response = self.app.post(
-        "/tenders/{}/documents".format(self.tender_id), upload_files=[("file", "name.doc", b"content")], status=403
+    response = self.app.post_json(
+        "/tenders/{}/documents".format(self.tender_id),
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
+        status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
@@ -505,13 +537,19 @@ def post_tender_lot_auction_document(self):
 
     self.set_status("active.auction")
 
-    response = self.app.post(
-        "/tenders/{}/documents".format(self.tender_id), upload_files=[("file", "name.doc", b"content")]
+    response = self.app.post_json(
+        "/tenders/{}/documents".format(self.tender_id),
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     doc_id = response.json["data"]["id"]
-    key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
+    url = response.json["data"]["url"]
 
     response = self.app.patch_json(
         "/tenders/{}/documents/{}".format(self.tender_id, doc_id),
@@ -530,19 +568,32 @@ def post_tender_lot_auction_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/documents/{}".format(self.tender_id, doc_id),
-        upload_files=[("file", "name.doc", b"content_with_names")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
     key2 = response.json["data"]["url"].split("?")[-1].split("=")[-1]
-    self.assertNotEqual(key, key2)
+    self.assertEqual(doc_id, response.json["data"]["id"])
+    self.assertNotEqual(url, response.json["data"]["url"])
 
     self.set_status("complete")
-    response = self.app.post(
-        "/tenders/{}/documents".format(self.tender_id), upload_files=[("file", "name.doc", b"content")], status=403
+    response = self.app.post_json(
+        "/tenders/{}/documents".format(self.tender_id),
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
+        status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
@@ -931,8 +982,15 @@ def patch_tender_lots_auction(self):
 def post_tender_lots_auction_document(self):
     self.app.authorization = ("Basic", ("auction", ""))
     lot_id = self.initial_lots[0]["id"]
-    response = self.app.post(
-        "/tenders/{}/documents".format(self.tender_id), upload_files=[("file", "name.doc", b"content")], status=403
+    response = self.app.post_json(
+        "/tenders/{}/documents".format(self.tender_id),
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
+        status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
@@ -945,13 +1003,19 @@ def post_tender_lots_auction_document(self):
 
     self.set_status("active.auction")
 
-    response = self.app.post(
-        "/tenders/{}/documents".format(self.tender_id), upload_files=[("file", "name.doc", b"content")]
+    response = self.app.post_json(
+        "/tenders/{}/documents".format(self.tender_id),
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     doc_id = response.json["data"]["id"]
-    key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
+    url = response.json["data"]["url"]
 
     response = self.app.patch_json(
         "/tenders/{}/documents/{}".format(self.tender_id, doc_id),
@@ -975,19 +1039,30 @@ def post_tender_lots_auction_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/documents/{}".format(self.tender_id, doc_id),
-        upload_files=[("file", "name.doc", b"content_with_names")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    key2 = response.json["data"]["url"].split("?")[-1].split("=")[-1]
-    self.assertNotEqual(key, key2)
+    self.assertNotEqual(url, response.json["data"]["url"])
 
     self.set_status("complete")
-    response = self.app.post(
-        "/tenders/{}/documents".format(self.tender_id), upload_files=[("file", "name.doc", b"content")], status=403
+    response = self.app.post_json(
+        "/tenders/{}/documents".format(self.tender_id),
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
+        status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")

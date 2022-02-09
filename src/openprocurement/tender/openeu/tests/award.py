@@ -102,11 +102,16 @@ class TenderAwardResourceScaleTest(BaseTenderContentWebTest):
     initial_status = "active.qualification"
 
     def setUp(self):
-        patcher = mock.patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
+        patcher = mock.patch(
+            "openprocurement.api.models.ORGANIZATION_SCALE_FROM",
+            get_now() + timedelta(days=1)
+        )
         patcher.start()
         self.addCleanup(patcher.stop)
-        procedure_patcher = mock.patch("openprocurement.tender.core.procedure.models.base.ORGANIZATION_SCALE_FROM",
-                                       get_now() + timedelta(days=1))
+        procedure_patcher = mock.patch(
+            "openprocurement.tender.core.procedure.models.organization.ORGANIZATION_SCALE_FROM",
+            get_now() + timedelta(days=1)
+        )
         procedure_patcher.start()
         self.addCleanup(procedure_patcher.stop)
         test_bid = deepcopy(test_bids[0])

@@ -15,6 +15,7 @@ from openprocurement.tender.competitivedialogue.tests.stage2.tender_blanks impor
     simple_add_cd_tender_ua,
     # CompetitiveDialogStage2EUResourceTest
     create_tender_invalid_eu,
+    create_tender_without_tender_period,
     patch_tender_eu,
     # TenderStage2UAResourceTest
     create_tender_invalid_ua,
@@ -60,6 +61,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
 
 
 class CompetitiveDialogStage2Test(BaseCompetitiveDialogApiWebTest):
+    docservice = True
     test_tender_data_eu = test_tender_stage2_data_eu  # TODO: change attribute identifier
     test_tender_data_ua = test_tender_stage2_data_ua  # TODO: change attribute identifier
 
@@ -68,6 +70,7 @@ class CompetitiveDialogStage2Test(BaseCompetitiveDialogApiWebTest):
 
 
 class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest):
+    docservice = True
     initial_auth = ("Basic", ("competitive_dialogue", ""))
     author_data = test_author
     initial_data = test_tender_stage2_data_eu
@@ -97,6 +100,7 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)
     test_create_tender_invalid = snitch(create_tender_invalid_eu)
+    test_create_tender_without_tender_period = snitch(create_tender_without_tender_period)
     test_create_tender = snitch(create_tender)
     test_create_tender_central = snitch(create_tender_central)
     test_get_tender = snitch(get_tender)
@@ -114,6 +118,7 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
 
 
 class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
+    docservice = True
     initial_data = test_tender_stage2_data_ua
     test_tender_data_eu = test_tender_stage2_data_eu  # TODO: change attribute identifier
     test_access_token_data = test_access_token_stage1  # TODO: change attribute identifier
@@ -159,6 +164,7 @@ class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
 
 
 class TenderStage2UAProcessTest(BaseCompetitiveDialogUAStage2WebTest):
+    docservice = True
     test_tender_data_ua = test_tender_stage2_data_ua  # TODO: change attribute identifier
     author_data = test_author  # TODO: change attribute identifier
 

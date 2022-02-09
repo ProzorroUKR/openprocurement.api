@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
 import unittest
-
+from copy import deepcopy
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import test_lots
@@ -64,6 +63,7 @@ class TenderLotEdgeCasesTest(BaseSimpleDefContentWebTest):
 
 
 class TenderLotFeatureResourceTest(BaseSimpleDefContentWebTest, TenderLotFeatureResourceTestMixin):
+    docservice = True
     initial_data = test_tender_data
     initial_lots = 2 * test_lots
     invalid_feature_value = 0.5
@@ -88,11 +88,13 @@ class TenderLotFeatureBidderResourceTest(BaseSimpleDefContentWebTest):
     def setUp(self):
         super(TenderLotFeatureBidderResourceTest, self).setUp()
         self.lot_id = self.initial_lots[0]["id"]
+        items = deepcopy(self.initial_data["items"])
+        items[0].update({"relatedLot": self.lot_id, "id": "1"})
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
             {
                 "data": {
-                    "items": [{"relatedLot": self.lot_id, "id": "1"}],
+                    "items": items,
                     "features": [
                         {
                             "code": "code_item",

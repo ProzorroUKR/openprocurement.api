@@ -1,9 +1,11 @@
-from openprocurement.api.models import IsoDateTimeType
+from openprocurement.api.models import IsoDateTimeType, Model
 from openprocurement.tender.core.procedure.models.base import (
-    Model, ModelType, ListType,
+    ModelType, ListType,
 )
 from openprocurement.tender.core.procedure.models.document import Document
-from openprocurement.tender.core.procedure.models.base import Guarantee, Organization, Identifier
+from openprocurement.tender.core.procedure.models.identifier import Identifier
+from openprocurement.tender.core.procedure.models.organization import Organization
+from openprocurement.tender.core.procedure.models.guarantee import Guarantee
 from openprocurement.tender.core.procedure.context import get_now
 from schematics.types import StringType, MD5Type, BaseType, BooleanType
 from uuid import uuid4

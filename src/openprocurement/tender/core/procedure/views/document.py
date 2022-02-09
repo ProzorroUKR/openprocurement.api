@@ -6,6 +6,7 @@ from openprocurement.tender.core.procedure.documents import get_file, check_docu
 from openprocurement.tender.core.procedure.serializers.document import DocumentSerializer
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.models.document import Document
+from openprocurement.tender.core.procedure.state.document import BaseDocumentState
 from openprocurement.tender.core.procedure.utils import (
     delete_nones,
     get_items,
@@ -14,25 +15,25 @@ from openprocurement.tender.core.procedure.utils import (
 )
 
 
+def resolve_document(request, item_name, container):
+    match_dict = request.matchdict
+    if match_dict.get("document_id"):
+        document_id = match_dict["document_id"]
+        documents = get_items(request, request.validated[item_name], container, document_id)
+        request.validated["documents"] = documents
+        request.validated["document"] = documents[-1]
+    else:
+        request.validated["documents"] = request.validated[item_name].get(container, tuple())
+
+
 class BaseDocumentResource(TenderBaseResource):
+    state_class = BaseDocumentState
     serializer_class = DocumentSerializer
     model_class = Document
     container = "documents"
     item_name = "tender"
 
-    def __init__(self, request, context=None):
-        super().__init__(request, context)
-        if context and request.matchdict:
-            match_dict = request.matchdict
-            if match_dict.get("document_id"):
-                document_id = match_dict["document_id"]
-                documents = get_items(request, request.validated[self.item_name], self.container, document_id)
-                request.validated["documents"] = documents
-                request.validated["document"] = documents[-1]
-            else:
-                request.validated["documents"] = request.validated[self.item_name].get(self.container, tuple())
-
-    def set_doc_author(self, doc):
+    def set_doc_author(self, doc):   # TODO: move to state class?
         pass
 
     def get_modified(self):
@@ -65,6 +66,8 @@ class BaseDocumentResource(TenderBaseResource):
             # removing fields with None values
             # api doesn't save defaults and None at the moment
             delete_nones(document)
+
+            self.state.on_post(document)
 
         # attaching documents to the bid
         item = self.request.validated[self.item_name]
@@ -108,12 +111,15 @@ class BaseDocumentResource(TenderBaseResource):
 
     def put(self):
         document = self.request.validated["data"]
+
+        self.state.on_post(document)
+
         item = self.request.validated[self.item_name]
         item[self.container].append(document)
 
         if save_tender(self.request, modified=self.get_modified()):
             self.LOGGER.info(
-                f"Updated {self.item_name} document {item['id']}",
+                f"Updated {self.item_name} document {document['id']}",
                 extra=context_unpack(self.request, {"MESSAGE_ID": f"{self.item_name}_document_put"}),
             )
             return {"data": self.serializer_class(document).data}
@@ -122,6 +128,8 @@ class BaseDocumentResource(TenderBaseResource):
         document = self.request.validated["document"]
         updated_document = self.request.validated["data"]
         if updated_document:
+            self.state.on_patch(document, updated_document)
+
             set_item(self.request.validated[self.item_name], self.container, document["id"], updated_document)
 
             if save_tender(self.request, modified=self.get_modified()):

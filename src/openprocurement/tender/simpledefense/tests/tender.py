@@ -48,11 +48,13 @@ from openprocurement.tender.openuadefense.tests.tender_blanks import (
 
 
 class TenderUATest(TenderTestMixin, BaseApiWebTest):
+    docservice = True
     tender_model = Tender
     initial_data = test_tender_data
 
 
 class TenderUAResourceTest(BaseSimpleDefWebTest, TenderResourceTestMixin):
+    docservice = True
     initial_data = test_tender_data
     test_lots_data = test_lots
 
@@ -74,6 +76,7 @@ class TenderUAResourceTest(BaseSimpleDefWebTest, TenderResourceTestMixin):
 
 
 class TenderUAProcessTest(BaseSimpleDefWebTest, TenderUaProcessTestMixin):
+    docservice = True
     initial_data = test_tender_data
     test_bids_data = test_bids
 
@@ -92,8 +95,14 @@ class TenderUAProcessTest(BaseSimpleDefWebTest, TenderUaProcessTestMixin):
         authorization = self.app.authorization
         self.app.authorization = ("Basic", ("bot", "bot"))
 
-        response = self.app.post(
-            "/tenders/{}/documents".format(tender["id"]), upload_files=[("file", "name.doc", b"content")]
+        response = self.app.post_json(
+            "/tenders/{}/documents".format(tender["id"]),
+            {"data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }}
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")

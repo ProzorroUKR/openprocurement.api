@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a/documents/c648fc26ab1041c193f63ba2b43e95c8?acc_token=a18895cc933048798f66084924c3fdf5 HTTP/1.0
+PUT /api/2.5/tenders/17a82f12536e405c88db7f654bb215f5/documents/dd4b5a8df3ff4deb8eb8c5da24cf55eb?acc_token=b156e1bb6d7f4fa6826249264d4140fd HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 331
 Content-Type: application/json
@@ -18,16 +18,15 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "c648fc26ab1041c193f63ba2b43e95c8",
+    "id": "dd4b5a8df3ff4deb8eb8c5da24cf55eb",
+    "datePublished": "2021-03-16T00:00:00+02:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "AwardCriteria-2.pdf",
     "format": "application/pdf",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/88b8e9b475364501a41d908978a4ea7c?Signature=hQJxsry6FmzQ2YR7TCSH9OO9SKNZSkeAWwksJJnJvIu4Wabk6cqrYmx21lkfuIwD9Nd4SGZ%2BfZI9oRfXFFTdBA%3D%3D&KeyID=a8968c46",
-    "datePublished": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "author": "tender_owner",
     "documentOf": "tender",
-    "language": "uk"
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "author": "tender_owner"
   }
 }
 

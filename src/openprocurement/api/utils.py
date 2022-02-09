@@ -559,7 +559,7 @@ class APIResourceListing(APIResource):
 
     LIST_SEP = ","
 
-    def __init__(self, request, context):
+    def __init__(self, request, context=None):
         super(APIResourceListing, self).__init__(request, context)
         self.server = request.registry.couchdb_server
         self.update_after = request.registry.update_after

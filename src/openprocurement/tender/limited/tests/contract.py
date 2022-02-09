@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
-
+from copy import deepcopy
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.tests.base import snitch
 
@@ -163,9 +163,13 @@ class TenderNegotiationLotContractResourceTest(TenderNegotiationContractResource
         lot1 = response.json["data"]
         self.lot1 = lot1
 
+        response = self.app.get("/tenders/{}".format(self.tender_id))
+        tender = response.json["data"]
+        items = deepcopy(tender["items"])
+        items[0]["relatedLot"] = self.lot1["id"]
         self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"items": [{"relatedLot": lot1["id"]}]}},
+            {"data": {"items": items}},
         )
         # Create award
         response = self.app.post_json(
@@ -225,9 +229,14 @@ class TenderNegotiationLot2ContractResourceTest(BaseTenderContentWebTest):
         lot2 = response.json["data"]
         self.lot2 = lot2
 
+        response = self.app.get("/tenders/{}".format(self.tender_id))
+        tender = response.json["data"]
+        items = deepcopy(tender["items"])
+        items[0]["relatedLot"] = self.lot1["id"]
+        items[1]["relatedLot"] = self.lot2["id"]
         self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"items": [{"relatedLot": lot1["id"]}, {"relatedLot": lot2["id"]}]}},
+            {"data": {"items": items}},
         )
 
         # Create award
@@ -346,9 +355,13 @@ class TenderNegotiationQuickLotAccelerationTest(TenderNegotiationQuickAccelerati
         lot1 = response.json["data"]
         self.lot1 = lot1
 
+        response = self.app.get("/tenders/{}".format(self.tender_id))
+        tender = response.json["data"]
+        items = deepcopy(tender["items"])
+        items[0]["relatedLot"] = self.lot1["id"]
         self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"items": [{"relatedLot": lot1["id"]}]}},
+            {"data": {"items": items}},
         )
         # Create award
         response = self.app.post_json(
@@ -433,9 +446,13 @@ class TenderContractNegotiationLotDocumentResourceTest(TenderContractDocumentRes
         lot1 = response.json["data"]
         self.lot1 = lot1
 
+        response = self.app.get("/tenders/{}".format(self.tender_id))
+        tender = response.json["data"]
+        items = deepcopy(tender["items"])
+        items[0]["relatedLot"] = self.lot1["id"]
         self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"items": [{"relatedLot": lot1["id"]}]}},
+            {"data": {"items": items}},
         )
 
         # Create award

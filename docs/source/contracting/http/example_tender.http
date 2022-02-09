@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/0189f1fe7bc24dc5be6e5c51fa30da0d HTTP/1.0
+GET /api/2.5/tenders/40675dfa654c489cbef9461e24835140 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -27,7 +27,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "34b09d2d3f0f4bb493534d9da9fba941",
+        "id": "ed665700c154493e84dd544a9aeebf4b",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -45,7 +45,7 @@ X-Content-Type-Options: nosniff
     "status": "complete",
     "items": [
       {
-        "id": "299ef8cb981340528d0f7dcf2aa70caa",
+        "id": "cadf7ae857e84cb8b5af656d613aa6e1",
         "description": "футляри до державних нагород",
         "additionalClassifications": [
           {
@@ -82,7 +82,7 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "168b0c97bf1a4ce690b1e3b400be0f50",
+        "id": "d809a3790b174eafb0349cf4c2615765",
         "description": "футляри до державних нагород",
         "additionalClassifications": [
           {
@@ -271,7 +271,7 @@ X-Content-Type-Options: nosniff
         "awardID": "3ad71496fd844c7299424c23d67e5449",
         "items": [
           {
-            "id": "299ef8cb981340528d0f7dcf2aa70caa",
+            "id": "cadf7ae857e84cb8b5af656d613aa6e1",
             "description": "футляри до державних нагород",
             "additionalClassifications": [
               {
@@ -308,7 +308,7 @@ X-Content-Type-Options: nosniff
             }
           },
           {
-            "id": "168b0c97bf1a4ce690b1e3b400be0f50",
+            "id": "d809a3790b174eafb0349cf4c2615765",
             "description": "футляри до державних нагород",
             "additionalClassifications": [
               {
@@ -357,8 +357,7 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true
     },
     "procurementMethodType": "belowThreshold",
-    "id": "0189f1fe7bc24dc5be6e5c51fa30da0d",
-    "numberOfBids": 1
+    "id": "40675dfa654c489cbef9461e24835140"
   }
 }
 

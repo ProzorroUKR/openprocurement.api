@@ -179,12 +179,17 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, BaseSta
     block_complaint_status = ("answered", "pending")
     block_tender_complaint_status = ("claim", "pending", "accepted", "satisfied", "stopping")
     # tender can't proceed to "active.auction" until has a tender.complaints in one of statuses above
+    unsuccessful_statuses = ("cancelled", "unsuccessful")
 
     contract_model = Contract
 
     def status_up(self, before, after, data):
         super().status_up(before, after, data)
         data["date"] = get_now().isoformat()
+
+        # TODO: redesign auction planning
+        if after in self.unsuccessful_statuses:
+            self.remove_all_auction_periods(data)
 
     def always(self, data):
         super().always(data)
@@ -269,9 +274,8 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, BaseSta
 
     # CHILD ITEMS EVENTS --
     def cancellation_events(self, tender):
-        now = get_now().isoformat()
         # only for tenders from RELEASE_2020_04_19
-        if get_first_revision_date(tender, default=now) >= RELEASE_2020_04_19:
+        if get_first_revision_date(tender, default=get_now()) >= RELEASE_2020_04_19:
             # no need to check procedures that don't have cancellation complaints  #
             # if tender["procurementMethodType"] not in ("belowThreshold", "closeFrameworkAgreementSelectionUA"):
             for cancellation in tender.get("cancellations", ""):
@@ -282,9 +286,8 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, BaseSta
                         yield complaint_period["endDate"], self.cancellation_compl_period_end_handler(cancellation)
 
     def complaint_events(self, tender):
-        now = get_now().isoformat()
         # only for tenders from RELEASE_2020_04_19
-        if get_first_revision_date(tender, default=now) >= RELEASE_2020_04_19:
+        if get_first_revision_date(tender, default=get_now()) >= RELEASE_2020_04_19:
             # all the checks below only supposed to trigger complaint draft->mistaken switches
             # if any object contains a draft complaint, it's complaint end period is added to the checks
             # periods can be in the past, then the check expected to run once and immediately fix the complaint
@@ -445,7 +448,8 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, BaseSta
         def handler(tender):
             before = tender["status"]
             tender["status"] = status
-            self.status_up(before, status, tender)
+            if before != status:
+                self.status_up(before, status, tender)
             LOGGER.info(
                 f"Switched tender {tender['_id']} to {status}",
                 extra=context_unpack(get_request(), {"MESSAGE_ID": f"switched_tender_{status}"}),
@@ -583,10 +587,7 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, BaseSta
             for lot in tender["lots"]:
                 bid_number = self.count_lot_bids_number(tender, lot["id"])
                 if bid_number < self.min_bids_number:
-                    if lot.get("auctionPeriod", {}).get("startDate"):
-                        del lot["auctionPeriod"]["startDate"]
-                        if not lot["auctionPeriod"]:
-                            del lot["auctionPeriod"]
+                    self.remove_auction_period(lot)
 
                     if lot.get("status") == "active":  # defense procedures doesn't have lot status, for ex
                         self.set_object_status(lot, "unsuccessful")
@@ -608,10 +609,11 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, BaseSta
         else:
             bid_number = self.count_bids_number(tender)
             if bid_number < self.min_bids_number:
-                if tender.get("auctionPeriod", {}).get("startDate"):
-                    del tender["auctionPeriod"]["startDate"]
-                    if not tender["auctionPeriod"]:
-                        del tender["auctionPeriod"]
+                self.remove_auction_period(tender)
+
+                for bid in tender.get("bids", ""):
+                    bid["status"] = "unsuccessful"
+
                 self.get_change_tender_status_handler("unsuccessful")(tender)
 
     @classmethod
@@ -737,3 +739,14 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, BaseSta
         else:
             result = any(not i.get("answer") for i in tender.get("questions", ""))
         return result
+
+    def remove_all_auction_periods(self, tender):
+        self.remove_auction_period(tender)
+        for lot in tender.get("lots", ""):
+            self.remove_auction_period(lot)
+
+    @staticmethod
+    def remove_auction_period(obj):
+        auction_period = obj.get("auctionPeriod")
+        if auction_period and "endDate" not in auction_period:
+            del obj["auctionPeriod"]
