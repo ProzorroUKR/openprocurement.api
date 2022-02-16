@@ -71,7 +71,7 @@ class TenderAwardResource(TenderBaseResource):
             tender["awards"] = []
         tender["awards"].append(award)
 
-        if save_tender(self.request, modified=False):
+        if save_tender(self.request):
             self.LOGGER.info(
                 f"Created tender award {award['id']}",
                 extra=context_unpack(self.request,
