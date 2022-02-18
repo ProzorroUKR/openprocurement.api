@@ -71,6 +71,7 @@ from openprocurement.tender.belowthreshold.models import Tender as BaseTender
 from openprocurement.tender.core.validation import (
     validate_lotvalue_value,
     validate_relatedlot,
+    validate_tender_period_duration,
 )
 from openprocurement.tender.core.constants import (
     AWARD_CRITERIA_LOWEST_COST,
@@ -98,7 +99,6 @@ from openprocurement.tender.openeu.constants import (
     BID_UNSUCCESSFUL_FROM,
 )
 from openprocurement.tender.openua.validation import (
-    _validate_tender_period_duration,
     _validate_tender_period_start_date,
 )
 
@@ -912,7 +912,7 @@ class Tender(BaseTender):
     def validate_tenderPeriod(self, data, period):
         if is_new_created(data):
             _validate_tender_period_start_date(data, period)
-        _validate_tender_period_duration(data, period, TENDERING_DURATION)
+        validate_tender_period_duration(data, period, TENDERING_DURATION)
 
     @serializable
     def numberOfBids(self):

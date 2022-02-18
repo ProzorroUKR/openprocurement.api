@@ -1,3 +1,4 @@
+from openprocurement.api.validation import OPERATIONS, raise_operation_error
 from openprocurement.tender.core.procedure.validation import validate_item_owner
 from schematics.exceptions import ValidationError
 
@@ -29,3 +30,22 @@ def validate_pq_award_owner(request, **kwargs):
     else:
         owner_validation = validate_item_owner("bid")
     return owner_validation(request, **kwargs)
+
+
+# tender documents
+def validate_document_operation_in_not_allowed_period(request, **_):
+    status = request.validated["tender"]["status"]
+    if status not in ("active.tendering", "draft"):
+        operation = OPERATIONS.get(request.method)
+        raise_operation_error(
+            request,
+            f"Can't {operation} document in current ({status}) tender status"
+        )
+
+
+def unless_administrator_or_bots(*validations):
+    def decorated(request, **_):
+        if request.authenticated_role  not in ("bots", "Administrator"):
+            for validation in validations:
+                validation(request)
+    return decorated

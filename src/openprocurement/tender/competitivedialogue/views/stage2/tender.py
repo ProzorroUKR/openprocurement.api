@@ -26,12 +26,12 @@ from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE
 from openprocurement.tender.core.events import TenderInitializeEvent
 
 
-@optendersresource(
-    name="{}:Tender".format(STAGE_2_UA_TYPE),
-    path="/tenders/{tender_id}",
-    procurementMethodType=STAGE_2_UA_TYPE,
-    description="",
-)
+# @optendersresource(
+#     name="{}:Tender".format(STAGE_2_UA_TYPE),
+#     path="/tenders/{tender_id}",
+#     procurementMethodType=STAGE_2_UA_TYPE,
+#     description="",
+# )
 class TenderStage2UAResource(TenderUAResource):
     """ Resource handler for tender stage 2 UA"""
 
@@ -125,12 +125,12 @@ class TenderStage2UAResource(TenderUAResource):
         return {"data": tender.serialize(tender.status)}
 
 
-@optendersresource(
-    name="{}:Tender".format(STAGE_2_EU_TYPE),
-    path="/tenders/{tender_id}",
-    procurementMethodType=STAGE_2_EU_TYPE,
-    description="",
-)
+# @optendersresource(
+#     name="{}:Tender".format(STAGE_2_EU_TYPE),
+#     path="/tenders/{tender_id}",
+#     procurementMethodType=STAGE_2_EU_TYPE,
+#     description="",
+# )
 class TenderStage2UEResource(TenderEUResource):
     """ Resource handler for tender stage 2 EU"""
 

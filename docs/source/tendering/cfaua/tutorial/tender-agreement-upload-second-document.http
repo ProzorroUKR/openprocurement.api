@@ -1,13 +1,13 @@
-POST /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/agreements/0fea7d7c4c8649f5a499885d630671f5/documents?acc_token=fbb49b806b484733bc09390b0e01078d HTTP/1.0
+POST /api/2.5/tenders/6f00022409bb4e73b5f698801518e0db/agreements/0fea7d7c4c8649f5a499885d630671f5/documents?acc_token=a4dab218398a4cc8a8004a91d3ba9744 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 345
+Content-Length: 343
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
     "title": "agreement_second_document.doc",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3027eefe15874090b7f07268478684a8?Signature=qvW1RE4Qqz%2FR05zZju99XYu3P92wr9BeQubMSinoYQWhysVf4BWsW2cm%2BTJvjrwCkb4t4NTvLaxtcSK%2B1JPeAQ%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/19d8247422d744baac8d227f47d1c28c?Signature=OiFNNngfEkjiUpfeWv%2FYdIRPja9j7zPiti92kziVySVujyFYNhMhcgkrvfdjjq7zFMI0lC9rorCp%2BQSUhttBDw%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/msdoc"
   }
@@ -15,7 +15,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492/agreements/0fea7d7c4c8649f5a499885d630671f5/documents/d364676c691744899b1a80f035be06f4
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6f00022409bb4e73b5f698801518e0db/agreements/0fea7d7c4c8649f5a499885d630671f5/documents/d364676c691744899b1a80f035be06f4
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -23,7 +23,7 @@ X-Content-Type-Options: nosniff
     "hash": "md5:00000000000000000000000000000000",
     "title": "agreement_second_document.doc",
     "format": "application/msdoc",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3027eefe15874090b7f07268478684a8?Signature=K3fBx1%2Fyk8KIqqGTnsCQXb0V%2BSOaMzke3czX5kY%2FJ25gl2FeG8R1ZE1WOsxtX94kamY03G30%2B9vf7B7O9xU7DQ%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/19d8247422d744baac8d227f47d1c28c?Signature=6LIfqdeMREwFZds4MdkMI5It2QgX%2FidPLIeMnHRAZQ2dlg%2FqGMM49QlTd0JISwsMdCs9BVxTYfGxYaUyeF86Ag%3D%3D&KeyID=a8968c46",
     "datePublished": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
     "documentOf": "tender"

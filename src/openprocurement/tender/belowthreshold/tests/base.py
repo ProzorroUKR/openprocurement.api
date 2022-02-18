@@ -391,7 +391,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
         if self.initial_bids:
             self.initial_bids_tokens = {}
             response = self.set_status("active.tendering")
-            self.app.patch_json(f"/tenders/{self.tender_id}?acc_token={self.tender_token}", {"data": {}})
+            # self.app.patch_json(f"/tenders/{self.tender_id}?acc_token={self.tender_token}", {"data": {}})
             status = response.json["data"]["status"]
             bids = []
             rrs = set_bid_responses(criteria)

@@ -3,7 +3,7 @@ from openprocurement.tender.openeu.procedure.views.bid import TenderBidResource
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
 from openprocurement.tender.core.procedure.models.bid import filter_administrator_bid_update
 from openprocurement.tender.competitivedialogue.procedure.models.bid import PostBid, PatchBid, Bid
-from openprocurement.tender.competitivedialogue.procedure.serializers import BidSerializer
+from openprocurement.tender.competitivedialogue.procedure.serializers.bid import BidSerializer
 from openprocurement.tender.competitivedialogue.procedure.state.bid import Stage1BidState
 from openprocurement.tender.openeu.procedure.validation import (
     validate_post_bid_status,
@@ -47,7 +47,7 @@ class CompetitiveDialogueUABidResource(TenderBidResource):
             validate_bid_operation_period,
             validate_input_data(PostBid),
             validate_post_bid_status,
-            validate_data_documents,
+            validate_data_documents(route_key="bid_id", uid_key="id"),
         ),
     )
     def collection_post(self):
@@ -93,7 +93,7 @@ class CompetitiveDialogueEUBidResource(TenderBidResource):
             validate_bid_operation_period,
             validate_input_data(PostBid),
             validate_post_bid_status,
-            validate_data_documents,
+            validate_data_documents(route_key="bid_id", uid_key="id"),
         ),
     )
     def collection_post(self):

@@ -102,3 +102,13 @@ def validate_award_document_add_not_in_pending(request, **kwargs):
             request,
             f"Can't add document in current ({status}) award status",
         )
+
+
+# tender documents
+def validate_document_operation_in_not_allowed_tender_status(request, **_):
+    tender_status = request.validated["tender"]["status"]
+    if tender_status not in ("draft", "active"):
+        raise_operation_error(
+            request,
+            f"Can't {OPERATIONS.get(request.method)} document in current ({tender_status}) tender status",
+        )

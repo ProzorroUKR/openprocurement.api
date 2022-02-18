@@ -20,8 +20,6 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_documents,
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
-    # Tender2LotBidResourceTest
-    patch_tender_with_bids_lots_none,
 )
 
 from openprocurement.tender.openua.tests.base import (
@@ -78,10 +76,12 @@ from openprocurement.tender.openua.tests.bid_blanks import (
     # TenderBidDocumentActivateResourceTest
     doc_date_modified,
     patch_tender_draft_bidder,
+    # Tender2LotBidResourceTest
+    patch_tender_with_bids_lots_none,
 )
 
 
-class TenderBidResourceTestMixin(object):
+class TenderBidResourceTestMixin:
     test_create_tender_biddder_invalid = snitch(create_tender_biddder_invalid)
     test_create_tender_bidder = snitch(create_tender_bidder)
     test_patch_tender_bidder = snitch(patch_tender_bidder)
@@ -101,7 +101,7 @@ class TenderBidResourceTestMixin(object):
 
 @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.core.models.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
-class TenderBidDocumentResourceTestMixin(object):
+class TenderBidDocumentResourceTestMixin:
     test_create_tender_bidder_document = snitch(create_tender_bidder_document)
     test_put_tender_bidder_document = snitch(put_tender_bidder_document)
     test_patch_tender_bidder_document = snitch(patch_tender_bidder_document)
@@ -110,7 +110,7 @@ class TenderBidDocumentResourceTestMixin(object):
 
 @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.core.models.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
-class TenderBidRequirementResponseTestMixin(object):
+class TenderBidRequirementResponseTestMixin:
     test_create_bid_requirement_response = snitch(create_bid_requirement_response)
     test_patch_bid_requirement_response = snitch(patch_bid_requirement_response)
     test_get_bid_requirement_response = snitch(get_bid_requirement_response)
@@ -208,6 +208,7 @@ class CreateBidMixin(object):
 
 
 class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMixin):
+    docservice = True
     initial_data = test_tender_data
     initial_status = "active.tendering"
     test_bids_data = test_bids
@@ -218,6 +219,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMix
 
 
 class Tender2LotBidResourceTest(BaseTenderUAContentWebTest):
+    docservice = True
     initial_data = test_tender_data
     test_bids_data = test_bids
     initial_lots = 2 * test_lots
@@ -228,6 +230,7 @@ class Tender2LotBidResourceTest(BaseTenderUAContentWebTest):
 
 
 class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
+    docservice = True
     initial_data = test_features_tender_ua_data
     initial_status = "active.tendering"
     test_bids_data = test_bids
@@ -237,6 +240,7 @@ class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
 
 
 class TenderBidDocumentResourceTest(CreateBidMixin, BaseTenderUAContentWebTest):
+    docservice = True
     initial_status = "active.tendering"
     test_bids_data = test_bids
     author_data = test_author
@@ -263,7 +267,7 @@ class TenderBidDocumentWithDSResourceTestMixin:
 
 
 class TenderBidDocumentWithDSResourceTest(TenderBidDocumentWithDSResourceTestMixin, TenderBidDocumentResourceTest):
-    pass
+    docservice = True
 
 
 class TenderBidderBatchDocumentWithDSResourceTest(BaseTenderUAContentWebTest):
@@ -288,6 +292,7 @@ class TenderBidRequirementResponseResourceTest(
     CreateBidMixin,
     BaseTenderUAContentWebTest,
 ):
+    docservice = True
     initial_data = test_tender_data
     base_bid_status = "draft"
     initial_status = "active.tendering"
@@ -298,6 +303,7 @@ class TenderBidRequirementResponseEvidenceResourceTest(
     CreateBidMixin,
     BaseTenderUAContentWebTest,
 ):
+    docservice = True
     initial_data = test_tender_data
     base_bid_status = "draft"
     initial_status = "active.tendering"

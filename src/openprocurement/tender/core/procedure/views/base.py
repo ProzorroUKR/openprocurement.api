@@ -12,10 +12,10 @@ class TenderBaseResource:
     def __acl__(self):
         acl = [
             (Allow, Everyone, "view_tender"),
-            (Allow, "g:brokers", "create_bid"),
-            (Allow, "g:brokers", "edit_bid"),
-            # (Allow, Everyone, "edit_bid"),
-            (Allow, "g:Administrator", "edit_bid"),  # wtf ???
+            (Allow, "g:brokers", "create_tender"),
+            (Allow, "g:brokers", "edit_tender"),
+            (Allow, "g:Administrator", "edit_tender"),
+
             (Allow, "g:admins", ALL_PERMISSIONS),    # some tests use this, idk why
 
             (Allow, "g:auction", "auction"),

@@ -24,7 +24,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_not_found,
     dateModified_tender,
     guarantee,
-    tender_Administrator_change,
     patch_not_author,
     listing_draft,
     tender_fields,
@@ -75,7 +74,6 @@ class TenderResourceTestMixin(object):
     test_create_tender_central_invalid = snitch(create_tender_central_invalid)
     test_dateModified_tender = snitch(dateModified_tender)
     test_tender_not_found = snitch(tender_not_found)
-    test_tender_Administrator_change = snitch(tender_Administrator_change)
     test_patch_not_author = snitch(patch_not_author)
     test_tender_funders = snitch(tender_funders)
     test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
@@ -90,11 +88,13 @@ class TenderTestMixin:
 
 
 class TenderTest(TenderTestMixin, BaseApiWebTest):
+    docservice = True
     tender_model = Tender
     initial_data = test_tender_data
 
 
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
+    docservice = True
     initial_data = test_tender_data
     initial_auth = ("Basic", ("broker", ""))
     test_lots_data = test_lots
@@ -125,6 +125,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 
 
 class TenderProcessTest(BaseTenderWebTest):
+    docservice = True
     initial_auth = ("Basic", ("broker", ""))
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)

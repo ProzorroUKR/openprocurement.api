@@ -67,6 +67,21 @@ def validate_relatedItem(related_item, document_of):
         raise ValidationError("relatedItem should be one of items")
 
 
+def validate_tender_document_relations(data, documents):
+    if documents:
+        lot_ids = {l["id"] for l in data.get("lots") or ""}
+        item_ids = {i["id"] for i in data.get("items") or ""}
+        for d in documents:
+            related_type = d.get("documentOf")
+            related_item = d.get("relatedItem")
+            if related_type == "lot":
+                if related_item not in lot_ids:
+                    raise ValidationError([{'relatedItem': ['relatedItem should be one of lots']}])
+            elif related_type == "item":
+                if related_item not in item_ids:
+                    raise ValidationError([{'relatedItem': ['relatedItem should be one of items']}])
+
+
 class PostDocument(BaseDocument):
     # "create": blacklist("id", "datePublished", "dateModified", "author", "download_url"),
     @serializable
@@ -109,10 +124,6 @@ class Document(BaseDocument):
 
 class PatchDocument(BaseDocument):
     # "edit": blacklist("id", "url", "datePublished", "dateModified", "author", "hash", "download_url"),
-
-    def validate_relatedItem(self, data, related_item):
-        document_of = data.get("documentOf", get_document()["documentOf"])
-        validate_relatedItem(related_item, document_of)
 
     @serializable
     def dateModified(self):

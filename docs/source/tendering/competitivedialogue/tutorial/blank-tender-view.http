@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb HTTP/1.0
+GET /api/2.5/tenders/e16419902ba94afd92483305d6369505 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,11 +7,20 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
+    "title_en": "Services in school canteens",
     "title": "Послуги шкільних їдалень",
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "tenderID": "UA-2021-03-16-000001",
-    "owner": "broker",
+    "submissionMethod": "electronicAuction",
+    "procurementMethod": "open",
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "minimalStep": {
+      "amount": 5.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -26,7 +35,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "a561580a5c104b2d8f22ba45d7bd31ff",
+        "id": "7534e3a34a464fa4b2f85259b90ded68",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -38,28 +47,6 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       }
     ],
-    "procurementMethod": "open",
-    "submissionMethod": "electronicAuction",
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "minimalStep": {
-      "amount": 5.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "title_en": "Services in school canteens",
-    "enquiryPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-04-06T00:00:00+02:00",
-      "clarificationsUntil": "2021-04-09T00:00:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-04-16T00:00:00+02:00"
-    },
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "name_en": "School #10 of Vinnytsia",
@@ -77,21 +64,31 @@ X-Content-Type-Options: nosniff
         "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/",
+        "name": "Куца Світлана Валентинівна",
         "name_en": "Kutsa Svitlana V.",
         "availableLanguage": "uk"
       },
       "kind": "general"
     },
     "awardCriteria": "lowestCost",
+    "tenderPeriod": {
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-04-16T00:00:00+02:00"
+    },
     "procurementMethodType": "competitiveDialogueEU",
+    "mainProcurementCategory": "services",
     "status": "draft",
     "items": [
       {
-        "id": "e42036d668844a98a37eb8955f3d6a16",
+        "id": "ddc2fa963fa844e98b72f361579bb634",
         "description": "Послуги шкільних їдалень",
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -99,16 +96,11 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "quantity": 1.0,
-        "classification": {
-          "description": "Test",
-          "scheme": "ДК021",
-          "id": "37810000-9"
-        },
         "unit": {
           "name": "кілограм",
           "code": "KGM"
         },
+        "quantity": 1.0,
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
           "endDate": "2021-05-05T00:00:00+02:00"
@@ -123,8 +115,13 @@ X-Content-Type-Options: nosniff
         "description_en": "Services in school canteens"
       },
       {
-        "id": "a81006a153a64620ad6abc62ebd475ce",
+        "id": "703dfd34a67d42bca6e3b1a3475b90e8",
         "description": "Послуги шкільних їдалень",
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -132,16 +129,11 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "quantity": 1.0,
-        "classification": {
-          "description": "Test",
-          "scheme": "ДК021",
-          "id": "37810000-9"
-        },
         "unit": {
           "name": "упаковка",
           "code": "PK"
         },
+        "quantity": 1.0,
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
           "endDate": "2021-05-05T00:00:00+02:00"
@@ -156,12 +148,20 @@ X-Content-Type-Options: nosniff
         "description_en": "Services in school canteens"
       }
     ],
-    "mainProcurementCategory": "services",
-    "id": "cce509cd3c324437829f34f6d4d074fb",
+    "tenderID": "UA-2021-03-16-000001",
+    "enquiryPeriod": {
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-04-06T00:00:00+02:00",
+      "clarificationsUntil": "2021-04-09T00:00:00+02:00"
+    },
+    "owner": "broker",
+    "date": "2021-03-16T00:00:00+02:00",
     "complaintPeriod": {
       "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-04-12T00:00:00+02:00"
-    }
+      "endDate": "2021-04-12T00:00:00+03:00"
+    },
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "id": "e16419902ba94afd92483305d6369505"
   }
 }
 

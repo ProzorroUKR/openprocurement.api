@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324?acc_token=7cb87b2d0f3d446993a6da1f03746396 HTTP/1.0
+GET /api/2.5/tenders/1707c4e05c834d2281c4917429aed004?acc_token=cdb0d97ad6324ce1b99843f3f2959aa4 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,7 +7,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "title": "Послуги шкільних їдалень",
+    "title": "I need more pictures of spiderman!",
     "date": "2021-03-27T00:00:02+02:00",
     "dateModified": "2021-03-27T00:00:02+02:00",
     "tenderID": "UA-2021-03-16-000001",
@@ -27,7 +27,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "08769235ce13494fac8132b398af309f",
+        "id": "a704c63bfb424e74bd596fe222c7c875",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -609,7 +609,7 @@ X-Content-Type-Options: nosniff
     "title_en": "Services in school canteens",
     "items": [
       {
-        "id": "a82f2d1b074d4affa3475024a0535f45",
+        "id": "44d08c646cd447eca6bb6473771117d9",
         "description": "Послуги шкільних їдалень",
         "additionalClassifications": [
           {
@@ -633,7 +633,7 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "99b91dfdb36248d4ad0b4acac0ee2c73",
+        "id": "20a00f9baa1d44159cf004c5e242f39a",
         "description": "Послуги шкільних їдалень",
         "additionalClassifications": [
           {
@@ -657,6 +657,17 @@ X-Content-Type-Options: nosniff
         }
       }
     ],
+    "minValue": {
+      "amount": 0.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "enquiryPeriod": {
+      "startDate": "2021-02-03T00:00:00+02:00",
+      "endDate": "2021-02-24T00:00:00+02:00",
+      "clarificationsUntil": "2021-02-27T00:00:00+02:00",
+      "invalidationDate": "2021-03-16T00:00:00+02:00"
+    },
     "tenderPeriod": {
       "startDate": "2021-02-03T00:00:00+02:00",
       "endDate": "2021-03-06T00:00:00+02:00"
@@ -697,7 +708,7 @@ X-Content-Type-Options: nosniff
         ],
         "date": "2021-03-16T00:00:00+02:00",
         "id": "931f9a28ea1c44bda087fc6d9349405f",
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/33f610abd0a54c8bb1da547c377a3324?key_for_bid=931f9a28ea1c44bda087fc6d9349405f",
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/1707c4e05c834d2281c4917429aed004?key_for_bid=931f9a28ea1c44bda087fc6d9349405f",
         "requirementResponses": [
           {
             "id": "3c64debf715f4421a988da1427307ea2",
@@ -812,11 +823,11 @@ X-Content-Type-Options: nosniff
         ],
         "documents": [
           {
-            "id": "fe0e171a76a9484690da8f1ca3078c5c",
+            "id": "e51f3496da644d008f4ebf28bf244426",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal.pdf",
             "format": "application/pdf",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bd899d26e31643489abf7981b0f34549?Signature=LSjz%2FVncGdvIXATJCtqx9wZH4qCdIX8%2Bb%2BvtoDbhNrC3l6cVeUuudEVPDjzv29iIctnFCRy%2BquIkVXebQKJBAA%3D%3D&KeyID=a8968c46",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e306562479754a0d8a0d64cb0036fcae?Signature=0zTwe9ZZqhfzjGZSKSEGGOBDH0jZmG%2FkoCPoh43ZDw6lXcAeP3hw1l0tGHzoPJ3bcUPWIGevLYGBCdGAXbzECw%3D%3D&KeyID=a8968c46",
             "datePublished": "2021-03-16T00:00:00+02:00",
             "dateModified": "2021-03-16T00:00:00+02:00",
             "documentOf": "tender",
@@ -824,11 +835,11 @@ X-Content-Type-Options: nosniff
             "language": "uk"
           },
           {
-            "id": "d680c26128134c5d92a6b3f742bdd2e4",
+            "id": "6478d18120e944b3875dbec011f545be",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_top_secrets.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/931f9a28ea1c44bda087fc6d9349405f/documents/d680c26128134c5d92a6b3f742bdd2e4?download=fc98c264f5494ffaa5555698c52c5f1e",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1707c4e05c834d2281c4917429aed004/bids/931f9a28ea1c44bda087fc6d9349405f/documents/6478d18120e944b3875dbec011f545be?download=cf23b9f3719f423d9d9a447631f0e067",
             "datePublished": "2021-03-16T00:00:00+02:00",
             "dateModified": "2021-03-16T00:00:00+02:00",
             "documentOf": "tender",
@@ -839,11 +850,11 @@ X-Content-Type-Options: nosniff
         ],
         "financialDocuments": [
           {
-            "id": "e51f3496da644d008f4ebf28bf244426",
+            "id": "e72c93051d2246239ad4350c91d01826",
             "hash": "md5:00000000000000000000000000000000",
             "title": "financial_doc.pdf",
             "format": "application/pdf",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e205d4bfb1664749a31410c1fcbc0273?Signature=1%2BC2Nxc%2FPIgFhzgfScLfI%2BkpWthB%2B6jJgVAp184qG31Bk2dwwnhKwwCWNk609la2GO6QVAT6eqz0ZbMFqwp4BA%3D%3D&KeyID=a8968c46",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/55caeebab78045959bdf295a177ca980?Signature=GgZlbGXozSZkmMS5CQiPEG87kW5ylVGtf7NxAtI8o2spziVfIaOBPvJr9VqEFUBTcDXeW%2BxrlFBzguIu0FEaBw%3D%3D&KeyID=a8968c46",
             "datePublished": "2021-03-16T00:00:00+02:00",
             "dateModified": "2021-03-16T00:00:00+02:00",
             "documentOf": "tender",
@@ -851,11 +862,11 @@ X-Content-Type-Options: nosniff
             "language": "uk"
           },
           {
-            "id": "6478d18120e944b3875dbec011f545be",
+            "id": "3a6cfa8745244c76826154b4196fa36e",
             "hash": "md5:00000000000000000000000000000000",
             "title": "financial_doc2.pdf",
             "format": "application/pdf",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e306562479754a0d8a0d64cb0036fcae?Signature=0zTwe9ZZqhfzjGZSKSEGGOBDH0jZmG%2FkoCPoh43ZDw6lXcAeP3hw1l0tGHzoPJ3bcUPWIGevLYGBCdGAXbzECw%3D%3D&KeyID=a8968c46",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/668b8ebe1fbc423a880d331641a3f909?Signature=NR2qBKA5c8OKsKq3Ynav61HVoLmIh3Sm7QP1ru7nyRyhq3aYjDGKCT6bBhkboaM0W1fWxPovqVLikGOA9EbxBA%3D%3D&KeyID=a8968c46",
             "datePublished": "2021-03-16T00:00:00+02:00",
             "dateModified": "2021-03-16T00:00:00+02:00",
             "documentOf": "tender",
@@ -865,11 +876,11 @@ X-Content-Type-Options: nosniff
         ],
         "eligibilityDocuments": [
           {
-            "id": "e72c93051d2246239ad4350c91d01826",
+            "id": "660d0c01949547d6b6247fe90cacd4f2",
             "hash": "md5:00000000000000000000000000000000",
             "title": "eligibility_doc.pdf",
             "format": "application/pdf",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cf23b9f3719f423d9d9a447631f0e067?Signature=tGMvTFUaIJSTHX5eOTa52FiCibqT0JAItY0fRlLK60LnScSptwMbLpCY1V%2FH0tSGFKnyp1BDOhdAE%2FAzoIykDw%3D%3D&KeyID=a8968c46",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2fc9b4ef830446d4aa14397384e13341?Signature=eUeoa22rqgQMCPT8P3PzgHGqw9I1PuLzC3JWisUu%2Bu5XfIE%2Bdq%2FNacHVznN5Y9g9bZPIa6faKweKO30xAJt8DA%3D%3D&KeyID=a8968c46",
             "datePublished": "2021-03-16T00:00:00+02:00",
             "dateModified": "2021-03-16T00:00:00+02:00",
             "documentOf": "tender",
@@ -879,11 +890,11 @@ X-Content-Type-Options: nosniff
         ],
         "qualificationDocuments": [
           {
-            "id": "3a6cfa8745244c76826154b4196fa36e",
+            "id": "e49036f82b48481fbf2ad9c4a5f855ed",
             "hash": "md5:00000000000000000000000000000000",
             "title": "qualification_document.pdf",
             "format": "application/pdf",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/55caeebab78045959bdf295a177ca980?Signature=GgZlbGXozSZkmMS5CQiPEG87kW5ylVGtf7NxAtI8o2spziVfIaOBPvJr9VqEFUBTcDXeW%2BxrlFBzguIu0FEaBw%3D%3D&KeyID=a8968c46",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/533b5c8290274e0fbd8aae966e42f4ee?Signature=DaKudlKyGMgGSy6b%2F%2BZtyCkQGoeIiHHMCxh%2FzMm%2BnYfGSMhrtdI80tqXegWP%2FlpjKqHClL7DddYDI69SYJodDA%3D%3D&KeyID=a8968c46",
             "datePublished": "2021-03-16T00:00:00+02:00",
             "dateModified": "2021-03-16T00:00:00+02:00",
             "documentOf": "tender",
@@ -955,7 +966,7 @@ X-Content-Type-Options: nosniff
         ],
         "date": "2021-03-16T00:00:00+02:00",
         "id": "ae5a970874fd4292995525fb1c03d678",
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/33f610abd0a54c8bb1da547c377a3324?key_for_bid=ae5a970874fd4292995525fb1c03d678",
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/1707c4e05c834d2281c4917429aed004?key_for_bid=ae5a970874fd4292995525fb1c03d678",
         "requirementResponses": [
           {
             "id": "7ce7b3f20af44b8ea0038eac22b771c9",
@@ -1244,7 +1255,7 @@ X-Content-Type-Options: nosniff
         ],
         "documents": [
           {
-            "id": "660d0c01949547d6b6247fe90cacd4f2",
+            "id": "efc5cf6d869b4dacb3ccbef948132ba3",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part1.pdf",
             "format": "application/pdf",
@@ -1256,11 +1267,11 @@ X-Content-Type-Options: nosniff
             "language": "uk"
           },
           {
-            "id": "e49036f82b48481fbf2ad9c4a5f855ed",
+            "id": "69ea8f7c365742e9a44a3e7327d9cc59",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part2.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/a7cd2c260a0448f5a1bf70345eb8d414/documents/e49036f82b48481fbf2ad9c4a5f855ed?download=9428cc919ddc46249fe7f4aedbd3e329",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1707c4e05c834d2281c4917429aed004/bids/a7cd2c260a0448f5a1bf70345eb8d414/documents/69ea8f7c365742e9a44a3e7327d9cc59?download=9428cc919ddc46249fe7f4aedbd3e329",
             "datePublished": "2021-03-16T00:00:00+02:00",
             "dateModified": "2021-03-16T00:00:00+02:00",
             "documentOf": "tender",
@@ -1271,7 +1282,7 @@ X-Content-Type-Options: nosniff
         ],
         "eligibilityDocuments": [
           {
-            "id": "69ea8f7c365742e9a44a3e7327d9cc59",
+            "id": "46383a42868443579c676a29bfa31d37",
             "hash": "md5:00000000000000000000000000000000",
             "title": "eligibility_doc.pdf",
             "format": "application/pdf",
@@ -1350,31 +1361,31 @@ X-Content-Type-Options: nosniff
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amount": 8917.4,
-          "amountPerformance": 816.29,
-          "yearlyPaymentsPercentage": 0.9,
+          "amount": "8917.4",
+          "amountPerformance": "816.29",
+          "yearlyPaymentsPercentage": "0.9",
           "annualCostsReduction": [
-            500.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0
+            "5E+2",
+            "1E+3",
+            "1E+3",
+            "1E+3",
+            "1E+3",
+            "1E+3",
+            "1E+3",
+            "1E+3",
+            "1E+3",
+            "1E+3",
+            "1E+3",
+            "1E+3",
+            "1E+3",
+            "1E+3",
+            "1E+3",
+            "1E+3",
+            "1E+3",
+            "1E+3",
+            "1E+3",
+            "1E+3",
+            "1E+3"
           ],
           "contractDuration": {
             "years": 10,
@@ -1478,11 +1489,11 @@ X-Content-Type-Options: nosniff
             "years": 10,
             "days": 74
           },
-          "amountNet": 8916.4
+          "amountNet": "8916.4"
         },
         "items": [
           {
-            "id": "a82f2d1b074d4affa3475024a0535f45",
+            "id": "44d08c646cd447eca6bb6473771117d9",
             "description": "Послуги шкільних їдалень",
             "additionalClassifications": [
               {
@@ -1506,7 +1517,7 @@ X-Content-Type-Options: nosniff
             }
           },
           {
-            "id": "99b91dfdb36248d4ad0b4acac0ee2c73",
+            "id": "20a00f9baa1d44159cf004c5e242f39a",
             "description": "Послуги шкільних їдалень",
             "additionalClassifications": [
               {
@@ -1564,7 +1575,7 @@ X-Content-Type-Options: nosniff
         "dateAnswered": "2021-03-16T00:00:00+02:00"
       }
     ],
-    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/33f610abd0a54c8bb1da547c377a3324",
+    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/1707c4e05c834d2281c4917429aed004",
     "cancellations": [
       {
         "id": "1a7fd97b190247ac867d8efbe3763e01",
@@ -1605,13 +1616,17 @@ X-Content-Type-Options: nosniff
         ]
       }
     ],
+    "guarantee": {
+      "amount": 8.0,
+      "currency": "USD"
+    },
     "documents": [
       {
-        "id": "fa629b7967254d648686a0df975a451e",
+        "id": "fe0e171a76a9484690da8f1ca3078c5c",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e233ca037f154f5da9b177fa92ddd453?Signature=U0QR6Lqtph6lQuHh6BpB%2BuHmZLq8bFlNHBDcSrN2rnXIaEW79lFMssWPw%2BDVXO75IW6W%2ByPwbeTJEweUaGcrBA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bd899d26e31643489abf7981b0f34549?Signature=LSjz%2FVncGdvIXATJCtqx9wZH4qCdIX8%2Bb%2BvtoDbhNrC3l6cVeUuudEVPDjzv29iIctnFCRy%2BquIkVXebQKJBAA%3D%3D&KeyID=a8968c46",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "author": "tender_owner",
@@ -1619,11 +1634,11 @@ X-Content-Type-Options: nosniff
         "language": "uk"
       },
       {
-        "id": "428e9ce6dfe44fdc8fabf3d3ec0ae851",
+        "id": "d680c26128134c5d92a6b3f742bdd2e4",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/be2dcea392744ec3bfc7b53161fabc61?Signature=MezoP%2BI%2Fm2XEuRfqInNFFvuk5wxW96eZrt21hwexze5P6yb4JA8P2xcGnlE8zs881veHw1BR5e%2Fc2qmuyIvjBQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fc98c264f5494ffaa5555698c52c5f1e?Signature=chGrY38d3Uo6eHdQINHLFYBs8HK8nW0MfX8egSTDsZDe22MrqFV6vutKzouFIxpn8f7t9f66VBDmmpHX0o9bDA%3D%3D&KeyID=a8968c46",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "author": "tender_owner",
@@ -1631,11 +1646,11 @@ X-Content-Type-Options: nosniff
         "language": "uk"
       },
       {
-        "id": "428e9ce6dfe44fdc8fabf3d3ec0ae851",
+        "id": "d680c26128134c5d92a6b3f742bdd2e4",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/59b8682ce22c4dda901d30922c81dfe0?Signature=AmOlZ9uaPEmMxQI2ndJRfTusL81pi8GrQw5t5Jn8Qlw%2F0wgstBfW%2F%2B%2BexByZqL0wbG6NnbUMy15W1e7yiLPlBQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e205d4bfb1664749a31410c1fcbc0273?Signature=1%2BC2Nxc%2FPIgFhzgfScLfI%2BkpWthB%2B6jJgVAp184qG31Bk2dwwnhKwwCWNk609la2GO6QVAT6eqz0ZbMFqwp4BA%3D%3D&KeyID=a8968c46",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "author": "tender_owner",
@@ -1677,28 +1692,12 @@ X-Content-Type-Options: nosniff
     "NBUdiscountRate": 0.22986,
     "fundingKind": "other",
     "yearlyPaymentsPercentageRange": 0.8,
-    "id": "33f610abd0a54c8bb1da547c377a3324",
-    "enquiryPeriod": {
-      "startDate": "2021-02-03T00:00:00+02:00",
-      "endDate": "2021-02-24T00:00:00+02:00",
-      "clarificationsUntil": "2021-02-27T00:00:00+02:00",
-      "invalidationDate": "2021-03-16T00:00:00+02:00"
-    },
+    "noticePublicationDate": "2021-03-16T00:00:00+02:00",
     "complaintPeriod": {
       "startDate": "2021-02-03T00:00:00+02:00",
       "endDate": "2021-03-02T00:00:00+02:00"
     },
-    "numberOfBids": 2,
-    "minValue": {
-      "amount": 0.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "guarantee": {
-      "amount": 8.0,
-      "currency": "USD"
-    },
-    "noticePublicationDate": "2021-03-16T00:00:00+02:00"
+    "id": "1707c4e05c834d2281c4917429aed004"
   }
 }
 

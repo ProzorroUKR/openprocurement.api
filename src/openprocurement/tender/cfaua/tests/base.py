@@ -580,6 +580,10 @@ class BaseTenderContentWebTest(BaseTenderWebTest):
         super(BaseTenderContentWebTest, self).setUp()
         self.create_tender()
 
+        self.check_chronograph()
+        # fixes tenders after inserting into fixture data
+        # for ex auctionPeriod.shouldStartAfter is added
+
 
 class BidsOverMaxAwardsMixin(object):
     initial_bids = deepcopy(test_bids) + deepcopy(test_bids)  # double testbids

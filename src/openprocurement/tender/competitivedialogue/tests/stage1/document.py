@@ -3,7 +3,7 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.document import TenderDocumentResourceTestMixin
+from openprocurement.tender.belowthreshold.tests.document import TenderDocumentWithDSResourceTestMixin
 
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogUAContentWebTest,
@@ -14,63 +14,26 @@ from openprocurement.tender.competitivedialogue.tests.stage1.document_blanks imp
     patch_tender_document,
 )
 
-#  _____________________________________________________________________
-# |                                                                     |
-# |                                                                     |
-# |                                                                     |
-# |                                 _A_                                 |
-# |                         _A_     /"\      _A_                        |
-# |                         /"\              /"\                        |
-# |                                                                     |
-# |                   _A_                         _A_                   |
-# |                   /"\                         /"\                   |
-# |                                                                     |
-# |                                                                     |
-# |                 _A_                             _A_                 |
-# |                 /"\                             /"\                 |
-# |                                                                     |
-# |                                                                     |
-# |                   _A_                         _A_                   |
-# |                   /"\                         /"\                   |
-# |                                                                     |
-# |                         _A_             _A_                         |
-# |                         /"\     _A_     /"\                         |
-# |                                 /"\                                 |
-# |                                                                     |
-# |                                                                     |
-# |___________________________________________________________________sm|
 
-
-class DialogEUDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest, TenderDocumentResourceTestMixin):
-    docservice = False
-
+class DialogEUDocumentWithDSResourceTest(BaseCompetitiveDialogEUContentWebTest):
+    docservice = True
     initial_auth = ("Basic", ("broker", ""))
 
     test_put_tender_document = snitch(put_tender_document)
     test_patch_tender_document = snitch(patch_tender_document)
 
 
-class DialogEUDocumentWithDSResourceTest(DialogEUDocumentResourceTest):
+class DialogUADocumentWithDSResourceTest(BaseCompetitiveDialogUAContentWebTest, TenderDocumentWithDSResourceTestMixin):
     docservice = True
-
-
-class DialogUADocumentResourceTest(BaseCompetitiveDialogUAContentWebTest, TenderDocumentResourceTestMixin):
-    docservice = False
-
     initial_auth = ("Basic", ("broker", ""))
-
     test_put_tender_document = snitch(put_tender_document)
     test_patch_tender_document = snitch(patch_tender_document)
-
-
-class DialogUADocumentWithDSResourceTest(DialogUADocumentResourceTest):
-    docservice = True
 
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(DialogEUDocumentResourceTest))
     suite.addTest(unittest.makeSuite(DialogEUDocumentWithDSResourceTest))
+    suite.addTest(unittest.makeSuite(DialogUADocumentWithDSResourceTest))
     return suite
 
 

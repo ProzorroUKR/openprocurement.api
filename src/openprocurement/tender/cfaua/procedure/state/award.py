@@ -1,10 +1,10 @@
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 from openprocurement.tender.core.procedure.context import get_now, get_request, get_tender
-from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderTenderState
+from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
 from openprocurement.api.utils import raise_operation_error
 
 
-class AwardState(AwardStateMixing, CFAUATenderTenderState):
+class AwardState(AwardStateMixing, CFAUATenderState):
 
     def award_on_patch(self, before, award):
         # start complaintPeriod
@@ -45,7 +45,7 @@ class AwardState(AwardStateMixing, CFAUATenderTenderState):
 
                 # award["dateDecision"] = now  # wtf ?
                 period = tender.get("awardPeriod")
-                if period and period.get("endDate"):
+                if period and "endDate" in period:
                     del period["endDate"]
 
                 ensure_status = "active.qualification"

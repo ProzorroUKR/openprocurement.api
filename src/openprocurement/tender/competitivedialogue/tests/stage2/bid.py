@@ -101,13 +101,6 @@ class TenderStage2EUBidResourceTest(
     test_create_tender_biddder_invalid = None
 
 
-class TenderStage2EU2LotBidResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
-    initial_lots = 2 * test_lots
-    test_bids_data = test_bids_stage2
-    initial_status = "active.tendering"
-
-    test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
-
 
 class TenderStage2EUBidFeaturesResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_status = "active.tendering"
@@ -172,14 +165,6 @@ class TenderStage2UABidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest)
     test_2_draft_bids = snitch(two_draft_bids)
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change_ua)
     test_bids_activation_on_tender_documents = snitch(bids_activation_on_tender_documents_ua)
-
-
-class TenderStage2UA2LotBidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
-    initial_lots = 2 * test_lots
-    test_bids_data = test_bids_stage2
-    initial_status = "active.tendering"
-
-    test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
 
 
 class TenderStage2UABidFeaturesResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
@@ -263,7 +248,6 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderStage2EUBidResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2UABidResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2UABidFeaturesResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UABidDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderEUBidRequirementResponseResourceTest))
     suite.addTest(unittest.makeSuite(TenderUABidRequirementResponseResourceTest))
     suite.addTest(unittest.makeSuite(TenderEUBidRequirementResponseEvidenceResourceTest))

@@ -1,16 +1,14 @@
-PATCH /api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324?acc_token=7cb87b2d0f3d446993a6da1f03746396 HTTP/1.0
+PATCH /api/2.5/tenders/1707c4e05c834d2281c4917429aed004?acc_token=cdb0d97ad6324ce1b99843f3f2959aa4 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 116
+Content-Length: 131
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "minValue": {
-      "amount": 501,
-      "currency": "UAH"
-    },
+    "title": "Whatever",
     "tenderPeriod": {
+      "startDate": "2021-02-15T00:00:00+02:00",
       "endDate": "2021-03-24T00:00:00+02:00"
     }
   }
@@ -21,40 +19,11 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "title": "Послуги шкільних їдалень",
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "tenderID": "UA-2021-03-16-000001",
-    "owner": "broker",
-    "mainProcurementCategory": "services",
-    "milestones": [
-      {
-        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "title": "signingTheContract",
-        "type": "financing",
-        "code": "prepayment",
-        "percentage": 45.55,
-        "duration": {
-          "days": 2,
-          "type": "banking"
-        },
-        "sequenceNumber": 0
-      },
-      {
-        "id": "08769235ce13494fac8132b398af309f",
-        "title": "deliveryOfGoods",
-        "type": "financing",
-        "code": "postpayment",
-        "percentage": 54.45,
-        "duration": {
-          "days": 900,
-          "type": "calendar"
-        },
-        "sequenceNumber": 0
-      }
-    ],
-    "procurementMethod": "open",
-    "submissionMethod": "electronicAuction",
+    "guarantee": {
+      "amount": 8.0,
+      "currency": "USD"
+    },
+    "title_en": "Services in school canteens",
     "criteria": [
       {
         "id": "b2dc5656c33340b886dbcab87b89827a",
@@ -619,66 +588,96 @@ X-Content-Type-Options: nosniff
         ]
       }
     ],
-    "procurementMethodType": "esco",
-    "title_en": "Services in school canteens",
-    "items": [
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "tenderID": "UA-2021-03-16-000001",
+    "questions": [
       {
-        "id": "a82f2d1b074d4affa3475024a0535f45",
-        "description": "Послуги шкільних їдалень",
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "Послуги шкільних їдалень"
+        "id": "f224c93fe5654f788bb273af90c02176",
+        "author": {
+          "name": "ДКП «Книга»",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00137226",
+            "uri": "http://www.sc.gov.ua/"
+          },
+          "address": {
+            "streetAddress": "вул. Островського, 34",
+            "locality": "м. Львів",
+            "region": "Львівська область",
+            "postalCode": "79013",
+            "countryName": "Україна"
+          },
+          "contactPoint": {
+            "email": "aagt@gmail.com",
+            "telephone": "+380322916930",
+            "name": "Андрій Олексюк"
           }
-        ],
-        "classification": {
-          "description": "Test",
-          "scheme": "ДК021",
-          "id": "37810000-9"
         },
-        "description_en": "Services in school canteens",
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        }
-      },
-      {
-        "id": "99b91dfdb36248d4ad0b4acac0ee2c73",
-        "description": "Послуги шкільних їдалень",
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "Послуги шкільних їдалень"
-          }
-        ],
-        "classification": {
-          "description": "Test",
-          "scheme": "ДК021",
-          "id": "37810000-9"
-        },
-        "description_en": "Services in school canteens",
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        }
+        "title": "Калорійність",
+        "description": "Просимо додати таблицю потрібної калорійності харчування",
+        "date": "2021-03-16T00:00:00+02:00",
+        "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"",
+        "questionOf": "tender",
+        "dateAnswered": "2021-03-16T00:00:00+02:00"
       }
     ],
-    "tenderPeriod": {
-      "startDate": "2021-02-15T00:00:00+02:00",
-      "endDate": "2021-03-24T00:00:00+02:00"
-    },
-    "auctionPeriod": {
-      "shouldStartAfter": "2021-04-28T00:00:00+02:00"
-    },
+    "documents": [
+      {
+        "language": "uk",
+        "id": "fe0e171a76a9484690da8f1ca3078c5c",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Notice.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bd899d26e31643489abf7981b0f34549?Signature=LSjz%2FVncGdvIXATJCtqx9wZH4qCdIX8%2Bb%2BvtoDbhNrC3l6cVeUuudEVPDjzv29iIctnFCRy%2BquIkVXebQKJBAA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:00+02:00",
+        "author": "tender_owner"
+      },
+      {
+        "language": "uk",
+        "id": "d680c26128134c5d92a6b3f742bdd2e4",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "AwardCriteria.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fc98c264f5494ffaa5555698c52c5f1e?Signature=chGrY38d3Uo6eHdQINHLFYBs8HK8nW0MfX8egSTDsZDe22MrqFV6vutKzouFIxpn8f7t9f66VBDmmpHX0o9bDA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:00+02:00",
+        "author": "tender_owner"
+      },
+      {
+        "language": "uk",
+        "id": "d680c26128134c5d92a6b3f742bdd2e4",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "AwardCriteria-2.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e205d4bfb1664749a31410c1fcbc0273?Signature=1%2BC2Nxc%2FPIgFhzgfScLfI%2BkpWthB%2B6jJgVAp184qG31Bk2dwwnhKwwCWNk609la2GO6QVAT6eqz0ZbMFqwp4BA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:00+02:00",
+        "author": "tender_owner"
+      }
+    ],
+    "owner": "broker",
+    "title": "Whatever",
+    "mainProcurementCategory": "services",
+    "procurementMethod": "open",
     "awardCriteria": "ratedCriteria",
+    "submissionMethod": "electronicAuction",
+    "procurementMethodType": "esco",
+    "status": "active.tendering",
+    "minimalStepPercentage": 0.006,
+    "minValue": {
+      "amount": 0.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "yearlyPaymentsPercentageRange": 0.8,
+    "NBUdiscountRate": 0.22986,
+    "fundingKind": "other",
+    "noticePublicationDate": "2021-03-16T00:00:00+02:00",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "name_en": "School #10 of Vinnytsia",
@@ -696,69 +695,94 @@ X-Content-Type-Options: nosniff
         "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/",
+        "name": "Куца Світлана Валентинівна",
         "name_en": "Kutsa Svitlana V.",
         "availableLanguage": "uk"
       },
       "kind": "general"
     },
-    "minimalStepPercentage": 0.006,
-    "questions": [
+    "items": [
       {
-        "id": "f224c93fe5654f788bb273af90c02176",
-        "title": "Калорійність",
-        "description": "Просимо додати таблицю потрібної калорійності харчування",
-        "date": "2021-03-16T00:00:00+02:00",
-        "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"",
-        "questionOf": "tender",
-        "dateAnswered": "2021-03-16T00:00:00+02:00"
-      }
-    ],
-    "documents": [
-      {
-        "id": "fa629b7967254d648686a0df975a451e",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "Notice.pdf",
-        "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e233ca037f154f5da9b177fa92ddd453?Signature=U0QR6Lqtph6lQuHh6BpB%2BuHmZLq8bFlNHBDcSrN2rnXIaEW79lFMssWPw%2BDVXO75IW6W%2ByPwbeTJEweUaGcrBA%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
-        "author": "tender_owner",
-        "documentOf": "tender",
-        "language": "uk"
+        "id": "44d08c646cd447eca6bb6473771117d9",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        }
       },
       {
-        "id": "428e9ce6dfe44fdc8fabf3d3ec0ae851",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "AwardCriteria.pdf",
-        "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/be2dcea392744ec3bfc7b53161fabc61?Signature=MezoP%2BI%2Fm2XEuRfqInNFFvuk5wxW96eZrt21hwexze5P6yb4JA8P2xcGnlE8zs881veHw1BR5e%2Fc2qmuyIvjBQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
-        "author": "tender_owner",
-        "documentOf": "tender",
-        "language": "uk"
-      },
-      {
-        "id": "428e9ce6dfe44fdc8fabf3d3ec0ae851",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "AwardCriteria-2.pdf",
-        "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/59b8682ce22c4dda901d30922c81dfe0?Signature=AmOlZ9uaPEmMxQI2ndJRfTusL81pi8GrQw5t5Jn8Qlw%2F0wgstBfW%2F%2B%2BexByZqL0wbG6NnbUMy15W1e7yiLPlBQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
-        "author": "tender_owner",
-        "documentOf": "tender",
-        "language": "uk"
+        "id": "20a00f9baa1d44159cf004c5e242f39a",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        }
       }
     ],
-    "status": "active.tendering",
-    "NBUdiscountRate": 0.22986,
-    "fundingKind": "other",
-    "yearlyPaymentsPercentageRange": 0.8,
-    "id": "33f610abd0a54c8bb1da547c377a3324",
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      },
+      {
+        "id": "a704c63bfb424e74bd596fe222c7c875",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 0
+      }
+    ],
+    "tenderPeriod": {
+      "startDate": "2021-02-15T00:00:00+02:00",
+      "endDate": "2021-03-24T00:00:00+02:00"
+    },
     "enquiryPeriod": {
       "startDate": "2021-02-15T00:00:00+02:00",
       "endDate": "2021-03-14T00:00:00+02:00",
@@ -769,17 +793,11 @@ X-Content-Type-Options: nosniff
       "startDate": "2021-02-15T00:00:00+02:00",
       "endDate": "2021-03-20T00:00:00+02:00"
     },
+    "auctionPeriod": {
+      "shouldStartAfter": "2021-04-28T00:00:00+02:00"
+    },
     "next_check": "2021-03-24T00:00:00+02:00",
-    "minValue": {
-      "amount": 0.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "guarantee": {
-      "amount": 8.0,
-      "currency": "USD"
-    },
-    "noticePublicationDate": "2021-03-16T00:00:00+02:00"
+    "id": "1707c4e05c834d2281c4917429aed004"
   }
 }
 

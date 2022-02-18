@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/3999e118d0d4460a8852c363407a5252?acc_token=f99bcc9314684664a35ef7bb9975975d HTTP/1.0
+GET /api/2.5/tenders/4f76860c8cb34f99bc14e0def3bcbc5a?acc_token=4ce0e72a69954a87b19385c16717eecc HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -27,7 +27,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "891fb68f2d894029b3f64ffc8a0d1a5e",
+        "id": "a341f7e5e54d419685d2a203d77e899a",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -609,7 +609,7 @@ X-Content-Type-Options: nosniff
     "title_en": "Services in school canteens",
     "items": [
       {
-        "id": "3e6891ff95384a6bae0fec7eb217d1db",
+        "id": "b9558d4fd0b34050a2f33769d7594f9e",
         "description": "Послуги шкільних їдалень",
         "additionalClassifications": [
           {
@@ -634,7 +634,7 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "921c1a54826d48889f630ac8cc6cfe1e",
+        "id": "197ec05cd81e4a35b648f4108a84121d",
         "description": "Послуги шкільних їдалень",
         "additionalClassifications": [
           {
@@ -659,6 +659,17 @@ X-Content-Type-Options: nosniff
         }
       }
     ],
+    "minValue": {
+      "amount": 0.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "enquiryPeriod": {
+      "startDate": "2021-02-14T00:00:00+02:00",
+      "endDate": "2021-03-06T00:00:00+02:00",
+      "clarificationsUntil": "2021-04-09T00:00:00+02:00",
+      "invalidationDate": "2021-03-16T00:00:00+02:00"
+    },
     "tenderPeriod": {
       "startDate": "2021-02-13T00:00:00+02:00",
       "endDate": "2021-03-16T00:00:00+02:00"
@@ -666,30 +677,6 @@ X-Content-Type-Options: nosniff
     "awardCriteria": "ratedCriteria",
     "bids": [
       {
-        "tenderers": [
-          {
-            "name": "ДКП «Школяр»",
-            "identifier": {
-              "scheme": "UA-EDR",
-              "id": "00137256",
-              "uri": "http://www.sc.gov.ua/"
-            },
-            "address": {
-              "streetAddress": "вул. Островського, 33",
-              "locality": "м. Вінниця",
-              "region": "Вінницька область",
-              "postalCode": "21100",
-              "countryName": "Україна"
-            },
-            "contactPoint": {
-              "name": "Сергій Олексюк",
-              "email": "soleksuk@gmail.com",
-              "telephone": "+380432216930"
-            },
-            "scale": "micro"
-          }
-        ],
-        "id": "499825a459994ef698c1b3fe612196d2",
         "requirementResponses": [
           {
             "id": "80b0a9861a5a4eb1a1adbb39cdd22ffb",
@@ -802,33 +789,33 @@ X-Content-Type-Options: nosniff
             "value": "True"
           }
         ],
-        "status": "pending"
-      },
-      {
         "tenderers": [
           {
-            "name": "ДКП «Книга»",
+            "name": "ДКП «Школяр»",
             "identifier": {
               "scheme": "UA-EDR",
-              "id": "00137226",
+              "id": "00137256",
               "uri": "http://www.sc.gov.ua/"
             },
             "address": {
-              "streetAddress": "вул. Островського, 34",
-              "locality": "м. Львів",
-              "region": "Львівська область",
-              "postalCode": "79013",
+              "streetAddress": "вул. Островського, 33",
+              "locality": "м. Вінниця",
+              "region": "Вінницька область",
+              "postalCode": "21100",
               "countryName": "Україна"
             },
             "contactPoint": {
-              "name": "Андрій Олексюк",
-              "email": "aagt@gmail.com",
-              "telephone": "+380322916930"
+              "email": "soleksuk@gmail.com",
+              "telephone": "+380432216930",
+              "name": "Сергій Олексюк"
             },
-            "scale": "sme"
+            "scale": "micro"
           }
         ],
-        "id": "2ab7fecbd7c846c9a4c507a13f01efd8",
+        "id": "499825a459994ef698c1b3fe612196d2",
+        "status": "pending"
+      },
+      {
         "requirementResponses": [
           {
             "id": "8213963408444839b2f4f16757796fb7",
@@ -941,6 +928,30 @@ X-Content-Type-Options: nosniff
             "value": "True"
           }
         ],
+        "tenderers": [
+          {
+            "name": "ДКП «Книга»",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137226",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Островського, 34",
+              "locality": "м. Львів",
+              "region": "Львівська область",
+              "postalCode": "79013",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "email": "aagt@gmail.com",
+              "telephone": "+380322916930",
+              "name": "Андрій Олексюк"
+            },
+            "scale": "sme"
+          }
+        ],
+        "id": "2ab7fecbd7c846c9a4c507a13f01efd8",
         "status": "pending"
       }
     ],
@@ -1002,6 +1013,18 @@ X-Content-Type-Options: nosniff
         "yearlyPaymentsPercentageRange": 0.8
       }
     ],
+    "status": "active.pre-qualification",
+    "NBUdiscountRate": 0.22986,
+    "fundingKind": "other",
+    "yearlyPaymentsPercentageRange": 0.8,
+    "noticePublicationDate": "2021-03-16T00:00:00+02:00",
+    "complaintPeriod": {
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-04-12T00:00:00+02:00"
+    },
+    "qualificationPeriod": {
+      "startDate": "2021-03-16T00:00:00+02:00"
+    },
     "qualifications": [
       {
         "id": "4c3d87aed4db40acbd6abd9039add872",
@@ -1022,31 +1045,7 @@ X-Content-Type-Options: nosniff
         "eligible": false
       }
     ],
-    "qualificationPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00"
-    },
-    "status": "active.pre-qualification",
-    "NBUdiscountRate": 0.22986,
-    "fundingKind": "other",
-    "yearlyPaymentsPercentageRange": 0.8,
-    "id": "3999e118d0d4460a8852c363407a5252",
-    "enquiryPeriod": {
-      "startDate": "2021-02-13T00:00:00+02:00",
-      "endDate": "2021-03-06T00:00:00+02:00",
-      "clarificationsUntil": "2021-03-12T00:00:00+02:00",
-      "invalidationDate": "2021-03-16T00:00:00+02:00"
-    },
-    "complaintPeriod": {
-      "startDate": "2021-02-13T00:00:00+02:00",
-      "endDate": "2021-03-12T00:00:00+02:00"
-    },
-    "numberOfBids": 2,
-    "minValue": {
-      "amount": 0.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "noticePublicationDate": "2021-03-16T00:00:00+02:00"
+    "id": "4f76860c8cb34f99bc14e0def3bcbc5a"
   }
 }
 

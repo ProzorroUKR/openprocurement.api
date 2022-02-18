@@ -14,13 +14,13 @@ from openprocurement.api.validation import (
 from openprocurement.tender.limited.validation import validate_operation_with_document_not_in_active_status
 
 
-@optendersresource(
-    name="reporting:Tender Documents",
-    collection_path="/tenders/{tender_id}/documents",
-    path="/tenders/{tender_id}/documents/{document_id}",
-    procurementMethodType="reporting",
-    description="Tender related binary files (PDFs, etc.)",
-)
+# @optendersresource(
+#     name="reporting:Tender Documents",
+#     collection_path="/tenders/{tender_id}/documents",
+#     path="/tenders/{tender_id}/documents/{document_id}",
+#     procurementMethodType="reporting",
+#     description="Tender related binary files (PDFs, etc.)",
+# )
 class TenderDocumentResource(TenderDocumentResource):
     @json_view(
         permission="upload_tender_documents",
@@ -48,23 +48,23 @@ class TenderDocumentResource(TenderDocumentResource):
         return super(TenderDocumentResource, self).patch()
 
 
-@optendersresource(
-    name="negotiation:Tender Documents",
-    collection_path="/tenders/{tender_id}/documents",
-    path="/tenders/{tender_id}/documents/{document_id}",
-    procurementMethodType="negotiation",
-    description="Tender related binary files (PDFs, etc.)",
-)
+# @optendersresource(
+#     name="negotiation:Tender Documents",
+#     collection_path="/tenders/{tender_id}/documents",
+#     path="/tenders/{tender_id}/documents/{document_id}",
+#     procurementMethodType="negotiation",
+#     description="Tender related binary files (PDFs, etc.)",
+# )
 class TenderNegotiationDocumentResource(TenderDocumentResource):
     """ Tender Negotiation Document Resource """
 
 
-@optendersresource(
-    name="negotiation.quick:Tender Documents",
-    collection_path="/tenders/{tender_id}/documents",
-    path="/tenders/{tender_id}/documents/{document_id}",
-    procurementMethodType="negotiation.quick",
-    description="Tender related binary files (PDFs, etc.)",
-)
+# @optendersresource(
+#     name="negotiation.quick:Tender Documents",
+#     collection_path="/tenders/{tender_id}/documents",
+#     path="/tenders/{tender_id}/documents/{document_id}",
+#     procurementMethodType="negotiation.quick",
+#     description="Tender related binary files (PDFs, etc.)",
+# )
 class TenderNegotiationQuickDocumentResource(TenderNegotiationDocumentResource):
     """ Tender Negotiation Quick Document Resource """

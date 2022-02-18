@@ -54,9 +54,10 @@ def test_plan_tenders_404(app):
     }
 
 
-def test_plan_tenders_422(app, plan):
+def test_plan_tenders_empty_data(app, plan):
     app.authorization = ("Basic", ("broker", "broker"))
-    app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {"data": {}}, status=422)
+    response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {"data": {}}, status=403)
+    assert response.json["errors"][0]["name"] == "procurementMethodType"
 
 
 test_below_tender_data = deepcopy(below_tender_data)
@@ -512,24 +513,21 @@ def test_fail_pass_plans(app, plan, request_tender_data):
 def test_fail_cfa_second_stage_creation(app, plan):
     app.authorization = ("Basic", ("broker", "broker"))
     response = app.post_json(
-        "/plans/{}/tenders".format(plan["data"]["id"]), {"data": cfa_selection_tender_data}, status=422
+        "/plans/{}/tenders".format(plan["data"]["id"]),
+        {"data": cfa_selection_tender_data},
+        status=403,
     )
     error_data = response.json["errors"]
     assert len(error_data) > 0
     error = error_data[0]
     assert error["name"] == "procurementMethodType"
-    assert error["description"].startswith("Should be one of the first stage values:")
 
 
 @pytest.mark.parametrize("request_tender_data", [cd_stage2_data_ua, cd_stage2_data_eu])
 def test_fail_cd_second_stage_creation(app, plan, request_tender_data):
     app.authorization = ("Basic", ("broker", "broker"))
     response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {"data": request_tender_data}, status=403)
-    error_data = response.json["errors"]
-    assert len(error_data) > 0
-    error = error_data[0]
-    assert error["name"] == "accreditation"
-    assert "Broker Accreditation level does not permit tender creation" == error["description"]
+    assert response.json["errors"][0]["name"] == "procurementMethodType"
 
 
 def test_fail_tender_creation_without_budget_breakdown(app):

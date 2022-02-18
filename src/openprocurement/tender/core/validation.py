@@ -18,6 +18,7 @@ from openprocurement.api.validation import (
     OPERATIONS,
 )
 from openprocurement.api.constants import (
+    WORKING_DAYS,
     UA_ROAD_SCHEME,
     UA_ROAD_CPV_PREFIXES,
     GMDN_SCHEME,
@@ -33,6 +34,9 @@ from openprocurement.api.constants import (
     GUARANTEE_ALLOWED_TENDER_TYPES,
     TWO_PHASE_COMMIT_FROM,
     UNIT_PRICE_REQUIRED_FROM,
+    MINIMAL_STEP_VALIDATION_PRESCISSION,
+    MINIMAL_STEP_VALIDATION_LOWER_LIMIT,
+    MINIMAL_STEP_VALIDATION_UPPER_LIMIT,
 )
 from openprocurement.api.utils import (
     get_now,
@@ -65,11 +69,6 @@ from openprocurement.planning.api.utils import extract_plan
 from schematics.exceptions import ValidationError
 from schematics.types import DecimalType, StringType, IntType, BooleanType, DateTimeType
 from openprocurement.tender.pricequotation.constants import PMT
-
-# Decided in CS-8167
-MINIMAL_STEP_VALIDATION_PRESCISSION = 2
-MINIMAL_STEP_VALIDATION_LOWER_LIMIT = 0.005
-MINIMAL_STEP_VALIDATION_UPPER_LIMIT = 0.03
 
 
 def validate_tender_data(request, **kwargs):
@@ -754,6 +753,19 @@ def validate_minimalstep_limits(data, value, is_tender=False):
             if higher_minimalstep < value.amount or value.amount < lower_minimalstep:
                 raise ValidationError(
                     "minimalstep must be between 0.5% and 3% of value (with 2 digits precision).")
+
+
+def validate_tender_period_duration(data, period, duration, working_days=False, calendar=WORKING_DAYS):
+    tender_period_end_date = calculate_tender_business_date(
+        period.startDate, duration, data,
+        working_days=working_days,
+        calendar=calendar
+    )
+    if tender_period_end_date > period.endDate:
+        raise ValidationError("tenderPeriod must be at least {duration.days} full {type} days long".format(
+            duration=duration,
+            type="business" if working_days else "calendar"
+        ))
 
 
 # cancellation
@@ -1867,28 +1879,28 @@ def validate_procurement_type_of_first_stage(request, **kwargs):
 
 def validate_tender_matches_plan(request, **kwargs):
     plan = request.validated["plan"]
-    tender = request.validated["tender"]
+    tender = request.validated.get("tender") or request.validated.get("tender_data")
 
     plan_identifier = plan.procuringEntity.identifier
-    tender_identifier = tender.procuringEntity.identifier
-    if plan_identifier.id != tender_identifier.id or plan_identifier.scheme != tender_identifier.scheme:
+    tender_identifier = tender["procuringEntity"]["identifier"]
+    if plan_identifier.id != tender_identifier["id"] or plan_identifier.scheme != tender_identifier["scheme"]:
         request.errors.add(
             "body",
             "procuringEntity",
             "procuringEntity.identifier doesn't match: {} {} != {} {}".format(
-                plan_identifier.scheme, plan_identifier.id, tender_identifier.scheme, tender_identifier.id
+                plan_identifier.scheme, plan_identifier.id, tender_identifier["scheme"], tender_identifier["id"]
             ),
         )
 
     pattern = plan.classification.id[:3] if plan.classification.id.startswith("336") else plan.classification.id[:4]
-    for i, item in enumerate(tender.items):
+    for i, item in enumerate(tender.get("items", "")):
         # item.classification may be empty in pricequotaiton
-        if item.classification and item.classification.id[: len(pattern)] != pattern:
+        if item.get("classification") and item["classification"]["id"][: len(pattern)] != pattern:
             request.errors.add(
                 "body",
                 "items[{}].classification.id".format(i),
                 "Plan classification.id {} and item's {} should be of the same group {}".format(
-                    plan.classification.id, item.classification.id, pattern
+                    plan.classification.id, item["classification"]["id"], pattern
                 ),
             )
 
@@ -1899,16 +1911,16 @@ def validate_tender_matches_plan(request, **kwargs):
 
 def validate_tender_plan_procurement_method_type(request, **kwargs):
     plan = request.validated["plan"]
-    tender = request.validated["tender"]
+    tender = request.validated["tender_data"]
 
-    if plan.tender.procurementMethodType not in (tender.procurementMethodType, "centralizedProcurement"):
-        if tender.procurementMethodType == PMT and plan.tender.procurementMethodType == "belowThreshold":
+    if plan.tender.procurementMethodType not in (tender["procurementMethodType"], "centralizedProcurement"):
+        if tender["procurementMethodType"] == PMT and plan.tender.procurementMethodType == "belowThreshold":
             return
         request.errors.add(
             "body",
             "procurementMethodType",
             "procurementMethodType doesn't match: {} != {}".format(
-                plan.tender.procurementMethodType, tender.procurementMethodType
+                plan.tender.procurementMethodType, tender["procurementMethodType"]
             ),
         )
         request.errors.status = 422
@@ -2053,7 +2065,7 @@ def validate_requirement(requirement):
 
 def validate_requirement_groups(value):
     for requirements in value:
-        for requirement in requirements.requirements:
+        for requirement in requirements.requirements or "":
             validate_requirement(requirement)
 
 

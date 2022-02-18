@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/4e26fc6d9ddf44cb997c219b4d7c25f7/awards?acc_token=ad9fe16460044cee848ba21b924cdc59 HTTP/1.0
+GET /api/2.5/tenders/3188dc625fca4ffba2a23ad0ef9dc214/awards?acc_token=27c04fbe12a64cd091f90f954e9caf23 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -13,10 +13,10 @@ X-Content-Type-Options: nosniff
         {
           "name": "Державне управління справами",
           "identifier": {
-            "legalName": "Державне управління справами",
-            "uri": "http://www.dus.gov.ua/",
             "scheme": "UA-EDR",
-            "id": "00037256"
+            "id": "00037256",
+            "legalName": "Державне управління справами",
+            "uri": "http://www.dus.gov.ua/"
           },
           "address": {
             "streetAddress": "вул. Банкова, 11, корпус 1",

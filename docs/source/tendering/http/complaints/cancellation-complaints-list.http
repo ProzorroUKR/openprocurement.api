@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/7d0a97df8f00490ca771758156599045/cancellations/7b3a09b033c7450d99c0d3e17b69039a/complaints HTTP/1.0
+GET /api/2.5/tenders/5087b26edee7403596245d4bbf81245f/cancellations/7b3a09b033c7450d99c0d3e17b69039a/complaints HTTP/1.0
 Host: lb-api-sandbox.prozorro.gov.ua
 
 Response: 200 OK

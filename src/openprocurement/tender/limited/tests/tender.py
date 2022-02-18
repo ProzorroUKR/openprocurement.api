@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -49,7 +48,6 @@ from openprocurement.tender.limited.tests.tender_blanks import (
     create_tender_generated,
     create_tender,
     patch_tender,
-    tender_Administrator_change,
     tender_with_main_procurement_category,
     create_tender_accreditation,
     tender_cause_desc,
@@ -104,7 +102,6 @@ class TenderResourceTest(BaseTenderWebTest):
     patch_tender_draft = snitch(patch_tender_draft)
     test_dateModified_tender = snitch(dateModified_tender)
     test_tender_not_found = snitch(tender_not_found)
-    test_tender_Administrator_change = snitch(tender_Administrator_change)
     test_tender_funders = snitch(tender_funders)
     test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
     test_tender_finance_milestones = snitch(tender_finance_milestones)

@@ -21,8 +21,6 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     patch_tender_award_document,
     create_award_document_bot,
     patch_not_author,
-    # TenderLotAwardResourceTest
-    patch_tender_lot_award_lots_none,
     # TenderAwardDocumentWithDSResourceTest
     create_tender_award_document_json_bulk,
 )
@@ -60,6 +58,9 @@ from openprocurement.tender.cfaua.tests.award_blanks import (
     patch_tender_award_complaint_document,
     patch_tender_award_in_qualification_st_st,
     award_complaint_document_in_active_qualification,
+
+    # TenderLotAwardResourceTest
+    patch_tender_lot_award_lots_none,
 )
 
 

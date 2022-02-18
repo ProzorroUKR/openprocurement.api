@@ -64,3 +64,16 @@ def validate_upload_documents_not_allowed_for_simple_pmr(request, **kwargs):
                 request,
                 f"Can't upload document with {statuses} tender status and procurementMethodRationale simple"
             )
+
+
+# tender documents
+def validate_document_operation_in_not_allowed_period(request, **_):
+    tender_status = request.validated["tender"]["status"]
+    if (
+        request.authenticated_role != "auction" and tender_status not in ("draft", "active.enquiries")
+        or request.authenticated_role == "auction" and tender_status not in ("active.auction", "active.qualification")
+    ):
+        raise_operation_error(
+            request,
+            f"Can't {OPERATIONS.get(request.method)} document in current ({tender_status}) tender status",
+        )

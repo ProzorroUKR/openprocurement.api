@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/awards?acc_token=fbb49b806b484733bc09390b0e01078d HTTP/1.0
+GET /api/2.5/tenders/6f00022409bb4e73b5f698801518e0db/awards?acc_token=a4dab218398a4cc8a8004a91d3ba9744 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -20,9 +20,9 @@ X-Content-Type-Options: nosniff
         {
           "name": "«Снігур»",
           "identifier": {
-            "uri": "http://www.sc.gov.ua/",
             "scheme": "UA-EDR",
-            "id": "00137227"
+            "id": "00137227",
+            "uri": "http://www.sc.gov.ua/"
           },
           "address": {
             "streetAddress": "вул. Островського, 35",
@@ -57,9 +57,9 @@ X-Content-Type-Options: nosniff
         {
           "name": "ДКП «Книга»",
           "identifier": {
-            "uri": "http://www.sc.gov.ua/",
             "scheme": "UA-EDR",
-            "id": "00137226"
+            "id": "00137226",
+            "uri": "http://www.sc.gov.ua/"
           },
           "address": {
             "streetAddress": "вул. Островського, 34",
@@ -94,9 +94,9 @@ X-Content-Type-Options: nosniff
         {
           "name": "ДКП «Школяр»",
           "identifier": {
-            "uri": "http://www.sc.gov.ua/",
             "scheme": "UA-EDR",
-            "id": "00137256"
+            "id": "00137256",
+            "uri": "http://www.sc.gov.ua/"
           },
           "address": {
             "streetAddress": "вул. Островського, 33",
@@ -131,9 +131,9 @@ X-Content-Type-Options: nosniff
         {
           "name": "«Снігур»",
           "identifier": {
-            "uri": "http://www.sc.gov.ua/",
             "scheme": "UA-EDR",
-            "id": "00137227"
+            "id": "00137227",
+            "uri": "http://www.sc.gov.ua/"
           },
           "address": {
             "streetAddress": "вул. Островського, 35",

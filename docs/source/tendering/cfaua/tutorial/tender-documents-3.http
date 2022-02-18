@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/documents HTTP/1.0
+GET /api/2.5/tenders/6f00022409bb4e73b5f698801518e0db/documents HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,28 +8,26 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "id": "3e3577c5d9a94e7aa38186c2fdfe1cac",
       "hash": "md5:00000000000000000000000000000000",
       "title": "Notice.pdf",
       "format": "application/pdf",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f4bcaf7737144372b0bf3ec0dbd28fd0?Signature=%2BTgbGGWC0tK8LDEGB1KAxgRZ3kPRumiNxJIP9SbIY4cNBS2H%2BwRptqJb9dJk1fR8Z0ywXOpZwkvAZhj9DJI3DQ%3D%3D&KeyID=a8968c46",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/576584a3773a4d2799e4af16de7afaef?Signature=eLr29Kwl9WC3bjpcqLZYIIPp41L4E%2FKcaKZalupTpM0kWURXdbQQr7PXvXZTL8bXB1vYeJ2KPUkp2AnlTPbGDQ%3D%3D&KeyID=a8968c46",
+      "documentOf": "tender",
+      "id": "e5d2ba0b59284460a205a7c7f9e09add",
       "datePublished": "2021-03-16T00:00:00+02:00",
       "dateModified": "2021-03-16T00:00:00+02:00",
-      "author": "tender_owner",
-      "documentOf": "tender",
-      "language": "uk"
+      "author": "tender_owner"
     },
     {
-      "id": "edd6d8cc91904eaa96c615d1e4c054a3",
+      "id": "1dec1ea8c0da484a996dabdc76a5173c",
+      "datePublished": "2021-03-16T00:00:00+02:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "AwardCriteria-2.pdf",
       "format": "application/pdf",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0a7e6172d6a246d389b7617a61e3418e?Signature=7hcCPxYJHGFxl9DSy2mThnOMWNUniQdpspYZqmVMBLo5WBrz32WkBucPXOIeCV%2ByHMWZicI09Bez1avcCYUTCA%3D%3D&KeyID=a8968c46",
-      "datePublished": "2021-03-16T00:00:00+02:00",
-      "dateModified": "2021-03-16T00:00:00+02:00",
-      "author": "tender_owner",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1d6de0bad71f4f41927965001d34373c?Signature=IxMhGxVkp53NYCibHDauvqD95DSKyqx4aP3afqxLCEWGZrFI%2Fl1I7ZTMcffq8ScTc2y9IdsdOtKOCuQnGP5jCg%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
-      "language": "uk"
+      "dateModified": "2021-03-16T00:00:00+02:00",
+      "author": "tender_owner"
     }
   ]
 }

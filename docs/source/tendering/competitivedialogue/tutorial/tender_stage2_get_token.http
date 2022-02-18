@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/12ee79ac003d49a69f2a94c326f3e411/credentials?acc_token=b02a0a0cbe7842149f3fab16c42f0d94 HTTP/1.0
+PATCH /api/2.5/tenders/19aa3be2f1874614a406188ae3a07a8f/credentials?acc_token=afb4b304b0aa4ea4ba19e1f03725bf1e HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 2
 Content-Type: application/json
@@ -94,7 +94,7 @@ X-Content-Type-Options: nosniff
     "procurementMethod": "selective",
     "items": [
       {
-        "id": "dab80a27d10e457cb163083745bfb200",
+        "id": "393ac4bff5bc4f61992aa54343e5644b",
         "description": "Послуги шкільних їдалень",
         "additionalClassifications": [
           {
@@ -127,7 +127,7 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "12a8ad1c5ec64731a625e47407f9eaa6",
+        "id": "b84e70557d1d4edab7df869e23bc6500",
         "description": "Послуги шкільних їдалень",
         "additionalClassifications": [
           {
@@ -160,7 +160,7 @@ X-Content-Type-Options: nosniff
         }
       }
     ],
-    "id": "12ee79ac003d49a69f2a94c326f3e411",
+    "id": "19aa3be2f1874614a406188ae3a07a8f",
     "numberOfBids": 0,
     "complaintPeriod": {
       "startDate": "2021-03-16T00:00:00+02:00",

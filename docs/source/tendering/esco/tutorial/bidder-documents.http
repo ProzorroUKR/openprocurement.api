@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/931f9a28ea1c44bda087fc6d9349405f/documents?acc_token=01d276fa7ea64637ad3be5084d677b89 HTTP/1.0
+GET /api/2.5/tenders/1707c4e05c834d2281c4917429aed004/bids/931f9a28ea1c44bda087fc6d9349405f/documents?acc_token=01d276fa7ea64637ad3be5084d677b89 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -11,21 +11,21 @@ X-Content-Type-Options: nosniff
       "hash": "md5:00000000000000000000000000000000",
       "title": "Proposal.pdf",
       "format": "application/pdf",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bd899d26e31643489abf7981b0f34549?Signature=LSjz%2FVncGdvIXATJCtqx9wZH4qCdIX8%2Bb%2BvtoDbhNrC3l6cVeUuudEVPDjzv29iIctnFCRy%2BquIkVXebQKJBAA%3D%3D&KeyID=a8968c46",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e306562479754a0d8a0d64cb0036fcae?Signature=0zTwe9ZZqhfzjGZSKSEGGOBDH0jZmG%2FkoCPoh43ZDw6lXcAeP3hw1l0tGHzoPJ3bcUPWIGevLYGBCdGAXbzECw%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
       "confidentiality": "public",
       "language": "uk",
-      "id": "fe0e171a76a9484690da8f1ca3078c5c",
+      "id": "e51f3496da644d008f4ebf28bf244426",
       "datePublished": "2021-03-16T00:00:00+02:00",
       "dateModified": "2021-03-16T00:00:00+02:00"
     },
     {
-      "id": "d680c26128134c5d92a6b3f742bdd2e4",
+      "id": "6478d18120e944b3875dbec011f545be",
       "datePublished": "2021-03-16T00:00:00+02:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "Proposal_top_secrets.pdf",
       "format": "application/pdf",
-      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/33f610abd0a54c8bb1da547c377a3324/bids/931f9a28ea1c44bda087fc6d9349405f/documents/d680c26128134c5d92a6b3f742bdd2e4?download=fc98c264f5494ffaa5555698c52c5f1e",
+      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1707c4e05c834d2281c4917429aed004/bids/931f9a28ea1c44bda087fc6d9349405f/documents/6478d18120e944b3875dbec011f545be?download=cf23b9f3719f423d9d9a447631f0e067",
       "documentOf": "tender",
       "dateModified": "2021-03-16T00:00:00+02:00",
       "confidentiality": "buyerOnly",

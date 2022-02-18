@@ -170,42 +170,11 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2d3b9e1f38c34125b1d2f7a164f871ba
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d88d7f40a833404db02cfe3afcd4ece6
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "title": "футляри до державних нагород",
-    "date": "2019-05-12T12:00:00+03:00",
-    "dateModified": "2019-05-12T12:00:00+03:00",
-    "tenderID": "UA-2019-05-12-000001",
-    "owner": "broker",
     "mainProcurementCategory": "goods",
-    "milestones": [
-      {
-        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "title": "signingTheContract",
-        "type": "financing",
-        "code": "prepayment",
-        "percentage": 45.55,
-        "duration": {
-          "days": 2,
-          "type": "banking"
-        },
-        "sequenceNumber": 0
-      },
-      {
-        "id": "bc6cce300c9941c4a5df776d1cf7a062",
-        "title": "deliveryOfGoods",
-        "type": "financing",
-        "code": "postpayment",
-        "percentage": 54.45,
-        "duration": {
-          "days": 900,
-          "type": "calendar"
-        },
-        "sequenceNumber": 0
-      }
-    ],
     "buyers": [
       {
         "id": "3e32f23699ea4ac0b8e105e7babd2c86",
@@ -226,14 +195,34 @@ X-Content-Type-Options: nosniff
         }
       }
     ],
+    "title": "футляри до державних нагород",
+    "status": "draft",
+    "submissionMethod": "electronicAuction",
     "procurementMethod": "open",
     "awardCriteria": "lowestCost",
-    "submissionMethod": "electronicAuction",
-    "status": "draft",
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "minimalStep": {
+      "amount": 15.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "tenderPeriod": {
+      "startDate": "2019-11-01T01:00:00+03:00",
+      "endDate": "2019-11-11T01:00:00+03:00"
+    },
     "items": [
       {
-        "id": "95fea057d382491fb93778d67d3c70f3",
+        "id": "4197c192f0184f07b7c7f608bcccfe6b",
         "description": "Насіння гірчиці",
+        "classification": {
+          "description": "Mustard seeds",
+          "scheme": "ДК021",
+          "id": "03111600-8"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -241,24 +230,24 @@ X-Content-Type-Options: nosniff
             "description": "Насіння гірчиці"
           }
         ],
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
         "quantity": 1000.0,
         "deliveryDate": {
           "endDate": "2021-03-31T00:00:00+02:00"
         },
-        "relatedBuyer": "3e32f23699ea4ac0b8e105e7babd2c86",
-        "classification": {
-          "description": "Mustard seeds",
-          "scheme": "ДК021",
-          "id": "03111600-8"
-        },
-        "unit": {
-          "name": "кг",
-          "code": "KGM"
-        }
+        "relatedBuyer": "3e32f23699ea4ac0b8e105e7babd2c86"
       },
       {
-        "id": "8538be924cff4012b27f1fbb7246f7d3",
+        "id": "4af4c1820c8b4dbf960268accf7d7886",
         "description": "Насіння соняшнику",
+        "classification": {
+          "description": "Sunflower seeds",
+          "scheme": "ДК021",
+          "id": "03111300-5"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -266,24 +255,24 @@ X-Content-Type-Options: nosniff
             "description": "Насіння соняшнику"
           }
         ],
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
         "quantity": 2000.0,
         "deliveryDate": {
           "endDate": "2021-04-01T00:00:00+02:00"
         },
-        "relatedBuyer": "3e32f23699ea4ac0b8e105e7babd2c86",
-        "classification": {
-          "description": "Sunflower seeds",
-          "scheme": "ДК021",
-          "id": "03111300-5"
-        },
-        "unit": {
-          "name": "кг",
-          "code": "KGM"
-        }
+        "relatedBuyer": "3e32f23699ea4ac0b8e105e7babd2c86"
       },
       {
-        "id": "2e0736c2008c4ef4a4a734950ec4c9b8",
+        "id": "b58c6b9bfacc4a228e5a2fb9f644c2d2",
         "description": "Насіння бавовнику",
+        "classification": {
+          "description": "Cotton seeds",
+          "scheme": "ДК021",
+          "id": "03111400-6"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -291,35 +280,44 @@ X-Content-Type-Options: nosniff
             "description": "Насіння бавовнику"
           }
         ],
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
         "quantity": 3000.0,
         "deliveryDate": {
           "endDate": "2021-04-02T00:00:00+02:00"
         },
-        "relatedBuyer": "88c051728aae432ca2d39a0215d63fcd",
-        "classification": {
-          "description": "Cotton seeds",
-          "scheme": "ДК021",
-          "id": "03111400-6"
-        },
-        "unit": {
-          "name": "кг",
-          "code": "KGM"
-        }
+        "relatedBuyer": "88c051728aae432ca2d39a0215d63fcd"
       }
     ],
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "enquiryPeriod": {
-      "startDate": "2019-10-01T01:00:00+03:00",
-      "endDate": "2019-10-30T01:00:00+03:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2019-11-01T01:00:00+03:00",
-      "endDate": "2019-11-11T01:00:00+03:00"
-    },
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      },
+      {
+        "id": "99ece3534c564569888c6066bd68839f",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 0
+      }
+    ],
+    "procurementMethodType": "belowThreshold",
     "procuringEntity": {
       "name": "ЦЗО №1",
       "identifier": {
@@ -335,22 +333,24 @@ X-Content-Type-Options: nosniff
         "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Довідкова",
-        "telephone": "+0440000000"
+        "telephone": "+0440000000",
+        "name": "Довідкова"
       },
       "kind": "central"
     },
-    "minimalStep": {
-      "amount": 15.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
+    "enquiryPeriod": {
+      "endDate": "2019-10-30T01:00:00+03:00",
+      "startDate": "2019-10-01T01:00:00+03:00"
     },
-    "procurementMethodType": "belowThreshold",
-    "id": "2d3b9e1f38c34125b1d2f7a164f871ba"
+    "tenderID": "UA-2019-05-12-000001",
+    "owner": "broker",
+    "date": "2019-05-12T12:00:00+03:00",
+    "dateModified": "2019-05-12T12:00:00+03:00",
+    "id": "d88d7f40a833404db02cfe3afcd4ece6"
   },
   "access": {
-    "token": "10dc4c83ec444b9b9c38aad1cc00d390",
-    "transfer": "425ac43ccdc8457f84482d747bf7f76c"
+    "token": "94805a4166324fe8998a871a76474f19",
+    "transfer": "845f6b0dc8144a708ec9ef3fa4ecff4a"
   }
 }
 

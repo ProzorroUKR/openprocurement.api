@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/7d0a97df8f00490ca771758156599045/cancellations/7b3a09b033c7450d99c0d3e17b69039a/complaints/9d0ce1567b1a462eb0d9226f0c06add5/documents HTTP/1.0
+POST /api/2.5/tenders/5087b26edee7403596245d4bbf81245f/cancellations/7b3a09b033c7450d99c0d3e17b69039a/complaints/9d0ce1567b1a462eb0d9226f0c06add5/documents HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 343
 Content-Type: application/json
@@ -15,7 +15,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7d0a97df8f00490ca771758156599045/cancellations/7b3a09b033c7450d99c0d3e17b69039a/complaints/9d0ce1567b1a462eb0d9226f0c06add5/documents/ecf5da7f6ea84b38929f6d5ee164cd8a
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5087b26edee7403596245d4bbf81245f/cancellations/7b3a09b033c7450d99c0d3e17b69039a/complaints/9d0ce1567b1a462eb0d9226f0c06add5/documents/ecf5da7f6ea84b38929f6d5ee164cd8a
 X-Content-Type-Options: nosniff
 {
   "data": {

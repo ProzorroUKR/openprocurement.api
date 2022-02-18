@@ -60,8 +60,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.app.file_obj.write("\n")
 
         with open(TARGET_DIR + 'tender-post-attempt.http', 'w') as self.app.file_obj:
-            response = self.app.post(request_path, 'data', status=415)
-            self.assertEqual(response.status, '415 Unsupported Media Type')
+            response = self.app.post(request_path, 'data', status=422)
 
         self.app.authorization = ('Basic', ('broker', ''))
 
@@ -163,18 +162,20 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.get('/tenders')
             self.assertEqual(response.status, '200 OK')
 
+        req_data = test_tender_data.copy()
+        req_data["agreements"] = [{"id": agreement_id}]
         response = self.app.post_json(
             '/tenders',
-            {'data': data})
+            {'data': req_data})
         self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
         self.tender_id = response.json['data']['id']
         self.tender_token = owner_token = response.json['access']['token']
 
-        response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(
-                self.tender_id, self.tender_token),
-            {'data': {'agreements': [test_agreement]}})
-        self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
+        # response = self.app.patch_json(
+        #     '/tenders/{}?acc_token={}'.format(
+        #         self.tender_id, self.tender_token),
+        #     {'data': {'agreements': [test_agreement]}})
+        # self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
 
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(
@@ -186,9 +187,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         self.app.authorization = ('Basic', (BOT_NAME, ''))
         response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(
-                self.tender_id, self.tender_token),
-            {'data': {'agreements': [test_agreement]}})
+            f'/tenders/{self.tender_id}/agreements/{agreement_id}',
+            {'data': test_agreement})
         self.assertEqual((response.status, response.content_type), ('200 OK', 'application/json'))
 
         response = self.app.patch_json(
@@ -204,12 +204,17 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         # Modifying tender
 
         tender_period_end_date = get_now() + timedelta(days=15, seconds=10)
+        items = deepcopy(response.json["data"]["items"])
+        items[0]["quantity"] = 6
         with open(TARGET_DIR + 'patch-items-value-periods.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
                 {'data': {
-                    "tenderPeriod": {"endDate": tender_period_end_date.isoformat()},
-                    "items": [{"quantity": 6}]
+                    "tenderPeriod": {
+                        "startDate": response.json["data"]["tenderPeriod"]["startDate"],
+                        "endDate": tender_period_end_date.isoformat(),
+                    },
+                    "items": items
                 }})
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.content_type, 'application/json')

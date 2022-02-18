@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/6fc7b4a587f847fcb61cdc861ce4d752/awards?acc_token=4838b1114c2645c0b455f9615e48ecf4 HTTP/1.0
+POST /api/2.5/tenders/0baa3be7ec374aeda829cbc4b875dddb/awards?acc_token=385a1b964fc04c10a6acb22ee6e53ea6 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 916
 Content-Type: application/json
@@ -41,7 +41,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6fc7b4a587f847fcb61cdc861ce4d752/awards/e47918b18f6e4dedb2f4335d2ba17702
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0baa3be7ec374aeda829cbc4b875dddb/awards/e47918b18f6e4dedb2f4335d2ba17702
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -55,9 +55,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "ДКП «Школяр»",
         "identifier": {
-          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137256"
+          "id": "00137256",
+          "uri": "http://www.sc.gov.ua/"
         },
         "address": {
           "streetAddress": "вул. Островського, 33",

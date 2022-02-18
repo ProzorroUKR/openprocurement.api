@@ -28,6 +28,7 @@ from openprocurement.tender.openua.tests.contract_blanks import (
     patch_tender_contract_datesigned,
 )
 
+from openprocurement.tender.openeu.tests.base import test_tender_data as eu_test_tender_data
 from openprocurement.tender.esco.tests.base import (
     BaseESCOContentWebTest,
     test_tender_data,
@@ -100,7 +101,7 @@ class TenderContractResourceTest(BaseESCOContentWebTest, TenderContractResourceT
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "value": self.initial_bids[0]["value"],
-                    "items": test_tender_data["items"],
+                    "items": eu_test_tender_data["items"],
                 }
             },
         )

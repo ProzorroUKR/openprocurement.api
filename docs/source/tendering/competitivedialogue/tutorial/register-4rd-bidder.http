@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids HTTP/1.0
+POST /api/2.5/tenders/e16419902ba94afd92483305d6369505/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1584
 Content-Type: application/json
@@ -52,7 +52,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb/bids/858275d219d14850b85c83ea77b91281
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e16419902ba94afd92483305d6369505/bids/858275d219d14850b85c83ea77b91281
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -60,9 +60,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "«Кенгуру»",
         "identifier": {
-          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137228"
+          "id": "00137228",
+          "uri": "http://www.sc.gov.ua/"
         },
         "address": {
           "streetAddress": "вул. Коцюбинського, 15",
@@ -89,7 +89,7 @@ X-Content-Type-Options: nosniff
         "confidentiality": "public",
         "language": "uk",
         "isDescriptionDecision": false,
-        "id": "bf2b73185c7644999f4c772fd7dbc4b7",
+        "id": "2271f332282f4f48b584b5bcf8941d26",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"
       },
@@ -102,7 +102,7 @@ X-Content-Type-Options: nosniff
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "language": "uk",
         "isDescriptionDecision": false,
-        "id": "19fcd74e8e884158873085b65694b1dc",
+        "id": "aa24281615704a47a0974bc06cf4ce44",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"
       }

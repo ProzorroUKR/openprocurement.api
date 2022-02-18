@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a?acc_token=a18895cc933048798f66084924c3fdf5 HTTP/1.0
+GET /api/2.5/tenders/17a82f12536e405c88db7f654bb215f5?acc_token=b156e1bb6d7f4fa6826249264d4140fd HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -27,7 +27,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "a869e97a691b43a7a2a55935bdc6b316",
+        "id": "1434f6e0fc484c6da48e6afdee4db001",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -618,6 +618,26 @@ X-Content-Type-Options: nosniff
     "questions": [
       {
         "id": "5f49b5e5bcc747da96370e2681a16e19",
+        "author": {
+          "name": "ДКП «Книга»",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00137226",
+            "uri": "http://www.sc.gov.ua/"
+          },
+          "address": {
+            "streetAddress": "вул. Островського, 34",
+            "locality": "м. Львів",
+            "region": "Львівська область",
+            "postalCode": "79013",
+            "countryName": "Україна"
+          },
+          "contactPoint": {
+            "name": "Андрій Олексюк",
+            "email": "aagt@gmail.com",
+            "telephone": "+380322916930"
+          }
+        },
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
         "date": "2021-03-16T00:00:00+02:00",
@@ -635,8 +655,8 @@ X-Content-Type-Options: nosniff
     "title_en": "Services in school canteens",
     "enquiryPeriod": {
       "startDate": "2021-02-15T00:00:00+02:00",
-      "endDate": "2021-03-08T00:00:00+02:00",
-      "clarificationsUntil": "2021-03-12T00:00:00+02:00",
+      "endDate": "2021-03-15T00:00:00+02:00",
+      "clarificationsUntil": "2021-04-09T00:00:00+02:00",
       "invalidationDate": "2021-03-16T00:00:00+02:00"
     },
     "tenderPeriod": {
@@ -644,11 +664,11 @@ X-Content-Type-Options: nosniff
       "endDate": "2021-03-18T00:00:00+02:00"
     },
     "auctionPeriod": {
-      "shouldStartAfter": "2021-04-22T00:00:00+02:00"
+      "shouldStartAfter": "2021-05-21T00:00:00+02:00"
     },
     "documents": [
       {
-        "id": "e6ff11e4796a4e45a0afd771fb72dff0",
+        "id": "227cc8e7d8f945c793c9110b95d8b48b",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
@@ -660,7 +680,7 @@ X-Content-Type-Options: nosniff
         "language": "uk"
       },
       {
-        "id": "c648fc26ab1041c193f63ba2b43e95c8",
+        "id": "dd4b5a8df3ff4deb8eb8c5da24cf55eb",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
@@ -672,7 +692,7 @@ X-Content-Type-Options: nosniff
         "language": "uk"
       },
       {
-        "id": "c648fc26ab1041c193f63ba2b43e95c8",
+        "id": "dd4b5a8df3ff4deb8eb8c5da24cf55eb",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
@@ -686,7 +706,7 @@ X-Content-Type-Options: nosniff
     ],
     "items": [
       {
-        "id": "c2eff2b9323c40a8a017e4f2fe8af8a3",
+        "id": "27aa67024c4b4db9bb3e141549e9d9b7",
         "description": "Послуги шкільних їдалень",
         "additionalClassifications": [
           {
@@ -719,7 +739,7 @@ X-Content-Type-Options: nosniff
         "description_en": "Services in school canteens"
       },
       {
-        "id": "7d309b62d3314959ad7a563221df232c",
+        "id": "352c29a630d94b48a70cd9a654b33659",
         "description": "Послуги шкільних їдалень",
         "additionalClassifications": [
           {
@@ -778,16 +798,16 @@ X-Content-Type-Options: nosniff
       "kind": "general"
     },
     "status": "active.tendering",
-    "id": "5d65b887e53f4c0d97374b32fe5c6b8a",
-    "next_check": "2021-03-18T00:00:00+02:00",
+    "next_check": "2021-04-16T01:00:00+03:00",
     "complaintPeriod": {
-      "startDate": "2021-02-15T00:00:00+02:00",
-      "endDate": "2021-03-14T00:00:00+02:00"
-    }
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-04-12T00:00:00+02:00"
+    },
+    "id": "17a82f12536e405c88db7f654bb215f5"
   }
 }
 
-PATCH /api/2.5/tenders/5d65b887e53f4c0d97374b32fe5c6b8a?acc_token=a18895cc933048798f66084924c3fdf5 HTTP/1.0
+PATCH /api/2.5/tenders/17a82f12536e405c88db7f654bb215f5?acc_token=b156e1bb6d7f4fa6826249264d4140fd HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 38
 Content-Type: application/json

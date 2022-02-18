@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/4826290bfb064165b70a94d71e93a63b/contracts/b8fc5ea92b2f49949263befaaef2db53 HTTP/1.0
+GET /api/2.5/tenders/0fb28ed17f544dfa8a89ddb534e0b3d9/contracts/b8fc5ea92b2f49949263befaaef2db53 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -43,7 +43,7 @@ X-Content-Type-Options: nosniff
     "awardID": "8870406ca2534a028261c3b198af96eb",
     "items": [
       {
-        "id": "ca8069063cb44e45afe6bb5f71ef33f8",
+        "id": "ecbc39c593014e888c385c2adddd3d06",
         "description": "футляри до державних нагород",
         "additionalClassifications": [
           {

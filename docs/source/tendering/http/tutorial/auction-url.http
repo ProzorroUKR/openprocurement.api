@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/4826290bfb064165b70a94d71e93a63b HTTP/1.0
+GET /api/2.5/tenders/0fb28ed17f544dfa8a89ddb534e0b3d9 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -10,7 +10,7 @@ X-Content-Type-Options: nosniff
     "title": "футляри до державних нагород",
     "documents": [
       {
-        "id": "7ca7263e081c464cb08d676e9305f821",
+        "id": "5eb5bed6d8aa4d538f41fef67b2fc466",
         "hash": "md5:00000000000000000000000000000000",
         "documentType": "technicalSpecifications",
         "title": "Notice.pdf",
@@ -23,7 +23,7 @@ X-Content-Type-Options: nosniff
         "documentOf": "tender"
       },
       {
-        "id": "fe77ff6d9c9e4ba68f443a5c13846ccb",
+        "id": "63cd06866d7f4b70970fdab01b6d6e74",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
@@ -34,7 +34,7 @@ X-Content-Type-Options: nosniff
         "documentOf": "tender"
       },
       {
-        "id": "fe77ff6d9c9e4ba68f443a5c13846ccb",
+        "id": "63cd06866d7f4b70970fdab01b6d6e74",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
@@ -88,7 +88,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "f9864a1afd7048e19c55bbef4bae07ec",
+        "id": "d3bdeff96cce42fe97d7f83f572c9b0c",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -106,7 +106,7 @@ X-Content-Type-Options: nosniff
     "status": "active.auction",
     "items": [
       {
-        "id": "ca8069063cb44e45afe6bb5f71ef33f8",
+        "id": "ecbc39c593014e888c385c2adddd3d06",
         "description": "футляри до державних нагород",
         "additionalClassifications": [
           {
@@ -177,10 +177,6 @@ X-Content-Type-Options: nosniff
       },
       "kind": "general"
     },
-    "auctionPeriod": {
-      "startDate": "2021-03-16T00:00:01+02:00",
-      "shouldStartAfter": "2021-03-17T00:00:00+02:00"
-    },
     "minimalStep": {
       "amount": 15.0,
       "currency": "UAH",
@@ -189,6 +185,26 @@ X-Content-Type-Options: nosniff
     "questions": [
       {
         "id": "58ca81fbcacb44d09c452c091ba26b46",
+        "author": {
+          "name": "ДКП «Книга»",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00137226",
+            "uri": "http://www.sc.gov.ua/"
+          },
+          "address": {
+            "streetAddress": "вул. Островського, 34",
+            "locality": "м. Львів",
+            "region": "Львівська область",
+            "postalCode": "79013",
+            "countryName": "Україна"
+          },
+          "contactPoint": {
+            "name": "Андрій Олексюк",
+            "email": "aagt@gmail.com",
+            "telephone": "+380322916930"
+          }
+        },
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
         "date": "2021-03-16T00:00:01+02:00",
@@ -197,14 +213,18 @@ X-Content-Type-Options: nosniff
         "dateAnswered": "2021-03-16T00:00:01+02:00"
       }
     ],
-    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/4826290bfb064165b70a94d71e93a63b",
     "guarantee": {
       "amount": 8.0,
       "currency": "USD"
     },
     "procurementMethodType": "belowThreshold",
-    "id": "4826290bfb064165b70a94d71e93a63b",
-    "next_check": "2021-03-16T00:36:01+02:00"
+    "next_check": "2021-03-16T00:36:01+02:00",
+    "auctionPeriod": {
+      "startDate": "2021-03-16T00:00:01+02:00",
+      "shouldStartAfter": "2021-03-17T00:00:00+02:00"
+    },
+    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/0fb28ed17f544dfa8a89ddb534e0b3d9",
+    "id": "0fb28ed17f544dfa8a89ddb534e0b3d9"
   }
 }
 

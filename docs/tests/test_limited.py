@@ -84,19 +84,19 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         #### Modifying tender
 
+        items = deepcopy(tender["items"])
+        items[0].update({
+            "quantity": 9,
+            "unit": {
+                "code": "MON",
+                "name": "month"
+            }
+        })
         with open(TARGET_DIR + 'tutorial/patch-items-value-periods.http', 'wt') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
                 {'data':
-                    {"items": [
-                        {
-                            "quantity": 9,
-                            "unit": {
-                                "code": "MON",
-                                "name": "month"
-                            }
-                        }]
-                    }
+                    {"items": items}
                 })
 
         with open(TARGET_DIR + 'tutorial/tender-listing-after-patch.http', 'wt') as self.app.file_obj:
@@ -463,10 +463,12 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
             lot_id1 = response.json['data']['id']
 
         # add relatedLot for item
+        items = deepcopy(tender["items"])
+        items[0]["relatedLot"] = lot_id1
         with open(TARGET_DIR + 'multiple_lots_tutorial/tender-add-relatedLot-to-item.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
-                {'data': {'items': [{'relatedLot': lot_id1}]}})
+                {'data': {'items': items}})
             self.assertEqual(response.status, '200 OK')
 
         while True:

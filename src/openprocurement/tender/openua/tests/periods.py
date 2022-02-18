@@ -52,6 +52,10 @@ PERIODS = {
                 "startDate": -timedelta(days=17),
                 "endDate": -timedelta(days=1),
             },
+            "complaintPeriod": {
+                "startDate": -timedelta(days=17),
+                "endDate": -timedelta(days=1),
+            },
             "auctionPeriod": {"startDate": -timedelta(days=1), "endDate": timedelta()},
             "awardPeriod": {"startDate": timedelta()},
         }

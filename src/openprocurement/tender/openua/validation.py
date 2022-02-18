@@ -62,19 +62,6 @@ def _validate_tender_period_start_date(data, period, working_days=False, calenda
         raise ValidationError("tenderPeriod.startDate should be in greater than current date")
 
 
-def _validate_tender_period_duration(data, period, duration, working_days=False, calendar=WORKING_DAYS):
-    tender_period_end_date = calculate_tender_business_date(
-        period.startDate, duration, data,
-        working_days=working_days,
-        calendar=calendar
-    )
-    if tender_period_end_date > period.endDate:
-        raise ValidationError("tenderPeriod must be at least {duration.days} full {type} days long".format(
-            duration=duration,
-            type="business" if working_days else "calendar"
-        ))
-
-
 # bids
 def validate_update_bid_to_draft(request, **kwargs):
     bid_status_to = request.validated["data"].get("status", request.context.status)

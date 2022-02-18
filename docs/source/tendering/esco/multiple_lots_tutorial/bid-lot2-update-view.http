@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/3999e118d0d4460a8852c363407a5252/bids/2ab7fecbd7c846c9a4c507a13f01efd8?acc_token=afd678aee3e249888d49a05e3616d8b5 HTTP/1.0
+PATCH /api/2.5/tenders/4f76860c8cb34f99bc14e0def3bcbc5a/bids/2ab7fecbd7c846c9a4c507a13f01efd8?acc_token=afd678aee3e249888d49a05e3616d8b5 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 124
 Content-Type: application/json
@@ -139,9 +139,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "ДКП «Книга»",
         "identifier": {
-          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137226"
+          "id": "00137226",
+          "uri": "http://www.sc.gov.ua/"
         },
         "address": {
           "streetAddress": "вул. Островського, 34",

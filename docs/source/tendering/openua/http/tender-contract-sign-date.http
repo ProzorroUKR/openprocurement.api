@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/bac835240efd4adea01560554d7bfdb4/contracts/f2233c34b5f4438e9b4f44218606a4d8?acc_token=ecfd2afb0d2844039379a26cddd96d93 HTTP/1.0
+PATCH /api/2.5/tenders/136495241d564e1d82d365ed3977761d/contracts/f2233c34b5f4438e9b4f44218606a4d8?acc_token=65acc4d62e5146a8905f976ac9a4fc21 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 53
 Content-Type: application/json
@@ -52,7 +52,7 @@ X-Content-Type-Options: nosniff
     "awardID": "6f55cabc40d545ae965fdd30a7b745fb",
     "items": [
       {
-        "id": "c8240ac851604470952a8ad2038fd9aa",
+        "id": "b0ac6a98397c41a3ac3206a50b0efb25",
         "description": "Послуги шкільних їдалень",
         "additionalClassifications": [
           {

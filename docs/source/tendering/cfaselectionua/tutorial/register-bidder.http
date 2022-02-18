@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/bids HTTP/1.0
+POST /api/2.5/tenders/16198a81806a4fd9bf0d5b437bc44f7a/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1059
 Content-Type: application/json
@@ -22,8 +22,8 @@ DATA:
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Державне управління справами",
-          "telephone": "+0440000000"
+          "telephone": "+0440000000",
+          "name": "Державне управління справами"
         },
         "scale": "large"
       }
@@ -52,7 +52,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e08a950b18594d05b7c7318066bae24a/bids/03e8ecacaef043e9b20f1a36a5279ac7
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/16198a81806a4fd9bf0d5b437bc44f7a/bids/03e8ecacaef043e9b20f1a36a5279ac7
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -60,9 +60,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "Державне управління справами",
         "identifier": {
-          "uri": "http://www.dus.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00037256"
+          "id": "00037256",
+          "uri": "http://www.dus.gov.ua/"
         },
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",

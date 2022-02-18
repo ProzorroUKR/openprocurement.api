@@ -9,7 +9,7 @@ from openprocurement.tender.openeu.procedure.validation import (
     validate_view_bids,
     validate_bid_status_update_not_to_pending,
 )
-from openprocurement.tender.openeu.procedure.serializers import BidSerializer
+from openprocurement.tender.openeu.procedure.serializers.bid import BidSerializer
 from openprocurement.tender.core.procedure.validation import (
     unless_administrator,
     validate_bid_accreditation_level,
@@ -70,7 +70,7 @@ class TenderBidResource(TenderBidResource):
             validate_bid_operation_period,
             validate_input_data(PostBid),
             validate_post_bid_status,
-            validate_data_documents,
+            validate_data_documents(route_key="bid_id", uid_key="id"),
         ),
     )
     def collection_post(self):

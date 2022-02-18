@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/db4876add6b747dfafc1b99523c02097/bids/1d98255f593f4a09a2fe81564728302f?acc_token=2386f907ffa446d88f2a5e1543997879 HTTP/1.0
+PATCH /api/2.5/tenders/42b066abf8d74e769bd368279e46441b/bids/1d98255f593f4a09a2fe81564728302f?acc_token=2386f907ffa446d88f2a5e1543997879 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -13,54 +13,5 @@ DATA:
 Response: 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
-{
-  "data": {
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "tenderers": [
-      {
-        "name": "ДКП «Школяр»",
-        "identifier": {
-          "uri": "http://www.sc.gov.ua/",
-          "scheme": "UA-EDR",
-          "id": "00137256"
-        },
-        "address": {
-          "streetAddress": "вул. Островського, 33",
-          "locality": "м. Вінниця",
-          "region": "Вінницька область",
-          "postalCode": "21100",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
-        },
-        "scale": "micro"
-      }
-    ],
-    "status": "active",
-    "id": "1d98255f593f4a09a2fe81564728302f",
-    "date": "2021-03-16T00:00:00+02:00",
-    "selfQualified": true,
-    "subcontractingDetails": "ДКП «Орфей», Україна",
-    "documents": [
-      {
-        "id": "c91902ad94c84634af4b0be8fe9e73b6",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "Proposal.pdf",
-        "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/47c968737f624b6fb2947bce2efcbbef?Signature=ui2PtOExSOnCaDAB5fD27QR5emb%2B1MNR5sfhorucH0kJEX92qtfZ38VkY9LC7RktFR68yAnqXel4jQwE0VPzBg%3D%3D&KeyID=a8968c46",
-        "documentOf": "tender",
-        "dateModified": "2021-03-16T00:00:00+02:00",
-        "confidentiality": "public"
-      }
-    ]
-  }
-}
+null
 

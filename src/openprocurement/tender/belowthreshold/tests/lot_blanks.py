@@ -144,9 +144,11 @@ def create_tender_lot_invalid(self):
     self.assertEqual(lots[0]["minimalStep"]["currency"], "UAH")
     self.assertEqual(lots[0]["minimalStep"]["amount"], 15)
 
+    items = deepcopy(self.initial_data["items"])
+    items[0]["relatedLot"] = "0" * 32
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": [{"relatedLot": "0" * 32}]}},
+        {"data": {"items": items}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -251,7 +253,7 @@ def create_tender_lot(self):
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"guarantee": {"currency": "EUR"}}},
+        {"data": {"guarantee": {"currency": "EUR", "amount": 20}}},
     )
     self.assertEqual(response.json["data"]["guarantee"]["amount"], 100500 + 20)
     self.assertEqual(response.json["data"]["guarantee"]["currency"], "EUR")
@@ -427,7 +429,7 @@ def patch_tender_currency(self):
     # update tender currency without mimimalStep currency change
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"value": {"currency": "GBP"}}},
+        {"data": {"value": {"currency": "GBP", "amount": 1000}}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -441,13 +443,20 @@ def patch_tender_currency(self):
                 "location": "body",
                 "name": "minimalStep",
             }
-        ],
+        ]
     )
 
     # update tender currency
+    items = deepcopy(self.initial_data["items"])
+    for i in items:
+        i["unit"]["value"]["currency"] = "GBP"
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"value": {"currency": "GBP"}, "minimalStep": {"currency": "GBP"}}},
+        {"data": {
+            "value": {"currency": "GBP", "amount": 1000},
+            "minimalStep": {"currency": "GBP", "amount": 1},
+            "items": items,
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     # log currency is updated too
@@ -499,10 +508,11 @@ def patch_tender_currency(self):
 
 
 def patch_tender_vat(self):
+    tender = self.initial_data
     # set tender VAT
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"value": {"valueAddedTaxIncluded": True}}},
+        {"data": {"value": {"valueAddedTaxIncluded": True, "amount": tender["value"]["amount"]}}},
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -516,9 +526,15 @@ def patch_tender_vat(self):
     self.assertTrue(lot["value"]["valueAddedTaxIncluded"])
 
     # update tender VAT
+    items = deepcopy(self.initial_data["items"])
+    for i in items:
+        i["unit"]["value"]["valueAddedTaxIncluded"] = False
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"value": {"valueAddedTaxIncluded": False}, "minimalStep": {"valueAddedTaxIncluded": False}}},
+        {"data": {"value": {"valueAddedTaxIncluded": False, "amount": tender["value"]["amount"]},
+                  "minimalStep": {"valueAddedTaxIncluded": False, "amount": tender["minimalStep"]["amount"]},
+                  "items": items,
+                  }},
     )
     self.assertEqual(response.status, "200 OK")
     # log VAT is updated too
@@ -622,7 +638,7 @@ def get_tender_lots(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         set(response.json["data"][0]),
-        set(["id", "date", "title", "description", "minimalStep", "value", "status"]),
+        {"id", "date", "title", "description", "minimalStep", "value", "status"},
     )
 
     self.set_status("active.qualification")
@@ -680,9 +696,11 @@ def delete_tender_lot(self):
     self.assertEqual(response.content_type, "application/json")
     lot = response.json["data"]
 
+    items = deepcopy(self.initial_data["items"])
+    items[0]["relatedLot"] = lot["id"]
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": [{"relatedLot": lot["id"]}]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -736,7 +754,8 @@ def tender_lot_guarantee(self):
     self.assertEqual(response.json["data"]["guarantee"]["currency"], "USD")
 
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], tender_token), {"data": {"guarantee": {"currency": "GBP"}}}
+        "/tenders/{}?acc_token={}".format(tender["id"], tender_token),
+        {"data": {"guarantee": {"currency": "GBP", "amount": 20}}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertIn("guarantee", response.json["data"])
@@ -786,7 +805,8 @@ def tender_lot_guarantee(self):
     self.assertEqual(response.json["data"]["guarantee"]["currency"], "GBP")
 
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], tender_token), {"data": {"guarantee": {"amount": 55}}}
+        "/tenders/{}?acc_token={}".format(tender["id"], tender_token),
+        {"data": {"guarantee": {"amount": 55, "currency": "GBP"}}}
     )
     self.assertEqual(response.json["data"]["guarantee"]["amount"], 20 + 20 + 30)
     self.assertEqual(response.json["data"]["guarantee"]["currency"], "GBP")
@@ -842,21 +862,22 @@ def tender_value(self):
 
 def tender_features_invalid(self):
     request_path = "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token)
-    data = self.initial_data.copy()
-    item = data["items"][0].copy()
+    item = deepcopy(self.initial_data["items"][0])
     item["id"] = "1"
-    data["items"] = [item]
-    data["features"] = [
-        {
-            "featureOf": "lot",
-            "relatedItem": self.initial_lots[0]["id"],
-            "title": "Потужність всмоктування",
-            "enum": [
-                {"value": self.invalid_feature_value, "title": "До 1000 Вт"},
-                {"value": 0.15, "title": "Більше 1000 Вт"},
-            ],
-        }
-    ]
+    data = {
+        "items": [item],
+        "features": [
+            {
+                "featureOf": "lot",
+                "relatedItem": self.initial_lots[0]["id"],
+                "title": "Потужність всмоктування",
+                "enum": [
+                    {"value": self.invalid_feature_value, "title": "До 1000 Вт"},
+                    {"value": 0.15, "title": "Більше 1000 Вт"},
+                ],
+            }
+        ]
+    }
     response = self.app.patch_json(request_path, {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -903,9 +924,14 @@ def tender_features_invalid(self):
 
 
 def tender_lot_document(self):
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-        upload_files=[("file", str(Header("укр.doc", "utf-8")), b"content")],
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1488,8 +1514,11 @@ def proc_1lot_0bid(self):
     self.assertEqual(response.status, "201 Created")
     lot_id = response.json["data"]["id"]
     # add relatedLot for item
+    items = deepcopy(self.initial_data["items"])
+    items[0]["relatedLot"] = lot_id
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": [{"relatedLot": lot_id}]}}
+        "/tenders/{}?acc_token={}".format(tender_id, owner_token),
+        {"data": {"items": items}}
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
@@ -1528,8 +1557,11 @@ def proc_1lot_1bid(self):
     self.assertEqual(response.status, "201 Created")
     lot_id = response.json["data"]["id"]
     # add relatedLot for item
+    items = deepcopy(self.initial_data["items"])
+    items[0]["relatedLot"] = lot_id
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": [{"relatedLot": lot_id}]}}
+        "/tenders/{}?acc_token={}".format(tender_id, owner_token),
+        {"data": {"items": items}}
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
@@ -1602,8 +1634,10 @@ def proc_1lot_2bid(self):
     lot_id = response.json["data"]["id"]
     self.initial_lots = [response.json["data"]]
     # add relatedLot for item
+    items = deepcopy(self.initial_data["items"])
+    items[0]["relatedLot"] = lot_id
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": [{"relatedLot": lot_id}]}}
+        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": items}}
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
@@ -1725,9 +1759,12 @@ def proc_2lot_0bid(self):
         {"data": {"items": [self.initial_data["items"][0] for i in lots]}},
     )
     # add relatedLot for item
+    items = deepcopy(response.json["data"]["items"])
+    for n, lot_id in enumerate(lots):
+        items[n]["relatedLot"] = lot_id
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [{"relatedLot": i} for i in lots]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
@@ -1776,9 +1813,12 @@ def proc_2lot_2can(self):
         {"data": {"items": [self.initial_data["items"][0] for i in lots]}},
     )
     # add relatedLot for item
+    items = deepcopy(response.json["data"]["items"])
+    for n, lot_id in enumerate(lots):
+        items[n]["relatedLot"] = lot_id
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [{"relatedLot": i} for i in lots]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
@@ -1843,9 +1883,12 @@ def proc_2lot_2bid_0com_1can_before_auction(self):
         {"data": {"items": [self.initial_data["items"][0] for i in lots]}},
     )
     # add relatedLot for item
+    items = deepcopy(response.json["data"]["items"])
+    for n, lot_id in enumerate(lots):
+        items[n]["relatedLot"] = lot_id
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [{"relatedLot": i} for i in lots]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
@@ -1947,9 +1990,12 @@ def proc_2lot_1bid_0com_1can(self):
         {"data": {"items": [self.initial_data["items"][0] for i in lots]}},
     )
     # add relatedLot for item
+    items = deepcopy(response.json["data"]["items"])
+    for n, lot_id in enumerate(lots):
+        items[n]["relatedLot"] = lot_id
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [{"relatedLot": i} for i in lots]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
@@ -2044,9 +2090,12 @@ def proc_2lot_1bid_2com_1win(self):
         {"data": {"items": [self.initial_data["items"][0] for i in lots]}},
     )
     # add relatedLot for item
+    items = deepcopy(response.json["data"]["items"])
+    for n, lot_id in enumerate(lots):
+        items[n]["relatedLot"] = lot_id
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [{"relatedLot": i} for i in lots]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
@@ -2130,9 +2179,12 @@ def proc_2lot_1bid_0com_0win(self):
         {"data": {"items": [self.initial_data["items"][0] for i in lots]}},
     )
     # add relatedLot for item
+    items = deepcopy(response.json["data"]["items"])
+    for n, lot_id in enumerate(lots):
+        items[n]["relatedLot"] = lot_id
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [{"relatedLot": i} for i in lots]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
@@ -2212,9 +2264,12 @@ def proc_2lot_1bid_1com_1win(self):
         {"data": {"items": [self.initial_data["items"][0] for i in lots]}},
     )
     # add relatedLot for item
+    items = deepcopy(response.json["data"]["items"])
+    for n, lot_id in enumerate(lots):
+        items[n]["relatedLot"] = lot_id
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [{"relatedLot": i} for i in lots]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
@@ -2320,9 +2375,12 @@ def proc_2lot_2bid_2com_2win(self):
         {"data": {"items": [self.initial_data["items"][0] for i in lots]}},
     )
     # add relatedLot for item
+    items = deepcopy(response.json["data"]["items"])
+    for n, lot_id in enumerate(lots):
+        items[n]["relatedLot"] = lot_id
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [{"relatedLot": i} for i in lots]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
@@ -2481,9 +2539,12 @@ def proc_2lot_1feature_2bid_2com_2win(self):
         {"data": {"items": [self.initial_data["items"][0] for i in lots]}},
     )
     # add relatedLot for item
+    items = deepcopy(response.json["data"]["items"])
+    for n, lot_id in enumerate(lots):
+        items[n]["relatedLot"] = lot_id
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [{"relatedLot": i} for i in lots]}},
+        {"data": {"items": items}},
     )
     # add features
     response = self.app.patch_json(
@@ -2616,9 +2677,12 @@ def proc_2lot_2diff_bids_check_auction(self):
         {"data": {"items": [self.initial_data["items"][0] for i in lots]}},
     )
     # add relatedLot for item
+    items = deepcopy(response.json["data"]["items"])
+    for n, lot_id in enumerate(lots):
+        items[n]["relatedLot"] = lot_id
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [{"relatedLot": i} for i in lots]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
@@ -2648,6 +2712,7 @@ def proc_2lot_2diff_bids_check_auction(self):
     self.create_bid(self.tender_id, bid_data)
     # switch to active.auction
     self.set_status("active.auction")
+    self.check_chronograph()
     # check lots auction period
     # first lot (with 2 bids) should have 'start date' and 'should start after' field
     response = self.app.get("/tenders/{}".format(tender_id))

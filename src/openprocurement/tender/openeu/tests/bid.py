@@ -14,7 +14,6 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
     # Tender2LotBidResourceTest
-    patch_tender_with_bids_lots_none,
     patch_tender_lot_values_any_order,
     # TenderBidDocumentWithDSResourceTest
     create_tender_bid_document_json_bulk,
@@ -76,6 +75,7 @@ from openprocurement.tender.openua.tests.bid_blanks import (
     create_tender_bid_no_scale_invalid,
     create_tender_bid_with_scale_not_required,
     create_tender_bid_no_scale,
+    patch_tender_with_bids_lots_none,
 )
 
 

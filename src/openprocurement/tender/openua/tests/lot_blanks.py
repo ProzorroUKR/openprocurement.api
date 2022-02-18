@@ -27,9 +27,13 @@ def patch_tender_currency(self):
     self.assertEqual(lot["value"]["currency"], "UAH")
 
     # update tender currency without mimimalStep currency change
+    items = deepcopy(self.initial_data["items"])
+    for i in items:
+        i["unit"]["value"]["currency"] = "GBP"
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"value": {"currency": "GBP"}}},
+        {"data": {"value": {"currency": "GBP", "amount": self.initial_data["value"]["amount"]},
+                  "items": items}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -49,7 +53,9 @@ def patch_tender_currency(self):
     # update tender currency
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"value": {"currency": "GBP"}, "minimalStep": {"currency": "GBP"}}},
+        {"data": {"value": {"currency": "GBP", "amount": self.initial_data["value"]["amount"]},
+                  "minimalStep": {"currency": "GBP", "amount": self.initial_data["minimalStep"]["amount"]},
+                  "items": items}},
     )
     self.assertEqual(response.status, "200 OK")
     # log currency is updated too
@@ -62,7 +68,7 @@ def patch_tender_currency(self):
     # try to update lot currency
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"value": {"currency": "USD"}}},
+        {"data": {"value": {"currency": "USD", "amount": lot["value"]["amount"]}}},
     )
     self.assertEqual(response.status, "200 OK")
     # but the value stays unchanged
@@ -75,7 +81,7 @@ def patch_tender_currency(self):
     # try to update minimalStep currency
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"minimalStep": {"currency": "USD"}}},
+        {"data": {"minimalStep": {"currency": "USD", "amount": lot["minimalStep"]["amount"]}}},
     )
     self.assertEqual(response.status, "200 OK")
     # but the value stays unchanged
@@ -88,7 +94,8 @@ def patch_tender_currency(self):
     # try to update lot minimalStep currency and lot value currency in single request
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"value": {"currency": "USD"}, "minimalStep": {"currency": "USD"}}},
+        {"data": {"value": {"currency": "USD", "amount": lot["value"]["amount"]},
+                  "minimalStep": {"currency": "USD", "amount": lot["minimalStep"]["amount"]}}},
     )
     self.assertEqual(response.status, "200 OK")
     # but the value stays unchanged
@@ -102,10 +109,10 @@ def patch_tender_currency(self):
     self.set_enquiry_period_end()
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"value": {"currency": "USD"}, "minimalStep": {"currency": "USD"}}},
+        {"data": {"value": {"currency": "USD", "amount": lot["value"]["amount"]},
+                  "minimalStep": {"currency": "USD", "amount": lot["minimalStep"]["amount"]}}},
         status=403,
     )
-
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
 
@@ -114,9 +121,10 @@ def patch_tender_vat(self):
     # set tender VAT
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"value": {"valueAddedTaxIncluded": True}}},
+        {"data": {"value": {"valueAddedTaxIncluded": True, "amount": self.initial_data["value"]["amount"]}}},
     )
     self.assertEqual(response.status, "200 OK")
+    items = response.json["data"]["items"]
 
     # create lot
     response = self.app.post_json(
@@ -128,9 +136,14 @@ def patch_tender_vat(self):
     self.assertTrue(lot["value"]["valueAddedTaxIncluded"])
 
     # update tender VAT
+    for i in items:
+        i["unit"]["value"]["valueAddedTaxIncluded"] = False
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"value": {"valueAddedTaxIncluded": False}, "minimalStep": {"valueAddedTaxIncluded": False}}},
+        {"data": {"value": {"valueAddedTaxIncluded": False, "amount": lot["value"]["amount"]},
+                  "minimalStep": {"valueAddedTaxIncluded": False, "amount": lot["minimalStep"]["amount"]},
+                  "items": items,
+                  }},
     )
     self.assertEqual(response.status, "200 OK")
     # log VAT is updated too
@@ -143,7 +156,7 @@ def patch_tender_vat(self):
     # try to update lot VAT
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"value": {"valueAddedTaxIncluded": True}}},
+        {"data": {"value": {"valueAddedTaxIncluded": True, "amount": lot["value"]["amount"]}}},
     )
     self.assertEqual(response.status, "200 OK")
     # but the value stays unchanged
@@ -156,7 +169,7 @@ def patch_tender_vat(self):
     # try to update minimalStep VAT
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"minimalStep": {"valueAddedTaxIncluded": True}}},
+        {"data": {"minimalStep": {"valueAddedTaxIncluded": True, "amount": lot["minimalStep"]["amount"]}}},
     )
     self.assertEqual(response.status, "200 OK")
     # but the value stays unchanged
@@ -169,7 +182,8 @@ def patch_tender_vat(self):
     # try to update minimalStep VAT and value VAT in single request
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"value": {"valueAddedTaxIncluded": True}, "minimalStep": {"valueAddedTaxIncluded": True}}},
+        {"data": {"value": {"valueAddedTaxIncluded": True, "amount": lot["value"]["amount"]},
+                  "minimalStep": {"valueAddedTaxIncluded": True, "amount": lot["minimalStep"]["amount"]}}},
     )
     self.assertEqual(response.status, "200 OK")
     # but the value stays unchanged
@@ -183,7 +197,8 @@ def patch_tender_vat(self):
     self.set_enquiry_period_end()
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"value": {"currency": "USD"}, "minimalStep": {"currency": "USD"}}},
+        {"data": {"value": {"currency": "USD", "amount": lot["value"]["amount"]},
+                  "minimalStep": {"currency": "USD", "amount": lot["minimalStep"]["amount"]}}},
         status=403,
     )
 
@@ -950,8 +965,10 @@ def proc_1lot_1bid(self):
     self.assertEqual(response.status, "201 Created")
     lot_id = response.json["data"]["id"]
     # add relatedLot for item
+    items = [deepcopy(self.initial_data["items"][0])]
+    items[0]["relatedLot"] = lot_id
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": [{"relatedLot": lot_id}]}}
+        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": items}}
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
@@ -988,8 +1005,10 @@ def proc_1lot_1bid_patch(self):
     self.assertEqual(response.status, "201 Created")
     lot_id = response.json["data"]["id"]
     # add relatedLot for item
+    items = [deepcopy(self.initial_data["items"][0])]
+    items[0]["relatedLot"] = lot_id
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": [{"relatedLot": lot_id}]}}
+        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": items}}
     )
     self.assertEqual(response.status, "200 OK")
     # create bid
@@ -1026,8 +1045,10 @@ def proc_1lot_2bid(self):
     lot_id = response.json["data"]["id"]
     self.initial_lots = [response.json["data"]]
     # add relatedLot for item
+    items = [deepcopy(self.initial_data["items"][0])]
+    items[0]["relatedLot"] = lot_id
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": [{"relatedLot": lot_id}]}}
+        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": items}}
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
@@ -1137,9 +1158,10 @@ def proc_1lot_3bid_1un(self):
     self.assertEqual(response.status, "201 Created")
     lot_id = response.json["data"]["id"]
     self.initial_lots = [response.json["data"]]
-    # add relatedLot for item
+    items = [deepcopy(self.initial_data["items"][0])]
+    items[0]["relatedLot"] = lot_id
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": [{"relatedLot": lot_id}]}}
+        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": items}}
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
@@ -1256,14 +1278,17 @@ def proc_2lot_1bid_0com_1can(self):
         self.assertEqual(response.status, "201 Created")
         lots.append(response.json["data"]["id"])
     # add item
+    items = [deepcopy(self.initial_data["items"][0]) for _ in lots]
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [self.initial_data["items"][0] for i in lots]}},
+        {"data": {"items": items}},
     )
     # add relatedLot for item
+    for n, l in enumerate(lots):
+        items[n]["relatedLot"] = l
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [{"relatedLot": i} for i in lots]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
@@ -1366,14 +1391,17 @@ def proc_2lot_1bid_2com_1win(self):
         self.assertEqual(response.status, "201 Created")
         lots.append(response.json["data"]["id"])
     # add item
+    items = [deepcopy(self.initial_data["items"][0]) for i in lots]
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [self.initial_data["items"][0] for i in lots]}},
+        {"data": {"items": items}},
     )
     # add relatedLot for item
+    for n, i in enumerate(lots):
+        items[n]["relatedLot"] = i
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [{"relatedLot": i} for i in lots]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
@@ -1448,14 +1476,17 @@ def proc_2lot_1bid_0com_0win(self):
         self.assertEqual(response.status, "201 Created")
         lots.append(response.json["data"]["id"])
     # add item
+    items = [deepcopy(self.initial_data["items"][0]) for i in lots]
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [self.initial_data["items"][0] for i in lots]}},
+        {"data": {"items": items}},
     )
     # add relatedLot for item
+    for n, i in enumerate(lots):
+        items[n]["relatedLot"] = i
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [{"relatedLot": i} for i in lots]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
@@ -1497,14 +1528,17 @@ def proc_2lot_1bid_1com_1win(self):
         self.assertEqual(response.status, "201 Created")
         lots.append(response.json["data"]["id"])
     # add item
+    items = [deepcopy(self.initial_data["items"][0]) for i in lots]
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [self.initial_data["items"][0] for i in lots]}},
+        {"data": {"items": items}},
     )
     # add relatedLot for item
+    for n, i in enumerate(lots):
+        items[n]["relatedLot"] = i
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [{"relatedLot": i} for i in lots]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
@@ -1545,14 +1579,17 @@ def proc_2lot_2bid_2com_2win(self):
         lots.append(response.json["data"]["id"])
     self.initial_lots = lots
     # add item
+    items = [deepcopy(self.initial_data["items"][0]) for i in lots]
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [self.initial_data["items"][0] for i in lots]}},
+        {"data": {"items": items}},
     )
     # add relatedLot for item
+    for n, l in enumerate(lots):
+        items[n]["relatedLot"] = l
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [{"relatedLot": i} for i in lots]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
@@ -1781,14 +1818,17 @@ def proc_2lot_2bid_1claim_1com_1win(self):
         lots.append(response.json["data"]["id"])
     self.initial_lots = lots
     # add item
+    items = [deepcopy(self.initial_data["items"][0]) for i in lots]
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [self.initial_data["items"][0] for i in lots]}},
+        {"data": {"items": items}},
     )
     # add relatedLot for item
+    for n, i in enumerate(lots):
+        items[n]["relatedLot"] = i
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": [{"relatedLot": i} for i in lots]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering

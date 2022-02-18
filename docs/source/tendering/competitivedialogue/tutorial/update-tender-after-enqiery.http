@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb?acc_token=b02a0a0cbe7842149f3fab16c42f0d94 HTTP/1.0
+GET /api/2.5/tenders/e16419902ba94afd92483305d6369505?acc_token=afb4b304b0aa4ea4ba19e1f03725bf1e HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -26,7 +26,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "a561580a5c104b2d8f22ba45d7bd31ff",
+        "id": "7534e3a34a464fa4b2f85259b90ded68",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -617,6 +617,26 @@ X-Content-Type-Options: nosniff
     "questions": [
       {
         "id": "697dd0b98f8041c483d14808b49a3b57",
+        "author": {
+          "name": "ДКП «Книга»",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00137226",
+            "uri": "http://www.sc.gov.ua/"
+          },
+          "address": {
+            "streetAddress": "вул. Островського, 34",
+            "locality": "м. Львів",
+            "region": "Львівська область",
+            "postalCode": "79013",
+            "countryName": "Україна"
+          },
+          "contactPoint": {
+            "name": "Андрій Олексюк",
+            "email": "aagt@gmail.com",
+            "telephone": "+380322916930"
+          }
+        },
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
         "date": "2021-03-16T00:00:00+02:00",
@@ -632,8 +652,8 @@ X-Content-Type-Options: nosniff
     "title_en": "Services in school canteens",
     "enquiryPeriod": {
       "startDate": "2021-02-15T00:00:00+02:00",
-      "endDate": "2021-03-08T00:00:00+02:00",
-      "clarificationsUntil": "2021-03-12T00:00:00+02:00",
+      "endDate": "2021-03-15T00:00:00+02:00",
+      "clarificationsUntil": "2021-04-09T00:00:00+02:00",
       "invalidationDate": "2021-03-16T00:00:00+02:00"
     },
     "tenderPeriod": {
@@ -642,11 +662,11 @@ X-Content-Type-Options: nosniff
     },
     "documents": [
       {
-        "id": "bc481173b96c400ab8fd4ccd98114bd6",
+        "id": "bf2b73185c7644999f4c772fd7dbc4b7",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ded60bbbed08443ca0d5ebff5baa4abd?Signature=9Yed611xEAsDTWwfXBNh1VvISHBdIL0dHBWLjLpoNC1Jp2ejfuetjCGYZUXjj8Sqxrgw6gNeX39JHLuNGX23BA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/076b981bb04b40b88ebb84ad089a3247?Signature=QFDSC7YPY4Xy9jsrJxkl9AuSufsvuSsl1U7etzrsdG%2BRyGJCmObwUvdYrGfLrWEFtIVhxcUg1FSVcwaGr1MOAQ%3D%3D&KeyID=a8968c46",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "author": "tender_owner",
@@ -654,11 +674,11 @@ X-Content-Type-Options: nosniff
         "language": "uk"
       },
       {
-        "id": "54dce08074864c90bdb8428a0f7fbc1a",
+        "id": "19fcd74e8e884158873085b65694b1dc",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/22238c2494c948e0b384fe68182c71f3?Signature=DB62y74ODjmfb9sOjX4eRM3eIOwF10N1TgaDYe98EGW%2BzjR76BcZIeC54CKuH%2F4lNaAIPaN52KyM1XZxX6qrDA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5620292407bb4c8dab640c22d09475b0?Signature=MHIb%2B50YHwSXW4U5yJ%2Bf3JQwBjDzHaOSym60tDaSUPHGW0tB9%2BzfpVEkbNmhC6%2BJ2FzWqUFZkasHD6BUhuqQDw%3D%3D&KeyID=a8968c46",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "author": "tender_owner",
@@ -666,11 +686,11 @@ X-Content-Type-Options: nosniff
         "language": "uk"
       },
       {
-        "id": "54dce08074864c90bdb8428a0f7fbc1a",
+        "id": "19fcd74e8e884158873085b65694b1dc",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/35a860f6b878441aad82a0d4d3b5d997?Signature=zp7MPYZO%2BHTZwRShkJDrxWi4K3Vuy%2FVgzrNChaWa5h5jYwH5YFULlkznLcfV2isGqjVkjtRGwoK7O%2FkwnDTmBQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/14275856480047db84f7f1e9779d7771?Signature=8a7oK7Fbq0xBmzkj8DJQolQTj7wLtR5Q6%2Fn2HybmJGCGJABKoT1KyUr9VF%2FuWu1Zj%2FvHUyuy1yWOZRjIv95sBg%3D%3D&KeyID=a8968c46",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "author": "tender_owner",
@@ -708,7 +728,7 @@ X-Content-Type-Options: nosniff
     "status": "active.tendering",
     "items": [
       {
-        "id": "e42036d668844a98a37eb8955f3d6a16",
+        "id": "ddc2fa963fa844e98b72f361579bb634",
         "description": "Послуги шкільних їдалень",
         "additionalClassifications": [
           {
@@ -741,7 +761,7 @@ X-Content-Type-Options: nosniff
         "description_en": "Services in school canteens"
       },
       {
-        "id": "a81006a153a64620ad6abc62ebd475ce",
+        "id": "703dfd34a67d42bca6e3b1a3475b90e8",
         "description": "Послуги шкільних їдалень",
         "additionalClassifications": [
           {
@@ -775,16 +795,16 @@ X-Content-Type-Options: nosniff
       }
     ],
     "mainProcurementCategory": "services",
-    "id": "cce509cd3c324437829f34f6d4d074fb",
-    "next_check": "2021-03-18T00:00:00+02:00",
+    "next_check": "2021-04-16T01:00:00+03:00",
     "complaintPeriod": {
-      "startDate": "2021-02-15T00:00:00+02:00",
-      "endDate": "2021-03-14T00:00:00+02:00"
-    }
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-04-12T00:00:00+02:00"
+    },
+    "id": "e16419902ba94afd92483305d6369505"
   }
 }
 
-PATCH /api/2.5/tenders/cce509cd3c324437829f34f6d4d074fb?acc_token=b02a0a0cbe7842149f3fab16c42f0d94 HTTP/1.0
+PATCH /api/2.5/tenders/e16419902ba94afd92483305d6369505?acc_token=afb4b304b0aa4ea4ba19e1f03725bf1e HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 38
 Content-Type: application/json

@@ -19,7 +19,7 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.validation import validate_items_uniq, validate_cpv_group, validate_classification_id
 from openprocurement.tender.core.constants import COMPLAINT_STAND_STILL_TIME
-from openprocurement.tender.core.validation import validate_minimalstep
+from openprocurement.tender.core.validation import validate_minimalstep, validate_tender_period_duration
 
 from openprocurement.tender.core.models import (
     ITender,
@@ -53,7 +53,6 @@ from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
     validate_features_custom_weight,
 )
-from openprocurement.tender.openua.validation import _validate_tender_period_duration
 
 
 class LotAuctionPeriod(Period):
@@ -495,7 +494,7 @@ class Tender(BaseTender):
             and period.startDate
             and period.endDate
         ):
-            _validate_tender_period_duration(data, period, timedelta(days=2), working_days=True)
+            validate_tender_period_duration(data, period, timedelta(days=2), working_days=True)
 
     def validate_awardPeriod(self, data, period):
         if (

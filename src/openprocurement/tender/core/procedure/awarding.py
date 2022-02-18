@@ -300,7 +300,7 @@ class TenderStateAwardingMixing:
 
             if statuses.difference({"unsuccessful", "active"}):
                 if tender["status"] != "active.qualification":
-                    tender["awardPeriod"]["endDate"] = None
+                    tender["awardPeriod"].pop("endDate", None)
                     self.get_change_tender_status_handler("active.qualification")(tender)
             else:
                 if tender["status"] != "active.awarded":
@@ -321,7 +321,7 @@ class TenderStateAwardingMixing:
                     )
             if tender["awards"][-1]["status"] == "pending":
                 if tender["status"] != "active.qualification":
-                    tender["awardPeriod"]["endDate"] = None
+                    tender["awardPeriod"].pop("endDate", None)
                     self.get_change_tender_status_handler("active.qualification")(tender)
             else:
                 if tender["status"] != "active.awarded":

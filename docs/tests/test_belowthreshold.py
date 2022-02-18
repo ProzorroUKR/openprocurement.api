@@ -89,8 +89,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.app.file_obj.write("\n")
 
         with open(TARGET_DIR + 'tutorial/tender-post-attempt.http', 'w') as self.app.file_obj:
-            response = self.app.post(request_path, 'data', status=415)
-            self.assertEqual(response.status, '415 Unsupported Media Type')
+            response = self.app.post(request_path, 'data', status=422)
 
         self.app.authorization = ('Basic', ('broker', ''))
 
@@ -191,11 +190,18 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         self.tick()
 
+        response = self.app.get(f"/tenders/{self.tender_id}")
+        tender = response.json["data"]
+
         tender_period_end_date = get_now() + timedelta(days=15, seconds=10)
         with open(TARGET_DIR + 'tutorial/patch-items-value-periods.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                {'data': {"tenderPeriod": {"endDate": tender_period_end_date.isoformat()}}})
+                {'data': {"tenderPeriod": {
+                    "startDate": tender["tenderPeriod"]["startDate"],
+                    "endDate": tender_period_end_date.isoformat(),
+                }}}
+            )
 
         with open(TARGET_DIR + 'tutorial/tender-listing-after-patch.http', 'w') as self.app.file_obj:
             self.app.authorization = None
@@ -632,17 +638,16 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         tender = response.json['data']
         owner_token = response.json['access']['token']
 
+        milestones = deepcopy(tender["milestones"])
+        milestones[1].update({
+            "title": "anotherEvent",
+            "description": "Підозрілий опис",
+        })
         with open(TARGET_DIR + 'milestones/tender-patch-milestones.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender["id"], owner_token),
                 {"data": {
-                    "milestones": [
-                        {},
-                        {
-                            "title": "anotherEvent",
-                            "description": "Підозрілий опис",
-                        }
-                    ]
+                    "milestones": milestones
                 }}
             )
             self.assertEqual(response.status, '200 OK')
@@ -653,14 +658,13 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.assertEqual(response.status, '201 Created')
         lot = response.json["data"]
 
+        milestones[0]["relatedLot"] = lot["id"]
+        milestones[1]["relatedLot"] = lot["id"]
         with open(TARGET_DIR + 'milestones/tender-patch-lot-milestones.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender["id"], owner_token),
                 {"data": {
-                    "milestones": [
-                        {"relatedLot": lot["id"]},
-                        {"relatedLot": lot["id"]}
-                    ]
+                    "milestones": milestones
                 }}
             )
             self.assertEqual(response.status, '200 OK')

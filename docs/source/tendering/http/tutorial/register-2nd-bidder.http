@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/4826290bfb064165b70a94d71e93a63b/bids HTTP/1.0
+POST /api/2.5/tenders/0fb28ed17f544dfa8a89ddb534e0b3d9/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1428
 Content-Type: application/json
@@ -51,7 +51,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4826290bfb064165b70a94d71e93a63b/bids/6dc5b86cfd0b468ab72f0e6540fec137
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0fb28ed17f544dfa8a89ddb534e0b3d9/bids/6dc5b86cfd0b468ab72f0e6540fec137
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -64,9 +64,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "ДКП «Книга»",
         "identifier": {
-          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137226"
+          "id": "00137226",
+          "uri": "http://www.sc.gov.ua/"
         },
         "address": {
           "streetAddress": "вул. Островського, 34",
@@ -91,7 +91,7 @@ X-Content-Type-Options: nosniff
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4723ad37c9a04058983e5acc8d0ce9f4?Signature=0ZVrM3IuFoNW6QI1eBPPulKeh2ywRON%2Fwp8nKbq7KJPS8w5gx4Tod6BQpwOwiAudl9IK%2BZ7ql7%2BA0kcRAeLjBg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "id": "63cd06866d7f4b70970fdab01b6d6e74",
+        "id": "794a388adf044d75be020885da63b425",
         "datePublished": "2021-03-16T00:00:01+02:00",
         "dateModified": "2021-03-16T00:00:01+02:00"
       },
@@ -101,7 +101,7 @@ X-Content-Type-Options: nosniff
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/200d1dfb2afc4cf791ec2fea005cefde?Signature=vYRIxu%2F3oNjZ5mS1jHC3LFWwaYWC6jkFS4ilfqT%2B3cs75hjSzwVqfOXfYkKe0maf4S88STYJeupj6X%2FfGDMDDg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "id": "af46509a855b496d9679368935810e7a",
+        "id": "c882a3c856934d9ea7dfbf30d0205cfa",
         "datePublished": "2021-03-16T00:00:01+02:00",
         "dateModified": "2021-03-16T00:00:01+02:00"
       }

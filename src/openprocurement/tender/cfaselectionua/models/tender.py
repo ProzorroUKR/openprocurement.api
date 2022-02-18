@@ -9,7 +9,6 @@ from openprocurement.tender.cfaselectionua.models.submodels.item import Item
 from openprocurement.tender.cfaselectionua.models.submodels.lot import Lot
 from openprocurement.tender.cfaselectionua.models.submodels.organizationAndPocuringEntity import ProcuringEntity
 from openprocurement.tender.cfaselectionua.constants import TENDERING_DURATION
-from openprocurement.tender.openua.validation import _validate_tender_period_duration
 from schematics.types import StringType, IntType, URLType, BooleanType
 from schematics.types.compound import ModelType
 from schematics.transforms import whitelist
@@ -31,7 +30,7 @@ from openprocurement.tender.core.models import (
     validate_item_related_buyers,
 )
 from openprocurement.tender.core.utils import calc_auction_end_time, validate_features_custom_weight
-from openprocurement.tender.core.validation import validate_minimalstep
+from openprocurement.tender.core.validation import validate_minimalstep, validate_tender_period_duration
 from barbecue import vnmax
 from decimal import Decimal
 
@@ -415,4 +414,4 @@ class CFASelectionUATender(BaseTender):
             and period.startDate
             and period.endDate
         ):
-            _validate_tender_period_duration(data, period, TENDERING_DURATION)
+            validate_tender_period_duration(data, period, TENDERING_DURATION)

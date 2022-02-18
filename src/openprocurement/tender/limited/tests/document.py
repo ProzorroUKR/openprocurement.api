@@ -2,7 +2,6 @@
 import unittest
 
 from openprocurement.tender.belowthreshold.tests.document import (
-    TenderDocumentResourceTestMixin,
     TenderDocumentWithDSResourceTestMixin,
 )
 
@@ -14,9 +13,9 @@ from openprocurement.tender.limited.tests.base import (
 )
 
 
-class TenderDocumentResourceTest(BaseTenderContentWebTest, TenderDocumentResourceTestMixin):
+class TenderDocumentResourceTest(BaseTenderContentWebTest, TenderDocumentWithDSResourceTestMixin):
     initial_data = test_tender_data
-    docservice = False
+    docservice = True
 
 
 class TenderNegotiationDocumentResourceTest(TenderDocumentResourceTest):

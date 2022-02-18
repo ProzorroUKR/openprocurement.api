@@ -260,11 +260,11 @@ test_item_base = {
         "locality": "м. Київ",
         "streetAddress": "вул. Банкова 1",
     },
+    "classification": {"scheme": "ДК021", "id": "44617100-9", "description": "Cartons"}
 }
 test_item_before_multiprofile = deepcopy(test_item_base)
 test_item_after_multiprofile = deepcopy(test_item_base)
 test_item_after_multiprofile["profile"] = "655360-30230000-889652-40000777"
-test_item_after_multiprofile["classification"] = {"scheme": "ДК021", "id": "44617100-9", "description": "Cartons"}
 test_item_after_multiprofile["additionalClassifications"] = [
     {
         "scheme": "INN",

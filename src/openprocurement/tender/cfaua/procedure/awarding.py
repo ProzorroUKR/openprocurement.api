@@ -63,5 +63,6 @@ class CFAUATenderStateAwardingMixing:
             and any(i for i in tender.get("lots"))   # wtf is this check ??
         ):
             # logic for auction to switch status
-            tender["awardPeriod"]["endDate"] = None
+            if "endDate" in tender["awardPeriod"]:
+                del tender["awardPeriod"]["endDate"]
             tender["status"] = "active.qualification"

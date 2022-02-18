@@ -38,6 +38,7 @@ def includeme(config):
     config.add_request_method(tender_from_data)
     config.add_directive("add_tender_procurementMethodType", register_tender_procurementMethodType)
     config.scan("openprocurement.tender.core.views")
+    config.scan("openprocurement.tender.core.procedure.views")
     config.scan("openprocurement.tender.core.subscribers")
     config.registry.registerAdapter(TenderConfigurator, (ITender, IRequest), IContentConfigurator)
 

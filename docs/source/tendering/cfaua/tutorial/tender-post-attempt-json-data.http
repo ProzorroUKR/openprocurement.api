@@ -152,15 +152,25 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/37cb590308a242a9836f51a9994c7492
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6f00022409bb4e73b5f698801518e0db
 X-Content-Type-Options: nosniff
 {
   "data": {
+    "title_en": "Cases for state awards",
     "title": "футляри до державних нагород",
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "tenderID": "UA-2021-03-16-000001",
-    "owner": "broker",
+    "submissionMethod": "electronicAuction",
+    "procurementMethod": "open",
+    "awardCriteria": "lowestCost",
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "minimalStep": {
+      "amount": 5.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -175,18 +185,43 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       }
     ],
-    "procurementMethod": "open",
-    "awardCriteria": "lowestCost",
-    "submissionMethod": "electronicAuction",
-    "enquiryPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-04-06T00:00:00+02:00",
-      "clarificationsUntil": "2021-04-09T00:00:00+02:00"
+    "procurementMethodType": "closeFrameworkAgreementUA",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "name_en": "State administration",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName_en": "dus.gov.ua",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "telephone": "+0440000000",
+        "name": "Державне управління справами",
+        "name_en": "State administration",
+        "availableLanguage": "uk"
+      },
+      "kind": "general"
     },
+    "mainProcurementCategory": "goods",
+    "agreementDuration": "P3Y3M3D",
+    "maxAwardsCount": 4,
     "items": [
       {
-        "id": "fb692f97b807462b94668d4091b2779b",
+        "id": "aaec8afa6e6a4743b3942b45d02e6457",
         "description": "футляри до державних нагород",
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -194,48 +229,12 @@ X-Content-Type-Options: nosniff
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "quantity": 5.0,
-        "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
-        "description_en": "Cases for state awards",
-        "deliveryDate": {
-          "startDate": "2018-06-27T13:39:09.362837+03:00",
-          "endDate": "2018-06-30T13:39:09.362837+03:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
         "unit": {
           "name": "item",
           "code": "KGM"
-        }
-      },
-      {
-        "id": "eda37d51e2854d93aedc7e1d31e01cea",
-        "description": "футляри до державних нагород",
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
+        },
         "quantity": 5.0,
         "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
-        "description_en": "Cases for state awards",
         "deliveryDate": {
           "startDate": "2018-06-27T13:39:09.362837+03:00",
           "endDate": "2018-06-30T13:39:09.362837+03:00"
@@ -247,24 +246,48 @@ X-Content-Type-Options: nosniff
           "postalCode": "79000",
           "countryName": "Україна"
         },
+        "description_en": "Cases for state awards"
+      },
+      {
+        "id": "84dbeb94478645759b67a2fa88293b0e",
+        "description": "футляри до державних нагород",
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
         "unit": {
           "name": "item",
           "code": "GRM"
-        }
+        },
+        "quantity": 5.0,
+        "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
+        "deliveryDate": {
+          "startDate": "2018-06-27T13:39:09.362837+03:00",
+          "endDate": "2018-06-30T13:39:09.362837+03:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "description_en": "Cases for state awards"
       }
     ],
-    "minimalStep": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amount": 5
-    },
-    "maxAwardsCount": 4,
     "lots": [
       {
-        "id": "52815e9d01914c7a9bf4ba18ebb5e783",
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "date": "2021-03-16T00:00:00+02:00",
+        "id": "52815e9d01914c7a9bf4ba18ebb5e783",
         "status": "active",
         "value": {
           "amount": 500.0,
@@ -275,56 +298,33 @@ X-Content-Type-Options: nosniff
           "amount": 5.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
-        }
+        },
+        "date": "2021-03-16T00:00:00+02:00"
       }
     ],
-    "procurementMethodType": "closeFrameworkAgreementUA",
-    "procuringEntity": {
-      "name": "Державне управління справами",
-      "name_en": "State administration",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "00037256",
-        "uri": "http://www.dus.gov.ua/",
-        "legalName_en": "dus.gov.ua"
-      },
-      "address": {
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Державне управління справами",
-        "telephone": "+0440000000",
-        "name_en": "State administration",
-        "availableLanguage": "uk"
-      },
-      "kind": "general"
+    "tenderPeriod": {
+      "endDate": "2021-04-16T00:00:00+02:00",
+      "startDate": "2021-03-16T00:00:00+02:00"
     },
     "status": "draft",
-    "tenderPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-04-16T00:00:00+02:00"
-    },
-    "title_en": "Cases for state awards",
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amount": 500.0
-    },
-    "agreementDuration": "P3Y3M3D",
-    "mainProcurementCategory": "goods",
-    "id": "37cb590308a242a9836f51a9994c7492",
+    "tenderID": "UA-2021-03-16-000001",
     "complaintPeriod": {
       "startDate": "2021-03-16T00:00:00+02:00",
       "endDate": "2021-04-12T00:00:00+02:00"
-    }
+    },
+    "enquiryPeriod": {
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-04-06T00:00:00+02:00",
+      "clarificationsUntil": "2021-04-09T00:00:00+02:00"
+    },
+    "owner": "broker",
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "id": "6f00022409bb4e73b5f698801518e0db"
   },
   "access": {
-    "token": "fbb49b806b484733bc09390b0e01078d",
-    "transfer": "7dae4a076f1d4e3899b8b0120ea73f38"
+    "token": "a4dab218398a4cc8a8004a91d3ba9744",
+    "transfer": "62f8b519224046eaaf1a9cbf28a9cc0b"
   }
 }
 

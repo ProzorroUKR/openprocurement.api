@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/2d3b9e1f38c34125b1d2f7a164f871ba HTTP/1.0
+GET /api/2.5/tenders/d88d7f40a833404db02cfe3afcd4ece6 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -27,7 +27,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "bc6cce300c9941c4a5df776d1cf7a062",
+        "id": "99ece3534c564569888c6066bd68839f",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -70,7 +70,7 @@ X-Content-Type-Options: nosniff
     "status": "draft",
     "items": [
       {
-        "id": "95fea057d382491fb93778d67d3c70f3",
+        "id": "4197c192f0184f07b7c7f608bcccfe6b",
         "description": "Насіння гірчиці",
         "additionalClassifications": [
           {
@@ -95,7 +95,7 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "8538be924cff4012b27f1fbb7246f7d3",
+        "id": "4af4c1820c8b4dbf960268accf7d7886",
         "description": "Насіння соняшнику",
         "additionalClassifications": [
           {
@@ -120,7 +120,7 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "2e0736c2008c4ef4a4a734950ec4c9b8",
+        "id": "b58c6b9bfacc4a228e5a2fb9f644c2d2",
         "description": "Насіння бавовнику",
         "additionalClassifications": [
           {
@@ -184,7 +184,7 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true
     },
     "procurementMethodType": "belowThreshold",
-    "id": "2d3b9e1f38c34125b1d2f7a164f871ba"
+    "id": "d88d7f40a833404db02cfe3afcd4ece6"
   }
 }
 

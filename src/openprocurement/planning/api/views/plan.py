@@ -1,6 +1,7 @@
-# -*- coding: utf-8 -*-
 from logging import getLogger
 from cornice.util import json_error
+from pyramid.request import Request
+from openprocurement.api.constants import VERSION
 from openprocurement.api.utils import (
     context_unpack, get_now, generate_id, json_view, set_ownership,
     MongodbResourceListing, raise_operation_error,
@@ -22,16 +23,18 @@ from openprocurement.planning.api.validation import (
     validate_plan_not_terminated,
     validate_plan_status_update,
     validate_plan_procurementMethodType_update,
+    validate_tender_data,
 )
 from openprocurement.tender.core.validation import (
-    validate_tender_data,
     validate_procurement_type_of_first_stage,
     validate_tender_matches_plan,
     validate_tender_plan_procurement_method_type,
     validate_plan_budget_breakdown,
 )
 from openprocurement.tender.core.views.tender import TendersResource
+from openprocurement.tender.core.procedure.validation import validate_input_data
 from dateorro import calc_working_datetime
+import simplejson
 
 
 LOGGER = getLogger(__name__)
@@ -148,7 +151,6 @@ class PlanTendersResource(TendersResource):
             validate_plan_not_terminated,
             validate_plan_has_not_tender,  # we need this because of the plans created before the statuses release
             validate_tender_data,
-            validate_procurement_type_of_first_stage,
             validate_tender_plan_procurement_method_type,
             validate_tender_matches_plan,
             validate_plan_budget_breakdown,
@@ -157,11 +159,21 @@ class PlanTendersResource(TendersResource):
     )
     def post(self):
         plan = self.request.validated["plan"]
-        tender = self.request.validated["tender"]
-        tender.link_plan(plan.id)
-        result = super(PlanTendersResource, self).post()
-        if not self.request.errors:
-            plan.tender_id = tender.id
-            save_plan(self.request)
+        tender = self.request.validated["tender_data"]
+        tender["plans"] = [{"id": plan.id}]
 
-        return result
+        sub_req = Request.blank(f'/api/{VERSION}/tenders',
+                                json={"data": tender},
+                                environ={"REQUEST_METHOD": "POST"},
+                                headers=self.request.headers)
+        response = self.request.invoke_subrequest(sub_req, use_tweens=True)
+
+        if "errors" in response.json:
+            self.request.response.status = response.status
+            return response.json
+        else:
+            plan.tender_id = response.json["data"]["id"]
+            save_plan(self.request)
+            self.request.response.status = 201
+            self.request.response.headers["Location"] = response.headers["Location"]
+        return response.json

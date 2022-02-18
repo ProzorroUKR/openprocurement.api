@@ -12,14 +12,14 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_documents,
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
-    # Tender2LotBidResourceTest
-    patch_tender_with_bids_lots_none,
 )
 from openprocurement.tender.openua.tests.bid import (
     TenderBidResourceTestMixin,
     TenderBidDocumentWithDSResourceTestMixin,
     TenderBidRequirementResponseTestMixin,
     TenderBidRequirementResponseEvidenceTestMixin,
+    # Tender2LotBidResourceTest
+    patch_tender_with_bids_lots_none,
 )
 from openprocurement.tender.openua.tests.bid_blanks import (
     # TenderBidFeaturesResourceTest
@@ -52,6 +52,7 @@ class CreateBidMixin(object):
 
 
 class TenderBidResourceTest(BaseSimpleDefContentWebTest, TenderBidResourceTestMixin):
+    docservice = True
     initial_status = "active.tendering"
     test_bids_data = test_bids  # TODO: change attribute identifier
     author_data = test_author

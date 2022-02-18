@@ -18,8 +18,6 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_documents,
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
-    # Tender2LotBidResourceTest
-    patch_tender_with_bids_lots_none,
     # TenderBidDocumentWithDSResourceTest
     create_tender_bid_document_json_bulk,
 )
@@ -27,6 +25,8 @@ from openprocurement.tender.openeu.tests.bid import CreateBidMixin
 from openprocurement.tender.openua.tests.bid import (
     TenderBidRequirementResponseTestMixin,
     TenderBidRequirementResponseEvidenceTestMixin,
+    # Tender2LotBidResourceTest
+    patch_tender_with_bids_lots_none,
 )
 from openprocurement.tender.openeu.tests.bid_blanks import (
     # TenderBidDocumentWithDSResourceTest

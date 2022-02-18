@@ -19,7 +19,6 @@ from openprocurement.tender.openeu.tests.base import test_tender_data, test_lots
 from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     # TenderStage2EU(UA)LotFeatureResourceTest
     tender_value,
-    tender_features_invalid,
 )
 from openprocurement.tender.openeu.tests.lot import TenderLotEdgeCasesTestMixin
 from openprocurement.tender.competitivedialogue.tests.stage2.lot_blanks import (
@@ -111,7 +110,6 @@ class TenderStage2EULotFeatureResourceTest(BaseCompetitiveDialogEUStage2ContentW
     sum_of_max_value_of_all_features = 0.99
 
     test_tender_value = snitch(tender_value)
-    test_tender_features_invalid = snitch(tender_features_invalid)
 
 
 class TenderStage2EULotBidderResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
@@ -286,7 +284,6 @@ class TenderStage2UALotFeatureResourceTest(BaseCompetitiveDialogUAStage2ContentW
     sum_of_max_value_of_all_features = 0.99
 
     test_tender_value = snitch(tender_value)
-    test_tender_features_invalid = snitch(tender_features_invalid)
 
 
 class TenderStage2UALotBidderResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):

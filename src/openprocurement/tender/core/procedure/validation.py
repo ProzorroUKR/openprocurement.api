@@ -1,5 +1,11 @@
 from openprocurement.api.utils import raise_operation_error, handle_data_exceptions, error_handler, context_unpack
-from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.constants import (
+    RELEASE_2020_04_19,
+    CRITERION_REQUIREMENT_STATUSES_FROM,
+    RELEASE_GUARANTEE_CRITERION_FROM,
+    GUARANTEE_ALLOWED_TENDER_TYPES,
+    RELEASE_ECRITERIA_ARTICLE_17,
+)
 from openprocurement.api.validation import (
     validate_json_data,
     _validate_accreditation_level,
@@ -15,6 +21,7 @@ from openprocurement.tender.core.procedure.utils import (
 )
 from openprocurement.tender.core.procedure.documents import check_document_batch, check_document, update_document_url
 from openprocurement.tender.core.procedure.context import get_now, get_tender, get_request
+from openprocurement.tender.core.procedure.state.tender_document import get_tender_document_role
 from schematics.exceptions import ValidationError
 from pyramid.httpexceptions import HTTPError
 from copy import deepcopy
@@ -90,7 +97,49 @@ def validate_patch_data(model, item_name):
         if data:
             request.validated["data"] = validate_data(request, model, data)
         return request.validated["data"]
+    return validate
 
+
+def validate_patch_data_simple(model, item_name):
+    """
+    Does same thing as validate_patch_data
+    but doesn't apply data recursively
+    :param model:
+    :param item_name:
+    :return:
+    """
+    def validate(request, **_):
+        patch_data = request.validated["data"]
+        data = deepcopy(request.validated[item_name])
+
+        # check if there are any changes
+        for f, v in patch_data.items():
+            if data.get(f) != v:
+                break
+        else:
+            request.validated["data"] = {}
+            return  # no changes
+
+        # TODO: move lots management to a distinct endpoint!
+        if "lots" in patch_data:
+            patch_lots = patch_data.pop("lots", None)
+            if patch_lots:
+                new_lots = []
+                for patch, lot_data in zip(patch_lots, data["lots"]):
+                    # if patch_lots is shorter, then some lots are going to be deleted
+                    # longer, then some lots are going to be added
+                    if lot_data is None:
+                        lot_data = patch  # new lot
+                    else:
+                        lot_data.update(patch)
+                    new_lots.append(lot_data)
+                data["lots"] = new_lots
+            elif "lots" in data:
+                del data["lots"]
+
+        data.update(patch_data)
+        request.validated["data"] = validate_data(request, model, data)
+        return request.validated["data"]
     return validate
 
 
@@ -116,22 +165,25 @@ def validate_data(request, model, data, to_patch=False):
     return data
 
 
-def validate_data_documents(request, **kwargs):
-    data = request.validated["data"]
-    for key in data.keys():
-        if key == "documents" or "Documents" in key:
-            if data[key]:
-                docs = []
-                for document in data[key]:
-                    # some magic, yep
-                    route_kwargs = {"bid_id": data["id"]}
-                    document = check_document_batch(request, document, key, route_kwargs)
-                    docs.append(document)
+def validate_data_documents(route_key="tender_id", uid_key="_id"):
+    def validate(request, **_):
+        data = request.validated["data"]
+        for key in data.keys():
+            if key == "documents" or "Documents" in key:
+                if data[key]:
+                    docs = []
+                    for document in data[key]:
+                        # some magic, yep
+                        # route_kwargs = {"bid_id": data["id"]}
+                        route_kwargs = {route_key: data[uid_key]}
+                        document = check_document_batch(request, document, key, route_kwargs)
+                        docs.append(document)
 
-                # replacing documents in request.validated["data"]
-                if docs:
-                    data[key] = docs
-    return data
+                    # replacing documents in request.validated["data"]
+                    if docs:
+                        data[key] = docs
+        return data
+    return validate
 
 
 def validate_item_owner(item_name):
@@ -180,6 +232,14 @@ def unless_bots(*validations):
     return decorated
 
 
+def unless_bots_or_auction(*validations):
+    def decorated(request, **_):
+        if request.authenticated_role not in ("bots", "auction"):
+            for validation in validations:
+                validation(request)
+    return decorated
+
+
 def validate_any(*validations):
     """
     use case:
@@ -212,15 +272,31 @@ def validate_any(*validations):
     return decorated
 
 
-def validate_bid_accreditation_level(request, **kwargs):
-    # TODO: find a way to define accreditation without Model, like config of view attributes
-    # TODO: Model should only validate passed data structure and types
-    _validate_accreditation_level(request, request.tender_model.edit_accreditations, "bid", "creation")
+def validate_accreditation_level(levels, item, operation, source="tender", kind_central_levels=None):
+    def validate(request, **kwargs):
+        # operation
+        _validate_accreditation_level(request, levels, item, operation)
 
-    mode = request.validated["tender"].get("mode", None)
-    _validate_accreditation_level_mode(request, mode, "bid", "creation")
+        # real mode acc lvl
+        mode = request.validated[source].get("mode")
+        _validate_accreditation_level_mode(request, mode, item, operation)
+
+        # procuringEntity.kind = central
+        if kind_central_levels:
+            pe = request.validated[source].get("procuringEntity")
+            if pe:
+                kind = pe.get("kind")
+                if kind == "central":
+                    _validate_accreditation_level(request, kind_central_levels, item, operation)
+    return validate
 
 
+def validate_bid_accreditation_level(request, **kwargs):  # TODO: use validate_accreditation_level directly
+    validator = validate_accreditation_level(request.tender_model.edit_accreditations, "bid", "creation")
+    validator(request, **kwargs)
+
+
+# bids
 def validate_bid_operation_period(request, **kwargs):
     tender = request.validated["tender"]
     tender_period = tender.get("tenderPeriod", {})
@@ -382,7 +458,7 @@ def update_doc_fields_on_put_document(request, **_):
     json_data = request.validated["json_data"]
 
     # here we update new document with fields from the previous version
-    force_replace = ("id", "datePublished", "author")
+    force_replace = ("id", "author", "datePublished")
     black_list = ("title", "format", "url", "dateModified", "hash")
     for key, value in prev_version.items():
         if key in force_replace or (key not in black_list and key not in json_data):
@@ -611,3 +687,174 @@ def validate_award_document_author(request, **kwargs):
             location="url",
             name="role",
         )
+
+
+# TENDER
+def validate_tender_status_allows_update(*statuses):
+    def validate(request, **_):
+        tender_status = get_tender()["status"]
+        if tender_status not in statuses:
+            raise_operation_error(request, f"Can't update tender in current ({tender_status}) status")
+    return validate
+
+
+def validate_item_quantity(request, **kwargs):
+    items = request.validated["data"].get("items", [])
+    for item in items:
+        if item.get("quantity") is not None and not item["quantity"]:
+            tender = get_tender()
+            tender_creation_date = get_first_revision_date(tender, default=get_now())
+            if tender_creation_date >= CRITERION_REQUIREMENT_STATUSES_FROM:
+                related_criteria = any(
+                    criterion.get("relatedItem") == item['id'] and requirement.get("status") == "active"
+                    for criterion in tender.get("criteria", "")
+                    for rg in criterion.get("requirementGroups", "")
+                    for requirement in rg.get("requirements", "")
+                )
+                if related_criteria:
+                    raise_operation_error(
+                        request,
+                        f"Can't set to 0 quantity of {item['id']} item while related criterion has active requirements"
+                    )
+
+
+def validate_tender_guarantee(request, **kwargs):
+    tender = request.validated["tender"]
+    data = request.validated["data"]
+    tender_type = tender["procurementMethodType"]
+    tender_created = get_first_revision_date(tender, default=get_now())
+    if (
+        tender_created < RELEASE_GUARANTEE_CRITERION_FROM
+        or tender_type not in GUARANTEE_ALLOWED_TENDER_TYPES
+        or tender["status"] == data.get("status")
+        or data.get("status") not in ("active", "active.tendering")
+    ):
+        return
+
+    if tender.get("lots"):
+        related_guarantee_lots = [
+            criterion.get("relatedItem")
+            for criterion in tender.get("criteria", "")
+            if criterion.get("relatesTo") == "lot"
+            and criterion.get("classification")
+            and criterion["classification"]["id"] == "CRITERION.OTHER.BID.GUARANTEE"
+        ]
+        for lot in tender["lots"]:
+            if lot["id"] in related_guarantee_lots:
+                if not lot.get("guarantee") or lot["guarantee"]["amount"] <= 0:
+                    raise_operation_error(
+                        request,
+                        "Should be specified 'guarantee.amount' more than 0 to lot"
+                    )
+
+    else:
+        amount = data["guarantee"]["amount"] if data.get("guarantee") else 0
+        needed_criterion = "CRITERION.OTHER.BID.GUARANTEE"
+        tender_criteria = [
+            criterion["classification"]["id"]
+            for criterion in tender.get("criteria", "")
+            if criterion.get("classification")
+        ]
+        if (
+            (amount <= 0 and needed_criterion in tender_criteria)
+            or (amount > 0 and needed_criterion not in tender_criteria)
+        ):
+            raise_operation_error(
+                request,
+                "Should be specified {} and 'guarantee.amount' more than 0".format(needed_criterion)
+            )
+
+
+def validate_tender_change_status_with_cancellation_lot_pending(request, **_):
+    tender = request.validated["tender"]
+    tender_created = get_first_revision_date(tender, default=get_now())
+    data = request.validated["data"]
+    new_status = data.get("status", tender["status"])
+
+    if (
+        tender_created < RELEASE_2020_04_19
+        or not tender.get("lots")
+        or tender["status"] == new_status
+    ):
+        return
+
+    accept_lot = all(
+        any(j.get("status") == "resolved" for j in i.get("complaints", ""))
+        for i in tender.get("cancellations", "")
+        if i.get("status") == "unsuccessful" and i.get("complaints") and i.get("relatedLot")
+    )
+    if (
+        any(i.get("relatedLot") and i.get("status") == "pending" for i in tender.get("cancellations", ""))
+        or not accept_lot
+
+    ):
+        raise_operation_error(
+            request,
+            "Can't update tender with pending cancellation in one of exists lot",
+        )
+
+
+def validate_tender_activate_with_criteria(request, **_):
+    tender = request.validated["tender"]
+    data = request.validated["data"]
+    if (
+        get_first_revision_date(tender, default=get_now()) < RELEASE_ECRITERIA_ARTICLE_17
+        or request.validated["tender_src"]["status"] == data.get("status")
+        or data.get("status") not in ("active", "active.tendering")
+    ):
+        return
+
+    tender_criteria = {criterion["classification"]["id"]
+                       for criterion in tender.get("criteria", "")
+                       if criterion.get("classification")}
+
+    # exclusion criteria
+    exclusion_criteria = {
+        "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
+        "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
+        "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
+        "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING",
+        "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES",
+        "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
+        "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION",
+        "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION",
+        "CRITERION.EXCLUSION.NATIONAL.OTHER",
+    }
+    if exclusion_criteria - tender_criteria:
+        raise_operation_error(request, "Tender must contain all 9 `EXCLUSION` criteria")
+
+    # language criteria
+    tenders_types = ["aboveThresholdUA", "aboveThresholdEU",
+                     "competitiveDialogueUA", "competitiveDialogueEU",
+                     "competitiveDialogueUA.stage2", "competitiveDialogueEU.stage2",
+                     "esco", "closeFrameworkAgreementUA"]
+
+    language_criterion = "CRITERION.OTHER.BID.LANGUAGE"
+    if (
+        tender["procurementMethodType"] in tenders_types
+        and language_criterion not in tender_criteria
+    ):
+        raise_operation_error(request, f"Tender must contain {language_criterion} criterion")
+
+
+# tender documents
+def validate_document_operation_in_not_allowed_period(request, **_):
+    tender_status = request.validated["tender"]["status"]
+    if (
+        request.authenticated_role != "auction" and tender_status not in (
+            "active.tendering", "draft", "draft.stage2")
+        or request.authenticated_role == "auction" and tender_status not in ("active.auction", "active.qualification")
+    ):
+        raise_operation_error(
+            request,
+            f"Can't {OPERATIONS.get(request.method)} document in current ({tender_status}) tender status",
+        )
+
+
+def validate_tender_document_update_not_by_author_or_tender_owner(request, **_):
+    document = request.validated["document"]
+    role = get_tender_document_role(request)
+    if role != (document.get("author") or "tender_owner"):
+        request.errors.add("url", "role", "Can update document only author")
+        request.errors.status = 403
+        raise error_handler(request)

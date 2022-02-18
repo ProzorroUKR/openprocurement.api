@@ -3,7 +3,6 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.award_blanks import patch_tender_lot_award_lots_none
 from openprocurement.tender.cfaselectionua.adapters.configurator import TenderCfaSelectionUAConfigurator
 from openprocurement.tender.cfaselectionua.tests.base import (
     TenderContentWebTest,
@@ -39,6 +38,7 @@ from openprocurement.tender.cfaselectionua.tests.award_blanks import (
     create_tender_lots_award_document,
     put_tender_lots_award_document,
     patch_tender_lots_award_document,
+    patch_tender_lot_award_lots_none,
 )
 
 skip_multi_lots = True

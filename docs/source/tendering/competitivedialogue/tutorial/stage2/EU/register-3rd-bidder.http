@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids HTTP/1.0
+POST /api/2.5/tenders/aa6cf974e101460589085272d5990056/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 2633
 Content-Type: application/json
@@ -78,7 +78,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/9ee879e314fd487584383884598ae7c7
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aa6cf974e101460589085272d5990056/bids/9ee879e314fd487584383884598ae7c7
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -91,9 +91,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "«Кенгуру»",
         "identifier": {
-          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137228"
+          "id": "00137228",
+          "uri": "http://www.sc.gov.ua/"
         },
         "address": {
           "streetAddress": "вул. Коцюбинського, 15",
@@ -119,7 +119,7 @@ X-Content-Type-Options: nosniff
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk",
-        "id": "866c3ddfea9249e9a4953a1943facdf4",
+        "id": "e0a60dc73bc54257836497eba2b05d56",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"
       },
@@ -131,7 +131,7 @@ X-Content-Type-Options: nosniff
         "confidentiality": "buyerOnly",
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "language": "uk",
-        "id": "6be95b29d2d749a2ad53f32098040908",
+        "id": "84ff8dfd2a4a46d489c225ca4658fa42",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"
       }
@@ -141,11 +141,11 @@ X-Content-Type-Options: nosniff
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/9ee879e314fd487584383884598ae7c7/financial_documents/e0a60dc73bc54257836497eba2b05d56?download=9e201cf64846411982f1a0f22875f4f5",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aa6cf974e101460589085272d5990056/bids/9ee879e314fd487584383884598ae7c7/financial_documents/8ed06959d10d4f0eb580b17a2834dd99?download=9e201cf64846411982f1a0f22875f4f5",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk",
-        "id": "e0a60dc73bc54257836497eba2b05d56",
+        "id": "8ed06959d10d4f0eb580b17a2834dd99",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"
       }
@@ -155,11 +155,11 @@ X-Content-Type-Options: nosniff
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/9ee879e314fd487584383884598ae7c7/eligibility_documents/84ff8dfd2a4a46d489c225ca4658fa42?download=3c13822a2b25429caa740bfe269ec59b",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aa6cf974e101460589085272d5990056/bids/9ee879e314fd487584383884598ae7c7/eligibility_documents/57203659f1a64b91b18941755f4d9d89?download=3c13822a2b25429caa740bfe269ec59b",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk",
-        "id": "84ff8dfd2a4a46d489c225ca4658fa42",
+        "id": "57203659f1a64b91b18941755f4d9d89",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"
       }
@@ -169,11 +169,11 @@ X-Content-Type-Options: nosniff
         "hash": "md5:00000000000000000000000000000000",
         "title": "qualification_document.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d/bids/9ee879e314fd487584383884598ae7c7/qualification_documents/8ed06959d10d4f0eb580b17a2834dd99?download=e3674427e5c149ebb79e2795e8537d36",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aa6cf974e101460589085272d5990056/bids/9ee879e314fd487584383884598ae7c7/qualification_documents/9e457bf0191a464dbc6464c6ef0a2735?download=e3674427e5c149ebb79e2795e8537d36",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk",
-        "id": "8ed06959d10d4f0eb580b17a2834dd99",
+        "id": "9e457bf0191a464dbc6464c6ef0a2735",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"
       }

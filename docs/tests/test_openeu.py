@@ -65,8 +65,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.app.file_obj.write("\n")
 
         with  open(TARGET_DIR + 'tender-post-attempt.http', 'w') as self.app.file_obj:
-            response = self.app.post(request_path, 'data', status=415)
-            self.assertEqual(response.status, '415 Unsupported Media Type')
+            response = self.app.post(request_path, 'data', status=422)
 
         self.app.authorization = ('Basic', ('broker', ''))
 
@@ -131,6 +130,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 {'data':
                     {
                         "tenderPeriod": {
+                            "startDate": tender["tenderPeriod"]["startDate"],
                             "endDate": tender_period_end_date.isoformat()
                         }
                     }
@@ -248,6 +248,9 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 {'data': question}, status=403)
             self.assertEqual(response.status, '403 Forbidden')
 
+        response = self.app.get(f"/tenders/{self.tender_id}")
+        tender = response.json["data"]
+
         with open(TARGET_DIR + 'update-tender-after-enqiery-with-update-periods.http',
                   'w') as self.app.file_obj:
             tender_period_end_date = get_now() + timedelta(days=8)
@@ -259,6 +262,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                         "currency": "UAH"
                     },
                     "tenderPeriod": {
+                        "startDate": tender["tenderPeriod"]["startDate"],
                         "endDate": tender_period_end_date.isoformat()
                     }
                 }})
@@ -778,10 +782,13 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         lot_id2 = response.json['data']['id']
 
         # add relatedLot for item
+        items = deepcopy(tender["items"])
+        items[0]["relatedLot"] = lot_id1
+        items[1]["relatedLot"] = lot_id2
         with open(TARGET_DIR_MULTI + 'tender-add-relatedLot-to-item.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
-                {"data": {"items": [{'relatedLot': lot_id1}, {'relatedLot': lot_id2}]}})
+                {"data": {"items": items}})
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR_MULTI + 'tender-listing-no-auth.http', 'w') as self.app.file_obj:

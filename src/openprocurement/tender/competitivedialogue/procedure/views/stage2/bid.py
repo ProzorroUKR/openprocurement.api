@@ -39,7 +39,7 @@ class CompetitiveDialogueStage2EUBidResource(BaseResourceEU):
             validate_input_data(PostBidEU),
             validate_post_bid_status,
             validate_firm_to_create_bid,
-            validate_data_documents,
+            validate_data_documents(route_key="bid_id", uid_key="id"),
         ),
     )
     def collection_post(self):
@@ -63,7 +63,7 @@ class CompetitiveDialogueStage2UABidResource(BaseResourceUA):
             validate_bid_operation_period,
             validate_input_data(PostBidUA),
             validate_firm_to_create_bid,
-            validate_data_documents,
+            validate_data_documents(route_key="bid_id", uid_key="id"),
         ),
     )
     def collection_post(self):

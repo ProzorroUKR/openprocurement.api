@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/bac835240efd4adea01560554d7bfdb4/documents HTTP/1.0
+GET /api/2.5/tenders/136495241d564e1d82d365ed3977761d/documents HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,26 +8,26 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "id": "37931b79e4a24a4b922ef4a7bf83b52e",
       "hash": "md5:00000000000000000000000000000000",
       "title": "Notice.pdf",
       "format": "application/pdf",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2b8ffb74c36644aa9b216aa7ca82eacc?Signature=JOMmyJAJFER3rDIS%2Bhkp0ZMWcnqafAyoOuiUYZbDHf6HN37Vk9mCzJBG%2BrkP8YAc7gxhwXiDqIDpB3RnrONABw%3D%3D&KeyID=a8968c46",
+      "documentOf": "tender",
+      "id": "bf5ede681c9e431a992a12f7fe492b7c",
       "datePublished": "2021-03-16T00:00:00+02:00",
       "dateModified": "2021-03-16T00:00:00+02:00",
-      "author": "tender_owner",
-      "documentOf": "tender"
+      "author": "tender_owner"
     },
     {
-      "id": "ccd5c0b5cc364863ac6db661d6b9aec8",
+      "id": "628e69bbb3be4d8a8a46541a60d09b3f",
+      "datePublished": "2021-03-16T00:00:00+02:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "AwardCriteria-2.pdf",
       "format": "application/pdf",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b733241fbd1c4542b551b3d5c23e04f9?Signature=yLiAUV50iyFKP6fXrHYOLIqWl4hwG9dCUkqgpB%2F0yuhmDaa4IMZzaWa8Bt%2BMdkyDBnVgwo0ZdoW1JcTz29IwDw%3D%3D&KeyID=a8968c46",
-      "datePublished": "2021-03-16T00:00:00+02:00",
+      "documentOf": "tender",
       "dateModified": "2021-03-16T00:00:00+02:00",
-      "author": "tender_owner",
-      "documentOf": "tender"
+      "author": "tender_owner"
     }
   ]
 }

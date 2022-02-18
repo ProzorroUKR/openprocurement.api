@@ -1,0 +1,149 @@
+from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
+from openprocurement.tender.core.procedure.context import get_request, get_now, get_tender
+from openprocurement.tender.core.procedure.utils import dt_from_iso
+from openprocurement.tender.openeu.procedure.state.tender import OpenEUTenderState
+from openprocurement.tender.core.utils import calculate_complaint_business_date
+from openprocurement.tender.openeu.constants import COMPLAINT_STAND_STILL
+from openprocurement.tender.openua.constants import (
+    TENDERING_EXTRA_PERIOD,
+    ENQUIRY_PERIOD_TIME,
+    COMPLAINT_SUBMIT_TIME,
+    ENQUIRY_STAND_STILL_TIME,
+)
+from openprocurement.tender.core.utils import (
+    calculate_tender_business_date,
+    calculate_clarif_business_date,
+    check_auction_period,
+)
+from openprocurement.api.utils import raise_operation_error
+
+
+def all_bids_are_reviewed():
+    tender = get_tender()
+    bids = tender.get("bids", "")
+    lots = tender.get("lots")
+    if lots:
+        active_lots = {lot["id"] for lot in lots if lot.get("status", "active") == "active"}
+        return all(
+            lotValue.get("status") != "pending"
+            for bid in bids
+            if bid.get("status") not in ("invalid", "deleted")
+            for lotValue in bid.get("lotValues", "")
+            if lotValue["relatedLot"] in active_lots
+
+        )
+    else:
+        return all(bid.get("status") != "pending" for bid in bids)
+
+
+class OpenEUTenderDetailsMixing(TenderDetailsMixing):
+    tendering_period_extra = TENDERING_EXTRA_PERIOD
+
+    def on_post(self, tender):
+        super().on_post(tender)  # TenderDetailsMixing.on_post
+        self.update_complaint_period(tender)
+
+    def on_patch(self, before, after):
+        # TODO: find a better place for this check, may be a distinct endpoint: PUT /tender/uid/status
+        if before["status"] == "active.pre-qualification":
+            passed_data = get_request().validated["json_data"]
+            if passed_data != {"status": "active.pre-qualification.stand-still"}:
+                raise_operation_error(
+                    get_request(),
+                    "Can't update tender at 'active.pre-qualification' status",
+                )
+            else:  # switching to active.pre-qualification.stand-still
+                lots = after.get("lots")
+                if lots:
+                    active_lots = {lot["id"] for lot in lots if lot.get("status", "active") == "active"}
+                else:
+                    active_lots = {None}
+
+                if any(
+                    i["status"] in self.block_complaint_status
+                    for q in after["qualifications"]
+                    for i in q.get("complaints", "")
+                    if q.get("lotID") in active_lots
+                ):
+                    raise_operation_error(
+                        get_request(),
+                        "Can't switch to 'active.pre-qualification.stand-still' before resolve all complaints"
+                    )
+
+                if all_bids_are_reviewed():
+                    after["qualificationPeriod"]["endDate"] = calculate_complaint_business_date(
+                        get_now(), COMPLAINT_STAND_STILL, after
+                    ).isoformat()
+                    self.check_auction_time(after)
+                else:
+                    raise_operation_error(
+                        get_request(),
+                        "Can't switch to 'active.pre-qualification.stand-still' while not all bids are qualified",
+                    )
+
+        # before status != active.pre-qualification
+        elif after["status"] == "active.pre-qualification.stand-still":
+            raise_operation_error(
+                get_request(),
+                f"Can't switch to 'active.pre-qualification.stand-still' from {before['status']}",
+            )
+
+        self.validate_fields_unchanged(before, after)
+
+        # bid invalidation rules
+        if before["status"] == "active.tendering":
+            if "tenderPeriod" in after and "endDate" in after["tenderPeriod"]:
+                # self.request.validated["tender"].tenderPeriod.import_data(data["tenderPeriod"])
+                tendering_end = dt_from_iso(after["tenderPeriod"]["endDate"])
+                if calculate_tender_business_date(get_now(), self.tendering_period_extra, after) > tendering_end:
+                    raise_operation_error(
+                        get_request(),
+                        "tenderPeriod should be extended by {0.days} days".format(self.tendering_period_extra)
+                    )
+                self.update_complaint_period(after)
+            self.invalidate_bids_data(after)
+
+        elif after["status"] == "active.tendering":
+            after["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
+
+        super().on_patch(before, after)  # TenderDetailsMixing.on_patch
+
+    # helper methods
+    @staticmethod
+    def validate_fields_unchanged(before, after):
+        # validate items cpv group
+        cpv_group_lists = {i["classification"]["id"][:3] for i in before.get("items")}
+        for item in after.get("items", ""):
+            cpv_group_lists.add(item["classification"]["id"][:3])
+        if len(cpv_group_lists) != 1:
+            raise_operation_error(
+                get_request(),
+                "Can't change classification",
+                name="item"
+            )
+
+    def invalidate_bids_data(self, tender):
+        self.check_auction_time(tender)
+        tender["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
+        for bid in tender.get("bids", ""):
+            if bid.get("status") not in ("deleted", "draft"):
+                bid["status"] = "invalid"
+
+    @staticmethod
+    def check_auction_time(tender):
+        if check_auction_period(tender.get("auctionPeriod", {}), tender):
+            del tender["auctionPeriod"]["startDate"]
+
+        for lot in tender.get("lots", ""):
+            if check_auction_period(lot.get("auctionPeriod", {}), tender):
+                del lot["auctionPeriod"]["startDate"]
+
+    @staticmethod
+    def update_complaint_period(tender):
+        tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
+        end_date = calculate_complaint_business_date(tendering_end, -COMPLAINT_SUBMIT_TIME, tender).isoformat()
+        tender["complaintPeriod"] = dict(startDate=tender["tenderPeriod"]["startDate"], endDate=end_date)
+
+
+class TenderDetailsState(OpenEUTenderDetailsMixing, OpenEUTenderState):
+    pass

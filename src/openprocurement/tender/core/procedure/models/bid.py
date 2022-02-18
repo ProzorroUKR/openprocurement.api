@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from uuid import uuid4
 from schematics.exceptions import ValidationError
 from schematics.types import MD5Type
@@ -10,12 +9,8 @@ from openprocurement.tender.core.constants import BID_LOTVALUES_VALIDATION_FROM
 from openprocurement.tender.core.procedure.validation import validate_bid_value
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import get_first_revision_date
-from openprocurement.tender.core.procedure.models.base import (
-    ListType,
-    BaseBid,
-    PatchBusinessOrganization,
-    PostBusinessOrganization,
-)
+from openprocurement.tender.core.procedure.models.base import ListType, BaseBid
+from openprocurement.tender.core.procedure.models.organization import PatchBusinessOrganization, PostBusinessOrganization
 from openprocurement.tender.core.procedure.models.parameter import Parameter, PatchParameter
 from openprocurement.tender.core.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
 from openprocurement.tender.core.procedure.models.document import PostDocument, Document

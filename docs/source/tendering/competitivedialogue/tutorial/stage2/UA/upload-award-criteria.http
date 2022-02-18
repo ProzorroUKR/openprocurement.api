@@ -1,32 +1,33 @@
-POST /api/2.5/tenders/db4876add6b747dfafc1b99523c02097/documents?acc_token=9234ea997d5a428fb67b1ae603020b64 HTTP/1.0
+POST /api/2.5/tenders/42b066abf8d74e769bd368279e46441b/documents?acc_token=bdb6664c7ada49b0b6ce349566740a47 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 149
-Content-Type: multipart/form-data; boundary=---BOUNDARY
+Content-Length: 327
+Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
------BOUNDARY
-Content-Disposition: form-data; name="file"; filename="AwardCriteria.pdf"
-Content-Type: application/pdf
-
-content
------BOUNDARY--
-
+{
+  "data": {
+    "title": "AwardCriteria.pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/236b6a9c9a4d4bf5803b6b9e00a0885c?Signature=31Fyp%2FUjFkElXPEt7FND9DfED9JWhXF54XHYQr1c14pruei14RpaNcKAQ5ipvixbUptMDJgO5F4DPBcKaagBAA%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pdf"
+  }
+}
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db4876add6b747dfafc1b99523c02097/documents/5e32d91324444a31869c260cf1f4737c
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42b066abf8d74e769bd368279e46441b/documents/6999744bdf6d4fb19dd1326dfee6ffda
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "5e32d91324444a31869c260cf1f4737c",
     "hash": "md5:00000000000000000000000000000000",
     "title": "AwardCriteria.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f969dad0d65e4094b6c3f874da5b6421?Signature=%2F2Rz963D6qpHSgTitxxBnxvT3oFZbuFiqLyn6UbzOg8ZKKTVHO1v82kaMSmZ4zbX3wU%2F2uXgZ2wZsXZ4hF3nAg%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/236b6a9c9a4d4bf5803b6b9e00a0885c?Signature=ODjCObEQ1f7CXmIJjIQ%2BbCTr2%2BZKEXqkw86%2FgfACAA261MUaTWyMw%2BLOt6xTDou3GIVei2kjQufzzRQuGsOgCw%3D%3D&KeyID=a8968c46",
+    "documentOf": "tender",
+    "id": "6999744bdf6d4fb19dd1326dfee6ffda",
     "datePublished": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
-    "author": "tender_owner",
-    "documentOf": "tender"
+    "author": "tender_owner"
   }
 }
 

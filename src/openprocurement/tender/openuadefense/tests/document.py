@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -19,17 +18,13 @@ from openprocurement.tender.belowthreshold.tests.document_blanks import (
 from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest
 
 
-class TenderDocumentResourceTest(BaseTenderUAContentWebTest):
-    docservice = False
+class TenderDocumentWithDSResourceTest(BaseTenderUAContentWebTest):
+    docservice = True
 
     test_not_found = snitch(not_found)
     test_create_tender_document = snitch(create_tender_document)
     test_put_tender_document = snitch(put_tender_document)
     test_patch_tender_document = snitch(patch_tender_document)
-
-
-class TenderDocumentWithDSResourceTest(TenderDocumentResourceTest):
-    docservice = True
 
     test_create_tender_document_json_invalid = snitch(create_tender_document_json_invalid)
     test_create_tender_document_json = snitch(create_tender_document_json)
@@ -39,7 +34,6 @@ class TenderDocumentWithDSResourceTest(TenderDocumentResourceTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderDocumentWithDSResourceTest))
     return suite
 

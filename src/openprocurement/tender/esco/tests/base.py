@@ -2,6 +2,7 @@
 import os
 from copy import deepcopy
 
+from openprocurement.tender.core.procedure.context import get_now
 from openprocurement.tender.esco.models import Tender
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderWebTest,
@@ -13,6 +14,14 @@ from openprocurement.tender.openeu.tests.base import (
 
 NBU_DISCOUNT_RATE = 0.22
 
+
+def prepare_items(data):
+    for item in data["items"]:
+        del item["unit"]
+        del item["quantity"]
+        del item["deliveryDate"]
+
+
 test_tender_data = deepcopy(base_eu_test_data)
 test_tender_data["procurementMethodType"] = "esco"
 test_tender_data["NBUdiscountRate"] = NBU_DISCOUNT_RATE
@@ -22,8 +31,8 @@ test_tender_data["yearlyPaymentsPercentageRange"] = 0.80000
 
 del test_tender_data["value"]
 del test_tender_data["minimalStep"]
-for item in test_tender_data["items"]:
-    del item["unit"]
+prepare_items(test_tender_data)
+
 
 test_features_tender_data = deepcopy(base_eu_test_features_data)
 test_features_tender_data["procurementMethodType"] = "esco"
@@ -39,6 +48,7 @@ test_features_tender_data["features"][1]["enum"][2]["value"] = 0.07
 
 del test_features_tender_data["value"]
 del test_features_tender_data["minimalStep"]
+prepare_items(test_features_tender_data)
 
 test_lots = deepcopy(base_eu_lots)
 del test_lots[0]["value"]
@@ -66,6 +76,16 @@ class BaseESCOWebTest(BaseTenderWebTest):
     docservice = False
 
     tender_class = Tender
+
+    # def time_shift(self, *args, **kwargs):
+    #     kwargs["extra"] = extra = kwargs.get("extra") or {}
+    #     extra["noticePublicationDate"] = get_now().isoformat()
+    #     super().time_shift(*args, **kwargs)
+
+    def set_status(self, status, extra=None, startend="start"):
+        extra = extra or {}
+        extra["noticePublicationDate"] = get_now().isoformat()
+        return super().set_status(status, extra, startend)
 
 
 class BaseESCOContentWebTest(BaseESCOWebTest):

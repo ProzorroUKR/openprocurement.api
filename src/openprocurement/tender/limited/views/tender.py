@@ -15,13 +15,13 @@ from openprocurement.tender.limited.validation import (
 from openprocurement.tender.limited.utils import check_status
 
 
-@optendersresource(
-    name="reporting:Tender",
-    path="/tenders/{tender_id}",
-    procurementMethodType="reporting",
-    description="Open Contracting compatible data exchange format. See "
-                "http://ocds.open-contracting.org/standard/r/master/#tender for more info",
-)
+# @optendersresource(
+#     name="reporting:Tender",
+#     path="/tenders/{tender_id}",
+#     procurementMethodType="reporting",
+#     description="Open Contracting compatible data exchange format. See "
+#                 "http://ocds.open-contracting.org/standard/r/master/#tender for more info",
+# )
 class TenderResource(BaseTenderResource):
     """ Resource handler for TenderLimited """
 
@@ -92,12 +92,12 @@ class TenderResource(BaseTenderResource):
         return {"data": tender.serialize(tender.status)}
 
 
-@optendersresource(
-    name="negotiation:Tender",
-    path="/tenders/{tender_id}",
-    procurementMethodType="negotiation",
-    description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info",
-)
+# @optendersresource(
+#     name="negotiation:Tender",
+#     path="/tenders/{tender_id}",
+#     procurementMethodType="negotiation",
+#     description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info",
+# )
 class TenderNegotioationResource(TenderResource):
     """ Resource handler for Negotiation Tender """
 
@@ -122,11 +122,11 @@ class TenderNegotioationResource(TenderResource):
         return {"data": tender.serialize(tender.status)}
 
 
-@optendersresource(
-    name="negotiation.quick:Tender",
-    path="/tenders/{tender_id}",
-    procurementMethodType="negotiation.quick",
-    description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info",
-)
+# @optendersresource(
+#     name="negotiation.quick:Tender",
+#     path="/tenders/{tender_id}",
+#     procurementMethodType="negotiation.quick",
+#     description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info",
+# )
 class TenderNegotioationQuickResource(TenderNegotioationResource):
     """ Resource handler for Negotiation Quick Tender """

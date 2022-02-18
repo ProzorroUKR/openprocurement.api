@@ -1879,7 +1879,8 @@ def create_cancellation_in_award_complaint_period(self):
     complaint_period = tender["complaintPeriod"]
     end_date = parse_date(complaint_period["endDate"])
 
-    self.assertGreater(get_now(), end_date)
+    self.assertGreater(get_now(), end_date)  # WTF why ??
+    # fixed by /openprocurement/tender/openua/tests/periods.py lines 55-58
 
     cancellation = dict(**test_cancellation)
     cancellation.update({"reasonType": "noDemand"})

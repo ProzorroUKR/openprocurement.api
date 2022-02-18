@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/4826290bfb064165b70a94d71e93a63b/cancellations/3d8731581c2543d5885f9c76d50045cf?acc_token=e6b4c4ef7b894e8da225bae574bf7b61 HTTP/1.0
+PATCH /api/2.5/tenders/0fb28ed17f544dfa8a89ddb534e0b3d9/cancellations/3d8731581c2543d5885f9c76d50045cf?acc_token=2ad39bcd6fe242ed8dec876c5c6130cf HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -21,7 +21,7 @@ X-Content-Type-Options: nosniff
     "status": "active",
     "documents": [
       {
-        "id": "7f248929d5bc41488ea8f82f93ba1821",
+        "id": "04c0b960c0db4aacbdf77fddef51149b",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "description": "Changed description",
@@ -32,7 +32,7 @@ X-Content-Type-Options: nosniff
         "documentOf": "tender"
       },
       {
-        "id": "7f248929d5bc41488ea8f82f93ba1821",
+        "id": "04c0b960c0db4aacbdf77fddef51149b",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice-2.pdf",
         "description": "Changed description",

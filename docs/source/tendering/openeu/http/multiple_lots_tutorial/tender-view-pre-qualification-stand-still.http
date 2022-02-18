@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/4f6f9f4965ae47e99cd03a167c41c1a0?acc_token=446ff1f48bde44b08788bbf0b34f6d62 HTTP/1.0
+PATCH /api/2.5/tenders/92b9de951a404e66bbfec5d4e46ad999?acc_token=17dcad4d4a5b4461a8403f8743073135 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 60
 Content-Type: application/json
@@ -15,40 +15,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "title": "Послуги шкільних їдалень",
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "tenderID": "UA-2021-03-16-000001",
-    "owner": "broker",
-    "mainProcurementCategory": "services",
-    "milestones": [
-      {
-        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "title": "signingTheContract",
-        "type": "financing",
-        "code": "prepayment",
-        "percentage": 45.55,
-        "duration": {
-          "days": 2,
-          "type": "banking"
-        },
-        "sequenceNumber": 0
-      },
-      {
-        "id": "acc85630434f4c76bc85836264b3a856",
-        "title": "deliveryOfGoods",
-        "type": "financing",
-        "code": "postpayment",
-        "percentage": 54.45,
-        "duration": {
-          "days": 900,
-          "type": "calendar"
-        },
-        "sequenceNumber": 0
-      }
-    ],
-    "procurementMethod": "open",
-    "submissionMethod": "electronicAuction",
+    "title_en": "Services in school canteens",
     "criteria": [
       {
         "id": "98cdabdb95e34cbeb670cc5f9a20e8af",
@@ -613,124 +580,9 @@ X-Content-Type-Options: nosniff
         ]
       }
     ],
-    "value": {
-      "amount": 900.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "minimalStep": {
-      "amount": 5.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "awardCriteria": "lowestCost",
-    "procurementMethodType": "aboveThresholdEU",
-    "title_en": "Services in school canteens",
-    "enquiryPeriod": {
-      "startDate": "2021-02-13T00:00:00+02:00",
-      "endDate": "2021-03-06T00:00:00+02:00",
-      "clarificationsUntil": "2021-03-12T00:00:00+02:00",
-      "invalidationDate": "2021-03-16T00:00:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2021-02-13T00:00:00+02:00",
-      "endDate": "2021-03-16T00:00:00+02:00"
-    },
-    "items": [
-      {
-        "id": "141f360a5d9e4fec9a10742d7285e4be",
-        "description": "Послуги шкільних їдалень",
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "Послуги шкільних їдалень"
-          }
-        ],
-        "quantity": 1.0,
-        "relatedLot": "5563fbab2bd848b398a5de9cb3ac555b",
-        "classification": {
-          "description": "Test",
-          "scheme": "ДК021",
-          "id": "37810000-9"
-        },
-        "unit": {
-          "name": "кілограм",
-          "code": "KGM"
-        },
-        "deliveryDate": {
-          "startDate": "2021-04-05T00:00:00+02:00",
-          "endDate": "2021-05-05T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "description_en": "Services in school canteens"
-      },
-      {
-        "id": "90b5fc4117ba429ea32cb2889907566b",
-        "description": "Послуги шкільних їдалень",
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "Послуги шкільних їдалень"
-          }
-        ],
-        "quantity": 1.0,
-        "relatedLot": "e2a64c7bb22f4a6d838531ede04bc02a",
-        "classification": {
-          "description": "Test",
-          "scheme": "ДК021",
-          "id": "37810000-9"
-        },
-        "unit": {
-          "name": "упаковка",
-          "code": "PK"
-        },
-        "deliveryDate": {
-          "startDate": "2021-04-05T00:00:00+02:00",
-          "endDate": "2021-05-05T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "description_en": "Services in school canteens"
-      }
-    ],
-    "procuringEntity": {
-      "name": "ЗОСШ #10 м.Вінниці",
-      "name_en": "School #10 of Vinnytsia",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "21725150",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
-        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
-      },
-      "address": {
-        "streetAddress": "вул. Стахурського. 22",
-        "locality": "м. Вінниця",
-        "region": "Вінницька область",
-        "postalCode": "21027",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
-        "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/",
-        "name_en": "Kutsa Svitlana V.",
-        "availableLanguage": "uk"
-      },
-      "kind": "general"
-    },
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2021-03-16T00:00:00+02:00",
+    "tenderID": "UA-2021-03-16-000001",
     "bids": [
       {
         "tenderers": [
@@ -1011,29 +863,20 @@ X-Content-Type-Options: nosniff
         "status": "active"
       }
     ],
-    "qualifications": [
-      {
-        "id": "7fe28c22371e4b38a6d00e48a2f1d299",
-        "bidID": "491e23c37ed44b8b85e972f227307b80",
-        "lotID": "5563fbab2bd848b398a5de9cb3ac555b",
-        "status": "active",
-        "date": "2021-03-16T00:00:00+02:00",
-        "qualified": true,
-        "eligible": true
-      },
-      {
-        "id": "ba14405d2f23479eb6e70d629d7b7944",
-        "bidID": "6a589730254f47ac99ab0eee03d6770f",
-        "lotID": "5563fbab2bd848b398a5de9cb3ac555b",
-        "status": "active",
-        "date": "2021-03-16T00:00:00+02:00",
-        "qualified": true,
-        "eligible": true
-      }
-    ],
-    "qualificationPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-03-21T00:00:00+02:00"
+    "owner": "broker",
+    "title": "Послуги шкільних їдалень",
+    "mainProcurementCategory": "services",
+    "submissionMethod": "electronicAuction",
+    "procurementMethod": "open",
+    "value": {
+      "amount": 900.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "minimalStep": {
+      "amount": 5.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
     },
     "lots": [
       {
@@ -1053,7 +896,7 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         },
         "auctionPeriod": {
-          "shouldStartAfter": "2021-03-21T00:00:00+02:00"
+          "shouldStartAfter": "2021-03-26T00:00:00+02:00"
         }
       },
       {
@@ -1074,14 +917,170 @@ X-Content-Type-Options: nosniff
         }
       }
     ],
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      },
+      {
+        "id": "f76c6c98c18945d2ba62431b3a2e8dc1",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 0
+      }
+    ],
+    "procurementMethodType": "aboveThresholdEU",
+    "procuringEntity": {
+      "name": "ЗОСШ #10 м.Вінниці",
+      "name_en": "School #10 of Vinnytsia",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "21725150",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
+      },
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "telephone": "+380432465302",
+        "url": "http://sch10.edu.vn.ua/",
+        "name": "Куца Світлана Валентинівна",
+        "name_en": "Kutsa Svitlana V.",
+        "availableLanguage": "uk"
+      },
+      "kind": "general"
+    },
     "status": "active.pre-qualification.stand-still",
-    "id": "4f6f9f4965ae47e99cd03a167c41c1a0",
-    "next_check": "2021-03-21T00:00:00+02:00",
-    "numberOfBids": 2,
+    "awardCriteria": "lowestCost",
+    "enquiryPeriod": {
+      "startDate": "2021-02-13T00:00:00+02:00",
+      "endDate": "2021-03-06T00:00:00+02:00",
+      "clarificationsUntil": "2021-03-12T00:00:00+02:00",
+      "invalidationDate": "2021-03-16T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2021-02-13T00:00:00+02:00",
+      "endDate": "2021-03-16T00:00:00+02:00"
+    },
+    "items": [
+      {
+        "id": "59cf1329785d4f97a92f3f6a390901dc",
+        "description": "Послуги шкільних їдалень",
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "5563fbab2bd848b398a5de9cb3ac555b",
+        "deliveryDate": {
+          "startDate": "2021-04-05T00:00:00+02:00",
+          "endDate": "2021-05-05T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "description_en": "Services in school canteens"
+      },
+      {
+        "id": "d7899b349b104b62bd4c4b3850e6f86e",
+        "description": "Послуги шкільних їдалень",
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "unit": {
+          "name": "упаковка",
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "relatedLot": "e2a64c7bb22f4a6d838531ede04bc02a",
+        "deliveryDate": {
+          "startDate": "2021-04-05T00:00:00+02:00",
+          "endDate": "2021-05-05T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "description_en": "Services in school canteens"
+      }
+    ],
+    "qualificationPeriod": {
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-03-26T00:00:00+02:00"
+    },
+    "qualifications": [
+      {
+        "id": "7fe28c22371e4b38a6d00e48a2f1d299",
+        "bidID": "491e23c37ed44b8b85e972f227307b80",
+        "lotID": "5563fbab2bd848b398a5de9cb3ac555b",
+        "status": "active",
+        "date": "2021-03-16T00:00:00+02:00",
+        "qualified": true,
+        "eligible": true
+      },
+      {
+        "id": "ba14405d2f23479eb6e70d629d7b7944",
+        "bidID": "6a589730254f47ac99ab0eee03d6770f",
+        "lotID": "5563fbab2bd848b398a5de9cb3ac555b",
+        "status": "active",
+        "date": "2021-03-16T00:00:00+02:00",
+        "qualified": true,
+        "eligible": true
+      }
+    ],
     "complaintPeriod": {
       "startDate": "2021-02-13T00:00:00+02:00",
       "endDate": "2021-03-12T00:00:00+02:00"
-    }
+    },
+    "next_check": "2021-03-26T00:00:00+02:00",
+    "id": "92b9de951a404e66bbfec5d4e46ad999"
   }
 }
 

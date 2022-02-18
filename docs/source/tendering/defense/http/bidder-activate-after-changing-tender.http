@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/f8aae737ac8f4d34a52254e2f3416505/bids/f8a53de01e5042089db617bd4814b778?acc_token=be887f30f06b4c0d8a0f6863e961b084 HTTP/1.0
+PATCH /api/2.5/tenders/c0491b79cf9945abbb58100d57ebc95e/bids/f8a53de01e5042089db617bd4814b778?acc_token=be887f30f06b4c0d8a0f6863e961b084 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -24,9 +24,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "ДКП «Школяр»",
         "identifier": {
-          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137256"
+          "id": "00137256",
+          "uri": "http://www.sc.gov.ua/"
         },
         "address": {
           "streetAddress": "вул. Островського, 33",
@@ -51,12 +51,12 @@ X-Content-Type-Options: nosniff
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "documents": [
       {
-        "id": "a38bde5cd16f4abca5753048197ea87d",
+        "id": "7fb8094f07b84f4a938bdc70acbb629f",
         "datePublished": "2021-03-16T00:00:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cb62bd21fee54c2798310d1f002f5979?Signature=XggChyH1zpkvXMQ1PJskrvV%2B3GPsgu0iHEehLQjizv8seQP1EXkMMFm0qby1qaUXagXu4w5vCtj6Z8yoBqJ7DA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/51d6ed136975417c88009cf6901cf26c?Signature=PG84Tw7dhE9eDsBSDLdi3GW%2FB4gQCBpyuEMKlzhR8PIvl2NHXC5qlNrvqtu%2FOoJoQAlNY%2BBdukROMvn0VGJXBQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2021-03-16T00:00:01+02:00",
         "confidentiality": "public"

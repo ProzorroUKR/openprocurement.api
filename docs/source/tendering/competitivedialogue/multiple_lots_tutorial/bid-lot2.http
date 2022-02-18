@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/d59e1783dc5149518a3c20a016d652c6/bids HTTP/1.0
+POST /api/2.5/tenders/f0e38a03b8d54356ae7ac183c03ef91d/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1041
 Content-Type: application/json
@@ -45,7 +45,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d59e1783dc5149518a3c20a016d652c6/bids/efd32c624d1c490a9d4e31ec0301cfa8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f0e38a03b8d54356ae7ac183c03ef91d/bids/efd32c624d1c490a9d4e31ec0301cfa8
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -53,9 +53,9 @@ X-Content-Type-Options: nosniff
       {
         "name": "«Снігур»",
         "identifier": {
-          "uri": "http://www.sc.gov.ua/",
           "scheme": "UA-EDR",
-          "id": "00137227"
+          "id": "00137227",
+          "uri": "http://www.sc.gov.ua/"
         },
         "address": {
           "streetAddress": "вул. Островського, 35",

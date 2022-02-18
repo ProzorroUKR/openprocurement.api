@@ -9,9 +9,14 @@ def put_tender_document(self):
     """
       Test put dialog document
     """
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-        upload_files=[("file", "укр.doc", b"content")],
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }}
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -21,40 +26,30 @@ def put_tender_document(self):
     self.assertIn(doc_id, response.headers["Location"])
 
     # Update document
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, self.tender_token),
-        upload_files=[("file", "name name.doc", b"content2")],
+        {"data": {
+            "title": "name name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    if self.docservice:
-        self.assertIn("Signature=", response.json["data"]["url"])
-        self.assertIn("KeyID=", response.json["data"]["url"])
-        self.assertNotIn("Expires=", response.json["data"]["url"])
-        key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        tender = self.db.get(self.tender_id)
-        self.assertIn(key, tender["documents"][-1]["url"])
-        self.assertIn("Signature=", tender["documents"][-1]["url"])
-        self.assertIn("KeyID=", tender["documents"][-1]["url"])
-        self.assertNotIn("Expires=", response.json["data"]["url"])
-    else:
-        key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
+    self.assertIn("Signature=", response.json["data"]["url"])
+    self.assertIn("KeyID=", response.json["data"]["url"])
+    self.assertNotIn("Expires=", response.json["data"]["url"])
+    key = response.json["data"]["url"].split("/")[-1].split("?")[0]
 
     # Get document
-    if self.docservice:
-        response = self.app.get("/tenders/{}/documents/{}?download={}".format(self.tender_id, doc_id, key))
-        self.assertEqual(response.status, "302 Moved Temporarily")
-        self.assertIn("http://localhost/get/", response.location)
-        self.assertIn("Signature=", response.location)
-        self.assertIn("KeyID=", response.location)
-        self.assertNotIn("Expires=", response.location)
-    else:
-        response = self.app.get("/tenders/{}/documents/{}?download={}".format(self.tender_id, doc_id, key))
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/msword")
-        self.assertEqual(response.content_length, 8)
-        self.assertEqual(response.body, b"content2")
+    response = self.app.get("/tenders/{}/documents/{}?download={}".format(self.tender_id, doc_id, key))
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
+    self.assertIn("Expires=", response.location)
 
     # Get document and check response fields
     response = self.app.get("/tenders/{}/documents/{}".format(self.tender_id, doc_id))
@@ -74,9 +69,14 @@ def put_tender_document(self):
     self.assertEqual(dateModified2, response.json["data"][1]["dateModified"])
 
     # Create new documents, save doc_id, dateModified
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }}
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -91,53 +91,31 @@ def put_tender_document(self):
     self.assertEqual(dateModified2, response.json["data"][0]["dateModified"])
     self.assertEqual(dateModified, response.json["data"][1]["dateModified"])
 
-    # Try update documents with ivalid fields
-    response = self.app.put(
-        "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, self.tender_token),
-        status=404,
-        upload_files=[("invalid_name", "name.doc", b"content")],
-    )
-    self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
-
     # Update document
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, self.tender_token),
-        "content3",
-        content_type="application/msword",
+        {"data": {
+            "title": "name name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    if self.docservice:
-        self.assertIn("Signature=", response.json["data"]["url"])
-        self.assertIn("KeyID=", response.json["data"]["url"])
-        self.assertNotIn("Expires=", response.json["data"]["url"])
-        key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        tender = self.db.get(self.tender_id)
-        self.assertIn(key, tender["documents"][-1]["url"])
-        self.assertIn("Signature=", tender["documents"][-1]["url"])
-        self.assertIn("KeyID=", tender["documents"][-1]["url"])
-        self.assertNotIn("Expires=", response.json["data"]["url"])
-    else:
-        key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
+    self.assertIn("Signature=", response.json["data"]["url"])
+    self.assertIn("KeyID=", response.json["data"]["url"])
+    self.assertNotIn("Expires=", response.json["data"]["url"])
+    key = response.json["data"]["url"].split("/")[-1].split("?")[0]
 
     # Get document and check response fields
-    if self.docservice:
-        response = self.app.get("/tenders/{}/documents/{}?download={}".format(self.tender_id, doc_id, key))
-        self.assertEqual(response.status, "302 Moved Temporarily")
-        self.assertIn("http://localhost/get/", response.location)
-        self.assertIn("Signature=", response.location)
-        self.assertIn("KeyID=", response.location)
-        self.assertNotIn("Expires=", response.location)
-    else:
-        response = self.app.get("/tenders/{}/documents/{}?download={}".format(self.tender_id, doc_id, key))
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/msword")
-        self.assertEqual(response.content_length, 8)
-        self.assertEqual(response.body, b"content3")
+    response = self.app.get("/tenders/{}/documents/{}?download={}".format(self.tender_id, doc_id, key))
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
+    self.assertIn("Expires=", response.location)
 
 
 def patch_tender_document(self):
@@ -145,9 +123,14 @@ def patch_tender_document(self):
       Test path dialog document
     """
     # Create documents, check response fields and save doc_id
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-        upload_files=[("file", str(Header("укр.doc", "utf-8")), b"content")],
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }}
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")

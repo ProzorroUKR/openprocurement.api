@@ -71,6 +71,7 @@ class TenderMultipleLotAuctionResourceTestMixin(object):
 
 
 class TenderLotAuctionResourceTest(TenderContentWebTest, TenderLotAuctionResourceTestMixin):
+    docservice = True
     initial_lots = test_lots
     initial_data = auction_test_tender_data
     initial_status = "active.tendering"
@@ -83,6 +84,7 @@ class TenderLotAuctionResourceTest(TenderContentWebTest, TenderLotAuctionResourc
 
 @unittest.skipIf(skip_multi_lots, "Skip multi-lots tests")
 class TenderMultipleLotAuctionResourceTest(TenderContentWebTest, TenderMultipleLotAuctionResourceTestMixin):
+    docservice = True
     initial_lots = 2 * test_lots
     initial_data = auction_test_tender_data
     initial_status = "active.tendering"
@@ -93,6 +95,7 @@ class TenderMultipleLotAuctionResourceTest(TenderContentWebTest, TenderMultipleL
 
 
 class TenderFeaturesAuctionResourceTest(TenderContentWebTest):
+    docservice = True
     initial_agreement = deepcopy(test_agreement_features)
     initial_status = "active.tendering"
     initial_lots = deepcopy(test_lots)
@@ -114,6 +117,7 @@ class TenderFeaturesAuctionResourceTest(TenderContentWebTest):
 
 
 class TenderFeaturesLotAuctionResourceTest(TenderLotAuctionResourceTestMixin, TenderFeaturesAuctionResourceTest):
+    docservice = True
     initial_lots = test_lots
     test_get_tender_auction = snitch(get_tender_lot_auction_features)
     test_post_tender_auction = snitch(post_tender_lot_auction_features)
@@ -123,6 +127,7 @@ class TenderFeaturesLotAuctionResourceTest(TenderLotAuctionResourceTestMixin, Te
 class TenderFeaturesMultilotAuctionResourceTest(
     TenderMultipleLotAuctionResourceTestMixin, TenderFeaturesAuctionResourceTest
 ):
+    docservice = True
     initial_lots = test_lots * 2
     test_get_tender_auction = snitch(get_tender_lots_auction_features)
     test_post_tender_auction = snitch(post_tender_lots_auction_features)

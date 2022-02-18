@@ -60,6 +60,7 @@ from openprocurement.tender.cfaua.tests.tender_blanks import (
 
 
 class CFAUATenderTest(TenderTestMixin, BaseTenderWebTest):
+    docservice = True
     tender_model = CloseFrameworkAgreementUA
     initial_auth = ("Basic", ("broker", ""))
     initial_data = deepcopy(test_tender_w_lot_data)
@@ -69,6 +70,7 @@ class CFAUATenderTest(TenderTestMixin, BaseTenderWebTest):
 
 
 class TenderCheckStatusTest(BaseTenderContentWebTest):
+    docservice = True
     BaseTenderContentWebTest.backup_pure_data()
 
     test_active_qualification_to_act_pre_qualification_st = snitch(active_qualification_to_act_pre_qualification_st)
@@ -76,7 +78,7 @@ class TenderCheckStatusTest(BaseTenderContentWebTest):
 
 
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
-
+    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_data = deepcopy(test_tender_w_lot_data)
     initial_lots = deepcopy(test_lots_w_ids)
@@ -120,8 +122,14 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
         authorization = self.app.authorization
         self.app.authorization = ("Basic", ("bot", "bot"))
 
-        response = self.app.post(
-            "/tenders/{}/documents".format(tender["id"]), upload_files=[("file", "name.doc", b"content")]
+        response = self.app.post_json(
+            "/tenders/{}/documents".format(tender["id"]),
+            {"data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -140,7 +148,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 
 
 class TenderProcessTest(BaseTenderWebTest):
-
+    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_data = deepcopy(test_tender_w_lot_data)
     initial_lots = deepcopy(test_lots_w_ids)
@@ -157,6 +165,7 @@ class TenderProcessTest(BaseTenderWebTest):
 
 
 class TenderPendingAwardsResourceTest(BaseTenderContentWebTest):
+    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_bids = deepcopy(test_bids_w_lot_data)
 

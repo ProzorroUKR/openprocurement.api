@@ -1,5 +1,5 @@
 from openprocurement.tender.core.procedure.views.auction import TenderAuctionResource
-from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderTenderState
+from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
 from cornice.resource import resource
 
 
@@ -11,4 +11,4 @@ from cornice.resource import resource
     description="Tender EU auction data",
 )
 class CFAUATenderAuctionResource(TenderAuctionResource):
-    state_class = CFAUATenderTenderState
+    state_class = CFAUATenderState

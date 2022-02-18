@@ -32,7 +32,7 @@ class TenderResource(APIResource):
         tender = self.request.validated["tender"]
         data = self.request.validated["ownership_data"]
 
-        route_name = "{}:Tender".format(tender.procurementMethodType)
+        route_name = "{}:Tenders".format(tender.procurementMethodType)
         location = get_transfer_location(self.request, route_name, tender_id=tender.id)
         transfer = extract_transfer(self.request, transfer_id=data["id"])
 

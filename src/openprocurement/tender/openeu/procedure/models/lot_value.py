@@ -7,7 +7,7 @@ from openprocurement.tender.openua.procedure.models.lot_value import (
 
 
 class LotValue(BaseLotValue):
-    status = StringType(choices=["pending", "active", "unsuccessful"])
+    status = StringType(choices=["pending", "active", "unsuccessful"], required=True)
 
 
 class PostLotValue(BasePostLotValue):

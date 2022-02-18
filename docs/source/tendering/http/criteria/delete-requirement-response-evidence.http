@@ -1,4 +1,4 @@
-DELETE /api/2.5/tenders/930000429dcc4a83a2879dcc45bc5d8a/bids/fca5f46a77484fe09b1038555f0e2bb2/requirement_responses/b9507fa7a0584774b3d0e865d458e50c/evidences/b118a97aeba6458eb5a63e2638eba301?acc_token=00ae749dfd5e4e55bfc9726e32db2c93 HTTP/1.0
+DELETE /api/2.5/tenders/6e437e5d477a451f955ef1f9ad2cca7c/bids/fca5f46a77484fe09b1038555f0e2bb2/requirement_responses/b9507fa7a0584774b3d0e865d458e50c/evidences/b118a97aeba6458eb5a63e2638eba301?acc_token=00ae749dfd5e4e55bfc9726e32db2c93 HTTP/1.0
 Authorization: Bearer token
 Content-Length: 0
 Host: lb-api-sandbox.prozorro.gov.ua

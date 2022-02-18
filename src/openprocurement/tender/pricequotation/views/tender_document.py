@@ -18,13 +18,13 @@ from openprocurement.tender.pricequotation.validation import (
 )
 
 
-@optendersresource(
-    name="{}:Tender Documents".format(PMT),
-    collection_path="/tenders/{tender_id}/documents",
-    path="/tenders/{tender_id}/documents/{document_id}",
-    procurementMethodType=PMT,
-    description="Tender related binary files (PDFs, etc.)",
-)
+# @optendersresource(
+#     name="{}:Tender Documents".format(PMT),
+#     collection_path="/tenders/{tender_id}/documents",
+#     path="/tenders/{tender_id}/documents/{document_id}",
+#     procurementMethodType=PMT,
+#     description="Tender related binary files (PDFs, etc.)",
+# )
 class PQTenderDocumentResource(TenderDocumentResource):
 
     @json_view(

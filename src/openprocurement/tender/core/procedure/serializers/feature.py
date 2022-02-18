@@ -11,8 +11,3 @@ class FeatureSerializer(BaseSerializer):
     serializers = {
         "enum": ListSerializer(enum_serializer),
     }
-    private_fields = {
-        "owner",
-        "owner_token",
-        "transfer_token",
-    }

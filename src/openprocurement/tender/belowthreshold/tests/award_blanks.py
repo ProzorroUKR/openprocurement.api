@@ -7,6 +7,7 @@ import dateutil.parser
 
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization, test_draft_claim, test_claim, test_cancellation, test_complaint
@@ -547,7 +548,7 @@ def create_tender_award_with_scale_not_required(self):
     self.assertNotIn("scale", response.json["data"])
 
 
-@mock.patch("openprocurement.tender.core.procedure.models.base.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
+@mock.patch("openprocurement.tender.core.procedure.models.organization.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
 def create_tender_award_no_scale(self):
     self.app.authorization = ("Basic", ("token", ""))
     award_data = {
@@ -845,25 +846,30 @@ def patch_tender_lot_award_unsuccessful(self):
 
 
 def patch_tender_lot_award_lots_none(self):
-    auth = self.app.authorization
-    self.app.authorization = ("Basic", ("token", ""))
     request_path = "/tenders/{}/awards".format(self.tender_id)
     bid = {"suppliers": [test_organization], "status": "pending", "lotID": self.initial_lots[0]["id"]}
     if getattr(self, "initial_bids", None):
         bid["bid_id"] = self.initial_bids[0]["id"]
-    response = self.app.post_json(request_path, {"data": bid})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
+
+    with change_auth(self.app, ("Basic", ("token", ""))):
+        response = self.app.post_json(request_path, {"data": bid})
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
 
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"lots": [None]}}, status=422
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"lots": [None]}}, status=403
     )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-
-    errors = {error["name"]: error["description"] for error in response.json["errors"]}
-    self.assertEqual(errors["lots"][0], ["This field is required."])
-    self.assertEqual(errors["awards"][0], {"lotID": ["lotID should be one of lots"]})
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Can't update tender in current (active.qualification) status"
+            }
+        ]
+    )
 
 
 # Tender2LotAwardResourceTest

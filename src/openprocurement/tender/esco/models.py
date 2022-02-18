@@ -48,6 +48,7 @@ from openprocurement.tender.core.models import (
     validate_values_uniq,
     EUDocument as Document,
 )
+from openprocurement.tender.core.validation import validate_tender_period_duration
 from openprocurement.tender.core.utils import (
     calc_auction_end_time,
     calculate_tender_business_date,
@@ -84,7 +85,6 @@ from openprocurement.tender.openeu.models import (
 from openprocurement.tender.openeu.constants import TENDERING_DURATION, QUESTIONS_STAND_STILL
 from openprocurement.tender.esco.utils import to_decimal
 from openprocurement.tender.openua.validation import (
-    _validate_tender_period_duration,
     _validate_tender_period_start_date,
 )
 
@@ -911,7 +911,7 @@ class Tender(BaseTender):
         if period:
             if is_new_created(data):
                 _validate_tender_period_start_date(data, period)
-            _validate_tender_period_duration(data, period, TENDERING_DURATION)
+            validate_tender_period_duration(data, period, TENDERING_DURATION)
 
     def validate_awardPeriod(self, data, period):
         if (

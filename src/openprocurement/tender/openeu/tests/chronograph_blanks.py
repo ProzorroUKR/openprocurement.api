@@ -45,6 +45,22 @@ def active_tendering_to_pre_qual_unsuccessful(self):
     self.assertNotIn("auctionPeriod", lots[2])
 
 
+def active_tendering_to_unsuccessful(self):
+    response = self.set_status("active.pre-qualification", {"status": "active.tendering"})
+    self.assertEqual(response.json["data"]["status"], "active.tendering")
+
+    response = self.check_chronograph()
+    self.assertEqual(response.json["data"]["status"], "unsuccessful")
+
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+    self.assertNotIn("qualifications", tender)
+    for b in tender["bids"]:
+        self.assertEquals("unsuccessful", b["status"])
+        self.assertNotIn("lotValues", b)
+        self.assertNotIn("value", b)
+
+
 def pre_qual_switch_to_auction(self):
     response = self.set_status("active.auction", {"status": "active.pre-qualification"})
     response = self.check_chronograph()

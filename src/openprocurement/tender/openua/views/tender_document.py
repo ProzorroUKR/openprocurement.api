@@ -17,13 +17,13 @@ from openprocurement.tender.belowthreshold.views.tender_document import TenderDo
 from openprocurement.tender.openua.validation import validate_update_tender_document
 
 
-@optendersresource(
-    name="aboveThresholdUA:Tender Documents",
-    collection_path="/tenders/{tender_id}/documents",
-    path="/tenders/{tender_id}/documents/{document_id}",
-    procurementMethodType="aboveThresholdUA",
-    description="Tender UA related binary files (PDFs, etc.)",
-)
+# @optendersresource(
+#     name="aboveThresholdUA:Tender Documents",
+#     collection_path="/tenders/{tender_id}/documents",
+#     path="/tenders/{tender_id}/documents/{document_id}",
+#     procurementMethodType="aboveThresholdUA",
+#     description="Tender UA related binary files (PDFs, etc.)",
+# )
 class TenderUaDocumentResource(TenderDocumentResource):
     def pre_save(self):
         tender = self.request.validated["tender"]

@@ -29,7 +29,6 @@ from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
     tender_not_found,
     dateModified_tender,
     guarantee,
-    tender_Administrator_change,
     patch_not_author,
     listing_draft,
     tender_fields,
@@ -43,7 +42,6 @@ from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
     patch_tender,
     patch_tender_bot,
     patch_tender_to_draft_pending,
-    required_field_deletion,
     tender_funders,
     # TenderProcessTest
     one_valid_bid_tender,
@@ -87,7 +85,6 @@ class TenderResourceTestMixin(object):
     test_tender_features_invalid = snitch(tender_features_invalid)
     test_dateModified_tender = snitch(dateModified_tender)
     test_tender_not_found = snitch(tender_not_found)
-    test_tender_Administrator_change = snitch(tender_Administrator_change)
     test_patch_not_author = snitch(patch_not_author)
     test_tender_funders = snitch(tender_funders)
     test_patch_tender_bot = snitch(patch_tender_bot)
@@ -95,11 +92,13 @@ class TenderResourceTestMixin(object):
 
 
 class CFASelectionTenderTest(TenderTestMixin, BaseApiWebTest):
+    docservice = True
     tender_model = CFASelectionUATender
     initial_data = tender_data
 
 
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
+    docservice = True
     initial_data = tender_data
     primary_tender_status = "draft"
     initial_auth = ("Basic", ("broker", ""))
@@ -115,7 +114,6 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_tender_fields = snitch(tender_fields)
     test_patch_tender_jsonpatch = snitch(patch_tender_jsonpatch)
     test_patch_tender = snitch(patch_tender)
-    test_required_field_deletion = snitch(required_field_deletion)
     test_patch_tender_to_draft_pending = snitch(patch_tender_to_draft_pending)
     test_edit_tender_in_active_enquiries = snitch(edit_tender_in_active_enquiries)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
@@ -123,6 +121,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 
 
 class TenderProcessTest(BaseTenderWebTest):
+    docservice = True
     initial_data = tender_data
     primary_tender_status = "draft"
     initial_auth = ("Basic", ("broker", ""))

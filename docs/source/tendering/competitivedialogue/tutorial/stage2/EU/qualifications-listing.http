@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/db1ddb06a5a44954bc0b9f555776112d HTTP/1.0
+GET /api/2.5/tenders/aa6cf974e101460589085272d5990056 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,11 +7,81 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "title": "Послуги шкільних їдалень",
+    "title_en": "Services in school canteens",
     "date": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
     "tenderID": "UA-2021-03-16-000001",
+    "questions": [
+      {
+        "id": "5c4d8b539f1f40c4a1f6d18512279013",
+        "author": {
+          "name": "ДКП «Книга»",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00137226",
+            "uri": "http://www.sc.gov.ua/"
+          },
+          "address": {
+            "streetAddress": "вул. Островського, 34",
+            "locality": "м. Львів",
+            "region": "Львівська область",
+            "postalCode": "79013",
+            "countryName": "Україна"
+          },
+          "contactPoint": {
+            "email": "aagt@gmail.com",
+            "telephone": "+380322916930",
+            "name": "Андрій Олексюк"
+          }
+        },
+        "title": "Калорійність",
+        "description": "Просимо додати таблицю потрібної калорійності харчування",
+        "date": "2021-03-16T00:00:00+02:00",
+        "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"",
+        "questionOf": "tender",
+        "dateAnswered": "2021-03-16T00:00:00+02:00"
+      }
+    ],
+    "documents": [
+      {
+        "language": "uk",
+        "id": "866c3ddfea9249e9a4953a1943facdf4",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Notice.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0ebab89f70e14ee79ac687594e90aa45?Signature=9aoCYzGqWd6EnH2PO5FddFgVKa0%2BzDPyB5hofn0%2FlwHTA%2BGSMyAGVFqho1BSeRayT%2Bjugg3Z26AyoNAr934UCA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:00+02:00",
+        "author": "tender_owner"
+      },
+      {
+        "language": "uk",
+        "id": "6be95b29d2d749a2ad53f32098040908",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "AwardCriteria.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0798ddc1fc8c46dd8a2d87c9f95d7a30?Signature=20AJfOxal2dtOCz4JJxLXz%2FUDNFsjbCPZT527W0cTZ1Ief9CLoyYGbXqyNcEFekRLAHQg5tVz%2Flxff%2Bf0MM4DQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:00+02:00",
+        "author": "tender_owner"
+      },
+      {
+        "language": "uk",
+        "id": "6be95b29d2d749a2ad53f32098040908",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "AwardCriteria-2.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5473b7fdbe7d4b1f8a060c46741239e3?Signature=mdzbJis%2BvVUrG8DwMH%2Bw%2B9PU858eiWVbtO4rbe0q1YK4nO4tUv7VsKVZ8tIT7kdvNcACnbMJdfUdcDZ15A4fAw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:00+02:00",
+        "author": "tender_owner"
+      }
+    ],
     "owner": "broker",
+    "title": "Послуги шкільних їдалень",
     "submissionMethod": "electronicAuction",
     "value": {
       "amount": 500.0,
@@ -23,62 +93,6 @@ X-Content-Type-Options: nosniff
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "questions": [
-      {
-        "id": "5c4d8b539f1f40c4a1f6d18512279013",
-        "title": "Калорійність",
-        "description": "Просимо додати таблицю потрібної калорійності харчування",
-        "date": "2021-03-16T00:00:00+02:00",
-        "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"",
-        "questionOf": "tender",
-        "dateAnswered": "2021-03-16T00:00:00+02:00"
-      }
-    ],
-    "title_en": "Services in school canteens",
-    "enquiryPeriod": {
-      "startDate": "2021-02-13T00:00:00+02:00",
-      "endDate": "2021-03-06T00:00:00+02:00",
-      "clarificationsUntil": "2021-03-18T00:00:00+02:00",
-      "invalidationDate": "2021-03-16T00:00:00+02:00"
-    },
-    "documents": [
-      {
-        "id": "31faa48b1c3e44b6a94a0b448a5a9056",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "Notice.pdf",
-        "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/50ebbb117ab34bc29afc9bb08833649b?Signature=%2BlVtJ0z9%2BFM74Ho%2FwYV%2FErZHcmTIMfUSSIbSDVzvoSwsHVgm%2F6I1cemDuZBb54CzJ9m0mtqxvnsh5dAfN3psDw%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
-        "author": "tender_owner",
-        "documentOf": "tender",
-        "language": "uk"
-      },
-      {
-        "id": "dba7fedaa65d4717a3aa4f6f60698584",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "AwardCriteria.pdf",
-        "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c3559c5f048645b19a4db8c93ed032cd?Signature=ClFw8PUh%2FXF2xXGjXN844BpT1FVXHPJ6ztNi4HR5ccTe7sT68MGa0yc%2BMt2AmOUv68aJaIfRKSgvc4P4EReXDw%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
-        "author": "tender_owner",
-        "documentOf": "tender",
-        "language": "uk"
-      },
-      {
-        "id": "dba7fedaa65d4717a3aa4f6f60698584",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "AwardCriteria-2.pdf",
-        "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e4f77e9dcb67425188ef109021cf86ba?Signature=gf%2B9GmTU3V%2Fje0taKBWZzhj9ozzWZ8%2F8kozG1E9uvb8Yhq6bbxUjFks3356GB%2BueCs69jH8wFqbVA%2BGKU67eCA%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
-        "author": "tender_owner",
-        "documentOf": "tender",
-        "language": "uk"
-      }
-    ],
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "name_en": "School #10 of Vinnytsia",
@@ -96,194 +110,67 @@ X-Content-Type-Options: nosniff
         "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/",
+        "name": "Куца Світлана Валентинівна",
         "name_en": "Kutsa Svitlana V.",
         "availableLanguage": "uk"
       },
       "kind": "general"
     },
-    "bids": [
-      {
-        "tenderers": [
-          {
-            "name": "ДКП «Школяр»",
-            "identifier": {
-              "scheme": "UA-EDR",
-              "id": "00137256",
-              "uri": "http://www.sc.gov.ua/"
-            },
-            "address": {
-              "streetAddress": "вул. Островського, 33",
-              "locality": "м. Вінниця",
-              "region": "Вінницька область",
-              "postalCode": "21100",
-              "countryName": "Україна"
-            },
-            "contactPoint": {
-              "name": "Сергій Олексюк",
-              "email": "soleksuk@gmail.com",
-              "telephone": "+380432216930"
-            },
-            "scale": "micro"
-          }
-        ],
-        "id": "58e27c7c070d4d97b09d73d735ad23aa",
-        "documents": [
-          {
-            "id": "495d6da3c2b040ffa35339eb84d63c2e",
-            "hash": "md5:00000000000000000000000000000000",
-            "title": "Proposal.pdf",
-            "format": "application/pdf",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0ebab89f70e14ee79ac687594e90aa45?Signature=9aoCYzGqWd6EnH2PO5FddFgVKa0%2BzDPyB5hofn0%2FlwHTA%2BGSMyAGVFqho1BSeRayT%2Bjugg3Z26AyoNAr934UCA%3D%3D&KeyID=a8968c46",
-            "datePublished": "2021-03-16T00:00:00+02:00",
-            "dateModified": "2021-03-16T00:00:00+02:00",
-            "documentOf": "tender",
-            "confidentiality": "public",
-            "language": "uk"
-          },
-          {
-            "id": "5e01113a41914e4d92cdd02641398220",
-            "hash": "md5:00000000000000000000000000000000",
-            "title": "Proposal_top_secrets.pdf",
-            "format": "application/pdf",
-            "datePublished": "2021-03-16T00:00:00+02:00",
-            "dateModified": "2021-03-16T00:00:00+02:00",
-            "documentOf": "tender",
-            "confidentialityRationale": "Only our company sells badgers with pink hair.",
-            "confidentiality": "buyerOnly",
-            "language": "uk"
-          }
-        ],
-        "status": "pending"
-      },
-      {
-        "tenderers": [
-          {
-            "name": "ДКП «Книга»",
-            "identifier": {
-              "scheme": "UA-EDR",
-              "id": "00137226",
-              "uri": "http://www.sc.gov.ua/"
-            },
-            "address": {
-              "streetAddress": "вул. Островського, 34",
-              "locality": "м. Львів",
-              "region": "Львівська область",
-              "postalCode": "79013",
-              "countryName": "Україна"
-            },
-            "contactPoint": {
-              "name": "Андрій Олексюк",
-              "email": "aagt@gmail.com",
-              "telephone": "+380322916930"
-            },
-            "scale": "sme"
-          }
-        ],
-        "id": "77605656b3e8479fbfa66cf3d764520c",
-        "status": "pending"
-      },
-      {
-        "tenderers": [
-          {
-            "name": "«Кенгуру»",
-            "identifier": {
-              "scheme": "UA-EDR",
-              "id": "00137228",
-              "uri": "http://www.sc.gov.ua/"
-            },
-            "address": {
-              "streetAddress": "вул. Коцюбинського, 15",
-              "locality": "м. Запоріжя",
-              "region": "Запорізька область",
-              "postalCode": "79013",
-              "countryName": "Україна"
-            },
-            "contactPoint": {
-              "name": "Іван Карпенко",
-              "email": "fake@mail.com",
-              "telephone": "+380322123456"
-            },
-            "scale": "large"
-          }
-        ],
-        "id": "9ee879e314fd487584383884598ae7c7",
-        "documents": [
-          {
-            "id": "866c3ddfea9249e9a4953a1943facdf4",
-            "hash": "md5:00000000000000000000000000000000",
-            "title": "Proposal_part1.pdf",
-            "format": "application/pdf",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bd22239ca7e843b5a9b78629492dd7ef?Signature=hn64tIoU1SMP2A3RWyThO%2F59nkS2V%2BWRPLPhDALx9aH1K0jIC%2FUaGcadYcO%2BGjNJnKGHwGH%2FR%2Fmi04t2efQPBQ%3D%3D&KeyID=a8968c46",
-            "datePublished": "2021-03-16T00:00:00+02:00",
-            "dateModified": "2021-03-16T00:00:00+02:00",
-            "documentOf": "tender",
-            "confidentiality": "public",
-            "language": "uk"
-          },
-          {
-            "id": "6be95b29d2d749a2ad53f32098040908",
-            "hash": "md5:00000000000000000000000000000000",
-            "title": "Proposal_part2.pdf",
-            "format": "application/pdf",
-            "datePublished": "2021-03-16T00:00:00+02:00",
-            "dateModified": "2021-03-16T00:00:00+02:00",
-            "documentOf": "tender",
-            "confidentialityRationale": "Only our company sells badgers with pink hair.",
-            "confidentiality": "buyerOnly",
-            "language": "uk"
-          }
-        ],
-        "eligibilityDocuments": [
-          {
-            "id": "84ff8dfd2a4a46d489c225ca4658fa42",
-            "hash": "md5:00000000000000000000000000000000",
-            "title": "eligibility_doc.pdf",
-            "format": "application/pdf",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3c13822a2b25429caa740bfe269ec59b?Signature=C7xdMGRy4lhwbDkRrq%2BCSbdqUp2y3HSLRqolDRC6hPOl4TSog4fwpJHaCLYNWLOO9V8Peqn4r4dFtPWvr7fjAg%3D%3D&KeyID=a8968c46",
-            "datePublished": "2021-03-16T00:00:00+02:00",
-            "dateModified": "2021-03-16T00:00:00+02:00",
-            "documentOf": "tender",
-            "confidentiality": "public",
-            "language": "uk"
-          }
-        ],
-        "status": "pending"
-      }
-    ],
-    "qualifications": [
-      {
-        "id": "37b5b987176b4b91a1d5894c22777487",
-        "bidID": "58e27c7c070d4d97b09d73d735ad23aa",
-        "status": "pending",
-        "date": "2021-03-16T00:00:00+02:00",
-        "qualified": false,
-        "eligible": false
-      },
-      {
-        "id": "020c6650d6ff49a88cffac8f06fc97dd",
-        "bidID": "77605656b3e8479fbfa66cf3d764520c",
-        "status": "pending",
-        "date": "2021-03-16T00:00:00+02:00",
-        "qualified": false,
-        "eligible": false
-      },
-      {
-        "id": "1a5abc583b654e1a954ce9cd81eb5288",
-        "bidID": "9ee879e314fd487584383884598ae7c7",
-        "status": "pending",
-        "date": "2021-03-16T00:00:00+02:00",
-        "qualified": false,
-        "eligible": false
-      }
-    ],
-    "qualificationPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00"
-    },
     "awardCriteria": "lowestCost",
+    "enquiryPeriod": {
+      "startDate": "2021-02-13T00:00:00+02:00",
+      "endDate": "2021-03-06T00:00:00+02:00",
+      "clarificationsUntil": "2021-03-18T00:00:00+02:00",
+      "invalidationDate": "2021-03-16T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2021-02-13T00:00:00+02:00",
+      "endDate": "2021-03-16T00:00:00+02:00"
+    },
+    "complaintPeriod": {
+      "startDate": "2021-02-15T00:00:00+02:00",
+      "endDate": "2021-03-20T00:00:00+02:00"
+    },
     "procurementMethodType": "competitiveDialogueEU.stage2",
+    "procurementMethod": "selective",
+    "dialogue_token": "51198d0c28dc8a1846cae4a74ab899cf4e15a20860d62dbb2cb543a1837f516799b57f0195ea9d02d1cb9fc89959feb0e5b6f767c5846204ff634167dc4bbbb8",
+    "items": [
+      {
+        "id": "f589bbeaad4d48e0a604e79cfdf6c380",
+        "description": "Послуги шкільних їдалень",
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "deliveryDate": {
+          "startDate": "2021-04-05T00:00:00+02:00",
+          "endDate": "2021-04-16T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "description_en": "Services in school canteens",
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        }
+      }
+    ],
     "shortlistedFirms": [
       {
         "identifier": {
@@ -310,53 +197,186 @@ X-Content-Type-Options: nosniff
         "name": "«Кенгуру»"
       }
     ],
-    "tenderPeriod": {
-      "startDate": "2021-02-13T00:00:00+02:00",
-      "endDate": "2021-03-16T00:00:00+02:00"
-    },
     "status": "active.pre-qualification",
-    "procurementMethod": "selective",
-    "items": [
+    "bids": [
       {
-        "id": "392b0b534d1144d6904082f978cfde5a",
-        "description": "Послуги шкільних їдалень",
-        "additionalClassifications": [
+        "tenderers": [
           {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "Послуги шкільних їдалень"
+            "name": "ДКП «Школяр»",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137256",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Островського, 33",
+              "locality": "м. Вінниця",
+              "region": "Вінницька область",
+              "postalCode": "21100",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "email": "soleksuk@gmail.com",
+              "telephone": "+380432216930",
+              "name": "Сергій Олексюк"
+            },
+            "scale": "micro"
           }
         ],
-        "quantity": 1.0,
-        "unit": {
-          "name": "кілограм",
-          "code": "KGM"
-        },
-        "deliveryDate": {
-          "startDate": "2021-04-05T00:00:00+02:00",
-          "endDate": "2021-04-16T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "description_en": "Services in school canteens",
-        "classification": {
-          "description": "Test",
-          "scheme": "ДК021",
-          "id": "37810000-9"
-        }
+        "id": "58e27c7c070d4d97b09d73d735ad23aa",
+        "status": "pending",
+        "documents": [
+          {
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "Proposal.pdf",
+            "format": "application/pdf",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bb090978dbf84b9a974d39d03059affd?Signature=kFCxltNyFmL%2F2TfeGuU0Cb6PifLij10Y3jWc3jbRaAthYaNR%2Bc%2BAru%2F%2BBkZhK3UJpSuey91YkkUlAaRTLsr5Cg%3D%3D&KeyID=a8968c46",
+            "documentOf": "tender",
+            "confidentiality": "public",
+            "language": "uk",
+            "id": "495d6da3c2b040ffa35339eb84d63c2e",
+            "datePublished": "2021-03-16T00:00:00+02:00",
+            "dateModified": "2021-03-16T00:00:00+02:00"
+          },
+          {
+            "id": "5e01113a41914e4d92cdd02641398220",
+            "datePublished": "2021-03-16T00:00:00+02:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "Proposal_top_secrets.pdf",
+            "format": "application/pdf",
+            "documentOf": "tender",
+            "dateModified": "2021-03-16T00:00:00+02:00",
+            "confidentiality": "buyerOnly",
+            "confidentialityRationale": "Only our company sells badgers with pink hair.",
+            "language": "uk"
+          }
+        ]
+      },
+      {
+        "tenderers": [
+          {
+            "name": "ДКП «Книга»",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137226",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Островського, 34",
+              "locality": "м. Львів",
+              "region": "Львівська область",
+              "postalCode": "79013",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "email": "aagt@gmail.com",
+              "telephone": "+380322916930",
+              "name": "Андрій Олексюк"
+            },
+            "scale": "sme"
+          }
+        ],
+        "id": "77605656b3e8479fbfa66cf3d764520c",
+        "status": "pending"
+      },
+      {
+        "tenderers": [
+          {
+            "name": "«Кенгуру»",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137228",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Коцюбинського, 15",
+              "locality": "м. Запоріжя",
+              "region": "Запорізька область",
+              "postalCode": "79013",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "email": "fake@mail.com",
+              "telephone": "+380322123456",
+              "name": "Іван Карпенко"
+            },
+            "scale": "large"
+          }
+        ],
+        "id": "9ee879e314fd487584383884598ae7c7",
+        "documents": [
+          {
+            "id": "e0a60dc73bc54257836497eba2b05d56",
+            "datePublished": "2021-03-16T00:00:00+02:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "Proposal_part1.pdf",
+            "format": "application/pdf",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bd22239ca7e843b5a9b78629492dd7ef?Signature=hn64tIoU1SMP2A3RWyThO%2F59nkS2V%2BWRPLPhDALx9aH1K0jIC%2FUaGcadYcO%2BGjNJnKGHwGH%2FR%2Fmi04t2efQPBQ%3D%3D&KeyID=a8968c46",
+            "documentOf": "tender",
+            "dateModified": "2021-03-16T00:00:00+02:00",
+            "confidentiality": "public",
+            "language": "uk"
+          },
+          {
+            "id": "84ff8dfd2a4a46d489c225ca4658fa42",
+            "datePublished": "2021-03-16T00:00:00+02:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "Proposal_part2.pdf",
+            "format": "application/pdf",
+            "documentOf": "tender",
+            "dateModified": "2021-03-16T00:00:00+02:00",
+            "confidentiality": "buyerOnly",
+            "confidentialityRationale": "Only our company sells badgers with pink hair.",
+            "language": "uk"
+          }
+        ],
+        "eligibilityDocuments": [
+          {
+            "id": "57203659f1a64b91b18941755f4d9d89",
+            "datePublished": "2021-03-16T00:00:00+02:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "eligibility_doc.pdf",
+            "format": "application/pdf",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aa6cf974e101460589085272d5990056/bids/9ee879e314fd487584383884598ae7c7/eligibility_documents/57203659f1a64b91b18941755f4d9d89?download=3c13822a2b25429caa740bfe269ec59b",
+            "documentOf": "tender",
+            "dateModified": "2021-03-16T00:00:00+02:00",
+            "confidentiality": "public",
+            "language": "uk"
+          }
+        ],
+        "status": "pending"
       }
     ],
-    "id": "db1ddb06a5a44954bc0b9f555776112d",
-    "numberOfBids": 3,
-    "complaintPeriod": {
-      "startDate": "2021-02-13T00:00:00+02:00",
-      "endDate": "2021-03-12T00:00:00+02:00"
-    }
+    "qualificationPeriod": {
+      "startDate": "2021-03-16T00:00:00+02:00"
+    },
+    "id": "aa6cf974e101460589085272d5990056",
+    "qualifications": [
+      {
+        "id": "37b5b987176b4b91a1d5894c22777487",
+        "bidID": "58e27c7c070d4d97b09d73d735ad23aa",
+        "status": "pending",
+        "date": "2021-03-16T00:00:00+02:00",
+        "qualified": false,
+        "eligible": false
+      },
+      {
+        "id": "020c6650d6ff49a88cffac8f06fc97dd",
+        "bidID": "77605656b3e8479fbfa66cf3d764520c",
+        "status": "pending",
+        "date": "2021-03-16T00:00:00+02:00",
+        "qualified": false,
+        "eligible": false
+      },
+      {
+        "id": "1a5abc583b654e1a954ce9cd81eb5288",
+        "bidID": "9ee879e314fd487584383884598ae7c7",
+        "status": "pending",
+        "date": "2021-03-16T00:00:00+02:00",
+        "qualified": false,
+        "eligible": false
+      }
+    ]
   }
 }
 

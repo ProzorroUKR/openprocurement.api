@@ -31,7 +31,7 @@ X-Content-Type-Options: nosniff
         "rationaleType": "taxRate",
         "modifications": [
           {
-            "itemId": "26d1888c829a4db4b883061b2b327288",
+            "itemId": "cefbff4fb3e846ee8eecfdb05932afa1",
             "factor": 0.1605
           }
         ]
@@ -111,7 +111,7 @@ X-Content-Type-Options: nosniff
         ],
         "unitPrices": [
           {
-            "relatedItem": "26d1888c829a4db4b883061b2b327288",
+            "relatedItem": "cefbff4fb3e846ee8eecfdb05932afa1",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -153,7 +153,7 @@ X-Content-Type-Options: nosniff
         ],
         "unitPrices": [
           {
-            "relatedItem": "26d1888c829a4db4b883061b2b327288",
+            "relatedItem": "cefbff4fb3e846ee8eecfdb05932afa1",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -195,7 +195,7 @@ X-Content-Type-Options: nosniff
         ],
         "unitPrices": [
           {
-            "relatedItem": "26d1888c829a4db4b883061b2b327288",
+            "relatedItem": "cefbff4fb3e846ee8eecfdb05932afa1",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -210,7 +210,7 @@ X-Content-Type-Options: nosniff
     ],
     "items": [
       {
-        "id": "26d1888c829a4db4b883061b2b327288",
+        "id": "cefbff4fb3e846ee8eecfdb05932afa1",
         "description": "футляри до державних нагород",
         "unit": {
           "name": "item",
@@ -268,7 +268,7 @@ X-Content-Type-Options: nosniff
         "availableLanguage": "uk"
       }
     },
-    "tender_id": "8689dc9146384e6d9697b796fad83213",
+    "tender_id": "1d6dfb61feb64fbe86cb4cda37de58f9",
     "numberOfContracts": 3
   }
 }

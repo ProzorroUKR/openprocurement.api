@@ -35,7 +35,7 @@ from openprocurement.tender.core.models import (
     validate_item_related_buyers,
 )
 from openprocurement.tender.belowthreshold.models import Unit
-from openprocurement.tender.openua.validation import _validate_tender_period_duration
+from openprocurement.tender.core.validation import validate_tender_period_duration
 from openprocurement.tender.pricequotation.constants import (
     PMT,
     QUALIFICATION_DURATION,
@@ -426,7 +426,7 @@ class PriceQuotationTender(Tender):
 
     def validate_tenderPeriod(self, data, period):
         if period and period.startDate and period.endDate:
-            _validate_tender_period_duration(data, period, TENDERING_DURATION, working_days=True)
+            validate_tender_period_duration(data, period, TENDERING_DURATION, working_days=True)
 
     def __local_roles__(self):
         roles = dict([("{}_{}".format(self.owner, self.owner_token), "tender_owner")])

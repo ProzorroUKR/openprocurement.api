@@ -234,10 +234,9 @@ class TenderOwnershipChangeTest(BaseTenderOwnershipChangeTest):
         )
 
         # set test mode and try to change ownership
-        with change_auth(self.app, ("Basic", ("administrator", ""))):
-            response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"mode": "test"}})
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json["data"]["mode"], "test")
+        tender = self.db.get(self.tender_id)
+        tender["mode"] = "test"
+        self.db.save(tender)
 
         with change_auth(self.app, ("Basic", (self.test_owner, ""))):
             response = self.app.post_json(
@@ -443,7 +442,8 @@ class OpenUACompetitiveDialogueStage2TenderOwnershipChangeTest(TenderOwnershipCh
         # check first tender created
         response = self.app.get("/tenders/{}".format(self.tender_id))
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json["data"]["owner"], self.first_owner)
+        tender = response.json["data"]
+        self.assertEqual(tender["owner"], self.first_owner)
 
         # create Transfer with second owner
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
@@ -480,7 +480,10 @@ class OpenUACompetitiveDialogueStage2TenderOwnershipChangeTest(TenderOwnershipCh
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(self.tender_id, new_access_token),
-                {"data": {"tenderPeriod": {"endDate": end_date.isoformat()}}},
+                {"data": {"tenderPeriod": {
+                    "startDate": tender["tenderPeriod"]["startDate"],
+                    "endDate": end_date.isoformat(),
+                }}},
             )
         self.assertEqual(response.status, "200 OK")
         self.assertNotIn("transfer", response.json["data"])

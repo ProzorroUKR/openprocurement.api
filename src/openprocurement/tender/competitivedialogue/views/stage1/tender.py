@@ -26,12 +26,12 @@ from openprocurement.tender.competitivedialogue.validation import (
 )
 
 
-@optendersresource(
-    name="{}:Tender".format(CD_EU_TYPE),
-    path="/tenders/{tender_id}",
-    procurementMethodType=CD_EU_TYPE,
-    description="Open Contracting compatible data exchange format. See  for more info",
-)
+# @optendersresource(
+#     name="{}:Tender".format(CD_EU_TYPE),
+#     path="/tenders/{tender_id}",
+#     procurementMethodType=CD_EU_TYPE,
+#     description="Open Contracting compatible data exchange format. See  for more info",
+# )
 class CompetitiveDialogueEUResource(TenderEUResource):
     """ Resource handler for Competitive Dialogue EU"""
 
@@ -54,12 +54,12 @@ class CompetitiveDialogueEUResource(TenderEUResource):
         return patch_eu(self)
 
 
-@optendersresource(
-    name="{}:Tender".format(CD_UA_TYPE),
-    path="/tenders/{tender_id}",
-    procurementMethodType=CD_UA_TYPE,
-    description="Open Contracting compatible data exchange format. See # for more info",
-)
+# @optendersresource(
+#     name="{}:Tender".format(CD_UA_TYPE),
+#     path="/tenders/{tender_id}",
+#     procurementMethodType=CD_UA_TYPE,
+#     description="Open Contracting compatible data exchange format. See # for more info",
+# )
 class CompetitiveDialogueUAResource(TenderResource):
     """ Resource handler for Competitive Dialogue UA"""
 

@@ -2,8 +2,8 @@
 from openprocurement.api.utils import get_now, raise_operation_error, get_first_revision_date
 from openprocurement.api.constants import NO_DEFENSE_AWARD_CLAIMS_FROM
 
-from openprocurement.tender.openua.validation import (
-    _validate_tender_period_duration as _validate_tender_period_duration_base,
+from openprocurement.tender.core.validation import (
+    validate_tender_period_duration as _validate_tender_period_duration_base,
 )
 from openprocurement.tender.openua.validation import (
     validate_complaint_post_review_date as validate_complaint_post_review_date_base

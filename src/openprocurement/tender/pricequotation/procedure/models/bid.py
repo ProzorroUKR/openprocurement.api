@@ -4,8 +4,8 @@ from schematics.types.serializable import serializable
 from openprocurement.tender.core.procedure.context import get_tender, get_request, get_now
 from openprocurement.tender.core.procedure.models.bid import get_default_bid_status
 from openprocurement.tender.core.procedure.models.document import PostDocument, Document
-from openprocurement.tender.core.procedure.models.base import (
-    ListType,
+from openprocurement.tender.core.procedure.models.base import ListType
+from openprocurement.tender.core.procedure.models.organization import (
     PatchBusinessOrganization,
     PostBusinessOrganization,
 )

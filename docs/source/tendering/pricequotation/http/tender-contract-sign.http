@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/e821f507458c4e99bdd9928981355ffa/contracts/223d62f7b07b4300938e53e55ec39237?acc_token=c87b58b4160f425b8973621e89008a15 HTTP/1.0
+PATCH /api/2.5/tenders/055dc73de1b14564a3409fbcd31c287f/contracts/223d62f7b07b4300938e53e55ec39237?acc_token=52d0ea2cfc1b4667b659befc1200e843 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -78,7 +78,7 @@ X-Content-Type-Options: nosniff
     ],
     "items": [
       {
-        "id": "61a6737049384b08876fb0407eda182f",
+        "id": "154f6580f26f44dea680eaf67b309152",
         "description": "Комп’ютерне обладнання",
         "classification": {
           "description": "Комп’ютерне обладнанн",

@@ -1,12 +1,13 @@
-PATCH /api/2.5/tenders/db4876add6b747dfafc1b99523c02097?acc_token=9234ea997d5a428fb67b1ae603020b64 HTTP/1.0
+PATCH /api/2.5/tenders/42b066abf8d74e769bd368279e46441b?acc_token=bdb6664c7ada49b0b6ce349566740a47 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 68
+Content-Length: 110
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
     "tenderPeriod": {
+      "startDate": "2021-03-16T00:00:00+02:00",
       "endDate": "2021-04-16T00:00:00+02:00"
     }
   }
@@ -17,17 +18,34 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "title": "футляри до державних нагород",
     "date": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
     "tenderID": "UA-2021-03-16-000001",
     "owner": "broker",
+    "title": "футляри до державних нагород",
     "submissionMethod": "electronicAuction",
     "value": {
       "amount": 500.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
+    "minimalStep": {
+      "amount": 5.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "awardCriteria": "lowestCost",
+    "enquiryPeriod": {
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-04-06T00:00:00+02:00",
+      "clarificationsUntil": "2021-04-09T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-04-16T00:00:00+02:00"
+    },
+    "procurementMethodType": "competitiveDialogueUA.stage2",
+    "procurementMethod": "selective",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "identifier": {
@@ -43,24 +61,13 @@ X-Content-Type-Options: nosniff
         "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
         "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/"
+        "url": "http://sch10.edu.vn.ua/",
+        "name": "Куца Світлана Валентинівна"
       },
       "kind": "special"
     },
-    "minimalStep": {
-      "amount": 5.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "enquiryPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-04-06T00:00:00+02:00",
-      "clarificationsUntil": "2021-04-09T00:00:00+02:00"
-    },
-    "awardCriteria": "lowestCost",
-    "procurementMethodType": "competitiveDialogueUA.stage2",
+    "dialogue_token": "51198d0c28dc8a1846cae4a74ab899cf4e15a20860d62dbb2cb543a1837f516799b57f0195ea9d02d1cb9fc89959feb0e5b6f767c5846204ff634167dc4bbbb8",
     "shortlistedFirms": [
       {
         "identifier": {
@@ -87,14 +94,10 @@ X-Content-Type-Options: nosniff
         "name": "«Кенгуру»"
       }
     ],
-    "tenderPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-04-16T00:00:00+02:00"
-    },
     "status": "draft.stage2",
     "items": [
       {
-        "id": "a6565c9d85274cf48af6fa6924814d39",
+        "id": "6d18dbf0831b45ab9d8105f44378ecc0",
         "description": "Послуги шкільних їдалень",
         "additionalClassifications": [
           {
@@ -103,16 +106,16 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "quantity": 1.0,
         "unit": {
           "name": "папір",
-          "code": "KGM",
           "value": {
             "amount": 10.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
-          }
+          },
+          "code": "KGM"
         },
+        "quantity": 1.0,
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
           "endDate": "2021-05-05T00:00:00+02:00"
@@ -131,12 +134,11 @@ X-Content-Type-Options: nosniff
         }
       }
     ],
-    "procurementMethod": "selective",
-    "id": "db4876add6b747dfafc1b99523c02097",
     "complaintPeriod": {
       "startDate": "2021-03-16T00:00:00+02:00",
       "endDate": "2021-04-12T00:00:00+02:00"
-    }
+    },
+    "id": "42b066abf8d74e769bd368279e46441b"
   }
 }
 

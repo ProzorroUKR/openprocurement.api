@@ -12,7 +12,8 @@ from openprocurement.tender.pricequotation.tests.criterion_blanks import (
 )
 
 
-@patch("openprocurement.tender.pricequotation.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
+       get_now() + timedelta(days=1))
 class TenderPQCriteriaTest(BaseTenderWebTest):
     initial_data = test_tender_data
     initial_auth = ("Basic", ("broker", ""))

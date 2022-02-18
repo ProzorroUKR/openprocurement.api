@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/37cb590308a242a9836f51a9994c7492/agreements/0fea7d7c4c8649f5a499885d630671f5/contracts/4ffc79bd176541f7a1aa8bdd26bc5a87?acc_token=fbb49b806b484733bc09390b0e01078d HTTP/1.0
+PATCH /api/2.5/tenders/6f00022409bb4e73b5f698801518e0db/agreements/0fea7d7c4c8649f5a499885d630671f5/contracts/4ffc79bd176541f7a1aa8bdd26bc5a87?acc_token=a4dab218398a4cc8a8004a91d3ba9744 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 184
 Content-Type: application/json
@@ -8,13 +8,13 @@ DATA:
   "data": {
     "unitPrices": [
       {
-        "relatedItem": "fb692f97b807462b94668d4091b2779b",
+        "relatedItem": "aaec8afa6e6a4743b3942b45d02e6457",
         "value": {
           "amount": 0.5
         }
       },
       {
-        "relatedItem": "eda37d51e2854d93aedc7e1d31e01cea",
+        "relatedItem": "84dbeb94478645759b67a2fa88293b0e",
         "value": {
           "amount": 0.5
         }
@@ -55,7 +55,7 @@ X-Content-Type-Options: nosniff
     ],
     "unitPrices": [
       {
-        "relatedItem": "fb692f97b807462b94668d4091b2779b",
+        "relatedItem": "aaec8afa6e6a4743b3942b45d02e6457",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
@@ -63,7 +63,7 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "relatedItem": "eda37d51e2854d93aedc7e1d31e01cea",
+        "relatedItem": "84dbeb94478645759b67a2fa88293b0e",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
