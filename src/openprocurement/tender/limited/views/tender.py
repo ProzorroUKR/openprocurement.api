@@ -31,7 +31,7 @@ class TenderResource(BaseTenderResource):
             validate_patch_tender_data,
             validate_tender_not_in_terminated_status,
             validate_chronograph,
-            validate_update_tender_with_awards,
+            # validate_update_tender_with_awards,
         ),
         permission="edit_tender",
     )

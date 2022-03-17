@@ -474,14 +474,14 @@ def validate_lots_uniq(lots, *args):
 
 def validate_funders_unique(funders, *args):
     if funders:
-        ids = [(i.identifier.scheme, i.identifier.id) for i in funders]
-        if len(funders) > len(set(ids)):
+        ids = [(i.identifier.scheme, i.identifier.id) for i in funders if i.identifier]
+        if len(ids) > len(set(ids)):
             raise ValidationError("Funders' identifier should be unique")
 
 
 def validate_funders_ids(funders, *args):
     for funder in funders:
-        if (funder.identifier.scheme, funder.identifier.id) not in FUNDERS:
+        if funder.identifier and (funder.identifier.scheme, funder.identifier.id) not in FUNDERS:
             raise ValidationError("Funder identifier should be one of the values allowed")
 
 
