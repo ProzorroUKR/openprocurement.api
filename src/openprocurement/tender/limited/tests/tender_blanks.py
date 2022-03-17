@@ -1556,3 +1556,12 @@ def tender_with_main_procurement_category(self):
     self.assertEqual(response.status, "200 OK")
     self.assertIn("mainProcurementCategory", response.json["data"])
     self.assertEqual(response.json["data"]["mainProcurementCategory"], "services")
+
+
+def tender_set_fund_organizations(self):
+    data = dict(**self.initial_data)
+    data["funders"] = [{"name": "Запишіть в тєтрадку"}]
+
+    resp = self.app.post_json("/tenders", {"data": data}, status=201)
+    result = resp.json["data"]
+    self.assertEquals([{"name": "Запишіть в тєтрадку"}], result["funders"])

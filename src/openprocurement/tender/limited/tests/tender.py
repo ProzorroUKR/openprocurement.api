@@ -53,7 +53,8 @@ from openprocurement.tender.limited.tests.tender_blanks import (
     tender_with_main_procurement_category,
     create_tender_accreditation,
     tender_cause_desc,
-    tender_cause_choices
+    tender_cause_choices,
+    tender_set_fund_organizations,
 )
 
 from openprocurement.tender.openua.tests.tender_blanks import (
@@ -72,6 +73,7 @@ class TenderTest(TenderTestMixin, BaseTenderWebTest):
     tender_model = ReportingTender
     initial_data = test_tender_data
     test_tender_milestones_not_required = snitch(tender_milestones_not_required)
+    test_tender_set_fund_organizations = snitch(tender_set_fund_organizations)
 
 
 class TenderNegotiationTest(TenderTestMixin, BaseTenderWebTest):
