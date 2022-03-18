@@ -15,7 +15,7 @@ from openprocurement.api.constants import (
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.utils import get_now, get_root, get_first_revision_date
 from openprocurement.api.models import schematics_default_role, schematics_embedded_role
-from openprocurement.api.models import ListType, Period, Model, BusinessOrganization
+from openprocurement.api.models import ListType, Period, Model, ContactLessBusinessOrganization
 from openprocurement.api.models import Value, Organization, Identifier, Address, ContactPoint
 from openprocurement.api.validation import validate_cpv_group, validate_items_uniq, validate_classification_id
 from openprocurement.tender.core.models import (
@@ -71,6 +71,10 @@ class Complaint(BaseComplaint):
 
 class Contract(BaseContract):
     items = ListType(ModelType(Item, required=True))
+    suppliers = ListType(
+        ModelType(ContactLessBusinessOrganization, required=True),
+        min_size=1, max_size=1,
+    )
 
     def validate_dateSigned(self, data, value):
         if value and value > get_now():
@@ -107,8 +111,10 @@ class Award(BaseAward):
 
 
 class ReportingAward(Award):
-    suppliers = ListType(ModelType(BusinessOrganization, required=True),  # making it not required
-                         min_size=0, max_size=1, default=list())
+    suppliers = ListType(
+        ModelType(ContactLessBusinessOrganization, required=True),
+        required=True, min_size=1, max_size=1, default=list()
+    )
 
 
 class Cancellation(BaseCancellation):

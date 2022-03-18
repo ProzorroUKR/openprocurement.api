@@ -124,11 +124,11 @@ X-Content-Type-Options: nosniff
           "postalCode": "01220",
           "countryName": "Україна"
         },
+        "scale": "micro",
         "contactPoint": {
           "name": "Державне управління справами",
           "telephone": "+0440000000"
-        },
-        "scale": "micro"
+        }
       }
     ],
     "procuringEntity": {
