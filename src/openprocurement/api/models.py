@@ -707,6 +707,10 @@ class BusinessOrganization(Organization):
                 raise ValidationError(BaseType.MESSAGES["required"])
 
 
+class ContactLessBusinessOrganization(BusinessOrganization):
+    contactPoint = ModelType(ContactPoint)
+
+
 class Revision(Model):
     author = StringType()
     date = IsoDateTimeType(default=get_now)

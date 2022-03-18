@@ -164,8 +164,8 @@ class Organization(BaseOrganization):
 
 class BusinessOrganization(Organization):
     """An organization."""
-
     scale = StringType(choices=SCALE_CODES)
+    contactPoint = ModelType(ContactPoint)
 
 
 class ProcuringEntity(Organization):

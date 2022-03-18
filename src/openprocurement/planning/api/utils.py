@@ -12,6 +12,7 @@ from openprocurement.api.utils import (
     handle_store_exceptions,
     append_revision,
 )
+from openprocurement.api.mask import mask_object_data
 from openprocurement.planning.api.models import Plan
 from openprocurement.planning.api.traversal import factory
 
@@ -110,6 +111,9 @@ def extract_plan_doc(request, plan_id=None):
         request.errors.add("url", "plan_id", "Not Found")
         request.errors.status = 404
         raise error_handler(request)
+
+    mask_object_data(request, doc)  # war time measures
+
     return doc
 
 
