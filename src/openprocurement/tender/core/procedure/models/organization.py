@@ -47,6 +47,10 @@ class BusinessOrganization(PostBusinessOrganization):
     pass
 
 
+class ContactLessBusinessOrganization(BusinessOrganization):
+    contactPoint = ModelType(PostContactPoint)
+
+
 class Organization(Model):
 
     name = StringType(required=True)

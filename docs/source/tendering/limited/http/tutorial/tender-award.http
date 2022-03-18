@@ -65,12 +65,12 @@ X-Content-Type-Options: nosniff
           "postalCode": "21100",
           "countryName": "Україна"
         },
+        "scale": "micro",
         "contactPoint": {
           "email": "soleksuk@gmail.com",
           "telephone": "+380432216930",
           "name": "Сергій Олексюк"
-        },
-        "scale": "micro"
+        }
       }
     ],
     "id": "f44436fd825440d78a99dd57365363a3",
