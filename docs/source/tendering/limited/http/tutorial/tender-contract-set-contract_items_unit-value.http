@@ -26,29 +26,6 @@ X-Content-Type-Options: nosniff
     "id": "82d376775a134ec5b6c131348c86c6dc",
     "contractID": "UA-2021-03-16-000001-1",
     "status": "pending",
-    "suppliers": [
-      {
-        "name": "ДКП «Школяр»",
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00137256",
-          "uri": "http://www.sc.gov.ua/"
-        },
-        "address": {
-          "streetAddress": "вул. Островського, 33",
-          "locality": "м. Вінниця",
-          "region": "Вінницька область",
-          "postalCode": "21100",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "name": "Сергій Олексюк",
-          "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
-        },
-        "scale": "micro"
-      }
-    ],
     "date": "2021-03-16T00:00:00+02:00",
     "value": {
       "amount": 238.0,
@@ -93,6 +70,29 @@ X-Content-Type-Options: nosniff
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
+        }
+      }
+    ],
+    "suppliers": [
+      {
+        "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "scale": "micro",
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930"
         }
       }
     ]

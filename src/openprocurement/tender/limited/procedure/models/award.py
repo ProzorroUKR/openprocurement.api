@@ -1,6 +1,6 @@
 from openprocurement.api.models import IsoDateTimeType, ValidationError, Value, Period
 from openprocurement.tender.core.procedure.models.base import (
-    Model, ModelType, ListType, PostBusinessOrganization,
+    Model, ModelType, ListType, BusinessOrganization, ContactLessBusinessOrganization,
 )
 from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.context import get_tender, get_now
@@ -22,7 +22,7 @@ class PostBaseAward(Model):
     status = StringType(required=True, choices=["pending", "active"], default="pending")
     value = ModelType(Value)
     weightedValue = ModelType(Value)
-    suppliers = ListType(ModelType(PostBusinessOrganization, required=True), required=True, min_size=1, max_size=1)
+    suppliers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, max_size=1)
     subcontractingDetails = StringType()
 
 
@@ -35,7 +35,7 @@ class PatchBaseAward(Model):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
-    suppliers = ListType(ModelType(PostBusinessOrganization, required=True), min_size=1, max_size=1)
+    suppliers = ListType(ModelType(BusinessOrganization, required=True), min_size=1, max_size=1)
     subcontractingDetails = StringType()
     value = ModelType(Value)
 
@@ -47,7 +47,7 @@ class BaseAward(Model):
     date = IsoDateTimeType(required=True)
     value = ModelType(Value)
     weightedValue = ModelType(Value)
-    suppliers = ListType(ModelType(PostBusinessOrganization, required=True), required=True, min_size=1, max_size=1)
+    suppliers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, max_size=1)
     documents = ListType(ModelType(Document, required=True))
     subcontractingDetails = StringType()
 
@@ -96,12 +96,15 @@ class NegotiationAward(BaseAward):
 
 # reporting
 class PostReportingAward(PostBaseAward):
-    pass
+    suppliers = ListType(ModelType(ContactLessBusinessOrganization, required=True),
+                         required=True, min_size=1, max_size=1)
 
 
 class PatchReportingAward(PatchBaseAward):
-    pass
+    suppliers = ListType(ModelType(ContactLessBusinessOrganization, required=True),
+                         min_size=1, max_size=1)
 
 
 class ReportingAward(BaseAward):
-    pass
+    suppliers = ListType(ModelType(ContactLessBusinessOrganization, required=True),
+                         required=True, min_size=1, max_size=1)
