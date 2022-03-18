@@ -221,6 +221,10 @@ class BusinessOrganization(PostBusinessOrganization):
     pass
 
 
+class ContactLessBusinessOrganization(BusinessOrganization):
+    contactPoint = ModelType(PostContactPoint)
+
+
 class BaseBid(Model):
     pass
 
