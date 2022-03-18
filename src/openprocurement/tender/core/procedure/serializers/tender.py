@@ -17,6 +17,7 @@ class TenderBaseSerializer(BaseUIDSerializer):
         super().__init__(data)
 
         self.private_fields = {
+            "dialogue_token",
             "transfer_token",
             "_rev",
             "doc_type",

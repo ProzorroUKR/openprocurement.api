@@ -120,13 +120,13 @@ X-Content-Type-Options: nosniff
       "startDate": "2021-03-16T00:00:00+02:00",
       "endDate": "2021-04-07T00:00:00+02:00"
     },
-    "enquiryPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-04-01T00:00:00+02:00",
-      "clarificationsUntil": "2021-04-06T00:00:00+02:00"
-    },
     "owner": "broker",
     "date": "2021-03-16T00:00:00+02:00",
+    "enquiryPeriod": {
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-04-01T00:00:00+03:00",
+      "clarificationsUntil": "2021-04-06T00:00:00+03:00"
+    },
     "dateModified": "2021-03-16T00:00:00+02:00",
     "id": "c0491b79cf9945abbb58100d57ebc95e"
   }

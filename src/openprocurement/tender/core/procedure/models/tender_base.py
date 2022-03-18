@@ -15,7 +15,6 @@ from openprocurement.tender.core.procedure.models.document import (
     validate_tender_document_relations,
 )
 from openprocurement.tender.core.procedure.models.criterion import Criterion, validate_criteria_requirement_id_uniq
-from openprocurement.tender.core.procedure.models.guarantee import Guarantee, PostGuarantee
 from openprocurement.tender.core.procedure.models.organization import Organization
 from openprocurement.tender.core.procedure.models.question import validate_questions_related_items, Question
 from openprocurement.planning.api.models import BaseOrganization
@@ -53,7 +52,6 @@ class CommonBaseTender(Model):
             "active.enquiries",
         ]
     )
-    guarantee = ModelType(Guarantee)
     buyers = ListType(ModelType(BaseOrganization, required=True))
 
     title = StringType()
@@ -105,14 +103,12 @@ class PostBaseTender(CommonBaseTender):
     def doc_type(self):
         return "Tender"
 
-
     title = StringType(required=True)
     mode = StringType(choices=["test"])
     if SANDBOX_MODE:
         procurementMethodDetails = StringType()
 
     status = StringType(choices=["draft"], default="draft")
-    guarantee = ModelType(PostGuarantee)
 
     def validate_buyers(self, data, value):
         if data.get("procuringEntity", {}).get("kind", "") == "central" and not value:

@@ -99,10 +99,9 @@ def create_tender_invalid_eu(self):
         status=403,
     )
 
-    data = self.initial_data["tenderPeriod"]
     self.initial_data["tenderPeriod"] = {"startDate": "2014-10-31T00:00:00", "endDate": "2014-10-01T00:00:00"}
     response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
-    self.initial_data["tenderPeriod"] = data
+    del self.initial_data["tenderPeriod"]
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -113,72 +112,6 @@ def create_tender_invalid_eu(self):
                 "description": {"startDate": ["period should begin before its end"]},
                 "location": "body",
                 "name": "tenderPeriod",
-            }
-        ],
-    )
-
-    # self.initial_data["tenderPeriod"]["startDate"] = (get_now() - timedelta(minutes=30)).isoformat()
-    # response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
-    # del self.initial_data["tenderPeriod"]["startDate"]
-    # self.assertEqual(response.status, "422 Unprocessable Entity")
-    # self.assertEqual(response.content_type, "application/json")
-    # self.assertEqual(response.json["status"], "error")
-    # self.assertEqual(
-    #     response.json["errors"],
-    #     [
-    #         {
-    #             "description": ["tenderPeriod.startDate should be in greater than current date"],
-    #             "location": "body",
-    #             "name": "tenderPeriod",
-    #         }
-    #     ],
-    # )
-
-    now = get_now()
-    self.initial_data["awardPeriod"] = {"startDate": now.isoformat(), "endDate": now.isoformat()}
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
-    del self.initial_data["awardPeriod"]
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{"description": ["period should begin after tenderPeriod"], "location": "body", "name": "awardPeriod"}],
-    )
-
-    self.initial_data["auctionPeriod"] = {
-        "startDate": (now + timedelta(days=35)).isoformat(),
-        "endDate": (now + timedelta(days=35)).isoformat(),
-    }
-    self.initial_data["awardPeriod"] = {
-        "startDate": (now + timedelta(days=34)).isoformat(),
-        "endDate": (now + timedelta(days=34)).isoformat(),
-    }
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
-    del self.initial_data["auctionPeriod"]
-    del self.initial_data["awardPeriod"]
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{"description": ["period should begin after auctionPeriod"], "location": "body", "name": "awardPeriod"}],
-    )
-
-    data = self.initial_data["minimalStep"]
-    self.initial_data["minimalStep"] = {"amount": "6674850281.0"}
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
-    self.initial_data["minimalStep"] = data
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": ["value should be less than value of tender"],
-                "location": "body",
-                "name": "minimalStep",
             }
         ],
     )
@@ -344,15 +277,6 @@ def create_tender_invalid_eu(self):
     )
 
 
-def create_tender_without_tender_period(self):
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
-    data = deepcopy(self.initial_data)
-    del data["tenderPeriod"]
-    response = self.app.post_json("/tenders", {"data": data})
-    self.assertEqual(response.status, "201 Created")
-    tender = response.json["data"]
-
-
 def patch_tender_eu(self):
     self.app.authorization = ("Basic", ("competitive_dialogue", ""))
     response = self.app.post_json("/tenders", {"data": self.initial_data})
@@ -496,90 +420,6 @@ def create_tender_invalid_ua(self):
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
-
-    data = self.initial_data["tenderPeriod"]
-    self.initial_data["tenderPeriod"] = {"startDate": "2014-10-31T00:00:00", "endDate": "2014-10-01T00:00:00"}
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
-    self.initial_data["tenderPeriod"] = data
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": {"startDate": ["period should begin before its end"]},
-                "location": "body",
-                "name": "tenderPeriod",
-            }
-        ],
-    )
-
-    # self.initial_data["tenderPeriod"]["startDate"] = (get_now() - timedelta(minutes=30)).isoformat()
-    # response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
-    # del self.initial_data["tenderPeriod"]["startDate"]
-    # self.assertEqual(response.status, "422 Unprocessable Entity")
-    # self.assertEqual(response.content_type, "application/json")
-    # self.assertEqual(response.json["status"], "error")
-    # self.assertEqual(
-    #     response.json["errors"],
-    #     [
-    #         {
-    #             "description": ["tenderPeriod.startDate should be in greater than current date"],
-    #             "location": "body",
-    #             "name": "tenderPeriod",
-    #         }
-    #     ],
-    # )
-
-    now = get_now()
-    self.initial_data["awardPeriod"] = {"startDate": now.isoformat(), "endDate": now.isoformat()}
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
-    del self.initial_data["awardPeriod"]
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{"description": ["period should begin after tenderPeriod"], "location": "body", "name": "awardPeriod"}],
-    )
-
-    self.initial_data["auctionPeriod"] = {
-        "startDate": (now + timedelta(days=16)).isoformat(),
-        "endDate": (now + timedelta(days=16)).isoformat(),
-    }
-    self.initial_data["awardPeriod"] = {
-        "startDate": (now + timedelta(days=15)).isoformat(),
-        "endDate": (now + timedelta(days=15)).isoformat(),
-    }
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
-    del self.initial_data["auctionPeriod"]
-    del self.initial_data["awardPeriod"]
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{"description": ["period should begin after auctionPeriod"], "location": "body", "name": "awardPeriod"}],
-    )
-
-    data = self.initial_data["minimalStep"]
-    self.initial_data["minimalStep"] = {"amount": "1000.0"}
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
-    self.initial_data["minimalStep"] = data
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": ["value should be less than value of tender"],
-                "location": "body",
-                "name": "minimalStep",
-            }
-        ],
-    )
 
     data = self.initial_data["minimalStep"]
     self.initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": False}
@@ -1141,7 +981,8 @@ def create_tender(self):
     response = self.app.get("/tenders")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 0)
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    initial_data = deepcopy(self.initial_data)
+    response = self.app.post_json("/tenders", {"data": initial_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
@@ -1150,20 +991,19 @@ def create_tender(self):
         tender_set.remove("procurementMethodDetails")
     self.assertEqual(
         tender_set - set(self.initial_data),
-        set(
-            [
-                "id",
-                "dateModified",
-                "enquiryPeriod",
-                "complaintPeriod",
-                "tenderID",
-                "awardCriteria",
-                "submissionMethod",
-                "date",
-            ]
-        ),
+        {
+            "id",
+            "dateModified",
+            "enquiryPeriod",
+            "tenderPeriod",
+            "complaintPeriod",
+            "awardCriteria",
+            "submissionMethod",
+            "date",
+        },
     )
     self.assertIn(tender["id"], response.headers["Location"])
+    self.assertEqual(tender["tenderID"], self.initial_data["tenderID"])
 
     response = self.app.get("/tenders/{}".format(tender["id"]))
     self.assertEqual(response.status, "200 OK")

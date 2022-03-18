@@ -18,10 +18,6 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "guarantee": {
-      "amount": 8.0,
-      "currency": "USD"
-    },
     "title_en": "Services in school canteens",
     "criteria": [
       {
@@ -608,6 +604,10 @@ X-Content-Type-Options: nosniff
     "NBUdiscountRate": 0.22986,
     "fundingKind": "other",
     "noticePublicationDate": "2021-03-16T00:00:00+02:00",
+    "guarantee": {
+      "amount": 8.0,
+      "currency": "USD"
+    },
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "name_en": "School #10 of Vinnytsia",
@@ -715,8 +715,8 @@ X-Content-Type-Options: nosniff
     },
     "enquiryPeriod": {
       "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-04-06T00:00:00+02:00",
-      "clarificationsUntil": "2021-04-09T00:00:00+02:00",
+      "endDate": "2021-04-06T00:00:00+03:00",
+      "clarificationsUntil": "2021-04-09T00:00:00+03:00",
       "invalidationDate": "2021-03-16T00:00:00+02:00"
     },
     "complaintPeriod": {

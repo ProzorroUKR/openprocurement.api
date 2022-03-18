@@ -39,8 +39,12 @@ def all_bids_are_reviewed():
 class OpenEUTenderDetailsMixing(TenderDetailsMixing):
     tendering_period_extra = TENDERING_EXTRA_PERIOD
 
+    enquiry_period_timedelta = - ENQUIRY_PERIOD_TIME
+    enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
+
     def on_post(self, tender):
         super().on_post(tender)  # TenderDetailsMixing.on_post
+        self.initialize_enquiry_period(tender)
         self.update_complaint_period(tender)
 
     def on_patch(self, before, after):
@@ -100,11 +104,13 @@ class OpenEUTenderDetailsMixing(TenderDetailsMixing):
                         get_request(),
                         "tenderPeriod should be extended by {0.days} days".format(self.tendering_period_extra)
                     )
+                self.initialize_enquiry_period(after)
                 self.update_complaint_period(after)
             self.invalidate_bids_data(after)
 
         elif after["status"] == "active.tendering":
             after["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
+            self.initialize_enquiry_period(after)
 
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
 

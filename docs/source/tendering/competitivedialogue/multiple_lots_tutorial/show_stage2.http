@@ -574,7 +574,7 @@ X-Content-Type-Options: nosniff
     ],
     "date": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
-    "tenderID": "UA-2021-03-16-000002",
+    "tenderID": "UA-2021-03-16-000016-a.2",
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
     "submissionMethod": "electronicAuction",
@@ -658,8 +658,8 @@ X-Content-Type-Options: nosniff
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
       "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-04-05T00:00:00+02:00",
-      "clarificationsUntil": "2021-04-08T00:00:00+02:00",
+      "endDate": "2021-04-05T00:00:00+03:00",
+      "clarificationsUntil": "2021-04-08T00:00:00+03:00",
       "invalidationDate": "2021-03-16T00:00:00+02:00"
     },
     "tenderPeriod": {
@@ -672,7 +672,6 @@ X-Content-Type-Options: nosniff
     },
     "procurementMethodType": "competitiveDialogueEU.stage2",
     "procurementMethod": "selective",
-    "dialogue_token": "bd2b1aaf7ef4f09be9f52ce2d8d599674d81aa9d6a4421696dc4d93dd0619d682ce56b4d64a9ef097761ced99e0f67265b5f76085e5b0ee7ca4696b2ad6fe2b2",
     "items": [
       {
         "id": "f57b130047564f2d98e31cb511b74bc3",

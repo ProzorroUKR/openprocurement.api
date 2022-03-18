@@ -557,6 +557,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
         self.app.authorization = ('Basic', ('competitive_dialogue', ''))
 
         test_tender_data_stage2EU['dialogue_token'] = sha512(owner_token.encode()).hexdigest()
+        test_tender_data_stage2EU['tenderID'] = f"UA-{get_now().date().isoformat()}-000016-a.2"
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
             {'data': test_tender_data_stage2EU})
@@ -592,7 +593,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
             self.new_tender_token = response.json['access']['token']
 
         with open(TARGET_DIR + 'tender_stage2_modify_status.http', 'w') as self.app.file_obj:
-            with patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17",
+            with patch("openprocurement.tender.core.procedure.validation.RELEASE_ECRITERIA_ARTICLE_17",
                        get_now() + timedelta(days=1)):
                 response = self.app.patch_json(
                     '/tenders/{}?acc_token={}'.format(new_tender_id, self.new_tender_token),
@@ -610,6 +611,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
         self.app.authorization = ('Basic', ('competitive_dialogue', ''))
 
         test_tender_data_stage2EU['dialogue_token'] = sha512("super_secret_token".encode()).hexdigest()
+        test_tender_data_stage2EU['tenderID'] = f"UA-{get_now().date().isoformat()}-000016-a.2"
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
             {'data': test_tender_data_stage2EU})
@@ -640,7 +642,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
                 }}})
 
         with open(TARGET_DIR + 'stage2/EU/tender-activate.http', 'w') as self.app.file_obj:
-            with patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17",
+            with patch("openprocurement.tender.core.procedure.validation.RELEASE_ECRITERIA_ARTICLE_17",
                        get_now() + timedelta(days=1)):
                 response = self.app.patch_json(
                     '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
@@ -1442,7 +1444,8 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
         test_tender_data_stage2_multiple_lots['shortlistedFirms'][1]['lots'] = [{'id': lot_id1}, {'id': lot_id2}]
         test_tender_data_stage2_multiple_lots['shortlistedFirms'][2]['lots'] = [{'id': lot_id1}, {'id': lot_id2}]
 
-        test_tender_data_stage2EU['dialogue_token'] = sha512(owner_token.encode()).hexdigest()
+        test_tender_data_stage2_multiple_lots['dialogue_token'] = sha512(owner_token.encode()).hexdigest()
+        test_tender_data_stage2_multiple_lots['tenderID'] = f"UA-{get_now().date().isoformat()}-000016-a.2"
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
             {'data': test_tender_data_stage2_multiple_lots})
@@ -1558,6 +1561,7 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTe
         self.app.authorization = ('Basic', ('competitive_dialogue', ''))
 
         test_tender_data_stage2UA['dialogue_token'] = sha512("super_secret_token".encode()).hexdigest()
+        test_tender_data_stage2UA['tenderID'] = f"UA-{get_now().date().isoformat()}-000016-a.2"
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
             {'data': test_tender_data_stage2UA})
@@ -1586,7 +1590,7 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTe
                 }}})
 
         with open(TARGET_DIR + 'stage2/UA/tender-activate.http', 'w') as self.app.file_obj:
-            with patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17",
+            with patch("openprocurement.tender.core.procedure.validation.RELEASE_ECRITERIA_ARTICLE_17",
                        get_now() + timedelta(days=1)):
                 response = self.app.patch_json(
                     '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),

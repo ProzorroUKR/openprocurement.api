@@ -9,7 +9,7 @@ from openprocurement.tender.core.procedure.models.period import (
     TenderAuctionPeriod,
     EnquiryPeriod,
 )
-from openprocurement.tender.core.procedure.models.guarantee import Guarantee
+from openprocurement.tender.core.procedure.models.guarantee import Guarantee, PostGuarantee
 from openprocurement.tender.core.procedure.models.lot import (
     PostLot, PatchLot, Lot,
     validate_lots_uniq, validate_minimal_step_limits
@@ -95,6 +95,7 @@ class PostTender(PostBaseTender):
 
     procuringEntity = ModelType(ProcuringEntity, required=True)
     value = ModelType(Value, required=True)
+    guarantee = ModelType(PostGuarantee)
     minimalStep = ModelType(Value, required=True)
     enquiryPeriod = ModelType(EnquiryPeriod)
     tenderPeriod = ModelType(PeriodEndRequired, required=True)
@@ -181,6 +182,7 @@ class PatchTender(PatchBaseTender):
     awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST])
     procuringEntity = ModelType(ProcuringEntity)
     value = ModelType(Value)
+    guarantee = ModelType(Guarantee)
     minimalStep = ModelType(Value)
     enquiryPeriod = ModelType(EnquiryPeriod)
     tenderPeriod = ModelType(PeriodEndRequired)
@@ -203,6 +205,7 @@ class Tender(BaseTender):
     awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST], required=True)
     procuringEntity = ModelType(ProcuringEntity, required=True)
     value = ModelType(Value, required=True)
+    guarantee = ModelType(Guarantee)
     next_check = BaseType()
     minimalStep = ModelType(Value, required=True)
     enquiryPeriod = ModelType(EnquiryPeriod, required=True)

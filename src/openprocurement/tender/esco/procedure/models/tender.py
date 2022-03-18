@@ -15,7 +15,7 @@ from openprocurement.tender.core.procedure.models.period import (
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
 from openprocurement.tender.esco.procedure.models.feature import Feature
 from openprocurement.tender.core.procedure.models.milestone import Milestone, validate_milestones_lot
-from openprocurement.tender.core.procedure.models.guarantee import Guarantee
+from openprocurement.tender.core.procedure.models.guarantee import Guarantee, PostGuarantee
 from openprocurement.tender.core.procedure.models.item import (
     validate_cpv_group,
     validate_items_uniq,
@@ -91,23 +91,23 @@ class ESCOSerializable(Model):
             else self.yearlyPaymentsPercentageRange
         )
 
-    @serializable(
-        serialized_name="enquiryPeriod",
-        serialize_when_none=True,
-        type=ModelType(EnquiryPeriod, required=False)
-    )
-    def tender_enquiryPeriod(self):
-        enquiry_period_class = self._fields["enquiryPeriod"]
-        end_date = calculate_tender_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, self)
-        clarifications_until = calculate_clarif_business_date(end_date, ENQUIRY_STAND_STILL_TIME, self, True)
-        return enquiry_period_class(
-            dict(
-                startDate=self.tenderPeriod.startDate,
-                endDate=end_date,
-                invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
-                clarificationsUntil=clarifications_until,
-            )
-        )
+    # @serializable(
+    #     serialized_name="enquiryPeriod",
+    #     serialize_when_none=True,
+    #     type=ModelType(EnquiryPeriod, required=False)
+    # )
+    # def tender_enquiryPeriod(self):
+    #     enquiry_period_class = self._fields["enquiryPeriod"]
+    #     end_date = calculate_tender_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, self)
+    #     clarifications_until = calculate_clarif_business_date(end_date, ENQUIRY_STAND_STILL_TIME, self, True)
+    #     return enquiry_period_class(
+    #         dict(
+    #             startDate=self.tenderPeriod.startDate,
+    #             endDate=end_date,
+    #             invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
+    #             clarificationsUntil=clarifications_until,
+    #         )
+    #     )
 
 
 def validate_yearly_payments_percentage_range(data, value):
@@ -168,6 +168,7 @@ class PostTender(ESCOSerializable, PostBaseTender):
                                                 min_value=Decimal("0"), max_value=Decimal("1"), precision=-5)
     NBUdiscountRate = DecimalType(required=True, min_value=Decimal("0"), max_value=Decimal("0.99"), precision=-5)
     fundingKind = StringType(choices=["budget", "other"], required=True, default="other")
+    guarantee = ModelType(PostGuarantee)
 
     procuringEntity = ModelType(ProcuringEntity, required=True)
     lots = ListType(ModelType(PostLot, required=True), validators=[validate_lots_uniq])
@@ -229,6 +230,7 @@ class PatchTender(PatchBaseTender):
     yearlyPaymentsPercentageRange = DecimalType(min_value=Decimal("0"), max_value=Decimal("1"), precision=-5)
     NBUdiscountRate = DecimalType(min_value=Decimal("0"), max_value=Decimal("0.99"), precision=-5)
     fundingKind = StringType(choices=["budget", "other"])
+    guarantee = ModelType(Guarantee)
 
     procuringEntity = ModelType(ProcuringEntity)
     lots = ListType(ModelType(PatchLot, required=True), validators=[validate_lots_uniq])
@@ -263,6 +265,7 @@ class Tender(ESCOSerializable, BaseTender):
     NBUdiscountRate = DecimalType(required=True, min_value=Decimal("0"), max_value=Decimal("0.99"), precision=-5)
     fundingKind = StringType(choices=["budget", "other"], required=True)
     noticePublicationDate = IsoDateTimeType()
+    guarantee = ModelType(Guarantee)
 
     procuringEntity = ModelType(ProcuringEntity, required=True)
     lots = ListType(ModelType(Lot, required=True), validators=[validate_lots_uniq])

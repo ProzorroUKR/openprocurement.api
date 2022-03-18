@@ -24,6 +24,7 @@ from openprocurement.planning.api.validation import (
     validate_plan_status_update,
     validate_plan_procurementMethodType_update,
     validate_tender_data,
+    validate_plan_scheduled,
 )
 from openprocurement.tender.core.validation import (
     validate_procurement_type_of_first_stage,
@@ -148,7 +149,7 @@ class PlanTendersResource(TendersResource):
     @json_view(
         content_type="application/json",
         validators=(
-            validate_plan_not_terminated,
+            validate_plan_scheduled,
             validate_plan_has_not_tender,  # we need this because of the plans created before the statuses release
             validate_tender_data,
             validate_tender_plan_procurement_method_type,
@@ -159,21 +160,35 @@ class PlanTendersResource(TendersResource):
     )
     def post(self):
         plan = self.request.validated["plan"]
+        plans = [{"id": plan.id}]
         tender = self.request.validated["tender_data"]
-        tender["plans"] = [{"id": plan.id}]
 
+        # create tender POST /tenders
+        headers = self.request.headers
+        headers["Content-type"] = "application/json; charset=utf-8"
         sub_req = Request.blank(f'/api/{VERSION}/tenders',
-                                json={"data": tender},
                                 environ={"REQUEST_METHOD": "POST"},
-                                headers=self.request.headers)
+                                headers=headers)
+        sub_req.body = simplejson.dumps({"data": tender}).encode()
         response = self.request.invoke_subrequest(sub_req, use_tweens=True)
-
         if "errors" in response.json:
             self.request.response.status = response.status
             return response.json
-        else:
-            plan.tender_id = response.json["data"]["id"]
-            save_plan(self.request)
-            self.request.response.status = 201
-            self.request.response.headers["Location"] = response.headers["Location"]
-        return response.json
+
+        tender_id = response.json["data"]["id"]
+        tender_location = response.headers["Location"]
+        tender_json = response.json
+
+        # update tender
+        tender = self.request.registry.db.get(tender_id)
+        tender["plans"] = plans
+        self.request.registry.db.save(tender)
+
+        # save plan
+        plan.tender_id = tender_id
+        save_plan(self.request)
+
+        self.request.response.status = 201
+        self.request.response.headers["Location"] = tender_location
+        tender_json["data"]["plans"] = plans
+        return tender_json

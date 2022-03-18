@@ -54,6 +54,18 @@ def test_plan_tenders_404(app):
     }
 
 
+def test_plan_tender_ref(app, plan):
+    data = '{"data":{"procurementMethodType":"belowThreshold","procuringEntity":{"identifier":' \
+           '{"scheme":"UA-EDR","id":"111983","legalName":"asd"}}}}'
+    response = app.post(
+        "/plans/{}/tenders".format(plan["data"]["id"]),
+        data,
+        headers={"Content-Type": "application/json"},
+        status=422
+    )
+    assert {"location": "body", "name": "title", "description": ["This field is required."]} in response.json["errors"]
+
+
 def test_plan_tenders_empty_data(app, plan):
     app.authorization = ("Basic", ("broker", "broker"))
     response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {"data": {}}, status=403)
@@ -141,6 +153,9 @@ def test_procurement_method_type_cpb(app):
 
     response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {"data": test_below_tender_data})
     assert response.status == "201 Created"
+    tender = response.json["data"]
+    assert "plans" in tender
+    assert tender["plans"] == [{"id": plan["data"]["id"]}]
 
 
 def test_success_classification_id(app):

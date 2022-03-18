@@ -900,7 +900,6 @@ def tender_owner_can_change_in_draft(self):
         },
         "procuringEntity": pq_entity,
         "mainProcurementCategory": "services",
-        "guarantee": {"amount": 50, "currency": "UAH"},
     }
     descriptions = {
         "description": "Some text 1",
@@ -977,8 +976,6 @@ def tender_owner_can_change_in_draft(self):
     self.assertNotEqual(tender["tenderPeriod"]["endDate"], data.get("tenderPeriod", {}).get("endDate"))
     self.assertEqual(tender["procuringEntity"]["name"], general["procuringEntity"]["name"])
     self.assertNotEqual(tender["procuringEntity"]["name"], data.get("procuringEntity", {}).get("name"))
-    self.assertEqual(tender["guarantee"]["amount"], general["guarantee"]["amount"])
-    self.assertNotEqual(tender["guarantee"]["amount"], data.get("guarantee", {}).get("amount"))
 
     # descriptions
     response = self.app.patch_json(
@@ -1279,13 +1276,11 @@ def create_tender(self):
 
     tender_data = deepcopy(self.initial_data)
     tender_data["guarantee"] = {"amount": 100500, "currency": "USD"}
-    response = self.app.post_json("/tenders", {"data": tender_data})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    data = response.json["data"]
-    self.assertIn("guarantee", data)
-    self.assertEqual(data["guarantee"]["amount"], 100500)
-    self.assertEqual(data["guarantee"]["currency"], "USD")
+    response = self.app.post_json("/tenders", {"data": tender_data}, status=422)
+    self.assertEqual(
+        response.json,
+        {"status": "error", "errors": [{"location": "body", "name": "guarantee", "description": "Rogue field"}]}
+    )
 
     data = deepcopy(self.initial_data)
     del data["items"][0]["deliveryAddress"]["postalCode"]
@@ -1470,35 +1465,12 @@ def patch_tender(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"][0],
-        {"description": {"valueAddedTaxIncluded": "Rogue field"}, "location": "body", "name": "guarantee"},
+        {
+            "location": "body",
+            "name": "guarantee",
+            "description": "Rogue field"
+        }
     )
-
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"guarantee": {"amount": 12, "currency": "UAH"}}}
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertIn("guarantee", response.json["data"])
-    self.assertEqual(response.json["data"]["guarantee"]["amount"], 12)
-    self.assertEqual(response.json["data"]["guarantee"]["currency"], "UAH")
-
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"guarantee": {"currency": "USD", "amount": 12}}}
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["guarantee"]["currency"], "USD")
-
-    # response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.auction'}})
-    # self.assertEqual(response.status, '200 OK')
-
-    # response = self.app.get('/tenders/{}'.format(tender['id']))
-    # self.assertEqual(response.status, '200 OK')
-    # self.assertEqual(response.content_type, 'application/json')
-
-    tender_data = self.db.get(tender["id"])
-    tender_data["status"] = "complete"
-    self.db.save(tender_data)
 
 
 @mock.patch("openprocurement.tender.core.models.CANT_DELETE_PERIOD_START_DATE_FROM", get_now() - timedelta(days=1))

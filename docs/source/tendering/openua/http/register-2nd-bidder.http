@@ -91,10 +91,6 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "guarantee": {
-      "amount": 8.0,
-      "currency": "USD"
-    },
     "criteria": [
       {
         "id": "dc721d2d1d8c46de9a01c6133e50df2e",
@@ -737,6 +733,10 @@ X-Content-Type-Options: nosniff
       "amount": 501.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
+    },
+    "guarantee": {
+      "amount": 8.0,
+      "currency": "USD"
     },
     "next_check": "2021-03-24T00:00:00+02:00",
     "minimalStep": {

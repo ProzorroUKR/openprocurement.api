@@ -18,10 +18,6 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "guarantee": {
-      "amount": 8.0,
-      "currency": "USD"
-    },
     "criteria": [
       {
         "id": "dc721d2d1d8c46de9a01c6133e50df2e",
@@ -599,6 +595,10 @@ X-Content-Type-Options: nosniff
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
+    "guarantee": {
+      "amount": 8.0,
+      "currency": "USD"
+    },
     "next_check": "2021-04-01T00:00:00+02:00",
     "minimalStep": {
       "amount": 5.0,
@@ -660,8 +660,8 @@ X-Content-Type-Options: nosniff
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
       "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-03-22T00:00:00+02:00",
-      "clarificationsUntil": "2021-03-25T00:00:00+02:00",
+      "endDate": "2021-03-22T00:00:00+03:00",
+      "clarificationsUntil": "2021-03-25T00:00:00+03:00",
       "invalidationDate": "2021-03-16T00:00:00+02:00"
     },
     "tenderPeriod": {

@@ -48,3 +48,6 @@ class TenderItem(BaseItem):
         if data.get("classification"):  # classification is not required here
             return super().validate_additionalClassifications(self, data, items)
 
+    def validate_relatedLot(self, data, value):
+        if value:
+            raise ValidationError("Rogue field.")

@@ -20,7 +20,7 @@ from openprocurement.tender.core.procedure.models.period import (
 from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.models.lot import validate_lots_uniq
-from openprocurement.tender.core.procedure.models.guarantee import Guarantee
+from openprocurement.tender.core.procedure.models.guarantee import Guarantee, PostGuarantee
 from openprocurement.tender.core.procedure.models.milestone import Milestone, validate_milestones_lot
 from openprocurement.tender.cfaselectionua.procedure.models.lot import (
     PostLot,
@@ -79,6 +79,7 @@ class PostTender(PostBaseTender):
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     milestones = ListType(ModelType(Milestone, required=True),
                           validators=[validate_items_uniq, validate_milestones])
+    guarantee = ModelType(PostGuarantee)
     # tenderPeriod = ModelType(PeriodEndRequired)
 
     # Non-required mainProcurementCategory
@@ -128,6 +129,7 @@ class PatchTender(PatchBaseTender):
     tenderPeriod = ModelType(PeriodEndRequired)
     # will be overwritten by serializable
     minimalStep = ModelType(Value)
+    guarantee = ModelType(Guarantee)
 
     def validate_tenderPeriod(self, data, period):
         if period and get_tender()["status"] != "active.enquiries":
@@ -167,6 +169,7 @@ class Tender(BaseTender):
     # will be overwritten by serializable
     minimalStep = ModelType(Value)
     value = ModelType(Value)
+    guarantee = ModelType(Guarantee)
 
     next_check = BaseType()
 

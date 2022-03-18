@@ -710,8 +710,8 @@ X-Content-Type-Options: nosniff
     },
     "enquiryPeriod": {
       "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-04-06T00:00:00+02:00",
-      "clarificationsUntil": "2021-04-09T00:00:00+02:00",
+      "endDate": "2021-04-06T00:00:00+03:00",
+      "clarificationsUntil": "2021-04-09T00:00:00+03:00",
       "invalidationDate": "2021-03-16T00:00:00+02:00"
     },
     "complaintPeriod": {

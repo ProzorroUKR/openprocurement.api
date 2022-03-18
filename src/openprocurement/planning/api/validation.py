@@ -127,6 +127,14 @@ def validate_plan_not_terminated(request, **kwargs):
         raise error_handler(request)
 
 
+def validate_plan_scheduled(request, **kwargs):
+    plan = request.validated["plan"]
+    if plan.status != "scheduled":
+        request.errors.add("body", "status", "Can't create tender in '{}' plan status".format(plan.status))
+        request.errors.status = 422
+        raise error_handler(request)
+
+
 def validate_plan_status_update(request, **kwargs):
     status = request.validated["json_data"].get("status")
     if status == "draft" and request.validated["plan"].status != status:

@@ -59,7 +59,7 @@ X-Content-Type-Options: nosniff
   "data": {
     "date": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
-    "tenderID": "UA-2021-03-16-000001",
+    "tenderID": "UA-2021-03-16-000016-a.2",
     "questions": [
       {
         "id": "35d3c56dcdf843f6b9b4a3a978b862f9",
@@ -177,7 +177,6 @@ X-Content-Type-Options: nosniff
       },
       "kind": "special"
     },
-    "dialogue_token": "51198d0c28dc8a1846cae4a74ab899cf4e15a20860d62dbb2cb543a1837f516799b57f0195ea9d02d1cb9fc89959feb0e5b6f767c5846204ff634167dc4bbbb8",
     "shortlistedFirms": [
       {
         "identifier": {

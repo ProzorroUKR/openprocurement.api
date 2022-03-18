@@ -15,10 +15,6 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "guarantee": {
-      "amount": 8.0,
-      "currency": "USD"
-    },
     "title_en": "Services in school canteens",
     "criteria": [
       {
@@ -1302,6 +1298,10 @@ X-Content-Type-Options: nosniff
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
+    "guarantee": {
+      "amount": 8.0,
+      "currency": "USD"
+    },
     "minimalStep": {
       "amount": 5.0,
       "currency": "UAH",
@@ -1361,8 +1361,8 @@ X-Content-Type-Options: nosniff
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
       "startDate": "2021-02-03T00:00:00+02:00",
-      "endDate": "2021-02-24T00:00:00+02:00",
-      "clarificationsUntil": "2021-02-27T00:00:00+02:00",
+      "endDate": "2021-02-14T00:00:00+02:00",
+      "clarificationsUntil": "2021-03-12T00:00:00+02:00",
       "invalidationDate": "2021-03-16T00:00:00+02:00"
     },
     "tenderPeriod": {
