@@ -44,6 +44,7 @@ class HealthTestBase(BaseWebTest):
         config = configparser.ConfigParser()
         config.read(file_path)
         result = {k.upper(): v for k, v in config["DEFAULT"].items()}
+        result.pop("MASK_OBJECT_DATA")
         if "DEFAULT_RELEASE_2020_04_19" in environ:
             date = environ['DEFAULT_RELEASE_2020_04_19']
             result["RELEASE_2020_04_19"] = parse_constant_date(date).isoformat()
