@@ -52,9 +52,10 @@ def validate_update_tender_document(request, **kwargs):
 
 
 def _validate_tender_period_start_date(data, period, working_days=False, calendar=WORKING_DAYS):
-    TENDER_CREATION_BUFFER_DURATION=timedelta(minutes=10)
     min_allowed_date = calculate_tender_date(
-        get_now(), -TENDER_CREATION_BUFFER_DURATION,
+        get_now(),
+        - timedelta(minutes=10),
+        tender=None,
         working_days=working_days,
         calendar=calendar
     )

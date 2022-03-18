@@ -150,11 +150,6 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "mainProcurementCategory": "goods",
-    "plans": [
-      {
-        "id": "18d6b21a07094c71b423e91c5e28579b"
-      }
-    ],
     "title": "Насіння",
     "status": "draft",
     "submissionMethod": "electronicAuction",
@@ -303,7 +298,12 @@ X-Content-Type-Options: nosniff
     "owner": "broker",
     "date": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
-    "id": "61ed19d9558a44bdb20f14f6ec9afaa0"
+    "id": "61ed19d9558a44bdb20f14f6ec9afaa0",
+    "plans": [
+      {
+        "id": "18d6b21a07094c71b423e91c5e28579b"
+      }
+    ]
   },
   "access": {
     "token": "d233b2b61d1d4fd1a678faa7c90252b0",

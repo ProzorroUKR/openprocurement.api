@@ -22,10 +22,6 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "guarantee": {
-      "amount": 8.0,
-      "currency": "USD"
-    },
     "title_en": "Cases for state awards",
     "criteria": [
       {
@@ -672,6 +668,10 @@ X-Content-Type-Options: nosniff
       "amount": 500.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
+    },
+    "guarantee": {
+      "amount": 8.0,
+      "currency": "USD"
     },
     "next_check": "2021-03-24T00:00:00+02:00",
     "minimalStep": {

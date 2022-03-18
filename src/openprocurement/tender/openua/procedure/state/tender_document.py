@@ -14,9 +14,9 @@ class UATenderDocumentState(TenderDocumentState):
         super().on_patch(before, after)
         self.invalidate_bids_data()
 
-    @staticmethod
-    def invalidate_bids_data():
+    def invalidate_bids_data(self):
         tender = get_tender()
         if is_item_owner(get_request(), tender) and tender.get("status") == "active.tendering":
-            TenderDetailsState.validate_tender_period_extension(tender)
-            TenderDetailsState.invalidate_bids_data(tender)
+            tender_state = TenderDetailsState(self.request)
+            tender_state.validate_tender_period_extension(tender)
+            tender_state.invalidate_bids_data(tender)

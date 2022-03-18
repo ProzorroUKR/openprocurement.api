@@ -44,10 +44,12 @@ def all_awards_are_reviewed(tender):
 
 class CFAUATenderDetailsMixing(TenderDetailsMixing):
     tendering_period_extra = TENDERING_EXTRA_PERIOD
+    enquiry_period_timedelta = - ENQUIRY_PERIOD_TIME
+    enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
 
     def on_post(self, tender):
         super().on_post(tender)  # TenderDetailsMixing.on_post
-        # self.initialize_enquiry_period(tender)
+        self.initialize_enquiry_period(tender)
 
     def on_patch(self, before, after):
         # TODO: find a better place for this check, may be a distinct endpoint: PUT /tender/uid/status
@@ -154,7 +156,7 @@ class CFAUATenderDetailsMixing(TenderDetailsMixing):
                         "tenderPeriod should be extended by {0.days} days".format(self.tendering_period_extra)
                     )
                 # self.update_date(after)  # There is a test that fails if uncomment
-                # self.initialize_enquiry_period(after)
+                self.initialize_enquiry_period(after)
             self.invalidate_bids_data(after)
         elif after["status"] == "active.tendering":
             after["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()

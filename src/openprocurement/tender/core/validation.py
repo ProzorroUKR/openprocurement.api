@@ -1882,8 +1882,8 @@ def validate_tender_matches_plan(request, **kwargs):
     tender = request.validated.get("tender") or request.validated.get("tender_data")
 
     plan_identifier = plan.procuringEntity.identifier
-    tender_identifier = tender["procuringEntity"]["identifier"]
-    if plan_identifier.id != tender_identifier["id"] or plan_identifier.scheme != tender_identifier["scheme"]:
+    tender_identifier = tender.get("procuringEntity", {}).get("identifier", {})
+    if plan_identifier.id != tender_identifier.get("id") or plan_identifier.scheme != tender_identifier.get("scheme"):
         request.errors.add(
             "body",
             "procuringEntity",
@@ -1912,15 +1912,16 @@ def validate_tender_matches_plan(request, **kwargs):
 def validate_tender_plan_procurement_method_type(request, **kwargs):
     plan = request.validated["plan"]
     tender = request.validated["tender_data"]
+    tender_type = tender.get("procurementMethodType")
 
-    if plan.tender.procurementMethodType not in (tender["procurementMethodType"], "centralizedProcurement"):
-        if tender["procurementMethodType"] == PMT and plan.tender.procurementMethodType == "belowThreshold":
+    if plan.tender.procurementMethodType not in (tender_type, "centralizedProcurement"):
+        if tender_type == PMT and plan.tender.procurementMethodType == "belowThreshold":
             return
         request.errors.add(
             "body",
             "procurementMethodType",
             "procurementMethodType doesn't match: {} != {}".format(
-                plan.tender.procurementMethodType, tender["procurementMethodType"]
+                plan.tender.procurementMethodType, tender_type
             ),
         )
         request.errors.status = 422

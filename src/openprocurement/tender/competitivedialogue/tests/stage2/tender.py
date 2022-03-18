@@ -15,7 +15,6 @@ from openprocurement.tender.competitivedialogue.tests.stage2.tender_blanks impor
     simple_add_cd_tender_ua,
     # CompetitiveDialogStage2EUResourceTest
     create_tender_invalid_eu,
-    create_tender_without_tender_period,
     patch_tender_eu,
     # TenderStage2UAResourceTest
     create_tender_invalid_ua,
@@ -100,7 +99,6 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)
     test_create_tender_invalid = snitch(create_tender_invalid_eu)
-    test_create_tender_without_tender_period = snitch(create_tender_without_tender_period)
     test_create_tender = snitch(create_tender)
     test_create_tender_central = snitch(create_tender_central)
     test_get_tender = snitch(get_tender)

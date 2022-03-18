@@ -45,28 +45,14 @@ from openprocurement.tender.competitivedialogue.procedure.models.stage2.firms im
 )
 from openprocurement.tender.competitivedialogue.procedure.models.stage2.item import EUItem, UAItem
 from openprocurement.tender.competitivedialogue.procedure.models.feature import Feature
-from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
 from openprocurement.tender.core.models import validate_features_uniq
-from openprocurement.tender.core.validation import validate_tender_period_duration
 from openprocurement.tender.core.utils import validate_features_custom_weight, calculate_complaint_business_date
 from openprocurement.api.models import Model
-from openprocurement.tender.openua.validation import _validate_tender_period_start_date
-from openprocurement.tender.openeu.constants import TENDERING_DURATION as TENDERING_DURATION_EU
 from openprocurement.tender.openua.constants import (
     TENDERING_DURATION as TENDERING_DURATION_UA,
     COMPLAINT_SUBMIT_TIME as COMPLAINT_SUBMIT_TIME_UA,
 )
 from openprocurement.tender.core.utils import calculate_tender_business_date
-
-
-def default_period(tendering_duration):
-    def wrapper():
-        return StartedPeriodEndRequired({
-            "startDate": get_now(),
-            "endDate": calculate_tender_business_date(get_now(), tendering_duration)
-        })
-
-    return wrapper
 
 
 class BotPatchTender(Model):  # TODO: move to a distinct endpoint
@@ -93,11 +79,14 @@ class PostEUTender(BasePostTender):
         validators=[validate_cpv_group, validate_items_uniq],
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    tenderPeriod = ModelType(StartedPeriodEndRequired, required=False, default=default_period(TENDERING_DURATION_EU))
+    tenderPeriod = ModelType(Period)
+
+    @serializable(serialized_name="tenderID")
+    def serialize_tender_id(self):
+        return self.tenderID  # just return what have been passed
 
     def validate_awardCriteria(self, data, value):
-        # for deactivate validation of awardCriteria from parent class
-        return
+        return  # to deactivate validation of awardCriteria from parent class
 
     def validate_features(self, data, features):
         validate_related_items(data, features)
@@ -204,7 +193,11 @@ class PostUATender(UABasePostTender):
         validators=[validate_cpv_group, validate_items_uniq],
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    tenderPeriod = ModelType(StartedPeriodEndRequired, required=False, default=default_period(TENDERING_DURATION_UA))
+    tenderPeriod = ModelType(Period)
+
+    @serializable(serialized_name="tenderID")
+    def serialize_tender_id(self):
+        return self.tenderID  # just return what have been passed
 
     @serializable()
     def complaintPeriod(self):

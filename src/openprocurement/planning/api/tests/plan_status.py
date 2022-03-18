@@ -369,7 +369,7 @@ def test_fail_update_complete_or_cancelled_plan(app, status):
         "status": "error",
         "errors": [
             {
-                "description": "Can't update plan in '{}' status".format(status),
+                "description": "Can't create tender in '{}' plan status".format(status),
                 "location": "body",
                 "name": "status",
             }

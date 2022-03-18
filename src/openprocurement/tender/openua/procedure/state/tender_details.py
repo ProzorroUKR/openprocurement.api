@@ -20,9 +20,12 @@ class TenderDetailsState(TenderDetailsMixing, OpenUATenderState):
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     tendering_period_extra_working_days = False
 
+    enquiry_period_timedelta = - ENQUIRY_PERIOD_TIME
+    enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
+
     def on_post(self, tender):
         super().on_post(tender)  # TenderDetailsMixing.on_post
-        # self.initialize_enquiry_period(tender)
+        self.initialize_enquiry_period(tender)
 
     def on_patch(self, before, after):
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
@@ -45,35 +48,34 @@ class TenderDetailsState(TenderDetailsMixing, OpenUATenderState):
         elif after["status"] == "active.tendering":
             after["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
 
-    @classmethod
-    def validate_tender_period_extension(cls, tender):
+    def validate_tender_period_extension(self, tender):
         if "tenderPeriod" in tender and "endDate" in tender["tenderPeriod"]:
             # self.request.validated["tender"].tenderPeriod.import_data(data["tenderPeriod"])
             tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
-            if calculate_tender_business_date(get_now(), cls.tendering_period_extra, tender) > tendering_end:
+            if calculate_tender_business_date(get_now(), self.tendering_period_extra, tender) > tendering_end:
                 raise_operation_error(
                     get_request(),
                     "tenderPeriod should be extended by {0.days} {1}".format(
-                        cls.tendering_period_extra,
-                        "working days" if cls.tendering_period_extra_working_days else "days",
+                        self.tendering_period_extra,
+                        "working days" if self.tendering_period_extra_working_days else "days",
                     )
                 )
-            # cls.initialize_enquiry_period(tender)
+            self.initialize_enquiry_period(tender)
 
-    # @staticmethod
-    # def initialize_enquiry_period(tender):
-    #     tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
-    #     end_date = calculate_tender_business_date(tendering_end, -ENQUIRY_PERIOD_TIME, tender)
-    #     clarifications_until = calculate_clarif_business_date(end_date, ENQUIRY_STAND_STILL_TIME, tender, True)
-    #     enquiry_period = tender.get("enquiryPeriod")
-    #     tender["enquiryPeriod"] = dict(
-    #         startDate=tender["tenderPeriod"]["startDate"],
-    #         endDate=end_date.isoformat(),
-    #         clarificationsUntil=clarifications_until.isoformat(),
-    #     )
-    #     invalidation_date = enquiry_period and enquiry_period.get("invalidationDate")
-    #     if invalidation_date:
-    #         tender["enquiryPeriod"]["invalidationDate"] = invalidation_date
+    @staticmethod
+    def initialize_enquiry_period(tender):
+        tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
+        end_date = calculate_tender_business_date(tendering_end, -ENQUIRY_PERIOD_TIME, tender)
+        clarifications_until = calculate_clarif_business_date(end_date, ENQUIRY_STAND_STILL_TIME, tender, True)
+        enquiry_period = tender.get("enquiryPeriod")
+        tender["enquiryPeriod"] = dict(
+            startDate=tender["tenderPeriod"]["startDate"],
+            endDate=end_date.isoformat(),
+            clarificationsUntil=clarifications_until.isoformat(),
+        )
+        invalidation_date = enquiry_period and enquiry_period.get("invalidationDate")
+        if invalidation_date:
+            tender["enquiryPeriod"]["invalidationDate"] = invalidation_date
 
     @classmethod
     def invalidate_bids_data(cls, tender):

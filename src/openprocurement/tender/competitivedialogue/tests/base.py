@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from uuid import uuid4
 from copy import deepcopy
 from mock import patch
-from openprocurement.api.constants import SANDBOX_MODE, RELEASE_ECRITERIA_ARTICLE_17
+from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.competitivedialogue.models import (
@@ -53,6 +53,10 @@ test_tender_data_ua["tenderPeriod"]["endDate"] = (now + timedelta(days=31)).isof
 # stage 2
 test_tender_stage2_data_eu = deepcopy(base_test_tender_data_eu)
 test_tender_stage2_data_ua = deepcopy(base_test_tender_data_ua)
+del test_tender_stage2_data_eu["tenderPeriod"]
+del test_tender_stage2_data_ua["tenderPeriod"]
+test_tender_stage2_data_eu["tenderID"] = "bla bla bla this iis stage 2 eu"
+test_tender_stage2_data_ua["tenderID"] = "bla bla bla this iis stage 2 ua"
 test_tender_stage2_data_eu["procurementMethodType"] = STAGE_2_EU_TYPE
 test_tender_stage2_data_ua["procurementMethodType"] = STAGE_2_UA_TYPE
 test_tender_stage2_data_eu["procurementMethod"] = "selective"
@@ -92,8 +96,8 @@ test_tender_stage2_data_ua["owner"] = "broker"
 test_tender_stage2_data_eu["owner"] = "broker"
 test_tender_stage2_data_ua["status"] = "draft"
 test_tender_stage2_data_eu["status"] = "draft"
-test_tender_stage2_data_ua["tenderPeriod"]["endDate"] = (now + timedelta(days=31)).isoformat()
-test_tender_stage2_data_eu["tenderPeriod"]["endDate"] = (now + timedelta(days=31)).isoformat()
+# test_tender_stage2_data_ua["tenderPeriod"]["endDate"] = (now + timedelta(days=31)).isoformat()
+# test_tender_stage2_data_eu["tenderPeriod"]["endDate"] = (now + timedelta(days=31)).isoformat()
 test_tender_stage2_data_ua["dialogueID"] = uuid4().hex
 test_tender_stage2_data_eu["dialogueID"] = uuid4().hex
 test_tender_stage2_data_ua["items"][0]["classification"]["scheme"] = "CPV"
@@ -347,7 +351,8 @@ def create_tender_stage2(self, initial_lots=None, initial_data=None, features=No
         )
         criteria = response.json["data"]
     self.app.authorization = ("Basic", ("broker", ""))
-    with patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() + timedelta(days=1)):
+    with patch("openprocurement.tender.core.procedure.validation.RELEASE_ECRITERIA_ARTICLE_17",
+               get_now() + timedelta(days=1)):
         self.app.patch_json(
             "/tenders/{id}?acc_token={token}".format(id=self.tender_id, token=self.tender_token),
             {"data": {"status": "active.tendering"}},
