@@ -5,8 +5,8 @@ import standards
 from cornice.resource import resource
 from dateorro import calc_normalized_datetime, calc_working_datetime, calc_datetime
 
-from openprocurement.api.constants import WORKING_DAYS, FRAMEWORK_ENQUIRY_PERIOD_OFF_FROM
-from openprocurement.api.utils import get_now, context_unpack, error_handler, get_first_revision_date
+from openprocurement.api.constants import WORKING_DAYS
+from openprocurement.api.utils import get_now, context_unpack, error_handler
 from openprocurement.framework.core.design import (
     submissions_by_framework_id_total_view,
 )
@@ -38,16 +38,10 @@ def calculate_framework_date(
 def calculate_framework_periods(request, model):
     framework = request.context
     data = request.validated["data"]
-
     enquiryPeriod_startDate = framework.enquiryPeriod and framework.enquiryPeriod.startDate or get_now()
-    if get_first_revision_date(framework, default=get_now()) >= FRAMEWORK_ENQUIRY_PERIOD_OFF_FROM:
-        enquiryPeriod_endDate = enquiryPeriod_startDate + timedelta(seconds=1)
-    else:
-        enquiryPeriod_endDate = (framework.enquiryPeriod and framework.enquiryPeriod.endDate
-                                 or calculate_framework_date(enquiryPeriod_startDate,
-                                                             timedelta(days=ENQUIRY_PERIOD_DURATION), framework,
-                                                             working_days=True, ceil=True)
-                                 )
+    enquiryPeriod_endDate = (framework.enquiryPeriod and framework.enquiryPeriod.endDate or calculate_framework_date(
+        enquiryPeriod_startDate, timedelta(days=ENQUIRY_PERIOD_DURATION), framework, working_days=True, ceil=True)
+                             )
     data["enquiryPeriod"] = {"startDate": enquiryPeriod_startDate, "endDate": enquiryPeriod_endDate}
 
     qualification_endDate = model(data["qualificationPeriod"]).endDate
