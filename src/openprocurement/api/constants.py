@@ -220,3 +220,6 @@ PQ_CRITERIA_RESPONSES_ALL_FROM = get_constant(CONSTANTS_CONFIG, "PQ_CRITERIA_RES
 # Add vat validation
 MASK_OBJECT_DATA = get_constant(CONSTANTS_CONFIG, "MASK_OBJECT_DATA", parse_func=bool)
 MASK_IDENTIFIER_IDS = set(standards.load("organizations/mask_identifiers.json"))
+
+# CS-12463
+FRAMEWORK_ENQUIRY_PERIOD_OFF_FROM = get_constant(CONSTANTS_CONFIG, "FRAMEWORK_ENQUIRY_PERIOD_OFF_FROM")
