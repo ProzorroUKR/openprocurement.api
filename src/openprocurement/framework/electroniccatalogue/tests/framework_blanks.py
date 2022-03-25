@@ -8,7 +8,6 @@ from freezegun import freeze_time
 
 from openprocurement.api.constants import (
     ROUTE_PREFIX,
-    FRAMEWORK_ENQUIRY_PERIOD_OFF_FROM,
 )
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
@@ -705,8 +704,6 @@ def patch_framework_draft_to_active_invalid(self):
     data = deepcopy(self.initial_data)
     enquiry_end_date = calculate_framework_date(
         get_now(), timedelta(days=ENQUIRY_PERIOD_DURATION), data, working_days=True, ceil=True)
-    if get_now() > FRAMEWORK_ENQUIRY_PERIOD_OFF_FROM:
-        enquiry_end_date = get_now()
     data["qualificationPeriod"]["endDate"] = (enquiry_end_date + timedelta(days=29)).isoformat()
     response = self.app.post_json("/frameworks", {"data": data})
     self.assertEqual(response.status, "201 Created")
