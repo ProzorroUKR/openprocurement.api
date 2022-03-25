@@ -1505,10 +1505,6 @@ def tender_funders(self):
 
     response = self.app.patch_json("/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"funders": []}})
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["funders"], [])
-
-    response = self.app.patch_json("/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"funders": None}})
-    self.assertEqual(response.status, "200 OK")
     self.assertNotIn("funders", response.json["data"])
 
 
