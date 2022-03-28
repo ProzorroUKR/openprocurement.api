@@ -15,8 +15,8 @@ from openprocurement.api.constants import (
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.utils import get_now, get_root, get_first_revision_date
 from openprocurement.api.models import schematics_default_role, schematics_embedded_role
-from openprocurement.api.models import ListType, Period, Model
-from openprocurement.api.models import Value
+from openprocurement.api.models import ListType, Period, Model, ContactLessBusinessOrganization
+from openprocurement.api.models import Value, Organization, Identifier, Address, ContactPoint
 from openprocurement.api.validation import validate_cpv_group, validate_items_uniq, validate_classification_id
 from openprocurement.tender.core.models import (
     embedded_lot_role,
@@ -31,6 +31,8 @@ from openprocurement.tender.core.models import (
     Contract as BaseContract,
     ProcuringEntity as BaseProcuringEntity,
     validate_item_related_buyers,
+    validate_funders_unique,
+    validate_funders_ids,
 )
 
 from openprocurement.tender.core.utils import (
@@ -69,6 +71,10 @@ class Complaint(BaseComplaint):
 
 class Contract(BaseContract):
     items = ListType(ModelType(Item, required=True))
+    suppliers = ListType(
+        ModelType(ContactLessBusinessOrganization, required=True),
+        min_size=1, max_size=1,
+    )
 
     def validate_dateSigned(self, data, value):
         if value and value > get_now():
@@ -88,6 +94,7 @@ class Award(BaseAward):
     """
 
     class Options:
+        namespace = "Award"
         roles = {
             "create": award_create_reporting_role,
             "edit": award_edit_reporting_role,
@@ -103,7 +110,11 @@ class Award(BaseAward):
     complaintPeriod = ModelType(Period)
 
 
-ReportingAward = Award
+class ReportingAward(Award):
+    suppliers = ListType(
+        ModelType(ContactLessBusinessOrganization, required=True),
+        required=True, min_size=1, max_size=1, default=list()
+    )
 
 
 class Cancellation(BaseCancellation):
@@ -155,6 +166,12 @@ class NegotiationCancellation(Cancellation):
 class ProcuringEntity(BaseProcuringEntity):
     class Options:
         roles = {"edit_active": schematics_default_role + blacklist("kind")}
+
+
+class ReportFundOrganization(Organization):
+    identifier = ModelType(Identifier)  # not required
+    address = ModelType(Address)  # not required
+    contactPoint = ModelType(ContactPoint)  # not required
 
 
 @implementer(ITender)
@@ -226,7 +243,7 @@ class ReportingTender(BaseTender):
     procuringEntity = ModelType(
         ProcuringEntity, required=True
     )  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
-    awards = ListType(ModelType(Award, required=True), default=list())
+    awards = ListType(ModelType(ReportingAward, required=True), default=list())
     contracts = ListType(ModelType(Contract, required=True), default=list())
     status = StringType(
         choices=[
@@ -238,6 +255,11 @@ class ReportingTender(BaseTender):
         ], default=default_status("active"))
     mode = StringType(choices=["test"])
     cancellations = ListType(ModelType(ReportingCancellation, required=True), default=list())
+
+    funders = ListType(
+        ModelType(ReportFundOrganization, required=True),
+        validators=[validate_funders_unique, validate_funders_ids]
+    )
 
     create_accreditations = (ACCR_1, ACCR_3, ACCR_5)
     central_accreditations = (ACCR_5,)
@@ -284,7 +306,7 @@ class ReportingTender(BaseTender):
 Item = BaseItem
 
 
-class Award(ReportingAward):
+class NegotiationAward(Award):
 
     lotID = MD5Type()
 
@@ -296,6 +318,7 @@ class Award(ReportingAward):
                 raise ValidationError("lotID should be one of lots")
 
     class Options:
+        namespace = "Award"
         roles = {"create": award_create_role, "edit": award_edit_role}
 
 
@@ -349,7 +372,7 @@ class NegotiationTender(ReportingTender):
         min_size=1,
         validators=[validate_cpv_group, validate_items_uniq, validate_classification_id],
     )
-    awards = ListType(ModelType(Award, required=True), default=list())
+    awards = ListType(ModelType(NegotiationAward, required=True), default=list())
     contracts = ListType(ModelType(Contract, required=True), default=list())
     cause = StringType(required=True)
     causeDescription = StringType(required=True, min_length=1)

@@ -346,7 +346,7 @@ def patch_several_contracts_active_status(self):
         contract_statuses = [contract["status"] for contract in response.json["data"]["contracts"]]
         self.assertEqual(contract_statuses, ["active", "active", "suspended"])
 
-    with freeze_time((next_check + timedelta(hours=51)).isoformat()):
+    with freeze_time((next_check + timedelta(hours=70)).isoformat()):
         self.check_chronograph()
         response = self.app.get(f"/agreements/{self.agreement_id}")
         self.assertEqual(response.status, "200 OK")

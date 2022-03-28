@@ -5,6 +5,7 @@ from hashlib import sha512
 from cornice.resource import resource
 from schematics.types import StringType
 
+from openprocurement.api.mask import mask_object_data
 from openprocurement.api.utils import (
     error_handler,
     get_revision_changes,
@@ -40,6 +41,8 @@ def extract_contract(request):
         request.errors.add("url", "contract_id", "Not Found")
         request.errors.status = 404
         raise error_handler(request)
+
+    mask_object_data(request, doc)  # war time measures
 
     return request.contract_from_data(doc)
 

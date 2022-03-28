@@ -22,6 +22,7 @@ from pyramid.compat import decode_path_info
 from pyramid.security import Allow
 from cornice.resource import resource
 from couchdb.http import ResourceConflict
+from openprocurement.api.mask import mask_object_data
 from openprocurement.api.constants import (
     WORKING_DAYS,
     SANDBOX_MODE,
@@ -61,6 +62,7 @@ from openprocurement.tender.openua.constants import AUCTION_PERIOD_TIME
 from jsonpointer import JsonPointerException
 from jsonpatch import JsonPatchException, apply_patch as apply_json_patch
 from barbecue import chef, vnmax
+from uuid import uuid4
 import math
 
 LOGGER = getLogger("openprocurement.tender.core")
@@ -254,6 +256,9 @@ def extract_tender_doc(request):
             request.errors.add("url", "tender_id", "Not Found")
             request.errors.status = 404
             raise error_handler(request)
+
+        mask_object_data(request, doc)  # war time measures
+
         return doc
 
 

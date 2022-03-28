@@ -9,6 +9,7 @@ from openprocurement.api.validation import ValidationError
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.api.models import Value
 from openprocurement.tender.core.validation import validate_milestones
+from openprocurement.tender.core.models import validate_funders_unique, validate_funders_ids
 from openprocurement.tender.core.procedure.context import get_now, get_tender
 from openprocurement.tender.core.procedure.models.tender import (
     PostBaseTender,
@@ -30,6 +31,7 @@ from openprocurement.tender.limited.procedure.models.lot import PostLot, PatchLo
 from openprocurement.tender.limited.procedure.models.organization import (
     ReportingProcuringEntity,
     NegotiationProcuringEntity,
+    ReportFundOrganization,
 )
 from openprocurement.tender.limited.constants import REPORTING, NEGOTIATION, NEGOTIATION_QUICK
 
@@ -50,6 +52,11 @@ class PostReportingTender(PostBaseTender):
     milestones = ListType(ModelType(Milestone, required=True),
                           validators=[validate_items_uniq, validate_milestones])
 
+    funders = ListType(
+        ModelType(ReportFundOrganization, required=True),
+        validators=[validate_funders_unique, validate_funders_ids]
+    )
+
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
 
@@ -67,6 +74,11 @@ class PatchReportingTender(PatchBaseTender):
     status = StringType(choices=["draft", "active"])
     milestones = ListType(ModelType(Milestone, required=True),
                           validators=[validate_items_uniq, validate_milestones])
+
+    funders = ListType(
+        ModelType(ReportFundOrganization, required=True),
+        validators=[validate_funders_unique, validate_funders_ids]
+    )
 
 
 class ReportingTender(BaseTender):
@@ -95,6 +107,10 @@ class ReportingTender(BaseTender):
 
     milestones = ListType(ModelType(Milestone, required=True),
                           validators=[validate_items_uniq, validate_milestones])
+    funders = ListType(
+        ModelType(ReportFundOrganization, required=True),
+        validators=[validate_funders_unique, validate_funders_ids]
+    )
 
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
