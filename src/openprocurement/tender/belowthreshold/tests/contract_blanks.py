@@ -462,14 +462,15 @@ def patch_tender_contract(self):
     self.assertEqual(contract["value"]["amount"], contract["value"]["amountNet"])
 
     self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"status": "active"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertIn("Can't sign contract before stand-still period end (", response.json["errors"][0]["description"])
+    # CS-12493
+    # response = self.app.patch_json(
+    #     "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
+    #     {"data": {"status": "active"}},
+    #     status=403,
+    # )
+    # self.assertEqual(response.status, "403 Forbidden")
+    # self.assertEqual(response.content_type, "application/json")
+    # self.assertIn("Can't sign contract before stand-still period end (", response.json["errors"][0]["description"])
 
     self.set_status("complete", {"status": "active.awarded"})
 
@@ -530,7 +531,7 @@ def patch_tender_contract(self):
         [
             {
                 "description": [
-                    "Contract signature date should be after award complaint period end date ({})".format(
+                    "Contract signature date should be after award activation date ({})".format(
                         i["complaintPeriod"]["endDate"]
                     )
                 ],
@@ -1514,14 +1515,15 @@ def lot2_patch_tender_contract(self):
     contract = response.json["data"]
     self.app.authorization = auth
 
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"status": "active"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertIn("Can't sign contract before stand-still period end (", response.json["errors"][0]["description"])
+    # CS-12493
+    # response = self.app.patch_json(
+    #     "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
+    #     {"data": {"status": "active"}},
+    #     status=403,
+    # )
+    # self.assertEqual(response.status, "403 Forbidden")
+    # self.assertEqual(response.content_type, "application/json")
+    # self.assertIn("Can't sign contract before stand-still period end (", response.json["errors"][0]["description"])
 
     self.set_status("complete", {"status": "active.awarded"})
 
