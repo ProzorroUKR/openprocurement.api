@@ -1,3 +1,7 @@
+import simplejson
+from pyramid.request import Request
+
+from openprocurement.api.constants import VERSION, FAST_CATALOGUE_FLOW
 from openprocurement.api.utils import (
     APIResourceListing,
     json_view,
@@ -96,4 +100,54 @@ class SubmissionResource(APIResourceListing):
             self.request.response.headers["Location"] = self.request.route_url(
                 "{}:Submissions".format(submission.submissionType), submission_id=submission_id
             )
+
+            if FAST_CATALOGUE_FLOW:
+                # TODO: Remove this branch after the war ends
+                #  Russian warship, go fuck yourself
+
+                headers = self.request.headers
+                headers["Content-type"] = "application/json; charset=utf-8"
+
+                # activate submission
+                submission_token = access["token"]
+                sub_req = Request.blank(
+                    f'/api/{VERSION}/submissions/{submission_id}?acc_token={submission_token}',
+                    environ={"REQUEST_METHOD": "PATCH"},
+                    headers=headers,
+                )
+                sub_req.body = simplejson.dumps({"data": {"status": "active"}}).encode()
+                response = self.request.invoke_subrequest(sub_req, use_tweens=True)
+                if "errors" in response.json:
+                    self.request.response.status = response.status
+                    return response.json
+
+                # activate qualification
+                qualification_id = response.json["data"]["qualificationID"]
+                framework_token = framework["owner_token"]
+                sub_req = Request.blank(
+                    f'/api/{VERSION}/qualifications/{qualification_id}?acc_token={framework_token}',
+                    environ={"REQUEST_METHOD": "PATCH"},
+                    headers=headers,
+                )
+                sub_req.body = simplejson.dumps({"data": {"status": "active"}}).encode()
+                response = self.request.invoke_subrequest(sub_req, use_tweens=True)
+                if "errors" in response.json:
+                    self.request.response.status = response.status
+                    return response.json
+
+                # get submission
+                sub_req = Request.blank(
+                    f'/api/{VERSION}/submissions/{submission_id}',
+                    environ={"REQUEST_METHOD": "GET"},
+                    headers=headers,
+                )
+                sub_req.body = b""
+                response = self.request.invoke_subrequest(sub_req, use_tweens=True)
+                if "errors" in response.json:
+                    self.request.response.status = response.status
+                    return response.json
+
+                return {"data": response.json["data"], "access": access}
+
             return {"data": submission.serialize("view"), "access": access}
+
