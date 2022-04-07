@@ -90,6 +90,9 @@ class PostTender(PostBaseTender):
         ],
         default="electronicAuction"
     )  # Specify the method by which bids must be submitted, in person, written, or electronic auction
+    submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
+    submissionMethodDetails_en = StringType()
+    submissionMethodDetails_ru = StringType()
     procurementMethod = StringType(choices=["open", "selective", "limited"], default="open")
     awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST], default=AWARD_CRITERIA_LOWEST_COST)
 
@@ -178,6 +181,9 @@ class PostTender(PostBaseTender):
 
 class PatchTender(PatchBaseTender):
     submissionMethod = StringType(choices=["electronicAuction"])
+    submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
+    submissionMethodDetails_en = StringType()
+    submissionMethodDetails_ru = StringType()
     procurementMethod = StringType(choices=["open"])
     awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST])
     procuringEntity = ModelType(ProcuringEntity)
@@ -201,6 +207,9 @@ class PatchTender(PatchBaseTender):
 
 class Tender(BaseTender):
     submissionMethod = StringType(choices=["electronicAuction"], required=True)
+    submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
+    submissionMethodDetails_en = StringType()
+    submissionMethodDetails_ru = StringType()
     procurementMethod = StringType(choices=["open"], required=True)
     awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST], required=True)
     procuringEntity = ModelType(ProcuringEntity, required=True)

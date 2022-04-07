@@ -40,9 +40,6 @@ class CommonBaseTender(Model):
     awardCriteriaDetails = StringType()  # Any detailed or further information on the selection criteria.
     awardCriteriaDetails_en = StringType()
     awardCriteriaDetails_ru = StringType()
-    submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
-    submissionMethodDetails_en = StringType()
-    submissionMethodDetails_ru = StringType()
     eligibilityCriteria = StringType()  # A description of any eligibility criteria for potential suppliers.
     eligibilityCriteria_en = StringType()
     eligibilityCriteria_ru = StringType()
