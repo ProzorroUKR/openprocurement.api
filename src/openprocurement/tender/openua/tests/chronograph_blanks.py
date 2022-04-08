@@ -82,10 +82,10 @@ def switch_to_unsuccessful(self):
         "/tenders/{}/awards/{}".format(self.tender_id, award_id), {"data": {"status": "unsuccessful"}}
     )
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     for i in tender.get("awards", []):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
@@ -178,10 +178,10 @@ def switch_to_unsuccessful_lot(self):
             )
             response = self.app.get("/tenders/{}/awards".format(self.tender_id))
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     for i in tender.get("awards", []):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "unsuccessful")

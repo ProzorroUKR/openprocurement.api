@@ -691,11 +691,11 @@ def cancel_lot_after_sing_contract(self):
     contract = response.json["data"][0]
 
     # time travel
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     for i in tender.get("awards", []):
         if i.get("complaintPeriod", {}):  # reporting procedure does not have complaintPeriod
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     # Activate contract
     response = self.app.patch_json(
@@ -943,11 +943,11 @@ def last_lot_complete(self):
     self.assertEqual(response.json["data"]["status"], "active")
 
     # time travel
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     for i in tender.get("awards", []):
         if i.get("complaintPeriod", {}):  # reporting procedure does not have complaintPeriod
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     # Sign in contracts
     response = self.app.get("/tenders/{}/contracts".format(self.tender_id))

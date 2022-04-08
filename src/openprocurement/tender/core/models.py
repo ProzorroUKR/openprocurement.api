@@ -2291,6 +2291,7 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
                 "doc_id",
                 "submissionMethod",
                 "dateModified",
+                "dateCreated",
                 "status",
                 "procurementMethod",
                 "owner",
@@ -2300,6 +2301,7 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
             "auction_view": whitelist(
                 "tenderID",
                 "dateModified",
+                "dateCreated",
                 "bids",
                 "items",
                 "auctionPeriod",
@@ -2327,12 +2329,13 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
                 "complaints",
             ),
             "Administrator": whitelist("status", "mode", "procuringEntity", "auctionPeriod", "lots"),
-            "listing": whitelist("dateModified", "doc_id"),
+            "listing": whitelist("dateModified", "doc_id"),  # isn't used anywhere ?
             "contracting": whitelist("doc_id", "owner"),
             "embedded": blacklist("_id", "_rev", "doc_type", "__parent__"),
             "default": blacklist("doc_id", "__parent__"),  # obj.store() use default role
             "plain": blacklist(  # is used for getting patches
-                "_attachments", "revisions", "dateModified", "_id", "_rev", "doc_type", "__parent__"
+                "_attachments", "revisions", "dateModified", "dateCreated",
+                "_id", "_rev", "doc_type", "__parent__"
             ),
         }
 
@@ -2346,6 +2349,7 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
     description_en = StringType()
     description_ru = StringType()
     date = IsoDateTimeType()
+    dateCreated = IsoDateTimeType()
     dateModified = IsoDateTimeType()
     tenderID = (
         StringType()

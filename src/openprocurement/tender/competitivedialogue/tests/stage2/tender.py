@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-import os
 import unittest
 
 from openprocurement.api.tests.base import BaseWebTest, snitch
@@ -10,9 +8,6 @@ from openprocurement.tender.openua.tests.tender_blanks import (
 )
 
 from openprocurement.tender.competitivedialogue.tests.stage2.tender_blanks import (
-    # CompetitiveDialogStage2Test
-    simple_add_cd_tender_eu,
-    simple_add_cd_tender_ua,
     # CompetitiveDialogStage2EUResourceTest
     create_tender_invalid_eu,
     patch_tender_eu,
@@ -57,15 +52,6 @@ from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_with_earlier_non_required_unit,
 )
-
-
-class CompetitiveDialogStage2Test(BaseCompetitiveDialogApiWebTest):
-    docservice = True
-    test_tender_data_eu = test_tender_stage2_data_eu  # TODO: change attribute identifier
-    test_tender_data_ua = test_tender_stage2_data_ua  # TODO: change attribute identifier
-
-    test_simple_add_cd_tender_eu = snitch(simple_add_cd_tender_eu)
-    test_simple_add_cd_tender_ua = snitch(simple_add_cd_tender_ua)
 
 
 class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest):

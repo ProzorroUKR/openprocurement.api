@@ -128,10 +128,10 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
         now = get_now()
         startDate = (now - timedelta(days=2)).isoformat()
         endDate = (now - timedelta(days=1)).isoformat()
-        tender_document = self.db.get(self.tender_id)
+        tender_document = self.mongodb.tenders.get(self.tender_id)
         for award in tender_document["awards"]:
             award.update({"complaintPeriod": {"startDate": startDate, "endDate": endDate}})
-        self.db.save(tender_document)
+        self.mongodb.tenders.save(tender_document)
 
 
 class BaseTenderUAContentWebTest(BaseTenderUAWebTest):

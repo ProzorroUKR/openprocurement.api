@@ -23,7 +23,7 @@ def activate_cancellation_after_2020_04_19(self, cancellation_id, tender_id=None
     if not tender_token:
         tender_token = self.tender_token
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
 
     without_complaints = [
         "reporting",
@@ -73,11 +73,11 @@ def activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id
     self.assertEqual(cancellation["status"], "pending")
 
     # go to complaintPeriod end
-    tender = self.db.get(tender_id)
+    tender = self.mongodb.tenders.get(tender_id)
     for c in tender["cancellations"]:
         if c["status"] == "pending":
             c["complaintPeriod"]["endDate"] = get_now().isoformat()
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     self.check_chronograph()
 

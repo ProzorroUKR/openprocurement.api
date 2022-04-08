@@ -27,11 +27,11 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
 
     def _update_doc(self):
         data = test_data_with_revisions.copy()
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         data["_id"] = self.tender_id
         data["id"] = self.tender_id
         data["_rev"] = tender["_rev"]
-        self.db.save(data)
+        self.mongodb.tenders.save(data)
 
     def test_get_tender(self):
         response = self.app.get("/tenders")
@@ -122,15 +122,11 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
                         self.assertNotEqual(tender["dateModified"], rev["date"])
 
     def test_doc_type_mismatch(self):
-        doc = self.db.get(self.tender_id)
+        doc = self.mongodb.tenders.get(self.tender_id)
         doc["doc_type"] = "invalid"
-        self.db.save(doc)
-        response = self.app.get("/tenders/{}/historical".format(self.tender_id), status=404)
-        self.assertEqual(response.status, "404 Not Found")
-        self.assertEqual(response.json["status"], "error")
-        self.assertEqual(
-            response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-        )
+        self.mongodb.tenders.save(doc)
+        response = self.app.get("/tenders/{}/historical".format(self.tender_id))
+        self.assertEqual(response.status, "200 OK")
 
     def test_get_doc_invalid_hash(self):
         self._update_doc()
@@ -156,11 +152,11 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
             tenders.append(data.copy())
 
         for tender in reversed(tenders[:-1]):
-            db_tender = self.db.get(self.tender_id)
+            db_tender = self.mongodb.tenders.get(self.tender_id)
             tender["id"] = tender["_id"] = db_tender["_id"]
             tender["_rev"] = db_tender["_rev"]
 
-            self.db.save(tender)
+            self.mongodb.tenders.save(tender)
             response = self.app.get("/tenders/{}/historical".format(self.tender_id))
             historical_tender = response.json["data"]
             response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -178,10 +174,10 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
 
     def test_json_patch_error(self):
         self._update_doc()
-        db_tender = self.db.get(self.tender_id)
+        db_tender = self.mongodb.tenders.get(self.tender_id)
         for rev in db_tender["revisions"]:
             rev["changes"] = [{"path": "/skjddkfjsdkjfdsjk", "op": "remove"}]
-        self.db.save(db_tender)
+        self.mongodb.tenders.save(db_tender)
 
         resp = self.app.get("/tenders/{}/historical".format(self.tender_id), headers={VERSION: "11"}, status=501)
         self.assertEqual(resp.status, "501 Not Implemented")

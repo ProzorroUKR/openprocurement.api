@@ -90,8 +90,7 @@ class PostBaseTender(CommonBaseTender):
 
     @serializable(serialized_name="tenderID")
     def serialize_tender_id(self):
-        registry = get_request().registry
-        return generate_tender_id(get_now(), registry.db, registry.server_id)
+        return generate_tender_id(get_request())
 
     @serializable
     def doc_type(self):
@@ -126,6 +125,7 @@ class BaseTender(PatchBaseTender):
 
     date = IsoDateTimeType()
     dateModified = IsoDateTimeType()
+    dateCreated = IsoDateTimeType()
     tenderID = StringType()
     revisions = BaseType()
     bids = BaseType()

@@ -228,13 +228,13 @@ def create_tender_bid_invalid(self):
 def create_tender_bid(self):
 
     # Revert tender to statuses ('draft', 'draft.unsuccessful', 'draft.publishing')
-    data = self.db.get(self.tender_id)
+    data = self.mongodb.tenders.get(self.tender_id)
     current_status = data.get('status')
     criteria = data.pop('criteria')
 
     for status in ('draft', 'draft.publishing', 'draft.unsuccessful'):
         data['status'] = status
-        self.db.save(data)
+        self.mongodb.tenders.save(data)
 
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
@@ -256,7 +256,7 @@ def create_tender_bid(self):
     # Restore tender to 'draft' status
     data['status'] = "draft.publishing"
     data['criteria'] = criteria
-    self.db.save(data)
+    self.mongodb.tenders.save(data)
 
     # switch to tendering
     with change_auth(self.app, ("Basic", ("pricequotation", ""))):
@@ -282,7 +282,7 @@ def create_tender_bid(self):
     self.assertIn("id", bid)
     self.assertIn(bid["id"], response.headers["Location"])
 
-    self.assertEqual(self.db.get(self.tender_id).get("dateModified"), date_modified)
+    self.assertEqual(self.mongodb.tenders.get(self.tender_id).get("dateModified"), date_modified)
 
     # post second
     response = self.app.post_json(

@@ -85,7 +85,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
     initial_bids = None
     initial_lots = None
     initial_auth = ("Basic", ("broker", ""))
-    docservice = False
+    docservice = True
     # Statuses for test, that will be imported from others procedures
     primary_tender_status = "draft.pending"  # status, to which tender should be switched from 'draft'
     forbidden_document_modification_actions_status = (
@@ -279,7 +279,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
     def set_status(self, status, extra=None, start_end="start"):
         self.now = get_now()
-        self.tender_document = self.db.get(self.tender_id)
+        self.tender_document = self.mongodb.tenders.get(self.tender_id)
         self.tender_document_patch = {"status": status}
 
         if status == "active.enquiries":

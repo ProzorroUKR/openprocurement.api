@@ -459,7 +459,7 @@ def patch_tender(self):
     self.assertEqual(tender, new_tender)
     self.assertNotEqual(dateModified, new_dateModified)
 
-    revisions = self.db.get(tender["id"]).get("revisions")
+    revisions = self.mongodb.tenders.get(tender["id"]).get("revisions")
     self.assertTrue(
         any(
             [
@@ -676,11 +676,11 @@ def one_invalid_bid_tender(self):
         response = self.app.get("/tenders/{}".format(tender_id))
     else:
         # time travel
-        tender = self.db.get(tender_id)
+        tender = self.mongodb.tenders.get(tender_id)
         for i in tender.get("awards", []):
             if i.get("complaintPeriod", None):
                 i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
         # set tender status after stand slill period
         response = self.check_chronograph()
 

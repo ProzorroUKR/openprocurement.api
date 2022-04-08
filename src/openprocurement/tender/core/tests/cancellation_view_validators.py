@@ -156,7 +156,7 @@ def test_post_cancellation_openeu(app):
     test without mocking (just in case)
     """
     tender, tender_token = post_tender(app, eu_tender_data)
-    tender_data = app.app.registry.db.get(tender["id"])
+    tender_data = app.app.registry.mongodb.tenders.get(tender["id"])
     app.tender_id = tender["id"]
 
     # award complaint
@@ -169,7 +169,7 @@ def test_post_cancellation_openeu(app):
             "complaints": [complaint]
         }
     ]
-    app.app.registry.db.save(tender_data)
+    app.app.registry.mongodb.tenders.save(tender_data)
 
     cancellation = dict(**test_cancellation)
     cancellation.update({"status": "active"})
@@ -195,7 +195,7 @@ def test_post_cancellation_openeu(app):
                 "complaints": [complaint]
             }
         ]
-        app.app.registry.db.save(tender_data)
+        app.app.registry.mongodb.tenders.save(tender_data)
 
         cancellation = dict(**test_cancellation)
         cancellation.update({"status": "active"})
@@ -215,7 +215,7 @@ def test_post_cancellation_openeu(app):
             status="satisfied",
         )
         tender_data["complaints"] = [complaint]
-        app.app.registry.db.save(tender_data)
+        app.app.registry.mongodb.tenders.save(tender_data)
 
         cancellation = dict(**test_cancellation)
         cancellation.update({"status": "active"})

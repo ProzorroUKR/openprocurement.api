@@ -3,7 +3,7 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_lots
-from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin, TenderTestMixin
+from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     # TenderUAResourceTest
     guarantee,
@@ -59,7 +59,7 @@ class TenderUaProcessTestMixin(object):
     test_lost_contract_for_active_award = snitch(lost_contract_for_active_award)
 
 
-class TenderUATest(TenderTestMixin, BaseApiWebTest):
+class TenderUATest(BaseApiWebTest):
     docservice = True
     tender_model = Tender
     initial_data = test_tender_data

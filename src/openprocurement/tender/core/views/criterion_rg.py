@@ -36,7 +36,7 @@ class BaseTenderCriteriaRGResource(APIResource):
         ):
             tender.invalidate_bids_data()
 
-        if save_tender(self.request):
+        if save_tender(self.request, validate=True):
             self.LOGGER.info(
                 "Created criteria requirement group {}".format(requirement_group.id),
                 extra=context_unpack(

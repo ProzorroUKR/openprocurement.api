@@ -921,11 +921,11 @@ def patch_tender_cancellation_2020_04_19(self):
     cancellation = response.json["data"]
     self.assertEqual(cancellation["status"], "pending")
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     for c in tender["cancellations"]:
         if c["status"] == "pending":
             c["complaintPeriod"]["endDate"] = get_now().isoformat()
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     self.check_chronograph()
 
@@ -1388,9 +1388,9 @@ def activate_cancellation(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(complaint["status"], "invalid")
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     tender["cancellations"][0]["complaintPeriod"]["endDate"] = get_now().isoformat()
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     self.check_chronograph()
 

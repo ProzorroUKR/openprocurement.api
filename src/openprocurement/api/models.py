@@ -172,17 +172,6 @@ class IsoDateTimeType(BaseType):
         return value
 
 
-class IsoDateTimeTypeWithTimestamp(IsoDateTimeType):
-    """
-    can also parse timestamp
-    """
-    def to_native(self, value, context=None):
-        if isinstance(value, float):
-            dt = datetime.fromtimestamp(value, tz=timezone.utc)  # timestamp stored in utc timezone
-            return dt.astimezone(TZ)  # converted to Kiev before display
-        return super().to_native(value, context)
-
-
 class IsoDurationType(BaseType):
     """ Iso Duration format
            P is the duration designator (referred to as "period"), and is always placed at the beginning of the duration.

@@ -30,7 +30,7 @@ class TenderLotResource(APIResource):
         lot = self.request.validated["lot"]
         lot.date = get_now()
         tender.lots.append(lot)
-        if save_tender(self.request):
+        if save_tender(self.request, validate=True):
             self.LOGGER.info(
                 "Created tender lot {}".format(lot.id),
                 extra=context_unpack(self.request, {"MESSAGE_ID": "tender_lot_create"}, {"lot_id": lot.id}),
@@ -76,7 +76,7 @@ class TenderLotResource(APIResource):
         lot = self.request.context
         res = lot.serialize("view")
         tender.lots.remove(lot)
-        if save_tender(self.request):
+        if save_tender(self.request, validate=True):
             self.LOGGER.info(
                 "Deleted tender lot {}".format(self.request.context.id),
                 extra=context_unpack(self.request, {"MESSAGE_ID": "tender_lot_delete"}),

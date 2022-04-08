@@ -30,6 +30,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
     docservice = True
     docservice_url = DOCS_URL
     database_keys = ("agreements",)
+    enable_couch = True
 
     def setUp(self):
         super(TenderResourceTest, self).setUp()

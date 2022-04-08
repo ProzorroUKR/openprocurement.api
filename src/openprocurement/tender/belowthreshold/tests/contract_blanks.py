@@ -87,7 +87,7 @@ def create_tender_contract_invalid(self):
 
 def create_tender_contract(self):
     self.app.authorization = ("Basic", ("token", ""))
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     contract_items = [prepare_tender_item_for_contract(i) for i in deepcopy(tender["items"])]
     for item in contract_items:
         item["quantity"] += 0.5
@@ -212,11 +212,11 @@ def patch_tender_multi_contracts(self):
     self.assertEqual(response.json["data"]["value"]["amountNet"], 185)
 
     # prepare contract for activating
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     for i in doc.get("awards", []):
         if 'complaintPeriod' in i:
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(doc)
+    self.mongodb.tenders.save(doc)
 
     # in case any contract become active and there are no pending contracts -> tender should have complete status
     response = self.app.patch_json(
@@ -315,11 +315,11 @@ def patch_tender_multi_contracts_cancelled_with_one_activated(self):
     self.assertEqual(response.json["data"]["value"]["amountNet"], 195)
 
     # prepare contract for activating
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     for i in doc.get("awards", []):
         if 'complaintPeriod' in i:
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(doc)
+    self.mongodb.tenders.save(doc)
 
     # activate 1st contract
     response = self.app.patch_json(
@@ -398,11 +398,11 @@ def patch_tender_multi_contracts_cancelled_validate_amount(self):
     self.assertEqual(response.json["data"]["value"]["amountNet"], 395)
 
     # prepare contract for activating
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     for i in doc.get("awards", []):
         if 'complaintPeriod' in i:
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(doc)
+    self.mongodb.tenders.save(doc)
 
     # activate 1st contract
     response = self.app.patch_json(
@@ -485,10 +485,10 @@ def patch_tender_contract(self):
     complaint = response.json["data"]
     owner_token = response.json["access"]["token"]
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     for i in tender.get("awards", []):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
@@ -692,9 +692,9 @@ def patch_tender_contract(self):
 
 def patch_tender_contract_rationale_simple(self):
     # make tender procurementMethodRationale simple
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     doc["procurementMethodRationale"] = "simple"
-    self.db.save(doc)
+    self.mongodb.tenders.save(doc)
 
     self.app.authorization = ("Basic", ("token", ""))
     response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
@@ -886,13 +886,13 @@ def patch_contract_single_item_unit_value(self):
     self.assertEqual(response.json["data"]["items"][0]["quantity"], expected_item_quantity)
 
     # prepare contract
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     for i in doc.get("awards", []):
         if 'complaintPeriod' in i:
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     if doc['contracts'][0]['value']['valueAddedTaxIncluded']:
         doc['contracts'][0]['value']['amountNet'] = str(float(doc['contracts'][0]['value']['amount']) - 1)
-    self.db.save(doc)
+    self.mongodb.tenders.save(doc)
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
@@ -985,13 +985,13 @@ def patch_contract_single_item_unit_value_with_status(self):
     self.assertEqual(response.json["data"]["items"][0]["quantity"], expected_item_quantity)
 
     # prepare contract
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     for i in doc.get("awards", []):
         if 'complaintPeriod' in i:
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     if doc['contracts'][0]['value']['valueAddedTaxIncluded']:
         doc['contracts'][0]['value']['amountNet'] = str(float(doc['contracts'][0]['value']['amount']) - 1)
-    self.db.save(doc)
+    self.mongodb.tenders.save(doc)
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
@@ -1034,13 +1034,13 @@ def patch_contract_single_item_unit_value_round(self):
     quantity = contract["items"][0]["quantity"]
 
     # prepare contract
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     for i in doc.get("awards", []):
         if 'complaintPeriod' in i:
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     if doc['contracts'][0]['value']['valueAddedTaxIncluded']:
         doc['contracts'][0]['value']['amountNet'] = str(float(doc['contracts'][0]['value']['amount']) - 1)
-    self.db.save(doc)
+    self.mongodb.tenders.save(doc)
 
     unit_value_amount = doc['contracts'][0]['value']['amount'] / quantity + 0.001
 
@@ -1121,13 +1121,13 @@ def patch_contract_multi_items_unit_value(self):
         self.set_status("complete", {"status": "active.awarded"})
 
     # prepare contract
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     for i in doc.get("awards", []):
         if 'complaintPeriod' in i:
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     if doc['contracts'][1]['value']['valueAddedTaxIncluded']:
         doc['contracts'][1]['value']['amountNet'] = str(float(doc['contracts'][1]['value']['amount']) - 1)
-    self.db.save(doc)
+    self.mongodb.tenders.save(doc)
 
     self.app.authorization = auth
 
@@ -1281,13 +1281,13 @@ def patch_tender_contract_status_by_owner(self):
     self.set_status("complete", {"status": "active.awarded"})
 
     # prepare contract
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     for i in doc.get("awards", []):
         if 'complaintPeriod' in i:
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     if doc['contracts'][0]['value']['valueAddedTaxIncluded']:
         doc['contracts'][0]['value']['amountNet'] = str(float(doc['contracts'][0]['value']['amount']) - 1)
-    self.db.save(doc)
+    self.mongodb.tenders.save(doc)
 
     # Tender onwer
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1319,7 +1319,7 @@ def patch_tender_contract_status_by_supplier(self):
     contract_id = contract["id"]
     self.set_status("complete", {"status": "active.awarded"})
 
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), doc)[0]
     bid_token = jmespath.search("bids[?id=='{}'].owner_token".format(bid_id), doc)[0]
 
@@ -1331,7 +1331,7 @@ def patch_tender_contract_status_by_supplier(self):
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     if doc["contracts"][0]["value"]["valueAddedTaxIncluded"]:
         doc["contracts"][0]["value"]["amountNet"] = str(float(doc["contracts"][0]["value"]["amount"]) - 1)
-    self.db.save(doc)
+    self.mongodb.tenders.save(doc)
 
     # Supplier
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1404,13 +1404,13 @@ def patch_tender_contract_status_by_others(self):
     contract_id = contract["id"]
     self.set_status("complete", {"status": "active.awarded"})
 
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     for i in doc.get("awards", []):
         if 'complaintPeriod' in i:
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     if 'value' in doc['contracts'][0] and doc['contracts'][0]['value']['valueAddedTaxIncluded']:
         doc['contracts'][0]['value']['amountNet'] = str(float(doc['contracts'][0]['value']['amount']) - 1)
-    self.db.save(doc)
+    self.mongodb.tenders.save(doc)
     bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), doc)[0]
     bid_token = jmespath.search("bids[?id!='{}'].owner_token".format(bid_id), doc)[0]
 
@@ -1554,9 +1554,9 @@ def lot2_patch_tender_contract(self):
 
 def lot2_patch_tender_contract_rationale_simple(self):
     # make tender procurementMethodRationale simple
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     doc["procurementMethodRationale"] = "simple"
-    self.db.save(doc)
+    self.mongodb.tenders.save(doc)
 
     self.app.authorization = ("Basic", ("token", ""))
     response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
@@ -1709,13 +1709,13 @@ def create_tender_contract_document(self):
     response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, self.contract_id))
     self.assertEqual(response.json["data"]["status"], "pending")
 
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     for i in doc.get("awards", []):
         if "complaintPeriod" in i:
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     if 'value' in doc["contracts"][0] and doc["contracts"][0]["value"]["valueAddedTaxIncluded"]:
         doc["contracts"][0]["value"]["amountNet"] = str(float(doc["contracts"][0]["value"]["amount"]) - 1)
-    self.db.save(doc)
+    self.mongodb.tenders.save(doc)
 
     response = self.app.post(
         "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
@@ -1726,7 +1726,7 @@ def create_tender_contract_document(self):
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
     self.assertEqual("name.doc", response.json["data"]["title"])
-    key = response.json["data"]["url"].split("?")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get("/tenders/{}/contracts/{}/documents".format(self.tender_id, self.contract_id))
     self.assertEqual(response.status, "200 OK")
@@ -1778,12 +1778,12 @@ def create_tender_contract_document(self):
     )
 
     response = self.app.get(
-        "/tenders/{}/contracts/{}/documents/{}?{}".format(self.tender_id, self.contract_id, doc_id, key)
+        "/tenders/{}/contracts/{}/documents/{}?download={}".format(self.tender_id, self.contract_id, doc_id, key)
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 7)
-    self.assertEqual(response.body, b"content")
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
 
     response = self.app.get("/tenders/{}/contracts/{}/documents/{}".format(self.tender_id, self.contract_id, doc_id))
     self.assertEqual(response.status, "200 OK")
@@ -1791,9 +1791,9 @@ def create_tender_contract_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("name.doc", response.json["data"]["title"])
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     tender["contracts"][-1]["status"] = "cancelled"
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.app.post(
         "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, self.tender_token),
@@ -1825,7 +1825,7 @@ def create_tender_contract_document_by_supplier(self):
     response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, self.contract_id))
     contract = response.json["data"]
     self.assertEqual(response.json["data"]["status"], "pending")
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), doc)[0]
     bid_token = jmespath.search("bids[?id=='{}'].owner_token".format(bid_id), doc)[0]
 
@@ -1837,7 +1837,7 @@ def create_tender_contract_document_by_supplier(self):
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     if 'value' in doc['contracts'][0] and doc['contracts'][0]['value']['valueAddedTaxIncluded']:
         doc['contracts'][0]['value']['amountNet'] = str(float(doc['contracts'][0]['value']['amount']) - 1)
-    self.db.save(doc)
+    self.mongodb.tenders.save(doc)
 
     # Supplier
     response = self.app.post(
@@ -1869,7 +1869,7 @@ def create_tender_contract_document_by_supplier(self):
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
     self.assertEqual("name.doc", response.json["data"]["title"])
-    key = response.json["data"]["url"].split("?")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get("/tenders/{}/contracts/{}/documents".format(self.tender_id, self.contract_id))
     self.assertEqual(response.status, "200 OK")
@@ -1895,12 +1895,12 @@ def create_tender_contract_document_by_supplier(self):
     )
 
     response = self.app.get(
-        "/tenders/{}/contracts/{}/documents/{}?{}".format(self.tender_id, self.contract_id, doc_id, key)
+        "/tenders/{}/contracts/{}/documents/{}?download={}".format(self.tender_id, self.contract_id, doc_id, key)
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 7)
-    self.assertEqual(response.body, b"content")
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
 
     response = self.app.get("/tenders/{}/contracts/{}/documents/{}".format(self.tender_id, self.contract_id, doc_id))
     self.assertEqual(response.status, "200 OK")
@@ -1908,9 +1908,9 @@ def create_tender_contract_document_by_supplier(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("name.doc", response.json["data"]["title"])
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     tender["contracts"][-1]["status"] = "cancelled"
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.app.post(
         "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
@@ -1940,13 +1940,13 @@ def create_tender_contract_document_by_others(self):
     contract = response.json["data"]
     self.assertEqual(response.json["data"]["status"], "pending")
 
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     for i in doc.get("awards", []):
         if 'complaintPeriod' in i:
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     if 'value' in doc['contracts'][0] and doc['contracts'][0]['value']['valueAddedTaxIncluded']:
         doc['contracts'][0]['value']['amountNet'] = str(float(doc['contracts'][0]['value']['amount']) - 1)
-    self.db.save(doc)
+    self.mongodb.tenders.save(doc)
     bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), doc)[0]
     bid_token = jmespath.search("bids[?id!='{}'].owner_token".format(bid_id), doc)[0]
 
@@ -1977,9 +1977,9 @@ def create_tender_contract_document_by_others(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.json["errors"], [{"location": "url", "name": "permission", "description": "Forbidden"}])
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     tender["contracts"][-1]["status"] = "cancelled"
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.app.post(
         "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
@@ -2058,15 +2058,15 @@ def put_tender_contract_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    key = response.json["data"]["url"].split("?")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get(
-        "/tenders/{}/contracts/{}/documents/{}?{}".format(self.tender_id, self.contract_id, doc_id, key)
+        "/tenders/{}/contracts/{}/documents/{}?download={}".format(self.tender_id, self.contract_id, doc_id, key)
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 8)
-    self.assertEqual(response.body, b"content2")
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
 
     response = self.app.get("/tenders/{}/contracts/{}/documents/{}".format(self.tender_id, self.contract_id, doc_id))
     self.assertEqual(response.status, "200 OK")
@@ -2084,19 +2084,19 @@ def put_tender_contract_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    key = response.json["data"]["url"].split("?")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get(
-        "/tenders/{}/contracts/{}/documents/{}?{}".format(self.tender_id, self.contract_id, doc_id, key)
+        "/tenders/{}/contracts/{}/documents/{}?download={}".format(self.tender_id, self.contract_id, doc_id, key)
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 8)
-    self.assertEqual(response.body, b"content3")
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     tender["contracts"][-1]["status"] = "cancelled"
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.app.put(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
@@ -2132,7 +2132,7 @@ def put_tender_contract_document_by_supplier(self):
     response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, self.contract_id))
     contract = response.json["data"]
     self.assertEqual(response.json["data"]["status"], "pending")
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), doc)[0]
     bid_token = jmespath.search("bids[?id=='{}'].owner_token".format(bid_id), doc)[0]
 
@@ -2144,7 +2144,7 @@ def put_tender_contract_document_by_supplier(self):
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     if 'value' in doc['contracts'][0] and doc['contracts'][0]['value']['valueAddedTaxIncluded']:
         doc['contracts'][0]['value']['amountNet'] = str(float(doc['contracts'][0]['value']['amount']) - 1)
-    self.db.save(doc)
+    self.mongodb.tenders.save(doc)
 
     # Supplier
     response = self.app.post(
@@ -2195,15 +2195,15 @@ def put_tender_contract_document_by_supplier(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    key = response.json["data"]["url"].split("?")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get(
-        "/tenders/{}/contracts/{}/documents/{}?{}".format(self.tender_id, self.contract_id, doc_id, key)
+        "/tenders/{}/contracts/{}/documents/{}?download={}".format(self.tender_id, self.contract_id, doc_id, key)
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 8)
-    self.assertEqual(response.body, b"content2")
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
 
     response = self.app.get("/tenders/{}/contracts/{}/documents/{}".format(self.tender_id, self.contract_id, doc_id))
     self.assertEqual(response.status, "200 OK")
@@ -2221,19 +2221,19 @@ def put_tender_contract_document_by_supplier(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    key = response.json["data"]["url"].split("?")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get(
-        "/tenders/{}/contracts/{}/documents/{}?{}".format(self.tender_id, self.contract_id, doc_id, key)
+        "/tenders/{}/contracts/{}/documents/{}?download={}".format(self.tender_id, self.contract_id, doc_id, key)
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 8)
-    self.assertEqual(response.body, b"content3")
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     tender["contracts"][-1]["status"] = "cancelled"
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.app.put(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
@@ -2266,13 +2266,13 @@ def put_tender_contract_document_by_others(self):
     response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, self.contract_id))
     contract = response.json["data"]
     self.assertEqual(response.json["data"]["status"], "pending")
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     for i in doc.get("awards", []):
         if 'complaintPeriod' in i:
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     if 'value' in doc['contracts'][0] and doc['contracts'][0]['value']['valueAddedTaxIncluded']:
         doc['contracts'][0]['value']['amountNet'] = str(float(doc['contracts'][0]['value']['amount']) - 1)
-    self.db.save(doc)
+    self.mongodb.tenders.save(doc)
     bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), doc)[0]
     bid_token = jmespath.search("bids[?id!='{}'].owner_token".format(bid_id), doc)[0]
 
@@ -2356,9 +2356,9 @@ def patch_tender_contract_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("document description", response.json["data"]["description"])
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     tender["contracts"][-1]["status"] = "cancelled"
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
@@ -2394,7 +2394,7 @@ def patch_tender_contract_document_by_supplier(self):
     response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, self.contract_id))
     contract = response.json["data"]
     self.assertEqual(response.json["data"]["status"], "pending")
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), doc)[0]
     bid_token = jmespath.search("bids[?id=='{}'].owner_token".format(bid_id), doc)[0]
 
@@ -2406,7 +2406,7 @@ def patch_tender_contract_document_by_supplier(self):
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     if 'value' in doc['contracts'][0] and doc['contracts'][0]['value']['valueAddedTaxIncluded']:
         doc['contracts'][0]['value']['amountNet'] = str(float(doc['contracts'][0]['value']['amount']) - 1)
-    self.db.save(doc)
+    self.mongodb.tenders.save(doc)
 
     response = self.app.post(
         "/tenders/{}/contracts/{}/documents?acc_token={}".format(self.tender_id, self.contract_id, bid_token),
@@ -2449,9 +2449,9 @@ def patch_tender_contract_document_by_supplier(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("document description", response.json["data"]["description"])
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     tender["contracts"][-1]["status"] = "cancelled"
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(
@@ -2549,7 +2549,7 @@ def lot2_create_tender_contract_document_by_supplier(self):
     response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, self.contract_id))
     contract = response.json["data"]
     self.assertEqual(response.json["data"]["status"], "pending")
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), doc)[0]
     bid_token = jmespath.search("bids[?id=='{}'].owner_token".format(bid_id), doc)[0]
 
@@ -2612,7 +2612,7 @@ def lot2_create_tender_contract_document_by_others(self):
     response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, self.contract_id))
     contract = response.json["data"]
     self.assertEqual(response.json["data"]["status"], "pending")
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), doc)[0]
     bid_token = jmespath.search("bids[?id!='{}'].owner_token".format(bid_id), doc)[0]
 
@@ -2733,7 +2733,7 @@ def lot2_put_tender_contract_document_by_supplier(self):
     response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, self.contract_id))
     contract = response.json["data"]
     self.assertEqual(response.json["data"]["status"], "pending")
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), doc)[0]
     bid_token = jmespath.search("bids[?id=='{}'].owner_token".format(bid_id), doc)[0]
 
@@ -2892,7 +2892,7 @@ def lot2_patch_tender_contract_document_by_supplier(self):
     response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, self.contract_id))
     contract = response.json["data"]
     self.assertEqual(response.json["data"]["status"], "pending")
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), doc)[0]
     bid_token = jmespath.search("bids[?id=='{}'].owner_token".format(bid_id), doc)[0]
 

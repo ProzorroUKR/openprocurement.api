@@ -35,7 +35,7 @@ class BaseTenderCriteriaRGRequirementEvidenceResource(APIResource):
         ):
             tender.invalidate_bids_data()
 
-        if save_tender(self.request):
+        if save_tender(self.request, validate=True):
             self.LOGGER.info(
                 "Created requirement eligible evidence {}".format(evidence.id),
                 extra=context_unpack(

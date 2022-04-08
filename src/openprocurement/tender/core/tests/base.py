@@ -33,6 +33,8 @@ srequest = SESSION.request
 
 class BaseWebTest(BaseApiWebTest):
     initial_auth = ("Basic", ("token", ""))
+    mongodb_collections = ("tenders",)
+    enable_couch = False
     docservice = False
     docservice_url = "http://localhost"
     relative_to = os.path.dirname(__file__)
@@ -95,7 +97,7 @@ class BaseCoreWebTest(BaseWebTest):
     initial_status = None
     initial_bids = None
     initial_lots = None
-    docservice = False
+    docservice = True
 
     tender_id = None
 
@@ -109,7 +111,7 @@ class BaseCoreWebTest(BaseWebTest):
 
     def set_status(self, status, extra=None, startend="start"):
         self.now = get_now()
-        self.tender_document = self.db.get(self.tender_id)
+        self.tender_document = self.mongodb.tenders.get(self.tender_id)
         self.tender_document_patch = {"status": status}
         self.update_periods(status, startend=startend)
         if extra:
@@ -149,7 +151,7 @@ class BaseCoreWebTest(BaseWebTest):
 
     def time_shift(self, status, extra=None, startend="start", shift=None):
         self.now = get_now()
-        self.tender_document = self.db.get(self.tender_id)
+        self.tender_document = self.mongodb.tenders.get(self.tender_id)
         self.tender_document_patch = {}
         self.update_periods(status, startend=startend, shift=shift)
         if extra:
@@ -160,8 +162,8 @@ class BaseCoreWebTest(BaseWebTest):
         if self.tender_document_patch:
             patch = apply_data_patch(self.tender_document, self.tender_document_patch)
             self.tender_document.update(patch)
-            self.db.save(self.tender_document)
-            self.tender_document = self.db.get(self.tender_id)
+            self.mongodb.tenders.save(self.tender_document)
+            self.tender_document = self.mongodb.tenders.get(self.tender_id)
             self.tender_document_patch = {}
 
     def get_tender(self, role):
@@ -182,10 +184,10 @@ class BaseCoreWebTest(BaseWebTest):
 
     def delete_tender(self):
         if self.tender_id:
-            self.db.delete(self.db[self.tender_id])
+            self.mongodb.tenders.delete(self.tender_id)
 
     def append_24hours_milestone(self, bid_id):
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         now = get_now()
         qualification = {
             "id": "0" * 32,
@@ -207,7 +209,7 @@ class BaseCoreWebTest(BaseWebTest):
             tender["awards"] = [qualification]
         else:
             tender["qualifications"] = [qualification]
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
 
 
 @contextmanager

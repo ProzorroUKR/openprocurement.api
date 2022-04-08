@@ -4,7 +4,7 @@ import unittest
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_lots
 
-from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin, TenderTestMixin
+from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     # TenderUAProcessTest
     invalid_tender_conditions,
@@ -45,12 +45,6 @@ from openprocurement.tender.openuadefense.tests.tender_blanks import (
     one_invalid_bid_tender_after_new,
     one_invalid_bid_tender_before_new,
 )
-
-
-class TenderUATest(TenderTestMixin, BaseApiWebTest):
-    docservice = True
-    tender_model = Tender
-    initial_data = test_tender_data
 
 
 class TenderUAResourceTest(BaseSimpleDefWebTest, TenderResourceTestMixin):
@@ -124,7 +118,6 @@ def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderUAProcessTest))
     suite.addTest(unittest.makeSuite(TenderUAResourceTest))
-    suite.addTest(unittest.makeSuite(TenderUATest))
     return suite
 
 

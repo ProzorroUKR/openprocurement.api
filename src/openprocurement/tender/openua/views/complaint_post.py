@@ -46,7 +46,7 @@ class TenderComplaintPostResource(APIResource):
         for document in post.documents or []:
             document.author = self.request.authenticated_role
         complaint.posts.append(post)
-        if save_tender(self.request):
+        if save_tender(self.request, validate=True):
             self.LOGGER.info(
                 "Created post {}".format(post.id),
                 extra=context_unpack(

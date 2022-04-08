@@ -202,7 +202,7 @@ def create_tender_bid_invalid(self):
 
 
 def create_tender_bid(self):
-    dateModified = self.db.get(self.tender_id).get("dateModified")
+    dateModified = self.mongodb.tenders.get(self.tender_id).get("dateModified")
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -216,7 +216,7 @@ def create_tender_bid(self):
     self.assertIn("id", bid)
     self.assertIn(bid["id"], response.headers["Location"])
 
-    self.assertEqual(self.db.get(self.tender_id).get("dateModified"), dateModified)
+    self.assertEqual(self.mongodb.tenders.get(self.tender_id).get("dateModified"), dateModified)
 
     self.set_status("complete")
 
@@ -426,7 +426,7 @@ def delete_tender_bid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"], bid)
 
-    revisions = self.db.get(self.tender_id).get("revisions")
+    revisions = self.mongodb.tenders.get(self.tender_id).get("revisions")
     self.assertTrue(any([i for i in revisions[-2]["changes"] if i["op"] == "remove" and i["path"] == "/bids"]))
     self.assertTrue(any([i for i in revisions[-1]["changes"] if i["op"] == "add" and i["path"] == "/bids"]))
 
@@ -545,7 +545,7 @@ def create_tender_bid_no_scale(self):
 
 def patch_tender_with_bids_lots_none(self):
     bid = self.test_bids_data[0].copy()
-    lots = self.db.get(self.tender_id).get("lots")
+    lots = self.mongodb.tenders.get(self.tender_id).get("lots")
 
     set_bid_lotvalues(bid, lots)
 
@@ -569,7 +569,7 @@ def patch_tender_with_bids_lots_none(self):
 
 
 def patch_tender_lot_values_any_order(self):
-    lots = self.db.get(self.tender_id).get("lots")
+    lots = self.mongodb.tenders.get(self.tender_id).get("lots")
 
     bid = deepcopy(self.test_bids_data[0])
     value_1 = bid.pop("value", None)
@@ -852,9 +852,9 @@ def update_tender_bid_document_invalid_pmr(self):
     self.assertIn(doc_id, response.headers["Location"])
 
     # make tender procurementMethodRationale simple
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     doc["procurementMethodRationale"] = "simple"
-    self.db.save(doc)
+    self.mongodb.tenders.save(doc)
 
     # make tender status active.qualification
     self.set_status("active.qualification")
@@ -894,9 +894,9 @@ def update_tender_bid_document_invalid_pmr(self):
     )
 
     # positive put
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     doc["procurementMethodRationale"] = "Open"
-    self.db.save(doc)
+    self.mongodb.tenders.save(doc)
 
     response = self.app.put_json(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, bid_token),
@@ -906,9 +906,9 @@ def update_tender_bid_document_invalid_pmr(self):
     self.assertEqual(response.status, "200 OK")
 
     # negative patch
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     doc["procurementMethodRationale"] = "simple"
-    self.db.save(doc)
+    self.mongodb.tenders.save(doc)
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, bid_token),
@@ -923,9 +923,9 @@ def update_tender_bid_document_invalid_pmr(self):
     )
 
     # positive patch
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     doc["procurementMethodRationale"] = "Open"
-    self.db.save(doc)
+    self.mongodb.tenders.save(doc)
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, bid_token),
@@ -1317,9 +1317,9 @@ def create_tender_bid_document_invalid_pmr(self):
     )
 
     # make tender procurementMethodRationale simple
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     doc["procurementMethodRationale"] = "simple"
-    self.db.save(doc)
+    self.mongodb.tenders.save(doc)
 
     # make tender status active.qualification
     self.set_status("active.qualification")
@@ -1367,9 +1367,9 @@ def create_tender_bid_document_invalid_pmr(self):
     )
     
     # positive
-    doc = self.db.get(self.tender_id)
+    doc = self.mongodb.tenders.get(self.tender_id)
     doc["procurementMethodRationale"] = "Open"
-    self.db.save(doc)
+    self.mongodb.tenders.save(doc)
     
     response = self.app.post_json(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, token),

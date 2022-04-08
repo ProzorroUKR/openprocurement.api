@@ -383,8 +383,8 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     def save_changes(self):
         if self.tender_document_patch:
             self.tender_document.update(apply_data_patch(self.tender_document, self.tender_document_patch))
-            self.db.save(self.tender_document)
-            self.tender_document = self.db.get(self.tender_id)
+            self.mongodb.tenders.save(self.tender_document)
+            self.tender_document = self.mongodb.tenders.get(self.tender_id)
             self.tender_document_patch = {}
 
     def get_tender(self, role):
@@ -398,7 +398,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
 
     def set_status(self, status, startend="start", extra=None):
         self.now = get_now()
-        self.tender_document = self.db.get(self.tender_id)
+        self.tender_document = self.mongodb.tenders.get(self.tender_id)
         self.tender_document_patch = {"status": status}
         self.save_changes()
         if status == "active.tendering":

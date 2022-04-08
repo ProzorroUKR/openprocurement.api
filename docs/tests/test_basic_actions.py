@@ -2351,11 +2351,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '200 OK')
 
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         for a in tender["awards"]:
             if a["id"] == award_id:
                 del a["requirementResponses"]
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
 
         test_rr_data = [deepcopy(rr_mock), ]
 

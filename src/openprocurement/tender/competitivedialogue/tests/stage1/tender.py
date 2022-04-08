@@ -3,7 +3,7 @@ import unittest
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.competitivedialogue.models import CompetitiveDialogUA, CompetitiveDialogEU
 from openprocurement.tender.belowthreshold.tests.base import BaseApiWebTest
-from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin, TenderTestMixin
+from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     # CompetitiveDialogResourceTest
     guarantee,
@@ -50,18 +50,6 @@ from openprocurement.tender.competitivedialogue.tests.stage1.tender_blanks impor
     update_status_complete_owner_ua,
     tender_with_main_procurement_category,
 )
-
-
-class TenderTestEU(TenderTestMixin, BaseApiWebTest):
-    docservice = True
-    tender_model = CompetitiveDialogEU
-    initial_data = test_tender_data_eu
-
-
-class TenderTestUA(TenderTestMixin, BaseApiWebTest):
-    docservice = True
-    tender_model = CompetitiveDialogUA
-    initial_data = test_tender_data_ua
 
 
 class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderResourceTestMixin):
@@ -122,8 +110,6 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest, TenderReso
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderTestEU))
-    suite.addTest(unittest.makeSuite(TenderTestUA))
     suite.addTest(unittest.makeSuite(CompetitiveDialogEUResourceTest))
     suite.addTest(unittest.makeSuite(CompetitiveDialogUAResourceTest))
     return suite

@@ -11,7 +11,6 @@ from openprocurement.tender.core.utils import (
     SubscribersPicker,
     isTender,
     generate_tender_id,
-    tender_serialize,
     tender_from_data,
     extract_tender_id,
     extract_tender_doc,
@@ -98,35 +97,15 @@ class TestUtils(TestUtilsBase):
         self.items = [Item({"description": "Some item", "relatedLot": "11111111111111111111111111111111"})]
 
     def test_generate_tender_id(self):
-        server_id = "7"
         ctime = datetime.now(TZ)
-        db = MagicMock()
+        request = MagicMock()
+        request.registry.mongodb.get_next_sequence_value.return_value = 99
 
-        def db_get(doc_id, default_value):
-            return default_value
-
-        db.get = db_get
-        tender_id = generate_tender_id(ctime, db, server_id)
-        tid = "UA-{:04}-{:02}-{:02}-{:06}{}".format(
-            ctime.year, ctime.month, ctime.day, 1, server_id and "-" + server_id
+        tender_id = generate_tender_id(request)
+        tid = "UA-{:04}-{:02}-{:02}-{:06}".format(
+            ctime.year, ctime.month, ctime.day, 99
         )
         self.assertEqual(tid, tender_id)
-
-    def test_tender_serialize(self):
-        request = MagicMock()
-        request.tender_from_data.return_value = None
-        request.context = None
-
-        tender_data = {}
-        fields = []
-        tender = tender_serialize(request, tender_data, fields)
-        self.assertEqual(tender, {"procurementMethodType": "", "dateModified": "", "id": ""})
-
-        request.context = self.tender_data
-        request.tender_from_data.return_value = Tender(self.tender_data)
-        fields = ["id", "dateModified", "status", "tenderID"]
-        tender = tender_serialize(request, self.tender_data, fields)
-        self.assertEqual(tender, self.tender_data)
 
     def test_register_tender_procurementMethodType(self):
         config = MagicMock()
@@ -234,22 +213,15 @@ class TestUtils(TestUtilsBase):
         request = MagicMock()
         request.registry.db = MagicMock()
 
-        # Test with extract_tender_adapter raise HTTP 410
-        request.registry.db.get.return_value = {"doc_type": "tender"}
-        with self.assertRaises(Exception) as e:
-            extract_tender_doc(request)
-        self.assertEqual(request.errors.status, 410)
-        request.errors.add.assert_called_once_with("url", "tender_id", "Archived")
-
         # Test with extract_tender_adapter raise HTTP 404
-        request.registry.db.get.return_value = {"doc_type": "notTender"}
-        with self.assertRaises(Exception) as e:
+        request.registry.mongodb.tenders.get.return_value = None
+        with self.assertRaises(Exception):
             extract_tender_doc(request)
         self.assertEqual(request.errors.status, 404)
         request.errors.add.assert_has_calls([call("url", "tender_id", "Not Found")])
 
         # Test with extract_tender_adapter return Tender object
-        request.registry.db.get.return_value = tender_data
+        request.registry.mongodb.tenders.get.return_value = tender_data
         doc = extract_tender_doc(request)
         self.assertEqual(doc, tender_data)
 
@@ -263,7 +235,7 @@ class TestUtils(TestUtilsBase):
         request.tender_from_data.return_value = tender_from_data(request, tender_data)
 
         # Test with extract_tender_adapter return Tender object
-        request.registry.db.get.return_value = tender_data
+        request.registry.mongodb.tenders.get.return_value = tender_data
         tender = extract_tender(request)
         serialized_tender = tender.serialize("draft")
         self.assertIsInstance(tender, Tender)

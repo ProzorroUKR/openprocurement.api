@@ -204,5 +204,5 @@ def test_fail_saving_plan(app, tender, plan):
             "Value must be one of ['draft', 'scheduled', 'cancelled', 'complete']."]}]}
 
     # check that the tender hasn't been changed
-    tender_obj = app.app.registry.db.get(tender["data"]["id"])
+    tender_obj = app.app.registry.mongodb.tenders.get(tender["data"]["id"])
     assert tender_obj.get("plans") is None

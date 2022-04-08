@@ -63,7 +63,7 @@ class BaseDocumentResource(APIResource):
         getattr(self.context, self.container).extend(documents)
 
         self.pre_save()
-        if self.save(self.request):
+        if self.save(self.request, validate=True):
             for document in documents:
                 self.LOGGER.info(
                     "Created {} document {}".format(self.context_pretty_name, document.id),

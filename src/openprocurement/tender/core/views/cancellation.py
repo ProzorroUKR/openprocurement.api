@@ -56,7 +56,7 @@ class BaseTenderCancellationResource(APIResource):
             self.cancel_tender_lot_method(self.request, cancellation)
 
         self.request.context.cancellations.append(cancellation)
-        if save_tender(self.request):
+        if save_tender(self.request, validate=True):
             self.LOGGER.info(
                 "Created tender cancellation {}".format(cancellation.id),
                 extra=context_unpack(

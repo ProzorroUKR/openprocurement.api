@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-import jmespath
-import mock
 from uuid import uuid4
 from copy import deepcopy
 from datetime import timedelta
@@ -42,7 +39,7 @@ def listing(self):
     data = deepcopy(self.initial_data)
     data["agreements"] = [{"id": uuid4().hex}]
     for i in range(3):
-        offset = get_now().isoformat()
+        offset = get_now().timestamp()
         response = self.app.post_json("/tenders", {"data": data})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -54,23 +51,16 @@ def listing(self):
 
     ids = ",".join([i["id"] for i in tenders])
 
-    while True:
-        response = self.app.get("/tenders")
-        self.assertTrue(ids.startswith(",".join([i["id"] for i in response.json["data"]])))
-        if len(response.json["data"]) == 3:
-            break
-
+    response = self.app.get("/tenders")
+    self.assertTrue(ids.startswith(",".join([i["id"] for i in response.json["data"]])))
     self.assertEqual(len(response.json["data"]), 3)
     self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in tenders]))
     self.assertEqual(set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in tenders]))
     self.assertEqual([i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in tenders]))
 
-    while True:
-        response = self.app.get("/tenders?offset={}".format(offset))
-        self.assertEqual(response.status, "200 OK")
-        if len(response.json["data"]) == 1:
-            break
+    response = self.app.get("/tenders?offset={}".format(offset))
+    self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 1)
 
     response = self.app.get("/tenders?limit=2")
@@ -494,6 +484,7 @@ def create_tender_generated(self):
             "id",
             "date",
             "dateModified",
+            "dateCreated",
             "tenderID",
             "status",
             "procuringEntity",
@@ -1024,6 +1015,7 @@ def tender_fields(self):
         {
             "id",
             "dateModified",
+            "dateCreated",
             "tenderID",
             "date",
             "status",
@@ -1523,9 +1515,9 @@ def patch_tender(self):
             "description": "Only procurementMethodDetails can be updated at active.tendering"
         }]
     )
-    tender_data = self.db.get(tender["id"])
+    tender_data = self.mongodb.tenders.get(tender["id"])
     tender_data["status"] = "complete"
-    self.db.save(tender_data)
+    self.mongodb.tenders.save(tender_data)
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"status": "active.auction"}}, status=403
@@ -1793,12 +1785,12 @@ def patch_tender_bot(self):
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
 
     tender_period_start_date = calculate_tender_business_date(get_now(), -TENDERING_DURATION)
-    tender_doc = self.db.get(self.tender_id)
+    tender_doc = self.mongodb.tenders.get(self.tender_id)
     tender_doc["enquiryPeriod"]["startDate"] = tender_period_start_date.isoformat()
     tender_doc["enquiryPeriod"]["endDate"] = tender_period_start_date.isoformat()
     tender_doc["tenderPeriod"]["startDate"] = tender_period_start_date.isoformat()
     tender_doc["tenderPeriod"]["endDate"] = get_now().isoformat()
-    self.db.save(tender_doc)
+    self.mongodb.tenders.save(tender_doc)
 
     self.app.authorization = ("Basic", (BOT_NAME, ""))
     response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"status": "active.enquiries"}})
@@ -1853,13 +1845,6 @@ def tender_not_found(self):
     self.assertEqual(
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
-
-    # put custom document object into database to check tender construction on non-Tender data
-    data = {"contract": "test", "_id": uuid4().hex}
-    self.db.save(data)
-
-    response = self.app.get("/tenders/{}".format(data["_id"]), status=404)
-    self.assertEqual(response.status, "404 Not Found")
 
 
 def guarantee(self):
@@ -2053,8 +2038,8 @@ def one_valid_bid_tender(self):
     self.app.authorization = ("Basic", ("chronograph", ""))
     self.set_status("active.awarded", start_end="end")
     # time travel
-    tender = self.db.get(tender_id)
-    self.db.save(tender)
+    tender = self.mongodb.tenders.get(tender_id)
+    self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.patch_json(
@@ -2232,8 +2217,8 @@ def first_bid_tender(self):
     self.app.authorization = ("Basic", ("chronograph", ""))
     self.set_status("active.awarded", start_end="end")
 
-    tender = self.db.get(tender_id)
-    self.db.save(tender)
+    tender = self.mongodb.tenders.get(tender_id)
+    self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.patch_json(
@@ -2307,9 +2292,9 @@ def lost_contract_for_active_award(self):
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token), {"data": {"status": "active"}}
     )
     # lost contract
-    tender = self.db.get(tender_id)
+    tender = self.mongodb.tenders.get(tender_id)
     del tender["contracts"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
     # create lost contract
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.awarded")
@@ -2317,8 +2302,8 @@ def lost_contract_for_active_award(self):
     self.assertNotIn("next_check", response.json["data"])
     contract_id = response.json["data"]["contracts"][-1]["id"]
     # time travel
-    tender = self.db.get(tender_id)
-    self.db.save(tender)
+    tender = self.mongodb.tenders.get(tender_id)
+    self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.patch_json(

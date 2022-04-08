@@ -360,7 +360,7 @@ def post_tender_lot_auction(self):
         self.assertLessEqual(len(tender["awards"]), max_awards)
 
     tender_bids = [
-        b for b in sorted(self.db.get(self.tender_id)["bids"],
+        b for b in sorted(self.mongodb.tenders.get(self.tender_id)["bids"],
                           key=lambda b: (float(b["lotValues"][0]["value"]["amount"]), b["date"]))
     ]
     for x in list(range(self.min_bids_number))[:max_awards]:

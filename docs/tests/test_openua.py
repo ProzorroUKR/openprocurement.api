@@ -416,9 +416,9 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
                 status=201
             )
 
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         tender["awards"][0]["milestones"][0]["dueDate"] = (get_now() - timedelta(days=1)).isoformat()
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
 
         with open(TARGET_DIR + 'confirm-qualification.http', 'w') as self.app.file_obj:
             self.app.patch_json(
@@ -437,10 +437,10 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
 
         ####  Set contract value
 
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         for i in tender.get('awards', []):
             i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
 
         with open(TARGET_DIR + 'tender-contract-set-contract-value.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
@@ -666,7 +666,7 @@ class TenderConfidentialDocumentsTest(BaseTenderUAWebTest, MockWebTestMixin):
         )
 
         # switch to active.qualification
-        tender = self.db.get(tender_id)
+        tender = self.mongodb.tenders.get(tender_id)
         tender["status"] = "active.qualification"
         tender["awards"] = [
             {
@@ -675,7 +675,7 @@ class TenderConfidentialDocumentsTest(BaseTenderUAWebTest, MockWebTestMixin):
                 "status": "pending",
             }
         ]
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
 
         # get list as tender owner
         with open(TARGET_DIR_DOCS + 'document-list-private.http', 'w') as self.app.file_obj:

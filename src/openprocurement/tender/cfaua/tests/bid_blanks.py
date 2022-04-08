@@ -153,10 +153,10 @@ def get_tender_bidder(self):
     )
 
     # time travel
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     for i in tender.get("awards", []):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     # sign agreement
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -943,7 +943,7 @@ def delete_tender_bidder(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["errors"][0]["description"], "Can't add document at 'deleted' bid status")
 
-    revisions = self.db.get(self.tender_id).get("revisions")
+    revisions = self.mongodb.tenders.get(self.tender_id).get("revisions")
     self.assertTrue(any([i for i in revisions[-2]["changes"] if i["op"] == "remove" and i["path"] == "/bids"]))
     self.assertTrue(
         any([i for i in revisions[-1]["changes"] if i["op"] == "replace" and i["path"] == "/bids/0/status"])
@@ -1041,10 +1041,10 @@ def delete_tender_bidder(self):
     self.assertEqual(response.json["data"]["status"], "active.awarded")
 
     # time travel
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     for i in tender.get("awards", []):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     # sign agreement
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -2987,10 +2987,10 @@ def get_tender_bidder_document_ds(self):
     all_public_documents_are_accessible_for_others()
 
     # time travel
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     for i in tender.get("awards", []):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     # set unitPrices in contracts
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -3011,12 +3011,12 @@ def get_tender_bidder_document_ds(self):
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.json["data"]["status"], "active")
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     tender["contractPeriod"]["startDate"] = (
         datetime.now() - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=1)
     ).isoformat()
     tender["contractPeriod"]["clarificationsUntil"] = (datetime.now() - timedelta(days=1)).isoformat()
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     # sign agreement
     with change_auth(self.app, ("Basic", ("token", ""))):

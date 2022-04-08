@@ -39,7 +39,7 @@ class BaseTenderCriteriaResource(APIResource):
         ):
             tender.invalidate_bids_data()
 
-        if save_tender(self.request):
+        if save_tender(self.request, validate=True):
             for criterion in criterions:
                 self.LOGGER.info(
                     "Created tender criterion {}".format(criterion.id),

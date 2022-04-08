@@ -188,7 +188,7 @@ class BaseWebTest(unittest.TestCase):
     def set_responses(self, tender_id, bid, status=None):
         from openprocurement.tender.core.tests.criteria_utils import generate_responses
 
-        tender = self.db.get(tender_id)
+        tender = self.mongodb.tenders.get(tender_id)
 
         if not status:
             status = "active"
@@ -221,9 +221,10 @@ def singleton_app():
 @pytest.fixture(scope="function")
 def app(singleton_app):
     singleton_app.authorization = None
-    singleton_app.recreate_db()
+    # singleton_app.recreate_db()
     yield singleton_app
-    singleton_app.drop_db()
+    # singleton_app.drop_db()
+    singleton_app.app.registry.mongodb.tenders.flush()
 
 
 @contextmanager

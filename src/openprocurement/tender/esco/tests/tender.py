@@ -12,7 +12,6 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.esco.models import TenderESCO
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
-    simple_add_tender,
     # TenderProcessTest
     invalid_tender_conditions,
     # TenderResourceTest
@@ -72,7 +71,6 @@ class TenderESCOTest(BaseESCOWebTest):
     test_bids_data = test_bids
     tender_model = TenderESCO
 
-    test_simple_add_tender = snitch(simple_add_tender)
     test_tender_value = snitch(tender_value)
     test_tender_min_value = snitch(tender_min_value)
     test_tender_minimal_step_invalid = snitch(tender_minimal_step_invalid)

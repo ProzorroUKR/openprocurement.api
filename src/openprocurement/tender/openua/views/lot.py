@@ -42,7 +42,7 @@ class TenderUaLotResource(TenderLotResource):
         tender.lots.append(lot)
         if self.request.authenticated_role == "tender_owner":
             tender.invalidate_bids_data()
-        if save_tender(self.request):
+        if save_tender(self.request, validate=True):
             self.LOGGER.info(
                 "Created tender lot {}".format(lot.id),
                 extra=context_unpack(self.request, {"MESSAGE_ID": "tender_lot_create"}, {"lot_id": lot.id}),
@@ -93,7 +93,7 @@ class TenderUaLotResource(TenderLotResource):
         tender.lots.remove(lot)
         if self.request.authenticated_role == "tender_owner":
             tender.invalidate_bids_data()
-        if save_tender(self.request):
+        if save_tender(self.request, validate=True):
             self.LOGGER.info(
                 "Deleted tender lot {}".format(self.request.context.id),
                 extra=context_unpack(self.request, {"MESSAGE_ID": "tender_lot_delete"}),

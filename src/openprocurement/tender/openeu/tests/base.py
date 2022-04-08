@@ -233,7 +233,7 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
 
     def set_status(self, status, extra=None, startend="start"):
         self.now = get_now()
-        self.tender_document = self.db.get(self.tender_id)
+        self.tender_document = self.mongodb.tenders.get(self.tender_id)
         old_status = self.tender_document["status"]
         self.tender_document_patch = {"status": status}
         self.update_periods(status, startend=startend)
@@ -262,7 +262,7 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
         self.save_changes()
         if old_status == "draft" and status == "active.tendering" and startend == "start":
             self.app.patch_json(
-                f"/tenders/{self.tender_document.id}?acc_token={self.tender_document['owner_token']}",
+                f"/tenders/{self.tender_document['_id']}?acc_token={self.tender_document['owner_token']}",
                 {"data": {}}
             )
         return self.get_tender("chronograph")

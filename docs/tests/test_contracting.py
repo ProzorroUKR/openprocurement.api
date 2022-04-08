@@ -83,10 +83,10 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.set_status('complete', {'status': 'active.awarded'})
         self.tick()
         # time travel
-        tender = self.db.get(tender_id)
+        tender = self.mongodb.tenders.get(tender_id)
         for i in tender.get('awards', []):
             i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
         # sign contract
         self.app.authorization = ('Basic', ('broker', ''))
         self.app.patch_json(
@@ -487,8 +487,8 @@ class MultiContractsTenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.tick()
 
         # time travel
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         for i in tender.get('awards', []):
             i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
 

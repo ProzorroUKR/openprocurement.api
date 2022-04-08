@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin, TenderTestMixin
+from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     # TenderProcessTest
     invalid_tender_conditions,
@@ -47,7 +47,7 @@ from openprocurement.tender.openeu.tests.tender_blanks import (
 from openprocurement.tender.openeu.models import Tender
 
 
-class TenderTest(TenderTestMixin, BaseTenderWebTest):
+class TenderTest(BaseTenderWebTest):
     tender_model = Tender
     initial_data = test_tender_data
 

@@ -301,6 +301,7 @@ def create_tender_generated_eu(self):
             "id",
             "criteria",
             "dateModified",
+            "dateCreated",
             "tenderID",
             "status",
             "enquiryPeriod",
@@ -355,7 +356,7 @@ def patch_tender(self):
     self.assertEqual(tender, new_tender)
     self.assertNotEqual(dateModified, new_dateModified)
 
-    revisions = self.db.get(tender["id"]).get("revisions")
+    revisions = self.mongodb.tenders.get(tender["id"]).get("revisions")
     self.assertTrue(
         any(
             [
@@ -991,6 +992,7 @@ def create_tender_generated_ua(self):
             "id",
             "criteria",
             "dateModified",
+            "dateCreated",
             "tenderID",
             "status",
             "enquiryPeriod",
@@ -1083,7 +1085,7 @@ def patch_tender_1(self):
     self.assertEqual(tender, new_tender)
     self.assertNotEqual(dateModified, new_dateModified)
 
-    revisions = self.db.get(tender["id"]).get("revisions")
+    revisions = self.mongodb.tenders.get(tender["id"]).get("revisions")
     self.assertTrue(
         any(
             [

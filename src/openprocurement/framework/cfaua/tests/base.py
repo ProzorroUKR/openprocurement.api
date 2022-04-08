@@ -14,6 +14,7 @@ class BaseAgreementTest(BaseWebTest):
     docservice = False
     initial_auth = ("Basic", ("broker", ""))
     database_keys = ("agreements",)
+    enable_couch = True
 
 
 class BaseAgreementWebTest(BaseAgreementTest):

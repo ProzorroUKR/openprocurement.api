@@ -261,7 +261,7 @@ def create_tender_bid_invalid(self):
 
 
 def create_tender_bid(self):
-    dateModified = self.db.get(self.tender_id).get("dateModified")
+    dateModified = self.mongodb.tenders.get(self.tender_id).get("dateModified")
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -317,7 +317,7 @@ def create_tender_bid(self):
     self.assertIn("id", bid)
     self.assertIn(bid["id"], response.headers["Location"])
     self.assertEqual(response.json["data"]["subcontractingDetails"], "test_details")
-    self.assertEqual(self.db.get(self.tender_id).get("dateModified"), dateModified)
+    self.assertEqual(self.mongodb.tenders.get(self.tender_id).get("dateModified"), dateModified)
 
     self.set_status("complete")
 
@@ -552,7 +552,7 @@ def delete_tender_bid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"], bid)
 
-    revisions = self.db.get(self.tender_id).get("revisions")
+    revisions = self.mongodb.tenders.get(self.tender_id).get("revisions")
     self.assertTrue(any([i for i in revisions[-2]["changes"] if i["op"] == "remove" and i["path"] == "/bids"]))
     self.assertTrue(any([i for i in revisions[-1]["changes"] if i["op"] == "add" and i["path"] == "/bids"]))
 
@@ -1680,7 +1680,7 @@ def create_tender_bid_with_documents(self):
 
 def patch_tender_with_bids_lots_none(self):
     bid = self.test_bids_data[0].copy()
-    lots = self.db.get(self.tender_id).get("lots")
+    lots = self.mongodb.tenders.get(self.tender_id).get("lots")
 
     set_bid_lotvalues(bid, lots)
 

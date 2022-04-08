@@ -59,7 +59,7 @@ def delete_tender_bidder_eu(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["errors"][0]["description"], "Can't add document at 'deleted' bid status")
 
-    revisions = self.db.get(self.tender_id).get("revisions")
+    revisions = self.mongodb.tenders.get(self.tender_id).get("revisions")
     if now < TWO_PHASE_COMMIT_FROM:
         self.assertTrue(any([i for i in revisions[-2]["changes"] if i["op"] == "remove" and i["path"] == "/bids"]))
         self.assertTrue(
@@ -153,10 +153,10 @@ def delete_tender_bidder_eu(self):
     self.assertEqual(response.json["data"]["status"], "active.awarded")
 
     # time travel
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     for i in tender.get("awards", []):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     # sign contract
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -785,12 +785,12 @@ def create_tender_bidder_ua(self):
     self.assertIn(bid["id"], response.headers["Location"])
 
     # set tender period in future
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     tender["tenderPeriod"] = {
         "startDate": (now + timedelta(days=1)).isoformat(),
         "endDate": (now + timedelta(days=17)).isoformat()
     }
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),

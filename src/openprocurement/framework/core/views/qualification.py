@@ -39,7 +39,6 @@ class QualificationResource(APIResourceListing):
         self.CHANGES_VIEW_MAP = CHANGES_VIEW_MAP
         self.FEED = FEED
         self.FIELDS = QUALIFICATION_FIELDS
-        # self.serialize_func = tender_serialize
         self.object_name_for_listing = "Qualifications"
         self.log_message_id = "qualification_list_custom"
         self.db = request.registry.databases.qualifications

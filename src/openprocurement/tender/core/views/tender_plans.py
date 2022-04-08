@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
 from logging import getLogger
-from openprocurement.api.utils import context_unpack, json_view, APIResource
+from openprocurement.api.utils import handle_store_exceptions, json_view, APIResource
 from openprocurement.tender.core.utils import save_tender, optendersresource
 from openprocurement.tender.core.validation import (
     validate_tender_plan_data,
@@ -49,7 +48,7 @@ class TenderPlansResource(APIResource):
         plan = self.request.validated["plan"]
 
         tender.link_plan(plan.id)
-        save_tender(self.request)
+        save_tender(self.request, validate=True)
         if not self.request.errors:
             plan.tender_id = tender.id
             save_plan(self.request)

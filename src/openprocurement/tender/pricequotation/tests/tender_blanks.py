@@ -598,6 +598,7 @@ def create_tender_generated(self):
         "procurementMethodType",
         "id",
         "date",
+        "dateCreated",
         "dateModified",
         "tenderID",
         "status",
@@ -1314,18 +1315,17 @@ def tender_fields(self):
     tender = response.json["data"]
     self.assertEqual(
         set(tender) - set(self.initial_data),
-        set(
-            [
-                "id",
-                "dateModified",
-                "tenderID",
-                "date",
-                "status",
-                "awardCriteria",
-                "submissionMethod",
-                "owner",
-            ]
-        ),
+        {
+            "id",
+            "dateModified",
+            "dateCreated",
+            "tenderID",
+            "date",
+            "status",
+            "awardCriteria",
+            "submissionMethod",
+            "owner",
+        },
     )
     self.assertIn(tender["id"], response.headers["Location"])
 
@@ -1411,7 +1411,7 @@ def patch_tender(self):
         [{"location": "body", "name": "dateModified", "description": "Rogue field"}]
     )
 
-    revisions = self.db.get(tender["id"]).get("revisions")
+    revisions = self.mongodb.tenders.get(tender["id"]).get("revisions")
     self.assertEqual(revisions[-1]["changes"][0]["op"], "remove")
     self.assertEqual(revisions[-1]["changes"][0]["path"], "/procurementMethodRationale")
 
@@ -2017,9 +2017,9 @@ def lost_contract_for_active_award(self):
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, token), {"data": {"status": "active"}}
     )
     # lost contract
-    tender = self.db.get(tender_id)
+    tender = self.mongodb.tenders.get(tender_id)
     del tender["contracts"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
     # create lost contract
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.awarded")

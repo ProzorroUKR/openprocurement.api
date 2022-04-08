@@ -171,11 +171,13 @@ disqualification_milestone_data_with_documents = {
 class BaseApiWebTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
     initial_auth = ("Basic", ("broker", ""))
+    enable_couch = True
     database_keys = ("frameworks", "submissions", "qualifications")
 
 
 class BaseElectronicCatalogueWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
+    enable_couch = True
     database_keys = ("frameworks", "submissions", "qualifications", "agreements")
     initial_data = test_electronicCatalogue_data
     framework_class = Framework
