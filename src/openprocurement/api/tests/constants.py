@@ -45,6 +45,7 @@ class HealthTestBase(BaseWebTest):
         config.read(file_path)
         result = {k.upper(): v for k, v in config["DEFAULT"].items()}
         result.pop("MASK_OBJECT_DATA")
+        result.pop("FAST_CATALOGUE_FLOW")
         if "DEFAULT_RELEASE_2020_04_19" in environ:
             date = environ['DEFAULT_RELEASE_2020_04_19']
             result["RELEASE_2020_04_19"] = parse_constant_date(date).isoformat()

@@ -223,3 +223,6 @@ MASK_IDENTIFIER_IDS = set(standards.load("organizations/mask_identifiers.json"))
 
 # CS-12463
 FRAMEWORK_ENQUIRY_PERIOD_OFF_FROM = get_constant(CONSTANTS_CONFIG, "FRAMEWORK_ENQUIRY_PERIOD_OFF_FROM")
+
+# CS-12487
+FAST_CATALOGUE_FLOW = get_constant(CONSTANTS_CONFIG, "FAST_CATALOGUE_FLOW", parse_func=bool)
