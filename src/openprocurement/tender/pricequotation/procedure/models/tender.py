@@ -76,6 +76,9 @@ class PostTender(PostBaseTender):
     procurementMethodType = StringType(choices=[PMT], default=PMT)
     procurementMethod = StringType(choices=["selective"], default="selective")
     submissionMethod = StringType(choices=["electronicAuction"], default="electronicAuction")
+    submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
+    submissionMethodDetails_en = StringType()
+    submissionMethodDetails_ru = StringType()
     awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST], default=AWARD_CRITERIA_LOWEST_COST)
     status = StringType(choices=["draft"], default="draft")
     profile = StringType()
@@ -129,6 +132,9 @@ class PostTender(PostBaseTender):
 class PatchTender(PatchBaseTender):
     procurementMethod = StringType(choices=["selective"])
     submissionMethod = StringType(choices=["electronicAuction"])
+    submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
+    submissionMethodDetails_en = StringType()
+    submissionMethodDetails_ru = StringType()
     awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST])
     enquiryPeriod = ModelType(PeriodEndRequired)
     status = StringType(
@@ -178,6 +184,9 @@ class Tender(BaseTender):
     procurementMethodType = StringType(choices=[PMT], required=True)
     procurementMethod = StringType(choices=["selective"], required=True)
     submissionMethod = StringType(choices=["electronicAuction"], required=True)
+    submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
+    submissionMethodDetails_en = StringType()
+    submissionMethodDetails_ru = StringType()
     awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST], required=True)
     status = StringType(
         choices=[

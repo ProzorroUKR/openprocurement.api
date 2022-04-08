@@ -159,6 +159,9 @@ class PostTender(ESCOSerializable, PostBaseTender):
     procurementMethod = StringType(choices=["open"], default="open")
     awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA], default=AWARD_CRITERIA_RATED_CRITERIA)
     submissionMethod = StringType(choices=["electronicAuction"], default="electronicAuction")
+    submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
+    submissionMethodDetails_en = StringType()
+    submissionMethodDetails_ru = StringType()
     procurementMethodType = StringType(choices=[ESCO], default=ESCO)
     status = StringType(choices=["draft"], default="draft")
     minValue = ModelType(Value, default={"amount": 0, "currency": "UAH", "valueAddedTaxIncluded": True})
@@ -218,6 +221,9 @@ class PatchTender(PatchBaseTender):
     procurementMethod = StringType(choices=["open"])
     awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA])
     submissionMethod = StringType(choices=["electronicAuction"])
+    submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
+    submissionMethodDetails_en = StringType()
+    submissionMethodDetails_ru = StringType()
     procurementMethodType = StringType(choices=[ESCO])
     status = StringType(
         choices=[
@@ -247,6 +253,9 @@ class Tender(ESCOSerializable, BaseTender):
     procurementMethod = StringType(choices=["open"], required=True)
     awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA], required=True)
     submissionMethod = StringType(choices=["electronicAuction"], required=True)
+    submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
+    submissionMethodDetails_en = StringType()
+    submissionMethodDetails_ru = StringType()
     procurementMethodType = StringType(choices=[ESCO], required=True)
     status = StringType(
         choices=[

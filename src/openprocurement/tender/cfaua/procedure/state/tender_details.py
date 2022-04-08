@@ -163,6 +163,23 @@ class CFAUATenderDetailsMixing(TenderDetailsMixing):
 
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
 
+    def status_up(self, before, after, data):
+        if (
+            before == "draft" and after == "active.tendering"
+            or before == "active.pre-qualification" and after == "active.pre-qualification.stand-still"
+            or before == "active.qualification" and after == "active.qualification.stand-still"
+        ):
+            pass  # allowed scenario
+        else:
+            raise_operation_error(
+                get_request(),
+                f"Can't update tender to {after} status",
+                status=403,
+                location="body",
+                name="status"
+            )
+        super().status_up(before, after, data)
+
     # helper methods
     @staticmethod
     def validate_fields_unchanged(before, after):

@@ -66,6 +66,9 @@ def validate_tender_period(data, period):
 class PostTender(PostBaseTender):
     procurementMethodType = StringType(choices=[CFA_SELECTION], default=CFA_SELECTION)
     submissionMethod = StringType(choices=["electronicAuction"], default="electronicAuction")
+    submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
+    submissionMethodDetails_en = StringType()
+    submissionMethodDetails_ru = StringType()
     awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST], default=AWARD_CRITERIA_LOWEST_COST)
     procurementMethod = StringType(choices=["selective"], default="selective")
     procuringEntity = ModelType(ProcuringEntity, required=True)
@@ -104,6 +107,9 @@ class PostTender(PostBaseTender):
 class PatchTender(PatchBaseTender):
     procurementMethodType = StringType(choices=[CFA_SELECTION])
     submissionMethod = StringType(choices=["electronicAuction"])
+    submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
+    submissionMethodDetails_en = StringType()
+    submissionMethodDetails_ru = StringType()
     awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST])
     procurementMethod = StringType(choices=["selective"])
     procuringEntity = ModelType(ProcuringEntity)
@@ -139,6 +145,9 @@ class PatchTender(PatchBaseTender):
 class Tender(BaseTender):
     procurementMethodType = StringType(choices=[CFA_SELECTION], required=True)
     submissionMethod = StringType(choices=["electronicAuction"], required=True)
+    submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
+    submissionMethodDetails_en = StringType()
+    submissionMethodDetails_ru = StringType()
     awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST], required=True)
     procurementMethod = StringType(choices=["selective"], required=True, default="selective")
     procuringEntity = ModelType(ProcuringEntity, required=True)
