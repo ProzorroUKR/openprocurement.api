@@ -9,8 +9,8 @@ X-Content-Type-Options: nosniff
   "data": [],
   "next_page": {
     "offset": "",
-    "path": "/api/2.5/tenders?offset=",
-    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders?offset="
+    "path": "/api/2.5/tenders",
+    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders"
   }
 }
 

@@ -24,7 +24,7 @@ def test_mask_tender_1(app):
     for i in range(5):
         with open(f"src/openprocurement/tender/core/tests/data/tender_{i}.json") as f:
             data = json.load(f)
-        app.app.registry.db.save(data)
+        app.app.registry.mongodb.tenders.save(data, insert=True)
 
         response = app.get(f"/tenders/{data['_id']}")
         assert response.status_code == 200

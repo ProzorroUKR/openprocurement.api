@@ -10,6 +10,7 @@ X-Content-Type-Options: nosniff
     "title_en": "Services in school canteens",
     "date": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
+    "dateCreated": "2021-03-16T00:00:00+02:00",
     "tenderID": "UA-2021-03-16-000016-a.2",
     "questions": [
       {
@@ -349,7 +350,6 @@ X-Content-Type-Options: nosniff
     "qualificationPeriod": {
       "startDate": "2021-03-16T00:00:00+02:00"
     },
-    "id": "aa6cf974e101460589085272d5990056",
     "qualifications": [
       {
         "id": "37b5b987176b4b91a1d5894c22777487",
@@ -375,7 +375,8 @@ X-Content-Type-Options: nosniff
         "qualified": false,
         "eligible": false
       }
-    ]
+    ],
+    "id": "aa6cf974e101460589085272d5990056"
   }
 }
 

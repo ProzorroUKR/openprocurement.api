@@ -290,6 +290,7 @@ X-Content-Type-Options: nosniff
     "owner": "broker",
     "date": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
+    "dateCreated": "2021-03-16T00:00:00+02:00",
     "id": "1e8fada4745e4bf6b3721cb33e9fc4de"
   },
   "access": {

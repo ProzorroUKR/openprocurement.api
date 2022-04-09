@@ -9,6 +9,7 @@ X-Content-Type-Options: nosniff
   "data": {
     "title": "I need more pictures of spiderman!",
     "date": "2021-03-27T00:00:02+02:00",
+    "dateCreated": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-27T00:00:02+02:00",
     "tenderID": "UA-2021-03-16-000001",
     "owner": "broker",
@@ -1361,31 +1362,31 @@ X-Content-Type-Options: nosniff
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amount": "8917.4",
-          "amountPerformance": "816.29",
-          "yearlyPaymentsPercentage": "0.9",
+          "amount": 8917.4,
+          "amountPerformance": 816.29,
+          "yearlyPaymentsPercentage": 0.9,
           "annualCostsReduction": [
-            "5E+2",
-            "1E+3",
-            "1E+3",
-            "1E+3",
-            "1E+3",
-            "1E+3",
-            "1E+3",
-            "1E+3",
-            "1E+3",
-            "1E+3",
-            "1E+3",
-            "1E+3",
-            "1E+3",
-            "1E+3",
-            "1E+3",
-            "1E+3",
-            "1E+3",
-            "1E+3",
-            "1E+3",
-            "1E+3",
-            "1E+3"
+            500.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0,
+            1000.0
           ],
           "contractDuration": {
             "years": 10,
@@ -1489,7 +1490,7 @@ X-Content-Type-Options: nosniff
             "years": 10,
             "days": 74
           },
-          "amountNet": "8916.4"
+          "amountNet": 8916.4
         },
         "items": [
           {

@@ -141,6 +141,7 @@ X-Content-Type-Options: nosniff
       "clarificationsUntil": "2021-04-09T00:00:00+03:00"
     },
     "dateModified": "2021-03-16T00:00:00+02:00",
+    "dateCreated": "2021-03-16T00:00:00+02:00",
     "qualificationPeriod": {
       "startDate": "2021-02-17T00:00:00+02:00",
       "endDate": "2021-02-27T00:00:00+02:00"

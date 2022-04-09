@@ -18,6 +18,7 @@ X-Content-Type-Options: nosniff
     "description": "broker1 now can change the tender",
     "date": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
+    "dateCreated": "2021-03-16T00:00:00+02:00",
     "tenderID": "UA-2021-03-16-000001",
     "status": "draft",
     "owner": "broker1",
