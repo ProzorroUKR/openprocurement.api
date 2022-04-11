@@ -1,3 +1,4 @@
+from openprocurement.api.constants import FAST_CATALOGUE_FLOW
 from openprocurement.api.utils import (
     update_logging_context, raise_operation_error, get_now, parse_date,
 )
@@ -161,7 +162,10 @@ def validate_update_submission_in_not_allowed_status(request, **kwargs):
 
 def validate_document_operation_in_not_allowed_period(request, **kwargs):
     submission = request.validated["submission_src"]
-    not_allowed_statuses = ("deleted", "complete")
+    if FAST_CATALOGUE_FLOW:
+        not_allowed_statuses = ("deleted")
+    else:
+        not_allowed_statuses = ("deleted", "complete")
     if submission["status"] in not_allowed_statuses:
         raise_operation_error(
             request,
