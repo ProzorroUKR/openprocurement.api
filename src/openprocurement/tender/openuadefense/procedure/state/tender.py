@@ -203,17 +203,7 @@ class OpenUADefenseTenderState(DefenseTenderStateAwardingMixing, TenderState):
 
                     if bid_number == 0 and lot["status"] == "active":
                         self.set_object_status(lot, "unsuccessful")
-
-                        # for procedures where lotValues have "status" field (openeu, competitive_dialogue, cfaua, )
-                        for bid in tender.get("bids", ""):
-                            lot_value_statuses = set()
-                            for lot_value in bid.get("lotValues", ""):
-                                if "status" in lot_value:
-                                    if lot_value["relatedLot"] == lot["id"]:
-                                        lot_value["status"] = "unsuccessful"
-                                    lot_value_statuses.add(lot_value["status"])
-                            if lot_value_statuses == {"unsuccessful"}:
-                                bid["status"] = "unsuccessful"
+                        self.set_lot_values_unsuccessful(tender.get("bids"), lot["id"])
 
             if max_bid_number == 1:
                 self.add_next_award()
