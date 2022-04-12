@@ -62,14 +62,6 @@ class SubmissionResource(APIResource, AgreementMixin):
             submission.datePublished = now
             self.create_qualification()
 
-            if FAST_CATALOGUE_FLOW:
-                # TODO: Remove this branch after the war ends
-                #  Russian warship, go fuck yourself
-                self.activate_qualification()
-                self.ensure_agreement()
-                self.create_agreement_contract()
-                self.request.validated["data"]["status"] = "complete"
-
         apply_patch(
             self.request,
             src=self.request.validated["submission_src"],
@@ -81,7 +73,28 @@ class SubmissionResource(APIResource, AgreementMixin):
             extra=context_unpack(self.request, {"MESSAGE_ID": "submission_patch"})
         )
 
-        return {"data": submission.serialize("view")}
+        data = submission.serialize("view")
+
+        if FAST_CATALOGUE_FLOW and activated:
+            # TODO: Remove this branch after the war ends
+            #  Russian warship, go fuck yourself
+            self.activate_qualification()
+            self.ensure_agreement()
+            self.create_agreement_contract()
+            self.request.validated["data"]["status"] = "complete"
+
+            apply_patch(
+                self.request,
+                src=self.request.validated["submission_src"],
+                obj_name="submission"
+            )
+
+            self.LOGGER.info(
+                "Updated submission {}".format(submission.id),
+                extra=context_unpack(self.request, {"MESSAGE_ID": "submission_patch"})
+            )
+
+        return {"data": data}
 
     def create_qualification(self):
         submission = self.request.context
