@@ -1,3 +1,4 @@
+from openprocurement.api.constants import FAST_CATALOGUE_FLOW
 from openprocurement.api.utils import APIResource, json_view, context_unpack, get_now, generate_id
 from openprocurement.framework.core.utils import (
     submissionsresource,
@@ -13,6 +14,7 @@ from openprocurement.framework.core.validation import (
     validate_action_in_not_allowed_framework_status,
 )
 from openprocurement.framework.electroniccatalogue.models import Qualification
+from openprocurement.framework.electroniccatalogue.views.agreement import AgreementMixin
 
 
 @submissionsresource(
@@ -21,7 +23,7 @@ from openprocurement.framework.electroniccatalogue.models import Qualification
     submissionType="electronicCatalogue",
     description="",  # TODO: add description
 )
-class SubmissionResource(APIResource):
+class SubmissionResource(APIResource, AgreementMixin):
     @json_view(permission="view_submission")
     def get(self):
         """
@@ -47,6 +49,7 @@ class SubmissionResource(APIResource):
         Submission edit(partial)
         """
         submission = self.request.context
+        framework = self.request.validated["framework"]
         old_status = submission.status
         new_status = self.request.validated["data"].get("status", old_status)
 
@@ -59,10 +62,24 @@ class SubmissionResource(APIResource):
             submission.datePublished = now
             self.create_qualification()
 
-        apply_patch(self.request, src=self.request.validated["submission_src"], obj_name="submission")
+            if FAST_CATALOGUE_FLOW:
+                # TODO: Remove this branch after the war ends
+                #  Russian warship, go fuck yourself
+                self.activate_qualification()
+                self.ensure_agreement()
+                self.create_agreement_contract()
+                self.request.validated["data"]["status"] = "complete"
 
-        self.LOGGER.info("Updated submission {}".format(submission.id),
-                         extra=context_unpack(self.request, {"MESSAGE_ID": "submission_patch"}))
+        apply_patch(
+            self.request,
+            src=self.request.validated["submission_src"],
+            obj_name="submission"
+        )
+
+        self.LOGGER.info(
+            "Updated submission {}".format(submission.id),
+            extra=context_unpack(self.request, {"MESSAGE_ID": "submission_patch"})
+        )
 
         return {"data": submission.serialize("view")}
 
@@ -91,7 +108,26 @@ class SubmissionResource(APIResource):
                 extra=context_unpack(
                     self.request,
                     {"MESSAGE_ID": "qualification_create"},
-                    {"qualification_id": qualification_id,
-                     "qualification_mode": qualification.mode},
+                    {
+                        "qualification_id": qualification_id,
+                        "qualification_mode": qualification.mode
+                    },
                 ),
             )
+
+    def activate_qualification(self):
+        qualification = self.request.validated["qualification"]
+        self.request.validated["qualification_src"] = qualification.serialize("plain")
+        qualification.status = "active"
+        self.request.validated["qualification"] = qualification
+        apply_patch(
+            self.request,
+            src=self.request.validated["qualification_src"],
+            data=qualification,
+            obj_name="qualification"
+        )
+        self.LOGGER.info(
+            "Updated qualification {}".format(qualification.id),
+            extra=context_unpack(self.request, {"MESSAGE_ID": "qualification_patch"})
+        )
+
