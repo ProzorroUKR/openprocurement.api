@@ -8,13 +8,19 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "f2233c34b5f4438e9b4f44218606a4d8",
+    "awardID": "6f55cabc40d545ae965fdd30a7b745fb",
     "contractID": "UA-2021-03-16-000001-a-1",
     "status": "pending",
     "period": {
       "startDate": "2021-03-16T00:00:01+02:00",
       "endDate": "2022-03-16T00:00:01+02:00"
     },
-    "dateSigned": "2021-03-16T00:00:01+02:00",
+    "value": {
+      "amount": 238.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 230.0
+    },
     "suppliers": [
       {
         "name": "ДКП «Школяр»",
@@ -31,37 +37,24 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
         },
         "scale": "micro"
       }
     ],
     "date": "2021-03-16T00:00:00+02:00",
-    "value": {
-      "amount": 238.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amountNet": 230.0
-    },
-    "awardID": "6f55cabc40d545ae965fdd30a7b745fb",
-    "documents": [
-      {
-        "id": "8422862a8cc842d89f7dffee45cc1a31",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "contract_document.doc",
-        "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9384fa53ba884ded90b3a0c200741ceb?Signature=Zj9E2XKe9cm8lj4GnMs7IgyIIV1QmhZuoOI8xq%2BeexhC1%2Fslmhk91AAN%2BXbHsSMsMpvTtbk66nsLqA3Dxtk%2FAQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:01+02:00",
-        "dateModified": "2021-03-16T00:00:01+02:00",
-        "documentOf": "tender"
-      }
-    ],
+    "dateSigned": "2021-03-16T00:00:01+02:00",
     "items": [
       {
         "id": "b0ac6a98397c41a3ac3206a50b0efb25",
         "description": "Послуги шкільних їдалень",
+        "classification": {
+          "description": "Послуги з харчування у школах",
+          "scheme": "ДК021",
+          "id": "55523100-3"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -69,21 +62,16 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "quantity": 1.0,
-        "classification": {
-          "description": "Послуги з харчування у школах",
-          "scheme": "ДК021",
-          "id": "55523100-3"
-        },
         "unit": {
           "name": "папір",
-          "code": "KGM",
           "value": {
             "amount": 10.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
-          }
+          },
+          "code": "KGM"
         },
+        "quantity": 1.0,
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
           "endDate": "2021-05-05T00:00:00+02:00"
@@ -95,6 +83,18 @@ X-Content-Type-Options: nosniff
           "postalCode": "79000",
           "countryName": "Україна"
         }
+      }
+    ],
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_document.doc",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9384fa53ba884ded90b3a0c200741ceb?Signature=Zj9E2XKe9cm8lj4GnMs7IgyIIV1QmhZuoOI8xq%2BeexhC1%2Fslmhk91AAN%2BXbHsSMsMpvTtbk66nsLqA3Dxtk%2FAQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "id": "db0775e529ba46c5bdefdecd7c5e0d46",
+        "datePublished": "2021-03-16T00:00:01+02:00",
+        "dateModified": "2021-03-16T00:00:01+02:00"
       }
     ]
   }

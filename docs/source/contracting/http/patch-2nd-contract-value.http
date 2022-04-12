@@ -20,8 +20,93 @@ X-Content-Type-Options: nosniff
   "data": {
     "id": "591ab61627754dbb987af3daf6073c0d",
     "buyerID": "22222222222222222222222222222222",
+    "awardID": "42bede1bbad64dabbd9f67ce4a5b2ba9",
     "contractID": "UA-2021-03-16-000001-a-2",
     "status": "pending",
+    "value": {
+      "amount": 200.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 190.0
+    },
+    "items": [
+      {
+        "id": "32e19219eba74ae39d1610cdfebb251c",
+        "description": "портфелі",
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "deliveryDate": {
+          "startDate": "2021-03-18T00:00:00+02:00",
+          "endDate": "2021-03-21T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "relatedBuyer": "22222222222222222222222222222222"
+      },
+      {
+        "id": "4080583812244078b0585cfbab62f815",
+        "description": "портфелі",
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "deliveryDate": {
+          "startDate": "2021-03-18T00:00:00+02:00",
+          "endDate": "2021-03-21T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "relatedBuyer": "22222222222222222222222222222222"
+      }
+    ],
     "suppliers": [
       {
         "name": "Державне управління справами",
@@ -39,98 +124,13 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Державне управління справами",
-          "telephone": "+0440000000"
+          "telephone": "+0440000000",
+          "name": "Державне управління справами"
         },
         "scale": "micro"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "value": {
-      "amount": 200.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amountNet": 190.0
-    },
-    "awardID": "42bede1bbad64dabbd9f67ce4a5b2ba9",
-    "items": [
-      {
-        "id": "32e19219eba74ae39d1610cdfebb251c",
-        "description": "портфелі",
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "quantity": 5.0,
-        "deliveryDate": {
-          "startDate": "2021-03-18T00:00:00+02:00",
-          "endDate": "2021-03-21T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "relatedBuyer": "22222222222222222222222222222222",
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
-        "unit": {
-          "name": "кг",
-          "code": "KGM",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          }
-        }
-      },
-      {
-        "id": "4080583812244078b0585cfbab62f815",
-        "description": "портфелі",
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "quantity": 5.0,
-        "deliveryDate": {
-          "startDate": "2021-03-18T00:00:00+02:00",
-          "endDate": "2021-03-21T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "relatedBuyer": "22222222222222222222222222222222",
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
-        "unit": {
-          "name": "кг",
-          "code": "KGM",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          }
-        }
-      }
-    ]
+    "date": "2021-03-16T00:00:00+02:00"
   }
 }
 

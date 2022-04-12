@@ -1,28 +1,29 @@
-PUT /api/2.5/tenders/42b066abf8d74e769bd368279e46441b/cancellations/10dfd827aa3f4786bae99f36855cb12e/documents/d235c8ec369141e3b6add6e4694a83e2?acc_token=bdb6664c7ada49b0b6ce349566740a47 HTTP/1.0
+PUT /api/2.5/tenders/42b066abf8d74e769bd368279e46441b/cancellations/10dfd827aa3f4786bae99f36855cb12e/documents/80cb7f9451be4559828f48cf189589ee?acc_token=bdb6664c7ada49b0b6ce349566740a47 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 145
-Content-Type: multipart/form-data; boundary=---BOUNDARY
+Content-Length: 329
+Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
------BOUNDARY
-Content-Disposition: form-data; name="file"; filename="Notice-2.pdf"
-Content-Type: application/pdf
-
-content2
------BOUNDARY--
-
+{
+  "data": {
+    "title": "Notice-2.pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a87f01228c54456ea717d1dbe08137e4?Signature=hfMSJ65J4a411HSaLUKLVgGlo53dKInFnUxFe6RpCVadFcB032PDCXG5j%2FWnW0b8GvM%2Fh%2Bb1Yrk0ITvNCPOIDg%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/msword"
+  }
+}
 
 Response: 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "d235c8ec369141e3b6add6e4694a83e2",
+    "id": "80cb7f9451be4559828f48cf189589ee",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Notice-2.pdf",
     "description": "Changed description",
-    "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2946fb67a0544748bb4d774f81ad69ed?Signature=8SH7a8Q%2FMKIuXJVc1gs2RRwkziEzyAmQkxa6tRKCwf3K0VYyjQyGLKIjQsfn35dIdDr%2FVjDUKbfN%2BkFz5f6ECw%3D%3D&KeyID=a8968c46",
+    "format": "application/msword",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a87f01228c54456ea717d1dbe08137e4?Signature=ubZRHBanvBeqWifS%2BjEzbqXebHtjb5B49eqsu8IvP45LVFUpHyo5vupzUvKRpzqq5UG4tbqnI916xIyrgwhhBA%3D%3D&KeyID=a8968c46",
     "datePublished": "2021-03-16T00:00:03+02:00",
     "dateModified": "2021-03-16T00:00:03+02:00",
     "documentOf": "tender"

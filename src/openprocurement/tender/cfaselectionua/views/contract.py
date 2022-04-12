@@ -20,13 +20,13 @@ from openprocurement.tender.belowthreshold.views.contract import (
 from openprocurement.tender.cfaselectionua.utils import check_tender_status
 
 
-@optendersresource(
-    name="closeFrameworkAgreementSelectionUA:Tender Contracts",
-    collection_path="/tenders/{tender_id}/contracts",
-    path="/tenders/{tender_id}/contracts/{contract_id}",
-    procurementMethodType="closeFrameworkAgreementSelectionUA",
-    description="Tender contracts",
-)
+# @optendersresource(
+#     name="closeFrameworkAgreementSelectionUA:Tender Contracts",
+#     collection_path="/tenders/{tender_id}/contracts",
+#     path="/tenders/{tender_id}/contracts/{contract_id}",
+#     procurementMethodType="closeFrameworkAgreementSelectionUA",
+#     description="Tender contracts",
+# )
 class TenderAwardContractResource(TenderAwardContractResource):
     @staticmethod
     def check_tender_status_method(request):

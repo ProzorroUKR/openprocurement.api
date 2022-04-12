@@ -1647,6 +1647,7 @@ def validate_update_contract_value_with_award(request, **kwargs):
                 if amount_net > award.value.amount:
                     raise_operation_error(request, "AmountNet should be less or equal to awarded amount", name="value")
         else:
+
             if amount > award.value.amount:
                 raise_operation_error(request, "Amount should be less or equal to awarded amount", name="value")
 

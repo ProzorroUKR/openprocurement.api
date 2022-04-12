@@ -395,7 +395,9 @@ def two_lot_1bid_2com_1win(self):
         )
         # get contract id
         response = self.app.get("/tenders/{}".format(tender_id))
-        contract_id = response.json["data"]["contracts"][-1]["id"]
+        contract = response.json["data"]["contracts"][-1]
+        contract_id = contract["id"]
+        contract_value = deepcopy(contract["value"])
         # after stand slill period
         self.set_status("complete", {"status": "active.awarded"})
         # time travel
@@ -406,9 +408,10 @@ def two_lot_1bid_2com_1win(self):
         self.mongodb.tenders.save(tender)
         # sign contract
         self.app.authorization = ("Basic", ("broker", ""))
+        contract_value["valueAddedTaxIncluded"] = False
         self.app.patch_json(
             "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-            {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}},
+            {"data": {"status": "active", "value": contract_value}},
         )
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
@@ -554,7 +557,9 @@ def two_lot_1bid_1com_1win(self):
     )
     # get contract id
     response = self.app.get("/tenders/{}".format(tender_id))
-    contract_id = response.json["data"]["contracts"][-1]["id"]
+    contract = response.json["data"]["contracts"][-1]
+    contract_id = contract["id"]
+    contract_value = deepcopy(contract["value"])
     # after stand slill period
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
@@ -565,9 +570,10 @@ def two_lot_1bid_1com_1win(self):
     self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
+    contract_value["valueAddedTaxIncluded"] = False
     self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}},
+        {"data": {"status": "active", "value": contract_value}},
     )
     # for second lot
     lot_id = lots[1]
@@ -712,7 +718,9 @@ def two_lot_2bid_on_first_and_1_on_second_awarding(self):
 
     # get contract id
     response = self.app.get("/tenders/{}".format(tender_id))
-    contract_id = response.json["data"]["contracts"][-1]["id"]
+    contract = response.json["data"]["contracts"][-1]
+    contract_id = contract["id"]
+    contract_value = deepcopy(contract["value"])
 
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
@@ -723,9 +731,10 @@ def two_lot_2bid_on_first_and_1_on_second_awarding(self):
     self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
+    contract_value["valueAddedTaxIncluded"] = False
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}},
+        {"data": {"status": "active", "value": contract_value}},
     )
     self.assertEqual(response.json["data"]["status"], "active")
 
@@ -747,7 +756,9 @@ def two_lot_2bid_on_first_and_1_on_second_awarding(self):
     )
 
     response = self.app.get("/tenders/{}".format(tender_id))
-    contract_id = response.json["data"]["contracts"][-1]["id"]
+    contract = response.json["data"]["contracts"][-1]
+    contract_id = contract["id"]
+    contract_value = deepcopy(contract["value"])
 
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
@@ -757,9 +768,10 @@ def two_lot_2bid_on_first_and_1_on_second_awarding(self):
     self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
+    contract_value["valueAddedTaxIncluded"] = False
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}},
+        {"data": {"status": "active", "value": contract_value}},
     )
     self.assertEqual(response.json["data"]["status"], "active")
 

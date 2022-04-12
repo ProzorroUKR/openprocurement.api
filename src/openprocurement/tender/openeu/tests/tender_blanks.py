@@ -1130,7 +1130,9 @@ def multiple_bidders_tender(self):
     self.assertEqual(response.status, "200 OK")
     # get contract id
     response = self.app.get("/tenders/{}".format(tender_id))
-    contract_id = response.json["data"]["contracts"][-1]["id"]
+    contract = response.json["data"]["contracts"][-1]
+    contract_id = contract["id"]
+    contract_value = deepcopy(contract["value"])
 
     # XXX rewrite following part with less of magic actions
     # after stand slill period
@@ -1143,9 +1145,10 @@ def multiple_bidders_tender(self):
     self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
+    contract_value["valueAddedTaxIncluded"] = False
     self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, tender_owner_token),
-        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}},
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, tender_owner_token),
+        {"data": {"status": "active", "value": contract_value}},
     )
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1218,7 +1221,9 @@ def lost_contract_for_active_award(self):
     self.assertEqual(response.json["data"]["status"], "active.awarded")
     self.assertIn("contracts", response.json["data"])
     self.assertNotIn("next_check", response.json["data"])
-    contract_id = response.json["data"]["contracts"][-1]["id"]
+    contract = response.json["data"]["contracts"][-1]
+    contract_id = contract["id"]
+    contract_value = deepcopy(contract["value"])
     # time travel
     tender = self.mongodb.tenders.get(tender_id)
     for i in tender.get("awards", []):
@@ -1226,9 +1231,10 @@ def lost_contract_for_active_award(self):
     self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
+    contract_value["valueAddedTaxIncluded"] = False
     self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}},
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, owner_token),
+        {"data": {"status": "active", "value": contract_value}},
     )
     # check status
     self.app.authorization = ("Basic", ("broker", ""))

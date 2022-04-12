@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/1707c4e05c834d2281c4917429aed004/contracts/50fd544f07894953927212c4e2a4cb9c/documents/da68edd00d5d405bbd8987353fb01e9c?acc_token=cdb0d97ad6324ce1b99843f3f2959aa4 HTTP/1.0
+PATCH /api/2.5/tenders/1707c4e05c834d2281c4917429aed004/contracts/50fd544f07894953927212c4e2a4cb9c/documents/66f2fd43f2a04ef09cd55f8301868184?acc_token=cdb0d97ad6324ce1b99843f3f2959aa4 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 106
 Content-Type: application/json
@@ -17,17 +17,17 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "da68edd00d5d405bbd8987353fb01e9c",
-    "hash": "md5:00000000000000000000000000000000",
-    "title": "contract_second_document.doc",
     "title_en": "Title of Document",
     "description_en": "Description of Document",
-    "format": "application/msword",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f486111bf15e484ca2f2e823f8cccd5f?Signature=3xqg0iruFClCBC51Ib4Uhho7Rb5C4JGO2WBGuF96AJJ1Pq5HZTyFbOQqzIkIWZ0E0%2FoYt9WHbvpS5QV1nSH6Dw%3D%3D&KeyID=a8968c46",
+    "language": "en",
+    "id": "66f2fd43f2a04ef09cd55f8301868184",
     "datePublished": "2021-03-16T00:00:01+02:00",
-    "dateModified": "2021-03-16T00:00:01+02:00",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "contract_second_document.doc",
+    "format": "application/msword",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/792d7aebb56f48358b4e622f9772f169?Signature=SI4fYHug25uPTLELzIDikO8cvFLNuUfpUhWtsu8P4gbva04%2FDL3kuNnswkQ2VbyRJ0OytB6Wjg5DQOj11d8gDg%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
-    "language": "en"
+    "dateModified": "2021-03-16T00:00:01+02:00"
   }
 }
 

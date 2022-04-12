@@ -12,9 +12,11 @@ from openprocurement.tender.belowthreshold.tests.base import test_draft_complain
 def contract_termination(self):
     response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
     contract = response.json["data"][0]
+    value = contract["value"]
+    value["amountNet"] = value["amount"] - 1
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"value": {"amountNet": contract["value"]["amount"] - 1}}},
+        {"data": {"value": value}},
     )
     self.assertEqual(response.status, "200 OK")
     response = self.app.patch_json(
@@ -30,31 +32,45 @@ def patch_tender_contract(self):
     response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
     contract = response.json["data"][0]
 
-    fake_contractID = "myselfID"
-    fake_items_data = [{"description": "New Description"}]
+    items = contract["items"]
+    items[0]["description"] = "New Description"
     fake_suppliers_data = [{"name": "New Name"}]
 
+    value = contract["value"]
+    value["amountNet"] = value["amount"] - 1
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"value": {"amountNet": contract["value"]["amount"] - 1}}},
+        {"data": {"value": value}},
     )
     self.assertEqual(response.status, "200 OK")
 
-    self.app.patch_json(
+    response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"contractID": fake_contractID, "items": fake_items_data, "suppliers": fake_suppliers_data}},
+        {"data": {"items": items, "suppliers": fake_suppliers_data}},
+        status=422
     )
-
-    response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, contract["id"]))
-    self.assertNotEqual(fake_contractID, response.json["data"]["contractID"])
-    self.assertNotEqual(fake_items_data, response.json["data"]["items"])
-    self.assertNotEqual(fake_suppliers_data, response.json["data"]["suppliers"])
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "suppliers", "description": "Rogue field"}
+    )
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"value": {"currency": "USD"}}},
+        {"data": {"items": items}},
+        status=403
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"], "Updated could be only unit.value.amount in item"
+    )
+
+    old_currency = value["currency"]
+    value["currency"] = "USD"
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
+        {"data": {"value": value}},
         status=403,
     )
+    value["currency"] = old_currency
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.json["errors"][0]["description"], "Can't update currency for contract value")
 
@@ -176,14 +192,15 @@ def patch_tender_contract(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active")
 
+    value["amount"] = 232
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
         {
             "data": {
-                "value": {"amount": 232},
+                "value": value,
                 "contractID": "myselfID",
                 "title": "New Title",
-                "items": [{"description": "New Description"}],
+                "items": items,
                 "suppliers": [{"name": "New Name"}],
             }
         },

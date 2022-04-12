@@ -249,6 +249,7 @@ def contracts_allow_to_complete(contracts):
     )
 
 
+# TODO: delete, not used after refactoring
 def agreements_allow_to_complete(agreements):
     return any([a.status == "active" for a in agreements])
 

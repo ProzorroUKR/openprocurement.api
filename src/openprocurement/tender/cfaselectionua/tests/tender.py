@@ -119,6 +119,7 @@ class TenderProcessTest(BaseTenderWebTest):
     initial_data = tender_data
     primary_tender_status = "draft"
     initial_auth = ("Basic", ("broker", ""))
+    docservice = True
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_one_valid_bid_tender = snitch(one_valid_bid_tender)

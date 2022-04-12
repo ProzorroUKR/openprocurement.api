@@ -16,6 +16,7 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "223d62f7b07b4300938e53e55ec39237",
+    "awardID": "2457dbf1f0fa43daaf6148695865ce39",
     "contractID": "UA-2021-03-16-000001-a-1",
     "contractNumber": "contract #13111",
     "status": "active",
@@ -23,59 +24,12 @@ X-Content-Type-Options: nosniff
       "startDate": "2021-03-16T00:00:03+02:00",
       "endDate": "2022-03-16T00:00:03+02:00"
     },
-    "dateSigned": "2021-03-16T00:00:03+02:00",
-    "suppliers": [
-      {
-        "name": "Державне управління справами",
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00037256",
-          "uri": "http://www.dus.gov.ua/"
-        },
-        "address": {
-          "streetAddress": "вул. Банкова, 11, корпус 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "01220",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "name": "Державне управління справами",
-          "telephone": "+0440000000"
-        },
-        "scale": "micro"
-      }
-    ],
-    "date": "2021-03-16T00:00:03+02:00",
     "value": {
       "amount": 238.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
       "amountNet": 230.0
     },
-    "awardID": "2457dbf1f0fa43daaf6148695865ce39",
-    "documents": [
-      {
-        "id": "f9e48772753847cbb8486625c7e5fc1d",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "contract_first_document.doc",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/960b479e1b2b4495a032df428e5d3ebf?Signature=tpwVsdEVJkXH8DdrT99YRB8Fyyu2HmLh065tDRBZ%2BMMgjFWYRDY0R%2FQ6vWjjT%2FHWctDBe%2BI%2FO5cGrA8%2B08E1Bw%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:03+02:00",
-        "dateModified": "2021-03-16T00:00:03+02:00",
-        "documentOf": "tender"
-      },
-      {
-        "id": "58630a9dee574cedba85e5d5983775ff",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "contract_second_document.doc",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/36ebea29c5e54ccfaa107cd5e67ab7b9?Signature=b4z4J55fJKAxzkpB8Rej0%2FBdrDLxqAIULTNrqMlQ9wCQj53d1r%2BpS%2FPRMzVT5HhqA3TxniiLKRU8D9IlWUbsAg%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:03+02:00",
-        "dateModified": "2021-03-16T00:00:03+02:00",
-        "documentOf": "tender"
-      }
-    ],
     "items": [
       {
         "id": "154f6580f26f44dea680eaf67b309152",
@@ -92,6 +46,15 @@ X-Content-Type-Options: nosniff
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "unit": {
+          "name": "штук",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "H87"
+        },
         "quantity": 5.0,
         "deliveryDate": {
           "startDate": "2021-03-18T00:00:00+02:00",
@@ -103,18 +66,55 @@ X-Content-Type-Options: nosniff
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "unit": {
-          "name": "штук",
-          "code": "H87",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          }
         }
       }
-    ]
+    ],
+    "suppliers": [
+      {
+        "name": "Державне управління справами",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00037256",
+          "uri": "http://www.dus.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "telephone": "+0440000000",
+          "name": "Державне управління справами"
+        },
+        "scale": "micro"
+      }
+    ],
+    "date": "2021-03-16T00:00:01+02:00",
+    "documents": [
+      {
+        "id": "8e445a9de311496386838a6193dc9f37",
+        "datePublished": "2021-03-16T00:00:03+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_first_document.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/960b479e1b2b4495a032df428e5d3ebf?Signature=tpwVsdEVJkXH8DdrT99YRB8Fyyu2HmLh065tDRBZ%2BMMgjFWYRDY0R%2FQ6vWjjT%2FHWctDBe%2BI%2FO5cGrA8%2B08E1Bw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:03+02:00"
+      },
+      {
+        "id": "bb6511f6b3644274aebff064f7fcf295",
+        "datePublished": "2021-03-16T00:00:03+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_second_document.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/36ebea29c5e54ccfaa107cd5e67ab7b9?Signature=b4z4J55fJKAxzkpB8Rej0%2FBdrDLxqAIULTNrqMlQ9wCQj53d1r%2BpS%2FPRMzVT5HhqA3TxniiLKRU8D9IlWUbsAg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:03+02:00"
+      }
+    ],
+    "dateSigned": "2021-03-16T00:00:03+02:00"
   }
 }
 

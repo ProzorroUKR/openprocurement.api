@@ -17,13 +17,13 @@ from openprocurement.tender.openeu.views.contract import TenderAwardContractReso
 from openprocurement.tender.openua.validation import validate_contract_update_with_accepted_complaint
 
 
-@optendersresource(
-    name="esco:Tender Contracts",
-    collection_path="/tenders/{tender_id}/contracts",
-    path="/tenders/{tender_id}/contracts/{contract_id}",
-    procurementMethodType="esco",
-    description="Tender ESCO contracts",
-)
+# @optendersresource(
+#     name="esco:Tender Contracts",
+#     collection_path="/tenders/{tender_id}/contracts",
+#     path="/tenders/{tender_id}/contracts/{contract_id}",
+#     procurementMethodType="esco",
+#     description="Tender ESCO contracts",
+# )
 class TenderESCOContractResource(TenderEUContractResource):
     """
     Tender ESCO Contract Resource

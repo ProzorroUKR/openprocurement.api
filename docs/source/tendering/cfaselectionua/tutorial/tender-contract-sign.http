@@ -23,7 +23,6 @@ X-Content-Type-Options: nosniff
       "startDate": "2021-03-16T00:00:00+02:00",
       "endDate": "2022-03-16T00:00:00+02:00"
     },
-    "dateSigned": "2021-03-16T00:00:00+02:00",
     "suppliers": [
       {
         "name": "Державне управління справами",
@@ -40,13 +39,14 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Державне управління справами",
-          "telephone": "+0440000000"
+          "telephone": "+0440000000",
+          "name": "Державне управління справами"
         },
         "scale": "micro"
       }
     ],
     "date": "2021-03-16T00:00:00+02:00",
+    "dateSigned": "2021-03-16T00:00:00+02:00",
     "value": {
       "amount": 238.0,
       "currency": "UAH",
@@ -56,21 +56,21 @@ X-Content-Type-Options: nosniff
     "awardID": "82ac4ffad22442f4a56cf5ad630d9e81",
     "documents": [
       {
-        "id": "f70cc27451a242f183aa969976341718",
+        "id": "4b641ce2175d490c93994460259ea36f",
+        "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_first_document.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/683441ad518644979bfdede8405df7c1?Signature=513e2wVWsZdU0BhdzyBYGpoTHxh6t7%2FgKVnNZUAe94PtHC%2B4%2F8OIKLX66EFlfUkoUlG5M3jmaIRlg2MaXiunCA%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"
       },
       {
-        "id": "860508a52298440486b9e15153aee3ba",
+        "id": "2d2601ab33a74c4a961250ac6f94e9ce",
+        "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_second_document.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/524dba59516640b99c1c7f5195c7df77?Signature=tgAJvznHcEubX754JMDqKPitonexJEehSAbWFJjkEOnGW80CewSGiLLKPTJw%2FsyQCwwDaTbz23%2BAPC6xocapCQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"
       }
     ],
@@ -79,6 +79,11 @@ X-Content-Type-Options: nosniff
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
         "description": "футляри до державних нагород",
         "description_en": "futliary do derzhavnyh nagorod",
+        "classification": {
+          "description": "New Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -86,15 +91,6 @@ X-Content-Type-Options: nosniff
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "unit": {
-          "name": "item",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
         "quantity": 6.0,
         "deliveryDate": {
           "startDate": "2021-03-18T00:00:00+02:00",
@@ -108,10 +104,14 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
-        "classification": {
-          "description": "New Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
+        "unit": {
+          "name": "item",
+          "code": "KGM",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          }
         }
       }
     ]

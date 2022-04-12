@@ -26,13 +26,13 @@ from openprocurement.tender.limited.validation import (
 )
 
 
-@optendersresource(
-    name="reporting:Tender Contracts",
-    collection_path="/tenders/{tender_id}/contracts",
-    procurementMethodType="reporting",
-    path="/tenders/{tender_id}/contracts/{contract_id}",
-    description="Tender contracts",
-)
+# @optendersresource(
+#     name="reporting:Tender Contracts",
+#     collection_path="/tenders/{tender_id}/contracts",
+#     procurementMethodType="reporting",
+#     path="/tenders/{tender_id}/contracts/{contract_id}",
+#     description="Tender contracts",
+# )
 class TenderAwardContractResource(BaseTenderAwardContractResource):
     @staticmethod
     def check_tender_status_method(request):
@@ -72,13 +72,13 @@ class TenderAwardContractResource(BaseTenderAwardContractResource):
         return super(TenderAwardContractResource, self).patch()
 
 
-@optendersresource(
-    name="negotiation:Tender Contracts",
-    collection_path="/tenders/{tender_id}/contracts",
-    procurementMethodType="negotiation",
-    path="/tenders/{tender_id}/contracts/{contract_id}",
-    description="Tender contracts",
-)
+# @optendersresource(
+#     name="negotiation:Tender Contracts",
+#     collection_path="/tenders/{tender_id}/contracts",
+#     procurementMethodType="negotiation",
+#     path="/tenders/{tender_id}/contracts/{contract_id}",
+#     description="Tender contracts",
+# )
 class TenderNegotiationAwardContractResource(TenderAwardContractResource):
     """
     Tender Negotiation Award Contract Resource
@@ -111,13 +111,13 @@ class TenderNegotiationAwardContractResource(TenderAwardContractResource):
         return super(TenderNegotiationAwardContractResource, self).patch()
 
 
-@optendersresource(
-    name="negotiation.quick:Tender Contracts",
-    collection_path="/tenders/{tender_id}/contracts",
-    procurementMethodType="negotiation.quick",
-    path="/tenders/{tender_id}/contracts/{contract_id}",
-    description="Tender contracts",
-)
+# @optendersresource(
+#     name="negotiation.quick:Tender Contracts",
+#     collection_path="/tenders/{tender_id}/contracts",
+#     procurementMethodType="negotiation.quick",
+#     path="/tenders/{tender_id}/contracts/{contract_id}",
+#     description="Tender contracts",
+# )
 class TenderNegotiationQuickAwardContractResource(TenderNegotiationAwardContractResource):
     """
     Tender Negotiation Quick Award Contract Resource

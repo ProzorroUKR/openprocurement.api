@@ -427,9 +427,14 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         #### Uploading contract documentation
 
         with open(TARGET_DIR + 'tender-contract-upload-document.http', 'w') as self.app.file_obj:
-            response = self.app.post('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
+            response = self.app.post_json('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
                 self.tender_id, self.contract_id, owner_token),
-                upload_files=[('file', 'contract_document.doc', b'content')])
+                {"data": {
+                    "title": "contract_document.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }})
             self.assertEqual(response.status, '201 Created')
             self.document_id = response.json['data']['id']
 
@@ -459,9 +464,14 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         #### Filling cancellation with protocol and supplementary documentation
 
         with open(TARGET_DIR + 'upload-cancellation-doc.http', 'w') as self.app.file_obj:
-            response = self.app.post('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
+            response = self.app.post_json('/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
                 self.tender_id, cancellation_id, owner_token),
-                upload_files=[('file', 'Notice.pdf', b'content')])
+                {"data": {
+                    "title": "Notice.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }})
             cancellation_doc_id = response.json['data']['id']
             self.assertEqual(response.status, '201 Created')
 
@@ -473,9 +483,14 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'update-cancellation-doc.http', 'w') as self.app.file_obj:
-            response = self.app.put('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
+            response = self.app.put_json('/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
                 self.tender_id, cancellation_id, cancellation_doc_id, owner_token),
-                upload_files=[('file', 'Notice-2.pdf', b'content2')])
+                {"data": {
+                    "title": "Notice-2.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }})
             self.assertEqual(response.status, '200 OK')
 
         #### Activating the request and cancelling tender

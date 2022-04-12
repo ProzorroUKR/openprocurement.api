@@ -1159,11 +1159,18 @@ def first_bid_tender(self):
     )
     # get contract id
     response = self.app.get("/tenders/{}".format(tender_id))
-    contract_id = response.json["data"]["contracts"][-1]["id"]
+    contract = response.json["data"]["contracts"][-1]
+    contract_id = contract["id"]
+    contract_value = deepcopy(contract["value"])
     # create tender contract document for test
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/contracts/{}/documents?acc_token={}".format(tender_id, contract_id, owner_token),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=201,
     )
     self.assertEqual(response.status, "201 Created")
@@ -1180,18 +1187,24 @@ def first_bid_tender(self):
     self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
+    contract_value["valueAddedTaxIncluded"] = False
     self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}},
+        {"data": {"status": "active", "value": contract_value}},
     )
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
     self.assertEqual(response.json["data"]["status"], "complete")
 
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/contracts/{}/documents?acc_token={}".format(tender_id, contract_id, owner_token),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1211,9 +1224,14 @@ def first_bid_tender(self):
         response.json["errors"][0]["description"], "Can't update document in current (complete) tender status"
     )
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(tender_id, contract_id, doc_id, owner_token),
-        upload_files=[("file", "name.doc", b"content3")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1274,7 +1292,9 @@ def lost_contract_for_active_award(self):
     self.assertEqual(response.json["data"]["status"], "active.awarded")
     self.assertIn("contracts", response.json["data"])
     self.assertNotIn("next_check", response.json["data"])
-    contract_id = response.json["data"]["contracts"][-1]["id"]
+    contract = response.json["data"]["contracts"][-1]
+    contract_id = contract["id"]
+    contract_value = deepcopy(contract["value"])
     # time travel
     tender = self.mongodb.tenders.get(tender_id)
     for i in tender.get("awards", []):
@@ -1282,9 +1302,10 @@ def lost_contract_for_active_award(self):
     self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
+    contract_value["valueAddedTaxIncluded"] = False
     self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}},
+        {"data": {"status": "active", "value": contract_value}},
     )
     # check status
     self.app.authorization = ("Basic", ("broker", ""))

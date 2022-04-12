@@ -451,9 +451,10 @@ def patch_tender_award(self):
     self.assertEqual(len(response.json["data"]), 2)
     contract = response.json["data"][1]
     self.assertEqual(contract["awardID"], active_award["id"])
+    contract["value"]["valueAddedTaxIncluded"] = False
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}},
+        {"data": {"status": "active", "value": contract["value"]}},
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -1190,9 +1191,10 @@ def patch_tender_lot_award(self):
     self.assertEqual(len(response.json["data"]), 2)
     contract = response.json["data"][1]
     self.assertEqual(contract["awardID"], active_award["id"])
+    contract["value"]["valueAddedTaxIncluded"] = False
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}},
+        {"data": {"status": "active", "value": contract["value"]}},
     )
     self.assertEqual(response.status, "200 OK")
 

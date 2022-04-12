@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
 from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import get_now, to_decimal
 from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.belowthreshold.tests.base import test_draft_complaint
+from datetime import timedelta
+from copy import deepcopy
 
 
 # TenderContractResourceTest
@@ -13,26 +14,35 @@ def patch_tender_contract(self):
     response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
     contract = response.json["data"][0]
 
-    self.assertEqual(contract["value"]["amountNet"], self.expected_contract_amount)
+    self.assertEqual(
+        to_decimal(contract["value"]["amountNet"]),
+        self.expected_contract_amount
+    )
 
+    value = contract["value"]
+    items = deepcopy(contract["items"])
+    value["amountNet"] = value["amount"] - 1
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"value": {"amountNet": contract["value"]["amount"] - 1}}},
+        {"data": {"value": value}},
     )
     self.assertEqual(response.status, "200 OK")
 
-    fake_contractID = "myselfID"
-    fake_items_data = [{"description": "New Description"}]
+    items[0]["description"] = "New Description"
     fake_suppliers_data = [{"name": "New Name"}]
 
-    self.app.patch_json(
+    response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"contractID": fake_contractID, "items": fake_items_data, "suppliers": fake_suppliers_data}},
+        {"data": {"items": items, "suppliers": fake_suppliers_data}},
+        status=422
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "suppliers", "description": "Rogue field"}
     )
 
     response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, contract["id"]))
-    self.assertNotEqual(fake_contractID, response.json["data"]["contractID"])
-    self.assertNotEqual(fake_items_data, response.json["data"]["items"])
+    self.assertNotEqual(items, response.json["data"]["items"])
     self.assertNotEqual(fake_suppliers_data, response.json["data"]["suppliers"])
 
     patch_fields = {
@@ -42,19 +52,22 @@ def patch_tender_contract(self):
         "annualCostsReduction": 0,
         "contractDuration": {"years": 9},
     }
-
-    for field, value in patch_fields.items():
+    new_value = deepcopy(value)
+    for field, field_value in patch_fields.items():
+        new_value[field] = field_value
         response = self.app.patch_json(
             "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-            {"data": {"value": {field: value}}},
+            {"data": {"value": new_value}},
             status=403,
         )
+        new_value.pop(field)
         self.assertEqual(response.status_code, 403, field)
         self.assertEqual(response.json["errors"][0]["description"], "Can't update {} for contract value".format(field))
 
+    value["amountNet"] = float(self.expected_contract_amount) + 1
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"value": {"amountNet": self.expected_contract_amount + 1}}},
+        {"data": {"value": value}},
         status=403,
     )
     self.assertEqual(response.status_code, 403)
@@ -63,9 +76,10 @@ def patch_tender_contract(self):
         "Amount should be greater than amountNet and differ by no more than 20.0%",
     )
 
+    value["amountNet"] = 10
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"value": {"amountNet": 10}}},
+        {"data": {"value": value}},
         status=403,
     )
     self.assertEqual(response.status_code, 403)
@@ -74,9 +88,10 @@ def patch_tender_contract(self):
         response.json["errors"][0]["description"],
     )
 
+    value["amountNet"] = float(self.expected_contract_amount) - 1
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"value": {"amountNet": self.expected_contract_amount - 1}}},
+        {"data": {"value": value}},
     )
     self.assertEqual(response.status_code, 200)
 
@@ -198,18 +213,17 @@ def patch_tender_contract(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active")
 
+    new_value["annualCostsReduction"] = [780.5] * 21
+    new_value["yearlyPaymentsPercentage"] = 0.9
+    new_value["contractDuration"] = {"years": 10}
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
         {
             "data": {
-                "value": {
-                    "annualCostsReduction": [780.5] * 21,
-                    "yearlyPaymentsPercentage": 0.9,
-                    "contractDuration": {"years": 10},
-                },
+                "value": value,
                 "contractID": "myselfID",
                 "title": "New Title",
-                "items": [{"description": "New Description"}],
+                "items": items,
                 "suppliers": [{"name": "New Name"}],
             }
         },
@@ -264,7 +278,19 @@ def patch_tender_contract(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active")
-    self.assertEqual(response.json["data"]["value"]["amountPerformance"], self.expected_contract_amountPerformance)
-    self.assertEqual(response.json["data"]["value"]["amount"], self.expected_contract_amount)
-    self.assertNotEqual(response.json["data"]["value"]["amountNet"], response.json["data"]["value"]["amount"])
-    self.assertEqual(response.json["data"]["value"]["amountNet"], self.expected_contract_amount - 1)
+    self.assertEqual(
+        to_decimal(response.json["data"]["value"]["amountPerformance"]),
+        self.expected_contract_amountPerformance
+    )
+    self.assertEqual(
+        to_decimal(response.json["data"]["value"]["amount"]),
+        self.expected_contract_amount
+    )
+    self.assertNotEqual(
+        response.json["data"]["value"]["amountNet"],
+        response.json["data"]["value"]["amount"]
+    )
+    self.assertEqual(
+        to_decimal(response.json["data"]["value"]["amountNet"]),
+        self.expected_contract_amount - 1
+    )

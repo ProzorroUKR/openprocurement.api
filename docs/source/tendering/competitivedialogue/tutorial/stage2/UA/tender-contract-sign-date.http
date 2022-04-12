@@ -16,9 +16,15 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "787ab102ebfc4dadbedee400b18a040b",
+    "awardID": "81d25cd82d3246bda1ff504ef2d1ced0",
     "contractID": "UA-2021-03-16-000016-a.2-1",
     "status": "pending",
-    "dateSigned": "2021-03-16T00:00:03+02:00",
+    "value": {
+      "amount": 238.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 230.0
+    },
     "suppliers": [
       {
         "name": "ДКП «Школяр»",
@@ -35,21 +41,15 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
         },
         "scale": "micro"
       }
     ],
     "date": "2021-03-16T00:00:01+02:00",
-    "value": {
-      "amount": 238.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amountNet": 230.0
-    },
-    "awardID": "81d25cd82d3246bda1ff504ef2d1ced0",
+    "dateSigned": "2021-03-16T00:00:03+02:00",
     "items": [
       {
         "id": "6d18dbf0831b45ab9d8105f44378ecc0",
@@ -61,16 +61,16 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "quantity": 1.0,
         "unit": {
           "name": "папір",
-          "code": "KGM",
           "value": {
             "amount": 10.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
-          }
+          },
+          "code": "KGM"
         },
+        "quantity": 1.0,
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
           "endDate": "2021-04-16T00:00:00+02:00"

@@ -135,6 +135,7 @@ class TenderProcessTest(TenderContentWebTest):
     initial_data = test_tender_data
     initial_status = 'active.tendering'
     need_tender = True
+    docservice = True
 
     test_one_valid_bid_tender = snitch(one_valid_bid_tender)
     test_one_invalid_bid_tender = snitch(one_invalid_bid_tender)
