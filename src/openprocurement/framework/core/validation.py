@@ -65,6 +65,8 @@ def validate_submission_data(request, **kwargs):
             request,
             "frameworkID must be one of exists frameworks",
         )
+    framework = Framework(framework)
+    request.validated["framework_src"] = framework.serialize("plain")
     request.validated["framework"] = framework
     return data
 
@@ -80,6 +82,9 @@ def validate_patch_submission_data(request, **kwargs):
             request,
             "frameworkID must be one of exists frameworks",
         )
+
+    framework = Framework(framework)
+    request.validated["framework_src"] = framework.serialize("plain")
     request.validated["framework"] = framework
     return data
 
@@ -99,8 +104,8 @@ def validate_operation_submission_in_not_allowed_period(request, **kwargs):
             request,
             "Submission cannot be {} without framework enquiryPeriod or period".format(operation)
         )
-    enquiryPeriod_endDate = parse_date(enquiryPeriod["endDate"])
-    period_endDate = parse_date(period["endDate"])
+    enquiryPeriod_endDate = enquiryPeriod["endDate"]
+    period_endDate = period["endDate"]
     now = get_now()
 
     if now < enquiryPeriod_endDate or now > period_endDate:
