@@ -123,7 +123,7 @@ def set_mode_test_titles(item):
         ("title_ru", "ТЕСТИРОВАНИЕ"),
     ):
         if not item.get(key) or prefix not in item[key]:
-            item[key] = f"[{prefix}] {item.get('key') or ''}"
+            item[key] = f"[{prefix}] {item.get(key) or ''}"
 
 
 # GETTING/SETTING sub documents ---
