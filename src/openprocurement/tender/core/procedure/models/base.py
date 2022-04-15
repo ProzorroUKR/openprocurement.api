@@ -8,7 +8,7 @@ from logging import getLogger
 LOGGER = getLogger(__name__)
 
 
-class ListType(BaseListType):
+class ListType(BaseListType):  # TODO RM?
     """
     Schematics ListType export_loop returns None instead of the empty list
     if an empty list passed to model.
@@ -22,7 +22,7 @@ class ListType(BaseListType):
         return True
 
 
-class ModelType(BaseModelType):
+class ModelType(BaseModelType):  # TODO RM?
 
     def __init__(self, model_class, **kwargs):
         name = kwargs.pop("name", None)
