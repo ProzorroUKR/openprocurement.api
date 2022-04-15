@@ -105,9 +105,9 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "mainProcurementCategory": "services",
-    "title_en": "[TESTING] ",
-    "title_ru": "[ТЕСТИРОВАНИЕ] ",
-    "title": "[ТЕСТУВАННЯ] ",
+    "title_en": "[TESTING] Cases with state awards",
+    "title_ru": "[ТЕСТИРОВАНИЕ] футляры к государственным наградам",
+    "title": "[ТЕСТУВАННЯ] футляри до державних нагород",
     "mode": "test",
     "procurementMethodType": "closeFrameworkAgreementSelectionUA",
     "submissionMethod": "electronicAuction",

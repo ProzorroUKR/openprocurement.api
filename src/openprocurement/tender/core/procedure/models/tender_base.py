@@ -1,6 +1,6 @@
 from uuid import uuid4
 from schematics.exceptions import ValidationError
-from schematics.types import MD5Type, BaseType, IntType
+from schematics.types import MD5Type, BaseType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from openprocurement.api.models import IsoDateTimeType
@@ -15,12 +15,9 @@ from openprocurement.tender.core.procedure.models.document import (
     validate_tender_document_relations,
 )
 from openprocurement.tender.core.procedure.models.criterion import Criterion, validate_criteria_requirement_id_uniq
-from openprocurement.tender.core.procedure.models.organization import Organization
+from openprocurement.tender.core.procedure.models.organization import Organization, BaseOrganization
 from openprocurement.tender.core.procedure.models.question import validate_questions_related_items, Question
-from openprocurement.planning.api.models import BaseOrganization
 from openprocurement.tender.core.models import (
-    validate_parameters_uniq,
-    Administrator_bid_role,
     validate_funders_unique,
     validate_funders_ids,
 )

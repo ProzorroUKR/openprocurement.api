@@ -1,10 +1,8 @@
 from schematics.exceptions import ValidationError
 from uuid import uuid4
 from decimal import Decimal
-from schematics.models import Model
 from schematics.types import StringType, MD5Type
-from schematics.types.compound import ModelType, ListType
-from openprocurement.api.models import IsoDateTimeType, DecimalType
+from openprocurement.api.models import IsoDateTimeType, DecimalType, Model, ModelType, ListType
 from openprocurement.tender.core.procedure.context import get_now
 
 

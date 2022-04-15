@@ -836,7 +836,6 @@ def create_tender_from_agreement_with_pending_changes(self):
     self.assertEqual(response.json["data"]["unsuccessfulReason"], ["agreements[0] has pending change"])
 
 
-
 def create_tender(self):
     response = self.app.get("/tenders")
     self.assertEqual(response.status, "200 OK")
