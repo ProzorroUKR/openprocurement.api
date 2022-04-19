@@ -48,6 +48,17 @@ class OpenEUTenderDetailsMixing(TenderDetailsMixing):
         self.update_complaint_period(tender)
 
     def on_patch(self, before, after):
+        if "draft" not in before["status"]:
+            tendering_start = before.get("tenderPeriod", {}).get("startDate")
+            if tendering_start != after.get("tenderPeriod", {}).get("startDate"):
+                raise_operation_error(
+                    get_request(),
+                    "Can't change tenderPeriod.startDate",
+                    status=422,
+                    location="body",
+                    name="tenderPeriod.startDate"
+                )
+
         # TODO: find a better place for this check, may be a distinct endpoint: PUT /tender/uid/status
         if before["status"] == "active.pre-qualification":
             passed_data = get_request().validated["json_data"]

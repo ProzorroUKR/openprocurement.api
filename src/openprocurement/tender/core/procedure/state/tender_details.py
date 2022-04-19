@@ -26,16 +26,6 @@ class TenderDetailsMixing:
                     name="procuringEntity"
                 )
 
-            tendering_start = before.get("tenderPeriod", {}).get("startDate")
-            if tendering_start != after.get("tenderPeriod", {}).get("startDate"):
-                raise_operation_error(
-                    get_request(),
-                    "Can't change tenderPeriod.startDate",
-                    status=422,
-                    location="body",
-                    name="tenderPeriod.startDate"
-                )
-
         self.watch_value_meta_changes(after)
         super().on_patch(before, after)
 

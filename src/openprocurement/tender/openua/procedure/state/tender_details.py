@@ -30,6 +30,17 @@ class TenderDetailsState(TenderDetailsMixing, OpenUATenderState):
     def on_patch(self, before, after):
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
 
+        if "draft" not in before["status"]:
+            tendering_start = before.get("tenderPeriod", {}).get("startDate")
+            if tendering_start != after.get("tenderPeriod", {}).get("startDate"):
+                raise_operation_error(
+                    get_request(),
+                    "Can't change tenderPeriod.startDate",
+                    status=422,
+                    location="body",
+                    name="tenderPeriod.startDate"
+                )
+
         # validate items cpv group
         cpv_group_lists = {i["classification"]["id"][:3] for i in before.get("items")}
         for item in after.get("items", ""):
