@@ -1,4 +1,3 @@
-from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender import TenderState
 
 
@@ -17,15 +16,8 @@ class CFASelectionTenderState(TenderState):
                 bid_number = self.count_lot_bids_number(tender, lot["id"])
                 if bid_number < self.min_bids_number:
                     self.remove_auction_period(lot)
-
                     if lot["status"] == "active":
                         self.set_object_status(lot, "unsuccessful")
-
-                        # for procedures where lotValues have "status" field (openeu, competitive_dialogue, more ?)
-                        for bid in tender.get("bids", ""):
-                            for lot_value in bid.get("lotValues", ""):
-                                if "status" in lot_value and lot_value["relatedLot"] == lot["id"]:
-                                    lot_value["status"] = "unsuccessful"
 
             # should be moved to tender_status_check ?
             if not set(i["status"] for i in tender["lots"]).difference({"unsuccessful", "cancelled"}):

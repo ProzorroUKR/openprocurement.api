@@ -591,17 +591,15 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, BaseSta
 
                     if lot.get("status") == "active":  # defense procedures doesn't have lot status, for ex
                         self.set_object_status(lot, "unsuccessful")
+                        self.set_lot_values_unsuccessful(tender.get("bids"), lot["id"])
 
-                        # for procedures where lotValues have "status" field (openeu, competitive_dialogue, cfaua, )
-                        for bid in tender.get("bids", ""):
-                            lot_value_statuses = set()
-                            for lot_value in bid.get("lotValues", ""):
-                                if "status" in lot_value:
-                                    if lot_value["relatedLot"] == lot["id"]:
-                                        lot_value["status"] = "unsuccessful"
-                                    lot_value_statuses.add(lot_value["status"])
-                            if lot_value_statuses == {"unsuccessful"}:
-                                bid["status"] = "unsuccessful"
+            active_lots = {l["id"] for l in tender["lots"] if l["status"] == "active"}
+            # set bids unsuccessful
+            for bid in tender.get("bids", ""):
+                if not any(lv["relatedLot"] in active_lots
+                           for lv in bid.get("lotValues", "")):
+                    if bid.get("status", "active") in self.active_bid_statuses:
+                        bid["status"] = "unsuccessful"
 
             # should be moved to tender_status_check ?
             if not set(i["status"] for i in tender["lots"]).difference({"unsuccessful", "cancelled"}):
@@ -612,9 +610,19 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, BaseSta
                 self.remove_auction_period(tender)
 
                 for bid in tender.get("bids", ""):
-                    bid["status"] = "unsuccessful"
+                    if bid.get("status", "active") in self.active_bid_statuses:
+                        bid["status"] = "unsuccessful"
 
                 self.get_change_tender_status_handler("unsuccessful")(tender)
+
+    @classmethod
+    def set_lot_values_unsuccessful(cls, bids, lot_id):
+        # for procedures where lotValues have "status" field (openeu, competitive_dialogue, cfaua, )
+        for bid in bids or "":
+            for lot_value in bid.get("lotValues", ""):
+                if "status" in lot_value:
+                    if lot_value["relatedLot"] == lot_id:
+                        lot_value["status"] = "unsuccessful"
 
     @classmethod
     def count_bids_number(cls, tender):
