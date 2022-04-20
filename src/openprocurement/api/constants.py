@@ -22,6 +22,7 @@ SCHEMA_DOC = "openprocurement_schema"
 
 TZ = timezone(os.environ["TZ"] if "TZ" in os.environ else "Europe/Kiev")
 SANDBOX_MODE = os.environ.get("SANDBOX_MODE", False)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 DOCUMENT_BLACKLISTED_FIELDS = ("title", "format", "url", "dateModified", "hash")
 DOCUMENT_WHITELISTED_FIELDS = ("id", "datePublished", "author", "__parent__")
