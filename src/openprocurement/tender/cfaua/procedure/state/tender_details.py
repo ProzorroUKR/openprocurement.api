@@ -193,6 +193,16 @@ class CFAUATenderDetailsMixing(TenderDetailsMixing):
                 "Can't change classification",
                 name="item"
             )
+        if "draft" not in before["status"]:
+            tendering_start = before.get("tenderPeriod", {}).get("startDate")
+            if tendering_start != after.get("tenderPeriod", {}).get("startDate"):
+                raise_operation_error(
+                    get_request(),
+                    "Can't change tenderPeriod.startDate",
+                    status=422,
+                    location="body",
+                    name="tenderPeriod.startDate"
+                )
         # it's serializible anyway
         # if before.get("enquiryPeriod") != after.get("enquiryPeriod"):
         #     raise_operation_error(

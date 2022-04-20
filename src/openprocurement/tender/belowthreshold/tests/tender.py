@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -58,6 +57,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_item_with_zero_quantity,
     patch_items_related_buyer_id,
     get_tender_without_procurement_method_type,
+    patch_enquiry_tender_periods,
 )
 
 
@@ -122,6 +122,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_create_tender_with_earlier_non_required_unit = snitch(create_tender_with_earlier_non_required_unit)
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
     test_get_tender_without_procurement_method_type = snitch(get_tender_without_procurement_method_type)
+    test_patch_enquiry_tender_periods = snitch(patch_enquiry_tender_periods)
 
 
 class TenderProcessTest(BaseTenderWebTest):

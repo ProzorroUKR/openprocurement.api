@@ -357,6 +357,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
     guarantee_criterion = None
 
     def create_tender(self):
+        print("create_tender")
         data = deepcopy(self.initial_data)
         if self.initial_lots:
             set_tender_lots(data, self.initial_lots)
