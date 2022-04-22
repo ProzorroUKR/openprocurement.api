@@ -1,7 +1,6 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.tender import TenderTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     listing_draft,
     create_tender_draft,
@@ -21,7 +20,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_with_required_unit,
     patch_items_related_buyer_id,
 )
-from openprocurement.tender.limited.models import NegotiationTender, NegotiationQuickTender, ReportingTender
+from openprocurement.tender.limited.models import ReportingTender
 from openprocurement.tender.limited.tests.base import (
     BaseTenderWebTest,
     test_lots,
@@ -67,21 +66,11 @@ class AccreditationTenderTest(BaseTenderWebTest):
     test_create_tender_accreditation = snitch(create_tender_accreditation)
 
 
-class TenderTest(TenderTestMixin, BaseTenderWebTest):
+class TenderTest(BaseTenderWebTest):
     tender_model = ReportingTender
     initial_data = test_tender_data
     test_tender_milestones_not_required = snitch(tender_milestones_not_required)
     test_tender_set_fund_organizations = snitch(tender_set_fund_organizations)
-
-
-class TenderNegotiationTest(TenderTestMixin, BaseTenderWebTest):
-    tender_model = NegotiationTender
-    initial_data = test_tender_negotiation_data
-
-
-class TenderNegotiationQuickTest(TenderTestMixin, BaseTenderWebTest):
-    tender_model = NegotiationQuickTender
-    initial_data = test_tender_negotiation_quick_data
 
 
 class TenderResourceTest(BaseTenderWebTest):

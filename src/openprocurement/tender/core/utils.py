@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 import jmespath
 import re
 from decimal import Decimal
 from functools import wraps
-
 from dateorro import (
     calc_datetime,
     calc_working_datetime,
@@ -12,16 +10,14 @@ from dateorro import (
 from dateorro.calculations import check_working_datetime
 from jsonpointer import resolve_pointer
 from functools import partial
-from datetime import datetime, time, timedelta
+from datetime import timedelta
 from logging import getLogger
 
 from schematics.exceptions import ValidationError
-from time import sleep
 from pyramid.exceptions import URLDecodeError
 from pyramid.compat import decode_path_info
 from pyramid.security import Allow
 from cornice.resource import resource
-from couchdb.http import ResourceConflict
 from openprocurement.api.mask import mask_object_data
 from openprocurement.api.constants import (
     WORKING_DAYS,
@@ -33,7 +29,6 @@ from openprocurement.api.constants import (
     RELEASE_2020_04_19,
     NORMALIZED_TENDER_PERIOD_FROM,
 )
-from openprocurement.api.validation import validate_json_data
 from openprocurement.api.utils import (
     get_now,
     context_unpack,
@@ -100,35 +95,14 @@ def calc_auction_end_time(bids, start):
     return start + bids * BIDDER_TIME + SERVICE_TIME + AUCTION_STAND_STILL_TIME
 
 
-def generate_tender_id(ctime, db, server_id=""):
-    key = ctime.date().isoformat()
-    tenderIDdoc = "tenderID_" + server_id if server_id else "tenderID"
-    while True:
-        try:
-            tenderID = db.get(tenderIDdoc, {"_id": tenderIDdoc})
-            index = tenderID.get(key, 1)
-            tenderID[key] = index + 1
-            db.save(tenderID)
-        except ResourceConflict:  # pragma: no cover
-            pass
-        except Exception:  # pragma: no cover
-            sleep(1)
-        else:
-            break
-    return "UA-{:04}-{:02}-{:02}-{:06}{}".format(
-        ctime.year, ctime.month, ctime.day, index, server_id and "-" + server_id
-    )
+def generate_tender_id(request):
+    now = get_now()
+    uid = f"plan_{now.date().isoformat()}"
+    index = request.registry.mongodb.get_next_sequence_value(uid)
+    return "UA-{:04}-{:02}-{:02}-{:06}".format(now.year, now.month, now.day, index)
 
 
-def tender_serialize(request, tender_data, fields):
-    tender = request.tender_from_data(tender_data, raise_error=False)
-    if tender is None:
-        return dict([(i, tender_data.get(i, "")) for i in ["procurementMethodType", "dateModified", "id"]])
-    tender.__parent__ = request.context
-    return dict([(i, j) for i, j in tender.serialize(tender.status).items() if i in fields])
-
-
-def save_tender(request):
+def save_tender(request, validate=False):
     tender = request.validated["tender"]
 
     if tender.mode == "test":
@@ -144,7 +118,11 @@ def save_tender(request):
             tender.dateModified = now
 
         with handle_store_exceptions(request):
-            tender.store(request.registry.db)
+            if validate:
+                tender.validate()
+            data = tender.to_primitive()
+            request.registry.mongodb.tenders.save(data)
+            tender.import_data(data)
             LOGGER.info(
                 "Saved tender {}: dateModified {} -> {}".format(
                     tender.id,
@@ -246,13 +224,8 @@ def extract_tender_id(request):
 def extract_tender_doc(request):
     tender_id = extract_tender_id(request)
     if tender_id:
-        db = request.registry.db
-        doc = db.get(tender_id)
-        if doc is not None and doc.get("doc_type") == "tender":
-            request.errors.add("url", "tender_id", "Archived")
-            request.errors.status = 410
-            raise error_handler(request)
-        elif doc is None or doc.get("doc_type") != "Tender":
+        doc = request.registry.mongodb.tenders.get(tender_id)
+        if doc is None:
             request.errors.add("url", "tender_id", "Not Found")
             request.errors.status = 404
             raise error_handler(request)

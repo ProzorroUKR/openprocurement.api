@@ -77,7 +77,7 @@ class TenderAwardDocumentResourceTest(TenderContentWebTest, TenderAwardDocumentR
 
     @property
     def award_id(self):
-        data = self.db.get(self.tender_id)
+        data = self.mongodb.tenders.get(self.tender_id)
         return data['awards'][-1]['id'] if data.get('awards') else None
 
 

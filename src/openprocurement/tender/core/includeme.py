@@ -13,6 +13,8 @@ from openprocurement.tender.core.utils import (
     SubscribersPicker,
 )
 from openprocurement.api.interfaces import IContentConfigurator
+from openprocurement.api.database import COLLECTION_CLASSES
+from openprocurement.tender.core.database import TenderCollection
 from openprocurement.tender.core.models import ITender
 from openprocurement.tender.core.adapters import TenderConfigurator
 
@@ -20,11 +22,9 @@ LOGGER = getLogger("openprocurement.tender.core")
 
 
 def includeme(config):
-    from openprocurement.tender.core.design import add_design
-
     LOGGER.info("Init tender.core plugin.")
 
-    add_design()
+    COLLECTION_CLASSES["tenders"] = TenderCollection
     config.add_request_method(resolve_tender_model, "tender_model", reify=True)
     config.add_request_method(extract_tender_doc, "tender_doc", reify=True)
     config.add_request_method(extract_tender, "tender", reify=True)

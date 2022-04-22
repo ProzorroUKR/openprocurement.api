@@ -304,7 +304,7 @@ def patch_tender_award(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
 
-    tender_token = self.db.get(self.tender_id)['owner_token']
+    tender_token = self.mongodb.tenders.get(self.tender_id)['owner_token']
     tender = self.app.get("/tenders/{}".format(self.tender_id)).json['data']
     gen_award_id = tender['awards'][-1]['id']
 
@@ -343,7 +343,7 @@ def patch_tender_award(self):
 
 def tender_award_transitions(self):
     award_id = self.award_ids[0]
-    tender_token = self.db.get(self.tender_id)['owner_token']
+    tender_token = self.mongodb.tenders.get(self.tender_id)['owner_token']
     bid_token = self.initial_bids_tokens[0]
     # pending -> cancelled
     for token_ in (tender_token, bid_token):
@@ -529,10 +529,10 @@ def check_tender_award_disqualification(self):
     self.assertEqual(response.json["data"]["bid_id"], sorted_bids[0]["id"])
 
     # wait 2 days
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     date = calculate_tender_business_date(get_now(), -QUALIFICATION_DURATION, tender, working_days=True).isoformat()
     tender['awards'][0]['date'] = date
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     self.check_chronograph()
 
@@ -558,7 +558,7 @@ def check_tender_award_cancellation(self):
     response = self.app.get("/tenders/{}/bids".format(self.tender_id))
     bids = response.json["data"]
     bid_token = self.initial_bids_tokens[0]
-    tender_token = self.db.get(self.tender_id)['owner_token']
+    tender_token = self.mongodb.tenders.get(self.tender_id)['owner_token']
     sorted_bids = sorted(bids, key=lambda bid: bid["value"]['amount'])
 
     # get awards

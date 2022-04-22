@@ -180,9 +180,9 @@ class PlanTendersResource(TendersResource):
         tender_json = response.json
 
         # update tender
-        tender = self.request.registry.db.get(tender_id)
+        tender = self.request.registry.mongodb.tenders.get(tender_id)
         tender["plans"] = plans
-        self.request.registry.db.save(tender)
+        self.request.registry.mongodb.tenders.save(tender)
 
         # save plan
         plan.tender_id = tender_id

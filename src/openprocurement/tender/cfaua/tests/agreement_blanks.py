@@ -12,7 +12,7 @@ from openprocurement.tender.cfaua.models.submodels.agreement import Agreement
 
 
 def get_tender_agreement(self):
-    agreement_raw = self.app.app.registry.db.get(self.tender_id)["agreements"][0]
+    agreement_raw = self.app.app.registry.mongodb.tenders.get(self.tender_id)["agreements"][0]
     agreement = Agreement(agreement_raw).serialize("embedded")
 
     self.app.authorization = ("Basic", ("broker", ""))
@@ -176,12 +176,12 @@ def patch_tender_agreement_datesigned(self):
         ],
     )
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     tender["contractPeriod"]["startDate"] = (
         datetime.now() - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=1)
     ).isoformat()
     tender["contractPeriod"]["clarificationsUntil"] = (datetime.now() - timedelta(days=1)).isoformat()
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),
@@ -355,7 +355,7 @@ def create_tender_agreement_document(self):
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
     self.assertEqual("name.doc", response.json["data"]["title"])
-    key = response.json["data"]["url"].split("?")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get("/tenders/{}/agreements/{}/documents".format(self.tender_id, self.agreement_id))
     self.assertEqual(response.status, "200 OK")
@@ -381,12 +381,12 @@ def create_tender_agreement_document(self):
     )
 
     response = self.app.get(
-        "/tenders/{}/agreements/{}/documents/{}?{}".format(self.tender_id, self.agreement_id, doc_id, key)
+        "/tenders/{}/agreements/{}/documents/{}?download={}".format(self.tender_id, self.agreement_id, doc_id, key)
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 7)
-    self.assertEqual(response.body, b"content")
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
 
     response = self.app.get("/tenders/{}/agreements/{}/documents/{}".format(self.tender_id, self.agreement_id, doc_id))
     self.assertEqual(response.status, "200 OK")
@@ -439,15 +439,15 @@ def put_tender_agreement_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    key = response.json["data"]["url"].split("?")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get(
-        "/tenders/{}/agreements/{}/documents/{}?{}".format(self.tender_id, self.agreement_id, doc_id, key)
+        "/tenders/{}/agreements/{}/documents/{}?download={}".format(self.tender_id, self.agreement_id, doc_id, key)
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 8)
-    self.assertEqual(response.body, b"content2")
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
 
     response = self.app.get("/tenders/{}/agreements/{}/documents/{}".format(self.tender_id, self.agreement_id, doc_id))
     self.assertEqual(response.status, "200 OK")
@@ -465,15 +465,15 @@ def put_tender_agreement_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    key = response.json["data"]["url"].split("?")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get(
-        "/tenders/{}/agreements/{}/documents/{}?{}".format(self.tender_id, self.agreement_id, doc_id, key)
+        "/tenders/{}/agreements/{}/documents/{}?download={}".format(self.tender_id, self.agreement_id, doc_id, key)
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 8)
-    self.assertEqual(response.body, b"content3")
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
 
     self.cancel_tender()
 
@@ -607,12 +607,12 @@ def patch_tender_agreement(self):
         ],
     )
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     tender["contractPeriod"]["startDate"] = (
         datetime.now() - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=1)
     ).isoformat()
     tender["contractPeriod"]["clarificationsUntil"] = (datetime.now() - timedelta(days=1)).isoformat()
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),
@@ -1114,12 +1114,12 @@ def four_contracts_one_unsuccessful(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     tender["contractPeriod"]["startDate"] = (
         datetime.now() - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=1)
     ).isoformat()
     tender["contractPeriod"]["clarificationsUntil"] = (datetime.now() - timedelta(days=1)).isoformat()
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),

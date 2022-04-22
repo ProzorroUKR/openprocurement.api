@@ -174,11 +174,11 @@ def create_tender_with_lots_question(self):
 
 
 def create_question_on_lot_without_perm(self):
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     lot_id = self.lots[0]["id"]
     for firm in tender["shortlistedFirms"]:
         firm["lots"] = [{"id": self.lots[1]["id"]}]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.app.post_json(
         "/tenders/{}/questions".format(self.tender_id),

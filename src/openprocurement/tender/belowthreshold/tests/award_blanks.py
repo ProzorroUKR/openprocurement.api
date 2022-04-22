@@ -1491,11 +1491,11 @@ def get_tender_award_complaints(self):
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     for i in tender.get("awards", []):
         now = get_now().isoformat()
         i["complaintPeriod"] = {"startDate": now, "endDate": now}
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
@@ -1740,11 +1740,11 @@ def get_tender_lot_award_complaints(self):
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     for i in tender.get("awards", []):
         now = get_now().isoformat()
         i["complaintPeriod"] = {"startDate": now, "endDate": now}
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
@@ -1821,9 +1821,9 @@ def create_tender_lots_award_complaint(self):
 
 def patch_tender_lots_award_complaint(self):
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     tender["awards"][0]["status"] = "pending"
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     bid_token = list(self.initial_bids_tokens.values())[0]
     response = self.app.patch_json(

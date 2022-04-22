@@ -183,10 +183,10 @@ class TenderQualificationMilestone24HMixin(object):
 
         # check appending milestone at active qualification status
         # remove milestone to skip "only one" validator
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         context = tender["{}s".format(self.context_name)][0]
         context["milestones"] = []
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
 
         response = self.app.post_json(
             "/tenders/{}/{}s/{}/milestones?acc_token={}".format(
@@ -252,13 +252,13 @@ class TenderQualificationMilestoneALPMixin(object):
 
         super(TenderQualificationMilestoneALPMixin, self).setUp()
 
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         for b in tender["bids"]:
             b["status"] = "active"
             for l in b["lotValues"]:
                 if "status" in l:
                     l["status"] = "active"  # in case they were "pending" #openeu
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
 
     def test_milestone(self):
         """
@@ -332,7 +332,7 @@ class TenderQualificationMilestoneALPMixin(object):
             {"data": unsuccessful_data},
             status=403
         )
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         expected_due_date = calculate_complaint_business_date(
             parse_date(milestone["date"]),
             timedelta(days=1),
@@ -430,11 +430,11 @@ class TenderQualificationMilestoneALPMixin(object):
         self.assertNotIn("milestones", last_award)
 
     def wait_until_award_milestone_due_date(self):
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         for a in tender["awards"]:
             if a.get("milestones"):
                 a["milestones"][0]["dueDate"] = get_now().isoformat()
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
 
     def _test_doc_upload(self, procurement_method, doc_type, bid_id, bid_token, due_date):
         """

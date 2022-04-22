@@ -26,13 +26,13 @@ def switch_tender_complaints_draft(self):
     self.assertEqual(parse_date(response.json["data"].get("next_check")), parse_date(tender_data["complaintPeriod"]["endDate"]))
 
     # and once the date passed
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     start_date = get_now() - timedelta(days=40)
     tender["complaintPeriod"] = dict(   # tenderPeriod was here before, must be a mistake
         startDate=start_date.isoformat(),
         endDate=calculate_tender_business_date(start_date, timedelta(days=30)).isoformat()
     )
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     # switch
     response = self.check_chronograph()
@@ -49,7 +49,7 @@ def switch_tender_complaints_draft(self):
 @patch("openprocurement.tender.core.procedure.state.tender.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def switch_tender_cancellation_complaints_draft(self):
     # first we post a cancellation
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     cancellation = deepcopy(test_cancellation)
     cancellation["status"] = "pending"
     cancellation["complaintPeriod"] = dict(
@@ -59,7 +59,7 @@ def switch_tender_cancellation_complaints_draft(self):
     cancellation = Cancellation(cancellation)
     cancellation_data = cancellation.serialize("embedded")
     tender.update(cancellations=[cancellation_data])
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     # let's post a draft complaint
     response = self.app.post_json(
@@ -76,12 +76,12 @@ def switch_tender_cancellation_complaints_draft(self):
     )
 
     # and once the date passed
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     tender["cancellations"][0]["complaintPeriod"] = dict(
         startDate=(get_now() - timedelta(days=30)).isoformat(),
         endDate=(get_now() - timedelta(days=20)).isoformat()
     )
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     # switch
     response = self.check_chronograph()
@@ -137,12 +137,12 @@ def switch_qualification_complaints_draft(self):
     )
 
     # and once the date passed
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     tender["qualificationPeriod"] = dict(
         startDate=(get_now() - timedelta(days=20)).isoformat(),
         endDate=(get_now() - timedelta(days=10)).isoformat()
     )
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     # switch
     response = self.check_chronograph()
@@ -179,12 +179,12 @@ def switch_award_complaints_draft(self):
     )
 
     # and once the date passed
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     tender["awards"][0]["complaintPeriod"] = dict(
         startDate=(get_now() - timedelta(days=20)).isoformat(),
         endDate=(get_now() - timedelta(days=10)).isoformat()
     )
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     # switch
     response = self.check_chronograph()

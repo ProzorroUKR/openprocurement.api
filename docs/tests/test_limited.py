@@ -345,10 +345,10 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
 
         self.tick()
 
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         for i in tender.get('awards', []):
             i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
 
         with open(TARGET_DIR + 'tutorial/tender-negotiation-contract-sign.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
@@ -523,10 +523,10 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
 
         self.tick()
 
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         for i in tender.get('awards', []):
             i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
 
         with open(TARGET_DIR + 'multiple_lots_tutorial/tender-contract-sign.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
@@ -591,10 +591,10 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
 
         self.tick()
 
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         for i in tender.get('awards', []):
             i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
 
         with open(TARGET_DIR + 'tutorial/tender-negotiation-quick-contract-sign.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(

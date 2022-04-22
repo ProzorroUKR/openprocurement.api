@@ -1,25 +1,13 @@
-from openprocurement.tender.core.design import (
-    FIELDS,
-    tenders_by_dateModified_view,
-    tenders_real_by_dateModified_view,
-    tenders_test_by_dateModified_view,
-    tenders_by_local_seq_view,
-    tenders_real_by_local_seq_view,
-    tenders_test_by_local_seq_view,
-)
 from openprocurement.api.utils import (
     json_view,
     context_unpack,
-    APIResourceListing,
+    MongodbResourceListing,
     update_logging_context,
 )
-from openprocurement.tender.core.utils import tender_serialize
 from openprocurement.tender.core.procedure.utils import (
     set_ownership,
     save_tender,
     set_mode_test_titles,
-    apply_tender_patch,
-    apply_data_patch,
 )
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.serializers.tender import TenderBaseSerializer
@@ -30,18 +18,6 @@ import logging
 
 LOGGER = logging.getLogger(__name__)
 
-VIEW_MAP = {
-    "": tenders_real_by_dateModified_view,
-    "test": tenders_test_by_dateModified_view,
-    "_all_": tenders_by_dateModified_view,
-}
-CHANGES_VIEW_MAP = {
-    "": tenders_real_by_local_seq_view,
-    "test": tenders_test_by_local_seq_view,
-    "_all_": tenders_by_local_seq_view,
-}
-FEED = {"dateModified": VIEW_MAP, "changes": CHANGES_VIEW_MAP}
-
 
 @resource(
     name="Tenders",
@@ -49,14 +25,23 @@ FEED = {"dateModified": VIEW_MAP, "changes": CHANGES_VIEW_MAP}
     description="Tender listing",
     request_method=("GET",),  # all "GET /tenders" requests go here
 )
-class TendersListResource(APIResourceListing):
-    VIEW_MAP = VIEW_MAP
-    CHANGES_VIEW_MAP = CHANGES_VIEW_MAP
-    FEED = FEED
-    FIELDS = FIELDS
-    serialize_func = tender_serialize
-    object_name_for_listing = "Tenders"
-    log_message_id = "tender_list_custom"
+class TendersListResource(MongodbResourceListing):
+
+    def __init__(self, request, context=None):
+        super().__init__(request, context)
+        self.listing_name = "Tenders"
+        self.listing_default_fields = {"dateModified"}
+        self.all_fields = {
+            "dateCreated",
+            "dateModified",
+            "auctionPeriod",
+            "status",
+            "tenderID",
+            "lots",
+            "procurementMethodType",
+            "next_check",
+        }
+        self.db_listing_method = request.registry.mongodb.tenders.list
 
     def __acl__(self):
         acl = [
@@ -79,7 +64,7 @@ class TendersResource(TenderBaseResource):
 
         self.request.validated["tender"] = tender
         self.request.validated["tender_src"] = {}
-        if save_tender(self.request):
+        if save_tender(self.request, insert=True):
             LOGGER.info(
                 "Created tender {} ({})".format(tender["_id"], tender["tenderID"]),
                 extra=context_unpack(

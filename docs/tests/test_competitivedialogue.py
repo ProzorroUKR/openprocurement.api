@@ -1082,10 +1082,10 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
 
         ####  Set contract value
 
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         for i in tender.get('awards', []):
             i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
 
         with open(TARGET_DIR + 'stage2/EU/tender-contract-set-contract-value.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
@@ -1865,10 +1865,10 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTe
 
         ####  Set contract value
 
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         for i in tender.get('awards', []):
             i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
 
         with open(TARGET_DIR + 'stage2/UA/tender-contract-set-contract-value.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(

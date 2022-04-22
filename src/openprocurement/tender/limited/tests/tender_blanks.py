@@ -49,7 +49,7 @@ def listing(self):
     tenders = []
 
     for i in range(3):
-        offset = get_now().isoformat()
+        offset = get_now().timestamp()
         response = self.app.post_json("/tenders", {"data": self.initial_data})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -58,23 +58,16 @@ def listing(self):
 
     ids = ",".join([i["id"] for i in tenders])
 
-    while True:
-        response = self.app.get("/tenders")
-        self.assertTrue(ids.startswith(",".join([i["id"] for i in response.json["data"]])))
-        if len(response.json["data"]) == 3:
-            break
-
+    response = self.app.get("/tenders")
+    self.assertTrue(ids.startswith(",".join([i["id"] for i in response.json["data"]])))
     self.assertEqual(len(response.json["data"]), 3)
     self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in tenders]))
     self.assertEqual(set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in tenders]))
     self.assertEqual([i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in tenders]))
 
-    while True:
-        response = self.app.get("/tenders?offset={}".format(offset))
-        self.assertEqual(response.status, "200 OK")
-        if len(response.json["data"]) == 1:
-            break
+    response = self.app.get(f"/tenders?offset={offset}")
+    self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 1)
 
     response = self.app.get("/tenders?limit=2")
@@ -496,6 +489,7 @@ def create_tender_generated(self):
     tender = response.json["data"]
     fields = [
         "id",
+        "dateCreated",
         "dateModified",
         "tenderID",
         "status",
@@ -576,7 +570,7 @@ def create_tender(self):
         tender_set.remove("causeDescription")
     self.assertEqual(
         tender_set - set(self.initial_data),
-        {"id", "date", "dateModified", "owner", "tenderID", "status", "procurementMethod"},
+        {"id", "date", "dateModified", "dateCreated", "owner", "tenderID", "status", "procurementMethod"},
     )
     self.assertIn(tender["id"], response.headers["Location"])
 
@@ -689,7 +683,7 @@ def patch_tender(self):
         }]
     )
 
-    revisions = self.db.get(tender["id"]).get("revisions")
+    revisions = self.mongodb.tenders.get(tender["id"]).get("revisions")
     self.assertEqual(revisions[-1]["changes"][0]["op"], "remove")
     self.assertEqual(revisions[-1]["changes"][0]["path"], "/procurementMethodRationale")
 
@@ -779,11 +773,11 @@ def patch_tender(self):
     )
     self.assertEqual(response.status, "201 Created")
 
-    save_tender = self.db.get(tender["id"])
+    save_tender = self.mongodb.tenders.get(tender["id"])
     for i in save_tender.get("awards", []):
         if i.get("complaintPeriod", {}):  # works for negotiation tender
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(save_tender)
+    self.mongodb.tenders.save(save_tender)
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(tender["id"], contract_id, owner_token),
@@ -1016,11 +1010,11 @@ def single_award_tender(self):
     contract_id = response.json["data"]["contracts"][-1]["id"]
 
     # time travel
-    tender = self.db.get(tender_id)
+    tender = self.mongodb.tenders.get(tender_id)
     for i in tender.get("awards", []):
         if i.get("complaintPeriod", {}):  # reporting procedure does not have complaintPeriod
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     # sign contract
     self.app.patch_json(
@@ -1062,11 +1056,11 @@ def single_award_tender(self):
     self.assertEqual(contract["awardID"], award_id)
 
     # time travel
-    tender = self.db.get(tender_id)
+    tender = self.mongodb.tenders.get(tender_id)
     for i in tender.get("awards", []):
         if i.get("complaintPeriod", {}):  # reporting procedure does not have complaintPeriod
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     # set award to cancelled
     response = self.app.patch_json(
@@ -1163,11 +1157,11 @@ def multiple_awards_tender(self):
     self.assertEqual(contract["awardID"], award_id)
 
     # time travel
-    tender = self.db.get(tender_id)
+    tender = self.mongodb.tenders.get(tender_id)
     for i in tender.get("awards", []):
         if i.get("complaintPeriod", {}):  # reporting procedure does not have complaintPeriod
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     # sign contract
     self.app.patch_json(
@@ -1329,11 +1323,11 @@ def tender_cancellation(self):
     response = self.app.get("/tenders/{}".format(tender_id))
     contract_id = response.json["data"]["contracts"][-1]["id"]
 
-    tender = self.db.get(tender_id)
+    tender = self.mongodb.tenders.get(tender_id)
     for i in tender.get("awards", []):
         if i.get("complaintPeriod", {}):  # works for negotiation tender
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))

@@ -17,7 +17,7 @@ class BaseRequirementResponseEvidenceResource(APIResource):
         evidence = self.request.validated["evidence"]
         self.request.context.evidences.append(evidence)
         self.pre_save()
-        if save_tender(self.request):
+        if save_tender(self.request, validate=True):
             self.LOGGER.info(
                 "Created {} requirement response evidence {}".format(context_name, evidence.id),
                 extra=context_unpack(

@@ -272,7 +272,7 @@ def reset_auction_period(self):
     )
     self.assertEqual(
         response.json["data"]["next_check"],
-        self.db.get(self.tender_id)["next_check"]
+        self.mongodb.tenders.get(self.tender_id)["next_check"]
     )
     tender_period_end_date = response.json["data"]["tenderPeriod"]["endDate"]
     response, item = check_chronograph(auction_period_data={"startDate": tender_period_end_date})
@@ -289,7 +289,7 @@ def reset_auction_period(self):
     )
 
     self.assertGreater(
-        self.db.get(self.tender_id)["next_check"],
+        self.mongodb.tenders.get(self.tender_id)["next_check"],
         response.json["data"]["tenderPeriod"]["endDate"]
     )
 
@@ -301,7 +301,7 @@ def reset_auction_period(self):
         response.json["data"]["tenderPeriod"]["endDate"]
     )
     self.assertNotIn("next_check", response.json["data"])
-    self.assertNotIn("next_check", self.db.get(self.tender_id))
+    self.assertNotIn("next_check", self.mongodb.tenders.get(self.tender_id))
     shouldStartAfter = item["auctionPeriod"]["shouldStartAfter"]
 
     response, item = check_chronograph()
@@ -347,9 +347,9 @@ def switch_from_pending_to_ignored(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.json["data"]["status"], "claim")
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     tender["complaints"][0]["status"] = "pending"
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["complaints"][0]["status"], "ignored")
@@ -367,12 +367,12 @@ def switch_from_pending(self):
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.json["data"]["status"], "claim")
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     for index, status in enumerate(["invalid", "resolved", "declined"]):
         tender["complaints"][index]["status"] = "pending"
         tender["complaints"][index]["resolutionType"] = status
         tender["complaints"][index]["dateEscalated"] = "2017-06-01"
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.check_chronograph()
     for index, status in enumerate(["invalid", "resolved", "declined"]):
@@ -400,11 +400,11 @@ def switch_to_complaint(self):
         self.assertEqual(response.json["data"]["status"], "answered")
         self.assertEqual(response.json["data"]["resolutionType"], status)
 
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         tender["complaints"][-1]["dateAnswered"] = (
             get_now() - timedelta(days=1 if "procurementMethodDetails" in tender else 4)
         ).isoformat()
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
 
         response = self.check_chronograph()
         self.assertEqual(response.json["data"]["complaints"][-1]["status"], status)
@@ -427,10 +427,10 @@ def award_switch_to_ignored_on_complete(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     contract_id = response.json["data"]["contracts"][-1]["id"]
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     for i in tender.get("awards", []):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
@@ -457,9 +457,9 @@ def award_switch_from_pending_to_ignored(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.json["data"]["status"], "claim")
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     tender["awards"][0]["complaints"][0]["status"] = "pending"
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["awards"][0]["complaints"][0]["status"], "ignored")
@@ -478,12 +478,12 @@ def award_switch_from_pending(self):
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.json["data"]["status"], "claim")
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     for index, status in enumerate(["invalid", "resolved", "declined"]):
         tender["awards"][0]["complaints"][index]["status"] = "pending"
         tender["awards"][0]["complaints"][index]["resolutionType"] = status
         tender["awards"][0]["complaints"][index]["dateEscalated"] = "2017-06-01"
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.check_chronograph()
     for index, status in enumerate(["invalid", "resolved", "declined"]):
@@ -515,11 +515,11 @@ def award_switch_to_complaint(self):
         self.assertEqual(response.json["data"]["status"], "answered")
         self.assertEqual(response.json["data"]["resolutionType"], status)
 
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         tender["awards"][0]["complaints"][-1]["dateAnswered"] = (
             get_now() - timedelta(days=1 if "procurementMethodDetails" in tender else 4)
         ).isoformat()
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
 
         response = self.check_chronograph()
         self.assertEqual(response.json["data"]["awards"][0]["complaints"][-1]["status"], status)

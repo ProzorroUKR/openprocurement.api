@@ -1231,10 +1231,10 @@ def get_tender_award_complaints(self):
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     for i in tender.get("awards", []):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
@@ -1756,9 +1756,9 @@ def create_tender_award_complaint_not_active(self):
 
     # time shift
     # make post complaint not in complaintPeriod
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     tender["awards"][-1]["complaintPeriod"]["endDate"] = tender["awards"][-1]["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award_id, self.bid_token),

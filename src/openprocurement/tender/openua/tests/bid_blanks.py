@@ -258,12 +258,12 @@ def create_tender_bidder(self):
     #     {"data": {"tenderPeriod": data["tenderPeriod"]}},
     # )
     # self.assertEqual(response.status, "200 OK")
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     tender["tenderPeriod"] = {
         "startDate": (now + timedelta(days=1)).isoformat(),
         "endDate": (now + timedelta(days=17)).isoformat()
     }
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -442,9 +442,9 @@ def create_bid_after_removing_lot(self):
     self.assertNotIn("parameters", bid)
 
     # removing tender lots
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     del tender["lots"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.app.get(f"/tenders/{self.tender_id}")
     self.assertNotIn("lots", response.json["data"])
@@ -540,7 +540,7 @@ def delete_tender_bidder(self):
     self.assertFalse("tenderers" in response.json["data"])
     self.assertFalse("date" in response.json["data"])
 
-    revisions = self.db.get(self.tender_id).get("revisions")
+    revisions = self.mongodb.tenders.get(self.tender_id).get("revisions")
     self.assertTrue(any([i for i in revisions[-2]["changes"] if i["op"] == "remove" and i["path"] == "/bids"]))
     self.assertTrue(
         any([i for i in revisions[-1]["changes"] if i["op"] == "replace" and i["path"] == "/bids/0/status"])
@@ -1891,7 +1891,7 @@ def put_tender_bidder_document_json(self):
         )
 
     # check how data is stored in db
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     bid = tender["bids"][0]
     self.assertEqual(self.bid_id, bid["id"])
 
@@ -2002,7 +2002,7 @@ def tender_bidder_confidential_document(self):
         )
 
     # switch to active.awarded
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     tender["status"] = "active.awarded"
     bid = [b for b in tender["bids"] if b["id"] == self.bid_id][0]
     tender["awards"] = [
@@ -2016,7 +2016,7 @@ def tender_bidder_confidential_document(self):
             "suppliers": bid["tenderers"],
         }
     ]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     # get list as tender owner
     response = self.app.get(
@@ -2836,7 +2836,7 @@ def doc_date_modified(self):
 
 def patch_tender_with_bids_lots_none(self):
     bid = self.test_bids_data[0].copy()
-    lots = self.db.get(self.tender_id).get("lots")
+    lots = self.mongodb.tenders.get(self.tender_id).get("lots")
 
     set_bid_lotvalues(bid, lots)
 

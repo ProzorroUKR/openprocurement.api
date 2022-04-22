@@ -419,6 +419,7 @@ def create_tender_generated(self):
         {
             "procurementMethodType",
             "id",
+            "dateCreated",
             "dateModified",
             "tenderID",
             "status",
@@ -492,7 +493,7 @@ def patch_tender(self):
     self.assertEqual(tender, new_tender)
     self.assertNotEqual(dateModified, new_dateModified)
 
-    revisions = self.db.get(tender["id"]).get("revisions")
+    revisions = self.mongodb.tenders.get(tender["id"]).get("revisions")
     self.assertTrue(
         any(
             [
@@ -1136,10 +1137,10 @@ def multiple_bidders_tender(self):
     self.app.authorization = ("Basic", ("chronograph", ""))
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
-    tender = self.db.get(tender_id)
+    tender = self.mongodb.tenders.get(tender_id)
     for i in tender.get("awards", []):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.patch_json(
@@ -1209,9 +1210,9 @@ def lost_contract_for_active_award(self):
         {"data": {"status": "active", "qualified": True, "eligible": True}},
     )
     # lost contract
-    tender = self.db.get(tender_id)
+    tender = self.mongodb.tenders.get(tender_id)
     del tender["contracts"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
     # create lost contract
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.awarded")
@@ -1219,10 +1220,10 @@ def lost_contract_for_active_award(self):
     self.assertNotIn("next_check", response.json["data"])
     contract_id = response.json["data"]["contracts"][-1]["id"]
     # time travel
-    tender = self.db.get(tender_id)
+    tender = self.mongodb.tenders.get(tender_id)
     for i in tender.get("awards", []):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.patch_json(

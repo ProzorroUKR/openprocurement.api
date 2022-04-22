@@ -11,7 +11,7 @@ from dataclasses import dataclass, fields
 from pymongo import MongoClient, ReturnDocument, DESCENDING, ASCENDING, ReadPreference
 from pymongo.write_concern import WriteConcern
 from pymongo.read_concern import ReadConcern
-from bson.codec_options import TypeRegistry
+from bson.codec_options import TypeRegistry, TypeCodec
 from bson.codec_options import CodecOptions
 from bson.decimal128 import Decimal128
 from decimal import Decimal
@@ -246,13 +246,30 @@ class MongodbResourceConflict(Exception):
     """
 
 
-def fallback_encoder(value):
-    if isinstance(value, Decimal):
+# def fallback_encoder(value):
+#     if isinstance(value, Decimal):
+#         return Decimal128(value)
+#     return value
+
+
+class DecimalCodec(TypeCodec):
+    python_type = Decimal    # the Python type acted upon by this type codec
+    bson_type = Decimal128   # the BSON type acted upon by this type codec
+
+    def transform_python(self, value):
+        """Function that transforms a custom type value into a type
+        that BSON can encode."""
         return Decimal128(value)
-    return value
+
+    def transform_bson(self, value):
+        """Function that transforms a vanilla BSON type value into our
+        custom type."""
+        return value.to_decimal()
 
 
-type_registry = TypeRegistry(fallback_encoder=fallback_encoder)
+type_registry = TypeRegistry([
+    DecimalCodec(),
+])
 codec_options = CodecOptions(type_registry=type_registry)
 COLLECTION_CLASSES = {}
 
@@ -382,6 +399,11 @@ class MongodbStore:
     @staticmethod
     def flush(collection):
         result = collection.delete_many({})
+        return result
+
+    @staticmethod
+    def delete(collection, uid):
+        result = collection.delete_one({"_id": uid})
         return result
 
     @staticmethod

@@ -37,7 +37,7 @@ class BaseQualificationMilestoneResource(APIResource):
         tender = self.request.validated["tender"]
         milestone = self.request.validated["milestone"]
         self.context.milestones.append(milestone)
-        if save_tender(self.request):
+        if save_tender(self.request, validate=True):
             self.LOGGER.info(
                 "Created tender {} milestone {}".format(self.context_name, milestone.id),
                 extra=context_unpack(

@@ -574,6 +574,7 @@ X-Content-Type-Options: nosniff
     ],
     "date": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
+    "dateCreated": "2021-03-16T00:00:00+02:00",
     "tenderID": "UA-2021-03-16-000001",
     "questions": [
       {
@@ -1298,7 +1299,6 @@ X-Content-Type-Options: nosniff
         "status": "pending"
       }
     ],
-    "id": "17a82f12536e405c88db7f654bb215f5",
     "qualificationPeriod": {
       "startDate": "2021-03-16T00:00:00+02:00"
     },
@@ -1327,7 +1327,8 @@ X-Content-Type-Options: nosniff
         "qualified": false,
         "eligible": false
       }
-    ]
+    ],
+    "id": "17a82f12536e405c88db7f654bb215f5"
   }
 }
 

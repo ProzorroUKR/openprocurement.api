@@ -115,7 +115,7 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
                 )
 
         # qualification milestone creation
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         tender["procurementMethodType"] = "aboveThresholdEU"
         tender["title_en"] = " "
         tender["procuringEntity"]["name_en"] = " "
@@ -133,7 +133,7 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
             }
         ]
         del tender["awards"]
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
 
         with freeze_time("2020-05-02 02:00:20"):
             with open(TARGET_DIR + '24hours/qualification-milestone-post.http', 'w') as self.app.file_obj:

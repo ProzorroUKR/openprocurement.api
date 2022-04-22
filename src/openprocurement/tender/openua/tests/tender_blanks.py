@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
+from datetime import timedelta, datetime
 from copy import deepcopy
 
 from openprocurement.api.models import get_now
@@ -45,7 +45,8 @@ def empty_listing(self):
     self.assertIn('{\n    "', response.body.decode())
     self.assertIn("callback({", response.body.decode())
 
-    response = self.app.get("/tenders?offset=2015-01-01T00:00:00+02:00&descending=1&limit=10")
+    offset = datetime.fromisoformat("2015-01-01T00:00:00+02:00").timestamp()
+    response = self.app.get(f"/tenders?offset={offset}&descending=1&limit=10")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"], [])
@@ -61,13 +62,14 @@ def empty_listing(self):
     self.assertEqual(response.json["next_page"]["offset"], "")
     self.assertNotIn("prev_page", response.json)
 
-    response = self.app.get("/tenders?feed=changes&offset=0", status=404)
+    response = self.app.get("/tenders?feed=changes&offset=2015-01-01T00:00:00+02:00", status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": "Offset expired/invalid", "location": "url", "name": "offset"}],
+        [{"description": "Invalid offset provided: 2015-01-01T00:00:00 02:00",
+          "location": "querystring", "name": "offset"}],
     )
 
     response = self.app.get("/tenders?feed=changes&descending=1&limit=10")
@@ -497,6 +499,7 @@ def create_tender_generated(self):
         "procurementMethodType",
         "id",
         "dateModified",
+        "dateCreated",
         "tenderID",
         "status",
         "enquiryPeriod",
@@ -541,6 +544,7 @@ def tender_fields(self):
         {
             "id",
             "dateModified",
+            "dateCreated",
             "enquiryPeriod",
             "auctionPeriod",
             "complaintPeriod",
@@ -566,6 +570,7 @@ def tender_fields(self):
     self.assertEqual(tender["status"], "complete")
     expected_keys = {
         "id",
+        "dateCreated",
         "dateModified",
         "enquiryPeriod",
         "auctionPeriod",
@@ -673,7 +678,7 @@ def patch_tender(self):
     self.assertEqual(tender, new_tender)
     self.assertNotEqual(dateModified, new_dateModified)
 
-    revisions = self.db.get(tender["id"]).get("revisions")
+    revisions = self.mongodb.tenders.get(tender["id"]).get("revisions")
     self.assertTrue(
         any(
             [
@@ -1178,10 +1183,10 @@ def first_bid_tender(self):
     self.app.authorization = ("Basic", ("chronograph", ""))
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
-    tender = self.db.get(tender_id)
+    tender = self.mongodb.tenders.get(tender_id)
     for i in tender.get("awards", []):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.patch_json(
@@ -1264,9 +1269,9 @@ def lost_contract_for_active_award(self):
         {"data": {"status": "active", "qualified": True, "eligible": True}},
     )
     # lost contract
-    tender = self.db.get(tender_id)
+    tender = self.mongodb.tenders.get(tender_id)
     del tender["contracts"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
     # we no longer calculate next_check in get methods
     # check tender
     # response = self.app.get("/tenders/{}".format(tender_id))
@@ -1280,10 +1285,10 @@ def lost_contract_for_active_award(self):
     self.assertNotIn("next_check", response.json["data"])
     contract_id = response.json["data"]["contracts"][-1]["id"]
     # time travel
-    tender = self.db.get(tender_id)
+    tender = self.mongodb.tenders.get(tender_id)
     for i in tender.get("awards", []):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.patch_json(

@@ -35,6 +35,7 @@ class BaseTenderOwnershipChangeTest(BaseTenderWebTest):
     initial_data = test_tender_data
     first_owner = "brokerx"
     initial_auth = ("Basic", (first_owner, ""))
+    enable_couch = True
     database_keys = ("transfers",)
 
     def setUp(self):
@@ -234,9 +235,9 @@ class TenderOwnershipChangeTest(BaseTenderOwnershipChangeTest):
         )
 
         # set test mode and try to change ownership
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         tender["mode"] = "test"
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
 
         with change_auth(self.app, ("Basic", (self.test_owner, ""))):
             response = self.app.post_json(
@@ -275,7 +276,7 @@ class TenderOwnershipChangeTest(BaseTenderOwnershipChangeTest):
     def test_accreditation_level_central(self):
         # test level permits to change ownership for 'central' kind tenders
         # first try on non 5th level broker
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         tender["procuringEntity"]["kind"] = "central"
         tender["buyers"] = [{
             "id": uuid.uuid4().hex,
@@ -284,7 +285,7 @@ class TenderOwnershipChangeTest(BaseTenderOwnershipChangeTest):
         }]
         for item in tender["items"]:
             item["relatedBuyer"] = tender["buyers"][0]["id"]
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
 
         # create Transfer with second owner
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
@@ -619,9 +620,9 @@ class TenderOwnerOwnershipChangeTest(BaseTenderOwnershipChangeTest):
         transfer = response.json["data"]
         transfer_tokens = response.json["access"]
 
-        tender_doc = self.db.get(self.tender_id)
+        tender_doc = self.mongodb.tenders.get(self.tender_id)
         tender_doc["owner"] = "deleted_broker"
-        self.db.save(tender_doc)
+        self.mongodb.tenders.save(tender_doc)
 
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
             response = self.app.post_json(

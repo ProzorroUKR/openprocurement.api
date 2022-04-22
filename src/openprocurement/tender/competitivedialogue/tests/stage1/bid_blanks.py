@@ -1991,7 +1991,7 @@ def bids_view_j1446(self):
 
 def patch_tender_with_bids_lots_none(self):
     bid = self.test_bids_data[0].copy()
-    lots = self.db.get(self.tender_id).get("lots")
+    lots = self.mongodb.tenders.get(self.tender_id).get("lots")
 
     bid["lotValues"] = [{"relatedLot": lot["id"]} for lot in lots]
 

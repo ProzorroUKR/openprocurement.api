@@ -15,7 +15,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_with_required_unit,
 )
 
-from openprocurement.tender.openua.tests.tender import TenderUaProcessTestMixin, TenderTestMixin
+from openprocurement.tender.openua.tests.tender import TenderUaProcessTestMixin
 from openprocurement.tender.openua.tests.tender_blanks import (
     # TenderUAResourceTest
     empty_listing,
@@ -30,7 +30,6 @@ from openprocurement.tender.openuadefense.tests.base import (
     test_bids,
     BaseApiWebTest,
 )
-from openprocurement.tender.openuadefense.models import Tender
 from openprocurement.tender.openuadefense.tests.tender_blanks import (
     # TenderUAResourceTest
     create_tender_invalid,
@@ -43,11 +42,6 @@ from openprocurement.tender.openuadefense.tests.tender_blanks import (
     one_invalid_bid_tender_after_new,
     one_invalid_bid_tender_before_new,
 )
-
-
-class TenderUATest(TenderTestMixin, BaseApiWebTest):
-    tender_model = Tender
-    initial_data = test_tender_data
 
 
 class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin):
@@ -122,7 +116,6 @@ def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderUAProcessTest))
     suite.addTest(unittest.makeSuite(TenderUAResourceTest))
-    suite.addTest(unittest.makeSuite(TenderUATest))
     return suite
 
 

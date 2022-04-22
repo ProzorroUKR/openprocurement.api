@@ -736,11 +736,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             i += 1
 
         # Time travel to agreement.contractPeriod.clarificationsUntil
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         tender['contractPeriod']['startDate'] = (
                 get_now() - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=1)).isoformat()
         tender['contractPeriod']['clarificationsUntil'] = (get_now() - timedelta(days=1)).isoformat()
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
 
         # Uploading contract documentation
 
@@ -822,10 +822,10 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         # self.contract_id = response.json['data'][0]['id']
 
         # Rollback agreement signing
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         tender['status'] = 'active.tendering'
         tender['agreements'][0]['status'] = 'pending'
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
 
         # Preparing the cancellation request
         with open(TARGET_DIR + 'prepare-cancellation.http', 'w') as self.app.file_obj:
@@ -897,11 +897,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         # transfer agreement to unsuccessful
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         tender['status'] = 'active.awarded'
         tender['agreements'][0]['status'] = 'pending'
         del tender['cancellations']
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
 
         with open(TARGET_DIR + 'agreement-unsuccessful.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(

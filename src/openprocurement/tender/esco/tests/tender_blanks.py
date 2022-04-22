@@ -623,25 +623,24 @@ def tender_fields(self):
         tender_set.remove("procurementMethodDetails")
     self.assertEqual(
         tender_set - set(self.initial_data),
-        set(
-            [
-                "id",
-                "criteria",
-                "dateModified",
-                "enquiryPeriod",
-                "auctionPeriod",
-                "complaintPeriod",
-                "tenderID",
-                "status",
-                "procurementMethod",
-                "awardCriteria",
-                "submissionMethod",
-                "next_check",
-                "owner",
-                "date",
-                "noticePublicationDate",
-            ]
-        ),
+        {
+            "id",
+            "criteria",
+            "dateModified",
+            "dateCreated",
+            "enquiryPeriod",
+            "auctionPeriod",
+            "complaintPeriod",
+            "tenderID",
+            "status",
+            "procurementMethod",
+            "awardCriteria",
+            "submissionMethod",
+            "next_check",
+            "owner",
+            "date",
+            "noticePublicationDate",
+        },
     )
 
 
@@ -691,7 +690,7 @@ def patch_tender(self):
     self.assertEqual(tender, new_tender)
     self.assertNotEqual(dateModified, new_dateModified)
 
-    revisions = self.db.get(tender["id"]).get("revisions")
+    revisions = self.mongodb.tenders.get(tender["id"]).get("revisions")
     self.assertTrue(
         any(
             [
@@ -902,36 +901,35 @@ def tender_with_nbu_discount_rate(self):
         tender.pop("noticePublicationDate")
     self.assertEqual(
         set(tender),
-        set(
-            [
-                "procurementMethodType",
-                "id",
-                "criteria",
-                "dateModified",
-                "tenderID",
-                "status",
-                "enquiryPeriod",
-                "tenderPeriod",
-                "auctionPeriod",
-                "complaintPeriod",
-                "items",
-                "minValue",
-                "owner",
-                "minimalStepPercentage",
-                "procuringEntity",
-                "next_check",
-                "procurementMethod",
-                "awardCriteria",
-                "submissionMethod",
-                "title",
-                "title_en",
-                "date",
-                "NBUdiscountRate",
-                "fundingKind",
-                "yearlyPaymentsPercentageRange",
-                "mainProcurementCategory",
-            ]
-        ),
+        {
+            "procurementMethodType",
+            "id",
+            "criteria",
+            "dateModified",
+            "dateCreated",
+            "tenderID",
+            "status",
+            "enquiryPeriod",
+            "tenderPeriod",
+            "auctionPeriod",
+            "complaintPeriod",
+            "items",
+            "minValue",
+            "owner",
+            "minimalStepPercentage",
+            "procuringEntity",
+            "next_check",
+            "procurementMethod",
+            "awardCriteria",
+            "submissionMethod",
+            "title",
+            "title_en",
+            "date",
+            "NBUdiscountRate",
+            "fundingKind",
+            "yearlyPaymentsPercentageRange",
+            "mainProcurementCategory",
+        },
     )
     self.assertNotEqual(data["id"], tender["id"])
 
@@ -1285,6 +1283,7 @@ def create_tender_generated(self):
             "id",
             "criteria",
             "dateModified",
+            "dateCreated",
             "tenderID",
             "status",
             "enquiryPeriod",

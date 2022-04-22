@@ -25,7 +25,6 @@ class TenderBaseResource:
 
     def __init__(self, request, context=None):
         self.request = request
-        self.db = request.registry.db
         self.server_id = request.registry.server_id
         self.LOGGER = getLogger(type(self).__module__)
         # init state class that handles tender business logic

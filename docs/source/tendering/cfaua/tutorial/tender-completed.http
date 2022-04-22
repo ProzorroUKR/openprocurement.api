@@ -9,6 +9,7 @@ X-Content-Type-Options: nosniff
   "data": {
     "title": "футляри до державних нагород",
     "date": "2021-03-16T00:00:01+02:00",
+    "dateCreated": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:01+02:00",
     "tenderID": "UA-2021-03-16-000001",
     "owner": "broker",
@@ -632,7 +633,7 @@ X-Content-Type-Options: nosniff
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amount": "485"
+          "amount": 485
         }
       },
       {
@@ -669,7 +670,7 @@ X-Content-Type-Options: nosniff
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amount": "499"
+          "amount": 499
         }
       },
       {
@@ -706,7 +707,7 @@ X-Content-Type-Options: nosniff
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amount": "5E+2"
+          "amount": 500.0
         }
       },
       {
@@ -745,7 +746,7 @@ X-Content-Type-Options: nosniff
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amount": "485"
+          "amount": 485
         }
       },
       {
@@ -786,7 +787,7 @@ X-Content-Type-Options: nosniff
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amount": "485"
+          "amount": 485
         }
       },
       {
@@ -827,7 +828,7 @@ X-Content-Type-Options: nosniff
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amount": "499"
+          "amount": 499
         }
       },
       {
@@ -868,7 +869,7 @@ X-Content-Type-Options: nosniff
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amount": "5E+2"
+          "amount": 500.0
         }
       }
     ],
@@ -1837,7 +1838,7 @@ X-Content-Type-Options: nosniff
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": true,
-                  "amount": "0.5"
+                  "amount": 0.5
                 }
               },
               {
@@ -1845,7 +1846,7 @@ X-Content-Type-Options: nosniff
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": true,
-                  "amount": "0.5"
+                  "amount": 0.5
                 }
               }
             ],
@@ -1885,7 +1886,7 @@ X-Content-Type-Options: nosniff
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": true,
-                  "amount": "0.5"
+                  "amount": 0.5
                 }
               },
               {
@@ -1893,7 +1894,7 @@ X-Content-Type-Options: nosniff
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": true,
-                  "amount": "0.5"
+                  "amount": 0.5
                 }
               }
             ],
@@ -1933,7 +1934,7 @@ X-Content-Type-Options: nosniff
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": true,
-                  "amount": "0.5"
+                  "amount": 0.5
                 }
               },
               {
@@ -1941,7 +1942,7 @@ X-Content-Type-Options: nosniff
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": true,
-                  "amount": "0.5"
+                  "amount": 0.5
                 }
               }
             ],
@@ -2073,7 +2074,7 @@ X-Content-Type-Options: nosniff
     "minimalStep": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
-      "amount": "5"
+      "amount": 5
     },
     "maxAwardsCount": 4,
     "lots": [
@@ -2211,7 +2212,7 @@ X-Content-Type-Options: nosniff
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
-      "amount": "5E+2"
+      "amount": 500.0
     },
     "agreementDuration": "P3Y3M3D",
     "mainProcurementCategory": "goods",

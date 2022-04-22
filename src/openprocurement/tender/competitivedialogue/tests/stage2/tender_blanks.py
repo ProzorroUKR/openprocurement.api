@@ -32,48 +32,6 @@ from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.core.utils import calculate_tender_business_date
 
 
-def simple_add_cd_tender_eu(self):
-    u = TenderStage2EU(self.test_tender_data_eu)
-    u.tenderID = "EU-X"
-
-    assert u.id is None
-    assert u.rev is None
-
-    u.store(self.db)
-
-    assert u.id is not None
-    assert u.rev is not None
-
-    fromdb = self.db.get(u.id)
-
-    assert u.tenderID == fromdb["tenderID"]
-    assert u.doc_type == "Tender"
-    assert u.procurementMethodType == STAGE_2_EU_TYPE
-
-    u.delete_instance(self.db)
-
-
-def simple_add_cd_tender_ua(self):
-    u = TenderStage2UA(self.test_tender_data_ua)
-    u.tenderID = "UA-X"
-
-    assert u.id is None
-    assert u.rev is None
-
-    u.store(self.db)
-
-    assert u.id is not None
-    assert u.rev is not None
-
-    fromdb = self.db.get(u.id)
-
-    assert u.tenderID == fromdb["tenderID"]
-    assert u.doc_type == "Tender"
-    assert u.procurementMethodType == STAGE_2_UA_TYPE
-
-    u.delete_instance(self.db)
-
-
 # CompetitiveDialogStage2EUResourceTest
 def create_tender_invalid_eu(self):
     request_path = "/tenders"
@@ -650,7 +608,7 @@ def listing(self):
     tokens = []
 
     for i in range(3):
-        offset = get_now().isoformat()
+        offset = get_now().timestamp()
         response = self.app.post_json("/tenders", {"data": self.test_tender_data_eu})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -663,17 +621,14 @@ def listing(self):
 
     # set status to active.tendering
     for tender in tenders:
-        offset = get_now().isoformat()
+        offset = get_now().timestamp()
         response = self.set_tender_status(tender, tokens[tenders.index(tender)], "active.tendering")
         tenders[tenders.index(tender)] = response.json["data"]
 
     ids = ",".join([i["id"] for i in tenders])
 
-    while True:
-        response = self.app.get("/tenders")
-        self.assertTrue(ids.startswith(",".join([i["id"] for i in response.json["data"]])))
-        if len(response.json["data"]) == 3:
-            break
+    response = self.app.get("/tenders")
+    self.assertTrue(ids.startswith(",".join([i["id"] for i in response.json["data"]])))
 
     self.assertEqual(len(response.json["data"]), 3)
     self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
@@ -681,11 +636,8 @@ def listing(self):
     self.assertEqual(set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in tenders]))
     self.assertEqual([i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in tenders]))
 
-    while True:
-        response = self.app.get("/tenders?offset={}".format(offset))
-        self.assertEqual(response.status, "200 OK")
-        if len(response.json["data"]) == 1:
-            break
+    response = self.app.get("/tenders?offset={}".format(offset))
+    self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 1)
 
     response = self.app.get("/tenders?limit=2")
@@ -749,11 +701,8 @@ def listing(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
-    while True:
-        response = self.app.get("/tenders?mode=test")
-        self.assertEqual(response.status, "200 OK")
-        if len(response.json["data"]) == 1:
-            break
+    response = self.app.get("/tenders?mode=test")
+    self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 1)
 
@@ -994,6 +943,7 @@ def create_tender(self):
         {
             "id",
             "dateModified",
+            "dateCreated",
             "enquiryPeriod",
             "tenderPeriod",
             "complaintPeriod",
@@ -1575,7 +1525,7 @@ def tender_Administrator_change(self):
     tender = response.json["data"]
 
     self.app.authorization = ("Basic", ("broker", ""))
-    tender_db = self.db.get(tender["id"])
+    tender_db = self.mongodb.tenders.get(tender["id"])
     identifier = tender_db["shortlistedFirms"][0]["identifier"]
     self.test_bids_data[0]["tenderers"][0]["identifier"]["id"] = identifier["id"]
     self.test_bids_data[0]["tenderers"][0]["identifier"]["scheme"] = identifier["scheme"]
@@ -1726,7 +1676,7 @@ def one_valid_bid_tender_ua(self):
 
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    tender_db = self.db.get(tender["id"])
+    tender_db = self.mongodb.tenders.get(tender["id"])
     identifier = tender_db["shortlistedFirms"][0]["identifier"]
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
@@ -1759,7 +1709,7 @@ def one_invalid_and_1draft_bids_tender(self):
     self.set_status("active.tendering")
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    tender_db = self.db.get(tender["id"])
+    tender_db = self.mongodb.tenders.get(tender["id"])
     identifier = tender_db["shortlistedFirms"][0]["identifier"]
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
@@ -1800,7 +1750,7 @@ def first_bid_tender(self):
     self.set_status("active.tendering")
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    tender_db = self.db.get(tender["id"])
+    tender_db = self.mongodb.tenders.get(tender["id"])
     identifier = tender_db["shortlistedFirms"][0]["identifier"]
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
@@ -1876,10 +1826,10 @@ def first_bid_tender(self):
     self.app.authorization = ("Basic", ("chronograph", ""))
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
-    tender = self.db.get(tender_id)
+    tender = self.mongodb.tenders.get(tender_id)
     for i in tender.get("awards", []):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.patch_json(

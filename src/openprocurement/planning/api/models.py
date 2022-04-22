@@ -5,7 +5,7 @@ from copy import deepcopy
 
 from openprocurement.api.models import OpenprocurementSchematicsDocument as SchematicsDocument
 from openprocurement.api.models import Document as BaseDocument
-from openprocurement.api.models import Model, Period, Revision, IsoDateTimeTypeWithTimestamp
+from openprocurement.api.models import Model, Period
 from openprocurement.api.models import Unit, CPVClassification, Classification, Identifier, Guarantee, Address
 from openprocurement.api.models import schematics_embedded_role, schematics_default_role, IsoDateTimeType, ListType
 from openprocurement.api.utils import get_now, get_first_revision_date, to_decimal

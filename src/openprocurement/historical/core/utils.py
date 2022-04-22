@@ -56,9 +56,16 @@ def extract_doc(request, doc_type):
     if doc_id is None:
         return404(request, "url", "{}_id".format(doc_type.lower()))  # pragma: no cover
     validate_header(request)
-    doc = request.registry.db.get(doc_id)
-    if doc is None or doc.get("doc_type") != doc_type:
-        return404(request, "url", "{}_id".format(doc_type.lower()))
+
+    if doc_type in ("Tender", "Plan"):
+        collection = getattr(request.registry.mongodb, f"{doc_type.lower()}s")
+        doc = collection.get(doc_id)
+        if doc is None:
+            return404(request, "url", "{}_id".format(doc_type.lower()))
+    else:
+        doc = request.registry.db.get(doc_id)
+        if doc is None or doc.get("doc_type") != doc_type:
+            return404(request, "url", "{}_id".format(doc_type.lower()))
 
     revisions = doc.pop("revisions", [])
 

@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.core.events import TenderInitializeEvent
-from openprocurement.tender.core.design import (
-    FIELDS,
-    tenders_by_dateModified_view,
-    tenders_real_by_dateModified_view,
-    tenders_test_by_dateModified_view,
-    tenders_by_local_seq_view,
-    tenders_real_by_local_seq_view,
-    tenders_test_by_local_seq_view,
-)
+# from openprocurement.tender.core.design import (
+#     FIELDS,
+#     tenders_by_dateModified_view,
+#     tenders_real_by_dateModified_view,
+#     tenders_test_by_dateModified_view,
+#     tenders_by_local_seq_view,
+#     tenders_real_by_local_seq_view,
+#     tenders_test_by_local_seq_view,
+# )
 from openprocurement.api.utils import (
     get_now,
     generate_id,
@@ -19,21 +19,21 @@ from openprocurement.api.utils import (
 )
 from openprocurement.tender.core.utils import (
     save_tender,
-    tender_serialize,
+    # tender_serialize,
     optendersresource,
     generate_tender_id,
 )
 from openprocurement.tender.core.validation import validate_tender_data
 
 VIEW_MAP = {
-    "": tenders_real_by_dateModified_view,
-    "test": tenders_test_by_dateModified_view,
-    "_all_": tenders_by_dateModified_view,
+    # "": tenders_real_by_dateModified_view,
+    # "test": tenders_test_by_dateModified_view,
+    # "_all_": tenders_by_dateModified_view,
 }
 CHANGES_VIEW_MAP = {
-    "": tenders_real_by_local_seq_view,
-    "test": tenders_test_by_local_seq_view,
-    "_all_": tenders_by_local_seq_view,
+    # "": tenders_real_by_local_seq_view,
+    # "test": tenders_test_by_local_seq_view,
+    # "_all_": tenders_by_local_seq_view,
 }
 FEED = {"dateModified": VIEW_MAP, "changes": CHANGES_VIEW_MAP}
 
@@ -50,8 +50,8 @@ class TendersResource(APIResourceListing):
         self.VIEW_MAP = VIEW_MAP
         self.CHANGES_VIEW_MAP = CHANGES_VIEW_MAP
         self.FEED = FEED
-        self.FIELDS = FIELDS
-        self.serialize_func = tender_serialize
+        # self.FIELDS = FIELDS
+        # self.serialize_func = tender_serialize
         self.object_name_for_listing = "Tenders"
         self.log_message_id = "tender_list_custom"
 
@@ -214,7 +214,7 @@ class TendersResource(APIResourceListing):
         tender = self.request.validated["tender"]
         tender.id = tender_id
         if not tender.get("tenderID"):
-            tender.tenderID = generate_tender_id(get_now(), self.db, self.server_id)
+            tender.tenderID = generate_tender_id(self.request)
         self.request.registry.notify(TenderInitializeEvent(tender))
         if self.request.json["data"].get("status") == "draft":
             tender.status = "draft"

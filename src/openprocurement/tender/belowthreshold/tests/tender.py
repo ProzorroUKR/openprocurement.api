@@ -14,8 +14,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender,
     invalid_tender_conditions,
     lost_contract_for_active_award,
-    # TenderTest
-    simple_add_tender,
     # TenderResourceTest
     listing,
     get_tender,
@@ -83,11 +81,7 @@ class TenderResourceTestMixin(object):
     test_patch_items_related_buyer_id = snitch(patch_items_related_buyer_id)
 
 
-class TenderTestMixin:
-    test_simple_add_tender = snitch(simple_add_tender)
-
-
-class TenderTest(TenderTestMixin, BaseApiWebTest):
+class TenderTest(BaseApiWebTest):
     docservice = True
     tender_model = Tender
     initial_data = test_tender_data

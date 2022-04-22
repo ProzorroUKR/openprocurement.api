@@ -62,7 +62,7 @@ class TenderStage2EUQuestionResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
 
     #  TODO: fix test
     def create_question_on_item(self):
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         item = tender["items"][0]
         response = self.app.post_json(
             "/tenders/{}/questions".format(self.tender_id),
@@ -109,7 +109,7 @@ class TenderStage2EULotQuestionResourceTest(BaseCompetitiveDialogEUStage2Content
 
     #  TODO: fix test
     def create_question_on_item(self):
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         item = tender["items"][0]
         new_item = deepcopy(item)
         new_item["id"] = uuid4().hex
@@ -117,7 +117,7 @@ class TenderStage2EULotQuestionResourceTest(BaseCompetitiveDialogEUStage2Content
         tender["items"] = [item, new_item]
         for firm in tender["shortlistedFirms"]:
             firm["lots"] = [{"id": self.lots[1]["id"]}]
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
 
         # Create question on item
         response = self.app.post_json(
@@ -192,7 +192,7 @@ class TenderStage2UAQuestionResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
 
     #  TODO: fix test
     def create_question_on_item(self):
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         item = tender["items"][0]
         response = self.app.post_json(
             "/tenders/{}/questions".format(self.tender_id),
@@ -239,7 +239,7 @@ class TenderStage2UALotQuestionResourceTest(BaseCompetitiveDialogUAStage2Content
 
     #  TODO: fix test
     def create_question_on_item(self):
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         item = tender["items"][0]
         new_item = deepcopy(item)
         new_item["id"] = uuid4().hex
@@ -247,7 +247,7 @@ class TenderStage2UALotQuestionResourceTest(BaseCompetitiveDialogUAStage2Content
         tender["items"] = [item, new_item]
         for firm in tender["shortlistedFirms"]:
             firm["lots"] = [{"id": self.lots[1]["id"]}]
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
 
         # Create question on item
         response = self.app.post_json(

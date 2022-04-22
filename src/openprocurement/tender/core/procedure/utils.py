@@ -54,7 +54,7 @@ def delete_nones(data: dict):
             del data[k]
 
 
-def save_tender(request, modified: bool = True) -> bool:
+def save_tender(request, modified: bool = True, insert: bool = False) -> bool:
     tender = request.validated["tender"]
     patch = get_revision_changes(tender, request.validated["tender_src"])
     if patch:
@@ -66,15 +66,17 @@ def save_tender(request, modified: bool = True) -> bool:
             tender["dateModified"] = now.isoformat()
 
         with handle_store_exceptions(request):
-            uid, rev = request.registry.db.save(tender)
-            tender["rev"] = rev
+            request.registry.mongodb.tenders.save(
+                tender,
+                insert=insert,
+            )
             LOGGER.info(
                 "Saved tender {}: dateModified {} -> {}".format(
-                    uid,
+                    tender["_id"],
                     old_date_modified,
                     tender["dateModified"]
                 ),
-                extra=context_unpack(request, {"MESSAGE_ID": "save_tender"}, {"RESULT": rev}),
+                extra=context_unpack(request, {"MESSAGE_ID": "save_tender"}, {"RESULT": tender["_rev"]}),
             )
             return True
     return False

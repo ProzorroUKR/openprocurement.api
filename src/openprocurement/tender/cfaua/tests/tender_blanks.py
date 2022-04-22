@@ -457,36 +457,35 @@ def create_tender_generated(self):
         tender.pop("procurementMethodDetails")
     self.assertEqual(
         set(tender),
-        set(
-            [
-                "procurementMethodType",
-                "id",
-                "criteria",
-                "dateModified",
-                "tenderID",
-                "status",
-                "enquiryPeriod",
-                "tenderPeriod",
-                "complaintPeriod",
-                "minimalStep",
-                "items",
-                "value",
-                "owner",
-                "procuringEntity",
-                "next_check",
-                "procurementMethod",
-                "awardCriteria",
-                "submissionMethod",
-                "title",
-                "title_en",
-                "date",
-                "maxAwardsCount",
-                "agreementDuration",
-                "lots",
-                "mainProcurementCategory",
-                "milestones",
-            ]
-        ),
+        {
+            "procurementMethodType",
+            "id",
+            "criteria",
+            "dateModified",
+            "dateCreated",
+            "tenderID",
+            "status",
+            "enquiryPeriod",
+            "tenderPeriod",
+            "complaintPeriod",
+            "minimalStep",
+            "items",
+            "value",
+            "owner",
+            "procuringEntity",
+            "next_check",
+            "procurementMethod",
+            "awardCriteria",
+            "submissionMethod",
+            "title",
+            "title_en",
+            "date",
+            "maxAwardsCount",
+            "agreementDuration",
+            "lots",
+            "mainProcurementCategory",
+            "milestones",
+        },
     )
     self.assertNotEqual(data["id"], tender["id"])
     self.assertEqual(
@@ -543,7 +542,7 @@ def patch_tender(self):
     self.assertEqual(tender, new_tender)
     self.assertNotEqual(dateModified, new_dateModified)
 
-    revisions = self.db.get(tender["id"]).get("revisions")
+    revisions = self.mongodb.tenders.get(tender["id"]).get("revisions")
     self.assertTrue(
         any(
             [
@@ -1376,10 +1375,10 @@ def multiple_bidders_tender(self):
     self.app.authorization = ("Basic", ("chronograph", ""))
     self.set_status("active.awarded", "end")
     # time travel
-    tender = self.db.get(tender_id)
+    tender = self.mongodb.tenders.get(tender_id)
     for i in tender.get("awards", []):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
     # sign agreement
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.patch_json(
@@ -1448,9 +1447,9 @@ def lost_contract_for_active_award(self):
         {"data": {"status": "active", "qualified": True, "eligible": True}},
     )
     # lost agreement
-    tender = self.db.get(tender_id)
+    tender = self.mongodb.tenders.get(tender_id)
     tender["agreements"] = None
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
     # check tender
     response = self.app.get("/tenders/{}".format(tender_id))
     self.assertEqual(response.json["data"]["status"], "active.awarded")
@@ -1463,10 +1462,10 @@ def lost_contract_for_active_award(self):
     self.assertNotIn("next_check", response.json["data"])
     agreement_id = response.json["data"]["agreements"][-1]["id"]
     # time travel
-    tender = self.db.get(tender_id)
+    tender = self.mongodb.tenders.get(tender_id)
     for i in tender.get("awards", []):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
     # sign agreement
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.patch_json(
@@ -1553,9 +1552,9 @@ def switch_tender_to_active_awarded(self):
 
     # Switch after awardPeriod complete
     # Use timeshift
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     tender["awardPeriod"]["endDate"] = get_now().isoformat()
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.check_chronograph()
     self.assertEqual(response.status, "200 OK")

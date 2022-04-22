@@ -19,6 +19,7 @@ test_framework_data = {
 class BaseFrameworkTest(BaseApiWebTest):
     relative_to = os.path.dirname(__file__)
     docservice = False
+    enable_couch = True
     database_keys = ("frameworks", "submissions", "qualifications", "agreements")
 
 
@@ -26,6 +27,7 @@ class BaseCoreWebTest(BaseWebTest):
     initial_data = None
     initial_status = None
     docservice = False
+    enable_couch = True
     database_keys = ("frameworks", "submissions", "qualifications", "agreements")
 
     framework_id = None
@@ -98,4 +100,5 @@ class BaseCoreWebTest(BaseWebTest):
 class BaseAgreementTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
     docservice = False
+    enable_couch = True
     database_keys = ("frameworks", "submissions", "qualifications", "agreements")

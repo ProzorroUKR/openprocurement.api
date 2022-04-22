@@ -676,7 +676,7 @@ def create_tender_cancellation_document(self):
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
     self.assertEqual("name.doc", response.json["data"]["title"])
-    key = response.json["data"]["url"].split("?")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get(
         "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
@@ -710,12 +710,12 @@ def create_tender_cancellation_document(self):
     )
 
     response = self.app.get(
-        "/tenders/{}/cancellations/{}/documents/{}?{}".format(self.tender_id, self.cancellation_id, doc_id, key)
+        "/tenders/{}/cancellations/{}/documents/{}?download={}".format(self.tender_id, self.cancellation_id, doc_id, key)
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 7)
-    self.assertEqual(response.body, b"content")
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
 
     response = self.app.get(
         "/tenders/{}/cancellations/{}/documents/{}".format(self.tender_id, self.cancellation_id, doc_id)
@@ -774,15 +774,15 @@ def put_tender_cancellation_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    key = response.json["data"]["url"].split("?")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get(
-        "/tenders/{}/cancellations/{}/documents/{}?{}".format(self.tender_id, self.cancellation_id, doc_id, key)
+        "/tenders/{}/cancellations/{}/documents/{}?download={}".format(self.tender_id, self.cancellation_id, doc_id, key)
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 8)
-    self.assertEqual(response.body, b"content2")
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
 
     response = self.app.get(
         "/tenders/{}/cancellations/{}/documents/{}".format(self.tender_id, self.cancellation_id, doc_id)
@@ -802,15 +802,15 @@ def put_tender_cancellation_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    key = response.json["data"]["url"].split("?")[-1]
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get(
-        "/tenders/{}/cancellations/{}/documents/{}?{}".format(self.tender_id, self.cancellation_id, doc_id, key)
+        "/tenders/{}/cancellations/{}/documents/{}?download={}".format(self.tender_id, self.cancellation_id, doc_id, key)
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/msword")
-    self.assertEqual(response.content_length, 8)
-    self.assertEqual(response.body, b"content3")
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
 
     self.set_status("complete")
 

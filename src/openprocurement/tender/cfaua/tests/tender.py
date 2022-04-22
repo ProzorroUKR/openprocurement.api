@@ -4,7 +4,7 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin, TenderTestMixin
+from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     # TenderProcessTest
     invalid_tender_conditions,
@@ -59,7 +59,7 @@ from openprocurement.tender.cfaua.tests.tender_blanks import (
 )
 
 
-class CFAUATenderTest(TenderTestMixin, BaseTenderWebTest):
+class CFAUATenderTest(BaseTenderWebTest):
     docservice = True
     tender_model = CloseFrameworkAgreementUA
     initial_auth = ("Basic", ("broker", ""))

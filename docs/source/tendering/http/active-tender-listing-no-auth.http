@@ -7,14 +7,14 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "id": "0fb28ed17f544dfa8a89ddb534e0b3d9",
-      "dateModified": "2021-03-16T00:00:00+02:00"
+      "dateModified": "2021-03-16T00:00:00+02:00",
+      "id": "0fb28ed17f544dfa8a89ddb534e0b3d9"
     }
   ],
   "next_page": {
-    "offset": "2021-03-16T00:00:00+02:00",
-    "path": "/api/2.5/tenders?offset=2021-03-16T00%3A00%3A00%2B02%3A00",
-    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders?offset=2021-03-16T00%3A00%3A00%2B02%3A00"
+    "offset": 1615845600.0,
+    "path": "/api/2.5/tenders?offset=1615845600.0",
+    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders?offset=1615845600.0"
   }
 }
 

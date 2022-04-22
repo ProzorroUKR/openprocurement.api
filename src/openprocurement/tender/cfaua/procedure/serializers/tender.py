@@ -25,14 +25,6 @@ class CFAUATenderSerializer(TenderBaseSerializer):
     def __init__(self, data: dict):
         super().__init__(data)
 
-        self.private_fields = {
-            "transfer_token",
-            "_rev",
-            "doc_type",
-            "rev",
-            "owner_token",
-            "revisions",
-            "numberOfBids",
-        }
+        self.private_fields = set(self.base_private_fields)
         if data.get("status") in ("draft", "active.tendering"):
             self.private_fields.add("bids")

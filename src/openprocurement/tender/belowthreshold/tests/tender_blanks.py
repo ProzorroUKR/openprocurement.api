@@ -35,31 +35,6 @@ from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 
-
-def simple_add_tender(self):
-
-    u = self.tender_model(self.initial_data)
-    u.tenderID = "UA-X"
-    u.noticePublicationDate = get_now().isoformat()  # esco
-
-    assert u.id is None
-    assert u.rev is None
-
-    u.store(self.db)
-
-    assert u.id is not None
-    assert u.rev is not None
-
-    from_db = self.db.get(u.id)
-
-    assert u.tenderID == from_db["tenderID"]
-    assert u.doc_type == "Tender"
-    assert u.procurementMethodType == from_db["procurementMethodType"]
-    assert from_db["procurementMethodType"] == self.tender_model.procurementMethodType.default
-
-    u.delete_instance(self.db)
-
-
 # TenderResourceTest
 
 
@@ -71,7 +46,7 @@ def listing(self):
     tenders = []
 
     for i in range(3):
-        offset = get_now().isoformat()
+        offset = get_now().timestamp()
         response = self.app.post_json("/tenders", {"data": self.initial_data})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -87,16 +62,13 @@ def listing(self):
             break
 
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in tenders]))
     self.assertEqual(set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in tenders]))
     self.assertEqual([i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in tenders]))
 
-    while True:
-        response = self.app.get("/tenders?offset={}".format(offset))
-        self.assertEqual(response.status, "200 OK")
-        if len(response.json["data"]) == 1:
-            break
+    response = self.app.get("/tenders?offset={}".format(offset))
+    self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 1)
 
     response = self.app.get("/tenders?limit=2")
@@ -117,20 +89,20 @@ def listing(self):
     response = self.app.get("/tenders", params=[("opt_fields", "status")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "status"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified", "status"})
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
     response = self.app.get("/tenders", params=[("opt_fields", "status,enquiryPeriod")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "status"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified", "status"})
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
     response = self.app.get("/tenders?descending=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in tenders]))
     self.assertEqual(
         [i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in tenders], reverse=True)
@@ -164,11 +136,8 @@ def listing(self):
         {"data": {"status": self.primary_tender_status}}
     )
 
-    while True:
-        response = self.app.get("/tenders?mode=test")
-        self.assertEqual(response.status, "200 OK")
-        if len(response.json["data"]) == 1:
-            break
+    response = self.app.get("/tenders?mode=test")
+    self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 1)
 
     response = self.app.get("/tenders?mode=_all_")
@@ -192,11 +161,8 @@ def listing_changes(self):
 
     ids = ",".join([i["id"] for i in tenders])
 
-    while True:
-        response = self.app.get("/tenders?feed=changes")
-        self.assertTrue(ids.startswith(",".join([i["id"] for i in response.json["data"]])))
-        if len(response.json["data"]) == 3:
-            break
+    response = self.app.get("/tenders?feed=changes")
+    self.assertTrue(ids.startswith(",".join([i["id"] for i in response.json["data"]])))
 
     self.assertEqual(",".join([i["id"] for i in response.json["data"]]), ids)
     self.assertEqual(response.status, "200 OK")
@@ -1184,6 +1150,7 @@ def create_tender_generated(self):
             "id",
             "date",
             "dateModified",
+            "dateCreated",
             "tenderID",
             "status",
             "criteria",
@@ -1518,6 +1485,7 @@ def tender_fields(self):
         {
             "id",
             "dateModified",
+            "dateCreated",
             "criteria",
             "tenderID",
             "date",
@@ -1908,7 +1876,7 @@ def patch_tender(self):
         [{"location": "body", "name": "dateModified", "description": "Rogue field"}]
     )
 
-    revisions = self.db.get(tender["id"]).get("revisions")
+    revisions = self.mongodb.tenders.get(tender["id"]).get("revisions")
     self.assertEqual(revisions[-1]["changes"][0]["op"], "remove")
     self.assertEqual(revisions[-1]["changes"][0]["path"], "/procurementMethodRationale")
 
@@ -1988,9 +1956,9 @@ def patch_tender(self):
     # self.assertEqual(response.content_type, 'application/json')
     # self.assertIn('auctionUrl', response.json['data'])
 
-    tender_data = self.db.get(tender["id"])
+    tender_data = self.mongodb.tenders.get(tender["id"])
     tender_data["status"] = "complete"
-    self.db.save(tender_data)
+    self.mongodb.tenders.save(tender_data)
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"status": "active.auction"}}, status=403
@@ -2091,13 +2059,6 @@ def tender_not_found(self):
     self.assertEqual(
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
-
-    # put custom document object into database to check tender construction on non-Tender data
-    data = {"contract": "test", "_id": uuid4().hex}
-    self.db.save(data)
-
-    response = self.app.get("/tenders/{}".format(data["_id"]), status=404)
-    self.assertEqual(response.status, "404 Not Found")
 
 
 def guarantee(self):
@@ -2312,10 +2273,10 @@ def one_valid_bid_tender(self):
     self.app.authorization = ("Basic", ("chronograph", ""))
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
-    tender = self.db.get(tender_id)
+    tender = self.mongodb.tenders.get(tender_id)
     for i in tender.get("awards", []):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.patch_json(
@@ -2357,10 +2318,10 @@ def one_invalid_bid_tender(self):
         {"data": {"status": "unsuccessful"}},
     )
     # time travel
-    tender = self.db.get(tender_id)
+    tender = self.mongodb.tenders.get(tender_id)
     for i in tender.get("awards", []):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
     # set tender status after stand slill period
     response = self.check_chronograph()
     # check status
@@ -2492,10 +2453,10 @@ def first_bid_tender(self):
     self.app.authorization = ("Basic", ("chronograph", ""))
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
-    tender = self.db.get(tender_id)
+    tender = self.mongodb.tenders.get(tender_id)
     for i in tender.get("awards", []):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.patch_json(
@@ -2577,9 +2538,9 @@ def lost_contract_for_active_award(self):
     )
     # TBH, doesn't look like a case
     # lost contract
-    # tender = self.db.get(tender_id)
+    # tender = self.mongodb.tenders.get(tender_id)
     # del tender["contracts"]
-    # self.db.save(tender)
+    # self.mongodb.tenders.save(tender)
     # # check tender
     # response = self.app.get("/tenders/{}".format(tender_id))
     # self.assertEqual(response.json["data"]["status"], "active.awarded")
@@ -2592,10 +2553,10 @@ def lost_contract_for_active_award(self):
     self.assertNotIn("next_check", response.json["data"])
     contract_id = response.json["data"]["contracts"][-1]["id"]
     # time travel
-    tender = self.db.get(tender_id)
+    tender = self.mongodb.tenders.get(tender_id)
     for i in tender.get("awards", []):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.patch_json(
@@ -3300,9 +3261,9 @@ def get_tender_without_procurement_method_type(self):
     self.assertEqual(response.status, "201 Created")
     tender_id = response.json["data"]["id"]
 
-    tender = self.db.get(tender_id)
+    tender = self.mongodb.tenders.get(tender_id)
     del tender["procurementMethodType"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.app.get(f"/tenders/{tender_id}")
     self.assertEqual(response.status, "200 OK")

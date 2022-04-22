@@ -14,7 +14,7 @@ class BaseRequirementResponseResource(APIResource):
         context_name = self.request.context.__class__.__name__.lower()
 
         self.pre_save()
-        if save_tender(self.request):
+        if save_tender(self.request, validate=True):
             for requirement_response in requirement_responses:
                 self.LOGGER.info(
                     "Created {} requirement response {}".format(context_name, requirement_response.id),

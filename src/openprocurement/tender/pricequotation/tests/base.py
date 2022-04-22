@@ -27,7 +27,8 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
     initial_bids = None
     initial_auth = ("Basic", ("broker", ""))
-    docservice = False
+    docservice = True
+    enable_couch = True
     min_bids_number = MIN_BIDS_NUMBER
     # Statuses for test, that will be imported from others procedures
     primary_tender_status = "draft.publishing"  # status, to which tender should be switched from 'draft'
@@ -153,7 +154,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
     def set_status(self, status, startend="start", extra=None):
         self.now = get_now()
-        self.tender_document = self.db.get(self.tender_id)
+        self.tender_document = self.mongodb.tenders.get(self.tender_id)
         self.tender_document_patch = {"status": status}
         self.patch_tender_bot()
         if status == "active.tendering":
@@ -198,7 +199,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
     @property
     def tender_token(self):
-        data = self.db.get(self.tender_id)
+        data = self.mongodb.tenders.get(self.tender_id)
         award = data['awards'][-1] if data.get('awards') else None
         if award and award['status'] == 'pending':
             bid = [b for b in data['bids'] if b['id'] == award['bid_id']][0]

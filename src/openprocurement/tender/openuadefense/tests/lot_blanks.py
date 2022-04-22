@@ -322,11 +322,11 @@ def two_lot_1bid_0com_1can(self):
         # after stand slill period
         self.set_status("complete", {"status": "active.awarded"})
         # time travel
-        tender = self.db.get(tender_id)
+        tender = self.mongodb.tenders.get(tender_id)
         now = get_now().isoformat()
         for i in tender.get("awards", []):
             i["complaintPeriod"] = {"startDate": now, "endDate": now}
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
         # check tender status
         response = self.check_chronograph()
     # check status
@@ -399,11 +399,11 @@ def two_lot_1bid_2com_1win(self):
         # after stand slill period
         self.set_status("complete", {"status": "active.awarded"})
         # time travel
-        tender = self.db.get(tender_id)
+        tender = self.mongodb.tenders.get(tender_id)
         now = (get_now() - timedelta(minutes=1)).isoformat()
         for i in tender.get("awards", []):
             i["complaintPeriod"] = {"startDate": now, "endDate": now}
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
         # sign contract
         self.app.authorization = ("Basic", ("broker", ""))
         self.app.patch_json(
@@ -478,11 +478,11 @@ def two_lot_1bid_0com_0win(self):
             # after stand slill period
             self.set_status("complete", {"status": "active.awarded"})
             # time travel
-            tender = self.db.get(tender_id)
+            tender = self.mongodb.tenders.get(tender_id)
             now = get_now().isoformat()
             for i in tender.get("awards", []):
                 i["complaintPeriod"] = {"startDate": now, "endDate": now}
-            self.db.save(tender)
+            self.mongodb.tenders.save(tender)
 
     if not new_defence_complaints:
         # check tender status
@@ -558,11 +558,11 @@ def two_lot_1bid_1com_1win(self):
     # after stand slill period
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
-    tender = self.db.get(tender_id)
+    tender = self.mongodb.tenders.get(tender_id)
     now = get_now().isoformat()
     for i in tender.get("awards", []):
         i["complaintPeriod"] = {"startDate": now, "endDate": now}
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     self.app.patch_json(
@@ -584,10 +584,10 @@ def two_lot_1bid_1com_1win(self):
     # after stand still period
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
-    tender = self.db.get(tender_id)
+    tender = self.mongodb.tenders.get(tender_id)
     for i in tender.get("awards", []):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
     # check tender status
     response = self.check_chronograph()
     # check status
@@ -716,11 +716,11 @@ def two_lot_2bid_on_first_and_1_on_second_awarding(self):
 
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
-    tender = self.db.get(tender_id)
+    tender = self.mongodb.tenders.get(tender_id)
     now = (get_now() - timedelta(seconds=1)).isoformat()
     for i in tender.get("awards", []):
         i["complaintPeriod"] = {"startDate": now, "endDate": now}
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.patch_json(
@@ -751,10 +751,10 @@ def two_lot_2bid_on_first_and_1_on_second_awarding(self):
 
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
-    tender = self.db.get(tender_id)
+    tender = self.mongodb.tenders.get(tender_id)
     for i in tender.get("awards", []):
         i["complaintPeriod"] = {"startDate": now, "endDate": now}
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.patch_json(

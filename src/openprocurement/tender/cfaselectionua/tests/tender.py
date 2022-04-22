@@ -5,7 +5,6 @@ from copy import deepcopy
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import set_tender_lots
-from openprocurement.tender.belowthreshold.tests.tender import TenderTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_tender_lots_none,
     tender_milestones_not_required,
@@ -91,11 +90,6 @@ class TenderResourceTestMixin(object):
     test_create_tender_with_available_language = snitch(create_tender_with_available_language)
 
 
-class CFASelectionTenderTest(TenderTestMixin, BaseApiWebTest):
-    docservice = True
-    tender_model = CFASelectionUATender
-    initial_data = tender_data
-
 
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     docservice = True
@@ -137,7 +131,6 @@ def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderProcessTest))
     suite.addTest(unittest.makeSuite(TenderResourceTest))
-    suite.addTest(unittest.makeSuite(CFASelectionTenderTest))
     return suite
 
 

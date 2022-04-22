@@ -4,7 +4,6 @@ from unittest.mock import patch
 from datetime import timedelta
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.tender import TenderTestMixin
 from openprocurement.tender.pricequotation.models import PriceQuotationTender
 from openprocurement.tender.pricequotation.tests.data import test_criteria_1, criteria_drop_uuids, test_short_profile
 from openprocurement.tender.pricequotation.tests.base import (
@@ -83,10 +82,6 @@ class TenderResourceTestMixin:
     test_patch_items_related_buyer_id = snitch(patch_items_related_buyer_id)
 
 
-class TenderTest(TenderTestMixin, BaseApiWebTest):
-    tender_model = PriceQuotationTender
-    initial_data = test_tender_data
-
 
 @patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
        get_now() + timedelta(days=1))
@@ -151,7 +146,6 @@ def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderProcessTest))
     suite.addTest(unittest.makeSuite(TenderResourceTest))
-    suite.addTest(unittest.makeSuite(TenderTest))
     return suite
 
 

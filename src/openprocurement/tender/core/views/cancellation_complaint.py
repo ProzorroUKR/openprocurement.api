@@ -56,7 +56,7 @@ class TenderCancellationComplaintResource(ComplaintBotPatchMixin, ComplaintAdmin
         )
         access = set_ownership(complaint, self.request)
         self.context.complaints.append(complaint)
-        if save_tender(self.request):
+        if save_tender(self.request, validate=True):
             self.LOGGER.info(
                 "Created tender cancellation complaint {}".format(complaint.id),
                 extra=context_unpack(

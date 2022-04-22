@@ -17,6 +17,7 @@ class BaseApiWebTest(BaseWebTest):
 class BaseContractTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
     database_keys = ("contracts",)
+    enable_couch = True
 
 
 class BaseContractWebTest(BaseCoreWebTest):
@@ -25,6 +26,7 @@ class BaseContractWebTest(BaseCoreWebTest):
     initial_auth = ("Basic", ("broker", ""))
     docservice = True
     database_keys = ("contracts",)
+    enable_couch = True
 
     def setUp(self):
         super(BaseContractWebTest, self).setUp()

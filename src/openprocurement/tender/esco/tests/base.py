@@ -73,7 +73,7 @@ class BaseESCOWebTest(BaseTenderWebTest):
     initial_bids = None
     initial_lots = None
     initial_auth = ("Basic", ("broker", ""))
-    docservice = False
+    docservice = True
 
     tender_class = Tender
 

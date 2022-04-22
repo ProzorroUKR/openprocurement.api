@@ -89,7 +89,7 @@ class TenderBidFeaturesResourceTest(TenderContentWebTest):
 
     def setUp(self):
         super(TenderBidFeaturesResourceTest, self).setUp()
-        tender = self.db.get(self.tender_id)
+        tender = self.mongodb.tenders.get(self.tender_id)
         agreement = test_agreement_features
         agreement["contracts"][0]["parameters"] = [
             {"code": "OCDS-123454-AIR-INTAKE", "value": 0.1},
@@ -101,7 +101,7 @@ class TenderBidFeaturesResourceTest(TenderContentWebTest):
         ]
         agreement["id"] = tender["agreements"][0]["id"]
         tender["agreements"] = [agreement]
-        self.db.save(tender)
+        self.mongodb.tenders.save(tender)
 
 
 class TenderBidDocumentWithDSResourceTest(TenderContentWebTest):

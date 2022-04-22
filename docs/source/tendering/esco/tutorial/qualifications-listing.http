@@ -574,6 +574,7 @@ X-Content-Type-Options: nosniff
     ],
     "date": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
+    "dateCreated": "2021-03-16T00:00:00+02:00",
     "tenderID": "UA-2021-03-16-000001",
     "bids": [
       {
@@ -1280,7 +1281,6 @@ X-Content-Type-Options: nosniff
       "startDate": "2021-02-15T00:00:00+02:00",
       "endDate": "2021-03-20T00:00:00+02:00"
     },
-    "id": "1707c4e05c834d2281c4917429aed004",
     "qualificationPeriod": {
       "startDate": "2021-03-16T00:00:00+02:00"
     },
@@ -1309,7 +1309,8 @@ X-Content-Type-Options: nosniff
         "qualified": false,
         "eligible": false
       }
-    ]
+    ],
+    "id": "1707c4e05c834d2281c4917429aed004"
   }
 }
 

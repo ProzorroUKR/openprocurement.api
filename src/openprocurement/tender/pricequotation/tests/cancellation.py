@@ -42,7 +42,7 @@ class TenderCancellationActiveTenderingResourceTest(
 
     @property
     def tender_token(self):
-        data = self.db.get(self.tender_id)
+        data = self.mongodb.tenders.get(self.tender_id)
         return data['owner_token']
 
 

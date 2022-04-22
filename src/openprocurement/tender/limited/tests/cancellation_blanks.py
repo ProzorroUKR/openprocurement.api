@@ -479,11 +479,11 @@ def create_cancellation_on_tender_with_one_complete_lot(self):
     self.assertEqual(response.json["data"]["status"], "active")
 
     # time travel
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     for i in tender.get("awards", []):
         if i.get("complaintPeriod", {}):  # reporting procedure does not have complaintPeriod
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     # Sign contract
     response = self.app.get("/tenders/{}/contracts".format(self.tender_id))

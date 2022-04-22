@@ -45,13 +45,13 @@ def switch_to_unsuccessful(self):
 def switch_to_unsuccessful_by_chronograph(self):
     self.set_status("active.qualification", 'end')
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     two_days_before = calculate_tender_business_date(
         get_now(), -QUALIFICATION_DURATION,
         tender, working_days=True
     ).isoformat()
     tender['awards'][0]['date'] = two_days_before
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.qualification")
@@ -69,9 +69,9 @@ def switch_to_unsuccessful_by_chronograph(self):
     response = self.app.get("/tenders/{}/awards".format(self.tender_id))
     self.assertEqual(len(response.json["data"]), 3)
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     tender['awards'][-1]['date'] = two_days_before
-    self.db.save(tender)
+    self.mongodb.tenders.save(tender)
 
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "unsuccessful")

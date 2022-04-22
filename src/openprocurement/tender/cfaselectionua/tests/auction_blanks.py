@@ -196,7 +196,7 @@ def patch_tender_auction(self):
         [{"description": {"invalid_field": "Rogue field"}, "location": "body", "name": "bids"}],
     )
 
-    tender = self.db.get(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
     lot_id = tender["lots"][0]["id"]
 
     patch_data = {
