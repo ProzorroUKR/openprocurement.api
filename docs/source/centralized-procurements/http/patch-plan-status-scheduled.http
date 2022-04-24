@@ -16,7 +16,7 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "procuringEntity": {
-      "id": "30429c884b234749a850b6bd1e044153",
+      "id": "98d8791dc81c40a69e0eeba3c6c4b1bf",
       "name": "ЦЗО №1",
       "identifier": {
         "scheme": "UA-EDR",
@@ -47,7 +47,7 @@ X-Content-Type-Options: nosniff
       },
       "breakdown": [
         {
-          "id": "1bf7d60f1ad24027a538784c5b6c9bc2",
+          "id": "bd4f8d527d7b420188a1a89f2d6d9670",
           "title": "other",
           "description": "Breakdown other description.",
           "value": {
@@ -72,7 +72,7 @@ X-Content-Type-Options: nosniff
     "planID": "UA-P-2019-05-02-000001",
     "items": [
       {
-        "id": "17c0df4205d34d73b32c735a06a6b533",
+        "id": "69b1bfae5dc342009d35f93db2cd39e9",
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
@@ -98,7 +98,7 @@ X-Content-Type-Options: nosniff
     ],
     "buyers": [
       {
-        "id": "422e3fac1aa846bdb451aff9f215009e",
+        "id": "687860c23fe647f0a2bdd0da9e384d34",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",

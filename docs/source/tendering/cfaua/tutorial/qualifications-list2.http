@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/6f00022409bb4e73b5f698801518e0db/awards?acc_token=a4dab218398a4cc8a8004a91d3ba9744 HTTP/1.0
+GET /api/2.5/tenders/dea691b943a946a8957e9be95bc51a06/awards?acc_token=a4dab218398a4cc8a8004a91d3ba9744 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -39,7 +39,7 @@ X-Content-Type-Options: nosniff
           "scale": "mid"
         }
       ],
-      "bid_id": "f2396c5eb7dc40e986705a3de1cdc13b",
+      "bid_id": "c37e1f57bb514ac38787d82c6de256e7",
       "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
       "qualified": true,
       "eligible": true
@@ -76,7 +76,7 @@ X-Content-Type-Options: nosniff
           "scale": "sme"
         }
       ],
-      "bid_id": "5502be861ff24fa281a68247002d018c",
+      "bid_id": "d1f03fb59b634de9860039587ec4f85d",
       "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
       "qualified": true,
       "eligible": true
@@ -113,7 +113,7 @@ X-Content-Type-Options: nosniff
           "scale": "micro"
         }
       ],
-      "bid_id": "b142414a5dc84ec0a828ba7e3d5f3513",
+      "bid_id": "57508fba450446f89e32ff9cd4d81348",
       "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
       "qualified": true,
       "eligible": true
@@ -150,7 +150,7 @@ X-Content-Type-Options: nosniff
           "scale": "mid"
         }
       ],
-      "bid_id": "f2396c5eb7dc40e986705a3de1cdc13b",
+      "bid_id": "c37e1f57bb514ac38787d82c6de256e7",
       "lotID": "52815e9d01914c7a9bf4ba18ebb5e783"
     }
   ]

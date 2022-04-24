@@ -10,7 +10,7 @@ def get_documents_list(self):
 
 
 def get_document_by_id(self):
-    documents = self.databases.frameworks.get(self.framework_id).get("documents")
+    documents = self.mongodb.frameworks.get(self.framework_id).get("documents")
     for doc in documents:
         response = self.app.get("/frameworks/{}/documents/{}".format(self.framework_id, doc["id"]))
         document = response.json["data"]
@@ -95,7 +95,7 @@ def create_framework_document_json_bulk(self):
     assert_document(doc_1, "name1.doc")
     assert_document(doc_2, "name2.doc")
 
-    framework = self.databases.frameworks.get(self.framework_id)
+    framework = self.mongodb.frameworks.get(self.framework_id)
     doc_1 = framework["documents"][0]
     doc_2 = framework["documents"][1]
     assert_document(doc_1, "name1.doc")
@@ -195,16 +195,10 @@ def put_contract_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    if self.docservice:
-        self.assertIn("Signature=", response.json["data"]["url"])
-        self.assertIn("KeyID=", response.json["data"]["url"])
-        self.assertNotIn("Expires=", response.json["data"]["url"])
-        key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        framework = self.databases.frameworks.get(self.framework_id)
-        self.assertIn(key, framework["documents"][-1]["url"])
-        self.assertIn("Signature=", framework["documents"][-1]["url"])
-        self.assertIn("KeyID=", framework["documents"][-1]["url"])
-        self.assertNotIn("Expires=", framework["documents"][-1]["url"])
+    self.assertIn("Signature=", response.json["data"]["url"])
+    self.assertIn("KeyID=", response.json["data"]["url"])
+    self.assertNotIn("Expires=", response.json["data"]["url"])
+    key = response.json["data"]["url"].split("/")[-1].split("?")[0]
     response = self.app.get("/frameworks/{}/documents/{}".format(self.framework_id, doc_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -252,22 +246,20 @@ def put_contract_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    if self.docservice:
-        self.assertIn("Signature=", response.json["data"]["url"])
-        self.assertIn("KeyID=", response.json["data"]["url"])
-        self.assertNotIn("Expires=", response.json["data"]["url"])
-        key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        framework = self.databases.frameworks.get(self.framework_id)
-        self.assertIn(key, framework["documents"][-1]["url"])
-        self.assertIn("Signature=", framework["documents"][-1]["url"])
-        self.assertIn("KeyID=", framework["documents"][-1]["url"])
-        self.assertNotIn("Expires=", framework["documents"][-1]["url"])
-    else:
-        key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
-    if self.docservice:
-        response = self.app.get("/frameworks/{}/documents/{}".format(self.framework_id, doc_id, key))
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
+
+    self.assertIn("Signature=", response.json["data"]["url"])
+    self.assertIn("KeyID=", response.json["data"]["url"])
+    self.assertNotIn("Expires=", response.json["data"]["url"])
+    key = response.json["data"]["url"].split("/")[-1].split("?")[0]
+    framework = self.mongodb.frameworks.get(self.framework_id)
+    self.assertIn(key, framework["documents"][-1]["url"])
+    self.assertIn("Signature=", framework["documents"][-1]["url"])
+    self.assertIn("KeyID=", framework["documents"][-1]["url"])
+    self.assertNotIn("Expires=", framework["documents"][-1]["url"])
+
+    response = self.app.get("/frameworks/{}/documents/{}".format(self.framework_id, doc_id, key))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
 
     response = self.app.get("/frameworks/{}/documents".format(self.framework_id, self.framework_token))
     self.assertEqual(response.status, "200 OK")

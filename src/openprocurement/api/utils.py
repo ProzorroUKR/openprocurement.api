@@ -5,9 +5,7 @@ from decimal import Decimal
 
 from jsonpointer import JsonPointerException
 from six import b
-import couchdb.json
 import pytz
-from couchdb import util, ResourceConflict
 from logging import getLogger
 from datetime import datetime, timezone
 from base64 import b64encode, b64decode
@@ -18,6 +16,7 @@ from functools import partial
 from ciso8601 import parse_datetime
 from jsonpatch import make_patch, apply_patch
 from schematics.types import StringType, BaseType
+from schematics.models import Model as SchematicsModel
 
 from openprocurement.api.traversal import factory
 from rfc6266 import build_header
@@ -35,7 +34,6 @@ from cornice.util import json_error
 from json import dumps
 
 from schematics.exceptions import ValidationError, ModelValidationError, ModelConversionError
-from couchdb_schematics.document import SchematicsDocument
 from openprocurement.api.events import ErrorDescriptorEvent
 from openprocurement.api.constants import (
     LOGGER,
@@ -130,7 +128,7 @@ def get_filename(data):
 
 
 def get_schematics_document(model):
-    while not isinstance(model, SchematicsDocument):
+    while isinstance(model.__parent__, SchematicsModel):
         model = model.__parent__
     return model
 
@@ -353,19 +351,14 @@ def update_file_content_type(request):  # XXX TODO
     pass
 
 
-def get_file(request, db_key=None):
+def get_file(request):
     db_doc_id = request.validated["db_doc"].id
-    document = request.validated["document"]
     key = request.params.get("download")
     if not any([key in i.url for i in request.validated["documents"]]):
         request.errors.add("url", "download", "Not Found")
         request.errors.status = 404
         return
-    filename = "{}_{}".format(document.id, key)
-    if request.registry.docservice_url and filename not in request.validated["db_doc"]["_attachments"]:
-        return get_file_docservice(request, db_doc_id, key)
-    else:
-        return get_file_attachment(request, document, db_doc_id, filename, db_key=db_key)
+    return get_file_docservice(request, db_doc_id, key)
 
 
 def get_file_docservice(request, db_doc_id, key):
@@ -386,23 +379,6 @@ def get_file_docservice(request, db_doc_id, key):
     request.response.status = "302 Moved Temporarily"
     request.response.location = url
     return url
-
-
-def get_file_attachment(request, document, db_doc_id, filename, db_key=None):
-    if db_key:
-        db = request.registry.databases[db_key]
-    else:
-        db = request.registry.db
-    data = db.get_attachment(db_doc_id, filename)
-    if data:
-        request.response.content_type = document.format
-        request.response.content_disposition = build_header(
-            document.title, filename_compat=quote(document.title.encode("utf-8"))
-        ).decode("utf-8")
-        request.response.body_file = data
-        return request.response
-    request.errors.add("url", "download", "Not Found")
-    request.errors.status = 404
 
 
 def prepare_patch(changes, orig, patch, basepath=""):
@@ -550,218 +526,8 @@ class APIResource(object):
     def __init__(self, request, context):
         self.context = context
         self.request = request
-        self.db = request.registry.db
         self.server_id = request.registry.server_id
         self.LOGGER = getLogger(type(self).__module__)
-
-
-class APIResourceListing(APIResource):
-
-    LIST_SEP = ","
-
-    def __init__(self, request, context=None):
-        super(APIResourceListing, self).__init__(request, context)
-        self.server = request.registry.couchdb_server
-        self.update_after = request.registry.update_after
-
-    @json_view(permission="view_listing")
-    def get(self):
-        params = {}
-        pparams = {}
-        fields = self.request.params.get("opt_fields", "")
-        if fields:
-            fields = set(fields.split(self.LIST_SEP)) & set(self.FIELDS)
-
-        limit = self.request.params.get("limit", "")
-        if limit:
-            params["limit"] = limit
-            pparams["limit"] = limit
-        limit = int(limit) if limit.isdigit() and (100 if fields else 1000) >= int(limit) > 0 else 100
-        descending = bool(self.request.params.get("descending"))
-        offset = self.request.params.get("offset", "")
-        if descending:
-            params["descending"] = 1
-        else:
-            pparams["descending"] = 1
-        feed = self.request.params.get("feed", "")
-        view_map = self.FEED.get(feed, self.VIEW_MAP)
-        changes = view_map is self.CHANGES_VIEW_MAP
-        if feed and feed in self.FEED:
-            params["feed"] = feed
-            pparams["feed"] = feed
-        mode = self.request.params.get("mode", "")
-        if mode and mode in view_map:
-            params["mode"] = mode
-            pparams["mode"] = mode
-        view_limit = limit + 1 if offset else limit
-        if changes:
-            if offset:
-                view_offset = decrypt(self.server.uuid, self.db.name, offset)
-                if view_offset and view_offset.isdigit():
-                    view_offset = int(view_offset)
-                else:
-                    self.request.errors.add("url", "offset", "Offset expired/invalid")
-                    self.request.errors.status = 404
-                    raise error_handler(self.request)
-            if not offset:
-                view_offset = "now" if descending else 0
-        else:
-            if offset:
-                view_offset = offset
-            else:
-                view_offset = "9" if descending else ""
-        list_view = view_map.get(mode, view_map[""])
-        if self.update_after:
-            view = partial(
-                list_view, self.db, limit=view_limit, startkey=view_offset, descending=descending, stale="update_after"
-            )
-        else:
-            view = partial(list_view, self.db, limit=view_limit, startkey=view_offset, descending=descending)
-        if fields:
-            params["opt_fields"] = pparams["opt_fields"] = self.LIST_SEP.join(fields)
-            view_fields = fields | {"dateModified", "id"}
-            if changes:
-                results = [
-                    (
-                        dict(
-                            (i, j)
-                            for i, j in list(x.value.items()) + [('id', x.id)]
-                            if i in view_fields
-                        ),
-                        x.key
-                    )
-                    for x in view()
-                ]
-            else:
-                results = [
-                    (
-                        dict(
-                            [
-                                (i, j)
-                                for i, j in list(x.value.items()) + [("id", x.id), ("dateModified", x.key)]
-                                if i in view_fields
-                            ]
-                        ),
-                        x.key,
-                    )
-                    for x in view()
-                ]
-        else:
-            results = [
-                (
-                    {"id": i.id, "dateModified": i.value["dateModified"]}
-                    if changes
-                    else {"id": i.id, "dateModified": i.key},
-                    i.key,
-                )
-                for i in view()
-            ]
-        if results:
-            params["offset"], pparams["offset"] = results[-1][1], results[0][1]
-            if offset and view_offset == results[0][1]:
-                results = results[1:]
-            elif offset and view_offset != results[0][1]:
-                results = results[:limit]
-                params["offset"], pparams["offset"] = results[-1][1], view_offset
-            results = [i[0] for i in results]
-            if changes:
-                params["offset"] = encrypt(self.server.uuid, self.db.name, params["offset"]).decode()
-                pparams["offset"] = encrypt(self.server.uuid, self.db.name, pparams["offset"]).decode()
-        else:
-            params["offset"] = offset
-            pparams["offset"] = offset
-        data = {
-            "data": results,
-            "next_page": {
-                "offset": params["offset"],
-                "path": self.request.route_path(self.object_name_for_listing, _query=params),
-                "uri": self.request.route_url(self.object_name_for_listing, _query=params),
-            },
-        }
-        if descending or offset:
-            data["prev_page"] = {
-                "offset": pparams["offset"],
-                "path": self.request.route_path(self.object_name_for_listing, _query=pparams),
-                "uri": self.request.route_url(self.object_name_for_listing, _query=pparams),
-            }
-        return data
-
-
-class APIResourcePaginatedListing(APIResource):
-    obj_id_key = None
-    serialize_method = None
-    default_fields = None
-    views = None
-    views_total = None
-
-    @classmethod
-    def serialize(cls, *args, **kwargs):
-        if not cls.serialize_method:
-            raise NotImplemented
-        return cls.serialize_method(*args, **kwargs)
-
-    @json_view(permission='view_listing')
-    def get(self):
-        if not all([
-            self.default_fields,
-            self.views,
-            self.obj_id_key
-        ]) or '' not in self.views:
-            raise NotImplemented
-
-        obj_id = self.request.matchdict[self.obj_id_key]
-
-        opt_fields = self.request.params.get('opt_fields', '')
-        opt_fields = set(e for e in opt_fields.split(',') if e)
-
-        mode = self.request.params.get('mode', '')
-        list_view = self.views.get(mode, self.views.get(''))
-
-        descending = bool(self.request.params.get('descending', DEFAULT_DESCENDING))
-        limit = int(self.request.params.get('limit', DEFAULT_LIMIT))
-        page = int(self.request.params.get('page', DEFAULT_PAGE))
-        skip = page * limit - limit
-
-        startkey = [obj_id, None if not descending else {}]
-        endkey = [obj_id, {} if not descending else None]
-
-        count_view_kwargs = dict(startkey=startkey, endkey=endkey, descending=descending, limit=limit)
-        view_kwargs = count_view_kwargs.copy()
-        view_kwargs["skip"] = skip
-
-        if opt_fields - self.default_fields:
-            self.LOGGER.info(
-                'Used custom fields list: {}'.format(','.join(sorted(opt_fields))),
-                extra=context_unpack(self.request, {'MESSAGE_ID': "CUSTOM_LIST"}))
-
-            results = [
-                self.serialize(self.request, i['doc'], opt_fields | self.default_fields)
-                for i in list_view(self.db, include_docs=True, **view_kwargs)
-            ]
-        else:
-            def make_result(item):
-                result = dict(**item.value)
-                result.setdefault('id', item.id)
-                result.setdefault('dateCreated', item.key[1])
-                return result
-            results = [make_result(e) for e in list_view(self.db, **view_kwargs)]
-
-        count = len(results)
-
-        data = {
-            'data': results,
-            'count': count,
-            'page': page,
-            'limit': limit
-        }
-
-        if self.views_total:
-            total_view = self.views_total.get(mode, "")
-            total_results = total_view(self.db, **count_view_kwargs)
-            total = [e.value for e in total_results][0] if total_results else 0
-            data["total"] = total
-
-        return data
 
 
 def fix_deprecated_offset(offset: str):
@@ -784,12 +550,20 @@ class MongodbResourceListing(APIResource):
     default_limit = 100
     max_limit = 1000
     db_listing_method: callable
+    filter_key = None
 
     @json_view(permission='view_listing')
     def get(self):
         params = {}
         if self.request.params.get('mode'):
             params["mode"] = self.request.params.get('mode')
+
+        filters = {}
+        keys = {}
+        if self.filter_key:
+            filter_value = self.request.matchdict[self.filter_key]
+            filters[self.filter_key] = filter_value
+            keys[self.filter_key] = filter_value
 
         offset = None
         if self.request.params.get('offset'):
@@ -833,6 +607,7 @@ class MongodbResourceListing(APIResource):
             descending=params.get("descending"),
             limit=params.get("limit", self.default_limit),
             mode=params.get("mode"),
+            filters=filters,
         )
 
         if results:
@@ -845,19 +620,15 @@ class MongodbResourceListing(APIResource):
             'data': [r for r in results],
             'next_page': {
                 "offset": params.get("offset", ""),
-                "path": self.request.route_path(self.listing_name,
-                                                _query=params),
-                "uri": self.request.route_url(self.listing_name,
-                                              _query=params)
+                "path": self.request.route_path(self.listing_name, _query=params, **keys),
+                "uri": self.request.route_url(self.listing_name, _query=params, **keys)
             }
         }
         if self.request.params.get('descending') or self.request.params.get('offset'):
             data['prev_page'] = {
                 "offset": prev_params.get("offset", ""),
-                "path": self.request.route_path(self.listing_name,
-                                                _query=prev_params),
-                "uri": self.request.route_url(self.listing_name,
-                                              _query=prev_params)
+                "path": self.request.route_path(self.listing_name, _query=prev_params, **keys),
+                "uri": self.request.route_url(self.listing_name, _query=prev_params, **keys)
             }
 
         return data
@@ -935,25 +706,6 @@ def set_modetest_titles(item):
         item.title_ru = "[ТЕСТИРОВАНИЕ] {}".format(item.title_ru or "")
 
 
-class DecimalEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, decimal.Decimal):
-            return str(obj)
-        return super(DecimalEncoder, self).default(obj)
-
-
-def couchdb_json_decode():
-    def my_encode(obj, dumps=dumps):
-        return dumps(obj, cls=DecimalEncoder)
-
-    def my_decode(string_):
-        if isinstance(string_, util.btype):
-            string_ = string_.decode("utf-8")
-        return json.loads(string_)
-
-    couchdb.json.use(decode=my_decode, encode=my_encode)
-
-
 def get_first_revision_date(schematics_document, default=None):
     revisions = schematics_document.get("revisions") if schematics_document else None
     return parse_datetime(revisions[0]["date"]) if revisions else default
@@ -1023,7 +775,7 @@ def handle_store_exceptions(request):
         for i in e.messages:
             request.errors.add("body", i, e.messages[i])
         request.errors.status = 422
-    except (ResourceConflict, MongodbResourceConflict) as e:  # pragma: no cover
+    except MongodbResourceConflict as e:  # pragma: no cover
         request.errors.add("body", "data", str(e))
         request.errors.status = 409
     except Exception as e:  # pragma: no cover
@@ -1090,12 +842,6 @@ def is_new_created(data):
     Check if data['_rev'] is None then tender was created just now
     """
     return data["_rev"] is None
-
-
-def get_doc_by_id(db, doc_type, doc_id):
-    doc = db.get(doc_id)
-    if doc and doc.get("doc_type") == doc_type:
-        return doc
 
 
 def json_body(request):

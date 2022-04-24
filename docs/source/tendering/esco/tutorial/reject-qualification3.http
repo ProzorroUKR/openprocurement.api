@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/1707c4e05c834d2281c4917429aed004/qualifications/75ff1c03d8cb45ddaa953765af93a1a3?acc_token=cdb0d97ad6324ce1b99843f3f2959aa4 HTTP/1.0
+PATCH /api/2.5/tenders/7378acd602f14dc498b14cc6198a6995/qualifications/75ff1c03d8cb45ddaa953765af93a1a3?acc_token=cdb0d97ad6324ce1b99843f3f2959aa4 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 36
 Content-Type: application/json
@@ -16,7 +16,7 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "75ff1c03d8cb45ddaa953765af93a1a3",
-    "bidID": "a7cd2c260a0448f5a1bf70345eb8d414",
+    "bidID": "1869f759d3fa418ea2c3162b6fe5fd9c",
     "status": "unsuccessful",
     "date": "2021-03-16T00:00:00+02:00",
     "qualified": false,

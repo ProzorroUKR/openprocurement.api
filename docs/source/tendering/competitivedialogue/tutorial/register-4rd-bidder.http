@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/e16419902ba94afd92483305d6369505/bids HTTP/1.0
+POST /api/2.5/tenders/8c90145216a24d5aa75953a94a96160d/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1584
 Content-Type: application/json
@@ -52,7 +52,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e16419902ba94afd92483305d6369505/bids/858275d219d14850b85c83ea77b91281
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8c90145216a24d5aa75953a94a96160d/bids/a1f34dbd52d4456591f1cfd26afeac48
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -89,7 +89,7 @@ X-Content-Type-Options: nosniff
         "confidentiality": "public",
         "language": "uk",
         "isDescriptionDecision": false,
-        "id": "2271f332282f4f48b584b5bcf8941d26",
+        "id": "095be12088144290b043b820a047fc5a",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"
       },
@@ -102,14 +102,14 @@ X-Content-Type-Options: nosniff
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "language": "uk",
         "isDescriptionDecision": false,
-        "id": "aa24281615704a47a0974bc06cf4ce44",
+        "id": "80ad1cd76df94021b118a5a05f8cfed7",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"
       }
     ],
     "selfQualified": true,
     "status": "draft",
-    "id": "858275d219d14850b85c83ea77b91281",
+    "id": "a1f34dbd52d4456591f1cfd26afeac48",
     "date": "2021-03-16T00:00:00+02:00"
   },
   "access": {

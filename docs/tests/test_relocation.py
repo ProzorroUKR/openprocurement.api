@@ -18,8 +18,6 @@ from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
 class TransferDocsTest(BaseWebTest, MockWebTestMixin):
     AppClass = DumpsWebTestApp
-    database_keys = ("transfers", "contracts", "agreements")
-    mongodb_collections = ("plans",)
     relative_to = os.path.dirname(__file__)
 
     def setUp(self):

@@ -10,10 +10,10 @@ from openprocurement.api.validation import (
     validate_doc_accreditation_level_mode,
 )
 from openprocurement.framework.core.utils import get_framework_by_id, get_submission_by_id, get_agreement_by_id
-from openprocurement.framework.core.design import (
-    submissions_active_by_framework_id_count_view,
-    agreements_with_active_suspended_contracts_view,
-)
+# from openprocurement.framework.core.design import (
+#     submissions_active_by_framework_id_count_view,
+#     agreements_with_active_suspended_contracts_view,
+# )
 from openprocurement.framework.electroniccatalogue.models import Framework, Agreement
 
 
@@ -186,14 +186,21 @@ def validate_activate_submission(request, **kwargs):
     new_status = request.validated["data"].get("status", old_status)
     if new_status != "active" or old_status == new_status:
         return
-    key = [submission.frameworkID, submission.tenderers[0].identifier.id]
-    res = submissions_active_by_framework_id_count_view(request.registry.databases.submissions, key=key)
+
+    res = request.registry.mongodb.submissions.count_active_submissions_by_framework_id(
+        submission.frameworkID,
+        submission.tenderers[0].identifier.id,
+    )
     if res:
         raise_operation_error(
             request,
             "Tenderer already have active submission for framework {}".format(submission.frameworkID)
         )
-    res = agreements_with_active_suspended_contracts_view(request.registry.databases.agreements, key=key)
+
+    res = request.registry.mongodb.agreements.has_active_suspended_contracts(
+        submission.frameworkID,
+        submission.tenderers[0].identifier.id,
+    )
     if res:
         raise_operation_error(
             request,

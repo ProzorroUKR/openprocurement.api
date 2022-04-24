@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 
 from datetime import datetime
@@ -11,6 +10,7 @@ from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.belowthreshold.utils import prepare_tender_item_for_contract
 from openprocurement.tender.pricequotation.procedure.models.tender import Tender
 from openprocurement.tender.pricequotation.tests.data import *
+from openprocurement.framework.electroniccatalogue.models import Agreement
 
 
 class BaseApiWebTest(BaseWebTest):
@@ -221,13 +221,14 @@ class BaseTenderWebTest(BaseCoreWebTest):
             self.set_status(self.initial_status)
 
     def create_agreement(self):
-        if self.databases.agreements.get(self.agreement_id):
+        if self.mongodb.agreements.get(self.agreement_id):
             self.delete_agreement()
-        self.databases.agreements.create(test_agreement_data)
+        agreement = Agreement(test_agreement_data)
+        agreement.dateModified = get_now().isoformat()
+        self.mongodb.agreements.save(agreement, insert=True)
 
     def delete_agreement(self):
-        db = self.databases.agreements
-        db.delete(db[self.agreement_id])
+        self.mongodb.agreements.delete(self.agreement_id)
 
 
 class TenderContentWebTest(BaseTenderWebTest):

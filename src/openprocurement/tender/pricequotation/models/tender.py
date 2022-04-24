@@ -66,7 +66,7 @@ class Agreement(Model):
             while root.__parent__ is not None:
                 root = root.__parent__
 
-            agreement = root.request.registry.databases.agreements.get(value)
+            agreement = root.request.registry.mongodb.agreements.get(value)
             if not agreement:
                 raise ValidationError("id must be one of exists agreement")
 

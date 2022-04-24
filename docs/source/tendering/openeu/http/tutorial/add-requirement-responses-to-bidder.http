@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/17a82f12536e405c88db7f654bb215f5/bids/7b97714f142c430b98dd609d94a9e441?acc_token=1faa8b766a674147a2f29548b26c1b55 HTTP/1.0
+PATCH /api/2.5/tenders/b68a79fc566a4d49b80369c0ed01748d/bids/406646e317bc4aeca335869b157ab08d?acc_token=1faa8b766a674147a2f29548b26c1b55 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 14504
 Content-Type: application/json
@@ -255,7 +255,7 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "id": "7b97714f142c430b98dd609d94a9e441",
+    "id": "406646e317bc4aeca335869b157ab08d",
     "date": "2021-03-16T00:00:00+02:00",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "selfQualified": true,

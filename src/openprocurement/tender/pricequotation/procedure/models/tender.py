@@ -30,7 +30,7 @@ class Agreement(Model):
     id = MD5Type(required=True)
 
     def validate_id(self, data, value):
-        agreement = get_request().registry.databases.agreements.get(value)
+        agreement = get_request().registry.mongodb.agreements.get(value)
         if not agreement:
             raise ValidationError("id must be one of exists agreement")
 

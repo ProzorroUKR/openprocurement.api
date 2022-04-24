@@ -19,7 +19,6 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "731229e60a3e4406b3f0bbca894132fa",
     "awardID": "3ad71496fd844c7299424c23d67e5449",
     "contractID": "UA-2021-03-16-000001-a-1",
     "period": {
@@ -28,6 +27,7 @@ X-Content-Type-Options: nosniff
     },
     "dateSigned": "2021-03-16T00:00:01+02:00",
     "dateModified": "2021-03-16T00:00:01+02:00",
+    "dateCreated": "2021-03-16T00:00:01+02:00",
     "items": [
       {
         "id": "cadf7ae857e84cb8b5af656d613aa6e1",
@@ -104,7 +104,7 @@ X-Content-Type-Options: nosniff
         }
       }
     ],
-    "tender_id": "40675dfa654c489cbef9461e24835140",
+    "tender_id": "f9fca4217b4a4215b8ae2f67e8461b8f",
     "owner": "broker",
     "status": "terminated",
     "suppliers": [
@@ -219,7 +219,8 @@ X-Content-Type-Options: nosniff
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
       "amountNet": 430.0
-    }
+    },
+    "id": "731229e60a3e4406b3f0bbca894132fa"
   }
 }
 

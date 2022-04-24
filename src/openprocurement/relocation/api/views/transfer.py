@@ -25,7 +25,7 @@ class TransferResource(APIResource):
         set_ownership(transfer, self.request, access_token=access_token, transfer_token=transfer_token)
 
         self.request.validated["transfer"] = transfer
-        if save_transfer(self.request):
+        if save_transfer(self.request, insert=True):
             self.LOGGER.info(
                 "Created transfer {}".format(transfer.id),
                 extra=context_unpack(self.request, {"MESSAGE_ID": "transfer_create"}, {"transfer_id": transfer.id}),

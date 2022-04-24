@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from openprocurement.api.utils import json_view, APIResource, context_unpack
 from openprocurement.planning.api.utils import save_plan, opresource
 from openprocurement.relocation.api.utils import (

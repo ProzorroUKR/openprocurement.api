@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/999d320644a74e77bd426fa9d8496f39/complaints/14d632112d11453e8fc1700120d87121 HTTP/1.0
+PATCH /api/2.5/tenders/d2bb8b32840e47a7be28cb1644aeda9c/complaints/14d632112d11453e8fc1700120d87121 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 64
 Content-Type: application/json

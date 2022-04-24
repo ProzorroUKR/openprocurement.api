@@ -1,29 +1,5 @@
-from openprocurement.api.utils import (
-    APIResourceListing,
-)
-from openprocurement.framework.core.design import (
-    QUALIFICATION_FIELDS,
-    qualifications_by_dateModified_view,
-    qualifications_test_by_dateModified_view,
-    qualifications_by_local_seq_view,
-    qualifications_test_by_local_seq_view,
-)
-from openprocurement.framework.core.utils import (
-    qualificationsresource,
-)
-
-VIEW_MAP = {
-    "": qualifications_by_dateModified_view,
-    "test": qualifications_test_by_dateModified_view,
-    "_all_": qualifications_by_dateModified_view,
-
-}
-CHANGES_VIEW_MAP = {
-    "": qualifications_by_local_seq_view,
-    "test": qualifications_test_by_local_seq_view,
-    "_all_": qualifications_by_local_seq_view,
-}
-FEED = {"dateModified": VIEW_MAP, "changes": CHANGES_VIEW_MAP}
+from openprocurement.api.utils import MongodbResourceListing
+from openprocurement.framework.core.utils import qualificationsresource
 
 
 @qualificationsresource(
@@ -31,14 +7,11 @@ FEED = {"dateModified": VIEW_MAP, "changes": CHANGES_VIEW_MAP}
     path="/qualifications",
     description="",  # TODO: Add description
 )
-class QualificationResource(APIResourceListing):
+class QualificationResource(MongodbResourceListing):
     def __init__(self, request, context):
-        super(QualificationResource, self).__init__(request, context)
-        # params for listing
-        self.VIEW_MAP = VIEW_MAP
-        self.CHANGES_VIEW_MAP = CHANGES_VIEW_MAP
-        self.FEED = FEED
-        self.FIELDS = QUALIFICATION_FIELDS
-        self.object_name_for_listing = "Qualifications"
-        self.log_message_id = "qualification_list_custom"
-        self.db = request.registry.databases.qualifications
+        super().__init__(request, context)
+        self.listing_name = "Qualifications"
+        self.listing_default_fields = {"dateModified"}
+        self.all_fields = {"dateCreated", "dateModified", "id", "frameworkID", "submissionID", "status",
+                           "documents", "date"}
+        self.db_listing_method = request.registry.mongodb.qualifications.list

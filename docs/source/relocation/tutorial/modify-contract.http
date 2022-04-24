@@ -1,4 +1,4 @@
-PATCH /api/2.5/contracts/2b264b733b7546749561d03ffa5e7971?acc_token=bdba313e349b45718d574fead77a65e1 HTTP/1.0
+PATCH /api/2.5/contracts/2b264b733b7546749561d03ffa5e7971?acc_token=ea47ce86f8774d538cc4e2fa634ef3a7 HTTP/1.0
 Authorization: Bearer broker3
 Content-Length: 64
 Content-Type: application/json
@@ -15,7 +15,6 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "2b264b733b7546749561d03ffa5e7971",
     "awardID": "8481d7eb01694c25b18658036c236c5d",
     "contractID": "UA-2016-03-18-000001-1",
     "contractNumber": "contract #13111",
@@ -26,6 +25,7 @@ X-Content-Type-Options: nosniff
     },
     "dateSigned": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
+    "dateCreated": "2021-03-16T00:00:00+02:00",
     "items": [
       {
         "id": "c6c6e8ed4b1542e4bf13d3f98ec5ab59",
@@ -114,7 +114,8 @@ X-Content-Type-Options: nosniff
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
       "amountNet": 237.0
-    }
+    },
+    "id": "2b264b733b7546749561d03ffa5e7971"
   }
 }
 

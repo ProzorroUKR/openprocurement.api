@@ -2,14 +2,13 @@
 
 import unittest
 
-from openprocurement.api.tests import auth, spore, migration
+from openprocurement.api.tests import auth, spore
 
 
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(auth.suite())
     suite.addTest(spore.suite())
-    suite.addTest(migration.suite())
     return suite
 
 

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/4f76860c8cb34f99bc14e0def3bcbc5a HTTP/1.0
+GET /api/2.5/tenders/8a0700259bce4187b9c2cee3b9167b19 HTTP/1.0
 Host: lb-api-sandbox.prozorro.gov.ua
 
 Response: 200 OK
@@ -749,7 +749,7 @@ X-Content-Type-Options: nosniff
       "endDate": "2021-04-12T00:00:00+03:00"
     },
     "next_check": "2021-04-16T00:00:00+02:00",
-    "id": "4f76860c8cb34f99bc14e0def3bcbc5a"
+    "id": "8a0700259bce4187b9c2cee3b9167b19"
   }
 }
 

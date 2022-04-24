@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from uuid import uuid4
 from zope.interface import implementer, Interface
-
-# from couchdb_schematics.document import SchematicsDocument
 from pyramid.security import Allow
 from schematics.types import StringType, BaseType, MD5Type, FloatType
 from schematics.types.compound import ModelType, DictType
@@ -13,8 +11,7 @@ from schematics.transforms import whitelist, blacklist
 from openprocurement.api.constants import SCALE_CODES
 from openprocurement.api.auth import ACCR_3, ACCR_5
 from openprocurement.api.utils import get_now
-from openprocurement.api.models import Contract as BaseContract
-from openprocurement.api.models import OpenprocurementSchematicsDocument as SchematicsDocument
+from openprocurement.api.models import BaseContract, RootModel
 from openprocurement.api.models import Document as BaseDocument
 from openprocurement.api.models import Organization as BaseOrganization
 from openprocurement.api.models import ContactPoint as BaseContactPoint
@@ -73,9 +70,11 @@ contract_edit_role = whitelist(
 
 contract_view_role = whitelist(
     "id",
+    "doc_id",
     "awardID",
     "contractID",
     "dateModified",
+    "dateCreated",
     "contractNumber",
     "title",
     "title_en",
@@ -275,11 +274,11 @@ class Implementation(Model):
 
 
 @implementer(IContract)
-class Contract(SchematicsDocument, BaseContract):
+class Contract(RootModel, BaseContract):
     """ Contract """
-
     revisions = BaseType(default=list)
     dateModified = IsoDateTimeType()
+    dateCreated = IsoDateTimeType()
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
     items = ListType(ModelType(Item, required=True), required=False, min_size=1, validators=[validate_items_uniq])
     tender_token = StringType(required=True)
@@ -356,11 +355,6 @@ class Contract(SchematicsDocument, BaseContract):
         else:
             role = "edit_{}".format(request.context.status)
         return role
-
-    @serializable(serialized_name="id")
-    def doc_id(self):
-        """A property that is serialized by schematics exports."""
-        return self._id
 
     @serializable(serialized_name="amountPaid", serialize_when_none=False, type=ModelType(Value))
     def contract_amountPaid(self):

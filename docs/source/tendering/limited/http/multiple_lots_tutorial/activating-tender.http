@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/0baa3be7ec374aeda829cbc4b875dddb?acc_token=385a1b964fc04c10a6acb22ee6e53ea6 HTTP/1.0
+PATCH /api/2.5/tenders/f424e2934d9c4a28a98ace88bd50ea47?acc_token=385a1b964fc04c10a6acb22ee6e53ea6 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -124,7 +124,7 @@ X-Content-Type-Options: nosniff
     ],
     "procurementMethodType": "negotiation.quick",
     "cause": "twiceUnsuccessful",
-    "id": "0baa3be7ec374aeda829cbc4b875dddb"
+    "id": "f424e2934d9c4a28a98ace88bd50ea47"
   }
 }
 

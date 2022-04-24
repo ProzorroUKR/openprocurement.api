@@ -3,7 +3,6 @@ from logging import getLogger
 from time import sleep
 
 from cornice.resource import resource
-from couchdb import ResourceConflict
 from dateorro import calc_datetime
 from jsonpointer import resolve_pointer
 from pyramid.compat import decode_path_info
@@ -20,7 +19,6 @@ from openprocurement.api.utils import (
     context_unpack,
     apply_data_patch,
     append_revision,
-    get_doc_by_id,
     ACCELERATOR_RE,
     generate_id,
 )
@@ -175,15 +173,11 @@ def agreement_from_data(request, data, raise_error=True, create=True):
 
 def extract_doc_adapter(request, doc_type, doc_id):
     doc_type_singular = doc_type[:-1]  # lower, without last symbol  "frameworks" --> "framework"
-    doc = get_doc_by_id(request.registry.databases[doc_type], doc_type_singular.capitalize(), doc_id)
+    collection = getattr(request.registry.mongodb, doc_type)
+    doc = collection.get(doc_id)
     if doc is None:
         request.errors.add("url", "%s_id" % doc_type_singular, "Not Found")
         request.errors.status = 404
-        raise error_handler(request)
-    # obsolete lowercase doc_type in agreements
-    if doc is not None and doc.get("doc_type") == "agreement":
-        request.errors.add("url", "agreement_id", "Archived")
-        request.errors.status = 410
         raise error_handler(request)
 
     method = getattr(request, "%s_from_data" % doc_type_singular)
@@ -211,47 +205,23 @@ def extract_doc(request):
     return extract_doc_adapter(request, obj_type, obj_id)
 
 
-def generate_framework_pretty_id(ctime, db, server_id=""):
-    key = ctime.date().isoformat()
-    prettyIDdoc = "frameworkPrettyID_" + server_id if server_id else "frameworkPrettyID"
-    while True:
-        try:
-            prettyID = db.get(prettyIDdoc, {"_id": prettyIDdoc})
-            index = prettyID.get(key, 1)
-            prettyID[key] = index + 1
-            db.save(prettyID)
-        except ResourceConflict:  # pragma: no cover
-            pass
-        except Exception:  # pragma: no cover
-            sleep(1)
-        else:
-            break
-    return "UA-F-{:04}-{:02}-{:02}-{:06}{}".format(
-        ctime.year, ctime.month, ctime.day, index, server_id and "-" + server_id
+def generate_framework_pretty_id(request):
+    ctime = get_now().date()
+    index = request.registry.mongodb.get_next_sequence_value(f"framework_{ctime.isoformat()}")
+    return "UA-F-{:04}-{:02}-{:02}-{:06}".format(
+        ctime.year, ctime.month, ctime.day, index,
     )
 
 
-def generate_agreementID(ctime, db, server_id=""):
-    key = ctime.date().isoformat()
-    prettyIDdoc = "agreementID_" + server_id if server_id else "agreementID"
-    while True:
-        try:
-            agreementID = db.get(prettyIDdoc, {"_id": prettyIDdoc})
-            index = agreementID.get(key, 1)
-            agreementID[key] = index + 1
-            db.save(agreementID)
-        except ResourceConflict:  # pragma: no cover
-            pass
-        except Exception:  # pragma: no cover
-            sleep(1)
-        else:
-            break
-    return "UA-{:04}-{:02}-{:02}-{:06}{}".format(
-        ctime.year, ctime.month, ctime.day, index, server_id and "-" + server_id
+def generate_agreementID(request):
+    ctime = get_now().date()
+    index = request.registry.mongodb.get_next_sequence_value(f"agreement_{ctime.isoformat()}")
+    return "UA-{:04}-{:02}-{:02}-{:06}".format(
+        ctime.year, ctime.month, ctime.day, index,
     )
 
 
-def save_object(request, obj_name, with_test_mode=True, additional_obj_names=""):
+def save_object(request, obj_name, with_test_mode=True, additional_obj_names="", insert=False):
     obj = request.validated[obj_name]
 
     if with_test_mode and obj.mode == "test":
@@ -271,7 +241,8 @@ def save_object(request, obj_name, with_test_mode=True, additional_obj_names="")
                 request.validated[i].dateModified = now
 
         with handle_store_exceptions(request):
-            obj.store(request.registry.databases[f"{obj_name}s"])  # TODO a better way to specify db name?
+            collection = getattr(request.registry.mongodb, f"{obj_name}s")
+            collection.save(obj, insert=insert)
             LOGGER.info(
                 "Saved {} {}: dateModified {} -> {}".format(
                     obj_name,
@@ -284,20 +255,23 @@ def save_object(request, obj_name, with_test_mode=True, additional_obj_names="")
             return True
 
 
-def save_framework(request, additional_obj_names=""):
-    return save_object(request, "framework", additional_obj_names=additional_obj_names)
+def save_framework(request, additional_obj_names="", insert=False):
+    return save_object(request, "framework", additional_obj_names=additional_obj_names, insert=insert)
 
 
-def save_submission(request, additional_obj_names=""):
-    return save_object(request, "submission", with_test_mode=False, additional_obj_names=additional_obj_names)
+def save_submission(request, additional_obj_names="", insert=False):
+    return save_object(request, "submission", with_test_mode=False,
+                       additional_obj_names=additional_obj_names, insert=insert)
 
 
-def save_qualification(request, additional_obj_names=""):
-    return save_object(request, "qualification", with_test_mode=False, additional_obj_names=additional_obj_names)
+def save_qualification(request, additional_obj_names="", insert=False):
+    return save_object(request, "qualification", with_test_mode=False,
+                       additional_obj_names=additional_obj_names, insert=insert)
 
 
-def save_agreement(request, additional_obj_names=""):
-    return save_object(request, "agreement", with_test_mode=False, additional_obj_names=additional_obj_names)
+def save_agreement(request, additional_obj_names="", insert=False):
+    return save_object(request, "agreement", with_test_mode=False,
+                       additional_obj_names=additional_obj_names, insert=insert)
 
 
 def get_framework_accelerator(context):
@@ -375,17 +349,17 @@ def agreement_serialize(request, agreement_data, fields):
 
 def get_submission_by_id(request, submission_id):
     if submission_id:
-        return request.registry.databases.submissions.get(submission_id)
+        return request.registry.mongodb.submissions.get(submission_id)
 
 
 def get_framework_by_id(request, framework_id):
     if framework_id:
-        return request.registry.databases.frameworks.get(framework_id)
+        return request.registry.mongodb.frameworks.get(framework_id)
 
 
 def get_agreement_by_id(request, agreement_id):
     if agreement_id:
-        return request.registry.databases.agreements.get(agreement_id)
+        return request.registry.mongodb.agreements.get(agreement_id)
 
 
 def set_agreement_ownership(item, request):

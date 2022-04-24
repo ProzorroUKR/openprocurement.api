@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/16198a81806a4fd9bf0d5b437bc44f7a/bids/03e8ecacaef043e9b20f1a36a5279ac7?acc_token=873c24dbb920470291a301faa169ce64 HTTP/1.0
+PATCH /api/2.5/tenders/1e7fc0d4cb8943b985627a6dc1c42c8a/bids/90c624b84bab4f8397811b9014d115df?acc_token=873c24dbb920470291a301faa169ce64 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -38,7 +38,7 @@ X-Content-Type-Options: nosniff
       }
     ],
     "status": "active",
-    "id": "03e8ecacaef043e9b20f1a36a5279ac7",
+    "id": "90c624b84bab4f8397811b9014d115df",
     "date": "2021-03-16T00:00:00+02:00",
     "parameters": [
       {

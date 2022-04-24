@@ -19,6 +19,7 @@ from openprocurement.framework.electroniccatalogue.tests.agreement_blanks import
     patch_several_contracts_active_status,
     patch_activation_milestone,
     patch_ban_milestone,
+    search_by_classification,
     agreement_chronograph_milestones,
     post_submission_with_active_contract,
 )
@@ -48,7 +49,6 @@ class TestAgreementCreation(QualificationContentWebTest):
     initial_data = test_electronicCatalogue_data
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
-    docservice = True
 
     test_create_agreement = snitch(create_agreement)
 
@@ -108,6 +108,7 @@ class TestMilestoneCreate(MilestoneContentWebTest):
     docservice = True
 
     test_patch_ban_milestone = snitch(patch_ban_milestone)
+    test_search_by_classification = snitch(search_by_classification)
 
     test_create_milestone_document_forbidden = snitch(create_milestone_document_forbidden)
     test_create_milestone_documents = snitch(create_milestone_documents)

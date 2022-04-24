@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/64bee612b1e64b7699413f30db4e4643/bids/152e89c2da1947a68adf595ca46d8dce/documents/a89744a3e0014a90b86744639210a385?acc_token=dedc24eeae874bfc9aa183e43bbaac67 HTTP/1.0
+PUT /api/2.5/tenders/9a224c470b1f4206ab133130ec4b1632/bids/56d74beb4c014895afeda1304f717e35/documents/e92a591e864e46eeb7a5c095f248409e?acc_token=dedc24eeae874bfc9aa183e43bbaac67 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 337
 Content-Type: application/json
@@ -18,7 +18,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "a89744a3e0014a90b86744639210a385",
+    "id": "e92a591e864e46eeb7a5c095f248409e",
     "datePublished": "2020-05-02T05:00:01+03:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "укр.doc",

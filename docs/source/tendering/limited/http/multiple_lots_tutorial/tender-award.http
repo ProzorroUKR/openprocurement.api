@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/0baa3be7ec374aeda829cbc4b875dddb/awards?acc_token=385a1b964fc04c10a6acb22ee6e53ea6 HTTP/1.0
+POST /api/2.5/tenders/f424e2934d9c4a28a98ace88bd50ea47/awards?acc_token=385a1b964fc04c10a6acb22ee6e53ea6 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 916
 Content-Type: application/json
@@ -41,7 +41,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0baa3be7ec374aeda829cbc4b875dddb/awards/e47918b18f6e4dedb2f4335d2ba17702
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f424e2934d9c4a28a98ace88bd50ea47/awards/068069057cb14911bb25053f0fd9d0cc
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -75,7 +75,7 @@ X-Content-Type-Options: nosniff
       }
     ],
     "lotID": "9c7ee9a761404c7cad1359f248e41f71",
-    "id": "e47918b18f6e4dedb2f4335d2ba17702",
+    "id": "068069057cb14911bb25053f0fd9d0cc",
     "date": "2021-03-16T00:00:00+02:00"
   }
 }

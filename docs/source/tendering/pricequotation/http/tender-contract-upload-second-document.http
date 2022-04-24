@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/055dc73de1b14564a3409fbcd31c287f/contracts/223d62f7b07b4300938e53e55ec39237/documents?acc_token=52d0ea2cfc1b4667b659befc1200e843 HTTP/1.0
+POST /api/2.5/tenders/aa43f375fb7a4dfdb6b777b6a86df5b5/contracts/223d62f7b07b4300938e53e55ec39237/documents?acc_token=52d0ea2cfc1b4667b659befc1200e843 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 343
 Content-Type: application/json
@@ -15,7 +15,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/055dc73de1b14564a3409fbcd31c287f/contracts/223d62f7b07b4300938e53e55ec39237/documents/bb6511f6b3644274aebff064f7fcf295
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aa43f375fb7a4dfdb6b777b6a86df5b5/contracts/223d62f7b07b4300938e53e55ec39237/documents/b5e00a3b35fd4d6182ab7bb0fce06d92
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -24,7 +24,7 @@ X-Content-Type-Options: nosniff
     "format": "application/msword",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/36ebea29c5e54ccfaa107cd5e67ab7b9?Signature=b4z4J55fJKAxzkpB8Rej0%2FBdrDLxqAIULTNrqMlQ9wCQj53d1r%2BpS%2FPRMzVT5HhqA3TxniiLKRU8D9IlWUbsAg%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
-    "id": "bb6511f6b3644274aebff064f7fcf295",
+    "id": "b5e00a3b35fd4d6182ab7bb0fce06d92",
     "datePublished": "2021-03-16T00:00:03+02:00",
     "dateModified": "2021-03-16T00:00:03+02:00"
   }

@@ -18,22 +18,16 @@ from openprocurement.api.subscribers import add_logging_context, set_logging_con
 from openprocurement.historical.core.tests.utils import mock_doc, Db
 
 
-db = Db()
+mongodb = Db()
 
 
 class HistoricalUtilsTestCase(unittest.TestCase):
     def _make_req(self):
         req = DummyRequest()
-        req.registry.db = db
+        req.registry.mongodb = mongodb
         req.matchdict["doc_id"] = mock_doc.id
         req.validated = {}
         return req
-
-    def test_root(self):
-        req = self._make_req()
-        root = Root(req)
-        self.assertEqual(req.registry.db, root.db)
-        self.assertEqual(req, root.request)
 
     def test_parse_hash(self):
         _hash = ""
@@ -113,7 +107,7 @@ class HistoricalResourceTestCase(unittest.TestCase):
         self.config.add_request_method(authenticated_role, reify=True)
         self.config.include("openprocurement.historical.core.includeme.includeme")
 
-        self.config.registry.db = db
+        self.config.registry.mongodb = mongodb
 
         self.authn_policy = AuthenticationPolicy(
             "{}/auth.ini".format(os.path.dirname(os.path.abspath(openprocurement.api.tests.__file__))), __name__

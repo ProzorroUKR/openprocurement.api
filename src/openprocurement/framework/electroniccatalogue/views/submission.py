@@ -112,7 +112,7 @@ class SubmissionResource(APIResource, AgreementMixin):
         self.request.validated["qualification_src"] = {}
         self.request.validated["qualification"] = qualification
 
-        if save_qualification(self.request):
+        if save_qualification(self.request, insert=True):
             submission.qualificationID = qualification_id
             self.LOGGER.info(
                 "Created qualification {}".format(qualification_id),

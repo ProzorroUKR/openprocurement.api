@@ -85,14 +85,8 @@ class UtilsFrameworkTest(BaseFrameworkTest):
 
         mocked_decode_path.side_effect = ["/api/2.5/frameworks/{}".format(self.framework_data["id"])] * 3
 
-        # Test with extract_doc_adapter raise HTTP 404
-        with self.assertRaises(Exception) as e:
-            extract_doc(request)
-        self.assertEqual(request.errors.status, 404)
-        request.errors.add.assert_has_calls([call("url", "framework_id", "Not Found")])
-
         # Test with extract_doc_adapter return Framework object
-        request.registry.databases["frameworks"].get.return_value = framework_data
+        request.registry.mongodb.frameworks.get.return_value = framework_data
         framework = extract_doc(request)
         serialized_framework = framework.serialize("draft")
         self.assertIsInstance(framework, Framework)
@@ -134,17 +128,13 @@ class UtilsFrameworkTest(BaseFrameworkTest):
         self.assertEqual(res, data)
 
     def test_generate_framework_id(self):
-        server_id = "7"
         ctime = get_now()
-        db = MagicMock()
+        request = MagicMock()
+        request.registry.mongodb.get_next_sequence_value.return_value = 103
 
-        def db_get(doc_id, default_value):
-            return default_value
-
-        db.get = db_get
-        framework_id = generate_framework_pretty_id(ctime, db, server_id)
-        tid = "UA-F-{:04}-{:02}-{:02}-{:06}{}".format(
-            ctime.year, ctime.month, ctime.day, 1, server_id and "-" + server_id
+        framework_id = generate_framework_pretty_id(request)
+        tid = "UA-F-{:04}-{:02}-{:02}-{:06}".format(
+            ctime.year, ctime.month, ctime.day, 103,
         )
         self.assertEqual(tid, framework_id)
 

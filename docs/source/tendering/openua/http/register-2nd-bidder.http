@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/136495241d564e1d82d365ed3977761d/bids HTTP/1.0
+POST /api/2.5/tenders/1c2191f29ecc447697b2f1509b45060e/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 815
 Content-Type: application/json
@@ -39,7 +39,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/136495241d564e1d82d365ed3977761d/bids/e655b89d64014a8dbe2668687696ed52
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1c2191f29ecc447697b2f1509b45060e/bids/7d84e1f812d6491a8d4cb47a8378fe88
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -73,7 +73,7 @@ X-Content-Type-Options: nosniff
     ],
     "status": "draft",
     "selfQualified": true,
-    "id": "e655b89d64014a8dbe2668687696ed52",
+    "id": "7d84e1f812d6491a8d4cb47a8378fe88",
     "date": "2021-03-16T00:00:00+02:00"
   },
   "access": {
@@ -82,7 +82,7 @@ X-Content-Type-Options: nosniff
   }
 }
 
-GET /api/2.5/tenders/136495241d564e1d82d365ed3977761d HTTP/1.0
+GET /api/2.5/tenders/1c2191f29ecc447697b2f1509b45060e HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -692,7 +692,7 @@ X-Content-Type-Options: nosniff
     ],
     "documents": [
       {
-        "id": "bf5ede681c9e431a992a12f7fe492b7c",
+        "id": "fc5dcece084f48719e55ce797ba86f28",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
@@ -703,7 +703,7 @@ X-Content-Type-Options: nosniff
         "author": "tender_owner"
       },
       {
-        "id": "628e69bbb3be4d8a8a46541a60d09b3f",
+        "id": "be5968ff3f714b9cb7d6aa33fb800ec0",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
@@ -714,7 +714,7 @@ X-Content-Type-Options: nosniff
         "author": "tender_owner"
       },
       {
-        "id": "628e69bbb3be4d8a8a46541a60d09b3f",
+        "id": "be5968ff3f714b9cb7d6aa33fb800ec0",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
@@ -852,11 +852,11 @@ X-Content-Type-Options: nosniff
       "startDate": "2021-03-01T00:00:00+02:00",
       "endDate": "2021-03-20T00:00:00+02:00"
     },
-    "id": "136495241d564e1d82d365ed3977761d"
+    "id": "1c2191f29ecc447697b2f1509b45060e"
   }
 }
 
-PATCH /api/2.5/tenders/136495241d564e1d82d365ed3977761d/bids/e655b89d64014a8dbe2668687696ed52?acc_token=90743f6a09384008b018b0062ca9345a HTTP/1.0
+PATCH /api/2.5/tenders/1c2191f29ecc447697b2f1509b45060e/bids/7d84e1f812d6491a8d4cb47a8378fe88?acc_token=90743f6a09384008b018b0062ca9345a HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 14524
 Content-Type: application/json
@@ -1115,7 +1115,7 @@ X-Content-Type-Options: nosniff
       }
     ],
     "status": "active",
-    "id": "e655b89d64014a8dbe2668687696ed52",
+    "id": "7d84e1f812d6491a8d4cb47a8378fe88",
     "date": "2021-03-16T00:00:00+02:00",
     "selfQualified": true
   }

@@ -8,8 +8,8 @@ X-Content-Type-Options: nosniff
   "data": [],
   "next_page": {
     "offset": "",
-    "path": "/api/2.5/agreements?offset=",
-    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/agreements?offset="
+    "path": "/api/2.5/agreements",
+    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/agreements"
   }
 }
 

@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/0fb28ed17f544dfa8a89ddb534e0b3d9/bids HTTP/1.0
+POST /api/2.5/tenders/1e1c35ea6a97449c857edabef72e7225/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 816
 Content-Type: application/json
@@ -38,7 +38,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0fb28ed17f544dfa8a89ddb534e0b3d9/bids/eae97159b1034bdb8a19a5815b52e1de
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1e1c35ea6a97449c857edabef72e7225/bids/c582a540fc1a4e0196efc7572d396f3e
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -71,7 +71,7 @@ X-Content-Type-Options: nosniff
       }
     ],
     "status": "draft",
-    "id": "eae97159b1034bdb8a19a5815b52e1de",
+    "id": "c582a540fc1a4e0196efc7572d396f3e",
     "date": "2021-03-16T00:00:01+02:00"
   },
   "access": {

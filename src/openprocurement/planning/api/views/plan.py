@@ -4,7 +4,7 @@ from pyramid.request import Request
 from openprocurement.api.constants import VERSION
 from openprocurement.api.utils import (
     context_unpack, get_now, generate_id, json_view, set_ownership,
-    MongodbResourceListing, raise_operation_error,
+    MongodbResourceListing, raise_operation_error, APIResource,
 )
 from openprocurement.planning.api.constants import PROCURING_ENTITY_STANDSTILL
 from openprocurement.planning.api.models import Milestone
@@ -32,7 +32,6 @@ from openprocurement.tender.core.validation import (
     validate_tender_plan_procurement_method_type,
     validate_plan_budget_breakdown,
 )
-from openprocurement.tender.core.views.tender import TendersResource
 from openprocurement.tender.core.procedure.validation import validate_input_data
 from dateorro import calc_working_datetime
 import simplejson
@@ -139,7 +138,7 @@ class PlanResource(APIResource):
                         
 
 @opresource(name="Plan Tenders", path="/plans/{plan_id}/tenders", description="Tender creation based on a plan")
-class PlanTendersResource(TendersResource):
+class PlanTendersResource(APIResource):
     @json_view()
     def get(self):
         self.request.errors.add("url", "method", "Method not allowed")

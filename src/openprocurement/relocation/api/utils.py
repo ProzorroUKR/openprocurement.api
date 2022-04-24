@@ -20,8 +20,8 @@ LOGGER = getLogger("openprocurement.relocation.api")
 def extract_transfer(request, transfer_id=None):
     if not transfer_id:
         transfer_id = request.matchdict["transfer_id"]
-    doc = request.registry.databases.transfers.get(transfer_id)
-    if doc is None or doc.get("doc_type") != "Transfer":
+    doc = request.registry.mongodb.transfers.get(transfer_id)
+    if doc is None:
         request.errors.add("url", "transfer_id", "Not Found")
         request.errors.status = 404
         raise error_handler(request)
@@ -33,16 +33,12 @@ def transfer_from_data(request, data):
     return Transfer(data)
 
 
-def save_transfer(request):
-    """ Save transfer object to database
-    :param request:
-    :return: True if Ok
-    """
+def save_transfer(request, insert=False):
     transfer = request.validated["transfer"]
     transfer.date = get_now()
 
     with handle_store_exceptions(request):
-        transfer.store(request.registry.databases.transfers)
+        request.registry.mongodb.transfers.save(transfer, insert=insert)
         LOGGER.info(
             "Saved transfer {}: at {}".format(transfer.id, get_now().isoformat()),
             extra=context_unpack(request, {"MESSAGE_ID": "save_transfer"}),

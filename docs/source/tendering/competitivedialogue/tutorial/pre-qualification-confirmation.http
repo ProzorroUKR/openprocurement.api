@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/e16419902ba94afd92483305d6369505?acc_token=afb4b304b0aa4ea4ba19e1f03725bf1e HTTP/1.0
+PATCH /api/2.5/tenders/8c90145216a24d5aa75953a94a96160d?acc_token=afb4b304b0aa4ea4ba19e1f03725bf1e HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 60
 Content-Type: application/json
@@ -698,7 +698,7 @@ X-Content-Type-Options: nosniff
             "value": "True"
           }
         ],
-        "id": "fd70953552a346ecbb2d7f86de89b253",
+        "id": "dfbf0f33e1e1475d90d3c6d02b67dd64",
         "tenderers": [
           {
             "name": "ДКП «Школяр»",
@@ -733,17 +733,17 @@ X-Content-Type-Options: nosniff
             "confidentiality": "public",
             "language": "uk",
             "isDescriptionDecision": false,
-            "id": "58c3e809e0bb499f87fda30df5d0576b",
+            "id": "cd9037b6415b4b3ea0626e210088314b",
             "datePublished": "2021-03-16T00:00:00+02:00",
             "dateModified": "2021-03-16T00:00:00+02:00"
           },
           {
-            "id": "c7e495cd14fa4afe994ffceb6eb9d647",
+            "id": "371d3c32d92a4af99578bbd10a6944e0",
             "datePublished": "2021-03-16T00:00:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "DescriptiveProposal.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e16419902ba94afd92483305d6369505/bids/fd70953552a346ecbb2d7f86de89b253/documents/c7e495cd14fa4afe994ffceb6eb9d647?download=ae93541a5c9f4b64a861457a816489d1",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8c90145216a24d5aa75953a94a96160d/bids/dfbf0f33e1e1475d90d3c6d02b67dd64/documents/371d3c32d92a4af99578bbd10a6944e0?download=ae93541a5c9f4b64a861457a816489d1",
             "documentOf": "tender",
             "dateModified": "2021-03-16T00:00:00+02:00",
             "confidentiality": "buyerOnly",
@@ -751,12 +751,12 @@ X-Content-Type-Options: nosniff
             "isDescriptionDecision": true
           },
           {
-            "id": "92215fd5524a419b9adca0acb93f8e3c",
+            "id": "3d7d17c2422348dcbf572efaaff5ddbc",
             "datePublished": "2021-03-16T00:00:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_top_secrets.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e16419902ba94afd92483305d6369505/bids/fd70953552a346ecbb2d7f86de89b253/documents/92215fd5524a419b9adca0acb93f8e3c?download=154a4e2c544443d7a5d3c86aae5d0df9",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8c90145216a24d5aa75953a94a96160d/bids/dfbf0f33e1e1475d90d3c6d02b67dd64/documents/3d7d17c2422348dcbf572efaaff5ddbc?download=154a4e2c544443d7a5d3c86aae5d0df9",
             "documentOf": "tender",
             "dateModified": "2021-03-16T00:00:00+02:00",
             "confidentiality": "buyerOnly",
@@ -879,7 +879,7 @@ X-Content-Type-Options: nosniff
             "value": "True"
           }
         ],
-        "id": "5534cee2594649ccaa91a9f87caa96e2",
+        "id": "6ff0900c7a5c4c9989addd750d469daa",
         "tenderers": [
           {
             "name": "ДКП «Книга»",
@@ -1018,7 +1018,7 @@ X-Content-Type-Options: nosniff
             "value": "True"
           }
         ],
-        "id": "c8cf921842b343ae90f0b4666658776e",
+        "id": "5ecdae3390544bbf9721a06d39cf2a61",
         "tenderers": [
           {
             "name": "«Снігур»",
@@ -1158,7 +1158,7 @@ X-Content-Type-Options: nosniff
             "value": "True"
           }
         ],
-        "id": "858275d219d14850b85c83ea77b91281",
+        "id": "a1f34dbd52d4456591f1cfd26afeac48",
         "tenderers": [
           {
             "name": "«Кенгуру»",
@@ -1184,7 +1184,7 @@ X-Content-Type-Options: nosniff
         ],
         "documents": [
           {
-            "id": "2271f332282f4f48b584b5bcf8941d26",
+            "id": "095be12088144290b043b820a047fc5a",
             "datePublished": "2021-03-16T00:00:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part1.pdf",
@@ -1197,12 +1197,12 @@ X-Content-Type-Options: nosniff
             "isDescriptionDecision": false
           },
           {
-            "id": "aa24281615704a47a0974bc06cf4ce44",
+            "id": "80ad1cd76df94021b118a5a05f8cfed7",
             "datePublished": "2021-03-16T00:00:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part2.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e16419902ba94afd92483305d6369505/bids/858275d219d14850b85c83ea77b91281/documents/aa24281615704a47a0974bc06cf4ce44?download=aec550f71c1e47f4bb789564fdfa149c",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8c90145216a24d5aa75953a94a96160d/bids/a1f34dbd52d4456591f1cfd26afeac48/documents/80ad1cd76df94021b118a5a05f8cfed7?download=aec550f71c1e47f4bb789564fdfa149c",
             "documentOf": "tender",
             "dateModified": "2021-03-16T00:00:00+02:00",
             "confidentiality": "buyerOnly",
@@ -1248,7 +1248,7 @@ X-Content-Type-Options: nosniff
     "documents": [
       {
         "language": "uk",
-        "id": "bf2b73185c7644999f4c772fd7dbc4b7",
+        "id": "b794c002af9d41b38635ec85aa15a35a",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
@@ -1260,7 +1260,7 @@ X-Content-Type-Options: nosniff
       },
       {
         "language": "uk",
-        "id": "19fcd74e8e884158873085b65694b1dc",
+        "id": "dcd3545e2293415f8afcb323585191bf",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
@@ -1272,7 +1272,7 @@ X-Content-Type-Options: nosniff
       },
       {
         "language": "uk",
-        "id": "19fcd74e8e884158873085b65694b1dc",
+        "id": "dcd3545e2293415f8afcb323585191bf",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
@@ -1370,7 +1370,7 @@ X-Content-Type-Options: nosniff
     "qualifications": [
       {
         "id": "0ef3fa036ea7478199bf19be785c807f",
-        "bidID": "fd70953552a346ecbb2d7f86de89b253",
+        "bidID": "dfbf0f33e1e1475d90d3c6d02b67dd64",
         "status": "active",
         "date": "2021-03-16T00:00:00+02:00",
         "qualified": true,
@@ -1378,7 +1378,7 @@ X-Content-Type-Options: nosniff
       },
       {
         "id": "9184916e99354409964d0f87cdf6e709",
-        "bidID": "5534cee2594649ccaa91a9f87caa96e2",
+        "bidID": "6ff0900c7a5c4c9989addd750d469daa",
         "status": "active",
         "date": "2021-03-16T00:00:00+02:00",
         "qualified": true,
@@ -1386,7 +1386,7 @@ X-Content-Type-Options: nosniff
       },
       {
         "id": "15b5dcc603f942ccb16be05cc2dedfa6",
-        "bidID": "c8cf921842b343ae90f0b4666658776e",
+        "bidID": "5ecdae3390544bbf9721a06d39cf2a61",
         "status": "unsuccessful",
         "date": "2021-03-16T00:00:00+02:00",
         "qualified": false,
@@ -1394,7 +1394,7 @@ X-Content-Type-Options: nosniff
       },
       {
         "id": "6c9beae67b074584850ff51fa67d8297",
-        "bidID": "858275d219d14850b85c83ea77b91281",
+        "bidID": "a1f34dbd52d4456591f1cfd26afeac48",
         "status": "active",
         "date": "2021-03-16T00:00:00+02:00",
         "qualified": true,
@@ -1477,7 +1477,7 @@ X-Content-Type-Options: nosniff
       }
     ],
     "next_check": "2021-03-21T00:00:00+02:00",
-    "id": "e16419902ba94afd92483305d6369505"
+    "id": "8c90145216a24d5aa75953a94a96160d"
   }
 }
 

@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
-
+from uuid import uuid4
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.relocation.api.models import Transfer
+from openprocurement.contracting.api.models import Contract
 from openprocurement.contracting.api.tests.data import test_tender_token as test_contract_tender_token, \
     test_contract_data
 
@@ -14,7 +16,6 @@ class BaseContractOwnershipChangeTest(BaseWebTest):
     tender_token = test_contract_tender_token
     first_owner = "brokerx"
     initial_auth = ("Basic", (first_owner, ""))
-    database_keys = ("transfers", "contracts")
 
     def setUp(self):
         super(BaseContractOwnershipChangeTest, self).setUp()
@@ -87,7 +88,7 @@ class ContractOwnershipChangeTest(BaseContractOwnershipChangeTest):
         # try to use already applied transfer
         data = deepcopy(self.initial_data)
         data["owner"] = self.first_owner
-        data.pop("id")
+        data["id"] = uuid4().hex
         with change_auth(self.app, ("Basic", ("contracting", ""))):
             response = self.app.post_json("/contracts", {"data": data})
         contract = response.json["data"]
@@ -113,9 +114,9 @@ class ContractOwnershipChangeTest(BaseContractOwnershipChangeTest):
         # simulate half-applied transfer activation process (i.e. transfer
         # is successfully applied to a contract and relation is saved in transfer,
         # but contract is not stored with new credentials)
-        transfer_doc = self.databases.transfers.get(transfer["id"])
+        transfer_doc = self.mongodb.transfers.get(transfer["id"])
         transfer_doc["usedFor"] = "/contracts/" + contract["id"]
-        self.databases.transfers.save(transfer_doc)
+        self.mongodb.transfers.save(Transfer(transfer_doc))
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
             response = self.app.post_json(
                 "/contracts/{}/ownership".format(contract["id"]),
@@ -323,9 +324,9 @@ class ContractOwnerOwnershipChangeTest(BaseContractOwnershipChangeTest):
         transfer = response.json["data"]
         transfer_tokens = response.json["access"]
 
-        contract_doc = self.databases.contracts.get(self.contract_id)
+        contract_doc = self.mongodb.contracts.get(self.contract_id)
         contract_doc["owner"] = "deleted_broker"
-        self.databases.contracts.save(contract_doc)
+        self.mongodb.contracts.save(Contract(contract_doc))
 
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
             response = self.app.post_json(

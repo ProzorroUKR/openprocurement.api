@@ -2,6 +2,7 @@
 from datetime import timedelta
 from copy import deepcopy
 from openprocurement.api.utils import get_now
+from openprocurement.contracting.api.models import Contract
 
 
 def no_items_contract_change(self):
@@ -715,9 +716,11 @@ def date_signed_on_change_creation(self):
 
 def change_date_signed_very_old_contracts_data(self):
     # prepare old contract data
-    contract = self.databases.contracts.get(self.contract["id"])
+    contract = self.mongodb.contracts.get(self.contract["id"])
     contract["dateSigned"] = None
-    self.databases.contracts.save(contract)
+
+    contract = Contract(contract)
+    self.mongodb.contracts.save(contract)
 
     response = self.app.get("/contracts/{}?acc_token={}".format(self.contract["id"], self.contract_token))
     self.assertEqual(response.status, "200 OK")
@@ -803,10 +806,10 @@ def change_date_signed_very_old_contracts_data(self):
     self.assertEqual(response.json["data"]["dateSigned"], valid_date)
 
     # prepare old contract change data
-    contract = self.databases.contracts.get(self.contract["id"])
+    contract = self.mongodb.contracts.get(self.contract["id"])
     last_change = contract["changes"][-1]
     last_change["dateSigned"] = None
-    self.databases.contracts.save(contract)
+    self.mongodb.contracts.save(Contract(contract))
 
     response = self.app.get(
         "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], last_change["id"], self.contract_token)
@@ -852,9 +855,9 @@ def change_date_signed_very_old_contracts_data(self):
 
 def date_signed_on_change_creation_for_very_old_contracts_data(self):
     # prepare old contract data
-    contract = self.databases.contracts.get(self.contract["id"])
+    contract = self.mongodb.contracts.get(self.contract["id"])
     contract["dateSigned"] = None
-    self.databases.contracts.save(contract)
+    self.mongodb.contracts.save(Contract(contract))
 
     response = self.app.get("/contracts/{}?acc_token={}".format(self.contract["id"], self.contract_token))
     self.assertEqual(response.status, "200 OK")
@@ -883,10 +886,10 @@ def date_signed_on_change_creation_for_very_old_contracts_data(self):
     self.assertEqual(response.json["data"]["status"], "active")
 
     # prepare old contract change data
-    contract = self.databases.contracts.get(self.contract["id"])
+    contract = self.mongodb.contracts.get(self.contract["id"])
     last_change = contract["changes"][-1]
     last_change["dateSigned"] = None
-    self.databases.contracts.save(contract)
+    self.mongodb.contracts.save(Contract(contract))
 
     response = self.app.get(
         "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], last_change["id"], self.contract_token)

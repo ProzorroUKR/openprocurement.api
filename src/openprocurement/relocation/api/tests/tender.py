@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 import uuid
 
 import os
 from copy import deepcopy
 from mock import patch
 from datetime import timedelta
-
+from openprocurement.relocation.api.models import Transfer
 from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
@@ -35,8 +34,6 @@ class BaseTenderOwnershipChangeTest(BaseTenderWebTest):
     initial_data = test_tender_data
     first_owner = "brokerx"
     initial_auth = ("Basic", (first_owner, ""))
-    enable_couch = True
-    database_keys = ("transfers",)
 
     def setUp(self):
         super(BaseTenderOwnershipChangeTest, self).setUp()
@@ -129,9 +126,9 @@ class TenderOwnershipChangeTest(BaseTenderOwnershipChangeTest):
         # simulate half-applied transfer activation process (i.e. transfer
         # is successfully applied to a tender and relation is saved in transfer,
         # but tender is not stored with new credentials)
-        transfer_doc = self.databases.transfers.get(transfer["id"])
+        transfer_doc = self.mongodb.transfers.get(transfer["id"])
         transfer_doc["usedFor"] = "/tenders/" + tender["id"]
-        self.databases.transfers.save(transfer_doc)
+        self.mongodb.transfers.save(Transfer(transfer_doc))
         response = self.app.post_json(
             "/tenders/{}/ownership".format(tender["id"]),
             {"data": {"id": transfer["id"], "transfer": access["transfer"]}},
@@ -533,9 +530,9 @@ class OpenUACompetitiveDialogueStage2TenderOwnershipChangeTest(TenderOwnershipCh
         # simulate half-applied transfer activation process (i.e. transfer
         # is successfully applied to a tender and relation is saved in transfer,
         # but tender is not stored with new credentials)
-        transfer_doc = self.databases.transfers.get(transfer["id"])
+        transfer_doc = self.mongodb.transfers.get(transfer["id"])
         transfer_doc["usedFor"] = "/tenders/" + tender["id"]
-        self.databases.transfers.save(transfer_doc)
+        self.mongodb.transfers.save(Transfer(transfer_doc))
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
             response = self.app.post_json(
                 "/tenders/{}/ownership".format(tender["id"]),

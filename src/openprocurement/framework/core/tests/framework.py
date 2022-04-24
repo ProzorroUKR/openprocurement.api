@@ -1,7 +1,7 @@
 import os
 import unittest
 from copy import deepcopy
-
+from datetime import datetime
 from mock import MagicMock, patch
 from schematics.transforms import wholelist
 from schematics.types import StringType
@@ -57,7 +57,8 @@ class FrameworksResourceTest(BaseFrameworkTest):
         self.assertIn('{\n    "', response.body.decode())
         self.assertIn("callback({", response.body.decode())
 
-        response = self.app.get("/frameworks?offset=2015-01-01T00:00:00+02:00&descending=1&limit=10")
+        offset = datetime.fromisoformat("2015-01-01T00:00:00+02:00").timestamp()
+        response = self.app.get(f"/frameworks?offset={offset}&descending=1&limit=10")
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["data"], [])
@@ -66,23 +67,17 @@ class FrameworksResourceTest(BaseFrameworkTest):
         self.assertNotIn("descending=1", response.json["prev_page"]["uri"])
         self.assertIn("limit=10", response.json["prev_page"]["uri"])
 
-        response = self.app.get("/frameworks?feed=changes")
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["data"], [])
-        self.assertEqual(response.json["next_page"]["offset"], "")
-        self.assertNotIn("prev_page", response.json)
-
-        response = self.app.get("/frameworks?feed=changes&offset=0", status=404)
+        response = self.app.get("/frameworks?offset=latest", status=404)
         self.assertEqual(response.status, "404 Not Found")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["status"], "error")
         self.assertEqual(
             response.json["errors"],
-            [{"description": "Offset expired/invalid", "location": "url", "name": "offset"}],
+            [{"description": "Invalid offset provided: latest",
+              "location": "querystring", "name": "offset"}],
         )
 
-        response = self.app.get("/frameworks?feed=changes&descending=1&limit=10")
+        response = self.app.get("/frameworks?descending=1&limit=10")
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["data"], [])

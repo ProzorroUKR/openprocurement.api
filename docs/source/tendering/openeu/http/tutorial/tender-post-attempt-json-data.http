@@ -142,7 +142,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/17a82f12536e405c88db7f654bb215f5
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b68a79fc566a4d49b80369c0ed01748d
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -301,7 +301,7 @@ X-Content-Type-Options: nosniff
     },
     "dateModified": "2021-03-16T00:00:00+02:00",
     "dateCreated": "2021-03-16T00:00:00+02:00",
-    "id": "17a82f12536e405c88db7f654bb215f5"
+    "id": "b68a79fc566a4d49b80369c0ed01748d"
   },
   "access": {
     "token": "b156e1bb6d7f4fa6826249264d4140fd",

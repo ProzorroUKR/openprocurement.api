@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/6f00022409bb4e73b5f698801518e0db/bids HTTP/1.0
+POST /api/2.5/tenders/dea691b943a946a8957e9be95bc51a06/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 2695
 Content-Type: application/json
@@ -84,7 +84,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6f00022409bb4e73b5f698801518e0db/bids/7b1decebe35a4408b2fa079344de8313
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/dea691b943a946a8957e9be95bc51a06/bids/660a1a3573c444f6bfd555f8b4e83c3c
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -132,7 +132,7 @@ X-Content-Type-Options: nosniff
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk",
-        "id": "a4384c91c3e2423f82aee43f19130ac2",
+        "id": "553626c74fc04430a5dafa1cbff3bb9a",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"
       },
@@ -144,7 +144,7 @@ X-Content-Type-Options: nosniff
         "confidentiality": "buyerOnly",
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "language": "uk",
-        "id": "e60c97b6416945de8eafcde527d04901",
+        "id": "a900ce33699d4c0984fd4a6e3832c102",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"
       }
@@ -154,11 +154,11 @@ X-Content-Type-Options: nosniff
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6f00022409bb4e73b5f698801518e0db/bids/7b1decebe35a4408b2fa079344de8313/financial_documents/b2d1c6e539a04e10843e7a65c4a5b13c?download=c70126ac67864f0eb83440e79dc1dc23",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/dea691b943a946a8957e9be95bc51a06/bids/660a1a3573c444f6bfd555f8b4e83c3c/financial_documents/faa11720091b4f509316d69ad78bb020?download=c70126ac67864f0eb83440e79dc1dc23",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk",
-        "id": "b2d1c6e539a04e10843e7a65c4a5b13c",
+        "id": "faa11720091b4f509316d69ad78bb020",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"
       }
@@ -168,11 +168,11 @@ X-Content-Type-Options: nosniff
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6f00022409bb4e73b5f698801518e0db/bids/7b1decebe35a4408b2fa079344de8313/eligibility_documents/b85ae26451e547cda0810ef04c777cf9?download=a628e60a5cf141358caec2553308eed1",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/dea691b943a946a8957e9be95bc51a06/bids/660a1a3573c444f6bfd555f8b4e83c3c/eligibility_documents/dff9eee033d6437c8caa0d534803f69c?download=a628e60a5cf141358caec2553308eed1",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk",
-        "id": "b85ae26451e547cda0810ef04c777cf9",
+        "id": "dff9eee033d6437c8caa0d534803f69c",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"
       }
@@ -182,18 +182,18 @@ X-Content-Type-Options: nosniff
         "hash": "md5:00000000000000000000000000000000",
         "title": "qualification_document.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6f00022409bb4e73b5f698801518e0db/bids/7b1decebe35a4408b2fa079344de8313/qualification_documents/a18e17da85ee43b5bb4a3dc4117715de?download=a0af3b8478774cd09f9005ac47f372cb",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/dea691b943a946a8957e9be95bc51a06/bids/660a1a3573c444f6bfd555f8b4e83c3c/qualification_documents/29a969dd9c37423ca7f2f13d75fc9744?download=a0af3b8478774cd09f9005ac47f372cb",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk",
-        "id": "a18e17da85ee43b5bb4a3dc4117715de",
+        "id": "29a969dd9c37423ca7f2f13d75fc9744",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"
       }
     ],
     "selfQualified": true,
     "status": "draft",
-    "id": "7b1decebe35a4408b2fa079344de8313",
+    "id": "660a1a3573c444f6bfd555f8b4e83c3c",
     "date": "2021-03-16T00:00:00+02:00"
   },
   "access": {

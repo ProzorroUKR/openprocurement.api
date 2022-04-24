@@ -1,39 +1,12 @@
-# -*- coding: utf-8 -*-
 import os
 from uuid import uuid4
-
 from openprocurement.relocation.api.models import Transfer
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.belowthreshold.tests.base import test_tender_data
 
 
-class TransferTest(BaseWebTest):
-    relative_to = os.path.dirname(__file__)
-
-    def test_simple_add_transfer(self):
-        data = {"access_token": "1234", "transfer_token": "5678", "owner": "Chuck Norris"}
-
-        u = Transfer(data)
-
-        assert u.id is None
-
-        u.store(self.databases.transfers)
-
-        assert u.id is not None
-
-        fromdb = self.databases.transfers.get(u.id)
-
-        assert u.transfer_token == fromdb["transfer_token"]
-        assert u.access_token == fromdb["access_token"]
-        assert u.owner == fromdb["owner"]
-        assert u.doc_type == "Transfer"
-
-        u.delete_instance(self.databases.transfers)
-
-
 class TransferResourceTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
-    database_keys = ("transfers",)
     initial_auth = ("Basic", ("broker", ""))
 
     def test_get_transfer(self):

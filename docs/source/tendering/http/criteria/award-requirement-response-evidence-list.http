@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/19640473f216462b8e1d6cf8b93fed21/awards/47631e11049e4bb0bfb9799016019797/requirement_responses/15d63b2f54e14bca8ca2e2cd677b82b2/evidences HTTP/1.0
+GET /api/2.5/tenders/1e6e12d317d34d78a0610c9c96182709/awards/47631e11049e4bb0bfb9799016019797/requirement_responses/15d63b2f54e14bca8ca2e2cd677b82b2/evidences HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -12,7 +12,7 @@ X-Content-Type-Options: nosniff
       "title": "Requirement response",
       "type": "document",
       "relatedDocument": {
-        "id": "6bd7284745554a92a8eb69543466fd40",
+        "id": "932bc3ead0324d3daf8917a26765c7e8",
         "title": "name.doc"
       }
     },
@@ -21,7 +21,7 @@ X-Content-Type-Options: nosniff
       "title": "Update evidence title",
       "type": "document",
       "relatedDocument": {
-        "id": "6bd7284745554a92a8eb69543466fd40",
+        "id": "932bc3ead0324d3daf8917a26765c7e8",
         "title": "name.doc"
       }
     }

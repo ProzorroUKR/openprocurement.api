@@ -13,8 +13,6 @@ class BaseAgreementTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
     docservice = False
     initial_auth = ("Basic", ("broker", ""))
-    database_keys = ("agreements",)
-    enable_couch = True
 
 
 class BaseAgreementWebTest(BaseAgreementTest):

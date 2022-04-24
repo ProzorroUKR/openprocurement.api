@@ -1,14 +1,12 @@
-# -*- coding: utf-8 -*-
 import unittest
+from unittest.mock import MagicMock
 from copy import deepcopy
 from datetime import timedelta, datetime
 import mock
 from pytz import timezone
 
 from schematics.exceptions import ValidationError, ModelValidationError, ConversionError
-from couchdb_schematics.document import SchematicsDocument
 
-import openprocurement
 from openprocurement.api.models import Item, IsoDateTimeType, Guarantee
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.models import BusinessOrganization, Address
@@ -34,7 +32,7 @@ class TestBusinessOrganizationScale(unittest.TestCase):
 
     def test_validate_valid(self):
         organization = BusinessOrganization(dict(scale="micro", **self.organization_data))
-        organization.__parent__ = SchematicsDocument()
+        organization.__parent__ = MagicMock()
         organization.validate()
         data = organization.serialize("embedded")
         self.assertIn("scale", data)
@@ -42,7 +40,7 @@ class TestBusinessOrganizationScale(unittest.TestCase):
 
     def test_validate_not_valid(self):
         organization = BusinessOrganization(dict(scale="giant", **self.organization_data))
-        organization.__parent__ = SchematicsDocument()
+        organization.__parent__ = MagicMock()
         with self.assertRaises(ModelValidationError) as e:
             organization.validate()
         self.assertEqual(
@@ -51,7 +49,9 @@ class TestBusinessOrganizationScale(unittest.TestCase):
 
     def test_validate_required(self):
         organization = BusinessOrganization(self.organization_data)
-        organization.__parent__ = SchematicsDocument()
+        organization.__parent__ = MagicMock()
+        organization.__parent__.__parent__ = None
+        organization.__parent__.get.return_value = None
         with self.assertRaises(ModelValidationError) as e:
             organization.validate()
         self.assertEqual(e.exception.messages, {"scale": ["This field is required."]})
@@ -59,7 +59,7 @@ class TestBusinessOrganizationScale(unittest.TestCase):
     @mock.patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
     def test_validate_not_required(self):
         organization = BusinessOrganization(self.organization_data)
-        organization.__parent__ = SchematicsDocument()
+        organization.__parent__ = MagicMock()
         organization.validate()
         data = organization.serialize("embedded")
         self.assertNotIn("scale", data)
@@ -176,7 +176,7 @@ class TestGuarantee(unittest.TestCase):
         data = deepcopy(self.data)
         data["currency"] = 'TE'
         guarantee = Guarantee(data)
-        guarantee.__parent__ = SchematicsDocument()
+        guarantee.__parent__ = MagicMock()
         with self.assertRaises(ModelValidationError) as e:
             guarantee.validate()
         self.assertEqual(
@@ -187,7 +187,7 @@ class TestGuarantee(unittest.TestCase):
         data = deepcopy(self.data)
         data["currency"] = 'TEST'
         guarantee = Guarantee(data)
-        guarantee.__parent__ = SchematicsDocument()
+        guarantee.__parent__ = MagicMock()
         with self.assertRaises(ModelValidationError) as e:
             guarantee.validate()
         self.assertEqual(
@@ -198,7 +198,7 @@ class TestGuarantee(unittest.TestCase):
         data = deepcopy(self.data)
         del data["amount"]
         guarantee = Guarantee(data)
-        guarantee.__parent__ = SchematicsDocument()
+        guarantee.__parent__ = MagicMock()
         with self.assertRaises(ModelValidationError) as e:
             guarantee.validate()
         self.assertEqual(
@@ -209,7 +209,7 @@ class TestGuarantee(unittest.TestCase):
         data = deepcopy(self.data)
         data["currency"] = 'TES'
         guarantee = Guarantee(data)
-        guarantee.__parent__ = SchematicsDocument
+        guarantee.__parent__ = MagicMock
         with self.assertRaises(ModelValidationError) as e:
             guarantee.validate()
         self.assertEqual(
@@ -219,7 +219,7 @@ class TestGuarantee(unittest.TestCase):
 
     def test_create_guarantee_valid(self):
         guarantee = Guarantee(self.data)
-        guarantee.__parent__ = SchematicsDocument()
+        guarantee.__parent__ = MagicMock()
         guarantee.validate()
         obj = guarantee.serialize("embedded")
         self.assertEqual(self.data, obj)

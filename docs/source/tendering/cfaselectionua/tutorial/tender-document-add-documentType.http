@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/16198a81806a4fd9bf0d5b437bc44f7a/documents/bf871fbed76240b1a0b359332f381ebb?acc_token=89feea896bda4b28a07b1efd0cf55f66 HTTP/1.0
+PATCH /api/2.5/tenders/1e7fc0d4cb8943b985627a6dc1c42c8a/documents/783deaf6051c4b20893eac5062c8547f?acc_token=89feea896bda4b28a07b1efd0cf55f66 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 53
 Content-Type: application/json
@@ -16,7 +16,7 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "documentType": "technicalSpecifications",
-    "id": "bf871fbed76240b1a0b359332f381ebb",
+    "id": "783deaf6051c4b20893eac5062c8547f",
     "datePublished": "2021-03-16T00:00:00+02:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Notice.pdf",

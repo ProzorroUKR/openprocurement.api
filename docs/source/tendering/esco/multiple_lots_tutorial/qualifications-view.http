@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/4f76860c8cb34f99bc14e0def3bcbc5a/qualifications?acc_token=4ce0e72a69954a87b19385c16717eecc HTTP/1.0
+GET /api/2.5/tenders/8a0700259bce4187b9c2cee3b9167b19/qualifications?acc_token=4ce0e72a69954a87b19385c16717eecc HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -9,7 +9,7 @@ X-Content-Type-Options: nosniff
   "data": [
     {
       "id": "4c3d87aed4db40acbd6abd9039add872",
-      "bidID": "499825a459994ef698c1b3fe612196d2",
+      "bidID": "4b3da417aa534434a91c634e72169f07",
       "lotID": "93256198e2e7429ab4d0300cc250244f",
       "status": "pending",
       "date": "2021-03-16T00:00:00+02:00",
@@ -18,7 +18,7 @@ X-Content-Type-Options: nosniff
     },
     {
       "id": "8643276f15364e669e0c3670e8a6ad1f",
-      "bidID": "2ab7fecbd7c846c9a4c507a13f01efd8",
+      "bidID": "fed6f61352f54eec8ca73dc0ecb4aa90",
       "lotID": "93256198e2e7429ab4d0300cc250244f",
       "status": "pending",
       "date": "2021-03-16T00:00:00+02:00",

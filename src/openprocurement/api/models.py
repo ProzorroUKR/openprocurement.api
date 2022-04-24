@@ -8,7 +8,6 @@ from uuid import uuid4
 from urllib.parse import urlparse, parse_qs
 from string import hexdigits
 from hashlib import algorithms_guaranteed, new as hash_new
-from couchdb_schematics.document import SchematicsDocument
 from schematics.exceptions import ConversionError, ValidationError
 from schematics.models import Model as SchematicsModel
 from schematics.transforms import whitelist, blacklist, export_loop, convert
@@ -25,7 +24,6 @@ from schematics.types import (
 )
 from schematics.types.compound import ModelType, DictType, ListType as BaseListType
 from schematics.types.serializable import serializable
-from openprocurement.api.interfaces import ISerializable, IValidator
 from openprocurement.api.utils import (
     get_now,
     set_parent,
@@ -54,84 +52,14 @@ from openprocurement.api.constants import (
     UNIT_CODE_REQUIRED_FROM,
 )
 
-schematics_default_role = SchematicsDocument.Options.roles["default"] + blacklist("__parent__")
-schematics_embedded_role = SchematicsDocument.Options.roles["embedded"] + blacklist("__parent__")
+schematics_default_role = blacklist("doc_id", "__parent__")
+schematics_embedded_role = blacklist("_id", "_rev", "doc_type", "__parent__")
 unit_codes = standards.load("unit_codes/recommended.json")
 UNIT_CODES = unit_codes.keys()
 
 plain_role = blacklist("_attachments", "revisions", "dateModified") + schematics_embedded_role
 listing_role = whitelist("dateModified", "doc_id")
 draft_role = whitelist("status")
-from couchdb_schematics.document import DocumentMeta
-from zope.component import queryAdapter, getAdapters
-
-
-class AdaptiveDict(dict):
-    def __init__(self, context, interface, data, prefix=""):
-        self.context = context
-        self.interface = interface
-        self.prefix = prefix
-        self.prefix_len = len(prefix)
-        self.adaptive_items = {}
-        super(AdaptiveDict, self).__init__(data)
-
-    def __contains__(self, item):
-        return item in self.keys()
-
-    def __getitem__(self, key):
-        adapter = None
-        if key in self.adaptive_items:
-            return self.adaptive_items[key]
-        if self.prefix and key.startswith(self.prefix):
-            adapter = queryAdapter(self.context, self.interface, key[self.prefix_len :])
-        else:
-            adapter = queryAdapter(self.context, self.interface, key)
-        if adapter:
-            return adapter
-        val = dict.__getitem__(self, key)
-        return val
-
-    def __setitem__(self, key, val):
-        dict.__setitem__(self, key, val)
-
-    def __repr__(self):
-        dictrepr = dict.__repr__(self)
-        return "%s(%s)" % (type(self).__name__, dictrepr)
-
-    def keys(self):
-        return list(self)
-
-    def __iter__(self):
-        for item in self.iteritems():
-            yield item[0]
-
-    def iteritems(self):
-        for i in super(AdaptiveDict, self).items():
-            yield i
-        for k, v in getAdapters((self.context,), self.interface):
-            if self.prefix:
-                k = self.prefix + k
-            self.adaptive_items[k] = v
-        for i in self.adaptive_items.items():
-            yield i
-
-
-class OpenprocurementCouchdbDocumentMeta(DocumentMeta):
-    def __new__(mcs, name, bases, attrs):
-        klass = DocumentMeta.__new__(mcs, name, bases, attrs)
-        klass._validator_functions = AdaptiveDict(klass, IValidator, klass._validator_functions)
-        klass._serializables = AdaptiveDict(klass, ISerializable, klass._serializables)
-        return klass
-
-
-class OpenprocurementSchematicsDocument(SchematicsDocument, metaclass=OpenprocurementCouchdbDocumentMeta):
-
-    def __init__(self, raw_data=None, deserialize_mapping=None):
-        super(OpenprocurementSchematicsDocument, self).__init__(
-            raw_data=raw_data, deserialize_mapping=deserialize_mapping
-        )
-        if hasattr(self, "Options") and hasattr(self.Options, "namespace"):
-            self.doc_type = self.Options.namespace
 
 
 class DecimalType(BaseDecimalType):
@@ -304,7 +232,7 @@ class SifterListType(ListType):
             return data
 
 
-class Model(SchematicsModel, metaclass=OpenprocurementCouchdbDocumentMeta):    
+class Model(SchematicsModel):
 
     class Options:
         """Export options for Document."""
@@ -314,11 +242,11 @@ class Model(SchematicsModel, metaclass=OpenprocurementCouchdbDocumentMeta):
 
     __parent__ = BaseType()
 
-    def __getattribute__(self, name):
-        serializables = super(Model, self).__getattribute__("_serializables")
-        if name in serializables.adaptive_items:
-            return serializables[name](self)
-        return super(Model, self).__getattribute__(name)
+    # def __getattribute__(self, name):
+    #     serializables = super(Model, self).__getattribute__("_serializables")
+    #     if name in serializables.adaptive_items:
+    #         return serializables[name](self)
+    #     return super(Model, self).__getattribute__(name)
 
     def __getitem__(self, name):
         try:
@@ -367,6 +295,34 @@ class Model(SchematicsModel, metaclass=OpenprocurementCouchdbDocumentMeta):
         while root.__parent__ is not None:
             root = root.__parent__
         return root
+
+
+class RootModel(Model):
+    _id = StringType(deserialize_from=['id', 'doc_id'])
+    _rev = StringType()
+    doc_type = StringType()
+
+    @serializable(serialized_name="id")
+    def doc_id(self):
+        """A property that is serialized by schematics exports."""
+        return self._id
+
+    def _get_id(self):
+        """id property getter."""
+        return self._id
+
+    def _set_id(self, value):
+        """id property setter."""
+        if self.id is not None:
+            raise AttributeError('id can only be set on new documents')
+        self._id = value
+
+    id = property(_get_id, _set_id, doc='The document ID')
+
+    @property
+    def rev(self):
+        """A property for self._rev"""
+        return self._rev
 
 
 class Guarantee(Model):
@@ -455,7 +411,7 @@ class Unit(Model):
                 raise ValidationError(u"Code should be one of valid unit codes.")
 
 
-class Address(Model):
+class BaseAddress(Model):
     streetAddress = StringType()
     locality = StringType()
     region = StringType()
@@ -463,6 +419,9 @@ class Address(Model):
     countryName = StringType(required=True)
     countryName_en = StringType()
     countryName_ru = StringType()
+
+
+class Address(BaseAddress):
 
     def validate_countryName(self, data, value):
         root = get_root(data['__parent__'])
@@ -734,8 +693,7 @@ class Revision(Model):
     rev = StringType()
 
 
-class Contract(Model):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
+class BaseContract(Model):
     buyerID = StringType()
     awardID = StringType()
     contractID = StringType()
@@ -754,6 +712,10 @@ class Contract(Model):
     items = ListType(ModelType(Item))
     suppliers = ListType(ModelType(BusinessOrganization), min_size=1, max_size=1)
     date = IsoDateTimeType()
+
+
+class Contract(BaseContract):
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
 
 
 class BankAccount(Model):

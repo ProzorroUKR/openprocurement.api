@@ -60,7 +60,8 @@ class AgreementsResourceTest(BaseAgreementTest):
         self.assertIn('{\n    "', response.body.decode())
         self.assertIn("callback({", response.body.decode())
 
-        response = self.app.get("/agreements?offset=2015-01-01T00:00:00+02:00&descending=1&limit=10")
+        offset = datetime.datetime.fromisoformat("2015-01-01T00:00:00+02:00").timestamp()
+        response = self.app.get(f"/agreements?offset={offset}&descending=1&limit=10")
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["data"], [])
@@ -69,23 +70,17 @@ class AgreementsResourceTest(BaseAgreementTest):
         self.assertNotIn("descending=1", response.json["prev_page"]["uri"])
         self.assertIn("limit=10", response.json["prev_page"]["uri"])
 
-        response = self.app.get("/agreements?feed=changes")
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["data"], [])
-        self.assertEqual(response.json["next_page"]["offset"], "")
-        self.assertNotIn("prev_page", response.json)
-
-        response = self.app.get("/agreements?feed=changes&offset=0", status=404)
+        response = self.app.get("/agreements?offset=latest", status=404)
         self.assertEqual(response.status, "404 Not Found")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["status"], "error")
         self.assertEqual(
             response.json["errors"],
-            [{"description": "Offset expired/invalid", "location": "url", "name": "offset"}],
+            [{"description": "Invalid offset provided: latest",
+              "location": "querystring", "name": "offset"}],
         )
 
-        response = self.app.get("/agreements?feed=changes&descending=1&limit=10")
+        response = self.app.get("/agreements?descending=1&limit=10")
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["data"], [])
@@ -109,7 +104,6 @@ class UtilsAgreementTest(BaseAgreementTest):
         request = MagicMock()
         request.registry.agreement_agreementTypes.get.side_effect = [Agreement, None]
         model = agreement_from_data(request, TEST_AGREEMENT)
-        self.assertTrue(model.id)
         self.assertTrue(model.agreementID)
         self.assertEqual(model.agreementID, TEST_AGREEMENT["agreementID"])
         with self.assertRaises(Exception) as e:

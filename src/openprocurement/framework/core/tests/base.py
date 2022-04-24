@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 import os.path
-
 from openprocurement.api.tests.base import BaseWebTest as BaseApiWebTest, change_auth
 from openprocurement.api.utils import get_now, apply_data_patch, SESSION
 from openprocurement.framework.electroniccatalogue.utils import calculate_framework_date
+from openprocurement.framework.core.models import Framework
 from openprocurement.tender.core.tests.base import BaseWebTest
 
 here = os.path.dirname(os.path.abspath(__file__))
@@ -19,16 +18,12 @@ test_framework_data = {
 class BaseFrameworkTest(BaseApiWebTest):
     relative_to = os.path.dirname(__file__)
     docservice = False
-    enable_couch = True
-    database_keys = ("frameworks", "submissions", "qualifications", "agreements")
 
 
 class BaseCoreWebTest(BaseWebTest):
     initial_data = None
     initial_status = None
     docservice = False
-    enable_couch = True
-    database_keys = ("frameworks", "submissions", "qualifications", "agreements")
 
     framework_id = None
 
@@ -42,7 +37,7 @@ class BaseCoreWebTest(BaseWebTest):
 
     def set_status(self, status, extra=None):
         self.now = get_now()
-        self.framework_document = self.databases.frameworks.get(self.framework_id)
+        self.framework_document = self.mongodb.frameworks.get(self.framework_id)
         self.framework_document_patch = {"status": status}
         self.update_periods(status)
         if extra:
@@ -70,8 +65,8 @@ class BaseCoreWebTest(BaseWebTest):
         if self.framework_document_patch:
             patch = apply_data_patch(self.framework_document, self.framework_document_patch)
             self.framework_document.update(patch)
-            self.databases.frameworks.save(self.framework_document)
-            self.framework_document = self.databases.frameworks.get(self.framework_id)
+            self.mongodb.frameworks.save(Framework(self.framework_document))
+            self.framework_document = self.mongodb.frameworks.get(self.framework_id)
             self.framework_document_patch = {}
 
     def get_framework(self, role):
@@ -93,12 +88,9 @@ class BaseCoreWebTest(BaseWebTest):
 
     def delete_framework(self):
         if self.framework_id:
-            db = self.databases.frameworks
-            db.delete(db[self.framework_id])
+            db = self.mongodb.frameworks
+            db.delete(self.framework_id)
 
 
 class BaseAgreementTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
-    docservice = False
-    enable_couch = True
-    database_keys = ("frameworks", "submissions", "qualifications", "agreements")

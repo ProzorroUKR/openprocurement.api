@@ -2815,20 +2815,12 @@ def download_tender_bidder_document(self):
                     container[doc_resource]["key"],
                 )
             )
-            if self.docservice:
-                self.assertEqual(response.status, "302 Moved Temporarily")
-                self.assertIn("http://localhost/get/", response.location)
-                self.assertIn("Signature=", response.location)
-                self.assertIn("KeyID=", response.location)
-                self.assertIn("Expires=", response.location)
-            else:
-                self.assertEqual(response.status, "200 OK")
-                self.assertEqual(response.body, b"content")
-                self.assertEqual(
-                    response.headers["Content-Disposition"],
-                    "attachment; filename=name_{}.doc".format(doc_resource[:-1]),
-                )
-                self.assertEqual(response.headers["Content-Type"], "application/msword")
+
+            self.assertEqual(response.status, "302 Moved Temporarily")
+            self.assertIn("http://localhost/get/", response.location)
+            self.assertIn("Signature=", response.location)
+            self.assertIn("KeyID=", response.location)
+            self.assertIn("Expires=", response.location)
 
             response = self.app.get(
                 "/tenders/{}/bids/{}/{}/{}?acc_token={}&download={}".format(
@@ -2879,19 +2871,10 @@ def download_tender_bidder_document(self):
                         container[doc_resource]["key"],
                     )
                 )
-                if self.docservice:
-                    self.assertEqual(response.status, "302 Moved Temporarily")
-                    self.assertIn("http://localhost/get/", response.location)
-                    self.assertIn("Signature=", response.location)
-                    self.assertIn("KeyID=", response.location)
-                else:
-                    self.assertEqual(response.status, "200 OK")
-                    self.assertEqual(response.body, b"content")
-                    self.assertEqual(
-                        response.headers["Content-Disposition"],
-                        "attachment; filename=name_{}.doc".format(doc_resource[:-1]),
-                    )
-                    self.assertEqual(response.headers["Content-Type"], "application/msword")
+                self.assertEqual(response.status, "302 Moved Temporarily")
+                self.assertIn("http://localhost/get/", response.location)
+                self.assertIn("Signature=", response.location)
+                self.assertIn("KeyID=", response.location)
 
         for doc_resource in ["documents", "eligibility_documents"]:
             for container in private_doc_id_by_type, doc_id_by_type:
@@ -2905,13 +2888,10 @@ def download_tender_bidder_document(self):
                         container[doc_resource]["key"],
                     )
                 )
-                if self.docservice:
-                    self.assertEqual(response.status, "302 Moved Temporarily")
-                    self.assertIn("http://localhost/get/", response.location)
-                    self.assertIn("Signature=", response.location)
-                    self.assertIn("KeyID=", response.location)
-                else:
-                    self.assertEqual(response.status, "200 OK")
+                self.assertEqual(response.status, "302 Moved Temporarily")
+                self.assertIn("http://localhost/get/", response.location)
+                self.assertIn("Signature=", response.location)
+                self.assertIn("KeyID=", response.location)
 
         for doc_resource in ["financial_documents", "qualification_documents"]:
             for container in private_doc_id_by_type, doc_id_by_type:
@@ -3021,19 +3001,10 @@ def download_tender_bidder_document(self):
                         container[doc_resource]["key"],
                     )
                 )
-                if self.docservice:
-                    self.assertEqual(response.status, "302 Moved Temporarily")
-                    self.assertIn("http://localhost/get/", response.location)
-                    self.assertIn("Signature=", response.location)
-                    self.assertIn("KeyID=", response.location)
-                else:
-                    self.assertEqual(response.status, "200 OK")
-                    self.assertEqual(response.body, b"content")
-                    self.assertEqual(
-                        response.headers["Content-Disposition"],
-                        "attachment; filename=name_{}.doc".format(doc_resource[:-1]),
-                    )
-                    self.assertEqual(response.headers["Content-Type"], "application/msword")
+                self.assertEqual(response.status, "302 Moved Temporarily")
+                self.assertIn("http://localhost/get/", response.location)
+                self.assertIn("Signature=", response.location)
+                self.assertIn("KeyID=", response.location)
 
         for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
             for container in private_doc_id_by_type, doc_id_by_type:
@@ -3047,19 +3018,10 @@ def download_tender_bidder_document(self):
                         container[doc_resource]["key"],
                     )
                 )
-                if self.docservice:
-                    self.assertEqual(response.status, "302 Moved Temporarily")
-                    self.assertIn("http://localhost/get/", response.location)
-                    self.assertIn("Signature=", response.location)
-                    self.assertIn("KeyID=", response.location)
-                else:
-                    self.assertEqual(response.status, "200 OK")
-                    self.assertEqual(response.body, b"content")
-                    self.assertEqual(
-                        response.headers["Content-Disposition"],
-                        "attachment; filename=name_{}.doc".format(doc_resource[:-1]),
-                    )
-                    self.assertEqual(response.headers["Content-Type"], "application/msword")
+                self.assertEqual(response.status, "302 Moved Temporarily")
+                self.assertIn("http://localhost/get/", response.location)
+                self.assertIn("Signature=", response.location)
+                self.assertIn("KeyID=", response.location)
 
         for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
             response = self.app.get(
@@ -3071,19 +3033,10 @@ def download_tender_bidder_document(self):
                     doc_id_by_type[doc_resource]["key"],
                 )
             )
-            if self.docservice:
-                self.assertEqual(response.status, "302 Moved Temporarily")
-                self.assertIn("http://localhost/get/", response.location)
-                self.assertIn("Signature=", response.location)
-                self.assertIn("KeyID=", response.location)
-            else:
-                self.assertEqual(response.status, "200 OK")
-                self.assertEqual(response.body, b"content")
-                self.assertEqual(
-                    response.headers["Content-Disposition"],
-                    "attachment; filename=name_{}.doc".format(doc_resource[:-1]),
-                )
-                self.assertEqual(response.headers["Content-Type"], "application/msword")
+            self.assertEqual(response.status, "302 Moved Temporarily")
+            self.assertIn("http://localhost/get/", response.location)
+            self.assertIn("Signature=", response.location)
+            self.assertIn("KeyID=", response.location)
 
             response = self.app.get(
                 "/tenders/{}/bids/{}/{}/{}?download={}".format(

@@ -41,6 +41,10 @@ class Db(dict):
         if key in self:
             return deepcopy(self[key])
 
+    def __getattr__(self, item):
+        # print(f"getting collection {item}")
+        return self
+
 
 def dummy_factory(request):
     root = Root(request)
@@ -56,7 +60,6 @@ def dummy_factory(request):
 def cornice_factory(request):
     root = Root(request)
     doc = deepcopy(mock_doc)
-    raise
     if not request.matchdict or not request.matchdict.get("doc_id"):
         return root
     request.validated["mock_id"] = request.matchdict["doc_id"]

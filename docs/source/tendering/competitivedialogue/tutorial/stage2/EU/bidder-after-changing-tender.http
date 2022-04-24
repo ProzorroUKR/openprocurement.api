@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/aa6cf974e101460589085272d5990056/bids/58e27c7c070d4d97b09d73d735ad23aa?acc_token=2bbf824e16a045ddb68192ea4ab04754 HTTP/1.0
+GET /api/2.5/tenders/21b59cfa191a41eaaeb418282327d481/bids/594b1190f9644494a581efb9333648c4?acc_token=2bbf824e16a045ddb68192ea4ab04754 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -35,7 +35,7 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "id": "58e27c7c070d4d97b09d73d735ad23aa",
+    "id": "594b1190f9644494a581efb9333648c4",
     "date": "2021-03-16T00:00:00+02:00",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "selfQualified": true,
@@ -49,17 +49,17 @@ X-Content-Type-Options: nosniff
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk",
-        "id": "495d6da3c2b040ffa35339eb84d63c2e",
+        "id": "34c4ef931f0e4a6dbbc855f6c140860d",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"
       },
       {
-        "id": "5e01113a41914e4d92cdd02641398220",
+        "id": "c1899edef04f4b69a8f4b3b1eee48899",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_top_secrets.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aa6cf974e101460589085272d5990056/bids/58e27c7c070d4d97b09d73d735ad23aa/documents/5e01113a41914e4d92cdd02641398220?download=882ade01f3164c61bf0da13c86c5875b",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/21b59cfa191a41eaaeb418282327d481/bids/594b1190f9644494a581efb9333648c4/documents/c1899edef04f4b69a8f4b3b1eee48899?download=882ade01f3164c61bf0da13c86c5875b",
         "documentOf": "tender",
         "dateModified": "2021-03-16T00:00:00+02:00",
         "confidentiality": "buyerOnly",
@@ -72,11 +72,11 @@ X-Content-Type-Options: nosniff
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aa6cf974e101460589085272d5990056/bids/58e27c7c070d4d97b09d73d735ad23aa/financial_documents/00ef54a29b6f4c9fb5303be6ac985f7c?download=b7721cf2ae9f47dc9af82104e2811f5b",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/21b59cfa191a41eaaeb418282327d481/bids/594b1190f9644494a581efb9333648c4/financial_documents/be767a4080734371bb122f33a5cd9ca7?download=b7721cf2ae9f47dc9af82104e2811f5b",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk",
-        "id": "00ef54a29b6f4c9fb5303be6ac985f7c",
+        "id": "be767a4080734371bb122f33a5cd9ca7",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"
       },
@@ -84,11 +84,11 @@ X-Content-Type-Options: nosniff
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc2.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aa6cf974e101460589085272d5990056/bids/58e27c7c070d4d97b09d73d735ad23aa/financial_documents/7aa80c6d0d76482b972b3ccd9091a76f?download=ee08fcd8d20c4517a6eddcea3858b952",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/21b59cfa191a41eaaeb418282327d481/bids/594b1190f9644494a581efb9333648c4/financial_documents/f21afc95f0604ecc8d66de6b0e9d6242?download=ee08fcd8d20c4517a6eddcea3858b952",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk",
-        "id": "7aa80c6d0d76482b972b3ccd9091a76f",
+        "id": "f21afc95f0604ecc8d66de6b0e9d6242",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"
       }
@@ -98,11 +98,11 @@ X-Content-Type-Options: nosniff
         "hash": "md5:00000000000000000000000000000000",
         "title": "qualification_document.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aa6cf974e101460589085272d5990056/bids/58e27c7c070d4d97b09d73d735ad23aa/qualification_documents/5abcbcc198444c579f71348e8515d9b0?download=ca91037a2a1f426595675bda680031d1",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/21b59cfa191a41eaaeb418282327d481/bids/594b1190f9644494a581efb9333648c4/qualification_documents/8fecf0bc98bb4f1390e2b35c2bdc0a3f?download=ca91037a2a1f426595675bda680031d1",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk",
-        "id": "5abcbcc198444c579f71348e8515d9b0",
+        "id": "8fecf0bc98bb4f1390e2b35c2bdc0a3f",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"
       }

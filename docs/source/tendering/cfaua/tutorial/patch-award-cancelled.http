@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/6f00022409bb4e73b5f698801518e0db/awards/009b24936f724f71b3bead89213fca02?acc_token=a4dab218398a4cc8a8004a91d3ba9744 HTTP/1.0
+PATCH /api/2.5/tenders/dea691b943a946a8957e9be95bc51a06/awards/009b24936f724f71b3bead89213fca02?acc_token=a4dab218398a4cc8a8004a91d3ba9744 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 33
 Content-Type: application/json
@@ -46,7 +46,7 @@ X-Content-Type-Options: nosniff
         "scale": "mid"
       }
     ],
-    "bid_id": "f2396c5eb7dc40e986705a3de1cdc13b",
+    "bid_id": "c37e1f57bb514ac38787d82c6de256e7",
     "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
     "qualified": true,
     "eligible": true

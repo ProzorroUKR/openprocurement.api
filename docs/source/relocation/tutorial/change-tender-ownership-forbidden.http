@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/238757362b204c3baaf61b5f2eccd446/ownership HTTP/1.0
+POST /api/2.5/tenders/4b9115b9cb2c4b0ba35a6addd94c93fe/ownership HTTP/1.0
 Authorization: Bearer broker2
 Content-Length: 100
 Content-Type: application/json

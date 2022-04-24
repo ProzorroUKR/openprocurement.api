@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
-
+from openprocurement.relocation.api.models import Transfer
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.planning.api.tests.base import test_plan_data
 from openprocurement.tender.core.tests.base import change_auth
@@ -12,7 +11,6 @@ class BasePlanOwnershipChangeTest(BaseWebTest):
     initial_data = test_plan_data
     first_owner = "brokerx"
     initial_auth = ("Basic", (first_owner, ""))
-    database_keys = ("transfers", "plans")
 
     def setUp(self):
         super(BasePlanOwnershipChangeTest, self).setUp()
@@ -92,9 +90,9 @@ class PlanOwnershipChangeTest(BasePlanOwnershipChangeTest):
         # simulate half-applied transfer activation process (i.e. transfer
         # is successfully applied to a plan and relation is saved in transfer,
         # but plan is not stored with new credentials)
-        transfer_doc = self.databases.transfers.get(transfer["id"])
+        transfer_doc = self.mongodb.transfers.get(transfer["id"])
         transfer_doc["usedFor"] = "/plans/" + plan["id"]
-        self.databases.transfers.save(transfer_doc)
+        self.mongodb.transfers.save(Transfer(transfer_doc))
         response = self.app.post_json(
             "/plans/{}/ownership".format(plan["id"]),
             {"data": {"id": transfer["id"], "transfer": access["transfer"]}},
@@ -265,7 +263,6 @@ class PlanOwnerOwnershipChangeTest(BasePlanOwnershipChangeTest):
     first_owner = "broker"
     second_owner = "broker1"
     initial_auth = ("Basic", (first_owner, ""))
-    database_keys = ("plans",)
 
     def test_owner_accreditation_level(self):
         # try to use transfer with owner without appropriate accreditation level

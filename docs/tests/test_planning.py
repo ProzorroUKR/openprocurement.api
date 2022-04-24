@@ -22,8 +22,6 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
 
     relative_to = os.path.dirname(__file__)
     initial_data = test_plan_data
-    enable_couch = True
-    docservice = True
     docservice_url = DOCS_URL
 
     def setUp(self):
