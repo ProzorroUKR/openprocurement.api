@@ -1,4 +1,4 @@
-from openprocurement.api.constants import FAST_CATALOGUE_FLOW
+from openprocurement.api.constants import FAST_CATALOGUE_FLOW_FRAMEWORK_IDS
 from openprocurement.api.utils import APIResource, json_view, context_unpack, get_now, generate_id
 from openprocurement.framework.core.utils import (
     submissionsresource,
@@ -75,9 +75,7 @@ class SubmissionResource(APIResource, AgreementMixin):
 
         data = submission.serialize("view")
 
-        if FAST_CATALOGUE_FLOW and activated:
-            # TODO: Remove this branch after the war ends
-            #  Russian warship, go fuck yourself
+        if activated and submission.frameworkID in FAST_CATALOGUE_FLOW_FRAMEWORK_IDS:
             self.activate_qualification()
             self.ensure_agreement()
             self.create_agreement_contract()

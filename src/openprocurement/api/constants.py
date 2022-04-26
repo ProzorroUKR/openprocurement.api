@@ -102,6 +102,10 @@ def parse_constant_date(value):
     return date
 
 
+def parse_str_list(value):
+    return [x.strip() for x in value.split(',') if x.strip()]
+
+
 def get_constant(config, constant, section=DEFAULTSECT, parse_func=parse_constant_date):
     return parse_func(os.environ.get("{}_{}".format(section, constant)) or config.get(section, constant))
 
@@ -230,5 +234,9 @@ MASK_IDENTIFIER_IDS = set(standards.load("organizations/mask_identifiers.json"))
 # CS-12463
 FRAMEWORK_ENQUIRY_PERIOD_OFF_FROM = get_constant(CONSTANTS_CONFIG, "FRAMEWORK_ENQUIRY_PERIOD_OFF_FROM")
 
-# CS-12487
-FAST_CATALOGUE_FLOW = get_constant(CONSTANTS_CONFIG, "FAST_CATALOGUE_FLOW", parse_func=bool)
+# CS-12553
+FAST_CATALOGUE_FLOW_FRAMEWORK_IDS = get_constant(
+    CONSTANTS_CONFIG,
+    "FAST_CATALOGUE_FLOW_FRAMEWORK_IDS",
+    parse_func=parse_str_list,
+)
