@@ -19,6 +19,7 @@ from openprocurement.framework.electroniccatalogue.tests.submission_blanks impor
     patch_submission_draft,
     patch_submission_draft_to_active_invalid,
     patch_submission_active,
+    patch_submission_active_fast,
     patch_submission_draft_to_deleted,
     patch_submission_deleted,
     patch_submission_complete,
@@ -36,6 +37,7 @@ from openprocurement.framework.electroniccatalogue.tests.submission_blanks impor
     create_submission_document_forbidden,
     document_not_found,
     put_submission_document,
+    put_submission_document_fast,
     create_submission_document_json_bulk,
 )
 
@@ -49,6 +51,7 @@ class SubmissionResourceTest(BaseSubmissionContentWebTest):
     test_patch_submission_draft = snitch(patch_submission_draft)
     test_patch_submission_draft_to_active_invalid = snitch(patch_submission_draft_to_active_invalid)
     test_patch_submission_active = snitch(patch_submission_active)
+    test_patch_submission_active_fast = snitch(patch_submission_active_fast)
     test_patch_submission_draft_to_deleted = snitch(patch_submission_draft_to_deleted)
     test_patch_submission_deleted = snitch(patch_submission_deleted)
     test_patch_submission_complete = snitch(patch_submission_complete)
@@ -91,6 +94,7 @@ class TestDocumentsCreate(SubmissionContentWebTest):
     test_create_submission_document_json_bulk = snitch(create_submission_document_json_bulk)
     test_document_not_found = snitch(document_not_found)
     test_put_submission_document = snitch(put_submission_document)
+    test_put_submission_document_fast = snitch(put_submission_document_fast)
 
 
 def suite():

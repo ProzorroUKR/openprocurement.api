@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import mock
 from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
@@ -701,6 +702,41 @@ def patch_submission_active(self):
         )
 
 
+def patch_submission_active_fast(self):
+    target = "openprocurement.framework.electroniccatalogue.views.submission.FAST_CATALOGUE_FLOW_FRAMEWORK_IDS"
+
+    data = deepcopy(self.initial_submission_data)
+    response = self.app.post_json("/submissions", {"data": data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    submission = response.json["data"]
+    token = response.json["access"]["token"]
+    self.assertEqual(submission["status"], "draft")
+
+    with mock.patch(target, self.framework_id):
+        response = self.app.patch_json(
+            "/submissions/{}?acc_token={}".format(submission["id"], token),
+            {"data": {"status": "active"}},
+        )
+
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    submission = response.json["data"]
+    self.assertEqual(submission["status"], "active")
+
+    response = self.app.get("/submissions/{}".format(submission["id"]))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    submission = response.json["data"]
+    self.assertEqual(submission["status"], "complete")
+
+    response = self.app.get("/qualifications/{}".format(submission["qualificationID"]))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    submission = response.json["data"]
+    self.assertEqual(submission["status"], "active")
+
+
 def patch_submission_draft_to_deleted(self):
     data = deepcopy(self.initial_submission_data)
     response = self.app.post_json("/submissions", {"data": data})
@@ -1343,9 +1379,62 @@ def put_submission_document(self):
         response.json["errors"],
         [
             {
-                "description": "Can't update document in current (complete)" " submission status",
+                "description": "Can't update document in current (complete) submission status",
                 "location": "body",
                 "name": "data",
             }
         ],
     )
+
+
+def put_submission_document_fast(self):
+    target = "openprocurement.framework.core.validation.FAST_CATALOGUE_FLOW_FRAMEWORK_IDS"
+
+    with mock.patch(target, self.framework_id):
+        response = self.app.post(
+            "/submissions/{}/documents?acc_token={}".format(
+                self.submission_id,
+                self.submission_token,
+            ),
+            upload_files=[("file", "укр.doc", b"content")],
+        )
+    self.set_submission_status("complete")
+
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual("укр.doc", response.json["data"]["title"])
+    doc_id = response.json["data"]["id"]
+    dateModified = response.json["data"]["dateModified"]
+    self.assertIn(doc_id, response.headers["Location"])
+
+    with mock.patch(target, self.framework_id):
+        response = self.app.put(
+            "/submissions/{}/documents/{}?acc_token={}".format(
+                self.submission_id,
+                doc_id,
+                self.submission_token,
+            ),
+            upload_files=[("file", "name name.doc", b"content2")],
+        )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(doc_id, response.json["data"]["id"])
+
+    response = self.app.get("/submissions/{}/documents".format(
+        self.submission_id,
+        self.submission_token,
+    ))
+    self.assertEqual(response.status, "200 OK")
+    doc_id = response.json["data"][0]["id"]
+
+    with mock.patch(target, self.framework_id):
+        response = self.app.patch_json(
+            "/submissions/{}/documents/{}?acc_token={}".format(
+                self.submission_id,
+                doc_id,
+                self.submission_token,
+            ),
+            {"data": {"documentType": None}},
+        )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
