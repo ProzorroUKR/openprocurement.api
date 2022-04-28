@@ -1,7 +1,10 @@
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 from openprocurement.api.utils import json_view
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_3, ACCR_4, ACCR_5
-from openprocurement.tender.limited.procedure.state.tender_details import TenderDetailsState
+from openprocurement.tender.limited.procedure.state.tender_details import (
+    ReportingTenderDetailsState,
+    NegotiationTenderDetailsState,
+)
 from openprocurement.tender.limited.procedure.models.tender import (
     PostReportingTender,
     PatchReportingTender,
@@ -34,7 +37,7 @@ from cornice.resource import resource
     accept="application/json",
 )
 class ReportingTenderResource(TendersResource):
-    state_class = TenderDetailsState
+    state_class = ReportingTenderDetailsState
 
     @json_view(
         content_type="application/json",
@@ -86,7 +89,7 @@ class ReportingTenderResource(TendersResource):
     accept="application/json",
 )
 class NegotiationTenderResource(TendersResource):
-    state_class = TenderDetailsState
+    state_class = NegotiationTenderDetailsState
 
     @json_view(
         content_type="application/json",
@@ -138,7 +141,7 @@ class NegotiationTenderResource(TendersResource):
     accept="application/json",
 )
 class NegotiationQuickTenderResource(TendersResource):
-    state_class = TenderDetailsState
+    state_class = NegotiationTenderDetailsState
 
     @json_view(
         content_type="application/json",
