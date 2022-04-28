@@ -82,7 +82,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
                     raise_operation_error(get_request(), "Can't update tender items. Items order mismatch")
 
                 for f in ("unit", "classification", "additionalClassifications"):
-                    if [item[f] for item in before["items"]] != [item[f] for item in after["items"]]:
+                    if [item.get(f) for item in before["items"]] != [item.get(f) for item in after["items"]]:
                         raise_operation_error(get_request(), f"Can't update {f} in items in active.enquiries")
 
                 if before["tenderPeriod"]["startDate"] != after["tenderPeriod"].get("startDate"):
