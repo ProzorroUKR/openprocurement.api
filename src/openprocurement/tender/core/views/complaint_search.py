@@ -11,6 +11,6 @@ class ComplaintsResource(APIResource):
         permission="search_complaints",
     )
     def get(self):
-        complaint_id = self.request.params.get("complaint_id", "").lower()
+        complaint_id = self.request.params.get("complaint_id", "")
         results = self.request.registry.mongodb.tenders.find_complaints(complaint_id=complaint_id)
         return {"data": results}

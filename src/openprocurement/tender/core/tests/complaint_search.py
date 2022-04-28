@@ -5,26 +5,26 @@ from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.tests.base import change_auth
 fake_tender_data = {
     "doc_type": "Tender",
-    "_id": "fake_tender_id",
+    "_id": "Fake_tender_id",
     "revisions": [{"date": (RELEASE_2020_04_19 + timedelta(days=1)).isoformat()}],
     "dateCreated": (RELEASE_2020_04_19 + timedelta(days=1)).isoformat()
 }
 
 fake_complaint_data = {
-    "id": "fake_complaint_id",
-    "status": "fake_status",
-    "author": "fake_author",
-    "complaintID": "fake_pretty_complaint_id",
-    "owner_token": "fake_owner_token",
+    "id": "Fake_complaint_id",
+    "status": "Fake_status",
+    "author": "Fake_author",
+    "complaintID": "Fake_pretty_complaint_id",
+    "owner_token": "Fake_owner_token",
     "type": "complaint"
 }
 
 fake_invalid_complaint_data = {
-    "id": "fake_invalid_complaint_id",
-    "status": "fake_invalid_status",
-    "author": "fake_invalid_author",
-    "complaintID": "fake_invalid_pretty_complaint_id",
-    "owner_token": "fake_invalid_owner_token",
+    "id": "Fake_invalid_complaint_id",
+    "status": "Fake_invalid_status",
+    "author": "Fake_invalid_author",
+    "complaintID": "Fake_invalid_pretty_complaint_id",
+    "owner_token": "Fake_invalid_owner_token",
     "type": "complaint"
 }
 
@@ -34,19 +34,19 @@ fake_tender_complaint_data = {
 }
 fake_qualification_complaint_data = {
     "qualifications": [{
-        "id": "fake_qualification_id",
+        "id": "Fake_qualification_id",
         "complaints": [fake_invalid_complaint_data, fake_complaint_data]
     }]
 }
 fake_award_complaint_data = {
     "awards": [{
-        "id": "fake_award_id",
+        "id": "Fake_award_id",
         "complaints": [fake_invalid_complaint_data, fake_complaint_data]
     }]
 }
 fake_cancellation_complaint_data = {
     "cancellations": [{
-        "id": "fake_cancellation_id",
+        "id": "Fake_cancellation_id",
         "complaints": [fake_invalid_complaint_data, fake_complaint_data]
     }]
 }
@@ -72,9 +72,9 @@ def save_fake_tender_data(app, data=None):
 def assert_complaint_data(response):
     assert response.status_code == 200
     assert len(response.json["data"]) == 1
-    assert response.json["data"][0]["access"]["token"] == "fake_owner_token"
-    assert response.json["data"][0]["params"]["tender_id"] == "fake_tender_id"
-    assert response.json["data"][0]["params"]["complaint_id"] == "fake_complaint_id"
+    assert response.json["data"][0]["access"]["token"] == "Fake_owner_token"
+    assert response.json["data"][0]["params"]["tender_id"] == "Fake_tender_id"
+    assert response.json["data"][0]["params"]["complaint_id"] == "Fake_complaint_id"
 
 
 def search_complaint(app, query=None, auth=("Basic", ("bot", "bot")), status=200):
@@ -89,7 +89,7 @@ def search_complaint(app, query=None, auth=("Basic", ("bot", "bot")), status=200
 
 def test_search_complaint_forbidden(app):
     save_fake_tender_data(app)
-    response = search_complaint(app, query="complaint_id=fake_pretty_complaint_id", auth=None, status=403)
+    response = search_complaint(app, query="complaint_id=Fake_pretty_complaint_id", auth=None, status=403)
     assert response.status_code == 403
 
 
@@ -113,7 +113,7 @@ def test_search_complaint_not_found(app):
 
 def test_search_tender_complaint_by_payment_id(app):
     save_fake_tender_data(app, fake_tender_complaint_data)
-    response = search_complaint(app, query="complaint_id=fake_pretty_complaint_id")
+    response = search_complaint(app, query="complaint_id=Fake_pretty_complaint_id")
     assert_complaint_data(response)
     assert response.json["data"][0]["params"]["item_type"] is None
     assert response.json["data"][0]["params"]["item_id"] is None
@@ -121,23 +121,23 @@ def test_search_tender_complaint_by_payment_id(app):
 
 def test_search_qualification_complaint_by_payment_id(app):
     save_fake_tender_data(app, fake_qualification_complaint_data)
-    response = search_complaint(app, query="complaint_id=fake_pretty_complaint_id")
+    response = search_complaint(app, query="complaint_id=Fake_pretty_complaint_id")
     assert_complaint_data(response)
     assert response.json["data"][0]["params"]["item_type"] == "qualifications"
-    assert response.json["data"][0]["params"]["item_id"] == "fake_qualification_id"
+    assert response.json["data"][0]["params"]["item_id"] == "Fake_qualification_id"
 
 
 def test_search_award_complaint_by_payment_id(app):
     save_fake_tender_data(app, fake_award_complaint_data)
-    response = search_complaint(app, query="complaint_id=fake_pretty_complaint_id")
+    response = search_complaint(app, query="complaint_id=Fake_pretty_complaint_id")
     assert_complaint_data(response)
     assert response.json["data"][0]["params"]["item_type"] == "awards"
-    assert response.json["data"][0]["params"]["item_id"] == "fake_award_id"
+    assert response.json["data"][0]["params"]["item_id"] == "Fake_award_id"
 
 
 def test_search_cancellation_complaint_by_payment_id(app):
     save_fake_tender_data(app, fake_cancellation_complaint_data)
-    response = search_complaint(app, query="complaint_id=fake_pretty_complaint_id")
+    response = search_complaint(app, query="complaint_id=Fake_pretty_complaint_id")
     assert_complaint_data(response)
     assert response.json["data"][0]["params"]["item_type"] == "cancellations"
-    assert response.json["data"][0]["params"]["item_id"] == "fake_cancellation_id"
+    assert response.json["data"][0]["params"]["item_id"] == "Fake_cancellation_id"
