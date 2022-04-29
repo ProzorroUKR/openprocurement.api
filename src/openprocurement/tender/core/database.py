@@ -71,7 +71,7 @@ class TenderCollection:
                     },
                 )
             )
-        self.collection.drop_indexes()  # TODO: comment me
+        # self.collection.drop_indexes()  # TODO: comment me
         # index management probably shouldn't be a part of api initialization
         # a command like `migrate_db` could be called once per release
         # that can manage indexes and data migrations
