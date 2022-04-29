@@ -97,7 +97,7 @@ def calc_auction_end_time(bids, start):
 
 def generate_tender_id(request):
     now = get_now()
-    uid = f"plan_{now.date().isoformat()}"
+    uid = f"tender_{now.date().isoformat()}"
     index = request.registry.mongodb.get_next_sequence_value(uid)
     return "UA-{:04}-{:02}-{:02}-{:06}".format(now.year, now.month, now.day, index)
 
