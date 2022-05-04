@@ -102,7 +102,7 @@ class TestUtils(TestUtilsBase):
         request.registry.mongodb.get_next_sequence_value.return_value = 99
 
         tender_id = generate_tender_id(request)
-        tid = "UA-{:04}-{:02}-{:02}-{:06}".format(
+        tid = "UA-{:04}-{:02}-{:02}-{:06}-a".format(
             ctime.year, ctime.month, ctime.day, 99
         )
         self.assertEqual(tid, tender_id)
