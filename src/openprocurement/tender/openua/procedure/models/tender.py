@@ -107,6 +107,12 @@ class PatchTender(BasePatchTender):
             "active.tendering",
         ],
     )
+    awardCriteria = StringType(
+        choices=[
+            AWARD_CRITERIA_LOWEST_COST,
+            AWARD_CRITERIA_LIFE_CYCLE_COST
+        ],
+    )
     enquiryPeriod = ModelType(EnquiryPeriod)
     tenderPeriod = ModelType(PeriodStartEndRequired)
     items = ListType(

@@ -1,6 +1,5 @@
 from schematics.validate import ValidationError
 from schematics.types import StringType, BaseType
-from schematics.types.serializable import serializable
 from schematics.types.compound import ModelType, ListType
 from openprocurement.tender.core.procedure.models.item import (
     validate_classification_id,
@@ -12,7 +11,6 @@ from openprocurement.tender.core.procedure.models.period import (
     EnquiryPeriod,
     PostPeriodStartEndRequired,
     PeriodStartEndRequired,
-    Period,
 )
 from openprocurement.tender.core.procedure.models.tender import (
     PostTender as BasePostTender,
@@ -20,11 +18,6 @@ from openprocurement.tender.core.procedure.models.tender import (
     Tender as BaseTender,
 )
 from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST, AWARD_CRITERIA_LIFE_CYCLE_COST
-from openprocurement.tender.openua.constants import (
-    ENQUIRY_PERIOD_TIME,
-    ENQUIRY_STAND_STILL_TIME,
-)
-from openprocurement.tender.core.utils import calculate_tender_business_date, calculate_clarif_business_date
 from openprocurement.tender.openeu.constants import ABOVE_THRESHOLD_EU, TENDERING_DURATION
 from openprocurement.tender.openua.validation import _validate_tender_period_start_date
 from openprocurement.tender.core.validation import validate_tender_period_duration
@@ -90,6 +83,12 @@ class PatchTender(BasePatchTender):
             "draft",
             "active.tendering",
             "active.pre-qualification.stand-still",
+        ],
+    )
+    awardCriteria = StringType(
+        choices=[
+            AWARD_CRITERIA_LOWEST_COST,
+            AWARD_CRITERIA_LIFE_CYCLE_COST
         ],
     )
     enquiryPeriod = ModelType(EnquiryPeriod)

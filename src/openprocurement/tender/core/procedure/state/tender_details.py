@@ -25,6 +25,12 @@ class TenderDetailsMixing:
                     location="body",
                     name="procuringEntity"
                 )
+        if before.get("awardCriteria") != after.get("awardCriteria"):
+            raise_operation_error(
+                get_request(),
+                "Can't change awardCriteria",
+                name="awardCriteria"
+            )
 
         self.watch_value_meta_changes(after)
         super().on_patch(before, after)
