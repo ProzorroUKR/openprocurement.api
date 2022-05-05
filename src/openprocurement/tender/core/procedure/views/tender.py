@@ -34,11 +34,14 @@ class TendersListResource(MongodbResourceListing):
         self.all_fields = {
             "dateCreated",
             "dateModified",
+            "qualificationPeriod",
             "auctionPeriod",
+            "awardPeriod",
             "status",
             "tenderID",
             "lots",
             "procurementMethodType",
+            "procurementMethod",
             "next_check",
         }
         self.db_listing_method = request.registry.mongodb.tenders.list

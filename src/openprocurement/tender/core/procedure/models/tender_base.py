@@ -156,6 +156,8 @@ class BaseTender(PatchBaseTender):
         procurementMethodDetails = StringType()
 
     complaints = BaseType()
+    awards = BaseType()
+    contracts = BaseType()
     cancellations = BaseType()
     numberOfBids = BaseType()  # deprecated
     _attachments = BaseType()  # deprecated
