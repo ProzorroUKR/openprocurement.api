@@ -11,7 +11,7 @@ X-Content-Type-Options: nosniff
     "date": "2021-03-27T00:00:02+02:00",
     "dateCreated": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-27T00:00:02+02:00",
-    "tenderID": "UA-2021-03-16-000001",
+    "tenderID": "UA-2021-03-16-000001-a",
     "owner": "broker",
     "mainProcurementCategory": "services",
     "milestones": [
@@ -1398,7 +1398,7 @@ X-Content-Type-Options: nosniff
     "contracts": [
       {
         "id": "50fd544f07894953927212c4e2a4cb9c",
-        "contractID": "UA-2021-03-16-000001-1",
+        "contractID": "UA-2021-03-16-000001-a-1",
         "contractNumber": "contract#1",
         "status": "pending",
         "period": {

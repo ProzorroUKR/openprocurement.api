@@ -8,7 +8,7 @@ X-Content-Type-Options: nosniff
   "data": [
     {
       "id": "9d0ce1567b1a462eb0d9226f0c06add5",
-      "complaintID": "UA-2021-03-16-000001.1",
+      "complaintID": "UA-2021-03-16-000001-a.1",
       "date": "2021-03-16T00:00:00+02:00",
       "documents": [
         {
@@ -74,7 +74,7 @@ X-Content-Type-Options: nosniff
     },
     {
       "id": "3764e20ccb1a4aa0a481a16620422cdc",
-      "complaintID": "UA-2021-03-16-000001.2",
+      "complaintID": "UA-2021-03-16-000001-a.2",
       "date": "2021-03-16T00:00:00+02:00",
       "author": {
         "name": "ДКП «Школяр»",
@@ -114,7 +114,7 @@ X-Content-Type-Options: nosniff
     },
     {
       "id": "1ada1286b366490980b53f2818708ff6",
-      "complaintID": "UA-2021-03-16-000001.3",
+      "complaintID": "UA-2021-03-16-000001-a.3",
       "date": "2021-03-16T00:00:00+02:00",
       "author": {
         "name": "ДКП «Школяр»",
@@ -153,7 +153,7 @@ X-Content-Type-Options: nosniff
     },
     {
       "id": "2681838051bb4d6a9a9b1eeba8ac67cc",
-      "complaintID": "UA-2021-03-16-000001.4",
+      "complaintID": "UA-2021-03-16-000001-a.4",
       "date": "2021-03-16T00:00:00+02:00",
       "author": {
         "name": "ДКП «Школяр»",
@@ -196,7 +196,7 @@ X-Content-Type-Options: nosniff
     },
     {
       "id": "2f3f3c0467a74927b7889515204c6935",
-      "complaintID": "UA-2021-03-16-000001.5",
+      "complaintID": "UA-2021-03-16-000001-a.5",
       "date": "2021-03-16T00:00:00+02:00",
       "author": {
         "name": "ДКП «Школяр»",

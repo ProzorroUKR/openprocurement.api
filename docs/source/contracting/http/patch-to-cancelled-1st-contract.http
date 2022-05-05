@@ -17,7 +17,7 @@ X-Content-Type-Options: nosniff
   "data": {
     "id": "4d2a894ddb8f4b4c88370fa1ff4e5f93",
     "buyerID": "11111111111111111111111111111111",
-    "contractID": "UA-2021-03-16-000001-1",
+    "contractID": "UA-2021-03-16-000001-a-1",
     "status": "cancelled",
     "suppliers": [
       {

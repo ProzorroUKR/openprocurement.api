@@ -99,7 +99,7 @@ def generate_tender_id(request):
     now = get_now()
     uid = f"tender_{now.date().isoformat()}"
     index = request.registry.mongodb.get_next_sequence_value(uid)
-    return "UA-{:04}-{:02}-{:02}-{:06}".format(now.year, now.month, now.day, index)
+    return "UA-{:04}-{:02}-{:02}-{:06}-a".format(now.year, now.month, now.day, index)
 
 
 def save_tender(request, validate=False):

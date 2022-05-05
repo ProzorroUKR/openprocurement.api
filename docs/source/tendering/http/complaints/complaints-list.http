@@ -8,7 +8,7 @@ X-Content-Type-Options: nosniff
   "data": [
     {
       "id": "95af65ce526b4245867b1805b25091a6",
-      "complaintID": "UA-2021-03-16-000001.1",
+      "complaintID": "UA-2021-03-16-000001-a.1",
       "date": "2021-03-16T00:00:00+02:00",
       "type": "claim",
       "title": "Недостатньо інформації",
@@ -32,7 +32,7 @@ X-Content-Type-Options: nosniff
     },
     {
       "id": "c6c28986ca50459c8ceb1d5048a0e4ba",
-      "complaintID": "UA-2021-03-16-000001.2",
+      "complaintID": "UA-2021-03-16-000001-a.2",
       "date": "2021-03-16T00:00:00+02:00",
       "type": "claim",
       "title": "Недостатньо інформації",
@@ -46,7 +46,7 @@ X-Content-Type-Options: nosniff
     },
     {
       "id": "f6cf2a30c94b4c288c34e7ed13b7daa7",
-      "complaintID": "UA-2021-03-16-000001.3",
+      "complaintID": "UA-2021-03-16-000001-a.3",
       "date": "2021-03-16T00:00:00+02:00",
       "type": "complaint",
       "author": {
@@ -86,7 +86,7 @@ X-Content-Type-Options: nosniff
     },
     {
       "id": "58d8efdc2e5943bab0774fa43427f14e",
-      "complaintID": "UA-2021-03-16-000001.4",
+      "complaintID": "UA-2021-03-16-000001-a.4",
       "date": "2021-03-16T00:00:00+02:00",
       "type": "claim",
       "title": "Недостатньо інформації",
@@ -99,7 +99,7 @@ X-Content-Type-Options: nosniff
     },
     {
       "id": "4d1041a0614c4b0291a5bbcbf167e23b",
-      "complaintID": "UA-2021-03-16-000001.5",
+      "complaintID": "UA-2021-03-16-000001-a.5",
       "date": "2021-03-16T00:00:00+02:00",
       "type": "complaint",
       "author": {
@@ -155,7 +155,7 @@ X-Content-Type-Options: nosniff
     },
     {
       "id": "8626aed686ed4cad8552a8c5ea8a25b8",
-      "complaintID": "UA-2021-03-16-000001.6",
+      "complaintID": "UA-2021-03-16-000001-a.6",
       "date": "2021-03-16T00:00:00+02:00",
       "type": "complaint",
       "author": {
@@ -198,7 +198,7 @@ X-Content-Type-Options: nosniff
     },
     {
       "id": "e14b5d8443e24561a9219c7bf453095b",
-      "complaintID": "UA-2021-03-16-000001.7",
+      "complaintID": "UA-2021-03-16-000001-a.7",
       "date": "2021-03-16T00:00:00+02:00",
       "type": "complaint",
       "author": {
@@ -237,7 +237,7 @@ X-Content-Type-Options: nosniff
     },
     {
       "id": "14d632112d11453e8fc1700120d87121",
-      "complaintID": "UA-2021-03-16-000001.8",
+      "complaintID": "UA-2021-03-16-000001-a.8",
       "date": "2021-03-16T00:00:00+02:00",
       "type": "complaint",
       "author": {
@@ -275,7 +275,7 @@ X-Content-Type-Options: nosniff
     },
     {
       "id": "95aa73a5f576482287f23e321af72c91",
-      "complaintID": "UA-2021-03-16-000001.9",
+      "complaintID": "UA-2021-03-16-000001-a.9",
       "date": "2021-03-16T00:00:00+02:00",
       "type": "complaint",
       "author": {
@@ -310,7 +310,7 @@ X-Content-Type-Options: nosniff
     },
     {
       "id": "ae7030e56f544ad89fb28b915289a41c",
-      "complaintID": "UA-2021-03-16-000001.10",
+      "complaintID": "UA-2021-03-16-000001-a.10",
       "date": "2021-03-16T00:00:00+02:00",
       "type": "complaint",
       "author": {

@@ -38,7 +38,7 @@ from openprocurement.tender.core.procedure.models.tender import (
     PatchBaseTender,
     BaseTender,
 )
-from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST, AWARD_CRITERIA_LIFE_CYCLE_COST
+from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
 from openprocurement.tender.core.utils import calculate_complaint_business_date, validate_features_custom_weight
 from openprocurement.tender.core.models import validate_features_uniq
 from openprocurement.tender.cfaselectionua.constants import TENDERING_DURATION

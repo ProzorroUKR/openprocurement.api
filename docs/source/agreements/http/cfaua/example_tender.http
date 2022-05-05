@@ -128,7 +128,7 @@ X-Content-Type-Options: nosniff
       "startDate": "2021-01-17T00:00:00+02:00"
     },
     "status": "complete",
-    "tenderID": "UA-2021-03-16-000001",
+    "tenderID": "UA-2021-03-16-000001-a",
     "complaintPeriod": {
       "startDate": "2021-03-16T00:00:00+02:00",
       "endDate": "2021-04-12T00:00:00+02:00"
@@ -483,7 +483,7 @@ X-Content-Type-Options: nosniff
             "description_en": "Cases for state awards"
           }
         ],
-        "agreementID": "UA-2021-03-16-000001-8053c38b861e4d27b6375ab5eb93cc1c1",
+        "agreementID": "UA-2021-03-16-000001-a-8053c38b861e4d27b6375ab5eb93cc1c1",
         "date": "2021-03-16T00:00:00+02:00",
         "contracts": [
           {

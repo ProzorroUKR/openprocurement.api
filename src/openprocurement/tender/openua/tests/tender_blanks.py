@@ -1415,16 +1415,10 @@ def create_tender_with_criteria_lcc(self):
         {"data": {
             "awardCriteria": "lifeCycleCost"
         }},
-        status=422
+        status=403
     )
     self.assertEqual(
-        [{
-            "location": "body",
-            "name": "awardCriteria",
-            "description": [
-                "Value must be one of ['lowestCost']."
-            ]
-        }],
+        [{"location": "body", "name": "awardCriteria", "description": "Can\'t change awardCriteria"}],
         response.json["errors"]
     )
 
