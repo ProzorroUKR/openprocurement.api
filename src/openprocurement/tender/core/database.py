@@ -133,7 +133,7 @@ class TenderCollection:
                 }
             }
             for i in (tender[item_type] if item_type else [tender])
-            for c in i["complaints"]
+            for c in i.get("complaints", "")
             if c["complaintID"] == complaint_id
             # pymongo.errors.OperationFailure: Cannot use $elemMatch projection on a nested field
         ]
