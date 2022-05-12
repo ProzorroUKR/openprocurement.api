@@ -454,36 +454,6 @@ def create_tender_invalid(self):
         [{"location": "body", "name": "procuringEntity", "description": {"kind": [
             "Value must be one of [\'general\', \'special\', \'defense\', \'other\', \'social\', \'authority\']."]}}]
     )
-    later = get_now() + timedelta(days=1)
-    with mock.patch("openprocurement.tender.pricequotation.procedure.models.item.PQ_MULTI_PROFILE_FROM", later):
-        with mock.patch("openprocurement.tender.pricequotation.procedure.models.tender.PQ_MULTI_PROFILE_FROM", later):
-            data = deepcopy(test_tender_data_before_multiprofile)
-            data["agreement"] = {"id": self.agreement_id}
-            response = self.app.post_json(request_path, {"data": data}, status=422)
-            self.assertEqual(response.status, '422 Unprocessable Entity')
-            self.assertEqual(response.content_type, "application/json")
-            self.assertEqual(response.json["status"], "error")
-            self.assertEqual(
-                response.json["errors"], [{
-                    "description": ["Rogue field."],
-                    "location": "body",
-                    "name": "agreement"
-                }],
-            )
-
-            data = deepcopy(test_tender_data_before_multiprofile)
-            data["items"] = [test_item_after_multiprofile]
-            response = self.app.post_json(request_path, {"data": data}, status=422)
-            self.assertEqual(response.status, '422 Unprocessable Entity')
-            self.assertEqual(response.content_type, "application/json")
-            self.assertEqual(response.json["status"], "error")
-            self.assertEqual(
-                response.json["errors"], [{
-                    "description": [{"profile": ["Rogue field."]}],
-                    "location": "body",
-                    "name": "items"
-                }],
-            )
 
     before = get_now() - timedelta(days=1)
     with mock.patch("openprocurement.tender.pricequotation.procedure.models.item.PQ_MULTI_PROFILE_FROM", before):
