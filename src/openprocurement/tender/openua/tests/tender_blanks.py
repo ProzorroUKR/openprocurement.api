@@ -62,29 +62,20 @@ def empty_listing(self):
     self.assertEqual(response.json["next_page"]["offset"], "")
     self.assertNotIn("prev_page", response.json)
 
-    response = self.app.get("/tenders?feed=changes&offset=2015-01-01T00:00:00+02:00", status=404)
+    response = self.app.get("/tenders?feed=changes&offset=latest", status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": "Invalid offset provided: 2015-01-01T00:00:00 02:00",
+        [{"description": "Invalid offset provided: latest",
           "location": "querystring", "name": "offset"}],
     )
-
-    response = self.app.get("/tenders?feed=changes&descending=1&limit=10")
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"], [])
-    self.assertIn("descending=1", response.json["next_page"]["uri"])
-    self.assertIn("limit=10", response.json["next_page"]["uri"])
-    self.assertNotIn("descending=1", response.json["prev_page"]["uri"])
-    self.assertIn("limit=10", response.json["prev_page"]["uri"])
 
 
 def create_tender_invalid(self):
     request_path = "/tenders"
-    response = self.app.post_json(request_path, {"data": {}}, status=404)
+    self.app.post_json(request_path, {"data": {}}, status=404)
 
     response = self.app.post(request_path, "data", content_type="application/json", status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
