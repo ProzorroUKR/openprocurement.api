@@ -42,22 +42,16 @@ class ShortlistedFirm(BusinessOrganization):
 
 def validate_agreement(data, value):
     multi_profile_released = get_first_revision_date(data, default=get_now()) > PQ_MULTI_PROFILE_FROM
-
-    if not multi_profile_released and value:
-        raise ValidationError("Rogue field.")
-    elif multi_profile_released and not value:
+    if multi_profile_released and not value:
         raise ValidationError(BaseType.MESSAGES["required"])
 
 
 def validate_profile(data, value):
     multi_profile_released = get_first_revision_date(data, default=get_now()) > PQ_MULTI_PROFILE_FROM
-
-    if not multi_profile_released and not value:
-        raise ValidationError(BaseType.MESSAGES["required"])
-    if not multi_profile_released and value:
-        validate_profile_pattern(value)
     if multi_profile_released and value:
         raise ValidationError("Rogue field.")
+    if value:
+        validate_profile_pattern(value)
 
 
 def validate_tender_period_duration(data, period):
