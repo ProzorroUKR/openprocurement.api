@@ -764,6 +764,17 @@ class APIResourcePaginatedListing(APIResource):
         return data
 
 
+def fix_deprecated_offset(offset: str):
+    if offset.isnumeric():
+        return offset
+    else:
+        try:
+            return parse_date(offset.replace(" ", "+")).timestamp()
+        except ValueError as e:
+            LOGGER.warning(e)
+            return offset
+
+
 class MongodbResourceListing(APIResource):
 
     listing_name = "Items"
@@ -782,7 +793,7 @@ class MongodbResourceListing(APIResource):
 
         offset = None
         if self.request.params.get('offset'):
-            params["offset"] = self.request.params.get('offset')
+            params["offset"] = fix_deprecated_offset(self.request.params.get('offset'))
             try:
                 offset = float(params["offset"])
             except ValueError:
