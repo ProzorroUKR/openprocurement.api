@@ -292,7 +292,7 @@ X-Content-Type-Options: nosniff
     },
     "qualificationPeriod": {
       "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-03-26T00:00:00+02:00"
+      "endDate": "2021-03-21T00:00:00+02:00"
     },
     "qualifications": [
       {
@@ -388,9 +388,9 @@ X-Content-Type-Options: nosniff
       }
     ],
     "status": "active.pre-qualification.stand-still",
-    "next_check": "2021-03-26T00:00:00+02:00",
+    "next_check": "2021-03-21T00:00:00+02:00",
     "auctionPeriod": {
-      "shouldStartAfter": "2021-03-26T00:00:00+02:00"
+      "shouldStartAfter": "2021-03-21T00:00:00+02:00"
     },
     "id": "aa6cf974e101460589085272d5990056"
   }

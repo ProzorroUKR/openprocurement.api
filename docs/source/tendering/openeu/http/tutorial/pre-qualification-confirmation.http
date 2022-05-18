@@ -1307,7 +1307,7 @@ X-Content-Type-Options: nosniff
     ],
     "qualificationPeriod": {
       "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-03-26T00:00:00+02:00"
+      "endDate": "2021-03-21T00:00:00+02:00"
     },
     "qualifications": [
       {
@@ -1339,9 +1339,9 @@ X-Content-Type-Options: nosniff
       "startDate": "2021-02-13T00:00:00+02:00",
       "endDate": "2021-03-12T00:00:00+02:00"
     },
-    "next_check": "2021-03-26T00:00:00+02:00",
+    "next_check": "2021-03-21T00:00:00+02:00",
     "auctionPeriod": {
-      "shouldStartAfter": "2021-03-26T00:00:00+02:00"
+      "shouldStartAfter": "2021-03-21T00:00:00+02:00"
     },
     "id": "17a82f12536e405c88db7f654bb215f5"
   }

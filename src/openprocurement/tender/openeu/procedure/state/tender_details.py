@@ -3,7 +3,7 @@ from openprocurement.tender.core.procedure.context import get_request, get_now, 
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.openeu.procedure.state.tender import OpenEUTenderState
 from openprocurement.tender.core.utils import calculate_complaint_business_date
-from openprocurement.tender.openeu.constants import COMPLAINT_STAND_STILL
+from openprocurement.tender.openeu.constants import PREQUALIFICATION_COMPLAINT_STAND_STILL
 from openprocurement.tender.openua.constants import (
     TENDERING_EXTRA_PERIOD,
     ENQUIRY_PERIOD_TIME,
@@ -12,7 +12,6 @@ from openprocurement.tender.openua.constants import (
 )
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
-    calculate_clarif_business_date,
     check_auction_period,
 )
 from openprocurement.api.utils import raise_operation_error
@@ -87,7 +86,7 @@ class OpenEUTenderDetailsMixing(TenderDetailsMixing):
 
                 if all_bids_are_reviewed():
                     after["qualificationPeriod"]["endDate"] = calculate_complaint_business_date(
-                        get_now(), COMPLAINT_STAND_STILL, after
+                        get_now(), PREQUALIFICATION_COMPLAINT_STAND_STILL, after
                     ).isoformat()
                     self.check_auction_time(after)
                 else:
