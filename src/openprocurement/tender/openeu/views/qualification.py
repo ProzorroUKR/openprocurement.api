@@ -13,13 +13,13 @@ from openprocurement.tender.openeu.validation import (
 from openprocurement.tender.openeu.utils import qualifications_resource, prepare_qualifications
 
 
-@qualifications_resource(
-    name="aboveThresholdEU:Tender Qualification",
-    collection_path="/tenders/{tender_id}/qualifications",
-    path="/tenders/{tender_id}/qualifications/{qualification_id}",
-    procurementMethodType="aboveThresholdEU",
-    description="TenderEU Qualification",
-)
+# @qualifications_resource(
+#     name="aboveThresholdEU:Tender Qualification",
+#     collection_path="/tenders/{tender_id}/qualifications",
+#     path="/tenders/{tender_id}/qualifications/{qualification_id}",
+#     procurementMethodType="aboveThresholdEU",
+#     description="TenderEU Qualification",
+# )
 class TenderQualificationResource(APIResource):
     @json_view(permission="view_tender")
     def collection_get(self):

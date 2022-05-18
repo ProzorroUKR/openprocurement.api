@@ -7,31 +7,6 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "tenderers": [
-      {
-        "name": "ДКП «Книга»",
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00137226",
-          "uri": "http://www.sc.gov.ua/"
-        },
-        "address": {
-          "streetAddress": "вул. Островського, 34",
-          "locality": "м. Львів",
-          "region": "Львівська область",
-          "postalCode": "79013",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "name": "Андрій Олексюк",
-          "email": "aagt@gmail.com",
-          "telephone": "+380322916930"
-        },
-        "scale": "sme"
-      }
-    ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "ae5a970874fd4292995525fb1c03d678",
     "requirementResponses": [
       {
         "id": "7ce7b3f20af44b8ea0038eac22b771c9",
@@ -144,6 +119,31 @@ X-Content-Type-Options: nosniff
         "value": "True"
       }
     ],
+    "tenderers": [
+      {
+        "name": "ДКП «Книга»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137226",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "email": "aagt@gmail.com",
+          "telephone": "+380322916930",
+          "name": "Андрій Олексюк"
+        },
+        "scale": "sme"
+      }
+    ],
+    "id": "ae5a970874fd4292995525fb1c03d678",
+    "date": "2021-03-16T00:00:00+02:00",
     "status": "active",
     "value": {
       "currency": "UAH",
@@ -152,27 +152,27 @@ X-Content-Type-Options: nosniff
       "amountPerformance": 733.65,
       "yearlyPaymentsPercentage": 0.85,
       "annualCostsReduction": [
-        400.0,
-        900.0,
-        900.0,
-        900.0,
-        900.0,
-        900.0,
-        900.0,
-        900.0,
-        900.0,
-        900.0,
-        900.0,
-        900.0,
-        900.0,
-        900.0,
-        900.0,
-        900.0,
-        900.0,
-        900.0,
-        900.0,
-        900.0,
-        900.0
+        400,
+        900,
+        900,
+        900,
+        900,
+        900,
+        900,
+        900,
+        900,
+        900,
+        900,
+        900,
+        900,
+        900,
+        900,
+        900,
+        900,
+        900,
+        900,
+        900,
+        900
       ],
       "contractDuration": {
         "years": 12,

@@ -7,30 +7,6 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "tenderers": [
-      {
-        "name": "«Снігур»",
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00137227",
-          "uri": "http://www.sc.gov.ua/"
-        },
-        "address": {
-          "streetAddress": "вул. Островського, 35",
-          "locality": "м. Львів",
-          "region": "Львівська область",
-          "postalCode": "79013",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "name": "Іван Іваненко",
-          "email": "fake@mail.com",
-          "telephone": "+380322123456"
-        },
-        "scale": "mid"
-      }
-    ],
-    "id": "c8cf921842b343ae90f0b4666658776e",
     "requirementResponses": [
       {
         "id": "41f518cbd471453a913a32fe8dcfe53e",
@@ -141,6 +117,30 @@ X-Content-Type-Options: nosniff
           "title": "Мова тендерної пропозиції українська"
         },
         "value": "True"
+      }
+    ],
+    "id": "c8cf921842b343ae90f0b4666658776e",
+    "tenderers": [
+      {
+        "name": "«Снігур»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137227",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 35",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "email": "fake@mail.com",
+          "telephone": "+380322123456",
+          "name": "Іван Іваненко"
+        },
+        "scale": "mid"
       }
     ],
     "status": "unsuccessful"

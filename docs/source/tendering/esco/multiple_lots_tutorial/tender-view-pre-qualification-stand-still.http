@@ -586,30 +586,6 @@ X-Content-Type-Options: nosniff
     "tenderID": "UA-2021-03-16-000001-a",
     "bids": [
       {
-        "tenderers": [
-          {
-            "name": "ДКП «Школяр»",
-            "identifier": {
-              "scheme": "UA-EDR",
-              "id": "00137256",
-              "uri": "http://www.sc.gov.ua/"
-            },
-            "address": {
-              "streetAddress": "вул. Островського, 33",
-              "locality": "м. Вінниця",
-              "region": "Вінницька область",
-              "postalCode": "21100",
-              "countryName": "Україна"
-            },
-            "contactPoint": {
-              "name": "Сергій Олексюк",
-              "email": "soleksuk@gmail.com",
-              "telephone": "+380432216930"
-            },
-            "scale": "micro"
-          }
-        ],
-        "id": "499825a459994ef698c1b3fe612196d2",
         "requirementResponses": [
           {
             "id": "80b0a9861a5a4eb1a1adbb39cdd22ffb",
@@ -722,33 +698,33 @@ X-Content-Type-Options: nosniff
             "value": "True"
           }
         ],
-        "status": "active"
-      },
-      {
         "tenderers": [
           {
-            "name": "ДКП «Книга»",
+            "name": "ДКП «Школяр»",
             "identifier": {
               "scheme": "UA-EDR",
-              "id": "00137226",
+              "id": "00137256",
               "uri": "http://www.sc.gov.ua/"
             },
             "address": {
-              "streetAddress": "вул. Островського, 34",
-              "locality": "м. Львів",
-              "region": "Львівська область",
-              "postalCode": "79013",
+              "streetAddress": "вул. Островського, 33",
+              "locality": "м. Вінниця",
+              "region": "Вінницька область",
+              "postalCode": "21100",
               "countryName": "Україна"
             },
             "contactPoint": {
-              "name": "Андрій Олексюк",
-              "email": "aagt@gmail.com",
-              "telephone": "+380322916930"
+              "email": "soleksuk@gmail.com",
+              "telephone": "+380432216930",
+              "name": "Сергій Олексюк"
             },
-            "scale": "sme"
+            "scale": "micro"
           }
         ],
-        "id": "2ab7fecbd7c846c9a4c507a13f01efd8",
+        "id": "499825a459994ef698c1b3fe612196d2",
+        "status": "active"
+      },
+      {
         "requirementResponses": [
           {
             "id": "8213963408444839b2f4f16757796fb7",
@@ -861,6 +837,30 @@ X-Content-Type-Options: nosniff
             "value": "True"
           }
         ],
+        "tenderers": [
+          {
+            "name": "ДКП «Книга»",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137226",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Островського, 34",
+              "locality": "м. Львів",
+              "region": "Львівська область",
+              "postalCode": "79013",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "email": "aagt@gmail.com",
+              "telephone": "+380322916930",
+              "name": "Андрій Олексюк"
+            },
+            "scale": "sme"
+          }
+        ],
+        "id": "2ab7fecbd7c846c9a4c507a13f01efd8",
         "status": "active"
       }
     ],
@@ -1025,9 +1025,9 @@ X-Content-Type-Options: nosniff
       "endDate": "2021-03-16T00:00:00+02:00"
     },
     "enquiryPeriod": {
-      "startDate": "2021-02-13T00:00:00+02:00",
+      "startDate": "2021-02-14T00:00:00+02:00",
       "endDate": "2021-03-06T00:00:00+02:00",
-      "clarificationsUntil": "2021-03-12T00:00:00+02:00",
+      "clarificationsUntil": "2021-04-09T00:00:00+02:00",
       "invalidationDate": "2021-03-16T00:00:00+02:00"
     },
     "qualificationPeriod": {

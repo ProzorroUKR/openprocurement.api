@@ -7,36 +7,6 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "tenderers": [
-      {
-        "name": "ДКП «Книга»",
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00137226",
-          "uri": "http://www.sc.gov.ua/"
-        },
-        "address": {
-          "streetAddress": "вул. Островського, 34",
-          "locality": "м. Львів",
-          "region": "Львівська область",
-          "postalCode": "79013",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "name": "Андрій Олексюк",
-          "email": "aagt@gmail.com",
-          "telephone": "+380322916930"
-        },
-        "scale": "sme"
-      }
-    ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "a7b50823159d46bface66972e91c6682",
-    "value": {
-      "amount": 499.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "requirementResponses": [
       {
         "id": "3fcaeb2783264ab19c29c63bab8e3338",
@@ -149,6 +119,36 @@ X-Content-Type-Options: nosniff
         "value": "True"
       }
     ],
+    "value": {
+      "amount": 499.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "tenderers": [
+      {
+        "name": "ДКП «Книга»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137226",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "email": "aagt@gmail.com",
+          "telephone": "+380322916930",
+          "name": "Андрій Олексюк"
+        },
+        "scale": "sme"
+      }
+    ],
+    "id": "a7b50823159d46bface66972e91c6682",
+    "date": "2021-03-16T00:00:00+02:00",
     "selfQualified": true,
     "status": "active",
     "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/17a82f12536e405c88db7f654bb215f5?key_for_bid=a7b50823159d46bface66972e91c6682"

@@ -3283,7 +3283,6 @@ def patch_enquiry_tender_periods(self):
     tender_p = tender["tenderPeriod"]
 
     # check enquiryPeriod:endDate>= enquiryPeriod.startDate + 3 робочі дні
-    print(enq_p)
     end_data = calculate_tender_business_date(parse_date(enq_p["startDate"], TZ), timedelta(days=2), tender, True)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),

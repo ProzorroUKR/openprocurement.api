@@ -205,6 +205,24 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, BaseSta
         elif "next_check" in data:
             del data["next_check"]
 
+    @staticmethod
+    def pull_up_bid_status(tender, bid):
+        lots = tender.get("lots", "")
+        if lots:
+            lot_values = bid.get("lotValues")
+            if not lot_values:
+                bid["status"] = "invalid"
+
+            active_lots = {lot["id"] for lot in lots if lot["status"] in ("active", "complete")}
+            lot_values_statuses = {lv["status"] for lv in lot_values if lv["relatedLot"] in active_lots}
+            if "pending" in lot_values_statuses:
+                bid["status"] = "pending"
+
+            elif "active" in lot_values_statuses:
+                bid["status"] = "active"
+            else:
+                bid["status"] = "unsuccessful"
+
     # CHRONOGRAPH
     # (only tenders are updated by chronograph at the moment)
     def run_time_events(self, data):

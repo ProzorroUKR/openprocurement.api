@@ -128,3 +128,7 @@ class PatchDocument(BaseDocument):
     @serializable
     def dateModified(self):
         return get_now().isoformat()
+
+
+class EUDocument(Document):
+    language = StringType(required=True, choices=["uk", "en", "ru"], default="uk")

@@ -16,13 +16,13 @@ from openprocurement.tender.openeu.validation import (
 )
 
 
-@qualifications_resource(
-    name="aboveThresholdEU:Tender Qualification Documents",
-    collection_path="/tenders/{tender_id}/qualifications/{qualification_id}/documents",
-    path="/tenders/{tender_id}/qualifications/{qualification_id}/documents/{document_id}",
-    procurementMethodType="aboveThresholdEU",
-    description="Tender qualification documents",
-)
+# @qualifications_resource(
+#     name="aboveThresholdEU:Tender Qualification Documents",
+#     collection_path="/tenders/{tender_id}/qualifications/{qualification_id}/documents",
+#     path="/tenders/{tender_id}/qualifications/{qualification_id}/documents/{document_id}",
+#     procurementMethodType="aboveThresholdEU",
+#     description="Tender qualification documents",
+# )
 class TenderQualificationDocumentResource(CoreDocumentResource):
     container = "documents"
     context_name = "tender_qualification"

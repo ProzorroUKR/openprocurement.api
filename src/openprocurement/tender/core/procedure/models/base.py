@@ -77,6 +77,10 @@ class BaseAward(Model):
     pass
 
 
+class BaseQualification(Model):
+    pass
+
+
 def validate_object_id_uniq(objs, *args):
     if objs:
         obj_name = objs[0].__class__.__name__
