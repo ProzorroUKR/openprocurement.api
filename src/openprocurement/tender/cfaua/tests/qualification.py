@@ -53,6 +53,7 @@ one_lot_restriction = True
 
 
 class TenderQualificationBaseTestCase(BaseTenderContentWebTest):
+    docservice = True
     initial_status = "active.tendering"  # 'active.pre-qualification' status sets in setUp
     initial_bids = test_bids
     initial_auth = ("Basic", ("broker", ""))
@@ -195,6 +196,7 @@ class TenderQualificationRequirementResponseEvidenceResourceTest(
     TenderQualificationRequirementResponseEvidenceTestMixin,
     TenderQualificationBaseTestCase,
 ):
+    docservice = True
     pass
 
 

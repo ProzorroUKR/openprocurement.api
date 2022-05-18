@@ -17,7 +17,7 @@ DATA:
         {
           "title": "Requirement response",
           "relatedDocument": {
-            "id": "fdb3ccf3b45b470eb7ded22817cebf2b",
+            "id": "7b4eab00a6ea42f0bf0f4e6bc012b51a",
             "title": "name.doc"
           },
           "type": "document"
@@ -47,7 +47,7 @@ X-Content-Type-Options: nosniff
           "title": "Requirement response",
           "type": "document",
           "relatedDocument": {
-            "id": "fdb3ccf3b45b470eb7ded22817cebf2b",
+            "id": "7b4eab00a6ea42f0bf0f4e6bc012b51a",
             "title": "name.doc"
           }
         }

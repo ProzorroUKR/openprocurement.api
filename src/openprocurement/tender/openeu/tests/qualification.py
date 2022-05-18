@@ -126,10 +126,15 @@ class TenderQualificationRequirementResponseEvidenceTestMixin(object):
 
         auth = self.app.authorization
         self.app.authorization = ("Basic", ("bot", ""))
-        response = self.app.post(
+        response = self.app.post_json(
             "/tenders/{}/qualifications/{}/documents?acc_token={}".format(
                 self.tender_id, self.qualification_id, self.tender_token),
-            upload_files=[("file", "name.doc", b"content")],
+            {"data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -143,6 +148,7 @@ class TenderQualificationBaseTestCase(BaseTenderContentWebTest):
     initial_bids = test_bids
     author_data = test_author
     initial_auth = ("Basic", ("broker", ""))
+    docservice = True
 
     def setUp(self):
         super(TenderQualificationBaseTestCase, self).setUp()
@@ -182,6 +188,7 @@ class TenderQualificationDocumentResourceTest(TenderQualificationBaseTestCase):
     initial_status = "active.tendering"
     initial_bids = test_bids
     initial_auth = ("Basic", ("broker", ""))
+    docservice = True
 
     def setUp(self):
         super(TenderQualificationDocumentResourceTest, self).setUp()
@@ -376,6 +383,7 @@ class TenderQualificationRequirementResponseEvidenceResourceTest(
     TenderQualificationRequirementResponseEvidenceTestMixin,
     TenderQualificationBaseTestCase,
 ):
+    docservice = True
     pass
 
 

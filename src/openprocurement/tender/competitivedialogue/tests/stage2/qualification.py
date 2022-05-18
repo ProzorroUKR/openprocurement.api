@@ -69,10 +69,12 @@ for test_bid in test_tender_bids:
 
 
 class TenderQualificationBaseTestCase(BaseCompetitiveDialogEUStage2ContentWebTest):
+
     initial_status = "active.tendering"  # 'active.pre-qualification' status sets in setUp
     initial_bids = test_tender_bids
     initial_auth = ("Basic", ("broker", ""))
     author_data = test_author
+    docservice = True
 
     def setUp(self):
         super(TenderQualificationBaseTestCase, self).setUp()
@@ -106,6 +108,7 @@ class TenderStage2EU2LotQualificationResourceTest(TenderQualificationBaseTestCas
 
 
 class TenderStage2EUQualificationDocumentResourceTest(TenderQualificationBaseTestCase):
+    docservice = True
 
     def setUp(self):
         super(TenderStage2EUQualificationDocumentResourceTest, self).setUp()
@@ -247,6 +250,7 @@ class TenderStageEUQualificationRequirementResponseEvidenceResourceTest(
     TenderQualificationRequirementResponseEvidenceTestMixin,
     TenderQualificationBaseTestCase,
 ):
+    docservice = True
     pass
 
 

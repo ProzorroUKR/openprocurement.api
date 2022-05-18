@@ -1204,6 +1204,8 @@ def one_qualificated_bid_tender(self):
         ),
         {"data": {"status": "unsuccessful"}},
     )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
     # bid should be cancelled
     response = self.app.get("/tenders/{}/bids/{}".format(tender_id, qualifications[self.min_bids_number - 1]["bidID"]))

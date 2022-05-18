@@ -858,3 +858,135 @@ def validate_tender_document_update_not_by_author_or_tender_owner(request, **_):
         request.errors.add("url", "role", "Can update document only author")
         request.errors.status = 403
         raise error_handler(request)
+
+
+# QUALIFICATION
+def validate_qualification_update_not_in_pre_qualification(request, **kwargs):
+    status = request.validated['tender']["status"]
+    if status not in ["active.pre-qualification"]:
+        raise_operation_error(request, f"Can't update qualification in current ({status}) tender status")
+
+
+def validate_cancelled_qualification_update(request, **kwargs):
+    status = request.validated['qualification']["status"]
+    if status == "cancelled":
+        raise_operation_error(request, "Can't update qualification in current cancelled qualification status")
+
+
+def validate_update_status_before_milestone_due_date(request, **kwargs):
+    from openprocurement.tender.core.procedure.models.milestone import QualificationMilestone
+    qualification = request.validated['qualification']
+    sent_status = request.validated["data"].get("status")
+    if qualification.get('status') == "pending" and qualification.get('status') != sent_status:
+        now = get_now().isoformat()
+        for milestone in qualification.get('milestones', []):
+            if (
+                milestone["code"] in (QualificationMilestone.CODE_24_HOURS, QualificationMilestone.CODE_LOW_PRICE)
+                and milestone["date"] <= now <= milestone["dueDate"]
+            ):
+                raise_operation_error(
+                    request,
+                    f"Can't change status to '{sent_status}' until milestone.dueDate: {milestone['dueDate']}"
+                )
+
+
+# QUALIFICATION DOCUMENT
+def get_qualification_document_role(request):
+    tender = request.validated["tender"]
+    if is_item_owner(request, tender):
+        role = "tender_owner"
+    else:
+        role = request.authenticated_role
+    return role
+
+
+def validate_operation_with_lot_cancellation_in_pending(type_name):
+    def validation(request, **kwargs):
+        fields_names = {
+            "lot": "id",
+            "award": "lotID",
+            "qualification": "lotID",
+            "complaint": "relatedLot",
+            "question": "relatedItem"
+        }
+
+        tender = request.validated["tender"]
+        tender_created = get_first_revision_date(tender, default=get_now())
+
+        field = fields_names.get(type_name)
+        o = request.validated.get(type_name)
+        lot_id = getattr(o, field, None)
+
+        if tender_created < RELEASE_2020_04_19 or not lot_id:
+            return
+
+        msg = "Can't {} {} with lot that have active cancellation"
+        if type_name == "lot":
+            msg = "Can't {} lot that have active cancellation"
+
+        accept_lot = all([
+            any([j["status"] == "resolved" for j in i["complaints"]])
+            for i in tender.get("cancellations", [])
+            if i["status"] == "unsuccessful" and getattr(i, "complaints", None) and i["relatedLot"] == lot_id
+        ])
+
+        if (
+            request.authenticated_role == "tender_owner"
+            and (
+                any([
+                    i for i in tender.get("cancellations", [])
+                    if i["relatedLot"] and i["status"] == "pending" and i["relatedLot"] == lot_id])
+                or not accept_lot
+            )
+        ):
+            raise_operation_error(
+                request,
+                msg.format(OPERATIONS.get(request.method), type_name),
+            )
+    return validation
+
+
+def validate_qualification_update_with_cancellation_lot_pending(request, **kwargs):
+    tender = request.validated["tender"]
+    tender_created = get_first_revision_date(tender, default=get_now())
+    qualification = request.validated["qualification"]
+    lot_id = qualification.get("lotID")
+
+    if tender_created < RELEASE_2020_04_19 or not lot_id:
+        return
+
+    accept_lot = all([
+        any([j["status"] == "resolved" for j in i["complaints"]])
+        for i in tender.get("cancellations", [])
+        if i["status"] == "unsuccessful" and getattr(i, "complaints", None) and i["relatedLot"] == lot_id
+    ])
+
+    if (
+        request.authenticated_role == "tender_owner"
+        and (
+            any([
+                i for i in tender["cancellations"]
+                if i["elatedLot"] and i["status"] == "pending" and i["relatedLot"] == lot_id])
+            or not accept_lot
+        )
+    ):
+        raise_operation_error(
+            request,
+            "Can't update qualification with pending cancellation lot",
+        )
+
+
+def validate_qualification_document_operation_not_in_allowed_status(request, **kwargs):
+    if request.validated["tender"]["status"] != "active.pre-qualification":
+        raise_operation_error(
+            request,
+            f"Can't {OPERATIONS.get(request.method)} document in current ({request.validated['tender']['status']}) tender status"
+        )
+
+
+def validate_qualification_document_operation_not_in_pending(request, **kwargs):
+    qualification = request.validated["qualification"]
+    if qualification["status"] != "pending":
+        raise_operation_error(
+            request, f"Can't {OPERATIONS.get(request.method)} document in current qualification status"
+        )

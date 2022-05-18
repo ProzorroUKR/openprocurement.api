@@ -68,6 +68,7 @@ class TenderQualificationBaseTestCase(BaseESCOContentWebTest):
     initial_bids = test_bids
     initial_auth = ("Basic", ("broker", ""))
     author_data = test_author
+    docservice = True
 
     def setUp(self):
         super(TenderQualificationBaseTestCase, self).setUp()
@@ -294,6 +295,7 @@ class TenderQualificationRequirementResponseEvidenceResourceTest(
     TenderQualificationRequirementResponseEvidenceTestMixin,
     TenderQualificationBaseTestCase,
 ):
+    docservice = True
     pass
 
 

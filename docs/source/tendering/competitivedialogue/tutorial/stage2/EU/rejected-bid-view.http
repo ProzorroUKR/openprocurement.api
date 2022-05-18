@@ -23,9 +23,9 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Іван Карпенко",
           "email": "fake@mail.com",
-          "telephone": "+380322123456"
+          "telephone": "+380322123456",
+          "name": "Іван Карпенко"
         },
         "scale": "large"
       }
@@ -34,40 +34,40 @@ X-Content-Type-Options: nosniff
     "documents": [
       {
         "id": "e0a60dc73bc54257836497eba2b05d56",
+        "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bd22239ca7e843b5a9b78629492dd7ef?Signature=hn64tIoU1SMP2A3RWyThO%2F59nkS2V%2BWRPLPhDALx9aH1K0jIC%2FUaGcadYcO%2BGjNJnKGHwGH%2FR%2Fmi04t2efQPBQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "confidentiality": "public",
         "language": "uk"
       },
       {
         "id": "84ff8dfd2a4a46d489c225ca4658fa42",
+        "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aa6cf974e101460589085272d5990056/bids/9ee879e314fd487584383884598ae7c7/documents/84ff8dfd2a4a46d489c225ca4658fa42?download=f2990cef9058446d95845fcdd7c796d2",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
-        "confidentialityRationale": "Only our company sells badgers with pink hair.",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "confidentiality": "buyerOnly",
+        "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "language": "uk"
       }
     ],
     "eligibilityDocuments": [
       {
         "id": "57203659f1a64b91b18941755f4d9d89",
+        "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3c13822a2b25429caa740bfe269ec59b?Signature=C7xdMGRy4lhwbDkRrq%2BCSbdqUp2y3HSLRqolDRC6hPOl4TSog4fwpJHaCLYNWLOO9V8Peqn4r4dFtPWvr7fjAg%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aa6cf974e101460589085272d5990056/bids/9ee879e314fd487584383884598ae7c7/eligibility_documents/57203659f1a64b91b18941755f4d9d89?download=3c13822a2b25429caa740bfe269ec59b",
         "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "confidentiality": "public",
         "language": "uk"
       }

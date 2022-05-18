@@ -30,9 +30,9 @@ def post_tender_qualifications(self):
 
     data = {"bidID": "1234" * 8, "status": "pending", "id": "12345678123456781234567812345678"}
     response = self.app.post_json(
-        "/tenders/{}/qualifications/{}".format(self.tender_id, data["id"]), {"data": data}, status=404
+        "/tenders/{}/qualifications/{}".format(self.tender_id, data["id"]), {"data": data}, status=405
     )
-    self.assertEqual(response.status, "404 Not Found")
+    self.assertEqual(response.status, "405 Method Not Allowed")
 
     response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
     qualifications = response.json["data"]
@@ -92,7 +92,7 @@ def patch_tender_qualifications(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "active")
-    self.assertNotEqual(response.json["data"]["date"], qualifications[0]["date"])
+    self.assertGreater(response.json["data"]["date"], qualifications[0]["date"])
     self.assertEqual(response.json["data"]["title"], "title")
     self.assertEqual(response.json["data"]["description"], "description")
 
@@ -361,8 +361,15 @@ def tender_qualification_cancelled(self):
 
 def not_found(self):
     self.app.authorization = ("Basic", ("bot", "bot"))
-    response = self.app.post(
-        "/tenders/some_id/qualifications/some_id/documents", status=404, upload_files=[("file", "name.doc", b"content")]
+    response = self.app.post_json(
+        "/tenders/some_id/qualifications/some_id/documents",
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
+        status=404
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -371,10 +378,15 @@ def not_found(self):
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/qualifications/some_id/documents".format(self.tender_id),
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=404,
-        upload_files=[("file", "name.doc", b"content")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -382,16 +394,6 @@ def not_found(self):
     self.assertEqual(
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "qualification_id"}]
     )
-
-    response = self.app.post(
-        "/tenders/{}/qualifications/{}/documents".format(self.tender_id, self.qualifications[0]["id"]),
-        status=404,
-        upload_files=[("invalid_value", "name.doc", b"content")],
-    )
-    self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
 
     response = self.app.get("/tenders/some_id/qualifications/some_id/documents", status=404)
     self.assertEqual(response.status, "404 Not Found")
@@ -440,10 +442,15 @@ def not_found(self):
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}]
     )
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/some_id/qualifications/some_id/documents/some_id",
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=404,
-        upload_files=[("file", "name.doc", b"content2")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -452,10 +459,15 @@ def not_found(self):
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/qualifications/some_id/documents/some_id".format(self.tender_id),
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=404,
-        upload_files=[("file", "name.doc", b"content2")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -464,10 +476,15 @@ def not_found(self):
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "qualification_id"}]
     )
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/qualifications/{}/documents/some_id".format(self.tender_id, self.qualifications[0]["id"]),
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=404,
-        upload_files=[("file", "name.doc", b"content2")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -476,13 +493,18 @@ def not_found(self):
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}]
     )
 
-    self.app.authorization = ("Basic", ("invalid", ""))
-    response = self.app.put(
+    self.app.authorization = ("Basic", ("bot", "bot"))
+    response = self.app.put_json(
         "/tenders/{}/qualifications/{}/documents/some_id?acc_token={}".format(
             self.tender_id, self.qualifications[0]["id"], self.tender_token
         ),
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=404,
-        upload_files=[("file", "name.doc", b"content2")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -493,15 +515,19 @@ def not_found(self):
 
 
 def tender_owner_create_qualification_document(self):
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/qualifications/{}/documents?acc_token={}".format(
             self.tender_id, self.qualifications[0]["id"], self.tender_token
         ),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
     self.assertEqual("name.doc", response.json["data"]["title"])
@@ -509,31 +535,28 @@ def tender_owner_create_qualification_document(self):
 
 def create_qualification_document(self):
     self.app.authorization = ("Basic", ("bot", "bot"))
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/qualifications/{}/documents".format(self.tender_id, self.qualifications[0]["id"]),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
     self.assertEqual("name.doc", response.json["data"]["title"])
-    if self.docservice:
-        self.assertIn("Signature=", response.json["data"]["url"])
-        self.assertIn("KeyID=", response.json["data"]["url"])
-        self.assertNotIn("Expires=", response.json["data"]["url"])
-        key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        tender = self.mongodb.tenders.get(self.tender_id)
-        qualification = [
-            qualification for qualification in tender["qualifications"]
-            if qualification["id"] == self.qualifications[0]["id"]
-        ][0]
-        self.assertIn(key, qualification["documents"][-1]["url"])
-        self.assertIn("Signature=", qualification["documents"][-1]["url"])
-        self.assertIn("KeyID=", qualification["documents"][-1]["url"])
-        self.assertNotIn("Expires=", qualification["documents"][-1]["url"])
-    else:
-        key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
+
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
+    tender = self.mongodb.tenders.get(self.tender_id)
+    qualification = [
+        qualification for qualification in tender["qualifications"]
+        if qualification["id"] == self.qualifications[0]["id"]
+    ][0]
+    self.assertIn(key, qualification["documents"][-1]["url"])
 
     # qualifications are public
     response = self.app.get(
@@ -570,17 +593,8 @@ def create_qualification_document(self):
             self.tender_id, self.qualifications[0]["id"], doc_id, key
         )
     )
-    if self.docservice:
-        self.assertEqual(response.status, "302 Moved Temporarily")
-        self.assertIn("http://localhost/get/", response.location)
-        self.assertIn("Signature=", response.location)
-        self.assertIn("KeyID=", response.location)
-        self.assertNotIn("Expires=", response.location)
-    else:
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/msword")
-        self.assertEqual(response.content_length, 7)
-        self.assertEqual(response.body, b"content")
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
 
     response = self.app.get(
         "/tenders/{}/qualifications/{}/documents/{}".format(self.tender_id, self.qualifications[0]["id"], doc_id)
@@ -641,65 +655,62 @@ def create_tender_qualifications_document_json_bulk(self):
 def put_qualification_document(self):
     self.app.authorization = ("Basic", ("bot", "bot"))
 
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/qualifications/{}/documents".format(self.tender_id, self.qualifications[0]["id"]),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
 
-    response = self.app.put(
-        "/tenders/{}/qualifications/{}/documents/{}".format(self.tender_id, self.qualifications[0]["id"], doc_id),
-        status=404,
-        upload_files=[("invalid_name", "name.doc", b"content")],
-    )
-    self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
+    # response = self.app.put_json(
+    #     "/tenders/{}/qualifications/{}/documents/{}".format(self.tender_id, self.qualifications[0]["id"], doc_id),
+    #     {"data": {
+    #         "title": "name.doc",
+    #         "url": self.generate_docservice_url(),
+    #         "hash": "md5:" + "0" * 32,
+    #         "format": "application/msword",
+    #     }},
+    #     status=404,
+    # )
+    # self.assertEqual(response.status, "404 Not Found")
+    # self.assertEqual(response.content_type, "application/json")
+    # self.assertEqual(response.json["status"], "error")
+    # self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/qualifications/{}/documents/{}".format(self.tender_id, self.qualifications[0]["id"], doc_id),
-        upload_files=[("file", "name.doc", b"content2")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    if self.docservice:
-        self.assertIn("Signature=", response.json["data"]["url"])
-        self.assertIn("KeyID=", response.json["data"]["url"])
-        self.assertNotIn("Expires=", response.json["data"]["url"])
-        key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        tender = self.mongodb.tenders.get(self.tender_id)
-        qualification = [
-            qualification for qualification in tender["qualifications"]
-            if qualification["id"] == self.qualifications[0]["id"]
-        ][0]
-        self.assertIn(key, qualification["documents"][-1]["url"])
-        self.assertIn("Signature=", qualification["documents"][-1]["url"])
-        self.assertIn("KeyID=", qualification["documents"][-1]["url"])
-        self.assertNotIn("Expires=", qualification["documents"][-1]["url"])
-    else:
-        key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
+    key = response.json["data"]["url"].split("/")[-1].split("?")[0]
+    tender = self.mongodb.tenders.get(self.tender_id)
+    qualification = [
+        qualification for qualification in tender["qualifications"]
+        if qualification["id"] == self.qualifications[0]["id"]
+    ][0]
+    self.assertIn(key, qualification["documents"][-1]["url"])
 
     response = self.app.get(
         "/tenders/{}/qualifications/{}/documents/{}?download={}".format(
             self.tender_id, self.qualifications[0]["id"], doc_id, key
         )
     )
-    if self.docservice:
-        self.assertEqual(response.status, "302 Moved Temporarily")
-        self.assertIn("http://localhost/get/", response.location)
-        self.assertIn("Signature=", response.location)
-        self.assertIn("KeyID=", response.location)
-        self.assertNotIn("Expires=", response.location)
-    else:
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/msword")
-        self.assertEqual(response.content_length, 8)
-        self.assertEqual(response.body, b"content2")
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
 
     response = self.app.get(
         "/tenders/{}/qualifications/{}/documents/{}".format(self.tender_id, self.qualifications[0]["id"], doc_id)
@@ -709,47 +720,33 @@ def put_qualification_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("name.doc", response.json["data"]["title"])
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/qualifications/{}/documents/{}".format(self.tender_id, self.qualifications[0]["id"], doc_id),
-        "content3",
-        content_type="application/msword",
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    if self.docservice:
-        self.assertIn("Signature=", response.json["data"]["url"])
-        self.assertIn("KeyID=", response.json["data"]["url"])
-        self.assertNotIn("Expires=", response.json["data"]["url"])
-        key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        tender = self.mongodb.tenders.get(self.tender_id)
-        qualification = [
-            qualification for qualification in tender["qualifications"]
-            if qualification["id"] == self.qualifications[0]["id"]
-        ][0]
-        self.assertIn(key, qualification["documents"][-1]["url"])
-        self.assertIn("Signature=", qualification["documents"][-1]["url"])
-        self.assertIn("KeyID=", qualification["documents"][-1]["url"])
-        self.assertNotIn("Expires=", qualification["documents"][-1]["url"])
-    else:
-        key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
+    key = response.json["data"]["url"].split("/")[-1].split("?")[0]
+    tender = self.mongodb.tenders.get(self.tender_id)
+    qualification = [
+        qualification for qualification in tender["qualifications"]
+        if qualification["id"] == self.qualifications[0]["id"]
+    ][0]
+    self.assertIn(key, qualification["documents"][-1]["url"])
 
     response = self.app.get(
         "/tenders/{}/qualifications/{}/documents/{}?download={}".format(
             self.tender_id, self.qualifications[0]["id"], doc_id, key
         )
     )
-    if self.docservice:
-        self.assertEqual(response.status, "302 Moved Temporarily")
-        self.assertIn("http://localhost/get/", response.location)
-        self.assertIn("Signature=", response.location)
-        self.assertIn("KeyID=", response.location)
-        self.assertNotIn("Expires=", response.location)
-    else:
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/msword")
-        self.assertEqual(response.content_length, 8)
-        self.assertEqual(response.body, b"content3")
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
 
     with change_auth(self.app, ("Basic", ("broker", "broker"))):
         response = self.app.patch_json(
@@ -760,9 +757,14 @@ def put_qualification_document(self):
         )
     self.assertEqual(response.status, "200 OK")
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/qualifications/{}/documents/{}".format(self.tender_id, self.qualifications[0]["id"], doc_id),
-        upload_files=[("file", "name.doc", b"content3")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -781,14 +783,26 @@ def put_qualification_document(self):
 def patch_qualification_document(self):
     self.app.authorization = ("Basic", ("bot", "bot"))
 
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/qualifications/{}/documents".format(self.tender_id, self.qualifications[0]["id"]),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
+
+    response = self.app.get(
+        "/tenders/{}/qualifications/{}/documents/{}?acc_token={}".format(self.tender_id, self.qualifications[0]["id"], doc_id, self.tender_token)
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(doc_id, response.json["data"]["id"])
 
     response = self.app.patch_json(
         "/tenders/{}/qualifications/{}/documents/{}".format(self.tender_id, self.qualifications[0]["id"], doc_id),
@@ -843,8 +857,8 @@ def patch_qualification_document(self):
             self.assertEqual(response.status, "200 OK")
 
     response = self.app.patch_json(
-        "/tenders/{}/qualifications/{}/documents/{}?acc_token={}".format(
-            self.tender_id, self.qualifications[0]["id"], doc_id, self.tender_token
+        "/tenders/{}/qualifications/{}/documents/{}".format(
+            self.tender_id, self.qualifications[0]["id"], doc_id
         ),
         {"data": {"description": "document description2"}},
         status=403,
@@ -891,9 +905,14 @@ def create_qualification_document_after_status_change(self):
         self.assertEqual(response.status, "200 OK")
 
     with change_auth(self.app, ("Basic", ("bot", "bot"))):
-        response = self.app.post(
+        response = self.app.post_json(
             "/tenders/{}/qualifications/{}/documents".format(self.tender_id, self.qualifications[0]["id"]),
-            upload_files=[("file", "name.doc", b"content")],
+            {"data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
             status=403,
         )
     self.assertEqual(response.status, "403 Forbidden")
@@ -917,9 +936,14 @@ def create_qualification_document_after_status_change(self):
     self.assertEqual(response.status, "200 OK")
 
     with change_auth(self.app, ("Basic", ("bot", "bot"))):
-        response = self.app.post(
+        response = self.app.post_json(
             "/tenders/{}/qualifications/{}/documents".format(self.tender_id, self.qualifications[-1]["id"]),
-            upload_files=[("file", "name.doc", b"content")],
+            {"data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
             status=403,
         )
     self.assertEqual(response.status, "403 Forbidden")
@@ -942,9 +966,14 @@ def create_qualification_document_after_status_change(self):
     )
     self.assertEqual(response.status, "200 OK")
     with change_auth(self.app, ("Basic", ("bot", "bot"))):
-        response = self.app.post(
+        response = self.app.post_json(
             "/tenders/{}/qualifications/{}/documents".format(self.tender_id, self.qualifications[-1]["id"]),
-            upload_files=[("file", "name.doc", b"content")],
+            {"data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
             status=403,
         )
     self.assertEqual(response.status, "403 Forbidden")
@@ -979,11 +1008,16 @@ def create_qualification_document_after_status_change(self):
     self.assertEqual(response.status, "200 OK")
 
     with change_auth(self.app, ("Basic", ("bot", "bot"))):
-        response = self.app.post(
+        response = self.app.post_json(
             "/tenders/{}/qualifications/{}/documents".format(
                 self.tender_id, self.qualifications[self.min_bids_number]["id"]
             ),
-            upload_files=[("file", "name.doc", b"content")],
+            {"data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
             status=403,
         )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1001,9 +1035,14 @@ def create_qualification_document_after_status_change(self):
 
 def put_qualification_document_after_status_change(self):
     with change_auth(self.app, ("Basic", ("bot", "bot"))):
-        response = self.app.post(
+        response = self.app.post_json(
             "/tenders/{}/qualifications/{}/documents".format(self.tender_id, self.qualifications[0]["id"]),
-            upload_files=[("file", "name.doc", b"content")],
+            {"data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
         )
     self.assertEqual(response.status, "201 Created")
     doc_id = response.json["data"]["id"]
@@ -1023,9 +1062,14 @@ def put_qualification_document_after_status_change(self):
     self.assertEqual(response.status, "200 OK")
 
     with change_auth(self.app, ("Basic", ("bot", "bot"))):
-        response = self.app.put(
+        response = self.app.put_json(
             "/tenders/{}/qualifications/{}/documents/{}".format(self.tender_id, self.qualifications[0]["id"], doc_id),
-            upload_files=[("file", "name.doc", b"content2")],
+            {"data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
             status=403,
         )
     self.assertEqual(response.status, "403 Forbidden")
@@ -3110,9 +3154,7 @@ def switch_bid_status_unsuccessul_to_active(self):
     # create complaint
     response = self.app.post_json(
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(self.tender_id, qualification_id, bid_token),
-        {
-            "data": test_complaint
-        },
+        {"data": test_complaint},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
