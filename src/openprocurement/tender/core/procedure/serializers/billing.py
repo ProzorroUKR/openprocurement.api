@@ -34,5 +34,5 @@ class BillingTenderSerializer(BaseUIDSerializer):
         "bids",
         "awards",
         "contracts",
-        "documents",
+        "qualifications",
     }
