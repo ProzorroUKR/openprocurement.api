@@ -8,6 +8,7 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "175f09d927a54411804c6a2631c56e4f",
+    "awardID": "e5a7cb400a054a178d92228c67a06cfa",
     "contractID": "UA-2021-03-16-000016-a.2-1",
     "contractNumber": "contract#1",
     "status": "pending",
@@ -15,7 +16,12 @@ X-Content-Type-Options: nosniff
       "startDate": "2021-03-16T00:00:01+02:00",
       "endDate": "2022-03-16T00:00:01+02:00"
     },
-    "dateSigned": "2021-03-16T00:00:01+02:00",
+    "value": {
+      "amount": 238.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 230.0
+    },
     "suppliers": [
       {
         "name": "ДКП «Книга»",
@@ -32,51 +38,20 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Андрій Олексюк",
           "email": "aagt@gmail.com",
-          "telephone": "+380322916930"
+          "telephone": "+380322916930",
+          "name": "Андрій Олексюк"
         },
         "scale": "sme"
       }
     ],
     "date": "2021-03-16T00:00:00+02:00",
-    "value": {
-      "amount": 238.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amountNet": 230.0
-    },
-    "awardID": "e5a7cb400a054a178d92228c67a06cfa",
-    "documents": [
-      {
-        "id": "64ed4bedb0044d06997a2771ddf5c20f",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "contract_first_document.doc",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7dbc85b5ec8e40c7a06a13a28c247030?Signature=s5C3vPKr4OuIVcBHKASzvS531eZC5%2BdjdFp%2BAJkV6XlM3Ho9IreoZpzKRf6aJV9kgeHNJt%2BP6rXOls7Bw8JtAg%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:01+02:00",
-        "dateModified": "2021-03-16T00:00:01+02:00",
-        "documentOf": "tender",
-        "language": "uk"
-      },
-      {
-        "id": "f899f8460f4543179f814d530342e79a",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "contract_second_document.doc",
-        "title_en": "Title of Document",
-        "description_en": "Description of Document",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/68a05bf5d7ff4adca21345f2da492f74?Signature=0hoOVlDux%2FMqTFInz%2FZX%2BTb8tf8qeUfs77FYfO7EKdbxKCfNHSCTajAkRSiNjD9E2c0qqNZA1aqgUfcImn5RDQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:01+02:00",
-        "dateModified": "2021-03-16T00:00:01+02:00",
-        "documentOf": "tender",
-        "language": "en"
-      }
-    ],
+    "dateSigned": "2021-03-16T00:00:01+02:00",
     "items": [
       {
         "id": "f589bbeaad4d48e0a604e79cfdf6c380",
         "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -84,11 +59,11 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "quantity": 1.0,
         "unit": {
           "name": "кілограм",
           "code": "KGM"
         },
+        "quantity": 1.0,
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
           "endDate": "2021-04-16T00:00:00+02:00"
@@ -100,12 +75,36 @@ X-Content-Type-Options: nosniff
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "description_en": "Services in school canteens",
         "classification": {
           "description": "Test",
           "scheme": "ДК021",
           "id": "37810000-9"
         }
+      }
+    ],
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_first_document.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7277a1e671db4e23811faec0ebe3edaf?Signature=zhi4qDElkRIcpv2NNx%2BKh6SbUsAVbjtwA0CH26YmIDJilCZzkYa9MTTnBRc%2FDLZLQJ8dR0A%2FVma7zF1%2Fp6s5Dw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "id": "589bda97c7e1403aa1dd6794f30eed5a",
+        "datePublished": "2021-03-16T00:00:01+02:00",
+        "dateModified": "2021-03-16T00:00:01+02:00"
+      },
+      {
+        "title_en": "Title of Document",
+        "description_en": "Description of Document",
+        "language": "en",
+        "id": "7ebf58c879cd4b84b17cf117f47e4544",
+        "datePublished": "2021-03-16T00:00:01+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_first_document.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5cce5c020f0b4ba8bf7c5257d58ab07a?Signature=dKo8NxHOP6nIPRJKrdKKlzY8mOu%2BdX9T0Sa99SHcS3HZhb842MsGl2m9HPbHS7NGh%2B0wIMz4THV25Cxl5ZjpDw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:01+02:00"
       }
     ]
   }

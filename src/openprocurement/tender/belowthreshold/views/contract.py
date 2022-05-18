@@ -28,13 +28,13 @@ from openprocurement.tender.core.validation import (
 from openprocurement.tender.belowthreshold.utils import check_tender_status
 
 
-@optendersresource(
-    name="belowThreshold:Tender Contracts",
-    collection_path="/tenders/{tender_id}/contracts",
-    path="/tenders/{tender_id}/contracts/{contract_id}",
-    procurementMethodType="belowThreshold",
-    description="Tender contracts",
-)
+# @optendersresource(
+#     name="belowThreshold:Tender Contracts",
+#     collection_path="/tenders/{tender_id}/contracts",
+#     path="/tenders/{tender_id}/contracts/{contract_id}",
+#     procurementMethodType="belowThreshold",
+#     description="Tender contracts",
+# )
 class TenderAwardContractResource(APIResource):
     @staticmethod
     def check_tender_status_method(request):

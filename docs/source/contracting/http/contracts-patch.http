@@ -169,10 +169,11 @@ X-Content-Type-Options: nosniff
     ],
     "documents": [
       {
-        "id": "901e908a86b94c3581d0f85fd8137db3",
+        "id": "b7d1678f44ad46caa736fa59e1fd7c31",
+        "hash": "md5:00000000000000000000000000000000",
         "title": "contract_changes.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/731229e60a3e4406b3f0bbca894132fa/documents/901e908a86b94c3581d0f85fd8137db3?download=c4a63488537c437b894d08c8f4d11e28",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f63818a2a95e4f2ab5e07260dfe16911?Signature=AIUP5kGnx%2BOdbPRF%2B0t6WebywkPEF8BHamAxW9BXr224HyI%2BSXYFxn6QzmhVRFlpv08gR6kyoyAjzLIo6xcVAA%3D%3D&KeyID=a8968c46",
         "datePublished": "2021-03-16T00:00:01+02:00",
         "dateModified": "2021-03-16T00:00:01+02:00",
         "relatedItem": "90238f35b68a4a7ebeb6a5632b1b0d9a",

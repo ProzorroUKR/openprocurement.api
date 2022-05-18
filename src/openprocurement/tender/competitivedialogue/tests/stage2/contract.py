@@ -108,6 +108,7 @@ class TenderStage2EUContractDocumentResourceTest(
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
     initial_auth = ("Basic", ("broker", ""))
+    docservice = True
 
     def setUp(self):
         super(TenderStage2EUContractDocumentResourceTest, self).setUp()
@@ -232,6 +233,7 @@ class TenderStage2UAContractDocumentResourceTest(
 ):
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
+    docservice = True
 
     def setUp(self):
         super(TenderStage2UAContractDocumentResourceTest, self).setUp()

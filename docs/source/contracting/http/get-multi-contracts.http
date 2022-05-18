@@ -10,43 +10,24 @@ X-Content-Type-Options: nosniff
     {
       "id": "4d2a894ddb8f4b4c88370fa1ff4e5f93",
       "buyerID": "11111111111111111111111111111111",
+      "awardID": "edb662d1a45c45ca91735eb5d895bb29",
       "contractID": "UA-2021-03-16-000001-a-1",
       "status": "pending",
-      "suppliers": [
-        {
-          "name": "Державне управління справами",
-          "identifier": {
-            "scheme": "UA-EDR",
-            "id": "00037256",
-            "legalName": "Державне управління справами",
-            "uri": "http://www.dus.gov.ua/"
-          },
-          "address": {
-            "streetAddress": "вул. Банкова, 11, корпус 1",
-            "locality": "м. Київ",
-            "region": "м. Київ",
-            "postalCode": "01220",
-            "countryName": "Україна"
-          },
-          "contactPoint": {
-            "name": "Державне управління справами",
-            "telephone": "+0440000000"
-          },
-          "scale": "micro"
-        }
-      ],
-      "date": "2021-03-16T00:00:00+02:00",
       "value": {
         "amount": 0.0,
         "currency": "UAH",
         "valueAddedTaxIncluded": true,
         "amountNet": 0.0
       },
-      "awardID": "edb662d1a45c45ca91735eb5d895bb29",
       "items": [
         {
           "id": "3f0592fa39714309a0917f98ca4182ac",
           "description": "телевізори",
+          "classification": {
+            "description": "Cartons",
+            "scheme": "ДК021",
+            "id": "44617100-9"
+          },
           "additionalClassifications": [
             {
               "scheme": "ДКПП",
@@ -54,6 +35,15 @@ X-Content-Type-Options: nosniff
               "description": "папір і картон гофровані, паперова й картонна тара"
             }
           ],
+          "unit": {
+            "name": "кг",
+            "value": {
+              "amount": 6.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            },
+            "code": "KGM"
+          },
           "quantity": 5.0,
           "deliveryDate": {
             "startDate": "2021-03-18T00:00:00+02:00",
@@ -66,29 +56,9 @@ X-Content-Type-Options: nosniff
             "postalCode": "79000",
             "countryName": "Україна"
           },
-          "relatedBuyer": "11111111111111111111111111111111",
-          "classification": {
-            "description": "Cartons",
-            "scheme": "ДК021",
-            "id": "44617100-9"
-          },
-          "unit": {
-            "name": "кг",
-            "code": "KGM",
-            "value": {
-              "amount": 6.0,
-              "currency": "UAH",
-              "valueAddedTaxIncluded": true
-            }
-          }
+          "relatedBuyer": "11111111111111111111111111111111"
         }
-      ]
-    },
-    {
-      "id": "5fa6c9d7e4724df3be1a8f2d0ba0fa43",
-      "buyerID": "22222222222222222222222222222222",
-      "contractID": "UA-2021-03-16-000001-a-2",
-      "status": "pending",
+      ],
       "suppliers": [
         {
           "name": "Державне управління справами",
@@ -106,24 +76,35 @@ X-Content-Type-Options: nosniff
             "countryName": "Україна"
           },
           "contactPoint": {
-            "name": "Державне управління справами",
-            "telephone": "+0440000000"
+            "telephone": "+0440000000",
+            "name": "Державне управління справами"
           },
           "scale": "micro"
         }
       ],
-      "date": "2021-03-16T00:00:00+02:00",
+      "date": "2021-03-16T00:00:00+02:00"
+    },
+    {
+      "id": "5fa6c9d7e4724df3be1a8f2d0ba0fa43",
+      "buyerID": "22222222222222222222222222222222",
+      "awardID": "edb662d1a45c45ca91735eb5d895bb29",
+      "contractID": "UA-2021-03-16-000001-a-2",
+      "status": "pending",
       "value": {
         "amount": 0.0,
         "currency": "UAH",
         "valueAddedTaxIncluded": true,
         "amountNet": 0.0
       },
-      "awardID": "edb662d1a45c45ca91735eb5d895bb29",
       "items": [
         {
           "id": "b3cc82abb36e4848b6e77f82bc05ac42",
           "description": "портфелі",
+          "classification": {
+            "description": "Cartons",
+            "scheme": "ДК021",
+            "id": "44617100-9"
+          },
           "additionalClassifications": [
             {
               "scheme": "ДКПП",
@@ -131,6 +112,15 @@ X-Content-Type-Options: nosniff
               "description": "папір і картон гофровані, паперова й картонна тара"
             }
           ],
+          "unit": {
+            "name": "кг",
+            "value": {
+              "amount": 6.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            },
+            "code": "KGM"
+          },
           "quantity": 5.0,
           "deliveryDate": {
             "startDate": "2021-03-18T00:00:00+02:00",
@@ -143,25 +133,16 @@ X-Content-Type-Options: nosniff
             "postalCode": "79000",
             "countryName": "Україна"
           },
-          "relatedBuyer": "22222222222222222222222222222222",
-          "classification": {
-            "description": "Cartons",
-            "scheme": "ДК021",
-            "id": "44617100-9"
-          },
-          "unit": {
-            "name": "кг",
-            "code": "KGM",
-            "value": {
-              "amount": 6.0,
-              "currency": "UAH",
-              "valueAddedTaxIncluded": true
-            }
-          }
+          "relatedBuyer": "22222222222222222222222222222222"
         },
         {
           "id": "198f9335b8b5498eb588ab7c40e2b350",
           "description": "портфелі",
+          "classification": {
+            "description": "Cartons",
+            "scheme": "ДК021",
+            "id": "44617100-9"
+          },
           "additionalClassifications": [
             {
               "scheme": "ДКПП",
@@ -169,6 +150,15 @@ X-Content-Type-Options: nosniff
               "description": "папір і картон гофровані, паперова й картонна тара"
             }
           ],
+          "unit": {
+            "name": "кг",
+            "value": {
+              "amount": 6.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            },
+            "code": "KGM"
+          },
           "quantity": 5.0,
           "deliveryDate": {
             "startDate": "2021-03-18T00:00:00+02:00",
@@ -181,23 +171,33 @@ X-Content-Type-Options: nosniff
             "postalCode": "79000",
             "countryName": "Україна"
           },
-          "relatedBuyer": "22222222222222222222222222222222",
-          "classification": {
-            "description": "Cartons",
-            "scheme": "ДК021",
-            "id": "44617100-9"
-          },
-          "unit": {
-            "name": "кг",
-            "code": "KGM",
-            "value": {
-              "amount": 6.0,
-              "currency": "UAH",
-              "valueAddedTaxIncluded": true
-            }
-          }
+          "relatedBuyer": "22222222222222222222222222222222"
         }
-      ]
+      ],
+      "suppliers": [
+        {
+          "name": "Державне управління справами",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00037256",
+            "legalName": "Державне управління справами",
+            "uri": "http://www.dus.gov.ua/"
+          },
+          "address": {
+            "streetAddress": "вул. Банкова, 11, корпус 1",
+            "locality": "м. Київ",
+            "region": "м. Київ",
+            "postalCode": "01220",
+            "countryName": "Україна"
+          },
+          "contactPoint": {
+            "telephone": "+0440000000",
+            "name": "Державне управління справами"
+          },
+          "scale": "micro"
+        }
+      ],
+      "date": "2021-03-16T00:00:00+02:00"
     }
   ]
 }

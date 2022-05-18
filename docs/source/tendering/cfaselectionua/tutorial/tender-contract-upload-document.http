@@ -15,15 +15,15 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/16198a81806a4fd9bf0d5b437bc44f7a/contracts/b7554b0bec8a4cf7a50a48a1c454141f/documents/f70cc27451a242f183aa969976341718
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/16198a81806a4fd9bf0d5b437bc44f7a/contracts/b7554b0bec8a4cf7a50a48a1c454141f/documents/4b641ce2175d490c93994460259ea36f
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "f70cc27451a242f183aa969976341718",
     "hash": "md5:00000000000000000000000000000000",
     "title": "contract_first_document.doc",
     "format": "application/msword",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/683441ad518644979bfdede8405df7c1?Signature=513e2wVWsZdU0BhdzyBYGpoTHxh6t7%2FgKVnNZUAe94PtHC%2B4%2F8OIKLX66EFlfUkoUlG5M3jmaIRlg2MaXiunCA%3D%3D&KeyID=a8968c46",
+    "id": "4b641ce2175d490c93994460259ea36f",
     "datePublished": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00"
   }

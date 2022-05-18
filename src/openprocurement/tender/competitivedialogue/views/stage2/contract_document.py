@@ -7,23 +7,23 @@ from openprocurement.tender.openeu.views.contract_document import (
 from openprocurement.tender.competitivedialogue.constants import STAGE_2_UA_TYPE, STAGE_2_EU_TYPE
 
 
-@optendersresource(
-    name="{}:Tender Contract Documents".format(STAGE_2_EU_TYPE),
-    collection_path="/tenders/{tender_id}/contracts/{contract_id}/documents",
-    path="/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}",
-    procurementMethodType=STAGE_2_EU_TYPE,
-    description="Competitive Dialogue Stage 2 EU contract documents",
-)
+# @optendersresource(
+#     name="{}:Tender Contract Documents".format(STAGE_2_EU_TYPE),
+#     collection_path="/tenders/{tender_id}/contracts/{contract_id}/documents",
+#     path="/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}",
+#     procurementMethodType=STAGE_2_EU_TYPE,
+#     description="Competitive Dialogue Stage 2 EU contract documents",
+# )
 class CompetitiveDialogueStage2EUAwardContractDocumentResource(TenderEUAwardContractDocumentResource):
     pass
 
 
-@optendersresource(
-    name="{}:Tender Contract Documents".format(STAGE_2_UA_TYPE),
-    collection_path="/tenders/{tender_id}/contracts/{contract_id}/documents",
-    path="/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}",
-    procurementMethodType=STAGE_2_UA_TYPE,
-    description="Competitive Dialogue Stage 2 UA contract documents",
-)
+# @optendersresource(
+#     name="{}:Tender Contract Documents".format(STAGE_2_UA_TYPE),
+#     collection_path="/tenders/{tender_id}/contracts/{contract_id}/documents",
+#     path="/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}",
+#     procurementMethodType=STAGE_2_UA_TYPE,
+#     description="Competitive Dialogue Stage 2 UA contract documents",
+# )
 class CompetitiveDialogueStage2UAAwardContractDocumentResource(TenderUaAwardContractDocumentResource):
     pass

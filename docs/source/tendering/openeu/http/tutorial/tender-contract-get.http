@@ -8,6 +8,7 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "d8a15a30f95045e9aa7c2b1ca8eb52b1",
+    "awardID": "2b438b38a4a74636a13d993b1cc51c4f",
     "contractID": "UA-2021-03-16-000001-a-1",
     "contractNumber": "contract#1",
     "status": "pending",
@@ -15,7 +16,12 @@ X-Content-Type-Options: nosniff
       "startDate": "2021-03-16T00:00:01+02:00",
       "endDate": "2022-03-16T00:00:01+02:00"
     },
-    "dateSigned": "2021-03-16T00:00:01+02:00",
+    "value": {
+      "amount": 238.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 230.0
+    },
     "suppliers": [
       {
         "name": "ДКП «Книга»",
@@ -32,51 +38,24 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Андрій Олексюк",
           "email": "aagt@gmail.com",
-          "telephone": "+380322916930"
+          "telephone": "+380322916930",
+          "name": "Андрій Олексюк"
         },
         "scale": "sme"
       }
     ],
     "date": "2021-03-16T00:00:00+02:00",
-    "value": {
-      "amount": 238.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amountNet": 230.0
-    },
-    "awardID": "2b438b38a4a74636a13d993b1cc51c4f",
-    "documents": [
-      {
-        "id": "0f545139b25d4059b5b739277a58312c",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "contract_first_document.doc",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9735f2031fb34c309c02b0c47ac65a0e?Signature=8kCjsoUkBY7QVTJv%2B4j6V%2BpsL650eBeupkOCFb%2FevrREHkbj3w6Bh9wGZ%2F1Ye0vuTXblubQdISOivYotGwGBBg%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:01+02:00",
-        "dateModified": "2021-03-16T00:00:01+02:00",
-        "documentOf": "tender",
-        "language": "uk"
-      },
-      {
-        "id": "8501ec0e8e944351b8858c6b4b7064cf",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "contract_second_document.doc",
-        "title_en": "Title of Document",
-        "description_en": "Description of Document",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8f66a407122847f39cda617660e6cce8?Signature=x%2Fvi6Qt0Rmiq%2Begvmp%2FC1QDqqGCkKr%2F%2F4J28s83oWSVA%2BnAw%2F5553sz7jutQiL1WiRoU0LsEi6w0tpx6RWDIDg%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:01+02:00",
-        "dateModified": "2021-03-16T00:00:01+02:00",
-        "documentOf": "tender",
-        "language": "en"
-      }
-    ],
+    "dateSigned": "2021-03-16T00:00:01+02:00",
     "items": [
       {
         "id": "27aa67024c4b4db9bb3e141549e9d9b7",
         "description": "Послуги шкільних їдалень",
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -84,16 +63,11 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "quantity": 1.0,
-        "classification": {
-          "description": "Test",
-          "scheme": "ДК021",
-          "id": "37810000-9"
-        },
         "unit": {
           "name": "кілограм",
           "code": "KGM"
         },
+        "quantity": 1.0,
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
           "endDate": "2021-05-05T00:00:00+02:00"
@@ -110,6 +84,11 @@ X-Content-Type-Options: nosniff
       {
         "id": "352c29a630d94b48a70cd9a654b33659",
         "description": "Послуги шкільних їдалень",
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -117,16 +96,11 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "quantity": 1.0,
-        "classification": {
-          "description": "Test",
-          "scheme": "ДК021",
-          "id": "37810000-9"
-        },
         "unit": {
           "name": "упаковка",
           "code": "PK"
         },
+        "quantity": 1.0,
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
           "endDate": "2021-05-05T00:00:00+02:00"
@@ -139,6 +113,31 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "description_en": "Services in school canteens"
+      }
+    ],
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_first_document.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9735f2031fb34c309c02b0c47ac65a0e?Signature=8kCjsoUkBY7QVTJv%2B4j6V%2BpsL650eBeupkOCFb%2FevrREHkbj3w6Bh9wGZ%2F1Ye0vuTXblubQdISOivYotGwGBBg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "id": "01b3ccb3bf064886a4c5a403d41ecc8d",
+        "datePublished": "2021-03-16T00:00:01+02:00",
+        "dateModified": "2021-03-16T00:00:01+02:00"
+      },
+      {
+        "title_en": "Title of Document",
+        "description_en": "Description of Document",
+        "language": "en",
+        "id": "e14833390a284d3aa311f28cd73e6736",
+        "datePublished": "2021-03-16T00:00:01+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_second_document.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8f66a407122847f39cda617660e6cce8?Signature=x%2Fvi6Qt0Rmiq%2Begvmp%2FC1QDqqGCkKr%2F%2F4J28s83oWSVA%2BnAw%2F5553sz7jutQiL1WiRoU0LsEi6w0tpx6RWDIDg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:01+02:00"
       }
     ]
   }

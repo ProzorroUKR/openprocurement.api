@@ -15,18 +15,18 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0fb28ed17f544dfa8a89ddb534e0b3d9/contracts/b8fc5ea92b2f49949263befaaef2db53/documents/fe77ff6d9c9e4ba68f443a5c13846ccb
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0fb28ed17f544dfa8a89ddb534e0b3d9/contracts/b8fc5ea92b2f49949263befaaef2db53/documents/073ea03516ba4ffcb7a656d873f44c43
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "fe77ff6d9c9e4ba68f443a5c13846ccb",
     "hash": "md5:00000000000000000000000000000000",
     "title": "contract_second_document.doc",
     "format": "application/msword",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ac088af709624bc9a689dadbcb6b8418?Signature=1eL5ul3qok%2FuoktZDAwrQqTTMWpuG%2BlOckQkLF8fhcT7FdMQXNa87CPXR2tYw94XKIwlycm%2BuvhlHpaWXr0eBA%3D%3D&KeyID=a8968c46",
+    "documentOf": "tender",
+    "id": "073ea03516ba4ffcb7a656d873f44c43",
     "datePublished": "2021-03-16T00:00:03+02:00",
-    "dateModified": "2021-03-16T00:00:03+02:00",
-    "documentOf": "tender"
+    "dateModified": "2021-03-16T00:00:03+02:00"
   }
 }
 

@@ -1,18 +1,37 @@
-from schematics.exceptions import ValidationError
-from schematics.types.compound import ModelType
-from schematics.types import StringType
-from openprocurement.tender.core.procedure.models.contract import Contract as BaseContract, ContractValue
+from openprocurement.tender.core.procedure.models.contract import (
+    PatchContractSupplier as BasePatchContractSupplier,
+    PatchContract as BasePatchContract,
+    Contract as BaseContract,
+    ContractValue,
+)
 from openprocurement.tender.core.procedure.context import get_now
-from openprocurement.api.models import Model, ListType, Document
-from openprocurement.tender.core.procedure.models.item import Item
+from openprocurement.tender.core.procedure.models.base import ModelType, ListType
+from openprocurement.tender.cfaselectionua.procedure.models.document import ContractDocument
+from openprocurement.tender.cfaselectionua.procedure.models.item import ContractItem
+from schematics.exceptions import ValidationError
+from schematics.types import StringType
 
 
 class Contract(BaseContract):
     value = ModelType(ContractValue)
     awardID = StringType(required=True)
-    documents = ListType(ModelType(Document, required=True))
-    items = ListType(ModelType(Item))
+    documents = ListType(ModelType(ContractDocument, required=True))
+    items = ListType(ModelType(ContractItem, required=True))
 
     def validate_dateSigned(self, data, value):
         if value and value > get_now():
             raise ValidationError("Contract signature date can't be in the future")
+
+
+class PostContract(Contract):
+    def validate_items(self, data, items):
+        pass  # disable unit currency and valueAddedTaxIncluded validation
+
+
+class PatchContract(BasePatchContract):
+    def validate_items(self, data, items):
+        pass  # disable unit currency and valueAddedTaxIncluded validation
+
+
+class PatchContractSupplier(BasePatchContractSupplier):
+    pass

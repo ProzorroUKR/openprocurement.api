@@ -207,6 +207,176 @@ def tender_fundingKind_default(self):
     self.assertEqual(response.json["data"]["fundingKind"], "other")
 
 
+def items_without_deliveryDate_quantity(self):
+    self.assertEqual(len(self.initial_data["items"]), 1)
+    for item in self.initial_data["items"]:
+        self.assertIn("deliveryDate", item)
+        self.assertIn("quantity", item)
+
+    # create role
+    tender_data = deepcopy(self.initial_data)
+    tender_data["status"] = "draft"
+
+    response = self.app.post_json("/tenders", {"data": tender_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "draft")
+    self.tender_id = response.json["data"]["id"]
+    self.tender_token = response.json["access"]["token"]
+
+    for item in response.json["data"]["items"]:
+        self.assertNotIn("deliveryDate", item)
+        self.assertNotIn("quantity", item)
+
+    # edit_draft role
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"items": [{"quantity": 5}]}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    for item in response.json["data"]["items"]:
+        self.assertNotIn("deliveryDate", item)
+        self.assertNotIn("quantity", item)
+
+    add_criteria(self)
+    # edit_active.tendering role
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"status": "active.tendering"}}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "active.tendering")
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"items": [{"quantity": 5}]}}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    for item in response.json["data"]["items"]:
+        self.assertNotIn("deliveryDate", item)
+        self.assertNotIn("quantity", item)
+
+    # award preparation
+
+    # post bids
+    for bid_data in self.test_bids_data:
+        bid, bid_token = self.create_bid(self.tender_id, bid_data)
+
+    # switch to active.pre-qualification
+    self.set_status("active.pre-qualification", {"status": "active.tendering"})
+    response = self.check_chronograph()
+    self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
+
+    # qualify bids
+    self.app.authorization = ("Basic", ("broker", ""))
+    response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
+    for qualification in response.json["data"]:
+        response = self.app.patch_json(
+            "/tenders/{}/qualifications/{}?acc_token={}".format(self.tender_id, qualification["id"], self.tender_token),
+            {"data": {"status": "active", "qualified": True, "eligible": True}},
+        )
+        self.assertEqual(response.status, "200 OK")
+
+    # switch to active.pre-qualification.stand-still
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"status": "active.pre-qualification.stand-still"}},
+    )
+    self.assertEqual(response.json["data"]["status"], "active.pre-qualification.stand-still")
+
+    # switch to active.auction
+    self.set_status("active.auction", {"status": "active.pre-qualification.stand-still"})
+    response = self.check_chronograph()
+    self.assertEqual(response.json["data"]["status"], "active.auction")
+
+    self.app.authorization = ("Basic", ("auction", ""))
+    response = self.app.get("/tenders/{}/auction".format(self.tender_id))
+    auction_bids_data = response.json["data"]["bids"]
+    response = self.app.post_json("/tenders/{}/auction".format(self.tender_id),
+                                  {"data": {"bids": [{"id": b["id"]} for b in auction_bids_data]}})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    self.assertEqual(response.json["data"]["status"], "active.qualification")
+
+    response = self.app.get("/tenders/{}/awards".format(self.tender_id))
+    self.award_id = response.json["data"][0]["id"]
+    self.app.authorization = ("Basic", ("broker", ""))
+
+    # qualify award
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+        {
+            "data": {
+                "status": "active",
+                "qualified": True,
+                "eligible": True,
+                "items": [
+                    {
+                        "description": "футляри до державних нагород",
+                        "description_en": "Cases for state awards",
+                        "classification": {"scheme": "ДК021", "id": "44617100-9", "description": "Cartons"},
+                        "additionalClassifications": [
+                            {
+                                "scheme": "ДКПП",
+                                "id": "17.21.1",
+                                "description": "папір і картон гофровані, паперова й картонна тара",
+                            }
+                        ],
+                        "unit": {"name": "item", "code": "KGM"},
+                        "quantity": 5,
+                        "deliveryDate": {
+                            "startDate": (get_now() + timedelta(days=2)).isoformat(),
+                            "endDate": (get_now() + timedelta(days=5)).isoformat(),
+                        },
+                        "deliveryAddress": {
+                            "countryName": "Україна",
+                            "postalCode": "79000",
+                            "region": "м. Київ",
+                            "locality": "м. Київ",
+                            "streetAddress": "вул. Банкова 1",
+                        },
+                    }
+                ],
+            }
+        },
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "active")
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    contract = response.json["data"]["contracts"][0]
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
+        {"data": {"value": {"amountNet": contract["value"]["amount"] - 1}}},
+    )
+
+    contract["items"][0]["quantity"] = 10
+    contract["items"][0]["deliveryDate"] = {
+        "startDate": (get_now() + timedelta(days=12)).isoformat(),
+        "endDate": (get_now() + timedelta(days=15)).isoformat(),
+    }
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
+        {
+            "data": {
+                "status": "pending",
+                "items": contract["items"],
+            }
+        },
+        status=403
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"], "Updated could be only unit.value.amount in item"
+    )
+
+
 def tender_noticePublicationDate(self):
     # create in active tendering # forbidden
     # tender_data = deepcopy(self.initial_data)
@@ -1309,26 +1479,6 @@ def create_tender_generated(self):
         }
     )
     self.assertNotEqual(data["id"], tender["id"])
-
-
-def patch_item_with_zero_quantity(self):
-    self.create_tender()
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    item = response.json["data"]["items"][0]
-    item["quantity"] = 0
-    response = self.app.patch_json("/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-                                   {"data": {"items": [item]}},
-                                   status=422)
-    self.assertEqual(
-        response.json["errors"],
-        [{
-            "location": "body",
-            "name": "items",
-            "description": {
-                "quantity": "Rogue field"
-            }
-        }]
-    )
 
 
 def patch_tender_draft(self):

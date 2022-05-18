@@ -375,6 +375,7 @@ class Item(BaseItem):
     """A good, service, or work to be contracted."""
 
     class Options:
+        # TODO: manage this roles
         roles = {
             "edit": blacklist("quantity", "deliveryDate", "unit"),
             "edit_draft": blacklist("quantity", "deliveryDate", "unit"),

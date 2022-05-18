@@ -108,6 +108,7 @@ class TenderContractVATNotIncludedResourceTest(BaseSimpleDefContentWebTest, Tend
 class TenderContractDocumentResourceTest(BaseSimpleDefContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_bids
+    docservice = True
 
     def setUp(self):
         super(TenderContractDocumentResourceTest, self).setUp()

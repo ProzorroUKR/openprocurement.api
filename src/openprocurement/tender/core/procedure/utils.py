@@ -1,6 +1,10 @@
 from openprocurement.api.utils import get_now, handle_store_exceptions, context_unpack
 from openprocurement.api.auth import extract_access_token
-from openprocurement.api.constants import SANDBOX_MODE, TZ, NORMALIZE_SHOULD_START_AFTER
+from openprocurement.api.constants import (
+    SANDBOX_MODE,
+    TZ,
+    NORMALIZE_SHOULD_START_AFTER,
+)
 from openprocurement.tender.core.procedure.context import get_now
 from openprocurement.tender.core.utils import QUICK
 from dateorro import calc_normalized_datetime
@@ -235,3 +239,32 @@ def normalize_should_start_after(start_after, tender):
     if NORMALIZE_SHOULD_START_AFTER < date:
         return calc_normalized_datetime(start_after, ceil=True)
     return start_after
+
+
+def contracts_allow_to_complete(contracts) -> bool:
+    active_exists = False
+    for contract in contracts:
+        if contract.get("status") == "pending":
+            return False
+        if contract.get("status") == "active":
+            active_exists = True
+    return active_exists
+
+
+def get_contracts_values_related_to_patched_contract(contracts, patched_contract_id, updated_value, award_id):
+    _contracts_values = []
+
+    for contract in contracts:
+        if contract.get("status") != "cancelled" and contract.get("awardID") == award_id:
+            if contract.get("id") != patched_contract_id:
+                _contracts_values.append(contract.get("value", {}))
+            else:
+                _contracts_values.append(updated_value)
+    return _contracts_values
+
+
+def find_item_by_id(list_items: list, find_id: str) -> dict:
+    for item in list_items:
+        if item.get("id") == find_id:
+            return item
+    return {}

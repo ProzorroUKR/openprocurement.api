@@ -191,7 +191,10 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         response = self.app.get('/tenders/{}/contracts?acc_token={}'.format(
             self.tender_id, owner_token))
-        self.contract_id = response.json['data'][0]['id']
+        contract = response.json['data'][0]
+        self.contract_id = contract['id']
+        contract["value"]["amount"] = 238
+        contract["value"]["amountNet"] = 230
 
         ####  Set contract value
 
@@ -199,16 +202,22 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.patch_json(
                 '/tenders/{}/contracts/{}?acc_token={}'.format(
                     self.tender_id, self.contract_id, owner_token),
-                {"data": {"value": {"amount": 238, "amountNet": 230}}})
+                {"data": {"value": contract["value"]}})
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['value']['amount'], 238)
+
+        contract["items"][0]["unit"]["value"] = {
+            "amount": 12,
+            "currency": contract["value"]["currency"],
+            "valueAddedTaxIncluded": contract["value"]["valueAddedTaxIncluded"],
+        }
 
         #### Set contact.item.unit value
         with open(TARGET_DIR + 'tutorial/tender-contract-set-contract_items_unit-value.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/contracts/{}?acc_token={}'.format(
                     self.tender_id, self.contract_id, owner_token),
-                {"data": {"items": [{'unit': {'value': {'amount': 12}}}]}})
+                {"data": {"items": contract["items"]}})
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.json['data']['items'][0]['unit']['value']['amount'], 12)
 

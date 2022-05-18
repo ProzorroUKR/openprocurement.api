@@ -56,9 +56,11 @@ def patch_tender_contract_datesigned(self):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(tender)
 
+    value = contract["value"]
+    value["amountNet"] = value["amount"] - 1
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"value": {"amountNet": contract["value"]["amount"] - 1}}},
+        {"data": {"value": value}},
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -83,7 +85,7 @@ def patch_tender_contract(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn("Can't sign contract before stand-still period end (", response.json["errors"][0]["description"])
+    self.assertIn("Amount should be greater than amountNet and differ by no more than 20.0%", response.json["errors"][0]["description"])
 
     self.set_status("complete", {"status": "active.awarded"})
 
@@ -92,9 +94,11 @@ def patch_tender_contract(self):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(tender)
 
+    value = contract["value"]
+    value["amountNet"] = value["amount"] - 1
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"value": {"amountNet": contract["value"]["amount"] - 1}}},
+        {"data": {"value": value}},
     )
     self.assertEqual(response.status, "200 OK")
 

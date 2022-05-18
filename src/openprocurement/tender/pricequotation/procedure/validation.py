@@ -1,6 +1,7 @@
 from openprocurement.api.validation import OPERATIONS, raise_operation_error
 from openprocurement.tender.core.procedure.validation import validate_item_owner
 from schematics.exceptions import ValidationError
+from openprocurement.api.utils import raise_operation_error
 
 
 def validate_bid_value(tender, value):
@@ -49,3 +50,16 @@ def unless_administrator_or_bots(*validations):
             for validation in validations:
                 validation(request)
     return decorated
+
+
+def validate_contract_document_status(operation):
+    def validate(request, **_):
+        tender_status = request.validated["tender"]["status"]
+        if tender_status not in ["active.qualification", "active.awarded"]:
+            raise_operation_error(
+                request,
+                f"Can't {operation} document in current ({tender_status}) tender status"
+            )
+        if request.validated["contract"]["status"] not in ["pending", "active"]:
+            raise_operation_error(request, f"Can't {operation} document in current contract status")
+    return validate

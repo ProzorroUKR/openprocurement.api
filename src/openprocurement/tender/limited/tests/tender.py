@@ -75,6 +75,7 @@ class TenderTest(BaseTenderWebTest):
 
 class TenderResourceTest(BaseTenderWebTest):
     initial_data = test_tender_data
+    docservice = True
 
     test_empty_listing = snitch(empty_listing)
     test_listing = snitch(listing)

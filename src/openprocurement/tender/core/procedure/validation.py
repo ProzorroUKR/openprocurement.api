@@ -1,10 +1,16 @@
-from openprocurement.api.utils import raise_operation_error, handle_data_exceptions, error_handler, context_unpack
 from openprocurement.api.constants import (
     RELEASE_2020_04_19,
     CRITERION_REQUIREMENT_STATUSES_FROM,
     RELEASE_GUARANTEE_CRITERION_FROM,
     GUARANTEE_ALLOWED_TENDER_TYPES,
     RELEASE_ECRITERIA_ARTICLE_17,
+)
+from openprocurement.api.utils import (
+    to_decimal,
+    raise_operation_error,
+    handle_data_exceptions,
+    error_handler,
+    context_unpack,
 )
 from openprocurement.api.validation import (
     validate_json_data,
@@ -13,11 +19,14 @@ from openprocurement.api.validation import (
     OPERATIONS,
 )
 from openprocurement.tender.core.validation import TYPEMAP
+from openprocurement.tender.core.constants import AMOUNT_NET_COEF
 from openprocurement.tender.core.procedure.utils import (
     is_item_owner,
     apply_data_patch,
     delete_nones,
     get_first_revision_date,
+    get_contracts_values_related_to_patched_contract,
+    find_item_by_id,
 )
 from openprocurement.tender.core.procedure.documents import check_document_batch, check_document, update_document_url
 from openprocurement.tender.core.procedure.context import get_now, get_tender, get_request
@@ -25,14 +34,45 @@ from openprocurement.tender.core.procedure.state.tender_document import get_tend
 from schematics.exceptions import ValidationError
 from pyramid.httpexceptions import HTTPError
 from copy import deepcopy
-from decimal import Decimal
+from schematics.types import BaseType
+from decimal import Decimal, ROUND_UP, ROUND_FLOOR
 import logging
 
 
 LOGGER = logging.getLogger(__name__)
+OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "delete"}
 
 
-def validate_input_data(input_model, allow_bulk=False, filters=None, none_means_remove=False):
+def filter_list(input: list, filters: dict) -> list:
+    new_items = []
+    for item in input:
+        new_items.append(filter_dict(item, filters))
+    return new_items
+
+
+def filter_dict(data: dict, filter_data: dict):
+    new_data = {}
+    for field in filter_data:
+        if field not in data:
+            continue
+        elif isinstance(filter_data[field], set):
+            new_data[field] = {k: v for k, v in data[field].items() if k in filter_data[field]}
+        elif isinstance(filter_data[field], list):
+            new_data[field] = filter_list(data[field], filter_data[field][0])
+        elif isinstance(filter_data[field], dict):
+            new_data[field] = filter_dict(data[field], filter_data[field])
+        else:
+            new_data[field] = data[field]
+    return new_data
+
+
+def filter_whitelist(data: dict, filter_data: dict) -> None:
+    new_data = filter_dict(data, filter_data)
+    for field in new_data:
+        data[field] = new_data[field]
+
+
+def validate_input_data(input_model, allow_bulk=False, filters=None, none_means_remove=False, whitelist=None):
     """
     :param input_model: a model to validate data against
     :param allow_bulk: if True, request.validated["data"] will be a list of valid inputs
@@ -58,11 +98,13 @@ def validate_input_data(input_model, allow_bulk=False, filters=None, none_means_
                 # Update: doesn't work with sub-models {'auctionPeriod': {'startDate': None}}
                 for k, v in input_data.items():
                     if (
-                        v is None
-                        or isinstance(v, list) and len(v) == 0  # for list fields, an empty list does the same
+                            v is None
+                            or isinstance(v, list) and len(v) == 0  # for list fields, an empty list does the same
                     ):
                         result[k] = v
-
+            # TODO: Remove it
+            if whitelist:
+                filter_whitelist(input_data, whitelist)
             valid_data = validate_data(request, input_model, input_data)
             if valid_data is not None:
                 result.update(valid_data)
@@ -190,6 +232,27 @@ def validate_item_owner(item_name):
     def validator(request, **_):
         item = request.validated[item_name]
         if not is_item_owner(request, item):
+            raise_operation_error(
+                request,
+                "Forbidden",
+                location="url",
+                name="permission"
+            )
+    return validator
+
+
+def validate_contract_supplier():
+    def validator(request, **_):
+        contract = request.validated["contract"]
+        tender = request.validated["tender"]
+        award = find_item_by_id(tender["awards"], contract["awardID"])
+        bid = find_item_by_id(tender["bids"], award.get("bid_id"))
+
+        if is_item_owner(request, bid):
+            request.authenticated_role = "contract_supplier"
+        elif is_item_owner(request, tender):
+            request.authenticated_role = "tender_owner"
+        else:
             raise_operation_error(
                 request,
                 "Forbidden",
@@ -363,7 +426,7 @@ def validate_bid_value(tender, value):
         tender_value = tender.get("value")
         if not value:
             raise ValidationError("This field is required.")
-        if Decimal(tender_value["amount"]) < value.amount:
+        if to_decimal(tender_value["amount"]) < value.amount:
             raise ValidationError("value of bid should be less than value of tender")
         if tender_value["currency"] != value.currency:
             raise ValidationError("currency of bid should be identical to currency of value of tender")
@@ -990,3 +1053,220 @@ def validate_qualification_document_operation_not_in_pending(request, **kwargs):
         raise_operation_error(
             request, f"Can't {OPERATIONS.get(request.method)} document in current qualification status"
         )
+
+
+# CONTRACT
+def validate_contract_operation_not_in_allowed_status(request, **_):
+    status = request.validated["tender"]["status"]
+    if status not in ["active.qualification", "active.awarded"]:
+        raise_operation_error(
+            request,
+            f"Can't {OPERATIONS.get(request.method)} contract in current ({status}) tender status"
+        )
+
+
+def validate_update_contract_value_net_required(request, name="value", **_):
+    data = request.validated["data"]
+    value = data.get("value")
+
+    if value is not None and "status" in request.validated["json_data"]:
+        contract_amount_net = value.get("amountNet")
+        if contract_amount_net is None:
+            raise_operation_error(request, {"amountNet": BaseType.MESSAGES["required"]}, status=422, name=name)
+
+
+def validate_update_contract_value_with_award(request, **_):
+    data = request.validated["data"]
+    updated_value = data.get("value")
+
+    if updated_value and {"status", "value"} & set(request.validated["json_data"].keys()):
+        award = [award for award in request.validated["tender"].get("awards", [])
+                 if award.get("id") == request.validated["contract"].get("awardID")][0]
+
+        _contracts_values = get_contracts_values_related_to_patched_contract(
+            request.validated["tender"].get("contracts"),
+            request.validated["contract"]["id"], updated_value,
+            request.validated["contract"].get("awardID")
+        )
+
+        amount = sum([to_decimal(value.get("amount", 0)) for value in _contracts_values])
+        amount_net = sum([to_decimal(value.get("amountNet", 0)) for value in _contracts_values])
+        tax_included = updated_value.get("valueAddedTaxIncluded")
+        if tax_included:
+            if award.get("value", {}).get("valueAddedTaxIncluded"):
+                if amount > to_decimal(award.get("value", {}).get("amount")):
+                    raise_operation_error(request, "Amount should be less or equal to awarded amount", name="value")
+            else:
+                if amount_net > to_decimal(award.get("value", {}).get("amount")):
+                    raise_operation_error(request, "AmountNet should be less or equal to awarded amount", name="value")
+        else:
+            if amount > to_decimal(award.get("value", {}).get("amount")):
+                raise_operation_error(request, "Amount should be less or equal to awarded amount", name="value")
+
+
+def validate_update_contract_value_amount(request, name="value", allow_equal=False, **_):
+    data = request.validated["data"]
+    contract_value = data.get(name)
+    value = data.get("value") or data.get(name)
+    if contract_value and {"status", name} & set(request.validated["json_data"].keys()):
+        amount = to_decimal(contract_value.get("amount"))
+        amount_net = to_decimal(contract_value.get("amountNet"))
+        tax_included = value.get("valueAddedTaxIncluded")
+
+        if not (amount == 0 and amount_net == 0):
+            if tax_included:
+                amount_max = (amount_net * AMOUNT_NET_COEF).quantize(Decimal("1E-2"), rounding=ROUND_UP)
+                if (amount <= amount_net or amount > amount_max) and not allow_equal:
+                    raise_operation_error(
+                        request,
+                        "Amount should be greater than amountNet and differ by "
+                        "no more than {}%".format(AMOUNT_NET_COEF * 100 - 100),
+                        name=name,
+                    )
+                elif (amount < amount_net or amount > amount_max) and allow_equal:
+                    raise_operation_error(
+                        request,
+                        f"Amount should be equal or greater than amountNet and differ by "
+                        f"no more than {AMOUNT_NET_COEF * 100 - 100}%",
+                        name=name,
+                    )
+            else:
+                if amount != amount_net:
+                    raise_operation_error(request, "Amount and amountNet should be equal", name=name)
+
+
+def validate_update_contract_status_by_supplier(request, **_):
+    if request.authenticated_role == "contract_supplier":
+        data = request.validated["data"]
+        if (
+                "status" in data
+                and data["status"] != "pending"
+                or request.validated["contract"]["status"] != "pending.winner-signing"
+        ):
+            raise_operation_error(request, "Supplier can change status to `pending`")
+
+
+def validate_update_contract_status_base(request, allowed_statuses_from, allowed_statuses_to, **kwargs):
+    tender = request.validated["tender"]
+
+    # Contract statuses before and after current change
+    current_status = request.validated["contract"]["status"]
+    new_status = request.validated["data"].get("status", current_status)
+
+    # Allow change contract status to cancelled for multi buyers tenders
+    multi_contracts = len(tender.get("buyers", [])) > 1
+    if multi_contracts:
+        allowed_statuses_to = allowed_statuses_to + ("cancelled",)
+
+    # Validate status change
+    if (
+        current_status != new_status
+        and (
+            current_status not in allowed_statuses_from
+            or new_status not in allowed_statuses_to
+        )
+    ):
+        raise_operation_error(request, "Can't update contract status")
+
+    not_cancelled_contracts_count = sum(
+        1 for contract in tender.get("contracts", [])
+        if (
+            contract.get("status") != "cancelled"
+            and contract.get("awardID") == request.validated["contract"]["awardID"]
+        )
+    )
+    if multi_contracts and new_status == "cancelled" and not_cancelled_contracts_count == 1:
+        raise_operation_error(
+            request,
+            f"Can't update contract status from {current_status} to {new_status} "
+            f"for last not cancelled contract. Cancel award instead."
+        )
+
+
+def validate_update_contract_status(request, **_):
+    allowed_statuses_from = ("pending", "pending.winner-signing",)
+    allowed_statuses_to = ("active", "pending", "pending.winner-signing",)
+    validate_update_contract_status_base(
+        request,
+        allowed_statuses_from,
+        allowed_statuses_to
+    )
+
+
+def validate_update_contract_only_for_active_lots(request, **_):
+    tender = request.validated["tender"]
+    contract = request.validated["contract"]
+
+    award_lot_ids = []
+    for award in tender.get("awards", []):
+        if award.get("id") == contract.get("awardID"):
+            award_lot_ids.append(award.get("lotID"))
+
+    for lot in tender.get("lots", []):
+        if lot.get("status") != "active" and lot.get("id") in award_lot_ids:
+            raise_operation_error(request, "Can update contract only in active lot status")
+
+
+def validate_update_contract_value(request, **_):
+    data = request.validated["data"]
+    value = data.get("value")
+    if value:
+        field = request.validated["contract"].get("value")
+        if field and value.get("currency") != field.get("currency"):
+            raise_operation_error(request, "Can't update currency for contract value", name="value")
+
+
+def validate_contract_input_data(model, supplier_model):
+    def validated(request, **_):
+        if request.authenticated_role == "contract_supplier":
+            validate = validate_input_data(supplier_model)
+        else:
+            validate = validate_input_data(model)
+        return validate(request, **_)
+    return validated
+
+
+# CONTRACT DOCUMENT
+def validate_role_for_contract_document_operation(request, **kwargs):
+    if request.authenticated_role not in ("tender_owner", "contract_supplier"):
+        raise_operation_error(
+            request,
+            f"Can {OPERATIONS.get(request.method)} document only buyer or supplier"
+        )
+    if (
+            request.authenticated_role == "contract_supplier" and
+            request.validated["contract"]["status"] != "pending.winner-signing"
+    ):
+        raise_operation_error(
+            request,
+            f"Supplier can't {OPERATIONS.get(request.method)} document in current contract status"
+        )
+    if (
+            request.authenticated_role == "tender_owner" and
+            request.validated["contract"]["status"] == "pending.winner-signing"
+    ):
+        raise_operation_error(
+            request,
+            f"Tender owner can't {OPERATIONS.get(request.method)} document in current contract status"
+        )
+
+
+def validate_contract_document_status(operation):
+    def validate(request, **_):
+        tender_status = request.validated["tender"]["status"]
+        if tender_status not in ("active.qualification", "active.awarded"):
+            raise_operation_error(
+                request,
+                f"Can't {operation} document in current ({tender_status}) tender status"
+            )
+        elif request.validated["tender"].get("lots"):
+            contract_lots = set()
+            for award in request.validated["tender"].get("awards", []):
+                if award["id"] == request.validated["contract"]["awardID"]:
+                    contract_lots.add(award["lotID"])
+            for lot in request.validated["tender"]["lots"]:
+                if lot.get("id") in contract_lots and lot["status"] != "active":
+                    raise_operation_error(request, f"Can {operation} document only in active lot status")
+        if request.validated["contract"]["status"] not in ("pending", "pending.winner-signing", "active"):
+            raise_operation_error(request, f"Can't {operation} document in current contract status")
+    return validate

@@ -122,6 +122,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 class TenderProcessTest(BaseTenderWebTest):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
+    docservice = True
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_one_valid_bid_tender = snitch(one_valid_bid_tender)

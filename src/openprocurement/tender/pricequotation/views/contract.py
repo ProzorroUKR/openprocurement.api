@@ -19,13 +19,13 @@ from openprocurement.tender.pricequotation.constants import PMT
 from openprocurement.tender.pricequotation.utils import check_tender_status
 
 
-@optendersresource(
-    name="{}:Tender Contracts".format(PMT),
-    collection_path="/tenders/{tender_id}/contracts",
-    procurementMethodType=PMT,
-    path="/tenders/{tender_id}/contracts/{contract_id}",
-    description="Tender contracts",
-)
+# @optendersresource(
+#     name="{}:Tender Contracts".format(PMT),
+#     collection_path="/tenders/{tender_id}/contracts",
+#     procurementMethodType=PMT,
+#     path="/tenders/{tender_id}/contracts/{contract_id}",
+#     description="Tender contracts",
+# )
 class PQTenderAwardContractResource(TenderAwardContractResource):
     @staticmethod
     def check_tender_status_method(request):
