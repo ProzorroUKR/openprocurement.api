@@ -857,49 +857,6 @@ def validate_tender_change_status_with_cancellation_lot_pending(request, **_):
         )
 
 
-def validate_tender_activate_with_criteria(request, **_):
-    tender = request.validated["tender"]
-    data = request.validated["data"]
-    if (
-        get_first_revision_date(tender, default=get_now()) < RELEASE_ECRITERIA_ARTICLE_17
-        or request.validated["tender_src"]["status"] == data.get("status")
-        or data.get("status") not in ("active", "active.tendering")
-    ):
-        return
-
-    tender_criteria = {criterion["classification"]["id"]
-                       for criterion in tender.get("criteria", "")
-                       if criterion.get("classification")}
-
-    # exclusion criteria
-    exclusion_criteria = {
-        "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
-        "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
-        "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
-        "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING",
-        "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES",
-        "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
-        "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION",
-        "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION",
-        "CRITERION.EXCLUSION.NATIONAL.OTHER",
-    }
-    if exclusion_criteria - tender_criteria:
-        raise_operation_error(request, "Tender must contain all 9 `EXCLUSION` criteria")
-
-    # language criteria
-    tenders_types = ["aboveThresholdUA", "aboveThresholdEU",
-                     "competitiveDialogueUA", "competitiveDialogueEU",
-                     "competitiveDialogueUA.stage2", "competitiveDialogueEU.stage2",
-                     "esco", "closeFrameworkAgreementUA"]
-
-    language_criterion = "CRITERION.OTHER.BID.LANGUAGE"
-    if (
-        tender["procurementMethodType"] in tenders_types
-        and language_criterion not in tender_criteria
-    ):
-        raise_operation_error(request, f"Tender must contain {language_criterion} criterion")
-
-
 # tender documents
 def validate_document_operation_in_not_allowed_period(request, **_):
     tender_status = request.validated["tender"]["status"]

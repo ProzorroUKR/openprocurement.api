@@ -351,7 +351,9 @@ def create_tender_stage2(self, initial_lots=None, initial_data=None, features=No
         )
         criteria = response.json["data"]
     self.app.authorization = ("Basic", ("broker", ""))
-    with patch("openprocurement.tender.core.procedure.validation.RELEASE_ECRITERIA_ARTICLE_17",
+
+    # TODO add criteria to the test data ?
+    with patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
                get_now() + timedelta(days=1)):
         self.app.patch_json(
             "/tenders/{id}?acc_token={token}".format(id=self.tender_id, token=self.tender_token),

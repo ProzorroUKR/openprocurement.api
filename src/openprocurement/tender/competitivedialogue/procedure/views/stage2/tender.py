@@ -30,7 +30,6 @@ from openprocurement.tender.core.procedure.validation import (
     validate_accreditation_level,
     validate_tender_status_allows_update,
     validate_tender_change_status_with_cancellation_lot_pending,
-    validate_tender_activate_with_criteria,
 )
 from cornice.resource import resource
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
@@ -122,7 +121,6 @@ class TenderStage2UEResource(TendersResource):
             # ),
 
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
-            validate_tender_activate_with_criteria,
         ),
         permission="edit_tender",
     )
@@ -188,7 +186,6 @@ class TenderStage2UAResource(TendersResource):
             #     operation="update",
             # ),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
-            validate_tender_activate_with_criteria,
         ),
         permission="edit_tender",
     )

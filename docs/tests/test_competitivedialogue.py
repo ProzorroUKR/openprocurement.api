@@ -593,7 +593,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
             self.new_tender_token = response.json['access']['token']
 
         with open(TARGET_DIR + 'tender_stage2_modify_status.http', 'w') as self.app.file_obj:
-            with patch("openprocurement.tender.core.procedure.validation.RELEASE_ECRITERIA_ARTICLE_17",
+            with patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
                        get_now() + timedelta(days=1)):
                 response = self.app.patch_json(
                     '/tenders/{}?acc_token={}'.format(new_tender_id, self.new_tender_token),
@@ -642,7 +642,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
                 }}})
 
         with open(TARGET_DIR + 'stage2/EU/tender-activate.http', 'w') as self.app.file_obj:
-            with patch("openprocurement.tender.core.procedure.validation.RELEASE_ECRITERIA_ARTICLE_17",
+            with patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
                        get_now() + timedelta(days=1)):
                 response = self.app.patch_json(
                     '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
@@ -1614,7 +1614,7 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTe
                 }}})
 
         with open(TARGET_DIR + 'stage2/UA/tender-activate.http', 'w') as self.app.file_obj:
-            with patch("openprocurement.tender.core.procedure.validation.RELEASE_ECRITERIA_ARTICLE_17",
+            with patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
                        get_now() + timedelta(days=1)):
                 response = self.app.patch_json(
                     '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),

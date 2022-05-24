@@ -6,4 +6,10 @@ class DefenseTenderDetailsState(TenderDetailsState):
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     tendering_period_extra_working_days = True
 
+    @staticmethod
+    def validate_tender_exclusion_criteria(before, after):
+        pass
 
+    @staticmethod
+    def validate_tender_language_criteria(before, after):
+        pass

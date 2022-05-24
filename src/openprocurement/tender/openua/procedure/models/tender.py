@@ -26,15 +26,11 @@ from openprocurement.tender.openua.procedure.models.organization import Procurin
 from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST, AWARD_CRITERIA_LIFE_CYCLE_COST
 from openprocurement.tender.core.utils import (
     calculate_complaint_business_date,
-    calculate_tender_business_date,
-    calculate_clarif_business_date,
 )
 from openprocurement.tender.openua.constants import (
     ABOVE_THRESHOLD_UA,
     COMPLAINT_SUBMIT_TIME,
     TENDERING_DURATION,
-    ENQUIRY_PERIOD_TIME,
-    ENQUIRY_STAND_STILL_TIME,
 )
 from openprocurement.tender.openua.validation import _validate_tender_period_start_date
 from openprocurement.tender.core.validation import validate_tender_period_duration
