@@ -8,18 +8,10 @@ def validate_bid_document_operation_in_not_allowed_tender_status(request, **_):
     tender = request.validated["tender"]
     if tender["status"] == "active.awarded" and tender["procurementMethodType"] in GUARANTEE_ALLOWED_TENDER_TYPES:
         bid_id = request.validated["bid"]["id"]
-        if (
-            any(
-                award["status"] == "active" and award["bid_id"] == bid_id
-                for award in tender.get("awards", "")
-            )
-            and any(
-                criterion["classification"]["id"] == "CRITERION.OTHER.CONTRACT.GUARANTEE"
-                for criterion in tender.get("criteria", "")
-            )
+        if not any(
+            award["status"] in ("pending", "active") and award["bid_id"] == bid_id
+            for award in tender.get("awards", "")
         ):
-            pass  # documents are allowed if award for this bid is active
-        else:
             raise_operation_error(
                 request,
                 f"Can't {OPERATIONS.get(request.method)} document "
