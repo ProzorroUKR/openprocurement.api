@@ -1,27 +1,29 @@
 POST /api/2.5/contracts/731229e60a3e4406b3f0bbca894132fa/documents?acc_token=d7ef3060443a419f93a65b3aeb4f5f9b HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 171
-Content-Type: multipart/form-data; boundary=---BOUNDARY
+Content-Length: 344
+Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
------BOUNDARY
-Content-Disposition: form-data; name="file"; filename="contract_additional_docs.doc"
-Content-Type: application/msword
-
-additional info
------BOUNDARY--
-
+{
+  "data": {
+    "title": "contract_additional_docs.doc",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bdd3fb01fd5543dcb7c49a037c335baf?Signature=yor3BJmbDFsR%2FF3sKWKVbFvIKRxGyk4%2Bq4%2FUYYLNax8qJSzr0JueHukHNruZ4dqs6ooC44CFb%2BIKZW86XsSjDQ%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pdf"
+  }
+}
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/731229e60a3e4406b3f0bbca894132fa/documents/d72c6e6b2a7741a1910849d0446b7d3f
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/731229e60a3e4406b3f0bbca894132fa/documents/49b360f45fd74dcb95e003a7cf95d712
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "d72c6e6b2a7741a1910849d0446b7d3f",
+    "id": "49b360f45fd74dcb95e003a7cf95d712",
+    "hash": "md5:00000000000000000000000000000000",
     "title": "contract_additional_docs.doc",
-    "format": "application/msword",
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/731229e60a3e4406b3f0bbca894132fa/documents/d72c6e6b2a7741a1910849d0446b7d3f?download=98f487db80604f78ae7d691595fa5d9b",
+    "format": "application/pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bdd3fb01fd5543dcb7c49a037c335baf?Signature=UWVFw1k3kphG%2BaNjhh5PLf5%2B3QJiv%2FRICggmV01tLe47AT5l0xsRv%2Bn4pmBQNBQ%2BelTVOkDPRsg%2BjZlc4UQUBw%3D%3D&KeyID=a8968c46",
     "datePublished": "2021-03-16T00:00:01+02:00",
     "dateModified": "2021-03-16T00:00:01+02:00",
     "documentOf": "contract"

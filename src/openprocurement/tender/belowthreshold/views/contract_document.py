@@ -14,13 +14,13 @@ from openprocurement.tender.core.validation import validate_role_for_contract_do
 from openprocurement.tender.core.views.document import CoreDocumentResource
 
 
-@optendersresource(
-    name="belowThreshold:Tender Contract Documents",
-    collection_path="/tenders/{tender_id}/contracts/{contract_id}/documents",
-    path="/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}",
-    procurementMethodType="belowThreshold",
-    description="Tender contract documents",
-)
+# @optendersresource(
+#     name="belowThreshold:Tender Contract Documents",
+#     collection_path="/tenders/{tender_id}/contracts/{contract_id}/documents",
+#     path="/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}",
+#     procurementMethodType="belowThreshold",
+#     description="Tender contract documents",
+# )
 class TenderAwardContractDocumentResource(CoreDocumentResource):
     container = "documents"
     context_name = "tender_contract"

@@ -1,11 +1,17 @@
-from openprocurement.api.models import ValidationError, Period, Model
-from openprocurement.tender.core.validation import validate_ua_road, validate_gmdn
+from openprocurement.api.models import ValidationError, Period
 from openprocurement.tender.core.procedure.models.address import Address
-from openprocurement.tender.core.procedure.models.base import ModelType, ListType
+from openprocurement.tender.core.procedure.models.base import ModelType, ListType, Model
 from openprocurement.tender.core.procedure.models.unit import Unit
 from openprocurement.tender.core.procedure.context import get_tender, get_now
 from openprocurement.tender.core.procedure.utils import get_first_revision_date
-from schematics.types import StringType, MD5Type, FloatType, BaseType, URLType
+from openprocurement.tender.core.validation import validate_ua_road, validate_gmdn
+from schematics.types import (
+    StringType,
+    MD5Type,
+    FloatType,
+    BaseType,
+    URLType,
+)
 from openprocurement.api.constants import (
     CPV_CODES,
     DK_CODES,

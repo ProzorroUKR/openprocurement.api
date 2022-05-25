@@ -7,31 +7,6 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "tenderers": [
-      {
-        "name": "ДКП «Книга»",
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00137226",
-          "uri": "http://www.sc.gov.ua/"
-        },
-        "address": {
-          "streetAddress": "вул. Островського, 34",
-          "locality": "м. Львів",
-          "region": "Львівська область",
-          "postalCode": "79013",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "name": "Андрій Олексюк",
-          "email": "aagt@gmail.com",
-          "telephone": "+380322916930"
-        },
-        "scale": "sme"
-      }
-    ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "5502be861ff24fa281a68247002d018c",
     "requirementResponses": [
       {
         "id": "399c4a5c7ff6415888f8d0e28de48419",
@@ -144,16 +119,41 @@ X-Content-Type-Options: nosniff
         "value": "True"
       }
     ],
+    "tenderers": [
+      {
+        "name": "ДКП «Книга»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137226",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "email": "aagt@gmail.com",
+          "telephone": "+380322916930",
+          "name": "Андрій Олексюк"
+        },
+        "scale": "sme"
+      }
+    ],
+    "id": "5502be861ff24fa281a68247002d018c",
+    "date": "2021-03-16T00:00:00+02:00",
     "lotValues": [
       {
+        "value": {
+          "amount": 499.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
         "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
         "date": "2021-03-16T00:00:00+02:00",
         "status": "active",
-        "value": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true,
-          "amount": 499.0
-        },
         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/6f00022409bb4e73b5f698801518e0db_52815e9d01914c7a9bf4ba18ebb5e783?key_for_bid=5502be861ff24fa281a68247002d018c"
       }
     ],

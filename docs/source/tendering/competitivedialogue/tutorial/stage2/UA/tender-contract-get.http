@@ -8,13 +8,19 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "787ab102ebfc4dadbedee400b18a040b",
+    "awardID": "81d25cd82d3246bda1ff504ef2d1ced0",
     "contractID": "UA-2021-03-16-000016-a.2-1",
     "status": "pending",
     "period": {
       "startDate": "2021-03-16T00:00:03+02:00",
       "endDate": "2022-03-16T00:00:03+02:00"
     },
-    "dateSigned": "2021-03-16T00:00:03+02:00",
+    "value": {
+      "amount": 238.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 230.0
+    },
     "suppliers": [
       {
         "name": "ДКП «Школяр»",
@@ -31,33 +37,15 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
         },
         "scale": "micro"
       }
     ],
     "date": "2021-03-16T00:00:01+02:00",
-    "value": {
-      "amount": 238.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amountNet": 230.0
-    },
-    "awardID": "81d25cd82d3246bda1ff504ef2d1ced0",
-    "documents": [
-      {
-        "id": "c214d9fee7f940009c2c2b0c31d5c8df",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "contract_document.doc",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/012eb72366d247f9a3308e4887256634?Signature=G8LCyRofqpoRINwStnshgzX6XsS%2F3%2FUHLISKHLhIVDXM1cGdGSQypJBlNE9PNNMEflFo%2B7r9zqCvj3JxWUhjBQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:03+02:00",
-        "dateModified": "2021-03-16T00:00:03+02:00",
-        "documentOf": "tender"
-      }
-    ],
+    "dateSigned": "2021-03-16T00:00:03+02:00",
     "items": [
       {
         "id": "6d18dbf0831b45ab9d8105f44378ecc0",
@@ -69,16 +57,16 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "quantity": 1.0,
         "unit": {
           "name": "папір",
-          "code": "KGM",
           "value": {
             "amount": 10.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
-          }
+          },
+          "code": "KGM"
         },
+        "quantity": 1.0,
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
           "endDate": "2021-04-16T00:00:00+02:00"
@@ -95,6 +83,18 @@ X-Content-Type-Options: nosniff
           "scheme": "ДК021",
           "id": "55523100-3"
         }
+      }
+    ],
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_first_document.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3fe117a7de8b4c339a105271a9b05bb0?Signature=dHctywF%2BP%2BFMChCOl%2Bq9cfK0gmRrOMAH2YwSc6ovKq%2BsPEGo%2BNSaMHMjNk%2BwbEm0WkN4RNUco3p8Ej8%2FwvU4Cg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "id": "3c54be4d10b84e9592e289b6239f95fd",
+        "datePublished": "2021-03-16T00:00:03+02:00",
+        "dateModified": "2021-03-16T00:00:03+02:00"
       }
     ]
   }

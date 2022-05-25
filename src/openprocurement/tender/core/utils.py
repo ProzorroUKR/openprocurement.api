@@ -490,8 +490,8 @@ def calculate_total_complaints(tender):
 
 def check_skip_award_complaint_period(tender):
     return (
-        tender.procurementMethodType == "belowThreshold"
-        # and tender.get("procurementMethodRationale", "") == "simple"  # CS-12493
+        tender.get("procurementMethodType") == "belowThreshold"
+        # and tender.get("procurementMethodRationale", "") == "simple"
     )
 
 

@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
-from openprocurement.tender.openeu.utils import qualifications_resource
-from openprocurement.tender.openeu.views.qualification import (
-    TenderQualificationResource as TenderEUQualificationResource,
-)
+from cornice.resource import resource
+from openprocurement.tender.core.procedure.views.qualification import TenderQualificationResource
 
 
-@qualifications_resource(
+@resource(
     name="esco:Tender Qualification",
     collection_path="/tenders/{tender_id}/qualifications",
     path="/tenders/{tender_id}/qualifications/{qualification_id}",
     procurementMethodType="esco",
     description="Tender ESCO Qualification",
 )
-class TenderESCOLotResource(TenderEUQualificationResource):
+class TenderESCOLotResource(TenderQualificationResource):
     """ Tender ESCO Lot Resource """

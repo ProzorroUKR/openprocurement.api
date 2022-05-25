@@ -1,28 +1,29 @@
 POST /api/2.5/tenders/aa6cf974e101460589085272d5990056/cancellations/a7a43d6ca842421f9429a38d8a83a1db/documents?acc_token=b3345f8c5f3c446983b73bbe7f073ab7 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 142
-Content-Type: multipart/form-data; boundary=---BOUNDARY
+Content-Length: 330
+Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
------BOUNDARY
-Content-Disposition: form-data; name="file"; filename="Notice.pdf"
-Content-Type: application/pdf
-
-content
------BOUNDARY--
-
+{
+  "data": {
+    "title": "Notice.pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/603ff953206a48968f44583c2937c875?Signature=%2FIP4wMZibJ%2F8wCyS7CADNA0aL98CJ81LeYIU0OjZYF6BbADHRakRhecK%2BsNUz9Hde7OkPXOedh%2BLU%2B0TPVE%2BBA%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pdf"
+  }
+}
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aa6cf974e101460589085272d5990056/cancellations/a7a43d6ca842421f9429a38d8a83a1db/documents/5f8744596c9e4602af0d24a6973c41a2
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aa6cf974e101460589085272d5990056/cancellations/a7a43d6ca842421f9429a38d8a83a1db/documents/83fe9fcd728544e6963a53b7a881dac5
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "5f8744596c9e4602af0d24a6973c41a2",
+    "id": "83fe9fcd728544e6963a53b7a881dac5",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Notice.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a550529aaa9f48738430c2307fdc7689?Signature=sktTBXNXWcJ9b1elyvTIkMWdajKqK2jPTuhbFeZQteF6%2FRutY%2FSnAvuVY9nkF0tjUHppNG3mdiLA4GQo6FgBDg%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/603ff953206a48968f44583c2937c875?Signature=UdOW8clHhOIB4WznaC8etKs2pgxb%2FBirUerC5txyqE%2FPNUmEBgsmAR2TJtV68I3tm1PlRu6Y6wNM3i4zREydAA%3D%3D&KeyID=a8968c46",
     "datePublished": "2021-03-16T00:00:01+02:00",
     "dateModified": "2021-03-16T00:00:01+02:00",
     "documentOf": "tender",

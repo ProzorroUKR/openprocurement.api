@@ -1,6 +1,6 @@
 PATCH /api/2.5/tenders/16238a7e94e64b3a8b53106493d5d424/contracts/82d376775a134ec5b6c131348c86c6dc?acc_token=9147c49d3e8844889bffab7629a63b5b HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 54
+Content-Length: 104
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -8,6 +8,8 @@ DATA:
   "data": {
     "value": {
       "amount": 238,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
       "amountNet": 230
     }
   }
@@ -19,20 +21,24 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "82d376775a134ec5b6c131348c86c6dc",
+    "awardID": "f44436fd825440d78a99dd57365363a3",
     "contractID": "UA-2021-03-16-000001-a-1",
     "status": "pending",
-    "date": "2021-03-16T00:00:00+02:00",
     "value": {
       "amount": 238.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
       "amountNet": 230.0
     },
-    "awardID": "f44436fd825440d78a99dd57365363a3",
     "items": [
       {
         "id": "e95b4fd27c5d41a0b251c7acf79ca0f0",
         "description": "Послуги шкільних їдалень",
+        "classification": {
+          "description": "Послуги з харчування у школах",
+          "scheme": "ДК021",
+          "id": "55523100-3"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -40,16 +46,11 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "quantity": 9.0,
-        "classification": {
-          "description": "Послуги з харчування у школах",
-          "scheme": "ДК021",
-          "id": "55523100-3"
-        },
         "unit": {
           "name": "month",
           "code": "MON"
         },
+        "quantity": 9.0,
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
           "endDate": "2021-05-05T00:00:00+02:00"
@@ -78,14 +79,15 @@ X-Content-Type-Options: nosniff
           "postalCode": "21100",
           "countryName": "Україна"
         },
-        "scale": "micro",
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
-        }
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
+        },
+        "scale": "micro"
       }
-    ]
+    ],
+    "date": "2021-03-16T00:00:00+02:00"
   }
 }
 

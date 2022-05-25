@@ -1,27 +1,29 @@
 POST /api/2.5/contracts/731229e60a3e4406b3f0bbca894132fa/documents?acc_token=d7ef3060443a419f93a65b3aeb4f5f9b HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 147
-Content-Type: multipart/form-data; boundary=---BOUNDARY
+Content-Length: 324
+Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
------BOUNDARY
-Content-Disposition: form-data; name="file"; filename="contract.doc"
-Content-Type: application/msword
-
-content
------BOUNDARY--
-
+{
+  "data": {
+    "title": "contract.doc",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6b559700bb5245049bdee88a6b887e04?Signature=iK5BqT8DBd6EmNJwkh%2B8qZNfPGVub8YGuJM58munUZv4jm%2FLDGxFutNvGIGQKCjXhK0SYc3KvLR0fDdWGOlIDA%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pdf"
+  }
+}
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/731229e60a3e4406b3f0bbca894132fa/documents/9a29a997e01d4f519250c0c8224f11bf
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/731229e60a3e4406b3f0bbca894132fa/documents/5006b7d4b1e247b797eb47dc84a4862d
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "9a29a997e01d4f519250c0c8224f11bf",
+    "id": "5006b7d4b1e247b797eb47dc84a4862d",
+    "hash": "md5:00000000000000000000000000000000",
     "title": "contract.doc",
-    "format": "application/msword",
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/731229e60a3e4406b3f0bbca894132fa/documents/9a29a997e01d4f519250c0c8224f11bf?download=61326b7ec07643d296aa348f6a84b5e0",
+    "format": "application/pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6b559700bb5245049bdee88a6b887e04?Signature=V%2FKGkbsShKDpTJYKPSWbL3h72mRJO%2F6uOi8x6DX1AJxypK7%2FopQidX%2BYz%2BddFJG4BR1KqDCgwBsNe4Xz0kwgBA%3D%3D&KeyID=a8968c46",
     "datePublished": "2021-03-16T00:00:01+02:00",
     "dateModified": "2021-03-16T00:00:01+02:00",
     "documentOf": "contract"

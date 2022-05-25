@@ -7,31 +7,6 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "tenderers": [
-      {
-        "name": "«Снігур»",
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00137227",
-          "uri": "http://www.sc.gov.ua/"
-        },
-        "address": {
-          "streetAddress": "вул. Островського, 35",
-          "locality": "м. Львів",
-          "region": "Львівська область",
-          "postalCode": "79013",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "name": "Іван Іваненко",
-          "email": "fake@mail.com",
-          "telephone": "+380322123456"
-        },
-        "scale": "mid"
-      }
-    ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "id": "f2396c5eb7dc40e986705a3de1cdc13b",
     "requirementResponses": [
       {
         "id": "f370c0c92fe8404387c9e65d10790c9a",
@@ -144,43 +119,81 @@ X-Content-Type-Options: nosniff
         "value": "True"
       }
     ],
+    "tenderers": [
+      {
+        "name": "«Снігур»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137227",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 35",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "email": "fake@mail.com",
+          "telephone": "+380322123456",
+          "name": "Іван Іваненко"
+        },
+        "scale": "mid"
+      }
+    ],
+    "id": "f2396c5eb7dc40e986705a3de1cdc13b",
+    "date": "2021-03-16T00:00:00+02:00",
+    "lotValues": [
+      {
+        "value": {
+          "amount": 485.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
+        "date": "2021-03-16T00:00:00+02:00",
+        "status": "active",
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/6f00022409bb4e73b5f698801518e0db_52815e9d01914c7a9bf4ba18ebb5e783?key_for_bid=f2396c5eb7dc40e986705a3de1cdc13b"
+      }
+    ],
     "documents": [
       {
         "id": "f01b93bdd6d94869810295085a657b49",
+        "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c1779fafc15841d3a83131dee57a4640?Signature=%2BhrD5a0ABwsMn60xLG5karTIWa%2BwjvMewCmI%2B%2BoDDUQqfLk8khBp%2FiicUw3LeTRcnRt1GeY9fA8%2BxGOVwLGmBw%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "confidentiality": "public",
         "language": "uk"
       },
       {
         "id": "7be151f4800e4be0a81acb90d6ba667a",
+        "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6f00022409bb4e73b5f698801518e0db/bids/f2396c5eb7dc40e986705a3de1cdc13b/documents/7be151f4800e4be0a81acb90d6ba667a?download=256123ec589044029ec3f8823d26d1a4",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
-        "confidentialityRationale": "Only our company sells badgers with pink hair.",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "confidentiality": "buyerOnly",
+        "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "language": "uk"
       }
     ],
     "financialDocuments": [
       {
         "id": "d545ee8b49944aa3afbd52f9d7c4539d",
+        "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc.pdf",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6f00022409bb4e73b5f698801518e0db/bids/f2396c5eb7dc40e986705a3de1cdc13b/financial_documents/d545ee8b49944aa3afbd52f9d7c4539d?download=c70126ac67864f0eb83440e79dc1dc23",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "confidentiality": "public",
         "language": "uk"
       }
@@ -188,13 +201,13 @@ X-Content-Type-Options: nosniff
     "eligibilityDocuments": [
       {
         "id": "f70ee714fd4947ada7cf33eecfc598f5",
+        "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a628e60a5cf141358caec2553308eed1?Signature=%2FMv2r%2BTsXroG95QUwAstCJzfjMmwwhGDVj0kf6D5xT1tAQP4j3tSfKVj7cfc2YxQFs0%2FhQjiKO5zGZdp4kAsAw%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6f00022409bb4e73b5f698801518e0db/bids/f2396c5eb7dc40e986705a3de1cdc13b/eligibility_documents/f70ee714fd4947ada7cf33eecfc598f5?download=a628e60a5cf141358caec2553308eed1",
         "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "confidentiality": "public",
         "language": "uk"
       }
@@ -202,28 +215,15 @@ X-Content-Type-Options: nosniff
     "qualificationDocuments": [
       {
         "id": "987a5709bdc74bc1820365e330607f50",
+        "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "qualification_document.pdf",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6f00022409bb4e73b5f698801518e0db/bids/f2396c5eb7dc40e986705a3de1cdc13b/qualification_documents/987a5709bdc74bc1820365e330607f50?download=a0af3b8478774cd09f9005ac47f372cb",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
         "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:00+02:00",
         "confidentiality": "public",
         "language": "uk"
-      }
-    ],
-    "lotValues": [
-      {
-        "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
-        "date": "2021-03-16T00:00:00+02:00",
-        "status": "active",
-        "value": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true,
-          "amount": 485.0
-        },
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/6f00022409bb4e73b5f698801518e0db_52815e9d01914c7a9bf4ba18ebb5e783?key_for_bid=f2396c5eb7dc40e986705a3de1cdc13b"
       }
     ],
     "selfQualified": true,

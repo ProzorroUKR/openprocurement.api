@@ -7,6 +7,11 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
+    "value": {
+      "amount": 499.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "tenderers": [
       {
         "name": "ДКП «Книга»",
@@ -23,20 +28,15 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Андрій Олексюк",
           "email": "aagt@gmail.com",
-          "telephone": "+380322916930"
+          "telephone": "+380322916930",
+          "name": "Андрій Олексюк"
         },
         "scale": "sme"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
     "id": "77605656b3e8479fbfa66cf3d764520c",
-    "value": {
-      "amount": 499.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
+    "date": "2021-03-16T00:00:00+02:00",
     "selfQualified": true,
     "status": "active",
     "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/aa6cf974e101460589085272d5990056?key_for_bid=77605656b3e8479fbfa66cf3d764520c"

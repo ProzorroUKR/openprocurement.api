@@ -39,8 +39,8 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Державне управління справами",
-          "telephone": "+0440000000"
+          "telephone": "+0440000000",
+          "name": "Державне управління справами"
         },
         "scale": "micro"
       }
@@ -58,6 +58,11 @@ X-Content-Type-Options: nosniff
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
         "description": "футляри до державних нагород",
         "description_en": "futliary do derzhavnyh nagorod",
+        "classification": {
+          "description": "New Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -65,15 +70,6 @@ X-Content-Type-Options: nosniff
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "unit": {
-          "name": "item",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
         "quantity": 6.0,
         "deliveryDate": {
           "startDate": "2021-03-18T00:00:00+02:00",
@@ -87,10 +83,14 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
-        "classification": {
-          "description": "New Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
+        "unit": {
+          "name": "item",
+          "code": "KGM",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          }
         }
       }
     ]

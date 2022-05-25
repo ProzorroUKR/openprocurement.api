@@ -1,28 +1,29 @@
-PUT /api/2.5/tenders/aa6cf974e101460589085272d5990056/cancellations/a7a43d6ca842421f9429a38d8a83a1db/documents/5f8744596c9e4602af0d24a6973c41a2?acc_token=b3345f8c5f3c446983b73bbe7f073ab7 HTTP/1.0
+PUT /api/2.5/tenders/aa6cf974e101460589085272d5990056/cancellations/a7a43d6ca842421f9429a38d8a83a1db/documents/83fe9fcd728544e6963a53b7a881dac5?acc_token=b3345f8c5f3c446983b73bbe7f073ab7 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 145
-Content-Type: multipart/form-data; boundary=---BOUNDARY
+Content-Length: 324
+Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
------BOUNDARY
-Content-Disposition: form-data; name="file"; filename="Notice-2.pdf"
-Content-Type: application/pdf
-
-content2
------BOUNDARY--
-
+{
+  "data": {
+    "title": "Notice-2.pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fd00e687601e4940ab4eb62d816d20b0?Signature=5elO%2BFsdiyOraKt2AblCBGsZan0br8Qa2BydPrTV9%2BUh8J8wF9YHhpgtrroMTvTCTnbdJQmYEbLRMTRKYx2rDQ%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pdf"
+  }
+}
 
 Response: 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "5f8744596c9e4602af0d24a6973c41a2",
+    "id": "83fe9fcd728544e6963a53b7a881dac5",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Notice-2.pdf",
     "description": "Changed description",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/711c2b95cb8d45758b9b4ece49dce265?Signature=%2BDpXKM4gYyk3QyaRSRdN73X2uqtNENZaWt8GlxOHV2RfHedeD%2F%2BN%2F0doeHO5tS54BIA6FYhhnjFTmV8zaC%2FqAw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fd00e687601e4940ab4eb62d816d20b0?Signature=aNdbwZySiQlojOxRPXgMLyK%2BED15N%2FRK8rc%2BqHWi4t6PBBKLUoO%2Bkfbi4VPcuouzExR1g5ioIJSnOB4aJ5z5Cg%3D%3D&KeyID=a8968c46",
     "datePublished": "2021-03-16T00:00:01+02:00",
     "dateModified": "2021-03-16T00:00:01+02:00",
     "documentOf": "tender",

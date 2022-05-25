@@ -698,9 +698,10 @@ def cancel_lot_after_sing_contract(self):
     self.mongodb.tenders.save(tender)
 
     # Activate contract
+    contract["value"]["valueAddedTaxIncluded"] = False
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}},
+        {"data": {"status": "active", "value": contract["value"]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "active")
@@ -953,15 +954,17 @@ def last_lot_complete(self):
     response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
     first_contract = response.json["data"][0]
     second_contract = response.json["data"][1]
+    first_contract["value"]["valueAddedTaxIncluded"] = False
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, first_contract["id"], self.tender_token),
-        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}},
+        {"data": {"status": "active", "value": first_contract["value"]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "active")
+    second_contract["value"]["valueAddedTaxIncluded"] = False
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, second_contract["id"], self.tender_token),
-        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}},
+        {"data": {"status": "active", "value": second_contract["value"]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "active")

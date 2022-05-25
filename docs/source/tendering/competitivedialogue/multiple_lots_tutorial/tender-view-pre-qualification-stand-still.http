@@ -586,30 +586,6 @@ X-Content-Type-Options: nosniff
     "tenderID": "UA-2021-03-16-000001-a",
     "bids": [
       {
-        "tenderers": [
-          {
-            "name": "ДКП «Школяр»",
-            "identifier": {
-              "scheme": "UA-EDR",
-              "id": "00137256",
-              "uri": "http://www.sc.gov.ua/"
-            },
-            "address": {
-              "streetAddress": "вул. Островського, 33",
-              "locality": "м. Вінниця",
-              "region": "Вінницька область",
-              "postalCode": "21100",
-              "countryName": "Україна"
-            },
-            "contactPoint": {
-              "name": "Сергій Олексюк",
-              "email": "soleksuk@gmail.com",
-              "telephone": "+380432216930"
-            },
-            "scale": "micro"
-          }
-        ],
-        "id": "1364aaf7ec90441692c76ccb24a623f8",
         "requirementResponses": [
           {
             "id": "d8cde36c35bc4fcf90d2fccbefb786ee",
@@ -722,33 +698,33 @@ X-Content-Type-Options: nosniff
             "value": "True"
           }
         ],
-        "status": "active"
-      },
-      {
+        "id": "1364aaf7ec90441692c76ccb24a623f8",
         "tenderers": [
           {
-            "name": "ДКП «Книга»",
+            "name": "ДКП «Школяр»",
             "identifier": {
               "scheme": "UA-EDR",
-              "id": "00137226",
+              "id": "00137256",
               "uri": "http://www.sc.gov.ua/"
             },
             "address": {
-              "streetAddress": "вул. Островського, 34",
-              "locality": "м. Львів",
-              "region": "Львівська область",
-              "postalCode": "79013",
+              "streetAddress": "вул. Островського, 33",
+              "locality": "м. Вінниця",
+              "region": "Вінницька область",
+              "postalCode": "21100",
               "countryName": "Україна"
             },
             "contactPoint": {
-              "name": "Андрій Олексюк",
-              "email": "aagt@gmail.com",
-              "telephone": "+380322916930"
+              "email": "soleksuk@gmail.com",
+              "telephone": "+380432216930",
+              "name": "Сергій Олексюк"
             },
-            "scale": "sme"
+            "scale": "micro"
           }
         ],
-        "id": "5d17e351e54f4949ac1c1cee9cece058",
+        "status": "active"
+      },
+      {
         "requirementResponses": [
           {
             "id": "fb162f1dae3d4153afca08e73a016978",
@@ -861,33 +837,33 @@ X-Content-Type-Options: nosniff
             "value": "True"
           }
         ],
-        "status": "active"
-      },
-      {
+        "id": "5d17e351e54f4949ac1c1cee9cece058",
         "tenderers": [
           {
-            "name": "«Снігур»",
+            "name": "ДКП «Книга»",
             "identifier": {
               "scheme": "UA-EDR",
-              "id": "00137227",
+              "id": "00137226",
               "uri": "http://www.sc.gov.ua/"
             },
             "address": {
-              "streetAddress": "вул. Островського, 35",
+              "streetAddress": "вул. Островського, 34",
               "locality": "м. Львів",
               "region": "Львівська область",
               "postalCode": "79013",
               "countryName": "Україна"
             },
             "contactPoint": {
-              "name": "Іван Іваненко",
-              "email": "fake@mail.com",
-              "telephone": "+380322123456"
+              "email": "aagt@gmail.com",
+              "telephone": "+380322916930",
+              "name": "Андрій Олексюк"
             },
-            "scale": "mid"
+            "scale": "sme"
           }
         ],
-        "id": "efd32c624d1c490a9d4e31ec0301cfa8",
+        "status": "active"
+      },
+      {
         "requirementResponses": [
           {
             "id": "26b90b9029a449cb9ec5af9e20d10b86",
@@ -1000,6 +976,30 @@ X-Content-Type-Options: nosniff
             "value": "True"
           }
         ],
+        "id": "efd32c624d1c490a9d4e31ec0301cfa8",
+        "tenderers": [
+          {
+            "name": "«Снігур»",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137227",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Островського, 35",
+              "locality": "м. Львів",
+              "region": "Львівська область",
+              "postalCode": "79013",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "email": "fake@mail.com",
+              "telephone": "+380322123456",
+              "name": "Іван Іваненко"
+            },
+            "scale": "mid"
+          }
+        ],
         "status": "active"
       }
     ],
@@ -1072,7 +1072,7 @@ X-Content-Type-Options: nosniff
     "enquiryPeriod": {
       "startDate": "2021-02-13T00:00:00+02:00",
       "endDate": "2021-03-06T00:00:00+02:00",
-      "clarificationsUntil": "2021-03-12T00:00:00+02:00",
+      "clarificationsUntil": "2021-04-09T00:00:00+02:00",
       "invalidationDate": "2021-03-16T00:00:00+02:00"
     },
     "tenderPeriod": {
@@ -1113,8 +1113,8 @@ X-Content-Type-Options: nosniff
       }
     ],
     "complaintPeriod": {
-      "startDate": "2021-02-13T00:00:00+02:00",
-      "endDate": "2021-03-12T00:00:00+02:00"
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "endDate": "2021-04-12T00:00:00+02:00"
     },
     "procurementMethodType": "competitiveDialogueEU",
     "mainProcurementCategory": "services",

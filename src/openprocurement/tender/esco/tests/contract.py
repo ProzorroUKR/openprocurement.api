@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
+from decimal import Decimal
 
 from esculator import npv, escp
 from openprocurement.api.tests.base import snitch
@@ -48,36 +49,28 @@ from openprocurement.tender.esco.tests.contract_blanks import (
 from openprocurement.tender.esco.utils import to_decimal
 
 
-contract_amountPerformance = round(
-    float(
-        to_decimal(
-            npv(
-                test_bids[0]["value"]["contractDuration"]["years"],
-                test_bids[0]["value"]["contractDuration"]["days"],
-                test_bids[0]["value"]["yearlyPaymentsPercentage"],
-                test_bids[0]["value"]["annualCostsReduction"],
-                get_now(),
-                NBU_DISCOUNT_RATE,
-            )
-        )
-    ),
-    2,
-)
+amount_precision = 2
 
-contract_amount = round(
-    float(
-        to_decimal(
-            escp(
-                test_bids[0]["value"]["contractDuration"]["years"],
-                test_bids[0]["value"]["contractDuration"]["days"],
-                test_bids[0]["value"]["yearlyPaymentsPercentage"],
-                test_bids[0]["value"]["annualCostsReduction"],
-                get_now(),
-            )
-        )
-    ),
-    2,
-)
+contract_amountPerformance = to_decimal(
+    npv(
+        test_bids[0]["value"]["contractDuration"]["years"],
+        test_bids[0]["value"]["contractDuration"]["days"],
+        test_bids[0]["value"]["yearlyPaymentsPercentage"],
+        test_bids[0]["value"]["annualCostsReduction"],
+        get_now(),
+        NBU_DISCOUNT_RATE,
+    )
+).quantize(Decimal(f"1E-{amount_precision}"))
+
+contract_amount = to_decimal(
+    escp(
+        test_bids[0]["value"]["contractDuration"]["years"],
+        test_bids[0]["value"]["contractDuration"]["days"],
+        test_bids[0]["value"]["yearlyPaymentsPercentage"],
+        test_bids[0]["value"]["annualCostsReduction"],
+        get_now(),
+    )
+).quantize(Decimal(f"1E-{amount_precision}"))
 
 
 class TenderContractResourceTest(BaseESCOContentWebTest, TenderContractResourceTestMixin):
@@ -126,6 +119,7 @@ class TenderContractDocumentResourceTest(BaseESCOContentWebTest, TenderContractD
     initial_status = "active.qualification"
     initial_bids = test_bids
     initial_auth = ("Basic", ("broker", ""))
+    docservice = True
 
     def setUp(self):
         super(TenderContractDocumentResourceTest, self).setUp()

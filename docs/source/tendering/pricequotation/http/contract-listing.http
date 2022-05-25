@@ -9,38 +9,15 @@ X-Content-Type-Options: nosniff
   "data": [
     {
       "id": "223d62f7b07b4300938e53e55ec39237",
+      "awardID": "2457dbf1f0fa43daaf6148695865ce39",
       "contractID": "UA-2021-03-16-000001-a-1",
       "status": "pending",
-      "suppliers": [
-        {
-          "name": "Державне управління справами",
-          "identifier": {
-            "scheme": "UA-EDR",
-            "id": "00037256",
-            "uri": "http://www.dus.gov.ua/"
-          },
-          "address": {
-            "streetAddress": "вул. Банкова, 11, корпус 1",
-            "locality": "м. Київ",
-            "region": "м. Київ",
-            "postalCode": "01220",
-            "countryName": "Україна"
-          },
-          "contactPoint": {
-            "name": "Державне управління справами",
-            "telephone": "+0440000000"
-          },
-          "scale": "micro"
-        }
-      ],
-      "date": "2021-03-16T00:00:01+02:00",
       "value": {
         "amount": 479.0,
         "currency": "UAH",
         "valueAddedTaxIncluded": true,
         "amountNet": 479.0
       },
-      "awardID": "2457dbf1f0fa43daaf6148695865ce39",
       "items": [
         {
           "id": "154f6580f26f44dea680eaf67b309152",
@@ -57,6 +34,15 @@ X-Content-Type-Options: nosniff
               "description": "папір і картон гофровані, паперова й картонна тара"
             }
           ],
+          "unit": {
+            "name": "штук",
+            "value": {
+              "amount": 6.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            },
+            "code": "H87"
+          },
           "quantity": 5.0,
           "deliveryDate": {
             "startDate": "2021-03-18T00:00:00+02:00",
@@ -68,18 +54,32 @@ X-Content-Type-Options: nosniff
             "region": "м. Київ",
             "postalCode": "79000",
             "countryName": "Україна"
-          },
-          "unit": {
-            "name": "штук",
-            "code": "H87",
-            "value": {
-              "amount": 6.0,
-              "currency": "UAH",
-              "valueAddedTaxIncluded": true
-            }
           }
         }
-      ]
+      ],
+      "suppliers": [
+        {
+          "name": "Державне управління справами",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00037256",
+            "uri": "http://www.dus.gov.ua/"
+          },
+          "address": {
+            "streetAddress": "вул. Банкова, 11, корпус 1",
+            "locality": "м. Київ",
+            "region": "м. Київ",
+            "postalCode": "01220",
+            "countryName": "Україна"
+          },
+          "contactPoint": {
+            "telephone": "+0440000000",
+            "name": "Державне управління справами"
+          },
+          "scale": "micro"
+        }
+      ],
+      "date": "2021-03-16T00:00:01+02:00"
     }
   ]
 }

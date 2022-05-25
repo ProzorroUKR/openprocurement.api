@@ -881,7 +881,9 @@ def one_lot_2bid(self):
     )
     # get contract id
     response = self.app.get("/tenders/{}".format(tender_id))
-    contract_id = response.json["data"]["contracts"][-1]["id"]
+    contract = response.json["data"]["contracts"][-1]
+    contract_id = contract["id"]
+    contract_value = deepcopy(contract["value"])
     # after stand slill period
 
     self.time_shift("complete")
@@ -895,9 +897,10 @@ def one_lot_2bid(self):
     self.mongodb.tenders.save(tender)
     # # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
+    contract_value["valueAddedTaxIncluded"] = False
     self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}},
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, owner_token),
+        {"data": {"status": "active", "value": contract_value}},
     )
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1106,7 +1109,9 @@ def one_lot_3bid_1del(self):
     )
     # get contract id
     response = self.app.get("/tenders/{}".format(tender_id))
-    contract_id = response.json["data"]["contracts"][-1]["id"]
+    contract = response.json["data"]["contracts"][-1]
+    contract_id = contract["id"]
+    contract_value = deepcopy(contract["value"])
     # after stand slill period
 
     self.time_shift("complete")
@@ -1120,9 +1125,10 @@ def one_lot_3bid_1del(self):
     self.mongodb.tenders.save(tender)
     # # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
+    contract_value["valueAddedTaxIncluded"] = False
     self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}},
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, owner_token),
+        {"data": {"status": "active", "value": contract_value}},
     )
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1264,7 +1270,9 @@ def one_lot_3bid_1un(self):
     )
     # get contract id
     response = self.app.get("/tenders/{}".format(tender_id))
-    contract_id = response.json["data"]["contracts"][-1]["id"]
+    contract = response.json["data"]["contracts"][-1]
+    contract_id = contract["id"]
+    contract_value = deepcopy(contract["value"])
     # after stand slill period
 
     self.time_shift("complete")
@@ -1278,9 +1286,10 @@ def one_lot_3bid_1un(self):
     self.mongodb.tenders.save(tender)
     # # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
+    contract_value["valueAddedTaxIncluded"] = False
     self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}},
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, owner_token),
+        {"data": {"status": "active", "value": contract_value}},
     )
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1587,7 +1596,9 @@ def two_lot_2bid_2com_2win(self):
     )
     # get contract id
     response = self.app.get("/tenders/{}".format(tender_id))
-    contract_id = response.json["data"]["contracts"][-1]["id"]
+    contract = response.json["data"]["contracts"][-1]
+    contract_id = contract["id"]
+    contract_value = deepcopy(contract["value"])
     # after stand slill period
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
@@ -1598,9 +1609,10 @@ def two_lot_2bid_2com_2win(self):
     self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
+    contract_value["valueAddedTaxIncluded"] = False
     self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}},
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, owner_token),
+        {"data": {"status": "active", "value": contract_value}},
     )
     # for second lot
     lot_id = lots[1]
@@ -1626,7 +1638,9 @@ def two_lot_2bid_2com_2win(self):
     )
     # get contract id
     response = self.app.get("/tenders/{}".format(tender_id))
-    contract_id = response.json["data"]["contracts"][-1]["id"]
+    contract = response.json["data"]["contracts"][-1]
+    contract_id = contract["id"]
+    contract_value = deepcopy(contract["value"])
     # after stand still period
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
@@ -1636,9 +1650,10 @@ def two_lot_2bid_2com_2win(self):
     self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
+    contract_value["valueAddedTaxIncluded"] = False
     self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}},
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, owner_token),
+        {"data": {"status": "active", "value": contract_value}},
     )
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1782,7 +1797,9 @@ def two_lot_3bid_1win_bug(self):
     )
     # get contract id
     response = self.app.get("/tenders/{}".format(tender_id))
-    contract_id = response.json["data"]["contracts"][-1]["id"]
+    contract = response.json["data"]["contracts"][-1]
+    contract_id = contract["id"]
+    contract_value = deepcopy(contract["value"])
     # after stand still period
     self.set_status("complete", {"status": "active.awarded"})
     # time travel
@@ -1793,9 +1810,10 @@ def two_lot_3bid_1win_bug(self):
     self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
+    contract_value["valueAddedTaxIncluded"] = False
     self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}},
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, owner_token),
+        {"data": {"status": "active", "value": contract_value}},
     )
     # for second lot
     lot_id = lots[1]

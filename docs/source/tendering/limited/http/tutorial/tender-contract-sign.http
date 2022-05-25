@@ -16,47 +16,28 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "82d376775a134ec5b6c131348c86c6dc",
+    "awardID": "f44436fd825440d78a99dd57365363a3",
     "contractID": "UA-2021-03-16-000001-a-1",
     "status": "active",
     "period": {
       "startDate": "2021-03-16T00:00:00+02:00",
       "endDate": "2022-03-16T00:00:00+02:00"
     },
-    "dateSigned": "2021-03-16T00:00:00+02:00",
-    "date": "2021-03-16T00:00:01+02:00",
     "value": {
       "amount": 238.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
       "amountNet": 230.0
     },
-    "awardID": "f44436fd825440d78a99dd57365363a3",
-    "documents": [
-      {
-        "id": "fd0e5a3ea810419eb486def60acca02f",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "contract_first_document.doc",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9094e578abaf4572a194e044702125fa?Signature=FM%2F6NxbDLkJ6WFQPh2GZJ85tyzp%2Bg%2FAqCmVGWQBXPFGtwWm4oEkJYYHERmTKoDSEUBU843INjkNhoQsAj0kmBg%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
-        "documentOf": "tender"
-      },
-      {
-        "id": "735a0c17269e45b9945083a8be948856",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "contract_second_document.doc",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0b12bbd8bfab455c9fb99b06aad118ea?Signature=sPxh11MIp5skV7S%2FQle7zI%2FwJvFLKL7dka8To9MNARQrQ7%2FOsjEkR2MoCSdSEURDi9N05Zi8ljukqXvL8eWtAA%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
-        "documentOf": "tender"
-      }
-    ],
     "items": [
       {
         "id": "e95b4fd27c5d41a0b251c7acf79ca0f0",
         "description": "Послуги шкільних їдалень",
+        "classification": {
+          "description": "Послуги з харчування у школах",
+          "scheme": "ДК021",
+          "id": "55523100-3"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -64,21 +45,16 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "quantity": 9.0,
-        "classification": {
-          "description": "Послуги з харчування у школах",
-          "scheme": "ДК021",
-          "id": "55523100-3"
-        },
         "unit": {
           "name": "month",
-          "code": "MON",
           "value": {
             "amount": 12.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
-          }
+          },
+          "code": "MON"
         },
+        "quantity": 9.0,
         "deliveryDate": {
           "startDate": "2021-04-05T00:00:00+02:00",
           "endDate": "2021-05-05T00:00:00+02:00"
@@ -107,14 +83,38 @@ X-Content-Type-Options: nosniff
           "postalCode": "21100",
           "countryName": "Україна"
         },
-        "scale": "micro",
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
-        }
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
+        },
+        "scale": "micro"
       }
-    ]
+    ],
+    "date": "2021-03-16T00:00:00+02:00",
+    "documents": [
+      {
+        "id": "14c54bcc056947a6908a40afaf57c440",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_first_document.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9094e578abaf4572a194e044702125fa?Signature=FM%2F6NxbDLkJ6WFQPh2GZJ85tyzp%2Bg%2FAqCmVGWQBXPFGtwWm4oEkJYYHERmTKoDSEUBU843INjkNhoQsAj0kmBg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:00+02:00"
+      },
+      {
+        "id": "ff38dda281f94d15bd1ee335d68177a2",
+        "datePublished": "2021-03-16T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_second_document.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0b12bbd8bfab455c9fb99b06aad118ea?Signature=sPxh11MIp5skV7S%2FQle7zI%2FwJvFLKL7dka8To9MNARQrQ7%2FOsjEkR2MoCSdSEURDi9N05Zi8ljukqXvL8eWtAA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2021-03-16T00:00:00+02:00"
+      }
+    ],
+    "dateSigned": "2021-03-16T00:00:00+02:00"
   }
 }
 

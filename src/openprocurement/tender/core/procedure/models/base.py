@@ -1,7 +1,7 @@
 from schematics.exceptions import ValidationError
 from schematics.transforms import export_loop
 from schematics.types.compound import ModelType as BaseModelType,  ListType as BaseListType
-from openprocurement.api.models import DecimalType as BaseDecimalType, Model
+from openprocurement.api.models import Model, DecimalType as BaseDecimalType
 from decimal import Decimal
 from logging import getLogger
 
@@ -74,6 +74,10 @@ class BaseBid(Model):
 
 
 class BaseAward(Model):
+    pass
+
+
+class BaseQualification(Model):
     pass
 
 

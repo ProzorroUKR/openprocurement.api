@@ -23,13 +23,13 @@ from openprocurement.tender.openua.validation import (
 )
 
 
-@optendersresource(
-    name="aboveThresholdUA:Tender Contracts",
-    collection_path="/tenders/{tender_id}/contracts",
-    path="/tenders/{tender_id}/contracts/{contract_id}",
-    procurementMethodType="aboveThresholdUA",
-    description="Tender contracts",
-)
+# @optendersresource(
+#     name="aboveThresholdUA:Tender Contracts",
+#     collection_path="/tenders/{tender_id}/contracts",
+#     path="/tenders/{tender_id}/contracts/{contract_id}",
+#     procurementMethodType="aboveThresholdUA",
+#     description="Tender contracts",
+# )
 class TenderUaAwardContractResource(TenderAwardContractResource):
     @staticmethod
     def check_tender_status_method(request):

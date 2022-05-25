@@ -1,31 +1,32 @@
 POST /api/2.5/tenders/c0491b79cf9945abbb58100d57ebc95e/contracts/1dac54abc6f44375878b7f9c1ace239f/documents?acc_token=416e35e797304fe4a7dddfdadc603452 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 156
-Content-Type: multipart/form-data; boundary=---BOUNDARY
+Content-Length: 340
+Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
------BOUNDARY
-Content-Disposition: form-data; name="file"; filename="contract_document.doc"
-Content-Type: application/msword
-
-content
------BOUNDARY--
-
+{
+  "data": {
+    "title": "contract_document.doc",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1795825aed9b4d04884a689b1e668e13?Signature=6yP1MdOy%2Bb7vUbs1bunVZzfdkhpWU%2FdtVtofhEUJyJdEIIL5KYNltt9WhczMJ2eoawxdih85%2FjW%2FLPNAAlgsCw%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/msword"
+  }
+}
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c0491b79cf9945abbb58100d57ebc95e/contracts/1dac54abc6f44375878b7f9c1ace239f/documents/feed2076a94a48e1810496af9b9e403e
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c0491b79cf9945abbb58100d57ebc95e/contracts/1dac54abc6f44375878b7f9c1ace239f/documents/5925ed9a508c43b49236a23c3d4ea724
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "feed2076a94a48e1810496af9b9e403e",
     "hash": "md5:00000000000000000000000000000000",
     "title": "contract_document.doc",
     "format": "application/msword",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8a968439bb234638b1981f50cddf8d1e?Signature=0w9B%2FeG%2FHzuWRPG6%2BF3P6%2BSk%2F67N0H4rGoVK%2FQrb7Xz30H%2BzHFPcMOjT7VeksJlGE30PJky1rOuiN5TGoihZCw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1795825aed9b4d04884a689b1e668e13?Signature=%2Bi9hFOCICA%2Fe3gBGaQcHZy8%2BfsO9uIv35MurNPy0zLI5t5oAMf2yXIK2kVNPpFHvL%2B96%2B2Z02OroY9vN232BAg%3D%3D&KeyID=a8968c46",
+    "documentOf": "tender",
+    "id": "5925ed9a508c43b49236a23c3d4ea724",
     "datePublished": "2021-03-16T00:00:03+02:00",
-    "dateModified": "2021-03-16T00:00:03+02:00",
-    "documentOf": "tender"
+    "dateModified": "2021-03-16T00:00:03+02:00"
   }
 }
 

@@ -83,6 +83,7 @@ class TenderContractDocumentResourceTest(TenderContentWebTest,
                                          TenderContractDocumentResourceTestMixin):
     initial_status = "active.awarded"
     initial_bids = test_bids
+    docservice = True
 
     def setUp(self):
         super(TenderContractDocumentResourceTest, self).setUp()

@@ -16,13 +16,13 @@ from openprocurement.tender.limited.validation import (
 )
 
 
-@optendersresource(
-    name="reporting:Tender Contract Documents",
-    collection_path="/tenders/{tender_id}/contracts/{contract_id}/documents",
-    path="/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}",
-    procurementMethodType="reporting",
-    description="Tender contract documents",
-)
+# @optendersresource(
+#     name="reporting:Tender Contract Documents",
+#     collection_path="/tenders/{tender_id}/contracts/{contract_id}/documents",
+#     path="/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}",
+#     procurementMethodType="reporting",
+#     description="Tender contract documents",
+# )
 class TenderAwardContractDocumentResource(BaseTenderAwardContractDocumentResource):
 
     def validate_contract_document(self, operation):
@@ -67,23 +67,23 @@ class TenderAwardContractDocumentResource(BaseTenderAwardContractDocumentResourc
         return super(TenderAwardContractDocumentResource, self).patch()
 
 
-@optendersresource(
-    name="negotiation:Tender Contract Documents",
-    collection_path="/tenders/{tender_id}/contracts/{contract_id}/documents",
-    path="/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}",
-    procurementMethodType="negotiation",
-    description="Tender contract documents",
-)
+# @optendersresource(
+#     name="negotiation:Tender Contract Documents",
+#     collection_path="/tenders/{tender_id}/contracts/{contract_id}/documents",
+#     path="/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}",
+#     procurementMethodType="negotiation",
+#     description="Tender contract documents",
+# )
 class TenderNegotiationAwardContractDocumentResource(TenderAwardContractDocumentResource):
     """ Tender Negotiation Award Contract Document Resource """
 
 
-@optendersresource(
-    name="negotiation.quick:Tender Contract Documents",
-    collection_path="/tenders/{tender_id}/contracts/{contract_id}/documents",
-    path="/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}",
-    procurementMethodType="negotiation.quick",
-    description="Tender contract documents",
-)
+# @optendersresource(
+#     name="negotiation.quick:Tender Contract Documents",
+#     collection_path="/tenders/{tender_id}/contracts/{contract_id}/documents",
+#     path="/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}",
+#     procurementMethodType="negotiation.quick",
+#     description="Tender contract documents",
+# )
 class TenderNegotiationQuickAwardContractDocumentResource(TenderNegotiationAwardContractDocumentResource):
     """ Tender Negotiation Quick Award Contract Document Resource """

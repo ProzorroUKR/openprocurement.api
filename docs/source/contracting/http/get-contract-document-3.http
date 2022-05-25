@@ -1,4 +1,4 @@
-GET /api/2.5/contracts/731229e60a3e4406b3f0bbca894132fa/documents/d72c6e6b2a7741a1910849d0446b7d3f?acc_token=d7ef3060443a419f93a65b3aeb4f5f9b HTTP/1.0
+GET /api/2.5/contracts/731229e60a3e4406b3f0bbca894132fa/documents/49b360f45fd74dcb95e003a7cf95d712?acc_token=d7ef3060443a419f93a65b3aeb4f5f9b HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,19 +7,21 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "d72c6e6b2a7741a1910849d0446b7d3f",
+    "id": "49b360f45fd74dcb95e003a7cf95d712",
+    "hash": "md5:00000000000000000000000000000000",
     "title": "contract_additional_docs.doc",
-    "format": "application/msword",
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/731229e60a3e4406b3f0bbca894132fa/documents/d72c6e6b2a7741a1910849d0446b7d3f?download=29a6f4e9de4d44debe9cdfd98a391aa3",
+    "format": "application/pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3dc187c0d95d4d9aaf3954aed82eb6fe?Signature=hZosigHskiVw%2BVRXxgwRiq8GV8IEJk0s9GHzLWchLg4iuHpeBb2bUIvJRORVEc8CWfGyK9MN0r4fWsF2fnU1Dw%3D%3D&KeyID=a8968c46",
     "datePublished": "2021-03-16T00:00:01+02:00",
     "dateModified": "2021-03-16T00:00:01+02:00",
     "documentOf": "contract",
     "previousVersions": [
       {
-        "id": "d72c6e6b2a7741a1910849d0446b7d3f",
+        "id": "49b360f45fd74dcb95e003a7cf95d712",
+        "hash": "md5:00000000000000000000000000000000",
         "title": "contract_additional_docs.doc",
-        "format": "application/msword",
-        "url": "/contracts/731229e60a3e4406b3f0bbca894132fa/documents/d72c6e6b2a7741a1910849d0446b7d3f?download=98f487db80604f78ae7d691595fa5d9b",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bdd3fb01fd5543dcb7c49a037c335baf?Signature=UWVFw1k3kphG%2BaNjhh5PLf5%2B3QJiv%2FRICggmV01tLe47AT5l0xsRv%2Bn4pmBQNBQ%2BelTVOkDPRsg%2BjZlc4UQUBw%3D%3D&KeyID=a8968c46",
         "datePublished": "2021-03-16T00:00:01+02:00",
         "dateModified": "2021-03-16T00:00:01+02:00",
         "documentOf": "contract"

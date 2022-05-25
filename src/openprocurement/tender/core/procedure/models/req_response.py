@@ -20,8 +20,7 @@ from openprocurement.tender.core.procedure.validation import (
 from openprocurement.tender.core.procedure.context import get_tender, get_bid, get_json_data, get_now
 from openprocurement.tender.core.procedure.utils import get_first_revision_date
 from openprocurement.tender.core.procedure.models.base import BaseBid, validate_object_id_uniq
-from openprocurement.tender.core.procedure.models.base import BaseAward
-from openprocurement.tender.core.procedure.models.milestone import QualificationMilestoneListMixin
+from openprocurement.tender.core.procedure.models.base import BaseAward, BaseQualification
 from openprocurement.tender.core.models import validate_response_requirement_uniq
 from logging import getLogger
 
@@ -155,7 +154,7 @@ class RequirementResponse(Model):
         # and decides if our requirement_ref actually can be provided by Bid
         # (in this case, also seems this validation can be reused in BaseAward, QualificationMilestoneListMixin)
         source_map = {
-            "procuringEntity": (BaseAward, QualificationMilestoneListMixin),
+            "procuringEntity": (BaseAward, BaseQualification),
             "tenderer": BaseBid,
             "winner": BaseBid,
         }

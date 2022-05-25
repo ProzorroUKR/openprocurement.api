@@ -52,7 +52,6 @@ class BaseDocument(Model):
     description_ru = StringType()
     format = StringType(regex="^[-\w]+/[-\.\w\+]+$")
     language = StringType()
-    documentOf = StringType(choices=["tender", "item", "lot"])
     relatedItem = MD5Type()
 
 
@@ -124,7 +123,12 @@ class Document(BaseDocument):
 
 class PatchDocument(BaseDocument):
     # "edit": blacklist("id", "url", "datePublished", "dateModified", "author", "hash", "download_url"),
+    documentOf = StringType(choices=["tender", "item", "lot"])
 
     @serializable
     def dateModified(self):
         return get_now().isoformat()
+
+
+class EUDocument(Document):
+    language = StringType(required=True, choices=["uk", "en", "ru"], default="uk")

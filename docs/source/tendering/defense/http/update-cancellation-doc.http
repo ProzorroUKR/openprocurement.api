@@ -1,28 +1,29 @@
-PUT /api/2.5/tenders/c0491b79cf9945abbb58100d57ebc95e/cancellations/24bd18d29a2448ebbfc89a32adaa370d/documents/332419989e6547d49b7b0b01d0625755?acc_token=416e35e797304fe4a7dddfdadc603452 HTTP/1.0
+PUT /api/2.5/tenders/c0491b79cf9945abbb58100d57ebc95e/cancellations/24bd18d29a2448ebbfc89a32adaa370d/documents/cefa2a16fef7406699d451a27e7d4231?acc_token=416e35e797304fe4a7dddfdadc603452 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 145
-Content-Type: multipart/form-data; boundary=---BOUNDARY
+Content-Length: 320
+Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
------BOUNDARY
-Content-Disposition: form-data; name="file"; filename="Notice-2.pdf"
-Content-Type: application/pdf
-
-content2
------BOUNDARY--
-
+{
+  "data": {
+    "title": "Notice-2.pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/dfb978c005814a009a06e70c8504cb4b?Signature=ZOWkIizrOuusFPTBHgVcTXjTVGbIVeq3kOXKsfNNizxr6yUKLCOENTXDtykQEPlKex3H5aPezf3X6o7wMwzPCA%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pdf"
+  }
+}
 
 Response: 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "332419989e6547d49b7b0b01d0625755",
+    "id": "cefa2a16fef7406699d451a27e7d4231",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Notice-2.pdf",
     "description": "Changed description",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3c306eff55f04e039a988137656ce16c?Signature=JoarpStERdtl28foRFD0h4aKU5LSGtP2TWh29niRCJhT%2F5butoclxbebK9ylbMdOtXqxfvDoQ0Emj%2B7ULmhtBQ%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/dfb978c005814a009a06e70c8504cb4b?Signature=FDy8z%2F6%2FkS2uRJ4FrQ4X%2Bvbz4G9zV35oJfoWd3A4sq%2BehO4e8b9Z7hp4LUAVaGlyyEehr8Wft6u8p2PRTGKTCg%3D%3D&KeyID=a8968c46",
     "datePublished": "2021-03-16T00:00:03+02:00",
     "dateModified": "2021-03-16T00:00:03+02:00",
     "documentOf": "tender"

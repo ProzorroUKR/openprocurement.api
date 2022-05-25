@@ -19,6 +19,7 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "50fd544f07894953927212c4e2a4cb9c",
+    "awardID": "2bef142c8e064f96a734caccd8b89ae0",
     "contractID": "UA-2021-03-16-000001-a-1",
     "contractNumber": "contract#1",
     "status": "pending",
@@ -26,7 +27,6 @@ X-Content-Type-Options: nosniff
       "startDate": "2021-03-16T00:00:01+02:00",
       "endDate": "2022-03-16T00:00:01+02:00"
     },
-    "dateSigned": "2021-03-16T00:00:01+02:00",
     "suppliers": [
       {
         "name": "ДКП «Школяр»",
@@ -43,15 +43,15 @@ X-Content-Type-Options: nosniff
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
         },
         "scale": "micro"
       }
     ],
     "date": "2021-03-16T00:00:00+02:00",
-    "awardID": "2bef142c8e064f96a734caccd8b89ae0",
+    "dateSigned": "2021-03-16T00:00:01+02:00",
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
@@ -59,27 +59,27 @@ X-Content-Type-Options: nosniff
       "amountPerformance": 816.29,
       "yearlyPaymentsPercentage": 0.9,
       "annualCostsReduction": [
-        500.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0,
-        1000.0
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
       ],
       "contractDuration": {
         "years": 10,
@@ -89,8 +89,14 @@ X-Content-Type-Options: nosniff
     },
     "items": [
       {
-        "id": "44d08c646cd447eca6bb6473771117d9",
+        "id": "c3a0e0734af54571acabbe2488bb7e08",
         "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -98,12 +104,6 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "classification": {
-          "description": "Test",
-          "scheme": "ДК021",
-          "id": "37810000-9"
-        },
-        "description_en": "Services in school canteens",
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
           "locality": "м. Київ",
@@ -113,8 +113,14 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "20a00f9baa1d44159cf004c5e242f39a",
+        "id": "43aa0605429b4694ab408bd3c20b68c3",
         "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -122,12 +128,6 @@ X-Content-Type-Options: nosniff
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "classification": {
-          "description": "Test",
-          "scheme": "ДК021",
-          "id": "37810000-9"
-        },
-        "description_en": "Services in school canteens",
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
           "locality": "м. Київ",

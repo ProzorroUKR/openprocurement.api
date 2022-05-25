@@ -23,7 +23,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
     relative_to = os.path.dirname(__file__)
     initial_data = test_contract_data
-    docservice = False
+    docservice = True
     docservice_url = DOCS_URL
     database_keys = ("contracts",)
 
@@ -77,7 +77,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             {"data": {"status": "active"}})
         # get contract id
         response = self.app.get('/tenders/{}'.format(tender_id))
-        contract_id = response.json['data']['contracts'][-1]['id']
+        contract = response.json['data']['contracts'][-1]
+        contract_id = contract['id']
         # after stand slill period
         # self.app.authorization = ('Basic', ('chronograph', ''))
         self.set_status('complete', {'status': 'active.awarded'})
@@ -89,9 +90,10 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.mongodb.tenders.save(tender)
         # sign contract
         self.app.authorization = ('Basic', ('broker', ''))
+        contract["value"]["amountNet"] = 490
         self.app.patch_json(
             '/tenders/{}/contracts/{}?acc_token={}'.format(tender_id, contract_id, owner_token),
-            {"data": {"status": "active", "value": {"amountNet": 490}}})
+            {"data": {"status": "active", "value": contract["value"]}})
         # check status
         self.app.authorization = ('Basic', ('broker', ''))
         with open(TARGET_DIR + 'example_tender.http', 'w') as self.app.file_obj:
@@ -147,6 +149,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.app.get(request_path)
         contract_token = response.json['access']['token']
         contract_id = test_contract_data['id']
+        contract = deepcopy(test_contract_data)
 
         with open(TARGET_DIR + 'contracts-listing-1.http', 'w') as self.app.file_obj:
             response = self.app.get(request_path)
@@ -183,9 +186,14 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         # add contract change document
         with open(TARGET_DIR + 'add-contract-change-document.http', 'w') as self.app.file_obj:
-            response = self.app.post('/contracts/{}/documents?acc_token={}'.format(
+            response = self.app.post_json('/contracts/{}/documents?acc_token={}'.format(
                 contract_id, contract_token),
-                upload_files=[('file', 'contract_changes.doc', b'content')])
+                {"data": {
+                    "title": "contract_changes.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }})
             self.assertEqual(response.status, '201 Created')
             self.assertEqual(response.content_type, 'application/json')
             doc_id = response.json["data"]['id']
@@ -215,10 +223,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         # update item
+        contract["items"][0]["quantity"] = 2
+        # contract["items"][1] = {}
         with open(TARGET_DIR + 'update-contract-item.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/contracts/{}?acc_token={}'.format(contract_id, contract_token),
-                {"data": {"items": [{'quantity': 2}, {}]}, })
+                {"data": {"items": contract["items"]}, })
             self.assertEqual(response.status, '200 OK')
             item2 = response.json['data']['items'][0]
             self.assertEqual(item2['quantity'], 2)
@@ -243,25 +253,40 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         # Uploading documentation
         with open(TARGET_DIR + 'upload-contract-document.http', 'w') as self.app.file_obj:
-            response = self.app.post('/contracts/{}/documents?acc_token={}'.format(
+            response = self.app.post_json('/contracts/{}/documents?acc_token={}'.format(
                 contract_id, contract_token),
-                upload_files=[('file', 'contract.doc', b'content')])
+                {"data": {
+                    "title": "contract.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }})
 
         with open(TARGET_DIR + 'contract-documents.http', 'w') as self.app.file_obj:
             response = self.app.get('/contracts/{}/documents?acc_token={}'.format(
                 contract_id, contract_token))
 
         with open(TARGET_DIR + 'upload-contract-document-2.http', 'w') as self.app.file_obj:
-            response = self.app.post('/contracts/{}/documents?acc_token={}'.format(
+            response = self.app.post_json('/contracts/{}/documents?acc_token={}'.format(
                 contract_id, contract_token),
-                upload_files=[('file', 'contract_additional_docs.doc', b'additional info')])
+                {"data": {
+                    "title": "contract_additional_docs.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }})
 
         doc_id = response.json['data']['id']
 
         with open(TARGET_DIR + 'upload-contract-document-3.http', 'w') as self.app.file_obj:
-            response = self.app.put('/contracts/{}/documents/{}?acc_token={}'.format(
+            response = self.app.put_json('/contracts/{}/documents/{}?acc_token={}'.format(
                 contract_id, doc_id, contract_token),
-                upload_files=[('file', 'contract_additional_docs.doc', b'extended additional info')])
+                {"data": {
+                    "title": "contract_additional_docs.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }})
 
         with open(TARGET_DIR + 'get-contract-document-3.http', 'w') as self.app.file_obj:
             response = self.app.get(
