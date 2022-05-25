@@ -180,8 +180,8 @@ class PlanTendersResource(TendersResource):
         tender_json = response.json
 
         # update tender
-        tender = self.request.registry.mongodb.tenders.get(tender_id)
-        # TODO: this lines raises this exception
+        tender = self.request.registry.mongodb.tenders.get(tender_id, primary=True)
+        # primary=True fixes the case when
         # File "/app/src/openprocurement/planning/api/views/plan.py", line 184, in post
         #     tender["plans"] = plans
         # TypeError: 'NoneType' object does not support item assignment

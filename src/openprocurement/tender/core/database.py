@@ -1,6 +1,6 @@
 from openprocurement.api.constants import RELEASE_2020_04_19
 from pymongo import IndexModel, ASCENDING
-from pymongo.errors import CollectionInvalid
+from pymongo import ReadPreference
 import logging
 import os
 
@@ -15,6 +15,11 @@ class TenderCollection:
         self.store = store
         collection_name = os.environ.get("TENDER_COLLECTION", settings["mongodb.tender_collection"])
         self.collection = getattr(store.database, collection_name)
+        #  some reads (that are made in the same requests that write) require primary only
+        if isinstance(self.collection.read_preference, type(ReadPreference.PRIMARY)):
+            self.collection_primary = self.collection
+        else:
+            self.collection_primary = self.collection.with_options(read_preference=ReadPreference.PRIMARY)
         # Making multiple indexes with the same unique key is supposed to be impossible
         # https://jira.mongodb.org/browse/SERVER-25023
         # and https://docs.mongodb.com/manual/core/index-partial/#restrictions
@@ -81,8 +86,9 @@ class TenderCollection:
     def save(self, data, insert=False):
         self.store.save_data(self.collection, data, insert=insert)
 
-    def get(self, uid):
-        doc = self.store.get(self.collection, uid)
+    def get(self, uid, primary=False):
+        collection = self.collection_primary if primary else self.collection
+        doc = self.store.get(collection, uid)
         return doc
 
     def list(self, **kwargs):
