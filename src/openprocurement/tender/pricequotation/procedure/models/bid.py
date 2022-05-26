@@ -40,59 +40,78 @@ def validate_requirement_responses(criterias, req_responses):
 
     for response in req_responses:
         response_id = response["requirement"]["id"]
-        _matches(requirements[response_id], response)
+
+        MatchResponseValue.match(requirements[response_id], response)
 
 
-def _matches(criteria, response):
-    datatype = TYPEMAP[criteria['dataType']]
-    # validate value
-    value = datatype.to_native(response['value'])
+class MatchResponseValue:
 
-    expected = criteria.get('expectedValue')
-    min_value = criteria.get('minValue')
-    max_value = criteria.get('maxValue')
+    @classmethod
+    def _match_expected_value(cls, datatype, requirement, value):
+        expected_value = requirement.get("expectedValue")
+        if expected_value:
+            expected_value = datatype.to_native(expected_value)
+            if datatype.to_native(expected_value) != value:
+                raise ValidationError(f"Value \"{value}\" does not match expected value \"{expected_value}\" "
+                                      f"in requirement {requirement['id']}")
 
-    if expected:
-        expected = datatype.to_native(expected)
-        if datatype.to_native(expected) != value:
-            raise ValidationError(
-                'Value "{}" does not match expected value "{}" in reqirement {}'.format(
-                    value, expected, criteria['id']
-                )
-            )
-    if min_value and max_value:
-        min_value = datatype.to_native(min_value)
-        max_value = datatype.to_native(max_value)
-        if value < min_value or value > max_value:
-            raise ValidationError(
-                'Value "{}" does not match range from "{}" to "{}" in reqirement {}'.format(
-                    value,
-                    min_value,
-                    max_value,
-                    criteria['id']
-                )
-            )
+    @classmethod
+    def _match_min_max_value(cls, datatype, requirement, value):
+        min_value = requirement.get('minValue')
+        max_value = requirement.get('maxValue')
 
-    if min_value and not max_value:
-        min_value = datatype.to_native(min_value)
-        if value < min_value:
-            raise ValidationError(
-                'Value {} is lower then minimal required {} in reqirement {}'.format(
-                    value,
-                    min_value,
-                    criteria['id']
-                )
-            )
-    if not min_value and max_value:
-        if value > datatype.to_native(max_value):
-            raise ValidationError(
-                'Value {} is higher then required {} in reqirement {}'.format(
-                    value,
-                    max_value,
-                    criteria['id']
-                )
-            )
-    return response
+        if min_value and value < datatype.to_native(min_value):
+            raise ValidationError(f"Value {value} is lower then minimal required {min_value} "
+                                  f"in requirement {requirement['id']}")
+        if max_value and value > datatype.to_native(max_value):
+            raise ValidationError(f"Value {value} is higher then required {max_value} "
+                                  f"in requirement {requirement['id']}")
+
+    @classmethod
+    def _match_expected_values(cls, datatype, requirement, values):
+        expected_min_items = requirement.get("expectedMinItems")
+        expected_max_items = requirement.get("expectedMaxItems")
+        expected_values = requirement.get("expectedValues", [])
+        expected_values = {datatype.to_native(i) for i in expected_values}
+
+        if expected_min_items and expected_min_items > len(values):
+            raise ValidationError(f"Count of items lower then minimal required {expected_min_items} "
+                                  f"in requirement {requirement['id']}")
+
+        if expected_max_items and expected_max_items < len(values):
+            raise ValidationError(f"Count of items higher then maximum required {expected_max_items} "
+                                  f"in requirement {requirement['id']}")
+
+        if not set(values).issubset(set(expected_values)):
+            raise ValidationError(f"Values isn't in requirement {requirement['id']}")
+
+    @classmethod
+    def match(cls, requirement, response):
+        datatype = TYPEMAP[requirement['dataType']]
+
+        value = response.get("value")
+        values = response.get("values")
+
+        if not(value or values):
+            raise ValidationError('response required at least one of field ["value", "values"]')
+        if value and values:
+            raise ValidationError("field 'value' conflicts with 'values'")
+
+        if value is not None:
+            value = datatype.to_native(response['value'])
+            field_for_value = ('expectedValue', 'minValue', 'maxValue')
+            if all(i not in requirement for i in field_for_value):
+                raise ValidationError(f"field 'value' is rogue without one of fields: {field_for_value} "
+                                      f"in requirement({requirement['id']})")
+            cls._match_expected_value(datatype, requirement, value)
+            cls._match_min_max_value(datatype, requirement, value)
+
+        elif values is not None:
+            if 'expectedValues' not in requirement:
+                raise ValidationError(f"field 'values' is rogue without 'expectedValues' field "
+                                      f"in requirement({requirement['id']})")
+            values = [datatype.to_native(v) for v in values]
+            cls._match_expected_values(datatype, requirement, values)
 
 
 class PatchBid(Model):

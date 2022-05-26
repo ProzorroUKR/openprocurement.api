@@ -14,6 +14,7 @@ X-Content-Type-Options: nosniff
     "owner": "broker",
     "title": "Комп’ютерне обладнання",
     "mainProcurementCategory": "goods",
+    "procurementMethodDetails": "quick, accelerator=1440",
     "procurementMethodType": "priceQuotation",
     "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
@@ -128,7 +129,33 @@ X-Content-Type-Options: nosniff
                   "code": "KGM",
                   "name": "кілограми"
                 },
-                "minValue": "5"
+                "minValue": 5
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "4962fdcd03934d368a8955650c55943b",
+        "title": "Форма випуску",
+        "description": "Форма випуску",
+        "requirementGroups": [
+          {
+            "id": "614b297186a2440e804f97c67b503ef0",
+            "description": "Форма випуску",
+            "requirements": [
+              {
+                "id": "0333728d33a745a2a2e688a10101371a",
+                "title": "Форма випуску",
+                "dataType": "string",
+                "expectedValues": [
+                  "Відповідь1",
+                  "Відповідь2",
+                  "Відповідь3",
+                  "Відповідь4"
+                ],
+                "expectedMinItems": 2,
+                "expectedMaxItems": 3
               }
             ]
           }

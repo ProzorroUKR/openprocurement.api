@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/055dc73de1b14564a3409fbcd31c287f/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1202
+Content-Length: 1393
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -45,6 +45,15 @@ DATA:
           "id": "f7a6209ad4bd4e9a882ae46df39d8561"
         },
         "value": 5
+      },
+      {
+        "requirement": {
+          "id": "1d869955df9e4996bf6c94ceda8d1920"
+        },
+        "values": [
+          "Відповідь1",
+          "Відповідь2"
+        ]
       }
     ],
     "status": "draft"
@@ -98,7 +107,17 @@ X-Content-Type-Options: nosniff
         "requirement": {
           "id": "f7a6209ad4bd4e9a882ae46df39d8561"
         },
-        "value": "5"
+        "value": 5
+      },
+      {
+        "id": "5f2b1501bc04447db467290093454886",
+        "requirement": {
+          "id": "1d869955df9e4996bf6c94ceda8d1920"
+        },
+        "values": [
+          "Відповідь1",
+          "Відповідь2"
+        ]
       }
     ],
     "id": "635dac1cc52641d2a557b66099e10483",

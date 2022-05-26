@@ -10,7 +10,10 @@ from openprocurement.tender.pricequotation.procedure.models.tender import (
 )
 from openprocurement.tender.pricequotation.procedure.state.tender_details import TenderDetailsState
 from openprocurement.tender.pricequotation.constants import PMT, PQ_KINDS
-from openprocurement.tender.pricequotation.procedure.validation import unless_administrator_or_bots
+from openprocurement.tender.pricequotation.procedure.validation import (
+    unless_administrator_or_bots,
+    validate_tender_criteria_existence,
+)
 from openprocurement.tender.core.procedure.validation import (
     validate_item_owner,
     validate_input_data,
@@ -83,6 +86,7 @@ class PriceQuotationTenderResource(TendersResource):
             #     item="tender",
             #     operation="update",
             # ),
+            validate_tender_criteria_existence,
             validate_item_quantity,
             validate_tender_guarantee,
         ),

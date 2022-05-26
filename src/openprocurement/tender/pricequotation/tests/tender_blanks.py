@@ -26,6 +26,7 @@ from openprocurement.tender.pricequotation.tests.base import (
 from openprocurement.tender.pricequotation.tests.data import test_milestones
 # TenderTest
 from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.pricequotation.constants import PMT, PQ_KINDS
 
 
@@ -677,7 +678,27 @@ def create_tender_draft(self):
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token),
-        {"data": {"status": self.primary_tender_status}}
+        {"data": {"status": self.primary_tender_status}},
+        status=403,
+    )
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "data",
+            "description": "Can't update tender to next (draft.publishing) status without criteria"
+        }],
+    )
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token),
+        {
+            "data": {
+                "status": self.primary_tender_status,
+                "criteria": self.test_criteria_1,
+            }
+        }
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -685,6 +706,7 @@ def create_tender_draft(self):
     self.assertEqual(tender["status"], self.primary_tender_status)
     self.assertEqual(tender["noticePublicationDate"], tender["tenderPeriod"]["startDate"])
     self.assertNotIn("unsuccessfulReason", tender)
+    self.assertIn("criteria", tender)
 
     response = self.app.get("/tenders/{}".format(tender["id"]))
     self.assertEqual(response.status, "200 OK")
@@ -782,10 +804,384 @@ def create_tender_draft_with_criteria(self):
     patch_result = response.json["data"]
 
     # old object ids hasn't been changed
-    self.assertEqual(len(patch_result["criteria"]), 4)
+    self.assertEqual(len(patch_result["criteria"]), 6)
     self.assertEqual(
         [e["id"] for e in patch_result["criteria"]],
         [e["id"] for e in patch_criteria]
+    )
+
+
+def create_tender_draft_with_criteria_expected_values(self):
+    data = self.initial_data.copy()
+    data["criteria"] = self.test_criteria_1
+    data["status"] = "draft"
+
+    response = self.app.post_json("/tenders", {"data": data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+
+    tender = response.json["data"]
+    tender_id = tender["id"]
+    token = response.json["access"]["token"]
+
+    self.assertEqual(
+        set(e["description"] for e in tender["criteria"]),
+        set(e["description"] for e in data["criteria"])
+    )
+
+    tender_criteria = tender["criteria"]
+
+    patch_failed_criteria = deepcopy(tender_criteria)
+    patch_failed_criteria[2]["requirementGroups"][0]["requirements"][0]["expectedValue"] = "value"
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={token}",
+        {"data": {"criteria": patch_failed_criteria}},
+        status=422
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "criteria",
+            "description": [{
+                "requirementGroups": [
+                    "expectedValue conflicts with ['minValue', 'maxValue', 'expectedValues']"
+                ]
+            }]
+        }]
+    )
+
+    patch_failed_criteria = deepcopy(tender_criteria)
+    patch_failed_criteria[2]["requirementGroups"][0]["requirements"][0]["minValue"] = "2"
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={token}",
+        {"data": {"criteria": patch_failed_criteria}},
+        status=422
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "criteria",
+            "description": [{
+                "requirementGroups": ["expectedValues conflicts with "
+                                      "['minValue', 'maxValue', 'expectedValue']"]
+            }]
+        }]
+    )
+
+    patch_failed_criteria = deepcopy(tender_criteria)
+    patch_failed_criteria[2]["requirementGroups"][0]["requirements"][0]["expectedValues"] = None
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={token}",
+        {"data": {"criteria": patch_failed_criteria}},
+        status=422
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "criteria",
+            "description": [{
+                "requirementGroups": ["Value required for at least one field "
+                                      "[\"expectedValues\", \"expectedValue\", \"minValue\", \"maxValue\"]"]
+            }]
+        }]
+    )
+
+    patch_failed_criteria = deepcopy(tender_criteria)
+    patch_failed_criteria[2]["requirementGroups"][0]["requirements"][0]["expectedValues"] = None
+    patch_failed_criteria[2]["requirementGroups"][0]["requirements"][0]["expectedValue"] = "value"
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={token}",
+        {"data": {"criteria": patch_failed_criteria}},
+        status=422
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "criteria",
+            "description": [{
+                "requirementGroups": ["expectedMinItems and expectedMaxItems "
+                                      "couldn't exist without expectedValues"]
+            }]
+        }]
+    )
+
+    patch_failed_criteria = deepcopy(tender_criteria)
+    patch_failed_criteria[2]["requirementGroups"][0]["requirements"][0]["expectedMinItems"] = 4
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={token}",
+        {"data": {"criteria": patch_failed_criteria}},
+        status=422
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "criteria",
+            "description": [{
+                "requirementGroups": ["expectedMinItems couldn't be higher then expectedMaxItems"]
+            }]
+        }]
+    )
+
+    patch_failed_criteria = deepcopy(tender_criteria)
+    patch_failed_criteria[2]["requirementGroups"][0]["requirements"][0]["expectedMinItems"] = 5
+    patch_failed_criteria[2]["requirementGroups"][0]["requirements"][0]["expectedMaxItems"] = None
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={token}",
+        {"data": {"criteria": patch_failed_criteria}},
+        status=422
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "criteria",
+            "description": [{
+                "requirementGroups": ["expectedMinItems couldn't be higher then count of items in expectedValues"]
+            }]
+        }]
+    )
+
+    patch_failed_criteria = deepcopy(tender_criteria)
+    patch_failed_criteria[2]["requirementGroups"][0]["requirements"][0]["expectedMaxItems"] = 5
+    patch_failed_criteria[2]["requirementGroups"][0]["requirements"][0]["expectedMinItems"] = None
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={token}",
+        {"data": {"criteria": patch_failed_criteria}},
+        status=422
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "criteria",
+            "description": [{
+                "requirementGroups": ["expectedMaxItems couldn't be higher then count of items in expectedValues"]
+            }]
+        }]
+    )
+
+
+def tender_criteria_values_type(self):
+    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+
+    tender = response.json["data"]
+    tender_id = tender["id"]
+    token = response.json["access"]["token"]
+
+    req_path = f"/tenders/{tender_id}?acc_token={token}"
+
+    # Test dataType == "string"
+
+    criteria = [deepcopy(self.test_criteria_1[0])]
+    requirement = criteria[0]["requirementGroups"][0]["requirements"][0]
+    requirement["dataType"] = "string"
+    requirement["expectedValue"] = 1
+    data = {"data": {"criteria": criteria}}
+    response = self.app.patch_json(req_path, data, status=422)
+
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "criteria",
+            "description": [{
+                "requirementGroups": [{
+                    "requirements": [{
+                        "expectedValue": ["Couldn't interpret '1' as string."]
+                    }]
+                }]
+            }]
+        }]
+    )
+
+    requirement["expectedValue"] = True
+    response = self.app.patch_json(req_path, data, status=422)
+
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "criteria",
+            "description": [{
+                "requirementGroups": [{
+                    "requirements": [{
+                        "expectedValue": ["Couldn't interpret 'True' as string."]
+                    }]
+                }]
+            }]
+        }]
+    )
+
+    # Test dataType == "integer"
+    requirement["dataType"] = "integer"
+    requirement["expectedValue"] = "5"
+    response = self.app.patch_json(req_path, data, status=422)
+
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "criteria",
+            "description": [{
+                "requirementGroups": [{
+                    "requirements": [{
+                        "expectedValue": ["Value '5' is not int."]
+                    }]
+                }]
+            }]
+        }]
+    )
+
+    requirement["expectedValue"] = 5.5
+    response = self.app.patch_json(req_path, data, status=422)
+
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "criteria",
+            "description": [{
+                "requirementGroups": [{
+                    "requirements": [{
+                        "expectedValue": ["Value '5.5' is not int."]
+                    }]
+                }]
+            }]
+        }]
+    )
+
+    # Test dataType == "number"
+
+    requirement["dataType"] = "number"
+
+    requirement["expectedValue"] = "5.5"
+    response = self.app.patch_json(req_path, data, status=422)
+
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "criteria",
+            "description": [{
+                "requirementGroups": [{
+                    "requirements": [{
+                        "expectedValue": ["Number '5.5' failed to convert to a decimal."]
+                    }]
+                }]
+            }]
+        }]
+    )
+
+    # Test dataType == "boolean"
+
+    requirement["dataType"] = "boolean"
+
+    requirement["expectedValue"] = "False"
+    response = self.app.patch_json(req_path, data, status=422)
+
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "criteria",
+            "description": [{
+                "requirementGroups": [{
+                    "requirements": [{
+                        "expectedValue": ["Value 'False' is not boolean."]
+                    }]
+                }]
+            }]
+        }]
+    )
+
+    requirement["expectedValue"] = 1
+    response = self.app.patch_json(req_path, data, status=422)
+
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "criteria",
+            "description": [{
+                "requirementGroups": [{
+                    "requirements": [{
+                        "expectedValue": ["Value '1' is not boolean."]
+                    }]
+                }]
+            }]
+        }]
+    )
+
+    # dataType == "string" for expectedValues
+    del requirement["expectedValue"]
+    requirement["dataType"] = "string"
+
+    requirement["expectedValues"] = ["hello", 11, "world"]
+    response = self.app.patch_json(req_path, data, status=422)
+
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "criteria",
+            "description": [{
+                "requirementGroups": [{
+                    "requirements": [{
+                        "expectedValues": ["Couldn't interpret '11' as string."]
+                    }]
+                }]
+            }]
+        }]
+    )
+
+    # dataType == "integer" for expectedValues
+    requirement["dataType"] = "integer"
+
+    requirement["expectedValues"] = [5, "6", 7]
+    response = self.app.patch_json(req_path, data, status=422)
+
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "criteria",
+            "description": [{
+                "requirementGroups": [{
+                    "requirements": [{
+                        "expectedValues": ["Value '6' is not int."]
+                    }]
+                }]
+            }]
+        }]
+    )
+
+    # Test dataType == "boolean" for expectedValues
+
+    requirement["dataType"] = "boolean"
+
+    requirement["expectedValues"] = [True, False, "False"]
+    response = self.app.patch_json(req_path, data, status=422)
+
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "criteria",
+            "description": [{
+                "requirementGroups": [{
+                    "requirements": [{
+                        "expectedValues": ["Value 'False' is not boolean."]
+                    }]
+                }]
+            }]
+        }]
     )
 
 
@@ -1046,7 +1442,10 @@ def tender_owner_can_change_in_draft(self):
     )
     items = deepcopy(tender["items"])
     items[0]["relatedBuyer"] = buyer_id
-    patch_data = {"items": items}
+    patch_data = {
+        "items": items,
+        "criteria": self.test_criteria_1,
+    }
     patch_data.update(status)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token),
@@ -1516,7 +1915,8 @@ def patch_tender_by_pq_bot_before_multiprofile(self):
 
     data = {"data": {
         "status": "draft.publishing",
-        "profile": test_short_profile["id"]}
+        "profile": test_short_profile["id"],
+        "criteria": self.test_criteria_1}
     }
     response = self.app.patch_json("/tenders/{}?acc_token={}".format(tender_id, owner_token), data)
     self.assertEqual(response.status, "200 OK")
@@ -1586,6 +1986,7 @@ def patch_tender_by_pq_bot_before_multiprofile(self):
 
     # set not existed profile id
     data["data"]["profile"] = "123456-12345678-123456-12345678"
+    data["data"]["criteria"] = self.test_criteria_1
     response = self.app.patch_json("/tenders/{}?acc_token={}".format(tender_id, owner_token), data)
     self.assertEqual(response.status, "200 OK")
     tender = response.json["data"]
@@ -1706,6 +2107,7 @@ def patch_tender_by_pq_bot_after_multiprofile(self):
 
     # set not existed profile id
     data["data"]["items"][0]["profile"] = "123456-12345678-123456-12345678"
+    data["data"]["criteria"] = self.test_criteria_1
     response = self.app.patch_json("/tenders/{}?acc_token={}".format(tender_id, owner_token), data)
     self.assertEqual(response.status, "200 OK")
     tender = response.json["data"]
@@ -2032,3 +2434,113 @@ def lost_contract_for_active_award(self):
     self.assertEqual(response.json["data"]["status"], "complete")
 
 
+def patch_items_related_buyer_id(self):
+    # create tender with two buyers
+    data = deepcopy(self.initial_data)
+    test_organization1 = deepcopy(test_organization)
+    test_organization2 = deepcopy(test_organization)
+    test_organization2["name"] = "Управління міжнародних справ"
+    test_organization2["identifier"]["id"] = "00055555"
+
+    data["status"] = "draft"
+    data["buyers"] = [
+        {"name": test_organization1["name"], "identifier": test_organization1["identifier"]},
+        {"name": test_organization2["name"], "identifier": test_organization2["identifier"]},
+    ]
+
+    response = self.app.post_json("/tenders", {"data": data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "draft")
+
+    tender = response.json["data"]
+
+    tender_id = response.json["data"]["id"]
+    tender_token = response.json["access"]["token"]
+
+    buyer1_id = response.json["data"]["buyers"][0]["id"]
+    buyer2_id = response.json["data"]["buyers"][1]["id"]
+
+    self.assertEqual(len(response.json["data"]["buyers"]), 2)
+    self.assertEqual(len(response.json["data"]["items"]), 1)
+
+
+    if tender["procurementMethodType"] != "priceQuotation":
+        add_criteria(self, tender_id, tender_token)
+
+    patch_request_path = "/tenders/{}?acc_token={}".format(tender_id, tender_token)
+
+    response = self.app.patch_json(
+        patch_request_path,
+        {"data": {"status": self.primary_tender_status}},
+        status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {'description': [
+                {'relatedBuyer': ['This field is required.']}
+            ],
+            'location': 'body',
+            'name': 'items'}
+        ],
+    )
+    items = deepcopy(tender["items"])
+    items[0]["relatedBuyer"] = buyer1_id
+    response = self.app.patch_json(
+        patch_request_path,
+        {"data": {"items": items}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["items"][0]["relatedBuyer"], buyer1_id)
+
+    response = self.app.patch_json(
+        patch_request_path,
+        {"data": {"status": self.primary_tender_status, "criteria": self.test_criteria_1}}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
+    self.assertEqual(tender["status"], self.primary_tender_status)
+
+    if tender["procurementMethodType"] == "priceQuotation":
+        return
+
+    # adding new unassigned items
+    second_item = deepcopy(self.initial_data["items"][0])
+    second_item["description"] = "телевізори"
+    third_item = deepcopy(self.initial_data["items"][0])
+    third_item["description"] = "ноутбуки"
+
+    response = self.app.patch_json(
+        patch_request_path,
+        {"data": {"items": [items[0], second_item, third_item]}},
+        status=422
+    )
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("errors", response.json)
+    self.assertEqual(
+        response.json["errors"],
+        [{'description': [{'relatedBuyer': ['This field is required.']}],
+          'location': 'body',
+          'name': 'items'}],
+    )
+
+    # assign items
+    second_item["relatedBuyer"] = buyer2_id
+    third_item["relatedBuyer"] = buyer2_id
+
+    response = self.app.patch_json(
+        patch_request_path,
+        {"data": {"items": [items[0], second_item, third_item]}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["items"][1]["relatedBuyer"], buyer2_id)
+    self.assertEqual(response.json["data"]["items"][2]["relatedBuyer"], buyer2_id)
+
+    self.assertEqual(response.json["data"]["items"][1]["description"], "телевізори")
+    self.assertEqual(response.json["data"]["items"][2]["description"], "ноутбуки")
+    self.assertEqual(len(response.json["data"]["items"]), 3)

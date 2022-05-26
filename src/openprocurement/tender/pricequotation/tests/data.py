@@ -90,7 +90,7 @@ PERIODS = {
 
 test_requirement_response_valid = [
     {
-        "value": "23.8",
+        "value": 23.8,
         'requirement': {
             'id': "655360-0001-001-01"
         }
@@ -155,7 +155,7 @@ test_criteria = [
                         {
                             "dataType": "number",
                             "id": "a" * 32,
-                            "minValue": "23.8",
+                            "minValue": 23.8,
                             "title": "Діагональ екрану",
                             "unit": {
                                 "code": "INH",
@@ -187,7 +187,7 @@ test_criteria = [
 ]
 test_requirement_response = [
     {
-        "value": "23.8",
+        "value": 23.8,
         'requirement': {
             'id': "a" * 32
         }
@@ -410,7 +410,7 @@ test_short_profile = {
                         {
                             "dataType": "number",
                             "id": "655360-0001-001-01",
-                            "minValue": "23.8",
+                            "minValue": 23.8,
                             "title": "Діагональ екрану",
                             "unit": {
                                 "code": "INH",
@@ -471,7 +471,7 @@ test_short_profile = {
                         {
                             "dataType": "integer",
                             "id": "655360-0004-001-01",
-                            "maxValue": "250",
+                            "maxValue": 250,
                             "title": "Яскравість дисплея",
                             "unit": {
                                 "code": "A24",
@@ -513,7 +513,7 @@ test_short_profile = {
                         {
                             "dataType": "integer",
                             "id": "655360-0006-001-01",
-                            "minValue": "1",
+                            "minValue": 1,
                             "title": "Кількість портів HDMI",
                             "unit": {
                                 "code": "H87",
@@ -536,7 +536,7 @@ test_short_profile = {
                         {
                             "dataType": "integer",
                             "id": "655360-0007-001-01",
-                            "minValue": "1",
+                            "minValue": 1,
                             "title": "Кількість портів D-sub",
                             "unit": {
                                 "code": "H87",
@@ -578,7 +578,7 @@ test_short_profile = {
                         {
                             "dataType": "integer",
                             "id": "655360-0009-001-01",
-                            "minValue": "36",
+                            "minValue": 36,
                             "title": "Гарантія",
                             "unit": {
                                 "code": "MON",
@@ -640,7 +640,28 @@ test_criteria_1 = [
             }
         ],
         "title": "Доза діючої речовини"
-    }
+    },
+    {
+        "description": "Форма випуску",
+        "id": "400496-0003",
+        "requirementGroups": [
+            {
+                "description": "Форма випуску",
+                "id": "400496-0003-001",
+                "requirements": [
+                    {
+                        "dataType": "string",
+                        "expectedValues": ["Відповідь1", "Відповідь2", "Відповідь3", "Відповідь4"],
+                        "expectedMinItems":2,
+                        "expectedMaxItems": 3,
+                        "id": "400496-0003-001-01",
+                        "title": "Форма випуску"
+                    }
+                ]
+            }
+        ],
+        "title": "Форма випуску"
+    },
 ]
 
 test_criteria_2 = [
@@ -801,6 +822,12 @@ test_response_1 = [
             "id": "400496-0002-001-01"
         },
         "value": 5
+    },
+    {
+        "requirement": {
+            "id": "400496-0003-001-01"
+        },
+        "values": ["Відповідь1", "Відповідь2"]
     }
 ]
 
@@ -862,4 +889,8 @@ test_response_4 = [
         },
         "value": 1
     }
+]
+
+test_response_5 = [
+    {}
 ]

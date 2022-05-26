@@ -53,6 +53,12 @@ from openprocurement.api.utils import (
     get_criterion_requirement,
     get_particular_parent_by_namespace, apply_data_patch,
 )
+from openprocurement.api.models import (
+    StrictStringType,
+    StrictIntType,
+    StrictDecimalType,
+    StrictBooleanType,
+)
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF, FIRST_STAGE_PROCUREMENT_TYPES
 from openprocurement.tender.core.constants import CRITERION_LIFE_CYCLE_COST_IDS
 from openprocurement.tender.core.utils import (
@@ -2017,6 +2023,9 @@ def validate_award_document_author(request, **kwargs):
         raise error_handler(request)
 
 
+# TODO: in future replace this types with strictTypes
+#  (StrictStringType, StrictIntType, StrictDecimalType, StrictBooleanType)
+
 TYPEMAP = {
     'string': StringType(),
     'integer': IntType(),
@@ -2028,18 +2037,24 @@ TYPEMAP = {
 # Criteria
 
 
-def validate_value_type(value, datatype):
-    if not value:
-        return
-    type_ = TYPEMAP.get(datatype)
-    if not type_:
-        raise ValidationError(
-            'Type mismatch: value {} does not confront type {}'.format(
-                value, type_
+def validate_value_factory(type_map):
+    def validator(value, datatype):
+
+        if not value:
+            return
+        type_ = type_map.get(datatype)
+        if not type_:
+            raise ValidationError(
+                'Type mismatch: value {} does not confront type {}'.format(
+                    value, type_
+                )
             )
-        )
-    # validate value
-    return type_.to_native(value)
+        # validate value
+        return type_.to_native(value)
+    return validator
+
+
+validate_value_type = validate_value_factory(TYPEMAP)
 
 
 # tender.criterion.requirementGroups

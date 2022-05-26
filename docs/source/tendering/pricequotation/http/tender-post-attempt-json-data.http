@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 3612
+Content-Length: 4394
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -77,6 +77,7 @@ DATA:
     "agreement": {
       "id": "2e14a78a2074952d5a2d256c3c004dda"
     },
+    "procurementMethodDetails": "quick, accelerator=1440",
     "criteria": [
       {
         "description": "Форма випуску",
@@ -113,6 +114,29 @@ DATA:
           }
         ],
         "title": "Доза діючої речовини"
+      },
+      {
+        "description": "Форма випуску",
+        "requirementGroups": [
+          {
+            "description": "Форма випуску",
+            "requirements": [
+              {
+                "dataType": "string",
+                "expectedValues": [
+                  "Відповідь1",
+                  "Відповідь2",
+                  "Відповідь3",
+                  "Відповідь4"
+                ],
+                "expectedMinItems": 2,
+                "expectedMaxItems": 3,
+                "title": "Форма випуску"
+              }
+            ]
+          }
+        ],
+        "title": "Форма випуску"
       }
     ]
   }
@@ -126,6 +150,7 @@ X-Content-Type-Options: nosniff
   "data": {
     "mainProcurementCategory": "goods",
     "title": "Комп’ютерне обладнання",
+    "procurementMethodDetails": "quick, accelerator=1440",
     "procurementMethodType": "priceQuotation",
     "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
@@ -240,7 +265,33 @@ X-Content-Type-Options: nosniff
                   "code": "KGM",
                   "name": "кілограми"
                 },
-                "minValue": "5"
+                "minValue": 5
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "d90060b117b54b69a7f7e58c0cbcf833",
+        "title": "Форма випуску",
+        "description": "Форма випуску",
+        "requirementGroups": [
+          {
+            "id": "ef4d81f7825a400e81e7dc497116cb13",
+            "description": "Форма випуску",
+            "requirements": [
+              {
+                "id": "1d869955df9e4996bf6c94ceda8d1920",
+                "title": "Форма випуску",
+                "dataType": "string",
+                "expectedValues": [
+                  "Відповідь1",
+                  "Відповідь2",
+                  "Відповідь3",
+                  "Відповідь4"
+                ],
+                "expectedMinItems": 2,
+                "expectedMaxItems": 3
               }
             ]
           }

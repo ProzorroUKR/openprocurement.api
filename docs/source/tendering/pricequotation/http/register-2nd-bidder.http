@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/055dc73de1b14564a3409fbcd31c287f/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1852
+Content-Length: 2043
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -45,6 +45,15 @@ DATA:
           "id": "f7a6209ad4bd4e9a882ae46df39d8561"
         },
         "value": 5
+      },
+      {
+        "requirement": {
+          "id": "1d869955df9e4996bf6c94ceda8d1920"
+        },
+        "values": [
+          "Відповідь1",
+          "Відповідь2"
+        ]
       }
     ],
     "documents": [
@@ -122,18 +131,28 @@ X-Content-Type-Options: nosniff
     ],
     "requirementResponses": [
       {
-        "id": "5f2b1501bc04447db467290093454886",
+        "id": "d0fe323b8cc1407394e8a57962d8b538",
         "requirement": {
           "id": "4b646712480a49e8bc73f81c45756cf4"
         },
         "value": "Розчин для інфузій"
       },
       {
-        "id": "d0fe323b8cc1407394e8a57962d8b538",
+        "id": "f3931668644e466dbc94eebe4abdcfb5",
         "requirement": {
           "id": "f7a6209ad4bd4e9a882ae46df39d8561"
         },
-        "value": "5"
+        "value": 5
+      },
+      {
+        "id": "0532ce1a936946f99de8c4b95ac9d66a",
+        "requirement": {
+          "id": "1d869955df9e4996bf6c94ceda8d1920"
+        },
+        "values": [
+          "Відповідь1",
+          "Відповідь2"
+        ]
       }
     ],
     "id": "b417921608714f3f8b317c0cf06ff72f",

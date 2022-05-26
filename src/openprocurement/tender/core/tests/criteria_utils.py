@@ -8,11 +8,7 @@ TENDERS_WITHOUT_CRITERIA = ["aboveThresholdUA.defense", "simple.defense", "repor
 
 
 def add_criteria(self, tender_id=None, tender_token=None, criteria=test_criteria):
-    if isinstance(self, TestApp):
-        app = self
-    else:
-        app = self.app
-
+    app = self if isinstance(self, TestApp) else self.app
     if not tender_id:
         tender_id = self.tender_id
     if not tender_token:
@@ -38,10 +34,7 @@ def add_criteria(self, tender_id=None, tender_token=None, criteria=test_criteria
 
 
 def generate_responses(self, tender_id=None):
-    if isinstance(self, TestApp):
-        app = self
-    else:
-        app = self.app
+    app = self if isinstance(self, TestApp) else self.app
     if not tender_id:
         tender_id = self.tender_id
     response = app.get("/tenders/{}".format(tender_id))

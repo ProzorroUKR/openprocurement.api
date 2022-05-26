@@ -14,6 +14,7 @@ from schematics.models import Model as SchematicsModel
 from schematics.transforms import whitelist, blacklist, export_loop, convert
 from schematics.types import (
     StringType,
+    IntType,
     FloatType,
     URLType,
     BooleanType,
@@ -151,6 +152,32 @@ class DecimalType(BaseDecimalType):
 
     def to_native(self, value, context=None):
         return self._apply_precision(value)
+
+
+class StrictStringType(StringType):
+    allow_casts = (str,)
+
+
+class StrictIntType(IntType): # There are can be problem with old tenders where int values stores in string
+    def to_native(self, value, context=None):
+        if not isinstance(value, int):
+            raise ConversionError(self.messages['number_coerce']
+                                  .format(value, self.number_type.lower()))
+        return super().to_native(value, context=context)
+
+
+class StrictDecimalType(DecimalType):
+    def to_native(self, value, context=None):
+        if not isinstance(value, (int, float)):
+            raise ConversionError(self.messages['number_coerce'].format(value))
+        return super().to_native(value, context=context)
+
+
+class StrictBooleanType(BooleanType):
+    def to_native(self, value, context=None):
+        if not isinstance(value, bool):
+            raise ConversionError(f"Value '{value}' is not boolean.")
+        return super().to_native(value, context=context)
 
 
 class IsoDateTimeType(BaseType):
