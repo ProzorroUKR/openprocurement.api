@@ -1,9 +1,39 @@
+from schematics.types import DateTimeType
 from schematics.exceptions import ValidationError
 from openprocurement.api.utils import raise_operation_error, get_first_revision_date
 from openprocurement.api.constants import PQ_CRITERIA_RESPONSES_ALL_FROM
 from openprocurement.api.validation import validate_data, OPERATIONS, validate_json_data
-from openprocurement.tender.core.validation import TYPEMAP
+from openprocurement.api.models import (
+    StrictStringType,
+    StrictIntType,
+    StrictDecimalType,
+    StrictBooleanType,
+)
 from openprocurement.tender.pricequotation.constants import PROFILE_PATTERN
+from openprocurement.tender.core.validation import validate_value_factory
+
+
+TYPEMAP = {
+    'string': StrictStringType(),
+    'integer': StrictIntType(),
+    'number': StrictDecimalType(),
+    'boolean': StrictBooleanType(),
+    'date-time': DateTimeType(),
+}
+
+# Criteria
+
+
+validate_value_type = validate_value_factory(TYPEMAP)
+
+
+def validate_list_of_values_type(values, datatype):
+    if not values:
+        return
+    if not isinstance(values, (list, tuple, set)):
+        raise ValidationError("Values should be list")
+    for value in values:
+        validate_value_type(value, datatype)
 
 
 # tender documents
@@ -123,3 +153,56 @@ def validate_profile_pattern(profile):
     result = PROFILE_PATTERN.findall(profile)
     if len(result) != 1:
         raise ValidationError("The profile value doesn't match id pattern")
+
+
+def validate_expected_items(requirement):
+    expected_min_items = requirement.get("expectedMinItems")
+    expected_max_items = requirement.get("expectedMaxItems")
+    expected_values = requirement.get("expectedValues")
+
+    if expected_values:
+        if expected_min_items and expected_max_items and expected_min_items > expected_max_items:
+            raise ValidationError("expectedMinItems couldn't be higher then expectedMaxItems")
+
+        if expected_min_items and expected_min_items > len(expected_values):
+            raise ValidationError(
+                "expectedMinItems couldn't be higher then count of items in expectedValues"
+            )
+
+        if expected_max_items and expected_max_items > len(expected_values):
+            raise ValidationError(
+                "expectedMaxItems couldn't be higher then count of items in expectedValues"
+            )
+
+    elif expected_min_items or expected_max_items:
+        raise ValidationError(
+            "expectedMinItems and expectedMaxItems couldn't exist without expectedValues"
+        )
+
+
+def validate_requirement_values(requirement):
+
+    field_conflict_map = {
+        "expectedValue": ["minValue", "maxValue", "expectedValues"],
+        "expectedValues": ["minValue", "maxValue", "expectedValue"],
+    }
+
+    for k, v in field_conflict_map.items():
+        if requirement.get(k) and any(requirement.get(i) for i in v):
+            raise ValidationError(f"{k} conflicts with {v}")
+    validate_expected_items(requirement)
+
+
+def validate_requirement(requirement):
+    required_fields = ('expectedValue', 'expectedValues', 'minValue', 'maxValue')
+    if not any(requirement.get(i) for i in required_fields):
+        raise ValidationError(
+            'Value required for at least one field ["expectedValues", "expectedValue", "minValue", "maxValue"]'
+        )
+    validate_requirement_values(requirement)
+
+
+def validate_requirement_groups(value):
+    for requirements in value:
+        for requirement in requirements.requirements:
+            validate_requirement(requirement)

@@ -9,7 +9,7 @@ from openprocurement.tender.core.tests.base import BaseCoreWebTest
 from openprocurement.api.constants import TZ
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.belowthreshold.utils import prepare_tender_item_for_contract
-from openprocurement.tender.pricequotation.models import PriceQuotationTender
+from openprocurement.tender.pricequotation.procedure.models.tender import Tender
 from openprocurement.tender.pricequotation.tests.data import *
 
 
@@ -48,7 +48,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
     periods = PERIODS
     meta_initial_bids = test_bids
     init_awards = True
-    tender_class = PriceQuotationTender
+    tender_class = Tender
 
     def setUp(self):
         super(BaseTenderWebTest, self).setUp()

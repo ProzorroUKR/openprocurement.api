@@ -28,6 +28,7 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     create_tender_invalid,
     create_tender_with_inn,
     create_tender_draft_with_criteria,
+    create_tender_draft_with_criteria_expected_values,
 
     invalid_tender_conditions,
     patch_tender,
@@ -41,6 +42,8 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     lost_contract_for_active_award,
     create_tender_in_not_draft_status,
     patch_tender_status,
+    patch_items_related_buyer_id,
+    tender_criteria_values_type,
 )
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     guarantee,
@@ -56,7 +59,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_with_inn_before,
     tender_token_invalid,
     create_tender_with_required_unit,
-    patch_items_related_buyer_id,
     create_tender_with_earlier_non_required_unit,
 )
 
@@ -67,6 +69,8 @@ class TenderResourceTestMixin:
     test_listing = snitch(listing)
     test_create_tender_draft = snitch(create_tender_draft)
     test_create_tender_draft_with_criteria = snitch(create_tender_draft_with_criteria)
+    test_create_tender_draft_with_criteria_expected_values = snitch(create_tender_draft_with_criteria_expected_values)
+
     test_tender_owner_can_change_in_draft = snitch(tender_owner_can_change_in_draft)
     test_tender_period_update = snitch(tender_period_update)
     test_tender_owner_cannot_change_in_draft = snitch(tender_owner_cannot_change_in_draft)
@@ -112,6 +116,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
         create_tender_with_earlier_non_required_unit
     )
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
+    test_tender_criteria_values_type = snitch(tender_criteria_values_type)
 
 
 @patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",

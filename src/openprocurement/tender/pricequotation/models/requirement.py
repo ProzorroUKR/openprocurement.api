@@ -1,14 +1,14 @@
-from schematics.types import StringType, MD5Type
+from schematics.types import BaseType, StringType, IntType, MD5Type
 from schematics.types.compound import ModelType
 from schematics.transforms import blacklist
 from schematics.validate import ValidationError
 from uuid import uuid4
 from openprocurement.api.models import schematics_default_role, schematics_embedded_role
-from openprocurement.api.models import Model
+from openprocurement.api.models import Model, ListType
 from openprocurement.api.models import Unit as BaseUnit
 from openprocurement.api.utils import get_now, get_first_revision_date
 from openprocurement.api.constants import PQ_CRITERIA_ID_FROM
-from openprocurement.tender.core.validation import validate_value_type
+from openprocurement.tender.pricequotation.validation import validate_value_type, validate_list_of_values_type
 from openprocurement.tender.core.models import get_tender
 
 
@@ -59,9 +59,15 @@ class Requirement(ValidateIdMixing, Model):
     dataType = StringType(required=True,
                           choices=["string", "number", "integer", "boolean"])
     unit = ModelType(Unit)
-    minValue = StringType()
-    maxValue = StringType()
-    expectedValue = StringType()
+    # should be updated cause cancellation isn't
+    # refactored and on cancellation validating uses this model with old tender
+    minValue = BaseType()
+    maxValue = BaseType()
+    expectedValue = BaseType()
+
+    expectedValues = ListType(BaseType(required=True), default=list)
+    expectedMinItems = IntType(min_value=1)
+    expectedMaxItems = IntType(min_value=1)
 
     def validate_minValue(self, data, value):
         validate_value_type(value, data['dataType'])
@@ -71,3 +77,6 @@ class Requirement(ValidateIdMixing, Model):
 
     def validate_expectedValue(self, data, value):
         validate_value_type(value, data['dataType'])
+
+    def validate_expectedValues(self, data, value):
+        validate_list_of_values_type(value, data['dataType'])

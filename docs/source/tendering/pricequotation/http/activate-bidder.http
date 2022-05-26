@@ -58,7 +58,17 @@ X-Content-Type-Options: nosniff
         "requirement": {
           "id": "f7a6209ad4bd4e9a882ae46df39d8561"
         },
-        "value": "5"
+        "value": 5
+      },
+      {
+        "id": "5f2b1501bc04447db467290093454886",
+        "requirement": {
+          "id": "1d869955df9e4996bf6c94ceda8d1920"
+        },
+        "values": [
+          "Відповідь1",
+          "Відповідь2"
+        ]
       }
     ]
   }
