@@ -67,7 +67,7 @@ class TenderContractResource(TenderBaseResource):
 
         self.state.on_post(contract)
 
-        if save_tender(self.request, modified=False):
+        if save_tender(self.request):
             self.LOGGER.info(
                 "Created tender contract {}".format(contract["id"]),
                 extra=context_unpack(
@@ -89,7 +89,7 @@ class TenderContractResource(TenderBaseResource):
             set_item(self.request.validated["tender"], "contracts", contract["id"], updated_contract)
             self.state.on_patch(contract, updated_contract)
 
-            if save_tender(self.request, modified=False):
+            if save_tender(self.request):
                 self.LOGGER.info(
                     f"Updated tender contract {contract['id']}",
                     extra=context_unpack(self.request, {"MESSAGE_ID": "tender_contract_patch"}),
