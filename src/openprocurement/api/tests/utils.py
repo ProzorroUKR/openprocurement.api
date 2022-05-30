@@ -2,100 +2,12 @@
 from pytz import utc, timezone
 
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.api.utils import APIResourceListing, get_currency_rates, get_uah_amount_from_value, parse_date
+from openprocurement.api.utils import get_currency_rates, get_uah_amount_from_value, parse_date
 from pyramid.testing import DummyRequest, testConfig
 from requests.exceptions import ConnectionError
 from datetime import datetime
 from mock import Mock, patch
 import unittest
-
-
-class ItemsListing(APIResourceListing):
-    def __init__(self, request, context):
-        super(ItemsListing, self).__init__(request, context)
-
-        results = (
-            Mock(
-                key=k,
-                value={
-                    "status": "active",
-                    "title": "title#%d" % k,
-                    "description": "description#%d" % k,
-                    "bids": [1, k],
-                },
-            )
-            for k in range(5)
-        )
-
-        self.view_mock = Mock(return_value=results)
-        self.test_view_mock = Mock(return_value=results)
-        self.changes_view_mock = Mock(return_value=results)
-        self.test_changes_view_mock = Mock(return_value=results)
-        self.VIEW_MAP = {"": self.view_mock, "test": self.test_view_mock}
-        self.CHANGES_VIEW_MAP = {"": self.changes_view_mock, "test": self.test_changes_view_mock}
-        self.FEED = {"dateModified": self.VIEW_MAP, "changes": self.CHANGES_VIEW_MAP}
-        self.FIELDS = ("id", "status", "title", "description")
-
-        def item_serialize(_, data, fields):
-            return {i: j for i, j in data.items() if i in fields}
-
-        self.serialize_func = item_serialize
-        self.object_name_for_listing = "health"
-        self.log_message_id = "items_list_custom"
-
-
-class ResourceListingTestCase(BaseWebTest):
-    def setUp(self):
-        self.request = DummyRequest()
-        self.request.logging_context = {}
-        self.request._registry = self.app.app.registry
-        self.listing = ItemsListing(self.request, {})
-
-    def get_listing(self):
-        return self.listing.get()
-
-    def test_get_listing(self):
-        self.get_listing()
-        self.listing.view_mock.assert_called_once_with(
-            self.db, startkey="", stale="update_after", descending=False, limit=100
-        )
-
-    def test_get_test_listing(self):
-        self.request.params = {"opt_fields": "id,status", "mode": "test"}
-        self.get_listing()
-        self.listing.test_view_mock.assert_called_once_with(
-            self.db, startkey="", stale="update_after", descending=False, limit=100
-        )
-
-    def test_get_changes_listing(self):
-        self.request.params = {"opt_fields": "id,status", "feed": "changes"}
-        self.get_listing()
-        self.listing.changes_view_mock.assert_called_once_with(
-            self.db, startkey=0, stale="update_after", descending=False, limit=100
-        )
-
-    def test_get_test_changes_listing(self):
-        self.request.params = {"opt_fields": "id,status", "feed": "changes", "mode": "test"}
-        self.get_listing()
-        self.listing.test_changes_view_mock.assert_called_once_with(
-            self.db, startkey=0, stale="update_after", descending=False, limit=100
-        )
-
-    def test_get_listing_opt_fields_subset(self):
-        self.request.params = {"opt_fields": "id,status"}
-        self.get_listing()
-        self.listing.view_mock.assert_called_once_with(
-            self.db, startkey="", stale="update_after", descending=False, limit=100
-        )
-
-    def test_get_listing_opt_fields_not_subset(self):
-        self.request.params = {"opt_fields": "id,status,title,description,bids"}
-        data = self.get_listing()
-        self.listing.view_mock.assert_called_once_with(
-            self.db, startkey="", stale="update_after", descending=False, limit=100
-        )
-        self.assertEqual(len(data["data"]), 5)
-        self.assertEqual(set(data["data"][0].keys()), {"id", "status", "title", "description", "dateModified"})
 
 
 class GetCurrencyRatesTestCase(unittest.TestCase):

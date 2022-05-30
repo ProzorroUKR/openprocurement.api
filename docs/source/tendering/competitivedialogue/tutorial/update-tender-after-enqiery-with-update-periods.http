@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/e16419902ba94afd92483305d6369505?acc_token=afb4b304b0aa4ea4ba19e1f03725bf1e HTTP/1.0
+PATCH /api/2.5/tenders/8c90145216a24d5aa75953a94a96160d?acc_token=afb4b304b0aa4ea4ba19e1f03725bf1e HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 155
 Content-Type: application/json
@@ -625,7 +625,7 @@ X-Content-Type-Options: nosniff
     "documents": [
       {
         "language": "uk",
-        "id": "bf2b73185c7644999f4c772fd7dbc4b7",
+        "id": "b794c002af9d41b38635ec85aa15a35a",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
@@ -637,7 +637,7 @@ X-Content-Type-Options: nosniff
       },
       {
         "language": "uk",
-        "id": "19fcd74e8e884158873085b65694b1dc",
+        "id": "dcd3545e2293415f8afcb323585191bf",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
@@ -649,7 +649,7 @@ X-Content-Type-Options: nosniff
       },
       {
         "language": "uk",
-        "id": "19fcd74e8e884158873085b65694b1dc",
+        "id": "dcd3545e2293415f8afcb323585191bf",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
@@ -816,7 +816,7 @@ X-Content-Type-Options: nosniff
         "description_en": "Services in school canteens"
       }
     ],
-    "id": "e16419902ba94afd92483305d6369505"
+    "id": "8c90145216a24d5aa75953a94a96160d"
   }
 }
 

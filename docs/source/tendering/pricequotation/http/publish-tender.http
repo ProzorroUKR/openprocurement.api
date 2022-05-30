@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/3918c546cae44ca28c93e2cacf0db558?acc_token=6c5b8c2a46c74e23b82335300e9f250c HTTP/1.0
+PATCH /api/2.5/tenders/3b7d7a7b947547cc8ea4ee63b80ac592?acc_token=6c5b8c2a46c74e23b82335300e9f250c HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 40
 Content-Type: application/json
@@ -22,7 +22,6 @@ X-Content-Type-Options: nosniff
     "owner": "broker",
     "title": "Комп’ютерне обладнання",
     "mainProcurementCategory": "goods",
-    "procurementMethodDetails": "quick, accelerator=1440",
     "procurementMethodType": "priceQuotation",
     "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
@@ -171,7 +170,7 @@ X-Content-Type-Options: nosniff
       }
     ],
     "noticePublicationDate": "2021-03-16T00:00:00+02:00",
-    "id": "3918c546cae44ca28c93e2cacf0db558"
+    "id": "3b7d7a7b947547cc8ea4ee63b80ac592"
   }
 }
 

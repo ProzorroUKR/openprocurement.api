@@ -14,7 +14,6 @@ from openprocurement.framework.core.validation import validate_patch_agreement_d
 from openprocurement.framework.electroniccatalogue.models import Agreement
 from openprocurement.framework.electroniccatalogue.utils import check_contract_statuses, check_agreement_status
 from openprocurement.framework.electroniccatalogue.validation import validate_agreement_operation_not_in_allowed_status
-from openprocurement.framework.core.design import agreements_filter_by_classification_id
 
 
 @agreementsresource(
@@ -71,19 +70,11 @@ class AgreementFilterByClassificationResource(APIResource):
         elif additional_classifications:
             additional_classifications = set(additional_classifications.split(","))
 
-        key = [classification_id]
-        res = agreements_filter_by_classification_id(self.request.registry.databases.agreements, key=key)
-
+        results = self.request.registry.mongodb.agreements.list_by_classification_id(classification_id)
         if isinstance(additional_classifications, set):
             results = [
-                x.value
-                for x in res
-                if {i['id'] for i in x.value.get("additionalClassifications", "")} == additional_classifications
-            ]
-        else:
-            results = [
-                x.value
-                for x in res
+                x for x in results
+                if {i['id'] for i in x.get("additionalClassifications", "")} == additional_classifications
             ]
 
         data = {
@@ -118,11 +109,7 @@ class AgreementMixin:
             transfer_token = sha512(transfer.encode("utf-8")).hexdigest()
             agreement_data = {
                 "id": agreement_id,
-                "agreementID": generate_agreementID(
-                    get_now(),
-                    self.request.registry.databases.agreements,
-                    self.server_id
-                ),
+                "agreementID": generate_agreementID(self.request),
                 "frameworkID": framework_data["id"],
                 "agreementType": framework_data["frameworkType"],
                 "status": "active",
@@ -146,7 +133,7 @@ class AgreementMixin:
 
             self.request.validated["agreement_src"] = {}
             self.request.validated["agreement"] = agreement
-            if save_agreement(self.request):
+            if save_agreement(self.request, insert=True):
                 self.LOGGER.info(
                     "Created agreement {}".format(agreement_id),
                     extra=context_unpack(

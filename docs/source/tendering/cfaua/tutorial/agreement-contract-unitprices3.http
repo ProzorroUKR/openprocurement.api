@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/6f00022409bb4e73b5f698801518e0db/agreements/0fea7d7c4c8649f5a499885d630671f5/contracts/4b5cb6ae595b43a48a5a1ac2001d1dcb?acc_token=a4dab218398a4cc8a8004a91d3ba9744 HTTP/1.0
+PATCH /api/2.5/tenders/dea691b943a946a8957e9be95bc51a06/agreements/0fea7d7c4c8649f5a499885d630671f5/contracts/4b5cb6ae595b43a48a5a1ac2001d1dcb?acc_token=a4dab218398a4cc8a8004a91d3ba9744 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 184
 Content-Type: application/json
@@ -72,7 +72,7 @@ X-Content-Type-Options: nosniff
       }
     ],
     "awardID": "506156d094d94cc3b93831b94e6b7290",
-    "bidID": "b142414a5dc84ec0a828ba7e3d5f3513",
+    "bidID": "57508fba450446f89e32ff9cd4d81348",
     "date": "2021-03-16T00:00:00+02:00"
   }
 }

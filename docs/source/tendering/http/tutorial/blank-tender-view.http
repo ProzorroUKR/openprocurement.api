@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/0fb28ed17f544dfa8a89ddb534e0b3d9 HTTP/1.0
+GET /api/2.5/tenders/1e1c35ea6a97449c857edabef72e7225 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -123,7 +123,7 @@ X-Content-Type-Options: nosniff
     "date": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
     "dateCreated": "2021-03-16T00:00:00+02:00",
-    "id": "0fb28ed17f544dfa8a89ddb534e0b3d9"
+    "id": "1e1c35ea6a97449c857edabef72e7225"
   }
 }
 

@@ -8,8 +8,12 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "frameworkID": "3176109c7572429b99dbc5707a10617c",
       "qualificationID": "46df298c7ea542c291830c9610a09781",
+      "frameworkID": "3176109c7572429b99dbc5707a10617c",
+      "dateCreated": "2021-04-01T01:00:00+03:00",
+      "dateModified": "2021-04-01T01:00:00+03:00",
+      "date": "2021-04-01T01:00:00+03:00",
+      "datePublished": "2021-04-01T01:00:00+03:00",
       "status": "complete",
       "tenderers": [
         {
@@ -34,15 +38,15 @@ X-Content-Type-Options: nosniff
           }
         }
       ],
-      "date": "2021-04-01T01:00:00+03:00",
-      "datePublished": "2021-04-01T01:00:00+03:00",
-      "dateModified": "2021-04-01T01:00:00+03:00",
-      "id": "7f0bddee73c749c48914890b109a3946",
-      "dateCreated": "2021-04-01T01:00:00+03:00"
+      "id": "7f0bddee73c749c48914890b109a3946"
     },
     {
-      "frameworkID": "3176109c7572429b99dbc5707a10617c",
       "qualificationID": "04ceb9dba9aa4ee5a175baae9b05c9b5",
+      "frameworkID": "3176109c7572429b99dbc5707a10617c",
+      "dateCreated": "2021-04-01T01:00:00+03:00",
+      "dateModified": "2021-04-01T01:00:00+03:00",
+      "date": "2021-04-01T01:00:00+03:00",
+      "datePublished": "2021-04-01T01:00:00+03:00",
       "status": "complete",
       "tenderers": [
         {
@@ -67,16 +71,13 @@ X-Content-Type-Options: nosniff
           }
         }
       ],
-      "date": "2021-04-01T01:00:00+03:00",
-      "datePublished": "2021-04-01T01:00:00+03:00",
-      "dateModified": "2021-04-01T01:00:00+03:00",
-      "id": "f2e160b74b4b4120ae4acc472545162c",
-      "dateCreated": "2021-04-01T01:00:00+03:00"
+      "id": "f2e160b74b4b4120ae4acc472545162c"
     }
   ],
-  "count": 2,
-  "page": 1,
-  "limit": 100,
-  "total": 2
+  "next_page": {
+    "offset": 1617228000.0,
+    "path": "/api/2.5/frameworks/3176109c7572429b99dbc5707a10617c/submissions?offset=1617228000.0",
+    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/3176109c7572429b99dbc5707a10617c/submissions?offset=1617228000.0"
+  }
 }
 

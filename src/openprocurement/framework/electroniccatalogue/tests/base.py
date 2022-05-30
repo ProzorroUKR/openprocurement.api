@@ -9,7 +9,7 @@ import standards
 from openprocurement.api.tests.base import BaseWebTest, change_auth
 from openprocurement.api.utils import get_now, apply_data_patch, parse_date
 from openprocurement.framework.core.tests.base import BaseCoreWebTest
-from openprocurement.framework.electroniccatalogue.models import Framework
+from openprocurement.framework.electroniccatalogue.models import Framework, Submission, Agreement
 from openprocurement.framework.electroniccatalogue.tests.periods import PERIODS
 
 
@@ -171,14 +171,10 @@ disqualification_milestone_data_with_documents = {
 class BaseApiWebTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
     initial_auth = ("Basic", ("broker", ""))
-    enable_couch = True
-    database_keys = ("frameworks", "submissions", "qualifications")
 
 
 class BaseElectronicCatalogueWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
-    enable_couch = True
-    database_keys = ("frameworks", "submissions", "qualifications", "agreements")
     initial_data = test_electronicCatalogue_data
     framework_class = Framework
     docservice = False
@@ -191,6 +187,14 @@ class BaseElectronicCatalogueWebTest(BaseCoreWebTest):
         self.framework_document = response.json["data"]
         self.framework_token = response.json["access"]["token"]
         self.framework_id = response.json["data"]["id"]
+
+    def save_changes(self):
+        if self.framework_document_patch:
+            patch = apply_data_patch(self.framework_document, self.framework_document_patch)
+            self.framework_document.update(patch)
+            self.mongodb.frameworks.save(Framework(self.framework_document))
+            self.framework_document = self.mongodb.frameworks.get(self.framework_id)
+            self.framework_document_patch = {}
 
 
 class ElectronicCatalogueContentWebTest(BaseElectronicCatalogueWebTest):
@@ -218,7 +222,7 @@ class BaseSubmissionContentWebTest(ElectronicCatalogueContentWebTest):
 
     def set_submission_status(self, status, extra=None):
         self.now = get_now()
-        self.submission_document = self.databases.submissions.get(self.submission_id)
+        self.submission_document = self.mongodb.submissions.get(self.submission_id)
         self.submission_document_patch = {"status": status}
         if extra:
             self.submission_document_patch.update(extra)
@@ -229,8 +233,8 @@ class BaseSubmissionContentWebTest(ElectronicCatalogueContentWebTest):
         if self.submission_document_patch:
             patch = apply_data_patch(self.submission_document, self.submission_document_patch)
             self.submission_document.update(patch)
-            self.databases.submissions.save(self.submission_document)
-            self.submission_document = self.databases.submissions.get(self.submission_id)
+            self.mongodb.submissions.save(Submission(self.submission_document))
+            self.submission_document = self.mongodb.submissions.get(self.submission_id)
             self.submission_document_patch = {}
 
     def create_submission(self):
@@ -264,7 +268,7 @@ class SubmissionContentWebTest(BaseSubmissionContentWebTest):
 class BaseAgreementContentWebTest(SubmissionContentWebTest):
     def set_agreement_status(self, status, extra=None):
         self.now = get_now()
-        self.agreement_document = self.databases.agreements.get(self.agreement_id)
+        self.agreement_document = self.mongodb.agreements.get(self.agreement_id)
         self.agreement_document_patch = {"status": status}
         if extra:
             self.agreement_document_patch.update(extra)
@@ -275,8 +279,8 @@ class BaseAgreementContentWebTest(SubmissionContentWebTest):
         if self.agreement_document_patch:
             patch = apply_data_patch(self.agreement_document, self.agreement_document_patch)
             self.agreement_document.update(patch)
-            self.databases.agreements.save(self.agreement_document)
-            self.agreement_document = self.databases.agreements.get(self.agreement_id)
+            self.mongodb.agreements.save(Agreement(self.agreement_document))
+            self.agreement_document = self.mongodb.agreements.get(self.agreement_id)
             self.agreement_document_patch = {}
 
     def get_agreement(self, role):
@@ -298,7 +302,7 @@ class BaseAgreementContentWebTest(SubmissionContentWebTest):
 
     def set_contract_status(self, status):
         self.now = get_now()
-        self.agreement_document = self.databases.agreements.get(self.agreement_id)
+        self.agreement_document = self.mongodb.agreements.get(self.agreement_id)
         self.agreement_document_patch = deepcopy(self.agreement_document)
         for contract in self.agreement_document_patch["contracts"]:
             if contract["id"] == self.contract_id:

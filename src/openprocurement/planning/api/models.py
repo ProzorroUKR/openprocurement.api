@@ -2,10 +2,8 @@
 from itertools import chain
 from uuid import uuid4
 from copy import deepcopy
-
-from openprocurement.api.models import OpenprocurementSchematicsDocument as SchematicsDocument
 from openprocurement.api.models import Document as BaseDocument
-from openprocurement.api.models import Model, Period
+from openprocurement.api.models import Model, Period, RootModel
 from openprocurement.api.models import Unit, CPVClassification, Classification, Identifier, Guarantee, Address
 from openprocurement.api.models import schematics_embedded_role, schematics_default_role, IsoDateTimeType, ListType
 from openprocurement.api.utils import get_now, get_first_revision_date, to_decimal
@@ -307,7 +305,7 @@ class Milestone(Model):
 
 
 @implementer(IPlan)
-class Plan(SchematicsDocument, Model):
+class Plan(RootModel):
     """Plan model"""
 
     class Options:
@@ -399,11 +397,6 @@ class Plan(SchematicsDocument, Model):
 
     def __repr__(self):
         return "<%s:%r@%r>" % (type(self).__name__, self.id, self.rev)
-
-    @serializable(serialized_name="id")
-    def doc_id(self):
-        """A property that is serialized by schematics exports."""
-        return self._id
 
     @serializable(serialized_name="status")
     def switch_status(self):

@@ -1,10 +1,7 @@
-# -*- coding: utf-8 -*-
-from openprocurement.api.utils import context_unpack, json_view, APIResource, APIResourceListing
-
+from openprocurement.api.utils import context_unpack, json_view, APIResource, MongodbResourceListing, generate_id
 from openprocurement.contracting.api.utils import (
     contractingresource,
     apply_patch,
-    contract_serialize,
     set_ownership,
     save_contract,
     get_transaction_by_id,
@@ -27,49 +24,23 @@ from openprocurement.contracting.api.validation import (
     validate_update_item_required_classifications_unchanged,
     validate_contract_patch_items_amount_unchanged,
 )
-from openprocurement.contracting.api.design import (
-    FIELDS,
-    contracts_by_dateModified_view,
-    contracts_real_by_dateModified_view,
-    contracts_test_by_dateModified_view,
-    contracts_by_local_seq_view,
-    contracts_real_by_local_seq_view,
-    contracts_test_by_local_seq_view,
-)
 from openprocurement.tender.core.validation import validate_update_contract_value_net_required
-
-VIEW_MAP = {
-    "": contracts_real_by_dateModified_view,
-    "test": contracts_test_by_dateModified_view,
-    "_all_": contracts_by_dateModified_view,
-}
-
-CHANGES_VIEW_MAP = {
-    "": contracts_real_by_local_seq_view,
-    "test": contracts_test_by_local_seq_view,
-    "_all_": contracts_by_local_seq_view,
-}
-
-FEED = {"dateModified": VIEW_MAP, "changes": CHANGES_VIEW_MAP}
 
 
 @contractingresource(name="Contracts", path="/contracts", description="Contracts")
-class ContractsResource(APIResourceListing):
+class ContractsResource(MongodbResourceListing):
+
     def __init__(self, request, context):
-        super(ContractsResource, self).__init__(request, context)
-        # params for listing
-        self.VIEW_MAP = VIEW_MAP
-        self.CHANGES_VIEW_MAP = CHANGES_VIEW_MAP
-        self.FEED = FEED
-        self.FIELDS = FIELDS
-        self.serialize_func = contract_serialize
-        self.object_name_for_listing = "Contracts"
-        self.log_message_id = "contract_list_custom"
-        self.db = request.registry.databases.contracts
+        super().__init__(request, context)
+        self.listing_name = "Contracts"
+        self.listing_default_fields = {"dateModified"}
+        self.all_fields = {"dateCreated", "contractID", "dateModified"}
+        self.db_listing_method = request.registry.mongodb.contracts.list
 
     @json_view(content_type="application/json", permission="create_contract", validators=(validate_contract_data,))
     def post(self):
         contract = self.request.validated["contract"]
+        contract.id = self.request.validated["json_data"].get("id")  # TODO: make the model accept "id" from data ?
         for i in self.request.validated["json_data"].get("documents", []):
             doc = type(contract).documents.model_class(i)
             doc.__parent__ = contract
@@ -77,7 +48,7 @@ class ContractsResource(APIResourceListing):
 
         self.request.validated["contract"] = contract
         self.request.validated["contract_src"] = {}
-        if save_contract(self.request):
+        if save_contract(self.request, insert=True):
             self.LOGGER.info(
                 "Created contract {} ({})".format(contract.id, contract.contractID),
                 extra=context_unpack(
@@ -134,9 +105,6 @@ class ContractResource(ContractsResource):
     name="Contract credentials", path="/contracts/{contract_id}/credentials", description="Contract credentials"
 )
 class ContractCredentialsResource(APIResource):
-    def __init__(self, request, context):
-        super(ContractCredentialsResource, self).__init__(request, context)
-        self.server = request.registry.couchdb_server
 
     @json_view(permission="generate_credentials", validators=(validate_credentials_generate,))
     def patch(self):
@@ -157,9 +125,6 @@ class ContractCredentialsResource(APIResource):
     description="Contract transactions",
 )
 class ContractTransactionsResource(APIResource):
-    def __init__(self, request, context):
-        super(ContractTransactionsResource, self).__init__(request, context)
-        self.server = request.registry.couchdb_server
 
     @json_view(
         content_type="application/json",

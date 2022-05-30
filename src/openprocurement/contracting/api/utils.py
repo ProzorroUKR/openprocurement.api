@@ -30,14 +30,10 @@ LOGGER = getLogger("openprocurement.contracting.api")
 
 
 def extract_contract(request):
-    db = request.registry.databases.contracts
+    db = request.registry.mongodb.contracts
     contract_id = request.matchdict["contract_id"]
     doc = db.get(contract_id)
-    if doc is not None and doc.get("doc_type") == "contract":
-        request.errors.add("url", "contract_id", "Archived")
-        request.errors.status = 410
-        raise error_handler(request)
-    elif doc is None or doc.get("doc_type") != "Contract":
+    if doc is None:
         request.errors.add("url", "contract_id", "Not Found")
         request.errors.status = 404
         raise error_handler(request)
@@ -59,11 +55,7 @@ def contract_serialize(request, contract_data, fields):
     return dict([(i, j) for i, j in contract.serialize("view").items() if i in fields])
 
 
-def save_contract(request):
-    """ Save contract object to database
-    :param request:
-    :return: True if Ok
-    """
+def save_contract(request, insert=False):
     contract = request.validated["contract"]
 
     if contract.mode == "test":
@@ -77,7 +69,10 @@ def save_contract(request):
         contract.dateModified = get_now()
 
         with handle_store_exceptions(request):
-            contract.store(request.registry.databases.contracts)
+            request.registry.mongodb.contracts.save(
+                contract,
+                insert=insert,
+            )
             LOGGER.info(
                 "Saved contract {}: dateModified {} -> {}".format(
                     contract.id,

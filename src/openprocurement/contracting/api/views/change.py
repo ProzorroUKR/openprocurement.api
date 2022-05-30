@@ -31,10 +31,6 @@ from openprocurement.contracting.api.validation import (
 class ContractsChangesResource(APIResource):
     """ Contract changes resource """
 
-    def __init__(self, request, context):
-        super(ContractsChangesResource, self).__init__(request, context)
-        self.server = request.registry.couchdb_server
-
     @json_view(permission="view_contract")
     def collection_get(self):
         """ Return Contract Changes list """

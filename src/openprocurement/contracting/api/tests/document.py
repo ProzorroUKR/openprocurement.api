@@ -18,8 +18,6 @@ from openprocurement.contracting.api.tests.document_blanks import (
 
 
 class ContractDocumentResourceTest(BaseContractContentWebTest):
-    docservice = False
-
     test_not_found = snitch(not_found)
     test_create_contract_documnet = snitch(create_contract_document)
     test_put_contract_document = snitch(put_contract_document)
@@ -28,7 +26,6 @@ class ContractDocumentResourceTest(BaseContractContentWebTest):
 
 
 class ContractDocumentWithDSResourceTest(ContractDocumentResourceTest):
-    docservice = True
 
     test_create_contract_documnet_json_invalid = snitch(create_contract_document_json_invalid)
     test_create_contract_documnet_json = snitch(create_contract_document_json)

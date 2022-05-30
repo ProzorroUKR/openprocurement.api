@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/92b9de951a404e66bbfec5d4e46ad999?acc_token=17dcad4d4a5b4461a8403f8743073135 HTTP/1.0
+PATCH /api/2.5/tenders/0b330892c8b64ac98de88d220d7e86fe?acc_token=17dcad4d4a5b4461a8403f8743073135 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 2250
 Content-Type: application/json
@@ -849,7 +849,7 @@ X-Content-Type-Options: nosniff
       "startDate": "2021-03-16T00:00:00+02:00",
       "endDate": "2021-04-12T00:00:00+03:00"
     },
-    "id": "92b9de951a404e66bbfec5d4e46ad999"
+    "id": "0b330892c8b64ac98de88d220d7e86fe"
   }
 }
 

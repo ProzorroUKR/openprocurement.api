@@ -1,4 +1,4 @@
-PATCH /api/2.5/plans/1131a06ea85b4e8983fa448019d5209d?acc_token=bb72eca2bbb94797bdf6b0a0cff0b5a2 HTTP/1.0
+PATCH /api/2.5/plans/1131a06ea85b4e8983fa448019d5209d?acc_token=4bb061893b8941f3b0a5fa0c537f67f7 HTTP/1.0
 Authorization: Bearer broker1
 Content-Length: 72
 Content-Type: application/json
@@ -18,7 +18,7 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "procuringEntity": {
-      "id": "060f89af2e8a473dbcb0bb755e22d1c0",
+      "id": "ec9b5fe0702a45bca10c832cdfc5fe12",
       "name": "ДУС",
       "identifier": {
         "scheme": "UA-EDR",
@@ -57,7 +57,7 @@ X-Content-Type-Options: nosniff
       },
       "breakdown": [
         {
-          "id": "a24ea5c3dc65435c959e6b05d4f44f08",
+          "id": "3d702898cff445d98c1634084281b643",
           "title": "other",
           "description": "Breakdown other description.",
           "value": {
@@ -82,7 +82,7 @@ X-Content-Type-Options: nosniff
     "planID": "UA-P-2021-03-16-000001",
     "items": [
       {
-        "id": "981a35928d7d47d4a9ae6f539e770ef7",
+        "id": "937fede9dcb44c8f8c50ad05bf710080",
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
@@ -107,7 +107,7 @@ X-Content-Type-Options: nosniff
         "description": "Насіння гірчиці"
       },
       {
-        "id": "20c1d411a5a949aa82d1a42d5488e7e1",
+        "id": "02aade74cd7c4318a9fdbb0336205cd4",
         "classification": {
           "description": "Sunflower seeds",
           "scheme": "ДК021",
@@ -132,7 +132,7 @@ X-Content-Type-Options: nosniff
         "description": "Насіння соняшнику"
       },
       {
-        "id": "0cb7cd92c71f49599c068abd8a410ef8",
+        "id": "b2d1db44ac4744e6a721d72338043949",
         "classification": {
           "description": "Cotton seeds",
           "scheme": "ДК021",
@@ -159,7 +159,7 @@ X-Content-Type-Options: nosniff
     ],
     "buyers": [
       {
-        "id": "b0af110d237240a6b7262308d893a2f3",
+        "id": "a5ccde3069dc4eddb29d41190b227bd8",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",

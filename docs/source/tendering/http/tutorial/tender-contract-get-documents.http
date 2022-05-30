@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/0fb28ed17f544dfa8a89ddb534e0b3d9/contracts/b8fc5ea92b2f49949263befaaef2db53/documents HTTP/1.0
+GET /api/2.5/tenders/1e1c35ea6a97449c857edabef72e7225/contracts/b8fc5ea92b2f49949263befaaef2db53/documents HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -13,7 +13,7 @@ X-Content-Type-Options: nosniff
       "format": "application/msword",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7158e9eba59844d0b34ef5d4ecca8b05?Signature=B9C0uma4%2FL9IHMWqJ%2B8VbWe1zNtY2roZdsO%2FvRQAm2SrDUNwp8%2B8EQIAdOQlogvcsRr%2Bey7GQog8hD9LxG4LCQ%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
-      "id": "27ac00da48a748cd861a96a9c92f3b46",
+      "id": "6ea2aeed1eb3404b93aeafe2e6d4441e",
       "datePublished": "2021-03-16T00:00:03+02:00",
       "dateModified": "2021-03-16T00:00:03+02:00"
     }

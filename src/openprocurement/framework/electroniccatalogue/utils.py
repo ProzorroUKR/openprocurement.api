@@ -7,9 +7,6 @@ from dateorro import calc_normalized_datetime, calc_working_datetime, calc_datet
 
 from openprocurement.api.constants import WORKING_DAYS, FRAMEWORK_ENQUIRY_PERIOD_OFF_FROM
 from openprocurement.api.utils import get_now, context_unpack, error_handler, get_first_revision_date
-from openprocurement.framework.core.design import (
-    submissions_by_framework_id_total_view,
-)
 from openprocurement.framework.core.utils import (
     ENQUIRY_PERIOD_DURATION,
     SUBMISSION_STAND_STILL_DURATION,
@@ -69,14 +66,8 @@ def get_framework_unsuccessful_status_check_date(framework):
 
 
 def get_framework_number_of_submissions(request, framework):
-    total_submission_results = submissions_by_framework_id_total_view(
-        request.registry.databases.submissions,
-        startkey=[framework.id, None],
-        endkey=[framework.id, {}]
-    )
-    if total_submission_results:
-        return [e.value for e in total_submission_results][0]
-    return 0
+    result = request.registry.mongodb.submissions.count_total_submissions_by_framework_id(framework.id)
+    return result
 
 
 def check_status(request):

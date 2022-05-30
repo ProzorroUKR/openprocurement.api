@@ -332,7 +332,7 @@ def test_success_plan_tenders_creation(app, request_tender_data):
     plan = create_plan_for_tender(app, request_tender_data, request_plan_data)
 
     if request_tender_data["procurementMethodType"] == "priceQuotation" and "agreement" in request_tender_data:
-        db = app.app.registry.databases.agreements
+        db = app.app.registry.mongodb.agreements
         db.get = MagicMock(return_value={"id": request_tender_data["agreement"]["id"]})
 
     response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {"data": request_tender_data})

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/17a82f12536e405c88db7f654bb215f5/bids/7b97714f142c430b98dd609d94a9e441/financial_documents?acc_token=1faa8b766a674147a2f29548b26c1b55 HTTP/1.0
+GET /api/2.5/tenders/b68a79fc566a4d49b80369c0ed01748d/bids/406646e317bc4aeca335869b157ab08d/financial_documents?acc_token=1faa8b766a674147a2f29548b26c1b55 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -15,7 +15,7 @@ X-Content-Type-Options: nosniff
       "documentOf": "tender",
       "confidentiality": "public",
       "language": "uk",
-      "id": "0c9fff4eb20b4184a98742e4b5482090",
+      "id": "a918fed068ca461487862d00e875f7e6",
       "datePublished": "2021-03-16T00:00:00+02:00",
       "dateModified": "2021-03-16T00:00:00+02:00"
     },
@@ -27,7 +27,7 @@ X-Content-Type-Options: nosniff
       "documentOf": "tender",
       "confidentiality": "public",
       "language": "uk",
-      "id": "eedddc200fd242d684df6fedee82411b",
+      "id": "b6702157144547c2a083bef02a42ee69",
       "datePublished": "2021-03-16T00:00:00+02:00",
       "dateModified": "2021-03-16T00:00:00+02:00"
     }

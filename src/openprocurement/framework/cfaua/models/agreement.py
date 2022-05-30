@@ -27,6 +27,7 @@ from openprocurement.api.models import (
     AdditionalClassification,
     Address,
     PeriodEndRequired,
+    BaseAddress,
 )
 from openprocurement.api.models import Value as BaseValue
 from openprocurement.api.utils import get_now, get_change_class
@@ -278,6 +279,8 @@ class ChangePartyWithdrawal(Change):
 
 
 class BusinessOrganization(BaseBusinessOrganization):
+    address = ModelType(BaseAddress, required=True)
+
     def validate_scale(self, data, value):
         pass
 
@@ -326,7 +329,7 @@ class Agreement(BaseAgreement):
     class Options:
         _data_fields = whitelist(
             "agreementID", "agreementNumber", "changes", "contracts", "dateSigned", "description",
-            "description_en", "description_ru", "documents", "features", "id", "items", "mode",
+            "description_en", "description_ru", "documents", "features", "doc_id", "items", "mode",
             "numberOfContracts", "owner", "period", "procuringEntity", "status", "tender_id",
             "terminationDetails", "title", "title_en", "title_ru"
         )

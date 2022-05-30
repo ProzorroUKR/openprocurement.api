@@ -23,10 +23,6 @@ from openprocurement.framework.core.utils import save_agreement, apply_patch
 class AgreementChangesResource(APIResource):
     """ Agreement changes resource """
 
-    def __init__(self, request, context):
-        super(AgreementChangesResource, self).__init__(request, context)
-        self.server = request.registry.couchdb_server
-
     @json_view(permission="view_agreement")
     def collection_get(self):
         """ Return Agreement Changes list """

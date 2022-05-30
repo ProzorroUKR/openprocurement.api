@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
 
 from mock import patch
 
 from openprocurement.api.utils import get_now
+from openprocurement.framework.cfaua.models.agreement import Agreement
 
 
 def no_items_agreement_change(self):
@@ -856,9 +856,9 @@ def date_signed_on_change_creation(self):
 
 def change_date_signed_very_old_agreements_data(self):
     # prepare old agreement data
-    agreement = self.databases.agreements.get(self.agreement["id"])
+    agreement = self.mongodb.agreements.get(self.agreement["id"])
     agreement["dateSigned"] = None
-    self.databases.agreements.save(agreement)
+    self.mongodb.agreements.save(Agreement(agreement))
 
     response = self.app.get("/agreements/{}?acc_token={}".format(self.agreement["id"], self.agreement_token))
     self.assertEqual(response.status, "200 OK")
@@ -942,10 +942,10 @@ def change_date_signed_very_old_agreements_data(self):
     self.assertEqual(response.json["data"]["dateSigned"], valid_date)
 
     # prepare old agreement change data
-    agreement = self.databases.agreements.get(self.agreement["id"])
+    agreement = self.mongodb.agreements.get(self.agreement["id"])
     last_change = agreement["changes"][-1]
     last_change["dateSigned"] = None
-    self.databases.agreements.save(agreement)
+    self.mongodb.agreements.save(Agreement(agreement))
 
     response = self.app.get(
         "/agreements/{}/changes/{}?acc_token={}".format(self.agreement["id"], last_change["id"], self.agreement_token)
@@ -990,9 +990,9 @@ def change_date_signed_very_old_agreements_data(self):
 
 def date_signed_on_change_creation_for_very_old_agreements_data(self):
     # prepare old agreement data
-    agreement = self.databases.agreements.get(self.agreement["id"])
+    agreement = self.mongodb.agreements.get(self.agreement["id"])
     agreement["dateSigned"] = None
-    self.databases.agreements.save(agreement)
+    self.mongodb.agreements.save(Agreement(agreement))
 
     response = self.app.get("/agreements/{}?acc_token={}".format(self.agreement["id"], self.agreement_token))
     self.assertEqual(response.status, "200 OK")
@@ -1014,10 +1014,10 @@ def date_signed_on_change_creation_for_very_old_agreements_data(self):
     self.assertEqual(response.json["data"]["status"], "active")
 
     # prepare old agreement change data
-    agreement = self.databases.agreements.get(self.agreement["id"])
+    agreement = self.mongodb.agreements.get(self.agreement["id"])
     last_change = agreement["changes"][-1]
     last_change["dateSigned"] = None
-    self.databases.agreements.save(agreement)
+    self.mongodb.agreements.save(Agreement(agreement))
 
     response = self.app.get(
         "/agreements/{}/changes/{}?acc_token={}".format(self.agreement["id"], last_change["id"], self.agreement_token)

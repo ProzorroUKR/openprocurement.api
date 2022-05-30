@@ -1,6 +1,6 @@
-# -*- coding: utf-8 -*-
 import uuid
 from copy import deepcopy
+from datetime import datetime
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
@@ -119,7 +119,7 @@ def generate_credentials(self):
     self.assertEqual(response.status, "200 OK")
     token = response.json.get("access", {}).get("token")
     self.assertIsNotNone(token)
-    doc = self.databases.agreements.get(self.agreement_id)
+    doc = self.mongodb.agreements.get(self.agreement_id)
     self.assertEqual(doc["owner_token"], token)
 
 
@@ -249,7 +249,8 @@ def empty_listing(self):
     self.assertIn('{\n    "', response.body.decode())
     self.assertIn("callback({", response.body.decode())
 
-    response = self.app.get("/agreements?offset=2015-01-01T00:00:00+02:00&descending=1&limit=10")
+    offset = datetime.fromisoformat("2015-01-01T00:00:00+02:00").timestamp()
+    response = self.app.get(f"/agreements?offset={offset}&descending=1&limit=10")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"], [])
@@ -258,23 +259,17 @@ def empty_listing(self):
     self.assertNotIn("descending=1", response.json["prev_page"]["uri"])
     self.assertIn("limit=10", response.json["prev_page"]["uri"])
 
-    response = self.app.get("/agreements?feed=changes")
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"], [])
-    self.assertEqual(response.json["next_page"]["offset"], "")
-    self.assertNotIn("prev_page", response.json)
-
-    response = self.app.get("/agreements?feed=changes&offset=0", status=404)
+    response = self.app.get("/agreements?offset=latest", status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": "Offset expired/invalid", "location": "url", "name": "offset"}],
+        [{"description": "Invalid offset provided: latest",
+          "location": "querystring", "name": "offset"}],
     )
 
-    response = self.app.get("/agreements?feed=changes&descending=1&limit=10")
+    response = self.app.get("/agreements?descending=1&limit=10")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"], [])
@@ -294,7 +289,7 @@ def listing(self):
     for i in range(3):
         data = deepcopy(self.initial_data)
         data["id"] = uuid.uuid4().hex
-        offset = get_now().isoformat()
+        offset = get_now().timestamp()
         with change_auth(self.app, ("Basic", ("agreements", ""))) as app:
             response = self.app.post_json("/agreements", {"data": data})
         self.assertEqual(response.status, "201 Created")
@@ -303,16 +298,13 @@ def listing(self):
 
     ids = ",".join([i["id"] for i in agreements])
 
-    while True:
-        response = self.app.get("/agreements")
-        self.assertEqual(response.status, "200 OK")
-        self.assertTrue(ids.startswith(",".join([i["id"] for i in response.json["data"]])))
-        if len(response.json["data"]) == 3:
-            break
+    response = self.app.get("/agreements")
+    self.assertEqual(response.status, "200 OK")
+    self.assertTrue(ids.startswith(",".join([i["id"] for i in response.json["data"]])))
 
     self.assertEqual(len(response.json["data"]), 3)
     self.assertEqual(",".join([i["id"] for i in response.json["data"]]), ids)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in agreements]))
     self.assertEqual(
         set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in agreements])
@@ -321,7 +313,7 @@ def listing(self):
         [i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in agreements])
     )
 
-    response = self.app.get("/agreements?offset={}".format(offset))
+    response = self.app.get(f"/agreements?offset={offset}")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 1)
 
@@ -343,14 +335,14 @@ def listing(self):
     response = self.app.get("/agreements", params=[("opt_fields", "agreementID")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "agreementID"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified", "agreementID"})
     self.assertIn("opt_fields=agreementID", response.json["next_page"]["uri"])
 
     response = self.app.get("/agreements?descending=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in agreements]))
     self.assertEqual(
         [i["dateModified"] for i in response.json["data"]],

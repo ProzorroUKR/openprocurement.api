@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/055dc73de1b14564a3409fbcd31c287f HTTP/1.0
+GET /api/2.5/tenders/aa43f375fb7a4dfdb6b777b6a86df5b5 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -9,7 +9,6 @@ X-Content-Type-Options: nosniff
   "data": {
     "mainProcurementCategory": "goods",
     "title": "Комп’ютерне обладнання",
-    "procurementMethodDetails": "quick, accelerator=1440",
     "procurementMethodType": "priceQuotation",
     "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
@@ -162,7 +161,7 @@ X-Content-Type-Options: nosniff
     "date": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
     "dateCreated": "2021-03-16T00:00:00+02:00",
-    "id": "055dc73de1b14564a3409fbcd31c287f"
+    "id": "aa43f375fb7a4dfdb6b777b6a86df5b5"
   }
 }
 

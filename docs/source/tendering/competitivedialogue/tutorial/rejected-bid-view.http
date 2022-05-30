@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/e16419902ba94afd92483305d6369505/bids/c8cf921842b343ae90f0b4666658776e?acc_token=afb4b304b0aa4ea4ba19e1f03725bf1e HTTP/1.0
+GET /api/2.5/tenders/8c90145216a24d5aa75953a94a96160d/bids/5ecdae3390544bbf9721a06d39cf2a61?acc_token=afb4b304b0aa4ea4ba19e1f03725bf1e HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -119,7 +119,7 @@ X-Content-Type-Options: nosniff
         "value": "True"
       }
     ],
-    "id": "c8cf921842b343ae90f0b4666658776e",
+    "id": "5ecdae3390544bbf9721a06d39cf2a61",
     "tenderers": [
       {
         "name": "«Снігур»",

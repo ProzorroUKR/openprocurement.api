@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-from copy import deepcopy
 from contextlib import contextmanager
 from mock import patch
 from datetime import timedelta
@@ -7,7 +5,7 @@ from datetime import timedelta
 from paste.deploy.loadwsgi import loadapp
 from types import FunctionType
 from openprocurement.api.constants import VERSION, TWO_PHASE_COMMIT_FROM
-from openprocurement.api.design import sync_design
+from openprocurement.api.database import COLLECTION_CLASSES
 from openprocurement.api.utils import get_now
 import webtest
 import unittest
@@ -15,7 +13,6 @@ import pytest
 import os
 
 
-COUCHBD_NAME_SETTING = "couchdb.db_name"
 wsgiapp = None
 
 
@@ -50,44 +47,6 @@ class PrefixedTestRequest(webtest.app.TestRequest):
 class BaseTestApp(webtest.TestApp):
     RequestClass = PrefixedTestRequest
 
-    def __init__(self, *args, **kwargs):
-        super(BaseTestApp, self).__init__(*args, **kwargs)
-
-    def reset(self):
-        super(BaseTestApp, self).reset()
-        self.recreate_db()
-
-    def recreate_db(self):
-        self.drop_db()
-        return self.create_db()
-
-    def create_db(self):
-        db_name = os.environ.get("DB_NAME", self.app.registry.settings[COUCHBD_NAME_SETTING])
-        self.app.registry.db = self.app.registry.couchdb_server.create(db_name)
-        sync_design(self.app.registry.db)
-        return self.app.registry.db
-
-    def drop_db(self):
-        db_name = self.app.registry.db.name
-        if db_name and db_name in self.app.registry.couchdb_server:
-            self.app.registry.couchdb_server.delete(db_name)
-
-    def get_db(self):
-        if self.app.registry.db:
-            return self.app.registry.db
-
-    def clean_db(self):
-        if self.app.registry.db:
-            rows = self.app.registry.db.get("_all_docs", include_docs=True).get("rows", "")
-            docs = []
-            for row in rows:
-                if row['id'].startswith('_'):
-                    continue
-                doc = row['doc']
-                doc['_deleted'] = True
-                docs.append(doc)
-            self.app.registry.db.update(docs)
-
     def set_initial_status(self, tender, status=None):
         from openprocurement.tender.core.tests.criteria_utils import add_criteria
 
@@ -114,23 +73,11 @@ class BaseWebTest(unittest.TestCase):
     relative_to = os.path.dirname(__file__)
 
     initial_auth = None
-
-    database_keys = tuple()  # specify database keys that used in a test class
-    databases = None
-
-    enable_couch = True
-    mongodb_collections = None
     mongodb = None
 
     @classmethod
     def setUpClass(cls):
         cls.app = cls.AppClass(loadwsgiapp(cls.relative_uri, relative_to=cls.relative_to))
-        if cls.enable_couch:
-            cls.db = cls.app.recreate_db()
-            cls.databases = cls.app.app.registry.databases
-
-            if cls.database_keys:   # work with specific databases
-                cls.clean_databases()
 
         cls.mongodb = cls.app.app.registry.mongodb
         cls.clean_mongodb()
@@ -139,32 +86,13 @@ class BaseWebTest(unittest.TestCase):
         self.app.authorization = self.initial_auth
 
     def tearDown(self):
-        if self.enable_couch:
-            self.app.clean_db()
-            if self.database_keys:
-                self.clean_databases()
         self.clean_mongodb()
 
     @classmethod
     def clean_mongodb(cls):
-        collections = getattr(cls, "mongodb_collections", None)
-        if collections:
-            for collection in collections:
-                getattr(cls.mongodb, collection).flush()
-            cls.mongodb.flush_sequences()
-
-    @classmethod
-    def clean_databases(cls):
-        for db_name in cls.database_keys:
-            database = cls.databases[db_name]
-            docs = []
-            for row in database.get("_all_docs", include_docs=True).get("rows", ""):
-                if row['id'].startswith('_'):
-                    continue
-                doc = row['doc']
-                doc['_deleted'] = True
-                docs.append(doc)
-            database.update(docs)
+        for collection in COLLECTION_CLASSES.keys():
+            getattr(cls.mongodb, collection).flush()
+        cls.mongodb.flush_sequences()
 
     def set_initial_status(self, tender, status=None):
         if not status:
@@ -221,9 +149,7 @@ def singleton_app():
 @pytest.fixture(scope="function")
 def app(singleton_app):
     singleton_app.authorization = None
-    # singleton_app.recreate_db()
     yield singleton_app
-    # singleton_app.drop_db()
     singleton_app.app.registry.mongodb.tenders.flush()
 
 

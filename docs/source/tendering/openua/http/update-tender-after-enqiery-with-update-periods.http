@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/136495241d564e1d82d365ed3977761d?acc_token=65acc4d62e5146a8905f976ac9a4fc21 HTTP/1.0
+PATCH /api/2.5/tenders/1c2191f29ecc447697b2f1509b45060e?acc_token=65acc4d62e5146a8905f976ac9a4fc21 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 155
 Content-Type: application/json
@@ -623,7 +623,7 @@ X-Content-Type-Options: nosniff
     ],
     "documents": [
       {
-        "id": "bf5ede681c9e431a992a12f7fe492b7c",
+        "id": "fc5dcece084f48719e55ce797ba86f28",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
@@ -634,7 +634,7 @@ X-Content-Type-Options: nosniff
         "author": "tender_owner"
       },
       {
-        "id": "628e69bbb3be4d8a8a46541a60d09b3f",
+        "id": "be5968ff3f714b9cb7d6aa33fb800ec0",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
@@ -645,7 +645,7 @@ X-Content-Type-Options: nosniff
         "author": "tender_owner"
       },
       {
-        "id": "628e69bbb3be4d8a8a46541a60d09b3f",
+        "id": "be5968ff3f714b9cb7d6aa33fb800ec0",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
@@ -783,7 +783,7 @@ X-Content-Type-Options: nosniff
       "startDate": "2021-03-01T00:00:00+02:00",
       "endDate": "2021-03-20T00:00:00+02:00"
     },
-    "id": "136495241d564e1d82d365ed3977761d"
+    "id": "1c2191f29ecc447697b2f1509b45060e"
   }
 }
 

@@ -1,8 +1,12 @@
-# -*- coding: utf-8 -*-
+from openprocurement.api.database import COLLECTION_CLASSES
+from openprocurement.framework.core.database import (
+    FrameworkCollection,
+    AgreementCollection,
+    SubmissionCollection,
+    QualificationCollection,
+)
 from logging import getLogger
-
 from pkg_resources import iter_entry_points
-
 from openprocurement.framework.core.utils import (
     extract_doc,
     register_framework_frameworkType,
@@ -23,10 +27,13 @@ LOGGER = getLogger("openprocurement.framework.core")
 
 
 def includeme(config):
-    from openprocurement.framework.core.design import add_design
     LOGGER.info("Init framework.core plugin")
 
-    add_design()
+    COLLECTION_CLASSES["frameworks"] = FrameworkCollection
+    COLLECTION_CLASSES["agreements"] = AgreementCollection
+    COLLECTION_CLASSES["submissions"] = SubmissionCollection
+    COLLECTION_CLASSES["qualifications"] = QualificationCollection
+
     config.add_request_method(extract_doc, "framework", reify=True)
     config.add_request_method(extract_doc, "submission", reify=True)
     config.add_request_method(extract_doc, "qualification", reify=True)

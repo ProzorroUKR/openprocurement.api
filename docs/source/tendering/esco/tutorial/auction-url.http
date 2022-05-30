@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/1707c4e05c834d2281c4917429aed004 HTTP/1.0
+GET /api/2.5/tenders/7378acd602f14dc498b14cc6198a6995 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -610,7 +610,7 @@ X-Content-Type-Options: nosniff
     "documents": [
       {
         "language": "uk",
-        "id": "fe0e171a76a9484690da8f1ca3078c5c",
+        "id": "2a61f1ec8598473dbd3b8d121647e943",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
@@ -622,7 +622,7 @@ X-Content-Type-Options: nosniff
       },
       {
         "language": "uk",
-        "id": "d680c26128134c5d92a6b3f742bdd2e4",
+        "id": "61e2f92d4080455a96aaac63675a4230",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
@@ -634,7 +634,7 @@ X-Content-Type-Options: nosniff
       },
       {
         "language": "uk",
-        "id": "d680c26128134c5d92a6b3f742bdd2e4",
+        "id": "61e2f92d4080455a96aaac63675a4230",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
@@ -785,7 +785,7 @@ X-Content-Type-Options: nosniff
     "qualifications": [
       {
         "id": "fe0ae11e0aa6424da13c071d907f47e1",
-        "bidID": "931f9a28ea1c44bda087fc6d9349405f",
+        "bidID": "c7619b53b6a342b48373cba33d1ce5b4",
         "status": "active",
         "date": "2021-03-16T00:00:00+02:00",
         "qualified": true,
@@ -793,7 +793,7 @@ X-Content-Type-Options: nosniff
       },
       {
         "id": "0c4d4bbcaac24006949175edb0303f8e",
-        "bidID": "ae5a970874fd4292995525fb1c03d678",
+        "bidID": "9ebf618cadb84c7488d4f1a7864e8204",
         "status": "active",
         "date": "2021-03-16T00:00:00+02:00",
         "qualified": true,
@@ -801,7 +801,7 @@ X-Content-Type-Options: nosniff
       },
       {
         "id": "75ff1c03d8cb45ddaa953765af93a1a3",
-        "bidID": "a7cd2c260a0448f5a1bf70345eb8d414",
+        "bidID": "1869f759d3fa418ea2c3162b6fe5fd9c",
         "status": "unsuccessful",
         "date": "2021-03-16T00:00:00+02:00",
         "qualified": false,
@@ -817,8 +817,8 @@ X-Content-Type-Options: nosniff
       "shouldStartAfter": "2021-03-16T00:00:00+02:00",
       "startDate": "2021-03-16T00:00:00+02:00"
     },
-    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/1707c4e05c834d2281c4917429aed004",
-    "id": "1707c4e05c834d2281c4917429aed004"
+    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/7378acd602f14dc498b14cc6198a6995",
+    "id": "7378acd602f14dc498b14cc6198a6995"
   }
 }
 

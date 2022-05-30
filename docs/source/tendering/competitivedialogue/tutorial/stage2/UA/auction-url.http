@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/42b066abf8d74e769bd368279e46441b HTTP/1.0
+GET /api/2.5/tenders/f321c5aade8048bb81ead18ad17d428d HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -44,7 +44,7 @@ X-Content-Type-Options: nosniff
     ],
     "documents": [
       {
-        "id": "e5c4106fb17b4489845c75b507976f5f",
+        "id": "93489aa171d442e7bcf9840fa501ac27",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
@@ -55,7 +55,7 @@ X-Content-Type-Options: nosniff
         "author": "tender_owner"
       },
       {
-        "id": "6999744bdf6d4fb19dd1326dfee6ffda",
+        "id": "5d5fc8e7240f44c2b07f2f7f053923af",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
@@ -66,7 +66,7 @@ X-Content-Type-Options: nosniff
         "author": "tender_owner"
       },
       {
-        "id": "6999744bdf6d4fb19dd1326dfee6ffda",
+        "id": "5d5fc8e7240f44c2b07f2f7f053923af",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
@@ -199,8 +199,8 @@ X-Content-Type-Options: nosniff
       "startDate": "2021-02-16T00:00:00+02:00",
       "endDate": "2021-03-20T00:00:00+02:00"
     },
-    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/42b066abf8d74e769bd368279e46441b",
-    "id": "42b066abf8d74e769bd368279e46441b"
+    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/f321c5aade8048bb81ead18ad17d428d",
+    "id": "f321c5aade8048bb81ead18ad17d428d"
   }
 }
 

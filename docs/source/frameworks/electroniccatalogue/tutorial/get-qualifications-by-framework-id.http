@@ -8,18 +8,11 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "frameworkID": "3176109c7572429b99dbc5707a10617c",
-      "submissionID": "f2e160b74b4b4120ae4acc472545162c",
-      "status": "active",
-      "date": "2021-04-01T01:00:00+03:00",
-      "dateModified": "2021-04-01T01:00:00+03:00",
-      "id": "04ceb9dba9aa4ee5a175baae9b05c9b5",
-      "dateCreated": "2021-04-01T01:00:00+03:00"
-    },
-    {
-      "frameworkID": "3176109c7572429b99dbc5707a10617c",
       "submissionID": "7f0bddee73c749c48914890b109a3946",
-      "status": "unsuccessful",
+      "frameworkID": "3176109c7572429b99dbc5707a10617c",
+      "date": "2021-04-01T01:00:00+03:00",
+      "dateCreated": "2021-04-01T01:00:00+03:00",
+      "dateModified": "2021-04-01T01:00:00+03:00",
       "documents": [
         {
           "id": "35e63c5c0dc64ffba41d96f94c0aab7d",
@@ -31,15 +24,23 @@ X-Content-Type-Options: nosniff
           "dateModified": "2021-04-01T01:00:00+03:00"
         }
       ],
+      "status": "unsuccessful",
+      "id": "46df298c7ea542c291830c9610a09781"
+    },
+    {
+      "submissionID": "f2e160b74b4b4120ae4acc472545162c",
+      "frameworkID": "3176109c7572429b99dbc5707a10617c",
       "date": "2021-04-01T01:00:00+03:00",
+      "dateCreated": "2021-04-01T01:00:00+03:00",
       "dateModified": "2021-04-01T01:00:00+03:00",
-      "id": "46df298c7ea542c291830c9610a09781",
-      "dateCreated": "2021-04-01T01:00:00+03:00"
+      "status": "active",
+      "id": "04ceb9dba9aa4ee5a175baae9b05c9b5"
     }
   ],
-  "count": 2,
-  "page": 1,
-  "limit": 100,
-  "total": 2
+  "next_page": {
+    "offset": 1617228000.0,
+    "path": "/api/2.5/frameworks/3176109c7572429b99dbc5707a10617c/qualifications?offset=1617228000.0",
+    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/3176109c7572429b99dbc5707a10617c/qualifications?offset=1617228000.0"
+  }
 }
 

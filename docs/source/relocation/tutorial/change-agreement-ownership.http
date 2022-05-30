@@ -16,7 +16,6 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "5f2c362583984e0daed42cb21777cee3",
     "agreementID": "UA-2018-07-30-000001-afe4b1ed046845bcae5d675b0b8ca5aa1",
     "status": "active",
     "dateModified": "2021-03-16T00:00:00+02:00",
@@ -34,16 +33,16 @@ X-Content-Type-Options: nosniff
               "id": "00037256",
               "uri": "http://www.dus.gov.ua/"
             },
+            "contactPoint": {
+              "name": "Державне управління справами",
+              "telephone": "+0440000000"
+            },
             "address": {
               "streetAddress": "вул. Банкова, 11, корпус 1",
               "locality": "м. Київ",
               "region": "м. Київ",
               "postalCode": "01220",
               "countryName": "Україна"
-            },
-            "contactPoint": {
-              "name": "Державне управління справами",
-              "telephone": "+0440000000"
             }
           }
         ],
@@ -72,16 +71,16 @@ X-Content-Type-Options: nosniff
               "id": "00037256",
               "uri": "http://www.dus.gov.ua/"
             },
+            "contactPoint": {
+              "name": "Державне управління справами",
+              "telephone": "+0440000000"
+            },
             "address": {
               "streetAddress": "вул. Банкова, 11, корпус 1",
               "locality": "м. Київ",
               "region": "м. Київ",
               "postalCode": "01220",
               "countryName": "Україна"
-            },
-            "contactPoint": {
-              "name": "Державне управління справами",
-              "telephone": "+0440000000"
             }
           }
         ],
@@ -110,16 +109,16 @@ X-Content-Type-Options: nosniff
               "id": "00037256",
               "uri": "http://www.dus.gov.ua/"
             },
+            "contactPoint": {
+              "name": "Державне управління справами",
+              "telephone": "+0440000000"
+            },
             "address": {
               "streetAddress": "вул. Банкова, 11, корпус 1",
               "locality": "м. Київ",
               "region": "м. Київ",
               "postalCode": "01220",
               "countryName": "Україна"
-            },
-            "contactPoint": {
-              "name": "Державне управління справами",
-              "telephone": "+0440000000"
             }
           }
         ],
@@ -198,6 +197,7 @@ X-Content-Type-Options: nosniff
       }
     },
     "tender_id": "f394ae7a792e404c96103b00547a61d5",
+    "id": "5f2c362583984e0daed42cb21777cee3",
     "numberOfContracts": 3
   }
 }

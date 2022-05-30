@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/e16419902ba94afd92483305d6369505/qualifications HTTP/1.0
+GET /api/2.5/tenders/8c90145216a24d5aa75953a94a96160d/qualifications HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -9,7 +9,7 @@ X-Content-Type-Options: nosniff
   "data": [
     {
       "id": "0ef3fa036ea7478199bf19be785c807f",
-      "bidID": "fd70953552a346ecbb2d7f86de89b253",
+      "bidID": "dfbf0f33e1e1475d90d3c6d02b67dd64",
       "status": "pending",
       "date": "2021-03-16T00:00:00+02:00",
       "qualified": false,
@@ -17,7 +17,7 @@ X-Content-Type-Options: nosniff
     },
     {
       "id": "9184916e99354409964d0f87cdf6e709",
-      "bidID": "5534cee2594649ccaa91a9f87caa96e2",
+      "bidID": "6ff0900c7a5c4c9989addd750d469daa",
       "status": "pending",
       "date": "2021-03-16T00:00:00+02:00",
       "qualified": false,
@@ -25,7 +25,7 @@ X-Content-Type-Options: nosniff
     },
     {
       "id": "15b5dcc603f942ccb16be05cc2dedfa6",
-      "bidID": "c8cf921842b343ae90f0b4666658776e",
+      "bidID": "5ecdae3390544bbf9721a06d39cf2a61",
       "status": "pending",
       "date": "2021-03-16T00:00:00+02:00",
       "qualified": false,
@@ -33,7 +33,7 @@ X-Content-Type-Options: nosniff
     },
     {
       "id": "6c9beae67b074584850ff51fa67d8297",
-      "bidID": "858275d219d14850b85c83ea77b91281",
+      "bidID": "a1f34dbd52d4456591f1cfd26afeac48",
       "status": "pending",
       "date": "2021-03-16T00:00:00+02:00",
       "qualified": false,

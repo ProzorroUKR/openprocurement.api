@@ -11,6 +11,7 @@ X-Content-Type-Options: nosniff
     "title": "updated in draft status",
     "description": "Назва предмета закупівлі",
     "date": "2021-03-16T00:00:00+02:00",
+    "dateCreated": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-04-01T01:00:00+03:00",
     "owner": "broker",
     "status": "active",
@@ -89,7 +90,7 @@ X-Content-Type-Options: nosniff
         "dateModified": "2021-03-16T00:00:00+02:00"
       }
     ],
-    "agreementID": "fbf0112e11e4492e933ab5d832c7eac3",
+    "agreementID": "a2078c9d305147f1a9853de36933248a",
     "id": "3176109c7572429b99dbc5707a10617c",
     "next_check": "2021-04-13T00:00:00+02:00"
   }

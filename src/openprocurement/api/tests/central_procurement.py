@@ -58,9 +58,7 @@ def singleton_app():
 @pytest.fixture(scope="function")
 def app(singleton_app):
     singleton_app.authorization = None
-    singleton_app.recreate_db()
     yield singleton_app
-    singleton_app.drop_db()
 
 
 @pytest.mark.parametrize("request_tender_data", test_tenders)

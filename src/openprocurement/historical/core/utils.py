@@ -25,7 +25,6 @@ class Root(object):
 
     def __init__(self, request):
         self.request = request
-        self.db = request.registry.db
 
 
 def get_valid_apply_patch_doc(doc, request, patch):
@@ -57,15 +56,10 @@ def extract_doc(request, doc_type):
         return404(request, "url", "{}_id".format(doc_type.lower()))  # pragma: no cover
     validate_header(request)
 
-    if doc_type in ("Tender", "Plan"):
-        collection = getattr(request.registry.mongodb, f"{doc_type.lower()}s")
-        doc = collection.get(doc_id)
-        if doc is None:
-            return404(request, "url", "{}_id".format(doc_type.lower()))
-    else:
-        doc = request.registry.db.get(doc_id)
-        if doc is None or doc.get("doc_type") != doc_type:
-            return404(request, "url", "{}_id".format(doc_type.lower()))
+    collection = getattr(request.registry.mongodb, f"{doc_type.lower()}s")
+    doc = collection.get(doc_id)
+    if doc is None:
+        return404(request, "url", "{}_id".format(doc_type.lower()))
 
     revisions = doc.pop("revisions", [])
 

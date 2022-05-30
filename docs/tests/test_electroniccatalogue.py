@@ -20,7 +20,6 @@ test_electronicCatalogue_data = deepcopy(test_electronicCatalogue_data)
 
 class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTestMixin):
     AppClass = DumpsWebTestApp
-    database_keys = ("frameworks", "submissions", "agreements", "qualifications")
     relative_to = os.path.dirname(__file__)
     initial_data = test_electronicCatalogue_data
     docservice = True
@@ -234,7 +233,7 @@ class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTes
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'get-submissions-by-framework-id.http', 'w') as self.app.file_obj:
-            response = self.app.get('/frameworks/{}/submissions'.format(self.framework_id, self.submission_id))
+            response = self.app.get('/frameworks/{}/submissions'.format(self.framework_id))
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'get-qualifications-by-framework-id.http', 'w') as self.app.file_obj:

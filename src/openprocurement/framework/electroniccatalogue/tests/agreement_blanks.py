@@ -7,6 +7,7 @@ from freezegun import freeze_time
 
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
+from openprocurement.framework.electroniccatalogue.models import Submission
 from openprocurement.framework.electroniccatalogue.tests.base import (
     test_electronicCatalogue_data,
     ban_milestone_data,
@@ -264,9 +265,9 @@ def patch_contract_active_status(self):
     self.assertEqual(response.json["data"]["status"], "active")
     self.assertEqual(response.json["data"]["contracts"][0]["status"], "active")
 
-    submission = self.databases.submissions.get(self.submission_id)
+    submission = self.mongodb.submissions.get(self.submission_id)
     submission["status"] = "draft"
-    self.databases.submissions.save(submission)
+    self.mongodb.submissions.save(Submission(submission))
 
     response = self.app.patch_json(
         f"/submissions/{self.submission_id}?acc_token={self.submission_token}",
@@ -677,18 +678,18 @@ def put_milestone_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    if self.docservice:
-        self.assertIn("Signature=", response.json["data"]["url"])
-        self.assertIn("KeyID=", response.json["data"]["url"])
-        self.assertNotIn("Expires=", response.json["data"]["url"])
-        key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        milestone = self.app.get(
-            f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
-        ).json["data"]
-        self.assertIn(key, milestone["documents"][-1]["url"])
-        self.assertIn("Signature=", milestone["documents"][-1]["url"])
-        self.assertIn("KeyID=", milestone["documents"][-1]["url"])
-        self.assertNotIn("Expires=", milestone["documents"][-1]["url"])
+
+    self.assertIn("Signature=", response.json["data"]["url"])
+    self.assertIn("KeyID=", response.json["data"]["url"])
+    self.assertNotIn("Expires=", response.json["data"]["url"])
+    key = response.json["data"]["url"].split("/")[-1].split("?")[0]
+    milestone = self.app.get(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+    ).json["data"]
+    self.assertIn(key, milestone["documents"][-1]["url"])
+    self.assertIn("Signature=", milestone["documents"][-1]["url"])
+    self.assertIn("KeyID=", milestone["documents"][-1]["url"])
+    self.assertNotIn("Expires=", milestone["documents"][-1]["url"])
     response = self.app.get(
         f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
         f"/documents/{doc_id}",
@@ -747,27 +748,25 @@ def put_milestone_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    if self.docservice:
-        self.assertIn("Signature=", response.json["data"]["url"])
-        self.assertIn("KeyID=", response.json["data"]["url"])
-        self.assertNotIn("Expires=", response.json["data"]["url"])
-        key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        milestone = self.app.get(
-            f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
-        ).json["data"]
-        self.assertIn(key, milestone["documents"][-1]["url"])
-        self.assertIn("Signature=", milestone["documents"][-1]["url"])
-        self.assertIn("KeyID=", milestone["documents"][-1]["url"])
-        self.assertNotIn("Expires=", milestone["documents"][-1]["url"])
-    else:
-        key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
-    if self.docservice:
-        response = self.app.get(
-            f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
-            f"/documents/{doc_id}?download={key}"
-        )
-        self.assertEqual(response.status, "302 Moved Temporarily")
-        self.assertEqual(response.content_type, "application/json")
+
+    self.assertIn("Signature=", response.json["data"]["url"])
+    self.assertIn("KeyID=", response.json["data"]["url"])
+    self.assertNotIn("Expires=", response.json["data"]["url"])
+    key = response.json["data"]["url"].split("/")[-1].split("?")[0]
+    milestone = self.app.get(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+    ).json["data"]
+    self.assertIn(key, milestone["documents"][-1]["url"])
+    self.assertIn("Signature=", milestone["documents"][-1]["url"])
+    self.assertIn("KeyID=", milestone["documents"][-1]["url"])
+    self.assertNotIn("Expires=", milestone["documents"][-1]["url"])
+
+    response = self.app.get(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+        f"/documents/{doc_id}?download={key}"
+    )
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertEqual(response.content_type, "application/json")
 
     response = self.app.get(
         f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}/documents"
@@ -875,3 +874,19 @@ def patch_ban_milestone(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"], "Can't add ban milestone for contract in suspended status")
+
+
+def search_by_classification(self):
+    response = self.app.get(f"/agreements/{self.agreement_id}")
+    classification_id = response.json["data"]["classification"]["id"]
+
+    self.assertEqual(len(classification_id), 10)
+
+    response = self.app.get(f"/agreements_by_classification/{classification_id}")
+    self.assertEqual(len(response.json["data"]), 1)
+
+    response = self.app.get(f"/agreements_by_classification/{classification_id[:8]}")
+    self.assertEqual(len(response.json["data"]), 1)
+
+    response = self.app.get(f"/agreements_by_classification/{classification_id[:2]}")
+    self.assertEqual(len(response.json["data"]), 1)

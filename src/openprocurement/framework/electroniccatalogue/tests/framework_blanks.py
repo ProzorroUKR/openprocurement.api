@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
@@ -24,21 +23,24 @@ from openprocurement.framework.electroniccatalogue.utils import (
 def simple_add_framework(self):
     u = Framework(self.initial_data)
     u.prettyID = "UA-F"
+    u.dateModified = get_now().isoformat()
+
 
     assert u.id is None
     assert u.rev is None
 
-    u.store(self.databases.frameworks)
+    u.id = uuid4().hex
+    self.mongodb.frameworks.save(u, insert=True)
 
     assert u.id is not None
     assert u.rev is not None
 
-    fromdb = self.databases.frameworks.get(u.id)
+    fromdb = self.mongodb.frameworks.get(u.id)
 
     assert u.prettyID == fromdb["prettyID"]
-    assert u.doc_type == "Framework"
+    assert u.doc_type is None
 
-    u.delete_instance(self.databases.frameworks)
+    self.mongodb.frameworks.delete(u.id)
 
 
 def listing(self):
@@ -49,7 +51,7 @@ def listing(self):
     frameworks = []
 
     for i in range(3):
-        offset = get_now().isoformat()
+        offset = get_now().timestamp()
         response = self.app.post_json("/frameworks", {"data": self.initial_data})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -60,17 +62,12 @@ def listing(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         frameworks.append(response.json["data"])
-
     ids = ",".join([i["id"] for i in frameworks])
 
-    while True:
-        response = self.app.get("/frameworks")
-        self.assertTrue(ids.startswith(",".join([i["id"] for i in response.json["data"]])))
-        if len(response.json["data"]) == 3:
-            break
-
+    response = self.app.get("/frameworks")
+    self.assertTrue(ids.startswith(",".join([i["id"] for i in response.json["data"]])))
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in frameworks]))
     self.assertEqual(
         set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in frameworks])
@@ -79,11 +76,8 @@ def listing(self):
         [i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in frameworks])
     )
 
-    while True:
-        response = self.app.get("/frameworks?offset={}".format(offset))
-        self.assertEqual(response.status, "200 OK")
-        if len(response.json["data"]) == 1:
-            break
+    response = self.app.get("/frameworks?offset={}".format(offset))
+    self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 1)
 
     response = self.app.get("/frameworks?limit=2")
@@ -104,20 +98,20 @@ def listing(self):
     response = self.app.get("/frameworks", params=[("opt_fields", "status")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "status"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified", "status"})
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
     response = self.app.get("/frameworks", params=[("opt_fields", "status,owner")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "status"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified", "status"})
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
     response = self.app.get("/frameworks?descending=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in frameworks]))
     self.assertEqual(
         [i["dateModified"]
@@ -821,17 +815,16 @@ def framework_fields(self):
     self.assertEqual(response.content_type, "application/json")
     framework = response.json["data"]
     token = response.json["access"]["token"]
-    fields = set(
-            [
-                "id",
-                "dateModified",
-                "prettyID",
-                "date",
-                "status",
-                "frameworkType",
-                "owner",
-            ]
-        )
+    fields = {
+        "id",
+        "dateModified",
+        "dateCreated",
+        "prettyID",
+        "date",
+        "status",
+        "frameworkType",
+        "owner",
+    }
     self.assertEqual(set(framework) - set(self.initial_data), fields)
     self.assertIn(framework["id"], response.headers["Location"])
 
@@ -1015,13 +1008,6 @@ def framework_not_found(self):
     self.assertEqual(
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "framework_id"}]
     )
-
-    # put custom document object into database to check frameworks construction on non-Framework data
-    data = {"contract": "test", "_id": uuid4().hex}
-    self.databases.frameworks.save(data)
-
-    response = self.app.get("/frameworks/{}".format(data["_id"]), status=404)
-    self.assertEqual(response.status, "404 Not Found")
 
 
 def framework_token_invalid(self):

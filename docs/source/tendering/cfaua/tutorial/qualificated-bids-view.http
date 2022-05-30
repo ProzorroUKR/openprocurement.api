@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/6f00022409bb4e73b5f698801518e0db/bids?acc_token=a4dab218398a4cc8a8004a91d3ba9744 HTTP/1.0
+GET /api/2.5/tenders/dea691b943a946a8957e9be95bc51a06/bids?acc_token=a4dab218398a4cc8a8004a91d3ba9744 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -143,10 +143,10 @@ X-Content-Type-Options: nosniff
           "scale": "micro"
         }
       ],
-      "id": "b142414a5dc84ec0a828ba7e3d5f3513",
+      "id": "57508fba450446f89e32ff9cd4d81348",
       "documents": [
         {
-          "id": "31e362b1e4e84669be8fb843c90ed601",
+          "id": "4224b828e02a4b4cb1cc8e519efa56f2",
           "datePublished": "2021-03-16T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal.pdf",
@@ -158,12 +158,12 @@ X-Content-Type-Options: nosniff
           "language": "uk"
         },
         {
-          "id": "5c0c8fe670df41848d71771bf7710cb7",
+          "id": "eb1da3f5007144ffa1c20da31e2f73b3",
           "datePublished": "2021-03-16T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_top_secrets.pdf",
           "format": "application/pdf",
-          "url": "/tenders/6f00022409bb4e73b5f698801518e0db/bids/b142414a5dc84ec0a828ba7e3d5f3513/documents/5c0c8fe670df41848d71771bf7710cb7?download=a4fc3e46d4b34911bd554c3e3420e9d4",
+          "url": "/tenders/dea691b943a946a8957e9be95bc51a06/bids/57508fba450446f89e32ff9cd4d81348/documents/eb1da3f5007144ffa1c20da31e2f73b3?download=a4fc3e46d4b34911bd554c3e3420e9d4",
           "documentOf": "tender",
           "dateModified": "2021-03-16T00:00:00+02:00",
           "confidentiality": "buyerOnly",
@@ -173,12 +173,12 @@ X-Content-Type-Options: nosniff
       ],
       "eligibilityDocuments": [
         {
-          "id": "fd4a6cfadb32474b8b6d2c8c045f9e1d",
+          "id": "1dcb56dfd4ad4fa89f9e42d4b6647527",
           "datePublished": "2021-03-16T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "eligibility_doc.pdf",
           "format": "application/pdf",
-          "url": "/tenders/6f00022409bb4e73b5f698801518e0db/bids/b142414a5dc84ec0a828ba7e3d5f3513/eligibility_documents/fd4a6cfadb32474b8b6d2c8c045f9e1d?download=e0d4f99d68104577927f59cb6d8f7fab",
+          "url": "/tenders/dea691b943a946a8957e9be95bc51a06/bids/57508fba450446f89e32ff9cd4d81348/eligibility_documents/1dcb56dfd4ad4fa89f9e42d4b6647527?download=e0d4f99d68104577927f59cb6d8f7fab",
           "documentOf": "tender",
           "dateModified": "2021-03-16T00:00:00+02:00",
           "confidentiality": "public",
@@ -323,7 +323,7 @@ X-Content-Type-Options: nosniff
           "scale": "sme"
         }
       ],
-      "id": "5502be861ff24fa281a68247002d018c",
+      "id": "d1f03fb59b634de9860039587ec4f85d",
       "status": "active"
     },
     {
@@ -462,10 +462,10 @@ X-Content-Type-Options: nosniff
           "scale": "mid"
         }
       ],
-      "id": "7b1decebe35a4408b2fa079344de8313",
+      "id": "660a1a3573c444f6bfd555f8b4e83c3c",
       "documents": [
         {
-          "id": "a4384c91c3e2423f82aee43f19130ac2",
+          "id": "553626c74fc04430a5dafa1cbff3bb9a",
           "datePublished": "2021-03-16T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part1.pdf",
@@ -477,12 +477,12 @@ X-Content-Type-Options: nosniff
           "language": "uk"
         },
         {
-          "id": "e60c97b6416945de8eafcde527d04901",
+          "id": "a900ce33699d4c0984fd4a6e3832c102",
           "datePublished": "2021-03-16T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part2.pdf",
           "format": "application/pdf",
-          "url": "/tenders/6f00022409bb4e73b5f698801518e0db/bids/7b1decebe35a4408b2fa079344de8313/documents/e60c97b6416945de8eafcde527d04901?download=256123ec589044029ec3f8823d26d1a4",
+          "url": "/tenders/dea691b943a946a8957e9be95bc51a06/bids/660a1a3573c444f6bfd555f8b4e83c3c/documents/a900ce33699d4c0984fd4a6e3832c102?download=256123ec589044029ec3f8823d26d1a4",
           "documentOf": "tender",
           "dateModified": "2021-03-16T00:00:00+02:00",
           "confidentiality": "buyerOnly",
@@ -492,12 +492,12 @@ X-Content-Type-Options: nosniff
       ],
       "eligibilityDocuments": [
         {
-          "id": "b85ae26451e547cda0810ef04c777cf9",
+          "id": "dff9eee033d6437c8caa0d534803f69c",
           "datePublished": "2021-03-16T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "eligibility_doc.pdf",
           "format": "application/pdf",
-          "url": "/tenders/6f00022409bb4e73b5f698801518e0db/bids/7b1decebe35a4408b2fa079344de8313/eligibility_documents/b85ae26451e547cda0810ef04c777cf9?download=a628e60a5cf141358caec2553308eed1",
+          "url": "/tenders/dea691b943a946a8957e9be95bc51a06/bids/660a1a3573c444f6bfd555f8b4e83c3c/eligibility_documents/dff9eee033d6437c8caa0d534803f69c?download=a628e60a5cf141358caec2553308eed1",
           "documentOf": "tender",
           "dateModified": "2021-03-16T00:00:00+02:00",
           "confidentiality": "public",
@@ -643,10 +643,10 @@ X-Content-Type-Options: nosniff
           "scale": "mid"
         }
       ],
-      "id": "f2396c5eb7dc40e986705a3de1cdc13b",
+      "id": "c37e1f57bb514ac38787d82c6de256e7",
       "documents": [
         {
-          "id": "f01b93bdd6d94869810295085a657b49",
+          "id": "4f66e86bbb31462abbeb12d854784a6a",
           "datePublished": "2021-03-16T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part1.pdf",
@@ -658,12 +658,12 @@ X-Content-Type-Options: nosniff
           "language": "uk"
         },
         {
-          "id": "7be151f4800e4be0a81acb90d6ba667a",
+          "id": "e3265ed04ffc462c8c4a23a7fe4411dc",
           "datePublished": "2021-03-16T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part2.pdf",
           "format": "application/pdf",
-          "url": "/tenders/6f00022409bb4e73b5f698801518e0db/bids/f2396c5eb7dc40e986705a3de1cdc13b/documents/7be151f4800e4be0a81acb90d6ba667a?download=256123ec589044029ec3f8823d26d1a4",
+          "url": "/tenders/dea691b943a946a8957e9be95bc51a06/bids/c37e1f57bb514ac38787d82c6de256e7/documents/e3265ed04ffc462c8c4a23a7fe4411dc?download=256123ec589044029ec3f8823d26d1a4",
           "documentOf": "tender",
           "dateModified": "2021-03-16T00:00:00+02:00",
           "confidentiality": "buyerOnly",
@@ -673,12 +673,12 @@ X-Content-Type-Options: nosniff
       ],
       "eligibilityDocuments": [
         {
-          "id": "f70ee714fd4947ada7cf33eecfc598f5",
+          "id": "e38adefc375542a5ad7ae928d88e5fab",
           "datePublished": "2021-03-16T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "eligibility_doc.pdf",
           "format": "application/pdf",
-          "url": "/tenders/6f00022409bb4e73b5f698801518e0db/bids/f2396c5eb7dc40e986705a3de1cdc13b/eligibility_documents/f70ee714fd4947ada7cf33eecfc598f5?download=a628e60a5cf141358caec2553308eed1",
+          "url": "/tenders/dea691b943a946a8957e9be95bc51a06/bids/c37e1f57bb514ac38787d82c6de256e7/eligibility_documents/e38adefc375542a5ad7ae928d88e5fab?download=a628e60a5cf141358caec2553308eed1",
           "documentOf": "tender",
           "dateModified": "2021-03-16T00:00:00+02:00",
           "confidentiality": "public",

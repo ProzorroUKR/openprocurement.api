@@ -3,7 +3,7 @@ from base64 import b64encode, b64decode
 from urllib.parse import urlparse, urlunsplit, parse_qsl, quote, unquote, urlencode
 from nacl.exceptions import BadSignatureError
 from binascii import Error as BinasciiError
-from openprocurement.api.utils import error_handler, get_file_attachment, generate_docservice_url, build_header
+from openprocurement.api.utils import error_handler, generate_docservice_url, build_header
 
 
 def check_document_batch(request, document, document_container, route_kwargs=None, route_prefix=None):
@@ -80,17 +80,12 @@ def check_document(request, document):
 # downloading files
 def get_file(request):
     db_doc_id = request.validated["tender"]["_id"]
-    document = request.validated["document"]
     key = request.params.get("download")
     if not any(key in i["url"] for i in request.validated["documents"]):
         request.errors.add("url", "download", "Not Found")
         request.errors.status = 404
         return
-    filename = "{}_{}".format(document["id"], key)
-    if request.registry.docservice_url and filename not in request.validated["tender"].get("_attachments", ""):
-        return get_file_docservice(request, db_doc_id, key)
-    else:
-        return get_file_attachment(request, document, db_doc_id, filename)
+    return get_file_docservice(request, db_doc_id, key)
 
 
 def get_file_docservice(request, db_doc_id, key):

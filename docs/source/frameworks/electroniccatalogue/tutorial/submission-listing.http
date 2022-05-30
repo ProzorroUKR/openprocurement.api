@@ -8,14 +8,14 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "id": "7f0bddee73c749c48914890b109a3946",
-      "dateModified": "2021-04-01T01:00:00+03:00"
+      "dateModified": "2021-04-01T01:00:00+03:00",
+      "id": "7f0bddee73c749c48914890b109a3946"
     }
   ],
   "next_page": {
-    "offset": "2021-04-01T01:00:00+03:00",
-    "path": "/api/2.5/submissions?offset=2021-04-01T01%3A00%3A00%2B03%3A00",
-    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions?offset=2021-04-01T01%3A00%3A00%2B03%3A00"
+    "offset": 1617228000.0,
+    "path": "/api/2.5/submissions?offset=1617228000.0",
+    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions?offset=1617228000.0"
   }
 }
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 def is_test():
     import sys
     import os
@@ -7,6 +6,7 @@ def is_test():
         "setup.py" in sys.argv[0],
         "PYTEST_XDIST_WORKER" in os.environ,
     ])
+
 
 if not is_test():
     import gevent.monkey
@@ -20,8 +20,8 @@ from nacl.encoding import HexEncoder
 from nacl.signing import SigningKey, VerifyKey
 from logging import getLogger
 from openprocurement.api.auth import AuthenticationPolicy, authenticated_role, check_accreditations
-from openprocurement.api.database import set_api_security, Databases, MongodbStore
-from openprocurement.api.utils import forbidden, request_params, couchdb_json_decode, precondition, get_currency_rates
+from openprocurement.api.database import MongodbStore
+from openprocurement.api.utils import forbidden, request_params, precondition, get_currency_rates
 from openprocurement.api.constants import ROUTE_PREFIX, TZ
 from pkg_resources import iter_entry_points
 from pyramid.authorization import ACLAuthorizationPolicy as AuthorizationPolicy
@@ -94,32 +94,8 @@ def main(global_config, **settings):
             plugin = entry_point.load()
             plugin(config)
 
-    # CouchDB connection
-    aserver, server, db = set_api_security(settings)
-    config.registry.couchdb_server = server
-    if aserver:
-        config.registry.admin_couchdb_server = aserver
-    config.registry.db = db
-
-    # CouchDB specific databases connections
-    config.registry.databases = Databases(
-        admin_connection=aserver or server,
-        connection=server,
-        migrations=settings.get("couchdb.migrations_db_name"),
-        frameworks=settings.get("couchdb.frameworks_db_name"),
-        submissions=settings.get("couchdb.submissions_db_name"),
-        qualifications=settings.get("couchdb.qualifications_db_name"),
-        agreements=settings.get("couchdb.agreements_db_name"),
-        transfers=settings.get("couchdb.transfers_db_name"),
-        plans=settings.get("couchdb.plans_db_name"),
-        contracts=settings.get("couchdb.contracts_db_name"),
-    )
-
     # mongodb
     config.registry.mongodb = MongodbStore(settings)
-
-    # readjust couchdb json decoder
-    couchdb_json_decode()
 
     # Document Service key
     config.registry.docservice_url = settings.get("docservice_url")
@@ -144,12 +120,6 @@ def main(global_config, **settings):
     for key in dockeys.split('\0'):
         if key:
             config.registry.keyring[key[:8]] = VerifyKey(key, encoder=HexEncoder)
-
-    # migrate data
-    if not os.environ.get("MIGRATION_SKIP"):
-        for entry_point in iter_entry_points("openprocurement.api.migrations"):
-            plugin = entry_point.load()
-            plugin(config.registry)
 
     config.registry.server_id = settings.get("id", "")
 

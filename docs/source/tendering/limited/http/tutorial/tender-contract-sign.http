@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/16238a7e94e64b3a8b53106493d5d424/contracts/82d376775a134ec5b6c131348c86c6dc?acc_token=9147c49d3e8844889bffab7629a63b5b HTTP/1.0
+PATCH /api/2.5/tenders/dceb0db9147740f994cb3a57fb971a4e/contracts/82d376775a134ec5b6c131348c86c6dc?acc_token=9147c49d3e8844889bffab7629a63b5b HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -16,7 +16,7 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "82d376775a134ec5b6c131348c86c6dc",
-    "awardID": "f44436fd825440d78a99dd57365363a3",
+    "awardID": "61aa079bac35442ea9aba5d1420c75a5",
     "contractID": "UA-2021-03-16-000001-a-1",
     "status": "active",
     "period": {
@@ -94,7 +94,7 @@ X-Content-Type-Options: nosniff
     "date": "2021-03-16T00:00:00+02:00",
     "documents": [
       {
-        "id": "14c54bcc056947a6908a40afaf57c440",
+        "id": "81519185b61a42ae9d265914f9118596",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_first_document.doc",
@@ -104,7 +104,7 @@ X-Content-Type-Options: nosniff
         "dateModified": "2021-03-16T00:00:00+02:00"
       },
       {
-        "id": "ff38dda281f94d15bd1ee335d68177a2",
+        "id": "505c90afdf0b4a4d9b80c177ddd14634",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_second_document.doc",

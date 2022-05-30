@@ -33,16 +33,12 @@ srequest = SESSION.request
 
 class BaseWebTest(BaseApiWebTest):
     initial_auth = ("Basic", ("token", ""))
-    mongodb_collections = ("tenders",)
-    enable_couch = False
-    docservice = False
     docservice_url = "http://localhost"
     relative_to = os.path.dirname(__file__)
 
     def setUp(self):
         super(BaseWebTest, self).setUp()
-        if self.docservice:
-            self.setUpDS()
+        self.setUpDS()
 
     def setUpDS(self):
         self.app.app.registry.docservice_url = self.docservice_url
@@ -87,8 +83,7 @@ class BaseWebTest(BaseApiWebTest):
         self.app.app.registry.docservice_url = None
 
     def tearDown(self):
-        if self.docservice:
-            self.tearDownDS()
+        self.tearDownDS()
         super(BaseWebTest, self).tearDown()
 
 

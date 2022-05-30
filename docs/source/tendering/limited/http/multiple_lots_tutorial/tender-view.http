@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/0baa3be7ec374aeda829cbc4b875dddb HTTP/1.0
+GET /api/2.5/tenders/f424e2934d9c4a28a98ace88bd50ea47 HTTP/1.0
 Host: lb-api-sandbox.prozorro.gov.ua
 
 Response: 200 OK
@@ -130,7 +130,7 @@ X-Content-Type-Options: nosniff
     ],
     "procurementMethodType": "negotiation.quick",
     "cause": "twiceUnsuccessful",
-    "id": "0baa3be7ec374aeda829cbc4b875dddb"
+    "id": "f424e2934d9c4a28a98ace88bd50ea47"
   }
 }
 

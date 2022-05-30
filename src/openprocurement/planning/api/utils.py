@@ -88,9 +88,7 @@ class APIResource(object):
     def __init__(self, request, context):
         self.context = context
         self.request = request
-        self.db = request.registry.databases.plans
         self.server_id = request.registry.server_id
-        self.server = request.registry.couchdb_server
         self.update_after = request.registry.update_after
         self.LOGGER = getLogger(type(self).__module__)
 

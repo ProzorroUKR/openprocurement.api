@@ -24,6 +24,7 @@ X-Content-Type-Options: nosniff
     "title": "updated in draft status",
     "description": "Назва предмета закупівлі",
     "date": "2021-03-16T00:00:00+02:00",
+    "dateCreated": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-03-16T00:00:00+02:00",
     "owner": "broker",
     "status": "draft",

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/1707c4e05c834d2281c4917429aed004?acc_token=cdb0d97ad6324ce1b99843f3f2959aa4 HTTP/1.0
+PATCH /api/2.5/tenders/7378acd602f14dc498b14cc6198a6995?acc_token=cdb0d97ad6324ce1b99843f3f2959aa4 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 131
 Content-Type: application/json
@@ -622,7 +622,7 @@ X-Content-Type-Options: nosniff
     "documents": [
       {
         "language": "uk",
-        "id": "fe0e171a76a9484690da8f1ca3078c5c",
+        "id": "2a61f1ec8598473dbd3b8d121647e943",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
@@ -634,7 +634,7 @@ X-Content-Type-Options: nosniff
       },
       {
         "language": "uk",
-        "id": "d680c26128134c5d92a6b3f742bdd2e4",
+        "id": "61e2f92d4080455a96aaac63675a4230",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
@@ -646,7 +646,7 @@ X-Content-Type-Options: nosniff
       },
       {
         "language": "uk",
-        "id": "d680c26128134c5d92a6b3f742bdd2e4",
+        "id": "61e2f92d4080455a96aaac63675a4230",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
@@ -798,7 +798,7 @@ X-Content-Type-Options: nosniff
       "shouldStartAfter": "2021-04-28T00:00:00+02:00"
     },
     "next_check": "2021-03-24T00:00:00+02:00",
-    "id": "1707c4e05c834d2281c4917429aed004"
+    "id": "7378acd602f14dc498b14cc6198a6995"
   }
 }
 

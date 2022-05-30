@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
 from uuid import uuid4
-
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
 from schematics.transforms import blacklist, whitelist
@@ -12,9 +10,9 @@ from zope.interface import implementer
 from openprocurement.api.auth import ACCR_5
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.interfaces import IOPContent
-from openprocurement.api.models import OpenprocurementSchematicsDocument, Model
+from openprocurement.api.models import Model
 from openprocurement.api.models import (
-    Revision,
+    RootModel,
     IsoDateTimeType,
     ListType,
     BusinessOrganization,
@@ -30,7 +28,7 @@ class IFramework(IOPContent):
 
 
 @implementer(IFramework)
-class Framework(OpenprocurementSchematicsDocument, Model):
+class Framework(RootModel):
     class Options:
         namespace = "Framework"
         _edit_role = whitelist(
@@ -76,6 +74,7 @@ class Framework(OpenprocurementSchematicsDocument, Model):
     description_en = StringType()
     description_ru = StringType()
     date = IsoDateTimeType()
+    dateCreated = IsoDateTimeType()
     dateModified = IsoDateTimeType()
     frameworkType = StringType(required=True)
     if SANDBOX_MODE:
@@ -172,7 +171,7 @@ class SubmissionBusinessOrganization(BusinessOrganization):
 
 
 @implementer(ISubmission)
-class Submission(OpenprocurementSchematicsDocument, Model):
+class Submission(RootModel):
     class Options:
         namespace = "Submission"
         roles = {
@@ -204,6 +203,7 @@ class Submission(OpenprocurementSchematicsDocument, Model):
     documents = ListType(ModelType(Document, required=True), default=list())
     qualificationID = StringType()
     frameworkID = StringType(required=True)
+    dateCreated = IsoDateTimeType()
     dateModified = IsoDateTimeType()
     date = IsoDateTimeType(default=get_now)
     datePublished = IsoDateTimeType()
@@ -268,7 +268,7 @@ class IQualification(IOPContent):
 
 
 @implementer(IQualification)
-class Qualification(OpenprocurementSchematicsDocument, Model):
+class Qualification(RootModel):
 
     class Options:
         namespace = "Qualification"
@@ -296,6 +296,7 @@ class Qualification(OpenprocurementSchematicsDocument, Model):
     frameworkID = StringType(required=True)
 
     date = IsoDateTimeType(default=get_now)
+    dateCreated = IsoDateTimeType()
     dateModified = IsoDateTimeType()
 
     framework_owner = StringType()
@@ -345,15 +346,16 @@ class IAgreement(IOPContent):
 
 
 @implementer(IAgreement)
-class Agreement(OpenprocurementSchematicsDocument, Model):
+class Agreement(RootModel):
     """ Base agreement model """
 
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    # id = MD5Type(required=True, default=lambda: uuid4().hex)
     agreementID = StringType()
     agreementType = StringType(default="electronicCatalogue")
     # maybe terminated ????
     status = StringType(choices=["active", "terminated"], required=True)
     date = IsoDateTimeType()
+    dateCreated = IsoDateTimeType()
     dateModified = IsoDateTimeType()
     revisions = BaseType(default=list)
     owner_token = StringType(default=lambda: uuid4().hex)

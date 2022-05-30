@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
 from uuid import uuid4
 from datetime import timedelta, time, datetime
-from openprocurement.api.models import OpenprocurementSchematicsDocument, BusinessOrganization, Guarantee
 from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.transforms import whitelist, blacklist, export_loop
@@ -14,6 +12,9 @@ from string import hexdigits
 from openprocurement.api.interfaces import IOPContent
 from openprocurement.api.auth import extract_access_token
 from openprocurement.api.models import (
+    BusinessOrganization,
+    Guarantee,
+    RootModel,
     Organization,
     Identifier,
     Model,
@@ -2249,7 +2250,7 @@ class PlanRelation(Model):
 
 
 @implementer(ITender)
-class BaseTender(OpenprocurementSchematicsDocument, Model):
+class BaseTender(RootModel):
     class Options:
         namespace = "Tender"
         _edit_role = whitelist(
@@ -2392,10 +2393,10 @@ class BaseTender(OpenprocurementSchematicsDocument, Model):
         roles = dict([("{}_{}".format(self.owner, self.owner_token), "tender_owner")])
         return roles
 
-    @serializable(serialized_name="id")
-    def doc_id(self):
-        """A property that is serialized by schematics exports."""
-        return self._id
+    # @serializable(serialized_name="id")
+    # def doc_id(self):
+    #     """A property that is serialized by schematics exports."""
+    #     return self._id
 
     def import_data(self, raw_data, **kw):
         """

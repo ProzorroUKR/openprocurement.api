@@ -2,7 +2,7 @@
 import mock
 from uuid import uuid4
 from copy import deepcopy
-from datetime import timedelta
+from datetime import timedelta, datetime
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.contracting.api.models import Contract
 from openprocurement.api.utils import get_now
@@ -12,23 +12,24 @@ from openprocurement.tender.core.tests.base import change_auth
 
 def simple_add_contract(self):
     u = Contract(self.initial_data)
+    u.dateModified = get_now().isoformat()
     u.contractID = "UA-C"
 
     assert u.id == self.initial_data["id"]
     assert u.doc_id == self.initial_data["id"]
     assert u.rev is None
 
-    u.store(self.databases.contracts)
+    self.mongodb.contracts.save(u, insert=True)
 
     assert u.id == self.initial_data["id"]
     assert u.rev is not None
 
-    fromdb = self.databases.contracts.get(u.id)
+    fromdb = self.mongodb.contracts.get(u.id)
 
     assert u.contractID == fromdb["contractID"]
-    assert u.doc_type == "Contract"
+    assert u.doc_type is None
 
-    u.delete_instance(self.databases.contracts)
+    self.mongodb.contracts.delete(u.id)
 
 
 def empty_listing(self):
@@ -59,7 +60,8 @@ def empty_listing(self):
     self.assertIn('{\n    "', response.body.decode())
     self.assertIn("callback({", response.body.decode())
 
-    response = self.app.get("/contracts?offset=2015-01-01T00:00:00+02:00&descending=1&limit=10")
+    offset = datetime.fromisoformat("2015-01-01T00:00:00+02:00").timestamp()
+    response = self.app.get(f"/contracts?offset={offset}&descending=1&limit=10")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"], [])
@@ -68,23 +70,17 @@ def empty_listing(self):
     self.assertNotIn("descending=1", response.json["prev_page"]["uri"])
     self.assertIn("limit=10", response.json["prev_page"]["uri"])
 
-    response = self.app.get("/contracts?feed=changes")
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"], [])
-    self.assertEqual(response.json["next_page"]["offset"], "")
-    self.assertNotIn("prev_page", response.json)
-
-    response = self.app.get("/contracts?feed=changes&offset=0", status=404)
+    response = self.app.get("/contracts?offset=latest", status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": "Offset expired/invalid", "location": "url", "name": "offset"}],
+        [{"description": "Invalid offset provided: latest",
+          "location": "querystring", "name": "offset"}],
     )
 
-    response = self.app.get("/contracts?feed=changes&descending=1&limit=10")
+    response = self.app.get("/contracts?descending=1&limit=10")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"], [])
@@ -104,7 +100,7 @@ def listing(self):
     for i in range(3):
         data = deepcopy(self.initial_data)
         data["id"] = uuid4().hex
-        offset = get_now().isoformat()
+        offset = get_now().timestamp()
         with change_auth(self.app, ("Basic", ("contracting", ""))) as app:
             response = self.app.post_json("/contracts", {"data": data})
         self.assertEqual(response.status, "201 Created")
@@ -113,14 +109,11 @@ def listing(self):
 
     ids = ",".join([i["id"] for i in contracts])
 
-    while True:
-        response = self.app.get("/contracts")
-        self.assertEqual(response.status, "200 OK")
-        self.assertTrue(ids.startswith(",".join([i["id"] for i in response.json["data"]])))
-        if len(response.json["data"]) == 3:
-            break
-
+    response = self.app.get("/contracts")
+    self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
+    self.assertTrue(ids.startswith(",".join([i["id"] for i in response.json["data"]])))
+
     self.assertEqual(",".join([i["id"] for i in response.json["data"]]), ids)
     self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in contracts]))
@@ -457,24 +450,23 @@ def create_contract_generated(self):
     contract = response.json["data"]
     self.assertEqual(
         set(contract),
-        set(
-            [
-                "id",
-                "dateModified",
-                "contractID",
-                "status",
-                "suppliers",
-                "contractNumber",
-                "period",
-                "dateSigned",
-                "value",
-                "awardID",
-                "items",
-                "owner",
-                "tender_id",
-                "procuringEntity",
-            ]
-        ),
+        {
+            "id",
+            "dateModified",
+            "dateCreated",
+            "contractID",
+            "status",
+            "suppliers",
+            "contractNumber",
+            "period",
+            "dateSigned",
+            "value",
+            "awardID",
+            "items",
+            "owner",
+            "tender_id",
+            "procuringEntity",
+        },
     )
     self.assertEqual(data["id"], contract["id"])
     self.assertNotEqual(data["doc_id"], contract["id"])
@@ -1921,9 +1913,10 @@ def patch_tender_without_value(self):
     self.assertEqual(response.status, "200 OK")
     token = response.json["access"]["token"]
 
-    contract_doc = self.databases.contracts.get(self.contract["id"])
+    contract_doc = self.mongodb.contracts.get(self.contract["id"])
     del contract_doc['value']
-    self.databases.contracts.save(contract_doc)
+    contract = Contract(contract_doc)
+    self.mongodb.contracts.save(contract)
 
     response = self.app.patch_json(
         "/contracts/{}?acc_token={}".format(self.contract["id"], token),
@@ -2262,7 +2255,7 @@ def create_contract_w_documents(self):
     self.assertIn("KeyID=", response.json["data"]["documents"][-1]["url"])
     self.assertNotIn("Expires=", response.json["data"]["documents"][-1]["url"])
 
-    contract = self.databases.contracts.get(contract["id"])
+    contract = self.mongodb.contracts.get(contract["id"])
     self.assertIn(
         "Prefix=ce536c5f46d543ec81ffa86ce4c77c8b%2F9c8b66120d4c415cb334bbad33f94ba9", contract["documents"][-1]["url"]
     )
@@ -2388,5 +2381,6 @@ def skip_address_validation(self):
     initial_data["items"][0]["deliveryAddress"]["region"] = "any region"
     u = Contract(self.initial_data)
     u.contractID = "UA-C"
-    u.store(self.databases.contracts)
+    u.dateModified = get_now().isoformat()
+    self.mongodb.contracts.save(u, insert=True)
     assert u.rev is not None

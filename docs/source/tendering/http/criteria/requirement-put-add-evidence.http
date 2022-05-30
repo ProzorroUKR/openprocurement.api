@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/f14f8e74c99e45899e83cb812de384af/criteria/02b94013102f4d3280fb2f414499d2ed/requirement_groups/86839e884b084170b11d231998e9fff8/requirements/14ffa2e54f764a29bd363470d3cd2ec2?acc_token=185a52a8180a4ce0bfa247fc97cb928e HTTP/1.0
+PUT /api/2.5/tenders/316dd597b188475dbed68fe522bf1606/criteria/02b94013102f4d3280fb2f414499d2ed/requirement_groups/86839e884b084170b11d231998e9fff8/requirements/14ffa2e54f764a29bd363470d3cd2ec2?acc_token=185a52a8180a4ce0bfa247fc97cb928e HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 597
 Content-Type: application/json

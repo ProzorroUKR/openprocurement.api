@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/19aa3be2f1874614a406188ae3a07a8f/credentials?acc_token=afb4b304b0aa4ea4ba19e1f03725bf1e HTTP/1.0
+PATCH /api/2.5/tenders/ad706c4ce1d740c7a18c414caf949b69/credentials?acc_token=afb4b304b0aa4ea4ba19e1f03725bf1e HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 2
 Content-Type: application/json
@@ -161,7 +161,7 @@ X-Content-Type-Options: nosniff
         }
       }
     ],
-    "id": "19aa3be2f1874614a406188ae3a07a8f",
+    "id": "ad706c4ce1d740c7a18c414caf949b69",
     "numberOfBids": 0,
     "complaintPeriod": {
       "startDate": "2021-03-16T00:00:00+02:00",

@@ -79,18 +79,16 @@ def create_plan_document(self):
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
     self.assertEqual("укр.doc", response.json["data"]["title"])
-    if self.docservice:
-        self.assertIn("Signature=", response.json["data"]["url"])
-        self.assertIn("KeyID=", response.json["data"]["url"])
-        self.assertNotIn("Expires=", response.json["data"]["url"])
-        key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        plan = self.mongodb.plans.get(self.plan_id)
-        self.assertIn(key, plan["documents"][-1]["url"])
-        self.assertIn("Signature=", plan["documents"][-1]["url"])
-        self.assertIn("KeyID=", plan["documents"][-1]["url"])
-        self.assertNotIn("Expires=", plan["documents"][-1]["url"])
-    else:
-        key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
+
+    self.assertIn("Signature=", response.json["data"]["url"])
+    self.assertIn("KeyID=", response.json["data"]["url"])
+    self.assertNotIn("Expires=", response.json["data"]["url"])
+    key = response.json["data"]["url"].split("/")[-1].split("?")[0]
+    plan = self.mongodb.plans.get(self.plan_id)
+    self.assertIn(key, plan["documents"][-1]["url"])
+    self.assertIn("Signature=", plan["documents"][-1]["url"])
+    self.assertIn("KeyID=", plan["documents"][-1]["url"])
+    self.assertNotIn("Expires=", plan["documents"][-1]["url"])
 
     response = self.app.get("/plans/{}/documents".format(self.plan_id))
     self.assertEqual(response.status, "200 OK")
@@ -106,19 +104,12 @@ def create_plan_document(self):
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "download"}]
     )
 
-    if self.docservice:
-        response = self.app.get("/plans/{}/documents/{}?download={}".format(self.plan_id, doc_id, key))
-        self.assertEqual(response.status, "302 Moved Temporarily")
-        self.assertIn("http://localhost/get/", response.location)
-        self.assertIn("Signature=", response.location)
-        self.assertIn("KeyID=", response.location)
-        self.assertNotIn("Expires=", response.location)
-    else:
-        response = self.app.get("/plans/{}/documents/{}?download={}".format(self.plan_id, doc_id, key))
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/msword")
-        self.assertEqual(response.content_length, 7)
-        self.assertEqual(response.body, b"content")
+    response = self.app.get("/plans/{}/documents/{}?download={}".format(self.plan_id, doc_id, key))
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
+    self.assertNotIn("Expires=", response.location)
 
     response = self.app.get("/plans/{}/documents/{}".format(self.plan_id, doc_id))
     self.assertEqual(response.status, "200 OK")
@@ -155,32 +146,23 @@ def put_plan_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    if self.docservice:
-        self.assertIn("Signature=", response.json["data"]["url"])
-        self.assertIn("KeyID=", response.json["data"]["url"])
-        self.assertNotIn("Expires=", response.json["data"]["url"])
-        key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        plan = self.mongodb.plans.get(self.plan_id)
-        self.assertIn(key, plan["documents"][-1]["url"])
-        self.assertIn("Signature=", plan["documents"][-1]["url"])
-        self.assertIn("KeyID=", plan["documents"][-1]["url"])
-        self.assertNotIn("Expires=", plan["documents"][-1]["url"])
-    else:
-        key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
 
-    if self.docservice:
-        response = self.app.get("/plans/{}/documents/{}?download={}".format(self.plan_id, doc_id, key))
-        self.assertEqual(response.status, "302 Moved Temporarily")
-        self.assertIn("http://localhost/get/", response.location)
-        self.assertIn("Signature=", response.location)
-        self.assertIn("KeyID=", response.location)
-        self.assertNotIn("Expires=", response.location)
-    else:
-        response = self.app.get("/plans/{}/documents/{}?download={}".format(self.plan_id, doc_id, key))
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/msword")
-        self.assertEqual(response.content_length, 8)
-        self.assertEqual(response.body, b"content2")
+    self.assertIn("Signature=", response.json["data"]["url"])
+    self.assertIn("KeyID=", response.json["data"]["url"])
+    self.assertNotIn("Expires=", response.json["data"]["url"])
+    key = response.json["data"]["url"].split("/")[-1].split("?")[0]
+    plan = self.mongodb.plans.get(self.plan_id)
+    self.assertIn(key, plan["documents"][-1]["url"])
+    self.assertIn("Signature=", plan["documents"][-1]["url"])
+    self.assertIn("KeyID=", plan["documents"][-1]["url"])
+    self.assertNotIn("Expires=", plan["documents"][-1]["url"])
+
+    response = self.app.get("/plans/{}/documents/{}?download={}".format(self.plan_id, doc_id, key))
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
+    self.assertNotIn("Expires=", response.location)
 
     response = self.app.get("/plans/{}/documents/{}".format(self.plan_id, doc_id))
     self.assertEqual(response.status, "200 OK")
@@ -226,32 +208,23 @@ def put_plan_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    if self.docservice:
-        self.assertIn("Signature=", response.json["data"]["url"])
-        self.assertIn("KeyID=", response.json["data"]["url"])
-        self.assertNotIn("Expires=", response.json["data"]["url"])
-        key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        plan = self.mongodb.plans.get(self.plan_id)
-        self.assertIn(key, plan["documents"][-1]["url"])
-        self.assertIn("Signature=", plan["documents"][-1]["url"])
-        self.assertIn("KeyID=", plan["documents"][-1]["url"])
-        self.assertNotIn("Expires=", plan["documents"][-1]["url"])
-    else:
-        key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
 
-    if self.docservice:
-        response = self.app.get("/plans/{}/documents/{}?download={}".format(self.plan_id, doc_id, key))
-        self.assertEqual(response.status, "302 Moved Temporarily")
-        self.assertIn("http://localhost/get/", response.location)
-        self.assertIn("Signature=", response.location)
-        self.assertIn("KeyID=", response.location)
-        self.assertNotIn("Expires=", response.location)
-    else:
-        response = self.app.get("/plans/{}/documents/{}?download={}".format(self.plan_id, doc_id, key))
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/msword")
-        self.assertEqual(response.content_length, 8)
-        self.assertEqual(response.body, b"content3")
+    self.assertIn("Signature=", response.json["data"]["url"])
+    self.assertIn("KeyID=", response.json["data"]["url"])
+    self.assertNotIn("Expires=", response.json["data"]["url"])
+    key = response.json["data"]["url"].split("/")[-1].split("?")[0]
+    plan = self.mongodb.plans.get(self.plan_id)
+    self.assertIn(key, plan["documents"][-1]["url"])
+    self.assertIn("Signature=", plan["documents"][-1]["url"])
+    self.assertIn("KeyID=", plan["documents"][-1]["url"])
+    self.assertNotIn("Expires=", plan["documents"][-1]["url"])
+
+    response = self.app.get("/plans/{}/documents/{}?download={}".format(self.plan_id, doc_id, key))
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
+    self.assertNotIn("Expires=", response.location)
 
 
 def patch_plan_document(self):

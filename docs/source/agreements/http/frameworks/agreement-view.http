@@ -1,4 +1,4 @@
-GET /api/2.5/agreements/2cb186475d8b4d0e9f2a66eb33f636a7 HTTP/1.0
+GET /api/2.5/agreements/2c88cbfb9f454f82976cb11006b46885 HTTP/1.0
 Authorization: Bearer token
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,10 +7,10 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "2cb186475d8b4d0e9f2a66eb33f636a7",
     "agreementID": "UA-2021-04-01-000001",
     "status": "active",
     "date": "2021-04-01T01:00:00+03:00",
+    "dateCreated": "2021-04-01T01:00:00+03:00",
     "dateModified": "2021-04-01T01:00:00+03:00",
     "owner": "test",
     "agreementType": "electronicCatalogue",
@@ -54,7 +54,7 @@ X-Content-Type-Options: nosniff
     ],
     "contracts": [
       {
-        "id": "02ea005fef8146baa6903c502c05a6f9",
+        "id": "53366f7e1d7d453b9241a14615ff29a8",
         "qualificationID": "05d1cb43d20a4c558a24474dee8c8dd3",
         "status": "active",
         "submissionID": "42965fa7e82b42a289fbe8a3206b3581",
@@ -83,7 +83,7 @@ X-Content-Type-Options: nosniff
         ],
         "milestones": [
           {
-            "id": "5cacd03d93f44f6e89e0322398fdffbb",
+            "id": "89cb8eac041549eabe8ea8de2d78e195",
             "type": "activation",
             "status": "scheduled",
             "dueDate": "2021-05-16T00:00:00+02:00",
@@ -93,7 +93,7 @@ X-Content-Type-Options: nosniff
         "date": "2021-04-01T01:00:00+03:00"
       },
       {
-        "id": "a6a8003f607e425e8caa0131f3ec7820",
+        "id": "391acac5215446eeb6fc77beaa747403",
         "qualificationID": "281dd54719ce43a58e8c4cab10c627b0",
         "status": "active",
         "submissionID": "0be27726372147fd9cb86c0e08873c15",
@@ -122,7 +122,7 @@ X-Content-Type-Options: nosniff
         ],
         "milestones": [
           {
-            "id": "d3dda9bcd3e34ca395f850de62e761b9",
+            "id": "3fe881cc13824149bb8f655de17cae47",
             "type": "activation",
             "status": "scheduled",
             "dueDate": "2021-05-16T00:00:00+02:00",
@@ -132,6 +132,7 @@ X-Content-Type-Options: nosniff
         "date": "2021-04-01T01:00:00+03:00"
       }
     ],
+    "id": "2c88cbfb9f454f82976cb11006b46885",
     "next_check": "2021-05-16T00:00:00+02:00"
   }
 }

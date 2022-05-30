@@ -97,16 +97,12 @@ test_plan_data = {
 class BasePlanTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
     initial_auth = ("Basic", ("broker", ""))
-    enable_couch = False
-    mongodb_collections = ("plans",)
     docservice = True
 
 
 class BasePlanWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_plan_data
-    enable_couch = False
-    mongodb_collections = ("plans",)
     docservice = True
 
     def setUp(self):

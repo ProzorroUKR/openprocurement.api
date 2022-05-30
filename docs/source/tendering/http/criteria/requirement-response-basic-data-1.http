@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/6e437e5d477a451f955ef1f9ad2cca7c/bids/fca5f46a77484fe09b1038555f0e2bb2?acc_token=00ae749dfd5e4e55bfc9726e32db2c93 HTTP/1.0
+PATCH /api/2.5/tenders/75259c27a799486ca9ad3563f6e86f54/bids/b289317b2ab94078a2506ca188933207?acc_token=00ae749dfd5e4e55bfc9726e32db2c93 HTTP/1.0
 Authorization: Bearer token
 Content-Length: 1577
 Content-Type: application/json
@@ -18,7 +18,7 @@ DATA:
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "6f732f2a844d4abeb87318952e38e5af",
+              "id": "25b30be113494ed79b4c14f0b546c398",
               "title": "name.doc"
             },
             "type": "document"
@@ -50,7 +50,7 @@ X-Content-Type-Options: nosniff
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "6f732f2a844d4abeb87318952e38e5af",
+              "id": "25b30be113494ed79b4c14f0b546c398",
               "title": "name.doc"
             }
           }
@@ -86,12 +86,12 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "id": "fca5f46a77484fe09b1038555f0e2bb2",
+    "id": "b289317b2ab94078a2506ca188933207",
     "date": "2021-03-16T00:00:00+02:00",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "documents": [
       {
-        "id": "6f732f2a844d4abeb87318952e38e5af",
+        "id": "25b30be113494ed79b4c14f0b546c398",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",

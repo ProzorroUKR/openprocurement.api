@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/aa6cf974e101460589085272d5990056/documents/6be95b29d2d749a2ad53f32098040908?acc_token=b3345f8c5f3c446983b73bbe7f073ab7 HTTP/1.0
+PUT /api/2.5/tenders/21b59cfa191a41eaaeb418282327d481/documents/e6d422a039bb4bfcae375f549535f250?acc_token=b3345f8c5f3c446983b73bbe7f073ab7 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 333
 Content-Type: application/json
@@ -18,7 +18,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "6be95b29d2d749a2ad53f32098040908",
+    "id": "e6d422a039bb4bfcae375f549535f250",
     "datePublished": "2021-03-16T00:00:00+02:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "AwardCriteria-2.pdf",

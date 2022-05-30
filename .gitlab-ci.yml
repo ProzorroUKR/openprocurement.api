@@ -1,4 +1,4 @@
 include:
   - project: 'cdb/openprocurement.api-ci'
     ref: master
-    file: 'api-ci-mongo.yml'
+    file: 'api-ci.yml'

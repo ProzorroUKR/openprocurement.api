@@ -1,12 +1,8 @@
-# -*- coding: utf-8 -*-
-
 from copy import deepcopy
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.constants import ROUTE_PREFIX
-from openprocurement.framework.electroniccatalogue.tests.base import test_electronicCatalogue_documents
 from datetime import timedelta
-from uuid import uuid4
 
 
 def listing(self):
@@ -23,7 +19,7 @@ def listing(self):
     for i in tenderer_ids:
 
         data["tenderers"][0]["identifier"]["id"] = i
-        offset = get_now().isoformat()
+        offset = get_now().timestamp()
         response = self.app.post_json("/submissions", {"data": data})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -44,14 +40,11 @@ def listing(self):
 
     ids = ",".join([i["id"] for i in qualifications])
 
-    while True:
-        response = self.app.get("/qualifications")
-        self.assertTrue(ids.startswith(",".join([i["id"] for i in response.json["data"]])))
-        if len(response.json["data"]) == 3:
-            break
+    response = self.app.get("/qualifications")
+    self.assertTrue(ids.startswith(",".join([i["id"] for i in response.json["data"]])))
 
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in qualifications]))
     self.assertEqual(
         set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in qualifications])
@@ -60,11 +53,8 @@ def listing(self):
         [i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in qualifications])
     )
 
-    while True:
-        response = self.app.get("/qualifications?offset={}".format(offset))
-        self.assertEqual(response.status, "200 OK")
-        if len(response.json["data"]) == 1:
-            break
+    response = self.app.get("/qualifications?offset={}".format(offset))
+    self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 1)
 
     response = self.app.get("/qualifications?limit=2")
@@ -636,13 +626,6 @@ def qualification_not_found(self):
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "qualification_id"}]
     )
 
-    # put custom document object into database to check frameworks construction on non-Submission data
-    data = {"contract": "test", "_id": uuid4().hex}
-    self.databases.qualifications.save(data)
-
-    response = self.app.get("/qualifications/{}".format(data["_id"]), status=404)
-    self.assertEqual(response.status, "404 Not Found")
-
 
 def qualification_token_invalid(self):
     response = self.app.patch_json(
@@ -704,7 +687,7 @@ def get_document_by_id(self):
         "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
         upload_files=[("file", "name%s.doc" % i, b"content2") for i in range(3)],
     )
-    documents = self.databases.qualifications.get(self.qualification_id).get("documents")
+    documents = self.mongodb.qualifications.get(self.qualification_id).get("documents")
     for doc in documents:
         response = self.app.get("/qualifications/{}/documents/{}".format(self.qualification_id, doc["id"]))
         document = response.json["data"]
@@ -789,7 +772,7 @@ def create_qualification_document_json_bulk(self):
     assert_document(doc_1, "name1.doc")
     assert_document(doc_2, "name2.doc")
 
-    qualification = self.databases.qualifications.get(self.qualification_id)
+    qualification = self.mongodb.qualifications.get(self.qualification_id)
     doc_1 = qualification["documents"][0]
     doc_2 = qualification["documents"][1]
     assert_document(doc_1, "name1.doc")
@@ -889,16 +872,16 @@ def put_qualification_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    if self.docservice:
-        self.assertIn("Signature=", response.json["data"]["url"])
-        self.assertIn("KeyID=", response.json["data"]["url"])
-        self.assertNotIn("Expires=", response.json["data"]["url"])
-        key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        qualification = self.databases.qualifications.get(self.qualification_id)
-        self.assertIn(key, qualification["documents"][-1]["url"])
-        self.assertIn("Signature=", qualification["documents"][-1]["url"])
-        self.assertIn("KeyID=", qualification["documents"][-1]["url"])
-        self.assertNotIn("Expires=", qualification["documents"][-1]["url"])
+
+    self.assertIn("Signature=", response.json["data"]["url"])
+    self.assertIn("KeyID=", response.json["data"]["url"])
+    self.assertNotIn("Expires=", response.json["data"]["url"])
+    key = response.json["data"]["url"].split("/")[-1].split("?")[0]
+    qualification = self.mongodb.qualifications.get(self.qualification_id)
+    self.assertIn(key, qualification["documents"][-1]["url"])
+    self.assertIn("Signature=", qualification["documents"][-1]["url"])
+    self.assertIn("KeyID=", qualification["documents"][-1]["url"])
+    self.assertNotIn("Expires=", qualification["documents"][-1]["url"])
     response = self.app.get("/qualifications/{}/documents/{}".format(self.qualification_id, doc_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -946,22 +929,20 @@ def put_qualification_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    if self.docservice:
-        self.assertIn("Signature=", response.json["data"]["url"])
-        self.assertIn("KeyID=", response.json["data"]["url"])
-        self.assertNotIn("Expires=", response.json["data"]["url"])
-        key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        qualification = self.databases.qualifications.get(self.qualification_id)
-        self.assertIn(key, qualification["documents"][-1]["url"])
-        self.assertIn("Signature=", qualification["documents"][-1]["url"])
-        self.assertIn("KeyID=", qualification["documents"][-1]["url"])
-        self.assertNotIn("Expires=", qualification["documents"][-1]["url"])
-    else:
-        key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
-    if self.docservice:
-        response = self.app.get("/qualifications/{}/documents/{}".format(self.qualification_id, doc_id, key))
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
+
+    self.assertIn("Signature=", response.json["data"]["url"])
+    self.assertIn("KeyID=", response.json["data"]["url"])
+    self.assertNotIn("Expires=", response.json["data"]["url"])
+    key = response.json["data"]["url"].split("/")[-1].split("?")[0]
+    qualification = self.mongodb.qualifications.get(self.qualification_id)
+    self.assertIn(key, qualification["documents"][-1]["url"])
+    self.assertIn("Signature=", qualification["documents"][-1]["url"])
+    self.assertIn("KeyID=", qualification["documents"][-1]["url"])
+    self.assertNotIn("Expires=", qualification["documents"][-1]["url"])
+
+    response = self.app.get("/qualifications/{}/documents/{}".format(self.qualification_id, doc_id, key))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
 
     response = self.app.get("/qualifications/{}/documents".format(self.qualification_id, self.framework_token))
     self.assertEqual(response.status, "200 OK")

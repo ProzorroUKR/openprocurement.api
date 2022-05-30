@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/42b066abf8d74e769bd368279e46441b/bids/1d98255f593f4a09a2fe81564728302f?acc_token=2386f907ffa446d88f2a5e1543997879 HTTP/1.0
+GET /api/2.5/tenders/f321c5aade8048bb81ead18ad17d428d/bids/37a0d4ceb7b34b968ac24b00a3ec3659?acc_token=2386f907ffa446d88f2a5e1543997879 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -36,7 +36,7 @@ X-Content-Type-Options: nosniff
       }
     ],
     "status": "active",
-    "id": "1d98255f593f4a09a2fe81564728302f",
+    "id": "37a0d4ceb7b34b968ac24b00a3ec3659",
     "date": "2021-03-16T00:00:00+02:00",
     "selfQualified": true,
     "subcontractingDetails": "ДКП «Орфей», Україна",
@@ -48,7 +48,7 @@ X-Content-Type-Options: nosniff
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/321859156e8342a7b536c8cc5a1f9b69?Signature=oesIr58TtakLJ5kNTfn09uPFKE01nUWb0nQI49NxdNbHhQw8aQCA%2B42mabnaHzPpRZ%2FnwlZmtxW0s3RLbwCnDw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "confidentiality": "public",
-        "id": "c91902ad94c84634af4b0be8fe9e73b6",
+        "id": "390b452b0d7142f6bfea3de1dc9c0277",
         "datePublished": "2021-03-16T00:00:00+02:00",
         "dateModified": "2021-03-16T00:00:00+02:00"
       }

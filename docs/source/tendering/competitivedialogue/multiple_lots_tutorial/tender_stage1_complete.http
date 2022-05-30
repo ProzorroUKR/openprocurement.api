@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/f0e38a03b8d54356ae7ac183c03ef91d?acc_token=246ec66b60c4448880a5156363cb2000 HTTP/1.0
+GET /api/2.5/tenders/b3817911ec8c42789f533a2d26c7dc1f?acc_token=246ec66b60c4448880a5156363cb2000 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -690,7 +690,7 @@ X-Content-Type-Options: nosniff
             "value": "True"
           }
         ],
-        "id": "1364aaf7ec90441692c76ccb24a623f8",
+        "id": "df19bcc89d254fec8ea76eb0a3b0b62a",
         "date": "2021-03-16T00:00:00+02:00",
         "tenderers": [
           {
@@ -839,7 +839,7 @@ X-Content-Type-Options: nosniff
             "value": "True"
           }
         ],
-        "id": "5d17e351e54f4949ac1c1cee9cece058",
+        "id": "887d6b8013ce4c6c9b3579f7a0e4c4b9",
         "date": "2021-03-16T00:00:00+02:00",
         "tenderers": [
           {
@@ -987,7 +987,7 @@ X-Content-Type-Options: nosniff
             "value": "True"
           }
         ],
-        "id": "efd32c624d1c490a9d4e31ec0301cfa8",
+        "id": "b2491557b27447e19006e2750a59894b",
         "date": "2021-03-16T00:00:00+02:00",
         "tenderers": [
           {
@@ -1106,7 +1106,7 @@ X-Content-Type-Options: nosniff
     "qualifications": [
       {
         "id": "18fb47c42742485db315de8298d24caa",
-        "bidID": "1364aaf7ec90441692c76ccb24a623f8",
+        "bidID": "df19bcc89d254fec8ea76eb0a3b0b62a",
         "lotID": "150e2750fa2942ce9315e80ddf78a62a",
         "status": "active",
         "date": "2021-03-16T00:00:00+02:00",
@@ -1115,7 +1115,7 @@ X-Content-Type-Options: nosniff
       },
       {
         "id": "bb4daf99179d4c6c86616e379f9726d9",
-        "bidID": "5d17e351e54f4949ac1c1cee9cece058",
+        "bidID": "887d6b8013ce4c6c9b3579f7a0e4c4b9",
         "lotID": "150e2750fa2942ce9315e80ddf78a62a",
         "status": "active",
         "date": "2021-03-16T00:00:00+02:00",
@@ -1124,7 +1124,7 @@ X-Content-Type-Options: nosniff
       },
       {
         "id": "537d5c5f318e4f16bd4583ae3d0828ac",
-        "bidID": "efd32c624d1c490a9d4e31ec0301cfa8",
+        "bidID": "b2491557b27447e19006e2750a59894b",
         "lotID": "150e2750fa2942ce9315e80ddf78a62a",
         "status": "active",
         "date": "2021-03-16T00:00:00+02:00",
@@ -1245,8 +1245,8 @@ X-Content-Type-Options: nosniff
         }
       }
     ],
-    "stage2TenderID": "a218d3cee3e0496c9af3831f2004c0a4",
-    "id": "f0e38a03b8d54356ae7ac183c03ef91d"
+    "stage2TenderID": "c0917de583954bc28597339c7fa93b5e",
+    "id": "b3817911ec8c42789f533a2d26c7dc1f"
   }
 }
 

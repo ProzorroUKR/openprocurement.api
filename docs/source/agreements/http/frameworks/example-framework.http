@@ -11,6 +11,7 @@ X-Content-Type-Options: nosniff
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
     "date": "2021-03-16T00:00:00+02:00",
+    "dateCreated": "2021-03-16T00:00:00+02:00",
     "dateModified": "2021-04-01T01:00:00+03:00",
     "owner": "test",
     "status": "active",
@@ -60,7 +61,7 @@ X-Content-Type-Options: nosniff
         "description": "папір і картон гофровані, паперова й картонна тара"
       }
     ],
-    "agreementID": "2cb186475d8b4d0e9f2a66eb33f636a7",
+    "agreementID": "2c88cbfb9f454f82976cb11006b46885",
     "id": "d1274eabb3694d9db3ba73681d6ed0dd",
     "next_check": "2021-04-13T00:00:00+02:00"
   }

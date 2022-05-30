@@ -41,7 +41,7 @@ def simple_add_plan(self):
     from_db = self.mongodb.plans.get(uid)
 
     assert u.planID == from_db["planID"]
-    assert u.doc_type == "Plan"
+    assert u.doc_type is None
 
     self.mongodb.plans.flush()
 

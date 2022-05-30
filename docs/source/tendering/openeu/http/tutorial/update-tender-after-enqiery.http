@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/17a82f12536e405c88db7f654bb215f5?acc_token=b156e1bb6d7f4fa6826249264d4140fd HTTP/1.0
+GET /api/2.5/tenders/b68a79fc566a4d49b80369c0ed01748d?acc_token=b156e1bb6d7f4fa6826249264d4140fd HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -669,7 +669,7 @@ X-Content-Type-Options: nosniff
     },
     "documents": [
       {
-        "id": "227cc8e7d8f945c793c9110b95d8b48b",
+        "id": "867a2d5f38ae4407bd7eb25ba1b8be8e",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
@@ -681,7 +681,7 @@ X-Content-Type-Options: nosniff
         "language": "uk"
       },
       {
-        "id": "dd4b5a8df3ff4deb8eb8c5da24cf55eb",
+        "id": "3b419bcf77e24014b66a2fcecb82df3b",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
@@ -693,7 +693,7 @@ X-Content-Type-Options: nosniff
         "language": "uk"
       },
       {
-        "id": "dd4b5a8df3ff4deb8eb8c5da24cf55eb",
+        "id": "3b419bcf77e24014b66a2fcecb82df3b",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
@@ -804,11 +804,11 @@ X-Content-Type-Options: nosniff
       "startDate": "2021-03-16T00:00:00+02:00",
       "endDate": "2021-04-12T00:00:00+02:00"
     },
-    "id": "17a82f12536e405c88db7f654bb215f5"
+    "id": "b68a79fc566a4d49b80369c0ed01748d"
   }
 }
 
-PATCH /api/2.5/tenders/17a82f12536e405c88db7f654bb215f5?acc_token=b156e1bb6d7f4fa6826249264d4140fd HTTP/1.0
+PATCH /api/2.5/tenders/b68a79fc566a4d49b80369c0ed01748d?acc_token=b156e1bb6d7f4fa6826249264d4140fd HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 38
 Content-Type: application/json

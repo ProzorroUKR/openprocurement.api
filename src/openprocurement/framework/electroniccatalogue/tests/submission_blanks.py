@@ -4,7 +4,7 @@ from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
 
-from openprocurement.api.models import Address
+from openprocurement.framework.electroniccatalogue.models import Submission
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.tests.base import change_auth
@@ -24,7 +24,7 @@ def listing(self):
     for i in tenderer_ids:
 
         data["tenderers"][0]["identifier"]["id"] = i
-        offset = get_now().isoformat()
+        offset = get_now().timestamp()
         response = self.app.post_json("/submissions", {"data": data})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -38,13 +38,8 @@ def listing(self):
         submissions.append(response.json["data"])
 
     ids = ",".join([i["id"] for i in submissions])
-
-    while True:
-        response = self.app.get("/submissions")
-        self.assertTrue(ids.startswith(",".join([i["id"] for i in response.json["data"]])))
-        if len(response.json["data"]) == 3:
-            break
-
+    response = self.app.get("/submissions")
+    self.assertTrue(ids.startswith(",".join([i["id"] for i in response.json["data"]])))
     self.assertEqual(len(response.json["data"]), 3)
     self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in submissions]))
@@ -1035,15 +1030,9 @@ def submission_not_found(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "submission_id"}]
+        response.json["errors"],
+        [{"description": "Not Found", "location": "url", "name": "submission_id"}],
     )
-
-    # put custom document object into database to check frameworks construction on non-Submission data
-    data = {"contract": "test", "_id": uuid4().hex}
-    self.databases.submissions.save(data)
-
-    response = self.app.get("/submissions/{}".format(data["_id"]), status=404)
-    self.assertEqual(response.status, "404 Not Found")
 
 
 def submission_token_invalid(self):
@@ -1080,7 +1069,7 @@ def get_documents_list(self):
 
 
 def get_document_by_id(self):
-    documents = self.databases.submissions.get(self.submission_id).get("documents")
+    documents = self.mongodb.submissions.get(self.submission_id).get("documents")
     for doc in documents:
         response = self.app.get("/submissions/{}/documents/{}".format(self.submission_id, doc["id"]))
         document = response.json["data"]
@@ -1166,7 +1155,7 @@ def create_submission_document_json_bulk(self):
     assert_document(doc_1, "name1.doc")
     assert_document(doc_2, "name2.doc")
 
-    submission = self.databases.submissions.get(self.submission_id)
+    submission = self.mongodb.submissions.get(self.submission_id)
     doc_1 = submission["documents"][0]
     doc_2 = submission["documents"][1]
     assert_document(doc_1, "name1.doc")
@@ -1266,16 +1255,17 @@ def put_submission_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    if self.docservice:
-        self.assertIn("Signature=", response.json["data"]["url"])
-        self.assertIn("KeyID=", response.json["data"]["url"])
-        self.assertNotIn("Expires=", response.json["data"]["url"])
-        key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        submission = self.databases.submissions.get(self.submission_id)
-        self.assertIn(key, submission["documents"][-1]["url"])
-        self.assertIn("Signature=", submission["documents"][-1]["url"])
-        self.assertIn("KeyID=", submission["documents"][-1]["url"])
-        self.assertNotIn("Expires=", submission["documents"][-1]["url"])
+
+    self.assertIn("Signature=", response.json["data"]["url"])
+    self.assertIn("KeyID=", response.json["data"]["url"])
+    self.assertNotIn("Expires=", response.json["data"]["url"])
+    key = response.json["data"]["url"].split("/")[-1].split("?")[0]
+    submission = self.mongodb.submissions.get(self.submission_id)
+    self.assertIn(key, submission["documents"][-1]["url"])
+    self.assertIn("Signature=", submission["documents"][-1]["url"])
+    self.assertIn("KeyID=", submission["documents"][-1]["url"])
+    self.assertNotIn("Expires=", submission["documents"][-1]["url"])
+
     response = self.app.get("/submissions/{}/documents/{}".format(self.submission_id, doc_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1323,22 +1313,20 @@ def put_submission_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    if self.docservice:
-        self.assertIn("Signature=", response.json["data"]["url"])
-        self.assertIn("KeyID=", response.json["data"]["url"])
-        self.assertNotIn("Expires=", response.json["data"]["url"])
-        key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-        framework = self.databases.submissions.get(self.submission_id)
-        self.assertIn(key, framework["documents"][-1]["url"])
-        self.assertIn("Signature=", framework["documents"][-1]["url"])
-        self.assertIn("KeyID=", framework["documents"][-1]["url"])
-        self.assertNotIn("Expires=", framework["documents"][-1]["url"])
-    else:
-        key = response.json["data"]["url"].split("?")[-1].split("=")[-1]
-    if self.docservice:
-        response = self.app.get("/submissions/{}/documents/{}".format(self.submission_id, doc_id, key))
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
+
+    self.assertIn("Signature=", response.json["data"]["url"])
+    self.assertIn("KeyID=", response.json["data"]["url"])
+    self.assertNotIn("Expires=", response.json["data"]["url"])
+    key = response.json["data"]["url"].split("/")[-1].split("?")[0]
+    framework = self.mongodb.submissions.get(self.submission_id)
+    self.assertIn(key, framework["documents"][-1]["url"])
+    self.assertIn("Signature=", framework["documents"][-1]["url"])
+    self.assertIn("KeyID=", framework["documents"][-1]["url"])
+    self.assertNotIn("Expires=", framework["documents"][-1]["url"])
+
+    response = self.app.get("/submissions/{}/documents/{}".format(self.submission_id, doc_id, key))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
 
     response = self.app.get("/submissions/{}/documents".format(self.submission_id, self.submission_token))
     self.assertEqual(response.status, "200 OK")
