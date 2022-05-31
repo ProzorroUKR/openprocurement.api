@@ -899,7 +899,7 @@ def patch_contract_single_item_unit_value(self):
     response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
     contract = response.json["data"][0]
     contract_id = contract["id"]
-    self.assertEqual(len(contract["items"]), 1)
+    self.assertEqual(len(contract["items"]), len(self.initial_data["items"]))
     expected_item_unit_currency = contract["items"][0]["unit"]["value"]["currency"]  # "UAH"
 
     new_items = deepcopy(contract["items"])
@@ -986,7 +986,7 @@ def patch_contract_single_item_unit_value_with_status(self):
     response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
     contract = response.json["data"][0]
     contract_id = contract["id"]
-    self.assertEqual(len(contract["items"]), 1)
+    self.assertEqual(len(contract["items"]), len(self.initial_data["items"]))
 
     new_items = deepcopy(contract["items"])
     new_items[0]["quantity"] = 100500

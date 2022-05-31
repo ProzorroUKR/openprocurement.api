@@ -5,6 +5,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.pricequotation.tests.base import (
     TenderContentWebTest,
+    test_tender_data,
     test_bids,
     test_tender_data_multi_buyers,
 )
@@ -28,12 +29,18 @@ from openprocurement.tender.pricequotation.tests.contract_blanks import (
     patch_tender_contract,
     patch_tender_contract_value_vat_not_included,
 )
+from copy import deepcopy
+
+
+multi_item_tender_data = deepcopy(test_tender_data)
+multi_item_tender_data["items"] *= 3
 
 
 @patch("openprocurement.tender.pricequotation.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
 class TenderContractResourceTest(TenderContentWebTest,
                                  TenderContractResourceTestMixin):
     initial_status = "active.awarded"
+    initial_data = multi_item_tender_data
     initial_bids = test_bids
 
     def get_award(self):
