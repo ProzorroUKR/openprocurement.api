@@ -81,12 +81,12 @@ X-Content-Type-Options: nosniff
         ],
         "unit": {
           "name": "month",
-          "code": "MON",
           "value": {
             "amount": 12.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
-          }
+          },
+          "code": "MON"
         },
         "quantity": 9.0,
         "deliveryDate": {
