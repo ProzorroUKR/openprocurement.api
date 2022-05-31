@@ -65,7 +65,7 @@ class TenderContractResource(TenderBaseResource):
             tender["contracts"] = []
         tender["contracts"].append(contract)
 
-        self.state.on_post(contract)
+        self.state.contract_on_post(contract)
 
         if save_tender(self.request):
             self.LOGGER.info(
@@ -87,7 +87,7 @@ class TenderContractResource(TenderBaseResource):
         if updated_contract:
             contract = self.request.validated["contract"]
             set_item(self.request.validated["tender"], "contracts", contract["id"], updated_contract)
-            self.state.on_patch(contract, updated_contract)
+            self.state.contract_on_patch(contract, updated_contract)
 
             if save_tender(self.request):
                 self.LOGGER.info(

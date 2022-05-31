@@ -1,11 +1,12 @@
-from openprocurement.tender.core.procedure.state.contract import ContractState
+from openprocurement.tender.core.procedure.state.contract import ContractStateMixing
+from openprocurement.tender.pricequotation.procedure.state.tender import PriceQuotationTenderState
 from openprocurement.api.utils import context_unpack
 from logging import getLogger
 
 LOGGER = getLogger(__name__)
 
 
-class PQContractState(ContractState):
+class PQContractState(ContractStateMixing, PriceQuotationTenderState):
 
     def check_tender_status_method(self) -> None:
         tender = self.request.validated["tender"]
@@ -26,6 +27,6 @@ class PQContractState(ContractState):
         ):
             tender["status"] = "complete"
 
-    def on_patch(self, before: dict, after: dict):
+    def contract_on_patch(self, before: dict, after: dict):
         self.validate_contract_items(before, after)
-        super().on_patch(before, after)
+        super().contract_on_patch(before, after)

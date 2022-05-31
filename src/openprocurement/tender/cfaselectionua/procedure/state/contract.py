@@ -1,4 +1,5 @@
-from openprocurement.tender.core.procedure.state.contract import ContractState
+from openprocurement.tender.core.procedure.state.contract import ContractStateMixing
+from openprocurement.tender.cfaselectionua.procedure.state.tender import CFASelectionTenderState
 from openprocurement.api.utils import (
     get_now,
     context_unpack,
@@ -10,7 +11,7 @@ from datetime import datetime
 LOGGER = getLogger(__name__)
 
 
-class CFASelectionContractState(ContractState):
+class CFASelectionContractState(ContractStateMixing, CFASelectionTenderState):
     def check_agreements(self, tender: dict) -> bool:
         return False
 
@@ -42,6 +43,6 @@ class CFASelectionContractState(ContractState):
     def validate_tender_revision_date(self):
         return True
 
-    def on_patch(self, before: dict, after: dict):
+    def contract_on_patch(self, before: dict, after: dict):
         self.validate_contract_items(before, after)
-        super().on_patch(before, after)
+        super().contract_on_patch(before, after)
