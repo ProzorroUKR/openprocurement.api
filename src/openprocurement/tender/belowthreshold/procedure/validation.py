@@ -29,7 +29,7 @@ def validate_bid_document_operation_with_not_pending_award(request, **kwargs):
     tender = request.validated["tender"]
     bid = request.validated["bid"]
     if tender["status"] == "active.qualification" and not any(
-        award["bid_id"] == bid["id"] and award["status"] == "pending"
+        award["bid_id"] == bid["id"] and award["status"] in ("pending", "active")
         for award in tender.get("awards", "")
     ):
         raise_operation_error(
