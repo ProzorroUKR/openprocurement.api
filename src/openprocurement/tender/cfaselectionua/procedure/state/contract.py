@@ -25,12 +25,12 @@ class CFASelectionContractState(ContractStateMixing, CFASelectionTenderState):
                 f"Switched tender {tender['id']} to unsuccessful",
                 extra=context_unpack(self.request, {"MESSAGE_ID": "switched_tender_unsuccessful"}),
             )
-            tender["status"] = "unsuccessful"
+            self.set_object_status(tender, "unsuccessful")
 
         contracts = tender.get("contracts", [])
         allow_complete_tender = contracts_allow_to_complete(contracts)
         if allow_complete_tender:
-            tender["status"] = "complete"
+            self.set_object_status(tender, "complete")
 
     def check_tender_status_method(self) -> None:
         tender = self.request.validated["tender"]

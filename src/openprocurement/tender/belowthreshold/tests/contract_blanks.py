@@ -486,9 +486,13 @@ def patch_tender_contract(self):
     owner_token = response.json["access"]["token"]
 
     tender = self.mongodb.tenders.get(self.tender_id)
+
     for i in tender.get("awards", []):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(tender)
+
+    old_tender_date_modified = tender["dateModified"]
+    old_date = contract["date"]
 
     value = contract["value"]
     value["amountNet"] = value["amount"] - 1
@@ -497,6 +501,11 @@ def patch_tender_contract(self):
         {"data": {"value": value}},
     )
     self.assertEqual(response.status, "200 OK")
+
+    tender = self.mongodb.tenders.get(self.tender_id)
+
+    self.assertNotEqual(tender["dateModified"], old_tender_date_modified)
+    self.assertEqual(response.json["data"]["date"], old_date)
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
@@ -1326,12 +1335,19 @@ def patch_tender_contract_status_by_owner(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending")
 
+    old_date = response.json["data"]["date"]
+
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
         {"data": {"status": "active"}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "active")
+
+    doc = self.mongodb.tenders.get(self.tender_id)
+    self.assertEqual(response.json["data"]["date"], doc["dateModified"])
+    self.assertEqual(response.json["data"]["date"], response.json["data"]["dateSigned"])
+    self.assertNotEqual(response.json["data"]["date"], old_date)
 
 
 def patch_tender_contract_status_by_supplier(self):
@@ -1415,6 +1431,8 @@ def patch_tender_contract_status_by_supplier(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending")
 
+    old_date = response.json["data"]["date"]
+
     # Tender owner
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
@@ -1422,6 +1440,11 @@ def patch_tender_contract_status_by_supplier(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "active")
+
+    doc = self.mongodb.tenders.get(self.tender_id)
+    self.assertEqual(response.json["data"]["date"], doc["dateModified"])
+    self.assertEqual(response.json["data"]["date"], response.json["data"]["dateSigned"])
+    self.assertNotEqual(response.json["data"]["date"], old_date)
 
 
 def patch_tender_contract_status_by_others(self):

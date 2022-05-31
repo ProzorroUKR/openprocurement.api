@@ -1,4 +1,5 @@
-from openprocurement.api.utils import json_view, get_now
+from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.context import get_now
 from openprocurement.tender.core.procedure.views.contract import TenderContractResource
 from openprocurement.tender.core.procedure.validation import (
     validate_input_data,
@@ -70,7 +71,6 @@ class ReportingContractResource(TenderContractResource):
         ),
     )
     def patch(self):
-        self.request.validated["contract"]["date"] = get_now()
         return super().patch()
 
 

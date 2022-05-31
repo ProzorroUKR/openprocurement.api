@@ -34,19 +34,17 @@ class BelowThresholdTenderState(TenderState):
     #  -- CHILD ITEMS EVENTS
 
     # handlers
-    @staticmethod
-    def handle_answered_complaint(complaint):
+    def handle_answered_complaint(self, complaint):
         def handler(*_):
-            complaint["status"] = complaint["resolutionType"]
+            self.set_object_status(complaint, complaint["resolutionType"])
         return handler
 
-    @staticmethod
-    def handle_pending_complaint(complaint):
+    def handle_pending_complaint(self, complaint):
         def handler(*_):
             if complaint.get("resolutionType") and complaint.get("dateEscalated"):
-                complaint["status"] = complaint["resolutionType"]
+                self.set_object_status(complaint, complaint["resolutionType"])
             else:
-                complaint["status"] = "ignored"
+                self.set_object_status(complaint, "ignored")
         return handler
 
     def awarded_complaint_handler(self, tender):
@@ -81,19 +79,18 @@ class BelowThresholdTenderState(TenderState):
         self.check_ignored_claim(tender)
 
 
-    @staticmethod
-    def check_ignored_claim(tender):
+    def check_ignored_claim(self, tender):
         statuses = ("complete", "cancelled", "unsuccessful")
         complete_lot_ids = [None] if tender["status"] in statuses else []
         complete_lot_ids.extend([i["id"] for i in tender.get("lots", "")
                                  if i["status"] in statuses])
         for complaint in tender.get("complaints", ""):
             if complaint["status"] == "claim" and complaint.get("relatedLot") in complete_lot_ids:
-                complaint["status"] = "ignored"
+                self.set_object_status(complaint, "ignored")
         for award in tender.get("awards", ""):
             for complaint in award.get("complaints", ""):
                 if complaint["status"] == "claim" and complaint.get("relatedLot") in complete_lot_ids:
-                    complaint["status"] = "ignored"
+                    self.set_object_status(complaint, "ignored")
 
     def has_unanswered_tender_complaints(self, tender):
         return False

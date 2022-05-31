@@ -116,4 +116,3 @@ class AwardState(AwardStateMixing, CFASelectionTenderState):
 
         # date updated when status updated
         award["date"] = get_now().isoformat()
-

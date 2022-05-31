@@ -1,4 +1,4 @@
-from openprocurement.api.utils import get_now, handle_store_exceptions, context_unpack
+from openprocurement.api.utils import handle_store_exceptions, context_unpack
 from openprocurement.api.auth import extract_access_token
 from openprocurement.api.constants import (
     SANDBOX_MODE,

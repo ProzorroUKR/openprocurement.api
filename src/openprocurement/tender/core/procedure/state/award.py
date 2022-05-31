@@ -8,12 +8,10 @@ from datetime import timedelta
 
 
 class AwardStateMixing:
-    # methods from TenderState class
-    add_next_award: callable
-    get_change_tender_status_handler: callable
-
-    # procedure configurable value
-    award_stand_still_time: timedelta
+    set_object_status: callable  # from BaseState
+    add_next_award: callable  # from TenderState
+    get_change_tender_status_handler: callable  # from TenderState
+    award_stand_still_time: timedelta  # from AwardState
 
     def award_on_patch(self, before, award):
         # start complaintPeriod
@@ -85,7 +83,7 @@ class AwardStateMixing:
                     or i["complaintPeriod"]["endDate"] > now
                 ):
                     i["complaintPeriod"]["endDate"] = now
-                i["status"] = "cancelled"
+                self.set_object_status(i, "cancelled")
                 self.set_award_complaints_cancelled(i)
                 self.set_award_contracts_cancelled(i)
             self.add_next_award()
@@ -93,27 +91,27 @@ class AwardStateMixing:
             raise_operation_error(get_request(),
                                   f"Can't update award in current ({before}) status")
         # date updated when status updated
-        award["date"] = get_now().isoformat()
+        award["date"] = now
 
     # helpers
-    @staticmethod
-    def set_award_contracts_cancelled(award):
+    @classmethod
+    def set_award_contracts_cancelled(cls, award):
         tender = get_tender()
         for contract in tender.get("contracts", tuple()):
             if contract["awardID"] == award["id"]:
                 if contract["status"] != "active":
-                    contract["status"] = "cancelled"
+                    cls.set_object_status(contract, "cancelled")
                 else:
                     raise_operation_error(
                         get_request(),
                         "Can't cancel award contract in active status"
                     )
 
-    @staticmethod
-    def set_award_complaints_cancelled(award):
+    @classmethod
+    def set_award_complaints_cancelled(cls, award):
         for complaint in award.get("complaints", ""):
             if complaint["status"] not in ("invalid", "resolved", "declined"):
-                complaint["status"] = "cancelled"
+                cls.set_object_status(complaint, "cancelled")
                 complaint["cancellationReason"] = "cancelled"
                 complaint["dateCanceled"] = get_now().isoformat()
 

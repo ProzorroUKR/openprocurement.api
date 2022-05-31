@@ -12,7 +12,7 @@ class OpenEUTenderState(PreQualificationShouldStartAfterMixing, TenderState):
     def tendering_end_handler(self, tender):
         for complaint in tender.get("complaints", ""):
             if complaint.get("status") == "answered" and complaint.get("resolutionType"):
-                complaint["status"] = complaint["resolutionType"]
+                self.set_object_status(complaint, complaint["resolutionType"])
 
         handler = self.get_change_tender_status_handler("active.pre-qualification")
         handler(tender)
@@ -54,7 +54,7 @@ class OpenEUTenderState(PreQualificationShouldStartAfterMixing, TenderState):
         def handler(tender):
             complaint_statuses = ("invalid", "declined", "stopped", "mistaken", "draft")
             if all(i["status"] in complaint_statuses for i in cancellation.get("complaints", "")):
-                cancellation["status"] = "active"
+                self.set_object_status(cancellation, "active")
 
                 from openprocurement.tender.core.validation import (
                     validate_absence_of_pending_accepted_satisfied_complaints,

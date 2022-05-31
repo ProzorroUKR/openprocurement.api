@@ -65,4 +65,4 @@ class CFAUATenderStateAwardingMixing:
             # logic for auction to switch status
             if "endDate" in tender["awardPeriod"]:
                 del tender["awardPeriod"]["endDate"]
-            tender["status"] = "active.qualification"
+            self.set_object_status(tender, "active.qualification")

@@ -61,7 +61,7 @@ class NegotiationAwardState(ReportingAwardState):
                         if period:
                             if not period.get("endDate") or period["endDate"] > now.isoformat():
                                 period["endDate"] = now.isoformat()
-                        i["status"] = "cancelled"
+                        self.set_object_status(i, "cancelled")
                         self.set_award_contracts_cancelled(i)
             else:
                 if award["complaintPeriod"]["endDate"] > now.isoformat():

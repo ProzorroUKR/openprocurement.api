@@ -36,7 +36,7 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, PreQualificationShouldSta
     def tendering_end_handler(self, tender):
         for complaint in tender.get("complaints", ""):
             if complaint.get("status") == "answered" and complaint.get("resolutionType"):
-                complaint["status"] = complaint["resolutionType"]
+                self.set_object_status(complaint, complaint["resolutionType"])
 
         handler = self.get_change_tender_status_handler("active.pre-qualification")
         handler(tender)
@@ -75,7 +75,7 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, PreQualificationShouldSta
         def handler(tender):
             complaint_statuses = ("invalid", "declined", "stopped", "mistaken", "draft")
             if all(i["status"] in complaint_statuses for i in cancellation.get("complaints", "")):
-                cancellation["status"] = "active"
+                self.set_object_status(cancellation, "active")
 
                 from openprocurement.tender.core.validation import (
                     validate_absence_of_pending_accepted_satisfied_complaints,
@@ -104,7 +104,7 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, PreQualificationShouldSta
                     if tender["status"] == "active.awarded" and agreements:
                         for agreement in agreements:
                             if agreement["items"][0]["relatedLot"] in cancelled_lots:
-                                agreement["status"] = "cancelled"
+                                self.set_object_status(agreement, "cancelled")
 
                     # 3 invalidate bids
                     if tender["status"] in (
@@ -153,7 +153,7 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, PreQualificationShouldSta
 
                     for agreement in tender.get("agreements", ""):
                         if agreement["status"] in ("pending", "active"):
-                            agreement["status"] = "cancelled"
+                            self.set_object_status(agreement, "cancelled")
         return handler
 
     # utils

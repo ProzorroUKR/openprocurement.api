@@ -19,13 +19,13 @@ class PQContractState(ContractStateMixing, PriceQuotationTenderState):
                     {"MESSAGE_ID": "switched_tender_unsuccessful"}
                 ),
             )
-            tender["status"] = "unsuccessful"
+            self.set_object_status(tender, "unsuccessful")
         if (
                 tender.get("contracts")
                 and any([contract["status"] == "active" for contract in tender["contracts"]])
                 and not any([contract["status"] == "pending" for contract in tender["contracts"]])
         ):
-            tender["status"] = "complete"
+            self.set_object_status(tender, "complete")
 
     def contract_on_patch(self, before: dict, after: dict):
         self.validate_contract_items(before, after)

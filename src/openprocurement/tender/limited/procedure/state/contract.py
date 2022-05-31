@@ -1,3 +1,4 @@
+from openprocurement.tender.core.procedure.context import get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.procedure.state.contract import ContractStateMixing
 from openprocurement.tender.limited.procedure.state.tender import NegotiationTenderState
@@ -7,8 +8,7 @@ from openprocurement.api.constants import RELEASE_2020_04_19
 
 class LimitedReportingContractState(ContractStateMixing, NegotiationTenderState):
 
-    @staticmethod
-    def check_contracts_statuses(tender: dict) -> None:
+    def check_contracts_statuses(self, tender: dict) -> None:
         active_contracts = False
         pending_contracts = False
 
@@ -19,20 +19,20 @@ class LimitedReportingContractState(ContractStateMixing, NegotiationTenderState)
                 pending_contracts = True
 
         if tender.get("contracts", []) and active_contracts and not pending_contracts:
-            tender["status"] = "complete"
+            self.set_object_status(tender, "complete")
 
     def check_tender_status_method(self) -> None:
         self.check_contracts_statuses(self.request.validated["tender"])
 
     def contract_on_patch(self, before: dict, after: dict):
         self.validate_contract_items(before, after)
+        after["date"] = get_now().isoformat()
         super().contract_on_patch(before, after)
 
 
 class LimitedNegotiationContractState(LimitedReportingContractState):
 
-    @staticmethod
-    def check_contracts_lot_statuses(tender: dict) -> None:
+    def check_contracts_lot_statuses(self, tender: dict) -> None:
         now = get_now()
         for lot in tender["lots"]:
             if lot["status"] != "active":
@@ -52,21 +52,21 @@ class LimitedNegotiationContractState(LimitedReportingContractState):
             if pending_awards_complaints or not stand_still_end <= now:
                 continue
             elif last_award["status"] == "unsuccessful":
-                lot["status"] = "unsuccessful"
+                self.set_object_status(lot, "unsuccessful")
                 continue
             elif last_award["status"] == "active" and any(
                     [contract["status"] == "active" and contract.get("awardID") == last_award["id"]
                      for contract in tender.get("contracts")]
             ):
-                lot["status"] = "complete"
+                self.set_object_status(lot, "complete")
         statuses = set([lot["status"] for lot in tender.get("lots", [])])
 
         if statuses == {"cancelled"}:
-            tender["status"] = "cancelled"
+            self.set_object_status(tender, "cancelled")
         elif not statuses - {"unsuccessful", "cancelled"}:
-            tender["status"] = "unsuccessful"
+            self.set_object_status(tender, "unsuccessful")
         elif not statuses - {"complete", "unsuccessful", "cancelled"}:
-            tender["status"] = "complete"
+            self.set_object_status(tender, "complete")
 
     def check_tender_status_method(self) -> None:
         tender = self.request.validated["tender"]

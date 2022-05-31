@@ -36,7 +36,7 @@ class AwardState(AwardStateMixing, CFAUATenderState):
             if tender["status"] == "active.qualification.stand-still":
                 for aw in tender.get("awards"):
                     if aw.get("lotID") == award.get("lotID"):
-                        aw["status"] = "cancelled"
+                        self.set_object_status(aw, "cancelled")
 
                 self.add_next_award(
                     regenerate_all_awards=True,
@@ -58,7 +58,7 @@ class AwardState(AwardStateMixing, CFAUATenderState):
         elif before == "unsuccessful" and after == "cancelled":
             for aw in tender.get("awards", ""):
                 if aw.get("lotID") == award.get("lotID"):
-                    aw["status"] = "cancelled"
+                    self.set_object_status(aw, "cancelled")
             self.add_next_award(
                 regenerate_all_awards=True,
                 lot_id=award["lotID"],
