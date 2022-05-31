@@ -1,10 +1,11 @@
-from openprocurement.tender.core.procedure.state.base import BaseState
+from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.core.procedure.context import get_tender, get_now
 from openprocurement.tender.core.procedure.utils import (
     contracts_allow_to_complete,
     dt_from_iso,
 )
 from openprocurement.api.utils import (
-    get_first_revision_date, get_now,
+    get_first_revision_date,
     raise_operation_error,
     context_unpack,
     to_decimal,
@@ -22,8 +23,7 @@ from datetime import datetime
 LOGGER = getLogger(__name__)
 
 
-class ContractState(BaseState):
-    block_complaint_status = ("answered", "pending")
+class ContractStateMixing:
 
     @staticmethod
     def calculate_stand_still_end(tender, lot_awards, now):
@@ -89,9 +89,7 @@ class ContractState(BaseState):
         return True
 
     def check_agreements(self, tender: dict) -> bool:
-        if "agreements" in tender:
-            return True
-        return False
+        return "agreements" in tender
 
     def check_lots_complaints(self, tender: dict, now: datetime) -> None:
         for lot in tender.get("lots", []):
@@ -180,7 +178,7 @@ class ContractState(BaseState):
         else:
             self.check_award_complaints(tender, now)
 
-    def on_post(self, request):
+    def contract_on_post(self, request):
         pass
 
     def validate_activate_contract(self, contract):
@@ -243,9 +241,9 @@ class ContractState(BaseState):
                     "Updated could be only unit.value.amount in item"
                 )
 
-    def validate_contract_signing(self, after: dict):
-        tender = self.request.validated["tender"]
-        if self.request.validated["contract"].get("status") != "active" and "status" in after and after["status"] == "active":
+    def validate_contract_signing(self, before: dict,  after: dict):
+        tender = get_tender()
+        if before.get("status") != "active" and after.get("status") == "active":
             skip_complaint_period = self.check_skip_award_complaint_period(
                 tender.get("procurementMethodRationale", "")
             )
@@ -268,7 +266,7 @@ class ContractState(BaseState):
                 i
                 for i in tender.get("complaints", [])
                 if (i.get("status") in self.block_complaint_status and
-                    i.get("relatedLot") in [None, award.get("lotID")])
+                    i.get("relatedLot") in (None, award.get("lotID")))
             ]
             pending_awards_complaints = [
                 i
@@ -280,10 +278,13 @@ class ContractState(BaseState):
             if pending_complaints or pending_awards_complaints:
                 raise_operation_error(self.request, "Can't sign contract before reviewing all complaints")
 
-    def on_patch(self, before: dict, after: dict):
+    def contract_on_patch(self, before: dict, after: dict):
         if before["status"] != "active" and after["status"] == "active":
             self.validate_activate_contract(after)
         if after["status"] == "active" and after.get("dateSigned", None) is None:
             after["dateSigned"] = get_now().isoformat()
         self.check_tender_status_method()
-        super().on_patch(before, after)
+
+
+class ContractState(ContractStateMixing, TenderState):
+    pass

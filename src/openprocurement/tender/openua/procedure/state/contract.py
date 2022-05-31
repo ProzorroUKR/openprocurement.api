@@ -1,9 +1,10 @@
-from openprocurement.tender.core.procedure.state.contract import ContractState
+from openprocurement.tender.core.procedure.state.contract import ContractStateMixing
+from openprocurement.tender.openua.procedure.state.tender import OpenUATenderState
 
 
-class OpenUAContractState(ContractState):
+class OpenUAContractState(ContractStateMixing, OpenUATenderState):
 
-    def on_patch(self, before: dict, after: dict):
+    def contract_on_patch(self, before: dict, after: dict):
         self.validate_contract_items(before, after)
-        self.validate_contract_signing(after)
-        super().on_patch(before, after)
+        self.validate_contract_signing(before, after)
+        super().contract_on_patch(before, after)
