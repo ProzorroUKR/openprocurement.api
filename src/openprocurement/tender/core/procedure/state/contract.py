@@ -231,9 +231,9 @@ class ContractStateMixing:
                 )
             else:
                 item_before = dict(item_before)
-                item_before["unit"] = {k: v for k, v in item_before.get("unit", {}).items() if k != "value"}
+                item_before["unit"] = {k: v for k, v in (item_before.get("unit") or {}).items() if k != "value"}
                 item_after = dict(item_after)
-                item_after["unit"] = {k: v for k, v in item_after.get("unit", {}).items() if k != "value"}
+                item_after["unit"] = {k: v for k, v in (item_after.get("unit") or {}).items() if k != "value"}
                 if item_before != item_after:
                     raise_operation_error(
                         get_request(),
