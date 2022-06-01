@@ -61,8 +61,8 @@ def patch_tender_contract(self):
         "annualCostsReduction": 0,
         "contractDuration": {"years": 9},
     }
-    new_value = deepcopy(value)
     for field, field_value in patch_fields.items():
+        new_value = dict(value)
         new_value[field] = field_value
         response = self.app.patch_json(
             "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
