@@ -1229,24 +1229,6 @@ def tender_period_update(self):
         }]
     )
 
-    # startDate in the past
-    update["tenderPeriod"]["startDate"] = (get_now() - timedelta(days=200)).isoformat()
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], token),
-        {"data": update},
-        status=422
-    )
-    self.assertEqual(
-        response.json["errors"],
-        [{
-            "location": "body",
-            "name": "tenderPeriod",
-            "description": [
-                "tenderPeriod.startDate should be in greater than current date"
-            ]
-        }]
-    )
-
 
 def tender_owner_can_change_in_draft(self):
     data = self.initial_data.copy()

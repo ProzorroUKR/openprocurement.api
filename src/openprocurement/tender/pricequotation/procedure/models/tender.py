@@ -224,8 +224,6 @@ class Tender(BaseTender):
         validate_criterion_related_items(data, value)
 
     def validate_tenderPeriod(self, data, period):
-        if period.startDate:
-            _validate_tender_period_start_date(data, period)
         validate_tender_period_duration(data, period)
 
     def validate_awardPeriod(self, data, period):
