@@ -15,5 +15,6 @@ def includeme(config):
     config.add_subscriber(set_logging_context, ContextFound)
     config.add_request_method(extract_plan_doc, "plan_doc", reify=True)
     config.add_request_method(extract_plan, "plan", reify=True)
+    config.add_request_method(extract_plan)
     config.add_request_method(plan_from_data)
     config.scan("openprocurement.planning.api.views")

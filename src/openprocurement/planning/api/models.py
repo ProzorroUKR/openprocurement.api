@@ -38,6 +38,8 @@ from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 from zope.interface import implementer
 
+from openprocurement.tender.pricequotation.validation import validate_profile_pattern
+
 PROCURING_ENTITY_KINDS = ("authority", "central", "defense", "general", "other", "social", "special")
 
 class IPlan(IOPContent):
@@ -142,10 +144,16 @@ class PlanItem(Model):
     additionalClassifications = ListType(ModelType(Classification, required=True), default=list())
     unit = ModelType(Unit)  # Description of the unit which the good comes in e.g. hours, kilograms
     quantity = FloatType(min_value=0)  # The number of units required
+    deliveryAddress = ModelType(Address)
     deliveryDate = ModelType(Period)
     description = StringType(required=True)  # A description of the goods, services to be provided.
     description_en = StringType()
     description_ru = StringType()
+    profile = StringType()
+
+    def validate_profile(self, data, value):
+        if value:
+            validate_profile_pattern(value)
 
     def validate_classification(self, data, classification):
         plan = data["__parent__"]
