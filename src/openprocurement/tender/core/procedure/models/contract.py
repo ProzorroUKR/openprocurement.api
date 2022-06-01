@@ -131,7 +131,7 @@ def validate_item_unit_values(items):
     tender_value = get_tender().get("value")
     if tender_value and items:
         for item in items:
-            item_value = item.get("unit", {}).get("value")
+            item_value = (item.get("unit") or {}).get("value")
             if item_value:
                 if (
                     item_value['currency'] != tender_value['currency']
