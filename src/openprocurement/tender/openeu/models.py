@@ -246,15 +246,12 @@ class TenderAuctionPeriod(Period):
             return
         tender = self.__parent__
         if tender.lots or tender.status not in [
-            "active.tendering",
             "active.pre-qualification.stand-still",
             "active.auction",
         ]:
             return
         start_after = None
-        if tender.status == "active.tendering" and tender.tenderPeriod.endDate:
-            start_after = calculate_tender_date(tender.tenderPeriod.endDate, TENDERING_AUCTION, tender)
-        elif self.startDate and get_now() > calc_auction_end_time(tender.numberOfBids, self.startDate):
+        if self.startDate and get_now() > calc_auction_end_time(tender.numberOfBids, self.startDate):
             start_after = calc_auction_end_time(tender.numberOfBids, self.startDate)
         elif tender.qualificationPeriod and tender.qualificationPeriod.endDate:
             decision_dates = [
@@ -280,13 +277,11 @@ class LotAuctionPeriod(Period):
             return
         tender = get_tender(self)
         lot = self.__parent__
-        statuses = ["active.tendering", "active.pre-qualification.stand-still", "active.auction"]
+        statuses = ["active.pre-qualification.stand-still", "active.auction"]
         if tender.status not in statuses or lot.status != "active":
             return
         start_after = None
-        if tender.status == "active.tendering" and tender.tenderPeriod.endDate:
-            start_after = calculate_tender_date(tender.tenderPeriod.endDate, TENDERING_AUCTION, tender)
-        elif self.startDate and get_now() > calc_auction_end_time(lot.numberOfBids, self.startDate):
+        if self.startDate and get_now() > calc_auction_end_time(lot.numberOfBids, self.startDate):
             start_after = calc_auction_end_time(lot.numberOfBids, self.startDate)
         elif tender.qualificationPeriod and tender.qualificationPeriod.endDate:
             decision_dates = [

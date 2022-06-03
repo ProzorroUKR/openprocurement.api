@@ -1,21 +1,16 @@
 from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
-from openprocurement.tender.core.procedure.context import get_request, get_now, get_tender
+from openprocurement.tender.core.procedure.context import get_request, get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
 from openprocurement.tender.cfaua.constants import (
     TENDERING_EXTRA_PERIOD,
-    COMPLAINT_STAND_STILL,
     ENQUIRY_PERIOD_TIME,
     ENQUIRY_STAND_STILL_TIME,
     QUALIFICATION_COMPLAINT_STAND_STILL,
     PREQUALIFICATION_COMPLAINT_STAND_STILL,
 )
-from openprocurement.tender.core.utils import (
-    calculate_tender_business_date,
-    calculate_clarif_business_date,
-    check_auction_period,
-)
+from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.api.utils import raise_operation_error
 
 
@@ -82,7 +77,6 @@ class CFAUATenderDetailsMixing(TenderDetailsMixing):
                     after["qualificationPeriod"]["endDate"] = calculate_complaint_business_date(
                         get_now(), PREQUALIFICATION_COMPLAINT_STAND_STILL, after
                     ).isoformat()
-                    self.check_auction_time(after)
                 else:
                     raise_operation_error(
                         get_request(),
@@ -212,20 +206,10 @@ class CFAUATenderDetailsMixing(TenderDetailsMixing):
         #     )
 
     def invalidate_bids_data(self, tender):
-        self.check_auction_time(tender)
         tender["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
         for bid in tender.get("bids", ""):
             if bid.get("status") not in ("deleted", "draft"):
                 bid["status"] = "invalid"
-
-    @staticmethod
-    def check_auction_time(tender):
-        if check_auction_period(tender.get("auctionPeriod", {}), tender):
-            del tender["auctionPeriod"]["startDate"]
-
-        for lot in tender.get("lots", ""):
-            if check_auction_period(lot.get("auctionPeriod", {}), tender):
-                del lot["auctionPeriod"]["startDate"]
 
     # @staticmethod
     # def initialize_enquiry_period(tender):

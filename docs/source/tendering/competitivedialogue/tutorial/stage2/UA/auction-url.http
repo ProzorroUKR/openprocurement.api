@@ -91,10 +91,6 @@ X-Content-Type-Options: nosniff
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "auctionPeriod": {
-      "shouldStartAfter": "2021-03-16T00:00:00+02:00",
-      "startDate": "2021-03-16T00:00:00+02:00"
-    },
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
       "startDate": "2021-02-28T00:00:00+02:00",
@@ -198,6 +194,10 @@ X-Content-Type-Options: nosniff
     "complaintPeriod": {
       "startDate": "2021-02-16T00:00:00+02:00",
       "endDate": "2021-03-20T00:00:00+02:00"
+    },
+    "auctionPeriod": {
+      "startDate": "2021-03-16T00:00:00+02:00",
+      "shouldStartAfter": "2021-03-16T00:00:00+02:00"
     },
     "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/42b066abf8d74e769bd368279e46441b",
     "id": "42b066abf8d74e769bd368279e46441b"

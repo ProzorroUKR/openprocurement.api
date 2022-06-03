@@ -453,11 +453,11 @@ def requested_fields_changes(request, fieldnames):
 def check_auction_period(period, tender):
     if period and period.get("startDate") and period.get("shouldStartAfter"):
         start = parse_date(period["shouldStartAfter"])
-        date = calculate_tender_date(start, AUCTION_PERIOD_TIME, tender, True)
-        start_date = period["startDate"]
-        if isinstance(start_date, str):
-            start_date = parse_date(period["startDate"])
-        return start_date > date
+        should_start = calculate_tender_date(start, AUCTION_PERIOD_TIME, tender, True)
+        start = period["startDate"]
+        if isinstance(start, str):
+            start = parse_date(period["startDate"])
+        return start > should_start
     return False
 
 

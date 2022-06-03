@@ -530,14 +530,16 @@ def tender_fields(self):
     tender_set = set(tender)
     if "procurementMethodDetails" in tender_set:
         tender_set.remove("procurementMethodDetails")
+
+    difference = tender_set - set(self.initial_data)
+    difference -= {"auctionPeriod"}  # openeu
     self.assertEqual(
-        tender_set - set(self.initial_data),
+        difference,
         {
             "id",
             "dateModified",
             "dateCreated",
             "enquiryPeriod",
-            "auctionPeriod",
             "complaintPeriod",
             "criteria",
             "tenderID",

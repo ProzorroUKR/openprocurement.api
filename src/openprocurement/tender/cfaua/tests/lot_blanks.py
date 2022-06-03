@@ -31,7 +31,6 @@ def get_tender_lot(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     api_lot = response.json["data"]
-    lot.pop("auctionPeriod")
     api_lot.pop("auctionPeriod")
     self.assertEqual(api_lot, lot)
 
@@ -68,7 +67,6 @@ def get_tender_lots(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     api_lot = response.json["data"][0]
-    lot.pop("auctionPeriod")
     api_lot.pop("auctionPeriod")
     self.assertEqual(api_lot, lot)
 
