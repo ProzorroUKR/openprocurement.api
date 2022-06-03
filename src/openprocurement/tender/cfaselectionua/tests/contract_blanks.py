@@ -193,7 +193,9 @@ def patch_tender_contract(self):
     self.assertEqual(response.content_type, "text/plain")
 
     tender = self.mongodb.tenders.get(self.tender_id)
-    self.mongodb.tenders.save(tender)
+
+    old_tender_date_modified = tender["dateModified"]
+    old_date = contract["date"]
 
     items = deepcopy(contract["items"])
     value = contract["value"]
@@ -203,6 +205,11 @@ def patch_tender_contract(self):
         {"data": {"value": value}},
     )
     self.assertEqual(response.status, "200 OK")
+
+    tender = self.mongodb.tenders.get(self.tender_id)
+
+    self.assertNotEqual(tender["dateModified"], old_tender_date_modified)
+    self.assertEqual(response.json["data"]["date"], old_date)
 
     items[0]["description"] = "New Description"
     response = self.app.patch_json(

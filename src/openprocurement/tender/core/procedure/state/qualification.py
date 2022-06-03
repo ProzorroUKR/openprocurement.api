@@ -57,7 +57,7 @@ class QualificationState(TenderState):
                 if bid["id"] == bid_id:
                     for lotValue in bid["lotValues"]:
                         if lotValue["relatedLot"] == lot_id:
-                            lotValue["status"] = status
+                            self.set_object_status(lotValue, status)
                             if status in ["active", "pending"]:
                                 bid["status"] = status
                             self.pull_up_bid_status(self.tender, bid)

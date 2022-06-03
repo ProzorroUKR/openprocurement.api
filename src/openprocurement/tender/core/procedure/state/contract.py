@@ -25,6 +25,7 @@ LOGGER = getLogger(__name__)
 
 
 class ContractStateMixing:
+    set_object_status: callable  # from BaseState
     block_complaint_status: tuple  # from TenderState
 
     @staticmethod
@@ -49,19 +50,19 @@ class ContractStateMixing:
                 f"Switched tender {tender.get('id')} to cancelled",
                 extra=context_unpack(get_request(), {"MESSAGE_ID": "switched_tender_cancelled"}),
             )
-            tender["status"] = "cancelled"
+            self.set_object_status(tender, "cancelled")
         elif not statuses - {"unsuccessful", "cancelled"}:
             LOGGER.info(
                 f"Switched tender {tender.get('id')} to unsuccessful",
                 extra=context_unpack(get_request(), {"MESSAGE_ID": "switched_tender_unsuccessful"}),
             )
-            tender["status"] = "unsuccessful"
+            self.set_object_status(tender, "unsuccessful")
         elif not statuses - {"complete", "unsuccessful", "cancelled"}:
             LOGGER.info(
                 f"Switched tender {tender.get('id')} to complete",
                 extra=context_unpack(get_request(), {"MESSAGE_ID": "switched_tender_complete"}),
             )
-            tender["status"] = "complete"
+            self.set_object_status(tender, "complete")
 
     def check_award_lot_complaints(self, tender: dict, lot_id: str, lot_awards: list, now: datetime) -> bool:
         pending_complaints = False
@@ -114,7 +115,7 @@ class ContractStateMixing:
                                          {"MESSAGE_ID": "switched_lot_unsuccessful"},
                                          {"LOT_ID": lot.get("id")}),
                 )
-                lot["status"] = "unsuccessful"
+                self.set_object_status(lot, "unsuccessful")
                 continue
             elif last_award.get("status") == "active":
                 if self.check_agreements(tender):
@@ -132,7 +133,7 @@ class ContractStateMixing:
                                              {"MESSAGE_ID": "switched_lot_complete"},
                                              {"LOT_ID": lot.get("id")}),
                     )
-                    lot["status"] = "complete"
+                    self.set_object_status(lot, "complete")
             self.switch_status(tender)
 
     def check_award_complaints(self, tender: dict, now: datetime) -> None:
@@ -161,12 +162,12 @@ class ContractStateMixing:
                 f"Switched tender {tender['_id']} to unsuccessful",
                 extra=context_unpack(get_request(), {"MESSAGE_ID": "switched_tender_unsuccessful"}),
             )
-            tender["status"] = "unsuccessful"
+            self.set_object_status(tender, "unsuccessful")
 
         contracts = tender.get("contracts", [])
         allow_complete_tender = contracts_allow_to_complete(contracts)
         if allow_complete_tender:
-            tender["status"] = "complete"
+            self.set_object_status(tender, "complete")
 
     def check_tender_status_method(self) -> None:
         tender = get_tender()
@@ -278,11 +279,17 @@ class ContractStateMixing:
                 raise_operation_error(get_request(), "Can't sign contract before reviewing all complaints")
 
     def contract_on_patch(self, before: dict, after: dict):
+        if before["status"] != after["status"]:
+            self.contract_status_up(before["status"], after["status"], after)
         if before["status"] != "active" and after["status"] == "active":
             self.validate_activate_contract(after)
         if after["status"] == "active" and after.get("dateSigned", None) is None:
             after["dateSigned"] = get_now().isoformat()
         self.check_tender_status_method()
+
+    def contract_status_up(self, before, after, data):
+        assert before != after, "Statuses must be different"
+        data["date"] = get_now().isoformat()
 
 
 class ContractState(ContractStateMixing, TenderState):

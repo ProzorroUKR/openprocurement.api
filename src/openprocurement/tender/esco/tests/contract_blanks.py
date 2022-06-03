@@ -18,6 +18,10 @@ def patch_tender_contract(self):
         to_decimal(contract["value"]["amountNet"]),
         self.expected_contract_amount
     )
+    tender = self.mongodb.tenders.get(self.tender_id)
+
+    old_tender_date_modified = tender["dateModified"]
+    old_date = contract["date"]
 
     value = contract["value"]
     items = deepcopy(contract["items"])
@@ -27,6 +31,11 @@ def patch_tender_contract(self):
         {"data": {"value": value}},
     )
     self.assertEqual(response.status, "200 OK")
+
+    tender = self.mongodb.tenders.get(self.tender_id)
+
+    self.assertNotEqual(tender["dateModified"], old_tender_date_modified)
+    self.assertEqual(response.json["data"]["date"], old_date)
 
     items[0]["description"] = "New Description"
     fake_suppliers_data = [{"name": "New Name"}]

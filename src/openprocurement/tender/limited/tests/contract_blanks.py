@@ -91,6 +91,11 @@ def patch_tender_contract(self):
     contract = response.json["data"][0]
     self.contract_id = contract["id"]
 
+    tender = self.mongodb.tenders.get(self.tender_id)
+
+    old_tender_date_modified = tender["dateModified"]
+    old_date = contract["date"]
+
     value = contract["value"]
     value["amountNet"] = value["amount"] - 1
     response = self.app.patch_json(
@@ -98,6 +103,10 @@ def patch_tender_contract(self):
         {"data": {"value": value}},
     )
     self.assertEqual(response.status, "200 OK")
+
+    tender = self.mongodb.tenders.get(self.tender_id)
+    self.assertNotEqual(tender["dateModified"], old_tender_date_modified)
+    self.assertNotEqual(response.json["data"]["date"], old_date)
 
     old_currency = value["currency"]
     value["currency"] = "USD"

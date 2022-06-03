@@ -36,6 +36,11 @@ def patch_tender_contract(self):
     items[0]["description"] = "New Description"
     fake_suppliers_data = [{"name": "New Name"}]
 
+    tender = self.mongodb.tenders.get(self.tender_id)
+
+    old_tender_date_modified = tender["dateModified"]
+    old_date = contract["date"]
+
     value = contract["value"]
     value["amountNet"] = value["amount"] - 1
     response = self.app.patch_json(
@@ -43,6 +48,11 @@ def patch_tender_contract(self):
         {"data": {"value": value}},
     )
     self.assertEqual(response.status, "200 OK")
+
+    tender = self.mongodb.tenders.get(self.tender_id)
+
+    self.assertNotEqual(tender["dateModified"], old_tender_date_modified)
+    self.assertEqual(response.json["data"]["date"], old_date)
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),

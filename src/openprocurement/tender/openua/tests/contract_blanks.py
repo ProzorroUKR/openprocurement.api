@@ -90,9 +90,13 @@ def patch_tender_contract(self):
     self.set_status("complete", {"status": "active.awarded"})
 
     tender = self.mongodb.tenders.get(self.tender_id)
+
     for i in tender.get("awards", []):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(tender)
+
+    old_tender_date_modified = tender["dateModified"]
+    old_date = contract["date"]
 
     value = contract["value"]
     value["amountNet"] = value["amount"] - 1
@@ -101,6 +105,11 @@ def patch_tender_contract(self):
         {"data": {"value": value}},
     )
     self.assertEqual(response.status, "200 OK")
+
+    tender = self.mongodb.tenders.get(self.tender_id)
+
+    self.assertNotEqual(tender["dateModified"], old_tender_date_modified)
+    self.assertEqual(response.json["data"]["date"], old_date)
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),

@@ -1,3 +1,5 @@
+from typing import List
+
 from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
 from openprocurement.tender.core.procedure.context import get_request, get_now, get_tender
 from openprocurement.tender.core.procedure.utils import dt_from_iso
@@ -46,6 +48,9 @@ class CFAUATenderDetailsMixing(TenderDetailsMixing):
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     enquiry_period_timedelta = - ENQUIRY_PERIOD_TIME
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
+
+    set_object_status: callable  # from BaseState
+    block_complaint_status: tuple  # from TenderState
 
     def on_post(self, tender):
         super().on_post(tender)  # TenderDetailsMixing.on_post

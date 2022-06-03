@@ -30,7 +30,7 @@ from openprocurement.tender.openua.validation import (
 #     procurementMethodType="aboveThresholdUA",
 #     description="Tender contracts",
 # )
-class TenderUaAwardContractResource(TenderAwardContractResource):
+class  TenderUaAwardContractResource(TenderAwardContractResource):
     @staticmethod
     def check_tender_status_method(request):
         return check_tender_status(request)

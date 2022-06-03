@@ -41,7 +41,7 @@ class PriceQuotationTenderState(TenderState):
 
     def pending_award_handler(self, award):
         def handler(tender):
-            award["status"] = 'unsuccessful'
+            self.set_object_status(award, "unsuccessful")
             if any(a["status"] == 'cancelled' for a in tender.get("awards", "")):
                 status_handler = self.get_change_tender_status_handler("unsuccessful")
                 status_handler(tender)

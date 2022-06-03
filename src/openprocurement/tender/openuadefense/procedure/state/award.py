@@ -71,7 +71,7 @@ class AwardState(AwardStateMixing, OpenUADefenseTenderState):
                         if not new_defence_complaints and period:
                             if not period.get("endDate") or period["endDate"] > now:
                                 period["endDate"] = now
-                        i["status"] = "cancelled"
+                        self.set_object_status(i, "cancelled")
                         self.set_award_contracts_cancelled(i)
                 self.add_next_award()
 
@@ -86,7 +86,7 @@ class AwardState(AwardStateMixing, OpenUADefenseTenderState):
                     for i in award.get("complaints", ""))
         ):
             if tender["status"] == "active.awarded":
-                tender["status"] = "active.qualification"
+                self.set_object_status(tender, "active.qualification")
                 if "endDate" in tender["awardPeriod"]:
                     del tender["awardPeriod"]["endDate"]
 
@@ -99,7 +99,7 @@ class AwardState(AwardStateMixing, OpenUADefenseTenderState):
                     if not new_defence_complaints and period:
                         if not period.get("endDate") or period["endDate"] > now:
                             period["endDate"] = now
-                    i["status"] = "cancelled"
+                    self.set_object_status(i, "cancelled")
                     self.set_award_contracts_cancelled(i)
             self.add_next_award()
 
