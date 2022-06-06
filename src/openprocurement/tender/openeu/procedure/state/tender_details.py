@@ -10,10 +10,7 @@ from openprocurement.tender.openua.constants import (
     COMPLAINT_SUBMIT_TIME,
     ENQUIRY_STAND_STILL_TIME,
 )
-from openprocurement.tender.core.utils import (
-    calculate_tender_business_date,
-    check_auction_period,
-)
+from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.api.utils import raise_operation_error
 
 
@@ -88,7 +85,6 @@ class OpenEUTenderDetailsMixing(TenderDetailsMixing):
                     after["qualificationPeriod"]["endDate"] = calculate_complaint_business_date(
                         get_now(), PREQUALIFICATION_COMPLAINT_STAND_STILL, after
                     ).isoformat()
-                    self.check_auction_time(after)
                 else:
                     raise_operation_error(
                         get_request(),
@@ -139,20 +135,10 @@ class OpenEUTenderDetailsMixing(TenderDetailsMixing):
             )
 
     def invalidate_bids_data(self, tender):
-        self.check_auction_time(tender)
         tender["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
         for bid in tender.get("bids", ""):
             if bid.get("status") not in ("deleted", "draft"):
                 bid["status"] = "invalid"
-
-    @staticmethod
-    def check_auction_time(tender):
-        if check_auction_period(tender.get("auctionPeriod", {}), tender):
-            del tender["auctionPeriod"]["startDate"]
-
-        for lot in tender.get("lots", ""):
-            if check_auction_period(lot.get("auctionPeriod", {}), tender):
-                del lot["auctionPeriod"]["startDate"]
 
     @staticmethod
     def update_complaint_period(tender):

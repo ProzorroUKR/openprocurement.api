@@ -135,20 +135,17 @@ def get_tender_lot(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         set(response.json["data"]),
-        set(
-            [
-                "status",
-                "date",
-                "description",
-                "title",
-                "auctionPeriod",
-                "minValue",
-                "id",
-                "minimalStepPercentage",
-                "fundingKind",
-                "yearlyPaymentsPercentageRange",
-            ]
-        ),
+        {
+            "status",
+            "date",
+            "description",
+            "title",
+            "minValue",
+            "id",
+            "minimalStepPercentage",
+            "fundingKind",
+            "yearlyPaymentsPercentageRange",
+        },
     )
 
     self.set_status("active.qualification")
@@ -159,7 +156,6 @@ def get_tender_lot(self):
     api_lot = response.json["data"]
     if "auctionPeriod" in api_lot:
         api_lot.pop("auctionPeriod")
-    lot.pop("auctionPeriod")
     self.assertEqual(api_lot, lot)
 
     response = self.app.get("/tenders/{}/lots/some_id".format(self.tender_id), status=404)
@@ -190,28 +186,23 @@ def get_tender_lots(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         set(response.json["data"][0]),
-        set(
-            [
-                "status",
-                "description",
-                "date",
-                "title",
-                "auctionPeriod",
-                "minValue",
-                "id",
-                "minimalStepPercentage",
-                "fundingKind",
-                "yearlyPaymentsPercentageRange",
-            ]
-        ),
+        {
+            "status",
+            "description",
+            "date",
+            "title",
+            "minValue",
+            "id",
+            "minimalStepPercentage",
+            "fundingKind",
+            "yearlyPaymentsPercentageRange",
+        }
     )
 
     self.set_status("active.qualification")
 
     response = self.app.get("/tenders/{}/lots".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    lot.pop("auctionPeriod")
     api_lot = response.json["data"][0]
     if "auctionPeriod" in api_lot:
         api_lot.pop("auctionPeriod")

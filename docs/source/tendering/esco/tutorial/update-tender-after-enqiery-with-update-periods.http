@@ -794,9 +794,6 @@ X-Content-Type-Options: nosniff
       "startDate": "2021-02-15T00:00:00+02:00",
       "endDate": "2021-03-20T00:00:00+02:00"
     },
-    "auctionPeriod": {
-      "shouldStartAfter": "2021-04-28T00:00:00+02:00"
-    },
     "next_check": "2021-03-24T00:00:00+02:00",
     "id": "7378acd602f14dc498b14cc6198a6995"
   }

@@ -171,9 +171,6 @@ X-Content-Type-Options: nosniff
     ],
     "status": "active.tendering",
     "next_check": "2021-04-16T00:00:00+02:00",
-    "auctionPeriod": {
-      "shouldStartAfter": "2021-05-22T00:00:00+03:00"
-    },
     "id": "21b59cfa191a41eaaeb418282327d481"
   }
 }

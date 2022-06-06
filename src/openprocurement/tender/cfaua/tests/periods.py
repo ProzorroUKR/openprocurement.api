@@ -66,7 +66,7 @@ PERIODS = {
                 "endDate": (-QUESTIONS_STAND_STILL),
             },
             "tenderPeriod": {"startDate": (-TENDERING_DURATION - timedelta(days=1)), "endDate": timedelta()},
-            "qualificationPeriod": {"startDate": timedelta()},
+            "qualificationPeriod": {"startDate": timedelta(), "endDate": timedelta(days=1)},
             "auctionPeriod": {"startDate": (+COMPLAINT_STAND_STILL)},
         },
         "end": {

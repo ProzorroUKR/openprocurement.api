@@ -607,9 +607,6 @@ X-Content-Type-Options: nosniff
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "auctionPeriod": {
-      "shouldStartAfter": "2021-05-22T00:00:00+03:00"
-    },
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",

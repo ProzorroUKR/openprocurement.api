@@ -812,9 +812,6 @@ X-Content-Type-Options: nosniff
         "guarantee": {
           "amount": 8.0,
           "currency": "USD"
-        },
-        "auctionPeriod": {
-          "shouldStartAfter": "2021-04-28T00:00:00+02:00"
         }
       }
     ],

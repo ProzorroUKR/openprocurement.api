@@ -73,7 +73,7 @@ class TenderLotSwitchUnsuccessfulResourceTest(TenderSwitchUnsuccessfulResourceTe
 
 
 class TenderAuctionPeriodResourceTest(BaseTenderContentWebTest):
-    initial_status = "active.tendering"
+    initial_status = "active.pre-qualification.stand-still"
 
     test_set_auction_period = snitch(set_auction_period)
 
