@@ -40,9 +40,12 @@ class TendersListResource(MongodbResourceListing):
             "status",
             "tenderID",
             "lots",
+            "contracts",
+            "procuringEntity",
             "procurementMethodType",
             "procurementMethod",
             "next_check",
+            "mode",
         }
         self.db_listing_method = request.registry.mongodb.tenders.list
 
