@@ -148,5 +148,4 @@ def set_auction_period_0bid(self):
     )
 
     response = self.check_chronograph()
-    self.assertNotIn("auctionPeriod", response.json["data"])
     self.assertEqual(should_start_after, response.json["data"]["lots"][0]["auctionPeriod"]["shouldStartAfter"])

@@ -425,7 +425,6 @@ def create_tender_generated(self):
             "status",
             "enquiryPeriod",
             "tenderPeriod",
-            "auctionPeriod",
             "complaintPeriod",
             "criteria",
             "minimalStep",

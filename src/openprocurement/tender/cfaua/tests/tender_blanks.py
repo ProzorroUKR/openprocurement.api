@@ -490,7 +490,7 @@ def create_tender_generated(self):
     self.assertNotEqual(data["id"], tender["id"])
     self.assertEqual(
         set(tender["lots"][0]),
-        set(["status", "description", "title", "minimalStep", "auctionPeriod", "value", "date", "id"]),
+        {"status", "description", "title", "minimalStep", "value", "date", "id"},
     )
 
 
@@ -688,7 +688,6 @@ def patch_tender(self):
                     get_now() - timedelta(days=1)):
         lots = deepcopy(self.initial_lots)
         lots[0]["minimalStep"]["amount"] = 123
-        lots[0].pop("auctionPeriod")
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
             {"data": {"lots": lots}},

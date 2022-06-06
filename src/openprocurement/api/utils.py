@@ -531,14 +531,16 @@ class APIResource(object):
 
 
 def fix_deprecated_offset(offset: str):
-    if offset.isnumeric():
-        return offset
-    else:
+    try:
+        float(offset)
+    except ValueError:
         try:
             return parse_date(offset.replace(" ", "+")).timestamp()
         except ValueError as e:
             LOGGER.warning(e)
             return offset
+    else:
+        return offset
 
 
 class MongodbResourceListing(APIResource):

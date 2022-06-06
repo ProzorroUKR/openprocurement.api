@@ -632,10 +632,7 @@ X-Content-Type-Options: nosniff
         },
         "minimalStepPercentage": 0.006,
         "fundingKind": "other",
-        "yearlyPaymentsPercentageRange": 0.8,
-        "auctionPeriod": {
-          "shouldStartAfter": "2021-05-22T00:00:00+03:00"
-        }
+        "yearlyPaymentsPercentageRange": 0.8
       },
       {
         "id": "ae36b7ca7b4a44d8b3c015a3e4043f4f",
@@ -650,10 +647,7 @@ X-Content-Type-Options: nosniff
         },
         "minimalStepPercentage": 0.006,
         "fundingKind": "other",
-        "yearlyPaymentsPercentageRange": 0.8,
-        "auctionPeriod": {
-          "shouldStartAfter": "2021-05-22T00:00:00+03:00"
-        }
+        "yearlyPaymentsPercentageRange": 0.8
       }
     ],
     "items": [

@@ -100,7 +100,6 @@ class BaseShouldStartAfterMixing:
 
 
 class PreQualificationShouldStartAfterMixing(BaseShouldStartAfterMixing):
-    tendering_delta = timedelta(days=35)
 
     @staticmethod
     def _get_decision_dates(tender):
@@ -115,20 +114,12 @@ class PreQualificationShouldStartAfterMixing(BaseShouldStartAfterMixing):
 
     def get_lot_auction_should_start_after(self, tender, lot):
         tender_status = tender.get("status")
-        if tender_status in ("active.tendering", "active.pre-qualification.stand-still", "active.auction"):
+        if tender_status in ("active.pre-qualification.stand-still", "active.auction"):
             period = lot.get("auctionPeriod") or {}
             if not period.get("endDate") and lot.get("status", "active") == "active":
                 number_of_bids = self.count_lot_bids_number(tender, lot["id"])
                 if tender["status"] == "active.auction" and number_of_bids < 2:
                     return  # there is no sense to run this auction, shouldStartAfter should be deleted
-
-                if tender_status == "active.tendering" and tender.get("tenderPeriod", {}).get("endDate"):
-                    start_after = calculate_tender_date(
-                        dt_from_iso(tender["tenderPeriod"]["endDate"]),
-                        self.tendering_delta,
-                        tender,
-                    )
-                    return normalize_should_start_after(start_after, tender).isoformat()
 
                 start_date = period.get("startDate")
                 if start_date:
@@ -145,17 +136,9 @@ class PreQualificationShouldStartAfterMixing(BaseShouldStartAfterMixing):
 
     def get_auction_should_start_after(self, tender):
         tender_status = tender.get("status")
-        if tender_status in ("active.tendering", "active.pre-qualification.stand-still", "active.auction"):
+        if tender_status in ("active.pre-qualification.stand-still", "active.auction"):
             period = tender.get("auctionPeriod") or {}
             if not period.get("endDate"):
-                if tender_status == "active.tendering" and tender.get("tenderPeriod", {}).get("endDate"):
-                    start_after = calculate_tender_date(
-                        dt_from_iso(tender["tenderPeriod"]["endDate"]),
-                        self.tendering_delta,
-                        tender,
-                    )
-                    return normalize_should_start_after(start_after, tender).isoformat()
-
                 start_date = period.get("startDate")
                 if start_date:
                     number_of_bids = self.count_bids_number(tender)

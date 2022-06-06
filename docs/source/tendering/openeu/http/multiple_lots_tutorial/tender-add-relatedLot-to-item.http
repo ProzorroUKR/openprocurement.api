@@ -685,9 +685,6 @@ X-Content-Type-Options: nosniff
           "amount": 5.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
-        },
-        "auctionPeriod": {
-          "shouldStartAfter": "2021-05-22T00:00:00+03:00"
         }
       },
       {
@@ -705,9 +702,6 @@ X-Content-Type-Options: nosniff
           "amount": 5.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
-        },
-        "auctionPeriod": {
-          "shouldStartAfter": "2021-05-22T00:00:00+03:00"
         }
       }
     ],
