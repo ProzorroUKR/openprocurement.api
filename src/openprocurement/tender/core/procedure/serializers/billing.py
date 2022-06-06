@@ -24,6 +24,7 @@ class BillingTenderSerializer(BaseUIDSerializer):
         "_id",
         "owner",
         "tenderID",
+        "dateCreated",
         "date",
         "status",
         "value",
