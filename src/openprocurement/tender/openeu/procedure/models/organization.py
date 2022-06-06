@@ -7,6 +7,7 @@ from schematics.types import StringType
 
 
 class Organization(BaseOrganization):
+    name_en = StringType(required=True, min_length=1)
     contactPoint = ModelType(ContactPoint, required=True)
     additionalContactPoints = ListType(ModelType(ContactPoint, required=True))
 
