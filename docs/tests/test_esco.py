@@ -639,13 +639,15 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin):
             i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
         self.mongodb.tenders.save(tender)
 
+        value = dict(response.json["data"][0]["value"])
+        value["amountNet"] -= 1
         with open(TARGET_DIR + 'tender-contract-set-contract-value.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/contracts/{}?acc_token={}'.format(
                     self.tender_id, self.contract_id, owner_token),
                 {"data": {
                     "contractNumber": "contract#1",
-                    "value": {"amountNet": response.json['data'][0]['value']['amount'] - 1}
+                    "value": value
                 }})
             self.assertEqual(response.status, '200 OK')
         self.assertEqual(

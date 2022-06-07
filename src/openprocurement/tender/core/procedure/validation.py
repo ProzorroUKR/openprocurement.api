@@ -1109,8 +1109,8 @@ def validate_update_contract_value_amount(request, name="value", allow_equal=Fal
     contract_value = data.get(name)
     value = data.get("value") or data.get(name)
     if contract_value and {"status", name} & set(request.validated["json_data"].keys()):
-        amount = to_decimal(contract_value.get("amount"))
-        amount_net = to_decimal(contract_value.get("amountNet"))
+        amount = to_decimal(contract_value.get("amount") or 0)
+        amount_net = to_decimal(contract_value.get("amountNet") or 0)
         tax_included = value.get("valueAddedTaxIncluded")
 
         if not (amount == 0 and amount_net == 0):

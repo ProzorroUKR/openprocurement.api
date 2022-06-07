@@ -96,7 +96,6 @@ X-Content-Type-Options: nosniff
     },
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
-      "name_en": "School #10 of Vinnytsia",
       "identifier": {
         "scheme": "UA-EDR",
         "id": "21725150",
@@ -110,6 +109,7 @@ X-Content-Type-Options: nosniff
         "postalCode": "21027",
         "countryName": "Україна"
       },
+      "name_en": "School #10 of Vinnytsia",
       "contactPoint": {
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/",

@@ -3,7 +3,7 @@ from openprocurement.tender.core.procedure.context import get_now
 from openprocurement.tender.core.procedure.views.contract import TenderContractResource
 from openprocurement.tender.core.procedure.validation import (
     validate_input_data,
-    validate_patch_data,
+    validate_patch_data_simple,
     validate_update_contract_value,
     validate_update_contract_value_with_award,
     validate_update_contract_value_amount,
@@ -60,7 +60,7 @@ class ReportingContractResource(TenderContractResource):
         validators=(
                 validate_contract_operation_not_in_active,
                 validate_input_data(ReportingPatchContract),
-                validate_patch_data(ReportingContract, item_name="contract"),
+                validate_patch_data_simple(ReportingContract, item_name="contract"),
                 validate_contract_update_in_cancelled,
                 validate_update_contract_status,
                 validate_update_contract_value,
@@ -101,7 +101,7 @@ class NegotiationContractResource(ReportingContractResource):
         validators=(
                 validate_contract_operation_not_in_active,
                 validate_input_data(NegotiationPatchContract),
-                validate_patch_data(NegotiationContract, item_name="contract"),
+                validate_patch_data_simple(NegotiationContract, item_name="contract"),
                 validate_contract_update_in_cancelled,
                 validate_update_contract_status,
                 validate_update_contract_value,

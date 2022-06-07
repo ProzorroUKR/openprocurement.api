@@ -962,11 +962,13 @@ def delete_tender_bidder(self):
 
     # sign contract
     response = self.app.get("/tenders/{}".format(self.tender_id))
-    contract_id = response.json["data"]["contracts"][-1]["id"]
+    contract = response.json["data"]["contracts"][-1]
+    contract_id = contract["id"]
     self.app.authorization = ("Basic", ("token", ""))
+    contract["value"]["valueAddedTaxIncluded"] = False
     self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
-        {"data": {"status": "active", "value": {"valueAddedTaxIncluded": False}}},
+        {"data": {"status": "active", "value": contract["value"]}},
     )
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "complete")

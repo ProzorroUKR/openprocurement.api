@@ -99,6 +99,14 @@ def patch_tender_contract(self):
     )
     self.assertEqual(response.json["errors"][0]["description"], "Can't change items list length")
 
+    del items[0]["deliveryDate"]
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
+        {"data": {"items": items}},
+        status=403
+    )
+    self.assertEqual(response.json["errors"][0]["description"], "Updated could be only unit.value.amount in item")
+
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
         {"data": {"status": "active"}},

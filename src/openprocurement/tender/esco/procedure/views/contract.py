@@ -2,7 +2,7 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.validation import (
     unless_admins,
     validate_input_data,
-    validate_patch_data,
+    validate_patch_data_simple,
     validate_contract_supplier,
     validate_contract_operation_not_in_allowed_status,
     validate_update_contract_value_with_award,
@@ -58,7 +58,7 @@ class ESCOContractResource(EUContractResource):
                 unless_admins(validate_contract_supplier()),
                 validate_contract_operation_not_in_allowed_status,
                 validate_contract_input_data(model=PatchContract, supplier_model=PatchContractSupplier),
-                validate_patch_data(Contract, item_name="contract"),
+                validate_patch_data_simple(Contract, item_name="contract"),
                 validate_update_contract_only_for_active_lots,
                 validate_update_contract_status_by_supplier,
                 validate_update_contract_value_esco,

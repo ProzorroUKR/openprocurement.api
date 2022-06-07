@@ -1,6 +1,6 @@
 PATCH /api/2.5/tenders/7378acd602f14dc498b14cc6198a6995/contracts/50fd544f07894953927212c4e2a4cb9c?acc_token=cdb0d97ad6324ce1b99843f3f2959aa4 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 74
+Content-Length: 402
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -8,6 +8,38 @@ DATA:
   "data": {
     "contractNumber": "contract#1",
     "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amount": 8917.4,
+      "amountPerformance": 816.29,
+      "yearlyPaymentsPercentage": 0.9,
+      "annualCostsReduction": [
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "contractDuration": {
+        "years": 10,
+        "days": 74
+      },
       "amountNet": 8916.4
     }
   }
