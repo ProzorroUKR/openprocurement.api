@@ -1,7 +1,8 @@
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.context import get_now
 from openprocurement.tender.core.procedure.views.contract import TenderContractResource
 from openprocurement.tender.core.procedure.validation import (
+    validate_item_owner,
+    unless_admins,
     validate_input_data,
     validate_patch_data_simple,
     validate_update_contract_value,
@@ -58,16 +59,19 @@ class ReportingContractResource(TenderContractResource):
         content_type="application/json",
         permission="edit_contract",
         validators=(
-                validate_contract_operation_not_in_active,
-                validate_input_data(ReportingPatchContract),
-                validate_patch_data_simple(ReportingContract, item_name="contract"),
-                validate_contract_update_in_cancelled,
-                validate_update_contract_status,
-                validate_update_contract_value,
-                validate_update_contract_value_net_required,
-                validate_update_contract_value_with_award,
-                validate_update_contract_value_amount,
-                validate_contract_items_count_modification,
+            unless_admins(
+                validate_item_owner("tender")
+            ),
+            validate_contract_operation_not_in_active,
+            validate_input_data(ReportingPatchContract),
+            validate_patch_data_simple(ReportingContract, item_name="contract"),
+            validate_contract_update_in_cancelled,
+            validate_update_contract_status,
+            validate_update_contract_value,
+            validate_update_contract_value_net_required,
+            validate_update_contract_value_with_award,
+            validate_update_contract_value_amount,
+            validate_contract_items_count_modification,
         ),
     )
     def patch(self):
@@ -88,8 +92,8 @@ class NegotiationContractResource(ReportingContractResource):
         content_type="application/json",
         permission="create_contract",
         validators=(
-                validate_input_data(NegotiationPostContract),
-                validate_contract_operation_not_in_active,
+            validate_input_data(NegotiationPostContract),
+            validate_contract_operation_not_in_active,
         ),
     )
     def collection_post(self):
@@ -99,16 +103,19 @@ class NegotiationContractResource(ReportingContractResource):
         content_type="application/json",
         permission="edit_contract",
         validators=(
-                validate_contract_operation_not_in_active,
-                validate_input_data(NegotiationPatchContract),
-                validate_patch_data_simple(NegotiationContract, item_name="contract"),
-                validate_contract_update_in_cancelled,
-                validate_update_contract_status,
-                validate_update_contract_value,
-                validate_update_contract_value_net_required,
-                validate_update_contract_value_with_award,
-                validate_update_contract_value_amount,
-                validate_contract_items_count_modification,
+            unless_admins(
+                validate_item_owner("tender")
+            ),
+            validate_contract_operation_not_in_active,
+            validate_input_data(NegotiationPatchContract),
+            validate_patch_data_simple(NegotiationContract, item_name="contract"),
+            validate_contract_update_in_cancelled,
+            validate_update_contract_status,
+            validate_update_contract_value,
+            validate_update_contract_value_net_required,
+            validate_update_contract_value_with_award,
+            validate_update_contract_value_amount,
+            validate_contract_items_count_modification,
         ),
     )
     def patch(self):
