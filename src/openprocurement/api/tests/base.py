@@ -61,6 +61,9 @@ class BaseTestApp(webtest.TestApp):
         return response
 
 
+app_cache = {}
+
+
 class BaseWebTest(unittest.TestCase):
     """
     Base Web Test to test openprocurement.api.
@@ -77,7 +80,11 @@ class BaseWebTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.app = cls.AppClass(loadwsgiapp(cls.relative_uri, relative_to=cls.relative_to))
+        key = (cls.relative_uri, cls.relative_to)
+        if key not in app_cache:
+            app_cache[key] = cls.AppClass(loadwsgiapp(cls.relative_uri, relative_to=cls.relative_to))
+        cls.app = app_cache[key]
+        # cls.app = cls.AppClass(loadwsgiapp(cls.relative_uri, relative_to=cls.relative_to))
 
         cls.mongodb = cls.app.app.registry.mongodb
         cls.clean_mongodb()

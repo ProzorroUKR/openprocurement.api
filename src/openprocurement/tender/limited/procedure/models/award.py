@@ -24,7 +24,7 @@ class PostBaseAward(Model):
 
     qualified = BooleanType()
     status = StringType(required=True, choices=["pending", "active"], default="pending")
-    value = ModelType(Value)
+    value = ModelType(Value, required=True)
     weightedValue = ModelType(Value)
     suppliers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, max_size=1)
     subcontractingDetails = StringType()
@@ -45,11 +45,11 @@ class PatchBaseAward(Model):
 
 
 class BaseAward(Model):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    id = MD5Type(required=True)
     qualified = BooleanType()
     status = StringType(required=True, choices=["pending", "unsuccessful", "active", "cancelled"])
     date = IsoDateTimeType(required=True)
-    value = ModelType(Value)
+    value = ModelType(Value, required=True)
     weightedValue = ModelType(Value)
     suppliers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, max_size=1)
     documents = ListType(ModelType(Document, required=True))

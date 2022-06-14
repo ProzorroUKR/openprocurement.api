@@ -91,7 +91,8 @@ class TenderNegotiationCancellationResourceTest(
         super(TenderNegotiationCancellationResourceTest, self).setUp()
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"suppliers": [test_organization], "qualified": True, "status": "active"}}
+            {"data": {"suppliers": [test_organization], "qualified": True, "status": "active",
+                      "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}}
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -119,7 +120,8 @@ class TenderNegotiationQuickCancellationResourceTest(
         super(TenderNegotiationCancellationResourceTest, self).setUp()
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"suppliers": [test_organization], "qualified": True, "status": "active"}}
+            {"data": {"suppliers": [test_organization], "qualified": True, "status": "active",
+                      "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}}
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -170,7 +172,8 @@ class TenderNegotiationQuickCancellationComplaintResourceTest(
         super(TenderNegotiationQuickCancellationComplaintResourceTest, self).setUp()
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"suppliers": [test_organization], "qualified": True, "status": "active"}}
+            {"data": {"suppliers": [test_organization], "qualified": True, "status": "active",
+                      "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}}
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -208,7 +211,8 @@ class TenderNegotiationCancellationComplaintResourceTest(
         super(TenderNegotiationCancellationComplaintResourceTest, self).setUp()
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"suppliers": [test_organization], "qualified": True, "status": "active"}}
+            {"data": {"suppliers": [test_organization], "qualified": True, "status": "active",
+                      "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}}
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")

@@ -146,7 +146,12 @@ class TenderNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
         # Create award
         request_path = "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token)
         response = self.app.post_json(
-            request_path, {"data": {"suppliers": [test_organization], "qualified": True, "status": "pending"}}
+            request_path, {"data": {
+                "suppliers": [test_organization],
+                "qualified": True,
+                "status": "pending",
+                "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
+            }}
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -205,6 +210,7 @@ class TenderLotNegotiationAwardComplaintResourceTest(TenderNegotiationAwardCompl
                     "qualified": True,
                     "status": "pending",
                     "lotID": self.lot["id"],
+                    "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
                 }
             },
         )
@@ -267,6 +273,7 @@ class Tender2LotNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
                     "qualified": True,
                     "status": "pending",
                     "lotID": self.first_lot["id"],
+                    "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
                 }
             },
         )
@@ -285,6 +292,7 @@ class Tender2LotNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
                     "qualified": True,
                     "status": "pending",
                     "lotID": self.second_lot["id"],
+                    "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
                 }
             },
         )
@@ -352,6 +360,7 @@ class Tender2LotNegotiationAwardComplaint2ResourceTest(BaseTenderContentWebTest)
                     "qualified": True,
                     "status": "pending",
                     "lotID": self.first_lot["id"],
+                    "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
                 }
             },
         )
@@ -370,6 +379,7 @@ class Tender2LotNegotiationAwardComplaint2ResourceTest(BaseTenderContentWebTest)
                     "qualified": True,
                     "status": "pending",
                     "lotID": self.second_lot["id"],
+                    "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
                 }
             },
         )
@@ -407,7 +417,8 @@ class TenderNegotiationAwardComplaintDocumentResourceTest(
         # Create award
         request_path = "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token)
         response = self.app.post_json(
-            request_path, {"data": {"suppliers": [test_organization], "qualified": True, "status": "pending"}}
+            request_path, {"data": {"suppliers": [test_organization], "qualified": True, "status": "pending",
+                                    "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}}
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -481,7 +492,8 @@ class TenderLotAwardNegotiationDocumentResourceTest(TenderAwardNegotiationDocume
         # Create award
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"suppliers": [test_organization], "qualified": True, "status": "pending", "lotID": lot["id"]}},
+            {"data": {"suppliers": [test_organization], "qualified": True, "status": "pending", "lotID": lot["id"],
+                      "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}},
         )
         award = response.json["data"]
         self.award_id = award["id"]
