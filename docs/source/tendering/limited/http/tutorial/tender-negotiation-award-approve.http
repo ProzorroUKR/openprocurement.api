@@ -22,8 +22,8 @@ X-Content-Type-Options: nosniff
     "date": "2021-03-16T00:00:00+02:00",
     "value": {
       "amount": 475000.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": false
+      "valueAddedTaxIncluded": false,
+      "currency": "UAH"
     },
     "suppliers": [
       {

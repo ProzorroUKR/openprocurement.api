@@ -47,8 +47,8 @@ X-Content-Type-Options: nosniff
     "status": "pending",
     "value": {
       "amount": 475000.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "currency": "UAH"
     },
     "suppliers": [
       {

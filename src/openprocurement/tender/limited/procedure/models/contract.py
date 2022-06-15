@@ -1,13 +1,19 @@
 from openprocurement.tender.core.procedure.models.contract import (
-    PatchContractSupplier as BasePatchContractSupplier,
     PatchContract as BasePatchContract,
     Contract as BaseContract,
 )
+from openprocurement.tender.core.procedure.models.organization import ContactLessBusinessOrganization
 from openprocurement.tender.core.procedure.context import get_now
 from schematics.exceptions import ValidationError
+from openprocurement.tender.core.procedure.models.base import (
+    ModelType, ListType,
+)
 
 
 class ReportingContract(BaseContract):
+    suppliers = ListType(ModelType(ContactLessBusinessOrganization, required=True),
+                         min_size=1, max_size=1)
+
     def validate_dateSigned(self, data, value):
         if value and value > get_now():
             raise ValidationError("Contract signature date can't be in the future")
@@ -18,7 +24,8 @@ class ReportingPostContract(ReportingContract):
 
 
 class ReportingPatchContract(BasePatchContract):
-    pass
+    suppliers = ListType(ModelType(ContactLessBusinessOrganization, required=True),
+                         min_size=1, max_size=1)
 
 
 class NegotiationContract(BaseContract):
