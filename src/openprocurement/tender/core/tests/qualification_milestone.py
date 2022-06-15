@@ -64,13 +64,18 @@ class TenderQualificationMilestone24HMixin(object):
                     "code": "alp"
                 }
             },
-            status=403
+            status=422
         )
         if get_now() > RELEASE_2020_04_19:
             self.assertEqual(
                 response.json,
-                {"status": "error", "errors": [{"description": "The only allowed milestone code is '24h'",
-                                                "location": "body", "name": "data"}]}
+                {"status": "error", "errors": [{
+                    "location": "body",
+                    "name": "code",
+                    "description": [
+                        "Value must be one of ['24h']."
+                    ]
+                }]}
             )
         else:
             self.assertEqual(

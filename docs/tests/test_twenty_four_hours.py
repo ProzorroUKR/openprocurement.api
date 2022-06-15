@@ -130,6 +130,7 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
             {
                 "id": qualification_id,
                 "bidID": bid_id,
+                "status": "pending",
             }
         ]
         del tender["awards"]
