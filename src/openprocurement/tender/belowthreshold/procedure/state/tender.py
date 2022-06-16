@@ -97,3 +97,7 @@ class BelowThresholdTenderState(TenderState):
 
     def has_unanswered_tender_questions(self, tender):
         return False
+
+    @staticmethod
+    def check_skip_award_complaint_period():
+        return True

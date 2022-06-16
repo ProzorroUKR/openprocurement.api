@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+from unittest.mock import patch
+from datetime import timedelta
 import unittest
 from copy import deepcopy
 from esculator import npv, escp
@@ -98,6 +99,8 @@ lot_bid_amount = round(
 )
 
 
+@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+       get_now() + timedelta(days=1))
 class TenderLotResourceTest(BaseESCOContentWebTest):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
@@ -134,6 +137,8 @@ class TenderLotEdgeCasesTest(BaseESCOContentWebTest, TenderLotEdgeCasesTestMixin
     test_author = test_author
 
 
+@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+       get_now() + timedelta(days=1))
 class TenderLotFeatureResourceTest(BaseESCOContentWebTest):
     docservice = True
     initial_lots = 2 * test_lots
@@ -152,6 +157,8 @@ class TenderLotFeatureResourceTest(BaseESCOContentWebTest):
     test_tender_lot_document = snitch(tender_lot_document)
 
 
+@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+       get_now() + timedelta(days=1))
 class TenderLotBidResourceTest(BaseESCOContentWebTest):
     docservice = True
     initial_lots = test_lots
@@ -165,6 +172,8 @@ class TenderLotBidResourceTest(BaseESCOContentWebTest):
     test_bids_invalidation_on_lot_change = snitch(bids_invalidation_on_lot_change)
 
 
+@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+       get_now() + timedelta(days=1))
 class TenderLotFeatureBidResourceTest(BaseESCOContentWebTest):
     docservice = True
     initial_lots = test_lots
@@ -177,39 +186,42 @@ class TenderLotFeatureBidResourceTest(BaseESCOContentWebTest):
         self.lot_id = self.initial_lots[0]["id"]
         items = deepcopy(self.initial_data["items"])
         items[0].update(relatedLot=self.lot_id, id="1")
-        response = self.app.patch_json(
-            "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-            {
-                "data": {
-                    "items": items,
-                    "features": [
-                        {
-                            "code": "code_item",
-                            "featureOf": "item",
-                            "relatedItem": "1",
-                            "title": "item feature",
-                            "enum": [{"value": 0.01, "title": "good"}, {"value": 0.02, "title": "best"}],
-                        },
-                        {
-                            "code": "code_lot",
-                            "featureOf": "lot",
-                            "relatedItem": self.lot_id,
-                            "title": "lot feature",
-                            "enum": [{"value": 0.01, "title": "good"}, {"value": 0.02, "title": "best"}],
-                        },
-                        {
-                            "code": "code_tenderer",
-                            "featureOf": "tenderer",
-                            "title": "tenderer feature",
-                            "enum": [{"value": 0.01, "title": "good"}, {"value": 0.02, "title": "best"}],
-                        },
-                    ],
-                }
-            },
-        )
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["data"]["items"][0]["relatedLot"], self.lot_id)
+
+        with patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+               get_now() + timedelta(days=1)):
+            response = self.app.patch_json(
+                "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+                {
+                    "data": {
+                        "items": items,
+                        "features": [
+                            {
+                                "code": "code_item",
+                                "featureOf": "item",
+                                "relatedItem": "1",
+                                "title": "item feature",
+                                "enum": [{"value": 0.01, "title": "good"}, {"value": 0.02, "title": "best"}],
+                            },
+                            {
+                                "code": "code_lot",
+                                "featureOf": "lot",
+                                "relatedItem": self.lot_id,
+                                "title": "lot feature",
+                                "enum": [{"value": 0.01, "title": "good"}, {"value": 0.02, "title": "best"}],
+                            },
+                            {
+                                "code": "code_tenderer",
+                                "featureOf": "tenderer",
+                                "title": "tenderer feature",
+                                "enum": [{"value": 0.01, "title": "good"}, {"value": 0.02, "title": "best"}],
+                            },
+                        ],
+                    }
+                },
+            )
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.content_type, "application/json")
+            self.assertEqual(response.json["data"]["items"][0]["relatedLot"], self.lot_id)
 
     test_create_tender_bid_invalid = snitch(create_tender_feature_bid_invalid)
     test_create_tender_bid = snitch(create_tender_feature_bid)

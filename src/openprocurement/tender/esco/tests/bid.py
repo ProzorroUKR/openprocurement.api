@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
-
+from unittest.mock import patch
+from datetime import timedelta
 from esculator import npv, escp
 from openprocurement.api.utils import get_now
 from openprocurement.tender.esco.tests.base import (
@@ -11,7 +12,10 @@ from openprocurement.tender.esco.tests.base import (
     test_bids,
     test_lots,
 )
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_organization,
+    test_author,
+)
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderBidBatchDocumentWithDSResourceTest
@@ -110,6 +114,8 @@ bid_amount = round(
 )
 
 
+@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+       get_now() + timedelta(days=1))
 class TenderBidResourceTest(BaseESCOContentWebTest):
     docservice = True
     initial_status = "active.tendering"
@@ -158,6 +164,8 @@ class TenderBidFeaturesResourceTest(BaseESCOContentWebTest):
     test_features_bid_invalid = snitch(features_bid_invalid)
 
 
+@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+       get_now() + timedelta(days=1))
 class TenderBidDocumentResourceTest(BaseESCOContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "active.tendering"

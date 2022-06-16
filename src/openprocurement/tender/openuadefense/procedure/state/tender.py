@@ -159,11 +159,10 @@ class OpenUADefenseTenderState(DefenseTenderStateAwardingMixing, TenderState):
             ]
             stand_still_end = max(stand_still_ends) if stand_still_ends else now
             in_stand_still = now < stand_still_end
-            skip_award_complaint_period = self.check_skip_award_complaint_period(tender)
             if (
                     pending_complaints
                     or pending_awards_complaints
-                    or (in_stand_still and not skip_award_complaint_period)
+                    or in_stand_still
             ):
                 continue
 

@@ -709,12 +709,6 @@ X-Content-Type-Options: nosniff
     "procurementMethodType": "aboveThresholdEU",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "21725150",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
-        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
-      },
       "address": {
         "streetAddress": "вул. Стахурського. 22",
         "locality": "м. Вінниця",
@@ -723,6 +717,12 @@ X-Content-Type-Options: nosniff
         "countryName": "Україна"
       },
       "name_en": "School #10 of Vinnytsia",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "21725150",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
+      },
       "contactPoint": {
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/",

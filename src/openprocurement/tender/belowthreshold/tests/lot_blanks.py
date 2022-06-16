@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 import mock
+from unittest.mock import patch
 from copy import deepcopy
 from datetime import timedelta
-from email.header import Header
-
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
@@ -860,6 +858,8 @@ def tender_value(self):
     )
 
 
+@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+       get_now() + timedelta(days=1))
 def tender_features_invalid(self):
     request_path = "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token)
     item = deepcopy(self.initial_data["items"][0])

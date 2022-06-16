@@ -2,7 +2,7 @@
 import unittest
 from copy import deepcopy
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_author
+from openprocurement.tender.belowthreshold.tests.base import test_author, test_criteria, language_criteria
 from openprocurement.tender.belowthreshold.tests.lot_blanks import tender_lot_milestones
 
 
@@ -49,6 +49,7 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     test_lots_data = test_lots  # TODO: change attribute identifier
     initial_data = test_tender_data
+    initial_criteria = test_criteria + language_criteria
 
     # test_create_tender_lot_invalid = None
     # test_delete_tender_lot = None
@@ -104,6 +105,7 @@ class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_data
     test_bids_data = test_bids  # TODO: change attribute identifier
+    initial_criteria = test_criteria + language_criteria
 
     def setUp(self):
         super(TenderLotFeatureBidderResourceTest, self).setUp()
@@ -166,6 +168,7 @@ class TenderLotProcessTest(BaseTenderContentWebTest):
     test_lots_data = test_lots  # TODO: change attribute identifier
     initial_data = test_tender_data
     test_bids_data = test_bids  # TODO: change attribute identifier
+    initial_criteria = test_criteria + language_criteria
 
     days_till_auction_starts = 16
 

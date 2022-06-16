@@ -1,7 +1,9 @@
-# -*- coding: utf-8 -*-
+from unittest.mock import patch
+from datetime import timedelta
 import unittest
 from copy import deepcopy
 
+from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.openeu.tests.bid import CreateBidMixin
@@ -48,6 +50,8 @@ from openprocurement.tender.competitivedialogue.tests.stage1.bid_blanks import (
 )
 
 
+@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+       get_now() + timedelta(days=1))
 class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
 
     initial_status = "active.tendering"
@@ -88,6 +92,8 @@ class CompetitiveDialogEUBidFeaturesResourceTest(BaseCompetitiveDialogEUContentW
     test_features_bidder_invalid = snitch(features_bidder_invalid)
 
 
+@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+       get_now() + timedelta(days=1))
 class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "active.tendering"

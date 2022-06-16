@@ -3,7 +3,7 @@ from copy import deepcopy
 from datetime import timedelta
 from mock import patch
 
-from openprocurement.tender.core.procedure.context import get_now
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_organization, now
 from openprocurement.api.constants import TWO_PHASE_COMMIT_FROM
 
@@ -185,6 +185,8 @@ def delete_tender_bidder_eu(self):
     self.assertFalse("date" in bid_data)
 
 
+@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+       get_now() + timedelta(days=1))
 def bids_invalidation_on_tender_change_eu(self):
     bids_access = {}
 
@@ -816,6 +818,8 @@ def create_tender_bidder_ua(self):
     self.assertEqual(response.json["errors"][0]["description"], "Can't add bid in current (complete) tender status")
 
 
+@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+       get_now() + timedelta(days=1))
 def bids_invalidation_on_tender_change_ua(self):
     bids_access = {}
 

@@ -1,7 +1,7 @@
 from uuid import uuid4
 from copy import deepcopy
 from datetime import timedelta
-
+from unittest.mock import patch
 from openprocurement.api.utils import get_now, parse_date
 from openprocurement.api.constants import (
     ROUTE_PREFIX,
@@ -1274,6 +1274,8 @@ def patch_tender_jsonpatch(self):
     self.assertEqual(response.content_type, "application/json")
 
 
+@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+       get_now() + timedelta(days=1))
 def patch_tender(self):
     data = deepcopy(self.initial_data)
     data["items"].append(deepcopy(data["items"][0]))

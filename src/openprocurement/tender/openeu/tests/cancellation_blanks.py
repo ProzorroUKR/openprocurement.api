@@ -47,6 +47,8 @@ def bids_on_tender_cancellation_in_tendering(self):
     self.assertEqual(response.json["data"]["status"], "cancelled")
 
 
+@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+       get_now() + timedelta(days=1))
 def bids_on_tender_cancellation_in_pre_qualification(self):
     self._mark_one_bid_deleted()
 

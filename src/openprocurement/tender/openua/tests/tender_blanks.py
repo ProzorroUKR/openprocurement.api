@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from datetime import timedelta, datetime
 from copy import deepcopy
 
@@ -809,16 +809,15 @@ def patch_tender_period(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data})
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]
-    owner_token = response.json["access"]["token"]
-    dateModified = tender.pop("dateModified")
-    self.tender_id = tender["id"]
+    self.tender_id, self.tender_token = tender["id"], response.json["access"]["token"]
 
+    add_criteria(self)
     self.set_enquiry_period_end()  # sets tenderPeriod.startDate in the past, be careful
     response = self.app.get(f"/tenders/{tender['id']}")
     tender = response.json["data"]
 
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
+        "/tenders/{}?acc_token={}".format(tender["id"], self.tender_token),
         {"data": {"description": "new description"}},
         status=403,
     )
@@ -834,7 +833,7 @@ def patch_tender_period(self):
     tender_period = deepcopy(tender["tenderPeriod"])
     tender_period["endDate"] = tender_period_end_date.isoformat()
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
+        "/tenders/{}?acc_token={}".format(tender["id"], self.tender_token),
         {"data": {"description": "new description", "tenderPeriod": tender_period}},
     )
     self.assertEqual(response.status, "200 OK")

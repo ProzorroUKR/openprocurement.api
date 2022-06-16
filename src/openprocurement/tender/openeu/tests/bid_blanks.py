@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+from unittest.mock import patch
+from datetime import timedelta
 from copy import deepcopy
 
 from openprocurement.tender.core.tests.base import change_auth
@@ -568,6 +569,8 @@ def get_tender_bidder(self):
     )
 
 
+@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+       get_now() + timedelta(days=1))
 def delete_tender_bidder(self):
     bid_data = deepcopy(test_bids[0])
     bid_data.update({
@@ -944,6 +947,8 @@ def bid_Administrator_change(self):
     self.assertEqual(response.json["data"]["tenderers"][0]["identifier"]["id"], "00000000")
 
 
+@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+       get_now() + timedelta(days=1))
 def bids_invalidation_on_tender_change(self):
     bids_access = {}
 
@@ -2689,6 +2694,8 @@ def patch_tender_bidder_document(self):
         )
 
 
+@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+       get_now() + timedelta(days=1))
 def patch_and_put_document_into_invalid_bid(self):
     doc_id_by_type = {}
     for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:

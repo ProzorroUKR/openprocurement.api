@@ -1,7 +1,7 @@
 import unittest
 from copy import deepcopy
 from openprocurement.api.tests.base import snitch
-
+from openprocurement.tender.belowthreshold.tests.base import test_criteria, language_criteria
 from openprocurement.tender.belowthreshold.tests.base import test_lots
 from openprocurement.tender.belowthreshold.tests.lot import (
     TenderLotResourceTestMixin,
@@ -72,6 +72,7 @@ class TenderUALotProcessTestMixin(object):
 class TenderLotResourceTest(BaseTenderUAContentWebTest, TenderLotResourceTestMixin, TenderUALotResourceTestMixin):
     initial_data = test_tender_data
     test_lots_data = test_lots
+    initial_criteria = test_criteria + language_criteria
 
     test_tender_lot_guarantee = snitch(tender_lot_guarantee)
     test_tender_lot_milestones = snitch(tender_lot_milestones)
@@ -95,6 +96,7 @@ class TenderLotFeatureResourceTest(BaseTenderUAContentWebTest, TenderLotFeatureR
     initial_data = test_tender_data
     initial_lots = 2 * test_lots
     test_bids_data = test_bids
+    initial_criteria = test_criteria + language_criteria
     invalid_feature_value = 0.5
     max_feature_value = 0.3
     sum_of_max_value_of_all_features = 0.3
@@ -104,6 +106,7 @@ class TenderLotBidderResourceTest(BaseTenderUAContentWebTest):
     initial_data = test_tender_data
     initial_lots = test_lots
     test_bids_data = test_bids
+    initial_criteria = test_criteria + language_criteria
 
     test_create_tender_bidder_invalid = snitch(create_tender_bidder_invalid)
     test_patch_tender_bidder = snitch(patch_tender_bidder)
@@ -113,6 +116,7 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
     initial_data = test_tender_data
     initial_lots = test_lots
     test_bids_data = test_bids
+    initial_criteria = test_criteria + language_criteria
 
     def setUp(self):
         super(TenderLotFeatureBidderResourceTest, self).setUp()

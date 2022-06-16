@@ -6,12 +6,11 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-
+from openprocurement.tender.belowthreshold.tests.base import test_criteria, language_criteria
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization,
     test_author,
     test_lots,
-    test_criteria,
 )
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderBidDocumentResourceTest
