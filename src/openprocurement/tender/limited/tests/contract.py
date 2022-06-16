@@ -305,7 +305,8 @@ class TenderNegotiationQuickAccelerationTest(BaseTenderContentWebTest):
         # Create award
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"suppliers": [test_organization], "status": "pending"}},
+            {"data": {"suppliers": [test_organization], "status": "pending",
+                      "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True}}},
         )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -315,7 +316,6 @@ class TenderNegotiationQuickAccelerationTest(BaseTenderContentWebTest):
                 "data": {
                     "status": "active",
                     "qualified": True,
-                    "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
                 }
             },
         )
@@ -398,7 +398,8 @@ class TenderContractDocumentResourceTest(BaseTenderContentWebTest, TenderContrac
         # Create award
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"suppliers": [test_organization], "status": "pending"}},
+            {"data": {"suppliers": [test_organization], "status": "pending",
+                      "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True}}},
         )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -408,7 +409,6 @@ class TenderContractDocumentResourceTest(BaseTenderContentWebTest, TenderContrac
                 "data": {
                     "status": "active",
                     "qualified": True,
-                    "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
                 }
             },
         )

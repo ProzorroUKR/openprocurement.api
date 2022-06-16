@@ -756,7 +756,9 @@ def patch_tender(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"suppliers": [test_organization], "status": "pending"}},
+        {"data": {"suppliers": [test_organization],
+                  "status": "pending",
+                  "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False}}},
     )
     award_id = response.json["data"]["id"]
     response = self.app.patch_json(
@@ -853,7 +855,11 @@ def changing_tender_after_award(self):
     # first award
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
-        {"data": {"suppliers": [test_organization], "status": "pending", "lotID": first_lot["id"], "qualified": True}},
+        {"data": {"suppliers": [test_organization],
+                  "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
+                  "status": "pending",
+                  "lotID": first_lot["id"],
+                  "qualified": True}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")

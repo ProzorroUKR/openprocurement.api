@@ -179,7 +179,8 @@ def patch_tender_contract(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, tender_token),
-        {"data": {"suppliers": [test_organization], "status": "pending"}},
+        {"data": {"suppliers": [test_organization], "status": "pending",
+                  "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}},
     )
     award_id = response.json["data"]["id"]
     self.app.patch_json(
@@ -351,7 +352,8 @@ def award_id_change_is_not_allowed(self):
     # upload new award
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"suppliers": [test_organization]}},
+        {"data": {"suppliers": [test_organization],
+                  "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False}}},
     )
     award = response.json["data"]
     response = self.app.patch_json(
@@ -481,7 +483,8 @@ def patch_tender_negotiation_contract(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, tender_token),
-        {"data": {"suppliers": [test_organization], "status": "pending"}},
+        {"data": {"suppliers": [test_organization], "status": "pending",
+                  "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}},
     )
     award_id = response.json["data"]["id"]
     response = self.app.patch_json(
@@ -671,7 +674,8 @@ def lot_award_id_change_is_not_allowed(self):
     # upload new award
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"suppliers": [test_organization], "lotID": self.lot1["id"]}},
+        {"data": {"suppliers": [test_organization], "lotID": self.lot1["id"],
+                  "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}},
     )
     award = response.json["data"]
     self.app.patch_json(

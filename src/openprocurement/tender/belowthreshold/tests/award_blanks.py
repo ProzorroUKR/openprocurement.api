@@ -519,6 +519,7 @@ def create_tender_award_no_scale_invalid(self):
         "data": {
             "status": "pending",
             "suppliers": [{key: value for key, value in test_organization.items() if key != "scale"}],
+            "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
         }
     }
     if self.initial_bids:
@@ -539,7 +540,8 @@ def create_tender_award_no_scale_invalid(self):
 @mock.patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
 def create_tender_award_with_scale_not_required(self):
     self.app.authorization = ("Basic", ("token", ""))
-    award_data = {"data": {"status": "pending", "suppliers": [test_organization]}}
+    award_data = {"data": {"status": "pending", "suppliers": [test_organization],
+                           "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}}
     if self.initial_bids:
         award_data["data"]["bid_id"] = self.initial_bids[0]["id"]
     response = self.app.post_json("/tenders/{}/awards".format(self.tender_id), award_data)
@@ -555,6 +557,7 @@ def create_tender_award_no_scale(self):
         "data": {
             "status": "pending",
             "suppliers": [{key: value for key, value in test_organization.items() if key != "scale"}],
+            "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
         }
     }
     if self.initial_bids:

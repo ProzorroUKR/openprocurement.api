@@ -29,6 +29,7 @@ def get_award_data(self, **kwargs):
         "suppliers": [test_organization],
         "subcontractingDetails": "Details",
         "status": "pending",
+        "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
     }
     if self.initial_data["procurementMethodType"] != "reporting":
         data["qualified"] = True
@@ -125,7 +126,7 @@ def create_tender_award_invalid(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"suppliers": [test_organization], "status": "pending"}},
+        {"data": get_award_data(self)},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -212,7 +213,7 @@ def canceling_created_award_and_create_new_one(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"suppliers": [test_organization], "status": "pending"}},
+        {"data": get_award_data(self)},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -230,7 +231,7 @@ def canceling_created_award_and_create_new_one(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"suppliers": [test_organization], "status": "pending"}},
+        {"data": get_award_data(self)},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -665,7 +666,8 @@ def patch_active_not_qualified(self):
     request_path = "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token)
     response = self.app.post_json(
         request_path,
-        {"data": {"suppliers": [test_organization], "subcontractingDetails": "Details", "status": "pending"}},
+        {"data": {"suppliers": [test_organization], "subcontractingDetails": "Details", "status": "pending",
+                  "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False}}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -718,6 +720,7 @@ def create_two_awards_on_one_lot(self):
                 "subcontractingDetails": "Details",
                 "status": "pending",
                 "lotID": lot["id"],
+                "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
             }
         },
     )
@@ -733,6 +736,7 @@ def create_two_awards_on_one_lot(self):
                 "subcontractingDetails": "Details",
                 "status": "pending",
                 "lotID": lot["id"],
+                "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
             }
         },
         status=403,
@@ -767,6 +771,7 @@ def create_award_with_lot(self):
                 "subcontractingDetails": "Details",
                 "status": "pending",
                 "qualified": True,
+                "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
             }
         },
         status=422,
@@ -787,6 +792,7 @@ def create_award_with_lot(self):
                 "status": "pending",
                 "qualified": True,
                 "lotID": lot["id"],
+                "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
             }
         },
     )
@@ -830,6 +836,7 @@ def create_tender_award_with_lot(self):
                 "status": "pending",
                 "qualified": True,
                 "lotID": lot["id"],
+                "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
             }
         },
     )
@@ -903,7 +910,8 @@ def canceling_created_lot_award_and_create_new_one(self):
     request_path = "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token)
     response = self.app.post_json(
         request_path,
-        {"data": {"suppliers": [test_organization], "qualified": True, "status": "pending", "lotID": lot["id"]}},
+        {"data": {"suppliers": [test_organization], "qualified": True, "status": "pending", "lotID": lot["id"],
+                  "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -919,7 +927,8 @@ def canceling_created_lot_award_and_create_new_one(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"suppliers": [test_organization], "status": "pending", "lotID": lot["id"]}},
+        {"data": {"suppliers": [test_organization], "status": "pending", "lotID": lot["id"],
+                  "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -937,7 +946,8 @@ def canceling_created_lot_award_and_create_new_one(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"suppliers": [test_organization], "status": "pending", "lotID": lot["id"]}},
+        {"data": {"suppliers": [test_organization], "status": "pending", "lotID": lot["id"],
+                  "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -958,7 +968,8 @@ def canceling_created_lot_award_and_create_new_one(self):
     request_path = "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token)
     response = self.app.post_json(
         request_path,
-        {"data": {"suppliers": [test_organization], "qualified": True, "status": "pending", "lotID": lot["id"]}},
+        {"data": {"suppliers": [test_organization], "qualified": True, "status": "pending", "lotID": lot["id"],
+                  "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1311,7 +1322,8 @@ def get_tender_lot_award(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"suppliers": [test_organization], "qualified": True, "status": "pending", "lotID": lot["id"]}},
+        {"data": {"suppliers": [test_organization], "qualified": True, "status": "pending", "lotID": lot["id"],
+                  "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1381,6 +1393,7 @@ def two_lot_two_awards(self):
                 "status": "pending",
                 "qualified": True,
                 "lotID": lot1["id"],
+                "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
             }
         },
     )
@@ -1396,6 +1409,7 @@ def two_lot_two_awards(self):
                 "status": "pending",
                 "qualified": True,
                 "lotID": lot2["id"],
+                "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
             }
         },
     )
@@ -1412,6 +1426,7 @@ def two_lot_two_awards(self):
                 "status": "pending",
                 "qualified": True,
                 "lotID": lot1["id"],
+                "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
             }
         },
         status=403,
@@ -1431,6 +1446,7 @@ def two_lot_two_awards(self):
                 "status": "pending",
                 "qualified": True,
                 "lotID": lot2["id"],
+                "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
             }
         },
         status=403,
@@ -1473,7 +1489,8 @@ def cancel_award(self):
     # create award
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"suppliers": [test_organization], "qualified": True, "status": "pending", "lotID": lot["id"]}},
+        {"data": {"suppliers": [test_organization], "qualified": True, "status": "pending", "lotID": lot["id"],
+                  "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1566,6 +1583,7 @@ def create_award_on_cancel_lot(self):
                 "subcontractingDetails": "Details",
                 "status": "pending",
                 "lotID": lot["id"],
+                "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
             }
         },
         status=403,
@@ -1612,6 +1630,7 @@ def patch_award_on_cancel_lot(self):
                 "subcontractingDetails": "Details",
                 "status": "pending",
                 "lotID": lot["id"],
+                "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
             }
         },
     )
@@ -1624,7 +1643,6 @@ def patch_award_on_cancel_lot(self):
         "cancellationOf": "lot",
         "relatedLot": lot["id"]
     })
-
 
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
@@ -2473,7 +2491,8 @@ def create_tender_lot_award_complaints(self):
     request_path = "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token)
     response = self.app.post_json(
         request_path,
-        {"data": {"suppliers": [test_organization], "qualified": True, "status": "pending", "lotID": self.lot_id}},
+        {"data": {"suppliers": [test_organization], "qualified": True, "status": "pending", "lotID": self.lot_id,
+                  "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -2553,7 +2572,8 @@ def cancelled_lot_award_with_complaint(self):
     request_path = "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token)
     response = self.app.post_json(
         request_path,
-        {"data": {"suppliers": [test_organization], "qualified": True, "status": "pending", "lotID": self.lot["id"]}},
+        {"data": {"suppliers": [test_organization], "qualified": True, "status": "pending", "lotID": self.lot["id"],
+                  "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -2698,6 +2718,7 @@ def cancelled_2lot_award_with_complaint(self):
                 "qualified": True,
                 "status": "pending",
                 "lotID": self.first_lot["id"],
+                "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
             }
         },
     )
@@ -2976,6 +2997,7 @@ def cancelled_unsuccessful_award_with_complaint(self):
                 "qualified": True,
                 "status": "pending",
                 "lotID": self.first_lot["id"],
+                "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
             }
         },
     )

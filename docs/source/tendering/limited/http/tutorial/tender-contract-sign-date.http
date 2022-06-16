@@ -64,6 +64,8 @@ X-Content-Type-Options: nosniff
         }
       }
     ],
+    "date": "2021-03-16T00:00:00+02:00",
+    "dateSigned": "2021-03-16T00:00:00+02:00",
     "suppliers": [
       {
         "name": "ДКП «Школяр»",
@@ -79,16 +81,14 @@ X-Content-Type-Options: nosniff
           "postalCode": "21100",
           "countryName": "Україна"
         },
+        "scale": "micro",
         "contactPoint": {
           "email": "soleksuk@gmail.com",
           "telephone": "+380432216930",
           "name": "Сергій Олексюк"
-        },
-        "scale": "micro"
+        }
       }
-    ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateSigned": "2021-03-16T00:00:00+02:00"
+    ]
   }
 }
 

@@ -13,6 +13,11 @@ from schematics.types.serializable import serializable
 from uuid import uuid4
 
 
+class AwardValue(Value):
+    valueAddedTaxIncluded = BooleanType(required=True, default=lambda: get_tender()["value"]["valueAddedTaxIncluded"])
+    currency = StringType(required=True, max_length=3, min_length=3, default=lambda: get_tender()["value"]["currency"])
+
+
 class PostBaseAward(Model):
     @serializable
     def id(self):
@@ -24,8 +29,8 @@ class PostBaseAward(Model):
 
     qualified = BooleanType()
     status = StringType(required=True, choices=["pending", "active"], default="pending")
-    value = ModelType(Value)
-    weightedValue = ModelType(Value)
+    value = ModelType(AwardValue, required=True)
+    weightedValue = ModelType(AwardValue)
     suppliers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, max_size=1)
     subcontractingDetails = StringType()
 
@@ -41,16 +46,16 @@ class PatchBaseAward(Model):
     description_ru = StringType()
     suppliers = ListType(ModelType(BusinessOrganization, required=True), min_size=1, max_size=1)
     subcontractingDetails = StringType()
-    value = ModelType(Value)
+    value = ModelType(AwardValue)
 
 
 class BaseAward(Model):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    id = MD5Type(required=True)
     qualified = BooleanType()
     status = StringType(required=True, choices=["pending", "unsuccessful", "active", "cancelled"])
     date = IsoDateTimeType(required=True)
-    value = ModelType(Value)
-    weightedValue = ModelType(Value)
+    value = ModelType(AwardValue, required=True)
+    weightedValue = ModelType(AwardValue)
     suppliers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, max_size=1)
     documents = ListType(ModelType(Document, required=True))
     subcontractingDetails = StringType()
