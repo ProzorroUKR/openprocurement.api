@@ -2042,6 +2042,147 @@ def fail_create_plan_with_amounts_sum_greater(self):
     self.assertEqual(response.content_type, "application/json")
 
 
+def create_plan_with_delivery_address(self):
+    data = deepcopy(self.initial_data)
+    delivery_address = {
+        "countryName": "Україна",
+        "postalCode": "01221",
+        "region": "Київська область",
+        "locality": "Київська область",
+        "streetAddress": "вул. Банкова, 11, корпус 2"
+    }
+    item = data["items"][0]
+    item["deliveryAddress"] = delivery_address
+    data["items"] = [item]
+
+    response = self.app.post_json("/plans", {"data": data})
+
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["items"][0]["deliveryAddress"], delivery_address)
+
+
+def create_plan_with_delivery_address_required_fields(self):
+    data = deepcopy(self.initial_data)
+    delivery_address = {}
+    item = data["items"][0]
+    item["deliveryAddress"] = delivery_address
+    data["items"] = [item]
+
+    response = self.app.post_json("/plans", {"data": data}, status=422)
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["errors"], [
+        {
+            "location": "body",
+            "name": "items",
+            "description": [
+                {
+                    "deliveryAddress": {
+                        "countryName": [
+                            "This field is required."
+                        ]
+                    }
+                }
+            ]
+        }
+    ])
+
+
+def create_plan_with_delivery_address_validations(self):
+    data = deepcopy(self.initial_data)
+    item = data["items"][0]
+    item["deliveryAddress"] = {}
+    data["items"] = [item]
+
+    data["items"][0]["deliveryAddress"]["countryName"] = "Ukraine"
+
+    response = self.app.post_json("/plans", {"data": data}, status=422)
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["errors"], [
+        {
+            "location": "body",
+            "name": "items",
+            "description": [
+                {
+                    "deliveryAddress": {
+                        "countryName": [
+                            "field address:countryName not exist in countries catalog"
+                        ]
+                    }
+                }
+            ]
+        }
+    ])
+
+    data["items"][0]["deliveryAddress"]["countryName"] = "Україна"
+
+    response = self.app.post_json("/plans", {"data": data})
+
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+
+    data["items"][0]["deliveryAddress"]["countryName"] = "Україна"
+    data["items"][0]["deliveryAddress"]["region"] = "State of New York"
+
+    response = self.app.post_json("/plans", {"data": data}, status=422)
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["errors"], [
+        {
+            "location": "body",
+            "name": "items",
+            "description": [
+                {
+                    "deliveryAddress": {
+                        "region": [
+                            "field address:region not exist in ua_regions catalog"
+                        ]
+                    }
+                }
+            ]
+        }
+    ])
+
+    data["items"][0]["deliveryAddress"]["countryName"] = "Сполучені Штати Америки"
+    data["items"][0]["deliveryAddress"]["region"] = "State of New York"
+
+    response = self.app.post_json("/plans", {"data": data})
+
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+
+
+def create_plan_with_profile(self):
+    data = deepcopy(self.initial_data)
+    item = data["items"][0]
+    item["profile"] = "test"
+    data["items"] = [item]
+
+    response = self.app.post_json("/plans", {"data": data}, status=422)
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["errors"], [{
+        'description': [{'profile': ["The profile value doesn't match id pattern"]}],
+        'location': 'body',
+        'name': 'items'
+    }])
+
+    profile = "908221-15510000-980777-40996564"
+    item["profile"] = profile
+
+    response = self.app.post_json("/plans", {"data": data})
+
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["items"][0]["profile"], profile)
+
+
 def plan_token_invalid(self):
     response = self.app.post_json("/plans", {"data": self.initial_data})
     self.assertEqual(response.status, "201 Created")
