@@ -614,7 +614,7 @@ class MongodbResourceListing(APIResource):
 
         if results:
             params['offset'] = results[-1][self.offset_field]
-            prev_params['offset'] = results[-1][self.offset_field]
+            prev_params['offset'] = results[0][self.offset_field]
             if self.offset_field not in self.all_fields:
                 for r in results:
                     r.pop(self.offset_field)
