@@ -529,6 +529,29 @@ def create_contract(self):
         self.assertEqual(response.status, "403 Forbidden")
 
 
+def create_contract_already_exists(self):
+    response = self.app.post_json("/contracts", {"data": self.initial_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    contract = response.json["data"]
+    self.assertEqual(contract["status"], "active")
+
+    response = self.app.post_json("/contracts", {"data": self.initial_data}, status=409)
+    self.assertEqual(response.status, "409 Conflict")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Document already exists"
+            }
+        ]
+    )
+
+
 def put_transaction_to_contract(self):
 
     response = self.app.get("/contracts/{}".format(self.contract["id"]))
