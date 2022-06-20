@@ -144,6 +144,46 @@ def listing(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 4)
 
+    for i in range(6):
+        offset = get_now().timestamp()
+        response = self.app.post_json("/tenders", {"data": self.initial_data})
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        response = self.set_initial_status(response.json)
+        tenders.append(response.json["data"])
+
+    response = self.app.get("/tenders?descending=1&limit=9")
+    self.assertEqual(response.status, "200 OK")
+
+    ids = [i["id"] for i in response.json["data"]]
+    latest_ids = ids[:3]
+    middle_ids = ids[3:6]
+    earliest_ids = ids[6:]
+
+    response = self.app.get("/tenders?descending=1&limit=3")
+    self.assertEqual(response.status, "200 OK")
+    self.assertListEqual([i["id"] for i in response.json["data"]], latest_ids)
+
+    response = self.app.get(response.json["next_page"]["path"].replace(ROUTE_PREFIX, ""))
+    self.assertEqual(response.status, "200 OK")
+    self.assertListEqual([i["id"] for i in response.json["data"]], middle_ids)
+
+    response = self.app.get(response.json["next_page"]["path"].replace(ROUTE_PREFIX, ""))
+    self.assertEqual(response.status, "200 OK")
+    self.assertListEqual([i["id"] for i in response.json["data"]], earliest_ids)
+
+    response = self.app.get(response.json["prev_page"]["path"].replace(ROUTE_PREFIX, ""))
+    self.assertEqual(response.status, "200 OK")
+    self.assertListEqual([i["id"] for i in response.json["data"]], list(reversed(middle_ids)))
+
+    response = self.app.get(response.json["next_page"]["path"].replace(ROUTE_PREFIX, ""))
+    self.assertEqual(response.status, "200 OK")
+    self.assertListEqual([i["id"] for i in response.json["data"]], list(reversed(latest_ids)))
+
+    response = self.app.get(response.json["prev_page"]["path"].replace(ROUTE_PREFIX, ""))
+    self.assertEqual(response.status, "200 OK")
+    self.assertListEqual([i["id"] for i in response.json["data"]], middle_ids)
+
 
 def listing_changes(self):
     response = self.app.get("/tenders?feed=changes")
