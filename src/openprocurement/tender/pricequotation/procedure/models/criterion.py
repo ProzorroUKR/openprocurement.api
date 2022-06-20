@@ -11,7 +11,7 @@ from openprocurement.api.constants import PQ_MULTI_PROFILE_FROM
 
 class RequirementGroup(ValidateIdMixing, Model):
     description = StringType(required=True)
-    requirements = ListType(ModelType(Requirement, required=True))
+    requirements = ListType(ModelType(Requirement, required=True), required=True, min_size=1)
 
 
 class Criterion(ValidateIdMixing, Model):
@@ -19,7 +19,12 @@ class Criterion(ValidateIdMixing, Model):
     description = StringType(required=True)
     relatesTo = StringType(choices=["item"])
     relatedItem = MD5Type()
-    requirementGroups = ListType(ModelType(RequirementGroup), required=True, validators=[validate_requirement_groups])
+    requirementGroups = ListType(
+        ModelType(RequirementGroup, required=True),
+        required=True,
+        min_size=1,
+        validators=[validate_requirement_groups],
+    )
 
     def validate_relatedItem(self, data, value):
         if value:

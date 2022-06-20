@@ -28,7 +28,7 @@ def validate_requirement_responses(criterias, req_responses):
     expected_ids = set(requirements.keys())
     actual_ids = {r["requirement"]["id"] for r in req_responses}
     if len(actual_ids) != len(req_responses):
-        raise ValidationError(f'Duplicate references for criterias')
+        raise ValidationError('Duplicate references for criterias')
 
     diff = expected_ids - actual_ids
     if diff and get_first_revision_date(get_tender(), default=get_now()) > PQ_CRITERIA_RESPONSES_ALL_FROM:
@@ -92,9 +92,9 @@ class MatchResponseValue:
         value = response.get("value")
         values = response.get("values")
 
-        if not(value or values):
+        if value is None and not values:
             raise ValidationError('response required at least one of field ["value", "values"]')
-        if value and values:
+        if value is not None and values:
             raise ValidationError("field 'value' conflicts with 'values'")
 
         if value is not None:

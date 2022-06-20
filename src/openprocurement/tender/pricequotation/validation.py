@@ -188,14 +188,17 @@ def validate_requirement_values(requirement):
     }
 
     for k, v in field_conflict_map.items():
-        if requirement.get(k) and any(requirement.get(i) for i in v):
+        if (
+                requirement.get(k) is not None
+                and any(requirement.get(i) is not None for i in v)
+        ):
             raise ValidationError(f"{k} conflicts with {v}")
     validate_expected_items(requirement)
 
 
 def validate_requirement(requirement):
     required_fields = ('expectedValue', 'expectedValues', 'minValue', 'maxValue')
-    if not any(requirement.get(i) for i in required_fields):
+    if all(requirement.get(i) is None for i in required_fields):
         raise ValidationError(
             'Value required for at least one field ["expectedValues", "expectedValue", "minValue", "maxValue"]'
         )
@@ -203,6 +206,6 @@ def validate_requirement(requirement):
 
 
 def validate_requirement_groups(value):
-    for requirements in value:
-        for requirement in requirements.requirements:
+    for requirement_group in value:
+        for requirement in requirement_group.requirements or "":
             validate_requirement(requirement)
