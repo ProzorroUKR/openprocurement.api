@@ -2039,7 +2039,7 @@ TYPEMAP = {
 def validate_value_factory(type_map):
     def validator(value, datatype):
 
-        if not value:
+        if value is None:
             return
         type_ = type_map.get(datatype)
         if not type_:

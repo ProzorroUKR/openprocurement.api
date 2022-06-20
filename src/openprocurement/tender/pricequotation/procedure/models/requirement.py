@@ -59,7 +59,7 @@ class Requirement(ValidateIdMixing, Model):
     maxValue = BaseType()
     expectedValue = BaseType()
 
-    expectedValues = ListType(BaseType(required=True), default=list)
+    expectedValues = ListType(BaseType(required=True), min_size=1)
     expectedMinItems = IntType(min_value=0)
     expectedMaxItems = IntType(min_value=0)
 
