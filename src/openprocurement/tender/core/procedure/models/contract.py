@@ -5,7 +5,6 @@ from openprocurement.tender.core.procedure.models.base import (
 from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.models.item import Item
 from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.tender.belowthreshold.utils import check_skip_award_complaint_period
 from openprocurement.tender.core.procedure.models.organization import BusinessOrganization
 from openprocurement.tender.core.procedure.context import get_tender, get_now
 from schematics.types import StringType, MD5Type, FloatType
@@ -49,7 +48,7 @@ class CommonContract(Model):
         if not value:
             return
         tender = get_tender()
-        skip_award_complaint_period = check_skip_award_complaint_period(tender)
+        skip_award_complaint_period = tender.get("procurementMethodType") == "belowThreshold"
         award = [i for i in tender.get("awards", []) if i["id"] == data["awardID"]][0]
         if award.get("complaintPeriod"):
             if not skip_award_complaint_period:

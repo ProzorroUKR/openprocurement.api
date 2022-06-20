@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+from unittest.mock import patch
 from copy import deepcopy
 from datetime import timedelta
 
@@ -1245,6 +1245,8 @@ def update_status_complete_owner_ua(self):
 
 
 # CompetitiveDialogEUResourceTest
+@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+       get_now() + timedelta(days=1))
 def patch_tender_eu_ua(self):
     """
       Can't modify tender if tenderPeriod.endDate < 7 days, before action

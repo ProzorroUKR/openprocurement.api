@@ -753,6 +753,8 @@ def draft2_bids(self):
     self.assertEqual(response.json["data"], [])
 
 
+@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+       get_now() + timedelta(days=1))
 def bids_invalidation_on_tender_change(self):
     bids_access = {}
 

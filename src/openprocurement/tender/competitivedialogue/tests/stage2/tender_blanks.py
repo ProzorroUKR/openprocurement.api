@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
-
+from unittest.mock import patch
 from openprocurement.api.constants import (
     SANDBOX_MODE,
     CPV_ITEMS_CLASS_FROM,
@@ -235,6 +234,8 @@ def create_tender_invalid_eu(self):
     )
 
 
+@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+       get_now() + timedelta(days=1))
 def patch_tender_eu(self):
     self.app.authorization = ("Basic", ("competitive_dialogue", ""))
     response = self.app.post_json("/tenders", {"data": self.initial_data})
@@ -546,6 +547,8 @@ def create_tender_invalid_ua(self):
     )
 
 
+@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+       get_now() + timedelta(days=1))
 def patch_tender_ua(self):
     self.app.authorization = ("Basic", ("competitive_dialogue", ""))
     response = self.app.post_json("/tenders", {"data": self.initial_data})
@@ -1301,6 +1304,8 @@ def tender_features(self):
     self.assertIn("features", response.json["data"])
 
 
+@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+       get_now() + timedelta(days=1))
 def patch_tender_1(self):
     self.app.authorization = ("Basic", ("competitive_dialogue", ""))
     response = self.app.get("/tenders")

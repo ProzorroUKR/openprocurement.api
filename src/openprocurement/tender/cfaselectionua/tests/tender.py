@@ -4,14 +4,13 @@ import unittest
 from copy import deepcopy
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import set_tender_lots
+from openprocurement.tender.belowthreshold.tests.base import set_tender_lots, test_criteria, language_criteria
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_tender_lots_none,
     tender_milestones_not_required,
     create_tender_central,
     create_tender_central_invalid,
 )
-from openprocurement.tender.cfaselectionua.models.tender import CFASelectionUATender
 from openprocurement.tender.cfaselectionua.tests.base import (
     test_lots,
     test_tender_data,
@@ -99,6 +98,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     initial_agreement = test_agreement
     initial_agreement_with_features = test_agreement_features
     test_lots_data = test_lots
+    initial_criteria = test_criteria + language_criteria
 
     agreement_id = "11111111111111111111111111111111"
 

@@ -160,6 +160,8 @@ class CFAUATenderDetailsMixing(TenderDetailsMixing):
         elif after["status"] == "active.tendering":
             after["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
 
+        self.validate_tender_exclusion_criteria(before, after)
+        self.validate_tender_language_criteria(before, after)
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
 
     def status_up(self, before, after, data):

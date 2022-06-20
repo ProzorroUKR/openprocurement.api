@@ -643,12 +643,8 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, BaseSta
         return count
 
     @staticmethod
-    def check_skip_award_complaint_period(tender):
-        skip = (
-            tender.get("procurementMethodType") == "belowThreshold"
-            and tender.get("procurementMethodRationale") == "simple"
-        )
-        return skip
+    def check_skip_award_complaint_period():
+        return False
 
     # awarded
     def check_tender_lot_status(self, tender):
@@ -682,7 +678,7 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, BaseSta
             ]
             stand_still_end = max(stand_still_ends) if stand_still_ends else now
             in_stand_still = now < stand_still_end
-            skip_award_complaint_period = self.check_skip_award_complaint_period(tender)
+            skip_award_complaint_period = self.check_skip_award_complaint_period()
             if (
                     pending_complaints
                     or pending_awards_complaints

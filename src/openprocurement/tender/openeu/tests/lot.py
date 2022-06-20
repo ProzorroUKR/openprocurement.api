@@ -1,6 +1,7 @@
-# -*- coding: utf-8 -*-
 import unittest
-
+from unittest.mock import patch
+from datetime import timedelta
+from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 from copy import deepcopy
 from openprocurement.tender.belowthreshold.tests.lot import (
@@ -10,7 +11,7 @@ from openprocurement.tender.belowthreshold.tests.lot import (
     TenderLotProcessTestMixin,
 )
 
-from openprocurement.tender.belowthreshold.tests.base import test_author
+from openprocurement.tender.belowthreshold.tests.base import test_author, test_criteria, language_criteria
 from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     patch_tender_lot_minimalstep_validation,
     create_tender_lot_minimalstep_validation,
@@ -57,6 +58,8 @@ class TenderLotEdgeCasesTestMixin(object):
     test_next_check_value_with_unanswered_claim = snitch(next_check_value_with_unanswered_claim)
 
 
+@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+       get_now() + timedelta(days=1))
 class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin, TenderLotValueTestMixin):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
@@ -103,6 +106,7 @@ class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_data
     test_bids_data = test_bids  # TODO: change attribute identifier
+    initial_criteria = test_criteria + language_criteria
 
     def setUp(self):
         super(TenderLotFeatureBidderResourceTest, self).setUp()

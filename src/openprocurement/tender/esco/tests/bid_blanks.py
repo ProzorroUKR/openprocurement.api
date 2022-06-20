@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+from unittest.mock import patch
 from copy import deepcopy
 
 import mock
@@ -463,6 +463,8 @@ def create_tender_bid_invalid_funding_kind_budget(self):
     self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.8)
 
 
+@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+       get_now() + timedelta(days=1))
 def create_tender_bid(self):
     data = deepcopy(self.test_bids_data[0])
     data.update(

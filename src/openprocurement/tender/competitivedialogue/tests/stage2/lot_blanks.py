@@ -120,6 +120,8 @@ def create_tender_lot_invalid(self):
     )
 
 
+@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+       get_now() + timedelta(days=1))
 def create_tender_lot(self):
     response = self.app.post_json(
         "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token),
@@ -340,6 +342,8 @@ def patch_tender_vat(self):
     )
 
 
+@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+       get_now() + timedelta(days=1))
 def get_tender_lot(self):
     self.create_tender()
     response = self.app.get("/tenders/{}/lots".format(self.tender_id))
@@ -382,6 +386,8 @@ def get_tender_lot(self):
     )
 
 
+@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+       get_now() + timedelta(days=1))
 def get_tender_lots(self):
     self.create_tender()
     response = self.app.get("/tenders/{}/lots".format(self.tender_id))
@@ -404,7 +410,7 @@ def get_tender_lots(self):
     self.assertEqual(response.content_type, "application/json")
     lot.pop("auctionPeriod", None)
     res = response.json["data"][0]
-    res.pop("auctionPeriod",None)
+    res.pop("auctionPeriod", None)
     self.assertEqual(res, lot)
 
     response = self.app.get("/tenders/some_id/lots", status=404)

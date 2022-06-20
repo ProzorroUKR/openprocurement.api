@@ -30,6 +30,9 @@ class TenderDetailsState(TenderDetailsMixing, OpenUATenderState):
     def on_patch(self, before, after):
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
 
+        self.validate_tender_exclusion_criteria(before, after)
+        self.validate_tender_language_criteria(before, after)
+
         if "draft" not in before["status"]:
             tendering_start = before.get("tenderPeriod", {}).get("startDate")
             if tendering_start != after.get("tenderPeriod", {}).get("startDate"):

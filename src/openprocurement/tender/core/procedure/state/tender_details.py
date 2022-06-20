@@ -1,7 +1,8 @@
 from openprocurement.tender.core.procedure.context import get_request, get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.utils import calculate_tender_business_date, calculate_clarif_business_date
-from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.utils import raise_operation_error, get_first_revision_date
+from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from datetime import timedelta
 
 
@@ -92,3 +93,45 @@ class TenderDetailsMixing:
         invalidation_date = enquiry_period and enquiry_period.get("invalidationDate")
         if invalidation_date:
             tender["enquiryPeriod"]["invalidationDate"] = invalidation_date
+
+    @staticmethod
+    def validate_tender_exclusion_criteria(before, after):
+        if (
+            get_first_revision_date(before, default=get_now()) < RELEASE_ECRITERIA_ARTICLE_17
+            or after.get("status") not in ("active", "active.tendering")
+        ):
+            return
+
+        tender_criteria = {criterion["classification"]["id"]
+                           for criterion in after.get("criteria", "")
+                           if criterion.get("classification")}
+
+        # exclusion criteria
+        exclusion_criteria = {
+            "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
+            "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
+            "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
+            "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING",
+            "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES",
+            "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
+            "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION",
+            "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION",
+            "CRITERION.EXCLUSION.NATIONAL.OTHER",
+        }
+        if exclusion_criteria - tender_criteria:
+            raise_operation_error(get_request(), "Tender must contain all 9 `EXCLUSION` criteria")
+
+    @staticmethod
+    def validate_tender_language_criteria(before, after):
+        if (
+            get_first_revision_date(before, default=get_now()) < RELEASE_ECRITERIA_ARTICLE_17
+            or after.get("status") not in ("active", "active.tendering")
+        ):
+            return
+
+        tender_criteria = {criterion["classification"]["id"]
+                           for criterion in after.get("criteria", "")
+                           if criterion.get("classification")}
+        language_criterion = "CRITERION.OTHER.BID.LANGUAGE"
+        if language_criterion not in tender_criteria:
+            raise_operation_error(get_request(), f"Tender must contain {language_criterion} criterion")

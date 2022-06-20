@@ -27,6 +27,7 @@ LOGGER = getLogger(__name__)
 class ContractStateMixing:
     set_object_status: callable  # from BaseState
     block_complaint_status: tuple  # from TenderState
+    check_skip_award_complaint_period: callable  # from TenderState
 
     @staticmethod
     def calculate_stand_still_end(tender, lot_awards, now):
@@ -39,9 +40,6 @@ class ContractStateMixing:
                     (award.get("status") != "cancelled" if new_defence_complaints else True)):
                 stand_still_ends.append(dt_from_iso(award["complaintPeriod"]["endDate"]))
         return max(stand_still_ends) if stand_still_ends else now
-
-    def check_skip_award_complaint_period(self, procurementMethodRationale: str) -> bool:
-        return False
 
     def switch_status(self, tender: dict) -> None:
         statuses = set([lot.get("status") for lot in tender.get("lots", [])])
@@ -80,9 +78,7 @@ class ContractStateMixing:
                     break
 
         stand_still_end = self.calculate_stand_still_end(tender, lot_awards, now)
-        skip_award_complaint_period = self.check_skip_award_complaint_period(
-            tender.get("procurementMethodRationale", "")
-        )
+        skip_award_complaint_period = self.check_skip_award_complaint_period()
         if (
             pending_complaints
             or pending_awards_complaints
@@ -244,9 +240,7 @@ class ContractStateMixing:
     def validate_contract_signing(self, before: dict,  after: dict):
         tender = get_tender()
         if before.get("status") != "active" and after.get("status") == "active":
-            skip_complaint_period = self.check_skip_award_complaint_period(
-                tender.get("procurementMethodRationale", "")
-            )
+            skip_complaint_period = self.check_skip_award_complaint_period()
             award = [a for a in tender.get("awards", []) if a.get("id") == after.get("awardID")][0]
             if not skip_complaint_period:
                 stand_still_end = dt_from_iso(award.get("complaintPeriod", {}).get("endDate"))

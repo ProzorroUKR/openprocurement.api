@@ -593,7 +593,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
             self.new_tender_token = response.json['access']['token']
 
         with open(TARGET_DIR + 'tender_stage2_modify_status.http', 'w') as self.app.file_obj:
-            with patch("openprocurement.tender.core.procedure.validation.RELEASE_ECRITERIA_ARTICLE_17",
+            with patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
                        get_now() + timedelta(days=1)):
                 response = self.app.patch_json(
                     '/tenders/{}?acc_token={}'.format(new_tender_id, self.new_tender_token),
@@ -641,12 +641,18 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
                     'endDate': tender_period_end_date.isoformat()
                 }}})
 
+        # Tender activating
+        test_criteria_data = deepcopy(test_criteria)
+        test_criteria_data.extend(language_criteria)
+        response = self.app.post_json(
+            '/tenders/{}/criteria?acc_token={}'.format(tender['id'], owner_token),
+            {'data': test_criteria_data})
+        self.assertEqual(response.status, '201 Created')
+
         with open(TARGET_DIR + 'stage2/EU/tender-activate.http', 'w') as self.app.file_obj:
-            with patch("openprocurement.tender.core.procedure.validation.RELEASE_ECRITERIA_ARTICLE_17",
-                       get_now() + timedelta(days=1)):
-                response = self.app.patch_json(
-                    '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
-                    {'data': {'status': 'active.tendering'}})
+            response = self.app.patch_json(
+                '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
+                {'data': {'status': 'active.tendering'}})
 
         response = self.app.get('/tenders')
         with open(TARGET_DIR + 'stage2/EU/tender-listing-after-patch.http', 'w') as self.app.file_obj:
@@ -800,11 +806,15 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
             bids_access[bid1_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
 
+        requirement_responses = generate_responses(self)
         with open(TARGET_DIR + 'stage2/EU/activate-bidder.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/bids/{}?acc_token={}'.format(
                     self.tender_id, bid1_id, bids_access[bid1_id]),
-                {'data': {"status": "pending"}})
+                {'data': {
+                    "status": "pending",
+                    "requirementResponses": requirement_responses
+                }})
             self.assertEqual(response.status, '200 OK')
 
         #### Proposal Uploading
@@ -1613,12 +1623,18 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTe
                     'endDate': tender_period_end_date.isoformat()
                 }}})
 
+        # Tender activating
+        test_criteria_data = deepcopy(test_criteria)
+        test_criteria_data.extend(language_criteria)
+        response = self.app.post_json(
+            '/tenders/{}/criteria?acc_token={}'.format(tender['id'], owner_token),
+            {'data': test_criteria_data})
+        self.assertEqual(response.status, '201 Created')
+
         with open(TARGET_DIR + 'stage2/UA/tender-activate.http', 'w') as self.app.file_obj:
-            with patch("openprocurement.tender.core.procedure.validation.RELEASE_ECRITERIA_ARTICLE_17",
-                       get_now() + timedelta(days=1)):
-                response = self.app.patch_json(
-                    '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
-                    {'data': {'status': 'active.tendering'}})
+            response = self.app.patch_json(
+                '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
+                {'data': {'status': 'active.tendering'}})
 
         with open(TARGET_DIR + 'stage2/UA/tender-listing-after-patch.http', 'w') as self.app.file_obj:
             self.app.authorization = None
@@ -1765,6 +1781,12 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTe
             bid1_id = response.json['data']['id']
             bids_access[bid1_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
+
+        requirement_responses = generate_responses(self)
+        self.app.patch_json(
+            '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid1_id, bids_access[bid1_id]),
+            {'data': {"requirementResponses": requirement_responses}}
+        )
 
         with open(TARGET_DIR + 'stage2/UA/activate-bidder.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(

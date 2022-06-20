@@ -11,6 +11,7 @@ from openprocurement.api.constants import (
     SANDBOX_MODE,
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
 )
+from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.api.utils import get_now, parse_date
 from openprocurement.tender.belowthreshold.tests.base import test_organization
 from openprocurement.tender.cfaua.constants import MAX_AGREEMENT_PERIOD
@@ -730,19 +731,20 @@ def patch_tender_period(self):
     response = self.app.post_json("/tenders", {"data": data})
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]
-    owner_token = response.json["access"]["token"]
-    self.tender_id = tender["id"]
+    self.tender_id, self.tender_token = tender["id"], response.json["access"]["token"]
 
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"agreementDuration": "P0Y0M1DT1M0,2S"}}
+        "/tenders/{}?acc_token={}".format(tender["id"], self.tender_token),
+        {"data": {"agreementDuration": "P0Y0M1DT1M0,2S"}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["agreementDuration"], "P1DT1M0.2S")
 
+    add_criteria(self)
     self.set_enquiry_period_end()
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
+        "/tenders/{}?acc_token={}".format(tender["id"], self.tender_token),
         {"data": {"description": "new description"}},
         status=403,
     )
@@ -760,7 +762,7 @@ def patch_tender_period(self):
         tender_period_end_date, -timedelta(days=10), tender
     )
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
+        "/tenders/{}?acc_token={}".format(tender["id"], self.tender_token),
         {"data": {"description": "new description",
                   "tenderPeriod": {
                       "startDate": tender["tenderPeriod"]["startDate"],

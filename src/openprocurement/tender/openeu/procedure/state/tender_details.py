@@ -118,6 +118,8 @@ class OpenEUTenderDetailsMixing(TenderDetailsMixing):
             after["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
             self.initialize_enquiry_period(after)
 
+        self.validate_tender_exclusion_criteria(before, after)
+        self.validate_tender_language_criteria(before, after)
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
 
     # helper methods

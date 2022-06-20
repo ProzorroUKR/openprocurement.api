@@ -27,7 +27,6 @@ from openprocurement.tender.core.procedure.validation import (
     validate_item_quantity,
     validate_tender_guarantee,
     validate_tender_change_status_with_cancellation_lot_pending,
-    validate_tender_activate_with_criteria,
 )
 from pyramid.security import Allow
 from cornice.resource import resource
@@ -111,7 +110,6 @@ class CDEUTenderResource(TendersResource):
             # ),
 
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
-            validate_tender_activate_with_criteria,
 
             validate_item_quantity,
             validate_tender_guarantee,
@@ -186,7 +184,6 @@ class CDUATenderResource(TendersResource):
             # ),
 
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
-            validate_tender_activate_with_criteria,
 
             validate_item_quantity,
             validate_tender_guarantee,
