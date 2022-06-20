@@ -4,6 +4,7 @@ from contextlib import contextmanager
 from decimal import Decimal
 
 from jsonpointer import JsonPointerException
+from pymongo.errors import DuplicateKeyError
 from six import b
 import pytz
 from logging import getLogger
@@ -779,6 +780,9 @@ def handle_store_exceptions(request):
         request.errors.status = 422
     except MongodbResourceConflict as e:  # pragma: no cover
         request.errors.add("body", "data", str(e))
+        request.errors.status = 409
+    except DuplicateKeyError as e:  # pragma: no cover
+        request.errors.add("body", "data", "Document already exists")
         request.errors.status = 409
     except Exception as e:  # pragma: no cover
         LOGGER.exception(e)

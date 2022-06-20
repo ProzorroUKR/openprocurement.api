@@ -22,6 +22,7 @@ from openprocurement.contracting.api.tests.contract_blanks import (
     create_contract_invalid,
     create_contract_generated,
     create_contract,
+    create_contract_already_exists,
     create_contract_transfer_token,
     simple_add_contract,
     create_contract_w_documents,
@@ -72,6 +73,7 @@ class ContractResourceTest(BaseContractTest):
     test_create_contract_invalid = snitch(create_contract_invalid)
     test_create_contract_generated = snitch(create_contract_generated)
     test_create_contract = snitch(create_contract)
+    test_create_contract_already_exists = snitch(create_contract_already_exists)
     test_create_contract_transfer_token = snitch(create_contract_transfer_token)
     test_create_contract_w_documents = snitch(create_contract_w_documents)
     test_skip_address_validation = snitch(skip_address_validation)
