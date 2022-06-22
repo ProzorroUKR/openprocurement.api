@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "dateSigned": "2021-03-16T00:00:01+02:00"
+    "dateSigned": "2023-01-01T00:00:01+02:00"
   }
 }
 
@@ -17,7 +17,7 @@ X-Content-Type-Options: nosniff
   "data": {
     "id": "d8a15a30f95045e9aa7c2b1ca8eb52b1",
     "awardID": "2b438b38a4a74636a13d993b1cc51c4f",
-    "contractID": "UA-2021-03-16-000001-a-1",
+    "contractID": "UA-2023-01-01-000001-a-1",
     "contractNumber": "contract#1",
     "status": "pending",
     "value": {
@@ -49,8 +49,8 @@ X-Content-Type-Options: nosniff
         "scale": "sme"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateSigned": "2021-03-16T00:00:01+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateSigned": "2023-01-01T00:00:01+02:00",
     "items": [
       {
         "id": "27aa67024c4b4db9bb3e141549e9d9b7",
@@ -69,12 +69,17 @@ X-Content-Type-Options: nosniff
         ],
         "unit": {
           "name": "кілограм",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
           "code": "KGM"
         },
         "quantity": 1.0,
         "deliveryDate": {
-          "startDate": "2021-04-05T00:00:00+02:00",
-          "endDate": "2021-05-05T00:00:00+02:00"
+          "startDate": "2023-01-21T00:00:00+02:00",
+          "endDate": "2023-02-20T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -102,12 +107,17 @@ X-Content-Type-Options: nosniff
         ],
         "unit": {
           "name": "упаковка",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
           "code": "PK"
         },
         "quantity": 1.0,
         "deliveryDate": {
-          "startDate": "2021-04-05T00:00:00+02:00",
-          "endDate": "2021-05-05T00:00:00+02:00"
+          "startDate": "2023-01-21T00:00:00+02:00",
+          "endDate": "2023-02-20T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",

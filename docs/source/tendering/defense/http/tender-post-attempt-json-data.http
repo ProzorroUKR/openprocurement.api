@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2021-04-11T00:00:00+02:00"
+      "endDate": "2023-01-27T00:00:00+02:00"
     },
     "title": "футляри до державних нагород",
     "minimalStep": {
@@ -51,8 +51,8 @@ DATA:
         ],
         "description": "Послуги шкільних їдалень",
         "deliveryDate": {
-          "startDate": "2021-04-05T00:00:00+02:00",
-          "endDate": "2021-05-05T00:00:00+02:00"
+          "startDate": "2023-01-21T00:00:00+02:00",
+          "endDate": "2023-02-20T00:00:00+02:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -154,8 +154,8 @@ X-Content-Type-Options: nosniff
     "status": "draft",
     "awardCriteria": "lowestCost",
     "tenderPeriod": {
-      "startDate": "2021-03-27T00:00:05+02:00",
-      "endDate": "2021-04-11T00:00:00+02:00"
+      "startDate": "2023-01-12T00:00:05+02:00",
+      "endDate": "2023-01-27T00:00:00+02:00"
     },
     "items": [
       {
@@ -184,8 +184,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 1.0,
         "deliveryDate": {
-          "startDate": "2021-04-05T00:00:00+02:00",
-          "endDate": "2021-05-05T00:00:00+02:00"
+          "startDate": "2023-01-21T00:00:00+02:00",
+          "endDate": "2023-02-20T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -219,20 +219,20 @@ X-Content-Type-Options: nosniff
       },
       "kind": "defense"
     },
-    "tenderID": "UA-2021-03-27-000001-a",
+    "tenderID": "UA-2023-01-12-000001-a",
     "complaintPeriod": {
-      "startDate": "2021-03-27T00:00:05+02:00",
-      "endDate": "2021-04-07T00:00:00+02:00"
+      "startDate": "2023-01-12T00:00:05+02:00",
+      "endDate": "2023-01-23T00:00:00+02:00"
     },
     "owner": "broker",
-    "date": "2021-03-27T00:00:05+02:00",
+    "date": "2023-01-12T00:00:05+02:00",
     "enquiryPeriod": {
-      "startDate": "2021-03-27T00:00:05+02:00",
-      "endDate": "2021-04-01T00:00:00+03:00",
-      "clarificationsUntil": "2021-04-06T00:00:00+03:00"
+      "startDate": "2023-01-12T00:00:05+02:00",
+      "endDate": "2023-01-17T00:00:00+02:00",
+      "clarificationsUntil": "2023-01-20T00:00:00+02:00"
     },
-    "dateModified": "2021-03-27T00:00:05+02:00",
-    "dateCreated": "2021-03-27T00:00:05+02:00",
+    "dateModified": "2023-01-12T00:00:05+02:00",
+    "dateCreated": "2023-01-12T00:00:05+02:00",
     "id": "5b07ad08dbbe416db8925d088c312294"
   },
   "access": {

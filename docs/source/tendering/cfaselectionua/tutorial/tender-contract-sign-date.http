@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "dateSigned": "2021-03-16T00:00:00+02:00"
+    "dateSigned": "2023-01-01T00:00:00+02:00"
   }
 }
 

@@ -8,10 +8,10 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "title": "футляри до державних нагород",
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateCreated": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "tenderID": "UA-2021-03-16-000004-a",
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "tenderID": "UA-2023-01-01-000004-a",
     "owner": "broker",
     "awardCriteria": "lowestCost",
     "submissionMethod": "electronicAuction",
@@ -38,8 +38,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 6.0,
         "deliveryDate": {
-          "startDate": "2021-03-18T00:00:00+02:00",
-          "endDate": "2021-03-21T00:00:00+02:00"
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -62,12 +62,12 @@ X-Content-Type-Options: nosniff
       "amount": 600.666
     },
     "enquiryPeriod": {
-      "startDate": "2021-03-10T00:00:00+02:00",
-      "endDate": "2021-03-12T00:00:00+02:00"
+      "startDate": "2022-12-26T00:00:00+02:00",
+      "endDate": "2022-12-28T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2021-03-12T00:00:00+02:00",
-      "endDate": "2021-03-16T00:00:00+02:00"
+      "startDate": "2022-12-28T00:00:00+02:00",
+      "endDate": "2023-01-01T00:00:00+02:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -148,7 +148,7 @@ X-Content-Type-Options: nosniff
         "id": "f2599a519a45416db792d9ee833a8e5a",
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "status": "active",
         "guarantee": {
           "amount": 8.0,
@@ -165,8 +165,8 @@ X-Content-Type-Options: nosniff
           "amount": 3.0033300000000005
         },
         "auctionPeriod": {
-          "startDate": "2021-03-16T00:00:00+02:00",
-          "shouldStartAfter": "2021-03-16T00:00:00+02:00"
+          "startDate": "2023-01-01T00:00:00+02:00",
+          "shouldStartAfter": "2023-01-01T00:00:00+02:00"
         },
         "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/1e7fc0d4cb8943b985627a6dc1c42c8a_f2599a519a45416db792d9ee833a8e5a"
       }
@@ -519,19 +519,19 @@ X-Content-Type-Options: nosniff
       "amount": 8.0,
       "currency": "USD"
     },
-    "next_check": "2021-03-16T00:42:00+02:00",
+    "next_check": "2023-01-01T00:42:00+02:00",
     "documents": [
       {
         "documentType": "technicalSpecifications",
         "description": "document description modified",
         "id": "783deaf6051c4b20893eac5062c8547f",
-        "datePublished": "2021-03-16T00:00:00+02:00",
+        "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1e7fc0d4cb8943b985627a6dc1c42c8a/documents/783deaf6051c4b20893eac5062c8547f?download=cf0e4034ede1473fa34a7079593bf6d4",
         "documentOf": "tender",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner"
       },
       {
@@ -541,24 +541,24 @@ X-Content-Type-Options: nosniff
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1e7fc0d4cb8943b985627a6dc1c42c8a/documents/ea07dbc6bc1e4974b67cc85c491e2da4?download=c54fe67f58c84e789e764701ecc69e32",
         "documentOf": "tender",
         "id": "ea07dbc6bc1e4974b67cc85c491e2da4",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner"
       },
       {
         "id": "ea07dbc6bc1e4974b67cc85c491e2da4",
-        "datePublished": "2021-03-16T00:00:00+02:00",
+        "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1e7fc0d4cb8943b985627a6dc1c42c8a/documents/ea07dbc6bc1e4974b67cc85c491e2da4?download=6e8b1d9784784942a6b37f5041f729f5",
         "documentOf": "tender",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner"
       }
     ],
     "auctionPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00"
     },
     "id": "1e7fc0d4cb8943b985627a6dc1c42c8a"
   }

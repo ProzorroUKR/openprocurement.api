@@ -13,7 +13,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "date": "2021-03-16T00:00:00+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
     "id": "bf6462080e6f4c9b8d67bee3ba214bcb"
   },
   "access": {

@@ -159,7 +159,7 @@ X-Content-Type-Options: nosniff
       }
     ],
     "id": "7d78c406dccd4ebf9f4c338d33cac6a5",
-    "date": "2021-03-16T00:00:00+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
     "lotValues": [
       {
         "value": {
@@ -168,7 +168,7 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "5563fbab2bd848b398a5de9cb3ac555b",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "status": "pending"
       }
     ],

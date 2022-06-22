@@ -143,8 +143,8 @@ X-Content-Type-Options: nosniff
         "confidentiality": "public",
         "language": "uk",
         "id": "36b62b03423c4ff994c7b502402e9eb0",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
       },
       {
         "hash": "md5:00000000000000000000000000000000",
@@ -155,8 +155,8 @@ X-Content-Type-Options: nosniff
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "language": "uk",
         "id": "0ee2143a609e40b3b7a15264d50c4556",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
       }
     ],
     "financialDocuments": [
@@ -169,8 +169,8 @@ X-Content-Type-Options: nosniff
         "confidentiality": "public",
         "language": "uk",
         "id": "7063489c75ed40b5a8513dc3d19fe4e0",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
       }
     ],
     "eligibilityDocuments": [
@@ -183,8 +183,8 @@ X-Content-Type-Options: nosniff
         "confidentiality": "public",
         "language": "uk",
         "id": "7124a56704d44eae808e35ccc25ef011",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
       }
     ],
     "qualificationDocuments": [
@@ -197,8 +197,8 @@ X-Content-Type-Options: nosniff
         "confidentiality": "public",
         "language": "uk",
         "id": "10e5cd9377b844a98843825821c09aad",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
       }
     ],
     "status": "draft",
@@ -233,12 +233,12 @@ X-Content-Type-Options: nosniff
         "years": 13,
         "days": 40
       },
-      "amountPerformance": 579.45,
-      "amount": 8644.77
+      "amountPerformance": 562.72,
+      "amount": 8505.28
     },
     "selfQualified": true,
     "id": "1869f759d3fa418ea2c3162b6fe5fd9c",
-    "date": "2021-03-16T00:00:00+02:00"
+    "date": "2023-01-01T00:00:00+02:00"
   },
   "access": {
     "token": "aaccbb23d7a24dc3a95364e938e06aab",

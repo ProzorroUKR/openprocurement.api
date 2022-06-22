@@ -9,7 +9,7 @@ X-Content-Type-Options: nosniff
   "data": {
     "id": "90238f35b68a4a7ebeb6a5632b1b0d9a",
     "status": "pending",
-    "date": "2021-03-16T00:00:01+02:00",
+    "date": "2023-01-01T00:00:01+02:00",
     "rationale": "Опис причини змін контракту",
     "rationale_en": "Contract change cause",
     "rationaleTypes": [

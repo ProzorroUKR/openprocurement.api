@@ -17,7 +17,7 @@ X-Content-Type-Options: nosniff
   "data": {
     "id": "61aa079bac35442ea9aba5d1420c75a5",
     "status": "active",
-    "date": "2021-03-16T00:00:00+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
     "value": {
       "amount": 475000.0,
       "valueAddedTaxIncluded": true,
@@ -26,24 +26,24 @@ X-Content-Type-Options: nosniff
     "documents": [
       {
         "id": "d54322727f4e40b480f9101fbe3e3235",
-        "datePublished": "2021-03-16T00:00:00+02:00",
+        "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "award_first_document.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2727941c3c1d4b398e0ef21c294d50f8?Signature=XVdH%2BLOTsgYF3J849jqk9w0Oivjv96KP1vF11T2pawV8wnAcIPzqxWiQWkKBo6SZdysuzHcTtpSV3ETS4xHUAw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner"
       },
       {
         "id": "b385663672e147f6915795b545b7fffc",
-        "datePublished": "2021-03-16T00:00:00+02:00",
+        "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "award_second_document.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/874e2d950c434ca091040d1cb962a12f?Signature=tJmoLThnmmO1LrBsq4zKBdXkEU0fobXZDnRIXNNFrNR%2F1rigH3hgsbkVejHIrH3qc9dAQfnmVUAcmuUyfLbfDw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner"
       }
     ],
@@ -53,6 +53,7 @@ X-Content-Type-Options: nosniff
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {

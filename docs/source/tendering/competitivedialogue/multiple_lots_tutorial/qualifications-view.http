@@ -12,7 +12,7 @@ X-Content-Type-Options: nosniff
       "bidID": "df19bcc89d254fec8ea76eb0a3b0b62a",
       "lotID": "150e2750fa2942ce9315e80ddf78a62a",
       "status": "pending",
-      "date": "2021-03-16T00:00:00+02:00",
+      "date": "2023-01-01T00:00:00+02:00",
       "qualified": false,
       "eligible": false
     },
@@ -21,7 +21,7 @@ X-Content-Type-Options: nosniff
       "bidID": "887d6b8013ce4c6c9b3579f7a0e4c4b9",
       "lotID": "150e2750fa2942ce9315e80ddf78a62a",
       "status": "pending",
-      "date": "2021-03-16T00:00:00+02:00",
+      "date": "2023-01-01T00:00:00+02:00",
       "qualified": false,
       "eligible": false
     },
@@ -30,7 +30,7 @@ X-Content-Type-Options: nosniff
       "bidID": "b2491557b27447e19006e2750a59894b",
       "lotID": "150e2750fa2942ce9315e80ddf78a62a",
       "status": "pending",
-      "date": "2021-03-16T00:00:00+02:00",
+      "date": "2023-01-01T00:00:00+02:00",
       "qualified": false,
       "eligible": false
     }

@@ -61,8 +61,8 @@ DATA:
         },
         "quantity": 5,
         "deliveryDate": {
-          "startDate": "2021-03-18T00:00:00+02:00",
-          "endDate": "2021-03-21T00:00:00+02:00"
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -74,10 +74,10 @@ DATA:
       }
     ],
     "enquiryPeriod": {
-      "endDate": "2021-03-23T00:00:00+02:00"
+      "endDate": "2023-01-08T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "endDate": "2021-03-30T00:00:00+02:00"
+      "endDate": "2023-01-15T00:00:00+02:00"
     },
     "procurementMethodType": "belowThreshold",
     "milestones": [
@@ -131,8 +131,8 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
-      "startDate": "2021-03-23T00:00:00+02:00",
-      "endDate": "2021-03-30T00:00:00+02:00"
+      "startDate": "2023-01-08T00:00:00+02:00",
+      "endDate": "2023-01-15T00:00:00+02:00"
     },
     "items": [
       {
@@ -161,8 +161,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 5.0,
         "deliveryDate": {
-          "startDate": "2021-03-18T00:00:00+02:00",
-          "endDate": "2021-03-21T00:00:00+02:00"
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -222,14 +222,14 @@ X-Content-Type-Options: nosniff
       "kind": "general"
     },
     "enquiryPeriod": {
-      "endDate": "2021-03-23T00:00:00+02:00",
-      "startDate": "2021-03-16T00:00:00+02:00"
+      "endDate": "2023-01-08T00:00:00+02:00",
+      "startDate": "2023-01-01T00:00:00+02:00"
     },
-    "tenderID": "UA-2021-03-16-000001-a",
+    "tenderID": "UA-2023-01-01-000001-a",
     "owner": "broker",
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "dateCreated": "2021-03-16T00:00:00+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
     "id": "4b9115b9cb2c4b0ba35a6addd94c93fe"
   },
   "access": {

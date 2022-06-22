@@ -37,7 +37,7 @@ X-Content-Type-Options: nosniff
       "procurementMethod": "open",
       "procurementMethodType": "belowThreshold",
       "tenderPeriod": {
-        "startDate": "2021-03-23T00:00:00+02:00"
+        "startDate": "2023-01-08T00:00:00+02:00"
       }
     },
     "budget": {
@@ -78,7 +78,7 @@ X-Content-Type-Options: nosniff
         "description": "-"
       }
     ],
-    "planID": "UA-P-2021-03-16-000001",
+    "planID": "UA-P-2023-01-01-000001",
     "items": [
       {
         "id": "937fede9dcb44c8f8c50ad05bf710080",
@@ -100,8 +100,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 1000.0,
         "deliveryDate": {
-          "startDate": "2021-03-18T00:00:00+02:00",
-          "endDate": "2021-03-21T00:00:00+02:00"
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
         },
         "description": "Насіння гірчиці"
       },
@@ -125,8 +125,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 2000.0,
         "deliveryDate": {
-          "startDate": "2021-03-18T00:00:00+02:00",
-          "endDate": "2021-03-21T00:00:00+02:00"
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
         },
         "description": "Насіння соняшнику"
       },
@@ -150,8 +150,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 3000.0,
         "deliveryDate": {
-          "startDate": "2021-03-18T00:00:00+02:00",
-          "endDate": "2021-03-21T00:00:00+02:00"
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
         },
         "description": "Насіння бавовнику"
       }
@@ -176,9 +176,9 @@ X-Content-Type-Options: nosniff
       }
     ],
     "status": "scheduled",
-    "dateCreated": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "datePublished": "2021-03-16T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "datePublished": "2023-01-01T00:00:00+02:00",
     "owner": "broker1",
     "id": "1131a06ea85b4e8983fa448019d5209d"
   }

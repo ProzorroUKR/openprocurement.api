@@ -37,15 +37,15 @@ X-Content-Type-Options: nosniff
         "title": "post_document_complaint.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1faeecd6b10d4e23a716730ee30d2778?Signature=Z10%2FC9W1hXiOGU1rT7UXOaQz85H1iXWKoK1JUwLUWQIL73NXj3hNj8jut1cK90gxe0usAHEBMjRMg1BZwQfoAQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:03+02:00",
-        "dateModified": "2021-03-16T00:00:03+02:00",
+        "datePublished": "2023-01-01T00:00:03+02:00",
+        "dateModified": "2023-01-01T00:00:03+02:00",
         "author": "complaint_owner",
         "documentOf": "tender"
       }
     ],
     "author": "complaint_owner",
     "recipient": "aboveThresholdReviewers",
-    "datePublished": "2021-03-16T00:00:03+02:00",
+    "datePublished": "2023-01-01T00:00:03+02:00",
     "relatedPost": "2c6df34379e643978a05a8b7bb59beb8"
   }
 }

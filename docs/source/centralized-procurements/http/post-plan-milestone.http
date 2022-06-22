@@ -1,6 +1,6 @@
 POST /api/2.5/plans/6cb30e0a8f2d4487946a40c0b043c761/milestones HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1334
+Content-Length: 1623
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -15,9 +15,17 @@ DATA:
         "id": "111111",
         "legalName": "ДП Центральний закупівельний орган №1"
       },
-      "name": "ЦЗО №1"
+      "name": "ЦЗО №1",
+      "address": {
+        "countryName": "Україна",
+        "postalCode": "01220",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова, 1"
+      },
+      "kind": "central"
     },
-    "dueDate": "2019-05-15T13:00:00.000000+02:00"
+    "dueDate": "2023-01-01T00:00:04+02:00"
   }
 }
 
@@ -31,7 +39,7 @@ X-Content-Type-Options: nosniff
     "title": "Підготовка до проведення процедури",
     "description": "Узагальнення та аналіз отриманної інформації щодо проведення закупівель товарів, послуг (крім поточного ремонту) в інтересах замовників",
     "type": "approval",
-    "dueDate": "2019-05-15T13:00:00+02:00",
+    "dueDate": "2023-01-01T00:00:04+02:00",
     "status": "scheduled",
     "author": {
       "id": "a256ff206dcf4884a5631a283ce6bb7d",
@@ -40,9 +48,17 @@ X-Content-Type-Options: nosniff
         "scheme": "UA-EDR",
         "id": "111111",
         "legalName": "ДП Центральний закупівельний орган №1"
-      }
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "kind": "central"
     },
-    "dateModified": "2019-05-02T05:00:00+03:00",
+    "dateModified": "2023-01-01T00:00:03+02:00",
     "owner": "broker"
   },
   "access": {

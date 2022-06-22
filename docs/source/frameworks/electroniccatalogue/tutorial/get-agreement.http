@@ -7,17 +7,17 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "agreementID": "UA-2021-04-01-000001",
+    "agreementID": "UA-2023-01-17-000001",
     "status": "active",
-    "date": "2021-04-01T01:00:00+03:00",
-    "dateCreated": "2021-04-01T01:00:00+03:00",
-    "dateModified": "2021-04-01T01:00:00+03:00",
+    "date": "2023-01-17T00:00:00+02:00",
+    "dateCreated": "2023-01-17T00:00:00+02:00",
+    "dateModified": "2023-01-17T00:00:00+02:00",
     "owner": "broker",
     "agreementType": "electronicCatalogue",
     "frameworkID": "3176109c7572429b99dbc5707a10617c",
     "period": {
-      "startDate": "2021-04-01T01:00:00+03:00",
-      "endDate": "2021-05-15T00:00:00+02:00"
+      "startDate": "2023-01-17T00:00:00+02:00",
+      "endDate": "2023-03-02T00:00:00+02:00"
     },
     "procuringEntity": {
       "name": "Повна назва юридичної організації.",
@@ -64,6 +64,7 @@ X-Content-Type-Options: nosniff
             "identifier": {
               "scheme": "UA-EDR",
               "id": "00137256",
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
               "uri": "http://www.sc.gov.ua/"
             },
             "address": {
@@ -86,15 +87,15 @@ X-Content-Type-Options: nosniff
             "id": "1f79cddbd5ad4075ab276d64ad24bdb4",
             "type": "activation",
             "status": "scheduled",
-            "dueDate": "2021-05-15T00:00:00+02:00",
-            "dateModified": "2021-04-01T01:00:00+03:00"
+            "dueDate": "2023-03-02T00:00:00+02:00",
+            "dateModified": "2023-01-17T00:00:00+02:00"
           }
         ],
-        "date": "2021-04-01T01:00:00+03:00"
+        "date": "2023-01-17T00:00:00+02:00"
       }
     ],
     "id": "a2078c9d305147f1a9853de36933248a",
-    "next_check": "2021-05-15T00:00:00+02:00"
+    "next_check": "2023-03-02T00:00:00+02:00"
   }
 }
 

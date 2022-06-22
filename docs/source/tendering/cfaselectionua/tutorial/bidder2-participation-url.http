@@ -31,27 +31,27 @@ X-Content-Type-Options: nosniff
     ],
     "status": "active",
     "id": "3cbcceff36f549468a441145771c5359",
-    "date": "2021-03-16T00:00:00+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
     "documents": [
       {
         "id": "a5bd0629032f4b829a4caed09077590c",
-        "datePublished": "2021-03-16T00:00:00+02:00",
+        "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6f95f83074884c4793b92674ecbf017d?Signature=QoHCra37U%2FEXoEYg1Srz%2B%2BHfziG7TmHsS1Kwof8nkEHMWsbVlY%2BKnuoZbhVUBdcBnfmDucQGTJIjynfLt3wnAQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "dateModified": "2023-01-01T00:00:00+02:00"
       },
       {
         "id": "2b5e85927b2f443e8f3a8e09898706c3",
-        "datePublished": "2021-03-16T00:00:00+02:00",
+        "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/634443ba221c4aec9e80218dce5d9898?Signature=mtYQ%2BQUtqn3VyRg2qigXiCQOJfMEg%2BRShGSWo%2FvohBcnk2ajfiLnZJNPsiMteYmwwhdGgs6kU9vbSfMfOIdnCw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "dateModified": "2023-01-01T00:00:00+02:00"
       }
     ],
     "parameters": [
@@ -72,7 +72,7 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/1e7fc0d4cb8943b985627a6dc1c42c8a_f2599a519a45416db792d9ee833a8e5a?key_for_bid=3cbcceff36f549468a441145771c5359"
       }
     ]

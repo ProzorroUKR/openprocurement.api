@@ -7,25 +7,25 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "prettyID": "UA-F-2021-03-16-000001",
+    "prettyID": "UA-F-2023-01-01-000001",
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateCreated": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-04-01T01:00:00+03:00",
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-17T00:00:00+02:00",
     "owner": "test",
     "status": "active",
     "period": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-04-15T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-31T00:00:00+02:00"
     },
     "qualificationPeriod": {
-      "startDate": "2021-03-26T00:00:00+02:00",
-      "endDate": "2021-05-16T00:00:00+02:00"
+      "startDate": "2023-01-11T00:00:00+02:00",
+      "endDate": "2023-03-03T00:00:00+02:00"
     },
     "enquiryPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-03-26T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-11T00:00:00+02:00"
     },
     "frameworkType": "electronicCatalogue",
     "procuringEntity": {
@@ -63,7 +63,7 @@ X-Content-Type-Options: nosniff
     ],
     "agreementID": "2c88cbfb9f454f82976cb11006b46885",
     "id": "d1274eabb3694d9db3ba73681d6ed0dd",
-    "next_check": "2021-04-13T00:00:00+02:00"
+    "next_check": "2023-01-28T00:00:00+02:00"
   }
 }
 

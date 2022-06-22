@@ -21,7 +21,7 @@ X-Content-Type-Options: nosniff
     "id": "591ab61627754dbb987af3daf6073c0d",
     "buyerID": "22222222222222222222222222222222",
     "awardID": "42bede1bbad64dabbd9f67ce4a5b2ba9",
-    "contractID": "UA-2021-03-16-000001-a-2",
+    "contractID": "UA-2023-01-01-000001-a-2",
     "status": "pending",
     "value": {
       "amount": 200.0,
@@ -56,8 +56,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 5.0,
         "deliveryDate": {
-          "startDate": "2021-03-18T00:00:00+02:00",
-          "endDate": "2021-03-21T00:00:00+02:00"
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -94,8 +94,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 5.0,
         "deliveryDate": {
-          "startDate": "2021-03-18T00:00:00+02:00",
-          "endDate": "2021-03-21T00:00:00+02:00"
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -130,7 +130,7 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00"
+    "date": "2023-01-01T00:00:00+02:00"
   }
 }
 

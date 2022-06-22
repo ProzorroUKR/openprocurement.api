@@ -8,7 +8,7 @@ from openprocurement.tender.limited.tests.tender import BaseTenderWebTest
 
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.base.constants import DOCS_URL, AUCTIONS_URL
-from tests.base.data import complaint, award, tender_limited, lots
+from tests.base.data import award, tender_limited, lots
 
 test_tender_data = deepcopy(tender_limited)
 test_lots = deepcopy(lots)

@@ -7,25 +7,25 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "prettyID": "UA-F-2021-03-16-000001",
+    "prettyID": "UA-F-2023-01-01-000001",
     "title": "updated in draft status",
     "description": "Назва предмета закупівлі",
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateCreated": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-04-01T01:00:00+03:00",
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-17T00:00:00+02:00",
     "owner": "broker",
     "status": "active",
     "period": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-04-15T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-31T00:00:00+02:00"
     },
     "qualificationPeriod": {
-      "startDate": "2021-03-30T00:00:00+02:00",
-      "endDate": "2021-05-15T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:01+02:00",
+      "endDate": "2023-03-02T00:00:00+02:00"
     },
     "enquiryPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-03-30T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-01T00:00:01+02:00"
     },
     "frameworkType": "electronicCatalogue",
     "procuringEntity": {
@@ -68,8 +68,8 @@ X-Content-Type-Options: nosniff
         "title": "framework.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5c8ae4df11c84a1c810c48955df872bf?Signature=CULkgfCFCkCgoLHurulqlOIpGCLjegnd0lq0JQA19LflB7CWylfuin8KqiCpQ3uht4nRqMn47Yr7sAu85Ep%2FDA%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
       },
       {
         "id": "7e9a675642504a50875b1f376cb6c496",
@@ -77,8 +77,8 @@ X-Content-Type-Options: nosniff
         "title": "framework_additional_docs.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c72cf0df202d4537bb165dda9fbf747e?Signature=VtiMBgG5qq58x5IZSnrieLBGogbpgE5U3ZEFosCFRZO%2FiwcrgKVLB6STjhGz%2BjcdGmVCSfvYzESRUNhqGBd4DQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
       },
       {
         "id": "7e9a675642504a50875b1f376cb6c496",
@@ -86,13 +86,13 @@ X-Content-Type-Options: nosniff
         "title": "framework_additional_docs.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/02ce1956cb284596a7c194912b542f10?Signature=MlOnsoRRn4GhukfG0b6iRdqC2jpfFFGM11WbVMU%2FMa962uHbWu%2FTwBJ%2BpesNucJ6QVveno5z9eTyW5O%2FzATcCA%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
       }
     ],
     "agreementID": "a2078c9d305147f1a9853de36933248a",
     "id": "3176109c7572429b99dbc5707a10617c",
-    "next_check": "2021-04-13T00:00:00+02:00"
+    "next_check": "2023-01-28T00:00:00+02:00"
   }
 }
 

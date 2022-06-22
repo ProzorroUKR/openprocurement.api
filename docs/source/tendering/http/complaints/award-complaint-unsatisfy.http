@@ -16,14 +16,15 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "65c7d6259ac447c48362a0c3b0716958",
-    "complaintID": "UA-2021-03-16-000001-a.7",
-    "date": "2021-03-16T00:00:03+02:00",
+    "complaintID": "UA-2023-01-01-000001-a.7",
+    "date": "2023-01-01T00:00:03+02:00",
     "type": "claim",
     "author": {
       "name": "ДКП «Школяр»",
       "identifier": {
         "scheme": "UA-EDR",
         "id": "00137256",
+        "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
         "uri": "http://www.sc.gov.ua/"
       },
       "address": {
@@ -41,10 +42,10 @@ X-Content-Type-Options: nosniff
     },
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-    "dateSubmitted": "2021-03-16T00:00:03+02:00",
+    "dateSubmitted": "2023-01-01T00:00:03+02:00",
     "resolution": "Вимога не відповідає предмету закупівлі",
     "resolutionType": "invalid",
-    "dateAnswered": "2021-03-16T00:00:03+02:00",
+    "dateAnswered": "2023-01-01T00:00:03+02:00",
     "satisfied": false,
     "status": "answered"
   }

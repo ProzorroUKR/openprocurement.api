@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/0b330892c8b64ac98de88d220d7e86fe/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1040
+Content-Length: 1422
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -24,6 +24,7 @@ DATA:
         },
         "identifier": {
           "scheme": "UA-EDR",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "id": "00137256",
           "uri": "http://www.sc.gov.ua/"
         },
@@ -55,6 +56,7 @@ X-Content-Type-Options: nosniff
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {
@@ -82,13 +84,13 @@ X-Content-Type-Options: nosniff
         "relatedLot": "5563fbab2bd848b398a5de9cb3ac555b",
         "subcontractingDetails": "ДКП «Орфей», Україна",
         "status": "pending",
-        "date": "2021-03-16T00:00:00+02:00"
+        "date": "2023-01-01T00:00:00+02:00"
       }
     ],
     "selfQualified": true,
     "status": "draft",
     "id": "ce239eb439294a0aa86dce4fcf30b72e",
-    "date": "2021-03-16T00:00:00+02:00"
+    "date": "2023-01-01T00:00:00+02:00"
   },
   "access": {
     "token": "5b35834cc1d54b15b66105acbc76be51",

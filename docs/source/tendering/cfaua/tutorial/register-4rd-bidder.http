@@ -120,7 +120,7 @@ X-Content-Type-Options: nosniff
         },
         "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
         "status": "pending",
-        "date": "2021-03-16T00:00:00+02:00"
+        "date": "2023-01-01T00:00:00+02:00"
       }
     ],
     "documents": [
@@ -133,8 +133,8 @@ X-Content-Type-Options: nosniff
         "confidentiality": "public",
         "language": "uk",
         "id": "4f66e86bbb31462abbeb12d854784a6a",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
       },
       {
         "hash": "md5:00000000000000000000000000000000",
@@ -145,8 +145,8 @@ X-Content-Type-Options: nosniff
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "language": "uk",
         "id": "e3265ed04ffc462c8c4a23a7fe4411dc",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
       }
     ],
     "financialDocuments": [
@@ -159,8 +159,8 @@ X-Content-Type-Options: nosniff
         "confidentiality": "public",
         "language": "uk",
         "id": "d858ed382f344a92bcae7c57526fb5dd",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
       }
     ],
     "eligibilityDocuments": [
@@ -173,8 +173,8 @@ X-Content-Type-Options: nosniff
         "confidentiality": "public",
         "language": "uk",
         "id": "e38adefc375542a5ad7ae928d88e5fab",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
       }
     ],
     "qualificationDocuments": [
@@ -187,14 +187,14 @@ X-Content-Type-Options: nosniff
         "confidentiality": "public",
         "language": "uk",
         "id": "f2d3b705eb9f47748b0e91ceb2a16e50",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
       }
     ],
     "selfQualified": true,
     "status": "draft",
     "id": "c37e1f57bb514ac38787d82c6de256e7",
-    "date": "2021-03-16T00:00:00+02:00"
+    "date": "2023-01-01T00:00:00+02:00"
   },
   "access": {
     "token": "b46e85054c024e7c8e0ec23d850cedc5",

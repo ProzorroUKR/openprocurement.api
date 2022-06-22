@@ -21,7 +21,7 @@ X-Content-Type-Options: nosniff
   "data": {
     "id": "175f09d927a54411804c6a2631c56e4f",
     "awardID": "e5a7cb400a054a178d92228c67a06cfa",
-    "contractID": "UA-2021-03-16-000016-a.2-1",
+    "contractID": "UA-2023-01-01-000016-a.2-1",
     "contractNumber": "contract#1",
     "status": "pending",
     "value": {
@@ -53,7 +53,7 @@ X-Content-Type-Options: nosniff
         "scale": "sme"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
     "items": [
       {
         "id": "f589bbeaad4d48e0a604e79cfdf6c380",
@@ -68,12 +68,17 @@ X-Content-Type-Options: nosniff
         ],
         "unit": {
           "name": "кілограм",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
           "code": "KGM"
         },
         "quantity": 1.0,
         "deliveryDate": {
-          "startDate": "2021-04-05T00:00:00+02:00",
-          "endDate": "2021-04-16T00:00:00+02:00"
+          "startDate": "2023-01-21T00:00:00+02:00",
+          "endDate": "2023-02-01T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",

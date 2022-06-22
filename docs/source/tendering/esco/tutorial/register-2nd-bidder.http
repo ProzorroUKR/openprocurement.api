@@ -125,12 +125,12 @@ X-Content-Type-Options: nosniff
         "years": 12,
         "days": 200
       },
-      "amountPerformance": 733.65,
-      "amount": 9331.37
+      "amountPerformance": 713.59,
+      "amount": 9176.27
     },
     "selfQualified": true,
     "id": "9ebf618cadb84c7488d4f1a7864e8204",
-    "date": "2021-03-16T00:00:00+02:00"
+    "date": "2023-01-01T00:00:00+02:00"
   },
   "access": {
     "token": "dabbc7c822784799ad698457d896e750",

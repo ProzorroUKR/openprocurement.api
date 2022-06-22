@@ -1,6 +1,6 @@
 PATCH /api/2.5/tenders/21b59cfa191a41eaaeb418282327d481?acc_token=b3345f8c5f3c446983b73bbe7f073ab7 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1086
+Content-Length: 1162
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -20,11 +20,16 @@ DATA:
         "quantity": 1.0,
         "unit": {
           "name": "кілограм",
-          "code": "KGM"
+          "code": "KGM",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          }
         },
         "deliveryDate": {
-          "startDate": "2021-04-05T00:00:00+02:00",
-          "endDate": "2021-04-16T00:00:00+02:00"
+          "startDate": "2023-01-21T00:00:00+02:00",
+          "endDate": "2023-02-01T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",

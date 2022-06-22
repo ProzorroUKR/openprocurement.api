@@ -112,7 +112,7 @@ DATA:
       "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
-      "endDate": "2021-04-16T00:00:00+02:00"
+      "endDate": "2023-02-01T00:00:00+02:00"
     },
     "maxAwardsCount": 4,
     "agreementDuration": "P3Y3M3D",
@@ -299,28 +299,28 @@ X-Content-Type-Options: nosniff
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "date": "2021-03-16T00:00:00+02:00"
+        "date": "2023-01-01T00:00:00+02:00"
       }
     ],
     "tenderPeriod": {
-      "endDate": "2021-04-16T00:00:00+02:00",
-      "startDate": "2021-03-16T00:00:00+02:00"
+      "endDate": "2023-02-01T00:00:00+02:00",
+      "startDate": "2023-01-01T00:00:00+02:00"
     },
     "status": "draft",
-    "tenderID": "UA-2021-03-16-000001-a",
+    "tenderID": "UA-2023-01-01-000001-a",
     "complaintPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-04-12T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-28T00:00:00+02:00"
     },
     "owner": "broker",
-    "date": "2021-03-16T00:00:00+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
     "enquiryPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-04-06T00:00:00+03:00",
-      "clarificationsUntil": "2021-04-09T00:00:00+03:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-22T00:00:00+02:00",
+      "clarificationsUntil": "2023-01-26T00:00:00+02:00"
     },
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "dateCreated": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
     "id": "dea691b943a946a8957e9be95bc51a06"
   },
   "access": {

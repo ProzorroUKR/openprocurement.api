@@ -15,7 +15,7 @@ from openprocurement.tender.openua.tests.base import (
     BaseTenderUAWebTest as BaseTenderWebTest,
 )
 from openprocurement.tender.openuadefense.tests.base import (
-    test_procuringEntity as test_procuringEntity_api,
+    test_procuring_entity as test_procuringEntity_api,
     test_tender_data as test_tender_data_api,
 )
 from openprocurement.tender.belowthreshold.tests.base import (

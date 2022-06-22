@@ -19,13 +19,14 @@ X-Content-Type-Options: nosniff
   "data": {
     "id": "2bef142c8e064f96a734caccd8b89ae0",
     "status": "active",
-    "date": "2021-03-16T00:00:00+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
     "suppliers": [
       {
         "name": "ДКП «Школяр»",
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {
@@ -48,8 +49,8 @@ X-Content-Type-Options: nosniff
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
-      "amount": 8917.4,
-      "amountPerformance": 816.29,
+      "amount": 8734.93,
+      "amountPerformance": 801.01,
       "yearlyPaymentsPercentage": 0.9,
       "annualCostsReduction": [
         500,
@@ -81,8 +82,8 @@ X-Content-Type-Options: nosniff
     },
     "eligible": true,
     "complaintPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-03-26T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-11T00:00:00+02:00"
     }
   }
 }

@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 4621
+Content-Length: 4645
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -57,16 +57,19 @@ DATA:
         ],
         "unit": {
           "name": "кілограм",
-          "code": "KGM"
+          "code": "KGM",
+          "value": {
+            "amount": 6
+          }
         },
         "quantity": 5
       }
     ],
     "enquiryPeriod": {
-      "endDate": "2021-03-23T00:00:00+02:00"
+      "endDate": "2023-01-08T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "endDate": "2021-03-30T00:00:00+02:00"
+      "endDate": "2023-01-15T00:00:00+02:00"
     },
     "procurementMethodType": "belowThreshold",
     "mode": "test",
@@ -166,8 +169,8 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
-      "startDate": "2021-03-23T00:00:00+02:00",
-      "endDate": "2021-03-30T00:00:00+02:00"
+      "startDate": "2023-01-08T00:00:00+02:00",
+      "endDate": "2023-01-15T00:00:00+02:00"
     },
     "items": [
       {
@@ -189,6 +192,11 @@ X-Content-Type-Options: nosniff
         ],
         "unit": {
           "name": "кілограм",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
           "code": "KGM"
         },
         "quantity": 5.0
@@ -283,14 +291,14 @@ X-Content-Type-Options: nosniff
       "kind": "general"
     },
     "enquiryPeriod": {
-      "endDate": "2021-03-23T00:00:00+02:00",
-      "startDate": "2021-03-16T00:00:00+02:00"
+      "endDate": "2023-01-08T00:00:00+02:00",
+      "startDate": "2023-01-01T00:00:00+02:00"
     },
-    "tenderID": "UA-2021-03-16-000002-a",
+    "tenderID": "UA-2023-01-01-000002-a",
     "owner": "broker",
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "dateCreated": "2021-03-16T00:00:00+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
     "id": "c245dabf8de24790935e4b12664e24bf"
   },
   "access": {

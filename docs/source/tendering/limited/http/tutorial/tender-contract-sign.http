@@ -17,11 +17,11 @@ X-Content-Type-Options: nosniff
   "data": {
     "id": "82d376775a134ec5b6c131348c86c6dc",
     "awardID": "61aa079bac35442ea9aba5d1420c75a5",
-    "contractID": "UA-2021-03-16-000001-a-1",
+    "contractID": "UA-2023-01-01-000001-a-1",
     "status": "active",
     "period": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2022-03-16T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2024-01-01T00:00:00+02:00"
     },
     "value": {
       "amount": 238.0,
@@ -56,8 +56,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 9.0,
         "deliveryDate": {
-          "startDate": "2021-04-05T00:00:00+02:00",
-          "endDate": "2021-05-05T00:00:00+02:00"
+          "startDate": "2023-01-21T00:00:00+02:00",
+          "endDate": "2023-02-20T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -68,36 +68,37 @@ X-Content-Type-Options: nosniff
         }
       }
     ],
-    "date": "2021-03-16T00:00:01+02:00",
+    "date": "2023-01-01T00:00:01+02:00",
     "documents": [
       {
         "id": "81519185b61a42ae9d265914f9118596",
-        "datePublished": "2021-03-16T00:00:00+02:00",
+        "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_first_document.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9094e578abaf4572a194e044702125fa?Signature=FM%2F6NxbDLkJ6WFQPh2GZJ85tyzp%2Bg%2FAqCmVGWQBXPFGtwWm4oEkJYYHERmTKoDSEUBU843INjkNhoQsAj0kmBg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "dateModified": "2023-01-01T00:00:00+02:00"
       },
       {
         "id": "505c90afdf0b4a4d9b80c177ddd14634",
-        "datePublished": "2021-03-16T00:00:00+02:00",
+        "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_second_document.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0b12bbd8bfab455c9fb99b06aad118ea?Signature=sPxh11MIp5skV7S%2FQle7zI%2FwJvFLKL7dka8To9MNARQrQ7%2FOsjEkR2MoCSdSEURDi9N05Zi8ljukqXvL8eWtAA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "dateModified": "2023-01-01T00:00:00+02:00"
       }
     ],
-    "dateSigned": "2021-03-16T00:00:00+02:00",
+    "dateSigned": "2023-01-01T00:00:00+02:00",
     "suppliers": [
       {
         "name": "ДКП «Школяр»",
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {

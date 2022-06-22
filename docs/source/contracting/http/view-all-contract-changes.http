@@ -10,14 +10,14 @@ X-Content-Type-Options: nosniff
     {
       "id": "90238f35b68a4a7ebeb6a5632b1b0d9a",
       "status": "active",
-      "date": "2021-03-16T00:00:01+02:00",
+      "date": "2023-01-01T00:00:01+02:00",
       "rationale": "Друга і третя поставка має бути розфасована",
       "rationale_en": "Contract change cause",
       "rationaleTypes": [
         "volumeCuts",
         "priceReduction"
       ],
-      "dateSigned": "2021-03-16T00:00:01+02:00"
+      "dateSigned": "2023-01-01T00:00:01+02:00"
     }
   ]
 }

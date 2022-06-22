@@ -7,8 +7,8 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-04-16T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-02-01T00:00:00+02:00"
     }
   }
 }
@@ -18,10 +18,10 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "dateCreated": "2021-03-16T00:00:00+02:00",
-    "tenderID": "UA-2021-03-16-000016-a.2",
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "tenderID": "UA-2023-01-01-000016-a.2",
     "owner": "broker",
     "title": "футляри до державних нагород",
     "submissionMethod": "electronicAuction",
@@ -37,13 +37,13 @@ X-Content-Type-Options: nosniff
     },
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-03-21T00:00:00+03:00",
-      "clarificationsUntil": "2021-03-25T00:00:00+03:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-06T00:00:00+02:00",
+      "clarificationsUntil": "2023-01-11T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-04-16T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-02-01T00:00:00+02:00"
     },
     "procurementMethodType": "competitiveDialogueUA.stage2",
     "procurementMethod": "selective",
@@ -117,8 +117,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 1.0,
         "deliveryDate": {
-          "startDate": "2021-04-05T00:00:00+02:00",
-          "endDate": "2021-05-05T00:00:00+02:00"
+          "startDate": "2023-01-21T00:00:00+02:00",
+          "endDate": "2023-02-20T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -135,8 +135,8 @@ X-Content-Type-Options: nosniff
       }
     ],
     "complaintPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-04-12T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-28T00:00:00+02:00"
     },
     "id": "f321c5aade8048bb81ead18ad17d428d"
   }

@@ -1,6 +1,6 @@
 POST /api/2.5/plans?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 3509
+Content-Length: 4361
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -10,13 +10,20 @@ DATA:
       "procurementMethod": "open",
       "procurementMethodType": "belowThreshold",
       "tenderPeriod": {
-        "startDate": "2021-03-23T00:00:00+02:00"
+        "startDate": "2023-01-08T00:00:00+02:00"
       }
     },
     "items": [
       {
         "deliveryDate": {
-          "endDate": "2021-03-31T00:00:00+02:00"
+          "endDate": "2023-01-16T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "countryName": "Україна",
+          "postalCode": "79000",
+          "region": "м. Київ",
+          "locality": "м. Київ",
+          "streetAddress": "вул. Банкова 1"
         },
         "additionalClassifications": [
           {
@@ -39,7 +46,14 @@ DATA:
       },
       {
         "deliveryDate": {
-          "endDate": "2021-04-01T00:00:00+02:00"
+          "endDate": "2023-01-17T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "countryName": "Україна",
+          "postalCode": "79000",
+          "region": "м. Київ",
+          "locality": "м. Київ",
+          "streetAddress": "вул. Банкова 1"
         },
         "additionalClassifications": [
           {
@@ -62,7 +76,14 @@ DATA:
       },
       {
         "deliveryDate": {
-          "endDate": "2021-04-02T00:00:00+02:00"
+          "endDate": "2023-01-18T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "countryName": "Україна",
+          "postalCode": "79000",
+          "region": "м. Київ",
+          "locality": "м. Київ",
+          "streetAddress": "вул. Банкова 1"
         },
         "additionalClassifications": [
           {
@@ -141,8 +162,8 @@ DATA:
       "id": "12303111000-2",
       "description": "budget_description",
       "period": {
-        "startDate": "2022-01-01T00:00:00",
-        "endDate": "2022-12-31T00:00:00"
+        "startDate": "2023-01-01T00:00:00",
+        "endDate": "2023-12-31T00:00:00"
       }
     },
     "status": "draft"
@@ -176,7 +197,7 @@ X-Content-Type-Options: nosniff
       "procurementMethod": "open",
       "procurementMethodType": "belowThreshold",
       "tenderPeriod": {
-        "startDate": "2021-03-23T00:00:00+02:00"
+        "startDate": "2023-01-08T00:00:00+02:00"
       }
     },
     "budget": {
@@ -190,8 +211,8 @@ X-Content-Type-Options: nosniff
         "name": "proj_name"
       },
       "period": {
-        "startDate": "2022-01-01T00:00:00+02:00",
-        "endDate": "2022-12-31T00:00:00+02:00"
+        "startDate": "2023-01-01T00:00:00+02:00",
+        "endDate": "2023-12-31T00:00:00+02:00"
       }
     },
     "classification": {
@@ -206,7 +227,7 @@ X-Content-Type-Options: nosniff
         "description": "-"
       }
     ],
-    "planID": "UA-P-2021-03-16-000001",
+    "planID": "UA-P-2023-01-01-000001",
     "items": [
       {
         "id": "6133667b0a1543f8998dbc79fa349862",
@@ -227,8 +248,15 @@ X-Content-Type-Options: nosniff
           "code": "KGM"
         },
         "quantity": 1000.0,
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
         "deliveryDate": {
-          "endDate": "2021-03-31T00:00:00+02:00"
+          "endDate": "2023-01-16T00:00:00+02:00"
         },
         "description": "Насіння гірчиці"
       },
@@ -251,8 +279,15 @@ X-Content-Type-Options: nosniff
           "code": "KGM"
         },
         "quantity": 2000.0,
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
         "deliveryDate": {
-          "endDate": "2021-04-01T00:00:00+02:00"
+          "endDate": "2023-01-17T00:00:00+02:00"
         },
         "description": "Насіння соняшнику"
       },
@@ -275,8 +310,15 @@ X-Content-Type-Options: nosniff
           "code": "KGM"
         },
         "quantity": 3000.0,
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
         "deliveryDate": {
-          "endDate": "2021-04-02T00:00:00+02:00"
+          "endDate": "2023-01-18T00:00:00+02:00"
         },
         "description": "Насіння бавовнику"
       }
@@ -301,9 +343,9 @@ X-Content-Type-Options: nosniff
       }
     ],
     "status": "draft",
-    "dateCreated": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "datePublished": "2021-03-16T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "datePublished": "2023-01-01T00:00:00+02:00",
     "owner": "broker",
     "id": "18d6b21a07094c71b423e91c5e28579b"
   },

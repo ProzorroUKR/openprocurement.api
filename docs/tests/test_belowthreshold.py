@@ -6,17 +6,17 @@ from datetime import timedelta
 
 from openprocurement.api.models import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
-    BaseTenderWebTest, test_tender_data, test_bids, test_lots
+    BaseTenderWebTest, test_bids, test_lots
 )
 
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.base.constants import DOCS_URL, AUCTIONS_URL
 from tests.base.data import (
     bid_draft, bid2_with_docs, question,
-    tender_below_maximum, funder,
+    tender_below, tender_below_maximum, funder,
 )
 
-test_tender_data = deepcopy(test_tender_data)
+test_tender_data = deepcopy(tender_below)
 
 TARGET_DIR = 'docs/source/tendering/http/'
 
@@ -43,17 +43,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.app.authorization = ('Basic', ('broker', ''))
 
         # Creating tender in draft status
-
-        for item in test_tender_data['items']:
-            item['deliveryDate'] = {
-                "startDate": (get_now() + timedelta(days=2)).isoformat(),
-                "endDate": (get_now() + timedelta(days=5)).isoformat()
-            }
-
-        test_tender_data.update({
-            "enquiryPeriod": {"endDate": (get_now() + timedelta(days=7)).isoformat()},
-            "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()}
-        })
 
         data = test_tender_data.copy()
         data['status'] = 'draft'
@@ -100,17 +89,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '422 Unprocessable Entity')
 
         # Creating tender
-
-        for item in test_tender_data['items']:
-            item['deliveryDate'] = {
-                "startDate": (get_now() + timedelta(days=2)).isoformat(),
-                "endDate": (get_now() + timedelta(days=5)).isoformat()
-            }
-
-        test_tender_data.update({
-            "enquiryPeriod": {"endDate": (get_now() + timedelta(days=7)).isoformat()},
-            "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()}
-        })
 
         with open(TARGET_DIR + 'tutorial/tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
             response = self.app.post_json(

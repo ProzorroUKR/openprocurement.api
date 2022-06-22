@@ -133,7 +133,7 @@ X-Content-Type-Options: nosniff
       }
     ],
     "id": "887d6b8013ce4c6c9b3579f7a0e4c4b9",
-    "date": "2021-03-16T00:00:00+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
     "tenderers": [
       {
         "name": "ДКП «Книга»",
@@ -161,7 +161,7 @@ X-Content-Type-Options: nosniff
       {
         "relatedLot": "150e2750fa2942ce9315e80ddf78a62a",
         "status": "pending",
-        "date": "2021-03-16T00:00:00+02:00"
+        "date": "2023-01-01T00:00:00+02:00"
       }
     ],
     "selfQualified": true,

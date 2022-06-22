@@ -7,15 +7,15 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "agreementID": "UA-2021-03-16-000001-a-8053c38b861e4d27b6375ab5eb93cc1c1",
+    "agreementID": "UA-2023-01-01-000001-a-8053c38b861e4d27b6375ab5eb93cc1c1",
     "status": "active",
-    "dateModified": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
     "owner": "broker",
     "changes": [
       {
         "id": "eb59804a712942e89f57217f6537364e",
         "status": "pending",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "rationale": "Друга і третя поставка має бути розфасована",
         "rationale_en": "Agreement change cause",
         "rationaleType": "taxRate",
@@ -34,8 +34,8 @@ X-Content-Type-Options: nosniff
         "title": "agreement_changes.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4cb784af37bd4d94a8d3875046842d4b?Signature=0HtxZXtlj2RHoKC6ircAx4wnTWueeXzryd2GWLGtMSs2HlkvMxofDAdRSagQqa%2FbSYKDRadpMuiHV9tTI14OCw%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00",
         "relatedItem": "eb59804a712942e89f57217f6537364e",
         "documentOf": "change"
       }
@@ -81,7 +81,7 @@ X-Content-Type-Options: nosniff
         ],
         "awardID": "146d55f13a704b11b95275254e00fef4",
         "bidID": "a4aaf72182904a549e80dc4d765040a2",
-        "date": "2021-03-16T00:00:00+02:00"
+        "date": "2023-01-01T00:00:00+02:00"
       },
       {
         "id": "cee7f5c4218c4fd085672d17d4785c01",
@@ -123,7 +123,7 @@ X-Content-Type-Options: nosniff
         ],
         "awardID": "88f3ec5213a7405a92b7bd353549edb1",
         "bidID": "2269d0f299644a87bfd73ac8a065c501",
-        "date": "2021-03-16T00:00:00+02:00"
+        "date": "2023-01-01T00:00:00+02:00"
       },
       {
         "id": "ce463db3a53c494897d98b47064e3ad5",
@@ -165,7 +165,7 @@ X-Content-Type-Options: nosniff
         ],
         "awardID": "f8a353351f6449128fc5be8abba6e67f",
         "bidID": "5aa54309d515431f8edb45ca63c1d1cd",
-        "date": "2021-03-16T00:00:00+02:00"
+        "date": "2023-01-01T00:00:00+02:00"
       }
     ],
     "items": [

@@ -9,12 +9,12 @@ X-Content-Type-Options: nosniff
   "data": {
     "id": "175f09d927a54411804c6a2631c56e4f",
     "awardID": "e5a7cb400a054a178d92228c67a06cfa",
-    "contractID": "UA-2021-03-16-000016-a.2-1",
+    "contractID": "UA-2023-01-01-000016-a.2-1",
     "contractNumber": "contract#1",
     "status": "pending",
     "period": {
-      "startDate": "2021-03-16T00:00:01+02:00",
-      "endDate": "2022-03-16T00:00:01+02:00"
+      "startDate": "2023-01-01T00:00:01+02:00",
+      "endDate": "2024-01-01T00:00:01+02:00"
     },
     "value": {
       "amount": 238.0,
@@ -45,8 +45,8 @@ X-Content-Type-Options: nosniff
         "scale": "sme"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateSigned": "2021-03-16T00:00:01+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateSigned": "2023-01-01T00:00:01+02:00",
     "items": [
       {
         "id": "f589bbeaad4d48e0a604e79cfdf6c380",
@@ -61,12 +61,17 @@ X-Content-Type-Options: nosniff
         ],
         "unit": {
           "name": "кілограм",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
           "code": "KGM"
         },
         "quantity": 1.0,
         "deliveryDate": {
-          "startDate": "2021-04-05T00:00:00+02:00",
-          "endDate": "2021-04-16T00:00:00+02:00"
+          "startDate": "2023-01-21T00:00:00+02:00",
+          "endDate": "2023-02-01T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -90,21 +95,21 @@ X-Content-Type-Options: nosniff
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7277a1e671db4e23811faec0ebe3edaf?Signature=zhi4qDElkRIcpv2NNx%2BKh6SbUsAVbjtwA0CH26YmIDJilCZzkYa9MTTnBRc%2FDLZLQJ8dR0A%2FVma7zF1%2Fp6s5Dw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "id": "b4182047b74b488793c93cde69554368",
-        "datePublished": "2021-03-16T00:00:01+02:00",
-        "dateModified": "2021-03-16T00:00:01+02:00"
+        "datePublished": "2023-01-01T00:00:01+02:00",
+        "dateModified": "2023-01-01T00:00:01+02:00"
       },
       {
         "title_en": "Title of Document",
         "description_en": "Description of Document",
         "language": "en",
         "id": "05012802864b439b9115d9dfec1319db",
-        "datePublished": "2021-03-16T00:00:01+02:00",
+        "datePublished": "2023-01-01T00:00:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_first_document.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5cce5c020f0b4ba8bf7c5257d58ab07a?Signature=dKo8NxHOP6nIPRJKrdKKlzY8mOu%2BdX9T0Sa99SHcS3HZhb842MsGl2m9HPbHS7NGh%2B0wIMz4THV25Cxl5ZjpDw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2021-03-16T00:00:01+02:00"
+        "dateModified": "2023-01-01T00:00:01+02:00"
       }
     ]
   }

@@ -7,8 +7,8 @@ DATA:
 {
   "data": {
     "tenderPeriod": {
-      "startDate": "2021-03-17T00:00:00+02:00",
-      "endDate": "2021-03-31T00:00:10+02:00"
+      "startDate": "2023-01-02T00:00:00+02:00",
+      "endDate": "2023-01-16T00:00:10+02:00"
     },
     "items": [
       {
@@ -38,8 +38,8 @@ DATA:
         },
         "quantity": 6,
         "deliveryDate": {
-          "startDate": "2021-03-18T00:00:00+02:00",
-          "endDate": "2021-03-21T00:00:00+02:00"
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -59,10 +59,10 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "dateCreated": "2021-03-16T00:00:00+02:00",
-    "tenderID": "UA-2021-03-16-000004-a",
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "tenderID": "UA-2023-01-01-000004-a",
     "owner": "broker",
     "title": "футляри до державних нагород",
     "procurementMethodType": "closeFrameworkAgreementSelectionUA",
@@ -467,8 +467,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 6.0,
         "deliveryDate": {
-          "startDate": "2021-03-18T00:00:00+02:00",
-          "endDate": "2021-03-21T00:00:00+02:00"
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -485,7 +485,7 @@ X-Content-Type-Options: nosniff
         "id": "f2599a519a45416db792d9ee833a8e5a",
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "status": "active",
         "value": {
           "amount": 600.67,
@@ -541,12 +541,12 @@ X-Content-Type-Options: nosniff
       }
     ],
     "tenderPeriod": {
-      "startDate": "2021-03-17T00:00:00+02:00",
-      "endDate": "2021-03-31T00:00:10+02:00"
+      "startDate": "2023-01-02T00:00:00+02:00",
+      "endDate": "2023-01-16T00:00:10+02:00"
     },
     "enquiryPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-03-17T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-02T00:00:00+02:00"
     },
     "minimalStep": {
       "amount": 2.5,
@@ -558,7 +558,7 @@ X-Content-Type-Options: nosniff
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "next_check": "2021-03-17T00:00:00+02:00",
+    "next_check": "2023-01-02T00:00:00+02:00",
     "id": "1e7fc0d4cb8943b985627a6dc1c42c8a"
   }
 }

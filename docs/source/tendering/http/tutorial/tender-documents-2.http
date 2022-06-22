@@ -11,13 +11,13 @@ X-Content-Type-Options: nosniff
       "documentType": "technicalSpecifications",
       "description": "document description modified",
       "id": "31d47ffc884f4127b55eba8f3bad8f3e",
-      "datePublished": "2021-03-16T00:00:01+02:00",
+      "datePublished": "2023-01-01T00:00:01+02:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "Notice.pdf",
       "format": "application/pdf",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ae50ebf41e54463faca2b20961cec265?Signature=vwVV5yBxoQF9tqHPeCmryD53w8gnll1fHTDbd5zeJaxFY0yt9pqIso9lPTh6uoOq9oM42i%2FfziR1dRPW08mAAQ%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
-      "dateModified": "2021-03-16T00:00:01+02:00",
+      "dateModified": "2023-01-01T00:00:01+02:00",
       "author": "tender_owner"
     },
     {
@@ -27,8 +27,8 @@ X-Content-Type-Options: nosniff
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cdae0c7762d04dd79267107910a38887?Signature=XYYEbloOKUZEJGpSNkVG2W6akky8yhAYXv3PQEBg%2F58GSCH3Q4rTcKzx7BgsChTUjfRmETSbVHxZvoPo0vgNCw%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
       "id": "89091bea986745ddac9abf60d7d70519",
-      "datePublished": "2021-03-16T00:00:01+02:00",
-      "dateModified": "2021-03-16T00:00:01+02:00",
+      "datePublished": "2023-01-01T00:00:01+02:00",
+      "dateModified": "2023-01-01T00:00:01+02:00",
       "author": "tender_owner"
     }
   ]

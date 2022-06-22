@@ -17,9 +17,9 @@ X-Content-Type-Options: nosniff
   "data": {
     "qualificationID": "46df298c7ea542c291830c9610a09781",
     "frameworkID": "3176109c7572429b99dbc5707a10617c",
-    "dateModified": "2021-04-01T01:00:00+03:00",
-    "date": "2021-04-01T01:00:00+03:00",
-    "datePublished": "2021-04-01T01:00:00+03:00",
+    "dateModified": "2023-01-17T00:00:00+02:00",
+    "date": "2023-01-17T00:00:00+02:00",
+    "datePublished": "2023-01-17T00:00:00+02:00",
     "owner": "broker",
     "status": "active",
     "submissionType": "electronicCatalogue",
@@ -30,6 +30,7 @@ X-Content-Type-Options: nosniff
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {

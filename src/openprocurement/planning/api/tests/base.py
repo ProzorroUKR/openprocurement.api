@@ -4,7 +4,7 @@ import pytest
 from copy import deepcopy
 from datetime import datetime, timedelta
 from openprocurement.tender.core.tests.base import BaseWebTest as BaseCoreWebTest
-from openprocurement.api.tests.base import BaseTestApp, loadwsgiapp, BaseWebTest
+from openprocurement.api.tests.base import BaseTestApp, loadwsgiapp
 from uuid import uuid4
 from base64 import b64encode
 from urllib.parse import urlencode

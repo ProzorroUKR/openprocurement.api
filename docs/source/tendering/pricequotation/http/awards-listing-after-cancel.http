@@ -10,7 +10,7 @@ X-Content-Type-Options: nosniff
     {
       "id": "50caa882244f4300aed60835d798a6a1",
       "status": "unsuccessful",
-      "date": "2021-03-16T00:00:01+02:00",
+      "date": "2023-01-01T00:00:01+02:00",
       "value": {
         "amount": 459.0,
         "currency": "UAH",
@@ -70,7 +70,7 @@ X-Content-Type-Options: nosniff
         "currency": "UAH",
         "valueAddedTaxIncluded": true
       },
-      "date": "2021-03-16T00:00:01+02:00",
+      "date": "2023-01-01T00:00:01+02:00",
       "id": "2457dbf1f0fa43daaf6148695865ce39"
     }
   ]

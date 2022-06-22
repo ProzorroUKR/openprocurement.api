@@ -9,12 +9,12 @@ X-Content-Type-Options: nosniff
   "data": {
     "id": "d8a15a30f95045e9aa7c2b1ca8eb52b1",
     "awardID": "2b438b38a4a74636a13d993b1cc51c4f",
-    "contractID": "UA-2021-03-16-000001-a-1",
+    "contractID": "UA-2023-01-01-000001-a-1",
     "contractNumber": "contract#1",
     "status": "pending",
     "period": {
-      "startDate": "2021-03-16T00:00:01+02:00",
-      "endDate": "2022-03-16T00:00:01+02:00"
+      "startDate": "2023-01-01T00:00:01+02:00",
+      "endDate": "2024-01-01T00:00:01+02:00"
     },
     "value": {
       "amount": 238.0,
@@ -45,8 +45,8 @@ X-Content-Type-Options: nosniff
         "scale": "sme"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateSigned": "2021-03-16T00:00:01+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateSigned": "2023-01-01T00:00:01+02:00",
     "items": [
       {
         "id": "27aa67024c4b4db9bb3e141549e9d9b7",
@@ -65,12 +65,17 @@ X-Content-Type-Options: nosniff
         ],
         "unit": {
           "name": "кілограм",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
           "code": "KGM"
         },
         "quantity": 1.0,
         "deliveryDate": {
-          "startDate": "2021-04-05T00:00:00+02:00",
-          "endDate": "2021-05-05T00:00:00+02:00"
+          "startDate": "2023-01-21T00:00:00+02:00",
+          "endDate": "2023-02-20T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -98,12 +103,17 @@ X-Content-Type-Options: nosniff
         ],
         "unit": {
           "name": "упаковка",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
           "code": "PK"
         },
         "quantity": 1.0,
         "deliveryDate": {
-          "startDate": "2021-04-05T00:00:00+02:00",
-          "endDate": "2021-05-05T00:00:00+02:00"
+          "startDate": "2023-01-21T00:00:00+02:00",
+          "endDate": "2023-02-20T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -123,21 +133,21 @@ X-Content-Type-Options: nosniff
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9735f2031fb34c309c02b0c47ac65a0e?Signature=8kCjsoUkBY7QVTJv%2B4j6V%2BpsL650eBeupkOCFb%2FevrREHkbj3w6Bh9wGZ%2F1Ye0vuTXblubQdISOivYotGwGBBg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "id": "e016308fe833499f92e4e92ddf3ccb2d",
-        "datePublished": "2021-03-16T00:00:01+02:00",
-        "dateModified": "2021-03-16T00:00:01+02:00"
+        "datePublished": "2023-01-01T00:00:01+02:00",
+        "dateModified": "2023-01-01T00:00:01+02:00"
       },
       {
         "title_en": "Title of Document",
         "description_en": "Description of Document",
         "language": "en",
         "id": "1059cf68a6204422bff68878c3199f4d",
-        "datePublished": "2021-03-16T00:00:01+02:00",
+        "datePublished": "2023-01-01T00:00:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_second_document.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8f66a407122847f39cda617660e6cce8?Signature=x%2Fvi6Qt0Rmiq%2Begvmp%2FC1QDqqGCkKr%2F%2F4J28s83oWSVA%2BnAw%2F5553sz7jutQiL1WiRoU0LsEi6w0tpx6RWDIDg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2021-03-16T00:00:01+02:00"
+        "dateModified": "2023-01-01T00:00:01+02:00"
       }
     ]
   }

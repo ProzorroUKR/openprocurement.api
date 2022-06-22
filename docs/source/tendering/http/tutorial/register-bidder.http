@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/1e1c35ea6a97449c857edabef72e7225/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 816
+Content-Length: 1198
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -22,6 +22,7 @@ DATA:
         },
         "identifier": {
           "scheme": "UA-EDR",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "id": "00137256",
           "uri": "http://www.sc.gov.ua/"
         },
@@ -53,6 +54,7 @@ X-Content-Type-Options: nosniff
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {
@@ -72,7 +74,7 @@ X-Content-Type-Options: nosniff
     ],
     "status": "draft",
     "id": "c582a540fc1a4e0196efc7572d396f3e",
-    "date": "2021-03-16T00:00:01+02:00"
+    "date": "2023-01-01T00:00:01+02:00"
   },
   "access": {
     "token": "3272c5d460484edc9f92b4d823aa9874",

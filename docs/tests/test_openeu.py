@@ -11,7 +11,7 @@ from openprocurement.tender.core.tests.criteria_utils import generate_responses
 from tests.base.constants import DOCS_URL, AUCTIONS_URL
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.base.data import (
-    question, complaint, claim, lots, subcontracting,
+    question, lots, subcontracting,
     bid_draft, bid2, bid3_with_docs,
     qualified, tender_openeu
 )

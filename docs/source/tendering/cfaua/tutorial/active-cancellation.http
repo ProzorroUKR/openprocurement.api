@@ -9,13 +9,13 @@ X-Content-Type-Options: nosniff
   "data": {
     "id": "137233c6e7a64b4f89e93ad12e8849af",
     "reason": "cancellation reason",
-    "date": "2021-03-27T00:00:02+02:00",
+    "date": "2023-01-12T00:00:02+02:00",
     "status": "active",
     "cancellationOf": "tender",
     "reasonType": "unFixable",
     "complaintPeriod": {
-      "startDate": "2021-03-16T00:00:01+02:00",
-      "endDate": "2021-03-27T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:01+02:00",
+      "endDate": "2023-01-12T00:00:00+02:00"
     },
     "documents": [
       {
@@ -25,8 +25,8 @@ X-Content-Type-Options: nosniff
         "description": "Changed description",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/73cb4a248a594c769e02b8c391f1f27c?Signature=XrQUhl3s7BoMN3VgRCP9XSV68%2FFRqG%2BSmqMJyyI8u7yKwJnLCWm6seWqLNnmA%2F%2FUq2eckQlPReYk7tOxjpPIDw%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:01+02:00",
-        "dateModified": "2021-03-16T00:00:01+02:00",
+        "datePublished": "2023-01-01T00:00:01+02:00",
+        "dateModified": "2023-01-01T00:00:01+02:00",
         "documentOf": "tender",
         "language": "uk"
       },
@@ -37,8 +37,8 @@ X-Content-Type-Options: nosniff
         "description": "Changed description",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/15c806e8bfb64f499131a86da583e513?Signature=aaC9CQuvXrZuWItlSpD46ZXainvgiR8ih7eRjtISVCUrZVgsEicj%2FPXu5iSZtsyJmJYbm8e1OgLWJuaRAJJzDw%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:01+02:00",
-        "dateModified": "2021-03-16T00:00:01+02:00",
+        "datePublished": "2023-01-01T00:00:01+02:00",
+        "dateModified": "2023-01-01T00:00:01+02:00",
         "documentOf": "tender",
         "language": "uk"
       }
