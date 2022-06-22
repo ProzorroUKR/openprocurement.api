@@ -68,7 +68,7 @@ X-Content-Type-Options: nosniff
                 ],
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           },
@@ -82,7 +82,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -141,7 +141,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -190,7 +190,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "6f1c9728b4d34f20a73e1a7064c3bab6",
@@ -198,7 +198,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -237,7 +237,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -276,7 +276,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           },
@@ -290,28 +290,28 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "6653d56ea0314b738bb7005f3ead9ea4",
                 "title": "Сума існуючої заборгованості",
                 "dataType": "number",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "f0ad1427945242dea27d51f0fdbf3dda",
                 "title": "Характер існуючої заборгованості",
                 "dataType": "string",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "2e7580b3f35a412ba9f990da21341036",
                 "title": "Причина виникнення існуючої заборгованості",
                 "dataType": "string",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "3c6d01784dee4f63921bc1ec6738d198",
@@ -319,7 +319,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -358,7 +358,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -404,7 +404,7 @@ X-Content-Type-Options: nosniff
                   }
                 ],
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -442,7 +442,7 @@ X-Content-Type-Options: nosniff
                 "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі",
                 "dataType": "boolean",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -520,7 +520,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "5cb4a0ee5658490d8436663453bb93b0",
@@ -528,7 +528,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "22a9ab6e7d0a4c3e9f2ddaf4c7fb5529",
@@ -536,7 +536,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -573,17 +573,17 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
         ]
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "dateCreated": "2021-03-16T00:00:00+02:00",
-    "tenderID": "UA-2021-03-16-000001-a",
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "tenderID": "UA-2023-01-01-000001-a",
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
     "mainProcurementCategory": "services",
@@ -703,21 +703,21 @@ X-Content-Type-Options: nosniff
       }
     ],
     "tenderPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-04-16T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-02-01T00:00:00+02:00"
     },
     "enquiryPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-04-06T00:00:00+03:00",
-      "clarificationsUntil": "2021-04-09T00:00:00+03:00",
-      "invalidationDate": "2021-03-16T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-22T00:00:00+02:00",
+      "clarificationsUntil": "2023-01-26T00:00:00+02:00",
+      "invalidationDate": "2023-01-01T00:00:00+02:00"
     },
     "complaintPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-04-12T00:00:00+03:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-28T00:00:00+02:00"
     },
-    "noticePublicationDate": "2021-03-16T00:00:00+02:00",
-    "next_check": "2021-04-16T00:00:00+02:00",
+    "noticePublicationDate": "2023-01-01T00:00:00+02:00",
+    "next_check": "2023-02-01T00:00:00+02:00",
     "id": "8a0700259bce4187b9c2cee3b9167b19"
   }
 }

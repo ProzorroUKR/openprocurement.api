@@ -128,13 +128,14 @@ X-Content-Type-Options: nosniff
       }
     ],
     "id": "dfbf0f33e1e1475d90d3c6d02b67dd64",
-    "date": "2021-03-16T00:00:00+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {

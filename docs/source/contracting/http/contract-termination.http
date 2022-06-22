@@ -20,22 +20,22 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "awardID": "3ad71496fd844c7299424c23d67e5449",
-    "contractID": "UA-2021-03-16-000001-a-1",
+    "contractID": "UA-2023-01-01-000001-a-1",
     "period": {
-      "startDate": "2021-03-16T00:00:01+02:00",
-      "endDate": "2021-04-15T00:00:01+02:00"
+      "startDate": "2023-01-01T00:00:01+02:00",
+      "endDate": "2023-01-31T00:00:01+02:00"
     },
-    "dateSigned": "2021-03-16T00:00:01+02:00",
-    "dateModified": "2021-03-16T00:00:01+02:00",
-    "dateCreated": "2021-03-16T00:00:01+02:00",
+    "dateSigned": "2023-01-01T00:00:01+02:00",
+    "dateModified": "2023-01-01T00:00:01+02:00",
+    "dateCreated": "2023-01-01T00:00:01+02:00",
     "items": [
       {
         "id": "cadf7ae857e84cb8b5af656d613aa6e1",
         "description": "футляри до державних нагород",
         "quantity": 2.0,
         "deliveryDate": {
-          "startDate": "2021-03-18T00:00:00+02:00",
-          "endDate": "2021-03-21T00:00:00+02:00"
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -71,8 +71,8 @@ X-Content-Type-Options: nosniff
         "description": "футляри до державних нагород",
         "quantity": 5.0,
         "deliveryDate": {
-          "startDate": "2021-03-18T00:00:00+02:00",
-          "endDate": "2021-03-21T00:00:00+02:00"
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -155,14 +155,14 @@ X-Content-Type-Options: nosniff
       {
         "id": "90238f35b68a4a7ebeb6a5632b1b0d9a",
         "status": "active",
-        "date": "2021-03-16T00:00:01+02:00",
+        "date": "2023-01-01T00:00:01+02:00",
         "rationale": "Друга і третя поставка має бути розфасована",
         "rationale_en": "Contract change cause",
         "rationaleTypes": [
           "volumeCuts",
           "priceReduction"
         ],
-        "dateSigned": "2021-03-16T00:00:01+02:00"
+        "dateSigned": "2023-01-01T00:00:01+02:00"
       }
     ],
     "documents": [
@@ -172,8 +172,8 @@ X-Content-Type-Options: nosniff
         "title": "contract_changes.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f63818a2a95e4f2ab5e07260dfe16911?Signature=AIUP5kGnx%2BOdbPRF%2B0t6WebywkPEF8BHamAxW9BXr224HyI%2BSXYFxn6QzmhVRFlpv08gR6kyoyAjzLIo6xcVAA%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:01+02:00",
-        "dateModified": "2021-03-16T00:00:01+02:00",
+        "datePublished": "2023-01-01T00:00:01+02:00",
+        "dateModified": "2023-01-01T00:00:01+02:00",
         "relatedItem": "90238f35b68a4a7ebeb6a5632b1b0d9a",
         "documentOf": "change"
       },
@@ -183,8 +183,8 @@ X-Content-Type-Options: nosniff
         "title": "contract.doc",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6b559700bb5245049bdee88a6b887e04?Signature=V%2FKGkbsShKDpTJYKPSWbL3h72mRJO%2F6uOi8x6DX1AJxypK7%2FopQidX%2BYz%2BddFJG4BR1KqDCgwBsNe4Xz0kwgBA%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:01+02:00",
-        "dateModified": "2021-03-16T00:00:01+02:00",
+        "datePublished": "2023-01-01T00:00:01+02:00",
+        "dateModified": "2023-01-01T00:00:01+02:00",
         "documentOf": "contract"
       },
       {
@@ -193,8 +193,8 @@ X-Content-Type-Options: nosniff
         "title": "contract_additional_docs.doc",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bdd3fb01fd5543dcb7c49a037c335baf?Signature=UWVFw1k3kphG%2BaNjhh5PLf5%2B3QJiv%2FRICggmV01tLe47AT5l0xsRv%2Bn4pmBQNBQ%2BelTVOkDPRsg%2BjZlc4UQUBw%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:01+02:00",
-        "dateModified": "2021-03-16T00:00:01+02:00",
+        "datePublished": "2023-01-01T00:00:01+02:00",
+        "dateModified": "2023-01-01T00:00:01+02:00",
         "documentOf": "contract"
       },
       {
@@ -203,8 +203,8 @@ X-Content-Type-Options: nosniff
         "title": "contract_additional_docs.doc",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3dc187c0d95d4d9aaf3954aed82eb6fe?Signature=hZosigHskiVw%2BVRXxgwRiq8GV8IEJk0s9GHzLWchLg4iuHpeBb2bUIvJRORVEc8CWfGyK9MN0r4fWsF2fnU1Dw%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:01+02:00",
-        "dateModified": "2021-03-16T00:00:01+02:00",
+        "datePublished": "2023-01-01T00:00:01+02:00",
+        "dateModified": "2023-01-01T00:00:01+02:00",
         "documentOf": "contract"
       }
     ],

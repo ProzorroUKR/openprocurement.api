@@ -18,7 +18,7 @@ X-Content-Type-Options: nosniff
   "data": {
     "id": "edb662d1a45c45ca91735eb5d895bb29",
     "status": "cancelled",
-    "date": "2021-03-16T00:00:01+02:00",
+    "date": "2023-01-01T00:00:01+02:00",
     "value": {
       "amount": 500.0,
       "currency": "UAH",
@@ -49,8 +49,8 @@ X-Content-Type-Options: nosniff
     ],
     "bid_id": "758f51f8027a4f16aca50ed5fba045bf",
     "complaintPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-03-16T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-01T00:00:00+02:00"
     }
   }
 }

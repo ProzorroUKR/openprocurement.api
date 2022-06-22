@@ -87,7 +87,7 @@ X-Content-Type-Options: nosniff
         },
         "relatedLot": "5563fbab2bd848b398a5de9cb3ac555b",
         "status": "pending",
-        "date": "2021-03-16T00:00:00+02:00"
+        "date": "2023-01-01T00:00:00+02:00"
       },
       {
         "value": {
@@ -98,13 +98,13 @@ X-Content-Type-Options: nosniff
         "relatedLot": "e2a64c7bb22f4a6d838531ede04bc02a",
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "status": "pending",
-        "date": "2021-03-16T00:00:00+02:00"
+        "date": "2023-01-01T00:00:00+02:00"
       }
     ],
     "selfQualified": true,
     "status": "draft",
     "id": "7d78c406dccd4ebf9f4c338d33cac6a5",
-    "date": "2021-03-16T00:00:00+02:00"
+    "date": "2023-01-01T00:00:00+02:00"
   },
   "access": {
     "token": "62633d04a6b64456a119dc5f62d8ff65",

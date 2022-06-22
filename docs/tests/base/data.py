@@ -27,6 +27,7 @@ tenderer = {
     },
     "identifier": {
         "scheme": "UA-EDR",
+        "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
         "id": "00137256",
         "uri": "http://www.sc.gov.ua/"
     },
@@ -338,7 +339,6 @@ complaint = {
     'author': complaint_author,
 }
 
-
 qualified = {
     'selfQualified': True
 }
@@ -378,7 +378,8 @@ items = [
         ],
         "unit": {
             "name": "кілограм",
-            "code": "KGM"
+            "code": "KGM",
+            "value": {"amount": 6},
         },
         "quantity": 5
     }
@@ -413,7 +414,8 @@ items_en = [
         },
         "unit": {
             "code": "KGM",
-            "name": "кілограм"
+            "name": "кілограм",
+            "value": {"amount": 6},
         },
         "quantity": 1
     }, {
@@ -433,7 +435,8 @@ items_en = [
         },
         "unit": {
             "code": "PK",
-            "name": "упаковка"
+            "name": "упаковка",
+            "value": {"amount": 6},
         },
         "quantity": 1,
         "deliveryDate": {
@@ -591,6 +594,23 @@ award = {
         "currency": "UAH",
         "valueAddedTaxIncluded": True
     }
+}
+
+tender_below = {
+    "title": "футляри до державних нагород",
+    "mainProcurementCategory": "goods",
+    "procuringEntity": procuring_entity,
+    "value": {"amount": 500, "currency": "UAH"},
+    "minimalStep": {"amount": 15, "currency": "UAH"},
+    "items": items,
+    "enquiryPeriod": {
+        "endDate": (parse(MOCK_DATETIME) + timedelta(days=7)).isoformat()
+    },
+    "tenderPeriod": {
+        "endDate": (parse(MOCK_DATETIME) + timedelta(days=14)).isoformat()
+    },
+    "procurementMethodType": "belowThreshold",
+    "milestones": test_milestones,
 }
 
 tender_below_maximum = {
@@ -836,7 +856,6 @@ tender_defense = {
     "mainProcurementCategory": "services",
 }
 
-
 plan = {
     "tender": {
         "procurementMethod": "open",
@@ -846,6 +865,13 @@ plan = {
     "items": [
         {
             "deliveryDate": {"endDate": (parse(MOCK_DATETIME) + timedelta(days=15)).isoformat()},
+            "deliveryAddress": {
+                "countryName": "Україна",
+                "postalCode": "79000",
+                "region": "м. Київ",
+                "locality": "м. Київ",
+                "streetAddress": "вул. Банкова 1"
+            },
             "additionalClassifications": [{"scheme": "ДКПП", "id": "01.11.92", "description": "Насіння гірчиці"}],
             "unit": {"code": "KGM", "name": "кг"},
             "classification": {"scheme": "ДК021", "description": "Mustard seeds", "id": "03111600-8"},
@@ -854,6 +880,13 @@ plan = {
         },
         {
             "deliveryDate": {"endDate": (parse(MOCK_DATETIME) + timedelta(days=16)).isoformat()},
+            "deliveryAddress": {
+                "countryName": "Україна",
+                "postalCode": "79000",
+                "region": "м. Київ",
+                "locality": "м. Київ",
+                "streetAddress": "вул. Банкова 1"
+            },
             "additionalClassifications": [{"scheme": "ДКПП", "id": "01.11.95", "description": "Насіння соняшнику"}],
             "unit": {"code": "KGM", "name": "кг"},
             "classification": {"scheme": "ДК021", "description": "Sunflower seeds", "id": "03111300-5"},
@@ -862,6 +895,13 @@ plan = {
         },
         {
             "deliveryDate": {"endDate": (parse(MOCK_DATETIME) + timedelta(days=17)).isoformat()},
+            "deliveryAddress": {
+                "countryName": "Україна",
+                "postalCode": "79000",
+                "region": "м. Київ",
+                "locality": "м. Київ",
+                "streetAddress": "вул. Банкова 1"
+            },
             "additionalClassifications": [{"scheme": "ДКПП", "id": "01.11.84", "description": "Насіння бавовнику"}],
             "unit": {"code": "KGM", "name": "кг"},
             "classification": {"scheme": "ДК021", "description": "Cotton seeds", "id": "03111400-6"},
@@ -874,11 +914,27 @@ plan = {
     "procuringEntity": {
         "identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
         "name": "ДУС",
+        "address": {
+            "countryName": "Україна",
+            "postalCode": "01220",
+            "region": "м. Київ",
+            "locality": "м. Київ",
+            "streetAddress": "вул. Банкова, 11, корпус 1",
+        },
+        "kind": "general",
     },
     "buyers": [
         {
             "identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
             "name": "ДУС",
+            "address": {
+                "countryName": "Україна",
+                "postalCode": "01220",
+                "region": "м. Київ",
+                "locality": "м. Київ",
+                "streetAddress": "вул. Банкова, 11, корпус 1",
+            },
+            "kind": "general",
         }
     ],
     "budget": {
@@ -902,13 +958,11 @@ plan = {
     },
 }
 
-
 test_eligible_evidence_data = {
     "title": "Документальне підтвердження",
     "description": "Довідка в довільній формі",
     "type": "document",
 }
-
 
 test_requirement_data = {
     "dataType": "boolean",
@@ -925,7 +979,6 @@ test_requirement_group_data = {
     "description": "Учасник фізична особа підтверджує, що"
 }
 
-
 test_criterion_data = {
     "requirementGroups": [test_requirement_group_data],
     "description": "Службова (посадова) особа учасника процедури закупівлі, яка підписала тендерну пропозицію "
@@ -934,32 +987,32 @@ test_criterion_data = {
                    "учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), "
                    "судимість з якої знято або погашено у встановленому законом порядку",
     "classification": {
-      "scheme": " espd211",
-      "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
+        "scheme": " espd211",
+        "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
     },
     "title": "Вчинення злочинів, учинених з корисливих мотивів",
     "relatesTo": "tenderer",
     "legislation": [
-      {
-        "article": "17.1.5",
-        "version": "2020-04-19",
-        "type": "NATIONAL_LEGISLATION",
-        "identifier": {
-          "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
-          "id": "922-VIII",
-          "legalName": "Закон України \"Про публічні закупівлі\""
+        {
+            "article": "17.1.5",
+            "version": "2020-04-19",
+            "type": "NATIONAL_LEGISLATION",
+            "identifier": {
+                "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
+                "id": "922-VIII",
+                "legalName": "Закон України \"Про публічні закупівлі\""
+            }
+        },
+        {
+            "article": "17.1.6",
+            "version": "2020-04-19",
+            "type": "NATIONAL_LEGISLATION",
+            "identifier": {
+                "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
+                "id": "922-VIII",
+                "legalName": "Закон України \"Про публічні закупівлі\""
+            }
         }
-      },
-      {
-        "article": "17.1.6",
-        "version": "2020-04-19",
-        "type": "NATIONAL_LEGISLATION",
-        "identifier": {
-          "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
-          "id": "922-VIII",
-          "legalName": "Закон України \"Про публічні закупівлі\""
-        }
-      }
     ],
     "source": "tenderer",
 }

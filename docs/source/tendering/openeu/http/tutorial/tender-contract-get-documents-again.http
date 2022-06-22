@@ -14,21 +14,21 @@ X-Content-Type-Options: nosniff
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9735f2031fb34c309c02b0c47ac65a0e?Signature=8kCjsoUkBY7QVTJv%2B4j6V%2BpsL650eBeupkOCFb%2FevrREHkbj3w6Bh9wGZ%2F1Ye0vuTXblubQdISOivYotGwGBBg%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
       "id": "e016308fe833499f92e4e92ddf3ccb2d",
-      "datePublished": "2021-03-16T00:00:01+02:00",
-      "dateModified": "2021-03-16T00:00:01+02:00"
+      "datePublished": "2023-01-01T00:00:01+02:00",
+      "dateModified": "2023-01-01T00:00:01+02:00"
     },
     {
       "title_en": "Title of Document",
       "description_en": "Description of Document",
       "language": "en",
       "id": "1059cf68a6204422bff68878c3199f4d",
-      "datePublished": "2021-03-16T00:00:01+02:00",
+      "datePublished": "2023-01-01T00:00:01+02:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "contract_second_document.doc",
       "format": "application/msword",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8f66a407122847f39cda617660e6cce8?Signature=x%2Fvi6Qt0Rmiq%2Begvmp%2FC1QDqqGCkKr%2F%2F4J28s83oWSVA%2BnAw%2F5553sz7jutQiL1WiRoU0LsEi6w0tpx6RWDIDg%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
-      "dateModified": "2021-03-16T00:00:01+02:00"
+      "dateModified": "2023-01-01T00:00:01+02:00"
     }
   ]
 }

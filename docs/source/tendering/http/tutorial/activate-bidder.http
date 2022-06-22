@@ -26,6 +26,7 @@ X-Content-Type-Options: nosniff
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {
@@ -45,7 +46,7 @@ X-Content-Type-Options: nosniff
     ],
     "status": "active",
     "id": "c582a540fc1a4e0196efc7572d396f3e",
-    "date": "2021-03-16T00:00:01+02:00"
+    "date": "2023-01-01T00:00:01+02:00"
   }
 }
 

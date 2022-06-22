@@ -15,17 +15,17 @@ X-Content-Type-Options: nosniff
       "confidentiality": "buyerOnly",
       "confidentialityRationale": "This document contains some secret data that shouldn't be public",
       "id": "fc5dcece084f48719e55ce797ba86f28",
-      "datePublished": "2021-03-16T00:00:00+02:00",
-      "dateModified": "2021-03-16T00:00:00+02:00"
+      "datePublished": "2023-01-01T00:00:00+02:00",
+      "dateModified": "2023-01-01T00:00:00+02:00"
     },
     {
       "id": "be5968ff3f714b9cb7d6aa33fb800ec0",
-      "datePublished": "2021-03-16T00:00:00+02:00",
+      "datePublished": "2023-01-01T00:00:00+02:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "public-to-private.doc",
       "format": "application/msword",
       "documentOf": "tender",
-      "dateModified": "2021-03-16T00:00:00+02:00",
+      "dateModified": "2023-01-01T00:00:00+02:00",
       "confidentiality": "buyerOnly",
       "confidentialityRationale": "Lol, this document contains some secret data that shouldn't be public, I'm changing it's confidentiality"
     },
@@ -37,8 +37,8 @@ X-Content-Type-Options: nosniff
       "documentOf": "tender",
       "confidentiality": "public",
       "id": "ca77332068144849acfe70029c95c63c",
-      "datePublished": "2021-03-16T00:00:00+02:00",
-      "dateModified": "2021-03-16T00:00:00+02:00"
+      "datePublished": "2023-01-01T00:00:00+02:00",
+      "dateModified": "2023-01-01T00:00:00+02:00"
     }
   ]
 }

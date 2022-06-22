@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import os
-from freezegun import freeze_time
+from copy import deepcopy
 from datetime import timedelta
+
+from tests.base.data import tender_openua
 from tests.base.constants import DOCS_URL, AUCTIONS_URL
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from openprocurement.api.utils import get_now
@@ -13,10 +15,13 @@ from openprocurement.tender.belowthreshold.tests.base import test_organization
 
 TARGET_DIR = 'docs/source/tendering/basic-actions/http/'
 
+test_tender_ua_data = deepcopy(tender_openua)
+
 
 class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
     AppClass = DumpsWebTestApp
     relative_to = os.path.dirname(__file__)
+    initial_data = test_tender_ua_data
     docservice = True
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
@@ -54,65 +59,65 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
             "description": "One ring to bring them all and in the darkness bind them"
         }
         with open(TARGET_DIR + '24hours/award-milestone-post.http', 'w') as self.app.file_obj:
-            with freeze_time("2020-05-02 02:00:00"):
-                response = self.app.post_json(
-                    "/tenders/{}/awards/{}/milestones?acc_token={}".format(
-                        self.tender_id, self.award_id, self.tender_token
-                    ),
-                    {"data": request_data},
-                )
+            response = self.app.post_json(
+                "/tenders/{}/awards/{}/milestones?acc_token={}".format(
+                    self.tender_id, self.award_id, self.tender_token
+                ),
+                {"data": request_data},
+            )
         self.assertEqual(response.status, "201 Created")
 
-        with freeze_time("2020-05-02 02:00:01"):
-            with open(TARGET_DIR + '24hours/award-patch.http', 'w') as self.app.file_obj:
-                self.app.patch_json(
-                    "/tenders/{}/awards/{}?acc_token={}".format(
-                        self.tender_id, self.award_id, self.tender_token
-                    ),
-                    {"data": {"status": "active", "qualified": True, "eligible": True}},
-                    status=403
-                )
+        self.tick()
 
-            # try upload documents
-            response = self.app.get(
+        with open(TARGET_DIR + '24hours/award-patch.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
                 "/tenders/{}/awards/{}?acc_token={}".format(
                     self.tender_id, self.award_id, self.tender_token
-                )
+                ),
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
+                status=403
             )
-            context = response.json["data"]
-            bid_id = context.get("bid_id")
-            bid_token = self.initial_bids_tokens[bid_id]
 
-            with open(TARGET_DIR + '24hours/post-doc.http', 'w') as self.app.file_obj:
-                response = self.app.post_json(
-                    "/tenders/{}/bids/{}/documents?acc_token={}".format(
-                        self.tender_id, bid_id, bid_token),
-                    {
-                        "data": {
-                            "title": "укр.doc",
-                            "url": self.generate_docservice_url(),
-                            "hash": "md5:" + "0" * 32,
-                            "format": "application/msword",
-                        }
-                    },
-                    status=201
-                )
+        # try upload documents
+        response = self.app.get(
+            "/tenders/{}/awards/{}?acc_token={}".format(
+                self.tender_id, self.award_id, self.tender_token
+            )
+        )
+        context = response.json["data"]
+        bid_id = context.get("bid_id")
+        bid_token = self.initial_bids_tokens[bid_id]
 
-            with open(TARGET_DIR + '24hours/put-doc.http', 'w') as self.app.file_obj:
-                self.app.put_json(
-                    "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(
-                        self.tender_id, bid_id, response.json["data"]["id"], bid_token
-                    ),
-                    {
-                        "data": {
-                            "title": "укр.doc",
-                            "url": self.generate_docservice_url(),
-                            "hash": "md5:" + "0" * 32,
-                            "format": "application/msword",
-                        }
-                    },
-                    status=200
-                )
+        with open(TARGET_DIR + '24hours/post-doc.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                "/tenders/{}/bids/{}/documents?acc_token={}".format(
+                    self.tender_id, bid_id, bid_token),
+                {
+                    "data": {
+                        "title": "укр.doc",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/msword",
+                    }
+                },
+                status=201
+            )
+
+        with open(TARGET_DIR + '24hours/put-doc.http', 'w') as self.app.file_obj:
+            self.app.put_json(
+                "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(
+                    self.tender_id, bid_id, response.json["data"]["id"], bid_token
+                ),
+                {
+                    "data": {
+                        "title": "укр.doc",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/msword",
+                    }
+                },
+                status=200
+            )
 
         # qualification milestone creation
         tender = self.mongodb.tenders.get(self.tender_id)
@@ -136,12 +141,13 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         del tender["awards"]
         self.mongodb.tenders.save(tender)
 
-        with freeze_time("2020-05-02 02:00:20"):
-            with open(TARGET_DIR + '24hours/qualification-milestone-post.http', 'w') as self.app.file_obj:
-                response = self.app.post_json(
-                    "/tenders/{}/qualifications/{}/milestones?acc_token={}".format(
-                        self.tender_id, qualification_id, self.tender_token
-                    ),
-                    {"data": request_data},
-                )
+        self.tick()
+
+        with open(TARGET_DIR + '24hours/qualification-milestone-post.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                "/tenders/{}/qualifications/{}/milestones?acc_token={}".format(
+                    self.tender_id, qualification_id, self.tender_token
+                ),
+                {"data": request_data},
+            )
         self.assertEqual(response.status, "201 Created")

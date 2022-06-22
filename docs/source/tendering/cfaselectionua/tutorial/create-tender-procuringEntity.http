@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 3070
+Content-Length: 3094
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -49,7 +49,10 @@ DATA:
         ],
         "unit": {
           "name": "кілограм",
-          "code": "KGM"
+          "code": "KGM",
+          "value": {
+            "amount": 6
+          }
         },
         "quantity": 5,
         "relatedLot": "f2599a519a45416db792d9ee833a8e5a"
@@ -160,6 +163,11 @@ X-Content-Type-Options: nosniff
         ],
         "unit": {
           "name": "кілограм",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
           "code": "KGM"
         },
         "quantity": 5.0,
@@ -172,7 +180,7 @@ X-Content-Type-Options: nosniff
         "description": "Опис Лот №1",
         "id": "f2599a519a45416db792d9ee833a8e5a",
         "status": "active",
-        "date": "2021-03-16T00:00:00+02:00"
+        "date": "2023-01-01T00:00:00+02:00"
       }
     ],
     "milestones": [
@@ -201,11 +209,11 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       }
     ],
-    "tenderID": "UA-2021-03-16-000002-a",
+    "tenderID": "UA-2023-01-01-000002-a",
     "owner": "broker",
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "dateCreated": "2021-03-16T00:00:00+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
     "id": "c058b8cc839441a185db931a779d633d"
   },
   "access": {

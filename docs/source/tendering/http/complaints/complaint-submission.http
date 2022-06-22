@@ -25,9 +25,9 @@ DATA:
       },
       "identifier": {
         "scheme": "UA-EDR",
+        "legalName": "ДКП «Школяр»",
         "id": "00137256",
-        "uri": "http://www.sc.gov.ua/",
-        "legalName": "ДКП «Школяр»"
+        "uri": "http://www.sc.gov.ua/"
       },
       "name": "ДКП «Школяр»"
     }
@@ -41,8 +41,8 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "4d1041a0614c4b0291a5bbcbf167e23b",
-    "complaintID": "UA-2021-03-16-000001-a.5",
-    "date": "2021-03-16T00:00:00+02:00",
+    "complaintID": "UA-2023-01-01-000001-a.5",
+    "date": "2023-01-01T00:00:00+02:00",
     "type": "complaint",
     "author": {
       "name": "ДКП «Школяр»",

@@ -14,19 +14,19 @@ X-Content-Type-Options: nosniff
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bd899d26e31643489abf7981b0f34549?Signature=LSjz%2FVncGdvIXATJCtqx9wZH4qCdIX8%2Bb%2BvtoDbhNrC3l6cVeUuudEVPDjzv29iIctnFCRy%2BquIkVXebQKJBAA%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
       "id": "2a61f1ec8598473dbd3b8d121647e943",
-      "datePublished": "2021-03-16T00:00:00+02:00",
-      "dateModified": "2021-03-16T00:00:00+02:00",
+      "datePublished": "2023-01-01T00:00:00+02:00",
+      "dateModified": "2023-01-01T00:00:00+02:00",
       "author": "tender_owner"
     },
     {
       "id": "61e2f92d4080455a96aaac63675a4230",
-      "datePublished": "2021-03-16T00:00:00+02:00",
+      "datePublished": "2023-01-01T00:00:00+02:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "AwardCriteria-2.pdf",
       "format": "application/pdf",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e205d4bfb1664749a31410c1fcbc0273?Signature=1%2BC2Nxc%2FPIgFhzgfScLfI%2BkpWthB%2B6jJgVAp184qG31Bk2dwwnhKwwCWNk609la2GO6QVAT6eqz0ZbMFqwp4BA%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
-      "dateModified": "2021-03-16T00:00:00+02:00",
+      "dateModified": "2023-01-01T00:00:00+02:00",
       "author": "tender_owner"
     }
   ]

@@ -9,11 +9,11 @@ X-Content-Type-Options: nosniff
   "data": {
     "id": "787ab102ebfc4dadbedee400b18a040b",
     "awardID": "81d25cd82d3246bda1ff504ef2d1ced0",
-    "contractID": "UA-2021-03-16-000016-a.2-1",
+    "contractID": "UA-2023-01-01-000016-a.2-1",
     "status": "pending",
     "period": {
-      "startDate": "2021-03-16T00:00:03+02:00",
-      "endDate": "2022-03-16T00:00:03+02:00"
+      "startDate": "2023-01-01T00:00:03+02:00",
+      "endDate": "2024-01-01T00:00:03+02:00"
     },
     "value": {
       "amount": 238.0,
@@ -27,6 +27,7 @@ X-Content-Type-Options: nosniff
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {
@@ -44,8 +45,8 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "date": "2021-03-16T00:00:01+02:00",
-    "dateSigned": "2021-03-16T00:00:03+02:00",
+    "date": "2023-01-01T00:00:01+02:00",
+    "dateSigned": "2023-01-01T00:00:03+02:00",
     "items": [
       {
         "id": "6d18dbf0831b45ab9d8105f44378ecc0",
@@ -68,8 +69,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 1.0,
         "deliveryDate": {
-          "startDate": "2021-04-05T00:00:00+02:00",
-          "endDate": "2021-04-16T00:00:00+02:00"
+          "startDate": "2023-01-21T00:00:00+02:00",
+          "endDate": "2023-02-01T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -93,8 +94,8 @@ X-Content-Type-Options: nosniff
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3fe117a7de8b4c339a105271a9b05bb0?Signature=dHctywF%2BP%2BFMChCOl%2Bq9cfK0gmRrOMAH2YwSc6ovKq%2BsPEGo%2BNSaMHMjNk%2BwbEm0WkN4RNUco3p8Ej8%2FwvU4Cg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "id": "6a1f5346dcb44b25a6766b20d0e44922",
-        "datePublished": "2021-03-16T00:00:03+02:00",
-        "dateModified": "2021-03-16T00:00:03+02:00"
+        "datePublished": "2023-01-01T00:00:03+02:00",
+        "dateModified": "2023-01-01T00:00:03+02:00"
       }
     ]
   }

@@ -68,7 +68,7 @@ X-Content-Type-Options: nosniff
                 ],
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           },
@@ -82,7 +82,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -141,7 +141,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -190,7 +190,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "da181103035c4f69afc5df6c43e991b2",
@@ -198,7 +198,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -237,7 +237,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -276,7 +276,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           },
@@ -290,28 +290,28 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "4e469f5f9bf14605b30bf1cec807ce1e",
                 "title": "Сума існуючої заборгованості",
                 "dataType": "number",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "a97f093a5d40409382b77fb616c191d3",
                 "title": "Характер існуючої заборгованості",
                 "dataType": "string",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "a1a80b66b92b48c89efcd999b32b2092",
                 "title": "Причина виникнення існуючої заборгованості",
                 "dataType": "string",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "88378233cf4b420e873ca7998722a361",
@@ -319,7 +319,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -358,7 +358,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -404,7 +404,7 @@ X-Content-Type-Options: nosniff
                   }
                 ],
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -442,7 +442,7 @@ X-Content-Type-Options: nosniff
                 "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі",
                 "dataType": "boolean",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -520,7 +520,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "a032f1282d5e499281c4414cca3ad564",
@@ -528,7 +528,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "9cd05eebb4fa41149deb8c2b1144ea78",
@@ -536,7 +536,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -573,17 +573,17 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
         ]
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "dateCreated": "2021-03-16T00:00:00+02:00",
-    "tenderID": "UA-2021-03-16-000001-a",
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "tenderID": "UA-2023-01-01-000001-a",
     "bids": [
       {
         "requirementResponses": [
@@ -705,6 +705,7 @@ X-Content-Type-Options: nosniff
             "identifier": {
               "scheme": "UA-EDR",
               "id": "00137256",
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
               "uri": "http://www.sc.gov.ua/"
             },
             "address": {
@@ -1070,18 +1071,18 @@ X-Content-Type-Options: nosniff
     },
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
-      "startDate": "2021-02-13T00:00:00+02:00",
-      "endDate": "2021-03-06T00:00:00+02:00",
-      "clarificationsUntil": "2021-04-09T00:00:00+02:00",
-      "invalidationDate": "2021-03-16T00:00:00+02:00"
+      "startDate": "2022-12-01T00:00:00+02:00",
+      "endDate": "2022-12-22T00:00:00+02:00",
+      "clarificationsUntil": "2023-01-26T00:00:00+02:00",
+      "invalidationDate": "2023-01-01T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2021-02-13T00:00:00+02:00",
-      "endDate": "2021-03-16T00:00:00+02:00"
+      "startDate": "2022-12-01T00:00:00+02:00",
+      "endDate": "2023-01-01T00:00:00+02:00"
     },
     "qualificationPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-03-21T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-06T00:00:00+02:00"
     },
     "qualifications": [
       {
@@ -1089,7 +1090,7 @@ X-Content-Type-Options: nosniff
         "bidID": "df19bcc89d254fec8ea76eb0a3b0b62a",
         "lotID": "150e2750fa2942ce9315e80ddf78a62a",
         "status": "active",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "qualified": true,
         "eligible": true
       },
@@ -1098,7 +1099,7 @@ X-Content-Type-Options: nosniff
         "bidID": "887d6b8013ce4c6c9b3579f7a0e4c4b9",
         "lotID": "150e2750fa2942ce9315e80ddf78a62a",
         "status": "active",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "qualified": true,
         "eligible": true
       },
@@ -1107,14 +1108,14 @@ X-Content-Type-Options: nosniff
         "bidID": "b2491557b27447e19006e2750a59894b",
         "lotID": "150e2750fa2942ce9315e80ddf78a62a",
         "status": "active",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "qualified": true,
         "eligible": true
       }
     ],
     "complaintPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-04-12T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-28T00:00:00+02:00"
     },
     "procurementMethodType": "competitiveDialogueEU",
     "mainProcurementCategory": "services",
@@ -1137,13 +1138,18 @@ X-Content-Type-Options: nosniff
         ],
         "unit": {
           "name": "кілограм",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
           "code": "KGM"
         },
         "quantity": 1.0,
         "relatedLot": "150e2750fa2942ce9315e80ddf78a62a",
         "deliveryDate": {
-          "startDate": "2021-04-05T00:00:00+02:00",
-          "endDate": "2021-05-05T00:00:00+02:00"
+          "startDate": "2023-01-21T00:00:00+02:00",
+          "endDate": "2023-02-20T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -1171,13 +1177,18 @@ X-Content-Type-Options: nosniff
         ],
         "unit": {
           "name": "упаковка",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
           "code": "PK"
         },
         "quantity": 1.0,
         "relatedLot": "a18842d9d4a349c799437d0102e40965",
         "deliveryDate": {
-          "startDate": "2021-04-05T00:00:00+02:00",
-          "endDate": "2021-05-05T00:00:00+02:00"
+          "startDate": "2023-01-21T00:00:00+02:00",
+          "endDate": "2023-02-20T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -1194,7 +1205,7 @@ X-Content-Type-Options: nosniff
         "id": "150e2750fa2942ce9315e80ddf78a62a",
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "status": "active",
         "value": {
           "amount": 500.0,
@@ -1211,7 +1222,7 @@ X-Content-Type-Options: nosniff
         "id": "a18842d9d4a349c799437d0102e40965",
         "title": "Лот №2",
         "description": "Опис Лот №2",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "status": "unsuccessful",
         "value": {
           "amount": 400.0,
@@ -1225,7 +1236,7 @@ X-Content-Type-Options: nosniff
         }
       }
     ],
-    "next_check": "2021-03-21T00:00:00+02:00",
+    "next_check": "2023-01-06T00:00:00+02:00",
     "id": "b3817911ec8c42789f533a2d26c7dc1f"
   }
 }

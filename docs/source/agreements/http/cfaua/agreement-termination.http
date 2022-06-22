@@ -15,18 +15,18 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "agreementID": "UA-2021-03-16-000001-a-8053c38b861e4d27b6375ab5eb93cc1c1",
+    "agreementID": "UA-2023-01-01-000001-a-8053c38b861e4d27b6375ab5eb93cc1c1",
     "status": "terminated",
-    "dateModified": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
     "owner": "broker",
     "changes": [
       {
         "id": "eb59804a712942e89f57217f6537364e",
         "status": "active",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "rationale": "Друга і третя поставка має бути розфасована",
         "rationale_en": "Agreement change cause",
-        "dateSigned": "2021-03-16T00:00:00+02:00",
+        "dateSigned": "2023-01-01T00:00:00+02:00",
         "rationaleType": "taxRate",
         "modifications": [
           {
@@ -43,8 +43,8 @@ X-Content-Type-Options: nosniff
         "title": "agreement_changes.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4cb784af37bd4d94a8d3875046842d4b?Signature=0HtxZXtlj2RHoKC6ircAx4wnTWueeXzryd2GWLGtMSs2HlkvMxofDAdRSagQqa%2FbSYKDRadpMuiHV9tTI14OCw%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00",
         "relatedItem": "eb59804a712942e89f57217f6537364e",
         "documentOf": "change"
       },
@@ -54,8 +54,8 @@ X-Content-Type-Options: nosniff
         "title": "agreement.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c6e4ee9665bc469fa4d14fcd35513942?Signature=aABQcl023w5EmJAjOj4oaIwWhz6%2BcSM49Keb1aXFhA8sjm%2BLe8mSfJYgy2g1GE3ozVL40VhGD66ZS9IjDIwkDQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00",
         "documentOf": "agreement"
       },
       {
@@ -64,8 +64,8 @@ X-Content-Type-Options: nosniff
         "title": "agreement_additional_docs.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7e1fbc7765224b379a71cf5f88dba115?Signature=Ye8FMfV32HhKpNwnk5wvVnT5wl8penAbf27iVJL5tpwRoe9ZLWon9A7WFmmTRbGayNUmWiqxcJ9mfWfQK%2BgqBg%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00",
         "documentOf": "agreement"
       },
       {
@@ -74,8 +74,8 @@ X-Content-Type-Options: nosniff
         "title": "agreement_additional_docs.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b0c7a13efed343bab3ba9a2ef66603e3?Signature=%2FM2OwyxMcqZVIvLSaTfBLdHLqC9InW3SdBx80E0WgeZAIrS3YrR6dLPfj9lN1tUFdcV7CXGJVJ%2FZU1ICfBX4BA%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00",
         "documentOf": "agreement"
       }
     ],
@@ -120,7 +120,7 @@ X-Content-Type-Options: nosniff
         ],
         "awardID": "146d55f13a704b11b95275254e00fef4",
         "bidID": "a4aaf72182904a549e80dc4d765040a2",
-        "date": "2021-03-16T00:00:00+02:00"
+        "date": "2023-01-01T00:00:00+02:00"
       },
       {
         "id": "cee7f5c4218c4fd085672d17d4785c01",
@@ -162,7 +162,7 @@ X-Content-Type-Options: nosniff
         ],
         "awardID": "88f3ec5213a7405a92b7bd353549edb1",
         "bidID": "2269d0f299644a87bfd73ac8a065c501",
-        "date": "2021-03-16T00:00:00+02:00"
+        "date": "2023-01-01T00:00:00+02:00"
       },
       {
         "id": "ce463db3a53c494897d98b47064e3ad5",
@@ -204,7 +204,7 @@ X-Content-Type-Options: nosniff
         ],
         "awardID": "f8a353351f6449128fc5be8abba6e67f",
         "bidID": "5aa54309d515431f8edb45ca63c1d1cd",
-        "date": "2021-03-16T00:00:00+02:00"
+        "date": "2023-01-01T00:00:00+02:00"
       }
     ],
     "items": [

@@ -138,6 +138,7 @@ X-Content-Type-Options: nosniff
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {
@@ -157,7 +158,7 @@ X-Content-Type-Options: nosniff
     ],
     "status": "active",
     "id": "c94e875645c941dcba3cc38c2a495136",
-    "date": "2021-03-16T00:00:00+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
     "selfQualified": true,
     "subcontractingDetails": "ДКП «Орфей», Україна"
   }

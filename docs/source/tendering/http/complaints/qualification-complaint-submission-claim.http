@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/6441fa52dc6b4f018c96a6adfa1edfc5/qualifications/0ccff2fe5f7a4d998944aa5847bec01c/complaints?acc_token=393d624302c64876a31ef45757c26eb6 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1375
+Content-Length: 1757
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -24,6 +24,7 @@ DATA:
       },
       "identifier": {
         "scheme": "UA-EDR",
+        "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
         "id": "00137256",
         "uri": "http://www.sc.gov.ua/"
       },
@@ -40,12 +41,12 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "f472589af95e4dee93f8e83f05fd6356",
-    "complaintID": "UA-2021-03-16-000001-a.6",
-    "date": "2021-03-16T00:00:01+02:00",
+    "complaintID": "UA-2023-01-01-000001-a.6",
+    "date": "2023-01-01T00:00:01+02:00",
     "type": "claim",
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-    "dateSubmitted": "2021-03-16T00:00:01+02:00",
+    "dateSubmitted": "2023-01-01T00:00:01+02:00",
     "status": "claim",
     "bid_id": "371145a097ed44349ae3ffa5600f24dc"
   },

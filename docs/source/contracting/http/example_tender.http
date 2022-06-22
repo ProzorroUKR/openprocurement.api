@@ -24,8 +24,8 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
-      "startDate": "2021-02-26T00:00:00+02:00",
-      "endDate": "2021-03-05T00:00:00+02:00"
+      "startDate": "2022-12-14T00:00:00+02:00",
+      "endDate": "2022-12-21T00:00:00+02:00"
     },
     "items": [
       {
@@ -54,8 +54,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 5.0,
         "deliveryDate": {
-          "startDate": "2021-03-18T00:00:00+02:00",
-          "endDate": "2021-03-21T00:00:00+02:00"
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -91,8 +91,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 5.0,
         "deliveryDate": {
-          "startDate": "2021-03-18T00:00:00+02:00",
-          "endDate": "2021-03-21T00:00:00+02:00"
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -152,14 +152,14 @@ X-Content-Type-Options: nosniff
       "kind": "general"
     },
     "enquiryPeriod": {
-      "endDate": "2021-02-26T00:00:00+02:00",
-      "startDate": "2021-02-18T00:00:00+02:00"
+      "endDate": "2022-12-14T00:00:00+02:00",
+      "startDate": "2022-12-06T00:00:00+02:00"
     },
-    "tenderID": "UA-2021-03-16-000001-a",
+    "tenderID": "UA-2023-01-01-000001-a",
     "owner": "broker",
-    "date": "2021-03-16T00:00:01+02:00",
-    "dateModified": "2021-03-16T00:00:01+02:00",
-    "dateCreated": "2021-03-16T00:00:00+02:00",
+    "date": "2023-01-01T00:00:01+02:00",
+    "dateModified": "2023-01-01T00:00:01+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
     "bids": [
       {
         "value": {
@@ -192,18 +192,18 @@ X-Content-Type-Options: nosniff
         ],
         "status": "active",
         "id": "45d58f43e4b94e1383b7c635586263f8",
-        "date": "2021-03-16T00:00:00+02:00"
+        "date": "2023-01-01T00:00:00+02:00"
       }
     ],
     "awardPeriod": {
-      "startDate": "2021-03-06T00:00:00+02:00",
-      "endDate": "2021-03-06T00:00:00+02:00"
+      "startDate": "2022-12-22T00:00:00+02:00",
+      "endDate": "2022-12-22T00:00:00+02:00"
     },
     "awards": [
       {
         "id": "3ad71496fd844c7299424c23d67e5449",
         "status": "active",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "value": {
           "amount": 500.0,
           "currency": "UAH",
@@ -234,8 +234,8 @@ X-Content-Type-Options: nosniff
         ],
         "bid_id": "45d58f43e4b94e1383b7c635586263f8",
         "complaintPeriod": {
-          "startDate": "2021-03-16T00:00:00+02:00",
-          "endDate": "2021-03-16T00:00:00+02:00"
+          "startDate": "2023-01-01T00:00:00+02:00",
+          "endDate": "2023-01-01T00:00:00+02:00"
         }
       }
     ],
@@ -243,7 +243,7 @@ X-Content-Type-Options: nosniff
       {
         "id": "731229e60a3e4406b3f0bbca894132fa",
         "awardID": "3ad71496fd844c7299424c23d67e5449",
-        "contractID": "UA-2021-03-16-000001-a-1",
+        "contractID": "UA-2023-01-01-000001-a-1",
         "status": "active",
         "value": {
           "amount": 500.0,
@@ -278,8 +278,8 @@ X-Content-Type-Options: nosniff
             },
             "quantity": 5.0,
             "deliveryDate": {
-              "startDate": "2021-03-18T00:00:00+02:00",
-              "endDate": "2021-03-21T00:00:00+02:00"
+              "startDate": "2023-01-03T00:00:00+02:00",
+              "endDate": "2023-01-06T00:00:00+02:00"
             },
             "deliveryAddress": {
               "streetAddress": "вул. Банкова 1",
@@ -315,8 +315,8 @@ X-Content-Type-Options: nosniff
             },
             "quantity": 5.0,
             "deliveryDate": {
-              "startDate": "2021-03-18T00:00:00+02:00",
-              "endDate": "2021-03-21T00:00:00+02:00"
+              "startDate": "2023-01-03T00:00:00+02:00",
+              "endDate": "2023-01-06T00:00:00+02:00"
             },
             "deliveryAddress": {
               "streetAddress": "вул. Банкова 1",
@@ -350,13 +350,13 @@ X-Content-Type-Options: nosniff
             "scale": "micro"
           }
         ],
-        "date": "2021-03-16T00:00:01+02:00",
-        "dateSigned": "2021-03-16T00:00:01+02:00"
+        "date": "2023-01-01T00:00:01+02:00",
+        "dateSigned": "2023-01-01T00:00:01+02:00"
       }
     ],
     "auctionPeriod": {
-      "startDate": "2021-03-05T00:00:00+02:00",
-      "endDate": "2021-03-06T00:00:00+02:00"
+      "startDate": "2022-12-21T00:00:00+02:00",
+      "endDate": "2022-12-22T00:00:00+02:00"
     },
     "id": "f9fca4217b4a4215b8ae2f67e8461b8f"
   }

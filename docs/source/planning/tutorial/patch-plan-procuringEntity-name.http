@@ -60,7 +60,7 @@ X-Content-Type-Options: nosniff
       "procurementMethod": "open",
       "procurementMethodType": "belowThreshold",
       "tenderPeriod": {
-        "startDate": "2021-03-23T00:00:00+02:00"
+        "startDate": "2023-01-08T00:00:00+02:00"
       }
     },
     "budget": {
@@ -74,8 +74,8 @@ X-Content-Type-Options: nosniff
         "name": "proj_name"
       },
       "period": {
-        "startDate": "2022-01-01T00:00:00+02:00",
-        "endDate": "2022-12-31T00:00:00+02:00"
+        "startDate": "2023-01-01T00:00:00+02:00",
+        "endDate": "2023-12-31T00:00:00+02:00"
       }
     },
     "classification": {
@@ -90,7 +90,7 @@ X-Content-Type-Options: nosniff
         "description": "-"
       }
     ],
-    "planID": "UA-P-2021-03-16-000001",
+    "planID": "UA-P-2023-01-01-000001",
     "items": [
       {
         "id": "6133667b0a1543f8998dbc79fa349862",
@@ -111,6 +111,13 @@ X-Content-Type-Options: nosniff
           "code": "KGM"
         },
         "quantity": 5000.0,
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
         "deliveryDate": {
           "endDate": "2016-06-01T23:06:30.023018+03:00"
         },
@@ -137,9 +144,9 @@ X-Content-Type-Options: nosniff
       }
     ],
     "status": "scheduled",
-    "dateCreated": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "datePublished": "2021-03-16T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "datePublished": "2023-01-01T00:00:00+02:00",
     "owner": "broker",
     "id": "18d6b21a07094c71b423e91c5e28579b"
   }

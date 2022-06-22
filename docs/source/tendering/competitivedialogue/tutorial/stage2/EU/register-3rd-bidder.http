@@ -120,8 +120,8 @@ X-Content-Type-Options: nosniff
         "confidentiality": "public",
         "language": "uk",
         "id": "b1ca83160a364112b1c3d65f10e2a7f5",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
       },
       {
         "hash": "md5:00000000000000000000000000000000",
@@ -132,8 +132,8 @@ X-Content-Type-Options: nosniff
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "language": "uk",
         "id": "73ec12922cc24eba8968fdfe614355e5",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
       }
     ],
     "financialDocuments": [
@@ -146,8 +146,8 @@ X-Content-Type-Options: nosniff
         "confidentiality": "public",
         "language": "uk",
         "id": "aeb624b028f548c68a736b937dd7d2ee",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
       }
     ],
     "eligibilityDocuments": [
@@ -160,8 +160,8 @@ X-Content-Type-Options: nosniff
         "confidentiality": "public",
         "language": "uk",
         "id": "a59a7199f0bc41c9b66d74fd7929f2d5",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
       }
     ],
     "qualificationDocuments": [
@@ -174,14 +174,14 @@ X-Content-Type-Options: nosniff
         "confidentiality": "public",
         "language": "uk",
         "id": "b85d432d4c2841bf8eb674085b749bd5",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
       }
     ],
     "selfQualified": true,
     "status": "draft",
     "id": "4cbed2f36a114794a29509071e5b4dfd",
-    "date": "2021-03-16T00:00:00+02:00"
+    "date": "2023-01-01T00:00:00+02:00"
   },
   "access": {
     "token": "e0bac5c80f37445583dc5474be0f5ea2",

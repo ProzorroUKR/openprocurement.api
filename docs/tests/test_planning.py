@@ -1,20 +1,17 @@
 # -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
-from datetime import timedelta
 
-from openprocurement.api.utils import get_now
-from openprocurement.planning.api.tests.base import BasePlanWebTest, test_plan_data
-from openprocurement.tender.belowthreshold.tests.base import test_tender_data
-from tests.base.data import tender_openeu
+from openprocurement.planning.api.tests.base import BasePlanWebTest
+from tests.base.data import plan, tender_openeu, tender_below
 from tests.base.constants import DOCS_URL
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
 TARGET_DIR = 'docs/source/planning/tutorial/'
 
-test_plan_data = deepcopy(test_plan_data)
-tender_openeu = deepcopy(tender_openeu)
-test_tender_data = deepcopy(test_tender_data)
+test_plan_data = deepcopy(plan)
+test_tender_eu_data = deepcopy(tender_openeu)
+test_tender_below_data = deepcopy(tender_below)
 
 
 class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
@@ -43,10 +40,6 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
 
         # create plan
         test_plan_data['status'] = "draft"
-        test_plan_data['tender'].update({"tenderPeriod": {"startDate": (get_now() + timedelta(days=7)).isoformat()}})
-        test_plan_data['items'][0].update({"deliveryDate": {"endDate": (get_now() + timedelta(days=15)).isoformat()}})
-        test_plan_data['items'][1].update({"deliveryDate": {"endDate": (get_now() + timedelta(days=16)).isoformat()}})
-        test_plan_data['items'][2].update({"deliveryDate": {"endDate": (get_now() + timedelta(days=17)).isoformat()}})
 
         test_breakdown = deepcopy(test_plan_data['budget']['breakdown'])
         del test_plan_data['budget']['breakdown']
@@ -119,21 +112,19 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'tender-from-plan-validation.http', 'w') as self.app.file_obj:
             self.app.post_json(
                 '/plans/{}/tenders'.format(plan['id']),
-                {'data': tender_openeu},
+                {'data': test_tender_eu_data},
                 status=422
             )
 
-        test_tender_data["items"] = test_plan_data["items"]
-        test_tender_data["enquiryPeriod"]["endDate"] = (get_now() + timedelta(days=14)).isoformat()
-        test_tender_data["tenderPeriod"]["endDate"] = (get_now() + timedelta(days=21)).isoformat()
-        test_tender_data["procuringEntity"]["identifier"] = test_plan_data["procuringEntity"]["identifier"]
-        test_tender_data["title"] = "Насіння"
-        test_tender_data["status"] = "draft"
+        test_tender_below_data["items"] = test_plan_data["items"]
+        test_tender_below_data["procuringEntity"]["identifier"] = test_plan_data["procuringEntity"]["identifier"]
+        test_tender_below_data["title"] = "Насіння"
+        test_tender_below_data["status"] = "draft"
 
         with open(TARGET_DIR + 'tender-from-plan-breakdown.http', 'w') as self.app.file_obj:
             self.app.post_json(
                 '/plans/{}/tenders'.format(plan['id']),
-                {'data': test_tender_data},
+                {'data': test_tender_below_data},
                 status=422
             )
 
@@ -146,7 +137,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'tender-from-plan.http', 'w') as self.app.file_obj:
             self.app.post_json(
                 '/plans/{}/tenders'.format(plan['id']),
-                {'data': test_tender_data},
+                {'data': test_tender_below_data},
             )
 
         # readonly

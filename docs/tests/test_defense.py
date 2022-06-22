@@ -7,21 +7,19 @@ from datetime import timedelta
 from openprocurement.api.models import get_now
 from openprocurement.api.utils import parse_date
 from openprocurement.tender.core.tests.base import change_auth
-from openprocurement.tender.core.tests.criteria_utils import generate_responses
 from openprocurement.tender.openuadefense.tests.tender import BaseTenderUAWebTest
-from openprocurement.tender.openuadefense.tests.base import test_tender_data
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_criteria
+from openprocurement.tender.belowthreshold.tests.base import test_organization
 from openprocurement.tender.openua.tests.base import test_bids as base_test_bids
 
 
 from tests.base.constants import DOCS_URL, AUCTIONS_URL, MOCK_DATETIME
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.base.data import (
-    question, complaint, tender_defense, subcontracting,
+    question, tender_defense, subcontracting,
     qualified, bid, bid2
 )
 
-test_tender_ua_data = deepcopy(tender_defense)
+test_tender_defence_data = deepcopy(tender_defense)
 bid = deepcopy(bid)
 bid2 = deepcopy(bid2)
 
@@ -40,7 +38,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
-    initial_data = test_tender_ua_data
+    initial_data = test_tender_defence_data
     docservice = True
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
@@ -77,12 +75,12 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
 
         #### Creating tender
 
-        test_tender_ua_data["procuringEntity"]["kind"] = "defense"
+        test_tender_defence_data["procuringEntity"]["kind"] = "defense"
 
         with open(TARGET_DIR + 'tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',
-                {'data': test_tender_ua_data})
+                {'data': test_tender_defence_data})
             self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
@@ -515,7 +513,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',
-                {'data': test_tender_ua_data})
+                {'data': test_tender_defence_data})
             self.assertEqual(response.status, '201 Created')
 
 
@@ -538,7 +536,7 @@ class TenderUADefenceNewComplaintsResourceTest(BaseTenderUAWebTest, MockWebTestM
     auctions_url = AUCTIONS_URL
 
     initial_status = "active.qualification"
-    initial_data = test_tender_data
+    initial_data = test_tender_defence_data
     initial_bids = test_bids
 
     def setUp(self):

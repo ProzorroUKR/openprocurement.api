@@ -26,6 +26,7 @@ X-Content-Type-Options: nosniff
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {
@@ -45,20 +46,20 @@ X-Content-Type-Options: nosniff
     ],
     "status": "active",
     "id": "3d69d58a4d3f4898b419071ee52e2ee5",
-    "date": "2021-03-16T00:00:01+02:00",
+    "date": "2023-01-01T00:00:01+02:00",
     "selfEligible": true,
     "selfQualified": true,
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "documents": [
       {
         "id": "d8e6636759214d83ae65fae7b31ea9a4",
-        "datePublished": "2021-03-16T00:00:01+02:00",
+        "datePublished": "2023-01-01T00:00:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/51d6ed136975417c88009cf6901cf26c?Signature=PG84Tw7dhE9eDsBSDLdi3GW%2FB4gQCBpyuEMKlzhR8PIvl2NHXC5qlNrvqtu%2FOoJoQAlNY%2BBdukROMvn0VGJXBQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2021-03-16T00:00:01+02:00",
+        "dateModified": "2023-01-01T00:00:01+02:00",
         "confidentiality": "public"
       }
     ]

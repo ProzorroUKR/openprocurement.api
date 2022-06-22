@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "dateSigned": "2021-03-16T00:00:01+02:00"
+    "dateSigned": "2023-01-01T00:00:01+02:00"
   }
 }
 
@@ -17,7 +17,7 @@ X-Content-Type-Options: nosniff
   "data": {
     "id": "50fd544f07894953927212c4e2a4cb9c",
     "awardID": "2bef142c8e064f96a734caccd8b89ae0",
-    "contractID": "UA-2021-03-16-000001-a-1",
+    "contractID": "UA-2023-01-01-000001-a-1",
     "contractNumber": "contract#1",
     "status": "pending",
     "suppliers": [
@@ -26,6 +26,7 @@ X-Content-Type-Options: nosniff
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {
@@ -43,13 +44,13 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateSigned": "2021-03-16T00:00:01+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateSigned": "2023-01-01T00:00:01+02:00",
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
-      "amount": 8917.4,
-      "amountPerformance": 816.29,
+      "amount": 8734.93,
+      "amountPerformance": 801.01,
       "yearlyPaymentsPercentage": 0.9,
       "annualCostsReduction": [
         500,
@@ -78,7 +79,7 @@ X-Content-Type-Options: nosniff
         "years": 10,
         "days": 74
       },
-      "amountNet": 8916.4
+      "amountNet": 8733.93
     },
     "items": [
       {

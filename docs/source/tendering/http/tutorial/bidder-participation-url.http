@@ -18,6 +18,7 @@ X-Content-Type-Options: nosniff
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {
@@ -37,7 +38,7 @@ X-Content-Type-Options: nosniff
     ],
     "status": "active",
     "id": "c582a540fc1a4e0196efc7572d396f3e",
-    "date": "2021-03-16T00:00:01+02:00",
+    "date": "2023-01-01T00:00:01+02:00",
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000",
@@ -46,8 +47,8 @@ X-Content-Type-Options: nosniff
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d1cc1807d6ef4804aaf6a62fc0757e91?Signature=UVXJ33BTirHTL7d53q1DHX3Fdkg0rHVk0znMNfi3z3EfU3rnHjmx36wZ%2Fv8pNmFUy7zWyur6I3aSivJRPImCBA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "id": "be584d8a08394fc78aab7a60b22c3925",
-        "datePublished": "2021-03-16T00:00:01+02:00",
-        "dateModified": "2021-03-16T00:00:01+02:00"
+        "datePublished": "2023-01-01T00:00:01+02:00",
+        "dateModified": "2023-01-01T00:00:01+02:00"
       }
     ],
     "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/1e1c35ea6a97449c857edabef72e7225?key_for_bid=c582a540fc1a4e0196efc7572d396f3e"

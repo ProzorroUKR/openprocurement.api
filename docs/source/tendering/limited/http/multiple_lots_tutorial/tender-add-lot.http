@@ -25,7 +25,7 @@ X-Content-Type-Options: nosniff
     "id": "9c7ee9a761404c7cad1359f248e41f71",
     "title": "Лот №1",
     "description": "Опис Лот №1",
-    "date": "2021-03-16T00:00:00+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
     "status": "active",
     "value": {
       "amount": 500000.0,

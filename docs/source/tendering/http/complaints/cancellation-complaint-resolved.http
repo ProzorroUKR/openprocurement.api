@@ -17,8 +17,8 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "9d0ce1567b1a462eb0d9226f0c06add5",
-    "complaintID": "UA-2021-03-16-000001-a.1",
-    "date": "2021-03-16T00:00:00+02:00",
+    "complaintID": "UA-2023-01-01-000001-a.1",
+    "date": "2023-01-01T00:00:00+02:00",
     "documents": [
       {
         "id": "d3a6e3e9236d42f899a264e545675cee",
@@ -26,8 +26,8 @@ X-Content-Type-Options: nosniff
         "title": "Complaint_Attachment.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/aa98df708233490483f06801174bea5a?Signature=WTozQKCjSit%2BDI6jh5evsVb9Q6f6VMcnSq9NWRdKc4qW%2B%2BTDZxDcQUOOXRSM1EJKOyLG7EO33%2Bp1NIO80KEFCg%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "complaint_owner",
         "documentOf": "tender"
       },
@@ -37,8 +37,8 @@ X-Content-Type-Options: nosniff
         "title": "ComplaintResolution.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f53bd08e9faf49038561b358c152af4a?Signature=jhQCBa2Y6Zd8wDcYgNFAS2FOELaTDVWfqYy0xmOMmcSZo3AE1X0YgCvot8yLeHluBC2rqWFHHhY1GnLtnhupCA%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "aboveThresholdReviewers",
         "documentOf": "tender"
       }
@@ -66,17 +66,17 @@ X-Content-Type-Options: nosniff
     },
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-    "dateSubmitted": "2021-03-16T00:00:00+02:00",
+    "dateSubmitted": "2023-01-01T00:00:00+02:00",
     "tendererAction": "Умови виправлено",
-    "tendererActionDate": "2021-03-16T00:00:00+02:00",
-    "dateDecision": "2021-03-16T00:00:00+02:00",
+    "tendererActionDate": "2023-01-01T00:00:00+02:00",
+    "dateDecision": "2023-01-01T00:00:00+02:00",
     "value": {
       "amount": 2000.0,
       "currency": "UAH"
     },
     "acceptance": true,
-    "dateAccepted": "2021-03-16T00:00:00+02:00",
-    "reviewDate": "2021-03-16T00:00:00+02:00",
+    "dateAccepted": "2023-01-01T00:00:00+02:00",
+    "reviewDate": "2023-01-01T00:00:00+02:00",
     "reviewPlace": "some",
     "status": "resolved",
     "type": "complaint"

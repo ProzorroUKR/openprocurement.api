@@ -17,15 +17,15 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "c6c28986ca50459c8ceb1d5048a0e4ba",
-    "complaintID": "UA-2021-03-16-000001-a.2",
-    "date": "2021-03-16T00:00:00+02:00",
+    "complaintID": "UA-2023-01-01-000001-a.2",
+    "date": "2023-01-01T00:00:00+02:00",
     "type": "claim",
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-    "dateSubmitted": "2021-03-16T00:00:00+02:00",
+    "dateSubmitted": "2023-01-01T00:00:00+02:00",
     "resolution": "Виправлено неконкурентні умови",
     "resolutionType": "resolved",
-    "dateAnswered": "2021-03-16T00:00:00+02:00",
+    "dateAnswered": "2023-01-01T00:00:00+02:00",
     "satisfied": true,
     "status": "resolved"
   }

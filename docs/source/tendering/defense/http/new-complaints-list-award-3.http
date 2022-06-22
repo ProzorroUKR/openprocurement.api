@@ -10,7 +10,7 @@ X-Content-Type-Options: nosniff
     {
       "id": "0e495f731e2d4727a28d363124f16f37",
       "status": "unsuccessful",
-      "date": "2021-03-16T00:00:00+02:00",
+      "date": "2023-01-01T00:00:00+02:00",
       "suppliers": [
         {
           "name": "Державне управління справами",
@@ -38,14 +38,14 @@ X-Content-Type-Options: nosniff
       "qualified": false,
       "eligible": false,
       "complaintPeriod": {
-        "startDate": "2021-03-17T00:00:00+02:00",
-        "endDate": "2021-03-23T00:00:00+02:00"
+        "startDate": "2023-01-02T00:00:00+02:00",
+        "endDate": "2023-01-06T00:00:00+02:00"
       }
     },
     {
       "id": "c759e30935e1474087b780419c963aac",
       "status": "cancelled",
-      "date": "2021-03-16T00:00:00+02:00",
+      "date": "2023-01-01T00:00:00+02:00",
       "value": {
         "amount": 479.0,
         "currency": "UAH",
@@ -76,8 +76,8 @@ X-Content-Type-Options: nosniff
       ],
       "bid_id": "53679d60841848cc8c0461ed6092aeb0",
       "complaintPeriod": {
-        "startDate": "2021-03-16T00:00:00+02:00",
-        "endDate": "2021-03-20T00:00:00+02:00"
+        "startDate": "2023-01-01T00:00:00+02:00",
+        "endDate": "2023-01-06T00:00:00+02:00"
       },
       "qualified": true,
       "eligible": true
@@ -85,7 +85,7 @@ X-Content-Type-Options: nosniff
     {
       "id": "ec28373ad3ff4965ac93dab77fd3513f",
       "status": "unsuccessful",
-      "date": "2021-03-16T00:00:00+02:00",
+      "date": "2023-01-01T00:00:00+02:00",
       "value": {
         "amount": 479.0,
         "currency": "UAH",
@@ -118,14 +118,14 @@ X-Content-Type-Options: nosniff
       "qualified": false,
       "eligible": false,
       "complaintPeriod": {
-        "startDate": "2021-03-17T00:00:00+02:00",
-        "endDate": "2021-03-23T00:00:00+02:00"
+        "startDate": "2023-01-02T00:00:00+02:00",
+        "endDate": "2023-01-06T00:00:00+02:00"
       }
     },
     {
       "id": "51e8abf1cfb34fb1ab4213e293f633f5",
       "status": "active",
-      "date": "2021-03-17T00:00:00+02:00",
+      "date": "2023-01-02T00:00:00+02:00",
       "value": {
         "amount": 489.0,
         "currency": "UAH",
@@ -158,8 +158,8 @@ X-Content-Type-Options: nosniff
       "qualified": true,
       "eligible": true,
       "complaintPeriod": {
-        "startDate": "2021-03-17T00:00:00+02:00",
-        "endDate": "2021-03-23T00:00:00+02:00"
+        "startDate": "2023-01-02T00:00:00+02:00",
+        "endDate": "2023-01-06T00:00:00+02:00"
       }
     }
   ]

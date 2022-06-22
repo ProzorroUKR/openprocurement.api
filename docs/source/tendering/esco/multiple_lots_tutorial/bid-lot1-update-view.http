@@ -142,6 +142,7 @@ X-Content-Type-Options: nosniff
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {
@@ -160,7 +161,7 @@ X-Content-Type-Options: nosniff
       }
     ],
     "id": "4b3da417aa534434a91c634e72169f07",
-    "date": "2021-03-16T00:00:00+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
     "status": "pending",
     "lotValues": [
       {
@@ -169,8 +170,8 @@ X-Content-Type-Options: nosniff
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amount": 5572.77,
-          "amountPerformance": 1320.62,
+          "amount": 5396.38,
+          "amountPerformance": 1301.18,
           "yearlyPaymentsPercentage": 0.87,
           "annualCostsReduction": [
             200,
@@ -200,7 +201,7 @@ X-Content-Type-Options: nosniff
             "days": 0
           }
         },
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "status": "pending"
       }
     ],

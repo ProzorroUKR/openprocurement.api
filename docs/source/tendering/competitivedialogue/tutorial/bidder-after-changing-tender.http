@@ -120,13 +120,14 @@ X-Content-Type-Options: nosniff
       }
     ],
     "id": "dfbf0f33e1e1475d90d3c6d02b67dd64",
-    "date": "2021-03-16T00:00:00+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {
@@ -158,31 +159,31 @@ X-Content-Type-Options: nosniff
         "language": "uk",
         "isDescriptionDecision": false,
         "id": "cd9037b6415b4b3ea0626e210088314b",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
       },
       {
         "id": "371d3c32d92a4af99578bbd10a6944e0",
-        "datePublished": "2021-03-16T00:00:00+02:00",
+        "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "DescriptiveProposal.pdf",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8c90145216a24d5aa75953a94a96160d/bids/dfbf0f33e1e1475d90d3c6d02b67dd64/documents/371d3c32d92a4af99578bbd10a6944e0?download=ae93541a5c9f4b64a861457a816489d1",
         "documentOf": "tender",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00",
         "confidentiality": "buyerOnly",
         "language": "uk",
         "isDescriptionDecision": true
       },
       {
         "id": "3d7d17c2422348dcbf572efaaff5ddbc",
-        "datePublished": "2021-03-16T00:00:00+02:00",
+        "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_top_secrets.pdf",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8c90145216a24d5aa75953a94a96160d/bids/dfbf0f33e1e1475d90d3c6d02b67dd64/documents/3d7d17c2422348dcbf572efaaff5ddbc?download=154a4e2c544443d7a5d3c86aae5d0df9",
         "documentOf": "tender",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00",
         "confidentiality": "buyerOnly",
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "language": "uk",

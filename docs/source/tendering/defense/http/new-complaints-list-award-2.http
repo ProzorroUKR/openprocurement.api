@@ -10,7 +10,7 @@ X-Content-Type-Options: nosniff
     {
       "id": "0e495f731e2d4727a28d363124f16f37",
       "status": "unsuccessful",
-      "date": "2021-03-16T00:00:00+02:00",
+      "date": "2023-01-01T00:00:00+02:00",
       "suppliers": [
         {
           "name": "Державне управління справами",
@@ -38,14 +38,14 @@ X-Content-Type-Options: nosniff
       "qualified": false,
       "eligible": false,
       "complaintPeriod": {
-        "startDate": "2021-03-16T00:00:00+02:00",
-        "endDate": "2021-03-20T00:00:00+02:00"
+        "startDate": "2023-01-01T00:00:00+02:00",
+        "endDate": "2023-01-06T00:00:00+02:00"
       }
     },
     {
       "id": "c759e30935e1474087b780419c963aac",
       "status": "active",
-      "date": "2021-03-16T00:00:00+02:00",
+      "date": "2023-01-01T00:00:00+02:00",
       "value": {
         "amount": 479.0,
         "currency": "UAH",
@@ -78,8 +78,8 @@ X-Content-Type-Options: nosniff
       "qualified": true,
       "eligible": true,
       "complaintPeriod": {
-        "startDate": "2021-03-16T00:00:00+02:00",
-        "endDate": "2021-03-20T00:00:00+02:00"
+        "startDate": "2023-01-01T00:00:00+02:00",
+        "endDate": "2023-01-06T00:00:00+02:00"
       }
     }
   ]

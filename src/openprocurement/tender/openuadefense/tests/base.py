@@ -15,21 +15,21 @@ from openprocurement.tender.openua.tests.base import (
     BaseTenderUAWebTest as BaseTenderWebTest,
 )
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_procuring_entity as test_procuringEntity_api,
+    test_procuring_entity as test_procuring_entity_api,
     test_tender_data as test_tender_data_api,
 )
 from openprocurement.tender.belowthreshold.tests.base import test_bids as base_test_bids
 
 
-test_tender_data = test_tender_ua_data = test_tender_data_api.copy()
+test_tender_data = test_tender_data_api.copy()
 test_tender_data["procurementMethodType"] = "aboveThresholdUA.defense"
-test_procuringEntity = test_procuringEntity_api.copy()
-test_procuringEntity["kind"] = "defense"
-test_contactPoint = test_procuringEntity_api["contactPoint"].copy()
-test_contactPoint["availableLanguage"] = "uk"
-test_procuringEntity["contactPoint"] = test_contactPoint
-test_procuringEntity["additionalContactPoints"] = [test_contactPoint.copy()]
-test_tender_data["procuringEntity"] = test_procuringEntity
+test_procuring_entity = test_procuring_entity_api.copy()
+test_procuring_entity["kind"] = "defense"
+test_contact_point = test_procuring_entity_api["contactPoint"].copy()
+test_contact_point["availableLanguage"] = "uk"
+test_procuring_entity["contactPoint"] = test_contact_point
+test_procuring_entity["additionalContactPoints"] = [test_contact_point.copy()]
+test_tender_data["procuringEntity"] = test_procuring_entity
 del test_tender_data["enquiryPeriod"]
 test_tender_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
 test_tender_data["items"] = [
@@ -63,7 +63,7 @@ if SANDBOX_MODE:
     test_tender_data["procurementMethodDetails"] = "quick, accelerator=1440"
 test_features_tender_ua_data = test_features_tender_data.copy()
 test_features_tender_ua_data["procurementMethodType"] = "aboveThresholdUA.defense"
-test_features_tender_ua_data["procuringEntity"] = test_procuringEntity
+test_features_tender_ua_data["procuringEntity"] = test_procuring_entity
 del test_features_tender_ua_data["enquiryPeriod"]
 test_features_tender_ua_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
 test_features_tender_ua_data["items"][0]["deliveryDate"] = test_tender_data["items"][0]["deliveryDate"]

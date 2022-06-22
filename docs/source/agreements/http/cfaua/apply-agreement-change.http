@@ -7,7 +7,7 @@ DATA:
 {
   "data": {
     "status": "active",
-    "dateSigned": "2021-03-16T00:00:00+02:00"
+    "dateSigned": "2023-01-01T00:00:00+02:00"
   }
 }
 
@@ -18,10 +18,10 @@ X-Content-Type-Options: nosniff
   "data": {
     "id": "eb59804a712942e89f57217f6537364e",
     "status": "active",
-    "date": "2021-03-16T00:00:00+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
     "rationale": "Друга і третя поставка має бути розфасована",
     "rationale_en": "Agreement change cause",
-    "dateSigned": "2021-03-16T00:00:00+02:00",
+    "dateSigned": "2023-01-01T00:00:00+02:00",
     "rationaleType": "taxRate",
     "modifications": [
       {

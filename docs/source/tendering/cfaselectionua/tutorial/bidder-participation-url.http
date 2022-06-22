@@ -31,7 +31,7 @@ X-Content-Type-Options: nosniff
     ],
     "status": "active",
     "id": "90c624b84bab4f8397811b9014d115df",
-    "date": "2021-03-16T00:00:00+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
     "parameters": [
       {
         "code": "OCDS-123454-AIR-INTAKE",
@@ -50,7 +50,7 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/1e7fc0d4cb8943b985627a6dc1c42c8a_f2599a519a45416db792d9ee833a8e5a?key_for_bid=90c624b84bab4f8397811b9014d115df"
       }
     ],
@@ -62,8 +62,8 @@ X-Content-Type-Options: nosniff
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/32dacd322185446594eb865b681b975d?Signature=85b5nciCwPI27%2BpzlbJkhTXxKofcDEfqcJBl3NaonZpWyuMxZpx3sqVSNgt4mOL9%2F4%2FqnBEEcq%2FO6AQ6ndybAQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "id": "1c4194380dc54ff19adf9bf4bb27d7ea",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
       }
     ]
   }

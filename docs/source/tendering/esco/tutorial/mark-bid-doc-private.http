@@ -17,13 +17,13 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "79043f35ad60448abc3750014e2e63fb",
-    "datePublished": "2021-03-16T00:00:00+02:00",
+    "datePublished": "2023-01-01T00:00:00+02:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Proposal_top_secrets.pdf",
     "format": "application/pdf",
     "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7378acd602f14dc498b14cc6198a6995/bids/c7619b53b6a342b48373cba33d1ce5b4/documents/79043f35ad60448abc3750014e2e63fb?download=cf23b9f3719f423d9d9a447631f0e067",
     "documentOf": "tender",
-    "dateModified": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
     "confidentiality": "buyerOnly",
     "confidentialityRationale": "Only our company sells badgers with pink hair.",
     "language": "uk"

@@ -8,10 +8,10 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "title": "футляри до державних нагород",
-    "date": "2021-03-16T00:00:01+02:00",
-    "dateCreated": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:01+02:00",
-    "tenderID": "UA-2021-03-16-000001-a",
+    "date": "2023-01-01T00:00:01+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:01+02:00",
+    "tenderID": "UA-2023-01-01-000001-a",
     "owner": "broker",
     "milestones": [
       {
@@ -82,7 +82,7 @@ X-Content-Type-Options: nosniff
                 ],
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           },
@@ -96,7 +96,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -155,7 +155,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -204,7 +204,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "c414eff2894b4e55a106375506c85759",
@@ -212,7 +212,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -251,7 +251,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -290,7 +290,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           },
@@ -304,28 +304,28 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "5770de2d3106484da182fc4ee2382951",
                 "title": "Сума існуючої заборгованості",
                 "dataType": "number",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "f36e054069d14fd19cff2847dd341081",
                 "title": "Характер існуючої заборгованості",
                 "dataType": "string",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "82149dc33b284bd3a0a51c79118cd797",
                 "title": "Причина виникнення існуючої заборгованості",
                 "dataType": "string",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "d39a92a890f34f878c513a4dae52d3c6",
@@ -333,7 +333,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -372,7 +372,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -418,7 +418,7 @@ X-Content-Type-Options: nosniff
                   }
                 ],
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -456,7 +456,7 @@ X-Content-Type-Options: nosniff
                 "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі",
                 "dataType": "boolean",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -534,7 +534,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "6cc1b284e72a43b49f9173cfd4a8af23",
@@ -542,7 +542,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "de22ef7caea74245bf9667e7562fc4c0",
@@ -550,7 +550,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -587,7 +587,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -595,14 +595,14 @@ X-Content-Type-Options: nosniff
       }
     ],
     "auctionPeriod": {
-      "startDate": "2021-03-05T00:00:00+02:00",
-      "endDate": "2021-03-06T00:00:00+02:00"
+      "startDate": "2022-12-21T00:00:00+02:00",
+      "endDate": "2022-12-22T00:00:00+02:00"
     },
     "awards": [
       {
         "id": "009b24936f724f71b3bead89213fca02",
         "status": "cancelled",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "suppliers": [
           {
             "name": "«Снігур»",
@@ -639,7 +639,7 @@ X-Content-Type-Options: nosniff
       {
         "id": "52c837c4237648c88b8d9481d10613a4",
         "status": "cancelled",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "suppliers": [
           {
             "name": "ДКП «Книга»",
@@ -676,13 +676,14 @@ X-Content-Type-Options: nosniff
       {
         "id": "e3ada23d43054924b24bc9e63bc186b3",
         "status": "cancelled",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "suppliers": [
           {
             "name": "ДКП «Школяр»",
             "identifier": {
               "scheme": "UA-EDR",
               "id": "00137256",
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
               "uri": "http://www.sc.gov.ua/"
             },
             "address": {
@@ -713,7 +714,7 @@ X-Content-Type-Options: nosniff
       {
         "id": "5458add9dfea4254b9634d0525e97dc9",
         "status": "cancelled",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "suppliers": [
           {
             "name": "«Снігур»",
@@ -740,8 +741,8 @@ X-Content-Type-Options: nosniff
         "bid_id": "c37e1f57bb514ac38787d82c6de256e7",
         "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
         "complaintPeriod": {
-          "startDate": "2021-03-16T00:00:00+02:00",
-          "endDate": "2021-03-16T00:00:00+02:00"
+          "startDate": "2023-01-01T00:00:00+02:00",
+          "endDate": "2023-01-01T00:00:00+02:00"
         },
         "value": {
           "currency": "UAH",
@@ -752,7 +753,7 @@ X-Content-Type-Options: nosniff
       {
         "id": "2f2891bcc4d240019c96b42a83ab27f3",
         "status": "active",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "suppliers": [
           {
             "name": "«Снігур»",
@@ -779,8 +780,8 @@ X-Content-Type-Options: nosniff
         "bid_id": "c37e1f57bb514ac38787d82c6de256e7",
         "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
         "complaintPeriod": {
-          "startDate": "2021-03-06T00:00:00+02:00",
-          "endDate": "2021-03-16T00:00:00+02:00"
+          "startDate": "2022-12-22T00:00:00+02:00",
+          "endDate": "2023-01-01T00:00:00+02:00"
         },
         "qualified": true,
         "eligible": true,
@@ -793,7 +794,7 @@ X-Content-Type-Options: nosniff
       {
         "id": "d625a77189094474b14618202ebb2f33",
         "status": "active",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "suppliers": [
           {
             "name": "ДКП «Книга»",
@@ -820,8 +821,8 @@ X-Content-Type-Options: nosniff
         "bid_id": "d1f03fb59b634de9860039587ec4f85d",
         "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
         "complaintPeriod": {
-          "startDate": "2021-03-06T00:00:00+02:00",
-          "endDate": "2021-03-16T00:00:00+02:00"
+          "startDate": "2022-12-22T00:00:00+02:00",
+          "endDate": "2023-01-01T00:00:00+02:00"
         },
         "qualified": true,
         "eligible": true,
@@ -834,13 +835,14 @@ X-Content-Type-Options: nosniff
       {
         "id": "506156d094d94cc3b93831b94e6b7290",
         "status": "active",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "suppliers": [
           {
             "name": "ДКП «Школяр»",
             "identifier": {
               "scheme": "UA-EDR",
               "id": "00137256",
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
               "uri": "http://www.sc.gov.ua/"
             },
             "address": {
@@ -861,8 +863,8 @@ X-Content-Type-Options: nosniff
         "bid_id": "57508fba450446f89e32ff9cd4d81348",
         "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
         "complaintPeriod": {
-          "startDate": "2021-03-06T00:00:00+02:00",
-          "endDate": "2021-03-16T00:00:00+02:00"
+          "startDate": "2022-12-22T00:00:00+02:00",
+          "endDate": "2023-01-01T00:00:00+02:00"
         },
         "qualified": true,
         "eligible": true,
@@ -874,8 +876,8 @@ X-Content-Type-Options: nosniff
       }
     ],
     "awardPeriod": {
-      "startDate": "2021-03-06T00:00:00+02:00",
-      "endDate": "2021-03-16T00:00:00+02:00"
+      "startDate": "2022-12-22T00:00:00+02:00",
+      "endDate": "2023-01-01T00:00:00+02:00"
     },
     "bids": [
       {
@@ -885,6 +887,7 @@ X-Content-Type-Options: nosniff
             "identifier": {
               "scheme": "UA-EDR",
               "id": "00137256",
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
               "uri": "http://www.sc.gov.ua/"
             },
             "address": {
@@ -902,7 +905,7 @@ X-Content-Type-Options: nosniff
             "scale": "micro"
           }
         ],
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "id": "57508fba450446f89e32ff9cd4d81348",
         "requirementResponses": [
           {
@@ -1023,8 +1026,8 @@ X-Content-Type-Options: nosniff
             "title": "Proposal.pdf",
             "format": "application/pdf",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/566a898dcb5e4d6cbac7c19df3f2255d?Signature=uRLkxT9CU4hrZUvYjGFb1R3jqEVUUstlAOBI3Qcw0AYoq21jRnXFMBrr%2B2%2B%2B5Kr1qdf%2B9WSx003edlY64PwqAw%3D%3D&KeyID=a8968c46",
-            "datePublished": "2021-03-16T00:00:00+02:00",
-            "dateModified": "2021-03-16T00:00:00+02:00",
+            "datePublished": "2023-01-01T00:00:00+02:00",
+            "dateModified": "2023-01-01T00:00:00+02:00",
             "documentOf": "tender",
             "confidentiality": "public",
             "language": "uk"
@@ -1034,8 +1037,8 @@ X-Content-Type-Options: nosniff
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_top_secrets.pdf",
             "format": "application/pdf",
-            "datePublished": "2021-03-16T00:00:00+02:00",
-            "dateModified": "2021-03-16T00:00:00+02:00",
+            "datePublished": "2023-01-01T00:00:00+02:00",
+            "dateModified": "2023-01-01T00:00:00+02:00",
             "documentOf": "tender",
             "confidentialityRationale": "Only our company sells badgers with pink hair.",
             "confidentiality": "buyerOnly",
@@ -1049,8 +1052,8 @@ X-Content-Type-Options: nosniff
             "title": "financial_doc.pdf",
             "format": "application/pdf",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a20f969f50684bc6ae8dcb13a0c41885?Signature=sm%2B%2BmHzes45vCc8jksFVVhAUafv0RfwlLL9gZTsLYaddAANqZ7j00wfWxPmw6my3UipUAB0nEdlYMYZUc%2B8mCg%3D%3D&KeyID=a8968c46",
-            "datePublished": "2021-03-16T00:00:00+02:00",
-            "dateModified": "2021-03-16T00:00:00+02:00",
+            "datePublished": "2023-01-01T00:00:00+02:00",
+            "dateModified": "2023-01-01T00:00:00+02:00",
             "documentOf": "tender",
             "confidentiality": "public",
             "language": "uk"
@@ -1061,8 +1064,8 @@ X-Content-Type-Options: nosniff
             "title": "financial_doc2.pdf",
             "format": "application/pdf",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9595b5d341ff4269b8f0df2aa37ce8de?Signature=1J6B1dKlPLt93DAPrgOIwsaVQBY%2BUXr7KnQouqQKxSEtYtL8kI9xhS6Ezd9wwi2%2BVHpN9ehbjru8ncauvpzmBA%3D%3D&KeyID=a8968c46",
-            "datePublished": "2021-03-16T00:00:00+02:00",
-            "dateModified": "2021-03-16T00:00:00+02:00",
+            "datePublished": "2023-01-01T00:00:00+02:00",
+            "dateModified": "2023-01-01T00:00:00+02:00",
             "documentOf": "tender",
             "confidentiality": "public",
             "language": "uk"
@@ -1073,8 +1076,8 @@ X-Content-Type-Options: nosniff
             "title": "prices.xls",
             "format": "application/exl",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0dd3a49e21ef41cbb7e84c709bbddc1a?Signature=ZJ8KX2AKv5QkMQObWcrzOEPplGmt%2FV4c8LOk28hvCLOSKLK0QOnwehWP8Qukk4%2FieYZB5jrV1aKPDXVDmtmfBQ%3D%3D&KeyID=a8968c46",
-            "datePublished": "2021-03-16T00:00:00+02:00",
-            "dateModified": "2021-03-16T00:00:00+02:00",
+            "datePublished": "2023-01-01T00:00:00+02:00",
+            "dateModified": "2023-01-01T00:00:00+02:00",
             "documentOf": "tender",
             "confidentiality": "public",
             "language": "uk"
@@ -1087,8 +1090,8 @@ X-Content-Type-Options: nosniff
             "title": "eligibility_doc.pdf",
             "format": "application/pdf",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e0d4f99d68104577927f59cb6d8f7fab?Signature=FhQf0km46Nd8Y7NN95lG1TMVRYB3L%2F6jus6cieljEfKNNzIwPgOWUFNqNzkxsaPHcIc6880dtkOfGNlgG2x0DQ%3D%3D&KeyID=a8968c46",
-            "datePublished": "2021-03-16T00:00:00+02:00",
-            "dateModified": "2021-03-16T00:00:00+02:00",
+            "datePublished": "2023-01-01T00:00:00+02:00",
+            "dateModified": "2023-01-01T00:00:00+02:00",
             "documentOf": "tender",
             "confidentiality": "public",
             "language": "uk"
@@ -1101,8 +1104,8 @@ X-Content-Type-Options: nosniff
             "title": "qualification_document.pdf",
             "format": "application/pdf",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e73683eb573b462197fba52699c470e6?Signature=t5gVoF4QbfJd4GE1RR7XX058cfTiAcAm2fsY4%2BdL%2BtUCH3%2FBEMg5HIXT202dnnG%2Fw%2B62aFOEigVThfvB1%2FEVDg%3D%3D&KeyID=a8968c46",
-            "datePublished": "2021-03-16T00:00:00+02:00",
-            "dateModified": "2021-03-16T00:00:00+02:00",
+            "datePublished": "2023-01-01T00:00:00+02:00",
+            "dateModified": "2023-01-01T00:00:00+02:00",
             "documentOf": "tender",
             "confidentiality": "public",
             "language": "uk"
@@ -1113,8 +1116,8 @@ X-Content-Type-Options: nosniff
             "title": "qualification_document2.pdf",
             "format": "application/pdf",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3027eefe15874090b7f07268478684a8?Signature=K3fBx1%2Fyk8KIqqGTnsCQXb0V%2BSOaMzke3czX5kY%2FJ25gl2FeG8R1ZE1WOsxtX94kamY03G30%2B9vf7B7O9xU7DQ%3D%3D&KeyID=a8968c46",
-            "datePublished": "2021-03-16T00:00:00+02:00",
-            "dateModified": "2021-03-16T00:00:00+02:00",
+            "datePublished": "2023-01-01T00:00:00+02:00",
+            "dateModified": "2023-01-01T00:00:00+02:00",
             "documentOf": "tender",
             "confidentiality": "public",
             "language": "uk"
@@ -1124,7 +1127,7 @@ X-Content-Type-Options: nosniff
           {
             "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
             "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/dea691b943a946a8957e9be95bc51a06_52815e9d01914c7a9bf4ba18ebb5e783?key_for_bid=57508fba450446f89e32ff9cd4d81348",
-            "date": "2021-03-16T00:00:00+02:00",
+            "date": "2023-01-01T00:00:00+02:00",
             "status": "active",
             "value": {
               "currency": "UAH",
@@ -1161,7 +1164,7 @@ X-Content-Type-Options: nosniff
             "scale": "sme"
           }
         ],
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "id": "d1f03fb59b634de9860039587ec4f85d",
         "requirementResponses": [
           {
@@ -1279,7 +1282,7 @@ X-Content-Type-Options: nosniff
           {
             "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
             "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/dea691b943a946a8957e9be95bc51a06_52815e9d01914c7a9bf4ba18ebb5e783?key_for_bid=d1f03fb59b634de9860039587ec4f85d",
-            "date": "2021-03-16T00:00:00+02:00",
+            "date": "2023-01-01T00:00:00+02:00",
             "status": "active",
             "value": {
               "currency": "UAH",
@@ -1435,8 +1438,8 @@ X-Content-Type-Options: nosniff
             "title": "Proposal_part1.pdf",
             "format": "application/pdf",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c1779fafc15841d3a83131dee57a4640?Signature=%2BhrD5a0ABwsMn60xLG5karTIWa%2BwjvMewCmI%2B%2BoDDUQqfLk8khBp%2FiicUw3LeTRcnRt1GeY9fA8%2BxGOVwLGmBw%3D%3D&KeyID=a8968c46",
-            "datePublished": "2021-03-16T00:00:00+02:00",
-            "dateModified": "2021-03-16T00:00:00+02:00",
+            "datePublished": "2023-01-01T00:00:00+02:00",
+            "dateModified": "2023-01-01T00:00:00+02:00",
             "documentOf": "tender",
             "confidentiality": "public",
             "language": "uk"
@@ -1446,8 +1449,8 @@ X-Content-Type-Options: nosniff
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part2.pdf",
             "format": "application/pdf",
-            "datePublished": "2021-03-16T00:00:00+02:00",
-            "dateModified": "2021-03-16T00:00:00+02:00",
+            "datePublished": "2023-01-01T00:00:00+02:00",
+            "dateModified": "2023-01-01T00:00:00+02:00",
             "documentOf": "tender",
             "confidentialityRationale": "Only our company sells badgers with pink hair.",
             "confidentiality": "buyerOnly",
@@ -1461,8 +1464,8 @@ X-Content-Type-Options: nosniff
             "title": "eligibility_doc.pdf",
             "format": "application/pdf",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a628e60a5cf141358caec2553308eed1?Signature=%2FMv2r%2BTsXroG95QUwAstCJzfjMmwwhGDVj0kf6D5xT1tAQP4j3tSfKVj7cfc2YxQFs0%2FhQjiKO5zGZdp4kAsAw%3D%3D&KeyID=a8968c46",
-            "datePublished": "2021-03-16T00:00:00+02:00",
-            "dateModified": "2021-03-16T00:00:00+02:00",
+            "datePublished": "2023-01-01T00:00:00+02:00",
+            "dateModified": "2023-01-01T00:00:00+02:00",
             "documentOf": "tender",
             "confidentiality": "public",
             "language": "uk"
@@ -1495,7 +1498,7 @@ X-Content-Type-Options: nosniff
             "scale": "mid"
           }
         ],
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "id": "c37e1f57bb514ac38787d82c6de256e7",
         "requirementResponses": [
           {
@@ -1616,8 +1619,8 @@ X-Content-Type-Options: nosniff
             "title": "Proposal_part1.pdf",
             "format": "application/pdf",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c1779fafc15841d3a83131dee57a4640?Signature=%2BhrD5a0ABwsMn60xLG5karTIWa%2BwjvMewCmI%2B%2BoDDUQqfLk8khBp%2FiicUw3LeTRcnRt1GeY9fA8%2BxGOVwLGmBw%3D%3D&KeyID=a8968c46",
-            "datePublished": "2021-03-16T00:00:00+02:00",
-            "dateModified": "2021-03-16T00:00:00+02:00",
+            "datePublished": "2023-01-01T00:00:00+02:00",
+            "dateModified": "2023-01-01T00:00:00+02:00",
             "documentOf": "tender",
             "confidentiality": "public",
             "language": "uk"
@@ -1627,8 +1630,8 @@ X-Content-Type-Options: nosniff
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part2.pdf",
             "format": "application/pdf",
-            "datePublished": "2021-03-16T00:00:00+02:00",
-            "dateModified": "2021-03-16T00:00:00+02:00",
+            "datePublished": "2023-01-01T00:00:00+02:00",
+            "dateModified": "2023-01-01T00:00:00+02:00",
             "documentOf": "tender",
             "confidentialityRationale": "Only our company sells badgers with pink hair.",
             "confidentiality": "buyerOnly",
@@ -1642,8 +1645,8 @@ X-Content-Type-Options: nosniff
             "title": "financial_doc.pdf",
             "format": "application/pdf",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c70126ac67864f0eb83440e79dc1dc23?Signature=J%2FywtVSgn0NAC7xG7DDQtL0BFteuHQtcisrurJtPZIHnuL7riJdqMNsf2WuldgiAbNI1Q9cqP4m64brj7L47BA%3D%3D&KeyID=a8968c46",
-            "datePublished": "2021-03-16T00:00:00+02:00",
-            "dateModified": "2021-03-16T00:00:00+02:00",
+            "datePublished": "2023-01-01T00:00:00+02:00",
+            "dateModified": "2023-01-01T00:00:00+02:00",
             "documentOf": "tender",
             "confidentiality": "public",
             "language": "uk"
@@ -1656,8 +1659,8 @@ X-Content-Type-Options: nosniff
             "title": "eligibility_doc.pdf",
             "format": "application/pdf",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a628e60a5cf141358caec2553308eed1?Signature=%2FMv2r%2BTsXroG95QUwAstCJzfjMmwwhGDVj0kf6D5xT1tAQP4j3tSfKVj7cfc2YxQFs0%2FhQjiKO5zGZdp4kAsAw%3D%3D&KeyID=a8968c46",
-            "datePublished": "2021-03-16T00:00:00+02:00",
-            "dateModified": "2021-03-16T00:00:00+02:00",
+            "datePublished": "2023-01-01T00:00:00+02:00",
+            "dateModified": "2023-01-01T00:00:00+02:00",
             "documentOf": "tender",
             "confidentiality": "public",
             "language": "uk"
@@ -1670,8 +1673,8 @@ X-Content-Type-Options: nosniff
             "title": "qualification_document.pdf",
             "format": "application/pdf",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a0af3b8478774cd09f9005ac47f372cb?Signature=fj4DFCjGeOVSTNU4QRM0d0ZRZiu9D5jfIi%2B4gAqz9zIxnHQQ5MVnW5%2FO%2B3WS3MyP7N3qCJ5eE5Zd%2Bku28O2zCw%3D%3D&KeyID=a8968c46",
-            "datePublished": "2021-03-16T00:00:00+02:00",
-            "dateModified": "2021-03-16T00:00:00+02:00",
+            "datePublished": "2023-01-01T00:00:00+02:00",
+            "dateModified": "2023-01-01T00:00:00+02:00",
             "documentOf": "tender",
             "confidentiality": "public",
             "language": "uk"
@@ -1681,7 +1684,7 @@ X-Content-Type-Options: nosniff
           {
             "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
             "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/dea691b943a946a8957e9be95bc51a06_52815e9d01914c7a9bf4ba18ebb5e783?key_for_bid=c37e1f57bb514ac38787d82c6de256e7",
-            "date": "2021-03-16T00:00:00+02:00",
+            "date": "2023-01-01T00:00:00+02:00",
             "status": "active",
             "value": {
               "currency": "UAH",
@@ -1695,16 +1698,16 @@ X-Content-Type-Options: nosniff
       }
     ],
     "contractPeriod": {
-      "startDate": "2021-03-10T00:00:00+02:00",
-      "endDate": "2021-03-16T00:00:01+02:00",
-      "clarificationsUntil": "2021-03-15T00:00:00+02:00"
+      "startDate": "2022-12-26T00:00:00+02:00",
+      "endDate": "2023-01-01T00:00:01+02:00",
+      "clarificationsUntil": "2022-12-31T00:00:00+02:00"
     },
     "agreements": [
       {
         "id": "0fea7d7c4c8649f5a499885d630671f5",
-        "agreementID": "UA-2021-03-16-000001-a-774f515207d840bbb2291a27f848ca611",
-        "date": "2021-03-16T00:00:01+02:00",
-        "dateSigned": "2021-03-16T00:00:01+02:00",
+        "agreementID": "UA-2023-01-01-000001-a-774f515207d840bbb2291a27f848ca611",
+        "date": "2023-01-01T00:00:01+02:00",
+        "dateSigned": "2023-01-01T00:00:01+02:00",
         "documents": [
           {
             "id": "6b3def02d8e044b2a003ce65d16b212a",
@@ -1712,8 +1715,8 @@ X-Content-Type-Options: nosniff
             "title": "agreement_first_document.doc",
             "format": "application/msdoc",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/79e167453f5a401fb8cf408f6e3f2580?Signature=23bscymQYesYOw%2FZpHY7funx9xxU82w8GGZQSF0jYm1mwr9no2e7NHI2oej4xx%2B9tkhdeyxVjXB4ye6L4Kg9DQ%3D%3D&KeyID=a8968c46",
-            "datePublished": "2021-03-16T00:00:00+02:00",
-            "dateModified": "2021-03-16T00:00:00+02:00",
+            "datePublished": "2023-01-01T00:00:00+02:00",
+            "dateModified": "2023-01-01T00:00:00+02:00",
             "documentOf": "tender"
           },
           {
@@ -1724,8 +1727,8 @@ X-Content-Type-Options: nosniff
             "description_en": "Description of Document",
             "format": "application/msdoc",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/19d8247422d744baac8d227f47d1c28c?Signature=6LIfqdeMREwFZds4MdkMI5It2QgX%2FidPLIeMnHRAZQ2dlg%2FqGMM49QlTd0JISwsMdCs9BVxTYfGxYaUyeF86Ag%3D%3D&KeyID=a8968c46",
-            "datePublished": "2021-03-16T00:00:00+02:00",
-            "dateModified": "2021-03-16T00:00:00+02:00",
+            "datePublished": "2023-01-01T00:00:00+02:00",
+            "dateModified": "2023-01-01T00:00:00+02:00",
             "language": "en",
             "documentOf": "tender"
           }
@@ -1801,8 +1804,8 @@ X-Content-Type-Options: nosniff
           }
         ],
         "period": {
-          "startDate": "2021-03-16T00:00:01+02:00",
-          "endDate": "2025-03-15T00:00:01+02:00"
+          "startDate": "2023-01-01T00:00:01+02:00",
+          "endDate": "2026-12-31T00:00:01+02:00"
         },
         "status": "active",
         "contracts": [
@@ -1852,7 +1855,7 @@ X-Content-Type-Options: nosniff
             ],
             "awardID": "2f2891bcc4d240019c96b42a83ab27f3",
             "bidID": "c37e1f57bb514ac38787d82c6de256e7",
-            "date": "2021-03-16T00:00:00+02:00"
+            "date": "2023-01-01T00:00:00+02:00"
           },
           {
             "id": "4ffc79bd176541f7a1aa8bdd26bc5a87",
@@ -1900,7 +1903,7 @@ X-Content-Type-Options: nosniff
             ],
             "awardID": "d625a77189094474b14618202ebb2f33",
             "bidID": "d1f03fb59b634de9860039587ec4f85d",
-            "date": "2021-03-16T00:00:00+02:00"
+            "date": "2023-01-01T00:00:00+02:00"
           },
           {
             "id": "4b5cb6ae595b43a48a5a1ac2001d1dcb",
@@ -1911,6 +1914,7 @@ X-Content-Type-Options: nosniff
                 "identifier": {
                   "scheme": "UA-EDR",
                   "id": "00137256",
+                  "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
                   "uri": "http://www.sc.gov.ua/"
                 },
                 "address": {
@@ -1948,7 +1952,7 @@ X-Content-Type-Options: nosniff
             ],
             "awardID": "506156d094d94cc3b93831b94e6b7290",
             "bidID": "57508fba450446f89e32ff9cd4d81348",
-            "date": "2021-03-16T00:00:00+02:00"
+            "date": "2023-01-01T00:00:00+02:00"
           }
         ]
       }
@@ -1960,8 +1964,8 @@ X-Content-Type-Options: nosniff
         "title": "Notice.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/576584a3773a4d2799e4af16de7afaef?Signature=eLr29Kwl9WC3bjpcqLZYIIPp41L4E%2FKcaKZalupTpM0kWURXdbQQr7PXvXZTL8bXB1vYeJ2KPUkp2AnlTPbGDQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner",
         "documentOf": "tender",
         "language": "uk"
@@ -1972,8 +1976,8 @@ X-Content-Type-Options: nosniff
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/65f052828dd54fb59acfc5e598d928a2?Signature=heifngteUxe7sJxD%2FySvJnqghe0I1JuzLw3abCE3wK4ot8LGLOjJI2KnqEguk1LuSLwoxoVnT5QWw73X40T0CQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner",
         "documentOf": "tender",
         "language": "uk"
@@ -1984,18 +1988,18 @@ X-Content-Type-Options: nosniff
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1d6de0bad71f4f41927965001d34373c?Signature=IxMhGxVkp53NYCibHDauvqD95DSKyqx4aP3afqxLCEWGZrFI%2Fl1I7ZTMcffq8ScTc2y9IdsdOtKOCuQnGP5jCg%3D%3D&KeyID=a8968c46",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner",
         "documentOf": "tender",
         "language": "uk"
       }
     ],
     "enquiryPeriod": {
-      "startDate": "2021-01-23T00:00:00+02:00",
-      "endDate": "2021-02-13T00:00:00+02:00",
-      "clarificationsUntil": "2021-02-18T00:00:00+02:00",
-      "invalidationDate": "2021-03-16T00:00:00+02:00"
+      "startDate": "2022-11-10T00:00:00+02:00",
+      "endDate": "2022-12-01T00:00:00+02:00",
+      "clarificationsUntil": "2022-12-06T00:00:00+02:00",
+      "invalidationDate": "2023-01-01T00:00:00+02:00"
     },
     "guarantee": {
       "currency": "USD",
@@ -2082,12 +2086,12 @@ X-Content-Type-Options: nosniff
         "id": "52815e9d01914c7a9bf4ba18ebb5e783",
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "status": "active",
         "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/dea691b943a946a8957e9be95bc51a06_52815e9d01914c7a9bf4ba18ebb5e783",
         "auctionPeriod": {
-          "startDate": "2021-03-05T00:00:00+02:00",
-          "endDate": "2021-03-06T00:00:00+02:00"
+          "startDate": "2022-12-21T00:00:00+02:00",
+          "endDate": "2022-12-22T00:00:00+02:00"
         },
         "value": {
           "amount": 500.0,
@@ -2131,8 +2135,8 @@ X-Content-Type-Options: nosniff
       "kind": "general"
     },
     "qualificationPeriod": {
-      "startDate": "2021-02-23T00:00:00+02:00",
-      "endDate": "2021-03-05T00:00:00+02:00"
+      "startDate": "2022-12-11T00:00:00+02:00",
+      "endDate": "2022-12-21T00:00:00+02:00"
     },
     "qualifications": [
       {
@@ -2140,7 +2144,7 @@ X-Content-Type-Options: nosniff
         "bidID": "57508fba450446f89e32ff9cd4d81348",
         "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
         "status": "active",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "qualified": true,
         "eligible": true
       },
@@ -2149,7 +2153,7 @@ X-Content-Type-Options: nosniff
         "bidID": "d1f03fb59b634de9860039587ec4f85d",
         "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
         "status": "active",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "qualified": true,
         "eligible": true
       },
@@ -2158,7 +2162,7 @@ X-Content-Type-Options: nosniff
         "bidID": "660a1a3573c444f6bfd555f8b4e83c3c",
         "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
         "status": "unsuccessful",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "qualified": false,
         "eligible": false
       },
@@ -2167,7 +2171,7 @@ X-Content-Type-Options: nosniff
         "bidID": "c37e1f57bb514ac38787d82c6de256e7",
         "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
         "status": "active",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "qualified": true,
         "eligible": true
       }
@@ -2197,16 +2201,16 @@ X-Content-Type-Options: nosniff
         },
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"",
         "questionOf": "tender",
-        "dateAnswered": "2021-03-16T00:00:00+02:00"
+        "dateAnswered": "2023-01-01T00:00:00+02:00"
       }
     ],
     "status": "complete",
     "tenderPeriod": {
-      "startDate": "2021-01-23T00:00:00+02:00",
-      "endDate": "2021-02-23T00:00:00+02:00"
+      "startDate": "2022-11-10T00:00:00+02:00",
+      "endDate": "2022-12-11T00:00:00+02:00"
     },
     "title_en": "Cases for state awards",
     "value": {
@@ -2217,8 +2221,8 @@ X-Content-Type-Options: nosniff
     "agreementDuration": "P3Y3M3D",
     "mainProcurementCategory": "goods",
     "complaintPeriod": {
-      "startDate": "2021-01-23T00:00:00+02:00",
-      "endDate": "2021-02-19T00:00:00+02:00"
+      "startDate": "2022-11-10T00:00:00+02:00",
+      "endDate": "2022-12-07T00:00:00+02:00"
     },
     "id": "dea691b943a946a8957e9be95bc51a06"
   }

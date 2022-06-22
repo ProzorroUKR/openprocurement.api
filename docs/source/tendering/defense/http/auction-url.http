@@ -7,10 +7,10 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:01+02:00",
-    "dateCreated": "2021-03-16T00:00:00+02:00",
-    "tenderID": "UA-2021-03-16-000001-a",
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:01+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "tenderID": "UA-2023-01-01-000001-a",
     "questions": [
       {
         "id": "a20a872aeacd4e4dac5482c2045a52eb",
@@ -36,44 +36,44 @@ X-Content-Type-Options: nosniff
         },
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"",
         "questionOf": "tender",
-        "dateAnswered": "2021-03-16T00:00:00+02:00"
+        "dateAnswered": "2023-01-01T00:00:00+02:00"
       }
     ],
     "documents": [
       {
         "id": "f63b2662f2a249049b1921215ce40df0",
-        "datePublished": "2021-03-16T00:00:00+02:00",
+        "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cb62bd21fee54c2798310d1f002f5979?Signature=XggChyH1zpkvXMQ1PJskrvV%2B3GPsgu0iHEehLQjizv8seQP1EXkMMFm0qby1qaUXagXu4w5vCtj6Z8yoBqJ7DA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner"
       },
       {
         "id": "dce7e6b9d5c249cbb3a30b6cc2a880c8",
-        "datePublished": "2021-03-16T00:00:00+02:00",
+        "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cec65d4002a34d21b80a8a99f446457a?Signature=pcJc%2BSJFfbwbgklhPjkawYsWb7X1qgNka%2FPxFac5XUJkUeqlbbgHHF2K0SuK1omXnWXv3Q1o84hipdhDbYSHBg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner"
       },
       {
         "id": "dce7e6b9d5c249cbb3a30b6cc2a880c8",
-        "datePublished": "2021-03-16T00:00:00+02:00",
+        "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d6bfd85ae5664eb288287294d4714fa0?Signature=9UcYFWV7nxFKGTErIgp%2BFS2Q4rpOw5am4ZHU4nFmsmDlzF4pUMtwhdBZbFaJVXheCy8Krbq%2BgGzAKvTp9rIqCg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner"
       }
     ],
@@ -91,15 +91,15 @@ X-Content-Type-Options: nosniff
       "amount": 8.0,
       "currency": "USD"
     },
-    "next_check": "2021-03-16T00:36:01+02:00",
+    "next_check": "2023-01-01T00:36:01+02:00",
     "minimalStep": {
       "amount": 5.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
     "auctionPeriod": {
-      "startDate": "2021-03-16T00:00:01+02:00",
-      "shouldStartAfter": "2021-03-17T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:01+02:00",
+      "shouldStartAfter": "2023-01-02T00:00:00+02:00"
     },
     "milestones": [
       {
@@ -130,14 +130,14 @@ X-Content-Type-Options: nosniff
     "status": "active.auction",
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
-      "startDate": "2021-02-28T00:00:01+02:00",
-      "endDate": "2021-03-13T00:00:01+02:00",
-      "clarificationsUntil": "2021-03-18T00:00:00+02:00",
-      "invalidationDate": "2021-03-16T00:00:01+02:00"
+      "startDate": "2022-12-16T00:00:01+02:00",
+      "endDate": "2022-12-29T00:00:01+02:00",
+      "clarificationsUntil": "2023-01-04T00:00:00+02:00",
+      "invalidationDate": "2023-01-01T00:00:01+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2021-02-28T00:00:01+02:00",
-      "endDate": "2021-03-16T00:00:01+02:00"
+      "startDate": "2022-12-16T00:00:01+02:00",
+      "endDate": "2023-01-01T00:00:01+02:00"
     },
     "items": [
       {
@@ -166,8 +166,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 1.0,
         "deliveryDate": {
-          "startDate": "2021-04-05T00:00:00+02:00",
-          "endDate": "2021-05-05T00:00:00+02:00"
+          "startDate": "2023-01-21T00:00:00+02:00",
+          "endDate": "2023-02-20T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -202,8 +202,8 @@ X-Content-Type-Options: nosniff
       "kind": "defense"
     },
     "complaintPeriod": {
-      "startDate": "2021-03-03T00:00:00+02:00",
-      "endDate": "2021-03-20T00:00:00+02:00"
+      "startDate": "2022-12-19T00:00:00+02:00",
+      "endDate": "2023-01-05T00:00:00+02:00"
     },
     "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/2f4877f50c594a7697b170b5a6d1f8e6",
     "id": "2f4877f50c594a7697b170b5a6d1f8e6"

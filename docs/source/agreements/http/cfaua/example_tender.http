@@ -116,48 +116,48 @@ X-Content-Type-Options: nosniff
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "auctionPeriod": {
-          "startDate": "2021-02-27T00:00:00+02:00",
-          "endDate": "2021-02-28T00:00:00+02:00"
+          "startDate": "2022-12-15T00:00:00+02:00",
+          "endDate": "2022-12-16T00:00:00+02:00"
         }
       }
     ],
     "tenderPeriod": {
-      "endDate": "2021-02-17T00:00:00+02:00",
-      "startDate": "2021-01-17T00:00:00+02:00"
+      "endDate": "2022-12-05T00:00:00+02:00",
+      "startDate": "2022-11-04T00:00:00+02:00"
     },
     "status": "complete",
-    "tenderID": "UA-2021-03-16-000001-a",
+    "tenderID": "UA-2023-01-01-000001-a",
     "complaintPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-04-12T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-28T00:00:00+02:00"
     },
     "owner": "broker",
-    "date": "2021-03-16T00:00:00+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
     "enquiryPeriod": {
-      "startDate": "2021-01-17T00:00:00+02:00",
-      "endDate": "2021-02-07T00:00:00+02:00",
-      "clarificationsUntil": "2021-04-09T00:00:00+03:00"
+      "startDate": "2022-11-04T00:00:00+02:00",
+      "endDate": "2022-11-25T00:00:00+02:00",
+      "clarificationsUntil": "2023-01-26T00:00:00+02:00"
     },
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "dateCreated": "2021-03-16T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
     "qualificationPeriod": {
-      "startDate": "2021-02-17T00:00:00+02:00",
-      "endDate": "2021-02-27T00:00:00+02:00"
+      "startDate": "2022-12-05T00:00:00+02:00",
+      "endDate": "2022-12-15T00:00:00+02:00"
     },
     "auctionPeriod": {
-      "startDate": "2021-02-27T00:00:00+02:00",
-      "endDate": "2021-02-28T00:00:00+02:00"
+      "startDate": "2022-12-15T00:00:00+02:00",
+      "endDate": "2022-12-16T00:00:00+02:00"
     },
     "awardPeriod": {
-      "startDate": "2021-02-28T00:00:00+02:00",
-      "endDate": "2021-03-10T00:00:00+02:00"
+      "startDate": "2022-12-16T00:00:00+02:00",
+      "endDate": "2022-12-26T00:00:00+02:00"
     },
     "contractPeriod": {
-      "startDate": "2021-03-10T00:00:00+02:00",
-      "clarificationsUntil": "2021-03-15T00:00:00+02:00",
-      "endDate": "2021-03-16T00:00:00+02:00"
+      "startDate": "2022-12-26T00:00:00+02:00",
+      "clarificationsUntil": "2022-12-31T00:00:00+02:00",
+      "endDate": "2023-01-01T00:00:00+02:00"
     },
     "bids": [
       {
@@ -196,11 +196,11 @@ X-Content-Type-Options: nosniff
               "valueAddedTaxIncluded": true
             },
             "relatedLot": "27c4a15dce034406ba16156354632d9b",
-            "date": "2021-01-17T00:00:01+02:00"
+            "date": "2022-11-04T00:00:01+02:00"
           }
         ],
         "id": "a4aaf72182904a549e80dc4d765040a2",
-        "date": "2021-01-17T00:00:01+02:00",
+        "date": "2022-11-04T00:00:01+02:00",
         "status": "active"
       },
       {
@@ -239,11 +239,11 @@ X-Content-Type-Options: nosniff
               "valueAddedTaxIncluded": true
             },
             "relatedLot": "27c4a15dce034406ba16156354632d9b",
-            "date": "2021-01-17T00:00:02+02:00"
+            "date": "2022-11-04T00:00:02+02:00"
           }
         ],
         "id": "2269d0f299644a87bfd73ac8a065c501",
-        "date": "2021-01-17T00:00:02+02:00",
+        "date": "2022-11-04T00:00:02+02:00",
         "status": "active"
       },
       {
@@ -282,11 +282,11 @@ X-Content-Type-Options: nosniff
               "valueAddedTaxIncluded": true
             },
             "relatedLot": "27c4a15dce034406ba16156354632d9b",
-            "date": "2021-01-17T00:00:03+02:00"
+            "date": "2022-11-04T00:00:03+02:00"
           }
         ],
         "id": "5aa54309d515431f8edb45ca63c1d1cd",
-        "date": "2021-01-17T00:00:03+02:00",
+        "date": "2022-11-04T00:00:03+02:00",
         "status": "active"
       }
     ],
@@ -296,7 +296,7 @@ X-Content-Type-Options: nosniff
         "bidID": "a4aaf72182904a549e80dc4d765040a2",
         "status": "active",
         "lotID": "27c4a15dce034406ba16156354632d9b",
-        "date": "2021-02-17T00:00:00+02:00",
+        "date": "2022-12-05T00:00:00+02:00",
         "qualified": true,
         "eligible": true
       },
@@ -305,7 +305,7 @@ X-Content-Type-Options: nosniff
         "bidID": "2269d0f299644a87bfd73ac8a065c501",
         "status": "active",
         "lotID": "27c4a15dce034406ba16156354632d9b",
-        "date": "2021-02-17T00:00:00+02:00",
+        "date": "2022-12-05T00:00:00+02:00",
         "qualified": true,
         "eligible": true
       },
@@ -314,7 +314,7 @@ X-Content-Type-Options: nosniff
         "bidID": "5aa54309d515431f8edb45ca63c1d1cd",
         "status": "active",
         "lotID": "27c4a15dce034406ba16156354632d9b",
-        "date": "2021-02-17T00:00:00+02:00",
+        "date": "2022-12-05T00:00:00+02:00",
         "qualified": true,
         "eligible": true
       }
@@ -354,11 +354,11 @@ X-Content-Type-Options: nosniff
           "amount": 469,
           "valueAddedTaxIncluded": true
         },
-        "date": "2021-02-28T00:00:00+02:00",
+        "date": "2022-12-16T00:00:00+02:00",
         "id": "146d55f13a704b11b95275254e00fef4",
         "complaintPeriod": {
-          "startDate": "2021-02-28T00:00:00+02:00",
-          "endDate": "2021-03-10T00:00:00+02:00"
+          "startDate": "2022-12-16T00:00:00+02:00",
+          "endDate": "2022-12-26T00:00:00+02:00"
         }
       },
       {
@@ -395,11 +395,11 @@ X-Content-Type-Options: nosniff
           "amount": 470,
           "valueAddedTaxIncluded": true
         },
-        "date": "2021-02-28T00:00:00+02:00",
+        "date": "2022-12-16T00:00:00+02:00",
         "id": "88f3ec5213a7405a92b7bd353549edb1",
         "complaintPeriod": {
-          "startDate": "2021-02-28T00:00:00+02:00",
-          "endDate": "2021-03-10T00:00:00+02:00"
+          "startDate": "2022-12-16T00:00:00+02:00",
+          "endDate": "2022-12-26T00:00:00+02:00"
         }
       },
       {
@@ -436,11 +436,11 @@ X-Content-Type-Options: nosniff
           "amount": 471,
           "valueAddedTaxIncluded": true
         },
-        "date": "2021-02-28T00:00:00+02:00",
+        "date": "2022-12-16T00:00:00+02:00",
         "id": "f8a353351f6449128fc5be8abba6e67f",
         "complaintPeriod": {
-          "startDate": "2021-02-28T00:00:00+02:00",
-          "endDate": "2021-03-10T00:00:00+02:00"
+          "startDate": "2022-12-16T00:00:00+02:00",
+          "endDate": "2022-12-26T00:00:00+02:00"
         }
       }
     ],
@@ -483,8 +483,8 @@ X-Content-Type-Options: nosniff
             "description_en": "Cases for state awards"
           }
         ],
-        "agreementID": "UA-2021-03-16-000001-a-8053c38b861e4d27b6375ab5eb93cc1c1",
-        "date": "2021-03-16T00:00:00+02:00",
+        "agreementID": "UA-2023-01-01-000001-a-8053c38b861e4d27b6375ab5eb93cc1c1",
+        "date": "2023-01-01T00:00:00+02:00",
         "contracts": [
           {
             "id": "ab9b0f04fe08458ab0ea443c5744cb1d",
@@ -515,7 +515,7 @@ X-Content-Type-Options: nosniff
             ],
             "awardID": "146d55f13a704b11b95275254e00fef4",
             "bidID": "a4aaf72182904a549e80dc4d765040a2",
-            "date": "2021-03-16T00:00:00+02:00",
+            "date": "2023-01-01T00:00:00+02:00",
             "unitPrices": [
               {
                 "relatedItem": "cefbff4fb3e846ee8eecfdb05932afa1",
@@ -557,7 +557,7 @@ X-Content-Type-Options: nosniff
             ],
             "awardID": "88f3ec5213a7405a92b7bd353549edb1",
             "bidID": "2269d0f299644a87bfd73ac8a065c501",
-            "date": "2021-03-16T00:00:00+02:00",
+            "date": "2023-01-01T00:00:00+02:00",
             "unitPrices": [
               {
                 "relatedItem": "cefbff4fb3e846ee8eecfdb05932afa1",
@@ -599,7 +599,7 @@ X-Content-Type-Options: nosniff
             ],
             "awardID": "f8a353351f6449128fc5be8abba6e67f",
             "bidID": "5aa54309d515431f8edb45ca63c1d1cd",
-            "date": "2021-03-16T00:00:00+02:00",
+            "date": "2023-01-01T00:00:00+02:00",
             "unitPrices": [
               {
                 "relatedItem": "cefbff4fb3e846ee8eecfdb05932afa1",

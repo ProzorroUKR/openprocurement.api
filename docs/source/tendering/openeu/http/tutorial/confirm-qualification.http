@@ -19,7 +19,7 @@ X-Content-Type-Options: nosniff
   "data": {
     "id": "2b438b38a4a74636a13d993b1cc51c4f",
     "status": "active",
-    "date": "2021-03-16T00:00:00+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
     "value": {
       "amount": 499.0,
       "currency": "UAH",
@@ -52,8 +52,8 @@ X-Content-Type-Options: nosniff
     "qualified": true,
     "eligible": true,
     "complaintPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-03-26T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-11T00:00:00+02:00"
     }
   }
 }

@@ -167,10 +167,10 @@ X-Content-Type-Options: nosniff
             "years": 7,
             "days": 0
           },
-          "amountPerformance": 2009.5,
-          "amount": 9565.89
+          "amountPerformance": 1984.18,
+          "amount": 9273.95
         },
-        "date": "2021-03-16T00:00:00+02:00"
+        "date": "2023-01-01T00:00:00+02:00"
       },
       {
         "relatedLot": "ae36b7ca7b4a44d8b3c015a3e4043f4f",
@@ -207,14 +207,14 @@ X-Content-Type-Options: nosniff
             "years": 9,
             "days": 0
           },
-          "amountPerformance": 892.71,
-          "amount": 10028.71
+          "amountPerformance": 884.68,
+          "amount": 9795.16
         },
-        "date": "2021-03-16T00:00:00+02:00"
+        "date": "2023-01-01T00:00:00+02:00"
       }
     ],
     "id": "fed6f61352f54eec8ca73dc0ecb4aa90",
-    "date": "2021-03-16T00:00:00+02:00"
+    "date": "2023-01-01T00:00:00+02:00"
   },
   "access": {
     "token": "afd678aee3e249888d49a05e3616d8b5",

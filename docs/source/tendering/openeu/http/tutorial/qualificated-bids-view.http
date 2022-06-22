@@ -126,6 +126,7 @@ X-Content-Type-Options: nosniff
           "identifier": {
             "scheme": "UA-EDR",
             "id": "00137256",
+            "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
             "uri": "http://www.sc.gov.ua/"
           },
           "address": {
@@ -155,18 +156,18 @@ X-Content-Type-Options: nosniff
           "confidentiality": "public",
           "language": "uk",
           "id": "198874f074ed46eabc25648f1769dba6",
-          "datePublished": "2021-03-16T00:00:00+02:00",
-          "dateModified": "2021-03-16T00:00:00+02:00"
+          "datePublished": "2023-01-01T00:00:00+02:00",
+          "dateModified": "2023-01-01T00:00:00+02:00"
         },
         {
           "id": "58123bc69e4f46839bdbc594b304e45c",
-          "datePublished": "2021-03-16T00:00:00+02:00",
+          "datePublished": "2023-01-01T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_top_secrets.pdf",
           "format": "application/pdf",
           "url": "/tenders/b68a79fc566a4d49b80369c0ed01748d/bids/406646e317bc4aeca335869b157ab08d/documents/58123bc69e4f46839bdbc594b304e45c?download=396144e95a5f4abb8c1d2fd408ff4d72",
           "documentOf": "tender",
-          "dateModified": "2021-03-16T00:00:00+02:00",
+          "dateModified": "2023-01-01T00:00:00+02:00",
           "confidentiality": "buyerOnly",
           "confidentialityRationale": "Only our company sells badgers with pink hair.",
           "language": "uk"
@@ -182,8 +183,8 @@ X-Content-Type-Options: nosniff
           "confidentiality": "public",
           "language": "uk",
           "id": "48a9e5e645f746fab7af690292c333c7",
-          "datePublished": "2021-03-16T00:00:00+02:00",
-          "dateModified": "2021-03-16T00:00:00+02:00"
+          "datePublished": "2023-01-01T00:00:00+02:00",
+          "dateModified": "2023-01-01T00:00:00+02:00"
         }
       ]
     },
@@ -466,25 +467,25 @@ X-Content-Type-Options: nosniff
       "documents": [
         {
           "id": "7d415de836e14d7abd3a63f77ca82822",
-          "datePublished": "2021-03-16T00:00:00+02:00",
+          "datePublished": "2023-01-01T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part1.pdf",
           "format": "application/pdf",
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a3862b2b1ae843528accfedd051cdef2?Signature=20QWJzodvNP2bfpedho6U%2F3T71yvMI4I9TJc%2BEnhF0dpky1H0Vf5vI4rq2Y99B3uZ0gMXJlKhd95jr3qwCmKAQ%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
-          "dateModified": "2021-03-16T00:00:00+02:00",
+          "dateModified": "2023-01-01T00:00:00+02:00",
           "confidentiality": "public",
           "language": "uk"
         },
         {
           "id": "6aefa54bc9cb4f7f952f69e76059fe1b",
-          "datePublished": "2021-03-16T00:00:00+02:00",
+          "datePublished": "2023-01-01T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part2.pdf",
           "format": "application/pdf",
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9ff17557b8d74a169916ccc5653c0a2d?Signature=%2Fnd7a4Qcr76Y3KpZhMCbiqTIOMY19FWObhcn1heyrRicUirKAuXYO1se0bRvbNoKASFDuCf2PDlveoPLCS4nCg%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
-          "dateModified": "2021-03-16T00:00:00+02:00",
+          "dateModified": "2023-01-01T00:00:00+02:00",
           "confidentiality": "public",
           "language": "uk"
         }
@@ -492,13 +493,13 @@ X-Content-Type-Options: nosniff
       "eligibilityDocuments": [
         {
           "id": "e23ff43a3e8b46a8b2c578de4331230e",
-          "datePublished": "2021-03-16T00:00:00+02:00",
+          "datePublished": "2023-01-01T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "eligibility_doc.pdf",
           "format": "application/pdf",
           "url": "/tenders/b68a79fc566a4d49b80369c0ed01748d/bids/9e105e3974f848e9a49d76e4c620a612/eligibility_documents/e23ff43a3e8b46a8b2c578de4331230e?download=07d313e6717642fcb43032920da39ac2",
           "documentOf": "tender",
-          "dateModified": "2021-03-16T00:00:00+02:00",
+          "dateModified": "2023-01-01T00:00:00+02:00",
           "confidentiality": "public",
           "language": "uk"
         }

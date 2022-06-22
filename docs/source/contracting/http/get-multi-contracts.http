@@ -11,7 +11,7 @@ X-Content-Type-Options: nosniff
       "id": "4d2a894ddb8f4b4c88370fa1ff4e5f93",
       "buyerID": "11111111111111111111111111111111",
       "awardID": "edb662d1a45c45ca91735eb5d895bb29",
-      "contractID": "UA-2021-03-16-000001-a-1",
+      "contractID": "UA-2023-01-01-000001-a-1",
       "status": "pending",
       "value": {
         "amount": 0.0,
@@ -46,8 +46,8 @@ X-Content-Type-Options: nosniff
           },
           "quantity": 5.0,
           "deliveryDate": {
-            "startDate": "2021-03-18T00:00:00+02:00",
-            "endDate": "2021-03-21T00:00:00+02:00"
+            "startDate": "2023-01-03T00:00:00+02:00",
+            "endDate": "2023-01-06T00:00:00+02:00"
           },
           "deliveryAddress": {
             "streetAddress": "вул. Банкова 1",
@@ -82,13 +82,13 @@ X-Content-Type-Options: nosniff
           "scale": "micro"
         }
       ],
-      "date": "2021-03-16T00:00:00+02:00"
+      "date": "2023-01-01T00:00:00+02:00"
     },
     {
       "id": "5fa6c9d7e4724df3be1a8f2d0ba0fa43",
       "buyerID": "22222222222222222222222222222222",
       "awardID": "edb662d1a45c45ca91735eb5d895bb29",
-      "contractID": "UA-2021-03-16-000001-a-2",
+      "contractID": "UA-2023-01-01-000001-a-2",
       "status": "pending",
       "value": {
         "amount": 0.0,
@@ -123,8 +123,8 @@ X-Content-Type-Options: nosniff
           },
           "quantity": 5.0,
           "deliveryDate": {
-            "startDate": "2021-03-18T00:00:00+02:00",
-            "endDate": "2021-03-21T00:00:00+02:00"
+            "startDate": "2023-01-03T00:00:00+02:00",
+            "endDate": "2023-01-06T00:00:00+02:00"
           },
           "deliveryAddress": {
             "streetAddress": "вул. Банкова 1",
@@ -161,8 +161,8 @@ X-Content-Type-Options: nosniff
           },
           "quantity": 5.0,
           "deliveryDate": {
-            "startDate": "2021-03-18T00:00:00+02:00",
-            "endDate": "2021-03-21T00:00:00+02:00"
+            "startDate": "2023-01-03T00:00:00+02:00",
+            "endDate": "2023-01-06T00:00:00+02:00"
           },
           "deliveryAddress": {
             "streetAddress": "вул. Банкова 1",
@@ -197,7 +197,7 @@ X-Content-Type-Options: nosniff
           "scale": "micro"
         }
       ],
-      "date": "2021-03-16T00:00:00+02:00"
+      "date": "2023-01-01T00:00:00+02:00"
     }
   ]
 }

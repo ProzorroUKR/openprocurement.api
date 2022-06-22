@@ -126,6 +126,7 @@ X-Content-Type-Options: nosniff
           "identifier": {
             "scheme": "UA-EDR",
             "id": "00137256",
+            "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
             "uri": "http://www.sc.gov.ua/"
           },
           "address": {
@@ -147,25 +148,25 @@ X-Content-Type-Options: nosniff
       "documents": [
         {
           "id": "332a9218280242a0b460b8707d778f7f",
-          "datePublished": "2021-03-16T00:00:00+02:00",
+          "datePublished": "2023-01-01T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal.pdf",
           "format": "application/pdf",
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e306562479754a0d8a0d64cb0036fcae?Signature=0zTwe9ZZqhfzjGZSKSEGGOBDH0jZmG%2FkoCPoh43ZDw6lXcAeP3hw1l0tGHzoPJ3bcUPWIGevLYGBCdGAXbzECw%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
-          "dateModified": "2021-03-16T00:00:00+02:00",
+          "dateModified": "2023-01-01T00:00:00+02:00",
           "confidentiality": "public",
           "language": "uk"
         },
         {
           "id": "79043f35ad60448abc3750014e2e63fb",
-          "datePublished": "2021-03-16T00:00:00+02:00",
+          "datePublished": "2023-01-01T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_top_secrets.pdf",
           "format": "application/pdf",
           "url": "/tenders/7378acd602f14dc498b14cc6198a6995/bids/c7619b53b6a342b48373cba33d1ce5b4/documents/79043f35ad60448abc3750014e2e63fb?download=cf23b9f3719f423d9d9a447631f0e067",
           "documentOf": "tender",
-          "dateModified": "2021-03-16T00:00:00+02:00",
+          "dateModified": "2023-01-01T00:00:00+02:00",
           "confidentiality": "buyerOnly",
           "confidentialityRationale": "Only our company sells badgers with pink hair.",
           "language": "uk"
@@ -174,13 +175,13 @@ X-Content-Type-Options: nosniff
       "eligibilityDocuments": [
         {
           "id": "61a4ce54b683403eb6504b5f5eb09be4",
-          "datePublished": "2021-03-16T00:00:00+02:00",
+          "datePublished": "2023-01-01T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "eligibility_doc.pdf",
           "format": "application/pdf",
           "url": "/tenders/7378acd602f14dc498b14cc6198a6995/bids/c7619b53b6a342b48373cba33d1ce5b4/eligibility_documents/61a4ce54b683403eb6504b5f5eb09be4?download=2fc9b4ef830446d4aa14397384e13341",
           "documentOf": "tender",
-          "dateModified": "2021-03-16T00:00:00+02:00",
+          "dateModified": "2023-01-01T00:00:00+02:00",
           "confidentiality": "public",
           "language": "uk"
         }
@@ -466,25 +467,25 @@ X-Content-Type-Options: nosniff
       "documents": [
         {
           "id": "36b62b03423c4ff994c7b502402e9eb0",
-          "datePublished": "2021-03-16T00:00:00+02:00",
+          "datePublished": "2023-01-01T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part1.pdf",
           "format": "application/pdf",
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/990290f4487844639797e1f0adf02bc3?Signature=rOXN3tFVHoQCpMt2DSVVNl%2FvV6DOQUbzdFR0SblLD6LbwpfADRlJyqoONJi60r2C0BrDVvvzEycUAUVf4cu9Aw%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
-          "dateModified": "2021-03-16T00:00:00+02:00",
+          "dateModified": "2023-01-01T00:00:00+02:00",
           "confidentiality": "public",
           "language": "uk"
         },
         {
           "id": "0ee2143a609e40b3b7a15264d50c4556",
-          "datePublished": "2021-03-16T00:00:00+02:00",
+          "datePublished": "2023-01-01T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part2.pdf",
           "format": "application/pdf",
           "url": "/tenders/7378acd602f14dc498b14cc6198a6995/bids/1869f759d3fa418ea2c3162b6fe5fd9c/documents/0ee2143a609e40b3b7a15264d50c4556?download=9428cc919ddc46249fe7f4aedbd3e329",
           "documentOf": "tender",
-          "dateModified": "2021-03-16T00:00:00+02:00",
+          "dateModified": "2023-01-01T00:00:00+02:00",
           "confidentiality": "buyerOnly",
           "confidentialityRationale": "Only our company sells badgers with pink hair.",
           "language": "uk"
@@ -493,13 +494,13 @@ X-Content-Type-Options: nosniff
       "eligibilityDocuments": [
         {
           "id": "7124a56704d44eae808e35ccc25ef011",
-          "datePublished": "2021-03-16T00:00:00+02:00",
+          "datePublished": "2023-01-01T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "eligibility_doc.pdf",
           "format": "application/pdf",
           "url": "/tenders/7378acd602f14dc498b14cc6198a6995/bids/1869f759d3fa418ea2c3162b6fe5fd9c/eligibility_documents/7124a56704d44eae808e35ccc25ef011?download=f20fb61ed9de43a39a775b9f82d2faaf",
           "documentOf": "tender",
-          "dateModified": "2021-03-16T00:00:00+02:00",
+          "dateModified": "2023-01-01T00:00:00+02:00",
           "confidentiality": "public",
           "language": "uk"
         }

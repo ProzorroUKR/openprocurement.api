@@ -39,7 +39,7 @@ X-Content-Type-Options: nosniff
     ],
     "status": "active",
     "id": "90c624b84bab4f8397811b9014d115df",
-    "date": "2021-03-16T00:00:00+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
     "parameters": [
       {
         "code": "OCDS-123454-AIR-INTAKE",
@@ -58,7 +58,7 @@ X-Content-Type-Options: nosniff
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
-        "date": "2021-03-16T00:00:00+02:00"
+        "date": "2023-01-01T00:00:00+02:00"
       }
     ]
   }

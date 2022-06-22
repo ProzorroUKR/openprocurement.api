@@ -9,7 +9,7 @@ X-Content-Type-Options: nosniff
   "data": {
     "id": "eb59804a712942e89f57217f6537364e",
     "status": "pending",
-    "date": "2021-03-16T00:00:00+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
     "rationale": "Опис причини змін егріменту",
     "rationale_en": "Agreement change cause",
     "rationaleType": "taxRate"

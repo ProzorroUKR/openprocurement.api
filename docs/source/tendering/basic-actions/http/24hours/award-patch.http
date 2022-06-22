@@ -21,7 +21,7 @@ X-Content-Type-Options: nosniff
     {
       "location": "body",
       "name": "data",
-      "description": "Can't change status to 'active' until milestone.dueDate: 2020-05-03T05:00:00+03:00"
+      "description": "Can't change status to 'active' until milestone.dueDate: 2023-01-02T00:00:00+02:00"
     }
   ]
 }

@@ -1,6 +1,6 @@
 PATCH /api/2.5/plans/6cb30e0a8f2d4487946a40c0b043c761/milestones/bcd0fdcf5036434881da407a855782c1?acc_token=4771af7ff4b24a448b71c2ee3cb688ee HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 233
+Content-Length: 226
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -8,7 +8,7 @@ DATA:
   "data": {
     "status": "met",
     "description": "Доповнений опис відповіді",
-    "dueDate": "2019-05-30T18:00:00.000000+02:00"
+    "dueDate": "2023-01-01T00:00:07+02:00"
   }
 }
 
@@ -21,7 +21,7 @@ X-Content-Type-Options: nosniff
     "title": "Підготовка до проведення процедури",
     "description": "Доповнений опис відповіді",
     "type": "approval",
-    "dueDate": "2019-05-30T18:00:00+02:00",
+    "dueDate": "2023-01-01T00:00:07+02:00",
     "status": "met",
     "author": {
       "id": "a256ff206dcf4884a5631a283ce6bb7d",
@@ -30,10 +30,18 @@ X-Content-Type-Options: nosniff
         "scheme": "UA-EDR",
         "id": "111111",
         "legalName": "ДП Центральний закупівельний орган №1"
-      }
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "kind": "central"
     },
-    "dateModified": "2019-05-02T06:00:00+03:00",
-    "dateMet": "2019-05-02T06:00:00+03:00",
+    "dateModified": "2023-01-01T00:00:06+02:00",
+    "dateMet": "2023-01-01T00:00:06+02:00",
     "owner": "broker"
   }
 }

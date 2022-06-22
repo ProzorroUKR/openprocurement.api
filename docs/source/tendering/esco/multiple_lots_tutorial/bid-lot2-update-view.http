@@ -159,7 +159,7 @@ X-Content-Type-Options: nosniff
       }
     ],
     "id": "fed6f61352f54eec8ca73dc0ecb4aa90",
-    "date": "2021-03-16T00:00:00+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
     "status": "pending",
     "lotValues": [
       {
@@ -167,8 +167,8 @@ X-Content-Type-Options: nosniff
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amount": 9565.89,
-          "amountPerformance": 2009.5,
+          "amount": 9273.95,
+          "amountPerformance": 1984.18,
           "yearlyPaymentsPercentage": 0.9,
           "annualCostsReduction": [
             700,
@@ -198,7 +198,7 @@ X-Content-Type-Options: nosniff
             "days": 0
           }
         },
-        "date": "2021-03-16T00:00:00+02:00",
+        "date": "2023-01-01T00:00:00+02:00",
         "status": "pending"
       }
     ],

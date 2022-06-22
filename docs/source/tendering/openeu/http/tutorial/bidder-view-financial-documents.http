@@ -130,6 +130,7 @@ X-Content-Type-Options: nosniff
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {
@@ -148,7 +149,7 @@ X-Content-Type-Options: nosniff
       }
     ],
     "id": "406646e317bc4aeca335869b157ab08d",
-    "date": "2021-03-16T00:00:00+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "selfQualified": true,
     "status": "pending",
@@ -162,18 +163,18 @@ X-Content-Type-Options: nosniff
         "confidentiality": "public",
         "language": "uk",
         "id": "198874f074ed46eabc25648f1769dba6",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
       },
       {
         "id": "58123bc69e4f46839bdbc594b304e45c",
-        "datePublished": "2021-03-16T00:00:00+02:00",
+        "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_top_secrets.pdf",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b68a79fc566a4d49b80369c0ed01748d/bids/406646e317bc4aeca335869b157ab08d/documents/58123bc69e4f46839bdbc594b304e45c?download=396144e95a5f4abb8c1d2fd408ff4d72",
         "documentOf": "tender",
-        "dateModified": "2021-03-16T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00",
         "confidentiality": "buyerOnly",
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "language": "uk"
@@ -189,8 +190,8 @@ X-Content-Type-Options: nosniff
         "confidentiality": "public",
         "language": "uk",
         "id": "a918fed068ca461487862d00e875f7e6",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
       },
       {
         "hash": "md5:00000000000000000000000000000000",
@@ -201,8 +202,8 @@ X-Content-Type-Options: nosniff
         "confidentiality": "public",
         "language": "uk",
         "id": "b6702157144547c2a083bef02a42ee69",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
       }
     ],
     "eligibilityDocuments": [
@@ -215,8 +216,8 @@ X-Content-Type-Options: nosniff
         "confidentiality": "public",
         "language": "uk",
         "id": "48a9e5e645f746fab7af690292c333c7",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
       }
     ],
     "qualificationDocuments": [
@@ -229,8 +230,8 @@ X-Content-Type-Options: nosniff
         "confidentiality": "public",
         "language": "uk",
         "id": "d82a64b2583b4f4fa80fc04309f9bfea",
-        "datePublished": "2021-03-16T00:00:00+02:00",
-        "dateModified": "2021-03-16T00:00:00+02:00"
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
       }
     ]
   }

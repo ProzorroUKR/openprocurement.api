@@ -70,7 +70,7 @@ X-Content-Type-Options: nosniff
                 ],
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           },
@@ -84,7 +84,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -143,7 +143,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -192,7 +192,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "31894e693ecc48a2bfe850972aa56d4f",
@@ -200,7 +200,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -239,7 +239,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -278,7 +278,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           },
@@ -292,28 +292,28 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "c9da922d20b44693b5b681051ab0ac8d",
                 "title": "Сума існуючої заборгованості",
                 "dataType": "number",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "6fe5d13a85ea472d93dfccd5ad60835a",
                 "title": "Характер існуючої заборгованості",
                 "dataType": "string",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "6e3d2c31fe4744e1baa328168ca60c72",
                 "title": "Причина виникнення існуючої заборгованості",
                 "dataType": "string",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "da1a6a3d6af0404a8c018b3ebb1ad9e3",
@@ -321,7 +321,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -360,7 +360,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -406,7 +406,7 @@ X-Content-Type-Options: nosniff
                   }
                 ],
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -444,7 +444,7 @@ X-Content-Type-Options: nosniff
                 "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі",
                 "dataType": "boolean",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -522,7 +522,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "17d6d3a54cb049a5b04ecaf6e5676068",
@@ -530,7 +530,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "id": "88c5660936b34f22a0d409dacf860f32",
@@ -538,7 +538,7 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -575,17 +575,17 @@ X-Content-Type-Options: nosniff
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2021-03-16T00:00:00+02:00"
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ]
           }
         ]
       }
     ],
-    "date": "2021-03-16T00:00:00+02:00",
-    "dateModified": "2021-03-16T00:00:00+02:00",
-    "dateCreated": "2021-03-16T00:00:00+02:00",
-    "tenderID": "UA-2021-03-16-000001-a",
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "tenderID": "UA-2023-01-01-000001-a",
     "owner": "broker",
     "title": "футляри до державних нагород",
     "mainProcurementCategory": "services",
@@ -600,14 +600,14 @@ X-Content-Type-Options: nosniff
       "amount": 8.0,
       "currency": "USD"
     },
-    "next_check": "2021-04-01T00:00:00+02:00",
+    "next_check": "2023-01-17T00:00:00+02:00",
     "minimalStep": {
       "amount": 5.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
     "auctionPeriod": {
-      "shouldStartAfter": "2021-04-02T00:00:00+03:00"
+      "shouldStartAfter": "2023-01-17T00:00:00+02:00"
     },
     "milestones": [
       {
@@ -660,14 +660,14 @@ X-Content-Type-Options: nosniff
     "procurementMethodType": "aboveThresholdUA",
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-03-22T00:00:00+03:00",
-      "clarificationsUntil": "2021-03-25T00:00:00+03:00",
-      "invalidationDate": "2021-03-16T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-07T00:00:00+02:00",
+      "clarificationsUntil": "2023-01-12T00:00:00+02:00",
+      "invalidationDate": "2023-01-01T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-04-01T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-17T00:00:00+02:00"
     },
     "items": [
       {
@@ -696,8 +696,8 @@ X-Content-Type-Options: nosniff
         },
         "quantity": 1.0,
         "deliveryDate": {
-          "startDate": "2021-04-05T00:00:00+02:00",
-          "endDate": "2021-05-05T00:00:00+02:00"
+          "startDate": "2023-01-21T00:00:00+02:00",
+          "endDate": "2023-02-20T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -709,8 +709,8 @@ X-Content-Type-Options: nosniff
       }
     ],
     "complaintPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-03-28T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-13T00:00:00+02:00"
     },
     "id": "1c2191f29ecc447697b2f1509b45060e"
   }

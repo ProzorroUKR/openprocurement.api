@@ -19,7 +19,7 @@ X-Content-Type-Options: nosniff
     "id": "61aa079bac35442ea9aba5d1420c75a5",
     "qualified": true,
     "status": "active",
-    "date": "2021-03-16T00:00:00+02:00",
+    "date": "2023-01-01T00:00:00+02:00",
     "value": {
       "amount": 475000.0,
       "valueAddedTaxIncluded": false,
@@ -31,6 +31,7 @@ X-Content-Type-Options: nosniff
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {
@@ -49,8 +50,8 @@ X-Content-Type-Options: nosniff
       }
     ],
     "complaintPeriod": {
-      "startDate": "2021-03-16T00:00:00+02:00",
-      "endDate": "2021-03-26T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-11T00:00:00+02:00"
     }
   }
 }
