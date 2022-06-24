@@ -28,7 +28,7 @@ class PostBaseAward(Model):
         return get_now().isoformat()
 
     qualified = BooleanType()
-    status = StringType(required=True, choices=["pending", "active"], default="pending")
+    status = StringType(required=True, choices=["pending"], default="pending")
     value = ModelType(AwardValue, required=True)
     weightedValue = ModelType(AwardValue)
     suppliers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, max_size=1)

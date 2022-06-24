@@ -1188,7 +1188,7 @@ def patch_lot_with_cancellation(self):
         # Create award
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"suppliers": [test_organization], "qualified": True, "status": "active", "lotID": lot["id"],
+            {"data": {"suppliers": [test_organization], "qualified": True, "lotID": lot["id"],
                       "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}}
         )
         self.assertEqual(response.status, "201 Created")
