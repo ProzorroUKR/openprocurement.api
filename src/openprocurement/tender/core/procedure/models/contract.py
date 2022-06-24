@@ -6,7 +6,7 @@ from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.models.item import Item
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.procedure.models.organization import BusinessOrganization
-from openprocurement.tender.core.procedure.context import get_tender, get_now
+from openprocurement.tender.core.procedure.context import get_tender, get_now, get_contract, get_data
 from schematics.types import StringType, MD5Type, FloatType
 from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
@@ -82,7 +82,7 @@ class PostContract(CommonContract):
         return "pending"
 
     def validate_items(self, data, items):
-        validate_item_unit_values(items)
+        validate_item_unit_values(data, items)
 # -- POST
 
 
@@ -103,7 +103,7 @@ class PatchContract(Model):
     items = ListType(ModelType(Item, required=True))
 
     def validate_items(self, data, items):
-        validate_item_unit_values(items)
+        validate_item_unit_values(data, items)
 # --- PATCH
 
 
@@ -126,19 +126,20 @@ class Contract(MetaContract, CommonContract):
     dateSigned = IsoDateTimeType()
 
 
-def validate_item_unit_values(items):
-    tender_value = get_tender().get("value")
-    if tender_value and items:
+def validate_item_unit_values(data, items):
+    base_obj = get_contract() or data
+    base_value = base_obj.get("value")
+    if base_value and items:
         for item in items:
             item_value = (item.get("unit") or {}).get("value")
             if item_value:
                 if (
-                    item_value['currency'] != tender_value['currency']
-                    or item_value['valueAddedTaxIncluded'] != tender_value['valueAddedTaxIncluded']
+                    item_value['currency'] != base_value['currency']
+                    or item_value['valueAddedTaxIncluded'] != base_value['valueAddedTaxIncluded']
                 ):
                     raise ValidationError(
-                        f"Value mismatch. Expected: currency {tender_value['currency']} and "
-                        f"valueAddedTaxIncluded {tender_value['valueAddedTaxIncluded']}"
+                        f"Value mismatch. Expected: currency {base_value['currency']} and "
+                        f"valueAddedTaxIncluded {base_value['valueAddedTaxIncluded']}"
                     )
 
 

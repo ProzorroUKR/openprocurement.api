@@ -21,6 +21,11 @@ def get_tender() -> Union[dict, None]:
     return tender
 
 
+def get_contract() -> Union[dict, None]:
+    tender = thread_context.request.validated.get("contract")
+    return tender
+
+
 def get_bid() -> dict:
     bid = thread_context.request.validated.get("bid")
     return bid
