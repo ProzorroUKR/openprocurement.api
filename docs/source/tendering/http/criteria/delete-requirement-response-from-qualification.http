@@ -15,7 +15,6 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "requirementResponses": [],
     "id": "6f051f033e654387aaa4477a95585513",
     "bidID": "a6026a5cf4534953b1622b502a712518",
     "status": "pending",

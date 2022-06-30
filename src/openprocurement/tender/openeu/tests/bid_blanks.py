@@ -1430,9 +1430,8 @@ def get_tender_bidder_document(self):
                 )
             )
             self.assertEqual(response.status, "200 OK")
-            self.assertIn("previousVersions", response.json["data"])
             doc = response.json["data"]
-            del doc["previousVersions"]
+            doc.pop("previousVersions", None)
             self.assertEqual(doc, doc1)
             doc_id = doc_id_by_type[resource + "private"]["id"]
             response = self.app.get(
@@ -1441,9 +1440,8 @@ def get_tender_bidder_document(self):
                 )
             )
             self.assertEqual(response.status, "200 OK")
-            self.assertIn("previousVersions", response.json["data"])
             doc = response.json["data"]
-            del doc["previousVersions"]
+            doc.pop("previousVersions", None)
             self.assertEqual(doc, doc2)
         self.app.authorization = orig_auth
 
@@ -3415,9 +3413,8 @@ def get_tender_bidder_document_ds(self):
                 )
             )
             self.assertEqual(response.status, "200 OK")
-            self.assertIn("previousVersions", response.json["data"])
             doc = response.json["data"]
-            del doc["previousVersions"]
+            doc.pop("previousVersions", None)
             self.assertEqual(doc, doc1)
             doc_id = doc_id_by_type[resource + "private"]["id"]
             response = self.app.get(
@@ -3426,9 +3423,8 @@ def get_tender_bidder_document_ds(self):
                 )
             )
             self.assertEqual(response.status, "200 OK")
-            self.assertIn("previousVersions", response.json["data"])
             doc = response.json["data"]
-            del doc["previousVersions"]
+            doc.pop("previousVersions", None)
             self.assertEqual(doc, doc2)
         self.app.authorization = orig_auth
 

@@ -51,8 +51,11 @@ class BaseSerializer:
         data = {}
         for k, v in items:
             s = self.serialize_value(k, v)
-            if s is not None:  # we don't show null in our outputs
-                data[k] = s
+            if s is None:  # we don't show null in our outputs
+                continue
+            elif isinstance(s, list) and len(s) == 0:  # and empty lists
+                continue
+            data[k] = s
         #
         # if self.defaults:
         #     for k, v in self.defaults.items():

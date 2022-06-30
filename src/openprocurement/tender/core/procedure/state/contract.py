@@ -227,15 +227,20 @@ class ContractStateMixing:
                     "Can't change items list length"
                 )
             else:
-                item_before = dict(item_before)
-                item_before["unit"] = {k: v for k, v in (item_before.get("unit") or {}).items() if k != "value"}
-                item_after = dict(item_after)
-                item_after["unit"] = {k: v for k, v in (item_after.get("unit") or {}).items() if k != "value"}
-                if item_before != item_after:
-                    raise_operation_error(
-                        get_request(),
-                        "Updated could be only unit.value.amount in item"
-                    )
+                for k in item_before.keys() | item_after.keys():
+                    before, after = item_before.get(k), item_after.get(k)
+                    if not before and not after:  # [] or None check
+                        continue
+
+                    if k == "unit":
+                        before = {k: v for k, v in (before or {}).items() if k != "value"}
+                        after = {k: v for k, v in (after or {}).items() if k != "value"}
+
+                    if before != after:
+                        raise_operation_error(
+                            get_request(),
+                            "Updated could be only unit.value.amount in item"
+                        )
 
     def validate_contract_signing(self, before: dict,  after: dict):
         tender = get_tender()

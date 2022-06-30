@@ -2040,7 +2040,6 @@ def tender_bidder_confidential_document(self):
             self.tender_id, self.bid_id, doc_data["id"], self.tender_token)
     )
     expected = dict(**doc_data)
-    expected["previousVersions"] = []
     self.assertEqual(response.json["data"], expected)
 
     # get directly as public
