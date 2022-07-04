@@ -40,9 +40,6 @@ class CFASelectionContractState(ContractStateMixing, CFASelectionTenderState):
         else:
             self.check_award_complaints(tender, now)
 
-    def validate_tender_revision_date(self):
-        return True
-
     def contract_on_patch(self, before: dict, after: dict):
         self.validate_contract_items(before, after)
         super().contract_on_patch(before, after)

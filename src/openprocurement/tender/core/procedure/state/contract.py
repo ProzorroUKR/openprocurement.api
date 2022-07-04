@@ -201,20 +201,12 @@ class ContractStateMixing:
                     get_request(), "Total amount of unit values can't be greater than contract.value.amount"
                 )
 
-        if not self.validate_tender_revision_date():
-            return
-        for item in contract.get("items", []):
-            if item.get("unit") and item["unit"].get("value", None) is None:
-                raise_operation_error(
-                    get_request(), "Can't activate contract while unit.value is not set for each item"
-                )
-
-    def validate_tender_revision_date(self) -> bool:
-        tender = get_tender()
-        tender_created = get_first_revision_date(tender, default=get_now())
-        if tender_created < UNIT_PRICE_REQUIRED_FROM:
-            return False
-        return True
+        if get_first_revision_date(get_tender()) >= UNIT_PRICE_REQUIRED_FROM:
+            for item in contract.get("items", []):
+                if item.get("unit") and item["unit"].get("value", None) is None:
+                    raise_operation_error(
+                        get_request(), "Can't activate contract while unit.value is not set for each item"
+                    )
 
     def validate_contract_items(self, before: dict, after: dict) -> None:
         # TODO: Remove this logic later with adding new endpoint for items in contract

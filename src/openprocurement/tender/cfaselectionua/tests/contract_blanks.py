@@ -443,7 +443,7 @@ def patch_contract_single_item_unit_value(self):
     )
 
 
-@patch("openprocurement.tender.core.validation.UNIT_PRICE_REQUIRED_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.state.contract.UNIT_PRICE_REQUIRED_FROM", get_now() - timedelta(days=1))
 def patch_contract_multi_items_unit_value(self):
 
     auth = self.app.authorization
