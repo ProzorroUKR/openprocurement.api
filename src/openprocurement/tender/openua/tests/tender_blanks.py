@@ -795,6 +795,37 @@ def patch_tender(self):
     self.assertEqual(tender["enquiryPeriod"]["startDate"], result["enquiryPeriod"]["startDate"])
     self.assertEqual(tender["enquiryPeriod"]["endDate"], result["enquiryPeriod"]["endDate"])
 
+    # set lots
+    base_value = result["value"]
+    base_currency, base_tax = base_value["currency"], base_value["valueAddedTaxIncluded"]
+    for lot in test_lots:
+        response = self.app.post_json(f"/tenders/{tender['id']}/lots?acc_token={owner_token}",
+                                      {"data": lot})
+        self.assertEqual(response.status, "201 Created")
+        lot_data = response.json["data"]
+        self.assertEqual(lot_data["value"]["currency"], base_currency)
+        self.assertEqual(lot_data["value"]["valueAddedTaxIncluded"], base_tax)
+
+    changed_value = dict(base_value)
+    changed_value["valueAddedTaxIncluded"] = not base_tax
+    changed_value["currency"] = "GBP"
+    minimal_step = {"amount": result["minimalStep"]["amount"],
+                    "currency": "GBP", "valueAddedTaxIncluded": not base_tax}
+    response = self.app.patch_json(f"/tenders/{tender['id']}?acc_token={owner_token}",
+                                   {"data": {
+                                       "value": changed_value,
+                                       "minimalStep": minimal_step,
+                                   }})
+    result = response.json["data"]
+    new_value = result["value"]
+
+    self.assertEqual(changed_value["currency"], new_value["currency"])
+    self.assertEqual(changed_value["valueAddedTaxIncluded"], new_value["valueAddedTaxIncluded"])
+
+    for lot in result["lots"]:
+        self.assertEqual(lot["value"]["currency"], new_value["currency"])
+        self.assertEqual(lot["value"]["valueAddedTaxIncluded"], new_value["valueAddedTaxIncluded"])
+
     self.set_status("complete")
 
     response = self.app.patch_json(

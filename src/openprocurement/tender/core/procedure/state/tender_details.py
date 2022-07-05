@@ -71,10 +71,17 @@ class TenderDetailsMixing:
         # instead it's specified in many places but we need keep them the same
         currency = tender["value"]["currency"]
         tax_inc = tender["value"]["valueAddedTaxIncluded"]
+
+        # items
         for item in tender["items"]:
             if "unit" in item and "value" in item["unit"]:
                 item["unit"]["value"]["currency"] = currency
                 item["unit"]["value"]["valueAddedTaxIncluded"] = tax_inc
+
+        # lots
+        for lot in tender.get("lots", ""):
+            lot["value"]["currency"] = currency
+            lot["value"]["valueAddedTaxIncluded"] = tax_inc
 
     enquiry_period_timedelta: timedelta
     enquiry_stand_still_timedelta: timedelta
