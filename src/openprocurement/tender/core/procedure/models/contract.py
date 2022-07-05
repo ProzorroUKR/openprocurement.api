@@ -127,8 +127,9 @@ class Contract(MetaContract, CommonContract):
 
 
 def validate_item_unit_values(data, items):
-    base_obj = get_contract() or data
-    base_value = base_obj.get("value")
+    base_value = data.get("value")
+    if base_value is None:
+        base_value = (get_contract() or {}).get("value")
     if base_value and items:
         for item in items:
             item_value = (item.get("unit") or {}).get("value")
