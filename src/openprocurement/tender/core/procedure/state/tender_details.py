@@ -83,6 +83,11 @@ class TenderDetailsMixing:
             lot["value"]["currency"] = currency
             lot["value"]["valueAddedTaxIncluded"] = tax_inc
 
+            minimal_step = lot.get("minimalStep")
+            if minimal_step:
+                minimal_step["currency"] = currency
+                minimal_step["valueAddedTaxIncluded"] = tax_inc
+
     enquiry_period_timedelta: timedelta
     enquiry_stand_still_timedelta: timedelta
 
