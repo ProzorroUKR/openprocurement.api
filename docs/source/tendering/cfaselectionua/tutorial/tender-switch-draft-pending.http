@@ -77,15 +77,6 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "unit": {
-          "name": "item",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
         "quantity": 5.0,
         "deliveryDate": {
           "startDate": "2023-01-03T00:00:00+02:00",
@@ -98,7 +89,16 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "f2599a519a45416db792d9ee833a8e5a"
+        "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
+        "unit": {
+          "name": "item",
+          "code": "KGM",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          }
+        }
       }
     ],
     "lots": [

@@ -162,17 +162,17 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ebba2ec7a3aa4767
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "quantity": 5.0,
+        "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
         "unit": {
           "name": "кілограм",
+          "code": "KGM",
           "value": {
             "amount": 6.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
-        "quantity": 5.0,
-        "relatedLot": "f2599a519a45416db792d9ee833a8e5a"
+          }
+        }
       }
     ],
     "lots": [

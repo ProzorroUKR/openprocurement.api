@@ -37,6 +37,7 @@ from openprocurement.tender.core.models import (
 )
 from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
 from openprocurement.tender.core.utils import calculate_tender_business_date, validate_features_custom_weight
+from openprocurement.tender.belowthreshold.models import Unit
 from openprocurement.tender.openua.models import Item as BaseUAItem, Tender as BaseTenderUA
 from openprocurement.tender.openua.constants import TENDERING_DURATION as TENDERING_DURATION_UA
 from openprocurement.tender.openeu.models import (
@@ -462,10 +463,16 @@ class CPVClassification(BaseCPVClassification):
         pass
 
 
+class UnitDeprecated(Unit):
+    def validate_code(self, data, value):
+        pass
+
+
 class Item(BaseEUItem):
     class Options:
         roles = {"edit_active.tendering": whitelist("deliveryDate")}
 
+    unit = ModelType(UnitDeprecated)
     classification = ModelType(CPVClassification, required=True)
 
     def validate_unit(self, data, value):
@@ -489,6 +496,7 @@ class Item(BaseUAItem):
     class Options:
         roles = {"edit_active.tendering": whitelist("deliveryDate")}
 
+    unit = ModelType(UnitDeprecated)
     classification = ModelType(CPVClassification, required=True)
 
     def validate_unit(self, data, value):

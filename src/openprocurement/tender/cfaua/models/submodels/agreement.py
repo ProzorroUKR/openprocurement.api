@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from schematics.exceptions import ValidationError
-from schematics.transforms import blacklist
 from schematics.types import MD5Type, StringType
 from schematics.types.compound import ModelType
 from uuid import uuid4
@@ -11,14 +10,24 @@ from openprocurement.api.models import (
     ListType,
     Model,
     Period,
-    Value,
-    schematics_default_role,
-    schematics_embedded_role,
 )
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.models import Feature, validate_features_uniq, Document
 from openprocurement.tender.cfaua.models.submodels.contract import Contract
-from openprocurement.tender.cfaua.models.submodels.item import Item
+from openprocurement.tender.cfaua.models.submodels.item import Item as BaseItem
+from openprocurement.tender.cfaua.models.submodels.unit import Unit as BaseUnit
+
+
+class Unit(BaseUnit):
+    def validate_code(self, data, value):
+        pass
+
+
+class Item(BaseItem):
+    unit = ModelType(Unit)
+
+    def validate_unit(self, data, value):
+        pass
 
 
 class Agreement(Model):

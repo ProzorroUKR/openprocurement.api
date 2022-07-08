@@ -1,31 +1,13 @@
-from decimal import Decimal
-from schematics.validate import ValidationError
 from schematics.types import StringType, BaseType
 from schematics.types.serializable import serializable
 from schematics.types.compound import ModelType, ListType
-from openprocurement.api.models import DecimalType, Value, Model, IsoDateTimeType
 from openprocurement.tender.core.procedure.context import get_now, get_tender, get_data
-from openprocurement.tender.core.procedure.models.period import (
-    PeriodStartEndRequired,
-    PeriodEndRequired,
-    PostPeriodStartEndRequired,
-    StartedPeriodEndRequired,
-    EnquiryPeriod,
-    Period,
-    TenderAuctionPeriod,
-)
-from openprocurement.tender.openua.procedure.models.organization import ProcuringEntity as UAProcuringEntity
+from openprocurement.tender.core.procedure.models.period import Period
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
-from openprocurement.tender.core.procedure.models.milestone import Milestone
-from openprocurement.tender.core.procedure.models.guarantee import Guarantee
 from openprocurement.tender.core.procedure.models.item import (
     validate_cpv_group,
     validate_items_uniq,
-    validate_classification_id,
-    validate_related_buyer_in_items,
 )
-from openprocurement.tender.core.procedure.models.lot import validate_lots_uniq, Lot, PostLot, PatchLot
-from openprocurement.tender.core.procedure.models.tender import validate_milestones, validate_items_related_lot
 from openprocurement.tender.openua.procedure.models.organization import ProcuringEntity as UAProcuringEntity
 from openprocurement.tender.openeu.procedure.models.tender import (
     PostTender as BasePostTender,

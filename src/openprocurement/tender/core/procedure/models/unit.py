@@ -19,3 +19,8 @@ class Unit(Model):
             if value not in UNIT_CODES:
                 raise ValidationError(u"Code should be one of valid unit codes.")
 
+
+class UnitDeprecated(Unit):
+
+    def validate_code(self, data, value):
+        pass

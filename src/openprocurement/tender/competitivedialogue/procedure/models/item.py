@@ -3,6 +3,7 @@ from openprocurement.tender.core.procedure.models.item import (
     CPVClassification as BaseCPVClassification,
 )
 from openprocurement.tender.core.procedure.models.base import ModelType
+from openprocurement.tender.core.procedure.models.unit import UnitDeprecated
 
 
 class CPVClassification(BaseCPVClassification):
@@ -13,6 +14,7 @@ class CPVClassification(BaseCPVClassification):
 
 class Item(BaseItem):
     classification = ModelType(CPVClassification, required=True)
+    unit = ModelType(UnitDeprecated)
 
     def validate_relatedBuyer(self, data, related_buyer):
         pass

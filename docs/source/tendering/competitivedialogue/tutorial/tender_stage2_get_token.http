@@ -106,15 +106,6 @@ Content-Type: application/json
           }
         ],
         "quantity": 1.0,
-        "unit": {
-          "name": "кілограм",
-          "code": "KGM",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          }
-        },
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
           "endDate": "2023-02-20T00:00:00+02:00"
@@ -127,6 +118,15 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          }
+        },
         "classification": {
           "description": "Test",
           "scheme": "ДК021",
@@ -144,15 +144,6 @@ Content-Type: application/json
           }
         ],
         "quantity": 1.0,
-        "unit": {
-          "name": "упаковка",
-          "code": "PK",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          }
-        },
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
           "endDate": "2023-02-20T00:00:00+02:00"
@@ -165,6 +156,15 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "code": "PK",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          }
+        },
         "classification": {
           "description": "Test",
           "scheme": "ДК021",
