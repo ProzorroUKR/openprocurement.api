@@ -1846,7 +1846,7 @@ def required_field_deletion(self):
         response.json["errors"],
         [
             {
-                "description": {"startDate": ["This field cannot be deleted"]},
+                "description": {"startDate": ["This field is required."]},
                 "location": "body",
                 "name": "tenderPeriod",
             }

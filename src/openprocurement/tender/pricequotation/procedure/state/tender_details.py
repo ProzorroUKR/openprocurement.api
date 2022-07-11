@@ -10,14 +10,6 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
         super().on_patch(before, after)
 
         tendering_start = before.get("tenderPeriod", {}).get("startDate")
-        if tendering_start and not after.get("tenderPeriod", {}).get("startDate"):
-            raise_operation_error(
-                get_request(),
-                {"startDate": ["This field cannot be deleted"]},
-                status=422,
-                location="body",
-                name="tenderPeriod"
-            )
         if "draft" not in before["status"]:
             if tendering_start != after.get("tenderPeriod", {}).get("startDate"):
                 raise_operation_error(

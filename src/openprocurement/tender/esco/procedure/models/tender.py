@@ -7,6 +7,7 @@ from openprocurement.api.models import DecimalType, Value, Model, IsoDateTimeTyp
 from openprocurement.tender.core.procedure.context import get_now
 from openprocurement.tender.core.procedure.models.period import (
     PeriodEndRequired,
+    PeriodStartEndRequired,
     StartedPeriodEndRequired,
     EnquiryPeriod,
     Period,
@@ -245,7 +246,7 @@ class PatchTender(PatchBaseTender):
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     milestones = ListType(ModelType(Milestone, required=True),
                           validators=[validate_items_uniq, validate_milestones])
-    tenderPeriod = ModelType(PeriodEndRequired)
+    tenderPeriod = ModelType(PeriodStartEndRequired)
     enquiryPeriod = ModelType(EnquiryPeriod)
 
 

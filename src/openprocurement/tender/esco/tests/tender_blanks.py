@@ -828,6 +828,24 @@ def patch_tender(self):
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
+        {"data": {"tenderPeriod": {"endDate": tender["tenderPeriod"]["endDate"]}}},
+        status=422
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "tenderPeriod",
+            "description": {
+                "startDate": [
+                    "This field is required."
+                ]
+            }
+        }],
+    )
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
         {"data": {"tenderPeriod": {
             "startDate": tender["enquiryPeriod"]["endDate"],
             "endDate": tender["tenderPeriod"]["endDate"],

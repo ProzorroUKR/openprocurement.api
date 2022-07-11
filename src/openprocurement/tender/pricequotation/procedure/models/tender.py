@@ -3,7 +3,12 @@ from schematics.types.compound import ListType
 from schematics.validate import ValidationError
 from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
 from openprocurement.tender.core.procedure.context import get_now, get_request
-from openprocurement.tender.core.procedure.models.period import StartedPeriodEndRequired, PeriodEndRequired, Period
+from openprocurement.tender.core.procedure.models.period import (
+    StartedPeriodEndRequired,
+    PeriodEndRequired,
+    Period,
+    PeriodStartEndRequired,
+)
 from openprocurement.tender.core.procedure.models.organization import BusinessOrganization
 from openprocurement.tender.core.procedure.models.item import Classification
 from openprocurement.tender.core.procedure.models.tender import (
@@ -196,7 +201,7 @@ class Tender(BaseTender):
     shortlistedFirms = ListType(ModelType(ShortlistedFirm))
 
     value = ModelType(Value, required=True)
-    tenderPeriod = ModelType(PeriodEndRequired)
+    tenderPeriod = ModelType(PeriodStartEndRequired)
     awardPeriod = ModelType(Period)
     procuringEntity = ModelType(ProcuringEntity, required=True)
 
