@@ -10,13 +10,13 @@ from openprocurement.tender.core.validation import (
 from openprocurement.tender.core.utils import save_tender, optendersresource, apply_patch
 
 
-@optendersresource(
-    name="belowThreshold:Tender Questions",
-    collection_path="/tenders/{tender_id}/questions",
-    path="/tenders/{tender_id}/questions/{question_id}",
-    procurementMethodType="belowThreshold",
-    description="Tender questions",
-)
+# @optendersresource(
+#     name="belowThreshold:Tender Questions",
+#     collection_path="/tenders/{tender_id}/questions",
+#     path="/tenders/{tender_id}/questions/{question_id}",
+#     procurementMethodType="belowThreshold",
+#     description="Tender questions",
+# )
 class TenderQuestionResource(BaseResource):
     def validate_question(self, operation):
         """ TODO move validators

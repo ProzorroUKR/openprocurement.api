@@ -1535,7 +1535,7 @@ def tender_Administrator_change(self):
         )
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["errors"], [{"location": "url", "name": "role", "description": "Forbidden"}])
+        self.assertEqual(response.json["errors"], [{"location": "url", "name": "permission", "description": "Forbidden"}])
 
     with change_auth(self.app, ("Basic", ("competitive_dialogue", ""))):
         response = self.app.post_json("/tenders", {"data": self.initial_data})

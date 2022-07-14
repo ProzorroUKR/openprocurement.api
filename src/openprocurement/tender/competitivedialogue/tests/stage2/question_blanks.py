@@ -151,7 +151,10 @@ def create_tender_with_lots_question(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can add question only in active lot status")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Can add/update question only in active lot status",
+    )
 
     response = self.app.post_json(
         "/tenders/{}/questions".format(self.tender_id),
@@ -238,7 +241,10 @@ def patch_tender_with_lots_question(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can update question only in active lot status")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Can add/update question only in active lot status",
+    )
 
     response = self.app.post_json(
         "/tenders/{}/questions".format(self.tender_id),

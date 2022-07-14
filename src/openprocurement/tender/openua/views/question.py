@@ -4,13 +4,13 @@ from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.belowthreshold.views.question import TenderQuestionResource
 
 
-@optendersresource(
-    name="aboveThresholdUA:Tender Questions",
-    collection_path="/tenders/{tender_id}/questions",
-    path="/tenders/{tender_id}/questions/{question_id}",
-    procurementMethodType="aboveThresholdUA",
-    description="Tender questions",
-)
+# @optendersresource(
+#     name="aboveThresholdUA:Tender Questions",
+#     collection_path="/tenders/{tender_id}/questions",
+#     path="/tenders/{tender_id}/questions/{question_id}",
+#     procurementMethodType="aboveThresholdUA",
+#     description="Tender questions",
+# )
 class TenderUaQuestionResource(TenderQuestionResource):
     def validate_question(self, operation):
         """ TODO move validators
@@ -20,7 +20,10 @@ class TenderUaQuestionResource(TenderQuestionResource):
         tender = self.request.validated["tender"]
         now = get_now()
 
-        if operation == "add" and (now < tender.enquiryPeriod.startDate or now > tender.enquiryPeriod.endDate):
+        if operation == "add" and (
+            now < tender.enquiryPeriod.startDate
+            or now > tender.enquiryPeriod.endDate
+        ):
             raise_operation_error(self.request, "Can add question only in enquiryPeriod")
         if operation == "update" and tender.status != "active.tendering":
             raise_operation_error(

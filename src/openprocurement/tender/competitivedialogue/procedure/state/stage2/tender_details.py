@@ -1,11 +1,16 @@
 from openprocurement.tender.core.procedure.context import get_now
 from openprocurement.tender.openeu.procedure.state.tender_details import TenderDetailsState
 from openprocurement.tender.core.utils import calculate_tender_business_date
-from openprocurement.tender.openeu.constants import TENDERING_DURATION
+from openprocurement.tender.openeu.constants import (
+    TENDERING_DURATION as EU_TENDERING_DURATION
+)
+from openprocurement.tender.openua.constants import (
+    TENDERING_DURATION as UA_TENDERING_DURATION
+)
 
 
 class CDEUTenderDetailsState(TenderDetailsState):
-    tendering_duration = TENDERING_DURATION
+    tendering_duration = EU_TENDERING_DURATION
 
     @staticmethod
     def watch_value_meta_changes(tender):
@@ -22,3 +27,11 @@ class CDEUTenderDetailsState(TenderDetailsState):
         }
 
         super().on_post(tender)
+
+
+class CDUATenderDetailsState(CDEUTenderDetailsState):
+    tendering_duration = UA_TENDERING_DURATION
+
+    @staticmethod
+    def watch_value_meta_changes(tender):
+        pass

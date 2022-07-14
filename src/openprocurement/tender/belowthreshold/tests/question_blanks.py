@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from openprocurement.api.tests.base import change_auth
 from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author, test_cancellation
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.tests.cancellation import (
@@ -220,6 +221,25 @@ def create_tender_question_invalid(self):
         [{"description": ["relatedItem should be one of items"], "location": "body", "name": "relatedItem"}],
     )
 
+    with change_auth(self.app, ("Basic", ("broker1", ""))):
+        response = self.app.post_json(
+            "/tenders/{}/questions".format(self.tender_id),
+            {
+                "data": {
+                    "title": "question title",
+                    "description": "question description",
+                    "author": test_author,
+                },
+            },
+            status=403,
+        )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Broker Accreditation level does not permit question creation"
+    )
+
 
 def create_tender_question(self):
     response = self.app.post_json(
@@ -321,7 +341,7 @@ def patch_tender_question(self):
 
     response = self.app.patch_json(
         "/tenders/{}/questions/{}?acc_token={}".format(self.tender_id, question["id"], self.tender_token),
-        {"data": {"answer": "answer"}},
+        {"data": {"answer": "another answer"}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -446,7 +466,10 @@ def lot_create_tender_question(self):
         )
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["errors"][0]["description"], "Can add question only in active lot status")
+        self.assertEqual(
+            response.json["errors"][0]["description"],
+            "Can add/update question only in active lot status",
+        )
 
     response = self.app.post_json(
         "/tenders/{}/questions".format(self.tender_id, self.tender_token),
@@ -552,7 +575,10 @@ def lot_patch_tender_question(self):
         )
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["errors"][0]["description"], "Can update question only in active lot status")
+        self.assertEqual(
+            response.json["errors"][0]["description"],
+            "Can add/update question only in active lot status",
+        )
 
     response = self.app.post_json(
         "/tenders/{}/questions".format(self.tender_id, self.tender_token),
@@ -619,7 +645,7 @@ def lot_patch_tender_question(self):
 
     response = self.app.patch_json(
         "/tenders/{}/questions/{}?acc_token={}".format(self.tender_id, question["id"], self.tender_token),
-        {"data": {"answer": "answer"}},
+        {"data": {"answer": "changed answer"}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")

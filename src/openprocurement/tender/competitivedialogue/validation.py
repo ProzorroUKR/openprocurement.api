@@ -71,9 +71,6 @@ def validate_update_tender_document(request, **kwargs):
 
 def validate_author(request, shortlistedFirms, obj):
     """ Compare author key and key from shortlistedFirms """
-    error_message = "Author can't {} {}".format(
-        "create" if request.method == "POST" else "patch", obj.__class__.__name__.lower()
-    )
     firms_keys = prepare_shortlistedFirms(shortlistedFirms)
     author_key = prepare_author(obj)
     if obj.get("questionOf") == "item":  # question can create on item
@@ -87,6 +84,9 @@ def validate_author(request, shortlistedFirms, obj):
         if author_key in firm:  # if we found legal firm then check another complaint
             break
     else:  # we didn't find legal firm, then return error
+        error_message = "Author can't {} {}".format(
+            "create" if request.method == "POST" else "patch", obj.__class__.__name__.lower()
+        )
         request.errors.add("body", "author", error_message)
         request.errors.status = 403
         # return False
