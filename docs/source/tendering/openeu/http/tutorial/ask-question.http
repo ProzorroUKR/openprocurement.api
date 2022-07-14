@@ -34,11 +34,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/977181c686f34e1bbfa6bba31adb772b/questions/5710896fa5114400bf4e4dbdc309d60f
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/977181c686f34e1bbfa6bba31adb772b/questions/e9fd370db5d7426ba4c97bc5b80c1603
 
 {
   "data": {
-    "id": "5710896fa5114400bf4e4dbdc309d60f",
     "author": {
       "name": "ДКП «Книга»",
       "identifier": {
@@ -54,15 +53,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/977181c686f34e1b
         "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Андрій Олексюк",
         "email": "aagt@gmail.com",
-        "telephone": "+380322916930"
+        "telephone": "+380322916930",
+        "name": "Андрій Олексюк"
       }
     },
     "title": "Калорійність",
     "description": "Просимо додати таблицю потрібної калорійності харчування",
-    "date": "2023-01-01T00:00:00+02:00",
-    "questionOf": "tender"
+    "questionOf": "tender",
+    "id": "e9fd370db5d7426ba4c97bc5b80c1603",
+    "date": "2023-01-01T00:00:00+02:00"
   }
 }
 
