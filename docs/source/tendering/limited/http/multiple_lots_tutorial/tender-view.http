@@ -71,7 +71,7 @@ X-Content-Type-Options: nosniff
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "9c7ee9a761404c7cad1359f248e41f71",
+        "relatedLot": "b5acd2a910244a1ab663580d5ed188d7",
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
           "endDate": "2023-02-20T00:00:00+02:00"
@@ -90,11 +90,11 @@ X-Content-Type-Options: nosniff
     "causeDescription_ru": "оригинальный тендер не получился дважды",
     "lots": [
       {
-        "id": "9c7ee9a761404c7cad1359f248e41f71",
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "date": "2023-01-01T00:00:00+02:00",
         "status": "active",
+        "id": "b5acd2a910244a1ab663580d5ed188d7",
+        "date": "2023-01-01T00:00:00+02:00",
         "value": {
           "amount": 500000.0,
           "currency": "UAH",

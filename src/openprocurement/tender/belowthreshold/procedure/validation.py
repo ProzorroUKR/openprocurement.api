@@ -1,6 +1,7 @@
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.api.constants import GUARANTEE_ALLOWED_TENDER_TYPES
+from openprocurement.tender.core.procedure.validation import validate_item_operation_in_disallowed_tender_statuses
 
 
 # BID DOCUMENTS
@@ -69,3 +70,10 @@ def validate_document_operation_in_not_allowed_period(request, **_):
             request,
             f"Can't {OPERATIONS.get(request.method)} document in current ({tender_status}) tender status",
         )
+
+
+# lot
+validate_lot_operation_in_disallowed_tender_statuses = validate_item_operation_in_disallowed_tender_statuses(
+    "lot",
+    ("active.enquiries", "draft"),
+)

@@ -24,52 +24,55 @@ class BaseShouldStartAfterMixing:
     count_lot_bids_number: callable
 
     def get_lot_auction_should_start_after(self, tender, lot):
-        if tender.get("status") in ("active.tendering", "active.auction"):
-            period = lot.get("auctionPeriod") or {}
-            if not period.get("endDate") and lot.get("status", "active") == "active":
-                number_of_bids = self.count_lot_bids_number(tender, lot["id"])
-                if tender["status"] == "active.auction" and number_of_bids < 2:
-                    return  # there is no sense to run this auction, shouldStartAfter should be deleted
+        if tender.get("status") not in ("active.tendering", "active.auction"):
+            return
+        period = lot.get("auctionPeriod") or {}
+        if period.get("endDate") or lot.get("status", "active") != "active":
+            return
+        number_of_bids = self.count_lot_bids_number(tender, lot["id"])
+        if tender["status"] == "active.auction" and number_of_bids < 2:
+            return  # there is no sense to run this auction, shouldStartAfter should be deleted
 
-                start_date = period.get("startDate")
-                if start_date:
-                    expected_value = calc_auction_end_time(number_of_bids, dt_from_iso(start_date))
-                    if get_now() > expected_value:
-                        return normalize_should_start_after(expected_value, tender).isoformat()
+        start_date = period.get("startDate")
+        if start_date:
+            expected_value = calc_auction_end_time(number_of_bids, dt_from_iso(start_date))
+            if get_now() > expected_value:
+                return normalize_should_start_after(expected_value, tender).isoformat()
 
-                decision_dates = [
-                    dt_from_iso(complaint["dateDecision"]).replace(
-                        hour=0, minute=0, second=0, microsecond=0,
-                    ) + timedelta(days=3)
-                    for complaint in tender.get("complaints", "")
-                    if complaint.get("dateDecision")
-                ]
-                decision_dates.append(dt_from_iso(tender["tenderPeriod"]["endDate"]))
-                start_after = max(decision_dates)
-                return normalize_should_start_after(start_after, tender).isoformat()
+        decision_dates = [
+            dt_from_iso(complaint["dateDecision"]).replace(
+                hour=0, minute=0, second=0, microsecond=0,
+            ) + timedelta(days=3)
+            for complaint in tender.get("complaints", "")
+            if complaint.get("dateDecision")
+        ]
+        decision_dates.append(dt_from_iso(tender["tenderPeriod"]["endDate"]))
+        start_after = max(decision_dates)
+        return normalize_should_start_after(start_after, tender).isoformat()
 
     def get_auction_should_start_after(self, tender):
-        if tender.get("status") in ("active.tendering", "active.auction"):
-            period = tender.get("auctionPeriod") or {}
-            if not period.get("endDate"):
-                start_date = period.get("startDate")
-                if start_date:
-                    number_of_bids = self.count_bids_number(tender)
-                    expected_value = calc_auction_end_time(number_of_bids, dt_from_iso(start_date))
-                    if get_now() > expected_value:
-                        return normalize_should_start_after(expected_value, tender).isoformat()
+        if tender.get("status") not in ("active.tendering", "active.auction"):
+            return
+        period = tender.get("auctionPeriod") or {}
+        if not period.get("endDate"):
+            start_date = period.get("startDate")
+            if start_date:
+                number_of_bids = self.count_bids_number(tender)
+                expected_value = calc_auction_end_time(number_of_bids, dt_from_iso(start_date))
+                if get_now() > expected_value:
+                    return normalize_should_start_after(expected_value, tender).isoformat()
 
-                decision_dates = [
-                    datetime.combine(
-                        dt_from_iso(complaint["dateDecision"]) + timedelta(days=3),
-                        time(0, tzinfo=TZ)
-                    )
-                    for complaint in tender.get("complaints", "")
-                    if complaint.get("dateDecision")
-                ]
-                decision_dates.append(dt_from_iso(tender["tenderPeriod"]["endDate"]))
-                start_after = max(decision_dates)
-                return normalize_should_start_after(start_after, tender).isoformat()
+            decision_dates = [
+                datetime.combine(
+                    dt_from_iso(complaint["dateDecision"]) + timedelta(days=3),
+                    time(0, tzinfo=TZ)
+                )
+                for complaint in tender.get("complaints", "")
+                if complaint.get("dateDecision")
+            ]
+            decision_dates.append(dt_from_iso(tender["tenderPeriod"]["endDate"]))
+            start_after = max(decision_dates)
+            return normalize_should_start_after(start_after, tender).isoformat()
 
     def calc_auction_periods(self, tender):
         lots = tender.get("lots")
@@ -753,3 +756,37 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, BaseSta
         auction_period = obj.get("auctionPeriod")
         if auction_period and "endDate" not in auction_period:
             del obj["auctionPeriod"]
+
+    def calc_tender_values(self, tender: dict) -> None:
+        if tender.get("lots"):
+            self.calc_tender_value(tender)
+            self.calc_tender_guarantee(tender)
+            self.calc_tender_minimal_step(tender)
+
+    @staticmethod
+    def calc_tender_value(tender: dict) -> None:
+        tender["value"] = {
+            "amount": sum(i["value"]["amount"] for i in tender.get("lots", "") if i.get("value")),
+            "currency": tender["value"]["currency"],
+            "valueAddedTaxIncluded": tender["value"]["valueAddedTaxIncluded"]
+        }
+
+    @staticmethod
+    def calc_tender_guarantee(tender: dict) -> None:
+        lots_amount = [i["guarantee"]["amount"] for i in tender.get("lots", "") if i.get("guarantee")]
+        if not lots_amount:
+            return
+        guarantee = {"amount": sum(lots_amount)}
+        lots_currency = [i["guarantee"]["currency"] for i in tender["lots"] if i.get("guarantee")]
+        guarantee["currency"] = lots_currency[0] if lots_currency else None
+        if tender.get("guarantee"):
+            guarantee["currency"] = tender["guarantee"]["currency"]
+        tender["guarantee"] = guarantee
+
+    @staticmethod
+    def calc_tender_minimal_step(tender: dict) -> None:
+        tender["minimalStep"] = {
+            "amount": min(i["minimalStep"]["amount"] for i in tender.get("lots", "") if i.get("minimalStep")),
+            "currency": tender["minimalStep"]["currency"],
+            "valueAddedTaxIncluded": tender["minimalStep"]["valueAddedTaxIncluded"],
+        }

@@ -8,13 +8,13 @@ from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE
 from openprocurement.tender.competitivedialogue.validation import validate_lot_operation_for_stage2
 
 
-@optendersresource(
-    name="{}:Lots".format(STAGE_2_UA_TYPE),
-    collection_path="/tenders/{tender_id}/lots",
-    path="/tenders/{tender_id}/lots/{lot_id}",
-    procurementMethodType=STAGE_2_UA_TYPE,
-    description="Tender stage2 UA lots",
-)
+# @optendersresource(
+#     name="{}:Lots".format(STAGE_2_UA_TYPE),
+#     collection_path="/tenders/{tender_id}/lots",
+#     path="/tenders/{tender_id}/lots/{lot_id}",
+#     procurementMethodType=STAGE_2_UA_TYPE,
+#     description="Tender stage2 UA lots",
+# )
 class TenderStage2UALotResource(TenderUaLotResource):
     @json_view(
         content_type="application/json", permission="edit_tender", validators=(validate_lot_operation_for_stage2,)
@@ -33,13 +33,13 @@ class TenderStage2UALotResource(TenderUaLotResource):
         """Lot deleting """
 
 
-@optendersresource(
-    name="{}:Tender Lots".format(STAGE_2_EU_TYPE),
-    collection_path="/tenders/{tender_id}/lots",
-    path="/tenders/{tender_id}/lots/{lot_id}",
-    procurementMethodType=STAGE_2_EU_TYPE,
-    description="Tender stage2 EU lots",
-)
+# @optendersresource(
+#     name="{}:Tender Lots".format(STAGE_2_EU_TYPE),
+#     collection_path="/tenders/{tender_id}/lots",
+#     path="/tenders/{tender_id}/lots/{lot_id}",
+#     procurementMethodType=STAGE_2_EU_TYPE,
+#     description="Tender stage2 EU lots",
+# )
 class TenderStage2EULotResource(TenderEULotResource):
     @json_view(
         content_type="application/json", permission="edit_tender", validators=(validate_lot_operation_for_stage2,)

@@ -910,11 +910,11 @@ X-Content-Type-Options: nosniff
     },
     "lots": [
       {
-        "id": "93256198e2e7429ab4d0300cc250244f",
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "date": "2023-01-01T00:00:00+02:00",
         "status": "active",
+        "id": "4ce7c1a7df7c4155b437e72176bdcb41",
+        "date": "2023-01-01T00:00:00+02:00",
         "minValue": {
           "amount": 0.0,
           "currency": "UAH",
@@ -928,11 +928,11 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "ae36b7ca7b4a44d8b3c015a3e4043f4f",
         "title": "Лот №2",
         "description": "Опис Лот №2",
-        "date": "2023-01-01T00:00:00+02:00",
         "status": "unsuccessful",
+        "id": "12a8a2f1b3694d049ad8b9ea32508d8b",
+        "date": "2023-01-01T00:00:00+02:00",
         "minValue": {
           "amount": 0.0,
           "currency": "UAH",
@@ -967,7 +967,7 @@ X-Content-Type-Options: nosniff
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "93256198e2e7429ab4d0300cc250244f"
+        "relatedLot": "4ce7c1a7df7c4155b437e72176bdcb41"
       },
       {
         "id": "669c9d2a44c14a15af136ed668b29715",
@@ -992,7 +992,7 @@ X-Content-Type-Options: nosniff
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "ae36b7ca7b4a44d8b3c015a3e4043f4f"
+        "relatedLot": "12a8a2f1b3694d049ad8b9ea32508d8b"
       }
     ],
     "milestones": [
@@ -1039,7 +1039,7 @@ X-Content-Type-Options: nosniff
       {
         "id": "4c3d87aed4db40acbd6abd9039add872",
         "bidID": "4b3da417aa534434a91c634e72169f07",
-        "lotID": "93256198e2e7429ab4d0300cc250244f",
+        "lotID": "4ce7c1a7df7c4155b437e72176bdcb41",
         "status": "active",
         "date": "2023-01-01T00:00:00+02:00",
         "qualified": true,
@@ -1048,7 +1048,7 @@ X-Content-Type-Options: nosniff
       {
         "id": "8643276f15364e669e0c3670e8a6ad1f",
         "bidID": "fed6f61352f54eec8ca73dc0ecb4aa90",
-        "lotID": "93256198e2e7429ab4d0300cc250244f",
+        "lotID": "4ce7c1a7df7c4155b437e72176bdcb41",
         "status": "active",
         "date": "2023-01-01T00:00:00+02:00",
         "qualified": true,

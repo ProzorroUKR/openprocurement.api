@@ -3,6 +3,7 @@ from openprocurement.tender.competitivedialogue.utils import (
     prepare_bid_identifier,
 )
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.core.procedure.validation import OPERATIONS
 
 
 def validate_firm_to_create_bid(request, **_):
@@ -65,3 +66,8 @@ def validate_cd2_allowed_patch_fields(request, **_):
                             name=f"items.{f}",
                             status=422
                         )
+
+
+# lot
+def validate_lot_operation_for_stage2(request, **_):
+    raise_operation_error(request, "Can't {} lot for tender stage2".format(OPERATIONS.get(request.method)))

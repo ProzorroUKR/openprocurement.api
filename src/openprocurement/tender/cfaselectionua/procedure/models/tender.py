@@ -23,8 +23,8 @@ from openprocurement.tender.core.procedure.models.lot import validate_lots_uniq
 from openprocurement.tender.core.procedure.models.guarantee import Guarantee, PostGuarantee
 from openprocurement.tender.core.procedure.models.milestone import Milestone, validate_milestones_lot
 from openprocurement.tender.cfaselectionua.procedure.models.lot import (
-    PostLot,
-    PatchLot,
+    PostTenderLot,
+    PatchTenderLot,
     Lot,
 )
 from openprocurement.tender.cfaselectionua.procedure.models.feature import Feature
@@ -77,7 +77,7 @@ class PostTender(PostBaseTender):
     agreements = ListType(ModelType(AgreementUUID, required=True), required=True, min_size=1, max_size=1)
     items = ListType(ModelType(Item, required=True), required=True, min_size=1,
                      validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])
-    lots = ListType(ModelType(PostLot, required=True), min_size=1, max_size=1, required=True,
+    lots = ListType(ModelType(PostTenderLot, required=True), min_size=1, max_size=1, required=True,
                     validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     milestones = ListType(ModelType(Milestone, required=True),
@@ -125,7 +125,7 @@ class PatchTender(PatchBaseTender):
     # agreements = ListType(ModelType(Agreement, required=True), min_size=1, max_size=1)
     items = ListType(ModelType(Item, required=True), min_size=1,
                      validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])
-    lots = ListType(ModelType(PatchLot, required=True), min_size=1, max_size=1,
+    lots = ListType(ModelType(PatchTenderLot, required=True), min_size=1, max_size=1,
                     validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     unsuccessfulReason = ListType(StringType, serialize_when_none=False)

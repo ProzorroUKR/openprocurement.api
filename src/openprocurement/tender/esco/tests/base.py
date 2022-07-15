@@ -54,7 +54,7 @@ test_lots = deepcopy(base_eu_lots)
 del test_lots[0]["value"]
 del test_lots[0]["minimalStep"]
 test_lots[0]["minimalStepPercentage"] = 0.02514
-test_lots[0]["fundingKind"] = "other"
+# test_lots[0]["fundingKind"] = "other"
 test_lots[0]["yearlyPaymentsPercentageRange"] = 0.80000
 
 test_bids = deepcopy(base_eu_bids)

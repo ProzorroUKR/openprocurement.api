@@ -16,13 +16,13 @@ from openprocurement.tender.core.utils import (
 )
 
 
-@optendersresource(
-    name="aboveThresholdUA:Tender Lots",
-    collection_path="/tenders/{tender_id}/lots",
-    path="/tenders/{tender_id}/lots/{lot_id}",
-    procurementMethodType="aboveThresholdUA",
-    description="Tender Ua lots",
-)
+# @optendersresource(
+#     name="aboveThresholdUA:Tender Lots",
+#     collection_path="/tenders/{tender_id}/lots",
+#     path="/tenders/{tender_id}/lots/{lot_id}",
+#     procurementMethodType="aboveThresholdUA",
+#     description="Tender Ua lots",
+# )
 class TenderUaLotResource(TenderLotResource):
     @json_view(
         content_type="application/json",

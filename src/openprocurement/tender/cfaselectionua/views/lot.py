@@ -8,13 +8,13 @@ from openprocurement.tender.cfaselectionua.validation import validate_lot_operat
 from openprocurement.tender.belowthreshold.validation import validate_delete_lot_related_criterion
 
 
-@optendersresource(
-    name="closeFrameworkAgreementSelectionUA:Tender Lots",
-    collection_path="/tenders/{tender_id}/lots",
-    path="/tenders/{tender_id}/lots/{lot_id}",
-    procurementMethodType="closeFrameworkAgreementSelectionUA",
-    description="Tender lots",
-)
+# @optendersresource(
+#     name="closeFrameworkAgreementSelectionUA:Tender Lots",
+#     collection_path="/tenders/{tender_id}/lots",
+#     path="/tenders/{tender_id}/lots/{lot_id}",
+#     procurementMethodType="closeFrameworkAgreementSelectionUA",
+#     description="Tender lots",
+# )
 class TenderLotResource(APIResource):
     @json_view(
         content_type="application/json",

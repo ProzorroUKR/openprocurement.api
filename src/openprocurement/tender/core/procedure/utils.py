@@ -156,7 +156,7 @@ def set_item(parent, key, uid, value):
             break
     else:
         raise AssertionError(f"Item with id {uid} unexpectedly not found")
-# --- GETTING/SETTING sub documents
+# --- GETTING/SETTING/DELETING sub documents
 
 
 # ACL ---

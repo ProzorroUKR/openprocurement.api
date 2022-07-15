@@ -143,8 +143,8 @@ class TenderLotFeatureResourceTest(BaseESCOContentWebTest):
     docservice = True
     initial_lots = 2 * test_lots
     # for passing test_tender_min_value while min value = 0
-    initial_lots[0]["minValue"] = {"amount": 0}
-    initial_lots[1]["minValue"] = {"amount": 0}
+    # initial_lots[0]["minValue"] = {"amount": 0}
+    # initial_lots[1]["minValue"] = {"amount": 0}
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_data
     test_lots_data = test_lots

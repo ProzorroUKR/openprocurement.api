@@ -89,7 +89,7 @@ def create_tender_lot_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["Please use a mapping for this field or Value instance instead of str."],
+                "description": ["Please use a mapping for this field or PostValue instance instead of str."],
                 "location": "body",
                 "name": "value",
             }
@@ -133,7 +133,7 @@ def create_tender_lot(self):
     self.assertIn("id", lot)
     self.assertIn(lot["id"], response.headers["Location"])
     self.assertNotIn("guarantee", lot)
-
+    del lot["date"]
     response = self.app.post_json(
         "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": lot}, status=422
     )
@@ -142,7 +142,7 @@ def create_tender_lot(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": ["Lot id should be uniq for all lots"], "location": "body", "name": "lots"}],
+        [{"description": "Lot id should be uniq for all lots", "location": "body", "name": "lots"}],
     )
 
 
@@ -244,7 +244,7 @@ def patch_tender_lot(self):
 
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"value": {"amount": 400}}},
+        {"data": {"value": {**lot["value"], "amount": 400}}},
     )
 
     self.assertEqual(response.status, "200 OK")
@@ -317,7 +317,7 @@ def patch_tender_currency(self):
     # try to update lot currency
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"value": {"currency": "USD"}}},
+        {"data": {"value": {**lot["value"], "currency": "USD"}}},
     )
     self.assertEqual(response.status, "200 OK")
     # but the value stays unchanged
@@ -330,7 +330,7 @@ def patch_tender_currency(self):
     # try to update lot minimalStep currency and lot value currency in single request
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"value": {"currency": "USD"}}},
+        {"data": {"value": {**lot["value"], "currency": "USD"}}},
     )
     self.assertEqual(response.status, "200 OK")
     # but the value stays unchanged
@@ -380,7 +380,7 @@ def patch_tender_vat(self):
     # try to update lot VAT
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"value": {"valueAddedTaxIncluded": True}}},
+        {"data": {"value": {**lot["value"], "valueAddedTaxIncluded": True}}},
     )
     self.assertEqual(response.status, "200 OK")
     # but the value stays unchanged
@@ -393,7 +393,7 @@ def patch_tender_vat(self):
     # try to update value VAT in single request
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"value": {"valueAddedTaxIncluded": True}}},
+        {"data": {"value": {**lot["value"], "valueAddedTaxIncluded": True}}},
     )
     self.assertEqual(response.status, "200 OK")
     # but the value stays unchanged
@@ -461,9 +461,9 @@ def delete_unsuccessful_tender_lot(self):
         response.json["errors"],
         [
             {
-                "description": [{"relatedLot": ["relatedLot should be one of lots"]}],
                 "location": "body",
-                "name": "items",
+                "name": "data",
+                "description": "Cannot delete lot with related items"
             }
         ],
     )
@@ -539,9 +539,9 @@ def delete_tender_lot(self):
         response.json["errors"],
         [
             {
-                "description": [{"relatedLot": ["relatedLot should be one of lots"]}],
                 "location": "body",
-                "name": "items",
+                "name": "data",
+                "description": "Cannot delete lot with related items"
             }
         ],
     )
@@ -626,9 +626,9 @@ def delete_complete_tender_lot(self):
         response.json["errors"],
         [
             {
-                "description": [{"relatedLot": ["relatedLot should be one of lots"]}],
                 "location": "body",
-                "name": "items",
+                "name": "data",
+                "description": "Cannot delete lot with related items"
             }
         ],
     )
@@ -1226,10 +1226,11 @@ def patch_lot_with_cancellation(self):
         self.assertEqual(cancellation["status"], "pending")
 
     # Try to patch lot with cancellation on it
-    response = self.app.patch_json(
-        "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"title": "new title"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update lot that have active cancellation")
+    else:
+        response = self.app.patch_json(
+            "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
+            {"data": {"title": "new title"}},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.json["errors"][0]["description"], "Can't update lot that have active cancellation")

@@ -653,22 +653,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 status=422
             )
         self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertIn(
-            {
+        self.assertEqual(
+            response.json['errors'],
+            [{
                 "location": "body",
-                "name": "milestones",
-                "description": [
-                    {
-                        "relatedLot": [
-                            "relatedLot should be one of the lots."
-                        ]
-                    },
-                    {
-                        "relatedLot": [
-                            "relatedLot should be one of the lots."
-                        ]
-                    }
-                ]
-            },
-            response.json['errors']
+                "name": "data",
+                "description": "Cannot delete lot with related milestones"
+            }]
         )

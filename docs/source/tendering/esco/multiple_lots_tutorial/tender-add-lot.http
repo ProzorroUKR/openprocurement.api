@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/8a0700259bce4187b9c2cee3b9167b19/lots?acc_token=4ce0e72a69954a87b19385c16717eecc HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 175
+Content-Length: 151
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
@@ -8,30 +8,29 @@ DATA:
   "data": {
     "title": "Лот №1",
     "description": "Опис Лот №1",
-    "fundingKind": "other",
     "minimalStepPercentage": 0.006
   }
 }
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8a0700259bce4187b9c2cee3b9167b19/lots/93256198e2e7429ab4d0300cc250244f
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8a0700259bce4187b9c2cee3b9167b19/lots/4ce7c1a7df7c4155b437e72176bdcb41
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "93256198e2e7429ab4d0300cc250244f",
     "title": "Лот №1",
     "description": "Опис Лот №1",
-    "date": "2023-01-01T00:00:00+02:00",
+    "id": "4ce7c1a7df7c4155b437e72176bdcb41",
     "status": "active",
+    "minimalStepPercentage": 0.006,
+    "yearlyPaymentsPercentageRange": 0.8,
+    "fundingKind": "other",
     "minValue": {
       "amount": 0.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "minimalStepPercentage": 0.006,
-    "fundingKind": "other",
-    "yearlyPaymentsPercentageRange": 0.8
+    "date": "2023-01-01T00:00:00+02:00"
   }
 }
 

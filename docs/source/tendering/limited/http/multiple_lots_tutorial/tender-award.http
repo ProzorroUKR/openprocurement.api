@@ -36,7 +36,7 @@ DATA:
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "lotID": "9c7ee9a761404c7cad1359f248e41f71"
+    "lotID": "b5acd2a910244a1ab663580d5ed188d7"
   }
 }
 
@@ -76,7 +76,7 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "lotID": "9c7ee9a761404c7cad1359f248e41f71",
+    "lotID": "b5acd2a910244a1ab663580d5ed188d7",
     "id": "068069057cb14911bb25053f0fd9d0cc",
     "date": "2023-01-01T00:00:00+02:00"
   }

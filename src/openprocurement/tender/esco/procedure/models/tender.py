@@ -23,7 +23,7 @@ from openprocurement.tender.core.procedure.models.item import (
     validate_related_buyer_in_items,
 )
 from openprocurement.tender.core.procedure.models.lot import validate_lots_uniq
-from openprocurement.tender.esco.procedure.models.lot import PostLot, PatchLot, Lot
+from openprocurement.tender.esco.procedure.models.lot import PostTenderLot, PatchTenderLot, Lot
 from openprocurement.tender.core.procedure.models.tender import validate_milestones, validate_items_related_lot
 from openprocurement.tender.core.procedure.models.tender_base import (
     PostBaseTender,
@@ -55,7 +55,7 @@ class ESCOSerializable(Model):
         return (
             Value(
                 dict(
-                    amount=sum([i.minValue.amount for i in self.lots]),
+                    amount=sum(i.minValue.amount for i in self.lots if i.minValue),
                     currency=self.minValue.currency,
                     valueAddedTaxIncluded=self.minValue.valueAddedTaxIncluded,
                 )
@@ -174,7 +174,7 @@ class PostTender(ESCOSerializable, PostBaseTender):
     guarantee = ModelType(PostGuarantee)
 
     procuringEntity = ModelType(ProcuringEntity, required=True)
-    lots = ListType(ModelType(PostLot, required=True), validators=[validate_lots_uniq])
+    lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])
     items = ListType(ModelType(Item, required=True), required=True, min_size=1,
                      validators=[validate_cpv_group, validate_items_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
@@ -239,7 +239,7 @@ class PatchTender(PatchBaseTender):
     guarantee = ModelType(Guarantee)
 
     procuringEntity = ModelType(ProcuringEntity)
-    lots = ListType(ModelType(PatchLot, required=True), validators=[validate_lots_uniq])
+    lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
     items = ListType(ModelType(Item, required=True), min_size=1,
                      validators=[validate_cpv_group, validate_items_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])

@@ -15,13 +15,13 @@ from openprocurement.tender.limited.validation import (
 from openprocurement.tender.belowthreshold.validation import validate_delete_lot_related_criterion
 
 
-@optendersresource(
-    name="negotiation.quick:Tender Lots",
-    collection_path="/tenders/{tender_id}/lots",
-    path="/tenders/{tender_id}/lots/{lot_id}",
-    procurementMethodType="negotiation.quick",
-    description="Tender limited negotiation quick lots",
-)
+# @optendersresource(
+#     name="negotiation.quick:Tender Lots",
+#     collection_path="/tenders/{tender_id}/lots",
+#     path="/tenders/{tender_id}/lots/{lot_id}",
+#     procurementMethodType="negotiation.quick",
+#     description="Tender limited negotiation quick lots",
+# )
 class TenderLimitedNegotiationQuickLotResource(TenderLotResource):
     route_name = "Tender limited negotiation quick Lots"
 
@@ -100,12 +100,12 @@ class TenderLimitedNegotiationQuickLotResource(TenderLotResource):
             return {"data": res}
 
 
-@optendersresource(
-    name="negotiation:Tender Lots",
-    collection_path="/tenders/{tender_id}/lots",
-    path="/tenders/{tender_id}/lots/{lot_id}",
-    procurementMethodType="negotiation",
-    description="Tender limited negotiation lots",
-)
+# @optendersresource(
+#     name="negotiation:Tender Lots",
+#     collection_path="/tenders/{tender_id}/lots",
+#     path="/tenders/{tender_id}/lots/{lot_id}",
+#     procurementMethodType="negotiation",
+#     description="Tender limited negotiation lots",
+# )
 class TenderLimitedNegotiationLotResource(TenderLimitedNegotiationQuickLotResource):
     route_name = "Tender limited negotiation Lots"

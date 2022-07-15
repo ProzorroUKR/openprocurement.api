@@ -1,13 +1,15 @@
-PATCH /api/2.5/tenders/0b330892c8b64ac98de88d220d7e86fe/lots/e2a64c7bb22f4a6d838531ede04bc02a?acc_token=17dcad4d4a5b4461a8403f8743073135 HTTP/1.0
+PATCH /api/2.5/tenders/0b330892c8b64ac98de88d220d7e86fe/lots/e30d3c82cc094aee8c4637aa81309d21?acc_token=17dcad4d4a5b4461a8403f8743073135 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 36
+Content-Length: 86
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
     "value": {
-      "amount": 400
+      "amount": 400,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
     }
   }
 }
@@ -17,11 +19,11 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "e2a64c7bb22f4a6d838531ede04bc02a",
     "title": "Лот №2",
     "description": "Опис Лот №2",
-    "date": "2023-01-01T00:00:00+02:00",
     "status": "active",
+    "id": "e30d3c82cc094aee8c4637aa81309d21",
+    "date": "2023-01-01T00:00:00+02:00",
     "value": {
       "amount": 400.0,
       "currency": "UAH",

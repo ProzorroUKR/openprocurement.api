@@ -203,9 +203,16 @@ def bids_invalidation_on_tender_change(self):
 
     # update tender. we can set value that is less than a value in bids as
     # they will be invalidated by this request
+    response = self.app.get(
+        f"/tenders/{self.tender_id}/lots/{self.initial_lots[0]['id']}?acc_token={self.tender_token}"
+    )
+    lot = response.json["data"]
     response = self.app.patch_json(
-        "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, self.initial_lots[0]["id"], self.tender_token),
-        {"data": {"value": {"amount": 300.0}, "minimalStep": {"amount": 9.0}}},
+        "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
+        {"data": {
+            "value": {**lot["value"], "amount": 300.0},
+            "minimalStep": {**lot["minimalStep"], "amount": 9.0},
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["value"]["amount"], 300)
@@ -3112,9 +3119,15 @@ def patch_and_put_document_into_invalid_bid(self):
 
     # update tender. we can set value that is less than a value in bids as
     # they will be invalidated by this request
+
+    response = self.app.get(
+        f"/tenders/{self.tender_id}/lots/{self.initial_lots[0]['id']}?acc_token={self.tender_token}",
+    )
+    lot = response.json["data"]
+
     response = self.app.patch_json(
-        "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, self.initial_lots[0]["id"], self.tender_token),
-        {"data": {"value": {"amount": 300.0}, "minimalStep": {"amount": 9.0}}},
+        "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
+        {"data": {"value": {**lot["value"], "amount": 300.0}, "minimalStep": {**lot["minimalStep"], "amount": 9.0}}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["value"]["amount"], 300)
