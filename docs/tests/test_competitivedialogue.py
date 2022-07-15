@@ -1289,7 +1289,8 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
             '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
             {'data': test_lots[1]})
         self.assertEqual(response.status, '201 Created')
-        lot_id2 = response.json['data']['id']
+        lot2 = response.json['data']
+        lot_id2 = lot2['id']
 
         # add relatedLot for item
         items = deepcopy(tender["items"])
@@ -1369,7 +1370,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
         with open(TARGET_DIR_MULTIPLE + 'tender-invalid-all-bids.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/lots/{}?acc_token={}'.format(tender_id, lot_id2, owner_token),
-                {'data': {'value': {'amount': 400, "currency": "UAH"}}})
+                {'data': {'value': {**lot2['value'], 'amount': 400, "currency": "UAH"}}})
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR_MULTIPLE + 'bid-lot1-invalid-view.http', 'w') as self.app.file_obj:

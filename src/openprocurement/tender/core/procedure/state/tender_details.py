@@ -80,8 +80,10 @@ class TenderDetailsMixing:
 
         # lots
         for lot in tender.get("lots", ""):
-            lot["value"]["currency"] = currency
-            lot["value"]["valueAddedTaxIncluded"] = tax_inc
+            value = lot.get("value")
+            if value:
+                value["currency"] = currency
+                value["valueAddedTaxIncluded"] = tax_inc
 
             minimal_step = lot.get("minimalStep")
             if minimal_step:

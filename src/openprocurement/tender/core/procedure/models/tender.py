@@ -11,7 +11,7 @@ from openprocurement.tender.core.procedure.models.period import (
 )
 from openprocurement.tender.core.procedure.models.guarantee import Guarantee, PostGuarantee
 from openprocurement.tender.core.procedure.models.lot import (
-    PostLot, PatchLot, Lot,
+    PostTenderLot, PatchTenderLot, Lot,
     validate_lots_uniq, validate_minimal_step_limits
 )
 
@@ -106,7 +106,7 @@ class PostTender(PostBaseTender):
     auctionPeriod = ModelType(Period)
     items = ListType(ModelType(Item, required=True), required=True, min_size=1,
                      validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])
-    lots = ListType(ModelType(PostLot, required=True), validators=[validate_lots_uniq])
+    lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     milestones = ListType(ModelType(Milestone, required=True),
                           validators=[validate_items_uniq, validate_milestones])
@@ -195,7 +195,7 @@ class PatchTender(PatchBaseTender):
     awardPeriod = ModelType(Period)
     items = ListType(ModelType(Item, required=True), min_size=1,
                      validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])
-    lots = ListType(ModelType(PatchLot, required=True), validators=[validate_lots_uniq])
+    lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     milestones = ListType(ModelType(Milestone, required=True),
                           validators=[validate_items_uniq, validate_milestones])

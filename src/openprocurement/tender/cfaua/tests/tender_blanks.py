@@ -1011,11 +1011,10 @@ def invalid_bid_tender_lot(self):
         response.json["errors"],
         [
             {
-                "description": [{"relatedLot": ["relatedLot should be one of lots"]}],
                 "location": "body",
-                "name": "items",
+                "name": "data",
+                "description": "Cannot delete lot with related items",
             },
-            {"description": ["Please provide at least 1 item."], "location": "body", "name": "lots"},
         ],
     )
 

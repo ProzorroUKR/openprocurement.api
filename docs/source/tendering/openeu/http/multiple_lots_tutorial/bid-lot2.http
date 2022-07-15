@@ -36,14 +36,14 @@ DATA:
         "value": {
           "amount": 500
         },
-        "relatedLot": "5563fbab2bd848b398a5de9cb3ac555b"
+        "relatedLot": "f530b7d5b76149c5bb351d339fc1b44f"
       },
       {
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "value": {
           "amount": 500
         },
-        "relatedLot": "e2a64c7bb22f4a6d838531ede04bc02a"
+        "relatedLot": "e30d3c82cc094aee8c4637aa81309d21"
       }
     ]
   }
@@ -85,7 +85,7 @@ X-Content-Type-Options: nosniff
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "5563fbab2bd848b398a5de9cb3ac555b",
+        "relatedLot": "f530b7d5b76149c5bb351d339fc1b44f",
         "status": "pending",
         "date": "2023-01-01T00:00:00+02:00"
       },
@@ -95,7 +95,7 @@ X-Content-Type-Options: nosniff
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "e2a64c7bb22f4a6d838531ede04bc02a",
+        "relatedLot": "e30d3c82cc094aee8c4637aa81309d21",
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "status": "pending",
         "date": "2023-01-01T00:00:00+02:00"

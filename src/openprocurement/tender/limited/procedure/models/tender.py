@@ -27,7 +27,7 @@ from openprocurement.tender.core.procedure.models.item import (
 )
 from openprocurement.tender.openua.procedure.models.item import Item
 from openprocurement.tender.limited.procedure.models.item import ReportingItem
-from openprocurement.tender.limited.procedure.models.lot import PostLot, PatchLot, Lot
+from openprocurement.tender.limited.procedure.models.lot import PostTenderLot, PatchTenderLot, Lot
 from openprocurement.tender.limited.procedure.models.organization import (
     ReportingProcuringEntity,
     NegotiationProcuringEntity,
@@ -163,7 +163,7 @@ class PostNegotiationTender(PostBaseTender):
     causeDescription = StringType(required=True, min_length=1)
     causeDescription_en = StringType(min_length=1)
     causeDescription_ru = StringType(min_length=1)
-    lots = ListType(ModelType(PostLot, required=True), validators=[validate_lots_uniq])
+    lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])
 
     milestones = ListType(ModelType(Milestone, required=True),
                           validators=[validate_items_uniq, validate_milestones])
@@ -198,7 +198,7 @@ class PatchNegotiationTender(PatchBaseTender):
     causeDescription = StringType(min_length=1)
     causeDescription_en = StringType(min_length=1)
     causeDescription_ru = StringType(min_length=1)
-    lots = ListType(ModelType(PatchLot, required=True), validators=[validate_lots_uniq])
+    lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
 
     milestones = ListType(ModelType(Milestone, required=True),
                           validators=[validate_items_uniq, validate_milestones])

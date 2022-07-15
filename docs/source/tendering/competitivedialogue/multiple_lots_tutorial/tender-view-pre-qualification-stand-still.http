@@ -1088,7 +1088,7 @@ X-Content-Type-Options: nosniff
       {
         "id": "18fb47c42742485db315de8298d24caa",
         "bidID": "df19bcc89d254fec8ea76eb0a3b0b62a",
-        "lotID": "150e2750fa2942ce9315e80ddf78a62a",
+        "lotID": "190af4170cd3466482063a204c1e7114",
         "status": "active",
         "date": "2023-01-01T00:00:00+02:00",
         "qualified": true,
@@ -1097,7 +1097,7 @@ X-Content-Type-Options: nosniff
       {
         "id": "bb4daf99179d4c6c86616e379f9726d9",
         "bidID": "887d6b8013ce4c6c9b3579f7a0e4c4b9",
-        "lotID": "150e2750fa2942ce9315e80ddf78a62a",
+        "lotID": "190af4170cd3466482063a204c1e7114",
         "status": "active",
         "date": "2023-01-01T00:00:00+02:00",
         "qualified": true,
@@ -1106,7 +1106,7 @@ X-Content-Type-Options: nosniff
       {
         "id": "537d5c5f318e4f16bd4583ae3d0828ac",
         "bidID": "b2491557b27447e19006e2750a59894b",
-        "lotID": "150e2750fa2942ce9315e80ddf78a62a",
+        "lotID": "190af4170cd3466482063a204c1e7114",
         "status": "active",
         "date": "2023-01-01T00:00:00+02:00",
         "qualified": true,
@@ -1146,7 +1146,7 @@ X-Content-Type-Options: nosniff
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "150e2750fa2942ce9315e80ddf78a62a",
+        "relatedLot": "190af4170cd3466482063a204c1e7114",
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
           "endDate": "2023-02-20T00:00:00+02:00"
@@ -1185,7 +1185,7 @@ X-Content-Type-Options: nosniff
           "code": "PK"
         },
         "quantity": 1.0,
-        "relatedLot": "a18842d9d4a349c799437d0102e40965",
+        "relatedLot": "e4751e0fa08b4820a9df81f6085279b2",
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
           "endDate": "2023-02-20T00:00:00+02:00"
@@ -1202,11 +1202,11 @@ X-Content-Type-Options: nosniff
     ],
     "lots": [
       {
-        "id": "150e2750fa2942ce9315e80ddf78a62a",
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "date": "2023-01-01T00:00:00+02:00",
         "status": "active",
+        "id": "190af4170cd3466482063a204c1e7114",
+        "date": "2023-01-01T00:00:00+02:00",
         "value": {
           "amount": 500.0,
           "currency": "UAH",
@@ -1219,11 +1219,11 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "a18842d9d4a349c799437d0102e40965",
         "title": "Лот №2",
         "description": "Опис Лот №2",
-        "date": "2023-01-01T00:00:00+02:00",
         "status": "unsuccessful",
+        "id": "e4751e0fa08b4820a9df81f6085279b2",
+        "date": "2023-01-01T00:00:00+02:00",
         "value": {
           "amount": 400.0,
           "currency": "UAH",

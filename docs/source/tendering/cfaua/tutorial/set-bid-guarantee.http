@@ -18,11 +18,11 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "52815e9d01914c7a9bf4ba18ebb5e783",
     "title": "Лот №1",
     "description": "Опис Лот №1",
-    "date": "2023-01-01T00:00:00+02:00",
     "status": "active",
+    "id": "52815e9d01914c7a9bf4ba18ebb5e783",
+    "date": "2023-01-01T00:00:00+02:00",
     "value": {
       "amount": 500.0,
       "currency": "UAH",

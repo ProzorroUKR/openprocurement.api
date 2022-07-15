@@ -1,5 +1,5 @@
 from schematics.exceptions import ValidationError
-from schematics.types import StringType, FloatType
+from schematics.types import StringType, FloatType, BooleanType
 from openprocurement.api.utils import get_now
 from openprocurement.api.models import Model
 from openprocurement.tender.core.procedure.context import get_tender
@@ -20,5 +20,14 @@ class Guarantee(Model):
             raise ValidationError(f"Currency must be only {', '.join(CURRENCIES)}.")
 
 
+class Value(Guarantee):
+    valueAddedTaxIncluded = BooleanType(required=True)
+
+
 class PostGuarantee(Guarantee):
     currency = StringType(required=True, default="UAH", max_length=3, min_length=3)
+
+
+class PostValue(PostGuarantee, Value):
+    valueAddedTaxIncluded = BooleanType(required=True, default=True)
+

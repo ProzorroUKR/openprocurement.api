@@ -21,14 +21,13 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b3817911ec8c42789f533a2d26c7dc1f/lots/150e2750fa2942ce9315e80ddf78a62a
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b3817911ec8c42789f533a2d26c7dc1f/lots/190af4170cd3466482063a204c1e7114
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "150e2750fa2942ce9315e80ddf78a62a",
     "title": "Лот №1",
     "description": "Опис Лот №1",
-    "date": "2023-01-01T00:00:00+02:00",
+    "id": "190af4170cd3466482063a204c1e7114",
     "status": "active",
     "value": {
       "amount": 500.0,
@@ -39,7 +38,8 @@ X-Content-Type-Options: nosniff
       "amount": 5.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
-    }
+    },
+    "date": "2023-01-01T00:00:00+02:00"
   }
 }
 

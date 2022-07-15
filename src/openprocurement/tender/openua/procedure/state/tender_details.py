@@ -107,4 +107,3 @@ class TenderDetailsState(TenderDetailsMixing, OpenUATenderState):
         for lot in tender.get("lots", ""):
             if check_auction_period(lot.get("auctionPeriod", {}), tender):
                 del lot["auctionPeriod"]["startDate"]
-

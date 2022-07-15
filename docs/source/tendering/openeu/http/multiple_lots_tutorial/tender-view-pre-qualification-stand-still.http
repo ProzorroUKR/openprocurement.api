@@ -882,11 +882,11 @@ X-Content-Type-Options: nosniff
     },
     "lots": [
       {
-        "id": "5563fbab2bd848b398a5de9cb3ac555b",
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "date": "2023-01-01T00:00:00+02:00",
         "status": "active",
+        "id": "f530b7d5b76149c5bb351d339fc1b44f",
+        "date": "2023-01-01T00:00:00+02:00",
         "value": {
           "amount": 500.0,
           "currency": "UAH",
@@ -902,11 +902,11 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "e2a64c7bb22f4a6d838531ede04bc02a",
         "title": "Лот №2",
         "description": "Опис Лот №2",
-        "date": "2023-01-01T00:00:00+02:00",
         "status": "unsuccessful",
+        "id": "e30d3c82cc094aee8c4637aa81309d21",
+        "date": "2023-01-01T00:00:00+02:00",
         "value": {
           "amount": 400.0,
           "currency": "UAH",
@@ -1009,7 +1009,7 @@ X-Content-Type-Options: nosniff
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "5563fbab2bd848b398a5de9cb3ac555b",
+        "relatedLot": "f530b7d5b76149c5bb351d339fc1b44f",
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
           "endDate": "2023-02-20T00:00:00+02:00"
@@ -1048,7 +1048,7 @@ X-Content-Type-Options: nosniff
           "code": "PK"
         },
         "quantity": 1.0,
-        "relatedLot": "e2a64c7bb22f4a6d838531ede04bc02a",
+        "relatedLot": "e30d3c82cc094aee8c4637aa81309d21",
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
           "endDate": "2023-02-20T00:00:00+02:00"
@@ -1071,7 +1071,7 @@ X-Content-Type-Options: nosniff
       {
         "id": "7fe28c22371e4b38a6d00e48a2f1d299",
         "bidID": "ce239eb439294a0aa86dce4fcf30b72e",
-        "lotID": "5563fbab2bd848b398a5de9cb3ac555b",
+        "lotID": "f530b7d5b76149c5bb351d339fc1b44f",
         "status": "active",
         "date": "2023-01-01T00:00:00+02:00",
         "qualified": true,
@@ -1080,7 +1080,7 @@ X-Content-Type-Options: nosniff
       {
         "id": "ba14405d2f23479eb6e70d629d7b7944",
         "bidID": "7d78c406dccd4ebf9f4c338d33cac6a5",
-        "lotID": "5563fbab2bd848b398a5de9cb3ac555b",
+        "lotID": "f530b7d5b76149c5bb351d339fc1b44f",
         "status": "active",
         "date": "2023-01-01T00:00:00+02:00",
         "qualified": true,

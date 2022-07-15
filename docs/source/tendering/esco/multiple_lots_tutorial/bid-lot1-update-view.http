@@ -12,7 +12,7 @@ DATA:
         "value": {
           "amount": 500
         },
-        "relatedLot": "93256198e2e7429ab4d0300cc250244f"
+        "relatedLot": "4ce7c1a7df7c4155b437e72176bdcb41"
       }
     ],
     "status": "pending"
@@ -165,7 +165,7 @@ X-Content-Type-Options: nosniff
     "status": "pending",
     "lotValues": [
       {
-        "relatedLot": "93256198e2e7429ab4d0300cc250244f",
+        "relatedLot": "4ce7c1a7df7c4155b437e72176bdcb41",
         "subcontractingDetails": "ДКП «Орфей»",
         "value": {
           "currency": "UAH",

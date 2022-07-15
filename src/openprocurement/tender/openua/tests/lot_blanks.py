@@ -68,7 +68,7 @@ def patch_tender_currency(self):
     # try to update lot currency
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"value": {"currency": "USD", "amount": lot["value"]["amount"]}}},
+        {"data": {"value": {**lot["value"], "currency": "USD", "amount": lot["value"]["amount"]}}},
     )
     self.assertEqual(response.status, "200 OK")
     # but the value stays unchanged
@@ -81,7 +81,7 @@ def patch_tender_currency(self):
     # try to update minimalStep currency
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"minimalStep": {"currency": "USD", "amount": lot["minimalStep"]["amount"]}}},
+        {"data": {"minimalStep": {**lot["minimalStep"], "currency": "USD", "amount": lot["minimalStep"]["amount"]}}},
     )
     self.assertEqual(response.status, "200 OK")
     # but the value stays unchanged
@@ -94,8 +94,8 @@ def patch_tender_currency(self):
     # try to update lot minimalStep currency and lot value currency in single request
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"value": {"currency": "USD", "amount": lot["value"]["amount"]},
-                  "minimalStep": {"currency": "USD", "amount": lot["minimalStep"]["amount"]}}},
+        {"data": {"value": {**lot["value"], "currency": "USD", "amount": lot["value"]["amount"]},
+                  "minimalStep": {**lot["minimalStep"], "currency": "USD", "amount": lot["minimalStep"]["amount"]}}},
     )
     self.assertEqual(response.status, "200 OK")
     # but the value stays unchanged
@@ -109,8 +109,8 @@ def patch_tender_currency(self):
     self.set_enquiry_period_end()
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"value": {"currency": "USD", "amount": lot["value"]["amount"]},
-                  "minimalStep": {"currency": "USD", "amount": lot["minimalStep"]["amount"]}}},
+        {"data": {"value": {**lot["value"], "currency": "USD", "amount": lot["value"]["amount"]},
+                  "minimalStep": {**lot["minimalStep"], "currency": "USD", "amount": lot["minimalStep"]["amount"]}}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -156,7 +156,7 @@ def patch_tender_vat(self):
     # try to update lot VAT
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"value": {"valueAddedTaxIncluded": True, "amount": lot["value"]["amount"]}}},
+        {"data": {"value": {"valueAddedTaxIncluded": True, "amount": lot["value"]["amount"], "currency": "UAH"}}},
     )
     self.assertEqual(response.status, "200 OK")
     # but the value stays unchanged
@@ -169,7 +169,13 @@ def patch_tender_vat(self):
     # try to update minimalStep VAT
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"minimalStep": {"valueAddedTaxIncluded": True, "amount": lot["minimalStep"]["amount"]}}},
+        {"data": {
+            "minimalStep": {
+                "valueAddedTaxIncluded": True,
+                "amount": lot["minimalStep"]["amount"],
+                "currency": "UAH",
+            }
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     # but the value stays unchanged
@@ -182,8 +188,10 @@ def patch_tender_vat(self):
     # try to update minimalStep VAT and value VAT in single request
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"value": {"valueAddedTaxIncluded": True, "amount": lot["value"]["amount"]},
-                  "minimalStep": {"valueAddedTaxIncluded": True, "amount": lot["minimalStep"]["amount"]}}},
+        {"data": {
+            "value": {**lot["value"], "valueAddedTaxIncluded": True},
+            "minimalStep": {**lot["minimalStep"], "valueAddedTaxIncluded": True}
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     # but the value stays unchanged
@@ -197,8 +205,8 @@ def patch_tender_vat(self):
     self.set_enquiry_period_end()
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"value": {"currency": "USD", "amount": lot["value"]["amount"]},
-                  "minimalStep": {"currency": "USD", "amount": lot["minimalStep"]["amount"]}}},
+        {"data": {"value": {**lot["value"], "currency": "USD", "amount": lot["value"]["amount"]},
+                  "minimalStep": {**lot["minimalStep"], "currency": "USD", "amount": lot["minimalStep"]["amount"]}}},
         status=403,
     )
 
@@ -1007,7 +1015,8 @@ def proc_1lot_1bid_patch(self):
         "/tenders/{}/lots?acc_token={}".format(tender_id, owner_token), {"data": self.test_lots_data[0]}
     )
     self.assertEqual(response.status, "201 Created")
-    lot_id = response.json["data"]["id"]
+    lot = response.json["data"]
+    lot_id = lot["id"]
     # add relatedLot for item
     items = [deepcopy(self.initial_data["items"][0])]
     items[0]["relatedLot"] = lot_id
@@ -1026,7 +1035,7 @@ def proc_1lot_1bid_patch(self):
 
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(tender_id, lot_id, owner_token),
-        {"data": {"value": {"amount": 499}, "minimalStep": {"amount": 14.0}}}
+        {"data": {"value": {**lot["value"], "amount": 499}, "minimalStep": {**lot["minimalStep"], "amount": 14.0}}}
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -1163,7 +1172,8 @@ def proc_1lot_3bid_1un(self):
         "/tenders/{}/lots?acc_token={}".format(tender_id, owner_token), {"data": self.test_lots_data[0]}
     )
     self.assertEqual(response.status, "201 Created")
-    lot_id = response.json["data"]["id"]
+    lot = response.json["data"]
+    lot_id = lot["id"]
     self.initial_lots = [response.json["data"]]
     items = [deepcopy(self.initial_data["items"][0])]
     items[0]["relatedLot"] = lot_id
@@ -1189,7 +1199,8 @@ def proc_1lot_3bid_1un(self):
         bids_data[response.json["data"]["id"]] = response.json["access"]["token"]
 
     response = self.app.patch_json(
-        "/tenders/{}/lots/{}?acc_token={}".format(tender_id, lot_id, owner_token), {"data": {"value": {"amount": 1000}}}
+        "/tenders/{}/lots/{}?acc_token={}".format(tender_id, lot_id, owner_token),
+        {"data": {"value": {**lot["value"], "amount": 1000}}}
     )
     self.assertEqual(response.status, "200 OK")
     # create second bid

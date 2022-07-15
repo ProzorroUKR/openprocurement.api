@@ -1,3 +1,7 @@
+from iso8601 import parse_date
+
+from pyramid.request import Request
+
 from openprocurement.api.constants import (
     RELEASE_2020_04_19,
     CRITERION_REQUIREMENT_STATUSES_FROM,
@@ -10,13 +14,11 @@ from openprocurement.api.utils import (
     raise_operation_error,
     handle_data_exceptions,
     error_handler,
-    context_unpack,
 )
 from openprocurement.api.validation import (
     validate_json_data,
     _validate_accreditation_level,
     _validate_accreditation_level_mode,
-    OPERATIONS,
 )
 from openprocurement.tender.core.validation import TYPEMAP
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF
@@ -28,14 +30,15 @@ from openprocurement.tender.core.procedure.utils import (
     get_contracts_values_related_to_patched_contract,
     find_item_by_id,
 )
+from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.procedure.documents import check_document_batch, check_document, update_document_url
-from openprocurement.tender.core.procedure.context import get_now, get_tender, get_request
+from openprocurement.tender.core.procedure.context import get_now, get_tender
 from openprocurement.tender.core.procedure.state.tender_document import get_tender_document_role
 from schematics.exceptions import ValidationError
 from pyramid.httpexceptions import HTTPError
 from copy import deepcopy
 from schematics.types import BaseType
-from decimal import Decimal, ROUND_UP, ROUND_FLOOR
+from decimal import Decimal, ROUND_UP
 import logging
 
 
@@ -199,6 +202,23 @@ def validate_data_model(input_model):
     return validate
 
 
+def validate_item_operation_in_disallowed_tender_statuses(item_name, allowed_statuses):
+    """
+    Factory disallowed any operation in specified statuses
+    :param item_name: str
+    :param not_allowed_statuses: list
+    :return:
+    """
+    def validate(request, **_):
+        tender = request.validated["tender"]
+        if tender["status"] not in allowed_statuses:
+            raise_operation_error(
+                request,
+                f"Can't {OPERATIONS.get(request.method)} {item_name} in current ({tender['status']}) tender status",
+            )
+    return validate
+
+
 def validate_data(request, model, data, to_patch=False):
     with handle_data_exceptions(request):
         instance = model(data)
@@ -357,6 +377,23 @@ def validate_accreditation_level(levels, item, operation, source="tender", kind_
 def validate_bid_accreditation_level(request, **kwargs):  # TODO: use validate_accreditation_level directly
     validator = validate_accreditation_level(request.tender_model.edit_accreditations, "bid", "creation")
     validator(request, **kwargs)
+
+
+def validate_operation_in_tender_statuses(obj_name, valid_statuses=None, not_valid_statuses=None):
+    if valid_statuses and not_valid_statuses:
+        raise ValueError("should be defined only one of two values(valid_statuses or not_valid_statuses)")
+
+    def wrapper(request, **__):
+        tender_status = request.validated["tender"]["status"]
+        if (
+            (valid_statuses and tender_status not in valid_statuses)
+            or (not_valid_statuses and tender_status in not_valid_statuses)
+        ):
+            raise_operation_error(
+                request,
+                f"Can't {OPERATIONS.get(request.method)} {obj_name.lower()} in current ({tender_status}) tender status",
+            )
+    return wrapper
 
 
 # bids
@@ -803,12 +840,13 @@ def validate_tender_guarantee(request, **kwargs):
             and criterion["classification"]["id"] == "CRITERION.OTHER.BID.GUARANTEE"
         ]
         for lot in tender["lots"]:
-            if lot["id"] in related_guarantee_lots:
-                if not lot.get("guarantee") or lot["guarantee"]["amount"] <= 0:
-                    raise_operation_error(
-                        request,
-                        "Should be specified 'guarantee.amount' more than 0 to lot"
-                    )
+            if lot["id"] in related_guarantee_lots and (
+                not lot.get("guarantee") or lot["guarantee"]["amount"] <= 0
+            ):
+                raise_operation_error(
+                    request,
+                    "Should be specified 'guarantee.amount' more than 0 to lot"
+                )
 
     else:
         amount = data["guarantee"]["amount"] if data.get("guarantee") else 0
@@ -1227,3 +1265,104 @@ def validate_contract_document_status(operation):
         if request.validated["contract"]["status"] not in ("pending", "pending.winner-signing", "active"):
             raise_operation_error(request, f"Can't {operation} document in current contract status")
     return validate
+
+# lot
+
+
+validate_lot_operation_in_disallowed_tender_statuses = validate_item_operation_in_disallowed_tender_statuses(
+    "lot",
+    ("active.tendering", "draft", "draft.stage2")
+)
+
+
+def validate_tender_period_extension(request: Request, **_) -> None:
+    extra_period = request.content_configurator.tendering_period_extra
+    tender = request.validated["tender"]
+    end_date = parse_date(tender["tenderPeriod"]["endDate"])
+    if calculate_tender_business_date(get_now(), extra_period, tender) > end_date:
+        raise_operation_error(request, "tenderPeriod should be extended by {0.days} days".format(extra_period))
+
+
+def validate_operation_with_lot_cancellation_in_pending(type_name: str) -> callable:
+    def validation(request: Request, **_) -> None:
+        fields_names = {
+            "lot": "id",
+            "award": "lotID",
+            "qualification": "lotID",
+            "complaint": "relatedLot",
+            "question": "relatedItem"
+        }
+
+        tender = request.validated["tender"]
+        tender_created = get_first_revision_date(tender, default=get_now())
+
+        field = fields_names.get(type_name)
+        o = request.validated.get(type_name)
+        lot_id = getattr(o, field, None)
+
+        if tender_created < RELEASE_2020_04_19 or not lot_id:
+            return
+
+        msg = "Can't {} {} with lot that have active cancellation"
+        if type_name == "lot":
+            msg = "Can't {} lot that have active cancellation"
+
+        accept_lot = all([
+            any([j["status"] == "resolved" for j in i["complaints"]])
+            for i in tender.get("cancellations", [])
+            if i["status"] == "unsuccessful" and getattr(i, "complaints", None) and i["relatedLot"] == lot_id
+        ])
+
+        if (
+            request.authenticated_role == "tender_owner"
+            and (
+                any([
+                    i for i in tender.get("cancellations", [])
+                    if i["relatedLot"] and i["status"] == "pending" and i["relatedLot"] == lot_id])
+                or not accept_lot
+            )
+        ):
+            raise_operation_error(
+                request,
+                msg.format(OPERATIONS.get(request.method), type_name),
+            )
+    return validation
+
+
+def _validate_related_criterion(request: Request, relatedItem_id: str, action="cancel", relatedItem="lot") -> None:
+    tender = request.validated["tender"]
+    tender_creation_date = get_first_revision_date(tender, default=get_now())
+    if tender_creation_date < CRITERION_REQUIREMENT_STATUSES_FROM:
+        return
+    if tender.get("criteria"):
+        related_criteria = [
+            criterion
+            for criterion in tender["criteria"]
+            for rg in criterion.get("requirementGroups", "")
+            for requirement in rg.get("requirements", "")
+            if criterion.get("relatedItem", "") == relatedItem_id and requirement["status"] == "active"
+        ]
+        if related_criteria:
+            raise_operation_error(
+                request, "Can't {} {} {} while related criterion has active requirements".format(
+                    action, relatedItem_id, relatedItem
+                )
+            )
+
+
+def _validate_related_object(request: Request, collection_name: str, lot_id: str) -> None:
+    tender = request.validated["tender"]
+    exist_related_obj = any(i.get("relatedLot", "") == lot_id for i in tender.get(collection_name, ""))
+
+    if exist_related_obj:
+        raise_operation_error(request, f"Cannot delete lot with related {collection_name}", status=422)
+
+
+def validate_delete_lot_related_object(request: Request, **_) -> None:
+    # We have some realization of that's validations in tender
+    # This logic is duplicated
+    lot_id = request.validated["lot"]["id"]
+    _validate_related_criterion(request, lot_id, action="delete")
+    _validate_related_object(request, "cancellations", lot_id)
+    _validate_related_object(request, "milestones", lot_id)
+    _validate_related_object(request, "items", lot_id)

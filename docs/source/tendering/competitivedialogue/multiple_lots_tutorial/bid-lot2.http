@@ -33,11 +33,11 @@ DATA:
     ],
     "lotValues": [
       {
-        "relatedLot": "150e2750fa2942ce9315e80ddf78a62a"
+        "relatedLot": "190af4170cd3466482063a204c1e7114"
       },
       {
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
-        "relatedLot": "a18842d9d4a349c799437d0102e40965"
+        "relatedLot": "e4751e0fa08b4820a9df81f6085279b2"
       }
     ]
   }
@@ -74,12 +74,12 @@ X-Content-Type-Options: nosniff
     ],
     "lotValues": [
       {
-        "relatedLot": "150e2750fa2942ce9315e80ddf78a62a",
+        "relatedLot": "190af4170cd3466482063a204c1e7114",
         "status": "pending",
         "date": "2023-01-01T00:00:00+02:00"
       },
       {
-        "relatedLot": "a18842d9d4a349c799437d0102e40965",
+        "relatedLot": "e4751e0fa08b4820a9df81f6085279b2",
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "status": "pending",
         "date": "2023-01-01T00:00:00+02:00"

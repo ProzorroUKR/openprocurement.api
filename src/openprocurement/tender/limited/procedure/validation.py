@@ -1,6 +1,9 @@
 from openprocurement.tender.core.procedure.context import get_now
 from openprocurement.tender.core.procedure.utils import get_first_revision_date
-from openprocurement.tender.core.procedure.validation import validate_update_contract_status_base
+from openprocurement.tender.core.procedure.validation import (
+    validate_item_operation_in_disallowed_tender_statuses,
+    validate_update_contract_status_base,
+)
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.validation import OPERATIONS
@@ -159,3 +162,18 @@ def validate_contract_document_operation_not_in_allowed_contract_status(operatio
                 request, f"Can't {operation} document in current contract status"
             )
     return validate
+
+
+# lot
+validate_lot_operation_in_disallowed_tender_statuses = validate_item_operation_in_disallowed_tender_statuses(
+    "lot",
+    ("draft", "active"),
+)
+
+
+def validate_lot_operation_with_awards(request, **_):
+    tender = request.validated["tender"]
+    if tender.get("awards"):
+        raise_operation_error(
+            request, f"Can't {OPERATIONS.get(request.method)} lot when you have awards"
+        )

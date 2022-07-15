@@ -38,7 +38,7 @@ DATA:
         "value": {
           "amount": 500
         },
-        "relatedLot": "150e2750fa2942ce9315e80ddf78a62a"
+        "relatedLot": "190af4170cd3466482063a204c1e7114"
       }
     ]
   }
@@ -81,7 +81,7 @@ X-Content-Type-Options: nosniff
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "150e2750fa2942ce9315e80ddf78a62a",
+        "relatedLot": "190af4170cd3466482063a204c1e7114",
         "subcontractingDetails": "ДКП «Орфей», Україна",
         "status": "pending",
         "date": "2023-01-01T00:00:00+02:00"

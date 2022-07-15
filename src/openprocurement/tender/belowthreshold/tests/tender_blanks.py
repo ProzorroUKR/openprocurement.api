@@ -762,7 +762,7 @@ def create_tender_invalid(self):
 
 
 @mock.patch(
-    "openprocurement.tender.belowthreshold.models.RELEASE_2020_04_19",
+    "openprocurement.tender.belowthreshold.procedure.models.tender.RELEASE_2020_04_19",
     get_now() - timedelta(days=1)
 )
 def validate_enquiryTender(self):
@@ -849,7 +849,7 @@ def validate_enquiryTender(self):
 
 
 @mock.patch(
-    "openprocurement.tender.belowthreshold.models.RELEASE_2020_04_19",
+    "openprocurement.tender.belowthreshold.procedure.models.tender.RELEASE_2020_04_19",
     get_now() - timedelta(days=1)
 )
 def validate_tenderPeriod(self):
@@ -879,6 +879,7 @@ def validate_tenderPeriod(self):
         "startDate": enquiry_start_date,
         "endDate": enquiry_end_date,
     }
+
     response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
     self.initial_data["tenderPeriod"] = data
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -3334,25 +3335,26 @@ def patch_enquiry_tender_periods(self):
     tender_p = tender["tenderPeriod"]
 
     # check enquiryPeriod:endDate>= enquiryPeriod.startDate + 3 робочі дні
-    end_data = calculate_tender_business_date(parse_date(enq_p["startDate"], TZ), timedelta(days=2), tender, True)
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"enquiryPeriod": {
-            "startDate": enq_p["startDate"],
-            "endDate": end_data.isoformat(),
-        }}},
-        status=422
-    )
-    self.assertEqual(
-        response.json["errors"],
-        [{
-            "location": "body",
-            "name": "enquiryPeriod",
-            "description": [
-                "the enquiryPeriod cannot end earlier than 3 business days after the start"
-            ]
-        }],
-    )
+    if get_now() > RELEASE_2020_04_19:
+        end_data = calculate_tender_business_date(parse_date(enq_p["startDate"], TZ), timedelta(days=2), tender, True)
+        response = self.app.patch_json(
+            "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"enquiryPeriod": {
+                "startDate": enq_p["startDate"],
+                "endDate": end_data.isoformat(),
+            }}},
+            status=422
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [{
+                "location": "body",
+                "name": "enquiryPeriod",
+                "description": [
+                    "the enquiryPeriod cannot end earlier than 3 business days after the start"
+                ]
+            }],
+        )
 
     # check tenderPeriod:startDate більше ніж enquiryPeriod:endDate
     end_data = calculate_tender_business_date(parse_date(enq_p["startDate"], TZ), timedelta(days=10), tender, True)
@@ -3376,30 +3378,31 @@ def patch_enquiry_tender_periods(self):
     )
 
     # tenderPeriod:endDate>= tenderPeriod.startDate + 2 робочі дні
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {
-            "enquiryPeriod": {
-                "startDate": enq_p["startDate"],
-                "endDate": end_data.isoformat(),
-            },
-            "tenderPeriod": {
-                "startDate": end_data.isoformat(),
-                "endDate": end_data.isoformat(),
-            }
-        }},
-        status=422
-    )
-    self.assertEqual(
-        response.json["errors"],
-        [{
-            "location": "body",
-            "name": "tenderPeriod",
-            "description": [
-                "tenderPeriod must be at least 2 full business days long"
-            ]
-        }],
-    )
+    if get_now() > RELEASE_2020_04_19:
+        response = self.app.patch_json(
+            "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {
+                "enquiryPeriod": {
+                    "startDate": enq_p["startDate"],
+                    "endDate": end_data.isoformat(),
+                },
+                "tenderPeriod": {
+                    "startDate": end_data.isoformat(),
+                    "endDate": end_data.isoformat(),
+                }
+            }},
+            status=422
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [{
+                "location": "body",
+                "name": "tenderPeriod",
+                "description": [
+                    "tenderPeriod must be at least 2 full business days long"
+                ]
+            }],
+        )
 
     # all fine
     tender_end = calculate_tender_business_date(end_data, timedelta(days=2), tender, True)

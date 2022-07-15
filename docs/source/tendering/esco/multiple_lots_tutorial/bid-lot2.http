@@ -62,7 +62,7 @@ DATA:
             "years": 7
           }
         },
-        "relatedLot": "93256198e2e7429ab4d0300cc250244f"
+        "relatedLot": "4ce7c1a7df7c4155b437e72176bdcb41"
       },
       {
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
@@ -95,7 +95,7 @@ DATA:
             "years": 9
           }
         },
-        "relatedLot": "ae36b7ca7b4a44d8b3c015a3e4043f4f"
+        "relatedLot": "12a8a2f1b3694d049ad8b9ea32508d8b"
       }
     ]
   }
@@ -134,7 +134,7 @@ X-Content-Type-Options: nosniff
     "selfQualified": true,
     "lotValues": [
       {
-        "relatedLot": "93256198e2e7429ab4d0300cc250244f",
+        "relatedLot": "4ce7c1a7df7c4155b437e72176bdcb41",
         "status": "pending",
         "value": {
           "currency": "UAH",
@@ -173,7 +173,7 @@ X-Content-Type-Options: nosniff
         "date": "2023-01-01T00:00:00+02:00"
       },
       {
-        "relatedLot": "ae36b7ca7b4a44d8b3c015a3e4043f4f",
+        "relatedLot": "12a8a2f1b3694d049ad8b9ea32508d8b",
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "status": "pending",
         "value": {

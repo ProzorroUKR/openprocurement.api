@@ -64,7 +64,7 @@ DATA:
             "years": 7
           }
         },
-        "relatedLot": "93256198e2e7429ab4d0300cc250244f"
+        "relatedLot": "4ce7c1a7df7c4155b437e72176bdcb41"
       }
     ]
   }
@@ -104,7 +104,7 @@ X-Content-Type-Options: nosniff
     "selfQualified": true,
     "lotValues": [
       {
-        "relatedLot": "93256198e2e7429ab4d0300cc250244f",
+        "relatedLot": "4ce7c1a7df7c4155b437e72176bdcb41",
         "subcontractingDetails": "ДКП «Орфей», Україна",
         "status": "pending",
         "value": {

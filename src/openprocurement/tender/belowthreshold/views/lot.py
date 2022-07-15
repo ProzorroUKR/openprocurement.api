@@ -10,13 +10,13 @@ from openprocurement.tender.belowthreshold.validation import (
 )
 
 
-@optendersresource(
-    name="belowThreshold:Tender Lots",
-    collection_path="/tenders/{tender_id}/lots",
-    path="/tenders/{tender_id}/lots/{lot_id}",
-    procurementMethodType="belowThreshold",
-    description="Tender lots",
-)
+# @optendersresource(
+#     name="belowThreshold:Tender Lots",
+#     collection_path="/tenders/{tender_id}/lots",
+#     path="/tenders/{tender_id}/lots/{lot_id}",
+#     procurementMethodType="belowThreshold",
+#     description="Tender lots",
+# )
 class TenderLotResource(APIResource):
     @json_view(
         content_type="application/json",

@@ -7,7 +7,7 @@ from openprocurement.tender.core.procedure.models.item import (
     validate_cpv_group,
     validate_items_uniq,
 )
-from openprocurement.tender.core.procedure.models.lot import validate_lots_uniq, Lot, PostLot, PatchLot
+from openprocurement.tender.core.procedure.models.lot import validate_lots_uniq, Lot, PostTenderLot, PatchTenderLot
 from openprocurement.tender.openeu.procedure.models.tender import (
     PostTender as BasePostTender,
     PatchTender as BasePatchTender,
@@ -39,7 +39,7 @@ class PostEUTender(BasePostTender):
         min_size=1,
         validators=[validate_cpv_group, validate_items_uniq],
     )
-    lots = ListType(ModelType(PostLot, required=True), validators=[validate_lots_uniq])
+    lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
 
     def validate_features(self, data, features):
@@ -63,7 +63,7 @@ class PatchEUTender(BasePatchTender):
         min_size=1,
         validators=[validate_cpv_group, validate_items_uniq],
     )
-    lots = ListType(ModelType(PatchLot, required=True), validators=[validate_lots_uniq])
+    lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
 
 

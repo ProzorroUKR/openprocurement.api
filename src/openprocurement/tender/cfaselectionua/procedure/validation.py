@@ -1,9 +1,11 @@
+from decimal import Decimal
+
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.api.constants import GUARANTEE_ALLOWED_TENDER_TYPES
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.tender.core.procedure.validation import validate_item_operation_in_disallowed_tender_statuses
 from openprocurement.tender.cfaselectionua.procedure.utils import equals_decimal_and_corrupted
-from decimal import Decimal
 
 
 def get_supplier_contract(contracts, tenderers):
@@ -106,3 +108,10 @@ def validate_document_operation_in_not_allowed_period(request, **_):
             request,
             f"Can't {OPERATIONS.get(request.method)} document in current ({tender_status}) tender status",
         )
+
+
+# lot
+validate_lot_operation_in_disallowed_tender_statuses = validate_item_operation_in_disallowed_tender_statuses(
+    "lot",
+    ("active.enquiries", "draft"),
+)

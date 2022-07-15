@@ -1,4 +1,4 @@
-DELETE /api/2.5/tenders/54776089d1734987a07f7df86a9e7ad4/lots/f0414ee8a82d45e6a8947ddea6ce5d67?acc_token=d1ca6b79e87d4d3a9df981a5e814315e HTTP/1.0
+DELETE /api/2.5/tenders/54776089d1734987a07f7df86a9e7ad4/lots/32c052457ea34d6b9cb3a40f05bd0f54?acc_token=d1ca6b79e87d4d3a9df981a5e814315e HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 0
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -11,19 +11,8 @@ X-Content-Type-Options: nosniff
   "errors": [
     {
       "location": "body",
-      "name": "milestones",
-      "description": [
-        {
-          "relatedLot": [
-            "relatedLot should be one of the lots."
-          ]
-        },
-        {
-          "relatedLot": [
-            "relatedLot should be one of the lots."
-          ]
-        }
-      ]
+      "name": "data",
+      "description": "Cannot delete lot with related milestones"
     }
   ]
 }

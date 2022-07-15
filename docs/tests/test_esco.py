@@ -61,9 +61,7 @@ bid3.update({
     }
 })
 
-test_lots[0]['fundingKind'] = 'other'
 test_lots[0]['minimalStepPercentage'] = test_tender_data['minimalStepPercentage']
-test_lots[1]['fundingKind'] = 'other'
 test_lots[1]['minimalStepPercentage'] = test_tender_data['minimalStepPercentage']
 
 TARGET_DIR = 'docs/source/tendering/esco/tutorial/'
@@ -927,12 +925,6 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin):
             bid2_token = response.json['access']['token']
 
         self.set_responses(tender_id, response.json, "pending")
-
-        with open(TARGET_DIR_MULTIPLE + 'tender-invalid-all-bids.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/lots/{}?acc_token={}'.format(tender_id, lot_id2, owner_token),
-                {'data': {'minValue': {'amount': 400}}})
-            self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR_MULTIPLE + 'bid-lot1-invalid-view.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid1_id, bid1_token))

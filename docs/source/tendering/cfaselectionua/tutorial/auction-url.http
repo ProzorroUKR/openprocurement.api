@@ -7,68 +7,16 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "title": "футляри до державних нагород",
     "date": "2023-01-01T00:00:00+02:00",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
     "tenderID": "UA-2023-01-01-000004-a",
     "owner": "broker",
-    "awardCriteria": "lowestCost",
+    "title": "футляри до державних нагород",
+    "procurementMethodType": "closeFrameworkAgreementSelectionUA",
     "submissionMethod": "electronicAuction",
-    "items": [
-      {
-        "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
-        "description": "футляри до державних нагород",
-        "description_en": "futliary do derzhavnyh nagorod",
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "unit": {
-          "name": "item",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
-        "quantity": 6.0,
-        "deliveryDate": {
-          "startDate": "2023-01-03T00:00:00+02:00",
-          "endDate": "2023-01-06T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
-        "classification": {
-          "description": "New Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        }
-      }
-    ],
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amount": 600.666
-    },
-    "enquiryPeriod": {
-      "startDate": "2022-12-26T00:00:00+02:00",
-      "endDate": "2022-12-28T00:00:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2022-12-28T00:00:00+02:00",
-      "endDate": "2023-01-01T00:00:00+02:00"
-    },
+    "awardCriteria": "lowestCost",
+    "procurementMethod": "selective",
     "procuringEntity": {
       "name": "Державне управління справами",
       "identifier": {
@@ -84,98 +32,106 @@ X-Content-Type-Options: nosniff
         "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Державне управління справами",
         "telephone": "+0440000000",
+        "name": "Державне управління справами",
         "availableLanguage": "en"
       },
-      "kind": "general",
       "additionalContactPoints": [
         {
-          "name": "Державне управління справами 1",
           "telephone": "+0440000000",
+          "name": "Державне управління справами 1",
           "availableLanguage": "uk"
         }
-      ]
+      ],
+      "kind": "general"
     },
-    "minimalStep": {
-      "amount": 2.5,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "features": [
-      {
-        "code": "OCDS-123454-AIR-INTAKE",
-        "featureOf": "item",
-        "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
-        "title": "Потужність всмоктування",
-        "title_en": "Air Intake",
-        "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
-        "enum": [
-          {
-            "value": 0.1,
-            "title": "До 1000 Вт"
-          },
-          {
-            "value": 0.15,
-            "title": "Більше 1000 Вт"
-          }
-        ]
-      },
-      {
-        "code": "OCDS-123454-YEARS",
-        "featureOf": "tenderer",
-        "title": "Років на ринку",
-        "title_en": "Years trading",
-        "description": "Кількість років, які організація учасник працює на ринку",
-        "enum": [
-          {
-            "value": 0.05,
-            "title": "До 3 років"
-          },
-          {
-            "value": 0.1,
-            "title": "Більше 3 років, менше 5 років"
-          },
-          {
-            "value": 0.15,
-            "title": "Більше 5 років"
-          }
-        ]
-      }
-    ],
-    "lots": [
-      {
-        "id": "f2599a519a45416db792d9ee833a8e5a",
-        "title": "Лот №1",
-        "description": "Опис Лот №1",
-        "date": "2023-01-01T00:00:00+02:00",
-        "status": "active",
-        "guarantee": {
-          "amount": 8.0,
-          "currency": "USD"
-        },
-        "value": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true,
-          "amount": 600.666
-        },
-        "minimalStep": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true,
-          "amount": 3.0033300000000005
-        },
-        "auctionPeriod": {
-          "startDate": "2023-01-01T00:00:00+02:00",
-          "shouldStartAfter": "2023-01-01T00:00:00+02:00"
-        },
-        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/1e7fc0d4cb8943b985627a6dc1c42c8a_f2599a519a45416db792d9ee833a8e5a"
-      }
-    ],
     "status": "active.auction",
     "agreements": [
       {
         "id": "b29bf3b2d53a43bb9103fbab098eb983",
         "agreementID": "UA-2018-09-11-000002-1",
+        "dateSigned": "2018-09-11T11:23:23.220310+03:00",
+        "features": [
+          {
+            "code": "OCDS-123454-AIR-INTAKE",
+            "featureOf": "item",
+            "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
+            "title": "Потужність всмоктування",
+            "title_en": "Air Intake",
+            "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
+            "enum": [
+              {
+                "title": "До 1000 Вт",
+                "value": 0.1
+              },
+              {
+                "title": "Більше 1000 Вт",
+                "value": 0.15
+              }
+            ]
+          },
+          {
+            "code": "OCDS-123454-YEARS",
+            "featureOf": "tenderer",
+            "title": "Років на ринку",
+            "title_en": "Years trading",
+            "description": "Кількість років, які організація учасник працює на ринку",
+            "enum": [
+              {
+                "title": "До 3 років",
+                "value": 0.05
+              },
+              {
+                "title": "Більше 3 років, менше 5 років",
+                "value": 0.1
+              },
+              {
+                "title": "Більше 5 років",
+                "value": 0.15
+              }
+            ]
+          }
+        ],
+        "items": [
+          {
+            "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
+            "description": "футляри до державних нагород",
+            "description_en": "Cases for state awards",
+            "classification": {
+              "description": "Cartons",
+              "scheme": "ДК021",
+              "id": "44617100-9"
+            },
+            "additionalClassifications": [
+              {
+                "scheme": "ДКПП",
+                "id": "17.21.1",
+                "description": "папір і картон гофровані, паперова й картонна тара"
+              }
+            ],
+            "unit": {
+              "name": "item",
+              "code": "KGM"
+            },
+            "quantity": 5.0,
+            "deliveryDate": {
+              "startDate": "2018-06-27T13:39:09.362837+03:00",
+              "endDate": "2018-06-30T13:39:09.362837+03:00"
+            },
+            "deliveryAddress": {
+              "streetAddress": "вул. Банкова 1",
+              "locality": "м. Київ",
+              "region": "м. Київ",
+              "postalCode": "79000",
+              "countryName": "Україна"
+            }
+          }
+        ],
+        "period": {
+          "startDate": "2018-09-11T11:23:20.418390+03:00",
+          "endDate": "2222-01-23T11:23:20.418436+03:00"
+        },
+        "status": "active",
         "contracts": [
           {
             "id": "d6cd8c3188d74e1481a9cebb57fd9329",
@@ -206,8 +162,8 @@ X-Content-Type-Options: nosniff
                   "countryName": "Україна"
                 },
                 "contactPoint": {
-                  "name": "Державне управління справами",
-                  "telephone": "+0440000000"
+                  "telephone": "+0440000000",
+                  "name": "Державне управління справами"
                 },
                 "scale": "large"
               }
@@ -260,8 +216,8 @@ X-Content-Type-Options: nosniff
                   "countryName": "Україна"
                 },
                 "contactPoint": {
-                  "name": "Державне управління справами",
-                  "telephone": "+0440000000"
+                  "telephone": "+0440000000",
+                  "name": "Державне управління справами"
                 },
                 "scale": "micro"
               }
@@ -314,8 +270,8 @@ X-Content-Type-Options: nosniff
                   "countryName": "Україна"
                 },
                 "contactPoint": {
-                  "name": "Державне управління справами 1",
-                  "telephone": "+0440000000"
+                  "telephone": "+0440000000",
+                  "name": "Державне управління справами 1"
                 },
                 "scale": "micro"
               }
@@ -368,8 +324,8 @@ X-Content-Type-Options: nosniff
                   "countryName": "Україна"
                 },
                 "contactPoint": {
-                  "name": "Державне управління справами",
-                  "telephone": "+0440000000"
+                  "telephone": "+0440000000",
+                  "name": "Державне управління справами"
                 },
                 "scale": "micro"
               }
@@ -394,90 +350,14 @@ X-Content-Type-Options: nosniff
             }
           }
         ],
-        "dateSigned": "2018-09-11T11:23:23.220310+03:00",
+        "title": "[ТЕСТУВАННЯ] ",
+        "title_en": "[TESTING] ",
+        "title_ru": "[ТЕСТИРОВАНИЕ] ",
+        "tender_id": "c3f4116d38d34fe2b7d8de8aae8c0b32",
         "dateModified": "2018-09-17T16:26:31.372995+03:00",
-        "items": [
-          {
-            "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
-            "description": "футляри до державних нагород",
-            "classification": {
-              "description": "Cartons",
-              "scheme": "ДК021",
-              "id": "44617100-9"
-            },
-            "additionalClassifications": [
-              {
-                "scheme": "ДКПП",
-                "id": "17.21.1",
-                "description": "папір і картон гофровані, паперова й картонна тара"
-              }
-            ],
-            "unit": {
-              "name": "item",
-              "code": "KGM"
-            },
-            "quantity": 5.0,
-            "description_en": "Cases for state awards",
-            "deliveryDate": {
-              "startDate": "2018-06-27T13:39:09.362837+03:00",
-              "endDate": "2018-06-30T13:39:09.362837+03:00"
-            },
-            "deliveryAddress": {
-              "streetAddress": "вул. Банкова 1",
-              "locality": "м. Київ",
-              "region": "м. Київ",
-              "postalCode": "79000",
-              "countryName": "Україна"
-            }
-          }
-        ],
-        "features": [
-          {
-            "code": "OCDS-123454-AIR-INTAKE",
-            "featureOf": "item",
-            "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
-            "title": "Потужність всмоктування",
-            "title_en": "Air Intake",
-            "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
-            "enum": [
-              {
-                "value": 0.1,
-                "title": "До 1000 Вт"
-              },
-              {
-                "value": 0.15,
-                "title": "Більше 1000 Вт"
-              }
-            ]
-          },
-          {
-            "code": "OCDS-123454-YEARS",
-            "featureOf": "tenderer",
-            "title": "Років на ринку",
-            "title_en": "Years trading",
-            "description": "Кількість років, які організація учасник працює на ринку",
-            "enum": [
-              {
-                "value": 0.05,
-                "title": "До 3 років"
-              },
-              {
-                "value": 0.1,
-                "title": "Більше 3 років, менше 5 років"
-              },
-              {
-                "value": 0.15,
-                "title": "Більше 5 років"
-              }
-            ]
-          }
-        ],
         "mode": "test",
+        "numberOfContracts": 3,
         "owner": "broker",
-        "period": {
-          "startDate": "2018-09-11T11:23:20.418390+03:00",
-          "endDate": "2222-01-23T11:23:20.418436+03:00"
-        },
         "procuringEntity": {
           "name": "Шевченківська районна в місті Києві державна адміністрація",
           "name_en": "Angelica Davis",
@@ -494,32 +374,152 @@ X-Content-Type-Options: nosniff
             "postalCode": "01030",
             "countryName": "Україна"
           },
-          "kind": "general",
           "contactPoint": {
-            "name": "Ліповець Євген Іванович",
             "name_en": "Gregory Gillespie",
             "email": "buh510@ukr.net",
             "telephone": "+2341170",
             "faxNumber": "2343591",
             "url": "http://www.shev.gov.ua/",
+            "name": "Ліповець Євген Іванович",
             "availableLanguage": "en"
-          }
-        },
-        "status": "active",
-        "tender_id": "c3f4116d38d34fe2b7d8de8aae8c0b32",
-        "title": "[ТЕСТУВАННЯ] ",
-        "title_en": "[TESTING] ",
-        "title_ru": "[ТЕСТИРОВАНИЕ] ",
-        "numberOfContracts": 3
+          },
+          "kind": "general"
+        }
       }
     ],
-    "procurementMethod": "selective",
-    "procurementMethodType": "closeFrameworkAgreementSelectionUA",
+    "items": [
+      {
+        "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
+        "description": "футляри до державних нагород",
+        "description_en": "futliary do derzhavnyh nagorod",
+        "classification": {
+          "description": "New Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "item",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 6.0,
+        "deliveryDate": {
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "relatedLot": "f2599a519a45416db792d9ee833a8e5a"
+      }
+    ],
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "date": "2023-01-01T00:00:00+02:00",
+        "id": "f2599a519a45416db792d9ee833a8e5a",
+        "value": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true,
+          "amount": 600.666
+        },
+        "minimalStep": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true,
+          "amount": 3.0033300000000005
+        },
+        "guarantee": {
+          "amount": 8.0,
+          "currency": "USD"
+        },
+        "auctionPeriod": {
+          "startDate": "2023-01-01T00:00:00+02:00",
+          "shouldStartAfter": "2023-01-01T00:00:00+02:00"
+        },
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/1e7fc0d4cb8943b985627a6dc1c42c8a_f2599a519a45416db792d9ee833a8e5a"
+      }
+    ],
+    "features": [
+      {
+        "code": "OCDS-123454-AIR-INTAKE",
+        "featureOf": "item",
+        "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
+        "title": "Потужність всмоктування",
+        "title_en": "Air Intake",
+        "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
+        "enum": [
+          {
+            "title": "До 1000 Вт",
+            "value": 0.1
+          },
+          {
+            "title": "Більше 1000 Вт",
+            "value": 0.15
+          }
+        ]
+      },
+      {
+        "code": "OCDS-123454-YEARS",
+        "featureOf": "tenderer",
+        "title": "Років на ринку",
+        "title_en": "Years trading",
+        "description": "Кількість років, які організація учасник працює на ринку",
+        "enum": [
+          {
+            "title": "До 3 років",
+            "value": 0.05
+          },
+          {
+            "title": "Більше 3 років, менше 5 років",
+            "value": 0.1
+          },
+          {
+            "title": "Більше 5 років",
+            "value": 0.15
+          }
+        ]
+      }
+    ],
+    "tenderPeriod": {
+      "startDate": "2022-12-28T00:00:00+02:00",
+      "endDate": "2023-01-01T00:00:00+02:00"
+    },
+    "enquiryPeriod": {
+      "startDate": "2022-12-26T00:00:00+02:00",
+      "endDate": "2022-12-28T00:00:00+02:00"
+    },
+    "minimalStep": {
+      "amount": 2.5,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amount": 600.666
+    },
+    "next_check": "2023-01-01T00:42:00+02:00",
     "guarantee": {
       "amount": 8.0,
       "currency": "USD"
     },
-    "next_check": "2023-01-01T00:42:00+02:00",
     "documents": [
       {
         "documentType": "technicalSpecifications",

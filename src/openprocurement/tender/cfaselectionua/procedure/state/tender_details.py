@@ -155,8 +155,10 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
 
         # --
         for agr in tender["agreements"]:
-            active_contracts_count = sum(1 for c in agr.get("contracts", "")
-                                         if c["status"] == "active")
+            active_contracts_count = sum(
+                c["status"] == "active" for c in agr.get("contracts", "")
+            )
+
             if active_contracts_count < MIN_ACTIVE_CONTRACTS:
                 return AGREEMENT_CONTRACTS
 
