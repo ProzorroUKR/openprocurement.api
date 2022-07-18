@@ -11,7 +11,6 @@ class TenderPreQualificationMixin(object):
     initial_auth = ("Basic", ("broker", ""))
     initial_bids = test_bids
     initial_bids_data = test_bids
-    context_name = "qualification"
 
     def setUp(self):
         super(TenderPreQualificationMixin, self).setUp()

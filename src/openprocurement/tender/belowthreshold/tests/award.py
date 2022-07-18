@@ -4,7 +4,7 @@ import mock
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.tests.base import snitch
+from openprocurement.api.tests.base import snitch, change_auth
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.adapters import TenderBelowThersholdConfigurator
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -62,6 +62,7 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     # TenderAwardDocumentResourceTest
     not_found_award_document,
     create_tender_award_document,
+    create_tender_award_document_json_bulk,
     put_tender_award_document,
     patch_tender_award_document,
     create_award_document_bot,
@@ -73,8 +74,6 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     # TenderAwardResourceScaleTest
     create_tender_award_with_scale_not_required,
     create_tender_award_no_scale,
-    # TenderAwardDocumentWithDSResourceTest
-    create_tender_award_document_json_bulk,
 )
 
 
@@ -202,67 +201,48 @@ class Tender2LotAwardResourceTest(TenderContentWebTest):
     test_patch_tender_lots_award = snitch(patch_tender_lots_award)
 
 
-class TenderAwardComplaintResourceTest(TenderContentWebTest, TenderAwardComplaintResourceTestMixin):
+class TenderAwardPendingResourceTestCase(TenderContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_bids
     docservice = True
 
     def setUp(self):
-        super(TenderAwardComplaintResourceTest, self).setUp()
+        super(TenderAwardPendingResourceTestCase, self).setUp()
         # Create award
-        auth = self.app.authorization
-        self.app.authorization = ("Basic", ("token", ""))
-        response = self.app.post_json(
-            "/tenders/{}/awards".format(self.tender_id),
-            {"data": {"suppliers": [test_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
-        )
+        with change_auth(self.app, ("Basic", ("token", ""))):
+            response = self.app.post_json(
+                "/tenders/{}/awards".format(self.tender_id),
+                {"data": {
+                    "suppliers": [test_organization],
+                    "status": "pending",
+                    "bid_id": self.initial_bids[0]["id"],
+                    "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"] if self.initial_lots else None,
+                }},
+            )
         award = response.json["data"]
         self.award_id = award["id"]
-        self.app.authorization = auth
 
-        response = self.app.patch_json(
-            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-            {"data": {"status": "active"}},
-        )
-        self.assertEqual(response.status, "200 OK")
 
+class TenderAwardActiveResourceTestCase(TenderAwardPendingResourceTestCase):
+    def setUp(self):
+        super(TenderAwardActiveResourceTestCase, self).setUp()
+
+        with change_auth(self.app, ("Basic", ("token", ""))):
+            self.app.patch_json(
+                "/tenders/{}/awards/{}".format(self.tender_id, self.award_id),
+                {"data": {"status": "active"}},
+            )
+        self.bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
+
+
+class TenderAwardComplaintResourceTest(TenderAwardActiveResourceTestCase, TenderAwardComplaintResourceTestMixin):
     test_create_tender_award_complaint = snitch(create_tender_award_complaint)
     test_patch_tender_award_complaint = snitch(patch_tender_award_complaint)
     test_review_tender_award_complaint = snitch(review_tender_award_complaint)
 
 
-class TenderLotAwardComplaintResourceTest(TenderContentWebTest):
-    initial_status = "active.qualification"
+class TenderLotAwardComplaintResourceTest(TenderAwardActiveResourceTestCase):
     initial_lots = test_lots
-    initial_bids = test_bids
-    docservice = True
-
-    def setUp(self):
-        super(TenderLotAwardComplaintResourceTest, self).setUp()
-        # Create award
-        auth = self.app.authorization
-        self.app.authorization = ("Basic", ("token", ""))
-        bid = self.initial_bids[0]
-        response = self.app.post_json(
-            "/tenders/{}/awards".format(self.tender_id),
-            {
-                "data": {
-                    "suppliers": [test_organization],
-                    "status": "pending",
-                    "bid_id": bid["id"],
-                    "lotID": bid["lotValues"][0]["relatedLot"],
-                }
-            },
-        )
-        award = response.json["data"]
-        self.award_id = award["id"]
-        self.app.authorization = auth
-
-        response = self.app.patch_json(
-            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-            {"data": {"status": "active"}},
-        )
-        self.assertEqual(response.status, "200 OK")
 
     test_create_tender_lot_award_complaint = snitch(create_tender_lot_award_complaint)
     test_patch_tender_lot_award_complaint = snitch(patch_tender_lot_award_complaint)
@@ -277,30 +257,13 @@ class Tender2LotAwardComplaintResourceTest(TenderLotAwardComplaintResourceTest):
     test_patch_tender_lots_award_complaint = snitch(patch_tender_lots_award_complaint)
 
 
-class TenderAwardComplaintDocumentResourceTest(TenderContentWebTest, TenderAwardComplaintDocumentResourceTestMixin):
-    initial_status = "active.qualification"
-    initial_bids = test_bids
-    docservice = True
+class TenderAwardComplaintDocumentResourceTest(
+    TenderAwardActiveResourceTestCase,
+    TenderAwardComplaintDocumentResourceTestMixin,
+):
 
     def setUp(self):
         super(TenderAwardComplaintDocumentResourceTest, self).setUp()
-        # Create award
-        auth = self.app.authorization
-        self.app.authorization = ("Basic", ("token", ""))
-        response = self.app.post_json(
-            "/tenders/{}/awards".format(self.tender_id),
-            {"data": {"suppliers": [test_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
-        )
-        award = response.json["data"]
-        self.award_id = award["id"]
-        self.app.authorization = auth
-
-        response = self.app.patch_json(
-            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-            {"data": {"status": "active"}},
-        )
-        self.assertEqual(response.status, "200 OK")
-
         # Create complaint for award
         self.bid_token = list(self.initial_bids_tokens.values())[0]
         response = self.app.post_json(
@@ -314,40 +277,11 @@ class TenderAwardComplaintDocumentResourceTest(TenderContentWebTest, TenderAward
     test_patch_tender_award_complaint_document = snitch(patch_tender_award_complaint_document)
 
 
-class Tender2LotAwardComplaintDocumentResourceTest(TenderContentWebTest):
-    initial_status = "active.qualification"
-    initial_bids = test_bids
+class Tender2LotAwardComplaintDocumentResourceTest(TenderAwardActiveResourceTestCase):
     initial_lots = 2 * test_lots
-    docservice = True
 
     def setUp(self):
         super(Tender2LotAwardComplaintDocumentResourceTest, self).setUp()
-        # Create award
-        bid = self.initial_bids[0]
-        auth = self.app.authorization
-        self.app.authorization = ("Basic", ("token", ""))
-        response = self.app.post_json(
-            "/tenders/{}/awards".format(self.tender_id),
-            {
-                "data": {
-                    "suppliers": [test_organization],
-                    "status": "pending",
-                    "bid_id": bid["id"],
-                    "lotID": bid["lotValues"][0]["relatedLot"],
-                }
-            },
-        )
-        award = response.json["data"]
-        self.award_id = award["id"]
-        self.app.authorization = auth
-
-        response = self.app.patch_json(
-            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-            {"data": {"status": "active"}},
-        )
-        self.assertEqual(response.status, "200 OK")
-
-
         # Create complaint for award
         bid_token = list(self.initial_bids_tokens.values())[0]
         response = self.app.post_json(
@@ -363,55 +297,12 @@ class Tender2LotAwardComplaintDocumentResourceTest(TenderContentWebTest):
     test_patch_tender_lots_award_complaint_document = snitch(patch_tender_lots_award_complaint_document)
 
 
-class TenderAwardDocumentResourceTest(TenderContentWebTest, TenderAwardDocumentResourceTestMixin):
-    initial_status = "active.qualification"
-    initial_bids = test_bids
-    docservice = True
-
-    def setUp(self):
-        super(TenderAwardDocumentResourceTest, self).setUp()
-        # Create award
-        auth = self.app.authorization
-        self.app.authorization = ("Basic", ("token", ""))
-        response = self.app.post_json(
-            "/tenders/{}/awards".format(self.tender_id),
-            {"data": {"suppliers": [test_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
-        )
-        award = response.json["data"]
-        self.award_id = award["id"]
-        self.app.authorization = auth
+class TenderAwardDocumentResourceTest(TenderAwardPendingResourceTestCase, TenderAwardDocumentResourceTestMixin):
+    pass
 
 
-class Tender2LotAwardDocumentResourceTest(TenderContentWebTest, Tender2LotAwardDocumentResourceTestMixin):
-    initial_status = "active.qualification"
-    initial_bids = test_bids
+class Tender2LotAwardDocumentResourceTest(TenderAwardPendingResourceTestCase, Tender2LotAwardDocumentResourceTestMixin):
     initial_lots = 2 * test_lots
-    docservice = True
-
-    def setUp(self):
-        super(Tender2LotAwardDocumentResourceTest, self).setUp()
-        # Create award
-        auth = self.app.authorization
-        self.app.authorization = ("Basic", ("token", ""))
-        bid = self.initial_bids[0]
-        response = self.app.post_json(
-            "/tenders/{}/awards".format(self.tender_id),
-            {
-                "data": {
-                    "suppliers": [test_organization],
-                    "status": "pending",
-                    "bid_id": bid["id"],
-                    "lotID": bid["lotValues"][0]["relatedLot"],
-                }
-            },
-        )
-        award = response.json["data"]
-        self.award_id = award["id"]
-        self.app.authorization = auth
-
-
-class Tender2LotAwardDocumentWithDSResourceTest(Tender2LotAwardDocumentResourceTest):
-    docservice = True
 
 
 def suite():

@@ -5,23 +5,23 @@ from openprocurement.tender.competitivedialogue.tests.stage2.award import (
     test_tender_bids, test_lots
 )
 from openprocurement.tender.core.tests.qualification_milestone import (
-    TenderQualificationMilestone24HMixin,
-    TenderQualificationMilestoneALPMixin,
+    TenderAwardMilestone24HMixin,
+    TenderMilestoneALPMixin,
 
 )
 
 
-class TenderAwardMilestoneTestCase(TenderQualificationMilestone24HMixin, BaseTenderUAAwardPendingTest):
-    context_name = "award"
+class TenderAwardMilestoneTestCase(TenderAwardMilestone24HMixin, BaseTenderUAAwardPendingTest):
+    pass
 
 
-class UATenderAwardMilestoneALPTestCase(TenderQualificationMilestoneALPMixin,
+class UATenderAwardMilestoneALPTestCase(TenderMilestoneALPMixin,
                                         BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_bids = test_tender_bids
     initial_lots = test_lots
 
 
-class EUTenderAwardMilestoneALPTestCase(TenderQualificationMilestoneALPMixin,
+class EUTenderAwardMilestoneALPTestCase(TenderMilestoneALPMixin,
                                         BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_bids = test_tender_bids
     initial_lots = test_lots

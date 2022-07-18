@@ -9,5 +9,5 @@ from cornice.resource import resource
     description="Tender award milestones",
     procurementMethodType="aboveThresholdUA.defense",
 )
-class CDStage2UAAwardMilestoneResource(BaseAwardMilestoneResource):
+class DefenseAwardMilestoneResource(BaseAwardMilestoneResource):
     pass

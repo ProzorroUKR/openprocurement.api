@@ -8,10 +8,10 @@ from datetime import timedelta
 from mock import patch
 
 
-class TenderQualificationMilestone24HMixin(object):
+class TenderMilestone24HMixin(object):
     docservice = True
 
-    context_name = "qualification"  # can be also "award"
+    context_name = None
     initial_bids_tokens = {}
     context_id = None
     tender_id = None
@@ -19,7 +19,7 @@ class TenderQualificationMilestone24HMixin(object):
     app = None
 
     def setUp(self):
-        super(TenderQualificationMilestone24HMixin, self).setUp()
+        super(TenderMilestone24HMixin, self).setUp()
         if self.context_name == "qualification":
             response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
             self.assertEqual(response.content_type, "application/json")
@@ -30,14 +30,18 @@ class TenderQualificationMilestone24HMixin(object):
 
     def test_24hours_milestone(self):
         self.app.authorization = ("Basic", ("broker", ""))
+        response = self.app.get("/tenders/{}".format(self.tender_id))
+        procurement_method_type = response.json["data"]["procurementMethodType"]
 
         # try upload documents
-        response = self.app.get("/tenders/{}".format(self.tender_id))
         context = response.json["data"]["{}s".format(self.context_name)][0]
         bid_id = context.get("bid_id") or context.get("bidID")  # awards and qualifications developed on different days
         winner_token = self.initial_bids_tokens[bid_id]
-        upload_allowed_by_default = response.json["data"]["procurementMethodType"] in \
-                                    ("aboveThresholdUA.defense", "simple.defense")
+        upload_allowed_by_default = procurement_method_type in (
+            "aboveThresholdUA.defense",
+            "simple.defense",
+            "belowThreshold",
+        )
         self.assert_upload_docs_status(bid_id, winner_token, success=upload_allowed_by_default)
 
         # invalid creation
@@ -149,7 +153,10 @@ class TenderQualificationMilestone24HMixin(object):
         )
 
         # can't update status of context until dueDate
-        activation_data = {"status": "active", "qualified": True, "eligible": True}
+        if procurement_method_type in ("belowThreshold",):
+            activation_data = {"status": "active"}
+        else:
+            activation_data = {"status": "active", "qualified": True, "eligible": True}
         response = self.app.patch_json(
             "/tenders/{}/{}s/{}?acc_token={}".format(
                 self.tender_id, self.context_name, self.context_id, self.tender_token
@@ -162,8 +169,10 @@ class TenderQualificationMilestone24HMixin(object):
             {
                 "status": "error", "errors": [
                     {
-                        "description": "Can't change status to 'active' "
-                                       "until milestone.dueDate: {}".format(created_milestone["dueDate"]),
+                        "description": (
+                            "Can't change status to 'active' "
+                            "until milestone.dueDate: {}".format(created_milestone["dueDate"])
+                        ),
                         "location": "body", "name": "data"
                     }]
             }
@@ -235,7 +244,133 @@ class TenderQualificationMilestone24HMixin(object):
             )
 
 
-class TenderQualificationMilestoneALPMixin(object):
+class TenderQualificationMilestone24HMixin(TenderMilestone24HMixin):
+    context_name = "qualification"
+
+
+class TenderAwardMilestone24HMixin(TenderMilestone24HMixin):
+    context_name = "award"
+
+    def test_24hours_milestone_unsuccessful_award(self):
+        self.app.authorization = ("Basic", ("broker", ""))
+        response = self.app.get("/tenders/{}".format(self.tender_id))
+        procurement_method_type = response.json["data"]["procurementMethodType"]
+
+        # valid creation
+        request_data = {
+            "code": "24h",
+            "description": "One ring to bring them all and in the darkness bind them",
+            "dueDate": (get_now() + timedelta(days=10)).isoformat()
+        }
+        response = self.app.post_json(
+            "/tenders/{}/{}s/{}/milestones?acc_token={}".format(
+                self.tender_id, self.context_name, self.context_id, self.tender_token
+            ),
+            {"data": request_data},
+        )
+        self.assertEqual(response.status, "201 Created")
+        created_milestone = response.json["data"]
+
+        # wait until milestone dueDate ends
+        with patch("openprocurement.tender.core.procedure.validation.get_now", lambda: get_now() + timedelta(hours=24)):
+            with patch("openprocurement.tender.core.validation.get_now", lambda: get_now() + timedelta(hours=24)):
+                response = self.app.patch_json(
+                    "/tenders/{}/{}s/{}?acc_token={}".format(
+                        self.tender_id, self.context_name, self.context_id, self.tender_token
+                    ),
+                    {"data": {"status": "unsuccessful"}},
+                    status=200
+                )
+                self.assertEqual(response.json["data"]["status"], "unsuccessful")
+
+        # check appending milestone at active qualification status
+        # remove milestone to skip "only one" validator
+        tender = self.mongodb.tenders.get(self.tender_id)
+        context = tender["{}s".format(self.context_name)][0]
+        context["milestones"] = []
+        self.mongodb.tenders.save(tender)
+
+        response = self.app.post_json(
+            "/tenders/{}/{}s/{}/milestones?acc_token={}".format(
+                self.tender_id, self.context_name, self.context_id, self.tender_token
+            ),
+            {"data": request_data},
+            status=403
+        )
+        self.assertEqual(
+            response.json,
+            {"status": "error", "errors": [
+                {"description": "Not allowed in current 'unsuccessful' {} status".format(self.context_name),
+                 "location": "body", "name": "data"}]}
+        )
+
+    def test_24hours_milestone_cancelled_award(self):
+        self.app.authorization = ("Basic", ("broker", ""))
+        response = self.app.get("/tenders/{}".format(self.tender_id))
+        procurement_method_type = response.json["data"]["procurementMethodType"]
+
+        # valid creation
+        request_data = {
+            "code": "24h",
+            "description": "One ring to bring them all and in the darkness bind them",
+            "dueDate": (get_now() + timedelta(days=10)).isoformat()
+        }
+        response = self.app.post_json(
+            "/tenders/{}/{}s/{}/milestones?acc_token={}".format(
+                self.tender_id, self.context_name, self.context_id, self.tender_token
+            ),
+            {"data": request_data},
+        )
+        self.assertEqual(response.status, "201 Created")
+        created_milestone = response.json["data"]
+
+        # can't update status of context until dueDate
+        if procurement_method_type in ("belowThreshold",):
+            activation_data = {"status": "active"}
+        else:
+            activation_data = {"status": "active", "qualified": True, "eligible": True}
+
+        # wait until milestone dueDate ends
+        with patch("openprocurement.tender.core.procedure.validation.get_now", lambda: get_now() + timedelta(hours=24)):
+            with patch("openprocurement.tender.core.validation.get_now", lambda: get_now() + timedelta(hours=24)):
+                response = self.app.patch_json(
+                    "/tenders/{}/{}s/{}?acc_token={}".format(
+                        self.tender_id, self.context_name, self.context_id, self.tender_token
+                    ),
+                    {"data": activation_data},
+                    status=200
+                )
+                self.assertEqual(response.json["data"]["status"], "active")
+                response = self.app.patch_json(
+                    "/tenders/{}/{}s/{}?acc_token={}".format(
+                        self.tender_id, self.context_name, self.context_id, self.tender_token
+                    ),
+                    {"data": {"status": "cancelled"}},
+                )
+
+        # check appending milestone at active qualification status
+        # remove milestone to skip "only one" validator
+        tender = self.mongodb.tenders.get(self.tender_id)
+        context = tender["{}s".format(self.context_name)][0]
+        context["milestones"] = []
+        self.mongodb.tenders.save(tender)
+
+        response = self.app.post_json(
+            "/tenders/{}/{}s/{}/milestones?acc_token={}".format(
+                self.tender_id, self.context_name, self.context_id, self.tender_token
+            ),
+            {"data": request_data},
+            status=403
+        )
+        self.assertEqual(
+            response.json,
+            {"status": "error", "errors": [
+                {"description": "Not allowed in current 'cancelled' {} status".format(self.context_name),
+                 "location": "body", "name": "data"}]}
+        )
+
+
+class TenderMilestoneALPMixin(object):
     docservice = True
 
     initial_status = "active.auction"
@@ -255,7 +390,7 @@ class TenderQualificationMilestoneALPMixin(object):
         self.initial_bids[3]["value"]["amount"] = 500
         self.assertEqual(len(self.initial_bids), 4)
 
-        super(TenderQualificationMilestoneALPMixin, self).setUp()
+        super(TenderMilestoneALPMixin, self).setUp()
 
         tender = self.mongodb.tenders.get(self.tender_id)
         for b in tender["bids"]:
