@@ -426,7 +426,7 @@ def validate_bid_value(tender, value):
         tender_value = tender.get("value")
         if not value:
             raise ValidationError("This field is required.")
-        if to_decimal(tender_value["amount"]) < value.amount:
+        if to_decimal(tender_value["amount"]) < to_decimal(value.amount):
             raise ValidationError("value of bid should be less than value of tender")
         if tender_value["currency"] != value.currency:
             raise ValidationError("currency of bid should be identical to currency of value of tender")

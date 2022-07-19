@@ -77,6 +77,7 @@ from openprocurement.tender.openua.tests.bid_blanks import (
     patch_tender_draft_bidder,
     # Tender2LotBidResourceTest
     patch_tender_with_bids_lots_none,
+    patch_tender_bidder_decimal_problem,
 )
 
 
@@ -215,6 +216,21 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMix
 
     test_draft1_bid = snitch(draft1_bid)
     test_draft2_bids = snitch(draft2_bids)
+
+
+test_tender_data_decimal = deepcopy(test_tender_data)
+test_tender_data_decimal["value"]["amount"] = 319400.52
+test_tender_data_decimal["minimalStep"]["amount"] = test_tender_data_decimal["value"]["amount"] / 100
+
+
+class TenderBidDecimalResourceTest(BaseTenderUAContentWebTest):
+    docservice = True
+    initial_data = test_tender_data_decimal
+    initial_status = "active.tendering"
+    test_bids_data = test_bids
+    author_data = test_author
+
+    test_patch_tender_bidder_decimal_problem = snitch(patch_tender_bidder_decimal_problem)
 
 
 class Tender2LotBidResourceTest(BaseTenderUAContentWebTest):
