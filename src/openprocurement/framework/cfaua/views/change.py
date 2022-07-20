@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import json_view, APIResource, context_unpack, raise_operation_error, get_now
+from openprocurement.api.utils import json_view, context_unpack, raise_operation_error, get_now
+from openprocurement.api.views.base import BaseResource
 from openprocurement.framework.cfaua.utils import apply_modifications
 from openprocurement.framework.cfaua.utils import changeresource
 from openprocurement.framework.cfaua.validation import (
@@ -20,7 +21,7 @@ from openprocurement.framework.core.utils import save_agreement, apply_patch
     agreementType="cfaua",
     description="Agreements Changes",
 )
-class AgreementChangesResource(APIResource):
+class AgreementChangesResource(BaseResource):
     """ Agreement changes resource """
 
     @json_view(permission="view_agreement")

@@ -7,7 +7,6 @@ from openprocurement.api.utils import (
     context_unpack,
     json_view,
     set_ownership,
-    APIResource,
     raise_operation_error,
     get_first_revision_date, parse_date,
 )
@@ -24,9 +23,10 @@ from openprocurement.tender.core.views.complaint import ComplaintAdminPatchMixin
 from openprocurement.tender.core.utils import (
     save_tender, apply_patch, calculate_total_complaints, calculate_tender_business_date
 )
+from openprocurement.api.views.base import BaseResource
 
 
-class TenderCancellationComplaintResource(ComplaintBotPatchMixin, ComplaintAdminPatchMixin, APIResource):
+class TenderCancellationComplaintResource(ComplaintBotPatchMixin, ComplaintAdminPatchMixin, BaseResource):
     patch_check_tender_excluded_statuses = (
         "draft", "pending", "accepted", "satisfied", "stopping",
     )

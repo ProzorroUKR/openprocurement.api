@@ -15,7 +15,8 @@ from openprocurement.historical.core.constants import (
     ACCREDITATION_LEVELS,
     VERSION_BY_DATE,
 )
-from openprocurement.api.utils import error_handler, APIResource, json_view, context_unpack, parse_date
+from openprocurement.api.utils import error_handler, json_view, context_unpack, parse_date
+from openprocurement.api.views.base import BaseResource
 
 
 class Root(object):
@@ -197,7 +198,7 @@ class HasRequestMethod(object):
         return hasattr(request, self.val)
 
 
-class APIHistoricalResource(APIResource):
+class APIHistoricalResource(BaseResource):
     def __init__(self, request, context):
         super(APIHistoricalResource, self).__init__(request, context)
         self.resource = request.context.doc_type.lower()

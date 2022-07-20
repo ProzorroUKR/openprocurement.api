@@ -9,7 +9,8 @@ from openprocurement.tender.core.validation import (
     validate_tender_guarantee,
     validate_tender_guarantee_multilot,
 )
-from openprocurement.api.utils import json_view, context_unpack, APIResource
+from openprocurement.api.views.base import BaseResource
+from openprocurement.api.utils import json_view, context_unpack
 from openprocurement.tender.belowthreshold.views.tender import TenderResource
 from openprocurement.tender.openeu.views.tender import TenderEUResource
 from openprocurement.tender.openua.validation import validate_patch_tender_ua_data
@@ -88,7 +89,7 @@ class CompetitiveDialogueUAResource(TenderResource):
     procurementMethodType=STAGE_2_EU_TYPE,
     description="Tender stage2 UE credentials",
 )
-class TenderStage2EUCredentialsResource(APIResource):
+class TenderStage2EUCredentialsResource(BaseResource):
     @json_view(permission="generate_credentials", validators=(validate_credentials_generation))
     def patch(self):
         tender = self.request.validated["tender"]

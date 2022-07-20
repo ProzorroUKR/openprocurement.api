@@ -66,12 +66,11 @@ def save_contract(request, insert=False):
         append_revision(request, contract, patch)
 
         old_date_modified = contract.dateModified
-        contract.dateModified = get_now()
-
         with handle_store_exceptions(request):
             request.registry.mongodb.contracts.save(
                 contract,
                 insert=insert,
+                modified=True,
             )
             LOGGER.info(
                 "Saved contract {}: dateModified {} -> {}".format(

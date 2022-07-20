@@ -1,5 +1,6 @@
 from logging import getLogger
-from openprocurement.api.utils import handle_store_exceptions, json_view, APIResource
+from openprocurement.api.utils import handle_store_exceptions, json_view
+from openprocurement.api.views.base import BaseResource
 from openprocurement.tender.core.utils import save_tender, optendersresource
 from openprocurement.tender.core.validation import (
     validate_tender_plan_data,
@@ -24,7 +25,7 @@ LOGGER = getLogger(__name__)
 
 
 @optendersresource(name="Tender plans", path="/tenders/{tender_id}/plans", description="Tender plans relation endpoint")
-class TenderPlansResource(APIResource):
+class TenderPlansResource(BaseResource):
     @json_view()
     def get(self):
         return {"data": self.context.serialize("view").get("plans", [])}

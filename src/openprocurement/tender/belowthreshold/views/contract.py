@@ -3,9 +3,9 @@ from openprocurement.api.utils import (
     get_now,
     json_view,
     context_unpack,
-    APIResource,
     raise_operation_error,
 )
+from openprocurement.api.views.base import BaseResource
 from openprocurement.tender.core.utils import (
     save_tender,
     optendersresource,
@@ -35,7 +35,7 @@ from openprocurement.tender.belowthreshold.utils import check_tender_status
 #     procurementMethodType="belowThreshold",
 #     description="Tender contracts",
 # )
-class TenderAwardContractResource(APIResource):
+class TenderAwardContractResource(BaseResource):
     @staticmethod
     def check_tender_status_method(request):
         return check_tender_status(request)

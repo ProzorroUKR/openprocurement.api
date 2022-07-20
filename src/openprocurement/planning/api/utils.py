@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from functools import partial
 from logging import getLogger
 from cornice.resource import resource
@@ -48,9 +47,9 @@ def save_plan(request, insert=False):
         append_revision(request, plan, patch)
         old_date_modified = plan.dateModified
 
-        if getattr(plan, "is_modified", True):
+        modified = getattr(plan, "is_modified", True)
+        if modified:
             now = get_now()
-            plan.dateModified = now
             if any(c for c in patch if c["path"].startswith("/cancellation/")):
                 plan.cancellation.date = now
 
@@ -58,6 +57,7 @@ def save_plan(request, insert=False):
             request.registry.mongodb.plans.save(
                 plan,
                 insert=insert,
+                modified=modified,
             )
             LOGGER.info(
                 "Saved plan {}: dateModified {} -> {}".format(
@@ -82,15 +82,6 @@ def apply_patch(request, data=None, save=True, src=None):
 
 
 opresource = partial(resource, error_handler=error_handler, factory=factory)
-
-
-class APIResource(object):
-    def __init__(self, request, context):
-        self.context = context
-        self.request = request
-        self.server_id = request.registry.server_id
-        self.update_after = request.registry.update_after
-        self.LOGGER = getLogger(type(self).__module__)
 
 
 def set_logging_context(event):

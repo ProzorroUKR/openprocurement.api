@@ -1,4 +1,5 @@
-from openprocurement.api.utils import APIResource, json_view, context_unpack, get_now
+from openprocurement.api.utils import json_view, context_unpack
+from openprocurement.api.views.base import BaseResource
 from openprocurement.framework.core.utils import apply_patch
 from openprocurement.framework.core.validation import validate_patch_contract_data
 from openprocurement.framework.electroniccatalogue.utils import contractresource
@@ -12,7 +13,7 @@ from openprocurement.framework.electroniccatalogue.validation import validate_ag
     agreementType="electronicCatalogue",
     description="Agreement contracts resource",
 )
-class AgreementContractsResource(APIResource):
+class AgreementContractsResource(BaseResource):
     @json_view(permission="view_agreement")
     def collection_get(self):
         agreement = self.context

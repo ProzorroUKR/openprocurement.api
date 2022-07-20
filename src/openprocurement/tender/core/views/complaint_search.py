@@ -1,4 +1,5 @@
-from openprocurement.api.utils import APIResource, opresource, json_view
+from openprocurement.api.utils import opresource, json_view
+from openprocurement.api.views.base import BaseResource
 
 
 @opresource(
@@ -6,7 +7,7 @@ from openprocurement.api.utils import APIResource, opresource, json_view
     path="/complaints/search",
     description="Complaint search",
 )
-class ComplaintsResource(APIResource):
+class ComplaintsResource(BaseResource):
     @json_view(
         permission="search_complaints",
     )

@@ -1,11 +1,11 @@
 from openprocurement.api.utils import (
-    APIResource,
     json_view,
     context_unpack,
     get_now,
     generate_id,
     raise_operation_error,
 )
+from openprocurement.api.views.base import BaseResource
 from openprocurement.framework.core.utils import (
     qualificationsresource,
     apply_patch,
@@ -31,7 +31,7 @@ from hashlib import sha512
     qualificationType="electronicCatalogue",
     description="",  # TODO: add description
 )
-class QualificationResource(APIResource, AgreementMixin):
+class QualificationResource(BaseResource, AgreementMixin):
     @json_view(permission="view_qualification")
     def get(self):
         """

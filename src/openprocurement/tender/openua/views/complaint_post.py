@@ -2,7 +2,6 @@
 from openprocurement.api.utils import (
     context_unpack,
     json_view,
-    APIResource,
 )
 
 from openprocurement.tender.core.utils import save_tender, optendersresource
@@ -14,6 +13,7 @@ from openprocurement.tender.openua.validation import (
     validate_complaint_post_review_date,
     validate_complaint_post_complaint_type,
 )
+from openprocurement.api.views.base import BaseResource
 
 
 @optendersresource(
@@ -23,7 +23,7 @@ from openprocurement.tender.openua.validation import (
     procurementMethodType="aboveThresholdUA",
     description="Tender complaint posts",
 )
-class TenderComplaintPostResource(APIResource):
+class TenderComplaintPostResource(BaseResource):
     @json_view(
         content_type="application/json",
         validators=(

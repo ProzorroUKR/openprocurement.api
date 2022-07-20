@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import get_now, set_ownership, json_view, context_unpack, APIResource
+from openprocurement.api.utils import get_now, set_ownership, json_view, context_unpack
 
 from openprocurement.tender.core.validation import (
     validate_bid_data,
@@ -24,7 +24,7 @@ from openprocurement.tender.core.utils import save_tender, optendersresource, ap
 #     procurementMethodType="closeFrameworkAgreementSelectionUA",
 #     description="Tender bids",
 # )
-class TenderBidResource(APIResource):
+class TenderBidResource:
     @json_view(
         content_type="application/json",
         permission="create_bid",

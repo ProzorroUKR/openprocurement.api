@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import json_view, context_unpack, APIResource, generate_id
+from openprocurement.api.utils import json_view, context_unpack, generate_id
+from openprocurement.api.views.base import BaseResource
 from openprocurement.relocation.api.validation import validate_transfer_data
 from openprocurement.relocation.api.utils import transferresource, save_transfer, set_ownership
 
@@ -7,7 +8,7 @@ from openprocurement.relocation.api.utils import transferresource, save_transfer
 @transferresource(
     name="Transfers", path="/transfers/{transfer_id}", collection_path="/transfers", description="Transfers"
 )
-class TransferResource(APIResource):
+class TransferResource(BaseResource):
     """ Resource handler for Transfers """
 
     @json_view(permission="view_transfer")

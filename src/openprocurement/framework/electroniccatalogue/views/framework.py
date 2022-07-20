@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import (
-    APIResource,
     json_view,
     context_unpack,
     raise_operation_error,
 )
+from openprocurement.api.views.base import BaseResource
 from openprocurement.framework.core.utils import (
     frameworksresource,
     apply_patch,
@@ -26,7 +26,7 @@ AGREEMENT_DEPENDENT_FIELDS = ("qualificationPeriod", "procuringEntity")
     frameworkType="electronicCatalogue",
     description="See https://standard.open-contracting.org/latest/en/guidance/map/related_processes/",
 )
-class FrameworkResource(APIResource):
+class FrameworkResource(BaseResource):
     @json_view(permission="view_framework")
     def get(self):
         if self.request.authenticated_role == "chronograph":

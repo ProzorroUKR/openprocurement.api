@@ -1,4 +1,5 @@
-from openprocurement.api.utils import json_view, APIResource
+from openprocurement.api.utils import json_view
+from openprocurement.api.views.base import BaseResource
 from openprocurement.framework.core.utils import agreementsresource
 
 
@@ -9,7 +10,7 @@ from openprocurement.framework.core.utils import agreementsresource
     agreementType="cfaua",
     description="Agreements resource",
 )
-class AgreementContractsResource(APIResource):
+class AgreementContractsResource(BaseResource):
     @json_view(permission="view_agreement")
     def collection_get(self):
         agreement = self.context

@@ -66,13 +66,11 @@ def save_tender(request, modified: bool = True, insert: bool = False) -> bool:
         append_tender_revision(request, tender, patch, now)
 
         old_date_modified = tender.get("dateModified", now.isoformat())
-        if modified:
-            tender["dateModified"] = now.isoformat()
-
         with handle_store_exceptions(request):
             request.registry.mongodb.tenders.save(
                 tender,
                 insert=insert,
+                modified=modified,
             )
             LOGGER.info(
                 "Saved tender {}: dateModified {} -> {}".format(

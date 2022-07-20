@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import json_view, context_unpack, APIResource
+from openprocurement.api.utils import json_view, context_unpack
 from openprocurement.tender.core.validation import validate_tender_auction_data
 from openprocurement.tender.core.utils import (
     save_tender,
@@ -18,7 +18,7 @@ from openprocurement.tender.cfaselectionua.validation import validate_auction_in
 #     procurementMethodType="closeFrameworkAgreementSelectionUA",
 #     description="Tender auction data",
 # )
-class TenderAuctionResource(APIResource):
+class TenderAuctionResource:
     @json_view(permission="auction", validators=(validate_auction_info_view))
     def collection_get(self):
         """Get auction info.

@@ -1,6 +1,6 @@
 from hashlib import sha512
-
-from openprocurement.api.utils import APIResource, json_view
+from openprocurement.api.views.base import BaseResource
+from openprocurement.api.utils import json_view
 from openprocurement.tender.core.utils import optendersresource
 
 
@@ -9,7 +9,7 @@ from openprocurement.tender.core.utils import optendersresource
     path="/tenders/{tender_id}/extract_credentials",
     description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info",
 )
-class TenderResource(APIResource):
+class TenderResource(BaseResource):
     @json_view(permission="extract_credentials")
     def get(self):
         self.LOGGER.info("Extract credentials for tender {}".format(self.context.id))
