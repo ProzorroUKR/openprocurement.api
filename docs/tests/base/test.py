@@ -213,12 +213,16 @@ class MockWebTestMixin(object):
     def setUpMock(self):
         self.uuid_patch = mock.patch('uuid.UUID', side_effect=self.uuid)
         self.uuid_patch.start()
+        self.db_now_path = mock.patch('openprocurement.api.database.get_public_modified',
+                                      lambda: get_now().timestamp())
+        self.db_now_path.start()
         self.freezer = freeze_time(MOCK_DATETIME)
         self.freezer.start()
 
     def tearDownMock(self):
         self.freezer.stop()
         self.uuid_patch.stop()
+        self.db_now_path.stop()
 
     def uuid(self, version=None, **kwargs):
         stack = self.stack()

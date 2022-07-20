@@ -9,6 +9,7 @@ from bson.codec_options import CodecOptions
 from bson.decimal128 import Decimal128
 from decimal import Decimal
 from datetime import datetime
+from openprocurement.tender.core.procedure.context import get_now
 
 LOGGER = getLogger("{}.init".format(__name__))
 
@@ -44,6 +45,11 @@ type_registry = TypeRegistry([
 ])
 codec_options = CodecOptions(type_registry=type_registry)
 COLLECTION_CLASSES = {}
+
+
+def get_public_modified():
+    public_modified = {"$divide": [{"$toLong": "$$NOW"}, 1000]}
+    return public_modified
 
 
 class MongodbStore:
@@ -146,7 +152,7 @@ class MongodbStore:
             self.rename_id(e)
         return results
 
-    def save_data(self, collection, data, insert=False):
+    def save_data(self, collection, data, insert=False, modified=True):
         uid = data.pop("id" if "id" in data else "_id")
         revision = data.pop("rev" if "rev" in data else "_rev", None)
 
@@ -154,19 +160,40 @@ class MongodbStore:
         data["_rev"] = self.get_next_rev(revision)
         data["is_public"] = data.get("status") not in ("draft", "deleted")
         data["is_test"] = data.get("mode") == "test"
-        data["public_modified"] = datetime.fromisoformat(data["dateModified"]).timestamp()
+
         if insert:
-            data["dateCreated"] = data["dateModified"]
-            collection.insert_one(data)
-        else:
-            result = collection.replace_one(  # replace one also deletes fields ($unset)
+            data["dateModified"] = data["dateCreated"] = get_now().isoformat()
+            data["public_modified"] = get_public_modified()
+            pipeline = [
+                {"$set": data},
+            ]
+            result = collection.update_one(
                 {
                     "_id": uid,
                     "_rev": revision
                 },
-                data
+                pipeline,
+                upsert=True
             )
-            if result.matched_count == 0:
+            assert result.upserted_id == uid
+            # The _id of the inserted document if an upsert took place. Otherwise None.
+        else:
+            pipeline = [{"$replaceWith": data}]
+            if modified:
+                data["dateModified"] = get_now().isoformat()
+                pipeline.append(
+                    {"$set": {
+                        "public_modified": get_public_modified()
+                    }}
+                )
+            result = collection.find_one_and_update(  # replace one also deletes fields ($unset)
+                {
+                    "_id": uid,
+                    "_rev": revision
+                },
+                pipeline,
+            )
+            if not result:
                 raise MongodbResourceConflict("Conflict while updating document. Please, retry")
         return data
 
@@ -259,9 +286,9 @@ class BaseCollection:
         # for now I leave it here
         self.collection.create_indexes(indexes)
 
-    def save(self, o, insert=False):
+    def save(self, o, insert=False, modified=True):
         data = o.to_primitive()
-        updated = self.store.save_data(self.collection, data, insert=insert)
+        updated = self.store.save_data(self.collection, data, insert=insert, modified=modified)
         o.import_data(updated)
 
     def get(self, uid, primary=False):

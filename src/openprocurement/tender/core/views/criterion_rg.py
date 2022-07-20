@@ -2,8 +2,8 @@
 from openprocurement.api.utils import (
     json_view,
     context_unpack,
-    APIResource,
 )
+from openprocurement.api.views.base import BaseResource
 from openprocurement.tender.core.utils import save_tender, apply_patch
 from openprocurement.tender.core.validation import (
     validate_requirement_group_data,
@@ -13,7 +13,7 @@ from openprocurement.tender.core.validation import (
 )
 
 
-class BaseTenderCriteriaRGResource(APIResource):
+class BaseTenderCriteriaRGResource(BaseResource):
 
     @json_view(
         content_type="application/json",

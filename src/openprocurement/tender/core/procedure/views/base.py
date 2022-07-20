@@ -1,11 +1,10 @@
+from openprocurement.api.views.base import BaseResource
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.context import set_request, set_now
 from copy import deepcopy
-from logging import getLogger
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 
 
-class TenderBaseResource:
+class TenderBaseResource(BaseResource):
 
     state_class = TenderState
 
@@ -24,18 +23,13 @@ class TenderBaseResource:
         return acl
 
     def __init__(self, request, context=None):
-        self.request = request
-        self.server_id = request.registry.server_id
-        self.LOGGER = getLogger(type(self).__module__)
+        super().__init__(request, context)
         # init state class that handles tender business logic
         self.state = self.state_class(request)
 
         # https://github.com/Cornices/cornice/issues/479#issuecomment-388407385
         # init is called twice (with and without context), thanks to cornice.
         if not context:
-            # common stuff, can be the same for plans, contracts, etc
-            set_request(request)
-            set_now()
             # getting tender
             match_dict = request.matchdict
             if match_dict and match_dict.get("tender_id"):

@@ -1,5 +1,6 @@
 from openprocurement.api.constants import FAST_CATALOGUE_FLOW_FRAMEWORK_IDS
-from openprocurement.api.utils import APIResource, json_view, context_unpack, get_now, generate_id
+from openprocurement.api.utils import json_view, context_unpack, get_now, generate_id
+from openprocurement.api.views.base import BaseResource
 from openprocurement.framework.core.utils import (
     submissionsresource,
     apply_patch,
@@ -23,7 +24,7 @@ from openprocurement.framework.electroniccatalogue.views.agreement import Agreem
     submissionType="electronicCatalogue",
     description="",  # TODO: add description
 )
-class SubmissionResource(APIResource, AgreementMixin):
+class SubmissionResource(BaseResource, AgreementMixin):
     @json_view(permission="view_submission")
     def get(self):
         """

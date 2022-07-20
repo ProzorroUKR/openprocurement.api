@@ -34,8 +34,8 @@ class TenderCollection(BaseCollection):
             )
         return indexes
 
-    def save(self, data, insert=False):
-        self.store.save_data(self.collection, data, insert=insert)
+    def save(self, data, insert=False, modified=True):
+        self.store.save_data(self.collection, data, insert=insert, modified=modified)
 
     def find_complaints(self, complaint_id: str):
         collection = self.collection

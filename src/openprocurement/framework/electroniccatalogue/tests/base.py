@@ -245,18 +245,15 @@ class BaseSubmissionContentWebTest(ElectronicCatalogueContentWebTest):
     def setUp(self):
         super(BaseSubmissionContentWebTest, self).setUp()
         self.initial_submission_data["frameworkID"] = self.framework_id
-        response = self.app.patch_json(
-            "/frameworks/{}?acc_token={}".format(self.framework_id, self.framework_token),
-            {"data": {"status": "active"}}
-        )
-        submission_date = parse_date(response.json["data"]["enquiryPeriod"]["endDate"])
 
-        self.freezer = freeze_time((submission_date + timedelta(hours=1)).isoformat(), tick=True)
-        self.freezer.start()
+        with freeze_time((get_now() - timedelta(hours=1)).isoformat()):
+            self.app.patch_json(
+                "/frameworks/{}?acc_token={}".format(self.framework_id, self.framework_token),
+                {"data": {"status": "active"}}
+            )
 
     def tearDown(self):
         super(BaseSubmissionContentWebTest, self).tearDown()
-        self.freezer.stop()
 
 
 class SubmissionContentWebTest(BaseSubmissionContentWebTest):

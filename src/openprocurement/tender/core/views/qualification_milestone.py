@@ -2,8 +2,8 @@
 from openprocurement.api.utils import (
     context_unpack, 
     json_view,
-    APIResource,
 )
+from openprocurement.api.views.base import BaseResource
 from openprocurement.tender.core.validation import (
     validate_24h_milestone_released,
     validate_qualification_milestone_24hours,
@@ -12,7 +12,7 @@ from openprocurement.tender.core.validation import (
 from openprocurement.tender.core.utils import save_tender
 
 
-class BaseQualificationMilestoneResource(APIResource):
+class BaseQualificationMilestoneResource(BaseResource):
 
     context_name = "qualification"
 

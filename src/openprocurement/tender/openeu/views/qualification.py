@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import json_view, context_unpack, APIResource, raise_operation_error
+from openprocurement.api.utils import json_view, context_unpack, raise_operation_error
 from openprocurement.tender.core.utils import save_tender, apply_patch
 from openprocurement.tender.core.validation import (
     validate_operation_with_lot_cancellation_in_pending,
@@ -20,7 +20,7 @@ from openprocurement.tender.openeu.utils import qualifications_resource, prepare
 #     procurementMethodType="aboveThresholdEU",
 #     description="TenderEU Qualification",
 # )
-class TenderQualificationResource(APIResource):
+class TenderQualificationResource:
     @json_view(permission="view_tender")
     def collection_get(self):
         """List qualifications

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import json_view, APIResource, context_unpack
+from openprocurement.api.utils import json_view, context_unpack
+from openprocurement.api.views.base import BaseResource
 from openprocurement.framework.cfaua.utils import apply_modifications
 from openprocurement.framework.core.utils import agreementsresource
 
@@ -10,7 +11,7 @@ from openprocurement.framework.core.utils import agreementsresource
     agreementType="cfaua",
     description="Agreements resource",
 )
-class AgreementPreviewResource(APIResource):
+class AgreementPreviewResource(BaseResource):
     @json_view(permission="view_agreement")
     def get(self):
         if not self.context.changes or self.context.changes[-1]["status"] != "pending":

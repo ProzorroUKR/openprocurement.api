@@ -1,4 +1,4 @@
-from openprocurement.api.utils import MongodbResourceListing
+from openprocurement.api.views.base import MongodbResourceListing
 from openprocurement.framework.core.utils import qualificationsresource
 
 

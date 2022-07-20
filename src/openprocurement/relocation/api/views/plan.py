@@ -1,4 +1,5 @@
-from openprocurement.api.utils import json_view, APIResource, context_unpack
+from openprocurement.api.utils import json_view, context_unpack
+from openprocurement.api.views.base import BaseResource
 from openprocurement.planning.api.utils import save_plan, opresource
 from openprocurement.relocation.api.utils import (
     extract_transfer,
@@ -16,7 +17,7 @@ from openprocurement.relocation.api.validation import (
 
 
 @opresource(name="Plan ownership", path="/plans/{plan_id}/ownership", description="Plans Ownership")
-class TenderResource(APIResource):
+class TenderResource(BaseResource):
     @json_view(
         permission="create_plan",
         validators=(

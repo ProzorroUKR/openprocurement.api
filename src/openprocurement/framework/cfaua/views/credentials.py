@@ -1,4 +1,5 @@
-from openprocurement.api.utils import json_view, APIResource, set_ownership
+from openprocurement.api.utils import json_view, set_ownership
+from openprocurement.api.views.base import BaseResource
 from openprocurement.framework.cfaua.validation import validate_credentials_generate
 from openprocurement.framework.core.utils import agreementsresource
 from openprocurement.framework.core.utils import context_unpack, save_agreement
@@ -9,7 +10,7 @@ from openprocurement.framework.core.utils import context_unpack, save_agreement
     path="/agreements/{agreement_id}/credentials",
     description="Agreement credentials",
 )
-class AgreementCredentialsResource(APIResource):
+class AgreementCredentialsResource(BaseResource):
     @json_view(permission="generate_credentials", validators=validate_credentials_generate)
     def patch(self):
         agreement = self.request.validated["agreement"]

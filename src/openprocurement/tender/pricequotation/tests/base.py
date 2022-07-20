@@ -6,6 +6,7 @@ from uuid import uuid4
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.core.tests.base import BaseCoreWebTest
 from openprocurement.api.constants import TZ
+from openprocurement.api.context import set_now
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.belowthreshold.utils import prepare_tender_item_for_contract
 from openprocurement.tender.pricequotation.procedure.models.tender import Tender
@@ -225,6 +226,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
             self.delete_agreement()
         agreement = Agreement(test_agreement_data)
         agreement.dateModified = get_now().isoformat()
+        set_now()
         self.mongodb.agreements.save(agreement, insert=True)
 
     def delete_agreement(self):

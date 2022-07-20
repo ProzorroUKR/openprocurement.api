@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import APIResource, context_unpack, json_view
+from openprocurement.api.utils import context_unpack, json_view
+from openprocurement.api.views.base import BaseResource
 from openprocurement.tender.core.utils import apply_patch, save_tender
 
 from openprocurement.tender.cfaua.validation import (
@@ -17,7 +18,7 @@ from openprocurement.tender.cfaua.utils import agreement_resource
     procurementMethodType="closeFrameworkAgreementUA",
     description="Tender CFAUA agreement contracts",
 )
-class TenderAgreementContractResource(APIResource):
+class TenderAgreementContractResource(BaseResource):
     """ CFA UA Tender Agreement Contract Resource """
 
     @json_view(permission="view_tender")

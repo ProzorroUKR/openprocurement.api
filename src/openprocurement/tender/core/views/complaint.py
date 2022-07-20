@@ -6,8 +6,8 @@ from openprocurement.api.utils import (
     raise_operation_error,
     get_first_revision_date,
     get_now,
-    APIResource,
 )
+from openprocurement.api.views.base import BaseResource
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.validation import (
     validate_complaint_data,
@@ -54,7 +54,7 @@ class ComplaintBotPatchMixin(object):
             )
 
 
-class BaseComplaintGetResource(APIResource):
+class BaseComplaintGetResource(BaseResource):
     @json_view(permission="view_tender")
     def get(self):
         """Retrieving the complaint
@@ -68,7 +68,7 @@ class BaseComplaintGetResource(APIResource):
         return {"data": [i.serialize("view") for i in self.context.complaints]}
 
 
-class BaseTenderComplaintResource(ComplaintBotPatchMixin, ComplaintAdminPatchMixin, APIResource):
+class BaseTenderComplaintResource(ComplaintBotPatchMixin, ComplaintAdminPatchMixin, BaseResource):
     patch_check_tender_excluded_statuses = (
         "draft", "pending", "accepted", "satisfied", "stopping",
     )
@@ -289,7 +289,7 @@ class BaseTenderComplaintResource(ComplaintBotPatchMixin, ComplaintAdminPatchMix
             )
 
 
-class BaseTenderClaimResource(ComplaintAdminPatchMixin, APIResource):
+class BaseTenderClaimResource(ComplaintAdminPatchMixin, BaseResource):
     patch_check_tender_excluded_statuses = (
         "draft", "claim", "answered",
     )

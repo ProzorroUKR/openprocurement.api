@@ -233,8 +233,7 @@ def save_object(request, obj_name, with_test_mode=True, additional_obj_names="",
         append_obj_revision(request, obj, patch, now)
 
         old_date_modified = obj.dateModified
-        if getattr(obj, "modified", True):
-            obj.dateModified = now
+        modified = getattr(obj, "modified", True)
 
         for i in additional_obj_names:
             if i in request.validated:
@@ -242,7 +241,7 @@ def save_object(request, obj_name, with_test_mode=True, additional_obj_names="",
 
         with handle_store_exceptions(request):
             collection = getattr(request.registry.mongodb, f"{obj_name}s")
-            collection.save(obj, insert=insert)
+            collection.save(obj, insert=insert, modified=modified)
             LOGGER.info(
                 "Saved {} {}: dateModified {} -> {}".format(
                     obj_name,

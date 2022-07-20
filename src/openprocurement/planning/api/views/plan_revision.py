@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
-from openprocurement.planning.api.utils import opresource, APIResource
+from openprocurement.planning.api.utils import opresource
+from openprocurement.api.views.base import BaseResource
 from openprocurement.api.utils import json_view
 
 
@@ -9,7 +9,7 @@ from openprocurement.api.utils import json_view
     path="/plans/{plan_id}/revisions/{revision_id}",
     description="Plan revisions",
 )
-class PlansRevisionResource(APIResource):
+class PlansRevisionResource(BaseResource):
     @json_view(permission="revision_plan")
     def collection_get(self):
         """Plan Revisions List"""

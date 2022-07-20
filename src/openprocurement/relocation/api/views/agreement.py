@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import json_view, APIResource, context_unpack
+from openprocurement.api.utils import json_view, context_unpack
+from openprocurement.api.views.base import BaseResource
 from openprocurement.framework.core.utils import save_agreement
 from openprocurement.framework.core.utils import agreementsresource
 from openprocurement.relocation.api.utils import (
@@ -20,7 +21,7 @@ from openprocurement.relocation.api.validation import (
 @agreementsresource(
     name="Agreement ownership", path="/agreements/{agreement_id}/ownership", description="Agreements Ownership"
 )
-class AgreementResource(APIResource):
+class AgreementResource(BaseResource):
     @json_view(
         permission="view_agreement",
         validators=(

@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import context_unpack, APIResource
+from openprocurement.api.utils import context_unpack
 from openprocurement.tender.core.utils import save_tender, apply_patch
+from openprocurement.api.views.base import BaseResource
 
 
-class BaseRequirementResponseResource(APIResource):
+class BaseRequirementResponseResource(BaseResource):
 
     def pre_save(self):
         pass

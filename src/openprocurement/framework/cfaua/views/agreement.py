@@ -1,4 +1,5 @@
-from openprocurement.api.utils import json_view, APIResource
+from openprocurement.api.utils import json_view
+from openprocurement.api.views.base import BaseResource
 from openprocurement.framework.cfaua.validation import validate_agreement_patch, validate_update_agreement_status
 from openprocurement.framework.core.utils import agreementsresource
 from openprocurement.framework.core.utils import apply_patch, context_unpack, save_agreement
@@ -7,7 +8,7 @@ from openprocurement.framework.core.utils import apply_patch, context_unpack, sa
 @agreementsresource(
     name="cfaua.Agreement", path="/agreements/{agreement_id}", agreementType="cfaua", description="Agreements resource"
 )
-class AgreementResource(APIResource):
+class AgreementResource(BaseResource):
     @json_view(permission="view_agreement")
     def get(self):
         return {"data": self.context.serialize("view")}
