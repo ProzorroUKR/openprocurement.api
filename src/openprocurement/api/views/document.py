@@ -1,14 +1,14 @@
-# -*- coding: utf-8 -*-
+from openprocurement.api.views.base import BaseResource
 from openprocurement.api.utils import (
     get_file,
     upload_file,
     update_file_content_type,
     context_unpack,
-    APIResource,
     upload_files,
 )
 
-class BaseDocumentResource(APIResource):
+
+class BaseDocumentResource(BaseResource):
     container = "documents"
     context_name = None
 

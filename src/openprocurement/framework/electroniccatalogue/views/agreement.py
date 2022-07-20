@@ -3,9 +3,10 @@ from copy import deepcopy
 from hashlib import sha512
 
 from openprocurement.api.utils import (
-    APIResource, json_view, context_unpack, get_now, raise_operation_error,
+    json_view, context_unpack, get_now, raise_operation_error,
     generate_id,
 )
+from openprocurement.api.views.base import BaseResource
 from openprocurement.framework.core.utils import (
     agreementsresource, apply_patch, get_agreement_by_id,
     generate_agreementID, save_agreement, get_submission_by_id,
@@ -22,7 +23,7 @@ from openprocurement.framework.electroniccatalogue.validation import validate_ag
     agreementType="electronicCatalogue",
     description="Agreements resource"
 )
-class AgreementResource(APIResource):
+class AgreementResource(BaseResource):
     @json_view(permission="view_agreement")
     def get(self):
         return {"data": self.context.serialize("view")}
@@ -56,7 +57,7 @@ class AgreementResource(APIResource):
     path="/agreements_by_classification/{classification_id}",
     description="Agreements filter classification"
 )
-class AgreementFilterByClassificationResource(APIResource):
+class AgreementFilterByClassificationResource(BaseResource):
     @json_view(permission="view_listing")
     def get(self):
 

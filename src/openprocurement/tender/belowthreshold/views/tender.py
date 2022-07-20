@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import context_unpack, json_view, APIResource
+from openprocurement.api.utils import context_unpack, json_view
 
 from openprocurement.tender.core.utils import save_tender, optendersresource, apply_patch
 
@@ -18,7 +18,7 @@ from openprocurement.tender.core.validation import (
 #     procurementMethodType="belowThreshold",
 #     description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info",
 # )
-class TenderResource(APIResource):
+class TenderResource:
     @json_view(permission="view_tender")
     def get(self):
         """Tender Read

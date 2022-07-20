@@ -7,12 +7,12 @@ from openprocurement.api.utils import (
     set_ownership,
     raise_operation_error,
 )
+from openprocurement.api.views.base import BaseResource
 from openprocurement.planning.api.models import Milestone
 from openprocurement.planning.api.utils import (
     save_plan,
     apply_patch,
     opresource,
-    APIResource
 )
 from openprocurement.planning.api.validation import (
     validate_plan_not_terminated,
@@ -30,7 +30,7 @@ LOGGER = getLogger(__name__)
     path='/plans/{plan_id}/milestones/{milestone_id}',
     description="Plan milestone view",
 )
-class PlanMilestoneResource(APIResource):
+class PlanMilestoneResource(BaseResource):
 
     @json_view()
     def get(self):

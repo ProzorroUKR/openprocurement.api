@@ -1,11 +1,11 @@
 from openprocurement.api.utils import (
-    MongodbResourceListing,
     json_view,
     generate_id,
     set_ownership,
     context_unpack,
     upload_objects_documents,
 )
+from openprocurement.api.views.base import MongodbResourceListing
 from openprocurement.framework.core.utils import submissionsresource, save_submission
 from openprocurement.framework.core.validation import (
     validate_submission_data,

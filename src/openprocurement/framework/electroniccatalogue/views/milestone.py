@@ -1,4 +1,5 @@
-from openprocurement.api.utils import APIResource, json_view, upload_objects_documents, context_unpack, get_now
+from openprocurement.api.utils import json_view, upload_objects_documents, context_unpack
+from openprocurement.api.views.base import BaseResource
 from openprocurement.framework.core.utils import apply_patch, save_agreement
 from openprocurement.framework.core.validation import validate_milestone_data, validate_patch_milestone_data
 from openprocurement.framework.electroniccatalogue.utils import contractresource, MILESTONE_CONTRACT_STATUSES
@@ -20,7 +21,7 @@ from openprocurement.framework.electroniccatalogue.validation import (
     agreementType="electronicCatalogue",
     description="Agreement contract milestones resource",
 )
-class ContractMilestoneResource(APIResource):
+class ContractMilestoneResource(BaseResource):
     @json_view(permission="view_agreement")
     def collection_get(self):
         contract = self.context

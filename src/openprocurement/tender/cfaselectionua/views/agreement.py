@@ -7,7 +7,8 @@ from openprocurement.tender.cfaselectionua.validation import (
 from openprocurement.tender.cfaselectionua.utils import agreement_resource
 
 from openprocurement.tender.core.utils import apply_patch, save_tender
-from openprocurement.api.utils import json_view, APIResource
+from openprocurement.api.utils import json_view
+from openprocurement.api.views.base import BaseResource
 from openprocurement.tender.cfaselectionua.utils import check_tender_status
 
 
@@ -18,7 +19,7 @@ from openprocurement.tender.cfaselectionua.utils import check_tender_status
     procurementMethodType="closeFrameworkAgreementSelectionUA",
     description="Tender EU agreements",
 )
-class TenderAgreementResource(APIResource):
+class TenderAgreementResource(BaseResource):
     """ """
 
     @json_view(permission="view_tender")

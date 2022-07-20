@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import json_view, APIResource, context_unpack
+from openprocurement.api.utils import json_view, context_unpack
+from openprocurement.api.views.base import BaseResource
 from openprocurement.contracting.api.utils import contractingresource, save_contract
 from openprocurement.relocation.api.utils import (
     extract_transfer,
@@ -19,7 +20,7 @@ from openprocurement.relocation.api.validation import (
 @contractingresource(
     name="Contract ownership", path="/contracts/{contract_id}/ownership", description="Contracts Ownership"
 )
-class ContractResource(APIResource):
+class ContractResource(BaseResource):
     @json_view(
         permission="view_contract",
         validators=(

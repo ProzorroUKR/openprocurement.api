@@ -1,4 +1,5 @@
-from openprocurement.api.utils import context_unpack, json_view, APIResource, MongodbResourceListing, generate_id
+from openprocurement.api.utils import context_unpack, json_view
+from openprocurement.api.views.base import BaseResource, MongodbResourceListing
 from openprocurement.contracting.api.utils import (
     contractingresource,
     apply_patch,
@@ -104,7 +105,7 @@ class ContractResource(ContractsResource):
 @contractingresource(
     name="Contract credentials", path="/contracts/{contract_id}/credentials", description="Contract credentials"
 )
-class ContractCredentialsResource(APIResource):
+class ContractCredentialsResource(BaseResource):
 
     @json_view(permission="generate_credentials", validators=(validate_credentials_generate,))
     def patch(self):
@@ -124,7 +125,7 @@ class ContractCredentialsResource(APIResource):
     path="/contracts/{contract_id}/transactions/{transaction_id}",
     description="Contract transactions",
 )
-class ContractTransactionsResource(APIResource):
+class ContractTransactionsResource(BaseResource):
 
     @json_view(
         content_type="application/json",

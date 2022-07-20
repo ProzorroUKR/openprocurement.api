@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import get_now, json_view, context_unpack, APIResource, raise_operation_error
+from openprocurement.api.utils import get_now, json_view, context_unpack, raise_operation_error
+from openprocurement.api.views.base import BaseResource
 from openprocurement.tender.core.validation import (
     validate_question_data,
     validate_patch_question_data,
@@ -16,7 +17,7 @@ from openprocurement.tender.core.utils import save_tender, optendersresource, ap
     procurementMethodType="belowThreshold",
     description="Tender questions",
 )
-class TenderQuestionResource(APIResource):
+class TenderQuestionResource(BaseResource):
     def validate_question(self, operation):
         """ TODO move validators
         This class is inherited in openua package, but validate_question function has different validators.

@@ -2,9 +2,9 @@ from logging import getLogger
 from cornice.util import json_error
 from pyramid.request import Request
 from openprocurement.api.constants import VERSION
+from openprocurement.api.views.base import BaseResource, MongodbResourceListing
 from openprocurement.api.utils import (
-    context_unpack, get_now, generate_id, json_view, set_ownership,
-    MongodbResourceListing, raise_operation_error, APIResource,
+    context_unpack, get_now, generate_id, json_view, set_ownership, raise_operation_error,
 )
 from openprocurement.planning.api.constants import PROCURING_ENTITY_STANDSTILL
 from openprocurement.planning.api.models import Milestone
@@ -13,7 +13,6 @@ from openprocurement.planning.api.utils import (
     save_plan,
     apply_patch,
     opresource,
-    APIResource,
 )
 from openprocurement.planning.api.validation import (
     validate_patch_plan_data,
@@ -86,7 +85,7 @@ class PlansResource(MongodbResourceListing):
     path="/plans/{plan_id}",
     description="Planing http://ocds.open-contracting.org/standard/r/1__0__0/en/schema/reference/#planning",
 )
-class PlanResource(APIResource):
+class PlanResource(BaseResource):
     @json_view(permission="view_plan")
     def get(self):
         plan = self.request.validated["plan"]
@@ -138,7 +137,7 @@ class PlanResource(APIResource):
                         
 
 @opresource(name="Plan Tenders", path="/plans/{plan_id}/tenders", description="Tender creation based on a plan")
-class PlanTendersResource(APIResource):
+class PlanTendersResource(BaseResource):
     @json_view()
     def get(self):
         self.request.errors.add("url", "method", "Method not allowed")

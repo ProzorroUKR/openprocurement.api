@@ -2,12 +2,12 @@
 from openprocurement.api.utils import (
     json_view,
     context_unpack,
-    APIResource,
 )
+from openprocurement.api.views.base import BaseResource
 from openprocurement.tender.core.utils import save_tender, apply_patch
 
 
-class BaseRequirementResponseEvidenceResource(APIResource):
+class BaseRequirementResponseEvidenceResource(BaseResource):
 
     def pre_save(self):
         pass

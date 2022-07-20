@@ -4,10 +4,10 @@ from datetime import timedelta
 from openprocurement.api.utils import (
     json_view,
     context_unpack,
-    APIResource,
     get_now,
     get_first_revision_date,
 )
+from openprocurement.api.views.base import BaseResource
 from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.utils import save_tender, apply_patch, CancelTenderLot
@@ -25,7 +25,7 @@ from openprocurement.tender.core.validation import (
 )
 
 
-class BaseTenderCancellationResource(APIResource):
+class BaseTenderCancellationResource(BaseResource):
 
     @json_view(
         content_type="application/json",

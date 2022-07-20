@@ -1,11 +1,13 @@
 from copy import deepcopy
+from datetime import datetime
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import change_auth
-from openprocurement.api.constants import ROUTE_PREFIX
+from openprocurement.api.constants import ROUTE_PREFIX, TZ
 from datetime import timedelta
 
 
 def listing(self):
+
     response = self.app.get("/qualifications")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 0)
@@ -47,12 +49,13 @@ def listing(self):
     self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in qualifications]))
     self.assertEqual(
-        set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in qualifications])
+        {i["dateModified"] for i in response.json["data"]},
+        {i["dateModified"] for i in qualifications},
     )
     self.assertEqual(
-        [i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in qualifications])
+        [i["dateModified"] for i in response.json["data"]],
+        sorted([i["dateModified"] for i in qualifications])
     )
-
     response = self.app.get("/qualifications?offset={}".format(offset))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 1)

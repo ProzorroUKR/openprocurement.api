@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
+from openprocurement.api.views.base import BaseResource
 from openprocurement.api.utils import (
     context_unpack,
     json_view,
-    APIResource,
     get_now,
     raise_operation_error,
 )
@@ -28,7 +27,7 @@ from openprocurement.contracting.api.validation import (
     path="/contracts/{contract_id}/changes/{change_id}",
     description="Contracts Changes",
 )
-class ContractsChangesResource(APIResource):
+class ContractsChangesResource(BaseResource):
     """ Contract changes resource """
 
     @json_view(permission="view_contract")

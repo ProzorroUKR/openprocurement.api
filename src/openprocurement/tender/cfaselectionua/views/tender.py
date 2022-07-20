@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
-from openprocurement.api.utils import context_unpack, json_view, APIResource, get_now, raise_operation_error
+from openprocurement.api.utils import context_unpack, json_view, get_now, raise_operation_error
 
 from openprocurement.tender.core.utils import (
     save_tender,
@@ -34,7 +34,7 @@ from openprocurement.tender.cfaselectionua.constants import AGREEMENT_NOT_FOUND
 #     procurementMethodType="closeFrameworkAgreementSelectionUA",
 #     description="Open Contracting compatible data exchange format. See http://ocds.open-contracting.org/standard/r/master/#tender for more info",
 # )
-class TenderResource(APIResource):
+class TenderResource:
     @json_view(permission="view_tender")
     def get(self):
         """Tender Read

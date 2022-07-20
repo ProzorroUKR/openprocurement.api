@@ -5,8 +5,8 @@ from openprocurement.api.utils import (
     get_now,
     upload_objects_documents,
     context_unpack,
-    MongodbResourceListing,
 )
+from openprocurement.api.views.base import MongodbResourceListing
 from openprocurement.framework.core.utils import (
     generate_agreementID,
     save_agreement,

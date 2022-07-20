@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import json_view, context_unpack, APIResource, get_now
+from openprocurement.api.utils import json_view, context_unpack, get_now
 from openprocurement.tender.core.validation import validate_lot_data, validate_patch_lot_data
-
+from openprocurement.api.views.base import BaseResource
 from openprocurement.tender.core.utils import save_tender, optendersresource, apply_patch
 
 from openprocurement.tender.cfaselectionua.validation import validate_lot_operation
@@ -15,7 +15,7 @@ from openprocurement.tender.belowthreshold.validation import validate_delete_lot
     procurementMethodType="closeFrameworkAgreementSelectionUA",
     description="Tender lots",
 )
-class TenderLotResource(APIResource):
+class TenderLotResource(BaseResource):
     @json_view(
         content_type="application/json",
         validators=(validate_lot_data, validate_lot_operation),

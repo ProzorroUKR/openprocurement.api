@@ -1,9 +1,9 @@
 from openprocurement.api.utils import (
     json_view,
     context_unpack,
-    MongodbResourceListing,
     update_logging_context,
 )
+from openprocurement.api.views.base import MongodbResourceListing
 from openprocurement.tender.core.procedure.utils import (
     set_ownership,
     save_tender,

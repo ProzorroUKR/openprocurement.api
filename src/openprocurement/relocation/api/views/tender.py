@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import json_view, APIResource, context_unpack
+from openprocurement.api.utils import json_view, context_unpack
+from openprocurement.api.views.base import BaseResource
 from openprocurement.tender.core.utils import save_tender, optendersresource
 from openprocurement.relocation.api.utils import (
     extract_transfer,
@@ -17,7 +18,7 @@ from openprocurement.relocation.api.validation import (
 
 
 @optendersresource(name="Tender ownership", path="/tenders/{tender_id}/ownership", description="Tenders Ownership")
-class TenderResource(APIResource):
+class TenderResource(BaseResource):
     @json_view(
         permission="create_tender",
         validators=(
