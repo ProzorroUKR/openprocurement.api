@@ -128,7 +128,7 @@ class MongodbStore:
     def get(collection, uid):
         res = collection.find_one(
             {'_id': uid},
-            projection={"is_public": False, "is_test": False, "public_modified": False}
+            projection={"is_public": False, "is_test": False}
         )
         return res
 
