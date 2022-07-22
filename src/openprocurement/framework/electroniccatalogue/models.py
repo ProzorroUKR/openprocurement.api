@@ -109,6 +109,7 @@ class Framework(BaseFramework):
             "_id",
             "_rev",
             "__parent__",
+            "public_modified",
         )
         _edit_role = _status_view_role + blacklist(
             "frameworkType",
@@ -156,10 +157,10 @@ class Framework(BaseFramework):
             "default": blacklist("doc_id", "__parent__"),  # obj.store() use default role
             "plain": blacklist(  # is used for getting patches
                 "_attachments", "revisions", "dateModified", "_id", "_rev", "doc_type",
-                "__parent__"
+                "__parent__", "public_modified",
             ),
             "listing": whitelist("dateModified", "doc_id"),
-            "embedded": blacklist("_id", "_rev", "doc_type", "__parent__"),
+            "embedded": blacklist("_id", "_rev", "doc_type", "__parent__", "public_modified"),
         }
 
     status = StringType(
@@ -367,6 +368,7 @@ class Agreement(BaseAgreement):
             "_rev",
             "__parent__",
             "frameworkDetails",
+            "public_modified",
         )
         roles = {
             "edit": whitelist("status"),
