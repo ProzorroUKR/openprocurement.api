@@ -212,13 +212,6 @@ def switch_tender_after_cancellation_unsuccessful(self):
             "reason": "cancellation reason",
             "cancellationOf": "tender",
             "reasonType": "noDemand",
-            "documents": [{
-                "title": "name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }],
-
         }},
     )
     cancellation_id = response.json["data"]["id"]

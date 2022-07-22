@@ -22,13 +22,13 @@ from openprocurement.tender.belowthreshold.validation import (
 from openprocurement.tender.core.views.document import CoreDocumentResource
 
 
-@optendersresource(
-    name="belowThreshold:Tender Cancellation Documents",
-    collection_path="/tenders/{tender_id}/cancellations/{cancellation_id}/documents",
-    path="/tenders/{tender_id}/cancellations/{cancellation_id}/documents/{document_id}",
-    procurementMethodType="belowThreshold",
-    description="Tender cancellation documents",
-)
+# @optendersresource(
+#     name="belowThreshold:Tender Cancellation Documents",
+#     collection_path="/tenders/{tender_id}/cancellations/{cancellation_id}/documents",
+#     path="/tenders/{tender_id}/cancellations/{cancellation_id}/documents/{document_id}",
+#     procurementMethodType="belowThreshold",
+#     description="Tender cancellation documents",
+# )
 class TenderCancellationDocumentResource(CoreDocumentResource):
     container = "documents"
     context_name = "tender_cancellation"

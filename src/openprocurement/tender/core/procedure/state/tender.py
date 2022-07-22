@@ -166,6 +166,7 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, BaseSta
     block_tender_complaint_status = ("claim", "pending", "accepted", "satisfied", "stopping")
     # tender can't proceed to "active.auction" until has a tender.complaints in one of statuses above
     unsuccessful_statuses = ("cancelled", "unsuccessful")
+    terminated_statuses = ("complete", "unsuccessful", "cancelled", "draft.unsuccessful")
 
     contract_model = Contract
 

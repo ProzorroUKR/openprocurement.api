@@ -26,7 +26,7 @@ LOGGER = getLogger(__name__)
     description="Tender awards",
     procurementMethodType="belowThreshold",
 )
-class TenderBidResource(TenderAwardResource):
+class BelowThresholdTenderAwardResource(TenderAwardResource):
     state_class = AwardState
 
     @json_view(

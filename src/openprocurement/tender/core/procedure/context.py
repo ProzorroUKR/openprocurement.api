@@ -1,6 +1,6 @@
-from openprocurement.api.constants import TZ
 from openprocurement.api.context import get_now, set_now, set_request, get_request, get_data, get_json_data
-from datetime import datetime
+from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.utils import get_first_revision_date
 from typing import Union
 import threading
 
@@ -16,6 +16,11 @@ def get_tender() -> Union[dict, None]:
 def get_contract() -> Union[dict, None]:
     tender = get_request().validated.get("contract")
     return tender
+
+
+def get_cancellation() -> Union[dict, None]:
+    cancellation = get_request().validated.get("cancellation")
+    return cancellation
 
 
 def get_bid() -> dict:
@@ -38,3 +43,7 @@ def get_bids_before_auction_results_context():
         from openprocurement.tender.core.procedure.awarding import get_bids_before_auction_results
         get_request().validated["bids_before_auction"] = get_bids_before_auction_results(tender)
     return get_request().validated["bids_before_auction"]
+
+
+def since_2020_rules():  # TODO use it everywhere?
+    return get_first_revision_date(get_tender(), default=get_now()) > RELEASE_2020_04_19

@@ -725,7 +725,7 @@ def cancel_lot_after_sing_contract(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Can't update tender in current (complete) status",
+                "description": "Can't perform cancellation in current (complete) tender status",
             }
         ],
     )
@@ -1206,11 +1206,16 @@ def patch_lot_with_cancellation(self):
         auth = self.app.authorization
         self.app.authorization = ("Basic", ("broker", ""))
 
-        response = self.app.post(
+        response = self.app.post_json(
             "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
                 self.tender_id, cancellation_id, self.tender_token
             ),
-            upload_files=[("file", "name.doc", b"content")],
+            {"data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }}
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")

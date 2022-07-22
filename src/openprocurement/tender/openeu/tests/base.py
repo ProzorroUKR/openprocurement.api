@@ -4,6 +4,7 @@ import os
 
 from datetime import datetime, timedelta
 from openprocurement.api.constants import SANDBOX_MODE, RELEASE_ECRITERIA_ARTICLE_17
+from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.belowthreshold.tests.base import (
     test_milestones as base_test_milestones,
     test_organization,
@@ -275,7 +276,6 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
 
         # qualify bids
         response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
-        self.app.authorization = ("Basic", ("broker", ""))
         for qualification in response.json["data"]:
             response = self.app.patch_json(
                 "/tenders/{}/qualifications/{}?acc_token={}".format(
@@ -297,26 +297,26 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
         response = self.check_chronograph()
         self.assertEqual(response.json["data"]["status"], "active.auction")
 
-        self.app.authorization = ("Basic", ("auction", ""))
-        response = self.app.get("/tenders/{}/auction".format(self.tender_id))
-        auction_bids_data = response.json["data"]["bids"]
-        for lot_id in self.initial_lots:
-            response = self.app.post_json(
-                "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]),
-                {"data": {"bids": [
-                    {"id": b["id"],
-                     "lotValues": [
-                         {"relatedLot": l["relatedLot"],
-                          "value": {
-                              "yearlyPaymentsPercentage": l["value"]["yearlyPaymentsPercentage"],
-                              "contractDuration": l["value"]["contractDuration"]
-                          } if "contractDuration" in l["value"] else {
-                              "amount": l["value"]["amount"]}
-                          } for l in b["lotValues"]]}
-                    for b in auction_bids_data]}}
-            )
-            self.assertEqual(response.status, "200 OK")
-            self.assertEqual(response.content_type, "application/json")
+        with change_auth(self.app, ("Basic", ("auction", ""))):
+            response = self.app.get("/tenders/{}/auction".format(self.tender_id))
+            auction_bids_data = response.json["data"]["bids"]
+            for lot_id in self.initial_lots:
+                response = self.app.post_json(
+                    "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]),
+                    {"data": {"bids": [
+                        {"id": b["id"],
+                         "lotValues": [
+                             {"relatedLot": l["relatedLot"],
+                              "value": {
+                                  "yearlyPaymentsPercentage": l["value"]["yearlyPaymentsPercentage"],
+                                  "contractDuration": l["value"]["contractDuration"]
+                              } if "contractDuration" in l["value"] else {
+                                  "amount": l["value"]["amount"]}
+                              } for l in b["lotValues"]]}
+                        for b in auction_bids_data]}}
+                )
+                self.assertEqual(response.status, "200 OK")
+                self.assertEqual(response.content_type, "application/json")
         response = self.app.get("/tenders/{}".format(self.tender_id))
         self.assertEqual(response.json["data"]["status"], "active.qualification")
 

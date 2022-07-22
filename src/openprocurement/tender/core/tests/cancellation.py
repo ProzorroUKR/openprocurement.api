@@ -50,14 +50,16 @@ def activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id
     if not tender_token:
         tender_token = self.tender_token
 
-    auth = self.app.authorization
-    self.app.authorization = ("Basic", ("token", ""))
-
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
             tender_id, cancellation_id, tender_token
         ),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -86,8 +88,6 @@ def activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active")
 
-    self.app.authorization = auth
-
 
 def activate_cancellation_without_complaints_after_2020_04_19(self, cancellation_id, tender_id=None, tender_token=None):
     if not tender_id:
@@ -96,14 +96,16 @@ def activate_cancellation_without_complaints_after_2020_04_19(self, cancellation
     if not tender_token:
         tender_token = self.tender_token
 
-    auth = self.app.authorization
-    self.app.authorization = ("Basic", ("token", ""))
-
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
             tender_id, cancellation_id, tender_token
         ),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -118,5 +120,3 @@ def activate_cancellation_without_complaints_after_2020_04_19(self, cancellation
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active")
-
-    self.app.authorization = auth

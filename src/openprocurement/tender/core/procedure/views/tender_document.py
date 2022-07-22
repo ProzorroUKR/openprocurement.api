@@ -1,6 +1,7 @@
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.views.document import BaseDocumentResource, resolve_document
-from openprocurement.tender.core.procedure.state.tender_document import TenderDocumentState, get_tender_document_role
+from openprocurement.tender.core.procedure.state.tender_document import TenderDocumentState
+from openprocurement.tender.core.procedure.validation import get_tender_document_role
 from pyramid.security import Allow, Everyone
 
 

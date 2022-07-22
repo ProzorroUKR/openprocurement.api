@@ -59,6 +59,8 @@ class TenderCancellationActiveAwardedResourceTest(TenderCancellationActiveTender
 
 
 class TenderCancellationDocumentResourceTest(TenderContentWebTest, TenderCancellationDocumentResourceTestMixin):
+    initial_status = "active.tendering"
+
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
         # Create cancellation
