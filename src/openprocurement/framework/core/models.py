@@ -60,7 +60,8 @@ class Framework(RootModel):
             # "Administrator": whitelist("status", "mode"),
             "default": blacklist("doc_id", "__parent__"),  # obj.store() use default role
             "plain": blacklist(  # is used for getting patches
-                "_attachments", "revisions", "dateModified", "_id", "_rev", "doc_type", "__parent__"
+                "_attachments", "revisions", "dateModified",
+                "_id", "_rev", "doc_type", "__parent__", "public_modified",
             ),
             "listing": whitelist("dateModified", "doc_id"),
             "embedded": blacklist("_id", "_rev", "doc_type", "__parent__"),
@@ -181,7 +182,7 @@ class Submission(RootModel):
             "edit_bot": whitelist("status", "qualificationID"),
             "default": blacklist("doc_id", "__parent__"),
             "plain": blacklist(  # is used for getting patches
-                "_attachments", "revisions", "dateModified", "_id", "_rev", "doc_type", "__parent__"
+                "_attachments", "revisions", "dateModified", "_id", "_rev", "doc_type", "__parent__", "public_modified",
             ),
             "view": whitelist(
                 "doc_id",
@@ -277,7 +278,7 @@ class Qualification(RootModel):
             "edit": whitelist("status", "documents"),
             "default": blacklist("doc_id", "__parent__"),
             "plain": blacklist(  # is used for getting patches
-                "_attachments", "revisions", "dateModified", "_id", "_rev", "doc_type", "__parent__"
+                "_attachments", "revisions", "dateModified", "_id", "_rev", "doc_type", "__parent__", "public_modified",
             ),
             "view": whitelist(
                 "doc_id",
