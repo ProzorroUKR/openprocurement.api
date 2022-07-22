@@ -958,52 +958,6 @@ def get_qualification_document_role(request):
     return role
 
 
-def validate_operation_with_lot_cancellation_in_pending(type_name):
-    def validation(request, **kwargs):
-        fields_names = {
-            "lot": "id",
-            "award": "lotID",
-            "qualification": "lotID",
-            "complaint": "relatedLot",
-            "question": "relatedItem"
-        }
-
-        tender = request.validated["tender"]
-        tender_created = get_first_revision_date(tender, default=get_now())
-
-        field = fields_names.get(type_name)
-        o = request.validated.get(type_name)
-        lot_id = getattr(o, field, None)
-
-        if tender_created < RELEASE_2020_04_19 or not lot_id:
-            return
-
-        msg = "Can't {} {} with lot that have active cancellation"
-        if type_name == "lot":
-            msg = "Can't {} lot that have active cancellation"
-
-        accept_lot = all([
-            any([j["status"] == "resolved" for j in i["complaints"]])
-            for i in tender.get("cancellations", [])
-            if i["status"] == "unsuccessful" and getattr(i, "complaints", None) and i["relatedLot"] == lot_id
-        ])
-
-        if (
-            request.authenticated_role == "tender_owner"
-            and (
-                any([
-                    i for i in tender.get("cancellations", [])
-                    if i["relatedLot"] and i["status"] == "pending" and i["relatedLot"] == lot_id])
-                or not accept_lot
-            )
-        ):
-            raise_operation_error(
-                request,
-                msg.format(OPERATIONS.get(request.method), type_name),
-            )
-    return validation
-
-
 def validate_qualification_update_with_cancellation_lot_pending(request, **kwargs):
     tender = request.validated["tender"]
     tender_created = get_first_revision_date(tender, default=get_now())
