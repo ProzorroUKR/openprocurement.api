@@ -606,15 +606,6 @@ def patch_tender_contract(self):
     self.assertEqual(response.json["data"]["resolution"], "resolution text " * 2)
 
     response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"status": "active"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't sign contract before reviewing all complaints")
-
-    response = self.app.patch_json(
         "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
             self.tender_id, self.award_id, complaint["id"], owner_token
         ),

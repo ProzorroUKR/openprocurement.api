@@ -237,37 +237,46 @@ class ContractStateMixing:
     def validate_contract_signing(self, before: dict,  after: dict):
         tender = get_tender()
         if before.get("status") != "active" and after.get("status") == "active":
-            skip_complaint_period = self.check_skip_award_complaint_period()
             award = [a for a in tender.get("awards", []) if a.get("id") == after.get("awardID")][0]
-            if not skip_complaint_period:
-                stand_still_end = dt_from_iso(award.get("complaintPeriod", {}).get("endDate"))
-                if stand_still_end > get_now():
-                    raise_operation_error(
-                        get_request(),
-                        "Can't sign contract before stand-still period end ({})".format(stand_still_end.isoformat())
-                    )
-            else:
-                stand_still_end = dt_from_iso(award.get("complaintPeriod", {}).get("startDate"))
-                if stand_still_end > get_now():
-                    raise_operation_error(
-                        get_request(),
-                        f"Can't sign contract before award activation date ({stand_still_end.isoformat()})"
-                    )
-            pending_complaints = [
-                i
-                for i in tender.get("complaints", [])
-                if (i.get("status") in self.block_complaint_status and
-                    i.get("relatedLot") in (None, award.get("lotID")))
-            ]
-            pending_awards_complaints = [
-                i
-                for a in tender.get("awards", [])
-                for i in a.get("complaints", [])
-                if (i.get("status") in self.block_complaint_status and
-                    a.get("lotID") == award.get("lotID"))
-            ]
-            if pending_complaints or pending_awards_complaints:
-                raise_operation_error(get_request(), "Can't sign contract before reviewing all complaints")
+            self._validate_contract_signing_before_due_date(award)
+            self._validate_contract_signing_with_pending_complaints(award)
+
+    def _validate_contract_signing_before_due_date(self, award: dict):
+        skip_complaint_period = self.check_skip_award_complaint_period()
+
+        if not skip_complaint_period:
+            stand_still_end = dt_from_iso(award.get("complaintPeriod", {}).get("endDate"))
+            if stand_still_end > get_now():
+                raise_operation_error(
+                    get_request(),
+                    "Can't sign contract before stand-still period end ({})".format(stand_still_end.isoformat())
+                )
+        else:
+            stand_still_end = dt_from_iso(award.get("complaintPeriod", {}).get("startDate"))
+            if stand_still_end > get_now():
+                raise_operation_error(
+                    get_request(),
+                    f"Can't sign contract before award activation date ({stand_still_end.isoformat()})"
+                )
+
+    def _validate_contract_signing_with_pending_complaints(self, award: dict):
+        tender = get_tender()
+        pending_complaints = [
+            i
+            for i in tender.get("complaints", [])
+            if (i.get("status") in self.block_complaint_status and
+                i.get("relatedLot") in (None, award.get("lotID")))
+        ]
+        pending_awards_complaints = [
+            i
+            for a in tender.get("awards", [])
+            for i in a.get("complaints", [])
+            if (i.get("status") in self.block_complaint_status and
+                a.get("lotID") == award.get("lotID"))
+        ]
+        if pending_complaints or pending_awards_complaints:
+            raise_operation_error(get_request(), "Can't sign contract before reviewing all complaints")
+
 
     def contract_on_patch(self, before: dict, after: dict):
         if before["status"] != after["status"]:
