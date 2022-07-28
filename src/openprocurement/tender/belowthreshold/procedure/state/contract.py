@@ -13,3 +13,6 @@ class BelowThresholdContractState(ContractStateMixing, BelowThresholdTenderState
         self.validate_contract_items(before, after)
         self.validate_contract_signing(before, after)
         super().contract_on_patch(before, after)
+
+    def _validate_contract_signing_with_pending_complaints(self, award: dict):
+        pass
