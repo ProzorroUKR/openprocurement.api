@@ -209,7 +209,7 @@ def extract_path(request):
 
 
 def extract_tender_id(request):
-    if request.matchdict and request.matchdict.get("tender_id"):
+    if request.matchdict and "tender_id" in request.matchdict:
         return request.matchdict.get("tender_id")
 
     path = extract_path(request)
