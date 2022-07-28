@@ -1,0 +1,40 @@
+Заголовок: {{ title }}
+Опис: {{ description }}
+Title: {{ title_en }}
+Description: {{ description_en }}
+tenderID: {{ tenderID }}
+Вид закупівлі: {{ procurementMethodType | human('procurementMethodType') }}
+Вид предмету закупівлі: {{ mainProcurementCategory | human('mainProcurementCategory') }}
+Очікувана вартість: {% include "value.txt" %}
+Розмір мінімального кроку пониження ціни: {% with value=minimalStep %}{% include "value.txt" %}{% endwith %}
+{% if guarantee.amount %}Гарантія: {% with value=guarantee %}{% include "value.txt" %}{% endwith %}{% endif %}
+
+{% for lot in lots %}
+    Лот №{{ lots_numbers[lot.id] }}
+    {% if lot.title %}Заголовок: {{ lot.title }}{% endif %}
+    Опис: {{ lot.description }}
+    Очікувана вартість: {% with value=lot.value %}{% include "value.txt" %}{% endwith %}
+    Розмір мінімального кроку пониження ціни: {% with value=lot.minimalStep %}{% include "value.txt" %}{% endwith %}
+    {% if lot.guarantee.amount %}Гарантія: {% with value=lot.guarantee %}{% include "value.txt" %}{% endwith %}{% endif %}
+{% endfor %}
+
+
+{% for item in items %}
+    Предмет закупівлі №{{ items_numbers[item.id] }}
+    Опис: {{ item.description }}
+    Description: {{ item.description_en }}
+    Класифікатор: {{ item.classification.scheme }} {{ item.classification.id }}: {{ item.classification.description }}
+    {% for c in item.additionalClassifications %}
+    Додатковий класифікатор: {{ c.scheme }} {{ c.id }}: {{ c.description }}
+    {% endfor %}
+    Кількість: {{ item.quantity }} {{ item.unit.name }}
+    Період постачання: {{ item.deliveryDate.endDate }}
+    Місце поставки товарів або місце виконання робіт чи надання послуг: {{ item.deliveryAddress.streetAddress }}, {{ item.deliveryAddress.locality }}, {{ item.deliveryAddress.region }}, {{ item.deliveryAddress.postalCode }}, {{ item.deliveryAddress.countryName }}
+{% endfor %}
+
+{% if documents %}
+Документи:
+    {% for doc in documents %}
+    {% include "document.txt" %}
+    {% endfor %}
+{% endif %}

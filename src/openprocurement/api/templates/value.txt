@@ -1,0 +1,1 @@
+{{ value.amount }} {{ value.currency }} {% if not value.valueAddedTaxIncluded %}бе{% endif %}з ПДВ

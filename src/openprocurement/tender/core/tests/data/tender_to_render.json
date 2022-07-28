@@ -1,0 +1,163 @@
+{
+    "title_en": "Inverted microscope, light microscope (NC Code 024:2019:17440 – Inverted light microscope, 35484 – Standard light microscope) DC Code 021:2015: 38510000-3 – Microscopes",
+    "description": "Місцезнаходження Замовника: вул. І. Миколайчука, 9, м. Львів, 79059. Категорія Замовника: підприємства, установи, організації, зазначені у пункті 3 частини першої ст. 2 Закону України \"Про публічні закупівлі\". Мова якою викладено - українська.",
+    "plans": [
+        {
+            "id": "dff929160c104056bfd54abb8fe840dd"
+        }
+    ],
+    "criteria": [],
+    "date": "2022-07-23T15:03:24.832657+03:00",
+    "dateModified": "2022-07-23T15:03:24.832657+03:00",
+    "dateCreated": "2022-07-23T14:57:54.128761+03:00",
+    "tenderID": "UA-2022-07-23-000100-a",
+    "documents": [
+       {
+           "hash": "md5:fec14d0173e9df8b195b79d68746216f",
+           "author": "tender_owner",
+           "language": "uk",
+           "format": "application/pkcs7-signature",
+           "url": "https://public-docs-staging.prozorro.gov.ua/get/8dbc501db44647a2a124eeb23054b9bb?Signature=sfj1ST81MMTELl4VtWFjH4K2pCDYGGVIc0MjJnPL23ndfQuQbLfs%2FIyYHKIkEBxbVyQ0k5CSIKYCcTcnHFEnCQ%3D%3D&KeyID=01b985cf",
+           "title": "sign.p7s",
+           "documentOf": "tender",
+           "datePublished": "2022-02-08T15:54:59.721915+02:00",
+           "dateModified": "2022-02-08T15:54:59.721929+02:00",
+           "id": "226f50a26bd14c619dc1c3c03d74837d"
+       },
+       {
+           "hash": "md5:be918a41de80388a774884f029f72fa2",
+           "author": "tender_owner",
+           "language": "uk",
+           "format": "application/msword",
+           "url": "https://public-docs-staging.prozorro.gov.ua/get/446b865eec5a4805a13b1d21a15f7574?Signature=x5DtkZMyYrM4P2c6TANup7UqCzMEbsalbd1OUuec3Ate8hLAjVY5NVf84ybBK%2FSrf9fH39p45oaOjx%2F%2BNTMRDw%3D%3D&KeyID=01b985cf",
+           "title": "d-f256eb9aipsumr8vFqo.doc",
+           "documentOf": "tender",
+           "datePublished": "2022-02-08T15:58:40.037835+02:00",
+           "documentType": "notice",
+           "dateModified": "2022-02-08T15:58:40.037859+02:00",
+           "id": "d8b6f53bbacc47b7898a90b15f087263"
+       }
+   ],
+    "owner": "netcast.com.ua",
+    "title": "Мікроскоп інвертований, мікроскоп світловий (Код НК 024:2019:17440 – Інвертований світловий мікроскоп, 35484 – Мікроскоп світловий стандартний) Код ДК 021:2015: 38510000-3 – Мікроскопи",
+    "mainProcurementCategory": "goods",
+    "submissionMethod": "electronicAuction",
+    "procurementMethod": "open",
+    "value": {
+        "amount": 7225305,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": false
+    },
+    "guarantee": {
+        "amount": 0,
+        "currency": "UAH"
+    },
+    "minimalStep": {
+        "amount": 36126.53,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true
+    },
+    "milestones": [
+        {
+            "id": "a645a171460344dba7576328d09df4e0",
+            "title": "deliveryOfGoods",
+            "type": "financing",
+            "code": "postpayment",
+            "percentage": 100,
+            "duration": {
+                "days": 45,
+                "type": "calendar"
+            },
+            "sequenceNumber": 0
+        }
+    ],
+    "procurementMethodType": "aboveThresholdEU",
+    "procuringEntity": {
+        "name": "Комунальне некомерційне підприємство «Львівське територіальне медичне об’єднання «Багатопрофільна клінічна лікарня інтенсивних методів лікування та швидкої медичної допомоги»",
+        "address": {
+            "streetAddress": "вул. І.Миколайчука, 9",
+            "locality": "Львів",
+            "region": "Львівська область",
+            "postalCode": "79059",
+            "countryName": "Україна"
+        },
+        "name_en": "LVIV TERRITORIAL MEDICAL ASSOCIATION MULTIPROFILE CLINICAL HOSPITAL INTENSIVE INVENTION",
+        "identifier": {
+            "scheme": "UA-EDR",
+            "id": "44496574",
+            "legalName": "Комунальне некомерційне підприємство «Львівське територіальне медичне об’єднання «Багатопрофільна клінічна лікарня інтенсивних методів лікування та швидкої медичної допомоги»",
+            "legalName_en": "LVIV TERRITORIAL MEDICAL ASSOCIATION MULTIPROFILE CLINICAL HOSPITAL INTENSIVE INVENTION"
+        },
+        "contactPoint": {
+            "name_ru": "  ",
+            "email": "1_tmo_tender@ukr.net",
+            "telephone": "+380322581125",
+            "name": "Федорович Людмила Михайлівна",
+            "name_en": "Fedorovych Lyudmila ",
+            "availableLanguage": "uk"
+        },
+        "additionalContactPoints": [
+            {
+                "email": "1_tmo_tender@ukr.net",
+                "telephone": "+380322581125",
+                "name": "Fedorovych Lyudmila",
+                "name_en": "Fedorovych Lyudmila",
+                "availableLanguage": "en"
+            }
+        ],
+        "kind": "general"
+    },
+    "status": "active.tendering",
+    "awardCriteria": "lowestCost",
+    "enquiryPeriod": {
+        "startDate": "2022-07-23T14:57:54.128761+03:00",
+        "endDate": "2022-08-14T00:00:00+03:00",
+        "clarificationsUntil": "2022-08-18T00:00:00+03:00",
+        "invalidationDate": "2022-07-23T15:03:24.832657+03:00"
+    },
+    "tenderPeriod": {
+        "startDate": "2022-07-23T14:57:54.128761+03:00",
+        "endDate": "2022-08-24T12:00:00+03:00"
+    },
+    "items": [
+        {
+            "id": "3294e2e8748a8095e148e5af28aa3f71",
+            "description": "Мікроскоп інвертований, мікроскоп світловий (Код НК 024:2019:17440 – Інвертований світловий мікроскоп, 35484 – Мікроскоп світловий стандартний) Код ДК 021:2015: 38510000-3 – Мікроскопи",
+            "classification": {
+                "description": "Мікроскопи",
+                "scheme": "ДК021",
+                "id": "38510000-3"
+            },
+            "additionalClassifications": [
+                {
+                    "scheme": "GMDN",
+                    "id": "17440",
+                    "description": "Інвертований світловий мікроскоп"
+                }
+            ],
+            "unit": {
+                "name": "штуки",
+                "code": "H87"
+            },
+            "quantity": 2,
+            "deliveryDate": {
+                "endDate": "2023-03-31T15:02:53+03:00"
+            },
+            "deliveryAddress": {
+                "streetAddress": "вул. І. Миколайчука, 9",
+                "locality": "Львів",
+                "region": "Львівська область",
+                "postalCode": "79059",
+                "countryName": "Україна"
+            },
+            "description_en": "Inverted microscope, light microscope (NC Code 024:2019:17440 – Inverted light microscope, 35484 – Standard light microscope) DC Code 021:2015: 38510000-3 – Microscopes"
+        }
+    ],
+    "complaintPeriod": {
+        "startDate": "2022-07-23T14:57:54.128761+03:00",
+        "endDate": "2022-08-20T00:00:00+03:00"
+    },
+    "next_check": "2022-08-24T12:00:00+03:00",
+    "id": "520d3c3a9a9f47b9bec63eb6d86610eb"
+
+}
