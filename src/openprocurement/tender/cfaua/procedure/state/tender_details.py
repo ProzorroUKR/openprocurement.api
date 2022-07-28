@@ -155,10 +155,12 @@ class CFAUATenderDetailsMixing(TenderDetailsMixing):
                         "tenderPeriod should be extended by {0.days} days".format(self.tendering_period_extra)
                     )
                 # self.update_date(after)  # There is a test that fails if uncomment
-                self.initialize_enquiry_period(after)
             self.invalidate_bids_data(after)
         elif after["status"] == "active.tendering":
             after["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
+
+        if after["status"] in ("draft", "active.tendering"):
+            self.initialize_enquiry_period(after)
 
         self.validate_tender_exclusion_criteria(before, after)
         self.validate_tender_language_criteria(before, after)
@@ -217,21 +219,6 @@ class CFAUATenderDetailsMixing(TenderDetailsMixing):
         for bid in tender.get("bids", ""):
             if bid.get("status") not in ("deleted", "draft"):
                 bid["status"] = "invalid"
-
-    # @staticmethod
-    # def initialize_enquiry_period(tender):
-    #     tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
-    #     end_date = calculate_tender_business_date(tendering_end, -ENQUIRY_PERIOD_TIME, tender)
-    #     clarifications_until = calculate_clarif_business_date(end_date, ENQUIRY_STAND_STILL_TIME, tender, True)
-    #     enquiry_period = tender.get("enquiryPeriod")
-    #     tender["enquiryPeriod"] = dict(
-    #         startDate=tender["tenderPeriod"]["startDate"],
-    #         endDate=end_date.isoformat(),
-    #         clarificationsUntil=clarifications_until.isoformat(),
-    #     )
-    #     invalidation_date = enquiry_period and enquiry_period.get("invalidationDate")
-    #     if invalidation_date:
-    #         tender["enquiryPeriod"]["invalidationDate"] = invalidation_date
 
     @staticmethod
     def watch_value_meta_changes(tender):
