@@ -209,7 +209,16 @@ def extract_path(request):
 
 
 def extract_tender_id(request):
-    return request.matchdict and request.matchdict.get("tender_id")
+    if request.matchdict and request.matchdict.get("tender_id"):
+        return request.matchdict.get("tender_id")
+
+    path = extract_path(request)
+    # extract tender id
+    parts = path.split("/")
+    if len(parts) < 5 or parts[3] != "tenders":
+        return
+    tender_id = parts[4]
+    return tender_id
 
 
 def extract_tender_doc(request):
