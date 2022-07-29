@@ -110,12 +110,13 @@ class OpenEUTenderDetailsMixing(TenderDetailsMixing):
                         get_request(),
                         "tenderPeriod should be extended by {0.days} days".format(self.tendering_period_extra)
                     )
-                self.initialize_enquiry_period(after)
                 self.update_complaint_period(after)
             self.invalidate_bids_data(after)
 
         elif after["status"] == "active.tendering":
             after["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
+
+        if after["status"] in ("draft", "draft.stage2", "active.tendering"):
             self.initialize_enquiry_period(after)
 
         self.validate_tender_exclusion_criteria(before, after)
