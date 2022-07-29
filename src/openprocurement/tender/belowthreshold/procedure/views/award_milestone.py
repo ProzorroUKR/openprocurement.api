@@ -3,11 +3,11 @@ from cornice.resource import resource
 
 
 @resource(
-    name="simple.defense:Tender Award Milestones",
+    name="belowThreshold:Tender Award Milestones",
     collection_path="/tenders/{tender_id}/awards/{award_id}/milestones",
     path="/tenders/{tender_id}/awards/{award_id}/milestones/{milestone_id}",
     description="Tender award milestones",
-    procurementMethodType="simple.defense",
+    procurementMethodType="belowThreshold",
 )
-class SimpleDefenseAwardMilestoneResource(BaseAwardMilestoneResource):
+class BelowThresholdAwardMilestoneResource(BaseAwardMilestoneResource):
     pass

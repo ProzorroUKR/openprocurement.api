@@ -3,4 +3,4 @@ from openprocurement.tender.core.tests.qualification_milestone import TenderQual
 
 
 class TenderQualificationMilestoneTestCase(TenderQualificationMilestone24HMixin, TenderQualificationBaseTestCase):
-    context_name = "qualification"
+    pass

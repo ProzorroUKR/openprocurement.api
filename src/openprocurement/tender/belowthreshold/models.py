@@ -30,7 +30,7 @@ from openprocurement.tender.core.models import (
     Bid as BaseBid,
     ProcuringEntity,
     Item as BaseItem,
-    Award,
+    Award as BaseAward,
     Contract as BaseContract,
     Question,
     Cancellation as BaseCancellation,
@@ -43,7 +43,7 @@ from openprocurement.tender.core.models import (
     get_tender,
     validate_unit_required,
     validate_quantity_required,
-    validate_item_related_buyers,
+    validate_item_related_buyers, QualificationMilestoneListMixin,
 )
 
 from openprocurement.tender.core.utils import (
@@ -165,6 +165,10 @@ class Item(BaseItem):
 
 class Contract(BaseContract):
     items = ListType(ModelType(Item, required=True))
+
+
+class Award(BaseAward, QualificationMilestoneListMixin):
+    pass
 
 
 @implementer(IBelowThresholdTender)

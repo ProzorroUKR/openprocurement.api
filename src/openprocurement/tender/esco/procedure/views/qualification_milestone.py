@@ -9,5 +9,5 @@ from cornice.resource import resource
     procurementMethodType="esco",
     description="Tender ESCO qualification milestones",
 )
-class CDStage2UAAwardMilestoneResource(QualificationMilestoneResource):
+class ESCOQualificationMilestoneResource(QualificationMilestoneResource):
     pass

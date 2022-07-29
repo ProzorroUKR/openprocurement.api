@@ -10,5 +10,5 @@ from cornice.resource import resource
     procurementMethodType=STAGE_2_EU_TYPE,
     description="Tender qualification milestones",
 )
-class CDStage2UAAwardMilestoneResource(QualificationMilestoneResource):
+class CDStage2UAQualificationMilestoneResource(QualificationMilestoneResource):
     pass
