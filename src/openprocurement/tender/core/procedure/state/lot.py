@@ -10,11 +10,20 @@ class LotStateMixin:
     request: Request
     calc_tender_values: callable
     get_lot_auction_should_start_after: callable
+    validate_cancellation_blocks: callable  # from TenderState
+
+    def validate_lot_post(self, lot) -> None:
+        request, tender = get_request(), get_tender()
+        self.validate_cancellation_blocks(request, tender)
 
     def lot_on_post(self, data: dict) -> None:
         self.pre_save_validations(data)
         self.set_lot_data(data)
         self.lot_always(data)
+
+    def validate_lot_patch(self, before: dict, after: dict) -> None:
+        request, tender = get_request(), get_tender()
+        self.validate_cancellation_blocks(request, tender, lot_id=before["id"])
 
     def lot_on_patch(self, before: dict, after: dict) -> None:
         self.pre_save_validations(after)
@@ -22,6 +31,10 @@ class LotStateMixin:
         self.lot_always(after)
         if "status" in after and before["status"] != after["status"]:
             self.lot_status_up(before["status"], after["status"], after)
+
+    def validate_lot_delete(self, lot) -> None:
+        request, tender = get_request(), get_tender()
+        self.validate_cancellation_blocks(request, tender, lot_id=lot["id"])
 
     def lot_on_delete(self, data: dict) -> None:
         self.lot_always(data)

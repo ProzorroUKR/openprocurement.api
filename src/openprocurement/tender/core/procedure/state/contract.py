@@ -1,5 +1,5 @@
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.context import get_tender, get_now, get_request
+from openprocurement.tender.core.procedure.context import get_tender, get_now, get_request, get_award
 from openprocurement.tender.core.procedure.utils import (
     contracts_allow_to_complete,
     dt_from_iso,
@@ -28,6 +28,7 @@ class ContractStateMixing:
     set_object_status: callable  # from BaseState
     block_complaint_status: tuple  # from TenderState
     check_skip_award_complaint_period: callable  # from TenderState
+    validate_cancellation_blocks: callable  # from TenderState
 
     @staticmethod
     def calculate_stand_still_end(tender, lot_awards, now):
@@ -277,6 +278,10 @@ class ContractStateMixing:
         if pending_complaints or pending_awards_complaints:
             raise_operation_error(get_request(), "Can't sign contract before reviewing all complaints")
 
+
+    def validate_contract_patch(self, before: dict, after: dict):
+        request, tender, award = get_request(), get_tender(), get_award()
+        self.validate_cancellation_blocks(request, tender, lot_id=award.get("lotID"))
 
     def contract_on_patch(self, before: dict, after: dict):
         if before["status"] != after["status"]:

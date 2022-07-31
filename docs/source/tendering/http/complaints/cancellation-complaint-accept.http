@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/9056b6881e5c4accadfcaa96d4409069/cancellations/6a6959c48c2a4e3e9f7d510d88442f08/complaints/f1dcc4a59bc54974bcab49c81f5df20e HTTP/1.0
+PATCH /api/2.5/tenders/9056b6881e5c4accadfcaa96d4409069/cancellations/fcbd87c46f7d49e3a21f70b1a0b85f6a/complaints/f1dcc4a59bc54974bcab49c81f5df20e HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 98
 Content-Type: application/json
@@ -22,7 +22,7 @@ X-Content-Type-Options: nosniff
     "date": "2023-01-01T00:00:00+02:00",
     "documents": [
       {
-        "id": "f0243faf50904385b312fbee20b65011",
+        "id": "81d032fcca0f4f60bbdb3c79db0c5c8a",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Complaint_Attachment.pdf",
         "format": "application/pdf",

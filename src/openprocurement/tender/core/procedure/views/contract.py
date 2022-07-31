@@ -17,8 +17,12 @@ def resolve_contract(request):
     match_dict = request.matchdict
     if match_dict.get("contract_id"):
         contract_id = match_dict["contract_id"]
-        contracts = get_items(request, request.validated["tender"], "contracts", contract_id)
-        request.validated["contract"] = contracts[0]
+        contract = get_items(request, request.validated["tender"], "contracts", contract_id)[0]
+        request.validated["contract"] = contract
+
+        tender = request.validated["tender"]
+        awards = [a for a in tender["awards"] if a["id"] == contract["awardID"]]
+        request.validated["award"] = awards[0]
 
 
 class TenderContractResource(TenderBaseResource):
@@ -86,6 +90,7 @@ class TenderContractResource(TenderBaseResource):
         updated_contract = self.request.validated["data"]
         if updated_contract:
             contract = self.request.validated["contract"]
+            self.state.validate_contract_patch(contract, updated_contract)
             set_item(self.request.validated["tender"], "contracts", contract["id"], updated_contract)
             self.state.contract_on_patch(contract, updated_contract)
 

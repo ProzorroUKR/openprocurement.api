@@ -29,15 +29,6 @@ from cornice.resource import resource
 class BelowThresholdTenderResource(TendersResource):
     state_class = TenderDetailsState
 
-    @json_view(permission="view_tender")
-    def get(self):
-        tender = self.request.validated["tender"]
-        data = self.serializer_class(tender).data
-
-        # default value, that is missed in a few first tenders in the db
-        data["procurementMethodType"] = BELOW_THRESHOLD
-        return {"data": data}
-
     @json_view(
         content_type="application/json",
         permission="create_tender",

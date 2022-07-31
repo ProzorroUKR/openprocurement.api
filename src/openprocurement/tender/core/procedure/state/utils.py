@@ -1,24 +1,3 @@
-from openprocurement.tender.core.procedure.context import get_now
-from openprocurement.tender.core.procedure.utils import get_first_revision_date
-from openprocurement.api.constants import TZ, RELEASE_2020_04_19
-
-
-def cancellation_blocks_tender(tender):
-    if get_first_revision_date(tender, default=get_now()) < RELEASE_2020_04_19:
-        return False
-
-    if tender["procurementMethodType"] in ("belowThreshold", "closeFrameworkAgreementSelectionUA"):
-        return False
-
-    if any(i["status"] == "pending" for i in tender.get("cancellations", "")):
-        return True
-
-    accept_tender = all(
-        any(complaint["status"] == "resolved" for complaint in c.get("complaints"))
-        for c in tender.get("cancellations", "")
-        if c["status"] == "unsuccessful" and c.get("complaints")
-    )
-    return not accept_tender
 
 
 def has_unanswered_questions(tender, filter_cancelled_lots=True):

@@ -97,6 +97,8 @@ class TendersResource(TenderBaseResource):
     def patch(self):
         updated = self.request.validated["data"]
         if updated:
+            before = self.request.validated["tender_src"]
+            self.state.validate_tender_patch(before, updated)
             self.request.validated["tender"] = updated
             self.state.on_patch(self.request.validated["tender_src"], updated)
             if save_tender(self.request):

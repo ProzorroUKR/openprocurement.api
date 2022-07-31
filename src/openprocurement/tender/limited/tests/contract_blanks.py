@@ -760,10 +760,21 @@ def activate_contract_cancelled_lot(self):
 
     value = contract["value"]
     value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
+    resp = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
         {"data": {"value": value}},
+        status=403
     )
+    self.assertEqual(
+        resp.json["errors"],
+        [{'location': 'body', 'name': 'data', 'description': "Can't perform action due to a pending cancellation"}]
+    )
+
+    # update value by admin
+    tender = self.mongodb.tenders.get(self.tender_id)
+    for i in tender.get("contracts", []):
+        i["value"] = value
+    self.mongodb.tenders.save(tender)
 
     # Try to sign (activate) contract
     response = self.app.patch_json(
@@ -774,7 +785,7 @@ def activate_contract_cancelled_lot(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't update contract while cancellation for corresponding lot exists",
+        "Can't perform action due to a pending cancellation",
     )
 
 

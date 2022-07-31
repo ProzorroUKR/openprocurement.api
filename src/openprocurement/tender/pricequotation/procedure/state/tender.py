@@ -53,12 +53,10 @@ class PriceQuotationTenderState(TenderState):
 
     # utils
     def check_bids_number(self, tender):
-        if not any(i["status"] not in ("active", "unsuccessful")
-                   for i in tender.get("cancellations", "")):
-            if len(tender.get("bids", "")) == 0:
-                self.get_change_tender_status_handler("unsuccessful")(tender)
-            else:
-                self.add_next_award()
+        if len(tender.get("bids", "")) == 0:
+            self.get_change_tender_status_handler("unsuccessful")(tender)
+        else:
+            self.add_next_award()
 
     def check_tender_status(self, tender):
         last_award_status = tender["awards"][-1]["status"]
