@@ -95,8 +95,10 @@ class AgreementCollection(BaseCollection):
     def has_active_suspended_contracts(self, framework_id, identifier_id):
         result = list(self.collection.find(
             filter={
-                "contracts.status": {"$in": ["active", "suspended"]},
-                "contracts.suppliers.identifier.id": identifier_id,
+                "contracts": {"$elemMatch": {
+                    "status": {"$in": ["active", "suspended"]},
+                    "suppliers.identifier.id": identifier_id,
+                }},
                 # there is an index for these two below
                 "frameworkID": framework_id,
                 "is_public": True,

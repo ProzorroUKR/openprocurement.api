@@ -7,7 +7,7 @@ from freezegun import freeze_time
 
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
-from openprocurement.framework.electroniccatalogue.models import Submission
+from openprocurement.framework.electroniccatalogue.models import Submission, Agreement
 from openprocurement.framework.electroniccatalogue.tests.base import (
     test_electronicCatalogue_data,
     ban_milestone_data,
@@ -283,6 +283,22 @@ def patch_contract_active_status(self):
           'location': 'body',
           'name': 'data'}]
     )
+
+    # this contract is terminated but another user contract is active
+    agreement = self.mongodb.agreements.get(self.agreement_id)
+    contract = dict(agreement["contracts"][0])
+    agreement["contracts"].append(contract)
+    agreement["contracts"][0]["status"] = "terminated"
+    agreement["contracts"][1]["suppliers"][0]["identifier"]["id"] = "1111222"
+    self.mongodb.agreements.save(Agreement(agreement))
+
+    # should be fine
+    response = self.app.patch_json(
+        f"/submissions/{self.submission_id}?acc_token={self.submission_token}",
+        {"data": {"status": "active"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "active")
 
 
 def patch_several_contracts_active_status(self):
