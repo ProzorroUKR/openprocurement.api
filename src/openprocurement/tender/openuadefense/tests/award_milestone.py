@@ -4,7 +4,7 @@ from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.belowthreshold.tests.base import test_lots
 from openprocurement.tender.core.tests.qualification_milestone import (
     TenderAwardMilestone24HMixin,
-    TenderMilestoneALPMixin,
+    TenderAwardMilestoneALPMixin,
 )
 
 
@@ -12,7 +12,7 @@ class TenderAwardMilestoneTestCase(TenderAwardMilestone24HMixin, TenderAwardPend
     pass
 
 
-class TenderAwardMilestoneALPTestCase(TenderMilestoneALPMixin, BaseTenderUAContentWebTest):
+class TenderAwardMilestoneALPTestCase(TenderAwardMilestoneALPMixin, BaseTenderUAContentWebTest):
     initial_bids = test_bids
     initial_lots = test_lots
 
