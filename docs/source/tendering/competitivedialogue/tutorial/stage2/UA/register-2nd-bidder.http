@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/f321c5aade8048bb81ead18ad17d428d/bids HTTP/1.0
+POST /api/2.5/tenders/f5b1f7dad1d64ec09e0d406e09e7e816/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 796
 Content-Type: application/json
@@ -38,7 +38,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f321c5aade8048bb81ead18ad17d428d/bids/8c65010a9c724b579ca879a15bb70f6c
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f5b1f7dad1d64ec09e0d406e09e7e816/bids/f530428ea0704642b3f7888bd2ddbf1f
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -72,12 +72,12 @@ X-Content-Type-Options: nosniff
     ],
     "status": "draft",
     "selfQualified": true,
-    "id": "8c65010a9c724b579ca879a15bb70f6c",
+    "id": "f530428ea0704642b3f7888bd2ddbf1f",
     "date": "2023-01-01T00:00:00+02:00"
   },
   "access": {
-    "token": "1939013889034f16a8d293037ccd4dbb",
-    "transfer": "a1fa25dc592f4d9c8e240891c7f3ca5d"
+    "token": "625b4d728cff424ea81b713745206427",
+    "transfer": "faae561c6af9470585a683f6a46afc9a"
   }
 }
 

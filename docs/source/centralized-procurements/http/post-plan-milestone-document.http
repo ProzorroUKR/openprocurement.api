@@ -1,4 +1,4 @@
-POST /api/2.5/plans/6cb30e0a8f2d4487946a40c0b043c761/milestones/bcd0fdcf5036434881da407a855782c1/documents?acc_token=4771af7ff4b24a448b71c2ee3cb688ee HTTP/1.0
+POST /api/2.5/plans/2c376a06cbf7476b8c229e6955bd8194/milestones/15a9ab37fec7476aa9ef10890b9b2f4a/documents?acc_token=e7245cb4e7ef4e5aa4252c7e90f07af2 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 318
 Content-Type: application/json
@@ -15,11 +15,11 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/6cb30e0a8f2d4487946a40c0b043c761/milestones/bcd0fdcf5036434881da407a855782c1/documents/e4ec0c0e29d74a5e868f8e53b79bd05c
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/2c376a06cbf7476b8c229e6955bd8194/milestones/15a9ab37fec7476aa9ef10890b9b2f4a/documents/a23d42fa7c964ecba471e1bcb60acc46
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "e4ec0c0e29d74a5e868f8e53b79bd05c",
+    "id": "a23d42fa7c964ecba471e1bcb60acc46",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Notice.pdf",
     "format": "application/pdf",

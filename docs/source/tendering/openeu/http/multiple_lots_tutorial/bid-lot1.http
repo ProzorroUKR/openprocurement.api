@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/0b330892c8b64ac98de88d220d7e86fe/bids HTTP/1.0
+POST /api/2.5/tenders/add2f90809854b4f949c030f5eb3d9ad/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1422
 Content-Type: application/json
@@ -38,7 +38,7 @@ DATA:
         "value": {
           "amount": 500
         },
-        "relatedLot": "f530b7d5b76149c5bb351d339fc1b44f"
+        "relatedLot": "f5fdc116c69e4821881e9a7e792b8c11"
       }
     ]
   }
@@ -46,7 +46,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0b330892c8b64ac98de88d220d7e86fe/bids/ce239eb439294a0aa86dce4fcf30b72e
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/add2f90809854b4f949c030f5eb3d9ad/bids/e8f6e4dcb27b43718a98506a07f65522
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -81,7 +81,7 @@ X-Content-Type-Options: nosniff
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "f530b7d5b76149c5bb351d339fc1b44f",
+        "relatedLot": "f5fdc116c69e4821881e9a7e792b8c11",
         "subcontractingDetails": "ДКП «Орфей», Україна",
         "status": "pending",
         "date": "2023-01-01T00:00:00+02:00"
@@ -89,12 +89,12 @@ X-Content-Type-Options: nosniff
     ],
     "selfQualified": true,
     "status": "draft",
-    "id": "ce239eb439294a0aa86dce4fcf30b72e",
+    "id": "e8f6e4dcb27b43718a98506a07f65522",
     "date": "2023-01-01T00:00:00+02:00"
   },
   "access": {
-    "token": "5b35834cc1d54b15b66105acbc76be51",
-    "transfer": "7cc776c061d04fe68c653a2e19d8666e"
+    "token": "c531372b5a5d48979a69bf0a2a7f188f",
+    "transfer": "c171ed5ba8ef4b4689d565b47b8d912c"
   }
 }
 

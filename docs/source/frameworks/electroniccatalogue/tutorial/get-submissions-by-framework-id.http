@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/3176109c7572429b99dbc5707a10617c/submissions HTTP/1.0
+GET /api/2.5/frameworks/86396c65e9154359a2329bfc7dddd3eb/submissions HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,8 +8,8 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "qualificationID": "46df298c7ea542c291830c9610a09781",
-      "frameworkID": "3176109c7572429b99dbc5707a10617c",
+      "qualificationID": "6cb44b948f124cf2bf2e1621a71f19ee",
+      "frameworkID": "86396c65e9154359a2329bfc7dddd3eb",
       "dateCreated": "2023-01-17T00:00:00+02:00",
       "dateModified": "2023-01-17T00:00:00+02:00",
       "date": "2023-01-17T00:00:00+02:00",
@@ -39,11 +39,11 @@ X-Content-Type-Options: nosniff
           }
         }
       ],
-      "id": "7f0bddee73c749c48914890b109a3946"
+      "id": "f68c222b077f4657a6df8f51de0ae451"
     },
     {
-      "qualificationID": "04ceb9dba9aa4ee5a175baae9b05c9b5",
-      "frameworkID": "3176109c7572429b99dbc5707a10617c",
+      "qualificationID": "750eb6f709774c498a46d7495c66167a",
+      "frameworkID": "86396c65e9154359a2329bfc7dddd3eb",
       "dateCreated": "2023-01-17T00:00:00+02:00",
       "dateModified": "2023-01-17T00:00:00+02:00",
       "date": "2023-01-17T00:00:00+02:00",
@@ -73,13 +73,13 @@ X-Content-Type-Options: nosniff
           }
         }
       ],
-      "id": "f2e160b74b4b4120ae4acc472545162c"
+      "id": "47f7edaba6ed400389f86984d62ef2ad"
     }
   ],
   "next_page": {
     "offset": 1673906400.0,
-    "path": "/api/2.5/frameworks/3176109c7572429b99dbc5707a10617c/submissions?offset=1673906400.0",
-    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/3176109c7572429b99dbc5707a10617c/submissions?offset=1673906400.0"
+    "path": "/api/2.5/frameworks/86396c65e9154359a2329bfc7dddd3eb/submissions?offset=1673906400.0",
+    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/86396c65e9154359a2329bfc7dddd3eb/submissions?offset=1673906400.0"
   }
 }
 

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/b68a79fc566a4d49b80369c0ed01748d/contracts/d8a15a30f95045e9aa7c2b1ca8eb52b1/documents/1059cf68a6204422bff68878c3199f4d?acc_token=b156e1bb6d7f4fa6826249264d4140fd HTTP/1.0
+PATCH /api/2.5/tenders/977181c686f34e1bbfa6bba31adb772b/contracts/5efaea1da40641c7940997a7800409ff/documents/04b138574e4744abb050d77b23fa7281?acc_token=aa56c9cec9e247ec890c56b7f5a9a6e2 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 106
 Content-Type: application/json
@@ -20,7 +20,7 @@ X-Content-Type-Options: nosniff
     "title_en": "Title of Document",
     "description_en": "Description of Document",
     "language": "en",
-    "id": "1059cf68a6204422bff68878c3199f4d",
+    "id": "04b138574e4744abb050d77b23fa7281",
     "datePublished": "2023-01-01T00:00:01+02:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "contract_second_document.doc",

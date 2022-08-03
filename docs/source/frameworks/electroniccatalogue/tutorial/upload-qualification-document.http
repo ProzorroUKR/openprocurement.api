@@ -1,4 +1,4 @@
-POST /api/2.5/qualifications/46df298c7ea542c291830c9610a09781/documents?acc_token=b9eeebd1ead246da9383d2c218518ab5 HTTP/1.0
+POST /api/2.5/qualifications/6cb44b948f124cf2bf2e1621a71f19ee/documents?acc_token=736a39718b2d4c6096e0a3d0c1f74126 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 152
 Content-Type: multipart/form-data; boundary=---BOUNDARY
@@ -14,15 +14,15 @@ content
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/46df298c7ea542c291830c9610a09781/documents/35e63c5c0dc64ffba41d96f94c0aab7d
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/6cb44b948f124cf2bf2e1621a71f19ee/documents/47e832dbaa534ec7b62c7bb9b0cd9951
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "35e63c5c0dc64ffba41d96f94c0aab7d",
+    "id": "47e832dbaa534ec7b62c7bb9b0cd9951",
     "hash": "md5:00000000000000000000000000000000",
     "title": "qualification.doc",
     "format": "application/msword",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/53ecf67fd58e4933a19146b27596d3b6?Signature=Kbm9FS%2Fkui6%2BHgPXwujZGhr1HLVgFJMHrsg%2B8Q2C%2Fwnf2uq7EIuHY217fSkN7tQM0Z%2Bl1IuEgr7Xe8B9fseFAw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b0d3aabcd98f4097bdce5d7d1d8a1c79?Signature=oB8hiXqlb3xJsjdINCsCItHhYtiB41ojMltnjuOHa28Y0qbLYIqCB%2B1rSQh0VEJJmWt59PGTNLM2Ve8DUsNoBg%3D%3D&KeyID=a8968c46",
     "datePublished": "2023-01-17T00:00:00+02:00",
     "dateModified": "2023-01-17T00:00:00+02:00"
   }

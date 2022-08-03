@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/316dd597b188475dbed68fe522bf1606/criteria/1d3d0c833904401a9c378e7e171c68ba/requirement_groups?acc_token=185a52a8180a4ce0bfa247fc97cb928e HTTP/1.0
+POST /api/2.5/tenders/f83728385fa9438bb4c5c118ffc5012a/criteria/19d060499b3d4297928c7a4b36e04265/requirement_groups?acc_token=ca00870e9e594a068127cf82158c01a2 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1904
 Content-Type: application/json
@@ -26,20 +26,20 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/316dd597b188475dbed68fe522bf1606/criteria/1d3d0c833904401a9c378e7e171c68ba/requirement_groups/3f9498c932bb41b4ac0e26f6ee92aa21
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f83728385fa9438bb4c5c118ffc5012a/criteria/19d060499b3d4297928c7a4b36e04265/requirement_groups/d0362d80d67c475f8cb3e034ac9093d7
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "3f9498c932bb41b4ac0e26f6ee92aa21",
+    "id": "d0362d80d67c475f8cb3e034ac9093d7",
     "description": "Учасник фізична особа підтверджує, що",
     "requirements": [
       {
-        "id": "dfbb9f1be9f84579b9d4199b79e9ee63",
+        "id": "160e5b39099343bebf7d3a4070662b72",
         "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку",
         "dataType": "boolean",
         "eligibleEvidences": [
           {
-            "id": "05d9a87e3e6343d39987fae616b1894c",
+            "id": "fc3aa84c07c941788a3b5747db225934",
             "title": "Документальне підтвердження",
             "description": "Довідка в довільній формі",
             "type": "document"

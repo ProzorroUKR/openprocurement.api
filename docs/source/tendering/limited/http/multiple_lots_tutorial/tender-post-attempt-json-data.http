@@ -111,7 +111,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f424e2934d9c4a28a98ace88bd50ea47
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9c964a6216c946b2b82a78720b389a93
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -151,7 +151,7 @@ X-Content-Type-Options: nosniff
     },
     "items": [
       {
-        "id": "82dd3be3d3ce4eee93e60bfb334ddd05",
+        "id": "7473a6ac00df436194acc9a2a2ebe39a",
         "description": "Послуги шкільних їдалень",
         "classification": {
           "description": "Послуги з харчування у школах",
@@ -205,7 +205,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "f63166a63f304a87bc662020528e820d",
+        "id": "b06b394eb67642a78ae5ce8b4a62c428",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -224,11 +224,11 @@ X-Content-Type-Options: nosniff
     "date": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
-    "id": "f424e2934d9c4a28a98ace88bd50ea47"
+    "id": "9c964a6216c946b2b82a78720b389a93"
   },
   "access": {
-    "token": "385a1b964fc04c10a6acb22ee6e53ea6",
-    "transfer": "9ed6a1f853984d5e80465031af6b94ce"
+    "token": "0a10b32258a14dcea4a21bf94924418e",
+    "transfer": "2e3ed1ddd3174a8695b09927233a3a3d"
   }
 }
 

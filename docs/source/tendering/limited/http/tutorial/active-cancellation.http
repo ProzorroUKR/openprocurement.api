@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/dceb0db9147740f994cb3a57fb971a4e/cancellations/b74fb168926146be8dc8227b912dcb84?acc_token=9147c49d3e8844889bffab7629a63b5b HTTP/1.0
+GET /api/2.5/tenders/07a9d2daabfe4268a5b3f6db5a7e1287/cancellations/20443cb4d9c14e7c81e07899fa46252a?acc_token=63a33032ef0d47108bdada9cf1f0dde0 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,13 +7,13 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "b74fb168926146be8dc8227b912dcb84",
+    "id": "20443cb4d9c14e7c81e07899fa46252a",
     "reason": "cancellation reason",
     "date": "2023-01-01T00:00:01+02:00",
     "status": "pending",
     "documents": [
       {
-        "id": "1caad5e58fc5401297e89f13d7a9e0c0",
+        "id": "332f5c1555694818be8dabaee81285cb",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "description": "Changed description",
@@ -24,7 +24,7 @@ X-Content-Type-Options: nosniff
         "documentOf": "tender"
       },
       {
-        "id": "1caad5e58fc5401297e89f13d7a9e0c0",
+        "id": "332f5c1555694818be8dabaee81285cb",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice-2.pdf",
         "description": "Changed description",

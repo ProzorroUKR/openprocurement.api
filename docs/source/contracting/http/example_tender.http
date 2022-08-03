@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/f9fca4217b4a4215b8ae2f67e8461b8f HTTP/1.0
+GET /api/2.5/tenders/59190c68cfa14b0595a6e1395c43a06b HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -29,7 +29,7 @@ X-Content-Type-Options: nosniff
     },
     "items": [
       {
-        "id": "cadf7ae857e84cb8b5af656d613aa6e1",
+        "id": "27d065dad2f843fcaa08ce47d150ff58",
         "description": "футляри до державних нагород",
         "classification": {
           "description": "Cartons",
@@ -66,7 +66,7 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "d809a3790b174eafb0349cf4c2615765",
+        "id": "ebbe3cdc3877415898b85d6b8bd0e6d1",
         "description": "футляри до державних нагород",
         "classification": {
           "description": "Cartons",
@@ -117,7 +117,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "ed665700c154493e84dd544a9aeebf4b",
+        "id": "a4ee7dcfe3e3411095267a0c919ff1c6",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -191,7 +191,7 @@ X-Content-Type-Options: nosniff
           }
         ],
         "status": "active",
-        "id": "45d58f43e4b94e1383b7c635586263f8",
+        "id": "da98ea4ae41f4236b7c75e6a01622d79",
         "date": "2023-01-01T00:00:00+02:00"
       }
     ],
@@ -201,7 +201,7 @@ X-Content-Type-Options: nosniff
     },
     "awards": [
       {
-        "id": "3ad71496fd844c7299424c23d67e5449",
+        "id": "bba05bb9977a4107804a57fdf5184c3f",
         "status": "active",
         "date": "2023-01-01T00:00:00+02:00",
         "value": {
@@ -232,7 +232,7 @@ X-Content-Type-Options: nosniff
             "scale": "micro"
           }
         ],
-        "bid_id": "45d58f43e4b94e1383b7c635586263f8",
+        "bid_id": "da98ea4ae41f4236b7c75e6a01622d79",
         "complaintPeriod": {
           "startDate": "2023-01-01T00:00:00+02:00",
           "endDate": "2023-01-01T00:00:00+02:00"
@@ -241,8 +241,8 @@ X-Content-Type-Options: nosniff
     ],
     "contracts": [
       {
-        "id": "731229e60a3e4406b3f0bbca894132fa",
-        "awardID": "3ad71496fd844c7299424c23d67e5449",
+        "id": "38da025ae53f4e0d8fa4474bb5923d12",
+        "awardID": "bba05bb9977a4107804a57fdf5184c3f",
         "contractID": "UA-2023-01-01-000001-a-1",
         "status": "active",
         "value": {
@@ -253,7 +253,7 @@ X-Content-Type-Options: nosniff
         },
         "items": [
           {
-            "id": "cadf7ae857e84cb8b5af656d613aa6e1",
+            "id": "27d065dad2f843fcaa08ce47d150ff58",
             "description": "футляри до державних нагород",
             "classification": {
               "description": "Cartons",
@@ -290,7 +290,7 @@ X-Content-Type-Options: nosniff
             }
           },
           {
-            "id": "d809a3790b174eafb0349cf4c2615765",
+            "id": "ebbe3cdc3877415898b85d6b8bd0e6d1",
             "description": "футляри до державних нагород",
             "classification": {
               "description": "Cartons",
@@ -358,7 +358,7 @@ X-Content-Type-Options: nosniff
       "startDate": "2022-12-21T00:00:00+02:00",
       "endDate": "2022-12-22T00:00:00+02:00"
     },
-    "id": "f9fca4217b4a4215b8ae2f67e8461b8f"
+    "id": "59190c68cfa14b0595a6e1395c43a06b"
   }
 }
 

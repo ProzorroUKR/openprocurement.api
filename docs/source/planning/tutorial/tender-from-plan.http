@@ -1,4 +1,4 @@
-POST /api/2.5/plans/18d6b21a07094c71b423e91c5e28579b/tenders HTTP/1.0
+POST /api/2.5/plans/249bf7a3e1ce48c9bba765eed435b2b4/tenders HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 4229
 Content-Type: application/json
@@ -166,7 +166,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b0542716acb74a78ba59421b202b369e
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/faedbc9487564abc8ac82e0fe70308c3
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -192,7 +192,7 @@ X-Content-Type-Options: nosniff
     },
     "items": [
       {
-        "id": "7512fcfc3fe04519b21165243807b5b4",
+        "id": "891cd1d74642419faf18d4a8d2ddd740",
         "description": "Насіння гірчиці",
         "classification": {
           "description": "Mustard seeds",
@@ -223,7 +223,7 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "2b7b701e62154079bc4265990868c05c",
+        "id": "1d5b24218fc14889b0a544f23b62bcc4",
         "description": "Насіння соняшнику",
         "classification": {
           "description": "Sunflower seeds",
@@ -254,7 +254,7 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "d288f1f8342d40dfa57c5bec718dd268",
+        "id": "14bb3d84d5d84c9a9832d2060a1e5385",
         "description": "Насіння бавовнику",
         "classification": {
           "description": "Cotton seeds",
@@ -299,7 +299,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "ff32abbe2d67454c9741d66ca209883a",
+        "id": "0860c4482846468591e388f90fbdbb52",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -341,16 +341,16 @@ X-Content-Type-Options: nosniff
     "date": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
-    "id": "b0542716acb74a78ba59421b202b369e",
+    "id": "faedbc9487564abc8ac82e0fe70308c3",
     "plans": [
       {
-        "id": "18d6b21a07094c71b423e91c5e28579b"
+        "id": "249bf7a3e1ce48c9bba765eed435b2b4"
       }
     ]
   },
   "access": {
-    "token": "d233b2b61d1d4fd1a678faa7c90252b0",
-    "transfer": "bae77fa326c4464aafe8aa49c4556696"
+    "token": "a3c708e117344873a6a706a046836900",
+    "transfer": "e432e425d06a4ddc9aedd46d175737e3"
   }
 }
 

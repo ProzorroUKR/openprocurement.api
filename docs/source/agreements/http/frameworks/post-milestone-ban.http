@@ -1,4 +1,4 @@
-POST /api/2.5/agreements/2c88cbfb9f454f82976cb11006b46885/contracts/53366f7e1d7d453b9241a14615ff29a8/milestones?acc_token=dd875ed1c80d40c38602ee0c12d1374b HTTP/1.0
+POST /api/2.5/agreements/ab18eed84a774815b26a11258ddded7f/contracts/7ee300a5041141dca6bffc282c5f00f5/milestones?acc_token=d28db72befca4940863a08fe750d7a94 HTTP/1.0
 Authorization: Bearer token
 Content-Length: 499
 Content-Type: application/json
@@ -26,12 +26,12 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "44a9a193da9d4886b988a4863372bf29",
+    "id": "adfa001711a641339f03913be89ebc70",
     "type": "ban",
     "status": "scheduled",
     "documents": [
       {
-        "id": "d0ef917276b1483594d290e21063e857",
+        "id": "c4f28605b3054704af458a153dc66391",
         "hash": "md5:00000000000000000000000000000000",
         "title": "milestone.doc",
         "format": "application/msword",

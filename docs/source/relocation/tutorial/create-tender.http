@@ -110,7 +110,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4b9115b9cb2c4b0ba35a6addd94c93fe
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f36bbec96e57457b8acb3b59f68e8d77
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -136,7 +136,7 @@ X-Content-Type-Options: nosniff
     },
     "items": [
       {
-        "id": "ef55b20df1074d33abae53b99016d35c",
+        "id": "ce9e446cdec144a19fd3cf237ac376e4",
         "description": "футляри до державних нагород",
         "classification": {
           "description": "Cartons",
@@ -187,7 +187,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "af09d533bd41421bbc5ebf85e3010c3e",
+        "id": "2ee0c5b6eafd4d13b61e4bb97b65b965",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -230,11 +230,11 @@ X-Content-Type-Options: nosniff
     "date": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
-    "id": "4b9115b9cb2c4b0ba35a6addd94c93fe"
+    "id": "f36bbec96e57457b8acb3b59f68e8d77"
   },
   "access": {
-    "token": "830b4c88c77549659328dfba323c0efc",
-    "transfer": "9a824d95cc2e4eb2bb3a8f417843a9c3"
+    "token": "243fbd916b264639b8d05056bd929612",
+    "transfer": "744b2a9ab4e743368de7c850ad8d3aa5"
   }
 }
 

@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/f424e2934d9c4a28a98ace88bd50ea47/awards?acc_token=385a1b964fc04c10a6acb22ee6e53ea6 HTTP/1.0
+POST /api/2.5/tenders/9c964a6216c946b2b82a78720b389a93/awards?acc_token=0a10b32258a14dcea4a21bf94924418e HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1298
 Content-Type: application/json
@@ -36,13 +36,13 @@ DATA:
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "lotID": "b5acd2a910244a1ab663580d5ed188d7"
+    "lotID": "0fdb2b096a814e788e80812115a30319"
   }
 }
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f424e2934d9c4a28a98ace88bd50ea47/awards/068069057cb14911bb25053f0fd9d0cc
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9c964a6216c946b2b82a78720b389a93/awards/24dbf5b491e44568a303c54113b93e8d
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -76,8 +76,8 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "lotID": "b5acd2a910244a1ab663580d5ed188d7",
-    "id": "068069057cb14911bb25053f0fd9d0cc",
+    "lotID": "0fdb2b096a814e788e80812115a30319",
+    "id": "24dbf5b491e44568a303c54113b93e8d",
     "date": "2023-01-01T00:00:00+02:00"
   }
 }

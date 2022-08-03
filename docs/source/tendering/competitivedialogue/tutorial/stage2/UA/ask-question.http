@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/f321c5aade8048bb81ead18ad17d428d/questions HTTP/1.0
+POST /api/2.5/tenders/f5b1f7dad1d64ec09e0d406e09e7e816/questions HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1141
 Content-Type: application/json
@@ -33,11 +33,11 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f321c5aade8048bb81ead18ad17d428d/questions/35d3c56dcdf843f6b9b4a3a978b862f9
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f5b1f7dad1d64ec09e0d406e09e7e816/questions/8ba1d13f25784660bb127503258b98c3
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "35d3c56dcdf843f6b9b4a3a978b862f9",
+    "id": "8ba1d13f25784660bb127503258b98c3",
     "author": {
       "name": "ДКП «Книга»",
       "identifier": {

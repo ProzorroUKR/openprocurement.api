@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/75259c27a799486ca9ad3563f6e86f54/bids/b289317b2ab94078a2506ca188933207?acc_token=00ae749dfd5e4e55bfc9726e32db2c93 HTTP/1.0
+PATCH /api/2.5/tenders/0babf43ffe2a4934bcbb730f93d38601/bids/0e4c0ac9fb214aec86664334f935e806?acc_token=62ce299578e94246b3f2648888d1f6a7 HTTP/1.0
 Authorization: Bearer token
 Content-Length: 3610
 Content-Type: application/json
@@ -11,14 +11,14 @@ DATA:
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "cd36c26ca1b04fffb35dfe068a5aaf9d",
+          "id": "c8ab68b273a049e2a383e50762e57a27",
           "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "25b30be113494ed79b4c14f0b546c398",
+              "id": "82f8566f236e42329fd7ea1aacc38cd1",
               "title": "name.doc"
             },
             "type": "document"
@@ -30,14 +30,14 @@ DATA:
         "title": "Requirement response 2",
         "description": "some description",
         "requirement": {
-          "id": "bd0af2946f3e4e76b8c6243a3fbb11fb",
+          "id": "86946b3dc1bb4ee4b173659c2a69860e",
           "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "25b30be113494ed79b4c14f0b546c398",
+              "id": "82f8566f236e42329fd7ea1aacc38cd1",
               "title": "name.doc"
             },
             "type": "document"
@@ -56,20 +56,20 @@ X-Content-Type-Options: nosniff
   "data": {
     "requirementResponses": [
       {
-        "id": "de9a8bdf29d64c3baa0a6254ca6b02b7",
+        "id": "f67f3a6e732a4414b92076c8e72f61e2",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "cd36c26ca1b04fffb35dfe068a5aaf9d",
+          "id": "c8ab68b273a049e2a383e50762e57a27",
           "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
         },
         "evidences": [
           {
-            "id": "4299399a07fa42f98368aeb40c7c6217",
+            "id": "ee28d2f88a894f9a80ca526ab078630d",
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "25b30be113494ed79b4c14f0b546c398",
+              "id": "82f8566f236e42329fd7ea1aacc38cd1",
               "title": "name.doc"
             }
           }
@@ -77,20 +77,20 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "1bd1a1bfc69c4f109fe306f9b6f4d5da",
+        "id": "ab4861a87daa443fa3eb436c5e448157",
         "title": "Requirement response 2",
         "description": "some description",
         "requirement": {
-          "id": "bd0af2946f3e4e76b8c6243a3fbb11fb",
+          "id": "86946b3dc1bb4ee4b173659c2a69860e",
           "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
         },
         "evidences": [
           {
-            "id": "c830c26662cc445cb288b5c6d8d11ac3",
+            "id": "c1a093bacd564e7eb4187931a56af28b",
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "25b30be113494ed79b4c14f0b546c398",
+              "id": "82f8566f236e42329fd7ea1aacc38cd1",
               "title": "name.doc"
             }
           }
@@ -127,12 +127,12 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "id": "b289317b2ab94078a2506ca188933207",
+    "id": "0e4c0ac9fb214aec86664334f935e806",
     "date": "2023-01-01T00:00:00+02:00",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "documents": [
       {
-        "id": "25b30be113494ed79b4c14f0b546c398",
+        "id": "82f8566f236e42329fd7ea1aacc38cd1",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",

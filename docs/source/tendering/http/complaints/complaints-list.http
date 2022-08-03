@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/d2bb8b32840e47a7be28cb1644aeda9c/complaints HTTP/1.0
+GET /api/2.5/tenders/06a89d3522bf4ba5902cacc12c9a8788/complaints HTTP/1.0
 Host: lb-api-sandbox.prozorro.gov.ua
 
 Response: 200 OK
@@ -7,7 +7,7 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "id": "95af65ce526b4245867b1805b25091a6",
+      "id": "3daf4f8aee84436ab84afd74b98b19f8",
       "complaintID": "UA-2023-01-01-000001-a.1",
       "date": "2023-01-01T00:00:00+02:00",
       "type": "claim",
@@ -17,7 +17,7 @@ X-Content-Type-Options: nosniff
       "status": "claim",
       "documents": [
         {
-          "id": "549a7765aac64e69b64c4fcfff5c64dd",
+          "id": "5e8761bf649d4606b0825f4d5fc7e4c5",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Complaint_Attachment.pdf",
           "format": "application/pdf",
@@ -31,7 +31,7 @@ X-Content-Type-Options: nosniff
       ]
     },
     {
-      "id": "c6c28986ca50459c8ceb1d5048a0e4ba",
+      "id": "c6aa1d14cf4a467586fe3e9bbbd5b782",
       "complaintID": "UA-2023-01-01-000001-a.2",
       "date": "2023-01-01T00:00:00+02:00",
       "type": "claim",
@@ -45,7 +45,7 @@ X-Content-Type-Options: nosniff
       "status": "resolved"
     },
     {
-      "id": "f6cf2a30c94b4c288c34e7ed13b7daa7",
+      "id": "3332591cd04141c68cb2f2bf2dd93b9e",
       "complaintID": "UA-2023-01-01-000001-a.3",
       "date": "2023-01-01T00:00:00+02:00",
       "type": "complaint",
@@ -85,7 +85,7 @@ X-Content-Type-Options: nosniff
       "reviewPlace": "Place of review"
     },
     {
-      "id": "58d8efdc2e5943bab0774fa43427f14e",
+      "id": "483c24581d77444ca67a1232e73f3d63",
       "complaintID": "UA-2023-01-01-000001-a.4",
       "date": "2023-01-01T00:00:00+02:00",
       "type": "claim",
@@ -98,7 +98,7 @@ X-Content-Type-Options: nosniff
       "status": "answered"
     },
     {
-      "id": "4d1041a0614c4b0291a5bbcbf167e23b",
+      "id": "81c8a7fe2db540599096353fd28769bd",
       "complaintID": "UA-2023-01-01-000001-a.5",
       "date": "2023-01-01T00:00:00+02:00",
       "type": "complaint",
@@ -140,7 +140,7 @@ X-Content-Type-Options: nosniff
       "reviewPlace": "Place of review",
       "documents": [
         {
-          "id": "9b03d665e72b4be4b37c1e51a9f8841d",
+          "id": "7323cba7098e457ea5559a31af3ebd64",
           "hash": "md5:00000000000000000000000000000000",
           "title": "ComplaintResolution.pdf",
           "format": "application/pdf",
@@ -154,7 +154,7 @@ X-Content-Type-Options: nosniff
       ]
     },
     {
-      "id": "8626aed686ed4cad8552a8c5ea8a25b8",
+      "id": "1ab45992b39142c8b8af5499268e7de3",
       "complaintID": "UA-2023-01-01-000001-a.6",
       "date": "2023-01-01T00:00:00+02:00",
       "type": "complaint",
@@ -197,7 +197,7 @@ X-Content-Type-Options: nosniff
       "reviewPlace": "Place of review"
     },
     {
-      "id": "e14b5d8443e24561a9219c7bf453095b",
+      "id": "5c27013fa2b3492bb990646adb65b423",
       "complaintID": "UA-2023-01-01-000001-a.7",
       "date": "2023-01-01T00:00:00+02:00",
       "type": "complaint",
@@ -236,7 +236,7 @@ X-Content-Type-Options: nosniff
       "reviewPlace": "Place of review"
     },
     {
-      "id": "14d632112d11453e8fc1700120d87121",
+      "id": "e6971ae37f0e43cfa248ebf25ba96dd1",
       "complaintID": "UA-2023-01-01-000001-a.8",
       "date": "2023-01-01T00:00:00+02:00",
       "type": "complaint",
@@ -274,7 +274,7 @@ X-Content-Type-Options: nosniff
       "acceptance": false
     },
     {
-      "id": "95aa73a5f576482287f23e321af72c91",
+      "id": "1444bb10c8f24fc2ac4a51045a5c183a",
       "complaintID": "UA-2023-01-01-000001-a.9",
       "date": "2023-01-01T00:00:00+02:00",
       "type": "complaint",
@@ -309,7 +309,7 @@ X-Content-Type-Options: nosniff
       "status": "mistaken"
     },
     {
-      "id": "ae7030e56f544ad89fb28b915289a41c",
+      "id": "e4a2dfd3cee1428fb5f0fa24088dd607",
       "complaintID": "UA-2023-01-01-000001-a.10",
       "date": "2023-01-01T00:00:00+02:00",
       "type": "complaint",
@@ -344,7 +344,7 @@ X-Content-Type-Options: nosniff
       "status": "pending",
       "posts": [
         {
-          "id": "8f0d51ad72b74490b4f86b86ab6bb7cc",
+          "id": "e0b525f8d02e4ec3a11260cd25a36d9f",
           "title": "Уточнення по вимозі",
           "description": "Відсутній документ",
           "author": "aboveThresholdReviewers",
@@ -352,12 +352,12 @@ X-Content-Type-Options: nosniff
           "datePublished": "2023-01-01T00:00:00+02:00"
         },
         {
-          "id": "85f2b58b04b84814866d0426c5f9ef8c",
+          "id": "dfb846d549954306a964199fd2f4b864",
           "title": "Уточнення по вимозі",
           "description": "Додано документ",
           "documents": [
             {
-              "id": "02693ba9c5624cefafa7d013b20922d9",
+              "id": "8074cd483906496381762a58c7c34d9c",
               "hash": "md5:00000000000000000000000000000000",
               "title": "post_document_complaint.pdf",
               "format": "application/pdf",
@@ -371,10 +371,10 @@ X-Content-Type-Options: nosniff
           "author": "complaint_owner",
           "recipient": "aboveThresholdReviewers",
           "datePublished": "2023-01-01T00:00:00+02:00",
-          "relatedPost": "8f0d51ad72b74490b4f86b86ab6bb7cc"
+          "relatedPost": "e0b525f8d02e4ec3a11260cd25a36d9f"
         },
         {
-          "id": "b7b89d3db03b4cf9b89a360f3707c734",
+          "id": "a3008639034f4107b73c591b25a0e506",
           "title": "Уточнення по вимозі",
           "description": "Відсутній документ",
           "author": "aboveThresholdReviewers",
@@ -382,12 +382,12 @@ X-Content-Type-Options: nosniff
           "datePublished": "2023-01-01T00:00:00+02:00"
         },
         {
-          "id": "60d8dde3ce984a8e958f6b6dc0cdecbf",
+          "id": "32f6802b72924b1c959fcf304ea2b195",
           "title": "Уточнення по вимозі",
           "description": "Додано документ",
           "documents": [
             {
-              "id": "0762e7ee0be44ade8b4b6c6ca1ae8b3a",
+              "id": "2eb3487c425c407bb4618cbc2abc5a04",
               "hash": "md5:00000000000000000000000000000000",
               "title": "post_document_tender.pdf",
               "format": "application/pdf",
@@ -401,7 +401,7 @@ X-Content-Type-Options: nosniff
           "author": "tender_owner",
           "recipient": "aboveThresholdReviewers",
           "datePublished": "2023-01-01T00:00:00+02:00",
-          "relatedPost": "b7b89d3db03b4cf9b89a360f3707c734"
+          "relatedPost": "a3008639034f4107b73c591b25a0e506"
         }
       ]
     }

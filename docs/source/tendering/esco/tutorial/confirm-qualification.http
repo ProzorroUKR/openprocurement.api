@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/7378acd602f14dc498b14cc6198a6995/awards/2bef142c8e064f96a734caccd8b89ae0?acc_token=cdb0d97ad6324ce1b99843f3f2959aa4 HTTP/1.0
+PATCH /api/2.5/tenders/501cb77768e446f39265deb722b208a3/awards/521f077fc20742f78da0d564916c217b?acc_token=5fe46d42add34695b80ca0158b173e47 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 67
 Content-Type: application/json
@@ -17,7 +17,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "2bef142c8e064f96a734caccd8b89ae0",
+    "id": "521f077fc20742f78da0d564916c217b",
     "status": "active",
     "date": "2023-01-01T00:00:00+02:00",
     "suppliers": [
@@ -44,7 +44,7 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "bid_id": "c7619b53b6a342b48373cba33d1ce5b4",
+    "bid_id": "658a2d2b9721494887a952371db42b5a",
     "qualified": true,
     "value": {
       "currency": "UAH",

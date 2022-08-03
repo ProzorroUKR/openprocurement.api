@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/0b330892c8b64ac98de88d220d7e86fe/bids HTTP/1.0
+POST /api/2.5/tenders/add2f90809854b4f949c030f5eb3d9ad/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1113
 Content-Type: application/json
@@ -36,14 +36,14 @@ DATA:
         "value": {
           "amount": 500
         },
-        "relatedLot": "f530b7d5b76149c5bb351d339fc1b44f"
+        "relatedLot": "f5fdc116c69e4821881e9a7e792b8c11"
       },
       {
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "value": {
           "amount": 500
         },
-        "relatedLot": "e30d3c82cc094aee8c4637aa81309d21"
+        "relatedLot": "2dd7b5b381784ab8905bdd57d77fbb42"
       }
     ]
   }
@@ -51,7 +51,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0b330892c8b64ac98de88d220d7e86fe/bids/7d78c406dccd4ebf9f4c338d33cac6a5
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/add2f90809854b4f949c030f5eb3d9ad/bids/701cc13b26a7473bab46f949977b6f77
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -85,7 +85,7 @@ X-Content-Type-Options: nosniff
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "f530b7d5b76149c5bb351d339fc1b44f",
+        "relatedLot": "f5fdc116c69e4821881e9a7e792b8c11",
         "status": "pending",
         "date": "2023-01-01T00:00:00+02:00"
       },
@@ -95,7 +95,7 @@ X-Content-Type-Options: nosniff
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "e30d3c82cc094aee8c4637aa81309d21",
+        "relatedLot": "2dd7b5b381784ab8905bdd57d77fbb42",
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "status": "pending",
         "date": "2023-01-01T00:00:00+02:00"
@@ -103,12 +103,12 @@ X-Content-Type-Options: nosniff
     ],
     "selfQualified": true,
     "status": "draft",
-    "id": "7d78c406dccd4ebf9f4c338d33cac6a5",
+    "id": "701cc13b26a7473bab46f949977b6f77",
     "date": "2023-01-01T00:00:00+02:00"
   },
   "access": {
-    "token": "62633d04a6b64456a119dc5f62d8ff65",
-    "transfer": "ad9a94d03e444da88279ba260bfa8a59"
+    "token": "d26e2f23c72e4385b4315d6cefcbc123",
+    "transfer": "cacf0d7f1a4d40c88833690769028f02"
   }
 }
 

@@ -67,7 +67,7 @@ class DumpsWebTestApp(BaseTestApp):
             headers = [
                 (n.title(), v)
                 for n, v in resp.headerlist
-                if n.lower() != 'content-length'
+                if n.lower() not in ('content-length', 'set-cookie')
             ]
             headers.sort()
             if isinstance(self.file_obj, io.TextIOWrapper):

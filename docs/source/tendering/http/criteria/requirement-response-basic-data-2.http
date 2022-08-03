@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/75259c27a799486ca9ad3563f6e86f54/bids/b289317b2ab94078a2506ca188933207?acc_token=00ae749dfd5e4e55bfc9726e32db2c93 HTTP/1.0
+PATCH /api/2.5/tenders/0babf43ffe2a4934bcbb730f93d38601/bids/0e4c0ac9fb214aec86664334f935e806?acc_token=62ce299578e94246b3f2648888d1f6a7 HTTP/1.0
 Authorization: Bearer token
 Content-Length: 5861
 Content-Type: application/json
@@ -11,14 +11,14 @@ DATA:
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "cd36c26ca1b04fffb35dfe068a5aaf9d",
+          "id": "c8ab68b273a049e2a383e50762e57a27",
           "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "25b30be113494ed79b4c14f0b546c398",
+              "id": "82f8566f236e42329fd7ea1aacc38cd1",
               "title": "name.doc"
             },
             "type": "document"
@@ -30,14 +30,14 @@ DATA:
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "1081a6a06f3b46ff815c9d4291a28341",
+          "id": "805ee8d449f146e68dd1ffda1fee22ba",
           "title": "Службова (посадова) особа учасника процедури закупівлі, яка підписала тендерну пропозицію (або уповноважена на підписання договору в разі переговорної процедури закупівлі), не була засуджена за злочин, вчинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом, шахрайством та відмиванням коштів), судимість з якої  знято або погашено у встановленому законом порядку"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "25b30be113494ed79b4c14f0b546c398",
+              "id": "82f8566f236e42329fd7ea1aacc38cd1",
               "title": "name.doc"
             },
             "type": "document"
@@ -49,14 +49,14 @@ DATA:
         "title": "Requirement response 2",
         "description": "some description",
         "requirement": {
-          "id": "bd0af2946f3e4e76b8c6243a3fbb11fb",
+          "id": "86946b3dc1bb4ee4b173659c2a69860e",
           "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "25b30be113494ed79b4c14f0b546c398",
+              "id": "82f8566f236e42329fd7ea1aacc38cd1",
               "title": "name.doc"
             },
             "type": "document"
@@ -75,20 +75,20 @@ X-Content-Type-Options: nosniff
   "data": {
     "requirementResponses": [
       {
-        "id": "a5a031ca51e94314b17f7c8537f8b157",
+        "id": "7cef8ba2a8de4130b6c9e0000ccc09d8",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "cd36c26ca1b04fffb35dfe068a5aaf9d",
+          "id": "c8ab68b273a049e2a383e50762e57a27",
           "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
         },
         "evidences": [
           {
-            "id": "865b48b4dc3345a78735e7e4f3eaa427",
+            "id": "88b1f52e291d4825a88d8ced9852f873",
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "25b30be113494ed79b4c14f0b546c398",
+              "id": "82f8566f236e42329fd7ea1aacc38cd1",
               "title": "name.doc"
             }
           }
@@ -96,20 +96,20 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "4b0a6d52e2ad4f89a55c3f5c2acf9808",
+        "id": "fc94fec9ffa14519945fdc0d462cfb45",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "1081a6a06f3b46ff815c9d4291a28341",
+          "id": "805ee8d449f146e68dd1ffda1fee22ba",
           "title": "Службова (посадова) особа учасника процедури закупівлі, яка підписала тендерну пропозицію (або уповноважена на підписання договору в разі переговорної процедури закупівлі), не була засуджена за злочин, вчинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом, шахрайством та відмиванням коштів), судимість з якої  знято або погашено у встановленому законом порядку"
         },
         "evidences": [
           {
-            "id": "2e276a528d9c457d865b43c887a8f51e",
+            "id": "b6aef17fde5c486383f9f786047f290c",
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "25b30be113494ed79b4c14f0b546c398",
+              "id": "82f8566f236e42329fd7ea1aacc38cd1",
               "title": "name.doc"
             }
           }
@@ -117,20 +117,20 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "8938add1740f43b68ceb1a9e003e476d",
+        "id": "f0442f963cdd47f8816531a346403c17",
         "title": "Requirement response 2",
         "description": "some description",
         "requirement": {
-          "id": "bd0af2946f3e4e76b8c6243a3fbb11fb",
+          "id": "86946b3dc1bb4ee4b173659c2a69860e",
           "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
         },
         "evidences": [
           {
-            "id": "460a0e4f06b349a5b93a3b55621dd86b",
+            "id": "b71459ae14d34f82b90b8a320997101d",
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "25b30be113494ed79b4c14f0b546c398",
+              "id": "82f8566f236e42329fd7ea1aacc38cd1",
               "title": "name.doc"
             }
           }
@@ -167,12 +167,12 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "id": "b289317b2ab94078a2506ca188933207",
+    "id": "0e4c0ac9fb214aec86664334f935e806",
     "date": "2023-01-01T00:00:00+02:00",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "documents": [
       {
-        "id": "25b30be113494ed79b4c14f0b546c398",
+        "id": "82f8566f236e42329fd7ea1aacc38cd1",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",

@@ -1,4 +1,4 @@
-GET /api/2.5/plans/6cb30e0a8f2d4487946a40c0b043c761 HTTP/1.0
+GET /api/2.5/plans/2c376a06cbf7476b8c229e6955bd8194 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,7 +8,7 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "procuringEntity": {
-      "id": "98d8791dc81c40a69e0eeba3c6c4b1bf",
+      "id": "83f062b81bae47f8ab0961261aa07c76",
       "name": "ЦЗО №1",
       "identifier": {
         "scheme": "UA-EDR",
@@ -47,7 +47,7 @@ X-Content-Type-Options: nosniff
       },
       "breakdown": [
         {
-          "id": "bd4f8d527d7b420188a1a89f2d6d9670",
+          "id": "cfa7241bcbb349619633cf4892ec6f3f",
           "title": "other",
           "description": "Breakdown other description.",
           "value": {
@@ -69,11 +69,11 @@ X-Content-Type-Options: nosniff
         "description": "-"
       }
     ],
-    "tender_id": "41116c1a1b6a44fc8914663807288667",
+    "tender_id": "d1b73c4e72e244f1833086204faadff6",
     "planID": "UA-P-2023-01-01-000001",
     "items": [
       {
-        "id": "69b1bfae5dc342009d35f93db2cd39e9",
+        "id": "e6aa4dfbda3e4a8b95228fcd5778f66c",
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
@@ -106,7 +106,7 @@ X-Content-Type-Options: nosniff
     ],
     "buyers": [
       {
-        "id": "687860c23fe647f0a2bdd0da9e384d34",
+        "id": "f2831f8b59a042c8a5873da24a571fce",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -126,7 +126,7 @@ X-Content-Type-Options: nosniff
     "status": "complete",
     "milestones": [
       {
-        "id": "bcd0fdcf5036434881da407a855782c1",
+        "id": "15a9ab37fec7476aa9ef10890b9b2f4a",
         "title": "Підготовка до проведення процедури",
         "description": "Доповнений опис відповіді",
         "type": "approval",
@@ -134,7 +134,7 @@ X-Content-Type-Options: nosniff
         "status": "met",
         "documents": [
           {
-            "id": "e4ec0c0e29d74a5e868f8e53b79bd05c",
+            "id": "a23d42fa7c964ecba471e1bcb60acc46",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Notice.pdf",
             "format": "application/pdf",
@@ -144,7 +144,7 @@ X-Content-Type-Options: nosniff
           }
         ],
         "author": {
-          "id": "a256ff206dcf4884a5631a283ce6bb7d",
+          "id": "223cf816f2d343d2ba8d7a038fafc659",
           "name": "ЦЗО №1",
           "identifier": {
             "scheme": "UA-EDR",
@@ -169,7 +169,7 @@ X-Content-Type-Options: nosniff
     "dateModified": "2023-01-01T00:00:21+02:00",
     "datePublished": "2023-01-01T00:00:00+02:00",
     "owner": "broker",
-    "id": "6cb30e0a8f2d4487946a40c0b043c761"
+    "id": "2c376a06cbf7476b8c229e6955bd8194"
   }
 }
 

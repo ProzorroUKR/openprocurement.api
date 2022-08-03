@@ -1,4 +1,4 @@
-GET /api/2.5/agreements/1746cfba69864f7d996e4bd000858884/documents?acc_token=2f325f620dd24a4d8dd8c5aca839a7cc HTTP/1.0
+GET /api/2.5/agreements/1746cfba69864f7d996e4bd000858884/documents?acc_token=6c0d90bcb85a4aafb10ed56df23cfa38 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,22 +8,22 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "id": "366b4dd595b549ffae8d3896242fb0ea",
+      "id": "50a0c7299c1b405b85cce83677a54dce",
       "hash": "md5:00000000000000000000000000000000",
       "title": "agreement_changes.doc",
       "format": "application/msword",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4cb784af37bd4d94a8d3875046842d4b?Signature=0HtxZXtlj2RHoKC6ircAx4wnTWueeXzryd2GWLGtMSs2HlkvMxofDAdRSagQqa%2FbSYKDRadpMuiHV9tTI14OCw%3D%3D&KeyID=a8968c46",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f4710cf1486d4b2c8108e3247c41b416?Signature=bfpgyQZrSDSVWMwk53MAxYhfO7hvqyRJgojCjM86wsWPADiAqvFcPutQ%2FvGIRfFz%2B44IcLFd3aK0F1tC2vCzAA%3D%3D&KeyID=a8968c46",
       "datePublished": "2023-01-01T00:00:00+02:00",
       "dateModified": "2023-01-01T00:00:00+02:00",
-      "relatedItem": "eb59804a712942e89f57217f6537364e",
+      "relatedItem": "12f43718ecbf474886b7f3545a7debe5",
       "documentOf": "change"
     },
     {
-      "id": "91359234533e49c79c42142056f8fac7",
+      "id": "a69bf378ea194516aacb23e20d8863dc",
       "hash": "md5:00000000000000000000000000000000",
       "title": "agreement.doc",
       "format": "application/msword",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c6e4ee9665bc469fa4d14fcd35513942?Signature=aABQcl023w5EmJAjOj4oaIwWhz6%2BcSM49Keb1aXFhA8sjm%2BLe8mSfJYgy2g1GE3ozVL40VhGD66ZS9IjDIwkDQ%3D%3D&KeyID=a8968c46",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3a707862232e40e2b63a767ad021874b?Signature=uns6nv2sJUcEhqNYmfT%2F8yVxfxgWH75Msgby03%2BZvTpjSf1RHY0OhyiUP%2BbJyk%2Fwe6rO%2FihvOClpFFv5hRHVBg%3D%3D&KeyID=a8968c46",
       "datePublished": "2023-01-01T00:00:00+02:00",
       "dateModified": "2023-01-01T00:00:00+02:00",
       "documentOf": "agreement"

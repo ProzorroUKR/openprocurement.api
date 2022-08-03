@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/6441fa52dc6b4f018c96a6adfa1edfc5/qualifications/0ccff2fe5f7a4d998944aa5847bec01c/complaints/f472589af95e4dee93f8e83f05fd6356?acc_token=9b25e02e4bae40d2af54fa884e2a2d23 HTTP/1.0
+PATCH /api/2.5/tenders/5f16f024cad74253882085d3438eb6e0/qualifications/bfcf99999c9745aba10be02601d464c8/complaints/95ea7569370f4630bf8b4cf817e9c184?acc_token=b9f89e45149b4bca87117232c4d61c4c HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 29
 Content-Type: application/json
@@ -15,7 +15,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "f472589af95e4dee93f8e83f05fd6356",
+    "id": "95ea7569370f4630bf8b4cf817e9c184",
     "complaintID": "UA-2023-01-01-000001-a.6",
     "date": "2023-01-01T00:00:01+02:00",
     "type": "claim",
@@ -27,7 +27,7 @@ X-Content-Type-Options: nosniff
     "dateAnswered": "2023-01-01T00:00:01+02:00",
     "satisfied": true,
     "status": "answered",
-    "bid_id": "371145a097ed44349ae3ffa5600f24dc"
+    "bid_id": "fa5ea5df9a1f477eae28fa67fd041361"
   }
 }
 

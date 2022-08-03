@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/de6aaf6d93604296946e0c9698f0497a?acc_token=cb71798fe3e04a70bdd2565ce454760e HTTP/1.0
+PATCH /api/2.5/tenders/d96ed63e84854196998f4feef084f402?acc_token=20745a6e445d49d6ba1bb5f6b071c814 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 40
 Content-Type: application/json
@@ -84,7 +84,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "983afe6ba47a451fbf6249d93fcd23d3",
+        "id": "21b108776aa74e5b8ae1deb4e41dd5d3",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -122,7 +122,7 @@ X-Content-Type-Options: nosniff
       "endDate": "2023-01-08T00:00:00+02:00"
     },
     "next_check": "2023-01-08T00:00:00+02:00",
-    "id": "de6aaf6d93604296946e0c9698f0497a"
+    "id": "d96ed63e84854196998f4feef084f402"
   }
 }
 

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/f424e2934d9c4a28a98ace88bd50ea47?acc_token=385a1b964fc04c10a6acb22ee6e53ea6 HTTP/1.0
+PATCH /api/2.5/tenders/9c964a6216c946b2b82a78720b389a93?acc_token=0a10b32258a14dcea4a21bf94924418e HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -56,7 +56,7 @@ X-Content-Type-Options: nosniff
     },
     "items": [
       {
-        "id": "82dd3be3d3ce4eee93e60bfb334ddd05",
+        "id": "7473a6ac00df436194acc9a2a2ebe39a",
         "description": "Послуги шкільних їдалень",
         "classification": {
           "description": "Послуги з харчування у школах",
@@ -110,7 +110,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "f63166a63f304a87bc662020528e820d",
+        "id": "b06b394eb67642a78ae5ce8b4a62c428",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -124,7 +124,7 @@ X-Content-Type-Options: nosniff
     ],
     "procurementMethodType": "negotiation.quick",
     "cause": "twiceUnsuccessful",
-    "id": "f424e2934d9c4a28a98ace88bd50ea47"
+    "id": "9c964a6216c946b2b82a78720b389a93"
   }
 }
 

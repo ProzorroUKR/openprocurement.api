@@ -8,7 +8,7 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "id": "eb59804a712942e89f57217f6537364e",
+      "id": "12f43718ecbf474886b7f3545a7debe5",
       "status": "active",
       "date": "2023-01-01T00:00:00+02:00",
       "rationale": "Друга і третя поставка має бути розфасована",
@@ -17,7 +17,7 @@ X-Content-Type-Options: nosniff
       "rationaleType": "taxRate",
       "modifications": [
         {
-          "itemId": "cefbff4fb3e846ee8eecfdb05932afa1",
+          "itemId": "7e815525aab3461e840b13c851f381dd",
           "factor": 0.1605
         }
       ]

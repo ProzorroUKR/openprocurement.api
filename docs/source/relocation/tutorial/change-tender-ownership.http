@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/4b9115b9cb2c4b0ba35a6addd94c93fe/ownership HTTP/1.0
+POST /api/2.5/tenders/f36bbec96e57457b8acb3b59f68e8d77/ownership HTTP/1.0
 Authorization: Bearer broker1
 Content-Length: 100
 Content-Type: application/json
@@ -6,8 +6,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "id": "bf6462080e6f4c9b8d67bee3ba214bcb",
-    "transfer": "9a824d95cc2e4eb2bb3a8f417843a9c3"
+    "id": "e1f545dc62744379af62821162c43008",
+    "transfer": "744b2a9ab4e743368de7c850ad8d3aa5"
   }
 }
 
@@ -37,7 +37,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "af09d533bd41421bbc5ebf85e3010c3e",
+        "id": "2ee0c5b6eafd4d13b61e4bb97b65b965",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -55,7 +55,7 @@ X-Content-Type-Options: nosniff
     "status": "draft",
     "items": [
       {
-        "id": "ef55b20df1074d33abae53b99016d35c",
+        "id": "ce9e446cdec144a19fd3cf237ac376e4",
         "description": "футляри до державних нагород",
         "additionalClassifications": [
           {
@@ -132,7 +132,7 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true
     },
     "procurementMethodType": "belowThreshold",
-    "id": "4b9115b9cb2c4b0ba35a6addd94c93fe",
+    "id": "f36bbec96e57457b8acb3b59f68e8d77",
     "numberOfBids": 0
   }
 }

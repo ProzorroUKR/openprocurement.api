@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/1e1c35ea6a97449c857edabef72e7225/contracts/b8fc5ea92b2f49949263befaaef2db53 HTTP/1.0
+GET /api/2.5/tenders/63fbe5f55ec14294b590969e4ec72af6/contracts/24b423b81495417bbe9e3f1d2c31eb77 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,8 +7,8 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "b8fc5ea92b2f49949263befaaef2db53",
-    "awardID": "8870406ca2534a028261c3b198af96eb",
+    "id": "24b423b81495417bbe9e3f1d2c31eb77",
+    "awardID": "1192e72db5c9491a80cf59641a749a51",
     "contractID": "UA-2023-01-01-000001-a-1",
     "status": "pending",
     "value": {

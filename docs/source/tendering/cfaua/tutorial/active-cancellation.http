@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/dea691b943a946a8957e9be95bc51a06/cancellations/137233c6e7a64b4f89e93ad12e8849af?acc_token=a4dab218398a4cc8a8004a91d3ba9744 HTTP/1.0
+GET /api/2.5/tenders/b69c06ceeeb145a4b5cc46d3d56de4d2/cancellations/f47a568e715349baa198e3c1cf084cdd?acc_token=bf73c010063f4fb4a07e775871e11d60 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,7 +7,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "137233c6e7a64b4f89e93ad12e8849af",
+    "id": "f47a568e715349baa198e3c1cf084cdd",
     "reason": "cancellation reason",
     "date": "2023-01-12T00:00:02+02:00",
     "status": "active",
@@ -19,7 +19,7 @@ X-Content-Type-Options: nosniff
     },
     "documents": [
       {
-        "id": "f9f4f063679a4a05b1b075525e8b3834",
+        "id": "8bacdecceb854bf8897fa3c2d973a52a",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "description": "Changed description",
@@ -31,7 +31,7 @@ X-Content-Type-Options: nosniff
         "language": "uk"
       },
       {
-        "id": "f9f4f063679a4a05b1b075525e8b3834",
+        "id": "8bacdecceb854bf8897fa3c2d973a52a",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice-2.pdf",
         "description": "Changed description",

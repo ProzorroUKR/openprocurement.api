@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/d2bb8b32840e47a7be28cb1644aeda9c/complaints/ae7030e56f544ad89fb28b915289a41c/posts HTTP/1.0
+POST /api/2.5/tenders/06a89d3522bf4ba5902cacc12c9a8788/complaints/e4a2dfd3cee1428fb5f0fa24088dd607/posts HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 281
 Content-Type: application/json
@@ -14,11 +14,11 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d2bb8b32840e47a7be28cb1644aeda9c/complaints/ae7030e56f544ad89fb28b915289a41c/posts/8f0d51ad72b74490b4f86b86ab6bb7cc
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/06a89d3522bf4ba5902cacc12c9a8788/complaints/e4a2dfd3cee1428fb5f0fa24088dd607/posts/e0b525f8d02e4ec3a11260cd25a36d9f
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "8f0d51ad72b74490b4f86b86ab6bb7cc",
+    "id": "e0b525f8d02e4ec3a11260cd25a36d9f",
     "title": "Уточнення по вимозі",
     "description": "Відсутній документ",
     "author": "aboveThresholdReviewers",

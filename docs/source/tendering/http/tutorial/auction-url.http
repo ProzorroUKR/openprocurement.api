@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/1e1c35ea6a97449c857edabef72e7225 HTTP/1.0
+GET /api/2.5/tenders/63fbe5f55ec14294b590969e4ec72af6 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -10,7 +10,7 @@ X-Content-Type-Options: nosniff
     "title": "футляри до державних нагород",
     "documents": [
       {
-        "id": "31d47ffc884f4127b55eba8f3bad8f3e",
+        "id": "634d04d09d5f46efa18ca3423714f4bd",
         "hash": "md5:00000000000000000000000000000000",
         "documentType": "technicalSpecifications",
         "title": "Notice.pdf",
@@ -23,7 +23,7 @@ X-Content-Type-Options: nosniff
         "documentOf": "tender"
       },
       {
-        "id": "89091bea986745ddac9abf60d7d70519",
+        "id": "b936a25fe7264084bc01c7b916661d26",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
@@ -34,7 +34,7 @@ X-Content-Type-Options: nosniff
         "documentOf": "tender"
       },
       {
-        "id": "89091bea986745ddac9abf60d7d70519",
+        "id": "b936a25fe7264084bc01c7b916661d26",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
@@ -89,7 +89,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "d3bdeff96cce42fe97d7f83f572c9b0c",
+        "id": "d8635a79813a4ac69626f0d504119cbe",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -179,7 +179,7 @@ X-Content-Type-Options: nosniff
     },
     "questions": [
       {
-        "id": "58ca81fbcacb44d09c452c091ba26b46",
+        "id": "f937991b12f343b89e5bae6b87080cdb",
         "author": {
           "name": "ДКП «Книга»",
           "identifier": {
@@ -218,8 +218,8 @@ X-Content-Type-Options: nosniff
       "startDate": "2023-01-01T00:00:01+02:00",
       "shouldStartAfter": "2023-01-02T00:00:00+02:00"
     },
-    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/1e1c35ea6a97449c857edabef72e7225",
-    "id": "1e1c35ea6a97449c857edabef72e7225"
+    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/63fbe5f55ec14294b590969e4ec72af6",
+    "id": "63fbe5f55ec14294b590969e4ec72af6"
   }
 }
 

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/21b59cfa191a41eaaeb418282327d481/contracts/175f09d927a54411804c6a2631c56e4f?acc_token=b3345f8c5f3c446983b73bbe7f073ab7 HTTP/1.0
+GET /api/2.5/tenders/118fb7835ef441e7881da132730071d0/contracts/7548322cb11641759c0d05cea5121d50?acc_token=0f712374a39145a1be46d1c686df7376 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,8 +7,8 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "175f09d927a54411804c6a2631c56e4f",
-    "awardID": "e5a7cb400a054a178d92228c67a06cfa",
+    "id": "7548322cb11641759c0d05cea5121d50",
+    "awardID": "1f265fbb99034aeabc12ebe4e7361f08",
     "contractID": "UA-2023-01-01-000016-a.2-1",
     "contractNumber": "contract#1",
     "status": "pending",
@@ -49,7 +49,7 @@ X-Content-Type-Options: nosniff
     "dateSigned": "2023-01-01T00:00:01+02:00",
     "items": [
       {
-        "id": "f589bbeaad4d48e0a604e79cfdf6c380",
+        "id": "29438af4140f408185595f42f94c5799",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "additionalClassifications": [
@@ -94,7 +94,7 @@ X-Content-Type-Options: nosniff
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7277a1e671db4e23811faec0ebe3edaf?Signature=zhi4qDElkRIcpv2NNx%2BKh6SbUsAVbjtwA0CH26YmIDJilCZzkYa9MTTnBRc%2FDLZLQJ8dR0A%2FVma7zF1%2Fp6s5Dw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "id": "b4182047b74b488793c93cde69554368",
+        "id": "f46f9597eff544a9a719d0c3a03f6793",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "dateModified": "2023-01-01T00:00:01+02:00"
       },
@@ -102,7 +102,7 @@ X-Content-Type-Options: nosniff
         "title_en": "Title of Document",
         "description_en": "Description of Document",
         "language": "en",
-        "id": "05012802864b439b9115d9dfec1319db",
+        "id": "95b0ceb74806485484fea54b729a7632",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_first_document.doc",

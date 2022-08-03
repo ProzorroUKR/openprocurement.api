@@ -1,4 +1,4 @@
-PATCH /api/2.5/plans/23d69346373b4f0696ccdae63872329b?acc_token=d56bf6e0f3004892a9d8e0252075dc57 HTTP/1.0
+PATCH /api/2.5/plans/3747508924764c17888fc86990c3108b?acc_token=6a42dd8bc33b4faca59bd542e5b1ee39 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 213
 Content-Type: application/json
@@ -19,7 +19,7 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "procuringEntity": {
-      "id": "d4f841d70829473ab0f7b214cf5b962d",
+      "id": "83d6277846a64e359fd1cef3967c4d19",
       "name": "ДУС",
       "identifier": {
         "scheme": "UA-EDR",
@@ -72,7 +72,7 @@ X-Content-Type-Options: nosniff
     "planID": "UA-P-2023-01-01-000003",
     "items": [
       {
-        "id": "2f379a270837435c9f517de3a0c2b6a8",
+        "id": "cc4868d6448a4985a712112ccb50f966",
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
@@ -103,7 +103,7 @@ X-Content-Type-Options: nosniff
         "description": "Насіння гірчиці"
       },
       {
-        "id": "1a2240813c8c4bf89902ccfdbc77b5c4",
+        "id": "62ff3388403a4fbf8344d973fc93ace5",
         "classification": {
           "description": "Sunflower seeds",
           "scheme": "ДК021",
@@ -134,7 +134,7 @@ X-Content-Type-Options: nosniff
         "description": "Насіння соняшнику"
       },
       {
-        "id": "0733e42502ee4f8dbe0f5dd3f09cdf6c",
+        "id": "f4ca21d3eea64bb396a6ff3cc1509e9b",
         "classification": {
           "description": "Cotton seeds",
           "scheme": "ДК021",
@@ -167,7 +167,7 @@ X-Content-Type-Options: nosniff
     ],
     "buyers": [
       {
-        "id": "808005edf8e04eb9ac85a13e2677aed9",
+        "id": "21307c81220f4b769d89701406b37933",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -186,7 +186,7 @@ X-Content-Type-Options: nosniff
     ],
     "status": "scheduled",
     "cancellation": {
-      "id": "9503656616ed4cc78b7c30b7bf27aa05",
+      "id": "b7e9d6ca56c943a0b5d32f9db0653ce7",
       "date": "2023-01-01T00:00:00+02:00",
       "reason": "Підстава для скасування",
       "reason_en": "Reason of the cancellation",
@@ -196,7 +196,7 @@ X-Content-Type-Options: nosniff
     "dateModified": "2023-01-01T00:00:00+02:00",
     "datePublished": "2023-01-01T00:00:00+02:00",
     "owner": "broker",
-    "id": "23d69346373b4f0696ccdae63872329b"
+    "id": "3747508924764c17888fc86990c3108b"
   }
 }
 

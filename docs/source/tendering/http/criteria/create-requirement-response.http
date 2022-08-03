@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/75259c27a799486ca9ad3563f6e86f54/bids/b289317b2ab94078a2506ca188933207/requirement_responses?acc_token=00ae749dfd5e4e55bfc9726e32db2c93 HTTP/1.0
+POST /api/2.5/tenders/0babf43ffe2a4934bcbb730f93d38601/bids/0e4c0ac9fb214aec86664334f935e806/requirement_responses?acc_token=62ce299578e94246b3f2648888d1f6a7 HTTP/1.0
 Authorization: Bearer token
 Content-Length: 1551
 Content-Type: application/json
@@ -10,14 +10,14 @@ DATA:
       "title": "Requirement response",
       "description": "some description",
       "requirement": {
-        "id": "cd36c26ca1b04fffb35dfe068a5aaf9d",
+        "id": "c8ab68b273a049e2a383e50762e57a27",
         "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
       },
       "evidences": [
         {
           "title": "Requirement response",
           "relatedDocument": {
-            "id": "25b30be113494ed79b4c14f0b546c398",
+            "id": "82f8566f236e42329fd7ea1aacc38cd1",
             "title": "name.doc"
           },
           "type": "document"
@@ -34,20 +34,20 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "id": "b9507fa7a0584774b3d0e865d458e50c",
+      "id": "d898d8f3fb1f4fe4aab497396b668577",
       "title": "Requirement response",
       "description": "some description",
       "requirement": {
-        "id": "cd36c26ca1b04fffb35dfe068a5aaf9d",
+        "id": "c8ab68b273a049e2a383e50762e57a27",
         "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
       },
       "evidences": [
         {
-          "id": "b54869a9ef804f7684f0b017afe05e2f",
+          "id": "77e939aabcdf4414beaf3278cca80262",
           "title": "Requirement response",
           "type": "document",
           "relatedDocument": {
-            "id": "25b30be113494ed79b4c14f0b546c398",
+            "id": "82f8566f236e42329fd7ea1aacc38cd1",
             "title": "name.doc"
           }
         }

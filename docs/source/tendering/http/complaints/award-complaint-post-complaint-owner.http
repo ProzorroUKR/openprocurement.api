@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/7ea7cf213d514bbcbe84269526134836/awards/fa643eda48dd450bb2a289aa80f13e85/complaints/b4864402ba1d4a8ab6c44010b2f3f4a3/posts?acc_token=b144bd5d0ee84a8b87171b7deed03aea HTTP/1.0
+POST /api/2.5/tenders/0f776099eb8344b4a149200a8657a9df/awards/97618ec8e2194942a79b7911a23d9176/complaints/4450f77623cd4fa1bd42d766563485ed/posts?acc_token=7cba9c0ae4ef47d48bcd7c0141993417 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 668
 Content-Type: application/json
@@ -9,7 +9,7 @@ DATA:
     "title": "Уточнення по вимозі",
     "description": "Додано документ",
     "recipient": "aboveThresholdReviewers",
-    "relatedPost": "2c6df34379e643978a05a8b7bb59beb8",
+    "relatedPost": "0cf9b8b0b48049eeb85984fda059647d",
     "documents": [
       {
         "title": "post_document_complaint.pdf",
@@ -23,16 +23,16 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7ea7cf213d514bbcbe84269526134836/awards/fa643eda48dd450bb2a289aa80f13e85/complaints/b4864402ba1d4a8ab6c44010b2f3f4a3/posts/27c30b8c52e3405eb0f233239fd107cf
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0f776099eb8344b4a149200a8657a9df/awards/97618ec8e2194942a79b7911a23d9176/complaints/4450f77623cd4fa1bd42d766563485ed/posts/b5ad1e3be2a347568077f627bd5ba31f
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "27c30b8c52e3405eb0f233239fd107cf",
+    "id": "b5ad1e3be2a347568077f627bd5ba31f",
     "title": "Уточнення по вимозі",
     "description": "Додано документ",
     "documents": [
       {
-        "id": "1fe0798f0605490b8ec76ff460731614",
+        "id": "66fb9627564c4c349d9706a920291cff",
         "hash": "md5:00000000000000000000000000000000",
         "title": "post_document_complaint.pdf",
         "format": "application/pdf",
@@ -46,7 +46,7 @@ X-Content-Type-Options: nosniff
     "author": "complaint_owner",
     "recipient": "aboveThresholdReviewers",
     "datePublished": "2023-01-01T00:00:03+02:00",
-    "relatedPost": "2c6df34379e643978a05a8b7bb59beb8"
+    "relatedPost": "0cf9b8b0b48049eeb85984fda059647d"
   }
 }
 

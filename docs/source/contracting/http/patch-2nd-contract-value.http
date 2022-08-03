@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/a3feda5e2d95495bac7d9eded8661456/contracts/591ab61627754dbb987af3daf6073c0d?acc_token=277ac79c7489473da2556f332958298b HTTP/1.0
+PATCH /api/2.5/tenders/55e45df6d0ca4d4fba2f3e8dc78abb98/contracts/d7869abbe1874db8a412cbe6eebe2320?acc_token=f8fd9d7797a7432b939129c732e580ab HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 54
 Content-Type: application/json
@@ -18,9 +18,9 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "591ab61627754dbb987af3daf6073c0d",
+    "id": "d7869abbe1874db8a412cbe6eebe2320",
     "buyerID": "22222222222222222222222222222222",
-    "awardID": "42bede1bbad64dabbd9f67ce4a5b2ba9",
+    "awardID": "d4e973ede0e54302ad8eec63052a98e8",
     "contractID": "UA-2023-01-01-000001-a-2",
     "status": "pending",
     "value": {
@@ -31,7 +31,7 @@ X-Content-Type-Options: nosniff
     },
     "items": [
       {
-        "id": "32e19219eba74ae39d1610cdfebb251c",
+        "id": "eb83c6ba1a6f46f199a41d492f4f5d4d",
         "description": "портфелі",
         "classification": {
           "description": "Cartons",
@@ -69,7 +69,7 @@ X-Content-Type-Options: nosniff
         "relatedBuyer": "22222222222222222222222222222222"
       },
       {
-        "id": "4080583812244078b0585cfbab62f815",
+        "id": "e446fa258f1a49b988b6a6ca6b8b3682",
         "description": "портфелі",
         "classification": {
           "description": "Cartons",

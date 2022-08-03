@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/316dd597b188475dbed68fe522bf1606/criteria/1d3d0c833904401a9c378e7e171c68ba/requirement_groups/2d2d30613e824b4fb3651404df351f4b HTTP/1.0
+GET /api/2.5/tenders/f83728385fa9438bb4c5c118ffc5012a/criteria/19d060499b3d4297928c7a4b36e04265/requirement_groups/13f82a0355384cf28e30497d6770cb65 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,16 +7,16 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "2d2d30613e824b4fb3651404df351f4b",
+    "id": "13f82a0355384cf28e30497d6770cb65",
     "description": "Updated description",
     "requirements": [
       {
-        "id": "d3a5444cc18b4a1b822b83397b2b7d5f",
+        "id": "360d4d5561bd49428bed69ad4f9f0e44",
         "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку",
         "dataType": "boolean",
         "eligibleEvidences": [
           {
-            "id": "8d6ce4abf8d44164843866b82f99fb86",
+            "id": "73008b0f32df4db3a694b51dc46f606d",
             "title": "Документальне підтвердження",
             "description": "Довідка в довільній формі",
             "type": "document"

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/d0f09972496845e993e53f09206ace3d HTTP/1.0
+GET /api/2.5/tenders/d3e312b04f024e00b2ea4a43dfaf661e HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -66,7 +66,7 @@ X-Content-Type-Options: nosniff
     "maxAwardsCount": 4,
     "items": [
       {
-        "id": "cefbff4fb3e846ee8eecfdb05932afa1",
+        "id": "7e815525aab3461e840b13c851f381dd",
         "description": "футляри до державних нагород",
         "classification": {
           "description": "Cartons",
@@ -449,7 +449,7 @@ X-Content-Type-Options: nosniff
         "id": "1746cfba69864f7d996e4bd000858884",
         "items": [
           {
-            "id": "cefbff4fb3e846ee8eecfdb05932afa1",
+            "id": "7e815525aab3461e840b13c851f381dd",
             "description": "футляри до державних нагород",
             "classification": {
               "description": "Cartons",
@@ -518,7 +518,7 @@ X-Content-Type-Options: nosniff
             "date": "2023-01-01T00:00:00+02:00",
             "unitPrices": [
               {
-                "relatedItem": "cefbff4fb3e846ee8eecfdb05932afa1",
+                "relatedItem": "7e815525aab3461e840b13c851f381dd",
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": true,
@@ -560,7 +560,7 @@ X-Content-Type-Options: nosniff
             "date": "2023-01-01T00:00:00+02:00",
             "unitPrices": [
               {
-                "relatedItem": "cefbff4fb3e846ee8eecfdb05932afa1",
+                "relatedItem": "7e815525aab3461e840b13c851f381dd",
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": true,
@@ -602,7 +602,7 @@ X-Content-Type-Options: nosniff
             "date": "2023-01-01T00:00:00+02:00",
             "unitPrices": [
               {
-                "relatedItem": "cefbff4fb3e846ee8eecfdb05932afa1",
+                "relatedItem": "7e815525aab3461e840b13c851f381dd",
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": true,
@@ -616,7 +616,7 @@ X-Content-Type-Options: nosniff
         "status": "active"
       }
     ],
-    "id": "d0f09972496845e993e53f09206ace3d"
+    "id": "d3e312b04f024e00b2ea4a43dfaf661e"
   }
 }
 

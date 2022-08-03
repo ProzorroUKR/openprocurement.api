@@ -104,7 +104,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/54776089d1734987a07f7df86a9e7ad4
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7467a15a053641d38e0d29499e3cc219
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -164,7 +164,7 @@ X-Content-Type-Options: nosniff
     ],
     "milestones": [
       {
-        "id": "d1ea9c0b4e1147bd92e26af014173eb0",
+        "id": "35a436e966214b7082043bfb6d4dc05d",
         "title": "signingTheContract",
         "type": "financing",
         "code": "prepayment",
@@ -176,7 +176,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "40f2f09425d94dd0a15da3ce7b26011f",
+        "id": "56faacff01464db8bf244a65ca400327",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -218,11 +218,11 @@ X-Content-Type-Options: nosniff
     "date": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
-    "id": "54776089d1734987a07f7df86a9e7ad4"
+    "id": "7467a15a053641d38e0d29499e3cc219"
   },
   "access": {
-    "token": "d1ca6b79e87d4d3a9df981a5e814315e",
-    "transfer": "c2d07a7b46c5489bbb24dce1e913db4c"
+    "token": "a6344e8ea632458f8a17d7268471475e",
+    "transfer": "3a487ca0f62e4d3e832954c29770833c"
   }
 }
 

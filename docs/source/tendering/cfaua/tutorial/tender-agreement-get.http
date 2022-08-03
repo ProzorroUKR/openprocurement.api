@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/dea691b943a946a8957e9be95bc51a06/agreements/0fea7d7c4c8649f5a499885d630671f5?acc_token=a4dab218398a4cc8a8004a91d3ba9744 HTTP/1.0
+GET /api/2.5/tenders/b69c06ceeeb145a4b5cc46d3d56de4d2/agreements/0fea7d7c4c8649f5a499885d630671f5?acc_token=bf73c010063f4fb4a07e775871e11d60 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -12,7 +12,7 @@ X-Content-Type-Options: nosniff
     "date": "2023-01-01T00:00:00+02:00",
     "documents": [
       {
-        "id": "6b3def02d8e044b2a003ce65d16b212a",
+        "id": "aeb486ca5e1d46d487678aae32ca08ff",
         "hash": "md5:00000000000000000000000000000000",
         "title": "agreement_first_document.doc",
         "format": "application/msdoc",
@@ -22,7 +22,7 @@ X-Content-Type-Options: nosniff
         "documentOf": "tender"
       },
       {
-        "id": "d364676c691744899b1a80f035be06f4",
+        "id": "335c4c4af10e443a8ec6043a83921d9e",
         "hash": "md5:00000000000000000000000000000000",
         "title": "agreement_second_document.doc",
         "title_en": "Title of Document",
@@ -37,7 +37,7 @@ X-Content-Type-Options: nosniff
     ],
     "items": [
       {
-        "id": "aaec8afa6e6a4743b3942b45d02e6457",
+        "id": "78edae5503b94e0eb20ca906a762bc8d",
         "description": "футляри до державних нагород",
         "additionalClassifications": [
           {
@@ -71,7 +71,7 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "84dbeb94478645759b67a2fa88293b0e",
+        "id": "fc62a07c463c4750b0bdc92dd8787e2a",
         "description": "футляри до державних нагород",
         "additionalClassifications": [
           {
@@ -135,7 +135,7 @@ X-Content-Type-Options: nosniff
         ],
         "unitPrices": [
           {
-            "relatedItem": "aaec8afa6e6a4743b3942b45d02e6457",
+            "relatedItem": "78edae5503b94e0eb20ca906a762bc8d",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -143,7 +143,7 @@ X-Content-Type-Options: nosniff
             }
           },
           {
-            "relatedItem": "84dbeb94478645759b67a2fa88293b0e",
+            "relatedItem": "fc62a07c463c4750b0bdc92dd8787e2a",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -151,8 +151,8 @@ X-Content-Type-Options: nosniff
             }
           }
         ],
-        "awardID": "2f2891bcc4d240019c96b42a83ab27f3",
-        "bidID": "c37e1f57bb514ac38787d82c6de256e7",
+        "awardID": "2972d86645dc4d31b315bca98fc47858",
+        "bidID": "dcda7735b5384d7b803444397600baf1",
         "date": "2023-01-01T00:00:00+02:00"
       },
       {
@@ -183,7 +183,7 @@ X-Content-Type-Options: nosniff
         ],
         "unitPrices": [
           {
-            "relatedItem": "aaec8afa6e6a4743b3942b45d02e6457",
+            "relatedItem": "78edae5503b94e0eb20ca906a762bc8d",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -191,7 +191,7 @@ X-Content-Type-Options: nosniff
             }
           },
           {
-            "relatedItem": "84dbeb94478645759b67a2fa88293b0e",
+            "relatedItem": "fc62a07c463c4750b0bdc92dd8787e2a",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -199,8 +199,8 @@ X-Content-Type-Options: nosniff
             }
           }
         ],
-        "awardID": "d625a77189094474b14618202ebb2f33",
-        "bidID": "d1f03fb59b634de9860039587ec4f85d",
+        "awardID": "504459d46cbb42baa8b442f6da714db5",
+        "bidID": "a9427978bcd440bda085ad41b2547b78",
         "date": "2023-01-01T00:00:00+02:00"
       },
       {
@@ -232,7 +232,7 @@ X-Content-Type-Options: nosniff
         ],
         "unitPrices": [
           {
-            "relatedItem": "aaec8afa6e6a4743b3942b45d02e6457",
+            "relatedItem": "78edae5503b94e0eb20ca906a762bc8d",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -240,7 +240,7 @@ X-Content-Type-Options: nosniff
             }
           },
           {
-            "relatedItem": "84dbeb94478645759b67a2fa88293b0e",
+            "relatedItem": "fc62a07c463c4750b0bdc92dd8787e2a",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -248,8 +248,8 @@ X-Content-Type-Options: nosniff
             }
           }
         ],
-        "awardID": "506156d094d94cc3b93831b94e6b7290",
-        "bidID": "57508fba450446f89e32ff9cd4d81348",
+        "awardID": "5a20755806ec4ff885e2278e726c8f83",
+        "bidID": "6bf64eb443e54b8db51e4156558d97e0",
         "date": "2023-01-01T00:00:00+02:00"
       }
     ]

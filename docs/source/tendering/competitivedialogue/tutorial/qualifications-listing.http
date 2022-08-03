@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/8c90145216a24d5aa75953a94a96160d/qualifications HTTP/1.0
+GET /api/2.5/tenders/bc2c91a2523c470086cae2222065fc32/qualifications HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,32 +8,32 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "id": "0ef3fa036ea7478199bf19be785c807f",
-      "bidID": "dfbf0f33e1e1475d90d3c6d02b67dd64",
+      "id": "eb84a472345048f1827c3fa4df751098",
+      "bidID": "7b883bf41fdd4bc2b952febc06441aa4",
       "status": "pending",
       "date": "2023-01-01T00:00:00+02:00",
       "qualified": false,
       "eligible": false
     },
     {
-      "id": "9184916e99354409964d0f87cdf6e709",
-      "bidID": "6ff0900c7a5c4c9989addd750d469daa",
+      "id": "3c64731d2ddb44bdb472daca4623d9dc",
+      "bidID": "8805fa4a4d6842b3a106140bdc478409",
       "status": "pending",
       "date": "2023-01-01T00:00:00+02:00",
       "qualified": false,
       "eligible": false
     },
     {
-      "id": "15b5dcc603f942ccb16be05cc2dedfa6",
-      "bidID": "5ecdae3390544bbf9721a06d39cf2a61",
+      "id": "5bff220a82c34db68fae17fdd358fad4",
+      "bidID": "b757e1420dbd4126ab5bc4e6ed70e8f3",
       "status": "pending",
       "date": "2023-01-01T00:00:00+02:00",
       "qualified": false,
       "eligible": false
     },
     {
-      "id": "6c9beae67b074584850ff51fa67d8297",
-      "bidID": "a1f34dbd52d4456591f1cfd26afeac48",
+      "id": "67216e34bcef40d79e30662c0045095f",
+      "bidID": "e70ebe527c8d4c05bf42eec55c58c6ac",
       "status": "pending",
       "date": "2023-01-01T00:00:00+02:00",
       "qualified": false,

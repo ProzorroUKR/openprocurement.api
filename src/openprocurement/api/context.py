@@ -36,3 +36,11 @@ def set_now(now=None):
 
 def get_now() -> datetime:
     return thread_context.now
+
+
+def get_db_session() -> Request:
+    return getattr(thread_context, "db_session", None)
+
+
+def set_db_session(db_session):
+    thread_context.db_session = db_session

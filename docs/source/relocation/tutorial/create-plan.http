@@ -163,12 +163,12 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/1131a06ea85b4e8983fa448019d5209d
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/c4fc1923c53a47079cb230ec4595043a
 X-Content-Type-Options: nosniff
 {
   "data": {
     "procuringEntity": {
-      "id": "ec9b5fe0702a45bca10c832cdfc5fe12",
+      "id": "22a97b03852a4e9cb0631a30e93142c2",
       "name": "ДУС",
       "identifier": {
         "scheme": "UA-EDR",
@@ -207,7 +207,7 @@ X-Content-Type-Options: nosniff
       },
       "breakdown": [
         {
-          "id": "3d702898cff445d98c1634084281b643",
+          "id": "0bd16b7048ac4a309c24a9573f0082b6",
           "title": "other",
           "description": "Breakdown other description.",
           "value": {
@@ -232,7 +232,7 @@ X-Content-Type-Options: nosniff
     "planID": "UA-P-2023-01-01-000001",
     "items": [
       {
-        "id": "937fede9dcb44c8f8c50ad05bf710080",
+        "id": "bd1d53956c124170934e1c8f9f4bedfd",
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
@@ -257,7 +257,7 @@ X-Content-Type-Options: nosniff
         "description": "Насіння гірчиці"
       },
       {
-        "id": "02aade74cd7c4318a9fdbb0336205cd4",
+        "id": "e760a777b43345c69416b48b1b4657a1",
         "classification": {
           "description": "Sunflower seeds",
           "scheme": "ДК021",
@@ -282,7 +282,7 @@ X-Content-Type-Options: nosniff
         "description": "Насіння соняшнику"
       },
       {
-        "id": "b2d1db44ac4744e6a721d72338043949",
+        "id": "7f6384838f674207bff60f5490f732d4",
         "classification": {
           "description": "Cotton seeds",
           "scheme": "ДК021",
@@ -309,7 +309,7 @@ X-Content-Type-Options: nosniff
     ],
     "buyers": [
       {
-        "id": "a5ccde3069dc4eddb29d41190b227bd8",
+        "id": "e75978dcf9ca4fd8b5afedbbbe5ec066",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -331,11 +331,11 @@ X-Content-Type-Options: nosniff
     "dateModified": "2023-01-01T00:00:00+02:00",
     "datePublished": "2023-01-01T00:00:00+02:00",
     "owner": "broker",
-    "id": "1131a06ea85b4e8983fa448019d5209d"
+    "id": "c4fc1923c53a47079cb230ec4595043a"
   },
   "access": {
-    "token": "104952ada07a4524b0734faddd3dde0a",
-    "transfer": "dc62c89dec7c4497ab6d759b686c7eb2"
+    "token": "df9e36e885a747f4a09272a9748ae862",
+    "transfer": "2a76632142274eb6ba7e46638a2906df"
   }
 }
 

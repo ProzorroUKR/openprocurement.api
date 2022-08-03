@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/aa43f375fb7a4dfdb6b777b6a86df5b5/bids HTTP/1.0
+POST /api/2.5/tenders/09b9ff4fc8654d1bb24fb14572e88f1c/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 2043
 Content-Type: application/json
@@ -36,19 +36,19 @@ DATA:
     "requirementResponses": [
       {
         "requirement": {
-          "id": "4b646712480a49e8bc73f81c45756cf4"
+          "id": "999fca7c01414e4ab35c88a02388582f"
         },
         "value": "Розчин для інфузій"
       },
       {
         "requirement": {
-          "id": "f7a6209ad4bd4e9a882ae46df39d8561"
+          "id": "0d6ac61303dc41609c2773d09e6593ef"
         },
         "value": 5
       },
       {
         "requirement": {
-          "id": "1d869955df9e4996bf6c94ceda8d1920"
+          "id": "2688fb5d39c84f618f45ade09c04d8f1"
         },
         "values": [
           "Відповідь1",
@@ -75,7 +75,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aa43f375fb7a4dfdb6b777b6a86df5b5/bids/6e0eb0bfdfc74fbe9b18e501c7a69689
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/09b9ff4fc8654d1bb24fb14572e88f1c/bids/e0950a264cbb4e31b09fab7b5ec714f8
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -114,7 +114,7 @@ X-Content-Type-Options: nosniff
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/192b7b24d38d4de6bc9a6b1e6c77960b?Signature=CVZKWk94K98I8qC6AG1vXsG0a%2FevBdstqBn5YpFW41JCULXAM2vtaFWQsNTa5zbc%2BatZ9y4F0ewJk9%2FrxUDLBw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "id": "59c511a1a0ef4fdf9e69374c0916c5fb",
+        "id": "62c232fa4eb24520bacea4d72a041bdb",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "dateModified": "2023-01-01T00:00:01+02:00"
       },
@@ -124,30 +124,30 @@ X-Content-Type-Options: nosniff
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e6ac8b976a3445839cd998263b5ffb42?Signature=VCjd%2BsC5JO5dsnfKlP9NMTUwhUOAFwPWrRWHJknfgB0NZ81mf7OwZLG1oVrd2EKQ8G9ZQh8hXngt7%2BbwawjsCQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "id": "35c1c34b9a7a4bfa940ccf7a30cc20ad",
+        "id": "81196303df3a401dac7a6f56ed1b8a27",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "dateModified": "2023-01-01T00:00:01+02:00"
       }
     ],
     "requirementResponses": [
       {
-        "id": "d0fe323b8cc1407394e8a57962d8b538",
+        "id": "aae84e1040e049aea5fc9a0304bc5548",
         "requirement": {
-          "id": "4b646712480a49e8bc73f81c45756cf4"
+          "id": "999fca7c01414e4ab35c88a02388582f"
         },
         "value": "Розчин для інфузій"
       },
       {
-        "id": "f3931668644e466dbc94eebe4abdcfb5",
+        "id": "bd7a608d841b403e9feabf56a8a73d8b",
         "requirement": {
-          "id": "f7a6209ad4bd4e9a882ae46df39d8561"
+          "id": "0d6ac61303dc41609c2773d09e6593ef"
         },
         "value": 5
       },
       {
-        "id": "0532ce1a936946f99de8c4b95ac9d66a",
+        "id": "113a36a6f490424aa5dfa5bd7b825592",
         "requirement": {
-          "id": "1d869955df9e4996bf6c94ceda8d1920"
+          "id": "2688fb5d39c84f618f45ade09c04d8f1"
         },
         "values": [
           "Відповідь1",
@@ -155,12 +155,12 @@ X-Content-Type-Options: nosniff
         ]
       }
     ],
-    "id": "6e0eb0bfdfc74fbe9b18e501c7a69689",
+    "id": "e0950a264cbb4e31b09fab7b5ec714f8",
     "date": "2023-01-01T00:00:01+02:00"
   },
   "access": {
-    "token": "e2f9d984fab2496baec376d1ebb9dded",
-    "transfer": "3678ab49c8df4c5dbfedf0a6acf7bcd1"
+    "token": "07de8722ab3e4408a88ba0a16dfe418d",
+    "transfer": "2b2e66e2a6af44b8a65e84f9f3eb44da"
   }
 }
 

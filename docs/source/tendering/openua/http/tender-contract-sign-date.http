@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/1c2191f29ecc447697b2f1509b45060e/contracts/f2233c34b5f4438e9b4f44218606a4d8?acc_token=65acc4d62e5146a8905f976ac9a4fc21 HTTP/1.0
+PATCH /api/2.5/tenders/7a10c7f4fa484faca13613c1361ee4b3/contracts/83e0b9f9203244d4a34318d63762b787?acc_token=10889623519e4589ba5cecab958d43b5 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 53
 Content-Type: application/json
@@ -15,8 +15,8 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "f2233c34b5f4438e9b4f44218606a4d8",
-    "awardID": "6f55cabc40d545ae965fdd30a7b745fb",
+    "id": "83e0b9f9203244d4a34318d63762b787",
+    "awardID": "b525921d774e476b92ed8153d9bde0a9",
     "contractID": "UA-2023-01-01-000001-a-1",
     "status": "pending",
     "value": {
@@ -53,7 +53,7 @@ X-Content-Type-Options: nosniff
     "dateSigned": "2023-01-01T00:00:01+02:00",
     "items": [
       {
-        "id": "b0ac6a98397c41a3ac3206a50b0efb25",
+        "id": "f05b2695502a441488107cbf1cdcf270",
         "description": "Послуги шкільних їдалень",
         "classification": {
           "description": "Послуги з харчування у школах",

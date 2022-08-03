@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/7378acd602f14dc498b14cc6198a6995/contracts/50fd544f07894953927212c4e2a4cb9c?acc_token=cdb0d97ad6324ce1b99843f3f2959aa4 HTTP/1.0
+PATCH /api/2.5/tenders/501cb77768e446f39265deb722b208a3/contracts/6d354e38b01344c8b4b96b2a3ab1e3cc?acc_token=5fe46d42add34695b80ca0158b173e47 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 104
 Content-Type: application/json
@@ -18,8 +18,8 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "50fd544f07894953927212c4e2a4cb9c",
-    "awardID": "2bef142c8e064f96a734caccd8b89ae0",
+    "id": "6d354e38b01344c8b4b96b2a3ab1e3cc",
+    "awardID": "521f077fc20742f78da0d564916c217b",
     "contractID": "UA-2023-01-01-000001-a-1",
     "contractNumber": "contract#1",
     "status": "pending",
@@ -90,7 +90,7 @@ X-Content-Type-Options: nosniff
     },
     "items": [
       {
-        "id": "c3a0e0734af54571acabbe2488bb7e08",
+        "id": "04711795285e4a959ad53e60f10dded2",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "classification": {
@@ -114,7 +114,7 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "43aa0605429b4694ab408bd3c20b68c3",
+        "id": "fee1fb171aea440c97cfb33a1a3a0608",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "classification": {

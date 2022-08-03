@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/1e6e12d317d34d78a0610c9c96182709/awards/47631e11049e4bb0bfb9799016019797/requirement_responses/15d63b2f54e14bca8ca2e2cd677b82b2?acc_token=d9dc0cfdac774390a3299ccbdf53e73c HTTP/1.0
+PATCH /api/2.5/tenders/1000439b7a694fcbb7e241e9d7a3bb39/awards/a68abc5e8f7546ee91d0462e4e3f8a77/requirement_responses/e5b39d13b24941fcbf9db17f1d76d619?acc_token=969e1b1791bf4615a96c4ae39dca5290 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 36
 Content-Type: application/json
@@ -15,20 +15,20 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "15d63b2f54e14bca8ca2e2cd677b82b2",
+    "id": "e5b39d13b24941fcbf9db17f1d76d619",
     "title": "Updated title",
     "description": "some description",
     "requirement": {
-      "id": "411e25f3563845f589c2548988c2d8db",
+      "id": "623a902b1076428e91824fded40632f4",
       "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
     },
     "evidences": [
       {
-        "id": "f10d04c755e74e6a8e6a963adec75b7e",
+        "id": "ded3c729d39247238b122fa574c7a055",
         "title": "Requirement response",
         "type": "document",
         "relatedDocument": {
-          "id": "932bc3ead0324d3daf8917a26765c7e8",
+          "id": "b4d384a0d475428ab85e4c3f419848c0",
           "title": "name.doc"
         }
       }

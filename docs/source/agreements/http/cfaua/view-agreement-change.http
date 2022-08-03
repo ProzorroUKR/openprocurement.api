@@ -1,4 +1,4 @@
-GET /api/2.5/agreements/1746cfba69864f7d996e4bd000858884/changes/eb59804a712942e89f57217f6537364e HTTP/1.0
+GET /api/2.5/agreements/1746cfba69864f7d996e4bd000858884/changes/12f43718ecbf474886b7f3545a7debe5 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,7 +7,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "eb59804a712942e89f57217f6537364e",
+    "id": "12f43718ecbf474886b7f3545a7debe5",
     "status": "pending",
     "date": "2023-01-01T00:00:00+02:00",
     "rationale": "Опис причини змін егріменту",

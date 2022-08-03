@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/7378acd602f14dc498b14cc6198a6995/bids/c7619b53b6a342b48373cba33d1ce5b4?acc_token=01d276fa7ea64637ad3be5084d677b89 HTTP/1.0
+PATCH /api/2.5/tenders/501cb77768e446f39265deb722b208a3/bids/658a2d2b9721494887a952371db42b5a?acc_token=6624fd96edbc46c1b84b5ca323e4e239 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 31
 Content-Type: application/json
@@ -17,111 +17,111 @@ X-Content-Type-Options: nosniff
   "data": {
     "requirementResponses": [
       {
-        "id": "3c64debf715f4421a988da1427307ea2",
+        "id": "9315fba6373d40b0a53227a6515d821d",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "bea5855e88174f688de439861b20c3cb",
+          "id": "240db9c1af1646deb2cf0528af42ca36",
           "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
         },
         "value": "True"
       },
       {
-        "id": "202775b70a6440a6b769767d4c3a80ee",
+        "id": "967d47132e70495fa495a90171af488f",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "4a931e128a41434ba9c11038e2bf9ac7",
+          "id": "2ee18251c21d4ef391ac603a13047c00",
           "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
         },
         "value": "True"
       },
       {
-        "id": "52ff2b36621c45988058cdc7a52ae07b",
+        "id": "e57a573b70af4d97aa4516105ec68e6a",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "6d89fd6e9de84fce88ae5039bc2e5acd",
+          "id": "a9c535e80a5b4cba8fb3e4b3b3eefacd",
           "title": "Відомості про юридичну особу, яка є учасником процедури закупівлі, не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення"
         },
         "value": "True"
       },
       {
-        "id": "ff09cf89f87a4816bb7386e6ab39b92b",
+        "id": "5f708d6be33945958fadc260ef2aded2",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "4636a1acfdf344f9b4a5f4c7680a80a8",
+          "id": "710ab04bcda44e6796f8640253ad9a37",
           "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією"
         },
         "value": "True"
       },
       {
-        "id": "17841c01e6dd495ebe543391b088bf46",
+        "id": "1f5c2f8ec5e1460d8452ff47717c25c3",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "0d109a6e22a647d99bed419517406eb3",
+          "id": "4e92673343634a4abbaaa4cac78feddb",
           "title": "Службова (посадова) особа учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми"
         },
         "value": "True"
       },
       {
-        "id": "19898df6a57246a1a04730e1908e0543",
+        "id": "f4749e8e50e84307a987ce31452af263",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "ec32c0f64d5b45978fbd222d37dcf185",
+          "id": "a24d7191ef6b48ffa1b0666fa170e252",
           "title": "Він не має заборгованості зі сплати податків і зборів (обов'язкових платежів)"
         },
         "value": "True"
       },
       {
-        "id": "fb14f57d764b45bb949a8725257e5644",
+        "id": "9586d3ccb266457eac814efe15538218",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "91d4974590024e3a9f49b3e45d36929e",
+          "id": "e54833e3e0004ec28db95c7ea576173c",
           "title": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура"
         },
         "value": "True"
       },
       {
-        "id": "ee3b33c7e1e547f58fb6228bc9e2c01e",
+        "id": "03c1a9338cfe4ba699fd12b24e8425d6",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "b7d2166496e4442ba8a94b599eb732da",
+          "id": "c08cb9769d9d4034a4de4544c232067b",
           "title": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\" (крім нерезидентів)"
         },
         "value": "True"
       },
       {
-        "id": "fac8c947ff7d4d8eb37e6ede92cd4dca",
+        "id": "1225bf16899547d39bee588f50a72892",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "eddaf9e968254910b5d3f2df928fb4c7",
+          "id": "2ce4d2fd4a8f4983a55097969a3f1f54",
           "title": "Юридична особа, яка є учасником процедури закупівлі (крім нерезидентів), має антикорупційну програму чи уповноваженого з реалізації антикорупційної програми, якщо вартість закупівлі товару (товарів), послуги (послуг) або робіт дорівнює чи перевищує 20 мільйонів гривень (у тому числі за лотом)"
         },
         "value": "True"
       },
       {
-        "id": "c76cda63d3434f8aaa6f0e04f9e95261",
+        "id": "ec67b5684ec74e17a561d97274dd1165",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "634a8423f3f246baabbaabeb0b8a022e",
+          "id": "0ba1494f6d1547b38f127beeeb51f4ce",
           "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
         },
         "value": "True"
       },
       {
-        "id": "51a73b9d743a4d38878f889e2f65bd55",
+        "id": "b8d64e8c49a14e1eb5a46ada1ca0d191",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "1589ec2d45b34af999625b04e6a5a223",
+          "id": "bcd8f1537ef54edf9db11ac2b77ab33a",
           "title": "Мова тендерної пропозиції українська"
         },
         "value": "True"
@@ -151,12 +151,12 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "id": "c7619b53b6a342b48373cba33d1ce5b4",
+    "id": "658a2d2b9721494887a952371db42b5a",
     "date": "2023-01-01T00:00:00+02:00",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "documents": [
       {
-        "id": "332a9218280242a0b460b8707d778f7f",
+        "id": "feb483dbb92646c1a20274f19f07a9f0",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.pdf",
@@ -168,12 +168,12 @@ X-Content-Type-Options: nosniff
         "language": "uk"
       },
       {
-        "id": "79043f35ad60448abc3750014e2e63fb",
+        "id": "dacdab93cb774ff6bb5892f74cfaee91",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_top_secrets.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7378acd602f14dc498b14cc6198a6995/bids/c7619b53b6a342b48373cba33d1ce5b4/documents/79043f35ad60448abc3750014e2e63fb?download=cf23b9f3719f423d9d9a447631f0e067",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/501cb77768e446f39265deb722b208a3/bids/658a2d2b9721494887a952371db42b5a/documents/dacdab93cb774ff6bb5892f74cfaee91?download=cf23b9f3719f423d9d9a447631f0e067",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "confidentiality": "buyerOnly",
@@ -183,24 +183,24 @@ X-Content-Type-Options: nosniff
     ],
     "financialDocuments": [
       {
-        "id": "4aa313d7489440ccab974c7801a62f6b",
+        "id": "74a99c3d03bd4b3a8fb9a07060fd8561",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7378acd602f14dc498b14cc6198a6995/bids/c7619b53b6a342b48373cba33d1ce5b4/financial_documents/4aa313d7489440ccab974c7801a62f6b?download=55caeebab78045959bdf295a177ca980",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/501cb77768e446f39265deb722b208a3/bids/658a2d2b9721494887a952371db42b5a/financial_documents/74a99c3d03bd4b3a8fb9a07060fd8561?download=55caeebab78045959bdf295a177ca980",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "confidentiality": "public",
         "language": "uk"
       },
       {
-        "id": "78b2ffef1531402a8edf45d82cb76154",
+        "id": "2ca63b8584054860b2f7543e1876ffb1",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc2.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7378acd602f14dc498b14cc6198a6995/bids/c7619b53b6a342b48373cba33d1ce5b4/financial_documents/78b2ffef1531402a8edf45d82cb76154?download=668b8ebe1fbc423a880d331641a3f909",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/501cb77768e446f39265deb722b208a3/bids/658a2d2b9721494887a952371db42b5a/financial_documents/2ca63b8584054860b2f7543e1876ffb1?download=668b8ebe1fbc423a880d331641a3f909",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "confidentiality": "public",
@@ -209,12 +209,12 @@ X-Content-Type-Options: nosniff
     ],
     "eligibilityDocuments": [
       {
-        "id": "61a4ce54b683403eb6504b5f5eb09be4",
+        "id": "824a19ec8c8549359de3912df2889e70",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7378acd602f14dc498b14cc6198a6995/bids/c7619b53b6a342b48373cba33d1ce5b4/eligibility_documents/61a4ce54b683403eb6504b5f5eb09be4?download=2fc9b4ef830446d4aa14397384e13341",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/501cb77768e446f39265deb722b208a3/bids/658a2d2b9721494887a952371db42b5a/eligibility_documents/824a19ec8c8549359de3912df2889e70?download=2fc9b4ef830446d4aa14397384e13341",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "confidentiality": "public",
@@ -223,12 +223,12 @@ X-Content-Type-Options: nosniff
     ],
     "qualificationDocuments": [
       {
-        "id": "5d661ad79ed740b09883307847ff26fd",
+        "id": "58aa8fbd6e6b403e83867221df79cc67",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "qualification_document.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7378acd602f14dc498b14cc6198a6995/bids/c7619b53b6a342b48373cba33d1ce5b4/qualification_documents/5d661ad79ed740b09883307847ff26fd?download=533b5c8290274e0fbd8aae966e42f4ee",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/501cb77768e446f39265deb722b208a3/bids/658a2d2b9721494887a952371db42b5a/qualification_documents/58aa8fbd6e6b403e83867221df79cc67?download=533b5c8290274e0fbd8aae966e42f4ee",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "confidentiality": "public",

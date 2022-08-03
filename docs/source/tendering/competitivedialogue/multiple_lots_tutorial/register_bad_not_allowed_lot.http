@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/c0917de583954bc28597339c7fa93b5e/bids HTTP/1.0
+POST /api/2.5/tenders/861c0e65005843e0acd0c3f9c6e560b3/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1422
 Content-Type: application/json
@@ -38,7 +38,7 @@ DATA:
         "value": {
           "amount": 300
         },
-        "relatedLot": "e4751e0fa08b4820a9df81f6085279b2"
+        "relatedLot": "fd76df7029bf4e7e851a8c5c44ca5c36"
       }
     ]
   }

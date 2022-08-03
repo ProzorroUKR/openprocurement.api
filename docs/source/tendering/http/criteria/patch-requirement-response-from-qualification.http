@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/1d93306901dc46b2921daaabf43c4fb6/qualifications/6f051f033e654387aaa4477a95585513?acc_token=0d008757240843eab96ba6b1725e5242 HTTP/1.0
+PATCH /api/2.5/tenders/5d8c9b51c2d14c1196b1f7833c8ac475/qualifications/4158e541c0ae4465bb0c050f6cfc6389?acc_token=ae43448b946e4f49a99e064e0178c255 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 4255
 Content-Type: application/json
@@ -11,14 +11,14 @@ DATA:
         "title": "Requirement response 1",
         "description": "some description",
         "requirement": {
-          "id": "25db5dd6476d408bb11dcda6485cc5b7",
+          "id": "6da7bc28eee44cd6a4c5ebe1048fae5b",
           "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "34bc299c3b58436ca9334513d0ea3d28",
+              "id": "96dc3b1f84d54785a15c72f6793a0b44",
               "title": "name.doc"
             },
             "type": "document"
@@ -30,14 +30,14 @@ DATA:
         "title": "Requirement response 2",
         "description": "some description",
         "requirement": {
-          "id": "74ab4cd414424e708e9420fc41efaaea",
+          "id": "565c82feae72451fbfbbff9424f5510a",
           "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "34bc299c3b58436ca9334513d0ea3d28",
+              "id": "96dc3b1f84d54785a15c72f6793a0b44",
               "title": "name.doc"
             },
             "type": "document"
@@ -56,20 +56,20 @@ X-Content-Type-Options: nosniff
   "data": {
     "requirementResponses": [
       {
-        "id": "671430197c7e47f3937d5c6f95706d74",
+        "id": "9df3295266ec4226aca3abf3d009eeba",
         "title": "Requirement response 1",
         "description": "some description",
         "requirement": {
-          "id": "25db5dd6476d408bb11dcda6485cc5b7",
+          "id": "6da7bc28eee44cd6a4c5ebe1048fae5b",
           "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
         },
         "evidences": [
           {
-            "id": "316bccd56d2243d29b4bbf50adb8362e",
+            "id": "c840657f178841c38610939a20ebed44",
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "34bc299c3b58436ca9334513d0ea3d28",
+              "id": "96dc3b1f84d54785a15c72f6793a0b44",
               "title": "name.doc"
             }
           }
@@ -77,20 +77,20 @@ X-Content-Type-Options: nosniff
         "value": "True"
       },
       {
-        "id": "5c11edcde1ae48cea548909f6170b6fb",
+        "id": "342243c88ecd4de59305088e5a591ea4",
         "title": "Requirement response 2",
         "description": "some description",
         "requirement": {
-          "id": "74ab4cd414424e708e9420fc41efaaea",
+          "id": "565c82feae72451fbfbbff9424f5510a",
           "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі"
         },
         "evidences": [
           {
-            "id": "3f188666cc4e44889538f5e8078f7830",
+            "id": "38aa0c236b0b4776bbb4061e293c62e6",
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "34bc299c3b58436ca9334513d0ea3d28",
+              "id": "96dc3b1f84d54785a15c72f6793a0b44",
               "title": "name.doc"
             }
           }
@@ -98,18 +98,18 @@ X-Content-Type-Options: nosniff
         "value": "True"
       }
     ],
-    "id": "6f051f033e654387aaa4477a95585513",
-    "bidID": "a6026a5cf4534953b1622b502a712518",
+    "id": "4158e541c0ae4465bb0c050f6cfc6389",
+    "bidID": "1ec84994990544de87c86c6ff2c20ed5",
     "status": "pending",
     "date": "2023-01-01T00:00:00+02:00",
     "documents": [
       {
-        "id": "34bc299c3b58436ca9334513d0ea3d28",
+        "id": "96dc3b1f84d54785a15c72f6793a0b44",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1d93306901dc46b2921daaabf43c4fb6/qualifications/6f051f033e654387aaa4477a95585513/documents/34bc299c3b58436ca9334513d0ea3d28?download=778be56a0b794ee1b0b568e8e2d03004",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d8c9b51c2d14c1196b1f7833c8ac475/qualifications/4158e541c0ae4465bb0c050f6cfc6389/documents/96dc3b1f84d54785a15c72f6793a0b44?download=778be56a0b794ee1b0b568e8e2d03004",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner",

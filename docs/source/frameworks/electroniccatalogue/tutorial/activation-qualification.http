@@ -1,4 +1,4 @@
-PATCH /api/2.5/qualifications/04ceb9dba9aa4ee5a175baae9b05c9b5?acc_token=b9eeebd1ead246da9383d2c218518ab5 HTTP/1.0
+PATCH /api/2.5/qualifications/750eb6f709774c498a46d7495c66167a?acc_token=736a39718b2d4c6096e0a3d0c1f74126 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -15,13 +15,13 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "submissionID": "f2e160b74b4b4120ae4acc472545162c",
-    "frameworkID": "3176109c7572429b99dbc5707a10617c",
+    "submissionID": "47f7edaba6ed400389f86984d62ef2ad",
+    "frameworkID": "86396c65e9154359a2329bfc7dddd3eb",
     "date": "2023-01-17T00:00:00+02:00",
     "dateModified": "2023-01-17T00:00:00+02:00",
     "status": "active",
     "qualificationType": "electronicCatalogue",
-    "id": "04ceb9dba9aa4ee5a175baae9b05c9b5"
+    "id": "750eb6f709774c498a46d7495c66167a"
   }
 }
 

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/2dbf9cf9974a44f8801fd4f1e0e848d2/cancellations/7b3a09b033c7450d99c0d3e17b69039a/complaints HTTP/1.0
+GET /api/2.5/tenders/9056b6881e5c4accadfcaa96d4409069/cancellations/6a6959c48c2a4e3e9f7d510d88442f08/complaints HTTP/1.0
 Host: lb-api-sandbox.prozorro.gov.ua
 
 Response: 200 OK
@@ -7,12 +7,12 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "id": "9d0ce1567b1a462eb0d9226f0c06add5",
+      "id": "f1dcc4a59bc54974bcab49c81f5df20e",
       "complaintID": "UA-2023-01-01-000001-a.1",
       "date": "2023-01-01T00:00:00+02:00",
       "documents": [
         {
-          "id": "d3a6e3e9236d42f899a264e545675cee",
+          "id": "f0243faf50904385b312fbee20b65011",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Complaint_Attachment.pdf",
           "format": "application/pdf",
@@ -23,7 +23,7 @@ X-Content-Type-Options: nosniff
           "documentOf": "tender"
         },
         {
-          "id": "ecf5da7f6ea84b38929f6d5ee164cd8a",
+          "id": "dd80aca5b7224d328fe9e460729e2b80",
           "hash": "md5:00000000000000000000000000000000",
           "title": "ComplaintResolution.pdf",
           "format": "application/pdf",
@@ -73,7 +73,7 @@ X-Content-Type-Options: nosniff
       "type": "complaint"
     },
     {
-      "id": "3764e20ccb1a4aa0a481a16620422cdc",
+      "id": "6f53515f8d52438f931d03bebd50095c",
       "complaintID": "UA-2023-01-01-000001-a.2",
       "date": "2023-01-01T00:00:00+02:00",
       "author": {
@@ -113,7 +113,7 @@ X-Content-Type-Options: nosniff
       "type": "complaint"
     },
     {
-      "id": "1ada1286b366490980b53f2818708ff6",
+      "id": "8f59281225164cccb8acb5bcead2e794",
       "complaintID": "UA-2023-01-01-000001-a.3",
       "date": "2023-01-01T00:00:00+02:00",
       "author": {
@@ -152,7 +152,7 @@ X-Content-Type-Options: nosniff
       "type": "complaint"
     },
     {
-      "id": "2681838051bb4d6a9a9b1eeba8ac67cc",
+      "id": "7e88865254bb471fae1853ef28c346f8",
       "complaintID": "UA-2023-01-01-000001-a.4",
       "date": "2023-01-01T00:00:00+02:00",
       "author": {
@@ -195,7 +195,7 @@ X-Content-Type-Options: nosniff
       "type": "complaint"
     },
     {
-      "id": "2f3f3c0467a74927b7889515204c6935",
+      "id": "d3a527617b374eae87270a89c32ed9f1",
       "complaintID": "UA-2023-01-01-000001-a.5",
       "date": "2023-01-01T00:00:00+02:00",
       "author": {
