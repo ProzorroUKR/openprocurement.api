@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/dceb0db9147740f994cb3a57fb971a4e/awards/61aa079bac35442ea9aba5d1420c75a5/documents?acc_token=9147c49d3e8844889bffab7629a63b5b HTTP/1.0
+GET /api/2.5/tenders/07a9d2daabfe4268a5b3f6db5a7e1287/awards/9781a8bdca8d4bd0bb7eb110bb33f809/documents?acc_token=63a33032ef0d47108bdada9cf1f0dde0 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -13,7 +13,7 @@ X-Content-Type-Options: nosniff
       "format": "application/msword",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2727941c3c1d4b398e0ef21c294d50f8?Signature=XVdH%2BLOTsgYF3J849jqk9w0Oivjv96KP1vF11T2pawV8wnAcIPzqxWiQWkKBo6SZdysuzHcTtpSV3ETS4xHUAw%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
-      "id": "d54322727f4e40b480f9101fbe3e3235",
+      "id": "2a868c6223d140c698422b8f36e7bd78",
       "datePublished": "2023-01-01T00:00:00+02:00",
       "dateModified": "2023-01-01T00:00:00+02:00",
       "author": "tender_owner"

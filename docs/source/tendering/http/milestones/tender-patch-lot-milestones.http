@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/54776089d1734987a07f7df86a9e7ad4?acc_token=d1ca6b79e87d4d3a9df981a5e814315e HTTP/1.0
+PATCH /api/2.5/tenders/7467a15a053641d38e0d29499e3cc219?acc_token=a6344e8ea632458f8a17d7268471475e HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 634
 Content-Type: application/json
@@ -8,7 +8,7 @@ DATA:
   "data": {
     "milestones": [
       {
-        "id": "d1ea9c0b4e1147bd92e26af014173eb0",
+        "id": "35a436e966214b7082043bfb6d4dc05d",
         "title": "signingTheContract",
         "type": "financing",
         "code": "prepayment",
@@ -18,10 +18,10 @@ DATA:
           "type": "banking"
         },
         "sequenceNumber": 0,
-        "relatedLot": "32c052457ea34d6b9cb3a40f05bd0f54"
+        "relatedLot": "5dd81ae7cceb4452933c9ecd576352bf"
       },
       {
-        "id": "40f2f09425d94dd0a15da3ce7b26011f",
+        "id": "56faacff01464db8bf244a65ca400327",
         "title": "anotherEvent",
         "type": "financing",
         "code": "postpayment",
@@ -32,7 +32,7 @@ DATA:
         },
         "sequenceNumber": 1,
         "description": "Підозрілий опис",
-        "relatedLot": "32c052457ea34d6b9cb3a40f05bd0f54"
+        "relatedLot": "5dd81ae7cceb4452933c9ecd576352bf"
       }
     ]
   }
@@ -107,7 +107,7 @@ X-Content-Type-Options: nosniff
         "title": "lot title",
         "description": "lot description",
         "status": "active",
-        "id": "32c052457ea34d6b9cb3a40f05bd0f54",
+        "id": "5dd81ae7cceb4452933c9ecd576352bf",
         "date": "2023-01-01T00:00:00+02:00",
         "value": {
           "amount": 500.0,
@@ -123,7 +123,7 @@ X-Content-Type-Options: nosniff
     ],
     "milestones": [
       {
-        "id": "d1ea9c0b4e1147bd92e26af014173eb0",
+        "id": "35a436e966214b7082043bfb6d4dc05d",
         "title": "signingTheContract",
         "type": "financing",
         "code": "prepayment",
@@ -133,10 +133,10 @@ X-Content-Type-Options: nosniff
           "type": "banking"
         },
         "sequenceNumber": 0,
-        "relatedLot": "32c052457ea34d6b9cb3a40f05bd0f54"
+        "relatedLot": "5dd81ae7cceb4452933c9ecd576352bf"
       },
       {
-        "id": "40f2f09425d94dd0a15da3ce7b26011f",
+        "id": "56faacff01464db8bf244a65ca400327",
         "title": "anotherEvent",
         "description": "Підозрілий опис",
         "type": "financing",
@@ -147,7 +147,7 @@ X-Content-Type-Options: nosniff
           "type": "calendar"
         },
         "sequenceNumber": 1,
-        "relatedLot": "32c052457ea34d6b9cb3a40f05bd0f54"
+        "relatedLot": "5dd81ae7cceb4452933c9ecd576352bf"
       }
     ],
     "procurementMethodType": "belowThreshold",
@@ -175,7 +175,7 @@ X-Content-Type-Options: nosniff
       "startDate": "2023-01-01T00:00:00+02:00",
       "endDate": "2023-01-08T00:00:00+02:00"
     },
-    "id": "54776089d1734987a07f7df86a9e7ad4"
+    "id": "7467a15a053641d38e0d29499e3cc219"
   }
 }
 

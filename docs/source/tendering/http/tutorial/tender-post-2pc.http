@@ -102,7 +102,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/de6aaf6d93604296946e0c9698f0497a
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d96ed63e84854196998f4feef084f402
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -170,7 +170,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "983afe6ba47a451fbf6249d93fcd23d3",
+        "id": "21b108776aa74e5b8ae1deb4e41dd5d3",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -212,11 +212,11 @@ X-Content-Type-Options: nosniff
     "date": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
-    "id": "de6aaf6d93604296946e0c9698f0497a"
+    "id": "d96ed63e84854196998f4feef084f402"
   },
   "access": {
-    "token": "cb71798fe3e04a70bdd2565ce454760e",
-    "transfer": "8696098ef90945c5a1863ec9be6c2bc1"
+    "token": "20745a6e445d49d6ba1bb5f6b071c814",
+    "transfer": "b2b6752d8de543e5a2c8b168bf2cde06"
   }
 }
 

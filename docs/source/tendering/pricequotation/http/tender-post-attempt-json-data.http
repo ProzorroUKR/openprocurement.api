@@ -143,7 +143,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aa43f375fb7a4dfdb6b777b6a86df5b5
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/09b9ff4fc8654d1bb24fb14572e88f1c
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -188,7 +188,7 @@ X-Content-Type-Options: nosniff
     },
     "items": [
       {
-        "id": "154f6580f26f44dea680eaf67b309152",
+        "id": "0e1d572c4dde4ad1ae9da7927fa5e824",
         "description": "Комп’ютерне обладнання",
         "classification": {
           "description": "Cartons",
@@ -228,16 +228,16 @@ X-Content-Type-Options: nosniff
     ],
     "criteria": [
       {
-        "id": "b62bab1ae41247c89c014e144b46c95d",
+        "id": "7342614dc3734917841d2524d54c96c5",
         "title": "Форма випуску",
         "description": "Форма випуску",
         "requirementGroups": [
           {
-            "id": "64bc52bccc274ba193eb753a9b7373b6",
+            "id": "b5a8884626f044b6b14a06068af42b71",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "4b646712480a49e8bc73f81c45756cf4",
+                "id": "999fca7c01414e4ab35c88a02388582f",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "expectedValue": "Розчин для інфузій"
@@ -247,16 +247,16 @@ X-Content-Type-Options: nosniff
         ]
       },
       {
-        "id": "358f0a84f5884643ac1fdf791e6dfd0b",
+        "id": "49ffdb0fb7a34b5982419b50e5aa17e0",
         "title": "Доза діючої речовини",
         "description": "Доза діючої речовини",
         "requirementGroups": [
           {
-            "id": "f46538e43b0240d99cc0043bdbc88a4d",
+            "id": "ef277ed6fb5145f791aa4420f65cab6c",
             "description": "Доза діючої речовини",
             "requirements": [
               {
-                "id": "f7a6209ad4bd4e9a882ae46df39d8561",
+                "id": "0d6ac61303dc41609c2773d09e6593ef",
                 "title": "Доза діючої речовини",
                 "dataType": "integer",
                 "unit": {
@@ -270,16 +270,16 @@ X-Content-Type-Options: nosniff
         ]
       },
       {
-        "id": "d90060b117b54b69a7f7e58c0cbcf833",
+        "id": "0a0daf8b37a34cdcac056996c7167056",
         "title": "Форма випуску",
         "description": "Форма випуску",
         "requirementGroups": [
           {
-            "id": "ef4d81f7825a400e81e7dc497116cb13",
+            "id": "824d50a4484a4aaabf4826f9781c60cb",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "1d869955df9e4996bf6c94ceda8d1920",
+                "id": "2688fb5d39c84f618f45ade09c04d8f1",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "expectedValues": [
@@ -301,11 +301,11 @@ X-Content-Type-Options: nosniff
     "date": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
-    "id": "aa43f375fb7a4dfdb6b777b6a86df5b5"
+    "id": "09b9ff4fc8654d1bb24fb14572e88f1c"
   },
   "access": {
-    "token": "52d0ea2cfc1b4667b659befc1200e843",
-    "transfer": "3fae249fdaa14ff28c53eb2a818ca2ab"
+    "token": "6e52619ae5794a8aae414350e5f3cd4b",
+    "transfer": "3fa375f013804102840501c1e26e6238"
   }
 }
 

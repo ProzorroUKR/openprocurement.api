@@ -1,4 +1,4 @@
-GET /api/2.5/contracts/731229e60a3e4406b3f0bbca894132fa HTTP/1.0
+GET /api/2.5/contracts/38da025ae53f4e0d8fa4474bb5923d12 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,7 +7,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "awardID": "3ad71496fd844c7299424c23d67e5449",
+    "awardID": "bba05bb9977a4107804a57fdf5184c3f",
     "contractID": "UA-2023-01-01-000001-a-1",
     "period": {
       "startDate": "2023-01-01T00:00:01+02:00",
@@ -18,7 +18,7 @@ X-Content-Type-Options: nosniff
     "dateCreated": "2023-01-01T00:00:01+02:00",
     "items": [
       {
-        "id": "cadf7ae857e84cb8b5af656d613aa6e1",
+        "id": "27d065dad2f843fcaa08ce47d150ff58",
         "description": "футляри до державних нагород",
         "quantity": 2.0,
         "deliveryDate": {
@@ -55,7 +55,7 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "d809a3790b174eafb0349cf4c2615765",
+        "id": "ebbe3cdc3877415898b85d6b8bd0e6d1",
         "description": "футляри до державних нагород",
         "quantity": 5.0,
         "deliveryDate": {
@@ -92,7 +92,7 @@ X-Content-Type-Options: nosniff
         }
       }
     ],
-    "tender_id": "f9fca4217b4a4215b8ae2f67e8461b8f",
+    "tender_id": "59190c68cfa14b0595a6e1395c43a06b",
     "owner": "broker",
     "status": "active",
     "suppliers": [
@@ -141,7 +141,7 @@ X-Content-Type-Options: nosniff
     },
     "changes": [
       {
-        "id": "90238f35b68a4a7ebeb6a5632b1b0d9a",
+        "id": "9b42f245308547cc9d4f760dda1dc15c",
         "status": "active",
         "date": "2023-01-01T00:00:01+02:00",
         "rationale": "Друга і третя поставка має бути розфасована",
@@ -155,14 +155,14 @@ X-Content-Type-Options: nosniff
     ],
     "documents": [
       {
-        "id": "b7d1678f44ad46caa736fa59e1fd7c31",
+        "id": "1c4e25349f5a4506a469810d1e65ab7a",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_changes.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f63818a2a95e4f2ab5e07260dfe16911?Signature=AIUP5kGnx%2BOdbPRF%2B0t6WebywkPEF8BHamAxW9BXr224HyI%2BSXYFxn6QzmhVRFlpv08gR6kyoyAjzLIo6xcVAA%3D%3D&KeyID=a8968c46",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "dateModified": "2023-01-01T00:00:01+02:00",
-        "relatedItem": "90238f35b68a4a7ebeb6a5632b1b0d9a",
+        "relatedItem": "9b42f245308547cc9d4f760dda1dc15c",
         "documentOf": "change"
       }
     ],
@@ -172,7 +172,7 @@ X-Content-Type-Options: nosniff
       "valueAddedTaxIncluded": true,
       "amountNet": 430.0
     },
-    "id": "731229e60a3e4406b3f0bbca894132fa"
+    "id": "38da025ae53f4e0d8fa4474bb5923d12"
   }
 }
 

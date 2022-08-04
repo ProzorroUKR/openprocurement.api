@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/83190480ef014b8cbbc776a26598bac1/contracts/4d2a894ddb8f4b4c88370fa1ff4e5f93?acc_token=ee8a0627377f40318a55afaf9852adbc HTTP/1.0
+PATCH /api/2.5/tenders/6ce0d34cfe9a4a30add61af1394f9aab/contracts/61fe9c548e9243029e944fb1046b1538?acc_token=c285a9aa5f6a484db6a4ac497b8c82ba HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 33
 Content-Type: application/json
@@ -15,9 +15,9 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "4d2a894ddb8f4b4c88370fa1ff4e5f93",
+    "id": "61fe9c548e9243029e944fb1046b1538",
     "buyerID": "11111111111111111111111111111111",
-    "awardID": "edb662d1a45c45ca91735eb5d895bb29",
+    "awardID": "cf49e5ef250742abbe6451cee90226e9",
     "contractID": "UA-2023-01-01-000001-a-1",
     "status": "cancelled",
     "value": {
@@ -28,7 +28,7 @@ X-Content-Type-Options: nosniff
     },
     "items": [
       {
-        "id": "3f0592fa39714309a0917f98ca4182ac",
+        "id": "c136d6b2f78e4c00a27ba354620d3be4",
         "description": "телевізори",
         "classification": {
           "description": "Cartons",

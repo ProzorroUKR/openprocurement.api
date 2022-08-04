@@ -1,4 +1,4 @@
-POST /api/2.5/contracts/731229e60a3e4406b3f0bbca894132fa/documents?acc_token=d7ef3060443a419f93a65b3aeb4f5f9b HTTP/1.0
+POST /api/2.5/contracts/38da025ae53f4e0d8fa4474bb5923d12/documents?acc_token=a0e030a63cbe4390a164f7dee4f37dc9 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 344
 Content-Type: application/json
@@ -15,11 +15,11 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/731229e60a3e4406b3f0bbca894132fa/documents/49b360f45fd74dcb95e003a7cf95d712
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38da025ae53f4e0d8fa4474bb5923d12/documents/1b01c96d4c284ceebf9b115101b31fa0
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "49b360f45fd74dcb95e003a7cf95d712",
+    "id": "1b01c96d4c284ceebf9b115101b31fa0",
     "hash": "md5:00000000000000000000000000000000",
     "title": "contract_additional_docs.doc",
     "format": "application/pdf",

@@ -9,7 +9,7 @@ from bson.codec_options import CodecOptions
 from bson.decimal128 import Decimal128
 from decimal import Decimal
 from datetime import datetime
-from openprocurement.tender.core.procedure.context import get_now
+from openprocurement.api.context import get_now, get_db_session
 
 LOGGER = getLogger("{}.init".format(__name__))
 
@@ -100,7 +100,8 @@ class MongodbStore:
             {'_id': uid},
             {"$inc": {"value": 1}},
             return_document=ReturnDocument.AFTER,
-            upsert=True
+            upsert=True,
+            session=get_db_session(),
         )
         return result["value"]
 
@@ -128,7 +129,8 @@ class MongodbStore:
     def get(collection, uid):
         res = collection.find_one(
             {'_id': uid},
-            projection={"is_public": False, "is_test": False}
+            projection={"is_public": False, "is_test": False},
+            session=get_db_session(),
         )
         return res
 
@@ -146,7 +148,8 @@ class MongodbStore:
             filter=filters,
             projection={f: 1 for f in fields | {offset_field}},
             limit=limit,
-            sort=((offset_field, DESCENDING if descending else ASCENDING),)
+            sort=((offset_field, DESCENDING if descending else ASCENDING),),
+            session=get_db_session(),
         ))
         for e in results:
             self.rename_id(e)
@@ -173,7 +176,8 @@ class MongodbStore:
                     "_rev": revision
                 },
                 pipeline,
-                upsert=True
+                upsert=True,
+                session=get_db_session(),
             )
             assert result.upserted_id == uid
             # The _id of the inserted document if an upsert took place. Otherwise None.
@@ -192,6 +196,7 @@ class MongodbStore:
                     "_rev": revision
                 },
                 pipeline,
+                session=get_db_session(),
             )
             if not result:
                 raise MongodbResourceConflict("Conflict while updating document. Please, retry")
@@ -206,6 +211,7 @@ class MongodbStore:
             result = collection.replace_one(
                 {"_id": uid},
                 data,
+                session=get_db_session(),
             )
             if result.matched_count == 0:
                 raise MongodbResourceConflict("Unable to find the object")
@@ -218,7 +224,7 @@ class MongodbStore:
 
     @staticmethod
     def delete(collection, uid):
-        result = collection.delete_one({"_id": uid})
+        result = collection.delete_one({"_id": uid}, session=get_db_session())
         return result
 
     @staticmethod

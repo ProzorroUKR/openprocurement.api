@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/d2bb8b32840e47a7be28cb1644aeda9c/complaints/4d1041a0614c4b0291a5bbcbf167e23b?acc_token=0d141026513c4230a40765a0cac56bee HTTP/1.0
+PATCH /api/2.5/tenders/06a89d3522bf4ba5902cacc12c9a8788/complaints/81c8a7fe2db540599096353fd28769bd?acc_token=23621912519546c78d258ca0457ca3a8 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 145
 Content-Type: application/json
@@ -16,7 +16,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "4d1041a0614c4b0291a5bbcbf167e23b",
+    "id": "81c8a7fe2db540599096353fd28769bd",
     "complaintID": "UA-2023-01-01-000001-a.5",
     "date": "2023-01-01T00:00:00+02:00",
     "type": "complaint",
@@ -58,7 +58,7 @@ X-Content-Type-Options: nosniff
     "reviewPlace": "Place of review",
     "documents": [
       {
-        "id": "9b03d665e72b4be4b37c1e51a9f8841d",
+        "id": "7323cba7098e457ea5559a31af3ebd64",
         "hash": "md5:00000000000000000000000000000000",
         "title": "ComplaintResolution.pdf",
         "format": "application/pdf",

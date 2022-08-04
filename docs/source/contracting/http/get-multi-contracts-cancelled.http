@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/83190480ef014b8cbbc776a26598bac1/contracts HTTP/1.0
+GET /api/2.5/tenders/6ce0d34cfe9a4a30add61af1394f9aab/contracts HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,9 +8,9 @@ X-Content-Type-Options: nosniff
 {
   "data": [
     {
-      "id": "4d2a894ddb8f4b4c88370fa1ff4e5f93",
+      "id": "61fe9c548e9243029e944fb1046b1538",
       "buyerID": "11111111111111111111111111111111",
-      "awardID": "edb662d1a45c45ca91735eb5d895bb29",
+      "awardID": "cf49e5ef250742abbe6451cee90226e9",
       "contractID": "UA-2023-01-01-000001-a-1",
       "status": "cancelled",
       "value": {
@@ -21,7 +21,7 @@ X-Content-Type-Options: nosniff
       },
       "items": [
         {
-          "id": "3f0592fa39714309a0917f98ca4182ac",
+          "id": "c136d6b2f78e4c00a27ba354620d3be4",
           "description": "телевізори",
           "classification": {
             "description": "Cartons",
@@ -85,9 +85,9 @@ X-Content-Type-Options: nosniff
       "date": "2023-01-01T00:00:01+02:00"
     },
     {
-      "id": "5fa6c9d7e4724df3be1a8f2d0ba0fa43",
+      "id": "352d5e69250442fda64f82c8085fa7d6",
       "buyerID": "22222222222222222222222222222222",
-      "awardID": "edb662d1a45c45ca91735eb5d895bb29",
+      "awardID": "cf49e5ef250742abbe6451cee90226e9",
       "contractID": "UA-2023-01-01-000001-a-2",
       "status": "cancelled",
       "value": {
@@ -98,7 +98,7 @@ X-Content-Type-Options: nosniff
       },
       "items": [
         {
-          "id": "b3cc82abb36e4848b6e77f82bc05ac42",
+          "id": "11b0fdf2cd7f40788049023f8468a6be",
           "description": "портфелі",
           "classification": {
             "description": "Cartons",
@@ -136,7 +136,7 @@ X-Content-Type-Options: nosniff
           "relatedBuyer": "22222222222222222222222222222222"
         },
         {
-          "id": "198f9335b8b5498eb588ab7c40e2b350",
+          "id": "9e0b992ccbbc42ee91cb1b5e2f7aa5c5",
           "description": "портфелі",
           "classification": {
             "description": "Cartons",

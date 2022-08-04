@@ -41,7 +41,7 @@ X-Content-Type-Options: nosniff
         ],
         "unitPrices": [
           {
-            "relatedItem": "cefbff4fb3e846ee8eecfdb05932afa1",
+            "relatedItem": "7e815525aab3461e840b13c851f381dd",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -83,7 +83,7 @@ X-Content-Type-Options: nosniff
         ],
         "unitPrices": [
           {
-            "relatedItem": "cefbff4fb3e846ee8eecfdb05932afa1",
+            "relatedItem": "7e815525aab3461e840b13c851f381dd",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -125,7 +125,7 @@ X-Content-Type-Options: nosniff
         ],
         "unitPrices": [
           {
-            "relatedItem": "cefbff4fb3e846ee8eecfdb05932afa1",
+            "relatedItem": "7e815525aab3461e840b13c851f381dd",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -140,7 +140,7 @@ X-Content-Type-Options: nosniff
     ],
     "items": [
       {
-        "id": "cefbff4fb3e846ee8eecfdb05932afa1",
+        "id": "7e815525aab3461e840b13c851f381dd",
         "description": "футляри до державних нагород",
         "unit": {
           "name": "item",
@@ -198,7 +198,7 @@ X-Content-Type-Options: nosniff
         "availableLanguage": "uk"
       }
     },
-    "tender_id": "d0f09972496845e993e53f09206ace3d",
+    "tender_id": "d3e312b04f024e00b2ea4a43dfaf661e",
     "id": "1746cfba69864f7d996e4bd000858884",
     "numberOfContracts": 3
   }

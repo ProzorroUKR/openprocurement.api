@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/6441fa52dc6b4f018c96a6adfa1edfc5/qualifications/0ccff2fe5f7a4d998944aa5847bec01c/complaints/f082de37280042168422ffcf1035c4c3 HTTP/1.0
+PATCH /api/2.5/tenders/5f16f024cad74253882085d3438eb6e0/qualifications/bfcf99999c9745aba10be02601d464c8/complaints/76c9184415d946398f79ead1c869fd66 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 33
 Content-Type: application/json
@@ -15,7 +15,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "f082de37280042168422ffcf1035c4c3",
+    "id": "76c9184415d946398f79ead1c869fd66",
     "complaintID": "UA-2023-01-01-000001-a.1",
     "date": "2023-01-01T00:00:01+02:00",
     "type": "complaint",
@@ -55,7 +55,7 @@ X-Content-Type-Options: nosniff
     "reviewPlace": "Place of review",
     "documents": [
       {
-        "id": "eb96d00527d54a9f9f3eb8d3a902006c",
+        "id": "6ed946617fd0488b97ee277d08b6b8a1",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Complaint_Attachment.pdf",
         "format": "application/pdf",
@@ -67,7 +67,7 @@ X-Content-Type-Options: nosniff
         "language": "uk"
       },
       {
-        "id": "77dd84f2a6ca4f17a9d29b4f07d5b557",
+        "id": "9ba8f26ca60846ba8ffd48a73b312385",
         "hash": "md5:00000000000000000000000000000000",
         "title": "ComplaintResolution.pdf",
         "format": "application/pdf",

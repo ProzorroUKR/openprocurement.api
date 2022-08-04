@@ -120,7 +120,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8a0700259bce4187b9c2cee3b9167b19
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4ad20bc0edf3454d92e40e07d35f4216
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -168,7 +168,7 @@ X-Content-Type-Options: nosniff
     },
     "items": [
       {
-        "id": "0dbce5d693754c6d9c515df27a6fc258",
+        "id": "8d6bbed82b0e45da9fe32a7aaabc49c8",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "classification": {
@@ -192,7 +192,7 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "669c9d2a44c14a15af136ed668b29715",
+        "id": "42fc2ba4018e4623b51be4c523f4e898",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "classification": {
@@ -230,7 +230,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "a341f7e5e54d419685d2a203d77e899a",
+        "id": "20fc3ab9c8f84b0b9a8d435152eccc6c",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -260,11 +260,11 @@ X-Content-Type-Options: nosniff
     },
     "dateModified": "2023-01-01T00:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
-    "id": "8a0700259bce4187b9c2cee3b9167b19"
+    "id": "4ad20bc0edf3454d92e40e07d35f4216"
   },
   "access": {
-    "token": "4ce0e72a69954a87b19385c16717eecc",
-    "transfer": "70addbdd276b4f2dbe313becc8df174f"
+    "token": "dfc279cf56224a0c8a5f59223293bd26",
+    "transfer": "809ad11e78dc41d190205bcbb7d5262c"
   }
 }
 

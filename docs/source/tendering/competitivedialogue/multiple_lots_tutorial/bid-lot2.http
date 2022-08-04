@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/b3817911ec8c42789f533a2d26c7dc1f/bids HTTP/1.0
+POST /api/2.5/tenders/c8fbbe1ddf3642a6815bd2c7c26581b1/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1041
 Content-Type: application/json
@@ -33,11 +33,11 @@ DATA:
     ],
     "lotValues": [
       {
-        "relatedLot": "190af4170cd3466482063a204c1e7114"
+        "relatedLot": "3f6334296c1540158ccf4b0a2532048c"
       },
       {
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
-        "relatedLot": "e4751e0fa08b4820a9df81f6085279b2"
+        "relatedLot": "fd76df7029bf4e7e851a8c5c44ca5c36"
       }
     ]
   }
@@ -45,7 +45,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b3817911ec8c42789f533a2d26c7dc1f/bids/b2491557b27447e19006e2750a59894b
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c8fbbe1ddf3642a6815bd2c7c26581b1/bids/0d58b19d50c345d5800ffbaf7ba04503
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -74,12 +74,12 @@ X-Content-Type-Options: nosniff
     ],
     "lotValues": [
       {
-        "relatedLot": "190af4170cd3466482063a204c1e7114",
+        "relatedLot": "3f6334296c1540158ccf4b0a2532048c",
         "status": "pending",
         "date": "2023-01-01T00:00:00+02:00"
       },
       {
-        "relatedLot": "e4751e0fa08b4820a9df81f6085279b2",
+        "relatedLot": "fd76df7029bf4e7e851a8c5c44ca5c36",
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "status": "pending",
         "date": "2023-01-01T00:00:00+02:00"
@@ -87,12 +87,12 @@ X-Content-Type-Options: nosniff
     ],
     "selfQualified": true,
     "status": "draft",
-    "id": "b2491557b27447e19006e2750a59894b",
+    "id": "0d58b19d50c345d5800ffbaf7ba04503",
     "date": "2023-01-01T00:00:00+02:00"
   },
   "access": {
-    "token": "cbe60cbe3ca24030a69d9887ffc03fa1",
-    "transfer": "3f1a6d04abad4b47af019ed7d852d4f7"
+    "token": "70c74a8fa19b4f7b9e1e1d5915e66032",
+    "transfer": "6f75468f3ef04d96b898c32f917d6bd8"
   }
 }
 

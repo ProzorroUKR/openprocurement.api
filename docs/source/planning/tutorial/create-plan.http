@@ -172,12 +172,12 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/18d6b21a07094c71b423e91c5e28579b
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/249bf7a3e1ce48c9bba765eed435b2b4
 X-Content-Type-Options: nosniff
 {
   "data": {
     "procuringEntity": {
-      "id": "0bd9e38340194d4e94edd28d9ed78f05",
+      "id": "1bd99b9c2bb84667a1e0ea59f1d06569",
       "name": "ДУС",
       "identifier": {
         "scheme": "UA-EDR",
@@ -230,7 +230,7 @@ X-Content-Type-Options: nosniff
     "planID": "UA-P-2023-01-01-000001",
     "items": [
       {
-        "id": "6133667b0a1543f8998dbc79fa349862",
+        "id": "55aa3eaa98104cae9ddf1f95dc81ff13",
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
@@ -261,7 +261,7 @@ X-Content-Type-Options: nosniff
         "description": "Насіння гірчиці"
       },
       {
-        "id": "099779bd2ee74a75ad9f7a87dc2b032f",
+        "id": "33585a8f9b424821a368c3c610eea7be",
         "classification": {
           "description": "Sunflower seeds",
           "scheme": "ДК021",
@@ -292,7 +292,7 @@ X-Content-Type-Options: nosniff
         "description": "Насіння соняшнику"
       },
       {
-        "id": "db80c994f0f3465fba76ee858df63361",
+        "id": "78de1ef6ea9f4eee8dd2501db2c92ea4",
         "classification": {
           "description": "Cotton seeds",
           "scheme": "ДК021",
@@ -325,7 +325,7 @@ X-Content-Type-Options: nosniff
     ],
     "buyers": [
       {
-        "id": "0ddba18eb334400bbd069726e901b8a2",
+        "id": "7bce9e1719ed48cc97494f9c9370229e",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -347,11 +347,11 @@ X-Content-Type-Options: nosniff
     "dateModified": "2023-01-01T00:00:00+02:00",
     "datePublished": "2023-01-01T00:00:00+02:00",
     "owner": "broker",
-    "id": "18d6b21a07094c71b423e91c5e28579b"
+    "id": "249bf7a3e1ce48c9bba765eed435b2b4"
   },
   "access": {
-    "token": "2f494f7656ce4232be04b28595bf472a",
-    "transfer": "b9d09ebd68db4ceea0772596abbe81ef"
+    "token": "ef8e82ab09a448dfab7d3d4766ac13d2",
+    "transfer": "6fc31b0b960b427fa037f07f9c96be44"
   }
 }
 

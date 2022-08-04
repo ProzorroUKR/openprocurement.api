@@ -49,7 +49,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/3176109c7572429b99dbc5707a10617c
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/86396c65e9154359a2329bfc7dddd3eb
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -98,11 +98,11 @@ X-Content-Type-Options: nosniff
         "description": "папір і картон гофровані, паперова й картонна тара"
       }
     ],
-    "id": "3176109c7572429b99dbc5707a10617c"
+    "id": "86396c65e9154359a2329bfc7dddd3eb"
   },
   "access": {
-    "token": "b9eeebd1ead246da9383d2c218518ab5",
-    "transfer": "35fe05c4fc00427caa8300a27635f801"
+    "token": "736a39718b2d4c6096e0a3d0c1f74126",
+    "transfer": "d62639f1ebd04872a5e5bc2d67aa8aa1"
   }
 }
 

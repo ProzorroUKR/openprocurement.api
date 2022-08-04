@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/6441fa52dc6b4f018c96a6adfa1edfc5/qualifications/0ccff2fe5f7a4d998944aa5847bec01c/complaints/ba35c7583bc3400082ec3d79eb735a26?acc_token=ad6b6c60512547b598da0f1fadbec8c5 HTTP/1.0
+PATCH /api/2.5/tenders/5f16f024cad74253882085d3438eb6e0/qualifications/bfcf99999c9745aba10be02601d464c8/complaints/94690fcf20a347d1a16acad32710aa60?acc_token=4cc40d62679c4c14b52175e372ee01c4 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 29
 Content-Type: application/json
@@ -15,7 +15,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "ba35c7583bc3400082ec3d79eb735a26",
+    "id": "94690fcf20a347d1a16acad32710aa60",
     "complaintID": "UA-2023-01-01-000001-a.9",
     "date": "2023-01-01T00:00:01+02:00",
     "type": "claim",
@@ -23,7 +23,7 @@ X-Content-Type-Options: nosniff
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "dateSubmitted": "2023-01-01T00:00:01+02:00",
     "status": "claim",
-    "bid_id": "371145a097ed44349ae3ffa5600f24dc"
+    "bid_id": "fa5ea5df9a1f477eae28fa67fd041361"
   }
 }
 

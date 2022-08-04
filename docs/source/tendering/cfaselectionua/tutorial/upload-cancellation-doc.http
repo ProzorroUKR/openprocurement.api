@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/1e7fc0d4cb8943b985627a6dc1c42c8a/cancellations/f44b7cc2783f44b8960e691080112d97/documents?acc_token=89feea896bda4b28a07b1efd0cf55f66 HTTP/1.0
+POST /api/2.5/tenders/93f4fb7502554ab591dd397e3360b027/cancellations/70be09bc0b814ba1ba6d430eb4ccb743/documents?acc_token=3f8107537abc4a978698af4ddbbe2cde HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 326
 Content-Type: application/json
@@ -15,11 +15,11 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1e7fc0d4cb8943b985627a6dc1c42c8a/cancellations/f44b7cc2783f44b8960e691080112d97/documents/f70cc27451a242f183aa969976341718
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/93f4fb7502554ab591dd397e3360b027/cancellations/70be09bc0b814ba1ba6d430eb4ccb743/documents/e87167878f974bbb951e5e96b1de9f73
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "f70cc27451a242f183aa969976341718",
+    "id": "e87167878f974bbb951e5e96b1de9f73",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Notice.pdf",
     "format": "application/pdf",

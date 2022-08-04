@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/dea691b943a946a8957e9be95bc51a06/agreements/0fea7d7c4c8649f5a499885d630671f5/documents?acc_token=a4dab218398a4cc8a8004a91d3ba9744 HTTP/1.0
+POST /api/2.5/tenders/b69c06ceeeb145a4b5cc46d3d56de4d2/agreements/0fea7d7c4c8649f5a499885d630671f5/documents?acc_token=bf73c010063f4fb4a07e775871e11d60 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 342
 Content-Type: application/json
@@ -15,11 +15,11 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/dea691b943a946a8957e9be95bc51a06/agreements/0fea7d7c4c8649f5a499885d630671f5/documents/6b3def02d8e044b2a003ce65d16b212a
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b69c06ceeeb145a4b5cc46d3d56de4d2/agreements/0fea7d7c4c8649f5a499885d630671f5/documents/aeb486ca5e1d46d487678aae32ca08ff
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "6b3def02d8e044b2a003ce65d16b212a",
+    "id": "aeb486ca5e1d46d487678aae32ca08ff",
     "hash": "md5:00000000000000000000000000000000",
     "title": "agreement_first_document.doc",
     "format": "application/msdoc",

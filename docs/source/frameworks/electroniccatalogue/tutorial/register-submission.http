@@ -30,17 +30,17 @@ DATA:
         "scale": "micro"
       }
     ],
-    "frameworkID": "3176109c7572429b99dbc5707a10617c"
+    "frameworkID": "86396c65e9154359a2329bfc7dddd3eb"
   }
 }
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/dc84e2b5e35d412395875ba678c6e158
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/d1d54933ea314d9e838f5056857fe14d
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "frameworkID": "3176109c7572429b99dbc5707a10617c",
+    "frameworkID": "86396c65e9154359a2329bfc7dddd3eb",
     "dateModified": "2023-01-17T00:00:00+02:00",
     "date": "2023-01-17T00:00:00+02:00",
     "owner": "broker",
@@ -70,11 +70,11 @@ X-Content-Type-Options: nosniff
         }
       }
     ],
-    "id": "dc84e2b5e35d412395875ba678c6e158"
+    "id": "d1d54933ea314d9e838f5056857fe14d"
   },
   "access": {
-    "token": "f7bede9bae594684b04254d5dfe83894",
-    "transfer": "bcfb2c2a6ea2490ea8ffe44d1c68dc38"
+    "token": "4e987c1f04ae480c87ae9dc99be22b5b",
+    "transfer": "a23c689fbe3b47c99957e028ddaf9ccb"
   }
 }
 

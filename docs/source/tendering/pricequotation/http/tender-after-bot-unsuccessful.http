@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/8b9f0e3f377f498fab280d3bed8ee6f2 HTTP/1.0
+GET /api/2.5/tenders/eb595a7fcd3d435db34743344e8363b0 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -53,7 +53,7 @@ X-Content-Type-Options: nosniff
     },
     "items": [
       {
-        "id": "8f71111889334f9183227097a5a98ee2",
+        "id": "3cc395595e6e4e15a358051c1ff87874",
         "description": "Комп’ютерне обладнання",
         "classification": {
           "description": "Cartons",
@@ -93,16 +93,16 @@ X-Content-Type-Options: nosniff
     ],
     "criteria": [
       {
-        "id": "5693c96550ad4f75bb67b06bc379fe79",
+        "id": "852eadbbc2ba4a8cba7d7f3b8f7046a0",
         "title": "Форма випуску",
         "description": "Форма випуску",
         "requirementGroups": [
           {
-            "id": "ebfb6b55d70a46d9b48e46f0345889e2",
+            "id": "58fe3666d8f740dba2eb83fda186d308",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "f5ef6eaf46b24a98b7111edafee60fd0",
+                "id": "b0dc47ea22a34c5bacf666d99ec915c4",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "expectedValue": "Розчин для інфузій"
@@ -112,16 +112,16 @@ X-Content-Type-Options: nosniff
         ]
       },
       {
-        "id": "bde52027a394416ba41062e87c64c4f3",
+        "id": "9cf0a9cb42464573b3b47f86b58408ef",
         "title": "Доза діючої речовини",
         "description": "Доза діючої речовини",
         "requirementGroups": [
           {
-            "id": "9020076c9ef847d3b628023222b6acd3",
+            "id": "fca07e33a4da4cd3863b85a6662d7335",
             "description": "Доза діючої речовини",
             "requirements": [
               {
-                "id": "c9030c6c6f144214bab5d4bb2b9975d8",
+                "id": "14512c61ad1a41dcae4d0e82799300c8",
                 "title": "Доза діючої речовини",
                 "dataType": "integer",
                 "unit": {
@@ -135,16 +135,16 @@ X-Content-Type-Options: nosniff
         ]
       },
       {
-        "id": "4962fdcd03934d368a8955650c55943b",
+        "id": "543f7545b06047b89869f2acd633f53a",
         "title": "Форма випуску",
         "description": "Форма випуску",
         "requirementGroups": [
           {
-            "id": "614b297186a2440e804f97c67b503ef0",
+            "id": "4c8f5a765dee42aeb70be399540f411b",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "0333728d33a745a2a2e688a10101371a",
+                "id": "3435be4fca674eb1b941250e7f4627b8",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "expectedValues": [
@@ -161,7 +161,7 @@ X-Content-Type-Options: nosniff
         ]
       }
     ],
-    "id": "8b9f0e3f377f498fab280d3bed8ee6f2"
+    "id": "eb595a7fcd3d435db34743344e8363b0"
   }
 }
 

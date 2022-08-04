@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/2dbf9cf9974a44f8801fd4f1e0e848d2/cancellations/7b3a09b033c7450d99c0d3e17b69039a/complaints/9d0ce1567b1a462eb0d9226f0c06add5/documents?acc_token=15a1796900654f2b85eb627b4abd22b4 HTTP/1.0
+POST /api/2.5/tenders/9056b6881e5c4accadfcaa96d4409069/cancellations/6a6959c48c2a4e3e9f7d510d88442f08/complaints/f1dcc4a59bc54974bcab49c81f5df20e/documents?acc_token=4dcddd6883914dab805cd32059df2609 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 344
 Content-Type: application/json
@@ -15,11 +15,11 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2dbf9cf9974a44f8801fd4f1e0e848d2/cancellations/7b3a09b033c7450d99c0d3e17b69039a/complaints/9d0ce1567b1a462eb0d9226f0c06add5/documents/d3a6e3e9236d42f899a264e545675cee
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9056b6881e5c4accadfcaa96d4409069/cancellations/6a6959c48c2a4e3e9f7d510d88442f08/complaints/f1dcc4a59bc54974bcab49c81f5df20e/documents/f0243faf50904385b312fbee20b65011
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "d3a6e3e9236d42f899a264e545675cee",
+    "id": "f0243faf50904385b312fbee20b65011",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Complaint_Attachment.pdf",
     "format": "application/pdf",

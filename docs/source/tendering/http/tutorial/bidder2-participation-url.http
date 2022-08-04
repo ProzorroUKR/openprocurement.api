@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/1e1c35ea6a97449c857edabef72e7225/bids/3b5a43dccff7435e8804725da791748a?acc_token=c817e0e9fb944e688d38ad4112e954d0 HTTP/1.0
+GET /api/2.5/tenders/63fbe5f55ec14294b590969e4ec72af6/bids/5066384a8aa640068ab2c37ac8330887?acc_token=baba1ac4a32544a8b569807d8faac6ab HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -43,7 +43,7 @@ X-Content-Type-Options: nosniff
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4723ad37c9a04058983e5acc8d0ce9f4?Signature=0ZVrM3IuFoNW6QI1eBPPulKeh2ywRON%2Fwp8nKbq7KJPS8w5gx4Tod6BQpwOwiAudl9IK%2BZ7ql7%2BA0kcRAeLjBg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "id": "6318870c769043a0befb2bafefa8235f",
+        "id": "bef39a576ad749f3abcd2873541faa6d",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "dateModified": "2023-01-01T00:00:01+02:00"
       },
@@ -53,14 +53,14 @@ X-Content-Type-Options: nosniff
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/200d1dfb2afc4cf791ec2fea005cefde?Signature=vYRIxu%2F3oNjZ5mS1jHC3LFWwaYWC6jkFS4ilfqT%2B3cs75hjSzwVqfOXfYkKe0maf4S88STYJeupj6X%2FfGDMDDg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "id": "b3119f062b234153a2492ff927fcb365",
+        "id": "2d895a58794d4f2cb02ee002561b1e63",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "dateModified": "2023-01-01T00:00:01+02:00"
       }
     ],
-    "id": "3b5a43dccff7435e8804725da791748a",
+    "id": "5066384a8aa640068ab2c37ac8330887",
     "date": "2023-01-01T00:00:01+02:00",
-    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/1e1c35ea6a97449c857edabef72e7225?key_for_bid=3b5a43dccff7435e8804725da791748a"
+    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/63fbe5f55ec14294b590969e4ec72af6?key_for_bid=5066384a8aa640068ab2c37ac8330887"
   }
 }
 

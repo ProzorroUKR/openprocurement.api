@@ -1,4 +1,4 @@
-PATCH /api/2.5/contracts/731229e60a3e4406b3f0bbca894132fa/changes/90238f35b68a4a7ebeb6a5632b1b0d9a?acc_token=d7ef3060443a419f93a65b3aeb4f5f9b HTTP/1.0
+PATCH /api/2.5/contracts/38da025ae53f4e0d8fa4474bb5923d12/changes/9b42f245308547cc9d4f760dda1dc15c?acc_token=a0e030a63cbe4390a164f7dee4f37dc9 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 255
 Content-Type: application/json
@@ -15,7 +15,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "90238f35b68a4a7ebeb6a5632b1b0d9a",
+    "id": "9b42f245308547cc9d4f760dda1dc15c",
     "status": "pending",
     "date": "2023-01-01T00:00:01+02:00",
     "rationale": "Друга і третя поставка має бути розфасована",

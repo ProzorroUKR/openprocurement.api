@@ -202,7 +202,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/41116c1a1b6a44fc8914663807288667
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d1b73c4e72e244f1833086204faadff6
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -270,7 +270,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "99ece3534c564569888c6066bd68839f",
+        "id": "519152a1889240fd9cf9dd576c46265c",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -311,7 +311,7 @@ X-Content-Type-Options: nosniff
     },
     "items": [
       {
-        "id": "4197c192f0184f07b7c7f608bcccfe6b",
+        "id": "97735bdc93204bd7a1469064bb3e615b",
         "description": "Насіння гірчиці",
         "classification": {
           "description": "Mustard seeds",
@@ -343,7 +343,7 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "4af4c1820c8b4dbf960268accf7d7886",
+        "id": "258306a31f6a47758d528d907f4329fe",
         "description": "Насіння соняшнику",
         "classification": {
           "description": "Sunflower seeds",
@@ -375,7 +375,7 @@ X-Content-Type-Options: nosniff
         }
       },
       {
-        "id": "b58c6b9bfacc4a228e5a2fb9f644c2d2",
+        "id": "650759050f6a43e4aa1ab880fa5f35fb",
         "description": "Насіння бавовнику",
         "classification": {
           "description": "Cotton seeds",
@@ -421,11 +421,11 @@ X-Content-Type-Options: nosniff
     },
     "dateModified": "2023-01-01T00:00:15+02:00",
     "dateCreated": "2023-01-01T00:00:15+02:00",
-    "id": "41116c1a1b6a44fc8914663807288667"
+    "id": "d1b73c4e72e244f1833086204faadff6"
   },
   "access": {
-    "token": "3e653c0cca2c4bfb8762c14964e7a792",
-    "transfer": "00c75b0a54b648d9aa16e8114e023212"
+    "token": "fcf76f747843442fafdd24a444a6063e",
+    "transfer": "5447b2801ac74791aba778560c183b9e"
   }
 }
 

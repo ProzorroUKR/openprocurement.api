@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/1e7fc0d4cb8943b985627a6dc1c42c8a/awards/0d9104eba10b4a06b3453898e7ea6b5e?acc_token=89feea896bda4b28a07b1efd0cf55f66 HTTP/1.0
+PATCH /api/2.5/tenders/93f4fb7502554ab591dd397e3360b027/awards/cb4611c2c2f746f9a08f4c9cbf0682cc?acc_token=3f8107537abc4a978698af4ddbbe2cde HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 36
 Content-Type: application/json
@@ -12,11 +12,11 @@ DATA:
 
 Response: 200 OK
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1e7fc0d4cb8943b985627a6dc1c42c8a/awards/82ac4ffad22442f4a56cf5ad630d9e81
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/93f4fb7502554ab591dd397e3360b027/awards/373cdf721e874341bff555fb568a20d4
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "0d9104eba10b4a06b3453898e7ea6b5e",
+    "id": "cb4611c2c2f746f9a08f4c9cbf0682cc",
     "status": "unsuccessful",
     "date": "2023-01-01T00:00:00+02:00",
     "value": {
@@ -46,7 +46,7 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "bid_id": "3cbcceff36f549468a441145771c5359",
+    "bid_id": "17c5c113d17a4e6a82022eed0e27b18e",
     "lotID": "f2599a519a45416db792d9ee833a8e5a"
   }
 }

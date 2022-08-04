@@ -1,4 +1,4 @@
-PATCH /api/2.5/plans/18d6b21a07094c71b423e91c5e28579b?acc_token=2f494f7656ce4232be04b28595bf472a HTTP/1.0
+PATCH /api/2.5/plans/249bf7a3e1ce48c9bba765eed435b2b4?acc_token=ef8e82ab09a448dfab7d3d4766ac13d2 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 652
 Content-Type: application/json
@@ -40,7 +40,7 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "procuringEntity": {
-      "id": "0bd9e38340194d4e94edd28d9ed78f05",
+      "id": "1bd99b9c2bb84667a1e0ea59f1d06569",
       "name": "ДУС",
       "identifier": {
         "scheme": "UA-EDR",
@@ -93,7 +93,7 @@ X-Content-Type-Options: nosniff
     "planID": "UA-P-2023-01-01-000001",
     "items": [
       {
-        "id": "6133667b0a1543f8998dbc79fa349862",
+        "id": "55aa3eaa98104cae9ddf1f95dc81ff13",
         "classification": {
           "description": "Vegetable seeds",
           "scheme": "ДК021",
@@ -126,7 +126,7 @@ X-Content-Type-Options: nosniff
     ],
     "buyers": [
       {
-        "id": "0ddba18eb334400bbd069726e901b8a2",
+        "id": "7bce9e1719ed48cc97494f9c9370229e",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -148,7 +148,7 @@ X-Content-Type-Options: nosniff
     "dateModified": "2023-01-01T00:00:00+02:00",
     "datePublished": "2023-01-01T00:00:00+02:00",
     "owner": "broker",
-    "id": "18d6b21a07094c71b423e91c5e28579b"
+    "id": "249bf7a3e1ce48c9bba765eed435b2b4"
   }
 }
 

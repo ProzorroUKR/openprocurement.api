@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/f321c5aade8048bb81ead18ad17d428d/contracts/787ab102ebfc4dadbedee400b18a040b?acc_token=bdb6664c7ada49b0b6ce349566740a47 HTTP/1.0
+GET /api/2.5/tenders/f5b1f7dad1d64ec09e0d406e09e7e816/contracts/6d9b59d2da9f4b5abc5366064d4ceb0c?acc_token=05d1f01008be4fd19d7747fb346f66f5 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -7,8 +7,8 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "787ab102ebfc4dadbedee400b18a040b",
-    "awardID": "81d25cd82d3246bda1ff504ef2d1ced0",
+    "id": "6d9b59d2da9f4b5abc5366064d4ceb0c",
+    "awardID": "7ae3f9828f9a448fb3cf28df2e1f6a35",
     "contractID": "UA-2023-01-01-000016-a.2-1",
     "status": "pending",
     "period": {
@@ -49,7 +49,7 @@ X-Content-Type-Options: nosniff
     "dateSigned": "2023-01-01T00:00:03+02:00",
     "items": [
       {
-        "id": "6d18dbf0831b45ab9d8105f44378ecc0",
+        "id": "98611a4356ed43a09706411d531330ea",
         "description": "Послуги шкільних їдалень",
         "additionalClassifications": [
           {
@@ -93,7 +93,7 @@ X-Content-Type-Options: nosniff
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3fe117a7de8b4c339a105271a9b05bb0?Signature=dHctywF%2BP%2BFMChCOl%2Bq9cfK0gmRrOMAH2YwSc6ovKq%2BsPEGo%2BNSaMHMjNk%2BwbEm0WkN4RNUco3p8Ej8%2FwvU4Cg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "id": "6a1f5346dcb44b25a6766b20d0e44922",
+        "id": "e5b1f98be1884f34a65b7083cec3cd31",
         "datePublished": "2023-01-01T00:00:03+02:00",
         "dateModified": "2023-01-01T00:00:03+02:00"
       }

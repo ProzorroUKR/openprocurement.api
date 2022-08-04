@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/dceb0db9147740f994cb3a57fb971a4e/contracts/82d376775a134ec5b6c131348c86c6dc?acc_token=9147c49d3e8844889bffab7629a63b5b HTTP/1.0
+PATCH /api/2.5/tenders/07a9d2daabfe4268a5b3f6db5a7e1287/contracts/7c82c25de63348eea5afb981c0fc2f54?acc_token=63a33032ef0d47108bdada9cf1f0dde0 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -15,8 +15,8 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "82d376775a134ec5b6c131348c86c6dc",
-    "awardID": "61aa079bac35442ea9aba5d1420c75a5",
+    "id": "7c82c25de63348eea5afb981c0fc2f54",
+    "awardID": "9781a8bdca8d4bd0bb7eb110bb33f809",
     "contractID": "UA-2023-01-01-000001-a-1",
     "status": "active",
     "value": {
@@ -27,7 +27,7 @@ X-Content-Type-Options: nosniff
     },
     "items": [
       {
-        "id": "e95b4fd27c5d41a0b251c7acf79ca0f0",
+        "id": "7e6d418b001e4a0fbe86d048f86ba39a",
         "description": "Послуги шкільних їдалень",
         "classification": {
           "description": "Послуги з харчування у школах",
@@ -93,7 +93,7 @@ X-Content-Type-Options: nosniff
   }
 }
 
-GET /api/2.5/tenders/dceb0db9147740f994cb3a57fb971a4e HTTP/1.0
+GET /api/2.5/tenders/07a9d2daabfe4268a5b3f6db5a7e1287 HTTP/1.0
 Authorization: Bearer chronograph
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -127,7 +127,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "ffe9f382a2224f5dbfc9a5da1c3c452b",
+        "id": "815b7f7b04234cc6874087884f004952",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -169,7 +169,7 @@ X-Content-Type-Options: nosniff
     "status": "active",
     "items": [
       {
-        "id": "e95b4fd27c5d41a0b251c7acf79ca0f0",
+        "id": "7e6d418b001e4a0fbe86d048f86ba39a",
         "description": "Послуги шкільних їдалень",
         "additionalClassifications": [
           {
@@ -208,7 +208,7 @@ X-Content-Type-Options: nosniff
     ],
     "awards": [
       {
-        "id": "61aa079bac35442ea9aba5d1420c75a5",
+        "id": "9781a8bdca8d4bd0bb7eb110bb33f809",
         "status": "active",
         "date": "2023-01-01T00:00:00+02:00",
         "value": {
@@ -249,8 +249,8 @@ X-Content-Type-Options: nosniff
     ],
     "contracts": [
       {
-        "id": "82d376775a134ec5b6c131348c86c6dc",
-        "awardID": "61aa079bac35442ea9aba5d1420c75a5",
+        "id": "7c82c25de63348eea5afb981c0fc2f54",
+        "awardID": "9781a8bdca8d4bd0bb7eb110bb33f809",
         "contractID": "UA-2023-01-01-000001-a-1",
         "status": "active",
         "value": {
@@ -261,7 +261,7 @@ X-Content-Type-Options: nosniff
         },
         "items": [
           {
-            "id": "e95b4fd27c5d41a0b251c7acf79ca0f0",
+            "id": "7e6d418b001e4a0fbe86d048f86ba39a",
             "description": "Послуги шкільних їдалень",
             "classification": {
               "description": "Послуги з харчування у школах",
@@ -333,7 +333,7 @@ X-Content-Type-Options: nosniff
     "procurementMethodType": "negotiation",
     "cancellations": [
       {
-        "id": "6054bd855b294491819137282bde25e8",
+        "id": "d66237cadae943499e9ee25d42e319f3",
         "reason": "cancellation reason",
         "date": "2023-01-01T00:00:00+02:00",
         "status": "draft",
@@ -341,7 +341,7 @@ X-Content-Type-Options: nosniff
         "reasonType": "dateViolation"
       }
     ],
-    "id": "dceb0db9147740f994cb3a57fb971a4e"
+    "id": "07a9d2daabfe4268a5b3f6db5a7e1287"
   }
 }
 

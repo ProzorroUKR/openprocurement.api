@@ -136,4 +136,7 @@ def main(global_config, **settings):
     config.registry.health_threshold = float(settings.get("health_threshold", 512))
     config.registry.health_threshold_func = settings.get("health_threshold_func", "all")
     config.registry.update_after = asbool(settings.get("update_after", True))
-    return config.make_wsgi_app()
+
+    config.add_tween("openprocurement.api.middlewares.DBSessionCookieMiddleware")
+    app = config.make_wsgi_app()
+    return app

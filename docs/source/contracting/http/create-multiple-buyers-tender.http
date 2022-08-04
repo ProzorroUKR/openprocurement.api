@@ -203,7 +203,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a3feda5e2d95495bac7d9eded8661456
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/55e45df6d0ca4d4fba2f3e8dc78abb98
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -251,7 +251,7 @@ X-Content-Type-Options: nosniff
     },
     "items": [
       {
-        "id": "c79eac0a227f44aea56ba55c2e373b53",
+        "id": "c8aacb5693ad47238d0e319f315b8840",
         "description": "телевізори",
         "classification": {
           "description": "Cartons",
@@ -289,7 +289,7 @@ X-Content-Type-Options: nosniff
         "relatedBuyer": "11111111111111111111111111111111"
       },
       {
-        "id": "32e19219eba74ae39d1610cdfebb251c",
+        "id": "eb83c6ba1a6f46f199a41d492f4f5d4d",
         "description": "портфелі",
         "classification": {
           "description": "Cartons",
@@ -327,7 +327,7 @@ X-Content-Type-Options: nosniff
         "relatedBuyer": "22222222222222222222222222222222"
       },
       {
-        "id": "4080583812244078b0585cfbab62f815",
+        "id": "e446fa258f1a49b988b6a6ca6b8b3682",
         "description": "портфелі",
         "classification": {
           "description": "Cartons",
@@ -379,7 +379,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "11fdfbcf47704da292b72758ac824086",
+        "id": "74b84eae4fa044c5964359e1ab01214c",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -422,11 +422,11 @@ X-Content-Type-Options: nosniff
     "date": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
-    "id": "a3feda5e2d95495bac7d9eded8661456"
+    "id": "55e45df6d0ca4d4fba2f3e8dc78abb98"
   },
   "access": {
-    "token": "277ac79c7489473da2556f332958298b",
-    "transfer": "6e425cce1a4342cba5cc1e424c4434c8"
+    "token": "f8fd9d7797a7432b939129c732e580ab",
+    "transfer": "563931bc5cd9402891ed60c669933487"
   }
 }
 

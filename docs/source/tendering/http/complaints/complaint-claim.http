@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/d2bb8b32840e47a7be28cb1644aeda9c/complaints/95af65ce526b4245867b1805b25091a6?acc_token=cba4a12b50db4382895ab10f259090db HTTP/1.0
+PATCH /api/2.5/tenders/06a89d3522bf4ba5902cacc12c9a8788/complaints/3daf4f8aee84436ab84afd74b98b19f8?acc_token=60bfa189296d44669b3481182e9ab863 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 29
 Content-Type: application/json
@@ -15,7 +15,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "95af65ce526b4245867b1805b25091a6",
+    "id": "3daf4f8aee84436ab84afd74b98b19f8",
     "complaintID": "UA-2023-01-01-000001-a.1",
     "date": "2023-01-01T00:00:00+02:00",
     "type": "claim",
@@ -25,7 +25,7 @@ X-Content-Type-Options: nosniff
     "status": "claim",
     "documents": [
       {
-        "id": "549a7765aac64e69b64c4fcfff5c64dd",
+        "id": "5e8761bf649d4606b0825f4d5fc7e4c5",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Complaint_Attachment.pdf",
         "format": "application/pdf",

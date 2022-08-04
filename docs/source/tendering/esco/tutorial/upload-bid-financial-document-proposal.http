@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/7378acd602f14dc498b14cc6198a6995/bids/c7619b53b6a342b48373cba33d1ce5b4/financial_documents?acc_token=01d276fa7ea64637ad3be5084d677b89 HTTP/1.0
+POST /api/2.5/tenders/501cb77768e446f39265deb722b208a3/bids/658a2d2b9721494887a952371db42b5a/financial_documents?acc_token=6624fd96edbc46c1b84b5ca323e4e239 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 331
 Content-Type: application/json
@@ -15,7 +15,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7378acd602f14dc498b14cc6198a6995/bids/c7619b53b6a342b48373cba33d1ce5b4/financial_documents/4aa313d7489440ccab974c7801a62f6b
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/501cb77768e446f39265deb722b208a3/bids/658a2d2b9721494887a952371db42b5a/financial_documents/74a99c3d03bd4b3a8fb9a07060fd8561
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -26,13 +26,13 @@ X-Content-Type-Options: nosniff
     "documentOf": "tender",
     "confidentiality": "public",
     "language": "uk",
-    "id": "4aa313d7489440ccab974c7801a62f6b",
+    "id": "74a99c3d03bd4b3a8fb9a07060fd8561",
     "datePublished": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00"
   }
 }
 
-POST /api/2.5/tenders/7378acd602f14dc498b14cc6198a6995/bids/c7619b53b6a342b48373cba33d1ce5b4/financial_documents?acc_token=01d276fa7ea64637ad3be5084d677b89 HTTP/1.0
+POST /api/2.5/tenders/501cb77768e446f39265deb722b208a3/bids/658a2d2b9721494887a952371db42b5a/financial_documents?acc_token=6624fd96edbc46c1b84b5ca323e4e239 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 336
 Content-Type: application/json
@@ -49,7 +49,7 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7378acd602f14dc498b14cc6198a6995/bids/c7619b53b6a342b48373cba33d1ce5b4/financial_documents/78b2ffef1531402a8edf45d82cb76154
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/501cb77768e446f39265deb722b208a3/bids/658a2d2b9721494887a952371db42b5a/financial_documents/2ca63b8584054860b2f7543e1876ffb1
 X-Content-Type-Options: nosniff
 {
   "data": {
@@ -60,7 +60,7 @@ X-Content-Type-Options: nosniff
     "documentOf": "tender",
     "confidentiality": "public",
     "language": "uk",
-    "id": "78b2ffef1531402a8edf45d82cb76154",
+    "id": "2ca63b8584054860b2f7543e1876ffb1",
     "datePublished": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00"
   }

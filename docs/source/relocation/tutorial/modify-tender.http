@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/4b9115b9cb2c4b0ba35a6addd94c93fe?acc_token=4ee783cbf7a141db9a6d77da990ce4e3 HTTP/1.0
+PATCH /api/2.5/tenders/f36bbec96e57457b8acb3b59f68e8d77?acc_token=4696e849bf0b47eeaebd2d632abcecd4 HTTP/1.0
 Authorization: Bearer broker1
 Content-Length: 62
 Content-Type: application/json
@@ -43,7 +43,7 @@ X-Content-Type-Options: nosniff
     },
     "items": [
       {
-        "id": "ef55b20df1074d33abae53b99016d35c",
+        "id": "ce9e446cdec144a19fd3cf237ac376e4",
         "description": "футляри до державних нагород",
         "classification": {
           "description": "Cartons",
@@ -94,7 +94,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "af09d533bd41421bbc5ebf85e3010c3e",
+        "id": "2ee0c5b6eafd4d13b61e4bb97b65b965",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -132,7 +132,7 @@ X-Content-Type-Options: nosniff
       "startDate": "2023-01-01T00:00:00+02:00",
       "endDate": "2023-01-08T00:00:00+02:00"
     },
-    "id": "4b9115b9cb2c4b0ba35a6addd94c93fe"
+    "id": "f36bbec96e57457b8acb3b59f68e8d77"
   }
 }
 

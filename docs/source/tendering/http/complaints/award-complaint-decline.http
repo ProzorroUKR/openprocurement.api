@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/7ea7cf213d514bbcbe84269526134836/awards/fa643eda48dd450bb2a289aa80f13e85/complaints/1934840b9d0b464592d1272058558854 HTTP/1.0
+PATCH /api/2.5/tenders/0f776099eb8344b4a149200a8657a9df/awards/97618ec8e2194942a79b7911a23d9176/complaints/8f7476709ea345f8a7496757ceed963a HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 32
 Content-Type: application/json
@@ -15,7 +15,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "1934840b9d0b464592d1272058558854",
+    "id": "8f7476709ea345f8a7496757ceed963a",
     "complaintID": "UA-2023-01-01-000001-a.3",
     "date": "2023-01-01T00:00:03+02:00",
     "type": "complaint",

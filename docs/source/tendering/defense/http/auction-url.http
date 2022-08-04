@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/2f4877f50c594a7697b170b5a6d1f8e6 HTTP/1.0
+GET /api/2.5/tenders/3d69f16d617642b88f9248c606bb0723 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -13,7 +13,7 @@ X-Content-Type-Options: nosniff
     "tenderID": "UA-2023-01-01-000001-a",
     "questions": [
       {
-        "id": "a20a872aeacd4e4dac5482c2045a52eb",
+        "id": "d0d9a9fdedff45bd941e7803e98b86c6",
         "author": {
           "name": "ДКП «Книга»",
           "identifier": {
@@ -44,7 +44,7 @@ X-Content-Type-Options: nosniff
     ],
     "documents": [
       {
-        "id": "f63b2662f2a249049b1921215ce40df0",
+        "id": "7fb71bf1496c4417846debad10466f80",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
@@ -55,7 +55,7 @@ X-Content-Type-Options: nosniff
         "author": "tender_owner"
       },
       {
-        "id": "dce7e6b9d5c249cbb3a30b6cc2a880c8",
+        "id": "df1a2d8f752f43698689e65df03f49bf",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
@@ -66,7 +66,7 @@ X-Content-Type-Options: nosniff
         "author": "tender_owner"
       },
       {
-        "id": "dce7e6b9d5c249cbb3a30b6cc2a880c8",
+        "id": "df1a2d8f752f43698689e65df03f49bf",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
@@ -115,7 +115,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "445f12e2d3364f3fba0725c9599b5ccf",
+        "id": "3ddefd0abcb646e282e7af89b364adce",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -141,7 +141,7 @@ X-Content-Type-Options: nosniff
     },
     "items": [
       {
-        "id": "ef5ab20949724fdea9edfd2eb7d8a619",
+        "id": "70a277ae70f84244a5118938e9d17de0",
         "description": "Послуги шкільних їдалень",
         "classification": {
           "description": "Послуги з харчування у школах",
@@ -205,8 +205,8 @@ X-Content-Type-Options: nosniff
       "startDate": "2022-12-19T00:00:00+02:00",
       "endDate": "2023-01-05T00:00:00+02:00"
     },
-    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/2f4877f50c594a7697b170b5a6d1f8e6",
-    "id": "2f4877f50c594a7697b170b5a6d1f8e6"
+    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/3d69f16d617642b88f9248c606bb0723",
+    "id": "3d69f16d617642b88f9248c606bb0723"
   }
 }
 
