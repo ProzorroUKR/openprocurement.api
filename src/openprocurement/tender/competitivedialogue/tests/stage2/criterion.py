@@ -28,7 +28,9 @@ class TenderCDEUCriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogEUSta
 
     test_activate_tender = snitch(activate_tender)
 
-    @patch("openprocurement.tender.core.procedure.validation.RELEASE_ECRITERIA_ARTICLE_17",
+    @patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+           get_now() - timedelta(days=1))
+    @patch("openprocurement.tender.core.procedure.models.req_response.RELEASE_ECRITERIA_ARTICLE_17",
            get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderCDEUCriteriaTest, self).setUp()
@@ -41,7 +43,9 @@ class TenderCDUACriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogUASta
 
     test_activate_tender = snitch(activate_tender)
 
-    @patch("openprocurement.tender.core.procedure.validation.RELEASE_ECRITERIA_ARTICLE_17",
+    @patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+           get_now() - timedelta(days=1))
+    @patch("openprocurement.tender.core.procedure.models.req_response.RELEASE_ECRITERIA_ARTICLE_17",
            get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderCDUACriteriaTest, self).setUp()

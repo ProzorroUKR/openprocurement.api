@@ -61,6 +61,8 @@ class TenderContractResource(TenderBaseResource):
         tender = self.request.validated["tender"]
         contract = self.request.validated["data"]
 
+        self.state.validate_contract_post(self.request, tender, contract)
+
         if "contracts" not in tender:
             tender["contracts"] = []
         tender["contracts"].append(contract)
@@ -86,6 +88,9 @@ class TenderContractResource(TenderBaseResource):
         updated_contract = self.request.validated["data"]
         if updated_contract:
             contract = self.request.validated["contract"]
+
+            self.state.validate_contract_patch(self.request, contract, updated_contract)
+
             set_item(self.request.validated["tender"], "contracts", contract["id"], updated_contract)
             self.state.contract_on_patch(contract, updated_contract)
 

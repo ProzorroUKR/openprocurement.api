@@ -2,7 +2,6 @@ from openprocurement.tender.core.procedure.context import get_now
 from openprocurement.tender.core.procedure.utils import get_first_revision_date
 from openprocurement.tender.core.procedure.validation import (
     validate_item_operation_in_disallowed_tender_statuses,
-    validate_update_contract_status_base,
 )
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.constants import RELEASE_2020_04_19
@@ -116,42 +115,6 @@ def validate_document_operation_in_not_allowed_tender_status(request, **_):
             request,
             f"Can't {OPERATIONS.get(request.method)} document in current ({tender_status}) tender status",
         )
-
-
-# contract
-def validate_contract_update_in_cancelled(request, **_):
-    if request.validated["contract"]["status"] == "cancelled":
-        raise_operation_error(request, f"Can't update contract in current (cancelled) status")
-
-
-def validate_contract_operation_not_in_active(request, **_):
-    if request.validated["tender"]["status"] != "active":
-        raise_operation_error(
-            request,
-            f"Can't {OPERATIONS.get(request.method)} contract in current "
-            f"({request.validated['tender']['status']}) tender status"
-        )
-
-
-def validate_contract_items_count_modification(request, **_):
-    # as it is alowed to set/change contract.item.unit.value we need to
-    # ensure that nobody is able to add or delete contract.item
-    data = request.validated["data"]
-    if data.get("items") and len(data["items"]) != len(request.validated["contract"].get("items", [])):
-        raise_operation_error(
-            request,
-            "Can't change items count"
-        )
-
-
-def validate_update_contract_status(request, **_):
-    allowed_statuses_from = ("pending",)
-    allowed_statuses_to = ("active",)
-    validate_update_contract_status_base(
-        request,
-        allowed_statuses_from,
-        allowed_statuses_to
-    )
 
 
 # contract document

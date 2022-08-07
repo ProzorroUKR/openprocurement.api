@@ -1,0 +1,23 @@
+@startuml
+
+actor Client
+component "Private API" as A
+component "Public API" as B
+
+Client --> A
+Client --> B
+
+package MongoDB {
+
+    database "Primary Node" as PDB
+    database "Secondary Nodes" as S
+    PDB <-l-> S: sync
+
+}
+
+A --> PDB: write
+A --> S: read
+B --> S: read
+
+
+@enduml
