@@ -5,10 +5,6 @@ from openprocurement.tender.core.procedure.validation import (
     unless_admins,
     validate_input_data,
     validate_patch_data_simple,
-    validate_update_contract_value,
-    validate_update_contract_value_with_award,
-    validate_update_contract_value_amount,
-    validate_update_contract_value_net_required,
 )
 from openprocurement.tender.limited.procedure.models.contract import (
     ReportingContract,
@@ -21,12 +17,6 @@ from openprocurement.tender.limited.procedure.models.contract import (
 from openprocurement.tender.limited.procedure.state.contract import (
     LimitedReportingContractState,
     LimitedNegotiationContractState,
-)
-from openprocurement.tender.limited.procedure.validation import (
-    validate_contract_update_in_cancelled,
-    validate_contract_operation_not_in_active,
-    validate_contract_items_count_modification,
-    validate_update_contract_status,
 )
 from cornice.resource import resource
 from logging import getLogger
@@ -49,7 +39,6 @@ class ReportingContractResource(TenderContractResource):
         permission="create_contract",
         validators=(
             validate_input_data(ReportingPostContract),
-            validate_contract_operation_not_in_active,
         ),
     )
     def collection_post(self):
@@ -62,16 +51,8 @@ class ReportingContractResource(TenderContractResource):
             unless_admins(
                 validate_item_owner("tender")
             ),
-            validate_contract_operation_not_in_active,
             validate_input_data(ReportingPatchContract),
             validate_patch_data_simple(ReportingContract, item_name="contract"),
-            validate_contract_update_in_cancelled,
-            validate_update_contract_status,
-            validate_update_contract_value,
-            validate_update_contract_value_net_required,
-            validate_update_contract_value_with_award,
-            validate_update_contract_value_amount,
-            validate_contract_items_count_modification,
         ),
     )
     def patch(self):
@@ -93,7 +74,6 @@ class NegotiationContractResource(ReportingContractResource):
         permission="create_contract",
         validators=(
             validate_input_data(NegotiationPostContract),
-            validate_contract_operation_not_in_active,
         ),
     )
     def collection_post(self):
@@ -106,16 +86,8 @@ class NegotiationContractResource(ReportingContractResource):
             unless_admins(
                 validate_item_owner("tender")
             ),
-            validate_contract_operation_not_in_active,
             validate_input_data(NegotiationPatchContract),
             validate_patch_data_simple(NegotiationContract, item_name="contract"),
-            validate_contract_update_in_cancelled,
-            validate_update_contract_status,
-            validate_update_contract_value,
-            validate_update_contract_value_net_required,
-            validate_update_contract_value_with_award,
-            validate_update_contract_value_amount,
-            validate_contract_items_count_modification,
         ),
     )
     def patch(self):

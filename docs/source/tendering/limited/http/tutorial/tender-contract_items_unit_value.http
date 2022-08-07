@@ -1,0 +1,23 @@
+PATCH /api/2.5/tenders/dceb0db9147740f994cb3a57fb971a4e/contracts/82d376775a134ec5b6c131348c86c6dc/items/e95b4fd27c5d41a0b251c7acf79ca0f0/unit/value?acc_token=9147c49d3e8844889bffab7629a63b5b HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 24
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "amount": 13
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+{
+  "data": {
+    "amount": 13.0,
+    "currency": "UAH",
+    "valueAddedTaxIncluded": true
+  }
+}
+

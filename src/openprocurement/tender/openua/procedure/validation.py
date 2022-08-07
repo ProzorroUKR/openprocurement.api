@@ -71,18 +71,6 @@ def validate_accepted_complaints(request, **kwargs):
         )
 
 
-# contract
-def validate_contract_update_with_accepted_complaint(request, **_):
-    tender = request.validated["tender"]
-    award_id = request.validated["contract"].get("awardID", "")
-
-    for award in tender.get("awards", []):
-        if award["id"] == award_id:
-            for complaint in award.get("complaints", []):
-                if complaint.get("status", "") == "accepted":
-                    raise_operation_error(request, "Can't update contract with accepted complaint")
-
-
 # Contract documents
 def validate_contract_document_complaints(operation):
     def validate(request, **_):

@@ -1,0 +1,16 @@
+@startuml
+
+Client --> API: sends api requests along with a SESSION cookie
+hnote over API: session.advance_cluster_time(SESSION.cluster_time)\n\
+session.advance_operation_time(SESSION.operation_time)\n\
+
+API --> MongoDB: casual consistent db operations
+MongoDB --> API: results
+
+
+hnote over API: SESSION = {"operation_time": session.operation_time,\n\
+                   "cluster_time": session.cluster_time}
+
+API --> Client: a request result with a new SESSION cookie in "Set-Cookie" header
+
+@enduml

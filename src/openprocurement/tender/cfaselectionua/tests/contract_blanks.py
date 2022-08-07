@@ -295,41 +295,10 @@ def patch_tender_contract(self):
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"contractID": "myselfID"}},
+        {"data": {"status": "pending"}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update contract in current (complete) tender status"
-    )
-
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"items": items}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update contract in current (complete) tender status"
-    )
-
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"suppliers": [{"name": "New Name"}]}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update contract in current (complete) tender status"
-    )
-
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"status": "active"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"], "Can't update contract in current (complete) tender status"
     )

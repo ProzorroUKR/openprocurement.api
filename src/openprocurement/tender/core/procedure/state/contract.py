@@ -1,9 +1,11 @@
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.context import get_tender, get_now, get_request, get_award
 from openprocurement.tender.core.procedure.utils import (
+    get_contracts_values_related_to_patched_contract,
     contracts_allow_to_complete,
     dt_from_iso,
 )
+from openprocurement.api.validation import OPERATIONS
 from openprocurement.api.utils import (
     get_first_revision_date,
     raise_operation_error,
@@ -15,9 +17,11 @@ from openprocurement.api.constants import (
     NEW_DEFENSE_COMPLAINTS_FROM,
     NEW_DEFENSE_COMPLAINTS_TO,
 )
+from openprocurement.tender.core.constants import AMOUNT_NET_COEF
+from schematics.types import BaseType
 from itertools import zip_longest
 from logging import getLogger
-from decimal import Decimal, ROUND_FLOOR
+from decimal import Decimal, ROUND_FLOOR, ROUND_UP
 from datetime import datetime
 
 
@@ -25,6 +29,9 @@ LOGGER = getLogger(__name__)
 
 
 class ContractStateMixing:
+    allowed_statuses_from = ("pending", "pending.winner-signing")
+    allowed_statuses_to = ("active", "pending", "pending.winner-signing")
+
     set_object_status: callable  # from BaseState
     block_complaint_status: tuple  # from TenderState
     check_skip_award_complaint_period: callable  # from TenderState
@@ -296,6 +303,174 @@ class ContractStateMixing:
         assert before != after, "Statuses must be different"
         data["date"] = get_now().isoformat()
 
+    # validators
+    def validate_contract_post(self, request, tender, contract):
+        self.validate_contract_operation_not_in_allowed_status(request, tender)
+
+    def validate_contract_patch(self, request, before, after):
+        tender = get_tender()
+        self.validate_contract_operation_not_in_allowed_status(request, tender)
+        self.validate_update_contract_only_for_active_lots(request, tender, before)
+        self.validate_update_contract_status_by_supplier(request, before, after)
+        self.validate_update_contract_status(request, tender, before, after)
+        self.validate_contract_update_with_accepted_complaint(request, tender, before)  # openua
+        self.validate_update_contract_value(request, before, after)
+        self.validate_update_contract_value_net_required(request, after)
+        self.validate_update_contract_value_with_award(request, after)
+        self.validate_update_contract_value_amount(request, after)
+
+    @staticmethod
+    def validate_contract_operation_not_in_allowed_status(request, tender):
+        status = tender["status"]
+        if status not in ("active.qualification", "active.awarded"):
+            raise_operation_error(
+                request,
+                f"Can't {OPERATIONS.get(request.method)} contract in current ({status}) tender status"
+            )
+
+    @staticmethod
+    def validate_update_contract_only_for_active_lots(request, tender, contract):
+        award_lot_ids = []
+        for award in tender.get("awards", []):
+            if award.get("id") == contract.get("awardID"):
+                award_lot_ids.append(award.get("lotID"))
+
+        for lot in tender.get("lots", []):
+            if lot.get("status") != "active" and lot.get("id") in award_lot_ids:
+                raise_operation_error(request, "Can update contract only in active lot status")
+
+    @staticmethod
+    def validate_update_contract_status_by_supplier(request, before, after):
+        if request.authenticated_role == "contract_supplier":
+            if (
+                before["status"] != after["status"]
+                and after["status"] != "pending"
+                or before["status"] != "pending.winner-signing"
+            ):
+                raise_operation_error(request, "Supplier can change status to `pending`")
+
+    @classmethod
+    def validate_update_contract_status(cls, request, tender, before, after):
+        allowed_statuses_to = cls.allowed_statuses_to
+        # Allow change contract status to cancelled for multi buyers tenders
+        multi_contracts = len(tender.get("buyers", [])) > 1
+        if multi_contracts:
+            allowed_statuses_to += ("cancelled",)
+
+        # Validate status change
+        current_status = before["status"]
+        new_status = after["status"]
+        if (
+            current_status != new_status
+            and (
+                current_status not in cls.allowed_statuses_from
+                or new_status not in allowed_statuses_to
+            )
+        ):
+            raise_operation_error(request, "Can't update contract status")
+
+        not_cancelled_contracts_count = sum(
+            1 for contract in tender.get("contracts", [])
+            if (
+                    contract.get("status") != "cancelled"
+                    and contract.get("awardID") == request.validated["contract"]["awardID"]
+            )
+        )
+        if multi_contracts and new_status == "cancelled" and not_cancelled_contracts_count == 1:
+            raise_operation_error(
+                request,
+                f"Can't update contract status from {current_status} to {new_status} "
+                f"for last not cancelled contract. Cancel award instead."
+            )
+
+    @staticmethod
+    def validate_contract_update_with_accepted_complaint(request, tender, contract):
+        award_id = contract.get("awardID", "")
+        for award in tender.get("awards", []):
+            if award["id"] == award_id:
+                for complaint in award.get("complaints", []):
+                    if complaint.get("status", "") == "accepted":
+                        raise_operation_error(request, "Can't update contract with accepted complaint")
+
+    @staticmethod
+    def validate_update_contract_value(request, before, after):
+        value = after.get("value")
+        if value:
+            field = before.get("value")
+            if field and value.get("currency") != field.get("currency"):
+                raise_operation_error(request, "Can't update currency for contract value", name="value")
+
+    @staticmethod
+    def validate_update_contract_value_net_required(request, after):  # Model validation ?
+        value = after.get("value")
+        if value is not None and "status" in request.validated["json_data"]:
+            contract_amount_net = value.get("amountNet")
+            if contract_amount_net is None:
+                raise_operation_error(
+                    request,
+                    {"amountNet": BaseType.MESSAGES["required"]},
+                    status=422,
+                    name="value"
+                )
+
+    @staticmethod
+    def validate_update_contract_value_with_award(request, after):
+        # TODO: json_data.keys magic wtf and other implementation could be easier
+        updated_value = after.get("value")
+        if updated_value and {"status", "value"} & set(request.validated["json_data"].keys()):
+            award = [award for award in request.validated["tender"].get("awards", [])
+                     if award.get("id") == request.validated["contract"].get("awardID")][0]
+
+            _contracts_values = get_contracts_values_related_to_patched_contract(
+                request.validated["tender"].get("contracts"),
+                request.validated["contract"]["id"], updated_value,
+                request.validated["contract"].get("awardID")
+            )
+            amount = sum([to_decimal(value.get("amount", 0)) for value in _contracts_values])
+            amount_net = sum([to_decimal(value.get("amountNet", 0)) for value in _contracts_values])
+            tax_included = updated_value.get("valueAddedTaxIncluded")
+            if tax_included:
+                if award.get("value", {}).get("valueAddedTaxIncluded"):
+                    if amount > to_decimal(award.get("value", {}).get("amount")):
+                        raise_operation_error(request, "Amount should be less or equal to awarded amount", name="value")
+                else:
+                    if amount_net > to_decimal(award.get("value", {}).get("amount")):
+                        raise_operation_error(request, "AmountNet should be less or equal to awarded amount",
+                                              name="value")
+            else:
+                if amount > to_decimal(award.get("value", {}).get("amount")):
+                    raise_operation_error(request, "Amount should be less or equal to awarded amount", name="value")
+
+    @staticmethod
+    def validate_update_contract_value_amount(request, after, name="value", allow_equal=False):
+        # TODO: move to model validation ?
+        contract_value = after.get(name)
+        value = after.get("value") or after.get(name)
+        if contract_value and {"status", name} & set(request.validated["json_data"].keys()):
+            amount = to_decimal(contract_value.get("amount") or 0)
+            amount_net = to_decimal(contract_value.get("amountNet") or 0)
+            tax_included = value.get("valueAddedTaxIncluded")
+
+            if not (amount == 0 and amount_net == 0):
+                if tax_included:
+                    amount_max = (amount_net * AMOUNT_NET_COEF).quantize(Decimal("1E-2"), rounding=ROUND_UP)
+                    if (amount <= amount_net or amount > amount_max) and not allow_equal:
+                        raise_operation_error(
+                            request,
+                            "Amount should be greater than amountNet and differ by "
+                            "no more than {}%".format(AMOUNT_NET_COEF * 100 - 100),
+                            name=name,
+                        )
+                    elif (amount < amount_net or amount > amount_max) and allow_equal:
+                        raise_operation_error(
+                            request,
+                            f"Amount should be equal or greater than amountNet and differ by "
+                            f"no more than {AMOUNT_NET_COEF * 100 - 100}%",
+                            name=name,
+                        )
+                else:
+                    if amount != amount_net:
+                        raise_operation_error(request, "Amount and amountNet should be equal", name=name)
 
 class ContractState(ContractStateMixing, TenderState):
     pass
