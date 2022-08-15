@@ -1,3 +1,13 @@
+Інформація про замовника
+Назва: {{ procuringEntity.name }}
+Name: {{ procuringEntity.name_en }}
+Код: {{ procuringEntity.identifier.scheme }} {{ procuringEntity.identifier.id }}
+Юридична назва: {{ procuringEntity.identifier.legalName }}
+Legal name: {{ procuringEntity.identifier.legalName_en }}
+Місцезнаходження: {% with address=procuringEntity.address %}{% include "address.txt" %}{% endwith %}
+Категорія: {{ procuringEntity.kind }}
+
+Інформація про закупівлю
 Заголовок: {{ title }}
 Опис: {{ description }}
 Title: {{ title_en }}
@@ -8,19 +18,26 @@ tenderID: {{ tenderID }}
 Очікувана вартість: {% include "value.txt" %}
 Розмір мінімального кроку пониження ціни: {% with value=minimalStep %}{% include "value.txt" %}{% endwith %}
 {% if guarantee.amount %}Гарантія: {% with value=guarantee %}{% include "value.txt" %}{% endwith %}{% endif %}
-
-{% for lot in lots %}
+{% if milestones %}Умови оплати договору
+{% for milestone in milestones %}
+    Заголовок: {{ milestone.title }}
+    Опис: {{ milestone.description }}
+    Тип: {{ milestone.code }}
+    Відсоток: {{ milestone.percentage }}%
+    Період: {{ milestone.duration.days }} {{ milestone.duration.type }}
+{% endfor %}{% endif %}
+{% if lots %}Лоти{% for lot in lots %}
     Лот №{{ lots_numbers[lot.id] }}
-    {% if lot.title %}Заголовок: {{ lot.title }}{% endif %}
+    Заголовок: {{ lot.title }}
     Опис: {{ lot.description }}
     Очікувана вартість: {% with value=lot.value %}{% include "value.txt" %}{% endwith %}
     Розмір мінімального кроку пониження ціни: {% with value=lot.minimalStep %}{% include "value.txt" %}{% endwith %}
     {% if lot.guarantee.amount %}Гарантія: {% with value=lot.guarantee %}{% include "value.txt" %}{% endwith %}{% endif %}
 {% endfor %}
-
-
+{% endif %}
+Предмети закупівлі
 {% for item in items %}
-    Предмет закупівлі №{{ items_numbers[item.id] }}
+    №{{ items_numbers[item.id] }}
     Опис: {{ item.description }}
     Description: {{ item.description_en }}
     Класифікатор: {{ item.classification.scheme }} {{ item.classification.id }}: {{ item.classification.description }}
@@ -29,12 +46,44 @@ tenderID: {{ tenderID }}
     {% endfor %}
     Кількість: {{ item.quantity }} {{ item.unit.name }}
     Період постачання: {{ item.deliveryDate.endDate }}
-    Місце поставки товарів або місце виконання робіт чи надання послуг: {{ item.deliveryAddress.streetAddress }}, {{ item.deliveryAddress.locality }}, {{ item.deliveryAddress.region }}, {{ item.deliveryAddress.postalCode }}, {{ item.deliveryAddress.countryName }}
+    Місце поставки товарів або місце виконання робіт чи надання послуг: {% with address=item.deliveryAddress %}{% include "address.txt" %}{% endwith %}
 {% endfor %}
-
-{% if documents %}
-Документи:
-    {% for doc in documents %}
-    {% include "document.txt" %}
+{% if features %}Нецінові критерії вибору переможця
+    {% for feature in features %}
+    Назва: {{ feature.title }}
+    Опис: {{ feature.description }}
+    Відносится до: {{ feature.featureOf }}
+    Варіанти:
+        {% for option in feature.enum %}
+        - {{ option.title }}: "{{ option.value }}"
+        {% endfor %}
     {% endfor %}
+{% endif %}
+{% if criteria %}Критерії до учасників
+    {% for e in criteria %}
+    Назва: {{ e.title }}
+    Опис: {{ e.description }}
+    Джерело: {{ e.source }}
+    Відносится до: {{ e.relatesTo }}
+    Класифікатор: {{ e.classification.scheme }} {{ e.classification.id }}
+    Підстава: {% for i in e.legislation %}
+        - {{ i.version }} {{ i.type }} {{ i.article }}
+          {{ i.identifier.id }} {{ i.identifier.legalName }} {{ i.identifier.uri }}
+{% endfor %}
+    {% for group in e.requirementGroups %}
+    Группа {{ group.description }}
+    {% for requirement in group.requirements %}
+        Вимога: {{ requirement.title }}
+        Тип: {{ requirement.dataType }}
+        Очікується: {{ requirement.expectedValue }}
+        Канєшнаже статус: {{ requirement.status }}
+        І дата, шоб було: {{ requirement.datePublished }}
+    {% endfor %}
+    {% endfor %}
+{% endfor %}
+{% endif %}
+{% if documents %}Документи:
+{% for doc in documents %}
+{% include "document.txt" %}
+{% endfor %}
 {% endif %}
