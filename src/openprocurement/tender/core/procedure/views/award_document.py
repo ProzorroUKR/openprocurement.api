@@ -1,12 +1,14 @@
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.views.award import resolve_award
 from openprocurement.tender.core.procedure.views.document import BaseDocumentResource, resolve_document
+from openprocurement.tender.core.procedure.state.award_document import AwardDocumentState
 from pyramid.security import Allow, Everyone
 from openprocurement.tender.core.procedure.validation import get_award_document_role
 
 
 class BaseAwardDocumentResource(BaseDocumentResource):
     item_name = "award"
+    state_class = AwardDocumentState
 
     def __acl__(self):
         acl = [

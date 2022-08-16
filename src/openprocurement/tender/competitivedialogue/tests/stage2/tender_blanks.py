@@ -1518,9 +1518,8 @@ def guarantee(self):
 
 
 def tender_Administrator_change(self):
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
-
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    with change_auth(self.app, ("Basic", ("competitive_dialogue", ""))):
+        response = self.app.post_json("/tenders", {"data": self.initial_data})
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]
 
@@ -1542,26 +1541,27 @@ def tender_Administrator_change(self):
     self.assertEqual(response.content_type, "application/json")
     question = response.json["data"]
 
-    self.app.authorization = ("Basic", ("administrator", ""))
     pq_entity = deepcopy(tender["procuringEntity"])
     pq_entity["identifier"]["id"] = "00000000"
-    response = self.app.patch_json(
-        "/tenders/{}".format(tender["id"]),
-        {"data": {"procuringEntity": pq_entity}},
-    )
+    with change_auth(self.app, ("Basic", ("administrator", ""))):
+        response = self.app.patch_json(
+            "/tenders/{}".format(tender["id"]),
+            {"data": {"procuringEntity": pq_entity}},
+        )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["procuringEntity"]["identifier"]["id"], "00000000")
 
-    response = self.app.patch_json(
-        "/tenders/{}/questions/{}".format(tender["id"], question["id"]), {"data": {"answer": "answer"}}, status=403
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"], [{"location": "url", "name": "role", "description": "Forbidden"}])
+    with change_auth(self.app, ("Basic", ("administrator", ""))):
+        response = self.app.patch_json(
+            "/tenders/{}/questions/{}".format(tender["id"], question["id"]), {"data": {"answer": "answer"}}, status=403
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["errors"], [{"location": "url", "name": "role", "description": "Forbidden"}])
 
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    with change_auth(self.app, ("Basic", ("competitive_dialogue", ""))):
+        response = self.app.post_json("/tenders", {"data": self.initial_data})
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]
     self.tender_id = tender["id"]
@@ -1628,15 +1628,15 @@ def patch_not_author(self):
 
 # TenderStage2UAProcessTest
 def invalid_tender_conditions(self):
-    self.app.authorization = ("Basic", ("broker", ""))
+    # self.app.authorization = ("Basic", ("broker", ""))
     # empty tenders listing
     response = self.app.get("/tenders")
     self.assertEqual(response.json["data"], [])
-    # create tender
-    self.app.authorization = ("Basic", ("competitive_dialogue", ""))
-    response = self.app.post_json("/tenders", {"data": self.test_tender_data_ua})
-    tender_id = self.tender_id = response.json["data"]["id"]
-    owner_token = self.tender_token = response.json["access"]["token"]
+
+    with change_auth(self.app, ("Basic", ("competitive_dialogue", ""))):
+        response = self.app.post_json("/tenders", {"data": self.test_tender_data_ua})
+        tender_id = self.tender_id = response.json["data"]["id"]
+        owner_token = self.tender_token = response.json["access"]["token"]
     # switch to active.tendering
     self.set_status("active.tendering")
     # cancellation

@@ -61,6 +61,7 @@ class TenderLotsCancellationResourceTest(TenderContentWebTest):
 
 class TenderCancellationDocumentResourceTest(TenderContentWebTest, TenderCancellationDocumentResourceTestMixin):
     initial_lots = test_lots
+    initial_status = "active.tendering"
 
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()

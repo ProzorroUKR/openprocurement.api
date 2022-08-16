@@ -1,4 +1,5 @@
-from openprocurement.tender.core.procedure.state.tender import TenderState, PreQualificationShouldStartAfterMixing
+from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.core.procedure.state.auction import PreQualificationShouldStartAfterMixing
 from openprocurement.tender.core.procedure.context import get_now, get_request
 from openprocurement.tender.openeu.procedure.models.award import Award
 from openprocurement.tender.core.procedure.models.qualification import Qualification

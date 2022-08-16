@@ -7,10 +7,17 @@ from datetime import timedelta
 
 
 class TenderDetailsMixing:
+    # from tender base class
+    validate_cancellation_blocks: callable
+
     """
     describes business logic rules for tender owners
     when they prepare tender for tendering stage
     """
+    def validate_tender_patch(self, before, after):
+        request = get_request()
+        self.validate_cancellation_blocks(request, before)
+
     def on_post(self, tender):
         self.watch_value_meta_changes(tender)
         self.update_date(tender)

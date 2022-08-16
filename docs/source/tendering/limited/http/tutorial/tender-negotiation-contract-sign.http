@@ -102,17 +102,84 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "title": "Послуги шкільних їдалень",
+    "mainProcurementCategory": "services",
     "title_en": "Services in school canteens",
     "title_ru": "Услуги школьных столовых",
     "description_en": "Services in school canteens",
     "description_ru": "Услуги школьных столовых",
-    "date": "2023-01-01T00:00:01+02:00",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:01+02:00",
-    "tenderID": "UA-2023-01-01-000001-a",
-    "owner": "broker",
-    "mainProcurementCategory": "services",
+    "title": "Послуги шкільних їдалень",
+    "procurementMethodType": "negotiation",
+    "procurementMethod": "limited",
+    "procuringEntity": {
+      "name": "ЗОСШ #10 м.Вінниці",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "21725150",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+      },
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "telephone": "+380432465302",
+        "url": "http://sch10.edu.vn.ua/",
+        "name": "Куца Світлана Валентинівна"
+      },
+      "kind": "special"
+    },
+    "status": "active",
+    "value": {
+      "amount": 500000.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false
+    },
+    "items": [
+      {
+        "id": "7e6d418b001e4a0fbe86d048f86ba39a",
+        "description": "Послуги шкільних їдалень",
+        "classification": {
+          "description": "Послуги з харчування у школах",
+          "scheme": "ДК021",
+          "id": "55523100-3"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "unit": {
+          "name": "папір",
+          "value": {
+            "amount": 10.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "deliveryDate": {
+          "startDate": "2023-01-21T00:00:00+02:00",
+          "endDate": "2023-02-20T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        }
+      }
+    ],
+    "cause": "twiceUnsuccessful",
+    "causeDescription": "оригінальний тендер не вдався двічі",
+    "causeDescription_en": "original tender has failed twice",
+    "causeDescription_ru": "оригинальный тендер не получился дважды",
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -139,82 +206,21 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       }
     ],
-    "value": {
-      "amount": 500000.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": false
-    },
-    "procurementMethod": "limited",
-    "procuringEntity": {
-      "name": "ЗОСШ #10 м.Вінниці",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "21725150",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
-      },
-      "address": {
-        "streetAddress": "вул. Стахурського. 22",
-        "locality": "м. Вінниця",
-        "region": "Вінницька область",
-        "postalCode": "21027",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
-        "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/"
-      },
-      "kind": "special"
-    },
-    "status": "active",
-    "items": [
-      {
-        "id": "7e6d418b001e4a0fbe86d048f86ba39a",
-        "description": "Послуги шкільних їдалень",
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "Послуги шкільних їдалень"
-          }
-        ],
-        "quantity": 1.0,
-        "classification": {
-          "description": "Послуги з харчування у школах",
-          "scheme": "ДК021",
-          "id": "55523100-3"
-        },
-        "unit": {
-          "name": "папір",
-          "code": "KGM",
-          "value": {
-            "amount": 10.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          }
-        },
-        "deliveryDate": {
-          "startDate": "2023-01-21T00:00:00+02:00",
-          "endDate": "2023-02-20T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        }
-      }
-    ],
+    "tenderID": "UA-2023-01-01-000001-a",
+    "owner": "broker",
+    "date": "2023-01-01T00:00:01+02:00",
+    "dateModified": "2023-01-01T00:00:01+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
     "awards": [
       {
         "id": "9781a8bdca8d4bd0bb7eb110bb33f809",
+        "qualified": true,
         "status": "active",
         "date": "2023-01-01T00:00:00+02:00",
         "value": {
           "amount": 475000.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false
+          "valueAddedTaxIncluded": false,
+          "currency": "UAH"
         },
         "suppliers": [
           {
@@ -233,14 +239,13 @@ X-Content-Type-Options: nosniff
               "countryName": "Україна"
             },
             "contactPoint": {
-              "name": "Сергій Олексюк",
               "email": "soleksuk@gmail.com",
-              "telephone": "+380432216930"
+              "telephone": "+380432216930",
+              "name": "Сергій Олексюк"
             },
             "scale": "micro"
           }
         ],
-        "qualified": true,
         "complaintPeriod": {
           "startDate": "2023-01-01T00:00:00+02:00",
           "endDate": "2023-01-01T00:00:00+02:00"
@@ -326,19 +331,14 @@ X-Content-Type-Options: nosniff
         "dateSigned": "2023-01-01T00:00:01+02:00"
       }
     ],
-    "cause": "twiceUnsuccessful",
-    "causeDescription": "оригінальний тендер не вдався двічі",
-    "causeDescription_en": "original tender has failed twice",
-    "causeDescription_ru": "оригинальный тендер не получился дважды",
-    "procurementMethodType": "negotiation",
     "cancellations": [
       {
-        "id": "d66237cadae943499e9ee25d42e319f3",
-        "reason": "cancellation reason",
-        "date": "2023-01-01T00:00:00+02:00",
+        "id": "1f62779f9568499595ba619072a9bad4",
         "status": "draft",
-        "cancellationOf": "tender",
-        "reasonType": "dateViolation"
+        "date": "2023-01-01T00:00:00+02:00",
+        "reasonType": "dateViolation",
+        "reason": "cancellation reason",
+        "cancellationOf": "tender"
       }
     ],
     "id": "07a9d2daabfe4268a5b3f6db5a7e1287"

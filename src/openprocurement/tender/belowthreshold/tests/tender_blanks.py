@@ -3308,22 +3308,6 @@ def activate_bid_guarantee_multilot(self):
     )
 
 
-def get_tender_without_procurement_method_type(self):
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
-    self.assertEqual(response.status, "201 Created")
-    tender_id = response.json["data"]["id"]
-
-    tender = self.mongodb.tenders.get(tender_id)
-    del tender["procurementMethodType"]
-    self.mongodb.tenders.save(tender)
-
-    response = self.app.get(f"/tenders/{tender_id}")
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    tender = response.json["data"]
-    self.assertEqual(tender["procurementMethodType"], "belowThreshold")
-
-
 def patch_enquiry_tender_periods(self):
     self.create_tender()
 

@@ -1,4 +1,5 @@
 from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.state.contract_document import ContractDocumentState
 from openprocurement.tender.core.procedure.views.contract import resolve_contract
 from openprocurement.tender.core.procedure.views.document import BaseDocumentResource, resolve_document
 from pyramid.security import Allow, Everyone
@@ -6,6 +7,7 @@ from pyramid.security import Allow, Everyone
 
 class TenderContractDocumentResource(BaseDocumentResource):
     item_name = "contract"
+    state_class = ContractDocumentState
 
     def __acl__(self):
         acl = [

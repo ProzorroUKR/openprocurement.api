@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from mock import patch
 from datetime import timedelta
@@ -35,6 +34,7 @@ from openprocurement.tender.openua.tests.cancellation_blanks import (
     patch_tender_cancellation_before_19_04_2020,
     create_tender_cancellation_2020_04_19,
     patch_tender_cancellation_2020_04_19,
+    patch_tender_cancellation_2020_04_19_to_pending,
     permission_cancellation_pending,
     activate_cancellation,
     create_tender_cancellation_complaint,
@@ -43,11 +43,12 @@ from openprocurement.tender.openua.tests.cancellation_blanks import (
     access_create_tender_cancellation_complaint,
     create_cancellation_in_award_complaint_period,
     create_tender_cancellation_with_cancellation_lots,
+    create_lot_cancellation_with_tender_cancellation,
     bot_patch_tender_cancellation_complaint,
 )
 
 
-class TenderCancellationComplaintResourceTestMixin(object):
+class TenderCancellationComplaintResourceTestMixin:
 
     test_create_tender_cancellation_complaint = snitch(create_tender_cancellation_complaint)
     test_patch_tender_cancellation_complaint = snitch(patch_tender_cancellation_complaint)
@@ -55,18 +56,19 @@ class TenderCancellationComplaintResourceTestMixin(object):
     test_bot_patch_tender_cancellation_complaint = snitch(bot_patch_tender_cancellation_complaint)
 
 
-class TenderCancellationResourceNewReleaseTestMixin(object):
+class TenderCancellationResourceNewReleaseTestMixin:
     valid_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut"]
 
     test_create_tender_cancellation_before_19_04_2020 = snitch(create_tender_cancellation_before_19_04_2020)
     test_patch_tender_cancellation_before_19_04_2020 = snitch(patch_tender_cancellation_before_19_04_2020)
     test_create_tender_cancellation_2020_04_19 = snitch(create_tender_cancellation_2020_04_19)
     test_patch_tender_cancellation_2020_04_19 = snitch(patch_tender_cancellation_2020_04_19)
+    test_patch_tender_cancellation_2020_04_19_to_pending = snitch(patch_tender_cancellation_2020_04_19_to_pending)
     test_permission_cancellation_pending = snitch(permission_cancellation_pending)
     test_create_cancellation_with_tender_complaint = snitch(create_cancellation_with_tender_complaint)
 
 
-class TenderAwardsCancellationResourceTestMixin(object):
+class TenderAwardsCancellationResourceTestMixin:
     test_create_cancellation_in_award_complaint_period = snitch(create_cancellation_in_award_complaint_period)
     test_create_cancellation_with_award_complaint = snitch(create_cancellation_with_award_complaint)
 
@@ -94,6 +96,7 @@ class TenderLotsCancellationResourceTest(BaseTenderUAContentWebTest):
 
     test_create_tender_lots_cancellation = snitch(create_tender_lots_cancellation)
     test_create_tender_cancellation_with_cancellation_lots = snitch(create_tender_cancellation_with_cancellation_lots)
+    test_create_lot_cancellation_with_tender_cancellation = snitch(create_lot_cancellation_with_tender_cancellation)
     # test_patch_tender_lots_cancellation = snitch(patch_tender_lots_cancellation)
 
 

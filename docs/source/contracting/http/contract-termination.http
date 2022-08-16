@@ -19,7 +19,7 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "awardID": "bba05bb9977a4107804a57fdf5184c3f",
+    "awardID": "236190ed4a194d1684c305d1d923cc3d",
     "contractID": "UA-2023-01-01-000001-a-1",
     "period": {
       "startDate": "2023-01-01T00:00:01+02:00",

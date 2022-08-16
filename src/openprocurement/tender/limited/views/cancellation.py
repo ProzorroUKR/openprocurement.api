@@ -21,13 +21,13 @@ from openprocurement.tender.limited.validation import (
 from openprocurement.tender.limited.utils import ReportingCancelTenderLot
 
 
-@optendersresource(
-    name="reporting:Tender Cancellations",
-    collection_path="/tenders/{tender_id}/cancellations",
-    path="/tenders/{tender_id}/cancellations/{cancellation_id}",
-    procurementMethodType="reporting",
-    description="Tender cancellations",
-)
+# @optendersresource(
+#     name="reporting:Tender Cancellations",
+#     collection_path="/tenders/{tender_id}/cancellations",
+#     path="/tenders/{tender_id}/cancellations/{cancellation_id}",
+#     procurementMethodType="reporting",
+#     description="Tender cancellations",
+# )
 class TenderReportingCancellationResource(BaseTenderReportingCancellationResource):
 
     @staticmethod
@@ -36,13 +36,13 @@ class TenderReportingCancellationResource(BaseTenderReportingCancellationResourc
 
 
 
-@optendersresource(
-    name="negotiation:Tender Cancellations",
-    collection_path="/tenders/{tender_id}/cancellations",
-    path="/tenders/{tender_id}/cancellations/{cancellation_id}",
-    procurementMethodType="negotiation",
-    description="Tender cancellations",
-)
+# @optendersresource(
+#     name="negotiation:Tender Cancellations",
+#     collection_path="/tenders/{tender_id}/cancellations",
+#     path="/tenders/{tender_id}/cancellations/{cancellation_id}",
+#     procurementMethodType="negotiation",
+#     description="Tender cancellations",
+# )
 class TenderNegotiationCancellationResource(BaseTenderCancellationResource):
     @json_view(
         content_type="application/json",
@@ -80,12 +80,12 @@ class TenderNegotiationCancellationResource(BaseTenderCancellationResource):
         return super(TenderNegotiationCancellationResource, self).patch()
 
 
-@optendersresource(
-    name="negotiation.quick:Tender Cancellations",
-    collection_path="/tenders/{tender_id}/cancellations",
-    path="/tenders/{tender_id}/cancellations/{cancellation_id}",
-    procurementMethodType="negotiation.quick",
-    description="Tender cancellations",
-)
+# @optendersresource(
+#     name="negotiation.quick:Tender Cancellations",
+#     collection_path="/tenders/{tender_id}/cancellations",
+#     path="/tenders/{tender_id}/cancellations/{cancellation_id}",
+#     procurementMethodType="negotiation.quick",
+#     description="Tender cancellations",
+# )
 class TenderNegotiationQuickCancellationResource(TenderNegotiationCancellationResource):
     """ Tender Negotiation Quick Cancellation Resource """

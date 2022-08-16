@@ -124,16 +124,16 @@ class TenderStage2EUAwardResourceTest(BaseCompetitiveDialogEUStage2ContentWebTes
         self.assertEqual(response.json["data"]["status"], "active.auction")
 
         # switch to auction role
-        self.app.authorization = ("Basic", ("auction", ""))
-        response = self.app.get("/tenders/{}/auction".format(self.tender_id))
-        auction_bids_data = [{"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
-                             for b in response.json["data"]["bids"]]
-        for lot_id in self.lots:
-            response = self.app.post_json(
-                "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]), {"data": {"bids": auction_bids_data}}
-            )
-            self.assertEqual(response.status, "200 OK")
-            self.assertEqual(response.content_type, "application/json")
+        with change_auth(self.app, ("Basic", ("auction", ""))):
+            response = self.app.get("/tenders/{}/auction".format(self.tender_id))
+            auction_bids_data = [{"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                                 for b in response.json["data"]["bids"]]
+            for lot_id in self.lots:
+                response = self.app.post_json(
+                    "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]), {"data": {"bids": auction_bids_data}}
+                )
+                self.assertEqual(response.status, "200 OK")
+                self.assertEqual(response.content_type, "application/json")
         response = self.app.get("/tenders/{}".format(self.tender_id))
         self.assertEqual(response.json["data"]["status"], "active.qualification")
 
@@ -141,7 +141,6 @@ class TenderStage2EUAwardResourceTest(BaseCompetitiveDialogEUStage2ContentWebTes
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.award_id = response.json["data"][0]["id"]
         self.bid_token = self.initial_bids_tokens[self.bids[0]["id"]]
-        self.app.authorization = ("Basic", ("broker", ""))
 
 
 class TenderStage2EULotAwardResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderLotAwardResourceTestMixin):
@@ -182,16 +181,16 @@ class TenderStage2EULotAwardResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
         response = self.check_chronograph()
         self.assertEqual(response.json["data"]["status"], "active.auction")
 
-        self.app.authorization = ("Basic", ("auction", ""))
-        response = self.app.get("/tenders/{}/auction".format(self.tender_id))
-        auction_bids_data = [{"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
-                             for b in response.json["data"]["bids"]]
-        for lot_id in self.lots:
-            response = self.app.post_json(
-                "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]), {"data": {"bids": auction_bids_data}}
-            )
-            self.assertEqual(response.status, "200 OK")
-            self.assertEqual(response.content_type, "application/json")
+        with change_auth(self.app, ("Basic", ("auction", ""))):
+            response = self.app.get("/tenders/{}/auction".format(self.tender_id))
+            auction_bids_data = [{"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                                 for b in response.json["data"]["bids"]]
+            for lot_id in self.lots:
+                response = self.app.post_json(
+                    "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]), {"data": {"bids": auction_bids_data}}
+                )
+                self.assertEqual(response.status, "200 OK")
+                self.assertEqual(response.content_type, "application/json")
         response = self.app.get("/tenders/{}".format(self.tender_id))
         self.assertEqual(response.json["data"]["status"], "active.qualification")
 
@@ -199,7 +198,6 @@ class TenderStage2EULotAwardResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.award_id = response.json["data"][0]["id"]
         self.bid_token = self.initial_bids_tokens[self.bids[0]["id"]]
-        self.app.authorization = ("Basic", ("broker", ""))
 
 
 class TenderStage2EU2LotAwardResourceTest(
@@ -241,23 +239,22 @@ class TenderStage2EU2LotAwardResourceTest(
         response = self.check_chronograph()
         self.assertEqual(response.json["data"]["status"], "active.auction")
 
-        self.app.authorization = ("Basic", ("auction", ""))
-        response = self.app.get("/tenders/{}/auction".format(self.tender_id))
-        auction_bids_data = [{"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
-                             for b in response.json["data"]["bids"]]
-        for lot_id in self.lots:
-            response = self.app.post_json(
-                "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]), {"data": {"bids": auction_bids_data}}
-            )
-            self.assertEqual(response.status, "200 OK")
-            self.assertEqual(response.content_type, "application/json")
+        with change_auth(self.app, ("Basic", ("auction", ""))):
+            response = self.app.get("/tenders/{}/auction".format(self.tender_id))
+            auction_bids_data = [{"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                                 for b in response.json["data"]["bids"]]
+            for lot_id in self.lots:
+                response = self.app.post_json(
+                    "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]), {"data": {"bids": auction_bids_data}}
+                )
+                self.assertEqual(response.status, "200 OK")
+                self.assertEqual(response.content_type, "application/json")
         response = self.app.get("/tenders/{}".format(self.tender_id))
         self.assertEqual(response.json["data"]["status"], "active.qualification")
 
         # Get award
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.award_id = response.json["data"][0]["id"]
-        self.app.authorization = ("Basic", ("broker", ""))
 
 
 class TenderStage2EUAwardComplaintResourceTest(
@@ -302,29 +299,27 @@ class TenderStage2EUAwardComplaintResourceTest(
         response = self.check_chronograph()
         self.assertEqual(response.json["data"]["status"], "active.auction")
 
-        self.app.authorization = ("Basic", ("auction", ""))
-        response = self.app.get("/tenders/{}/auction".format(self.tender_id))
-        auction_bids_data = [{"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
-                             for b in response.json["data"]["bids"]]
-        for lot_id in self.lots:
-            response = self.app.post_json(
-                "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]), {"data": {"bids": auction_bids_data}}
-            )
-            self.assertEqual(response.status, "200 OK")
-            self.assertEqual(response.content_type, "application/json")
+        with change_auth(self.app, ("Basic", ("auction", ""))):
+            response = self.app.get("/tenders/{}/auction".format(self.tender_id))
+            auction_bids_data = [{"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                                 for b in response.json["data"]["bids"]]
+            for lot_id in self.lots:
+                response = self.app.post_json(
+                    "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]), {"data": {"bids": auction_bids_data}}
+                )
+                self.assertEqual(response.status, "200 OK")
+                self.assertEqual(response.content_type, "application/json")
         response = self.app.get("/tenders/{}".format(self.tender_id))
         self.assertEqual(response.json["data"]["status"], "active.qualification")
 
         # Get award
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.award_id = response.json["data"][0]["id"]
-        self.app.authorization = ("Basic", ("broker", ""))
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
         self.bid_token = self.initial_bids_tokens[self.bids[0]["id"]]
-        self.app.authorization = ("Basic", ("broker", ""))
 
 
 class TenderStage2EULotAwardComplaintResourceTest(
@@ -367,45 +362,44 @@ class TenderStage2EULotAwardComplaintResourceTest(
         response = self.check_chronograph()
         self.assertEqual(response.json["data"]["status"], "active.auction")
 
-        self.app.authorization = ("Basic", ("auction", ""))
-        response = self.app.get("/tenders/{}/auction".format(self.tender_id))
-        auction_bids_data = [
-            {"id": b["id"], "lotValues": [
-                {"relatedLot": l["relatedLot"], "value": l["value"]} for l in b["lotValues"]
-            ]}
-            for b in response.json["data"]["bids"]
-        ]
-        for lot_id in self.lots:
-            response = self.app.post_json(
-                "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]), {"data": {"bids": auction_bids_data}}
-            )
-            self.assertEqual(response.status, "200 OK")
-            self.assertEqual(response.content_type, "application/json")
+        with change_auth(self.app, ("Basic", ("auction", ""))):
+            response = self.app.get("/tenders/{}/auction".format(self.tender_id))
+            auction_bids_data = [
+                {"id": b["id"], "lotValues": [
+                    {"relatedLot": l["relatedLot"], "value": l["value"]} for l in b["lotValues"]
+                ]}
+                for b in response.json["data"]["bids"]
+            ]
+            for lot_id in self.lots:
+                response = self.app.post_json(
+                    "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]), {"data": {"bids": auction_bids_data}}
+                )
+                self.assertEqual(response.status, "200 OK")
+                self.assertEqual(response.content_type, "application/json")
         response = self.app.get("/tenders/{}".format(self.tender_id))
         self.assertEqual(response.json["data"]["status"], "active.qualification")
 
         # Create award
-        self.app.authorization = ("Basic", ("token", ""))
-        bid = self.bids[0]
-        response = self.app.post_json(
-            "/tenders/{}/awards".format(self.tender_id),
-            {
-                "data": {
-                    "suppliers": [test_tenderer],
-                    "status": "pending",
-                    "bid_id": bid["id"],
-                    "lotID": bid["lotValues"][0]["relatedLot"],
-                }
-            },
-        )
-        award = response.json["data"]
-        self.award_id = award["id"]
-        self.app.patch_json(
-            "/tenders/{}/awards/{}".format(self.tender_id, self.award_id),
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
-        )
-        self.bid_token = self.initial_bids_tokens[self.bids[0]["id"]]
-        self.app.authorization = ("Basic", ("broker", ""))
+        with change_auth(self.app, ("Basic", ("token", ""))):
+            bid = self.bids[0]
+            response = self.app.post_json(
+                "/tenders/{}/awards".format(self.tender_id),
+                {
+                    "data": {
+                        "suppliers": [test_tenderer],
+                        "status": "pending",
+                        "bid_id": bid["id"],
+                        "lotID": bid["lotValues"][0]["relatedLot"],
+                    }
+                },
+            )
+            award = response.json["data"]
+            self.award_id = award["id"]
+            self.app.patch_json(
+                "/tenders/{}/awards/{}".format(self.tender_id, self.award_id),
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
+            )
+            self.bid_token = self.initial_bids_tokens[self.bids[0]["id"]]
 
 
 class TenderStage2EU2LotAwardComplaintResourceTest(

@@ -144,6 +144,7 @@ class TenderNegotiationContractVATNotIncludedResourceTest(TenderContractVATNotIn
 
 
 class TenderNegotiationLotContractResourceTest(TenderNegotiationContractResourceTest):
+    initial_status = "active"
     initial_data = test_tender_negotiation_data
     stand_still_period_days = 10
 

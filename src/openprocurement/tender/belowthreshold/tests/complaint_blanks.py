@@ -603,8 +603,15 @@ def lot_award_create_tender_complaint(self):
 
 
 def not_found(self):
-    response = self.app.post(
-        "/tenders/some_id/complaints/some_id/documents", status=404, upload_files=[("file", "name.doc", b"content")]
+    response = self.app.post_json(
+        "/tenders/some_id/complaints/some_id/documents",
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
+        status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -624,18 +631,6 @@ def not_found(self):
     self.assertEqual(
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "complaint_id"}]
     )
-
-    response = self.app.post(
-        "/tenders/{}/complaints/{}/documents?acc_token={}".format(
-            self.tender_id, self.complaint_id, self.complaint_owner_token
-        ),
-        status=404,
-        upload_files=[("invalid_value", "name.doc", b"content")],
-    )
-    self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
 
     response = self.app.get("/tenders/some_id/complaints/some_id/documents", status=404)
     self.assertEqual(response.status, "404 Not Found")
@@ -671,42 +666,6 @@ def not_found(self):
 
     response = self.app.get(
         "/tenders/{}/complaints/{}/documents/some_id".format(self.tender_id, self.complaint_id), status=404
-    )
-    self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}]
-    )
-
-    response = self.app.put(
-        "/tenders/some_id/complaints/some_id/documents/some_id",
-        status=404,
-        upload_files=[("file", "name.doc", b"content2")],
-    )
-    self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
-
-    response = self.app.put(
-        "/tenders/{}/complaints/some_id/documents/some_id".format(self.tender_id),
-        status=404,
-        upload_files=[("file", "name.doc", b"content2")],
-    )
-    self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "complaint_id"}]
-    )
-
-    response = self.app.put(
-        "/tenders/{}/complaints/{}/documents/some_id".format(self.tender_id, self.complaint_id),
-        status=404,
-        upload_files=[("file", "name.doc", b"content2")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -795,45 +754,32 @@ def create_tender_complaint_document(self):
 
 
 def put_tender_complaint_document(self):
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/complaints/{}/documents?acc_token={}".format(
             self.tender_id, self.complaint_id, self.complaint_owner_token
         ),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/complaints/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.complaint_id, doc_id, self.complaint_owner_token
         ),
-        status=404,
-        upload_files=[("invalid_name", "name.doc", b"content")],
-    )
-    self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
-
-    response = self.app.put(
-        "/tenders/{}/complaints/{}/documents/{}?acc_token={}".format(
-            self.tender_id, self.complaint_id, doc_id, self.tender_token
-        ),
-        upload_files=[("file", "name.doc", b"content2")],
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can update document only author")
-
-    response = self.app.put(
-        "/tenders/{}/complaints/{}/documents/{}?acc_token={}".format(
-            self.tender_id, self.complaint_id, doc_id, self.complaint_owner_token
-        ),
-        upload_files=[("file", "name.doc", b"content2")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -854,12 +800,16 @@ def put_tender_complaint_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("name.doc", response.json["data"]["title"])
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/complaints/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.complaint_id, doc_id, self.complaint_owner_token
         ),
-        "content3",
-        content_type="application/msword",
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -881,12 +831,16 @@ def put_tender_complaint_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "claim")
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/complaints/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.complaint_id, doc_id, self.complaint_owner_token
         ),
-        "content",
-        content_type="application/msword",
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -897,26 +851,18 @@ def put_tender_complaint_document(self):
 
     self.set_status("complete")
 
-    response = self.app.put(
-        "/tenders/{}/complaints/{}/documents/{}?acc_token={}".format(
-            self.tender_id, self.complaint_id, doc_id, self.complaint_owner_token
-        ),
-        upload_files=[("file", "name.doc", b"content3")],
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update document in current (complete) tender status"
-    )
-
 
 def patch_tender_complaint_document(self):
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/complaints/{}/documents?acc_token={}".format(
             self.tender_id, self.complaint_id, self.complaint_owner_token
         ),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")

@@ -77,6 +77,7 @@ class TenderLotResource(TenderBaseResource):
         tender = self.request.validated["tender"]
         lot = self.request.validated["data"]
         lot["date"] = get_now().isoformat()
+        self.state.validate_lot_post(lot)
 
         if "lots" not in tender:
             tender["lots"] = []
@@ -143,6 +144,8 @@ class TenderLotResource(TenderBaseResource):
             return
 
         lot = self.request.validated["lot"]
+        self.state.validate_lot_patch(lot, updated)
+
         set_item(self.request.validated["tender"], "lots", lot["id"], updated)
 
         self.state.lot_on_patch(lot, updated)
@@ -171,6 +174,9 @@ class TenderLotResource(TenderBaseResource):
 
         lot = self.request.validated["lot"]
         tender = self.request.validated["tender"]
+
+        self.state.validate_lot_delete(lot)
+
         tender["lots"].remove(lot)
         if not tender["lots"]:
             del tender["lots"]

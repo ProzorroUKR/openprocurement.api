@@ -144,7 +144,7 @@ def create_tender_cancellation(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update tender in current (cancelled) status"
+        response.json["errors"][0]["description"], "Can't perform cancellation in current (cancelled) tender status"
     )
 
 
@@ -210,12 +210,9 @@ def create_cancellation_on_lot(self):
         [
             {
                 "location": "body",
-                "name": "cancellationOf",
-                "description": [
-                    'Lot cancellation can not be submitted, since "multiple lots" option is not available for this type of tender.'
-                ],
-            },
-            {"location": "body", "name": "relatedLot", "description": ["relatedLot should be one of lots"]},
+                "name": "relatedLot",
+                "description": ["relatedLot should be one of lots"],
+            }
         ],
     )
 
@@ -352,14 +349,9 @@ def cancelled_lot_without_relatedLot(self):
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation},
-        status=422,
     )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"],
-        [{"location": "body", "name": "relatedLot", "description": ["This field is required."]}],
-    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["data"]["cancellationOf"], "tender")
 
 
 def delete_first_lot_second_cancel(self):
@@ -812,7 +804,7 @@ def patch_tender_cancellation_2020_04_19(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"], [{
-            "description": "Can't update tender in current (cancelled) status",
+            "description": "Can't perform cancellation in current (cancelled) tender status",
             "location": "body",
             "name": "data",
         }]

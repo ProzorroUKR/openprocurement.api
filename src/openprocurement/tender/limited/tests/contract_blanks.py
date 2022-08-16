@@ -58,6 +58,12 @@ def create_tender_contract(self):
     tender_id = self.tender_id = response.json["data"]["id"]
     tender_token = self.tender_token = response.json["access"]["token"]
 
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender_id, tender_token),
+        {"data": {"status": "active"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
     cancellation = dict(**test_cancellation)
     cancellation.update({
         "status": "active",
@@ -720,11 +726,16 @@ def activate_contract_cancelled_lot(self):
     if RELEASE_2020_04_19 > get_now():
         self.assertEqual(response.json["data"]["status"], "pending")
     else:
-        response = self.app.post(
+        response = self.app.post_json(
             "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
                 self.tender_id, cancellation_id, self.tender_token
             ),
-            upload_files=[("file", "name.doc", b"content")],
+            {"data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }}
         )
         self.assertEqual(response.status, "201 Created")
 
@@ -749,10 +760,21 @@ def activate_contract_cancelled_lot(self):
 
     value = contract["value"]
     value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
+    resp = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
         {"data": {"value": value}},
+        status=403
     )
+    self.assertEqual(
+        resp.json["errors"],
+        [{'location': 'body', 'name': 'data', 'description': "Can't perform action due to a pending cancellation"}]
+    )
+
+    # update value by admin
+    tender = self.mongodb.tenders.get(self.tender_id)
+    for i in tender.get("contracts", []):
+        i["value"] = value
+    self.mongodb.tenders.save(tender)
 
     # Try to sign (activate) contract
     response = self.app.patch_json(
@@ -763,7 +785,7 @@ def activate_contract_cancelled_lot(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't update contract while cancellation for corresponding lot exists",
+        "Can't perform action due to a pending cancellation",
     )
 
 
@@ -896,6 +918,13 @@ def create_two_contract(self):
     self.assertEqual(response.status, "201 Created")
     tender_id = self.tender_id = response.json["data"]["id"]
     tender_token = self.tender_token = response.json["access"]["token"]
+
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender_id, tender_token),
+        {"data": {"status": "active"}},
+    )
+    self.assertEqual(response.status, "200 OK")
 
     cancellation = dict(**test_cancellation)
     cancellation.update({

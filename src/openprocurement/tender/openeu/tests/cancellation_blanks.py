@@ -435,15 +435,16 @@ def cancellation_active_qualification(self):
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
-    self.app.authorization = ("Basic", ("token", ""))
-    response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
-    qualification_id = [
-        i["id"] for i in response.json["data"] if i["status"] == "pending" and i["lotID"] == self.initial_lots[0]["id"]
-    ][0]
-    response = self.app.patch_json(
-        "/tenders/{}/qualifications/{}?acc_token={}".format(self.tender_id, qualification_id, self.tender_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
-    )
+    with change_auth(self.app, ("Basic", ("token", ""))):
+        response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
+        qualification_id = [
+            i["id"] for i in response.json["data"]
+            if i["status"] == "pending" and i["lotID"] == self.initial_lots[0]["id"]
+        ][0]
+        response = self.app.patch_json(
+            "/tenders/{}/qualifications/{}?acc_token={}".format(self.tender_id, qualification_id, self.tender_token),
+            {"data": {"status": "active", "qualified": True, "eligible": True}},
+        )
 
     cancellation = dict(**test_cancellation)
     cancellation.update({
@@ -494,19 +495,19 @@ def cancellation_unsuccessful_qualification(self):
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
-    self.app.authorization = ("Basic", ("token", ""))
-    for i in range(self.min_bids_number):
-        response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
-        qualification_id = [
-            i["id"]
-            for i in response.json["data"]
-            if i["status"] == "pending" and i["lotID"] == self.initial_lots[0]["id"]
-        ][0]
-        response = self.app.patch_json(
-            "/tenders/{}/qualifications/{}?acc_token={}".format(self.tender_id, qualification_id, self.tender_token),
-            {"data": {"status": "unsuccessful", "qualified": True, "eligible": True}},
-        )
-        self.assertEqual(response.status, "200 OK")
+    with change_auth(self.app, ("Basic", ("token", ""))):
+        for i in range(self.min_bids_number):
+            response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
+            qualification_id = [
+                i["id"]
+                for i in response.json["data"]
+                if i["status"] == "pending" and i["lotID"] == self.initial_lots[0]["id"]
+            ][0]
+            response = self.app.patch_json(
+                "/tenders/{}/qualifications/{}?acc_token={}".format(self.tender_id, qualification_id, self.tender_token),
+                {"data": {"status": "unsuccessful", "qualified": True, "eligible": True}},
+            )
+            self.assertEqual(response.status, "200 OK")
 
     cancellation = dict(**test_cancellation)
     cancellation.update({
@@ -606,13 +607,14 @@ def cancellation_active_award(self):
 
     with change_auth(self.app, ("Basic", ("token", ""))):
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
-    award_id = [
-        i["id"] for i in response.json["data"] if i["status"] == "pending" and i["lotID"] == self.initial_lots[0]["id"]
-    ][0]
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
-    )
+        award_id = [
+            i["id"] for i in response.json["data"] if i["status"] == "pending" and i["lotID"] == self.initial_lots[0]["id"]
+        ][0]
+        self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
+            {"data": {"status": "active", "qualified": True, "eligible": True}},
+        )
+
     if RELEASE_2020_04_19 < get_now():
         self.set_all_awards_complaint_period_end()
 

@@ -225,6 +225,7 @@ def validate_contract_with_cancellations_and_contract_signing(request, **kwargs)
                 )
             ]
         ):
+            # TODO duplicates this one: "Can't perform action due to a pending cancellation"
             raise_operation_error(request, "Can't update contract while cancellation for corresponding lot exists")
         stand_still_end = award.complaintPeriod.endDate
         if stand_still_end > get_now():

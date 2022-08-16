@@ -33,7 +33,6 @@ from openprocurement.tender.core.procedure.utils import (
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.procedure.documents import check_document_batch, check_document, update_document_url
 from openprocurement.tender.core.procedure.context import get_now, get_tender
-from openprocurement.tender.core.procedure.state.tender_document import get_tender_document_role
 from schematics.exceptions import ValidationError
 from pyramid.httpexceptions import HTTPError
 from copy import deepcopy
@@ -907,6 +906,15 @@ def validate_document_operation_in_not_allowed_period(request, **_):
             request,
             f"Can't {OPERATIONS.get(request.method)} document in current ({tender_status}) tender status",
         )
+
+
+def get_tender_document_role(request):
+    tender = request.validated["tender"]
+    if is_item_owner(request, tender):
+        role = "tender_owner"
+    else:
+        role = request.authenticated_role
+    return role
 
 
 def validate_tender_document_update_not_by_author_or_tender_owner(request, **_):

@@ -15,13 +15,13 @@ from openprocurement.tender.pricequotation.utils import cancel_tender
 from openprocurement.tender.pricequotation.constants import PMT
 
 
-@optendersresource(
-    name="{}:Tender Cancellations".format(PMT),
-    collection_path="/tenders/{tender_id}/cancellations",
-    path="/tenders/{tender_id}/cancellations/{cancellation_id}",
-    procurementMethodType=PMT,
-    description="Tender cancellations",
-)
+# @optendersresource(
+#     name="{}:Tender Cancellations".format(PMT),
+#     collection_path="/tenders/{tender_id}/cancellations",
+#     path="/tenders/{tender_id}/cancellations/{cancellation_id}",
+#     procurementMethodType=PMT,
+#     description="Tender cancellations",
+# )
 class PQTenderCancellationResource(TenderCancellationResource):
     """PriceQuotation cancellation"""
 

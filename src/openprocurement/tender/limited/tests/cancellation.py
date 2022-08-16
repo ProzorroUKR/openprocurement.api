@@ -59,7 +59,7 @@ from openprocurement.tender.limited.tests.cancellation_blanks import (
 )
 
 
-class TenderCancellationResourceTestMixin(object):
+class TenderCancellationResourceTestMixin:
     test_create_tender_cancellation_invalid = snitch(create_tender_cancellation_invalid)
     test_create_tender_cancellation = snitch(create_tender_cancellation)
     test_create_tender_cancellation_with_post = snitch(create_tender_cancellation_with_post)
@@ -78,10 +78,12 @@ class TenderCancellationResourceTest(
     initial_data = test_tender_data
 
     test_patch_tender_cancellation_2020_04_19 = snitch(patch_tender_cancellation_2020_04_19)
+    test_patch_tender_cancellation_2020_04_19_to_pending = None
     test_permission_cancellation_pending = snitch(permission_cancellation_pending)
 
 
-@patch("openprocurement.tender.limited.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+# @patch("openprocurement.tender.limited.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.context.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 class TenderNegotiationCancellationResourceTest(
     TenderCancellationResourceTestMixin,
     TenderCancellationResourceNewReleaseTestMixin,
@@ -165,9 +167,9 @@ class TenderNegotiationQuickCancellationComplaintResourceTest(
 ):
     initial_data = test_tender_negotiation_quick_data
 
-    @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
-    @patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
-    @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+    # @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+    @patch("openprocurement.tender.core.procedure.context.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+    # @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderNegotiationQuickCancellationComplaintResourceTest, self).setUp()
         response = self.app.post_json(
@@ -204,9 +206,9 @@ class TenderNegotiationCancellationComplaintResourceTest(
 ):
     initial_data = test_tender_negotiation_data
 
-    @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
-    @patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
-    @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+    # @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+    @patch("openprocurement.tender.core.procedure.context.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+    # @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderNegotiationCancellationComplaintResourceTest, self).setUp()
         response = self.app.post_json(

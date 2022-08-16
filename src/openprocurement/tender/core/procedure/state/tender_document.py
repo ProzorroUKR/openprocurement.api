@@ -1,15 +1,14 @@
 from openprocurement.tender.core.procedure.state.document import BaseDocumentState
-from openprocurement.tender.core.procedure.utils import is_item_owner
+from openprocurement.api.context import get_request
+from openprocurement.tender.core.procedure.context import get_tender
 
 
 class TenderDocumentState(BaseDocumentState):
-    pass
+    def validate_document_post(self, data):
+        request, tender = get_request(), get_tender()
+        self.validate_cancellation_blocks(request, tender)
 
+    def validate_document_patch(self, before, after):
+        request, tender = get_request(), get_tender()
+        self.validate_cancellation_blocks(request, tender)
 
-def get_tender_document_role(request):
-    tender = request.validated["tender"]
-    if is_item_owner(request, tender):
-        role = "tender_owner"
-    else:
-        role = request.authenticated_role
-    return role

@@ -5,13 +5,13 @@ from openprocurement.tender.belowthreshold.views.cancellation import \
     TenderCancellationResource as BaseTenderCancellationResource
 
 
-@optendersresource(
-    name="closeFrameworkAgreementSelectionUA:Tender Cancellations",
-    collection_path="/tenders/{tender_id}/cancellations",
-    path="/tenders/{tender_id}/cancellations/{cancellation_id}",
-    procurementMethodType="closeFrameworkAgreementSelectionUA",
-    description="Tender cancellations",
-)
+# @optendersresource(
+#     name="closeFrameworkAgreementSelectionUA:Tender Cancellations",
+#     collection_path="/tenders/{tender_id}/cancellations",
+#     path="/tenders/{tender_id}/cancellations/{cancellation_id}",
+#     procurementMethodType="closeFrameworkAgreementSelectionUA",
+#     description="Tender cancellations",
+# )
 class TenderCancellationResource(BaseTenderCancellationResource):
 
     @staticmethod

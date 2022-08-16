@@ -5,12 +5,12 @@ from openprocurement.tender.belowthreshold.views.cancellation_document import (
 )
 
 
-@optendersresource(
-    name="closeFrameworkAgreementUA:Tender Cancellation Documents",
-    collection_path="/tenders/{tender_id}/cancellations/{cancellation_id}/documents",
-    path="/tenders/{tender_id}/cancellations/{cancellation_id}/documents/{document_id}",
-    procurementMethodType="closeFrameworkAgreementUA",
-    description="Tender EU cancellation documents",
-)
+# @optendersresource(
+#     name="closeFrameworkAgreementUA:Tender Cancellation Documents",
+#     collection_path="/tenders/{tender_id}/cancellations/{cancellation_id}/documents",
+#     path="/tenders/{tender_id}/cancellations/{cancellation_id}/documents/{document_id}",
+#     procurementMethodType="closeFrameworkAgreementUA",
+#     description="Tender EU cancellation documents",
+# )
 class TenderCancellationDocumentResource(BaseResource):
     """ Cancellation Document """

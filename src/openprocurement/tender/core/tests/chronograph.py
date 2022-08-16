@@ -10,8 +10,8 @@ from copy import deepcopy
 from mock import patch
 
 
-@patch("openprocurement.tender.core.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.core.procedure.state.tender.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+# @patch("openprocurement.tender.core.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.context.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def switch_tender_complaints_draft(self):
     # let's post a draft complaint
     response = self.app.post_json(
@@ -43,10 +43,10 @@ def switch_tender_complaints_draft(self):
     self.assertNotEqual(data.get("next_check"), tender_data["complaintPeriod"]["endDate"])
 
 
-@patch("openprocurement.tender.core.utils.RELEASE_2020_04_19", get_now() - timedelta(1))
-@patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.core.procedure.state.tender.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+# @patch("openprocurement.tender.core.utils.RELEASE_2020_04_19", get_now() - timedelta(1))
+# @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+# @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.context.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def switch_tender_cancellation_complaints_draft(self):
     # first we post a cancellation
     tender = self.mongodb.tenders.get(self.tender_id)
@@ -94,8 +94,8 @@ def switch_tender_cancellation_complaints_draft(self):
     self.assertEqual(complaint["rejectReason"], "complaintPeriodEnded")
 
 
-@patch("openprocurement.tender.core.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.core.procedure.state.tender.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+# @patch("openprocurement.tender.core.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.context.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def switch_qualification_complaints_draft(self):
     # generate qualifications
     self.set_status("active.pre-qualification", extra={"status": "active.tendering"})
@@ -153,8 +153,8 @@ def switch_qualification_complaints_draft(self):
     self.assertNotEqual(data.get("next_check"), tender["qualificationPeriod"]["endDate"])
 
 
-@patch("openprocurement.tender.core.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.core.procedure.state.tender.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+# @patch("openprocurement.tender.core.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.context.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def switch_award_complaints_draft(self):
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
@@ -195,12 +195,12 @@ def switch_award_complaints_draft(self):
     self.assertNotEqual(data.get("next_check"), award_data["complaintPeriod"]["endDate"])
 
 
-@patch("openprocurement.tender.core.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.core.procedure.state.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+# @patch("openprocurement.tender.core.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+# @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+# @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+# @patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+# @patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.context.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def switch_tender_after_cancellation_unsuccessful(self):
     """
     https://jira.prozorro.org/browse/CS-11455
@@ -212,13 +212,6 @@ def switch_tender_after_cancellation_unsuccessful(self):
             "reason": "cancellation reason",
             "cancellationOf": "tender",
             "reasonType": "noDemand",
-            "documents": [{
-                "title": "name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }],
-
         }},
     )
     cancellation_id = response.json["data"]["id"]

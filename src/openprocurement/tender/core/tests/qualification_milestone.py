@@ -593,7 +593,7 @@ class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
             "/tenders/{}/bids/{}/documents?acc_token={}".format(
                 self.tender_id, bid_id, bid_token),
             {"data": {
-                "title": "lorem.doc",
+                "title": "name.doc",
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",
@@ -650,7 +650,7 @@ class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
                     "/tenders/{}/bids/{}/documents?acc_token={}".format(
                         self.tender_id, bid_id, bid_token),
                     {"data": {
-                        "title": "lorem.doc",
+                        "title": "name.doc",
                         "url": self.generate_docservice_url(),
                         "hash": "md5:" + "0" * 32,
                         "format": "application/msword",

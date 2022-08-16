@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from mock import patch
 from datetime import timedelta
@@ -8,6 +7,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.belowthreshold.tests.base import test_cancellation
+from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_with_complaints_after_2020_04_19
 
 from openprocurement.tender.belowthreshold.tests.cancellation import (
@@ -57,7 +57,7 @@ from openprocurement.tender.openeu.tests.cancellation_blanks import (
 )
 
 
-class TenderCancellationBidsAvailabilityUtils(object):
+class TenderCancellationBidsAvailabilityUtils:
     def _mark_one_bid_deleted(self):
         bid_id, bid_token = list(self.initial_bids_tokens.items())[0]
         response = self.app.delete("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token))
@@ -212,30 +212,28 @@ class TenderCancellationBidsAvailabilityUtils(object):
         self.app.authorization = orig_authorization
 
     def _set_auction_results(self):
-        orig_authorization = self.app.authorization
-        self.app.authorization = ("Basic", ("auction", ""))
-        response = self.app.get("/tenders/{}/auction".format(self.tender_id))
-        auction_bids_data = response.json["data"]["bids"]
-        response = self.app.patch_json(
-            "/tenders/{}/auction".format(self.tender_id),
-            {
-                "data": {
-                    "auctionUrl": "https://tender.auction.url",
-                    "bids": [
-                        {"id": i["id"], "participationUrl": "https://tender.auction.url/for_bid/{}".format(i["id"])}
-                        for i in auction_bids_data
-                    ],
-                }
-            },
-        )
-        response = self.app.post_json(
-            "/tenders/{}/auction".format(self.tender_id), {"data": {"bids": [{"id": b["id"]} for b in auction_bids_data]}}
-        )
-        self.assertEqual(response.status, "200 OK")
-        self.app.authorization = ("Basic", ("broker", ""))
+        with change_auth(self.app, ("Basic", ("auction", ""))):
+            response = self.app.get("/tenders/{}/auction".format(self.tender_id))
+            auction_bids_data = response.json["data"]["bids"]
+            self.app.patch_json(
+                "/tenders/{}/auction".format(self.tender_id),
+                {
+                    "data": {
+                        "auctionUrl": "https://tender.auction.url",
+                        "bids": [
+                            {"id": i["id"], "participationUrl": "https://tender.auction.url/for_bid/{}".format(i["id"])}
+                            for i in auction_bids_data
+                        ],
+                    }
+                },
+            )
+            response = self.app.post_json(
+                "/tenders/{}/auction".format(self.tender_id), {"data": {"bids": [{"id": b["id"]} for b in auction_bids_data]}}
+            )
+            self.assertEqual(response.status, "200 OK")
+
         response = self.app.get("/tenders/{}".format(self.tender_id))
         self.assertEqual(response.json["data"]["status"], "active.qualification")
-        self.app.authorization = orig_authorization
 
     def _bid_document_is_accessible(self, bid_id, doc_resource):
         response = self.app.get("/tenders/{}/bids/{}/{}".format(self.tender_id, bid_id, doc_resource))
@@ -316,6 +314,7 @@ class TenderAwardsCancellationResourceTest(
     initial_lots = 2 * test_lots
     initial_status = "active.tendering"
     initial_bids = test_bids
+    initial_auth = ("Basic", ("broker", ""))
 
     test_cancellation_active_tendering_j708 = snitch(cancellation_active_tendering_j708)
     test_cancellation_active_qualification_j1427 = snitch(cancellation_active_qualification_j1427)
@@ -329,7 +328,9 @@ class TenderCancellationComplaintResourceTest(
     BaseTenderContentWebTest,
     TenderCancellationComplaintResourceTestMixin
 ):
+    initial_status = "active.tendering"
     initial_bids = test_bids
+    initial_auth = ("Basic", ("broker", ""))
 
     @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     @patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))

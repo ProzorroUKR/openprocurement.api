@@ -471,7 +471,7 @@ def cancel_lot_active_auction(self):
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(
             response.json["errors"][0]["description"],
-            "Can't create cancellation in current (active.auction) tender status",
+            "Can't perform cancellation in current (active.auction) tender status",
         )
 
 

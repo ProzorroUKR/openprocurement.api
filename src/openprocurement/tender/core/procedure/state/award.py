@@ -10,8 +10,13 @@ from datetime import timedelta
 class AwardStateMixing:
     set_object_status: callable  # from BaseState
     add_next_award: callable  # from TenderState
+    validate_cancellation_blocks: callable  # from TenderState
     get_change_tender_status_handler: callable  # from TenderState
     award_stand_still_time: timedelta  # from AwardState
+
+    def validate_award_patch(self, before, after):
+        request, tender = get_request(), get_tender()
+        self.validate_cancellation_blocks(request, tender, lot_id=before.get("lotID"))
 
     def award_on_patch(self, before, award):
         # start complaintPeriod

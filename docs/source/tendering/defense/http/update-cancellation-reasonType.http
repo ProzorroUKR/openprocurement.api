@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/3d69f16d617642b88f9248c606bb0723/cancellations/852a29afb55a4ebc91049e999ff9803e?acc_token=552a0774c7144093a46e2c88f3681a7b HTTP/1.0
+PATCH /api/2.5/tenders/3d69f16d617642b88f9248c606bb0723/cancellations/8520697ca648434d87490e5e62754529?acc_token=552a0774c7144093a46e2c88f3681a7b HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 37
 Content-Type: application/json
@@ -15,12 +15,12 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "852a29afb55a4ebc91049e999ff9803e",
-    "reason": "cancellation reason",
-    "date": "2023-01-01T00:00:03+02:00",
+    "id": "8520697ca648434d87490e5e62754529",
     "status": "draft",
-    "cancellationOf": "tender",
-    "reasonType": "unFixable"
+    "date": "2023-01-01T00:00:03+02:00",
+    "reasonType": "unFixable",
+    "reason": "cancellation reason",
+    "cancellationOf": "tender"
   }
 }
 

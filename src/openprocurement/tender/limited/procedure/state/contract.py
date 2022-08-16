@@ -85,17 +85,6 @@ class LimitedNegotiationContractState(LimitedReportingContractState):
             award = [a for a in tender.get("awards")
                      if a["id"] == award_id][0]
             lot_id = award.get("lotID")
-
-            if (
-                tender.get("lots")
-                and any(
-                    cancellation.get("relatedLot") == lot_id
-                    and cancellation.get("status") != "unsuccessful"
-                    for cancellation in tender.get("cancellations", "")
-                )
-            ):
-                raise_operation_error(self.request,
-                                      "Can't update contract while cancellation for corresponding lot exists")
             stand_still_end = dt_from_iso(award.get("complaintPeriod", {}).get("endDate"))
             if stand_still_end > get_now():
                 raise_operation_error(

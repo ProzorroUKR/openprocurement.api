@@ -19,13 +19,13 @@ from openprocurement.tender.core.validation import (
 from openprocurement.tender.openua.utils import CancelTenderLot
 
 
-@optendersresource(
-    name="aboveThresholdUA:Tender Cancellations",
-    collection_path="/tenders/{tender_id}/cancellations",
-    path="/tenders/{tender_id}/cancellations/{cancellation_id}",
-    procurementMethodType="aboveThresholdUA",
-    description="Tender cancellations",
-)
+# @optendersresource(
+#     name="aboveThresholdUA:Tender Cancellations",
+#     collection_path="/tenders/{tender_id}/cancellations",
+#     path="/tenders/{tender_id}/cancellations/{cancellation_id}",
+#     procurementMethodType="aboveThresholdUA",
+#     description="Tender cancellations",
+# )
 class TenderUaCancellationResource(BaseTenderCancellationResource):
 
     @staticmethod

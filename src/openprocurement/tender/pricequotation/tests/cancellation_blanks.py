@@ -94,19 +94,23 @@ def create_tender_cancellation(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], self.initial_status)
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
             self.tender_id, cancellation["id"], self.tender_token
         ),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
 
-    cancellation.update({
-        "status": "active"
-    })
     response = self.app.patch_json(
         "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation['id'], self.tender_token),
-        {"data": cancellation},
+        {"data": {
+            "status": "active"
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -130,7 +134,7 @@ def create_tender_cancellation(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update tender in current (cancelled) status"
+        response.json["errors"][0]["description"], "Can't perform cancellation in current (cancelled) tender status"
     )
 
 
@@ -148,11 +152,16 @@ def patch_tender_cancellation(self):
     self.assertEqual(response.content_type, "application/json")
     cancellation = response.json["data"]
 
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
             self.tender_id, cancellation['id'], self.tender_token
         ),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
 
 

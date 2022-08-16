@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/07a9d2daabfe4268a5b3f6db5a7e1287/cancellations/20443cb4d9c14e7c81e07899fa46252a/documents?acc_token=63a33032ef0d47108bdada9cf1f0dde0 HTTP/1.0
+POST /api/2.5/tenders/07a9d2daabfe4268a5b3f6db5a7e1287/cancellations/16b43133a04c405f92e9d23b52389d17/documents?acc_token=63a33032ef0d47108bdada9cf1f0dde0 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 322
 Content-Type: application/json
@@ -15,18 +15,18 @@ DATA:
 
 Response: 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/07a9d2daabfe4268a5b3f6db5a7e1287/cancellations/20443cb4d9c14e7c81e07899fa46252a/documents/332f5c1555694818be8dabaee81285cb
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/07a9d2daabfe4268a5b3f6db5a7e1287/cancellations/16b43133a04c405f92e9d23b52389d17/documents/6d4e26541b314ef3838c9a016b7680b2
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "id": "332f5c1555694818be8dabaee81285cb",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Notice.pdf",
     "format": "application/pdf",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9ed3f5d9ed3d4973bb07bbbf73dad39d?Signature=VCdttgh%2FhpktamI3Af0chrbMWfYbrhVRrmbBFkIo1ZjnAwL7jdjZOmZJL%2BzzZAlNkMzhM7RFRsregPHr5dz2AQ%3D%3D&KeyID=a8968c46",
+    "documentOf": "tender",
+    "id": "6d4e26541b314ef3838c9a016b7680b2",
     "datePublished": "2023-01-01T00:00:01+02:00",
-    "dateModified": "2023-01-01T00:00:01+02:00",
-    "documentOf": "tender"
+    "dateModified": "2023-01-01T00:00:01+02:00"
   }
 }
 

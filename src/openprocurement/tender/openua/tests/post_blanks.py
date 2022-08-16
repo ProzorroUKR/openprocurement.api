@@ -436,7 +436,7 @@ def get_tender_complaint_post_document_json(self):
             "description": "Lorem ipsum dolor sit amet",
             "recipient": "complaint_owner",
             "documents": [{
-                "title": "lorem.doc",
+                "title": "name.doc",
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",

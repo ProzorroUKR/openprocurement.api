@@ -2128,11 +2128,16 @@ def invalid_tender_conditions(self):
         {"data": cancellation},
     )
     cancellation_id = response.json["data"]["id"]
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
             self.tender_id, cancellation_id, self.tender_token
         ),
-        upload_files=[("file", "name.doc", b"content")]
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
 
     response = self.app.patch_json(

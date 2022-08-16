@@ -18,13 +18,13 @@ from openprocurement.tender.core.validation import (
 )
 
 
-@optendersresource(
-    name="belowThreshold:Tender Cancellations",
-    collection_path="/tenders/{tender_id}/cancellations",
-    path="/tenders/{tender_id}/cancellations/{cancellation_id}",
-    procurementMethodType="belowThreshold",
-    description="Tender cancellations",
-)
+# @optendersresource(
+#     name="belowThreshold:Tender Cancellations",
+#     collection_path="/tenders/{tender_id}/cancellations",
+#     path="/tenders/{tender_id}/cancellations/{cancellation_id}",
+#     procurementMethodType="belowThreshold",
+#     description="Tender cancellations",
+# )
 class TenderCancellationResource(BaseTenderCancellationResource):
 
     @staticmethod
