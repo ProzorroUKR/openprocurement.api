@@ -11,13 +11,13 @@ from openprocurement.tender.cfaua.validation import (
 from openprocurement.tender.cfaua.utils import agreement_resource
 
 
-@agreement_resource(
-    name="closeFrameworkAgreementUA:Tender Agreements Contract",
-    collection_path="/tenders/{tender_id}/agreements/{agreement_id}/contracts",
-    path="/tenders/{tender_id}/agreements/{agreement_id}/contracts/{contract_id}",
-    procurementMethodType="closeFrameworkAgreementUA",
-    description="Tender CFAUA agreement contracts",
-)
+# @agreement_resource(
+#     name="closeFrameworkAgreementUA:Tender Agreements Contract",
+#     collection_path="/tenders/{tender_id}/agreements/{agreement_id}/contracts",
+#     path="/tenders/{tender_id}/agreements/{agreement_id}/contracts/{contract_id}",
+#     procurementMethodType="closeFrameworkAgreementUA",
+#     description="Tender CFAUA agreement contracts",
+# )
 class TenderAgreementContractResource(BaseResource):
     """ CFA UA Tender Agreement Contract Resource """
 

@@ -1767,15 +1767,18 @@ def patch_tender_bot(self):
             "id": "4894210d5a3e4dc29bfd11ec3e2db913",
         }
     ]
-
     response = self.app.patch_json(
-        "/tenders/{}/agreements/{}".format(self.tender_id, self.agreement_id), {"data": agreement}
+        "/tenders/{}/agreements/{}".format(self.tender_id, self.agreement_id), {"data": agreement},
+        status=422
     )
-    self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
-
-    response = self.app.get("/tenders/{}/agreements/{}".format(self.tender_id, self.agreement_id))
-    self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
-    self.assertNotIn("documents", response.json["data"])
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "documents",
+            "description": "Rogue field"
+        }]
+    )
 
     # test tenderPeriod.endDate
     tender, owner_token = self.create_tender_and_prepare_for_bot_patch()

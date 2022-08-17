@@ -1877,6 +1877,9 @@ def create_tender_cancellation_with_cancellation_lots(self):
         "Forbidden because of a pending cancellation",
     )
 
+    cancellation_lot_data = dict(**cancellation_data)
+    lot = self.initial_lots[0]
+    cancellation_lot_data["relatedLot"] = lot["id"]
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation_lot_data},

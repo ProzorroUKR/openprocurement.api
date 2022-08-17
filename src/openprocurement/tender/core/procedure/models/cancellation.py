@@ -1,4 +1,6 @@
-from openprocurement.api.models import IsoDateTimeType, ValidationError, Model
+from openprocurement.api.models import IsoDateTimeType, ValidationError, ListType, Model
+from openprocurement.tender.core.procedure.models.base import ModelType
+from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.context import get_tender, get_now, since_2020_rules
 from schematics.types import StringType, MD5Type, BaseType
 from schematics.types.serializable import serializable
@@ -33,6 +35,8 @@ class PostCancellation(Model):
     reason = StringType(required=True)
     reason_en = StringType()
     reason_ru = StringType()
+
+    documents = ListType(ModelType(Document, required=True))
     relatedLot = MD5Type()
 
     def validate_relatedLot(self, data, related_lot):

@@ -2844,37 +2844,37 @@ def get_tender_bidder_document_ds(self):
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.auction")
 
-    self.app.authorization = ("Basic", ("anon", ""))
-    response = self.app.get("/tenders/{}/bids".format(self.tender_id))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(len(response.json["data"]), self.min_bids_number)
-    self.assertEqual(
-        set(response.json["data"][0].keys()), set(["id", "status", "documents", "eligibilityDocuments", "tenderers"])
-    )
-    self.assertEqual(set(response.json["data"][1].keys()), set(["id", "status", "tenderers"]))
-    response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, self.bid_id))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(
-        set(response.json["data"].keys()), set(["id", "status", "documents", "eligibilityDocuments", "tenderers"])
-    )
-    response = self.app.get("/tenders/{}/bids/{}/documents".format(self.tender_id, self.bid_id))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(len(response.json["data"]), 2)
-    self.assertIn(doc_id_by_type["documents"]["key"], response.json["data"][0]["url"])
-    doc_id = doc_id_by_type["documents"]["id"]
-    response = self.app.get("/tenders/{}/bids/{}/documents/{}".format(self.tender_id, self.bid_id, doc_id))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["title"], "name_document.doc")
-    self.assertEqual(response.json["data"]["confidentiality"], "public")
-    self.assertEqual(response.json["data"]["format"], "application/msword")
-    for doc_resource in ["financial_documents", "qualification_documents"]:
-        document_is_unaccessible_for_others(doc_resource)
-        document_is_unaccessible_for_tender_owner(doc_resource)
+    with change_auth(self.app, ("Basic", ("anon", ""))):
+        response = self.app.get("/tenders/{}/bids".format(self.tender_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(len(response.json["data"]), self.min_bids_number)
+        self.assertEqual(
+            set(response.json["data"][0].keys()), set(["id", "status", "documents", "eligibilityDocuments", "tenderers"])
+        )
+        self.assertEqual(set(response.json["data"][1].keys()), set(["id", "status", "tenderers"]))
+        response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, self.bid_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(
+            set(response.json["data"].keys()), set(["id", "status", "documents", "eligibilityDocuments", "tenderers"])
+        )
+        response = self.app.get("/tenders/{}/bids/{}/documents".format(self.tender_id, self.bid_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(len(response.json["data"]), 2)
+        self.assertIn(doc_id_by_type["documents"]["key"], response.json["data"][0]["url"])
+        doc_id = doc_id_by_type["documents"]["id"]
+        response = self.app.get("/tenders/{}/bids/{}/documents/{}".format(self.tender_id, self.bid_id, doc_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json["data"]["title"], "name_document.doc")
+        self.assertEqual(response.json["data"]["confidentiality"], "public")
+        self.assertEqual(response.json["data"]["format"], "application/msword")
+        for doc_resource in ["financial_documents", "qualification_documents"]:
+            document_is_unaccessible_for_others(doc_resource)
+            document_is_unaccessible_for_tender_owner(doc_resource)
 
-    for doc_resource in ["documents", "eligibility_documents"]:
-        documents_are_accessible_for_tender_owner(doc_resource)
-        public_documents_are_accessible_for_others(doc_resource)
-    all_documents_are_accessible_for_bid_owner(doc_resource)
+        for doc_resource in ["documents", "eligibility_documents"]:
+            documents_are_accessible_for_tender_owner(doc_resource)
+            public_documents_are_accessible_for_others(doc_resource)
+        all_documents_are_accessible_for_bid_owner(doc_resource)
 
     # switch to qualification
     with change_auth(self.app, ("Basic", ("auction", ""))):
@@ -2975,19 +2975,18 @@ def get_tender_bidder_document_ds(self):
     contracts = response.json["data"]["agreements"][-1]["contracts"]
     agreement_id = response.json["data"]["agreements"][-1]["id"]
 
-    with change_auth(self.app, ("Basic", ("token", ""))):
-        for contract in contracts:
-            unit_prices = contract["unitPrices"]
-            for unit_price in unit_prices:
-                unit_price["value"]["amount"] = 60
-            response = self.app.patch_json(
-                "/tenders/{}/agreements/{}/contracts/{}?acc_token={}".format(
-                    self.tender_id, agreement_id, contract["id"], self.tender_token
-                ),
-                {"data": {"unitPrices": unit_prices}},
-            )
-            self.assertEqual(response.status, "200 OK")
-            self.assertEqual(response.json["data"]["status"], "active")
+    for contract in contracts:
+        unit_prices = contract["unitPrices"]
+        for unit_price in unit_prices:
+            unit_price["value"]["amount"] = 60
+        response = self.app.patch_json(
+            "/tenders/{}/agreements/{}/contracts/{}?acc_token={}".format(
+                self.tender_id, agreement_id, contract["id"], self.tender_token
+            ),
+            {"data": {"unitPrices": unit_prices}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json["data"]["status"], "active")
 
     tender = self.mongodb.tenders.get(self.tender_id)
     tender["contractPeriod"]["startDate"] = (
@@ -2997,49 +2996,48 @@ def get_tender_bidder_document_ds(self):
     self.mongodb.tenders.save(tender)
 
     # sign agreement
-    with change_auth(self.app, ("Basic", ("token", ""))):
-        self.app.patch_json(
-            "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, agreement_id, self.tender_token),
-            {"data": {"status": "active", "period": agreement_period}},
-        )
+    self.app.patch_json(
+        "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, agreement_id, self.tender_token),
+        {"data": {"status": "active", "period": agreement_period}},
+    )
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "complete")
 
-    self.app.authorization = ("Basic", ("anon", ""))
-    response = self.app.get("/tenders/{}/bids".format(self.tender_id))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(len(response.json["data"]), self.min_bids_number)
-    assert_data_1 = {
-        "date",
-        "status",
-        "id",
-        "lotValues",
-        "tenderers",
-        "documents",
-        "eligibilityDocuments",
-        "qualificationDocuments",
-        "financialDocuments",
-        "selfQualified",
-    }
-    self.assertEqual(
-        set(response.json["data"][0].keys()),
-        assert_data_1,
-    )
-    assert_data_2 = {"date", "status", "id", "lotValues", "tenderers", "selfQualified"}
-    self.assertEqual(
-        set(response.json["data"][1].keys()),
-        assert_data_2,
-    )
-    response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, self.bid_id))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(
-        set(response.json["data"].keys()),
-        assert_data_1,
-    )
-    all_documents_are_accessible_for_bid_owner(doc_resource)
-    for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
-        documents_are_accessible_for_tender_owner(doc_resource)
-    all_public_documents_are_accessible_for_others()
+    with change_auth(self.app, ("Basic", ("anon", ""))):
+        response = self.app.get("/tenders/{}/bids".format(self.tender_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(len(response.json["data"]), self.min_bids_number)
+        assert_data_1 = {
+            "date",
+            "status",
+            "id",
+            "lotValues",
+            "tenderers",
+            "documents",
+            "eligibilityDocuments",
+            "qualificationDocuments",
+            "financialDocuments",
+            "selfQualified",
+        }
+        self.assertEqual(
+            set(response.json["data"][0].keys()),
+            assert_data_1,
+        )
+        assert_data_2 = {"date", "status", "id", "lotValues", "tenderers", "selfQualified"}
+        self.assertEqual(
+            set(response.json["data"][1].keys()),
+            assert_data_2,
+        )
+        response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, self.bid_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(
+            set(response.json["data"].keys()),
+            assert_data_1,
+        )
+        all_documents_are_accessible_for_bid_owner(doc_resource)
+        for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
+            documents_are_accessible_for_tender_owner(doc_resource)
+        all_public_documents_are_accessible_for_others()
 
 
 def create_tender_bid_with_eligibility_document_invalid(self):

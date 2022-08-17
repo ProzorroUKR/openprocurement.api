@@ -772,7 +772,7 @@ def create_tender_2lot_award_complaint_document(self):
     self.assertEqual(response.content_type, "application/json")
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
-    self.assertEqual("name.doc", response.json["data"]["title"])
+    self.assertEqual("укр.doc", response.json["data"]["title"])
     key = self.get_doc_id_from_url(response.json["data"]["url"])
 
     response = self.app.get(

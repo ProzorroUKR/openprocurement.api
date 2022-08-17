@@ -32,17 +32,6 @@ class CancellationDocumentResource(BaseDocumentResource):
         resolve_cancellation(request)
         resolve_document(request, self.item_name, self.container)
 
-    def set_doc_author(self, doc):
-        pass
-
-    @json_view(permission="view_tender")
-    def collection_get(self):
-        return super().collection_get()
-
-    @json_view(permission="view_tender")
-    def get(self):
-        return super().get()
-
     @json_view(
         validators=(
             unless_admins(validate_item_owner("tender")),

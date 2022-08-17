@@ -31,11 +31,3 @@ class BaseAwardDocumentResource(BaseDocumentResource):
     def set_doc_author(self, doc):
         doc["author"] = get_award_document_role(self.request)
         return doc
-
-    @json_view(permission="view_tender")
-    def collection_get(self):
-        return super(BaseAwardDocumentResource, self).collection_get()
-
-    @json_view(permission="view_tender")
-    def get(self):
-        return super(BaseAwardDocumentResource, self).get()

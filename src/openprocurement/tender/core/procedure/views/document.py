@@ -1,3 +1,4 @@
+from openprocurement.api.utils import json_view
 from openprocurement.api.utils import (
     context_unpack,
     update_file_content_type,
@@ -5,8 +6,16 @@ from openprocurement.api.utils import (
 from openprocurement.tender.core.procedure.documents import get_file, check_document, update_document_url
 from openprocurement.tender.core.procedure.serializers.document import DocumentSerializer
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.tender.core.procedure.models.document import Document
+from openprocurement.tender.core.procedure.models.document import Document, PostDocument, PatchDocument
 from openprocurement.tender.core.procedure.state.document import BaseDocumentState
+from openprocurement.tender.core.procedure.validation import (
+    validate_input_data,
+    validate_patch_data,
+    validate_item_owner,
+    update_doc_fields_on_put_document,
+    validate_upload_document,
+    validate_data_model,
+)
 from openprocurement.tender.core.procedure.utils import (
     delete_nones,
     get_items,
@@ -39,6 +48,7 @@ class BaseDocumentResource(TenderBaseResource):
     def get_modified(self):
         return True
 
+    @json_view(permission="view_tender")
     def collection_get(self):
         collection_data = self.request.validated["documents"]
         if not self.request.params.get("all", ""):
@@ -49,6 +59,13 @@ class BaseDocumentResource(TenderBaseResource):
             )
         return {"data": [self.serializer_class(i).data for i in collection_data]}
 
+    @json_view(
+        validators=(
+            validate_item_owner("tender"),
+            validate_input_data(PostDocument, allow_bulk=True),
+        ),
+        permission="edit_tender",
+    )
     def collection_post(self):
         documents = self.request.validated["data"]
         if not isinstance(documents, list):
@@ -98,6 +115,7 @@ class BaseDocumentResource(TenderBaseResource):
             )
             return {"data": self.serializer_class(document).data}
 
+    @json_view(permission="view_tender")
     def get(self):
         if self.request.params.get("download"):
             return get_file(self.request)
@@ -109,6 +127,17 @@ class BaseDocumentResource(TenderBaseResource):
         ]
         return {"data": self.serializer_class(document).data}
 
+    @json_view(
+        validators=(
+            validate_item_owner("tender"),
+            validate_input_data(PostDocument),
+
+            update_doc_fields_on_put_document,
+            validate_upload_document,
+            validate_data_model(Document),
+        ),
+        permission="edit_tender",
+    )
     def put(self):
         document = self.request.validated["data"]
 
@@ -124,6 +153,15 @@ class BaseDocumentResource(TenderBaseResource):
             )
             return {"data": self.serializer_class(document).data}
 
+    @json_view(
+        content_type="application/json",
+        validators=(
+            validate_item_owner("tender"),
+            validate_input_data(PatchDocument, none_means_remove=True),
+            validate_patch_data(Document, item_name="document"),
+        ),
+        permission="edit_tender",
+    )
     def patch(self):
         document = self.request.validated["document"]
         updated_document = self.request.validated["data"]
