@@ -158,6 +158,24 @@ def test_procurement_method_type_cpb(app):
     assert tender["plans"] == [{"id": plan["data"]["id"]}]
 
 
+def test_procurement_method_cpb_01101100(app):
+    app.authorization = ("Basic", ("broker", "broker"))
+
+    request_plan_data = deepcopy(test_plan_data)
+    request_plan_data["procuringEntity"]["identifier"]["id"] = "01101100"
+    request_plan_data["tender"]["procurementMethod"] = ""
+    request_plan_data["tender"]["procurementMethodType"] = "centralizedProcurement"
+
+    response = app.post_json("/plans", {"data": request_plan_data})
+    plan = response.json
+
+    response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {"data": test_below_tender_data})
+    assert response.status == "201 Created"
+    tender = response.json["data"]
+    assert "plans" in tender
+    assert tender["plans"] == [{"id": plan["data"]["id"]}]
+
+
 def test_success_classification_id(app):
     request_plan_data = deepcopy(test_plan_data)
     request_plan_data["classification"] = {"scheme": "ДК021", "description": "Antiperspirants", "id": "33711120-4"}
