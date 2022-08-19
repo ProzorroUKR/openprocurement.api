@@ -27,6 +27,9 @@ Schema
 :address:
     :ref:`Address`, required
 
+:contactPoint:
+   :ref:`ContactPoint`, optionally can be added to buyers only
+
 :kind:
     string
 
