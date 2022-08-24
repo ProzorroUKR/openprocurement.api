@@ -116,8 +116,10 @@ class ChronographEventsMixing:
                 if cancellation["status"] == "pending":
                     complaint_period = cancellation.get("complaintPeriod")
                     if complaint_period and complaint_period.get("endDate"):
-                        # this check can switch complaint statuses to mistaken + switch cancellation to active
-                        yield complaint_period["endDate"], self.cancellation_compl_period_end_handler(cancellation)
+                        complaint_statuses = ("invalid", "declined", "stopped", "mistaken", "draft")
+                        if all(i["status"] in complaint_statuses for i in cancellation.get("complaints", "")):
+                            # this check can switch complaint statuses to mistaken + switch cancellation to active
+                            yield complaint_period["endDate"], self.cancellation_compl_period_end_handler(cancellation)
 
     def complaint_events(self, tender):
         # only for tenders from RELEASE_2020_04_19
@@ -366,45 +368,44 @@ class ChronographEventsMixing:
 
     def cancellation_compl_period_end_handler(self, cancellation):
         def handler(tender):
-            complaint_statuses = ("invalid", "declined", "stopped", "mistaken", "draft")
-            if all(i["status"] in complaint_statuses for i in cancellation.get("complaints", "")):
-                self.set_object_status(cancellation, "active")
+            # this should block cancellation creation, I believe
+            # from openprocurement.tender.core.validation import (
+            #     validate_absence_of_pending_accepted_satisfied_complaints,
+            # )
+            # # TODO: chronograph expects 422 errors ?
+            # validate_absence_of_pending_accepted_satisfied_complaints(get_request(), cancellation)
 
-                from openprocurement.tender.core.validation import (
-                    validate_absence_of_pending_accepted_satisfied_complaints,
-                )
-                # TODO: chronograph expects 422 errors ?
-                validate_absence_of_pending_accepted_satisfied_complaints(get_request(), cancellation)
-                if cancellation.get("relatedLot"):
-                    related_lot = cancellation["relatedLot"]
-                    for lot in tender["lots"]:
-                        if lot["id"] == related_lot:
-                            self.set_object_status(lot, "cancelled")
+            self.set_object_status(cancellation, "active")
+            if cancellation.get("relatedLot"):
+                related_lot = cancellation["relatedLot"]
+                for lot in tender["lots"]:
+                    if lot["id"] == related_lot:
+                        self.set_object_status(lot, "cancelled")
 
-                    lot_statuses = {lot["status"] for lot in tender["lots"]}
-                    if lot_statuses == {"cancelled"}:
-                        if tender["status"] in ("active.tendering", "active.auction"):
-                            tender["bids"] = []
-                        self.get_change_tender_status_handler("cancelled")(tender)
-
-                    elif not lot_statuses.difference({"unsuccessful", "cancelled"}):
-                        self.get_change_tender_status_handler("unsuccessful")(tender)
-                    elif not lot_statuses.difference({"complete", "unsuccessful", "cancelled"}):
-                        self.get_change_tender_status_handler("complete")(tender)
-
-                    # TODO: seems cancellation can block awarding process, refactoring ?
-                    # should awarding be also an event
-                    # that can be called 1) by auction 2) by chronograph (this case)
-                    # if tender["status"] == "active.auction" and all(
-                    #         i.get("auctionPeriod", {}).get("endDate")
-                    #         for i in tender["lots"]
-                    #         if self.count_lot_bids_number(tender, i["id"]) > 1 and i["status"] == "active"
-                    # ):
-                    #     self.add_next_award(get_request())
-                else:
+                lot_statuses = {lot["status"] for lot in tender["lots"]}
+                if lot_statuses == {"cancelled"}:
                     if tender["status"] in ("active.tendering", "active.auction"):
                         tender["bids"] = []
                     self.get_change_tender_status_handler("cancelled")(tender)
+
+                elif not lot_statuses.difference({"unsuccessful", "cancelled"}):
+                    self.get_change_tender_status_handler("unsuccessful")(tender)
+                elif not lot_statuses.difference({"complete", "unsuccessful", "cancelled"}):
+                    self.get_change_tender_status_handler("complete")(tender)
+
+                # TODO: seems cancellation can block awarding process, refactoring ?
+                # should awarding be also an event
+                # that can be called 1) by auction 2) by chronograph (this case)
+                # if tender["status"] == "active.auction" and all(
+                #         i.get("auctionPeriod", {}).get("endDate")
+                #         for i in tender["lots"]
+                #         if self.count_lot_bids_number(tender, i["id"]) > 1 and i["status"] == "active"
+                # ):
+                #     self.add_next_award(get_request())
+            else:
+                if tender["status"] in ("active.tendering", "active.auction"):
+                    tender["bids"] = []
+                self.get_change_tender_status_handler("cancelled")(tender)
         return handler
 
     # UTILS (move to state ?)
