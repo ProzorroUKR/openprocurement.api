@@ -600,8 +600,10 @@ def extend_next_check_by_complaint_period_ends(tender, checks):
             # adding check
             complaint_period = getattr(cancellation, "complaintPeriod", None)
             if complaint_period and complaint_period.endDate and tender.procurementMethodType not in excluded:
-                # this check can switch complaint statuses to mistaken + switch cancellation to active
-                checks.append(cancellation.complaintPeriod.endDate.astimezone(TZ))
+                complaint_statuses = ("invalid", "declined", "stopped", "mistaken", "draft")
+                if all(i.status in complaint_statuses for i in cancellation.complaints):
+                    # this check can switch complaint statuses to mistaken + switch cancellation to active
+                    checks.append(cancellation.complaintPeriod.endDate.astimezone(TZ))
 
     # all the checks below only supposed to trigger complaint draft->mistaken switches
     # if any object contains a draft complaint, it's complaint end period is added to the checks
