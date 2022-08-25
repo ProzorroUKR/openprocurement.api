@@ -182,7 +182,7 @@ class MongodbStore:
             assert result.upserted_id == uid
             # The _id of the inserted document if an upsert took place. Otherwise None.
         else:
-            pipeline = [{"$replaceWith": data}]
+            pipeline = [{"$replaceWith": {"$literal": data}}]
             if modified:
                 data["dateModified"] = get_now().isoformat()
                 pipeline.append(

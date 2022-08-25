@@ -90,11 +90,11 @@ def create_tender_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json, {"data": []})
-
+    title = "$100_укр.doc"
     response = self.app.post_json(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {
-            "title": "укр.doc",
+            "title": title,
             "url": self.generate_docservice_url(),
             "hash": "md5:" + "0" * 32,
             "format": "application/msword",
@@ -104,7 +104,7 @@ def create_tender_document(self):
     self.assertEqual(response.content_type, "application/json")
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
-    self.assertEqual("укр.doc", response.json["data"]["title"])
+    self.assertEqual(title, response.json["data"]["title"])
 
     self.assertIn("Signature=", response.json["data"]["url"])
     self.assertIn("KeyID=", response.json["data"]["url"])
@@ -115,7 +115,7 @@ def create_tender_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"][0]["id"])
-    self.assertEqual("укр.doc", response.json["data"][0]["title"])
+    self.assertEqual(title, response.json["data"][0]["title"])
 
     response = self.app.get("/tenders/{}/documents/{}?download=some_id".format(self.tender_id, doc_id), status=404)
     self.assertEqual(response.status, "404 Not Found")
@@ -136,11 +136,11 @@ def create_tender_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    self.assertEqual("укр.doc", response.json["data"]["title"])
+    self.assertEqual(title, response.json["data"]["title"])
     response = self.app.post_json(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {
-            "title": "укр.doc",
+            "title": title,
             "url": self.generate_docservice_url(),
             "hash": "md5:" + "0" * 32,
             "format": "application/msword",
@@ -148,7 +148,7 @@ def create_tender_document(self):
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual("укр.doc", response.json["data"]["title"])
+    self.assertEqual(title, response.json["data"]["title"])
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
     self.assertNotIn("acc_token", response.headers["Location"])
