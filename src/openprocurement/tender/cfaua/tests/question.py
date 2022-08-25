@@ -2,7 +2,11 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.question_blanks import lot_patch_tender_question_lots_none
+from openprocurement.tender.belowthreshold.tests.question_blanks import (
+    patch_tender_question,
+    create_tender_question,
+    lot_patch_tender_question_lots_none,
+)
 from openprocurement.tender.cfaua.tests.question_blanks import (
     lot_create_tender_question,
     lot_patch_tender_question,
@@ -12,17 +16,8 @@ from openprocurement.tender.cfaua.tests.question_blanks import (
 from openprocurement.tender.belowthreshold.tests.base import test_author
 from openprocurement.tender.belowthreshold.tests.question import TenderQuestionResourceTestMixin
 
-from openprocurement.tender.openua.tests.question_blanks import (
-    # TenderQuestionResourceTest
-    create_tender_question,
-)
-
 from openprocurement.tender.cfaua.tests.base import BaseTenderContentWebTest, test_bids, test_lots
-from openprocurement.tender.openeu.tests.question_blanks import (
-    # TenderQuestionResourceTest
-    patch_tender_question,
-    answering_question,
-)
+from openprocurement.tender.openeu.tests.question_blanks import answering_question
 
 
 class TenderQuestionResourceTest(BaseTenderContentWebTest, TenderQuestionResourceTestMixin):

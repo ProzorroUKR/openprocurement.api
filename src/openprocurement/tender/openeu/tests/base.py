@@ -213,9 +213,12 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
     initial_bids = None
     initial_lots = None
     initial_auth = None
-    forbidden_question_modification_actions_status = (
+    forbidden_question_add_actions_status = (
         "active.pre-qualification"
-    )  # status, in which adding/updating tender questions is forbidden
+    )  # status, in which adding tender questions is forbidden
+    forbidden_question_update_actions_status = (
+        "active.pre-qualification"
+    )  # status, in which updating tender questions is forbidden
     question_claim_block_status = (
         "active.pre-qualification"
     )  # status, tender cannot be switched to while it has questions/complaints related to its lot

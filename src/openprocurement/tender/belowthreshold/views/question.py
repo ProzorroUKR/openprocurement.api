@@ -31,7 +31,7 @@ class TenderQuestionResource(BaseResource):
             or get_now() > tender.enquiryPeriod.endDate
         ):
             raise_operation_error(self.request, "Can add question only in enquiryPeriod")
-        if operation == "update" and tender.status != "active.enquiries":
+        if operation == "update" and tender.status not in ("active.enquiries", "active.tendering"):
             raise_operation_error(
                 self.request, "Can't update question in current ({}) tender status".format(tender.status)
             )

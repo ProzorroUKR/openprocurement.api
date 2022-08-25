@@ -5,23 +5,13 @@ from openprocurement.tender.belowthreshold.tests.base import test_author
 
 from openprocurement.tender.belowthreshold.tests.question import TenderQuestionResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.question_blanks import (
-    # CompetitiveDialogQuestionResourceTest
-    patch_tender_question,
-    # CompetitiveDialogQLotQuestionResourceTest
     lot_create_tender_question,
     lot_patch_tender_question,
     lot_patch_tender_question_lots_none,
+    create_tender_question,
+    patch_tender_question,
 )
 
-from openprocurement.tender.openua.tests.question_blanks import (
-    # TenderQuestionResourceTest
-    create_tender_question as create_tender_question_ua,
-)
-
-from openprocurement.tender.openeu.tests.question_blanks import (
-    # TenderQuestionResourceTest
-    patch_tender_question as patch_tender_question_eu,
-)
 
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogUAContentWebTest,
@@ -30,7 +20,6 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_bids,
 )
 from openprocurement.tender.competitivedialogue.tests.stage1.question_blanks import (
-    # CompetitiveDialogEUQuestionResourceTest
     create_tender_question_invalid_eu,
     create_tender_question_eu,
     get_tender_question_eu,
@@ -40,7 +29,7 @@ from openprocurement.tender.competitivedialogue.tests.stage1.question_blanks imp
 
 class CompetitiveDialogUAQuestionResourceTest(BaseCompetitiveDialogUAContentWebTest, TenderQuestionResourceTestMixin):
 
-    test_create_tender_question = snitch(create_tender_question_ua)
+    test_create_tender_question = snitch(create_tender_question)
     test_patch_tender_question = snitch(patch_tender_question)
 
 
@@ -61,7 +50,7 @@ class CompetitiveDialogEUQuestionResourceTest(BaseCompetitiveDialogEUContentWebT
 
     test_create_tender_question_invalid = snitch(create_tender_question_invalid_eu)
     test_create_tender_question = snitch(create_tender_question_eu)
-    test_patch_tender_question = snitch(patch_tender_question_eu)
+    test_patch_tender_question = snitch(patch_tender_question)
     test_get_tender_question = snitch(get_tender_question_eu)
     test_get_tender_questions = snitch(get_tender_questions_eu)
 

@@ -7,39 +7,26 @@ from uuid import uuid4
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.question_blanks import (
-    # TenderStage2QuestionResourceTest
     create_tender_question_invalid,
-    # TenderStage2LotQuestionResourceTest
+    patch_tender_question,
     lot_create_tender_question as create_tender_with_lots_question,
     lot_patch_tender_question as patch_tender_with_lots_question,
-    # TenderStage2EULotQuestionResourceTest
-    # TenderStage2UALotQuestionResourceTest
-    lot_patch_tender_question_lots_none,
-)
-
-from openprocurement.tender.openeu.tests.question_blanks import (
-    # TenderStage2QuestionResourceTest
-    patch_tender_question,
 )
 
 from openprocurement.tender.competitivedialogue.tests.base import (
     test_lots,
-    test_shortlistedFirms,
+    test_author,
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,
-    test_author,
 )
 from openprocurement.tender.competitivedialogue.tests.stage1.question_blanks import (
-    # TenderStage2QuestionResourceTest
     get_tender_question_eu as get_tender_question,
     get_tender_questions_eu as get_tender_questions,
 )
 from openprocurement.tender.competitivedialogue.tests.stage2.question_blanks import (
-    # TenderStage2QuestionResourceTest
     create_question_bad_author,
     create_tender_question_with_question,
     create_tender_question,
-    # TenderStage2LotQuestionResourceTest
     create_question_on_lot_without_perm,
 )
 
