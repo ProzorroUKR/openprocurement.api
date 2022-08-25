@@ -164,41 +164,31 @@ class MongodbStore:
         data["is_public"] = data.get("status") not in ("draft", "deleted")
         data["is_test"] = data.get("mode") == "test"
 
+        pipeline = [
+            {"$replaceWith": {"$literal": data}},
+        ]
         if insert:
-            data["dateModified"] = data["dateCreated"] = get_now().isoformat()
-            data["public_modified"] = get_public_modified()
-            pipeline = [
-                {"$set": data},
-            ]
-            result = collection.update_one(
-                {
-                    "_id": uid,
-                    "_rev": revision
-                },
-                pipeline,
-                upsert=True,
-                session=get_db_session(),
+            data["dateCreated"] = get_now().isoformat()
+        if modified:
+            data["dateModified"] = get_now().isoformat()
+            pipeline.append(
+                {"$set": {
+                    "public_modified": get_public_modified()
+                }}
             )
-            assert result.upserted_id == uid
-            # The _id of the inserted document if an upsert took place. Otherwise None.
-        else:
-            pipeline = [{"$replaceWith": {"$literal": data}}]
-            if modified:
-                data["dateModified"] = get_now().isoformat()
-                pipeline.append(
-                    {"$set": {
-                        "public_modified": get_public_modified()
-                    }}
-                )
-            result = collection.find_one_and_update(  # replace one also deletes fields ($unset)
-                {
-                    "_id": uid,
-                    "_rev": revision
-                },
-                pipeline,
-                session=get_db_session(),
-            )
-            if not result:
+        result = collection.find_one_and_update(
+            {
+                "_id": uid,
+                "_rev": revision
+            },
+            pipeline,
+            upsert=insert,
+            session=get_db_session(),
+        )
+        if not result:
+            if insert:
+                pass  # it's fine, when upsert=True works and document is created it's not returned by default
+            else:
                 raise MongodbResourceConflict("Conflict while updating document. Please, retry")
         return data
 

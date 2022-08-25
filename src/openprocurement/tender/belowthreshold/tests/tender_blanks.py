@@ -1176,7 +1176,7 @@ def create_tender_with_required_unit(self):
 
 def create_tender_generated(self):
     data = self.initial_data.copy()
-    data.update({"id": "hash"})
+    data.update({"id": "hash", "title": "$1000"})
     response = self.app.post_json("/tenders", {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
