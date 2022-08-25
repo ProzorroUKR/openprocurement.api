@@ -9,7 +9,7 @@ from bson.codec_options import CodecOptions
 from bson.decimal128 import Decimal128
 from decimal import Decimal
 from datetime import datetime
-from openprocurement.api.context import get_now, get_db_session
+from openprocurement.api.context import get_now, get_db_session, get_request
 
 LOGGER = getLogger("{}.init".format(__name__))
 
@@ -297,8 +297,16 @@ class BaseCollection:
         updated = self.store.save_data(self.collection, data, insert=insert, modified=modified)
         o.import_data(updated)
 
-    def get(self, uid, primary=False):
-        collection = self.collection_primary if primary else self.collection
+    def get(self, uid):
+        # if a client doesn't use SESSION cookie
+        # reading from primary solves the issues
+        # when write operation is allowed because of a state object from a secondary replica
+        # This means more reads from Primary, but at the moment we can't force everybody to use the cookie
+        collection = (
+            self.collection
+            if get_request().method in ("GET", "HEAD")
+            else self.collection_primary
+        )
         doc = self.store.get(collection, uid)
         return doc
 
