@@ -140,8 +140,8 @@ X-Content-Type-Options: nosniff
       "endDate": "2022-11-25T00:00:00+02:00",
       "clarificationsUntil": "2023-01-26T00:00:00+02:00"
     },
-    "dateModified": "2023-01-01T00:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
     "qualificationPeriod": {
       "startDate": "2022-12-05T00:00:00+02:00",
       "endDate": "2022-12-15T00:00:00+02:00"

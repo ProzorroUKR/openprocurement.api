@@ -216,8 +216,8 @@ X-Content-Type-Options: nosniff
     "tenderID": "UA-2023-01-01-000001-a",
     "owner": "broker",
     "date": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
     "id": "7467a15a053641d38e0d29499e3cc219"
   },
   "access": {

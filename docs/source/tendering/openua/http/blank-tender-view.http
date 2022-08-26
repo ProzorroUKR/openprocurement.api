@@ -126,8 +126,8 @@ X-Content-Type-Options: nosniff
       "endDate": "2023-01-22T00:00:00+02:00",
       "clarificationsUntil": "2023-01-26T00:00:00+02:00"
     },
-    "dateModified": "2023-01-01T00:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
     "id": "7a10c7f4fa484faca13613c1361ee4b3"
   }
 }
