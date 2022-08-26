@@ -9,7 +9,7 @@ thread_context = threading.local()
 
 
 def get_request() -> Request:
-    return thread_context.request
+    return getattr(thread_context, "request", None)
 
 
 def set_request(request):

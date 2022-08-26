@@ -294,7 +294,7 @@ class BaseCollection:
         # This means more reads from Primary, but at the moment we can't force everybody to use the cookie
         collection = (
             self.collection
-            if get_request().method in ("GET", "HEAD")
+            if getattr(get_request(), "method", None) in ("GET", "HEAD")
             else self.collection_primary
         )
         doc = self.store.get(collection, uid)
