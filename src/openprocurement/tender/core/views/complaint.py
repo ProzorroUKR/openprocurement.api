@@ -293,8 +293,12 @@ class BaseTenderClaimResource(ComplaintAdminPatchMixin, BaseResource):
     patch_check_tender_excluded_statuses = (
         "draft", "claim", "answered",
     )
-
-    patch_check_tender_statuses = ("active.qualification", "active.awarded")
+    patch_check_tender_statuses = (
+        "active.qualification", "active.awarded",
+    )
+    patch_as_complaint_owner_tender_statuses = (
+        "active.tendering",
+    )
 
     @staticmethod
     def validate_submit_claim_time_method(request):
@@ -404,13 +408,13 @@ class BaseTenderClaimResource(ComplaintAdminPatchMixin, BaseResource):
             context.dateCanceled = get_now()
 
         elif (
-            tender.status == "active.tendering"
+            tender.status in self.patch_as_complaint_owner_tender_statuses
             and status == "draft"
             and new_status == status
         ):
             apply_patch(self.request, save=False, src=context.serialize())
         elif (
-            tender.status == "active.tendering"
+            tender.status in self.patch_as_complaint_owner_tender_statuses
             and status == "draft"
             and new_status == "claim"
         ):
@@ -422,8 +426,8 @@ class BaseTenderClaimResource(ComplaintAdminPatchMixin, BaseResource):
             apply_patch(self.request, save=False, src=context.serialize())
         elif (
             status == "answered"
-            and data.get("satisfied", context.satisfied) is True
             and new_status == "resolved"
+            and self.check_satisfied(data)
         ):
             apply_patch(self.request, save=False, src=context.serialize())
         else:
@@ -460,3 +464,7 @@ class BaseTenderClaimResource(ComplaintAdminPatchMixin, BaseResource):
 
     def patch_as_abovethresholdreviewers(self, data):
         raise_operation_error(self.request, "Forbidden")
+
+    def check_satisfied(self, data):
+        satisfied = data.get("satisfied", self.context.satisfied)
+        return satisfied is True
