@@ -284,6 +284,18 @@ def create_tender_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active.awarded")
 
+    self.set_status("active.tendering")
+
+    response = self.app.post_json(
+        "/tenders/{}/complaints".format(self.tender_id),
+        {"data": test_claim},
+        status=403,
+    )
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"], "Can't add complaint in current (active.tendering) tender status"
+    )
+
     self.set_status("unsuccessful")
 
     response = self.app.post_json(
@@ -329,6 +341,30 @@ def patch_tender_complaint(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "claim")
+
+    self.set_status("active.auction")
+
+    response = self.app.patch_json(
+        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], self.tender_token),
+        {"data": {"resolution": "changing rules " * 2}},
+        status=403
+    )
+
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Can update claim only before enquiryPeriod.clarificationsUntil"
+            }
+        ],
+    )
+
+    self.set_status("active.tendering")
 
     response = self.app.patch_json(
         "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], self.tender_token),
@@ -396,6 +432,8 @@ def patch_tender_complaint(self):
     self.assertEqual(response.json["data"]["cancellationReason"], "reason")
     self.assertEqual(response.json["data"]["resolutionType"], "resolved")
     self.assertEqual(response.json["data"]["resolution"], "resolution text " * 2)
+
+    self.set_status("active.enquiries")
 
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),

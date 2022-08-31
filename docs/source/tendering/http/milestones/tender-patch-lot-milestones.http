@@ -173,6 +173,7 @@ X-Content-Type-Options: nosniff
     },
     "enquiryPeriod": {
       "startDate": "2023-01-01T00:00:00+02:00",
+      "clarificationsUntil": "2023-01-09T00:00:00+02:00",
       "endDate": "2023-01-08T00:00:00+02:00"
     },
     "id": "7467a15a053641d38e0d29499e3cc219"

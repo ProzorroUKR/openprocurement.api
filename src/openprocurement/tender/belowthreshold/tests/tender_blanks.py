@@ -2238,7 +2238,7 @@ def invalid_tender_conditions(self):
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = self.tender_token = response.json["access"]["token"]
     # switch to active.tendering
-    self.set_status("active.tendering")
+    self.set_status(self.primary_tender_status)
     # create compaint
     response = self.app.post_json(
         "/tenders/{}/complaints".format(tender_id),

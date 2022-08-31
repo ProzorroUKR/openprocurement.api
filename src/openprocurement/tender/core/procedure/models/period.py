@@ -17,11 +17,6 @@ class Period(Model):
             raise ValidationError("period should begin before its end")
 
 
-class EnquiryPeriod(Period):
-    clarificationsUntil = IsoDateTimeType()
-    invalidationDate = IsoDateTimeType()
-
-
 class PeriodEndRequired(Period):
     endDate = IsoDateTimeType(required=True)
 
@@ -44,6 +39,19 @@ class PeriodStartEndRequired(Period):
 
 
 class StartedPeriodEndRequired(PeriodEndRequired):
+    startDate = IsoDateTimeType(default=lambda: get_now().isoformat())
+
+
+class EnquiryPeriod(Period):
+    clarificationsUntil = IsoDateTimeType()
+    invalidationDate = IsoDateTimeType()
+
+
+class EnquiryPeriodEndRequired(EnquiryPeriod):
+    endDate = IsoDateTimeType(required=True)
+
+
+class StartedEnquiryPeriodEndRequired(EnquiryPeriodEndRequired):
     startDate = IsoDateTimeType(default=lambda: get_now().isoformat())
 
 

@@ -4,7 +4,10 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.core.views.complaint import BaseTenderClaimResource
 from openprocurement.tender.core.views.complaint import BaseComplaintGetResource
 from openprocurement.tender.core.utils import optendersresource
-from openprocurement.tender.core.validation import validate_complaint_data, validate_patch_complaint_data
+from openprocurement.tender.core.validation import (
+    validate_complaint_data, validate_patch_complaint_data,
+    validate_update_claim_time,
+)
 
 from openprocurement.tender.belowthreshold.validation import (
     validate_update_complaint_not_in_allowed_status,
@@ -74,7 +77,7 @@ class TenderClaimResource(BaseTenderClaimResource):
 
     @staticmethod
     def validate_update_claim_time_method(request):
-        pass
+        return validate_update_claim_time(request)
 
     def check_satisfied(self, data):
         satisfied = data.get("satisfied", self.context.satisfied)

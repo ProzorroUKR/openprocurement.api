@@ -663,8 +663,16 @@ def post_tender_lots_auction(self):
         "Can't report auction results in current ({}) tender status".format(self.forbidden_auction_actions_status),
     )
 
+    if self.initial_data["procurementMethodType"] in (
+        "belowThreshold",
+    ):
+        self.set_status("active.enquiries")
+
     # should not affect changing status
-    if self.initial_data["procurementMethodType"] in ("belowThreshold", "simple.defense"):
+    if self.initial_data["procurementMethodType"] in (
+        "belowThreshold",
+        "simple.defense",
+    ):
         with change_auth(self.app, ("Basic", ("token", ""))):
             self.app.post_json(
                 f"/tenders/{self.tender_id}/complaints",

@@ -1,7 +1,10 @@
 from schematics.types import StringType
 from schematics.validate import ValidationError
 from openprocurement.tender.core.procedure.context import get_now
-from openprocurement.tender.core.procedure.models.period import StartedPeriodEndRequired, PeriodEndRequired
+from openprocurement.tender.core.procedure.models.period import (
+    EnquiryPeriodEndRequired,
+    StartedEnquiryPeriodEndRequired,
+)
 from openprocurement.tender.core.procedure.models.tender import (
     PostTender as BasePostTender,
     PatchTender as BasePatchTender,
@@ -47,7 +50,7 @@ def validate_tender_period(data, period):
 class PostTender(BasePostTender):
     procurementMethodType = StringType(choices=[BELOW_THRESHOLD], default=BELOW_THRESHOLD)
     procuringEntity = ModelType(ProcuringEntity, required=True)
-    enquiryPeriod = ModelType(StartedPeriodEndRequired, required=True)
+    enquiryPeriod = ModelType(StartedEnquiryPeriodEndRequired, required=True)
 
     def validate_enquiryPeriod(self, data, period):
         validate_enquiry_period(data, period)
@@ -57,14 +60,14 @@ class PostTender(BasePostTender):
 
 
 class PatchTender(BasePatchTender):
-    enquiryPeriod = ModelType(PeriodEndRequired)
+    enquiryPeriod = ModelType(EnquiryPeriodEndRequired)
     procuringEntity = ModelType(ProcuringEntity)
 
 
 class Tender(BaseTender):
     procurementMethodType = StringType(choices=[BELOW_THRESHOLD], required=True)
     procuringEntity = ModelType(ProcuringEntity, required=True)
-    enquiryPeriod = ModelType(PeriodEndRequired, required=True)
+    enquiryPeriod = ModelType(EnquiryPeriodEndRequired, required=True)
 
     def validate_enquiryPeriod(self, data, period):
         validate_enquiry_period(data, period)

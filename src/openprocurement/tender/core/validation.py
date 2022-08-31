@@ -1377,6 +1377,12 @@ def validate_submit_complaint_time(request, **kwargs):
         )
 
 
+def validate_update_claim_time(request, **kwargs):
+    tender = request.validated["tender"]
+    if get_now() > tender.enquiryPeriod.clarificationsUntil:
+        raise_operation_error(request, "Can update claim only before enquiryPeriod.clarificationsUntil")
+
+
 # complaints document
 def validate_status_and_role_for_complaint_document_operation(request, **kwargs):
     roles = request.content_configurator.allowed_statuses_for_complaint_operations_for_roles

@@ -61,7 +61,7 @@ def validate_delete_lot_related_criterion(request, **kwargs):
 # complaint
 def validate_add_complaint_not_in_allowed_tender_status(request, **kwargs):
     tender = request.context
-    if tender.status not in ["active.enquiries", "active.tendering"]:
+    if tender.status not in ["active.enquiries",]:
         raise_operation_error(request, "Can't add complaint in current ({}) tender status".format(tender.status))
 
 

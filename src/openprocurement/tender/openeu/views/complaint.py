@@ -5,7 +5,8 @@ from openprocurement.tender.core.views.complaint import (
     BaseTenderClaimResource,
     BaseComplaintGetResource,
 )
-from openprocurement.tender.openua.validation import validate_submit_claim_time, validate_update_claim_time
+from openprocurement.tender.openua.validation import validate_submit_claim_time
+from openprocurement.tender.core.validation import validate_update_claim_time
 
 
 @optendersresource(

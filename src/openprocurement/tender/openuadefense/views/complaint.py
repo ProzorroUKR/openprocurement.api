@@ -8,7 +8,7 @@ from openprocurement.tender.core.views.complaint import (
 from openprocurement.api.utils import get_now, get_first_revision_date
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.utils import optendersresource
-from openprocurement.tender.openua.validation import validate_update_claim_time
+from openprocurement.tender.core.validation import validate_update_claim_time
 from openprocurement.tender.openuadefense.validation import validate_submit_claim_time, validate_submit_complaint_time
 
 

@@ -37,13 +37,15 @@ from openprocurement.tender.core.models import (
     Feature,
     LotWithMinimalStepLimitsValidation as BaseLot,
     Claim,
+    EnquiryPeriod,
+    QualificationMilestoneListMixin,
     BidResponsesMixin,
     validate_features_uniq,
     validate_lots_uniq,
     get_tender,
     validate_unit_required,
     validate_quantity_required,
-    validate_item_related_buyers, QualificationMilestoneListMixin,
+    validate_item_related_buyers,
 )
 
 from openprocurement.tender.core.utils import (
@@ -255,7 +257,7 @@ class Tender(BaseTender):
     )  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     value = ModelType(Value, required=True)  # The total estimated value of the procurement.
     enquiryPeriod = ModelType(
-        PeriodEndRequired, required=True
+        EnquiryPeriod, required=True
     )  # The period during which enquiries may be made and will be answered.
     tenderPeriod = ModelType(
         PeriodEndRequired, required=True

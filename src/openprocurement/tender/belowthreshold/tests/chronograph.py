@@ -144,7 +144,7 @@ class TenderLotNoAuctionResourceTest(TenderContentWebTest):
 
 
 class TenderComplaintSwitchResourceTest(TenderContentWebTest):
-    initial_status = "active.tendering"
+    initial_status = "active.enquiries"
     test_switch_to_ignored_on_complete = snitch(switch_to_ignored_on_complete)
     test_switch_from_pending_to_ignored = snitch(switch_from_pending_to_ignored)
     test_switch_from_pending = snitch(switch_from_pending)
