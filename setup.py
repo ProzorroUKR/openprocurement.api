@@ -40,6 +40,7 @@ entry_points = {
     ],
     "openprocurement.tender.core.plugins": [
         "tender.belowthreshold = openprocurement.tender.belowthreshold.includeme:includeme",
+        "tender.open = openprocurement.tender.open.includeme:includeme",
         "tender.openua = openprocurement.tender.openua.includeme:includeme",
         "tender.openeu = openprocurement.tender.openeu.includeme:includeme",
         "tender.openuadefense = openprocurement.tender.openuadefense.includeme:includeme",
