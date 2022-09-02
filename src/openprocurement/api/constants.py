@@ -28,7 +28,13 @@ DOCUMENT_BLACKLISTED_FIELDS = ("title", "format", "url", "dateModified", "hash")
 DOCUMENT_WHITELISTED_FIELDS = ("id", "datePublished", "author", "__parent__")
 
 # Tenders in which could be used criteria connected with guarantee
-GUARANTEE_ALLOWED_TENDER_TYPES = ("belowThreshold", "aboveThresholdUA", "aboveThresholdEU", "esco")
+GUARANTEE_ALLOWED_TENDER_TYPES = (
+    "belowThreshold",
+    "aboveThreshold",
+    "aboveThresholdUA",
+    "aboveThresholdEU",
+    "esco",
+)
 
 WORKING_DAYS = {}
 HOLIDAYS = standards.load("calendars/workdays_off.json")
