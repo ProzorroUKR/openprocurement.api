@@ -16,7 +16,8 @@ class TenderDetailsMixing:
     """
     def validate_tender_patch(self, before, after):
         request = get_request()
-        self.validate_cancellation_blocks(request, before)
+        if before["status"] != after["status"]:
+            self.validate_cancellation_blocks(request, before)
 
     def on_post(self, tender):
         self.watch_value_meta_changes(tender)
