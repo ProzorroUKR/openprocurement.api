@@ -197,8 +197,13 @@ class BaseCoreWebTest(BaseWebTest):
                 }
             ]
         }
-        if tender["procurementMethodType"] in ("aboveThresholdUA", "aboveThresholdUA.defense",
-                                               "simple.defense", "competitiveDialogueUA.stage2"):
+        if tender["procurementMethodType"] in (
+            "aboveThreshold",
+            "aboveThresholdUA",
+            "aboveThresholdUA.defense",
+            "simple.defense",
+            "competitiveDialogueUA.stage2",
+        ):
             qualification["bid_id"] = bid_id
             del qualification["bidID"]
             tender["awards"] = [qualification]
