@@ -2,9 +2,16 @@
 from decimal import Decimal
 from datetime import datetime, timedelta
 from openprocurement.api.constants import TZ
+from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
+from openprocurement.tender.cfaua.constants import CFA_UA
 from openprocurement.tender.competitivedialogue.constants import CD_UA_TYPE, CD_EU_TYPE
+from openprocurement.tender.esco.constants import ESCO
+from openprocurement.tender.limited.constants import REPORTING, NEGOTIATION, NEGOTIATION_QUICK
+from openprocurement.tender.openeu.constants import ABOVE_THRESHOLD_EU
+from openprocurement.tender.openua.constants import ABOVE_THRESHOLD_UA
+from openprocurement.tender.openuadefense.constants import ABOVE_THRESHOLD_UA_DEFENSE
 from openprocurement.tender.pricequotation.constants import PMT as PRICEQUOTATION
-
+from openprocurement.tender.simpledefense.constants import SIMPLE_DEFENSE
 
 BIDDER_TIME = timedelta(minutes=6)
 SERVICE_TIME = timedelta(minutes=9)
@@ -18,18 +25,18 @@ BID_LOTVALUES_VALIDATION_FROM = datetime(2016, 10, 21, tzinfo=TZ)
 AMOUNT_NET_COEF = Decimal("1.2")
 
 FIRST_STAGE_PROCUREMENT_TYPES = {
-    "belowThreshold",
-    "closeFrameworkAgreementUA",
-    "esco",
+    BELOW_THRESHOLD,
+    CFA_UA,
+    ESCO,
     CD_UA_TYPE,
     CD_EU_TYPE,
-    "reporting",
-    "negotiation",
-    "negotiation.quick",
-    "aboveThresholdEU",
-    "aboveThresholdUA",
-    "aboveThresholdUA.defense",
-    "simple.defense",
+    REPORTING,
+    NEGOTIATION,
+    NEGOTIATION_QUICK,
+    ABOVE_THRESHOLD_EU,
+    ABOVE_THRESHOLD_UA,
+    ABOVE_THRESHOLD_UA_DEFENSE,
+    SIMPLE_DEFENSE,
     PRICEQUOTATION
 }
 
