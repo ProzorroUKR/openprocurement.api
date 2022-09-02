@@ -7,6 +7,7 @@ from openprocurement.tender.cfaua.constants import CFA_UA
 from openprocurement.tender.competitivedialogue.constants import CD_UA_TYPE, CD_EU_TYPE
 from openprocurement.tender.esco.constants import ESCO
 from openprocurement.tender.limited.constants import REPORTING, NEGOTIATION, NEGOTIATION_QUICK
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.openeu.constants import ABOVE_THRESHOLD_EU
 from openprocurement.tender.openua.constants import ABOVE_THRESHOLD_UA
 from openprocurement.tender.openuadefense.constants import ABOVE_THRESHOLD_UA_DEFENSE
@@ -34,6 +35,7 @@ FIRST_STAGE_PROCUREMENT_TYPES = {
     NEGOTIATION,
     NEGOTIATION_QUICK,
     ABOVE_THRESHOLD_EU,
+    ABOVE_THRESHOLD,
     ABOVE_THRESHOLD_UA,
     ABOVE_THRESHOLD_UA_DEFENSE,
     SIMPLE_DEFENSE,
