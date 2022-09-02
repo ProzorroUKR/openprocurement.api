@@ -917,11 +917,14 @@ def create_plan_invalid_procuring_entity(self):
     self.assertEqual(
         response.json["errors"], [
             {
-                "description": "procuringEntity with general kind cannot publish this type of procedure. Procurement "
-                               "method types allowed for this kind: centralizedProcurement, belowThreshold, "
-                               "aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, esco,"
-                               " closeFrameworkAgreementUA, priceQuotation, reporting, negotiation, negotiation.quick.",
-                               'location': 'body', 'name': 'kind'
+                "description": (
+                    "procuringEntity with general kind cannot publish this type of procedure. Procurement "
+                    "method types allowed for this kind: centralizedProcurement, belowThreshold, aboveThreshold, "
+                    "aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, esco, "
+                    "closeFrameworkAgreementUA, priceQuotation, reporting, negotiation, negotiation.quick."
+                ),
+                'location': 'body',
+                'name': 'kind'
             }
         ]
     )

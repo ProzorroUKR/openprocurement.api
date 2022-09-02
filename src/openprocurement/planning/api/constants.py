@@ -1,24 +1,45 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
 
+from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
+from openprocurement.tender.cfaua.constants import CFA_UA
+from openprocurement.tender.competitivedialogue.constants import CD_UA_TYPE, CD_EU_TYPE
+from openprocurement.tender.esco.constants import ESCO
+from openprocurement.tender.limited.constants import REPORTING, NEGOTIATION, NEGOTIATION_QUICK
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD
+from openprocurement.tender.openeu.constants import ABOVE_THRESHOLD_EU
+from openprocurement.tender.openua.constants import ABOVE_THRESHOLD_UA
+from openprocurement.tender.openuadefense.constants import ABOVE_THRESHOLD_UA_DEFENSE
+from openprocurement.tender.pricequotation.constants import PMT
+from openprocurement.tender.simpledefense.constants import SIMPLE_DEFENSE
+
 PROCEDURES = {
     "": ("", "centralizedProcurement"),
     "open": (
-        "belowThreshold",
-        "aboveThresholdUA",
-        "aboveThresholdEU",
-        "aboveThresholdUA.defense",
-        "simple.defense",
-        "competitiveDialogueUA",
-        "competitiveDialogueEU",
-        "esco",
-        "closeFrameworkAgreementUA",
+        BELOW_THRESHOLD,
+        ABOVE_THRESHOLD,
+        ABOVE_THRESHOLD_UA,
+        ABOVE_THRESHOLD_EU,
+        ABOVE_THRESHOLD_UA_DEFENSE,
+        SIMPLE_DEFENSE,
+        CD_UA_TYPE,
+        CD_EU_TYPE,
+        ESCO,
+        CFA_UA,
     ),
-    "selective": ("priceQuotation",),
-    "limited": ("reporting", "negotiation", "negotiation.quick"),
+    "selective": (
+        PMT,
+    ),
+    "limited": (
+        REPORTING,
+        NEGOTIATION,
+        NEGOTIATION_QUICK,
+    ),
 }
 
-MULTI_YEAR_BUDGET_PROCEDURES = ("closeFrameworkAgreementUA",)
+MULTI_YEAR_BUDGET_PROCEDURES = (
+    CFA_UA,
+)
 MULTI_YEAR_BUDGET_MAX_YEARS = 4
 
 BREAKDOWN_OTHER = "other"
