@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
+
+from openprocurement.tender.belowthreshold.tests.base import set_tender_lots
 from openprocurement.tender.openeu.tests.base import test_lots
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.competitivedialogue.tests.base import (

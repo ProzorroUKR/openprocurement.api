@@ -657,10 +657,10 @@ def create_tender_invalid(self):
             ],
         )
 
-    data = test_organization["contactPoint"]["telephone"]
-    del test_organization["contactPoint"]["telephone"]
+    data = self.initial_data["procuringEntity"]["contactPoint"]["telephone"]
+    del self.initial_data["procuringEntity"]["contactPoint"]["telephone"]
     response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
-    test_organization["contactPoint"]["telephone"] = data
+    self.initial_data["procuringEntity"]["contactPoint"]["telephone"] = data
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -1182,35 +1182,33 @@ def create_tender_generated(self):
     self.assertEqual(response.content_type, "application/json")
     response = self.set_initial_status(response.json)
     tender = response.json["data"]
+    fields = [
+        "procurementMethodType",
+        "id",
+        "date",
+        "dateModified",
+        "dateCreated",
+        "tenderID",
+        "status",
+        "criteria",
+        "enquiryPeriod",
+        "tenderPeriod",
+        "minimalStep",
+        "items",
+        "value",
+        "procuringEntity",
+        "next_check",
+        "procurementMethod",
+        "awardCriteria",
+        "submissionMethod",
+        "title",
+        "owner",
+        "mainProcurementCategory",
+        "milestones",
+    ]
     if "procurementMethodDetails" in tender:
-        tender.pop("procurementMethodDetails")
-    self.assertEqual(
-        set(tender),
-        {
-            "procurementMethodType",
-            "id",
-            "date",
-            "dateModified",
-            "dateCreated",
-            "tenderID",
-            "status",
-            "criteria",
-            "enquiryPeriod",
-            "tenderPeriod",
-            "minimalStep",
-            "items",
-            "value",
-            "procuringEntity",
-            "next_check",
-            "procurementMethod",
-            "awardCriteria",
-            "submissionMethod",
-            "title",
-            "owner",
-            "mainProcurementCategory",
-            "milestones",
-        },
-    )
+        fields.append("procurementMethodDetails")
+    self.assertEqual(set(tender), set(fields))
     self.assertNotEqual(data["id"], tender["id"])
 
 
@@ -1725,16 +1723,28 @@ def tender_features_invalid(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": ["Sum of max value of all features should be less then or equal to 30%"],
-                "location": "body",
-                "name": "features",
-            }
-        ],
-    )
+    if self.initial_lots:
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "description": ["Sum of max value of all features for lot should be less then or equal to 30%"],
+                    "location": "body",
+                    "name": "features",
+                }
+            ],
+        )
+    else:
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "description": ["Sum of max value of all features should be less then or equal to 30%"],
+                    "location": "body",
+                    "name": "features",
+                }
+            ],
+        )
 
 
 def tender_features(self):
@@ -2834,6 +2844,9 @@ def tender_minimalstep_validation(self):
         response = self.app.post_json("/tenders", {"data": data}, status=201)
         self.assertEqual(response.status, "201 Created")
 
+
+def tender_lot_minimalstep_validation(self):
+    data = deepcopy(self.initial_data)
     # invalid minimalStep validated on lots level
     test_lots_data = deepcopy(self.test_lots_data)
     test_lots_data.append({

@@ -3,9 +3,7 @@ import unittest
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
-    # TenderProcessTest
     invalid_tender_conditions,
-    # TenderResourceTest
     guarantee,
     create_tender_with_inn,
     create_tender_with_inn_before,
@@ -14,6 +12,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_central,
     create_tender_central_invalid,
     tender_minimalstep_validation,
+    tender_lot_minimalstep_validation,
     patch_tender_minimalstep_validation,
     tender_with_guarantee,
     tender_with_guarantee_multilot,
@@ -22,7 +21,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_with_required_unit,
 )
 
-from openprocurement.tender.openuadefense.tests.base import test_bids
 from openprocurement.tender.openua.tests.tender import TenderUAResourceTestMixin
 from openprocurement.tender.openua.tests.tender_blanks import (
     tender_with_main_procurement_category,
@@ -31,13 +29,11 @@ from openprocurement.tender.openua.tests.tender_blanks import (
 )
 from openprocurement.tender.openeu.tests.base import test_tender_data, BaseTenderWebTest, test_lots, test_bids
 from openprocurement.tender.openeu.tests.tender_blanks import (
-    # TenderProcessTest
     one_bid_tender,
     unsuccessful_after_prequalification_tender,
     one_qualificated_bid_tender,
     multiple_bidders_tender,
     lost_contract_for_active_award,
-    # TenderResourceTest
     create_tender_invalid,
     create_tender_generated,
     patch_tender,
@@ -74,6 +70,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUARes
     test_tender_milestones_required = snitch(tender_milestones_required)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
     test_tender_minimalstep_validation = snitch(tender_minimalstep_validation)
+    test_tender_lot_minimalstep_validation = snitch(tender_lot_minimalstep_validation)
     test_patch_tender_minimalstep_validation = snitch(patch_tender_minimalstep_validation)
     test_create_tender_with_criteria_lcc = snitch(create_tender_with_criteria_lcc)
     test_create_tender_with_earlier_non_required_unit = snitch(create_tender_with_earlier_non_required_unit)

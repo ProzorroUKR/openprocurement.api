@@ -18,16 +18,13 @@ from openprocurement.tender.open.tests.criterion_blanks import (
     activate_tender,
     lcc_criterion_valid,
     lcc_criterion_invalid,
-    # RequirementGroup
     create_criteria_rg,
     patch_criteria_rg,
     get_criteria_rg,
-    # Requirement
     create_rg_requirement_valid,
     create_rg_requirement_invalid,
     patch_rg_requirement,
     get_rg_requirement,
-    # Evidence
     create_requirement_evidence_valid,
     create_requirement_evidence_invalid,
     patch_requirement_evidence,
@@ -136,16 +133,25 @@ class TenderCriteriaRGRequirementEvidenceTestMixin(object):
         self.exclusion_requirement_id = response.json["data"][0]["requirementGroups"][0]["requirements"][0]["id"]
 
 
-@patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
-class TenderCriteriaLccTestMixin(object):
-    test_lcc_criterion_valid = snitch(lcc_criterion_valid)
-    test_lcc_criterion_invalid = snitch(lcc_criterion_invalid)
-
-
-class TenderUACriteriaTest(TenderCriteriaTestMixin, TenderCriteriaLccTestMixin, BaseTenderUAContentWebTest):
+class TenderUACriteriaTest(TenderCriteriaTestMixin, BaseTenderUAContentWebTest):
     initial_data = test_tender_data
     initial_lots = test_lots
     initial_status = "draft"
+
+
+@patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
+class TenderUACriteriaLccTest(BaseTenderUAContentWebTest):
+    initial_data = test_tender_data
+    initial_lots = test_lots
+    initial_status = "draft"
+
+    def setUp(self):
+        self.initial_data = deepcopy(self.initial_data)
+        self.initial_data["awardCriteria"] = "lifeCycleCost"
+        super(TenderUACriteriaLccTest, self).setUp()
+
+    test_lcc_criterion_valid = snitch(lcc_criterion_valid)
+    test_lcc_criterion_invalid = snitch(lcc_criterion_invalid)
 
 
 class TenderUACriteriaRGTest(TenderCriteriaRGTestMixin, BaseTenderUAContentWebTest):

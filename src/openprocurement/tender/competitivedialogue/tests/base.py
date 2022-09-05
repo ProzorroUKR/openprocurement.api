@@ -15,9 +15,9 @@ from openprocurement.tender.competitivedialogue.models import (
 from openprocurement.tender.competitivedialogue.tests.periods import PERIODS, PERIODS_UA_STAGE_2
 from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest as BaseTenderWebTest
 from openprocurement.tender.belowthreshold.tests.base import (
-        test_organization,
-        set_bid_responses,
-        set_tender_multi_buyers,
+    test_organization,
+    set_bid_responses,
+    set_tender_multi_buyers,
 )
 from openprocurement.tender.openeu.tests.base import (
     test_tender_data as base_test_tender_data_eu,
@@ -353,8 +353,10 @@ def create_tender_stage2(self, initial_lots=None, initial_data=None, features=No
     self.app.authorization = ("Basic", ("broker", ""))
 
     # TODO add criteria to the test data ?
-    with patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-               get_now() + timedelta(days=1)):
+    with patch(
+        "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+        get_now() + timedelta(days=1)
+    ):
         self.app.patch_json(
             "/tenders/{id}?acc_token={token}".format(id=self.tender_id, token=self.tender_token),
             {"data": {"status": "active.tendering"}},
@@ -367,9 +369,6 @@ def create_tender_stage2(self, initial_lots=None, initial_data=None, features=No
         bids = []
         for i in initial_bids:
             i = i.copy()
-            if initial_lots:
-                value = i.pop("value")
-                i["lotValues"] = [{"value": value, "relatedLot": l["id"]} for l in self.lots]
             if self.initial_criteria:
                 i["requirementResponses"] = set_bid_responses(criteria)
             bid, bid_token = self.create_bid(self.tender_id, i)

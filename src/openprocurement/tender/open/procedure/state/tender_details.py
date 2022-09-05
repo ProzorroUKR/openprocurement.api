@@ -43,6 +43,17 @@ class TenderDetailsState(TenderDetailsMixing, OpenTenderState):
                     name="tenderPeriod.startDate"
                 )
 
+        if after["status"] != "draft":
+            for item in after["items"]:
+                if not item.get("relatedLot"):
+                    raise_operation_error(
+                        get_request(),
+                        "This field is required",
+                        status=422,
+                        location="body",
+                        name="item.relatedLot"
+                    )
+
         # validate items cpv group
         cpv_group_lists = {i["classification"]["id"][:3] for i in before.get("items")}
         for item in after.get("items", ""):

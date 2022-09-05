@@ -1607,7 +1607,7 @@ def lcc_criterion_invalid(self):
     data = dict(**self.initial_data)
     data["awardCriteria"] = "lifeCycleCost"
     data["status"] = "draft"
-    data["lots"] = self.initial_lots
+    data["lots"] = self.test_lots_data
     response = self.app.post_json("/tenders", {"data": data})
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]

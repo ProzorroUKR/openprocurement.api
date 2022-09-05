@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.tender.core.tests.cancellation import activate_cancellation_with_complaints_after_2020_04_19
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author, test_cancellation
-
-
-# TenderQuestionResourceTest
+from openprocurement.tender.core.tests.cancellation import (
+    activate_cancellation_with_complaints_after_2020_04_19,
+)
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_organization,
+    test_author,
+    test_cancellation,
+)
 
 
 def create_tender_question(self):
@@ -39,9 +42,6 @@ def create_tender_question(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"], "Can add question only in enquiryPeriod")
-
-
-# TenderLotQuestionResourceTest
 
 
 def tender_has_unanswered_questions(self):

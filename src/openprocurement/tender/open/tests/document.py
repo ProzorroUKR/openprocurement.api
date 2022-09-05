@@ -1,10 +1,13 @@
 import unittest
+
+from openprocurement.tender.belowthreshold.tests.base import test_lots
 from openprocurement.tender.open.tests.base import BaseTenderUAContentWebTest
 from openprocurement.tender.belowthreshold.tests.document import TenderDocumentWithDSResourceTestMixin
 
 
 class TenderDocumentWithDSResourceTest(BaseTenderUAContentWebTest, TenderDocumentWithDSResourceTestMixin):
     docservice = True
+    initial_lots = test_lots
 
 
 def suite():

@@ -1,19 +1,21 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
 from copy import deepcopy
+
 from openprocurement.api.models import get_now
-from openprocurement.api.constants import RELEASE_2020_04_19, TWO_PHASE_COMMIT_FROM
+from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import parse_date
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization, test_author, test_cancellation, test_claim
+    test_organization,
+    test_author,
+    test_cancellation,
+    test_claim,
+    set_tender_lots,
 )
 from openprocurement.tender.open.tests.base import test_bids
-
-
-# TenderLotResourceTest
 
 
 def patch_tender_currency(self):
@@ -268,7 +270,7 @@ def get_tender_lots(self):
     response = self.app.get("/tenders/{}/lots".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    result = response.json["data"][0]
+    result = response.json["data"][-1]
     result.pop("auctionPeriod", None)
     self.assertEqual(
         set(result),
@@ -280,7 +282,7 @@ def get_tender_lots(self):
     response = self.app.get("/tenders/{}/lots".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    api_lot = response.json["data"][0]
+    api_lot = response.json["data"][-1]
     lot.pop("auctionPeriod", None)
     api_lot.pop("auctionPeriod")
     self.assertEqual(api_lot, lot)
@@ -292,9 +294,6 @@ def get_tender_lots(self):
     self.assertEqual(
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
-
-
-# TenderLotEdgeCasesTest
 
 
 def question_blocking(self):
@@ -489,9 +488,6 @@ def next_check_value_with_unanswered_claim(self):
         parse_date(response.json["data"]["next_check"]),
         parse_date(response.json["data"]["tenderPeriod"]["endDate"])
     )
-
-
-# TenderLotBidderResourceTest
 
 
 def create_tender_bidder_invalid(self):
@@ -704,9 +700,6 @@ def patch_tender_bidder(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"], "Can't update bid in current (complete) tender status")
-
-
-# TenderLotFeatureBidderResourceTest
 
 
 def create_tender_bidder_feature_invalid(self):
@@ -962,9 +955,6 @@ def create_tender_bidder_feature(self):
     self.assertEqual(response.json["errors"][0]["description"], "Can't add bid in current (complete) tender status")
 
 
-# TenderLotProcessTest
-
-
 def proc_1lot_1bid(self):
     # create tender
     response = self.app.post_json("/tenders", {"data": self.initial_data})
@@ -1006,13 +996,19 @@ def proc_1lot_1bid(self):
 def proc_1lot_1bid_patch(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    tender_data = deepcopy(self.initial_data)
+    set_tender_lots(tender_data, self.test_lots_data)
+    self.test_lots_data = tender_data["lots"]
+
+    response = self.app.post_json("/tenders", {"data": tender_data})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     self.set_initial_status(response.json)
     # add lot
+    lot_data = self.test_lots_data[0].copy()
+    lot_data.pop("id")
     response = self.app.post_json(
-        "/tenders/{}/lots?acc_token={}".format(tender_id, owner_token), {"data": self.test_lots_data[0]}
+        "/tenders/{}/lots?acc_token={}".format(tender_id, owner_token), {"data": lot_data}
     )
     self.assertEqual(response.status, "201 Created")
     lot = response.json["data"]
@@ -1754,17 +1750,24 @@ def proc_2lot_2bid_2com_2win(self):
 
 def lots_features_delete(self):
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.test_features_tender_data})
+    tender_data = deepcopy(self.test_features_tender_data)
+    set_tender_lots(tender_data, self.test_lots_data)
+    self.test_lots_data = tender_data["lots"]
+
+    response = self.app.post_json("/tenders", {"data": tender_data})
+
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     self.set_initial_status(response.json)
-    self.assertEqual(tender["features"], self.test_features_tender_data["features"])
+    self.assertEqual(tender["features"], tender_data["features"])
     # add lot
     lots = []
     for lot in self.test_lots_data * 2:
+        lot = lot.copy()
+        lot.pop("id")
         response = self.app.post_json("/tenders/{}/lots?acc_token={}".format(tender_id, owner_token), {"data": lot})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")

@@ -1,6 +1,9 @@
 from openprocurement.tender.open.tests.base import test_tender_data, test_bids
 from openprocurement.tender.belowthreshold.tests.base import test_lots
-from openprocurement.tender.open.tests.award import TenderAwardPendingResourceTestCase, BaseTenderUAContentWebTest
+from openprocurement.tender.open.tests.award import (
+    TenderAwardPendingResourceTestCase,
+    BaseTenderUAContentWebTest,
+)
 from openprocurement.tender.core.tests.qualification_milestone import (
     TenderAwardMilestone24HMixin,
     TenderAwardMilestoneALPMixin,
@@ -8,7 +11,7 @@ from openprocurement.tender.core.tests.qualification_milestone import (
 
 
 class TenderAwardMilestone24HTestCase(TenderAwardMilestone24HMixin, TenderAwardPendingResourceTestCase):
-    pass
+    initial_lots = test_lots
 
 
 class TenderAwardMilestoneALPTestCase(TenderAwardMilestoneALPMixin, BaseTenderUAContentWebTest):

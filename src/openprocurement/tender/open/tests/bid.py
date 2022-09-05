@@ -6,16 +6,17 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_criteria, language_criteria
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_criteria,
+    set_bid_lotvalues,
+)
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization,
     test_author,
     test_lots,
 )
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
-    # TenderBidDocumentResourceTest
     not_found,
-    # TenderBidderBatchDocumentWithDSResourceTest
     create_tender_bid_with_documents,
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
@@ -28,7 +29,6 @@ from openprocurement.tender.open.tests.base import (
     test_bids,
 )
 from openprocurement.tender.open.tests.bid_blanks import (
-    # TenderBidResourceTest
     create_tender_biddder_invalid,
     create_tender_bidder,
     create_bid_after_removing_lot,
@@ -46,36 +46,29 @@ from openprocurement.tender.open.tests.bid_blanks import (
     create_tender_bid_no_scale_invalid,
     create_tender_bid_with_scale_not_required,
     create_tender_bid_no_scale,
-    # TenderBidFeautreResourceTest
     features_bidder,
     features_bidder_invalid,
-    # TenderBidDocumentResourceTest
     create_tender_bidder_document,
     put_tender_bidder_document,
     patch_tender_bidder_document,
     create_tender_bidder_document_nopending,
-    # TenderBidDocumentWithDSResourceTest
     create_tender_bidder_document_json,
     put_tender_bidder_document_json,
     patch_tender_bidder_document_json,
     tender_bidder_confidential_document,
     create_tender_bidder_document_nopending_json,
-    # TenderBidRequirementResponseResourceTest
     create_bid_requirement_response,
     patch_bid_requirement_response,
     get_bid_requirement_response,
     patch_bid_with_responses,
     bid_activate_with_cancelled_tenderer_criterion,
     bid_invalidation_after_requirement_put,
-    # TenderBidRequirementResponseEvidenceResourceTest
     create_bid_requirement_response_evidence,
     patch_bid_requirement_response_evidence,
     get_bid_requirement_response_evidence,
     bid_activate,
-    # TenderBidDocumentActivateResourceTest
     doc_date_modified,
     patch_tender_draft_bidder,
-    # Tender2LotBidResourceTest
     patch_tender_with_bids_lots_none,
     patch_tender_bidder_decimal_problem,
 )
@@ -136,6 +129,7 @@ class TenderBidRequirementResponseTestMixin:
 @patch("openprocurement.tender.core.models.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
 class TenderBidRequirementResponseEvidenceTestMixin:
     docservice = True
+
     test_create_bid_requirement_response_evidence = snitch(create_bid_requirement_response_evidence)
     test_patch_bid_requirement_response_evidence = snitch(patch_bid_requirement_response_evidence)
     test_get_bid_requirement_response_evidence = snitch(get_bid_requirement_response_evidence)
@@ -195,6 +189,7 @@ class CreateBidMixin(object):
     def setUp(self):
         super(CreateBidMixin, self).setUp()
         bid_data = deepcopy(test_bids[0])
+        set_bid_lotvalues(bid_data, self.initial_lots)
         bid_data["status"] = self.base_bid_status
 
         # Create bid
@@ -210,6 +205,7 @@ class CreateBidMixin(object):
 class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMixin):
     docservice = True
     initial_data = test_tender_data
+    initial_lots = test_lots
     initial_status = "active.tendering"
     test_bids_data = test_bids
     author_data = test_author
@@ -218,17 +214,20 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMix
     test_draft2_bids = snitch(draft2_bids)
 
 
-test_tender_data_decimal = deepcopy(test_tender_data)
-test_tender_data_decimal["value"]["amount"] = 319400.52
-test_tender_data_decimal["minimalStep"]["amount"] = test_tender_data_decimal["value"]["amount"] / 100
-
-
 class TenderBidDecimalResourceTest(BaseTenderUAContentWebTest):
     docservice = True
-    initial_data = test_tender_data_decimal
+    initial_data = test_tender_data
+    initial_lots = test_lots
     initial_status = "active.tendering"
     test_bids_data = test_bids
     author_data = test_author
+
+    def setUp(self):
+        self.initial_lots = deepcopy(self.initial_lots)
+        test_amount = 319400.52
+        self.initial_lots[0]["value"]["amount"] = test_amount
+        self.initial_lots[0]["minimalStep"]["amount"] = test_amount / 100
+        super(TenderBidDecimalResourceTest, self).setUp()
 
     test_patch_tender_bidder_decimal_problem = snitch(patch_tender_bidder_decimal_problem)
 
@@ -247,6 +246,7 @@ class Tender2LotBidResourceTest(BaseTenderUAContentWebTest):
 class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
     docservice = True
     initial_data = test_features_tender_ua_data
+    initial_lots = test_lots
     initial_status = "active.tendering"
     test_bids_data = test_bids
 
@@ -257,6 +257,7 @@ class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
 class TenderBidDocumentResourceTest(CreateBidMixin, BaseTenderUAContentWebTest):
     docservice = True
     initial_status = "active.tendering"
+    initial_lots = test_lots
     test_bids_data = test_bids
     author_data = test_author
 
@@ -266,6 +267,7 @@ class TenderBidDocumentResourceTest(CreateBidMixin, BaseTenderUAContentWebTest):
 class TenderBidActivateDocumentTest(CreateBidMixin, BaseTenderUAContentWebTest):
     docservice = True
     initial_status = "active.tendering"
+    initial_lots = test_lots
     test_bids_data = test_bids
     author_data = test_author
     base_bid_status = "draft"
@@ -283,11 +285,13 @@ class TenderBidDocumentWithDSResourceTestMixin:
 
 class TenderBidDocumentWithDSResourceTest(TenderBidDocumentWithDSResourceTestMixin, TenderBidDocumentResourceTest):
     docservice = True
+    initial_lots = test_lots
 
 
 class TenderBidderBatchDocumentWithDSResourceTest(BaseTenderUAContentWebTest):
     docservice = True
     initial_status = "active.tendering"
+    initial_lots = test_lots
     test_bids_data = test_bids
     bid_data_wo_docs = {
         "tenderers": [test_organization],
@@ -309,6 +313,7 @@ class TenderBidRequirementResponseResourceTest(
 ):
     docservice = True
     initial_data = test_tender_data
+    initial_lots = test_lots
     base_bid_status = "draft"
     initial_status = "active.tendering"
 
@@ -320,6 +325,7 @@ class TenderBidRequirementResponseEvidenceResourceTest(
 ):
     docservice = True
     initial_data = test_tender_data
+    initial_lots = test_lots
     base_bid_status = "draft"
     initial_status = "active.tendering"
 

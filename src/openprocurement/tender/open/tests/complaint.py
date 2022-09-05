@@ -5,20 +5,17 @@ from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import (
     test_lots,
-    test_draft_claim,
     test_draft_complaint,
     test_author
 )
 from openprocurement.tender.belowthreshold.tests.complaint import TenderComplaintResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
-    # TenderComplaintDocumentResourceTest
     not_found,
     create_tender_complaint_document,
 )
 
 from openprocurement.tender.open.tests.base import BaseTenderUAContentWebTest
 from openprocurement.tender.open.tests.complaint_blanks import (
-    # TenderComplaintResourceTest
     create_tender_complaint,
     patch_tender_complaint,
     review_tender_complaint,
@@ -27,10 +24,8 @@ from openprocurement.tender.open.tests.complaint_blanks import (
     bot_patch_tender_complaint,
     bot_patch_tender_complaint_mistaken,
     bot_patch_tender_complaint_forbidden,
-    # TenderComplaintDocumentResourceTest
     patch_tender_complaint_document,
     put_tender_complaint_document,
-    # TenderLotAwardComplaintResourceTest
     create_tender_lot_complaint,
 )
 
@@ -47,9 +42,12 @@ class TenderUAComplaintResourceTestMixin(object):
 
 
 class TenderComplaintResourceTest(
-    BaseTenderUAContentWebTest, TenderComplaintResourceTestMixin, TenderUAComplaintResourceTestMixin
+    BaseTenderUAContentWebTest,
+    TenderComplaintResourceTestMixin,
+    TenderUAComplaintResourceTestMixin,
 ):
     test_author = test_author
+    initial_lots = test_lots
 
 
 class TenderLotAwardComplaintResourceTest(BaseTenderUAContentWebTest):
@@ -60,6 +58,8 @@ class TenderLotAwardComplaintResourceTest(BaseTenderUAContentWebTest):
 
 
 class TenderComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
+    initial_lots = test_lots
+
     def setUp(self):
         super(TenderComplaintDocumentResourceTest, self).setUp()
         # Create complaint

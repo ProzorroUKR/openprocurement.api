@@ -5,26 +5,6 @@ from openprocurement.api.utils import parse_date
 from openprocurement.tender.belowthreshold.tests.base import test_claim, test_author
 from openprocurement.tender.core.tests.base import change_auth
 
-# TenderSwitch0BidResourceTest
-
-
-def set_auction_period_0bid(self):
-    start_date = "9999-01-01T00:00:00+00:00"
-    response = self.check_chronograph({"data": {"auctionPeriod": {"startDate": start_date}}})
-    self.assertEqual(response.json["data"]["auctionPeriod"]["startDate"], start_date)
-
-
-# TenderSwitch1BidResourceTest
-
-
-def switch_to_unsuccessful_1bid(self):
-    self.set_status("active.auction", {"status": self.initial_status})
-    response = self.check_chronograph()
-    self.assertEqual(response.json["data"]["status"], "unsuccessful")
-
-
-# TenderSwitchAuctionResourceTest
-
 
 def switch_to_complaint(self):
     claim_data = deepcopy(test_claim)
@@ -55,67 +35,6 @@ def switch_to_complaint(self):
     self.assertEqual(response.json["data"]["complaints"][-1]["status"], status)
 
 
-def switch_to_unsuccessful(self):
-    self.set_status("active.auction", {"status": self.initial_status})
-    response = self.check_chronograph()
-
-    self.app.authorization = ("Basic", ("auction", ""))
-    response = self.app.get("/tenders/{}/auction".format(self.tender_id))
-    response = self.app.post_json(
-        "/tenders/{}/auction".format(self.tender_id),
-        {"data": {"bids": [
-            {} for b in response.json["data"]["bids"]
-        ]}}
-    )
-    self.assertEqual(response.json["data"]["status"], "active.qualification")
-
-    self.app.authorization = ("Basic", ("token", ""))
-    response = self.app.get("/tenders/{}/awards".format(self.tender_id))
-    award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}".format(self.tender_id, award_id), {"data": {"status": "unsuccessful"}}
-    )
-
-    response = self.app.get("/tenders/{}/awards".format(self.tender_id))
-    award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}".format(self.tender_id, award_id), {"data": {"status": "unsuccessful"}}
-    )
-
-    tender = self.mongodb.tenders.get(self.tender_id)
-    for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.mongodb.tenders.save(tender)
-
-    response = self.check_chronograph()
-    self.assertEqual(response.json["data"]["status"], "unsuccessful")
-
-
-def set_auction_period(self):
-    response = self.check_chronograph()
-    self.assertEqual(response.json["data"]["status"], "active.tendering")
-    item = response.json["data"]
-    self.assertIn("auctionPeriod", item)
-    self.assertIn("shouldStartAfter", item["auctionPeriod"])
-    self.assertGreaterEqual(item["auctionPeriod"]["shouldStartAfter"], response.json["data"]["tenderPeriod"]["endDate"])
-    self.assertEqual(
-        parse_date(response.json["data"]["next_check"]),
-        parse_date(response.json["data"]["tenderPeriod"]["endDate"])
-    )
-
-    start_date = "9999-01-01T00:00:00+00:00"
-    response = self.check_chronograph({"data": {"auctionPeriod": {"startDate": start_date}}})
-    item = response.json["data"]
-    self.assertEqual(item["auctionPeriod"]["startDate"], start_date)
-
-
-# TenderLotSwitch0BidResourceTest
-# TenderLotSwitchAuctionResourceTest
-
-
-# TenderLotSwitch0BidResourceTest
-
-
 def switch_to_unsuccessful_lot_0bid(self):
     self.set_status("active.auction", {"status": self.initial_status})
     response = self.check_chronograph()
@@ -133,16 +52,10 @@ def set_auction_period_lot_0bid(self):
     self.assertEqual(response.json["data"]["lots"][0]["auctionPeriod"]["startDate"], start_date)
 
 
-# TenderLotSwitch1BidResourceTest
-
-
 def switch_to_unsuccessful_lot_1bid(self):
     self.set_status("active.auction", {"status": self.initial_status})
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
-
-
-# TnederLotSwitchAuctionResourceTest
 
 
 def switch_to_auction_lot(self):

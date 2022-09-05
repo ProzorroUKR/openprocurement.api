@@ -7,7 +7,7 @@
             "scheme": "LCC",
             "id": "CRITERION.OTHER.LIFE_CYCLE_COST.COST_OF_USE"
         },
-        "relatesTo": "tender",
+        "relatesTo": "lot",
         "legislation": [
             {
                 "version": "2020-09-28",
@@ -40,7 +40,7 @@
             "scheme": "LCC",
             "id": "CRITERION.OTHER.LIFE_CYCLE_COST.MAINTENANCE_COST"
         },
-        "relatesTo": "tender",
+        "relatesTo": "lot",
         "legislation": [
             {
                 "version": "2020-09-28",
@@ -73,7 +73,7 @@
             "scheme": "LCC",
             "id": "CRITERION.OTHER.LIFE_CYCLE_COST.END_OF_LIFE_COST"
         },
-        "relatesTo": "tender",
+        "relatesTo": "lot",
         "legislation": [
             {
                 "version": "2020-09-28",
@@ -106,7 +106,7 @@
             "scheme": "LCC",
             "id": "CRITERION.OTHER.LIFE_CYCLE_COST.ECOLOGICAL_COST"
         },
-        "relatesTo": "tender",
+        "relatesTo": "lot",
         "legislation": [
             {
                 "version": "2020-09-28",

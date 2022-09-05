@@ -3,9 +3,6 @@ from datetime import timedelta
 from openprocurement.api.utils import get_now
 
 
-# TenderContractResourceTest
-
-
 def create_tender_contract(self):
     auth = self.app.authorization
     self.app.authorization = ("Basic", ("token", ""))

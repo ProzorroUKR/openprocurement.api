@@ -3,13 +3,13 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_lots
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
-    # TenderUAProcessTest
     invalid_tender_conditions,
     create_tender_with_inn,
     create_tender_with_inn_before,
     tender_milestones_required,
     patch_tender_lots_none,
     tender_minimalstep_validation,
+    tender_lot_minimalstep_validation,
     patch_tender_minimalstep_validation,
     create_tender_with_earlier_non_required_unit,
     create_tender_with_required_unit,
@@ -17,7 +17,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
 
 from openprocurement.tender.openua.tests.tender import TenderUaProcessTestMixin
 from openprocurement.tender.openua.tests.tender_blanks import (
-    # TenderUAResourceTest
     empty_listing,
     create_tender_generated,
     tender_with_main_procurement_category,
@@ -28,14 +27,11 @@ from openprocurement.tender.openuadefense.tests.base import (
     BaseTenderUAWebTest,
     test_tender_data,
     test_bids,
-    BaseApiWebTest,
 )
 from openprocurement.tender.openuadefense.tests.tender_blanks import (
-    # TenderUAResourceTest
     create_tender_invalid,
     patch_tender,
     patch_tender_ua,
-    # TenderUAProcessTest
     one_valid_bid_tender_ua,
     patch_item_with_zero_quantity,
     one_invalid_bid_tender_new,
@@ -61,6 +57,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin):
     test_tender_milestones_required = snitch(tender_milestones_required)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
     test_tender_minimalstep_validation = snitch(tender_minimalstep_validation)
+    test_tender_lot_minimalstep_validation = snitch(tender_lot_minimalstep_validation)
     test_patch_tender_minimalstep_validation = snitch(patch_tender_minimalstep_validation)
     test_patch_item_with_zero_quantity = snitch(patch_item_with_zero_quantity)
     test_create_tender_with_earlier_non_required_unit = snitch(create_tender_with_earlier_non_required_unit)
@@ -71,7 +68,6 @@ class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):
     docservice = True
     initial_data = test_tender_data
     test_bids_data = test_bids
-    docservice = True
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_one_valid_bid_tender_ua = snitch(one_valid_bid_tender_ua)

@@ -9,7 +9,7 @@ from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.belowthreshold.tests.base import (
     test_criteria,
     test_requirement_groups,
-    language_criteria,
+    language_criteria, set_tender_criteria,
 )
 from openprocurement.tender.open.tests.base import (
     lcc_criteria,
@@ -1460,22 +1460,20 @@ def validate_requirement_evidence_document(self):
 
 
 def lcc_criterion_valid(self):
-    # create lcc tender draft
-    data = dict(**self.initial_data)
-    data["awardCriteria"] = "lifeCycleCost"
-    data["status"] = "draft"
-    response = self.app.post_json("/tenders", {"data": data})
-    self.assertEqual(response.status, "201 Created")
+    response = self.app.get("/tenders/{}".format(self.tender_id))
     tender = response.json["data"]
-    self.assertEqual(tender["awardCriteria"], data["awardCriteria"])
-    self.tender_token = response.json["access"]["token"]
-    self.tender_id = tender["id"]
+    self.assertEqual(tender["awardCriteria"], "lifeCycleCost")
 
     # add mandatory criteria
     add_criteria(self)
 
     # post lcc criteria 1 item
     test_lcc_criteria = deepcopy(lcc_criteria)
+    set_tender_criteria(
+        test_lcc_criteria,
+        self.initial_data.get("lots", []),
+        self.initial_data.get("items", []),
+    )
     criteria_request_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
     response = self.app.post_json(criteria_request_path, {"data": [test_lcc_criteria[0]]}, status=201)
 
@@ -1565,54 +1563,10 @@ def lcc_criterion_valid(self):
 
 
 def lcc_criterion_invalid(self):
-    # create lcc tender draft
-    data = dict(**self.initial_data)
-    data["awardCriteria"] = "lifeCycleCost"
-    data["status"] = "draft"
-    response = self.app.post_json("/tenders", {"data": data})
-    self.assertEqual(response.status, "201 Created")
+    response = self.app.get("/tenders/{}".format(self.tender_id))
     tender = response.json["data"]
-    self.tender_token = response.json["access"]["token"]
-    self.tender_id = tender["id"]
-    item_id = tender["items"][0]["id"]
+    self.assertEqual(tender["awardCriteria"], "lifeCycleCost")
 
-    # post lcc criteria 1 item
-    for restricted_relatesTo_choice in ["item", "tenderer"]:
-        test_lcc_criteria = deepcopy(lcc_criteria)
-        test_lcc_criteria[0]["relatesTo"] = restricted_relatesTo_choice
-        if restricted_relatesTo_choice == "item":
-            test_lcc_criteria[0]["relatedItem"] = item_id
-
-        criteria_request_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
-
-        response = self.app.post_json(criteria_request_path, {"data": [test_lcc_criteria[0]]}, status=422)
-        self.assertEqual(response.status, "422 Unprocessable Entity")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["status"], "error")
-        self.assertEqual(
-            response.json["errors"],
-            [{
-                "location": "body",
-                "name": 0,
-                "description": {
-                    "relatesTo": [
-                        "{} criteria relatesTo should be `tender` if tender has no lots"
-                        .format(test_lcc_criteria[0]["classification"]["id"])
-                    ]
-                }
-            }]
-        )
-
-    # create lcc tender draft with lots
-    data = dict(**self.initial_data)
-    data["awardCriteria"] = "lifeCycleCost"
-    data["status"] = "draft"
-    data["lots"] = self.initial_lots
-    response = self.app.post_json("/tenders", {"data": data})
-    self.assertEqual(response.status, "201 Created")
-    tender = response.json["data"]
-    self.tender_token = response.json["access"]["token"]
-    self.tender_id = tender["id"]
     item_id = tender["items"][0]["id"]
 
     # post lcc criteria 1 item
