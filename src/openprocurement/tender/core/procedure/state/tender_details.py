@@ -104,8 +104,9 @@ class TenderDetailsMixing:
     def initialize_enquiry_period(self, tender):  # openeu, openua
         tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
         end_date = calculate_tender_business_date(tendering_end, self.enquiry_period_timedelta, tender)
-        clarifications_until = calculate_clarif_business_date(end_date, self.enquiry_stand_still_timedelta,
-                                                              tender, True)
+        clarifications_until = calculate_clarif_business_date(
+            end_date, self.enquiry_stand_still_timedelta,  tender, True
+        )
         enquiry_period = tender.get("enquiryPeriod")
         tender["enquiryPeriod"] = dict(
             startDate=tender["tenderPeriod"]["startDate"],

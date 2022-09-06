@@ -15,7 +15,7 @@ def tender_init_handler(event):
     """ initialization handler for openua tenders """
     tender = event.tender
     end_date = calculate_tender_business_date(tender.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, tender)
-    clarifications_until = calculate_clarif_business_date(end_date, ENQUIRY_STAND_STILL_TIME, tender, True)
+    clarifications_until = calculate_clarif_business_date(end_date, ENQUIRY_STAND_STILL_TIME, tender)
     tender.enquiryPeriod = EnquiryPeriod(
         dict(
             startDate=tender.tenderPeriod.startDate,
