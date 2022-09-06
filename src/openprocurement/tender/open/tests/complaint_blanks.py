@@ -9,7 +9,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from mock import patch
 from copy import deepcopy
 from datetime import timedelta
-# TenderComplaintResourceTest
 
 
 def create_tender_complaint(self):
@@ -771,9 +770,6 @@ def review_tender_stopping_complaint(self):
         # This test exist in patch_tender_complaint method
 
 
-# TenderLotAwardComplaintResourceTest
-
-
 def create_tender_lot_complaint(self):
     claim_data = deepcopy(test_claim)
     claim_data["relatedLot"] = self.initial_lots[0]["id"]
@@ -843,9 +839,6 @@ def create_tender_lot_complaint(self):
     self.assertEqual(
         response.json["errors"][0]["description"], "Can't add complaint in current (unsuccessful) tender status"
     )
-
-
-# TenderComplaintDocumentResourceTest
 
 
 def put_tender_complaint_document(self):

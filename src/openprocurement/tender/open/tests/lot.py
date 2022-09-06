@@ -9,7 +9,6 @@ from openprocurement.tender.belowthreshold.tests.lot import (
     TenderLotProcessTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.lot_blanks import (
-    # TenderLotResourceTest
     tender_lot_guarantee,
     tender_lot_milestones,
     create_tender_lot_minimalstep_validation,
@@ -23,23 +22,18 @@ from openprocurement.tender.open.tests.base import (
 )
 from openprocurement.tender.open.tests.base import test_bids
 from openprocurement.tender.open.tests.lot_blanks import (
-    # TenderLotResourceTest
     patch_tender_currency,
     patch_tender_vat,
     get_tender_lot,
     get_tender_lots,
-    # TenderLotEdgeCasesTest
     question_blocking,
     claim_blocking,
     next_check_value_with_unanswered_question,
     next_check_value_with_unanswered_claim,
-    # TenderLotBidderResourceTest
     create_tender_bidder_invalid,
     patch_tender_bidder,
-    # TenderLotFeatureBidderResourceTest
     create_tender_bidder_feature_invalid,
     create_tender_bidder_feature,
-    # TenderLotProcessTest
     proc_1lot_1bid,
     proc_1lot_1bid_patch,
     proc_1lot_2bid,
@@ -71,8 +65,10 @@ class TenderUALotProcessTestMixin(object):
 
 class TenderLotResourceTest(BaseTenderUAContentWebTest, TenderLotResourceTestMixin, TenderUALotResourceTestMixin):
     initial_data = test_tender_data
-    test_lots_data = test_lots
+    initial_lots = test_lots
     initial_criteria = test_criteria + language_criteria
+
+    test_lots_data = test_lots
 
     test_tender_lot_guarantee = snitch(tender_lot_guarantee)
     test_tender_lot_milestones = snitch(tender_lot_milestones)
@@ -164,6 +160,7 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
 
 class TenderLotProcessTest(BaseTenderUAContentWebTest, TenderLotProcessTestMixin, TenderUALotProcessTestMixin):
     initial_data = test_tender_data
+
     test_bids_data = test_bids
     test_lots_data = test_lots
     test_features_tender_data = test_features_tender_ua_data

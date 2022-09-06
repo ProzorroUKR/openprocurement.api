@@ -138,9 +138,9 @@ def create_tender_lot_invalid(self):
     response = self.app.get(request_path)
     self.assertEqual(response.content_type, "application/json")
     lots = response.json["data"]
-    self.assertEqual(len(lots), 1)
-    self.assertEqual(lots[0]["minimalStep"]["currency"], "UAH")
-    self.assertEqual(lots[0]["minimalStep"]["amount"], 15)
+    self.assertEqual(len(lots), 1 + len(getattr(self, 'initial_lots', None) or []))
+    self.assertEqual(lots[-1]["minimalStep"]["currency"], "UAH")
+    self.assertEqual(lots[-1]["minimalStep"]["amount"], 15)
 
     items = deepcopy(self.initial_data["items"])
     items[0]["relatedLot"] = "0" * 32
@@ -263,10 +263,10 @@ def create_tender_lot(self):
     self.assertEqual(response.json["data"]["guarantee"]["amount"], 100500 + 20)
     self.assertEqual(response.json["data"]["guarantee"]["currency"], "EUR")
     self.assertNotIn("guarantee", response.json["data"]["lots"][0])
-    self.assertEqual(response.json["data"]["lots"][1]["guarantee"]["amount"], 100500)
-    self.assertEqual(response.json["data"]["lots"][1]["guarantee"]["currency"], "EUR")
-    self.assertEqual(response.json["data"]["lots"][2]["guarantee"]["amount"], 20)
-    self.assertEqual(response.json["data"]["lots"][2]["guarantee"]["currency"], "EUR")
+    self.assertEqual(response.json["data"]["lots"][-2]["guarantee"]["amount"], 100500)
+    self.assertEqual(response.json["data"]["lots"][-2]["guarantee"]["currency"], "EUR")
+    self.assertEqual(response.json["data"]["lots"][-1]["guarantee"]["amount"], 20)
+    self.assertEqual(response.json["data"]["lots"][-1]["guarantee"]["currency"], "EUR")
 
     del lot["date"]
     if "minValue" in lot:

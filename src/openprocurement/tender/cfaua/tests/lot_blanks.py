@@ -1308,6 +1308,7 @@ def create_tender_lot(self):
 
 def tender_lot_guarantee(self):
     data = deepcopy(self.initial_data)
+    del data["items"][0]["relatedLot"]
     data["lots"] = deepcopy(self.initial_lots)
     data["lots"][0]["guarantee"] = {"amount": 20, "currency": "USD"}
     data["guarantee"] = {"amount": 100, "currency": "USD"}

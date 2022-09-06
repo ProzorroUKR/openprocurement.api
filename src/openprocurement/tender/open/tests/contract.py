@@ -3,7 +3,10 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_organization,
+    test_lots,
+)
 from openprocurement.tender.belowthreshold.tests.contract import (
     TenderContractResourceTestMixin,
     TenderContractDocumentResourceTestMixin,
@@ -15,7 +18,6 @@ from openprocurement.tender.open.tests.base import (
     test_tender_data_multi_buyers,
 )
 from openprocurement.tender.open.tests.contract_blanks import (
-    # TenderContractResourceTest
     patch_tender_contract,
     create_tender_contract,
     patch_tender_contract_datesigned,
@@ -44,6 +46,7 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
 class TenderContractResourceTest(BaseTenderUAContentWebTest, TenderContractResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_bids
+    initial_lots = test_lots
 
     def create_award(self):
         authorization = self.app.authorization
@@ -55,7 +58,8 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest, TenderContractResou
                     "suppliers": [test_organization],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
-                    "value": self.initial_data["value"],
+                    "lotID": self.initial_lots[0]["id"],
+                    "value": self.initial_bids[0]["lotValues"][0]["value"],
                 }
             },
         )
@@ -90,6 +94,7 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest, TenderContractResou
 class TenderContractVATNotIncludedResourceTest(BaseTenderUAContentWebTest, TenderContractResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_bids
+    initial_lots = test_lots
 
     def create_award(self):
         auth = self.app.authorization
@@ -101,9 +106,10 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderUAContentWebTest, Tende
                     "suppliers": [test_organization],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
+                    "lotID": self.initial_lots[0]["id"],
                     "value": {
-                        "amount": self.initial_bids[0]["value"]["amount"],
-                        "currency": self.initial_bids[0]["value"]["currency"],
+                        "amount": self.initial_bids[0]["lotValues"][0]["value"]["amount"],
+                        "currency": self.initial_bids[0]["lotValues"][0]["value"]["currency"],
                         "valueAddedTaxIncluded": False,
                     },
                 }
@@ -130,6 +136,7 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderUAContentWebTest, Tende
 class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_bids
+    initial_lots = test_lots
     docservice = True
 
     def setUp(self):
@@ -139,7 +146,12 @@ class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest, TenderContr
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
-            {"data": {"suppliers": [test_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+            {"data": {
+                "suppliers": [test_organization],
+                "status": "pending",
+                "bid_id": self.initial_bids[0]["id"],
+                "lotID": self.initial_lots[0]["id"],
+            }},
         )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -166,6 +178,7 @@ class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest, TenderContr
 class TenderContractMultiBuyersResourceTest(BaseTenderUAContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_bids
+    initial_lots = test_lots
     initial_data = test_tender_data_multi_buyers
 
     def setUp(self):

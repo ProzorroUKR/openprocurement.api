@@ -144,7 +144,7 @@ class TenderCriteriaLccTestMixin(object):
 
 class TenderUACriteriaTest(TenderCriteriaTestMixin, TenderCriteriaLccTestMixin, BaseTenderUAContentWebTest):
     initial_data = test_tender_data
-    initial_lots = test_lots
+    test_lots_data = test_lots
     initial_status = "draft"
 
 

@@ -37,7 +37,10 @@ test_organization = {
         "locality": "м. Київ",
         "streetAddress": "вул. Банкова, 11, корпус 1",
     },
-    "contactPoint": {"name": "Державне управління справами", "telephone": "+0440000000"},
+    "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000",
+    },
     "scale": "micro",
 }
 
@@ -137,8 +140,8 @@ test_features_tender_data["features"] = [
     },
 ]
 test_bids = [
-    {"tenderers": [test_organization], "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True}},
-    {"tenderers": [test_organization], "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True}},
+    {"tenderers": [test_organization], "value": {"amount": 469.0, "currency": "UAH", "valueAddedTaxIncluded": True}},
+    {"tenderers": [test_organization], "value": {"amount": 479.0, "currency": "UAH", "valueAddedTaxIncluded": True}},
 ]
 test_lots = [
     {
@@ -356,11 +359,29 @@ class BaseTenderWebTest(BaseCoreWebTest):
     tender_class = Tender
     guarantee_criterion = None
 
+    def setUp(self):
+        super(BaseTenderWebTest, self).setUp()
+        self.initial_data = deepcopy(self.initial_data)
+        if self.initial_lots:
+            self.initial_lots = deepcopy(self.initial_lots)
+            set_tender_lots(self.initial_data, self.initial_lots)
+            self.initial_lots = self.initial_data["lots"]
+        if self.initial_bids:
+            self.initial_bids = deepcopy(self.initial_bids)
+            for bid in self.initial_bids:
+                if self.initial_lots:
+                    set_bid_lotvalues(bid, self.initial_lots)
+        if self.initial_criteria:
+            self.initial_criteria = deepcopy(self.initial_criteria)
+            self.initial_criteria = set_tender_criteria(
+                self.initial_criteria,
+                self.initial_data.get("lots", []),
+                self.initial_data.get("items", []),
+            )
+
+
     def create_tender(self):
         data = deepcopy(self.initial_data)
-        if self.initial_lots:
-            set_tender_lots(data, self.initial_lots)
-            self.initial_lots = data["lots"]
         response = self.app.post_json("/tenders", {"data": data})
         tender = response.json["data"]
         self.tender_token = response.json["access"]["token"]
@@ -369,13 +390,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
         if self.initial_criteria:
             response = self.app.post_json(
                 "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-                {
-                    "data": set_tender_criteria(
-                        self.initial_criteria,
-                        tender.get("lots", []),
-                        tender.get("items", []),
-                    )
-                }
+                {"data": self.initial_criteria}
             )
             criteria = response.json["data"]
         if self.guarantee_criterion:
@@ -397,8 +412,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
             rrs = set_bid_responses(criteria)
             for bid in self.initial_bids:
                 bid = bid.copy()
-                if self.initial_lots:
-                    set_bid_lotvalues(bid, self.initial_lots)
                 if self.initial_criteria:
                     bid["requirementResponses"] = rrs
                 bid, bid_token = self.create_bid(self.tender_id, bid)

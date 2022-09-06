@@ -394,10 +394,10 @@ def create_tender_invalid(self):
             ],
         )
 
-    data = test_organization["contactPoint"]["telephone"]
-    del test_organization["contactPoint"]["telephone"]
-    # response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
-    test_organization["contactPoint"]["telephone"] = data
+    data = self.initial_data["procuringEntity"]["contactPoint"]["telephone"]
+    del self.initial_data["procuringEntity"]["contactPoint"]["telephone"]
+    # response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
+    self.initial_data["procuringEntity"]["contactPoint"]["telephone"] = data
 
     data = self.initial_data["items"][0].copy()
     data["id"] = uuid4().hex

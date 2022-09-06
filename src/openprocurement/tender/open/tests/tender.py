@@ -1,29 +1,31 @@
 # -*- coding: utf-8 -*-
 import unittest
+from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_lots, test_criteria, language_criteria
+from openprocurement.tender.belowthreshold.tests.base import test_lots
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
-    # TenderUAResourceTest
     guarantee,
     patch_tender_lots_none,
-    # TenderUAProcessTest
     invalid_tender_conditions,
     create_tender_with_inn,
     create_tender_with_inn_before,
     tender_milestones_required,
     create_tender_central,
     create_tender_central_invalid,
-    tender_minimalstep_validation,
+    tender_lot_minimalstep_validation,
     patch_tender_minimalstep_validation,
     create_tender_with_earlier_non_required_unit,
     create_tender_with_required_unit,
 )
 
-from openprocurement.tender.open.tests.base import test_tender_data, test_bids, BaseTenderUAWebTest, BaseApiWebTest
+from openprocurement.tender.open.tests.base import (
+    BaseTenderUAWebTest,
+    test_tender_data,
+    test_bids,
+)
 from openprocurement.tender.open.tests.tender_blanks import (
-    # TenderUAResourceTest
     empty_listing,
     patch_draft_invalid_json,
     create_tender_invalid,
@@ -33,7 +35,6 @@ from openprocurement.tender.open.tests.tender_blanks import (
     patch_tender_period,
     tender_with_main_procurement_category,
     tender_finance_milestones,
-    # TenderUAProcessTest
     invalid_bid_tender_features,
     invalid_bid_tender_lot,
     one_valid_bid_tender_ua,
@@ -43,7 +44,6 @@ from openprocurement.tender.open.tests.tender_blanks import (
     lost_contract_for_active_award,
     create_tender_with_criteria_lcc,
 )
-from openprocurement.tender.open.models import Tender
 
 
 class TenderUAResourceTestMixin(object):
@@ -59,16 +59,14 @@ class TenderUaProcessTestMixin(object):
     test_lost_contract_for_active_award = snitch(lost_contract_for_active_award)
 
 
-class TenderUATest(BaseApiWebTest):
-    docservice = True
-    tender_model = Tender
-    initial_data = test_tender_data
-
-
 class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):
     docservice = True
     initial_data = test_tender_data
-    test_lots_data = test_lots
+    initial_lots = test_lots
+
+    def setUp(self):
+        super(TenderUAResourceTest, self).setUp()
+        self.test_lots_data = deepcopy(self.initial_lots)
 
     test_create_tender_invalid = snitch(create_tender_invalid)
     test_create_tender_central = snitch(create_tender_central)
@@ -83,7 +81,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderU
     test_create_tender_with_inn_before = snitch(create_tender_with_inn_before)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
     test_tender_milestones_required = snitch(tender_milestones_required)
-    test_tender_minimalstep_validation = snitch(tender_minimalstep_validation)
+    test_tender_lot_minimalstep_validation = snitch(tender_lot_minimalstep_validation)
     test_patch_tender_minimalstep_validation = snitch(patch_tender_minimalstep_validation)
     test_create_tender_with_criteria_lcc = snitch(create_tender_with_criteria_lcc)
     test_create_tender_with_earlier_non_required_unit = snitch(create_tender_with_earlier_non_required_unit)
@@ -93,8 +91,12 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderU
 class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):
     docservice = True
     initial_data = test_tender_data
-    test_bids_data = test_bids
-    docservice = True
+    initial_lots = test_lots
+    initial_bids = test_bids
+
+    def setUp(self):
+        super(TenderUAProcessTest, self).setUp()
+        self.test_bids_data = deepcopy(self.initial_bids)
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_one_valid_bid_tender_ua = snitch(one_valid_bid_tender_ua)
@@ -106,7 +108,6 @@ def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderUAProcessTest))
     suite.addTest(unittest.makeSuite(TenderUAResourceTest))
-    suite.addTest(unittest.makeSuite(TenderUATest))
     return suite
 
 

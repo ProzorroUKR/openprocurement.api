@@ -16,8 +16,6 @@ from openprocurement.tender.core.tests.cancellation import (
 )
 
 
-# TenderCancellationResourceTest
-
 def create_tender_cancellation(self):
 
     cancellation_data = dict(**test_cancellation)
@@ -142,9 +140,6 @@ def patch_tender_cancellation(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active")
     self.assertEqual(response.json["data"]["reason"], "cancellation reason")
-
-
-# TenderAwardsCancellationResourceTest
 
 
 def cancellation_active_award(self):

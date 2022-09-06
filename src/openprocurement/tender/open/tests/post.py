@@ -7,7 +7,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_claim,
     test_organization,
     test_draft_complaint,
-    test_cancellation,
+    test_cancellation, test_lots,
 )
 from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.open.tests.base import BaseTenderUAContentWebTest, test_bids
@@ -347,6 +347,7 @@ class TenderComplaintPostResourceTest(
     TenderComplaintPostResourceMixin
 ):
     docservice = True
+    initial_lots = test_lots
 
     def setUp(self):
         super(TenderComplaintPostResourceTest, self).setUp()
@@ -371,6 +372,7 @@ class TenderAwardComplaintPostResourceTest(
     docservice = True
     initial_status = "active.qualification"
     initial_bids = test_bids
+    initial_lots = test_lots
 
     def setUp(self):
         super(TenderAwardComplaintPostResourceTest, self).setUp()
@@ -381,7 +383,8 @@ class TenderAwardComplaintPostResourceTest(
                 {"data": {
                     "suppliers": [test_organization],
                     "status": "pending",
-                    "bid_id": self.initial_bids[0]["id"]
+                    "bid_id": self.initial_bids[0]["id"],
+                    "lotID": self.initial_lots[0]["id"]
                 }}
             )
 
@@ -422,6 +425,7 @@ class TenderCancellationComplaintPostResourceTest(
     TenderCancellationComplaintPostResourceMixin
 ):
     docservice = True
+    initial_lots = test_lots
 
     @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", date_after_2020_04_19)
     @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", date_after_2020_04_19)

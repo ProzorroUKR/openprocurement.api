@@ -5,27 +5,25 @@ from datetime import timedelta
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import test_lots, test_cancellation
-from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_lots,
+    test_cancellation,
+)
 from openprocurement.tender.belowthreshold.tests.cancellation import (
     TenderCancellationResourceTestMixin,
     TenderCancellationDocumentResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
-    # TenderLotCancellationResourceTest
     create_tender_lot_cancellation,
     patch_tender_lot_cancellation,
-    # TenderLotsCancellationResourceTest
     create_tender_lots_cancellation,
     patch_tender_lots_cancellation,
 )
 
 from openprocurement.tender.open.tests.base import BaseTenderUAContentWebTest, test_bids
 from openprocurement.tender.open.tests.cancellation_blanks import (
-    # TenderAwardsCancellationResourceTest
     cancellation_active_award,
     cancellation_unsuccessful_award,
-    # TenderCancellationResourceTest
     create_tender_cancellation,
     create_cancellation_with_tender_complaint,
     create_cancellation_with_award_complaint,
@@ -79,6 +77,7 @@ class TenderCancellationResourceTest(
     TenderCancellationResourceNewReleaseTestMixin
 ):
     initial_status = "active.tendering"
+    initial_lots = test_lots
     test_create_tender_cancellation = snitch(create_tender_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_cancellation)
     test_activate_cancellation = snitch(activate_cancellation)
@@ -116,6 +115,7 @@ class TenderCancellationComplaintResourceTest(
     BaseTenderUAContentWebTest, TenderCancellationComplaintResourceTestMixin
 ):
     initial_bids = test_bids
+    initial_lots = test_lots
 
     @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     @patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
@@ -141,6 +141,8 @@ class TenderCancellationComplaintResourceTest(
 class TenderCancellationDocumentResourceTest(
     BaseTenderUAContentWebTest, TenderCancellationDocumentResourceTestMixin
 ):
+    initial_lots = test_lots
+
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
 
