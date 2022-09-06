@@ -305,3 +305,44 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, Chronog
     def validate_cancellation_blocks(self, request, tender, lot_id=None):
         if self.cancellation_blocks_tender(tender, lot_id):
             raise_operation_error(request, "Can't perform action due to a pending cancellation")
+
+
+class OneBidBecomeWinnerMixin:
+    min_bids_number: int
+    count_lot_bids_number: callable
+    count_bids_number: callable
+    remove_auction_period: callable
+    set_object_status: callable
+    set_lot_values_unsuccessful: callable
+    add_next_award: callable
+    get_change_tender_status_handler: callable
+
+    def check_bids_number(self, tender):
+        if tender.get("lots"):
+            max_bid_number = 0
+            for lot in tender["lots"]:
+                bid_number = self.count_lot_bids_number(tender, lot["id"])
+                max_bid_number = max(max_bid_number, bid_number)
+                if bid_number < self.min_bids_number:
+                    self.remove_auction_period(lot)
+
+                    if bid_number == 0 and lot["status"] == "active":
+                        self.set_object_status(lot, "unsuccessful")
+                        self.set_lot_values_unsuccessful(tender.get("bids"), lot["id"])
+
+            if max_bid_number == 1:
+                self.add_next_award()
+
+            if not {i["status"] for i in tender["lots"]}.difference(
+                {"unsuccessful", "cancelled"}
+            ):
+                self.get_change_tender_status_handler("unsuccessful")(tender)
+        else:
+            bid_number = self.count_bids_number(tender)
+            if bid_number < self.min_bids_number:
+                self.remove_auction_period(tender)
+
+                if bid_number == 1:
+                    self.add_next_award()
+                else:
+                    self.get_change_tender_status_handler("unsuccessful")(tender)

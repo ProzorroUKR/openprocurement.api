@@ -2,14 +2,14 @@ from openprocurement.api.utils import context_unpack
 from openprocurement.api.constants import NEW_DEFENSE_COMPLAINTS_FROM, NEW_DEFENSE_COMPLAINTS_TO
 from openprocurement.tender.core.procedure.context import get_request, get_now
 from openprocurement.tender.core.procedure.utils import get_first_revision_date
-from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.core.procedure.state.tender import TenderState, OneBidBecomeWinnerMixin
 from openprocurement.tender.openuadefense.procedure.awarding import DefenseTenderStateAwardingMixing
 from logging import getLogger
 
 LOGGER = getLogger(__name__)
 
 
-class OpenUADefenseTenderState(DefenseTenderStateAwardingMixing, TenderState):
+class OpenUADefenseTenderState(OneBidBecomeWinnerMixin, DefenseTenderStateAwardingMixing, TenderState):
     min_bids_number = 2
     block_complaint_status = ("pending", "accepted", "satisfied", "stopping")
 
@@ -190,32 +190,3 @@ class OpenUADefenseTenderState(DefenseTenderStateAwardingMixing, TenderState):
                                              {"LOT_ID": lot['id']}),
                     )
                     self.set_object_status(lot, "complete")
-
-    def check_bids_number(self, tender):
-        if tender.get("lots"):
-            max_bid_number = 0
-            for lot in tender["lots"]:
-                bid_number = self.count_lot_bids_number(tender, lot["id"])
-                max_bid_number = max(max_bid_number, bid_number)
-                if bid_number < self.min_bids_number:
-                    self.remove_auction_period(lot)
-
-                    if bid_number == 0 and lot["status"] == "active":
-                        self.set_object_status(lot, "unsuccessful")
-                        self.set_lot_values_unsuccessful(tender.get("bids"), lot["id"])
-
-            if max_bid_number == 1:
-                self.add_next_award()
-
-            # should be moved to tender_status_check ?
-            if not set(i["status"] for i in tender["lots"]).difference({"unsuccessful", "cancelled"}):
-                self.get_change_tender_status_handler("unsuccessful")(tender)
-        else:
-            bid_number = self.count_bids_number(tender)
-            if bid_number < self.min_bids_number:
-                self.remove_auction_period(tender)
-
-                if bid_number == 1:
-                    self.add_next_award()
-                else:
-                    self.get_change_tender_status_handler("unsuccessful")(tender)
