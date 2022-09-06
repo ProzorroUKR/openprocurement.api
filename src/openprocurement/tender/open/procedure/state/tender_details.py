@@ -9,6 +9,7 @@ from openprocurement.tender.open.constants import (
 )
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
+    calculate_clarif_business_date,
     check_auction_period,
 )
 from openprocurement.api.utils import raise_operation_error
@@ -74,6 +75,22 @@ class TenderDetailsState(TenderDetailsMixing, OpenTenderState):
 
         if after["status"] in ("draft", "active.tendering"):
             self.initialize_enquiry_period(after)
+
+    def initialize_enquiry_period(self, tender):
+        tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
+        end_date = calculate_tender_business_date(tendering_end, self.enquiry_period_timedelta, tender)
+        clarifications_until = calculate_clarif_business_date(
+            end_date, self.enquiry_stand_still_timedelta,  tender
+        )
+        enquiry_period = tender.get("enquiryPeriod")
+        tender["enquiryPeriod"] = dict(
+            startDate=tender["tenderPeriod"]["startDate"],
+            endDate=end_date.isoformat(),
+            clarificationsUntil=clarifications_until.isoformat(),
+        )
+        invalidation_date = enquiry_period and enquiry_period.get("invalidationDate")
+        if invalidation_date:
+            tender["enquiryPeriod"]["invalidationDate"] = invalidation_date
 
     def validate_tender_period_extension(self, tender):
         if "tenderPeriod" in tender and "endDate" in tender["tenderPeriod"]:

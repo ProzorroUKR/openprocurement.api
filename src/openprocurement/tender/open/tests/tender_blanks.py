@@ -651,7 +651,7 @@ def patch_tender(self):
         [{
             "location": "body",
             "name": "tenderPeriod",
-            "description": ["tenderPeriod must be at least 15 full calendar days long"]
+            "description": ["tenderPeriod must be at least 7 full calendar days long"]
         }],
     )
     response = self.app.patch_json(
@@ -851,12 +851,12 @@ def patch_tender_period(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "tenderPeriod should be extended by 7 days")
+    self.assertEqual(response.json["errors"][0]["description"], "tenderPeriod should be extended by 4 days")
     tender_period_end_date = calculate_tender_business_date(
-        get_now(), timedelta(days=7), tender
+        get_now(), timedelta(days=4), tender
     ) + timedelta(seconds=10)
     enquiry_period_end_date = calculate_tender_business_date(
-        tender_period_end_date, -timedelta(days=10), tender
+        tender_period_end_date, -timedelta(days=3), tender
     )
     tender_period = deepcopy(tender["tenderPeriod"])
     tender_period["endDate"] = tender_period_end_date.isoformat()
