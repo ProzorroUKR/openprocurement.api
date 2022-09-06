@@ -330,7 +330,7 @@ def patch_tender_bidder(self):
         "status": "draft",
     })
     set_bid_lotvalues(bid_data, self.initial_lots)
-
+    bid_data["lotValues"][0]["value"]["amount"] = 600
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
@@ -345,26 +345,6 @@ def patch_tender_bidder(self):
     bid_patch_data["lotValues"] = bid_data["lotValues"]
     bid_patch_data["lotValues"][0]["value"]["amount"] = 600
 
-    response = self.app.patch_json(
-        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": bid_patch_data},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": [{'value': ["value of bid should be less than value of lot"]}],
-                "location": "body",
-                "name": "lotValues",
-            }
-        ],
-    )
-
-    bid_patch_data["lotValues"][0]["value"]["amount"] = 500
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
         {"data": bid_patch_data},
