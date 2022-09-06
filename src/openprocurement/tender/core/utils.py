@@ -911,3 +911,9 @@ def get_contracts_values_related_to_patched_contract(contracts, patched_contract
             else:
                 _contracts_values.append(updated_value)
     return _contracts_values
+
+
+def find_lot(tender, lot_id):
+    for lot in tender.get("lots", ""):
+        if lot and lot["id"] == lot_id:
+            return lot

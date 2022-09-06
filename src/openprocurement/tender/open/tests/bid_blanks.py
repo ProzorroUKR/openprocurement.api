@@ -287,6 +287,23 @@ def create_tender_bidder(self):
     self.assertEqual(response.json["errors"][0]["description"], "Can't add bid in current (complete) tender status")
 
 
+def create_tender_bidder_value_greater_then_lot(self):
+    bid_data = deepcopy(self.test_bids_data[0])
+    bid_data["value"]["amount"] = bid_data["value"]["amount"] + 100
+    bid_data.update({"lotValues": None, "parameters": None, "documents": None})
+    set_bid_lotvalues(bid_data, self.initial_lots)
+    response = self.app.post_json(
+        "/tenders/{}/bids".format(self.tender_id),
+        {"data": bid_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    bid = response.json["data"]
+    self.assertEqual(bid["tenderers"][0]["name"], test_organization["name"])
+    self.assertIn("id", bid)
+    self.assertIn(bid["id"], response.headers["Location"])
+
+
 def patch_tender_bidder_decimal_problem(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender_value = response.json["data"]["value"]["amount"]

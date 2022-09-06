@@ -71,12 +71,14 @@ from openprocurement.tender.open.tests.bid_blanks import (
     patch_tender_draft_bidder,
     patch_tender_with_bids_lots_none,
     patch_tender_bidder_decimal_problem,
+    create_tender_bidder_value_greater_then_lot,
 )
 
 
 class TenderBidResourceTestMixin:
     test_create_tender_biddder_invalid = snitch(create_tender_biddder_invalid)
     test_create_tender_bidder = snitch(create_tender_bidder)
+    test_create_tender_bidder_value_greater_then_lot = snitch(create_tender_bidder_value_greater_then_lot)
     test_patch_tender_bidder = snitch(patch_tender_bidder)
     test_patch_tender_draft_bidder = snitch(patch_tender_draft_bidder)
     test_get_tender_bidder = snitch(get_tender_bidder)

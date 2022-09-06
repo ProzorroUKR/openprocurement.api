@@ -7,7 +7,6 @@ from openprocurement.api.constants import (
     CRITERION_REQUIREMENT_STATUSES_FROM,
     RELEASE_GUARANTEE_CRITERION_FROM,
     GUARANTEE_ALLOWED_TENDER_TYPES,
-    RELEASE_ECRITERIA_ARTICLE_17,
 )
 from openprocurement.api.utils import (
     to_decimal,
@@ -30,7 +29,7 @@ from openprocurement.tender.core.procedure.utils import (
     get_contracts_values_related_to_patched_contract,
     find_item_by_id,
 )
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.utils import calculate_tender_business_date, find_lot
 from openprocurement.tender.core.procedure.documents import check_document_batch, check_document, update_document_url
 from openprocurement.tender.core.procedure.context import get_now, get_tender
 from schematics.exceptions import ValidationError
@@ -440,18 +439,29 @@ def validate_bid_operation_not_in_tendering(request, **_):
 
 
 def validate_lotvalue_value(tender, related_lot, value):
-    if value or related_lot:
-        for lot in tender.get("lots", ""):
-            if lot and lot["id"] == related_lot:
-                tender_lot_value = lot.get("value")
-                if float(tender_lot_value["amount"]) < value.amount:
-                    raise ValidationError("value of bid should be less than value of lot")
-                if tender_lot_value["currency"] != value.currency:
-                    raise ValidationError("currency of bid should be identical to currency of value of lot")
-                if tender_lot_value["valueAddedTaxIncluded"] != value.valueAddedTaxIncluded:
-                    raise ValidationError(
-                        "valueAddedTaxIncluded of bid should be identical " "to valueAddedTaxIncluded of value of lot"
-                    )
+    lot = find_lot(tender, related_lot)
+    if lot and value:
+        tender_lot_value = lot.get("value")
+        validate_lot_value_amount(tender_lot_value, value)
+        validate_lot_value_currency(tender_lot_value, value)
+        validate_lot_value_vat(tender_lot_value, value)
+
+
+def validate_lot_value_amount(tender_lot_value, value):
+    if float(tender_lot_value["amount"]) < value.amount:
+        raise ValidationError("value of bid should be less than value of lot")
+
+
+def validate_lot_value_currency(tender_lot_value, value):
+    if tender_lot_value["currency"] != value.currency:
+        raise ValidationError("currency of bid should be identical to currency of value of lot")
+
+
+def validate_lot_value_vat(tender_lot_value, value):
+    if tender_lot_value["valueAddedTaxIncluded"] != value.valueAddedTaxIncluded:
+        raise ValidationError(
+            "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot"
+        )
 
 
 def validate_bid_value(tender, value):
@@ -486,8 +496,8 @@ def validate_value_type(value, datatype):
     return type_.to_native(value)
 
 
-def validate_relatedlot(tender, relatedLot):
-    if relatedLot not in [lot["id"] for lot in tender.get("lots") or [] if lot]:
+def validate_related_lot(tender, related_lot):
+    if related_lot not in [lot["id"] for lot in tender.get("lots") or [] if lot]:
         raise ValidationError("relatedLot should be one of lots")
 
 

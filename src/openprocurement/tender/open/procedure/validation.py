@@ -1,6 +1,10 @@
+from schematics.exceptions import ValidationError
+
 from openprocurement.tender.core.procedure.utils import is_item_owner
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
+from openprocurement.tender.core.procedure.validation import validate_lot_value_currency, validate_lot_value_vat
+from openprocurement.tender.core.utils import find_lot
 
 
 def validate_download_bid_document(request, **_):
@@ -92,3 +96,14 @@ def validate_contract_document_complaints(operation):
                     if complaint["status"] == "accepted":
                         raise_operation_error(request, f"Can't {operation} document with accepted complaint")
     return validate
+
+
+# bids
+
+
+def validate_lotvalue_value(tender, related_lot, value):
+    lot = find_lot(tender, related_lot)
+    if lot and value:
+        tender_lot_value = lot.get("value")
+        validate_lot_value_currency(tender_lot_value, value)
+        validate_lot_value_vat(tender_lot_value, value)
