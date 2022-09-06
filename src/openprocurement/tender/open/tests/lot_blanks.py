@@ -548,26 +548,6 @@ def create_tender_bidder_invalid(self):
         ],
     )
 
-    bid_data["lotValues"] = [{"value": {"amount": 5000000}, "relatedLot": self.initial_lots[0]["id"]}]
-    response = self.app.post_json(
-        request_path,
-        {"data": bid_data},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": [{"value": ["value of bid should be less than value of lot"]}],
-                "location": "body",
-                "name": "lotValues",
-            }
-        ],
-    )
-
     bid_data["lotValues"] = [{"value": {"amount": 500, "valueAddedTaxIncluded": False}, "relatedLot": self.initial_lots[0]["id"]}]
     response = self.app.post_json(
         request_path,
@@ -757,26 +737,6 @@ def create_tender_bidder_feature_invalid(self):
         [
             {
                 "description": [{"relatedLot": ["relatedLot should be one of lots"]}],
-                "location": "body",
-                "name": "lotValues",
-            }
-        ],
-    )
-
-    bid_data["lotValues"] = [{"value": {"amount": 5000000}, "relatedLot": self.lot_id}]
-    response = self.app.post_json(
-        request_path,
-        {"data": bid_data},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": [{"value": ["value of bid should be less than value of lot"]}],
                 "location": "body",
                 "name": "lotValues",
             }

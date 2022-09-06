@@ -3,7 +3,7 @@ from schematics.types import MD5Type, StringType
 from openprocurement.api.models import Model, Value
 from openprocurement.tender.core.procedure.validation import (
     validate_lotvalue_value,
-    validate_relatedlot,
+    validate_related_lot,
 )
 from openprocurement.tender.core.procedure.context import get_tender
 
@@ -13,12 +13,10 @@ class PostLotValue(Model):
     relatedLot = MD5Type(required=True)
 
     def validate_value(self, data, value):
-        tender = get_tender()
-        validate_lotvalue_value(tender, data["relatedLot"], value)
+        validate_lotvalue_value(get_tender(), data["relatedLot"], value)
 
     def validate_relatedLot(self, data, related_lot):
-        tender = get_tender()
-        validate_relatedlot(tender, related_lot)
+        validate_related_lot(get_tender(), related_lot)
 
 
 class PatchLotValue(PostLotValue):
@@ -27,11 +25,11 @@ class PatchLotValue(PostLotValue):
 
     def validate_value(self, data, value):
         if value is not None:
-            super().validate_value(self, data, value)
+            validate_lotvalue_value(get_tender(), data["relatedLot"], value)
 
     def validate_relatedLot(self, data, related_lot):
         if related_lot is not None:
-            super().validate_relatedLot(self, data, related_lot)
+            validate_related_lot(get_tender(), related_lot)
 
 
 class LotValue(PostLotValue):

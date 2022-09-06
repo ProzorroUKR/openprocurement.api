@@ -1,6 +1,6 @@
 from openprocurement.api.models import Model
 from openprocurement.tender.core.procedure.context import get_tender
-from openprocurement.tender.core.procedure.validation import validate_relatedlot
+from openprocurement.tender.core.procedure.validation import validate_related_lot
 from schematics.types import StringType, MD5Type
 
 
@@ -19,7 +19,7 @@ class PostLotValue(Model):
 
     def validate_relatedLot(self, data, related_lot):
         tender = get_tender()
-        validate_relatedlot(tender, related_lot)
+        validate_related_lot(tender, related_lot)
 
 
 class PatchLotValue(Model):
@@ -29,4 +29,4 @@ class PatchLotValue(Model):
     def validate_relatedLot(self, data, related_lot):
         if related_lot is not None:
             tender = get_tender()
-            validate_relatedlot(tender, related_lot)
+            validate_related_lot(tender, related_lot)
