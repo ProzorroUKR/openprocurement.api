@@ -276,3 +276,17 @@ def validate_complaint_post_document_upload_by_author(request, **kwargs):
 
 def validate_complaint_post(request, **kwargs):
     _validate_tender_first_revision_date(request, validation_date=RELEASE_2020_04_19)
+
+
+def validate_lotvalue_value(tender, relatedLot, value):
+    if not value and not relatedLot:
+        return
+    lot = next((lot for lot in tender.lots if lot and lot.id == relatedLot), None)
+    if not lot:
+        return
+    if lot.get("value").currency != value.currency:
+        raise ValidationError("currency of bid should be identical to currency of value of lot")
+    if lot.get("value").valueAddedTaxIncluded != value.valueAddedTaxIncluded:
+        raise ValidationError(
+            "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot"
+        )
