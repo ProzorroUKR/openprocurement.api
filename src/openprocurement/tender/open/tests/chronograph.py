@@ -10,7 +10,8 @@ from openprocurement.tender.open.tests.chronograph_blanks import (
     switch_to_complaint,
     switch_to_unsuccessful_lot_0bid,
     set_auction_period_lot_0bid,
-    switch_to_unsuccessful_lot_1bid,
+    not_switch_to_unsuccessful_lot_1bid,
+    not_switch_to_unsuccessful_2lot_1bid,
     switch_to_auction_lot,
     switch_to_unsuccessful_lot,
     set_auction_period_lot,
@@ -35,7 +36,7 @@ class TenderLotSwitch1BidResourceTest(BaseTenderUAContentWebTest):
     initial_lots = test_lots
     initial_bids = test_bids[:1]
     initial_status = "active.tendering"
-    test_switch_to_unsuccessful_lot_1bid = snitch(switch_to_unsuccessful_lot_1bid)
+    test_not_switch_to_unsuccessful_lot_1bid = snitch(not_switch_to_unsuccessful_lot_1bid)
 
 
 class TenderLotSwitchAuctionResourceTest(BaseTenderUAContentWebTest, TenderLotSwitchAuctionResourceTestMixin):
@@ -50,6 +51,8 @@ class Tender2LotSwitch0BidResourceTest(TenderLotSwitch0BidResourceTest):
 
 class Tender2LotSwitch1BidResourceTest(TenderLotSwitch1BidResourceTest):
     initial_lots = 2 * test_lots
+
+    test_not_switch_to_unsuccessful_lot_1bid = snitch(not_switch_to_unsuccessful_2lot_1bid)
 
 
 class Tender2LotSwitchAuctionResourceTest(TenderLotSwitchAuctionResourceTest):

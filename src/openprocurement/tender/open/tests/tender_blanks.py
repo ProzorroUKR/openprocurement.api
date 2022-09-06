@@ -1050,13 +1050,16 @@ def invalid1_and_1draft_bids_tender(self):
     bid, bid_token = self.create_bid(tender_id, bid_data, "draft")
 
     self.app.authorization = ("Basic", ("broker", ""))
-    self.create_bid(tender_id, bid_data)
+    bid, bid_token = self.create_bid(tender_id, bid_data)
+
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
 
     # switch to active.qualification
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
     response = self.check_chronograph()
     # get awards
-    self.assertEqual(response.json["data"]["status"], "unsuccessful")
+    self.assertEqual(response.json["data"]["status"], "active.qualification")
 
 
 def activate_bid_after_adding_lot(self):
@@ -1098,7 +1101,7 @@ def activate_bid_after_adding_lot(self):
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
     response = self.check_chronograph()
     # get awards
-    self.assertEqual(response.json["data"]["status"], "unsuccessful")
+    self.assertEqual(response.json["data"]["status"], "active.qualification")
 
 
 def first_bid_tender(self):

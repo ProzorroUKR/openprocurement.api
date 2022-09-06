@@ -52,10 +52,18 @@ def set_auction_period_lot_0bid(self):
     self.assertEqual(response.json["data"]["lots"][0]["auctionPeriod"]["startDate"], start_date)
 
 
-def switch_to_unsuccessful_lot_1bid(self):
+def not_switch_to_unsuccessful_lot_1bid(self):
     self.set_status("active.auction", {"status": self.initial_status})
     response = self.check_chronograph()
-    self.assertEqual(response.json["data"]["status"], "unsuccessful")
+    self.assertEqual(response.json["data"]["status"], "active.qualification")
+    self.assertEqual(len(response.json["data"]["awards"]), 1)
+
+
+def not_switch_to_unsuccessful_2lot_1bid(self):
+    self.set_status("active.auction", {"status": self.initial_status})
+    response = self.check_chronograph()
+    self.assertEqual(response.json["data"]["status"], "active.qualification")
+    self.assertEqual(len(response.json["data"]["awards"]), 2)
 
 
 def switch_to_auction_lot(self):

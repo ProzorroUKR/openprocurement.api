@@ -10,7 +10,7 @@ X-Content-Type-Options: nosniff
     {
       "id": "61fe9c548e9243029e944fb1046b1538",
       "buyerID": "11111111111111111111111111111111",
-      "awardID": "394781ebcaf44cfeab1fd2841401f41b",
+      "awardID": "42e1aa2e88e4429894150ac38ad3037b",
       "contractID": "UA-2023-01-01-000001-a-1",
       "status": "cancelled",
       "value": {
@@ -87,7 +87,7 @@ X-Content-Type-Options: nosniff
     {
       "id": "352d5e69250442fda64f82c8085fa7d6",
       "buyerID": "22222222222222222222222222222222",
-      "awardID": "394781ebcaf44cfeab1fd2841401f41b",
+      "awardID": "42e1aa2e88e4429894150ac38ad3037b",
       "contractID": "UA-2023-01-01-000001-a-2",
       "status": "cancelled",
       "value": {
