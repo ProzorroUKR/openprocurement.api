@@ -1890,8 +1890,9 @@ def validate_tender_matches_plan(request, **kwargs):
     plan_identifier = plan.procuringEntity.identifier
     tender_identifier = tender.get("procuringEntity", {}).get("identifier", {})
     if plan.tender.procurementMethodType == "centralizedProcurement" and plan_identifier.id == "01101100":
-        pass  # check is ignored for Prozorro+ central procurement entity
-    elif plan_identifier.id != tender_identifier.get("id") or plan_identifier.scheme != tender_identifier.get("scheme"):
+        plan_identifier = plan.buyers[0].identifier
+
+    if plan_identifier.id != tender_identifier.get("id") or plan_identifier.scheme != tender_identifier.get("scheme"):
         request.errors.add(
             "body",
             "procuringEntity",
