@@ -71,7 +71,6 @@ from openprocurement.tender.core.utils import (
     cancellation_block_tender,
 )
 from openprocurement.tender.core.validation import (
-    validate_lotvalue_value,
     validate_relatedlot,
     validate_tender_period_duration,
 )
@@ -92,6 +91,7 @@ from openprocurement.tender.open.constants import (
 )
 from openprocurement.tender.open.validation import (
     _validate_tender_period_start_date,
+    validate_lotvalue_value,
 )
 
 
