@@ -1,7 +1,7 @@
 from schematics.exceptions import ValidationError
 from schematics.types import StringType, FloatType, BooleanType
 from openprocurement.api.utils import get_now
-from openprocurement.api.models import Model
+from openprocurement.api.models import Model, DecimalType
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import get_first_revision_date
 from openprocurement.api.constants import (
@@ -30,4 +30,10 @@ class PostGuarantee(Guarantee):
 
 class PostValue(PostGuarantee, Value):
     valueAddedTaxIncluded = BooleanType(required=True, default=True)
+
+
+class WeightedValue(PostValue):
+    amount = DecimalType(required=True, precision=-2)
+    denominator = FloatType()
+    addition = DecimalType(precision=-2)
 

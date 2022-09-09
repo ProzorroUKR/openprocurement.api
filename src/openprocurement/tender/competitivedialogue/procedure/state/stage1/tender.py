@@ -1,7 +1,7 @@
-from openprocurement.tender.openeu.procedure.state.tender import OpenEUTenderState
+from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTenderState
 
 
-class Stage1EUTenderState(OpenEUTenderState):
+class Stage1EUTenderState(BaseOpenEUTenderState):
 
     min_bids_number = 3
 

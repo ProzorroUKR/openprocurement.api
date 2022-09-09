@@ -6,6 +6,8 @@ from openprocurement.tender.openua.procedure.models.bid import (
     PatchBid as BasePatchBid,
 )
 from openprocurement.tender.core.procedure.models.base import ListType
+from openprocurement.api.models import Value
+from openprocurement.tender.core.procedure.models.guarantee import WeightedValue
 from openprocurement.tender.openeu.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
 from openprocurement.tender.openeu.procedure.models.document import (
     PostDocument,
@@ -41,6 +43,8 @@ class PostBid(BasePostBid):
 
 class Bid(BaseBid):
     lotValues = ListType(ModelType(LotValue, required=True))
+
+    weightedValue = ModelType(WeightedValue)
 
     documents = ListType(ModelType(Document, required=True))
     financialDocuments = ListType(ModelType(Document, required=True))

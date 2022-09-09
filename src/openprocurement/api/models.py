@@ -342,6 +342,8 @@ class Guarantee(Model):
 
 class Value(Guarantee):
     valueAddedTaxIncluded = BooleanType(required=True, default=True)
+    denominator = DecimalType()
+    addition = DecimalType()
 
 
 class Period(Model):

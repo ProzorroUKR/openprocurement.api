@@ -2,7 +2,7 @@ from uuid import uuid4
 from datetime import timedelta, datetime, time
 from pyramid.security import Allow
 from zope.interface import implementer
-from schematics.types import StringType, MD5Type, BooleanType
+from schematics.types import IntType, StringType, MD5Type, BooleanType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from schematics.transforms import blacklist, whitelist, export_loop
@@ -712,6 +712,10 @@ class Tender(BaseTender):
         filter_by="status",
         filter_in_values=["invalid", "invalid.pre-qualification", "deleted"],
     )  # A list of all the companies who entered submissions for the tender.
+
+    preQualificationFeaturesRatingBidLimit = IntType()
+    preQualificationMinBidsNumber = IntType()
+
     qualifications = ListType(ModelType(Qualification, required=True), default=list())
     qualificationPeriod = ModelType(Period)
     lots = ListType(ModelType(Lot, required=True), default=list(), validators=[validate_lots_uniq])
