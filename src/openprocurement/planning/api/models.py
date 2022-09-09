@@ -3,7 +3,7 @@ from itertools import chain
 from uuid import uuid4
 from copy import deepcopy
 from openprocurement.api.models import Document as BaseDocument
-from openprocurement.api.models import Model, Period, RootModel
+from openprocurement.api.models import Model, Period, RootModel, ContactPoint
 from openprocurement.api.models import Unit, CPVClassification, Classification, Identifier, Guarantee, Address
 from openprocurement.api.models import schematics_embedded_role, schematics_default_role, IsoDateTimeType, ListType
 from openprocurement.api.utils import get_now, get_first_revision_date, to_decimal
@@ -227,6 +227,10 @@ class PlanOrganization(BaseOrganization):
             raise ValidationError(BaseType.MESSAGES["required"])
 
 
+class BuyersOrganization(PlanOrganization):
+    contactPoint = ModelType(ContactPoint)
+
+
 class PlanTender(Model):
     """Tender for planning model """
 
@@ -377,7 +381,7 @@ class Plan(RootModel):
     planID = StringType()
     mode = StringType(choices=["test"])  # flag for test data ?
     items = ListType(ModelType(PlanItem, required=True), required=False, validators=[validate_items_uniq])
-    buyers = ListType(ModelType(PlanOrganization, required=True), min_size=1, max_size=1)
+    buyers = ListType(ModelType(BuyersOrganization, required=True), min_size=1, max_size=1)
     status = StringType(choices=["draft", "scheduled", "cancelled", "complete"], default="scheduled")
     cancellation = ModelType(Cancellation)
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq], default=list())
