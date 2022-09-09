@@ -3943,3 +3943,136 @@ def create_tender_bid_with_qualification_documents(self):
     self.docs_container = "qualificationDocuments"
     self.docs_container_url = "qualification_documents"
     create_tender_bid_with_documents(self)
+
+
+def restricted_procedure_unsuccessful(self):
+    test_features_bids = [
+        {
+            "parameters": [{"code": i["code"], "value": 0.1} for i in self.initial_data["features"]],
+            "tenderers": self.test_bids_data[0]["tenderers"],
+            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "selfQualified": True,
+        },
+        {
+            "parameters": [{"code": i["code"], "value": 0.1} for i in self.initial_data["features"]],
+            "tenderers": self.test_bids_data[1]["tenderers"],
+            "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "selfQualified": True,
+        },
+        {
+            "parameters": [{"code": i["code"], "value": 0.15} for i in self.initial_data["features"]],
+            "tenderers": self.test_bids_data[0]["tenderers"],
+            "value": {"amount": 489, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "selfQualified": True,
+        },
+    ]
+    if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
+        test_features_bids[0]["selfEligible"] = True
+        test_features_bids[1]["selfEligible"] = True
+        test_features_bids[2]["selfEligible"] = True
+
+    bids_id = []
+    for i in test_features_bids:
+        bid, bid_token = self.create_bid(self.tender_id, i, "pending")
+        i["status"] = "pending"
+        bid.pop("date")
+        bid_id = bid.pop("id")
+        for k in ("documents", "eligibilityDocuments", "financialDocuments", "qualificationDocuments", "lotValues"):
+            self.assertEqual(bid.pop(k, []), [])
+        self.assertEqual(bid, i)
+        bids_id.append((bid_id, bid_token))
+
+    self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
+    response = self.check_chronograph()
+    self.assertEqual(response.json["data"]["status"], "unsuccessful")
+
+
+def restricted_bidder(self):
+    test_features_bids = [
+        {
+            "parameters": [{"code": i["code"], "value": 0.1} for i in self.initial_data["features"]],
+            "tenderers": self.test_bids_data[0]["tenderers"],
+            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "selfQualified": True,
+        },
+        {
+            "parameters": [{"code": i["code"], "value": 0.1} for i in self.initial_data["features"]],
+            "tenderers": self.test_bids_data[1]["tenderers"],
+            "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "selfQualified": True,
+        },
+        {
+            "parameters": [{"code": i["code"], "value": 0.15} for i in self.initial_data["features"]],
+            "tenderers": self.test_bids_data[0]["tenderers"],
+            "value": {"amount": 489, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "selfQualified": True,
+        },
+        {
+            "parameters": [{"code": i["code"], "value": 0.15} for i in self.initial_data["features"]],
+            "tenderers": self.test_bids_data[1]["tenderers"],
+            "value": {"amount": 499, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "selfQualified": True,
+        },
+        {
+            "parameters": [{"code": i["code"], "value": 0.15} for i in self.initial_data["features"]],
+            "tenderers": self.test_bids_data[1]["tenderers"],
+            "value": {"amount": 499, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "selfQualified": True,
+        },
+        {
+            "parameters": [{"code": i["code"], "value": 0.15} for i in self.initial_data["features"]],
+            "tenderers": self.test_bids_data[1]["tenderers"],
+            "value": {"amount": 499, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "selfQualified": True,
+        },
+    ]
+
+    if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
+        test_features_bids[0]["selfEligible"] = True
+        test_features_bids[1]["selfEligible"] = True
+        test_features_bids[2]["selfEligible"] = True
+        test_features_bids[3]["selfEligible"] = True
+        test_features_bids[4]["selfEligible"] = True
+        test_features_bids[5]["selfEligible"] = True
+
+    bids_id = []
+    for i in test_features_bids:
+        bid, bid_token = self.create_bid(self.tender_id, i, "pending")
+        i["status"] = "pending"
+        bid.pop("date")
+        bid_id = bid.pop("id")
+        for k in ("documents", "eligibilityDocuments", "financialDocuments", "qualificationDocuments", "lotValues"):
+            self.assertEqual(bid.pop(k, []), [])
+        self.assertEqual(bid, i)
+        bids_id.append((bid_id, bid_token))
+
+    self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
+    response = self.check_chronograph()
+    self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
+
+    # switch to active.pre-qualification
+    self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
+    response = self.check_chronograph()
+    self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
+
+    response = self.app.get(f"/tenders/{self.tender_id}/bids/{bids_id[3][0]}?acc_token={bids_id[3][1]}")
+    bid_data = response.json["data"]
+    self.assertIn("weightedValue", bid_data)
+    self.assertIn("amount", bid_data["weightedValue"])
+    self.assertIn("denominator", bid_data["weightedValue"])
+    self.assertEqual(bid_data["weightedValue"]["denominator"], 1 / 0.7)
+    self.assertEqual(bid_data["weightedValue"]["amount"], 499 / (1 / 0.7))
+
+    self.set_status("active.pre-qualification.stand-still", {"id": self.tender_id})
+    response = self.check_chronograph()
+    self.assertEqual(response.json["data"]["status"], "active.pre-qualification.stand-still")
+
+    # self.set_status("active.qualification", {"id": self.tender_id})
+    self.set_status("active.auction", {"id": self.tender_id, "status": "active.pre-qualification.stand-still"})
+    response = self.check_chronograph()
+    self.assertEqual(response.json["data"]["status"], "active.auction")
+    # self.assertEqual(response.json["data"]["status"], "active.auction")
+
+    response = self.app.get(f"/tenders/{self.tender_id}/bids/{bids_id[1][0]}?acc_token={bids_id[1][1]}")
+    bid_data = response.json["data"]
+    self.assertEqual(bid_data["status"], "unsuccessful")

@@ -197,6 +197,14 @@ test_tender_data_multi_buyers = set_tender_multi_buyers(
     test_organization
 )
 
+test_restricted_tender_data = test_features_tender_data.copy()
+test_restricted_tender_data.update({
+    "preQualificationFeaturesRatingBidLimit": 5,
+    "preQualificationMinBidsNumber": 4
+})
+
+test_restricted_bids = test_bids
+
 
 class BaseTenderWebTest(BaseTenderUAWebTest):
     relative_to = os.path.dirname(__file__)

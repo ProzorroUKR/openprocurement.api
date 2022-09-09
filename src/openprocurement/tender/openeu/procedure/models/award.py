@@ -7,6 +7,7 @@ from openprocurement.tender.core.procedure.models.award import (
     PostAward as BasePostAward,
 )
 from openprocurement.tender.core.procedure.models.milestone import QualificationMilestoneListMixin
+from openprocurement.tender.core.procedure.models.guarantee import WeightedValue
 from openprocurement.tender.openua.procedure.models.item import Item
 
 
@@ -15,6 +16,7 @@ class Award(QualificationMilestoneListMixin, BaseAward):
     items = ListType(ModelType(Item, required=True))
     qualified = BooleanType()
     eligible = BooleanType()
+    weightedValue = ModelType(WeightedValue)
 
 
 class PatchAward(BasePatchAward):
@@ -24,4 +26,4 @@ class PatchAward(BasePatchAward):
 
 
 class PostAward(BasePostAward):
-    pass
+    weightedValue = ModelType(WeightedValue)

@@ -186,3 +186,7 @@ def all_bids_are_reviewed(request):
         )
     else:
         return all([bid.status != "pending" for bid in request.validated["tender"].bids])
+
+
+def is_procedure_restricted(tender):
+    return tender.get("preQualificationFeaturesRatingBidLimit") and tender.get("preQualificationMinBidsNumber")
