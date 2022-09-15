@@ -1379,7 +1379,7 @@ def validate_submit_complaint_time(request, **kwargs):
 
 def validate_update_claim_time(request, **kwargs):
     tender = request.validated["tender"]
-    if get_now() > tender.enquiryPeriod.clarificationsUntil:
+    if tender.enquiryPeriod.clarificationsUntil and get_now() > tender.enquiryPeriod.clarificationsUntil:
         raise_operation_error(request, "Can update claim only before enquiryPeriod.clarificationsUntil")
 
 

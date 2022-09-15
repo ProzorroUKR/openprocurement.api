@@ -349,7 +349,6 @@ def patch_tender_complaint(self):
         {"data": {"resolution": "changing rules " * 2}},
         status=403
     )
-
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -456,6 +455,39 @@ def patch_tender_complaint(self):
     self.assertEqual(
         response.json["errors"][0]["description"], "Can't update complaint in current (complete) tender status"
     )
+
+
+def patch_tender_complaint_without_clarifications_until(self):
+    # old tenders doesn't have enquiryPeriod.clarificationsUntil
+
+    response = self.app.post_json(
+        "/tenders/{}/complaints".format(self.tender_id),
+        {"data": test_draft_claim},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    complaint = response.json["data"]
+    owner_token = response.json["access"]["token"]
+
+    response = self.app.patch_json(
+        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], owner_token),
+        {"data": {"status": "claim"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "claim")
+
+    self.set_status("active.auction")
+
+    tender = self.mongodb.tenders.get(self.tender_id)
+    clarifications_until = tender["enquiryPeriod"].pop("clarificationsUntil")
+    self.mongodb.tenders.save(tender)
+
+    response = self.app.patch_json(
+        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], self.tender_token),
+        {"data": {"resolution": "changing rules " * 2}}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
 
 
 def review_tender_complaint(self):

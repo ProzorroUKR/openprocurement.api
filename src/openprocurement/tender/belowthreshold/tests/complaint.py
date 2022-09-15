@@ -23,7 +23,7 @@ from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
     not_found,
     create_tender_complaint_document,
     put_tender_complaint_document,
-    patch_tender_complaint_document,
+    patch_tender_complaint_document, patch_tender_complaint_without_clarifications_until,
 )
 
 
@@ -38,6 +38,9 @@ class TenderComplaintResourceTest(TenderContentWebTest, TenderComplaintResourceT
 
     test_create_tender_complaint = snitch(create_tender_complaint)
     test_patch_tender_complaint = snitch(patch_tender_complaint)
+    test_patch_tender_complaint_without_clarifications_until = snitch(
+        patch_tender_complaint_without_clarifications_until
+    )
     test_review_tender_complaint = snitch(review_tender_complaint)
 
 
