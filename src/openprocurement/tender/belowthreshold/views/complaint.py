@@ -12,7 +12,7 @@ from openprocurement.tender.core.validation import (
 from openprocurement.tender.belowthreshold.validation import (
     validate_update_complaint_not_in_allowed_status,
     validate_add_complaint_not_in_allowed_tender_status,
-    validate_update_complaint_not_in_allowed_tender_status,
+    validate_update_complaint_not_in_allowed_tender_status, validate_submit_complaint_time,
 )
 
 
@@ -73,7 +73,7 @@ class TenderClaimResource(BaseTenderClaimResource):
 
     @staticmethod
     def validate_submit_claim_time_method(request):
-        pass
+        return validate_submit_complaint_time(request)
 
     @staticmethod
     def validate_update_claim_time_method(request):

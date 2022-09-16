@@ -296,6 +296,18 @@ def create_tender_complaint(self):
         response.json["errors"][0]["description"], "Can't add complaint in current (active.tendering) tender status"
     )
 
+    self.set_status("active.tendering", extra={"status": "active.enquiries"})
+
+    response = self.app.post_json(
+        "/tenders/{}/complaints".format(self.tender_id),
+        {"data": test_claim},
+        status=403,
+    )
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"], "Can submit complaint only in enquiryPeriod"
+    )
+
     self.set_status("unsuccessful")
 
     response = self.app.post_json(

@@ -77,6 +77,15 @@ def validate_update_complaint_not_in_allowed_tender_status(request, **kwargs):
         raise_operation_error(request, "Can't update complaint in current ({}) tender status".format(tender.status))
 
 
+def validate_submit_complaint_time(request, **kwargs):
+    tender = request.validated["tender"]
+    if get_now() > tender.enquiryPeriod.endDate:
+        raise_operation_error(
+            request,
+            "Can submit complaint only in enquiryPeriod",
+        )
+
+
 def validate_update_complaint_not_in_allowed_status(request, **kwargs):
     if request.context.status not in ["draft", "claim", "answered"]:
         raise_operation_error(request, "Can't update complaint in current ({}) status".format(request.context.status))
