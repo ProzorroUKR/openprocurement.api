@@ -36,7 +36,10 @@ def get_item_unit_value(item):
             location="item",
             name="unit"
         )
-    return unit.get("value")
+
+    if "value" not in unit:
+        unit["value"] = {}
+    return unit["value"]
 
 
 class ContractItemsUnitValueResource(TenderBaseResource):
