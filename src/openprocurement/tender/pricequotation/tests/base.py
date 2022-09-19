@@ -36,9 +36,12 @@ class BaseTenderWebTest(BaseCoreWebTest):
     forbidden_document_modification_actions_status = (
         "active.qualification"
     )  # status, in which operations with tender documents (adding, updating) are forbidden
-    forbidden_question_modification_actions_status = (
+    forbidden_question_add_actions_status = (
         "active.tendering"
-    )  # status, in which adding/updating tender questions is forbidden
+    )  # status, in which adding tender questions is forbidden
+    forbidden_question_update_actions_status = (
+        "active.tendering"
+    )  # status, in which updating tender questions is forbidden
     forbidden_contract_document_modification_actions_status = (
         "unsuccessful"
     )  # status, in which operations with tender's contract documents (adding, updating) are forbidden

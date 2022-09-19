@@ -338,9 +338,12 @@ class BaseTenderWebTest(BaseCoreWebTest):
     forbidden_document_modification_actions_status = (
         "active.tendering"
     )  # status, in which operations with tender documents (adding, updating) are forbidden
-    forbidden_question_modification_actions_status = (
+    forbidden_question_add_actions_status = (
         "active.tendering"
-    )  # status, in which adding/updating tender questions is forbidden
+    )  # status, in which adding tender questions is forbidden
+    forbidden_question_update_actions_status = (
+        "active.auction"
+    )  # status, in which updating tender questions is forbidden
     forbidden_lot_actions_status = (
         "active.tendering"
     )  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
@@ -358,6 +361,9 @@ class BaseTenderWebTest(BaseCoreWebTest):
     periods = PERIODS
     tender_class = Tender
     guarantee_criterion = None
+
+    def set_enquiry_period_end(self):
+        self.set_status("active.tendering", extra={"status": "active.enquires"})
 
     def setUp(self):
         super(BaseTenderWebTest, self).setUp()

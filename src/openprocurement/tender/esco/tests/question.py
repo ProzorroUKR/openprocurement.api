@@ -6,23 +6,15 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_author
 from openprocurement.tender.belowthreshold.tests.question import TenderQuestionResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.question_blanks import (
-    # TenderLotQuestionResourceTest
+    create_tender_question,
+    patch_tender_question,
     lot_create_tender_question,
     lot_patch_tender_question,
     lot_patch_tender_question_lots_none,
 )
 
-from openprocurement.tender.openua.tests.question_blanks import (
-    # TenderQuestionResourceTest
-    create_tender_question,
-)
-
 from openprocurement.tender.esco.tests.base import BaseESCOContentWebTest, test_bids, test_lots
-from openprocurement.tender.openeu.tests.question_blanks import (
-    # TenderQuestionResourceTest
-    patch_tender_question,
-    answering_question,
-)
+from openprocurement.tender.openeu.tests.question_blanks import answering_question
 
 
 class TenderQuestionResourceTest(BaseESCOContentWebTest, TenderQuestionResourceTestMixin):
