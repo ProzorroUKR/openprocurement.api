@@ -1,6 +1,3 @@
-from typing import List
-
-from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
 from openprocurement.tender.core.procedure.context import get_request, get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.utils import calculate_complaint_business_date
@@ -14,6 +11,7 @@ from openprocurement.tender.cfaua.constants import (
 )
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.openua.procedure.state.tender_details import OpenUATenderDetailsMixing
 
 
 def all_bids_are_reviewed(tender):
@@ -39,7 +37,7 @@ def all_awards_are_reviewed(tender):
     return all(award["status"] != "pending" for award in tender["awards"])
 
 
-class CFAUATenderDetailsMixing(TenderDetailsMixing):
+class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     enquiry_period_timedelta = - ENQUIRY_PERIOD_TIME
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME

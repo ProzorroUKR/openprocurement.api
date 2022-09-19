@@ -146,7 +146,8 @@ X-Content-Type-Options: nosniff
     },
     "enquiryPeriod": {
       "startDate": "2022-12-17T00:00:01+02:00",
-      "endDate": "2022-12-25T00:00:01+02:00"
+      "endDate": "2022-12-25T00:00:01+02:00",
+      "clarificationsUntil": "2022-12-26T00:00:01+02:00"
     },
     "tenderPeriod": {
       "startDate": "2022-12-25T00:00:01+02:00",

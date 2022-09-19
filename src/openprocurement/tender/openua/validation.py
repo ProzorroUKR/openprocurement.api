@@ -128,12 +128,6 @@ def validate_submit_claim_time(request, **kwargs):
         )
 
 
-def validate_update_claim_time(request, **kwargs):
-    tender = request.validated["tender"]
-    if get_now() > tender.enquiryPeriod.clarificationsUntil:
-        raise_operation_error(request, "Can update claim only before enquiryPeriod.clarificationsUntil")
-
-
 # complaint documents
 def validate_complaint_document_operation_not_in_allowed_status(request, **kwargs):
     if request.validated["tender_status"] not in ["active.tendering"]:

@@ -1,5 +1,7 @@
 from datetime import timedelta
 
+from openprocurement.tender.belowthreshold.constants import ENQUIRY_STAND_STILL_TIME
+
 PERIODS = {
     "active.enquiries": {
         "start": {
@@ -18,18 +20,20 @@ PERIODS = {
             "enquiryPeriod": {
                 "startDate": -timedelta(days=10),
                 "endDate": timedelta(),
+                "clarificationsUntil": timedelta() + ENQUIRY_STAND_STILL_TIME,
             },
             "tenderPeriod": {
                 "startDate": timedelta(),
                 "endDate": timedelta(days=7)
             },
-        }
+        },
     },
     "active.auction": {
         "start": {
             "enquiryPeriod": {
                 "startDate": -timedelta(days=15),
                 "endDate": -timedelta(days=7),
+                "clarificationsUntil": -timedelta(days=7) + ENQUIRY_STAND_STILL_TIME,
             },
             "tenderPeriod": {
                 "startDate": -timedelta(days=7),

@@ -61,7 +61,7 @@ def validate_delete_lot_related_criterion(request, **kwargs):
 # complaint
 def validate_add_complaint_not_in_allowed_tender_status(request, **kwargs):
     tender = request.context
-    if tender.status not in ["active.enquiries", "active.tendering"]:
+    if tender.status not in ["active.enquiries",]:
         raise_operation_error(request, "Can't add complaint in current ({}) tender status".format(tender.status))
 
 
@@ -75,6 +75,15 @@ def validate_update_complaint_not_in_allowed_tender_status(request, **kwargs):
         "active.awarded",
     ]:
         raise_operation_error(request, "Can't update complaint in current ({}) tender status".format(tender.status))
+
+
+def validate_submit_complaint_time(request, **kwargs):
+    tender = request.validated["tender"]
+    if get_now() > tender.enquiryPeriod.endDate:
+        raise_operation_error(
+            request,
+            "Can submit complaint only in enquiryPeriod",
+        )
 
 
 def validate_update_complaint_not_in_allowed_status(request, **kwargs):

@@ -153,7 +153,8 @@ X-Content-Type-Options: nosniff
     },
     "enquiryPeriod": {
       "endDate": "2022-12-14T00:00:00+02:00",
-      "startDate": "2022-12-06T00:00:00+02:00"
+      "startDate": "2022-12-06T00:00:00+02:00",
+      "clarificationsUntil": "2022-12-26T00:00:00+02:00"
     },
     "tenderID": "UA-2023-01-01-000001-a",
     "owner": "broker",

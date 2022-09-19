@@ -9,12 +9,31 @@ from openprocurement.tender.openua.constants import (
 )
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
-    check_auction_period,
+    check_auction_period, calculate_clarif_business_date,
 )
 from openprocurement.api.utils import raise_operation_error
 
 
-class TenderDetailsState(TenderDetailsMixing, OpenUATenderState):
+class OpenUATenderDetailsMixing(TenderDetailsMixing):
+
+    def initialize_enquiry_period(self, tender):  # openeu, openua
+        tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
+        end_date = calculate_tender_business_date(tendering_end, self.enquiry_period_timedelta, tender)
+        clarifications_until = calculate_clarif_business_date(
+            end_date, self.enquiry_stand_still_timedelta, tender, True,
+        )
+        enquiry_period = tender.get("enquiryPeriod")
+        tender["enquiryPeriod"] = dict(
+            startDate=tender["tenderPeriod"]["startDate"],
+            endDate=end_date.isoformat(),
+            clarificationsUntil=clarifications_until.isoformat(),
+        )
+        invalidation_date = enquiry_period and enquiry_period.get("invalidationDate")
+        if invalidation_date:
+            tender["enquiryPeriod"]["invalidationDate"] = invalidation_date
+
+
+class TenderDetailsState(OpenUATenderDetailsMixing, OpenUATenderState):
 
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     tendering_period_extra_working_days = False

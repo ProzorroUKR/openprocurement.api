@@ -1,6 +1,5 @@
 from openprocurement.tender.core.procedure.context import get_request, get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.tender.core.utils import calculate_tender_business_date, calculate_clarif_business_date
 from openprocurement.api.utils import raise_operation_error, get_first_revision_date
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from datetime import timedelta
@@ -100,22 +99,6 @@ class TenderDetailsMixing:
 
     enquiry_period_timedelta: timedelta
     enquiry_stand_still_timedelta: timedelta
-
-    def initialize_enquiry_period(self, tender):  # openeu, openua
-        tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
-        end_date = calculate_tender_business_date(tendering_end, self.enquiry_period_timedelta, tender)
-        clarifications_until = calculate_clarif_business_date(
-            end_date, self.enquiry_stand_still_timedelta,  tender, True
-        )
-        enquiry_period = tender.get("enquiryPeriod")
-        tender["enquiryPeriod"] = dict(
-            startDate=tender["tenderPeriod"]["startDate"],
-            endDate=end_date.isoformat(),
-            clarificationsUntil=clarifications_until.isoformat(),
-        )
-        invalidation_date = enquiry_period and enquiry_period.get("invalidationDate")
-        if invalidation_date:
-            tender["enquiryPeriod"]["invalidationDate"] = invalidation_date
 
     @staticmethod
     def validate_tender_exclusion_criteria(before, after):
