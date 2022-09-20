@@ -6,7 +6,7 @@ from datetime import datetime
 
 
 class BelowThresholdTenderState(OneBidBecomeWinnerMixin, TenderState):
-    block_complaint_status = ("answered", "pending")
+    block_complaint_status = ()
     award_class = Award
 
     # CHILD ITEMS EVENTS --
