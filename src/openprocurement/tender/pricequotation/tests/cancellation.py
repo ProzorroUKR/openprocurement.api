@@ -38,7 +38,7 @@ class TenderCancellationActiveTenderingResourceTest(
 ):
     initial_status = "active.tendering"
     initial_bids = test_bids
-    valid_reasonType_choices = ["noDemand", "unFixable", "expensesCut"]
+    valid_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut"]
 
     @property
     def tender_token(self):
@@ -49,13 +49,13 @@ class TenderCancellationActiveTenderingResourceTest(
 class TenderCancellationActiveQualificationResourceTest(TenderCancellationActiveTenderingResourceTest):
     initial_status = "active.qualification"
     initial_bids = test_bids
-    valid_reasonType_choices = ["noDemand", "unFixable", "expensesCut"]
+    valid_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut"]
 
 
 class TenderCancellationActiveAwardedResourceTest(TenderCancellationActiveTenderingResourceTest):
     initial_status = "active.awarded"
     initial_bids = test_bids
-    valid_reasonType_choices = ["noDemand", "unFixable", "expensesCut"]
+    valid_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut"]
 
 
 class TenderCancellationDocumentResourceTest(TenderContentWebTest, TenderCancellationDocumentResourceTestMixin):

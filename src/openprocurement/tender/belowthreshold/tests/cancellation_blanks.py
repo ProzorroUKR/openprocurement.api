@@ -950,6 +950,16 @@ def patch_tender_cancellation_2020_04_19(self):
     self.assertEqual(cancellation["reasonType"], reasonType_choices[0])
     self.assertIn(cancellation_id, response.headers["Location"])
 
+    for reasonType_choice in self.valid_reasonType_choices:
+        if reasonType_choice != cancellation["reasonType"]:
+            response = self.app.patch_json(
+                "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation['id'], self.tender_token),
+                {"data": {"reasonType": reasonType_choice}},
+            )
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.content_type, "application/json")
+            self.assertEqual(response.json["data"]["reasonType"], reasonType_choice)
+
     response = self.app.patch_json(
         "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, self.tender_token),
         {"data": {"status": "active"}},

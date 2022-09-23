@@ -5,6 +5,8 @@ from openprocurement.api.utils import raise_operation_error
 
 
 class PQCancellationStateMixing(BelowThresholdCancellationStateMixing):
+    _after_release_reason_types = ["noDemand", "unFixable", "forceMajeure", "expensesCut"]
+
     def validate_cancellation_post(self, data):
         super().validate_cancellation_post(data)
         self.validate_not_draft_publishing()
