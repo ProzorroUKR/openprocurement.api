@@ -33,7 +33,7 @@ def get_item_unit_value(item):
             get_request(),
             "Not Found",
             status=404,
-            location="item",
+            location="url",
             name="unit"
         )
 
