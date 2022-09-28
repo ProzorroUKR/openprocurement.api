@@ -75,6 +75,7 @@ class LimitedReportingContractState(ContractStateMixing, NegotiationTenderState)
                 "Can't change items count"
             )
 
+
 class LimitedNegotiationContractState(LimitedReportingContractState):
 
     def check_contracts_lot_statuses(self, tender: dict) -> None:
@@ -155,5 +156,8 @@ class LimitedNegotiationContractState(LimitedReportingContractState):
                 raise_operation_error(self.request, "Can't sign contract before reviewing all complaints")
 
     def contract_on_patch(self, before: dict, after: dict):
+        tender = get_tender()
+
         self.validate_contract_with_cancellations_and_contract_signing()
+        self.validate_update_contract_only_for_active_lots(self.request, tender, before)
         super().contract_on_patch(before, after)

@@ -297,11 +297,26 @@ class ContractStateMixing:
             self.validate_activate_contract(after)
         if after["status"] == "active" and after.get("dateSigned", None) is None:
             after["dateSigned"] = get_now().isoformat()
+        if after.get("value", {}) != before.get("value", {}):
+            self.synchronize_items_unit_value(after)
         self.check_tender_status_method()
 
     def contract_status_up(self, before, after, data):
         assert before != after, "Statuses must be different"
         data["date"] = get_now().isoformat()
+
+    def synchronize_items_unit_value(self, contract):
+        valueAddedTaxIncluded = contract["value"]["valueAddedTaxIncluded"]
+        currency = contract["value"]["currency"]
+        for item in contract.get("items", ""):
+            if item.get("unit"):
+                if item["unit"].get("value"):
+                    item["unit"]["value"].update(
+                        {
+                            "valueAddedTaxIncluded": valueAddedTaxIncluded,
+                            "currency": currency,
+                        }
+                    )
 
     # validators
     def validate_contract_post(self, request, tender, contract):
