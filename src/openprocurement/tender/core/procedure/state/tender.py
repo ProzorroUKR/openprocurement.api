@@ -308,6 +308,7 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, Chronog
 
 
 class OneBidBecomeWinnerMixin:
+    active_bid_statuses: tuple
     min_bids_number: int
     count_lot_bids_number: callable
     count_bids_number: callable
@@ -320,18 +321,31 @@ class OneBidBecomeWinnerMixin:
     def check_bids_number(self, tender):
         if tender.get("lots"):
             max_bid_number = 0
+            active_lots = []
             for lot in tender["lots"]:
+                if lot.get("status", "active") != "active":
+                    continue
+
+                active_lots.append(lot["id"])
                 bid_number = self.count_lot_bids_number(tender, lot["id"])
                 max_bid_number = max(max_bid_number, bid_number)
+
                 if bid_number < self.min_bids_number:
                     self.remove_auction_period(lot)
-
                     if bid_number == 0 and lot["status"] == "active":
                         self.set_object_status(lot, "unsuccessful")
                         self.set_lot_values_unsuccessful(tender.get("bids"), lot["id"])
 
             if max_bid_number == 1:
                 self.add_next_award()
+
+            # set bids unsuccessful
+            for bid in tender.get("bids", ""):
+                if (
+                    all(lv["relatedLot"] not in active_lots for lv in bid.get("lotValues", ""))
+                    and bid.get("status", "active") in self.active_bid_statuses
+                ):
+                    bid["status"] = "unsuccessful"
 
             if not {i["status"] for i in tender["lots"]}.difference(
                 {"unsuccessful", "cancelled"}
