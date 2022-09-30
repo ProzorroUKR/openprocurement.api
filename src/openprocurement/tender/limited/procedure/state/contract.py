@@ -1,4 +1,4 @@
-from openprocurement.tender.core.procedure.context import get_now, get_tender
+from openprocurement.tender.core.procedure.context import get_tender, get_now, get_request, get_award
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.procedure.state.contract import ContractStateMixing
 from openprocurement.tender.limited.procedure.state.tender import NegotiationTenderState
@@ -156,8 +156,9 @@ class LimitedNegotiationContractState(LimitedReportingContractState):
                 raise_operation_error(self.request, "Can't sign contract before reviewing all complaints")
 
     def contract_on_patch(self, before: dict, after: dict):
-        tender = get_tender()
+        request, tender, award = get_request(), get_tender(), get_award()
 
         self.validate_contract_with_cancellations_and_contract_signing()
         self.validate_update_contract_only_for_active_lots(self.request, tender, before)
+        self.validate_cancellation_blocks(request, tender, lot_id=award.get("lotID"))
         super().contract_on_patch(before, after)
