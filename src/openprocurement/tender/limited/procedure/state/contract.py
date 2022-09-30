@@ -37,7 +37,8 @@ class LimitedReportingContractState(ContractStateMixing, NegotiationTenderState)
         self.validate_contract_operation_not_in_active(request, tender)
 
     def validate_contract_patch(self, request, before, after):
-        tender = get_tender()
+        tender, award = get_tender(), get_award()
+        self.validate_cancellation_blocks(request, tender, lot_id=award.get("lotID"))
         self.validate_contract_operation_not_in_active(request, tender)
         self.validate_contract_update_in_cancelled(request, before)
         # self.validate_update_contract_only_for_active_lots(request, tender, before)
@@ -156,9 +157,8 @@ class LimitedNegotiationContractState(LimitedReportingContractState):
                 raise_operation_error(self.request, "Can't sign contract before reviewing all complaints")
 
     def contract_on_patch(self, before: dict, after: dict):
-        request, tender, award = get_request(), get_tender(), get_award()
+        tender = get_tender()
 
         self.validate_contract_with_cancellations_and_contract_signing()
         self.validate_update_contract_only_for_active_lots(self.request, tender, before)
-        self.validate_cancellation_blocks(request, tender, lot_id=award.get("lotID"))
         super().contract_on_patch(before, after)
