@@ -23,6 +23,17 @@ class TenderDetailsState(TenderDetailsMixing, OpenTenderState):
     enquiry_period_timedelta = - ENQUIRY_PERIOD_TIME
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
 
+    required_exclusion_criteria = {
+        "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
+        "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
+        "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
+        "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING",
+        "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
+        "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION",
+        "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION",
+        "CRITERION.EXCLUSION.NATIONAL.OTHER",
+    }
+
     def on_post(self, tender):
         super().on_post(tender)  # TenderDetailsMixing.on_post
         self.initialize_enquiry_period(tender)

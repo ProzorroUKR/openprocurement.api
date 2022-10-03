@@ -9,6 +9,18 @@ class TenderDetailsMixing:
     # from tender base class
     validate_cancellation_blocks: callable
 
+    required_exclusion_criteria = {
+        "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
+        "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
+        "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
+        "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING",
+        "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES",
+        "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
+        "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION",
+        "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION",
+        "CRITERION.EXCLUSION.NATIONAL.OTHER",
+    }
+
     """
     describes business logic rules for tender owners
     when they prepare tender for tendering stage
@@ -100,8 +112,8 @@ class TenderDetailsMixing:
     enquiry_period_timedelta: timedelta
     enquiry_stand_still_timedelta: timedelta
 
-    @staticmethod
-    def validate_tender_exclusion_criteria(before, after):
+    @classmethod
+    def validate_tender_exclusion_criteria(cls, before, after):
         if (
             get_first_revision_date(before, default=get_now()) < RELEASE_ECRITERIA_ARTICLE_17
             or after.get("status") not in ("active", "active.tendering")
@@ -113,19 +125,12 @@ class TenderDetailsMixing:
                            if criterion.get("classification")}
 
         # exclusion criteria
-        exclusion_criteria = {
-            "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
-            "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
-            "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
-            "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING",
-            "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES",
-            "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
-            "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION",
-            "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION",
-            "CRITERION.EXCLUSION.NATIONAL.OTHER",
-        }
-        if exclusion_criteria - tender_criteria:
-            raise_operation_error(get_request(), "Tender must contain all 9 `EXCLUSION` criteria")
+        if cls.required_exclusion_criteria - tender_criteria:
+            raise_operation_error(
+                get_request(),
+                f"Tender must contain all required `EXCLUSION` criteria: "
+                f"{', '.join(sorted(cls.required_exclusion_criteria))}",
+            )
 
     @staticmethod
     def validate_tender_language_criteria(before, after):
