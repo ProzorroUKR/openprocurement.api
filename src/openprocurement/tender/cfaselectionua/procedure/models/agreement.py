@@ -1,6 +1,5 @@
-from schematics.types import MD5Type, StringType, IntType
+from schematics.types import MD5Type, StringType, IntType, BaseType
 from schematics.types.compound import ModelType, PolyModelType
-from uuid import uuid4
 from openprocurement.api.models import (
     IsoDateTimeType,
     ListType,
@@ -28,8 +27,8 @@ class AgreementUUID(Model):
     id = MD5Type(required=True)
 
 
-class Agreement(Model):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
+class PatchAgreement(Model):
+    id = MD5Type()
     agreementID = StringType()
     agreementNumber = StringType()
     date = IsoDateTimeType()
@@ -66,3 +65,8 @@ class Agreement(Model):
 
     def validate_contracts(self, data, contracts):
         validate_parameter_contracts(data.get("features"), contracts)
+
+
+class Agreement(PatchAgreement):
+    id = MD5Type(required=True)
+    documents = BaseType()

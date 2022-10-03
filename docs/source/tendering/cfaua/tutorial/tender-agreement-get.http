@@ -8,37 +8,15 @@ X-Content-Type-Options: nosniff
 {
   "data": {
     "id": "0fea7d7c4c8649f5a499885d630671f5",
-    "agreementID": "UA-2023-01-01-000001-a-774f515207d840bbb2291a27f848ca611",
-    "date": "2023-01-01T00:00:00+02:00",
-    "documents": [
-      {
-        "id": "aeb486ca5e1d46d487678aae32ca08ff",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "agreement_first_document.doc",
-        "format": "application/msdoc",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/79e167453f5a401fb8cf408f6e3f2580?Signature=23bscymQYesYOw%2FZpHY7funx9xxU82w8GGZQSF0jYm1mwr9no2e7NHI2oej4xx%2B9tkhdeyxVjXB4ye6L4Kg9DQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00",
-        "documentOf": "tender"
-      },
-      {
-        "id": "335c4c4af10e443a8ec6043a83921d9e",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "agreement_second_document.doc",
-        "title_en": "Title of Document",
-        "description_en": "Description of Document",
-        "format": "application/msdoc",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/19d8247422d744baac8d227f47d1c28c?Signature=6LIfqdeMREwFZds4MdkMI5It2QgX%2FidPLIeMnHRAZQ2dlg%2FqGMM49QlTd0JISwsMdCs9BVxTYfGxYaUyeF86Ag%3D%3D&KeyID=a8968c46",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00",
-        "language": "en",
-        "documentOf": "tender"
-      }
-    ],
     "items": [
       {
         "id": "78edae5503b94e0eb20ca906a762bc8d",
         "description": "футляри до державних нагород",
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -46,14 +24,12 @@ X-Content-Type-Options: nosniff
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "unit": {
+          "name": "item",
+          "code": "KGM"
+        },
         "quantity": 5.0,
         "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
-        "description_en": "Cases for state awards",
         "deliveryDate": {
           "startDate": "2018-06-27T13:39:09.362837+03:00",
           "endDate": "2018-06-30T13:39:09.362837+03:00"
@@ -65,14 +41,16 @@ X-Content-Type-Options: nosniff
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "unit": {
-          "name": "item",
-          "code": "KGM"
-        }
+        "description_en": "Cases for state awards"
       },
       {
         "id": "fc62a07c463c4750b0bdc92dd8787e2a",
         "description": "футляри до державних нагород",
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -80,14 +58,12 @@ X-Content-Type-Options: nosniff
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "unit": {
+          "name": "item",
+          "code": "GRM"
+        },
         "quantity": 5.0,
         "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
-        "description_en": "Cases for state awards",
         "deliveryDate": {
           "startDate": "2018-06-27T13:39:09.362837+03:00",
           "endDate": "2018-06-30T13:39:09.362837+03:00"
@@ -99,13 +75,11 @@ X-Content-Type-Options: nosniff
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "unit": {
-          "name": "item",
-          "code": "GRM"
-        }
+        "description_en": "Cases for state awards"
       }
     ],
-    "status": "pending",
+    "agreementID": "UA-2023-01-01-000001-a-774f515207d840bbb2291a27f848ca611",
+    "date": "2023-01-01T00:00:00+02:00",
     "contracts": [
       {
         "id": "edb78279aaec40d3be65c96c5c5eb0db",
@@ -126,9 +100,9 @@ X-Content-Type-Options: nosniff
               "countryName": "Україна"
             },
             "contactPoint": {
-              "name": "Іван Іваненко",
               "email": "fake@mail.com",
-              "telephone": "+380322123456"
+              "telephone": "+380322123456",
+              "name": "Іван Іваненко"
             },
             "scale": "mid"
           }
@@ -138,16 +112,16 @@ X-Content-Type-Options: nosniff
             "relatedItem": "78edae5503b94e0eb20ca906a762bc8d",
             "value": {
               "currency": "UAH",
-              "valueAddedTaxIncluded": true,
-              "amount": 0.5
+              "amount": 0.5,
+              "valueAddedTaxIncluded": true
             }
           },
           {
             "relatedItem": "fc62a07c463c4750b0bdc92dd8787e2a",
             "value": {
               "currency": "UAH",
-              "valueAddedTaxIncluded": true,
-              "amount": 0.5
+              "amount": 0.5,
+              "valueAddedTaxIncluded": true
             }
           }
         ],
@@ -174,9 +148,9 @@ X-Content-Type-Options: nosniff
               "countryName": "Україна"
             },
             "contactPoint": {
-              "name": "Андрій Олексюк",
               "email": "aagt@gmail.com",
-              "telephone": "+380322916930"
+              "telephone": "+380322916930",
+              "name": "Андрій Олексюк"
             },
             "scale": "sme"
           }
@@ -186,16 +160,16 @@ X-Content-Type-Options: nosniff
             "relatedItem": "78edae5503b94e0eb20ca906a762bc8d",
             "value": {
               "currency": "UAH",
-              "valueAddedTaxIncluded": true,
-              "amount": 0.5
+              "amount": 0.5,
+              "valueAddedTaxIncluded": true
             }
           },
           {
             "relatedItem": "fc62a07c463c4750b0bdc92dd8787e2a",
             "value": {
               "currency": "UAH",
-              "valueAddedTaxIncluded": true,
-              "amount": 0.5
+              "amount": 0.5,
+              "valueAddedTaxIncluded": true
             }
           }
         ],
@@ -223,9 +197,9 @@ X-Content-Type-Options: nosniff
               "countryName": "Україна"
             },
             "contactPoint": {
-              "name": "Сергій Олексюк",
               "email": "soleksuk@gmail.com",
-              "telephone": "+380432216930"
+              "telephone": "+380432216930",
+              "name": "Сергій Олексюк"
             },
             "scale": "micro"
           }
@@ -235,22 +209,48 @@ X-Content-Type-Options: nosniff
             "relatedItem": "78edae5503b94e0eb20ca906a762bc8d",
             "value": {
               "currency": "UAH",
-              "valueAddedTaxIncluded": true,
-              "amount": 0.5
+              "amount": 0.5,
+              "valueAddedTaxIncluded": true
             }
           },
           {
             "relatedItem": "fc62a07c463c4750b0bdc92dd8787e2a",
             "value": {
               "currency": "UAH",
-              "valueAddedTaxIncluded": true,
-              "amount": 0.5
+              "amount": 0.5,
+              "valueAddedTaxIncluded": true
             }
           }
         ],
         "awardID": "5a20755806ec4ff885e2278e726c8f83",
         "bidID": "6bf64eb443e54b8db51e4156558d97e0",
         "date": "2023-01-01T00:00:00+02:00"
+      }
+    ],
+    "status": "pending",
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "agreement_first_document.doc",
+        "format": "application/msdoc",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/79e167453f5a401fb8cf408f6e3f2580?Signature=23bscymQYesYOw%2FZpHY7funx9xxU82w8GGZQSF0jYm1mwr9no2e7NHI2oej4xx%2B9tkhdeyxVjXB4ye6L4Kg9DQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "id": "5402687eab9d4ebc9b0f425d9ba8a080",
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
+      },
+      {
+        "title_en": "Title of Document",
+        "description_en": "Description of Document",
+        "language": "en",
+        "id": "325b32fa41d84a6e9f5cd2a1971255dc",
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "agreement_second_document.doc",
+        "format": "application/msdoc",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/19d8247422d744baac8d227f47d1c28c?Signature=6LIfqdeMREwFZds4MdkMI5It2QgX%2FidPLIeMnHRAZQ2dlg%2FqGMM49QlTd0JISwsMdCs9BVxTYfGxYaUyeF86Ag%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-01-01T00:00:00+02:00"
       }
     ]
   }

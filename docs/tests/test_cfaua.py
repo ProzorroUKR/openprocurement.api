@@ -726,7 +726,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             j = 0.5
             unit_prices = []
             for unit_price in contract['unitPrices']:
-                unit_prices.append({'relatedItem': unit_price['relatedItem'], 'value': {'amount': j}})
+                unit_prices.append({'relatedItem': unit_price['relatedItem'],
+                                    'value': {'amount': j, "currency": "UAH", "valueAddedTaxIncluded": True}})
             with open(TARGET_DIR + 'agreement-contract-unitprices{}.http'.format(i), 'w') as self.app.file_obj:
                 response = self.app.patch_json(
                     '/tenders/{}/agreements/{}/contracts/{}?acc_token={}'.format(

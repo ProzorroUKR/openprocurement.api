@@ -190,6 +190,7 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, PreQualificationShouldSta
                     "contracts": contracts,
                     "items": items,
                     "features": tender.get("features", []),
+                    "status": "pending",
                 }
                 agreement = Agreement(data)
                 tender["agreements"].append(

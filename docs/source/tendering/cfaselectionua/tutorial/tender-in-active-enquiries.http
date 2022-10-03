@@ -48,7 +48,6 @@ X-Content-Type-Options: nosniff
     "status": "active.enquiries",
     "agreements": [
       {
-        "id": "b29bf3b2d53a43bb9103fbab098eb983",
         "agreementID": "UA-2018-09-11-000002-1",
         "dateSigned": "2018-09-11T11:23:23.220310+03:00",
         "features": [
@@ -384,7 +383,8 @@ X-Content-Type-Options: nosniff
             "availableLanguage": "en"
           },
           "kind": "general"
-        }
+        },
+        "id": "b29bf3b2d53a43bb9103fbab098eb983"
       }
     ],
     "items": [

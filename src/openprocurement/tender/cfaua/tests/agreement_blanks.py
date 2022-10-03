@@ -69,9 +69,8 @@ def patch_tender_agreement_datesigned(self):
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, agreement["id"], self.tender_token),
         {"data": {"status": "active", "period": agreement_period}},
-        status=403,
+        status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
         [
@@ -101,10 +100,11 @@ def patch_tender_agreement_datesigned(self):
 
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),
-        {"data": {"status": "active", "dateSigned": tender["awardPeriod"]["endDate"]}, "period": agreement_period},
+        {"data": {"status": "active",
+                  "dateSigned": tender["awardPeriod"]["endDate"],
+                  "period": agreement_period}},
         status=422,
     )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"],
         [
@@ -133,9 +133,8 @@ def patch_tender_agreement_datesigned(self):
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),
         {"data": {"status": "active", "period": agreement_period}},
-        status=403,
+        status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
         [{"description": "Agreement don't reach minimum active contracts.", "location": "body", "name": "data"}],
@@ -158,11 +157,9 @@ def patch_tender_agreement_datesigned(self):
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),
         {"data": {"status": "active", "period": agreement_period}},
-        status=403,
+        status=422,
     )
     end_date = tender["contractPeriod"]["clarificationsUntil"]
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
         [
@@ -186,16 +183,15 @@ def patch_tender_agreement_datesigned(self):
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),
         {"data": {"status": "active", "period": {"startDate": datetime.now().isoformat()}}},
-        status=403,
+        status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
         [
             {
-                "description": "startDate and endDate are required in agreement.period.",
+                "description": ["startDate and endDate are required in agreement.period."],
                 "location": "body",
-                "name": "data",
+                "name": "period",
             }
         ],
     )
@@ -207,18 +203,17 @@ def patch_tender_agreement_datesigned(self):
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),
         {"data": {"status": "active", "period": {"startDate": start_date, "endDate": end_date}}},
-        status=403,
+        status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
         [
             {
-                "description": "Agreement period can't be greater than {}.".format(
+                "description": ["Agreement period can't be greater than {}.".format(
                     duration_isoformat(MAX_AGREEMENT_PERIOD)
-                ),
+                )],
                 "location": "body",
-                "name": "data",
+                "name": "period",
             }
         ],
     )
@@ -239,7 +234,6 @@ def patch_tender_agreement_datesigned(self):
         {"data": {"status": "cancelled"}},
         status=403,
     )
-    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
         [
@@ -259,7 +253,7 @@ def patch_tender_agreement_datesigned(self):
         "/tenders/{}/agreements/{}/contracts/{}?acc_token={}".format(
             self.tender_id, agreement["id"], contract["id"], self.tender_token
         ),
-        {"data": {"unitPrices": contract["unitPrices"]}},
+        {"data": {"status": "unsuccessful"}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -303,20 +297,18 @@ def agreement_cancellation(self):
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, agreement["id"], self.tender_token),
         {"data": {"status": "active"}},
-        status=403,
+        status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
-        [{"description": "Period is required for agreement signing.", "location": "body", "name": "data"}],
+        [{"description": ["Period is required for agreement signing."], "location": "body", "name": "period"}],
     )
 
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, agreement["id"], self.tender_token),
         {"data": {"status": "active", "period": agreement_period}},
-        status=403,
+        status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
         [
@@ -338,7 +330,6 @@ def agreement_cancellation(self):
         {"data": {"status": "cancelled"}},
         status=403,
     )
-    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
         [{"description": "Can't update agreement status", "location": "body", "name": "data"}],
@@ -463,12 +454,16 @@ def put_tender_agreement_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("name.doc", response.json["data"]["title"])
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/agreements/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.agreement_id, doc_id, self.tender_token
         ),
-        b"content3",
-        content_type="application/msword",
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -561,17 +556,29 @@ def patch_tender_agreement(self):
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, agreement["id"], self.tender_token),
         {"data": {"agreementID": fake_agreementID, "items": fake_items_data}},
+        status=422,
     )
-    response = self.app.get("/tenders/{}/agreements/{}".format(self.tender_id, agreement["id"]))
-    self.assertNotEqual(fake_agreementID, response.json["data"]["agreementID"])
-    self.assertNotEqual(fake_items_data, response.json["data"]["items"])
+    self.assertCountEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "items",
+                "description": "Rogue field"
+            },
+            {
+                "location": "body",
+                "name": "agreementID",
+                "description": "Rogue field"
+            },
+        ]
+    )
 
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, agreement["id"], self.tender_token),
         {"data": {"status": "active", "period": agreement_period}},
-        status=403,
+        status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
@@ -607,10 +614,9 @@ def patch_tender_agreement(self):
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),
         {"data": {"status": "active", "period": agreement_period}},
-        status=403,
+        status=422,
     )
     end_date = tender["contractPeriod"]["clarificationsUntil"]
-    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
@@ -645,21 +651,10 @@ def patch_tender_agreement(self):
 
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, agreement["id"], self.tender_token),
-        {"data": {"agreementID": "myselfID", "title": "New Title", "items": [{"description": "New Description"}]}},
+        {"data": {"title": "New Title"}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update agreement in current (complete) tender status"
-    )
-
-    response = self.app.patch_json(
-        "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, agreement["id"], self.tender_token),
-        {"data": {"status": "active"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"], "Can't update agreement in current (complete) tender status"
     )
@@ -669,7 +664,6 @@ def patch_tender_agreement(self):
         {"data": {"status": "pending"}},
         status=403,
     )
-    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"], "Can't update agreement in current (complete) tender status"
@@ -910,14 +904,15 @@ def patch_tender_agreement_contract(self):
         {
             "data": {
                 "unitPrices": [
-                    {"relatedItem": related_item, "value": {"amount": 100}},
-                    {"relatedItem": uuid4().hex, "value": {"amount": 1}},
+                    {"relatedItem": related_item, "value": {"amount": 100, "currency": "UAH",
+                                                            "valueAddedTaxIncluded": True}},
+                    {"relatedItem": uuid4().hex, "value": {"amount": 1, "currency": "UAH",
+                                                           "valueAddedTaxIncluded": True}},
                 ]
             }
         },
-        status=403,
+        status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
         [
@@ -933,10 +928,10 @@ def patch_tender_agreement_contract(self):
         "/tenders/{}/agreements/{}/contracts/{}?acc_token={}".format(
             self.tender_id, self.agreement_id, self.contract_id, self.tender_token
         ),
-        {"data": {"unitPrices": [{"relatedItem": uuid4().hex, "value": {"amount": 1}}]}},
-        status=403,
+        {"data": {"unitPrices": [{"relatedItem": uuid4().hex,
+                                  "value": {"amount": 1, "currency": "UAH", "valueAddedTaxIncluded": True}}]}},
+        status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
         [
@@ -961,10 +956,12 @@ def patch_tender_agreement_contract(self):
         "/tenders/{}/agreements/{}/contracts/{}?acc_token={}".format(
             self.tender_id, self.agreement_id, self.contract_id, self.tender_token
         ),
-        {"data": {"unitPrices": [{"value": {"amount": 60, "currency": "RUB", "valueAddedTaxIncluded": False}}]}},
-        status=403,
+        {"data": {"unitPrices": [{
+            "value": {"amount": 60, "currency": "RUB", "valueAddedTaxIncluded": False},
+            "relatedItem": related_item,
+        }]}},
+        status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
         [
@@ -980,10 +977,12 @@ def patch_tender_agreement_contract(self):
         "/tenders/{}/agreements/{}/contracts/{}?acc_token={}".format(
             self.tender_id, self.agreement_id, self.contract_id, self.tender_token
         ),
-        {"data": {"unitPrices": [{"value": {"amount": 60, "currency": "UAH", "valueAddedTaxIncluded": False}}]}},
-        status=403,
+        {"data": {"unitPrices": [{
+            "value": {"amount": 60, "currency": "UAH", "valueAddedTaxIncluded": False},
+            "relatedItem": related_item,
+        }]}},
+        status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
         [
@@ -999,7 +998,10 @@ def patch_tender_agreement_contract(self):
         "/tenders/{}/agreements/{}/contracts/{}?acc_token={}".format(
             self.tender_id, self.agreement_id, self.contract_id, self.tender_token
         ),
-        {"data": {"unitPrices": [{"value": {"amount": 60}}]}},
+        {"data": {"unitPrices": [{
+            "value": {"amount": 60, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "relatedItem": related_item,
+        }]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
@@ -1015,6 +1017,15 @@ def patch_tender_agreement_contract(self):
     self.assertEqual(response.json["data"]["status"], "active")
     self.assertEqual(response.json["data"]["unitPrices"][0]["value"]["amount"], 60)
 
+    # same
+    response = self.app.patch_json(
+        "/tenders/{}/agreements/{}/contracts/{}?acc_token={}".format(
+            self.tender_id, self.agreement_id, self.contract_id, self.tender_token
+        ),
+        {"data": {"status": "active"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
 
 def patch_lots_agreement_contract_unit_prices(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -1025,12 +1036,16 @@ def patch_lots_agreement_contract_unit_prices(self):
     response = self.app.get("/tenders/{}/agreements".format(self.tender_id))
     agreement = response.json["data"][0]
     contract = [c for c in agreement["contracts"] if c["bidID"] == bid_id][0]
+    related_item = contract["unitPrices"][0]["relatedItem"]
 
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}/contracts/{}?acc_token={}".format(
             self.tender_id, agreement["id"], contract["id"], self.tender_token
         ),
-        {"data": {"unitPrices": [{"value": {"amount": 60}}]}},
+        {"data": {"unitPrices": [{
+            "value": {"amount": 60, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "relatedItem": related_item,
+        }]}},
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -1043,10 +1058,12 @@ def patch_lots_agreement_contract_unit_prices(self):
         "/tenders/{}/agreements/{}/contracts/{}?acc_token={}".format(
             self.tender_id, agreement["id"], contract["id"], self.tender_token
         ),
-        {"data": {"unitPrices": [{"value": {"amount": 6000}}]}},
-        status=403,
+        {"data": {"unitPrices": [
+            {"value": {"amount": 6000, "currency": "UAH", "valueAddedTaxIncluded": True},
+             "relatedItem": related_item}
+        ]}},
+        status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
         [
