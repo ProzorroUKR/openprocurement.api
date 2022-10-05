@@ -42,6 +42,7 @@ class AuctionBidSerializer(BaseSerializer):
             "participationUrl",
             "parameters",
             "status",
+            "requirementResponses",
         }
 
         tender = get_tender()
