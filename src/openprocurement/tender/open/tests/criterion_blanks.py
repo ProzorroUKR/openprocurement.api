@@ -537,7 +537,15 @@ def activate_tender(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{'description': 'Tender must contain all 9 `EXCLUSION` criteria',
+        [{'description': "Tender must contain all required `EXCLUSION` criteria: "
+                         "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY, "
+                         "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION, "
+                         "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING, "
+                         "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION, "
+                         "CRITERION.EXCLUSION.CONVICTIONS.FRAUD, "
+                         "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION, "
+                         "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION, "
+                         "CRITERION.EXCLUSION.NATIONAL.OTHER",
           'location': 'body',
           'name': 'data'}],
     )
@@ -560,7 +568,15 @@ def activate_tender(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{'description': 'Tender must contain all 9 `EXCLUSION` criteria',
+        [{'description': "Tender must contain all required `EXCLUSION` criteria: "
+                         "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY, "
+                         "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION, "
+                         "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING, "
+                         "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION, "
+                         "CRITERION.EXCLUSION.CONVICTIONS.FRAUD, "
+                         "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION, "
+                         "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION, "
+                         "CRITERION.EXCLUSION.NATIONAL.OTHER",
           'location': 'body',
           'name': 'data'}],
     )
@@ -584,7 +600,15 @@ def activate_tender(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{'description': 'Tender must contain all 9 `EXCLUSION` criteria',
+        [{'description': "Tender must contain all required `EXCLUSION` criteria: "
+                         "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY, "
+                         "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION, "
+                         "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING, "
+                         "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION, "
+                         "CRITERION.EXCLUSION.CONVICTIONS.FRAUD, "
+                         "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION, "
+                         "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION, "
+                         "CRITERION.EXCLUSION.NATIONAL.OTHER",
           'location': 'body',
           'name': 'data'}],
     )
