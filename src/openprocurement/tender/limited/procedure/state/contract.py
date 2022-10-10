@@ -1,12 +1,15 @@
-from openprocurement.tender.core.procedure.context import get_now
+from openprocurement.tender.core.procedure.context import get_tender, get_now, get_request, get_award
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.procedure.state.contract import ContractStateMixing
 from openprocurement.tender.limited.procedure.state.tender import NegotiationTenderState
 from openprocurement.api.utils import get_now, raise_operation_error, get_first_revision_date
 from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.validation import OPERATIONS
 
 
 class LimitedReportingContractState(ContractStateMixing, NegotiationTenderState):
+    allowed_statuses_from = ("pending",)
+    allowed_statuses_to = ("active",)
 
     def check_contracts_statuses(self, tender: dict) -> None:
         active_contracts = False
@@ -28,6 +31,50 @@ class LimitedReportingContractState(ContractStateMixing, NegotiationTenderState)
         self.validate_contract_items(before, after)
         after["date"] = get_now().isoformat()
         super().contract_on_patch(before, after)
+
+    # validation
+    def validate_contract_post(self, request, tender, contract):
+        self.validate_contract_operation_not_in_active(request, tender)
+
+    def validate_contract_patch(self, request, before, after):
+        tender, award = get_tender(), get_award()
+        self.validate_cancellation_blocks(request, tender, lot_id=award.get("lotID"))
+        self.validate_contract_operation_not_in_active(request, tender)
+        self.validate_contract_update_in_cancelled(request, before)
+        # self.validate_update_contract_only_for_active_lots(request, tender, before)
+        # self.validate_update_contract_status_by_supplier(request, before, after)
+        self.validate_update_contract_status(request, tender, before, after)
+        # self.validate_contract_update_with_accepted_complaint(request, tender, before)
+        self.validate_update_contract_value(request, before, after)
+        self.validate_update_contract_value_net_required(request, after)
+        self.validate_update_contract_value_with_award(request, after)
+        self.validate_update_contract_value_amount(request, after)
+        self.validate_contract_items_count_modification(request, before, after)
+
+    @staticmethod
+    def validate_contract_operation_not_in_active(request, tender):
+        status = tender["status"]
+        if status != "active":
+            raise_operation_error(
+                request,
+                f"Can't {OPERATIONS.get(request.method)} contract in current "
+                f"({status}) tender status"
+            )
+
+    @staticmethod
+    def validate_contract_update_in_cancelled(request, before):
+        if before["status"] == "cancelled":
+            raise_operation_error(request, f"Can't update contract in current (cancelled) status")
+
+    @staticmethod
+    def validate_contract_items_count_modification(request, before, after):
+        # as it is alowed to set/change contract.item.unit.value we need to
+        # ensure that nobody is able to add or delete contract.item
+        if len(before["items"]) != len(after["items"]):
+            raise_operation_error(
+                request,
+                "Can't change items count"
+            )
 
 
 class LimitedNegotiationContractState(LimitedReportingContractState):
@@ -110,5 +157,8 @@ class LimitedNegotiationContractState(LimitedReportingContractState):
                 raise_operation_error(self.request, "Can't sign contract before reviewing all complaints")
 
     def contract_on_patch(self, before: dict, after: dict):
+        tender = get_tender()
+
         self.validate_contract_with_cancellations_and_contract_signing()
+        self.validate_update_contract_only_for_active_lots(self.request, tender, before)
         super().contract_on_patch(before, after)

@@ -636,41 +636,10 @@ def patch_tender_contract(self):
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"contractID": "myselfID"}},
+        {"data": {"status": "pending"}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update contract in current (complete) tender status"
-    )
-
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"items": [{"description": "New Description"}]}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update contract in current (complete) tender status"
-    )
-
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"suppliers": [{"name": "New Name"}]}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update contract in current (complete) tender status"
-    )
-
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"status": "active"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"], "Can't update contract in current (complete) tender status"
     )
@@ -1009,6 +978,31 @@ def patch_contract_single_item_unit_value_with_status(self):
         }},
     )
     self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], 2000.0)
+
+    # a special endpoint to update amount
+    item = response.json["data"]["items"][0]
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/contracts/{contract_id}/"
+        f"items/{item['id']}/unit/value?acc_token={self.tender_token}",
+        {"data": {
+            "amount": 2000.1
+        }},
+    )
+    expected = {
+        "amount": 2000.1,
+        "currency": item["unit"]["value"]["currency"],
+        "valueAddedTaxIncluded": item["unit"]["value"]["valueAddedTaxIncluded"],
+    }
+    self.assertEqual(
+        expected,
+        response.json["data"],
+    )
+
+    response = self.app.get(f"/tenders/{self.tender_id}/contracts/{contract_id}/items/{item['id']}/unit/value")
+    self.assertEqual(
+        expected,
+        response.json["data"]
+    )
 
     # prepare contract
     doc = self.mongodb.tenders.get(self.tender_id)

@@ -106,6 +106,21 @@ def patch_tender_contract(self):
     )
     self.assertEqual(response.status, "200 OK")
 
+    value["valueAddedTaxIncluded"] = False
+    value["amountNet"] = value["amount"]
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
+        {"data": {"value": value}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    contract_data = response.json["data"]
+    self.assertEqual(contract_data["value"]["valueAddedTaxIncluded"], False)
+    self.assertEqual(
+        contract_data["value"]["valueAddedTaxIncluded"],
+        contract_data["items"][0]["unit"]["value"]["valueAddedTaxIncluded"],
+    )
+
     tender = self.mongodb.tenders.get(self.tender_id)
 
     self.assertNotEqual(tender["dateModified"], old_tender_date_modified)

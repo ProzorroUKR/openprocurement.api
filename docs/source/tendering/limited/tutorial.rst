@@ -204,6 +204,18 @@ Item.unit.value.currency and Item.unit.value.valueAddedTaxIncluded are created u
 contract.value(if exists), otherwise using tender.value data
 
 
+Setting a single item unit value
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. include:: http/tutorial/tender-contract_items_unit_value.http
+   :code:
+
+`200 OK` response was returned with successfully set item.unit.value structure.
+
+Item.unit.value.currency and Item.unit.value.valueAddedTaxIncluded are created using
+contract.value(if exists), otherwise using tender.value data
+
+
 Setting contract signature date
 -------------------------------
 

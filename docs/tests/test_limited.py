@@ -221,6 +221,20 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.json['data']['items'][0]['unit']['value']['amount'], 12)
 
+        # a better way to do same
+        item = contract["items"][0]
+        with open(TARGET_DIR + 'tutorial/tender-contract_items_unit_value.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f'/tenders/{self.tender_id}/contracts/{self.contract_id}/items/{item["id"]}/unit/value'
+                f'?acc_token={owner_token}',
+                {"data": {
+                    "amount": 13,
+                }})
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.json['data']['amount'], 13)
+            self.assertEqual(response.json['data']["currency"], contract["value"]["currency"])
+            self.assertEqual(response.json['data']["valueAddedTaxIncluded"], contract["value"]["valueAddedTaxIncluded"])
+
         #### Setting contract signature date
 
         with open(TARGET_DIR + 'tutorial/tender-contract-sign-date.http', 'w') as self.app.file_obj:

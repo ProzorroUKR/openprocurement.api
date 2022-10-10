@@ -295,41 +295,10 @@ def patch_tender_contract(self):
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"contractID": "myselfID"}},
+        {"data": {"status": "pending"}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update contract in current (complete) tender status"
-    )
-
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"items": items}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update contract in current (complete) tender status"
-    )
-
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"suppliers": [{"name": "New Name"}]}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update contract in current (complete) tender status"
-    )
-
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"status": "active"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"], "Can't update contract in current (complete) tender status"
     )
@@ -382,10 +351,30 @@ def patch_contract_single_item_unit_value(self):
         {"data": {
             "items": new_items
         }},
+        status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "items",
+            "description": [
+                "Value mismatch. Expected: currency UAH and valueAddedTaxIncluded True"
+            ]
+        }]
+    )
+
+    new_items[0]["unit"]["value"]["currency"] = "UAH"
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
+        {"data": {
+            "items": new_items
+        }}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], 100.0)
-    self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["currency"], "GBP")
+    self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["currency"], "UAH")
 
     # prepare contract
     doc = self.mongodb.tenders.get(self.tender_id)
@@ -615,8 +604,27 @@ def patch_contract_multi_items_unit_value(self):
         {"data": {
             "items": new_items
         }},
+        status=422,
     )
-    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "items",
+            "description": [
+                "Value mismatch. Expected: currency UAH and valueAddedTaxIncluded True"
+            ]
+        }]
+    )
+
+    new_items[1]["unit"]["value"] = {"amount": 10, "currency": "UAH", "valueAddedTaxIncluded": True}
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
+        {"data": {
+            "items": new_items
+        }}
+    )
     self.assertEqual(response.json['data']['items'][1]["unit"]["value"]["amount"], 10.0)
 
     response = self.app.patch_json(
