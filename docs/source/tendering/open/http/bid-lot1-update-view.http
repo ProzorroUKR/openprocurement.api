@@ -1,0 +1,184 @@
+PATCH /api/2.5/tenders/69a0774b217e477cb01ddad3849397e2/bids/0a809f0c0f8f4599b774f8e722bc548c?acc_token=6b4d27c70cfc4ce891fcb1883d7fb7e8 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 213
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "lotValues": [
+      {
+        "subcontractingDetails": "ДКП «Орфей»",
+        "value": {
+          "amount": 500
+        },
+        "relatedLot": "c243ce7d66e040b8a69edbc86a864014"
+      }
+    ],
+    "status": "active"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+{
+  "data": {
+    "requirementResponses": [
+      {
+        "id": "78af927a7f1d461c995d564e1409aff2",
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+          "id": "9f87260043794a6ba85caa9d965199bc",
+          "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
+        },
+        "value": "True"
+      },
+      {
+        "id": "372f2fb662ca430c9144601837efbb2c",
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+          "id": "fb68bfca75c1478a81db3b3e0c5735f7",
+          "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
+        },
+        "value": "True"
+      },
+      {
+        "id": "7d1a05f46e1049baaad0e3db7cbdacde",
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+          "id": "a07f97c0e93948fabb0f7e3a4f05e956",
+          "title": "Відомості про юридичну особу, яка є учасником процедури закупівлі, не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення"
+        },
+        "value": "True"
+      },
+      {
+        "id": "400559c4c1e44da1b2a66c2377d57b31",
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+          "id": "4664f45fa68346af86d8ec0fe1c91a78",
+          "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією"
+        },
+        "value": "True"
+      },
+      {
+        "id": "a7b369d3c6f04e569c796af0c09379fa",
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+          "id": "b5719362abc34f408189930897f743d4",
+          "title": "Службова (посадова) особа учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми"
+        },
+        "value": "True"
+      },
+      {
+        "id": "99620b11cbbd45dcab8eef88fe300cc5",
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+          "id": "8cc347f6883a49da84e17863de6543cc",
+          "title": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура"
+        },
+        "value": "True"
+      },
+      {
+        "id": "2a0d1b00567143089d60beaaa7030d77",
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+          "id": "e16a80e5dbcc4a83963c206e19f601b4",
+          "title": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\" (крім нерезидентів)"
+        },
+        "value": "True"
+      },
+      {
+        "id": "18b7a4ae9dd740e194c148f095e62bf7",
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+          "id": "e21aad0fcca24f1780c927c15adbb3fe",
+          "title": "Юридична особа, яка є учасником процедури закупівлі (крім нерезидентів), має антикорупційну програму чи уповноваженого з реалізації антикорупційної програми, якщо вартість закупівлі товару (товарів), послуги (послуг) або робіт дорівнює чи перевищує 20 мільйонів гривень (у тому числі за лотом)"
+        },
+        "value": "True"
+      },
+      {
+        "id": "ed24fb60f6cc430289c64586d3841cf1",
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+          "id": "c569884e64984655a7b8c0bc4d16aab6",
+          "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
+        },
+        "value": "True"
+      },
+      {
+        "id": "00e15cfb43e94e5a99a2f94400a579c5",
+        "title": "Requirement response",
+        "description": "some description",
+        "requirement": {
+          "id": "ba8feee9945d418d97c9a6c0f3be51a9",
+          "title": "Мова тендерної пропозиції українська"
+        },
+        "value": "True"
+      }
+    ],
+    "tenderers": [
+      {
+        "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
+        },
+        "scale": "micro"
+      }
+    ],
+    "status": "active",
+    "id": "0a809f0c0f8f4599b774f8e722bc548c",
+    "date": "2023-01-01T00:00:00+02:00",
+    "selfQualified": true,
+    "lotValues": [
+      {
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "c243ce7d66e040b8a69edbc86a864014",
+        "date": "2023-01-01T00:00:00+02:00",
+        "subcontractingDetails": "ДКП «Орфей»"
+      }
+    ],
+    "documents": [
+      {
+        "id": "9ef3bafc18374936a8fe9c79208bfabd",
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/65081c75976645738881c9d5f44d48bc?Signature=dlKg7f9R44KgwL781nY2p1lIjTAFc6K9mEICey%2Bm3f5J8RY30XMSPM6qh9if26DD3dtHHJSYr0n9NoQPhE8UBw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-01-01T00:00:00+02:00",
+        "confidentiality": "public"
+      }
+    ]
+  }
+}
+

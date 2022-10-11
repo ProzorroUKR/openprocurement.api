@@ -490,6 +490,76 @@ items_ua = [
     }
 ]
 
+items_open = [
+    {
+        "additionalClassifications": [
+            {
+                "scheme": "ДКПП",
+                "id": "17.21.1",
+                "description": "Послуги шкільних їдалень"
+            }
+        ],
+        "description": "Послуги шкільних їдалень",
+        "deliveryDate": {
+            "startDate": (parse(MOCK_DATETIME) + timedelta(days=20)).isoformat(),
+            "endDate": (parse(MOCK_DATETIME) + timedelta(days=50)).isoformat()
+        },
+        "deliveryAddress": {
+            "countryName": "Україна",
+            "postalCode": "79000",
+            "region": "м. Київ",
+            "locality": "м. Київ",
+            "streetAddress": "вул. Банкова 1"
+        },
+        "classification": {
+            "description": "Послуги з харчування у школах",
+            "id": "55523100-3",
+            "scheme": "ДК021"
+        },
+        "unit": {
+            "code": "KGM",
+            "name": "папір",
+            "value": {
+                "amount": 10
+            }
+        },
+        "quantity": 1
+    },
+    {
+        "additionalClassifications": [
+            {
+                "scheme": "ДКПП",
+                "id": "17.21.1",
+                "description": "Послуги шкільних їдалень"
+            }
+        ],
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "classification": {
+            "description": "Послуги з харчування у школах",
+            "id": "55523100-3",
+            "scheme": "ДК021"
+        },
+        "deliveryDate": {
+            "startDate": (parse(MOCK_DATETIME) + timedelta(days=20)).isoformat(),
+            "endDate": (parse(MOCK_DATETIME) + timedelta(days=50)).isoformat()
+        },
+        "deliveryAddress": {
+            "countryName": "Україна",
+            "postalCode": "79000",
+            "region": "м. Київ",
+            "locality": "м. Київ",
+            "streetAddress": "вул. Банкова 1"
+        },
+        "unit": {
+            "code": "KGM",
+            "name": "кілограм",
+            "value": {"amount": 6},
+        },
+        "quantity": 1
+    }
+]
+
 procuring_entity = {
     "name": "Державне управління справами",
     "identifier": {
@@ -809,6 +879,26 @@ tender_openua = {
     },
     "procuringEntity": procuring_entity_ua,
     "items": items_ua,
+    "milestones": test_milestones,
+    "mainProcurementCategory": "services",
+}
+
+tender_open = {
+    "tenderPeriod": {
+        "endDate": (parse(MOCK_DATETIME) + timedelta(days=15)).isoformat()
+    },
+    "title": "футляри до державних нагород",
+    "minimalStep": {
+        "currency": "UAH",
+        "amount": 5
+    },
+    "procurementMethodType": "aboveThreshold",
+    "value": {
+        "currency": "UAH",
+        "amount": 500
+    },
+    "procuringEntity": procuring_entity_ua,
+    "items": items_open,
     "milestones": test_milestones,
     "mainProcurementCategory": "services",
 }

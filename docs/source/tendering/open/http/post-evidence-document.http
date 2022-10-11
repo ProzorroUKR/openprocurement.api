@@ -1,0 +1,35 @@
+POST /api/2.5/tenders/69a0774b217e477cb01ddad3849397e2/bids/0a809f0c0f8f4599b774f8e722bc548c/documents?acc_token=6b4d27c70cfc4ce891fcb1883d7fb7e8 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 354
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "title": "lorem.doc",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/185af0358153440c96e62977e4fb308c?Signature=Am%2B%2BBv4QMUVb8uGacCNy8aIqvfWd7nzY%2BFmfw27fVUYvrtT9CQLIfWJaifx4A0DPb3eqekEaJtMCxxR8dMODDg%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/msword",
+    "documentType": "evidence"
+  }
+}
+
+Response: 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/69a0774b217e477cb01ddad3849397e2/bids/0a809f0c0f8f4599b774f8e722bc548c/documents/cc1f4c92fcf842be891e81fc46346ff7
+X-Content-Type-Options: nosniff
+{
+  "data": {
+    "documentType": "evidence",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "lorem.doc",
+    "format": "application/msword",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/185af0358153440c96e62977e4fb308c?Signature=r2IRKTP6cfaePFEQ09czk6U3Rf7PwyuKEa8aMBMKh9ZiESz%2B0QuFPx6Pc90%2FWQQtaKqqQX9co2WYXQ0mqKPdBg%3D%3D&KeyID=a8968c46",
+    "documentOf": "tender",
+    "confidentiality": "public",
+    "id": "cc1f4c92fcf842be891e81fc46346ff7",
+    "datePublished": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00"
+  }
+}
+

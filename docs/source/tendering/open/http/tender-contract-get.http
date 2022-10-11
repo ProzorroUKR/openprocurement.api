@@ -1,0 +1,104 @@
+GET /api/2.5/tenders/69a0774b217e477cb01ddad3849397e2/contracts/416291a3464f4f57bcef53388100be6f?acc_token=2b976b1ceeb542098d70a6eec56c68a8 HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+Response: 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+{
+  "data": {
+    "id": "416291a3464f4f57bcef53388100be6f",
+    "awardID": "f93db424ee9640748eb33d5f23ade382",
+    "contractID": "UA-2023-01-01-000001-a-1",
+    "status": "pending",
+    "period": {
+      "startDate": "2023-01-01T00:00:01+02:00",
+      "endDate": "2024-01-01T00:00:01+02:00"
+    },
+    "value": {
+      "amount": 238.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 230.0
+    },
+    "suppliers": [
+      {
+        "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
+        },
+        "scale": "micro"
+      }
+    ],
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateSigned": "2023-01-01T00:00:01+02:00",
+    "items": [
+      {
+        "id": "ff72a42a8b8c4e08bf62a8fe1ebd04ce",
+        "description": "Послуги шкільних їдалень",
+        "classification": {
+          "description": "Послуги з харчування у школах",
+          "scheme": "ДК021",
+          "id": "55523100-3"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "unit": {
+          "name": "папір",
+          "value": {
+            "amount": 10.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "c243ce7d66e040b8a69edbc86a864014",
+        "deliveryDate": {
+          "startDate": "2023-01-21T00:00:00+02:00",
+          "endDate": "2023-02-20T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        }
+      }
+    ],
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_document.doc",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7562b300d662447095f02df04ab25bd2?Signature=BNDmBYMjv7k7Oqq5ycJZ2Hg3Y9H29XvwRqAfpWtaI99omIl6YFecaZoK3SHEVvClLGvD%2BHgy%2BZpGfLYfmFAiDg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "id": "519ab32723824cdeab1264cc2bfa244a",
+        "datePublished": "2023-01-01T00:00:01+02:00",
+        "dateModified": "2023-01-01T00:00:01+02:00"
+      }
+    ]
+  }
+}
+

@@ -10,6 +10,7 @@ Contents:
 
    tutorial
    basic-actions/index
+   open/index
    openua/index
    openeu/index
    competitivedialogue/index

@@ -1,0 +1,21 @@
+POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
+Content-Length: 4
+Content-Type: application/x-www-form-urlencoded
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+data
+
+Response: 422 Unprocessable Entity
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Expecting value: line 1 column 1 (char 0)"
+    }
+  ]
+}
+
