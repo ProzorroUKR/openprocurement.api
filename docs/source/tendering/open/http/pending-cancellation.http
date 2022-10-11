@@ -1,0 +1,54 @@
+PATCH /api/2.5/tenders/69a0774b217e477cb01ddad3849397e2/cancellations/b80629e7b54e4965a640f95c0b1ecb1f?acc_token=2b976b1ceeb542098d70a6eec56c68a8 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 31
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "status": "pending"
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+{
+  "data": {
+    "id": "b80629e7b54e4965a640f95c0b1ecb1f",
+    "status": "pending",
+    "date": "2023-01-01T00:00:01+02:00",
+    "reasonType": "forceMajeure",
+    "reason": "cancellation reason",
+    "cancellationOf": "tender",
+    "documents": [
+      {
+        "description": "Changed description",
+        "id": "80adb17cc3f64dcc8fd20b0ff48642bb",
+        "datePublished": "2023-01-01T00:00:01+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Notice.pdf",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/69a0774b217e477cb01ddad3849397e2/cancellations/b80629e7b54e4965a640f95c0b1ecb1f/documents/80adb17cc3f64dcc8fd20b0ff48642bb?download=10cc476224424d989f8d6020be9d76f0",
+        "documentOf": "tender",
+        "dateModified": "2023-01-01T00:00:01+02:00"
+      },
+      {
+        "description": "Changed description",
+        "id": "80adb17cc3f64dcc8fd20b0ff48642bb",
+        "datePublished": "2023-01-01T00:00:01+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Notice-2.pdf",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/69a0774b217e477cb01ddad3849397e2/cancellations/b80629e7b54e4965a640f95c0b1ecb1f/documents/80adb17cc3f64dcc8fd20b0ff48642bb?download=d1e39e1e0ffe4ab491c585c06ed60eae",
+        "documentOf": "tender",
+        "dateModified": "2023-01-01T00:00:01+02:00"
+      }
+    ],
+    "complaintPeriod": {
+      "startDate": "2023-01-01T00:00:01+02:00",
+      "endDate": "2023-01-12T00:00:00+02:00"
+    }
+  }
+}
+
