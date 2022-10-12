@@ -8,7 +8,7 @@ Contents:
 .. toctree::
    :maxdepth: 4
 
-   tutorial
+   belowthreshold/tutorial
    basic-actions/index
    open/index
    openua/index

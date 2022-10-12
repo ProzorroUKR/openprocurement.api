@@ -18,7 +18,7 @@ from tests.base.data import (
 
 test_tender_data = deepcopy(tender_below)
 
-TARGET_DIR = 'docs/source/tendering/http/'
+TARGET_DIR = 'docs/source/tendering/belowthreshold/http/'
 
 
 class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
@@ -115,13 +115,13 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         # Tender activating
 
-        with open(TARGET_DIR + 'tender-activating.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/tender-activating.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
                 {'data': {"status": "active.enquiries"}})
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'active-tender-listing-no-auth.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/active-tender-listing-no-auth.http', 'w') as self.app.file_obj:
             self.app.authorization = None
             response = self.app.get(request_path)
             self.assertEqual(response.status, '200 OK')
