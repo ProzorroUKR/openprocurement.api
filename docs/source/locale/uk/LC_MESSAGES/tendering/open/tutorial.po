@@ -1,0 +1,328 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.tender.openua 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-10-12 21:36+0300\n"
+"PO-Revision-Date: 2020-05-10 18:00+0300\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language: uk\n"
+"Language-Team: Ukrainian <support@quintagroup.com>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+msgid "Tutorial"
+msgstr "Туторіал"
+
+msgid "Exploring basic rules"
+msgstr "Базові правила"
+
+msgid "Let's try exploring the `/tenders` endpoint:"
+msgstr "Подивимось як працює точка входу `/tenders`:"
+
+msgid "Just invoking it reveals empty set."
+msgstr "При виклику видає пустий набір."
+
+msgid "Now let's attempt creating some tender:"
+msgstr "Спробуймо створити нову закупівлю:"
+
+msgid "Error states that the only accepted Content-Type is `application/json`."
+msgstr "Помилка вказує, що єдиний прийнятний тип вмісту це `application/json`."
+
+msgid "Let's satisfy the Content-type requirement:"
+msgstr "Задовільнимо вимогу типу вмісту:"
+
+msgid "Error states that no `data` has been found in JSON body."
+msgstr "Помилка вказує, що `data` не знайдено у тілі JSON."
+
+msgid "Creating tender"
+msgstr "Створення закупівлі"
+
+msgid "Let's provide the data attribute in the submitted body :"
+msgstr "Введемо data атрибут у поданому тілі:"
+
+msgid "Success! Now we can see that new object was created. Response code is `201` and `Location` response header reports the location of the created object.  The body of response reveals the information about the created tender: its internal `id` (that matches the `Location` segment), its official `tenderID` and `dateModified` datestamp stating the moment in time when tender was last modified.  Note that tender is created with `draft` status."
+msgstr "Успіх! Тепер ми бачимо, що новий об’єкт було створено. Код відповіді `201` та заголовок відповіді `Location` вказує місцерозташування створеного об’єкта. Тіло відповіді показує інформацію про створену закупівлю, її внутрішнє `id` (яке співпадає з сегментом `Location`), її офіційне `tenderID` та `dateModified` дату, що показує час, коли закупівля востаннє модифікувалась. Зверніть увагу, що закупівля створюється зі статусом `draft`."
+
+msgid "The peculiarity of the Open procedure is that ``procurementMethodType`` was changed from ``belowThreshold`` to ``aboveThreshold``. Also there is no opportunity to set up ``enquiryPeriod``, it will be assigned automatically."
+msgstr "Особливість відкритих торгів в тому, що ``procurementMethodType`` було змінено з ``belowThreshold`` на ``aboveThreshold``.  Також тут неможливо встановити ``enquiryPeriod``, бо він буде призначений автоматично."
+
+msgid "Let's access the URL of the created object (the `Location` header of the response):"
+msgstr "Використаємо URL створеного об’єкта (заголовок відповіді `Location`):"
+
+msgid "We can see the same response we got after creating tender."
+msgstr "Ми бачимо ту ж відповідь, що і після створення закупівлі."
+
+msgid "Let's see what listing of tenders reveals us:"
+msgstr "Подивимось, що показує список закупівель:"
+
+msgid "We don't see internal `id` of tender, because tender appears in the listing from `active.tendering` status."
+msgstr "Ми поки не бачимо внутрішнього `id` закупівлі, тому що у списку відображаються закупівлі лише після статусу `active.tendering`"
+
+msgid "Tender can contain several different lots. We can add lot using the following way:"
+msgstr "Закупівля може складатись із декількох лотів. Можна створити лот таким чином:"
+
+msgid "Also you will need to update data about item's related lots:"
+msgstr "Потрібно оновити дані пов’язані із залежністю на лот:"
+
+msgid "Tender activating"
+msgstr "Активація закупівлі"
+
+msgid "At first we needed to add EXCLUSION criteria to our tender(:ref:`About criteria you can read here<criteria_operation>`)."
+msgstr "Спочатку нам потрібно додати вийняткові критерії до нашої закупівлі(:ref:`Про критерії ви можете дізнатися тут<criteria_operation>`)"
+
+msgid "After adding needed criteria we can activate our tender, so let's do that:"
+msgstr "Після додавання необхідних критеріїв ми иожемо активувати закупівлю:"
+
+msgid "Now We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp."
+msgstr "Ми бачимо внутрішнє `id` закупівлі (що може бути використано для побудови повної URL-адреси, якщо додати `http://api-sandbox.openprocurement.org/api/0/tenders/`) та її `dateModified` дату."
+
+msgid "Modifying tender"
+msgstr "Редагування закупівлі"
+
+msgid "Let's update tender by supplementing it with all other essential properties:"
+msgstr "Оновимо закупівлю шляхом надання їй усіх інших важливих властивостей:"
+
+msgid "We see the added properies have merged with existing tender data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp."
+msgstr "Ми бачимо, що додаткові властивості об’єднані з існуючими даними закупівлі. Додатково оновлена властивість `dateModified`, щоб відображати останню дату модифікації."
+
+msgid "Checking the listing again reflects the new modification date:"
+msgstr "Ще одна перевірка списку відображає нову дату модифікації:"
+
+msgid "Procuring entity can not change tender if there are less than 7 days before tenderPeriod ends. Changes will not be accepted by API."
+msgstr "Замовник не може редагувати закупівлю, якщо залишилось менше 7 днів до завершення періоду подання пропозицій. API таких змін не прийме."
+
+msgid "That is why tenderPeriod has to be extended by 7 days."
+msgstr "Ось чому потрібно продовжити період подання пропозицій на 7 днів."
+
+msgid "Procuring entity can set bid guarantee:"
+msgstr "Замовник може встановити забезпечення тендерної пропозиції:"
+
+msgid "Uploading documentation"
+msgstr "Завантаження документів"
+
+msgid "Procuring entity can upload PDF files into the created tender. Uploading should follow the :ref:`upload` rules."
+msgstr "Замовник може завантажити PDF файл у створену закупівлю. Завантаження повинно відбуватись згідно правил :ref:`upload`."
+
+msgid "`201 Created` response code and `Location` header confirm document creation. We can additionally query the `documents` collection API endpoint to confirm the action:"
+msgstr "Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ було створено. Додатково можна зробити запит точки входу API колекції `документів`, щоб підтвердити дію:"
+
+msgid "The single array element describes the uploaded document. We can upload more documents:"
+msgstr "Один елемент масиву описує завантажений документ. Ми можемо завантажити більше документів:"
+
+msgid "And again we can confirm that there are two documents uploaded."
+msgstr "І знову можна перевірити, що є два завантажених документа."
+
+msgid "In case we made an error, we can reupload the document over the older version:"
+msgstr "Якщо сталась помилка, ми можемо ще раз завантажити документ поверх старої версії:"
+
+msgid "And we can see that it is overriding the original version:"
+msgstr "І ми бачимо, що вона перекриває оригінальну версію:"
+
+msgid "Enquiries"
+msgstr "Уточнення і запитання"
+
+msgid "When tender has ``active.tendering`` status and ``Tender.enqueryPeriod.endDate``  hasn't come yet, interested parties can ask questions:"
+msgstr "Якщо закупівля має статус ``active.tendering`` та дата завершення періоду подання пропозицій ``Tender.enqueryPeriod.endDate`` ще не прийшла , то зацікавлені учасники можуть задавати питання чи просити уточнень умов закупівлі:"
+
+msgid "Procuring entity can answer them:"
+msgstr "Замовник може відповісти на них:"
+
+msgid "One can retrieve either questions list:"
+msgstr "Можна отримати список запитань:"
+
+msgid "or individual answer:"
+msgstr "або окрему відповідь:"
+
+msgid "Enquiries can be made only during ``Tender.enqueryPeriod``"
+msgstr "Запитання можна задавати лише протягом періоду уточнень ``Tender.enqueryPeriod``"
+
+msgid "Registering bid"
+msgstr "Реєстрація пропозиції"
+
+msgid "Tender status ``active.tendering`` allows registration of bids."
+msgstr "Статус закупівлі ``active.tendering`` дозволяє подання пропозицій."
+
+msgid "Bidder can register a bid for lot №1:"
+msgstr "Учасник може зареєструвати пропозицію для лота №1:"
+
+msgid "And append responses for criteria requirements:"
+msgstr "Та додамо відповіді на вимоги критеріїв:"
+
+msgid "And activate a bid:"
+msgstr "Та активувати пропозицію:"
+
+msgid "Then bidder should upload proposal document(s):"
+msgstr "Потім учасник повинен завантажити документ(и) пропозиції:"
+
+msgid "It is possible to check the uploaded documents:"
+msgstr "Можна перевірити завантажені документи:"
+
+msgid "Bidder can register bids for all lots:"
+msgstr "Учасник може зареєструвати пропозиції для всіх лотів:"
+
+msgid "Then bidder should upload technical and private documents of proposal."
+msgstr "Учасник повинен завантажити технічні та приватні документи пропозиції."
+
+msgid "We can update tender during ``active.tendering`` period. Bids will be invalid after updating tender. For example, let's reduce the lot price to 400."
+msgstr "Закупівлю можна оновлювати протягом періоду ``active.tendering``. Всі пропозиції вважатимуться недійсними після оновлення закупівлі. Наприклад, зменшимо ціну лота до 400."
+
+msgid "Here is the bidder's proposal after tender was updated."
+msgstr "Це пропозиція учасника після оновлення закупівлі."
+
+msgid "Firstly bidder has to renew bid, even if he was placing a bid just for a lot №1."
+msgstr "Спочатку учасник повинен поновити свою пропозицію, навіть якщо подавав її лише для лота №1."
+
+msgid "Then bidder has to renew bid only for a lot №1."
+msgstr "Потім учасник повинен поновити пропозицію для лота №1."
+
+msgid "Auction"
+msgstr "Аукціон"
+
+msgid "After auction is scheduled anybody can visit it to watch. The auction can be reached at `Tender.auctionUrl`:"
+msgstr "Після того, як аукціон заплановано, будь-хто може його відвідати для перегляду. Аукціон можна подивитись за допомогою `Tender.auctionUrl`:"
+
+msgid "Bidders can find out their participation URLs via their bids:"
+msgstr "Учасники можуть дізнатись свої URL-адреси для участі через свої пропозиції:"
+
+msgid "See the `Bid.participationUrl` in the response. Similar, but different, URL can be retrieved for other participants:"
+msgstr "Дивіться на `Bid.participationUrl` у відповіді. Схожу, але іншу, URL-адресу можна отримати для інших учасників:"
+
+msgid "Abnormally low price"
+msgstr "Аномально низька ціна"
+
+msgid "An award can contain a milestone of type ``apl``"
+msgstr "Об’єкт award може містити milestone типу ``apl``"
+
+msgid "Procuring entity cannot change the status of the award before ``milestone.dueDate``"
+msgstr "Замовник не може змінити статус award до настання “milestone.dueDate”"
+
+msgid "During this time the bidder can upload ``evidence`` documents to his bid"
+msgstr "Протягом цього часу учасник торгів може завантажувати документи ``evidence`` до своєї заявки"
+
+msgid "Confirming qualification"
+msgstr "Підтвердження кваліфікації"
+
+msgid "Qualification commission registers its decision via the following call:"
+msgstr "Кваліфікаційна комісія реєструє своє рішення:"
+
+msgid "Setting contract value"
+msgstr "Встановлення вартості угоди"
+
+msgid "By default contract value is set based on the award, but there is a possibility to set custom contract value."
+msgstr "За замовчуванням вартість угоди встановлюється на основі рішення про визначення переможця, але є можливість змінити це значення."
+
+msgid "If you want to **lower contract value**, you can insert new one into the `amount` field."
+msgstr "Якщо ви хочете **знизити вартість угоди**, ви можете встановити нове значення для поля `amount`."
+
+msgid "`200 OK` response was returned. The value was modified successfully."
+msgstr "Було повернуто код відповіді `200 OK`. Значення змінено успішно."
+
+msgid "Setting contract signature date"
+msgstr "Встановлення дати підписання угоди"
+
+msgid "There is a possibility to set custom contract signature date. You can insert appropriate date into the `dateSigned` field."
+msgstr "Є можливість встановити дату підписання угоди. Для цього вставте відповідну дату в поле `dateSigned`."
+
+msgid "If this date is not set, it will be auto-generated on the date of contract registration."
+msgstr "Якщо ви не встановите дату підписання, то вона буде згенерована автоматично під час реєстрації угоди."
+
+msgid "Setting contract validity period"
+msgstr "Встановлення терміну дії угоди"
+
+msgid "Setting contract validity period is optional, but if it is needed, you can set appropriate `startDate` and `endDate`."
+msgstr "Встановлення терміну дії угоди необов’язкове, але, якщо є необхідність, ви можете встановити відповідну дату початку `startDate` та кінця `endDate` терміну дії."
+
+msgid "Uploading contract documentation"
+msgstr "Завантаження документації по угоді"
+
+msgid "You can upload contract documents for the OpenUA procedure."
+msgstr "Ви можете завантажити документи угоди для процедури відкритих торгів."
+
+msgid "Let's upload contract document:"
+msgstr "Завантажимо документ угоди:"
+
+msgid "`201 Created` response code and `Location` header confirm that this document was added."
+msgstr "Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ було додано."
+
+msgid "Let's view the uploaded contract document:"
+msgstr "Подивимось на список документів пов’язаних з угодою:"
+
+msgid "Cancelling tender"
+msgstr "Скасування закупівлі"
+
+msgid "Tender creator can cancel tender anytime (except when tender in status `active.auction` or in terminal status e.g. `unsuccessful`, `canceled`, `complete`)."
+msgstr "Замовник може скасувати закупівлю у будь-який момент (крім закупівель у статусі `active.auction` чи у кінцевому стані, наприклад, `usuccesfull`, `canceled`, `complete`)."
+
+msgid "The following steps should be applied:"
+msgstr "Для цього потрібно виконати наступні кроки:"
+
+msgid "Prepare cancellation request."
+msgstr "Приготуйте запит на скасування."
+
+msgid "Fill it with the protocol describing the cancellation reasons."
+msgstr "Наповніть його протоколом про причини скасування."
+
+msgid "Passing complaint period(4 days)"
+msgstr "Проходження періоду оскарження(триває 4 дня)"
+
+msgid "Cancel the tender with the prepared reasons."
+msgstr "Скасуйте закупівлю через подані причини."
+
+msgid "Only the request that has been activated (4th step above) has power to cancel tender.  I.e.  you have to not only prepare cancellation request but to activate it as well."
+msgstr "Запит на скасування, який не пройшов активації (4-й крок), не матиме сили, тобто, для скасування закупівлі буде обов’язковим не тільки створити заявку, але і активувати її."
+
+msgid "For cancelled cancellation you need to update cancellation status to `unsuccessful` from `draft` or `pending`."
+msgstr "Для відміни скасування закупівлі, вам потрібно оновоить статус скасування до `unsuccessful` з `draft` чи `pending`."
+
+msgid "See :ref:`cancellation` data structure for details."
+msgstr "Дивіться структуру запиту :ref:`cancellation` для більш детальної інформації."
+
+msgid "Preparing the cancellation request"
+msgstr "Формування запиту на скасування"
+
+msgid "You should pass `reason` and `reasonType`, `status` defaults to `draft`."
+msgstr "Ви повинні передати змінні `reason` та `reasonType`, `status` у стані `draft`."
+
+msgid "There are four possible types of cancellation reason - tender was `noDemand`, `unFixable`, `forceMajeure` and `expensesCut`."
+msgstr "При скасуванні, замовник має визначити один з чотирьох типів reasonType: `noDemand`, `unFixable`, `forceMajeure` aбо `expensesCut`."
+
+msgid "`id` is autogenerated and passed in the `Location` header of response."
+msgstr "`id` генерується автоматично і повертається у додатковому заголовку відповіді `Location`."
+
+msgid "You can change ``reasonType`` value to any of the above."
+msgstr "Ви можете виправити тип на будь-який що вказаний вище."
+
+msgid "Filling cancellation with protocol and supplementary documentation"
+msgstr "Наповнення протоколом та іншою супровідною документацією"
+
+msgid "This step is required. Without documents you can't update tender status."
+msgstr "Цей крок обов'язковий. Без документів ви не можете оновити статус скарги."
+
+msgid "Upload the file contents"
+msgstr "Завантажити вміст файлу"
+
+msgid "Change the document description and other properties"
+msgstr "Зміна опису документа та інших властивостей"
+
+msgid "Upload new version of the document"
+msgstr "Завантажити нову версію документа"
+
+msgid "Passing Complaint Period"
+msgstr "Проходження періоду оскарження"
+
+msgid "For activate complaint period, you need to update cancellation from `draft` to `pending`."
+msgstr "Для того щоб перейти до періоду оскарження потрібно змінити стаутс скасування з `draft` на `pending`."
+
+msgid "When cancellation in `pending` status the tender owner is prohibited from all actions on the tender."
+msgstr "Коли скасування закупівлі в статусі `pending` замовнику зобороняються всі дії по закупівлі."
+
+msgid "Activating the request and cancelling tender"
+msgstr "Активація запиту та скасування закупівлі"
+
+msgid "if the complaint period(duration 4 days) is over and there were no complaints or all complaints are canceled, then cancellation will automatically update status to `active`."
+msgstr "якщо період оскарження(триває 4 дня) скінчився та не було ніяких скарг на скасування закупівлі або скарги були скасовані, то скасування автоматично зміює статус на `active`."
+
