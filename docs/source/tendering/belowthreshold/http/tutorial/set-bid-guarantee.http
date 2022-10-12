@@ -99,11 +99,7 @@ X-Content-Type-Options: nosniff
           },
           "code": "KGM"
         },
-        "quantity": 5.0,
-        "deliveryDate": {
-          "startDate": "2023-01-03T00:00:00+02:00",
-          "endDate": "2023-01-06T00:00:00+02:00"
-        }
+        "quantity": 5.0
       }
     ],
     "milestones": [
