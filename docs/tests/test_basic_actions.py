@@ -41,7 +41,7 @@ test_lots[1]['value'] = test_tender_data['value']
 test_lots[1]['minimalStep'] = test_tender_data['minimalStep']
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TARGET_DIR = os.path.join(BASE_DIR, 'source/tendering/http/')
+TARGET_DIR = os.path.join(BASE_DIR, 'source/basic-actions/http/')
 
 
 class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):

@@ -12,7 +12,6 @@ Contents:
    confidential-documents
    questions
    tenders
-   qualifications
    complaints
    complaint-payments
    etd
