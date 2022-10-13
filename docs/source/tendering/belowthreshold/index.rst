@@ -1,7 +1,7 @@
 .. _belowthreshold:
 
-Below Threshold procedure - `belowThreshold`
-============================================
+Below Threshold procedure - ``belowThreshold``
+==============================================
 
 Contents:
 

@@ -1,7 +1,7 @@
 .. _cfaselectionua:
 
-Close Framework Agreement (Selection) procedure - `closeFrameworkAgreementSelectionUA`
-======================================================================================
+Close Framework Agreement (Selection) procedure - ``closeFrameworkAgreementSelectionUA``
+========================================================================================
 
 Contents:
 

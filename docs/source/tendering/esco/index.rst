@@ -1,7 +1,7 @@
 .. _esco:
 
-Energy Service Contracting procedure - `esco`
-=============================================
+Energy Service Contracting procedure - ``esco``
+===============================================
 
 Contents:
 

@@ -1,7 +1,7 @@
-.. _openua:
+.. _open:
 
-Open procedure - `aboveThreshold`
-=================================
+Open procedure - ``aboveThreshold``
+===================================
 
 Contents:
 

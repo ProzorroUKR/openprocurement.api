@@ -1,7 +1,7 @@
 .. _openeu:
 
-Open procedure with publication in English - `aboveThresholdEU`
-===============================================================
+Open procedure with publication in English - ``aboveThresholdEU``
+=================================================================
 
 Contents:
 
