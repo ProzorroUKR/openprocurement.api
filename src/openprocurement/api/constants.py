@@ -55,7 +55,10 @@ def read_json(name):
 CPV_CODES = read_json("data/cpv.json")
 CPV_CODES.append("99999999-9")
 DK_CODES = read_json("data/dk021.json")
-FUNDERS = [(i["scheme"], i["id"]) for i in read_json("data/funders.json")["data"]]
+FUNDERS = [
+    (i["identifier"]["scheme"], i["identifier"]["id"])
+    for i in standards.load("codelists/tender/tender_funder.json")
+]
 ORA_CODES = [i["code"] for i in standards.load("organizations/identifier_scheme.json")["data"]]
 GMDN = {k for k in read_json("data/gmdn.json").keys()}
 GMDN_CPV_PREFIXES = read_json("data/gmdn_cpv_prefixes.json")
