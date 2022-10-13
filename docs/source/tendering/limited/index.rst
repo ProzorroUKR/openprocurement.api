@@ -1,7 +1,7 @@
 .. _limited:
 
-Reporting, negotiation procurement procedure and negotiation procedure
-======================================================================
+Reporting, negotiation procedures - `reporting`, `negotiation`, `negotiation.quick`
+===================================================================================
 
 Contents:
 

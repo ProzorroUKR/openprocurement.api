@@ -1,7 +1,7 @@
 .. _openua:
 
-Open tender procedure (OpenUA)
-==============================
+Open procedure - `aboveThresholdUA`
+===================================
 
 Contents:
 

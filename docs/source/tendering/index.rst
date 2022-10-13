@@ -1,15 +1,15 @@
 .. _tendering:
 
 Tendering API interface to OpenProcurement database
-=====================================================
+===================================================
 
 Contents:
 
 .. toctree::
    :maxdepth: 4
 
-   belowthreshold/tutorial
    basic-actions/index
+   belowthreshold/index
    open/index
    openua/index
    openeu/index

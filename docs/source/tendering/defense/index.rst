@@ -1,7 +1,7 @@
 .. _defense:
 
-Defense open tender
-===================
+Defense procedure - `aboveThresholdUA.defense`
+==============================================
 
 Contents:
 

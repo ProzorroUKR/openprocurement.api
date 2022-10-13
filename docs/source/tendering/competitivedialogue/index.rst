@@ -1,7 +1,7 @@
 .. _competitivedialogue:
 
-The Competitive Dialogue procedure
-==================================
+The Competitive Dialogue procedure - `competitiveDialogueEU`, `competitiveDialogueUA`
+=====================================================================================
 
 Contents:
 

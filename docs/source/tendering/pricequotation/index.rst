@@ -1,7 +1,7 @@
 .. _pricequotation:
 
-Price Quotation procedure
-==============================
+Price Quotation procedure - `priceQuotation`
+============================================
 
 Contents:
 
