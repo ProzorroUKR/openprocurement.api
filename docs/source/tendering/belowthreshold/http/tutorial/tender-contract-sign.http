@@ -1,15 +1,12 @@
 PATCH /api/2.5/tenders/63fbe5f55ec14294b590969e4ec72af6/contracts/24b423b81495417bbe9e3f1d2c31eb77?acc_token=2886798c972f423e9d7a1e201345cb4e HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 104
+Content-Length: 30
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "period": {
-      "startDate": "2023-01-01T00:00:03+02:00",
-      "endDate": "2024-01-01T00:00:03+02:00"
-    }
+    "status": "active"
   }
 }
 
@@ -22,7 +19,7 @@ X-Content-Type-Options: nosniff
     "awardID": "1192e72db5c9491a80cf59641a749a51",
     "contractID": "UA-2023-01-01-000001-a-1",
     "contractNumber": "contract #13111",
-    "status": "pending",
+    "status": "active",
     "period": {
       "startDate": "2023-01-01T00:00:03+02:00",
       "endDate": "2024-01-01T00:00:03+02:00"
@@ -60,11 +57,7 @@ X-Content-Type-Options: nosniff
           },
           "code": "KGM"
         },
-        "quantity": 5.0,
-        "deliveryDate": {
-          "startDate": "2023-01-03T00:00:00+02:00",
-          "endDate": "2023-01-06T00:00:00+02:00"
-        }
+        "quantity": 5.0
       }
     ],
     "suppliers": [
@@ -91,7 +84,29 @@ X-Content-Type-Options: nosniff
         "scale": "micro"
       }
     ],
-    "date": "2023-01-01T00:00:01+02:00",
+    "date": "2023-01-01T00:00:03+02:00",
+    "documents": [
+      {
+        "id": "e2f3d9341e2e4f3cbce82640343852a7",
+        "datePublished": "2023-01-01T00:00:03+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_first_document.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7158e9eba59844d0b34ef5d4ecca8b05?Signature=B9C0uma4%2FL9IHMWqJ%2B8VbWe1zNtY2roZdsO%2FvRQAm2SrDUNwp8%2B8EQIAdOQlogvcsRr%2Bey7GQog8hD9LxG4LCQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-01-01T00:00:03+02:00"
+      },
+      {
+        "id": "b6f97b12c7ec4a178c19d8ed3d9f8f83",
+        "datePublished": "2023-01-01T00:00:03+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_second_document.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ac088af709624bc9a689dadbcb6b8418?Signature=1eL5ul3qok%2FuoktZDAwrQqTTMWpuG%2BlOckQkLF8fhcT7FdMQXNa87CPXR2tYw94XKIwlycm%2BuvhlHpaWXr0eBA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-01-01T00:00:03+02:00"
+      }
+    ],
     "dateSigned": "2023-01-01T00:00:03+02:00"
   }
 }

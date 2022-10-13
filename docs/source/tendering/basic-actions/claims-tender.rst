@@ -8,12 +8,12 @@ Tender Conditions Claim/Complaint Retrieval
 
 You can list all Tender Conditions Claims/Complaints:
 
-.. include:: ../http/complaints/complaints-list.http
+.. include:: http/complaints/complaints-list.http
    :code:
 
 And check individual complaint or claim:
 
-.. include:: ../http/complaints/complaint.http
+.. include:: http/complaints/complaint.http
    :code:
 
 Claim Submission
@@ -26,17 +26,17 @@ Tender Conditions Claim Submission (with documents)
 
 At first create a claim:
 
-.. include:: ../http/complaints/claim-submission.http
+.. include:: http/complaints/claim-submission.http
    :code:
 
 Then upload necessary documents:
 
-.. include:: ../http/complaints/complaint-submission-upload.http
+.. include:: http/complaints/complaint-submission-upload.http
    :code:
 
 Submit tender conditions claim:
 
-.. include:: ../http/complaints/complaint-claim.http
+.. include:: http/complaints/complaint-claim.http
    :code:
 
 Tender Conditions Claim Submission (without documents)
@@ -44,7 +44,7 @@ Tender Conditions Claim Submission (without documents)
 
 You can submit claim that does not need additional documents:
 
-.. include:: ../http/complaints/complaint-submission-claim.http
+.. include:: http/complaints/complaint-submission-claim.http
    :code:
 
 Claim's Answer
@@ -53,7 +53,7 @@ Claim's Answer
 Answer to resolved claim
 ------------------------
 
-.. include:: ../http/complaints/complaint-answer.http
+.. include:: http/complaints/complaint-answer.http
    :code:
 
 
@@ -63,12 +63,12 @@ Satisfied Claim
 Satisfying resolution
 ---------------------
 
-.. include:: ../http/complaints/complaint-satisfy.http
+.. include:: http/complaints/complaint-satisfy.http
    :code:
 
 
 Escalate claim to complaint
 ---------------------------
 
-.. include:: ../http/complaints/complaint-escalate.http
+.. include:: http/complaints/complaint-escalate.http
    :code:

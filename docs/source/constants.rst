@@ -3,7 +3,7 @@
 Constants
 =========
 
-.. include:: tendering/http/tutorial/constants.http
+.. include:: tendering/belowthreshold/http/tutorial/constants.http
    :code:
 
 .. _BUDGET_PERIOD_FROM:

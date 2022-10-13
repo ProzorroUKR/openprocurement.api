@@ -1,56 +1,15 @@
-PATCH /api/2.5/tenders/7467a15a053641d38e0d29499e3cc219?acc_token=a6344e8ea632458f8a17d7268471475e HTTP/1.0
+GET /api/2.5/tenders/63fbe5f55ec14294b590969e4ec72af6 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 634
-Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
-{
-  "data": {
-    "milestones": [
-      {
-        "id": "35a436e966214b7082043bfb6d4dc05d",
-        "title": "signingTheContract",
-        "type": "financing",
-        "code": "prepayment",
-        "percentage": 45.55,
-        "duration": {
-          "days": 5,
-          "type": "banking"
-        },
-        "sequenceNumber": 0,
-        "relatedLot": "5dd81ae7cceb4452933c9ecd576352bf"
-      },
-      {
-        "id": "56faacff01464db8bf244a65ca400327",
-        "title": "anotherEvent",
-        "type": "financing",
-        "code": "postpayment",
-        "percentage": 54.45,
-        "duration": {
-          "days": 7,
-          "type": "calendar"
-        },
-        "sequenceNumber": 1,
-        "description": "Підозрілий опис",
-        "relatedLot": "5dd81ae7cceb4452933c9ecd576352bf"
-      }
-    ]
-  }
-}
 
 Response: 200 OK
 Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
-    "date": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "tenderID": "UA-2023-01-01-000001-a",
-    "status": "draft",
-    "owner": "broker",
-    "title": "футляри до державних нагород",
     "mainProcurementCategory": "goods",
+    "title": "футляри до державних нагород",
+    "status": "draft",
     "submissionMethod": "electronicAuction",
     "procurementMethod": "open",
     "awardCriteria": "lowestCost",
@@ -95,59 +54,33 @@ X-Content-Type-Options: nosniff
           },
           "code": "KGM"
         },
-        "quantity": 5.0,
-        "deliveryDate": {
-          "startDate": "2023-01-03T00:00:00+02:00",
-          "endDate": "2023-01-06T00:00:00+02:00"
-        }
-      }
-    ],
-    "lots": [
-      {
-        "title": "lot title",
-        "description": "lot description",
-        "status": "active",
-        "id": "5dd81ae7cceb4452933c9ecd576352bf",
-        "date": "2023-01-01T00:00:00+02:00",
-        "value": {
-          "amount": 500.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        },
-        "minimalStep": {
-          "amount": 15.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        }
+        "quantity": 5.0
       }
     ],
     "milestones": [
       {
-        "id": "35a436e966214b7082043bfb6d4dc05d",
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         "title": "signingTheContract",
         "type": "financing",
         "code": "prepayment",
         "percentage": 45.55,
         "duration": {
-          "days": 5,
+          "days": 2,
           "type": "banking"
         },
-        "sequenceNumber": 0,
-        "relatedLot": "5dd81ae7cceb4452933c9ecd576352bf"
+        "sequenceNumber": 0
       },
       {
-        "id": "56faacff01464db8bf244a65ca400327",
-        "title": "anotherEvent",
-        "description": "Підозрілий опис",
+        "id": "d8635a79813a4ac69626f0d504119cbe",
+        "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
         "percentage": 54.45,
         "duration": {
-          "days": 7,
+          "days": 900,
           "type": "calendar"
         },
-        "sequenceNumber": 1,
-        "relatedLot": "5dd81ae7cceb4452933c9ecd576352bf"
+        "sequenceNumber": 0
       }
     ],
     "procurementMethodType": "belowThreshold",
@@ -172,11 +105,16 @@ X-Content-Type-Options: nosniff
       "kind": "general"
     },
     "enquiryPeriod": {
+      "endDate": "2023-01-08T00:00:00+02:00",
       "startDate": "2023-01-01T00:00:00+02:00",
-      "clarificationsUntil": "2023-01-09T00:00:00+02:00",
-      "endDate": "2023-01-08T00:00:00+02:00"
+      "clarificationsUntil": "2023-01-09T00:00:00+02:00"
     },
-    "id": "7467a15a053641d38e0d29499e3cc219"
+    "tenderID": "UA-2023-01-01-000001-a",
+    "owner": "broker",
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "id": "63fbe5f55ec14294b590969e4ec72af6"
   }
 }
 

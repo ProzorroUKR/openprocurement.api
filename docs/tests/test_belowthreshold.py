@@ -6,7 +6,7 @@ from datetime import timedelta
 
 from openprocurement.api.models import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
-    BaseTenderWebTest, test_bids, test_lots
+    BaseTenderWebTest, test_bids
 )
 
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
@@ -18,7 +18,7 @@ from tests.base.data import (
 
 test_tender_data = deepcopy(tender_below)
 
-TARGET_DIR = 'docs/source/tendering/http/'
+TARGET_DIR = 'docs/source/tendering/belowthreshold/http/'
 
 
 class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
@@ -115,13 +115,13 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         # Tender activating
 
-        with open(TARGET_DIR + 'tender-activating.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/tender-activating.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
                 {'data': {"status": "active.enquiries"}})
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'active-tender-listing-no-auth.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/active-tender-listing-no-auth.http', 'w') as self.app.file_obj:
             self.app.authorization = None
             response = self.app.get(request_path)
             self.assertEqual(response.status, '200 OK')
@@ -575,89 +575,3 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     self.tender_id, cancellation_id, owner_token),
                 {'data': {"status": "active"}})
             self.assertEqual(response.status, '200 OK')
-
-    def test_docs_milestones(self):
-        self.app.authorization = ('Basic', ('broker', ''))
-
-        for item in test_tender_data['items']:
-            item['deliveryDate'] = {
-                "startDate": (get_now() + timedelta(days=2)).isoformat(),
-                "endDate": (get_now() + timedelta(days=5)).isoformat()
-            }
-
-        test_tender_data.update({
-            "enquiryPeriod": {"endDate": (get_now() + timedelta(days=7)).isoformat()},
-            "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()}
-        })
-
-        data = dict(**test_tender_data)
-        data["milestones"] = [
-            {
-                'title': "signingTheContract",
-                'code': 'prepayment',
-                'type': 'financing',
-                'duration': {'days': 5, 'type': 'banking'},
-                'sequenceNumber': 0,
-                'percentage': 45.55,
-            },
-            {
-                'title': "deliveryOfGoods",
-                'code': 'postpayment',
-                'type': 'financing',
-                'duration': {'days': 7, 'type': 'calendar'},
-                'sequenceNumber': 1,
-                'percentage': 54.45,
-            },
-        ]
-        with open(TARGET_DIR + 'milestones/tender-post-milestones.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders', {'data': data})
-        self.assertEqual(response.status, '201 Created')
-
-        tender = response.json['data']
-        owner_token = response.json['access']['token']
-
-        milestones = deepcopy(tender["milestones"])
-        milestones[1].update({
-            "title": "anotherEvent",
-            "description": "Підозрілий опис",
-        })
-        with open(TARGET_DIR + 'milestones/tender-patch-milestones.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}?acc_token={}'.format(tender["id"], owner_token),
-                {"data": {
-                    "milestones": milestones
-                }}
-            )
-            self.assertEqual(response.status, '200 OK')
-
-        response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token),
-            {'data': test_lots[0]})
-        self.assertEqual(response.status, '201 Created')
-        lot = response.json["data"]
-
-        milestones[0]["relatedLot"] = lot["id"]
-        milestones[1]["relatedLot"] = lot["id"]
-        with open(TARGET_DIR + 'milestones/tender-patch-lot-milestones.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}?acc_token={}'.format(tender["id"], owner_token),
-                {"data": {
-                    "milestones": milestones
-                }}
-            )
-            self.assertEqual(response.status, '200 OK')
-
-        with open(TARGET_DIR + 'milestones/tender-delete-lot-milestones-error.http', 'w') as self.app.file_obj:
-            response = self.app.delete(
-                '/tenders/{}/lots/{}?acc_token={}'.format(tender["id"], lot['id'], owner_token),
-                status=422
-            )
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(
-            response.json['errors'],
-            [{
-                "location": "body",
-                "name": "data",
-                "description": "Cannot delete lot with related milestones"
-            }]
-        )

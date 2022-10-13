@@ -1,11 +1,101 @@
-PATCH /api/2.5/tenders/63fbe5f55ec14294b590969e4ec72af6?acc_token=2886798c972f423e9d7a1e201345cb4e HTTP/1.0
+POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1033
+Content-Length: 3773
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
+    "title": "футляри до державних нагород",
+    "mainProcurementCategory": "goods",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "countryName": "Україна",
+        "postalCode": "01220",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова, 11, корпус 1"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
+      },
+      "kind": "general"
+    },
+    "value": {
+      "amount": 500,
+      "currency": "UAH"
+    },
+    "minimalStep": {
+      "amount": 15,
+      "currency": "UAH"
+    },
+    "items": [
+      {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
+        "classification": {
+          "scheme": "ДК021",
+          "id": "44617100-9",
+          "description": "Cartons"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM",
+          "value": {
+            "amount": 6
+          }
+        },
+        "quantity": 5
+      }
+    ],
+    "enquiryPeriod": {
+      "endDate": "2023-01-08T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "endDate": "2023-01-15T00:00:00+02:00"
+    },
+    "procurementMethodType": "belowThreshold",
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "code": "prepayment",
+        "type": "financing",
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0,
+        "percentage": 45.55
+      },
+      {
+        "title": "deliveryOfGoods",
+        "code": "postpayment",
+        "type": "financing",
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 0,
+        "percentage": 54.45
+      }
+    ],
     "funders": [
       {
         "additionalIdentifiers": [],
@@ -34,11 +124,13 @@ DATA:
   }
 }
 
-Response: 200 OK
+Response: 201 Created
 Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f4a4db0b8b13434d840c06a3130b8bb2
 X-Content-Type-Options: nosniff
 {
   "data": {
+    "mainProcurementCategory": "goods",
     "funders": [
       {
         "name": "Глобальний фонд",
@@ -63,14 +155,8 @@ X-Content-Type-Options: nosniff
         }
       }
     ],
-    "date": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:01+02:00",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "tenderID": "UA-2023-01-01-000001-a",
-    "status": "active.enquiries",
-    "owner": "broker",
     "title": "футляри до державних нагород",
-    "mainProcurementCategory": "goods",
+    "status": "draft",
     "submissionMethod": "electronicAuction",
     "procurementMethod": "open",
     "awardCriteria": "lowestCost",
@@ -79,7 +165,6 @@ X-Content-Type-Options: nosniff
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "next_check": "2023-01-08T00:00:00+02:00",
     "minimalStep": {
       "amount": 15.0,
       "currency": "UAH",
@@ -87,7 +172,7 @@ X-Content-Type-Options: nosniff
     },
     "tenderPeriod": {
       "startDate": "2023-01-08T00:00:00+02:00",
-      "endDate": "2023-01-16T00:00:11+02:00"
+      "endDate": "2023-01-15T00:00:00+02:00"
     },
     "items": [
       {
@@ -116,11 +201,7 @@ X-Content-Type-Options: nosniff
           },
           "code": "KGM"
         },
-        "quantity": 5.0,
-        "deliveryDate": {
-          "startDate": "2023-01-03T00:00:00+02:00",
-          "endDate": "2023-01-06T00:00:00+02:00"
-        }
+        "quantity": 5.0
       }
     ],
     "milestones": [
@@ -137,7 +218,7 @@ X-Content-Type-Options: nosniff
         "sequenceNumber": 0
       },
       {
-        "id": "d8635a79813a4ac69626f0d504119cbe",
+        "id": "3a1ee600b32d4415b16d59485165be64",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -171,11 +252,20 @@ X-Content-Type-Options: nosniff
       "kind": "general"
     },
     "enquiryPeriod": {
+      "endDate": "2023-01-08T00:00:00+02:00",
       "startDate": "2023-01-01T00:00:00+02:00",
-      "clarificationsUntil": "2023-01-09T00:00:00+02:00",
-      "endDate": "2023-01-08T00:00:00+02:00"
+      "clarificationsUntil": "2023-01-09T00:00:00+02:00"
     },
-    "id": "63fbe5f55ec14294b590969e4ec72af6"
+    "tenderID": "UA-2023-01-01-000003-a",
+    "owner": "broker",
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "id": "f4a4db0b8b13434d840c06a3130b8bb2"
+  },
+  "access": {
+    "token": "af4c6cf324fe49d88e071f6df398c69d",
+    "transfer": "4852dd92ecad43bb977facdc4ed2da6d"
   }
 }
 

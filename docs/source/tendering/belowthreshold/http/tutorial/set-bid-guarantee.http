@@ -1,38 +1,15 @@
-PATCH /api/2.5/tenders/7467a15a053641d38e0d29499e3cc219?acc_token=a6344e8ea632458f8a17d7268471475e HTTP/1.0
+PATCH /api/2.5/tenders/63fbe5f55ec14294b590969e4ec72af6?acc_token=2886798c972f423e9d7a1e201345cb4e HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 534
+Content-Length: 57
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 DATA:
 {
   "data": {
-    "milestones": [
-      {
-        "id": "35a436e966214b7082043bfb6d4dc05d",
-        "title": "signingTheContract",
-        "type": "financing",
-        "code": "prepayment",
-        "percentage": 45.55,
-        "duration": {
-          "days": 5,
-          "type": "banking"
-        },
-        "sequenceNumber": 0
-      },
-      {
-        "id": "56faacff01464db8bf244a65ca400327",
-        "title": "anotherEvent",
-        "type": "financing",
-        "code": "postpayment",
-        "percentage": 54.45,
-        "duration": {
-          "days": 7,
-          "type": "calendar"
-        },
-        "sequenceNumber": 1,
-        "description": "Підозрілий опис"
-      }
-    ]
+    "guarantee": {
+      "amount": 8,
+      "currency": "USD"
+    }
   }
 }
 
@@ -41,11 +18,35 @@ Content-Type: application/json
 X-Content-Type-Options: nosniff
 {
   "data": {
+    "funders": [
+      {
+        "name": "Глобальний фонд",
+        "identifier": {
+          "scheme": "XM-DAC",
+          "id": "47045",
+          "legalName": "Глобальний Фонд для боротьби зі СНІДом, туберкульозом і малярією"
+        },
+        "address": {
+          "streetAddress": "Global Health Campus, Chemin du Pommier 40",
+          "locality": "Geneva",
+          "region": "Grand-Saconnex",
+          "postalCode": "1218",
+          "countryName": "Швейцарська Конфедерація"
+        },
+        "contactPoint": {
+          "email": "ccm@theglobalfund.org",
+          "telephone": "+41587911700",
+          "faxNumber": "+41 44 580 6820",
+          "url": "https://www.theglobalfund.org/en/",
+          "name": ""
+        }
+      }
+    ],
     "date": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:01+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "tenderID": "UA-2023-01-01-000001-a",
-    "status": "draft",
+    "status": "active.enquiries",
     "owner": "broker",
     "title": "футляри до державних нагород",
     "mainProcurementCategory": "goods",
@@ -57,6 +58,11 @@ X-Content-Type-Options: nosniff
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
+    "guarantee": {
+      "amount": 8.0,
+      "currency": "USD"
+    },
+    "next_check": "2023-01-08T00:00:00+02:00",
     "minimalStep": {
       "amount": 15.0,
       "currency": "UAH",
@@ -64,7 +70,7 @@ X-Content-Type-Options: nosniff
     },
     "tenderPeriod": {
       "startDate": "2023-01-08T00:00:00+02:00",
-      "endDate": "2023-01-15T00:00:00+02:00"
+      "endDate": "2023-01-16T00:00:11+02:00"
     },
     "items": [
       {
@@ -93,38 +99,33 @@ X-Content-Type-Options: nosniff
           },
           "code": "KGM"
         },
-        "quantity": 5.0,
-        "deliveryDate": {
-          "startDate": "2023-01-03T00:00:00+02:00",
-          "endDate": "2023-01-06T00:00:00+02:00"
-        }
+        "quantity": 5.0
       }
     ],
     "milestones": [
       {
-        "id": "35a436e966214b7082043bfb6d4dc05d",
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         "title": "signingTheContract",
         "type": "financing",
         "code": "prepayment",
         "percentage": 45.55,
         "duration": {
-          "days": 5,
+          "days": 2,
           "type": "banking"
         },
         "sequenceNumber": 0
       },
       {
-        "id": "56faacff01464db8bf244a65ca400327",
-        "title": "anotherEvent",
-        "description": "Підозрілий опис",
+        "id": "d8635a79813a4ac69626f0d504119cbe",
+        "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
         "percentage": 54.45,
         "duration": {
-          "days": 7,
+          "days": 900,
           "type": "calendar"
         },
-        "sequenceNumber": 1
+        "sequenceNumber": 0
       }
     ],
     "procurementMethodType": "belowThreshold",
@@ -153,7 +154,7 @@ X-Content-Type-Options: nosniff
       "clarificationsUntil": "2023-01-09T00:00:00+02:00",
       "endDate": "2023-01-08T00:00:00+02:00"
     },
-    "id": "7467a15a053641d38e0d29499e3cc219"
+    "id": "63fbe5f55ec14294b590969e4ec72af6"
   }
 }
 

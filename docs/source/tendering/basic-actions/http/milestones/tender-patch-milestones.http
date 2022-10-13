@@ -1,0 +1,159 @@
+PATCH /api/2.5/tenders/7864655c5f024503aacb155d0c378531?acc_token=571c222b369c4668b3bcc8164f8dec3a HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 534
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+DATA:
+{
+  "data": {
+    "milestones": [
+      {
+        "id": "1011c8b37ee8479db669baf7d96ea5a4",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 5,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      },
+      {
+        "id": "30e0bbd083ec4f1ab9f42774458dd09c",
+        "title": "anotherEvent",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 7,
+          "type": "calendar"
+        },
+        "sequenceNumber": 1,
+        "description": "Підозрілий опис"
+      }
+    ]
+  }
+}
+
+Response: 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+{
+  "data": {
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "tenderID": "UA-2023-01-01-000001-a",
+    "status": "draft",
+    "owner": "broker",
+    "title": "футляри до державних нагород",
+    "mainProcurementCategory": "goods",
+    "submissionMethod": "electronicAuction",
+    "procurementMethod": "open",
+    "awardCriteria": "lowestCost",
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "minimalStep": {
+      "amount": 15.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "tenderPeriod": {
+      "startDate": "2023-01-08T00:00:00+02:00",
+      "endDate": "2023-01-15T00:00:00+02:00"
+    },
+    "items": [
+      {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "deliveryDate": {
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
+        }
+      }
+    ],
+    "milestones": [
+      {
+        "id": "1011c8b37ee8479db669baf7d96ea5a4",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 5,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      },
+      {
+        "id": "30e0bbd083ec4f1ab9f42774458dd09c",
+        "title": "anotherEvent",
+        "description": "Підозрілий опис",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 7,
+          "type": "calendar"
+        },
+        "sequenceNumber": 1
+      }
+    ],
+    "procurementMethodType": "belowThreshold",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "telephone": "+0440000000",
+        "name": "Державне управління справами"
+      },
+      "kind": "general"
+    },
+    "enquiryPeriod": {
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "clarificationsUntil": "2023-01-09T00:00:00+02:00",
+      "endDate": "2023-01-08T00:00:00+02:00"
+    },
+    "id": "7864655c5f024503aacb155d0c378531"
+  }
+}
+

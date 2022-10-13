@@ -366,7 +366,7 @@ The following steps should be applied:
 
 1. Prepare cancellation request.
 2. Fill it with the protocol describing the cancellation reasons.
-3. Passing complaint period(10 days)
+3. Passing complaint period(4 days)
 4. Cancel the tender with the prepared reasons.
 
 Only the request that has been activated (4th step above) has power to
@@ -430,5 +430,5 @@ When cancellation in `pending` status the tender owner is prohibited from all ac
 Activating the request and cancelling tender
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-if the complaint period(duration 10 days) is over and there were no complaints or
+if the complaint period(duration 4 days) is over and there were no complaints or
 all complaints are canceled, then cancellation will automatically update status to `active`.

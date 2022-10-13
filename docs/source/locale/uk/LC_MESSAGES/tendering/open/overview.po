@@ -1,0 +1,58 @@
+# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016.
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.tender.openua 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-10-12 21:10+0300\n"
+"PO-Revision-Date: 2016-04-28 16:35+0300\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+msgid "Overview"
+msgstr "Огляд"
+
+msgid "The Open Procurement Open procedure is plugin to `Open Procurement API` software.  It requires 0.12 version of `openprocurement.api package <https://github.com/ProzorroUKR/openprocurement.api>`_ to work."
+msgstr ""
+
+msgid "REST-ful interface to plugin is in line with core software design principles."
+msgstr "REST-ful інтерфейс для плагіна відповідає основним принципам дизайну програмного забезпечення."
+
+msgid "Main responsibilities"
+msgstr "Основні задачі"
+
+msgid "Open Procurement Open procedure is dedicated to Open Tender procedure for Ukrainian above threshold procurements.  The code for that type of procedure is `aboveThreshold`."
+msgstr "Open процедура, що описана в цій документації, стосується процедури українських відкритих торгів для понадпорогових закупівель. Код процедури такого типу - `aboveThreshold`."
+
+msgid "Business logic"
+msgstr "Бізнес логіка"
+
+msgid "The approach to Open procedure is different from core Open Procurement API procedure (that is used for below threshold procurements) mainly in :ref:`stage that precedes <open_tendering>` auction.  Differences are in the following aspects:"
+msgstr "Підхід до відкритих торгів відрізняється від основної процедури Open Procurement API (яка використовується для допорогових закупівель) в основному :ref:`етапом закупівлі, що проходить перед <open_tendering>` аукціоном. Детально різницю описано в пунктах нижче:"
+
+msgid "Tender can be edited through the whole tenderPeriod (while in active.tendering state), but any edit that is close to tenderPeriod.endDate would require extending that period."
+msgstr "Закупівлю можна редагувати протягом усього періоду подання пропозицій - tenderPeriod (коли тендер знаходиться в стані active.tendering). Але коли редагування відбувається занадто близько до завершення періоду подання пропозицій - tenderPeriod.endDate, потрібно продовжити цей період."
+
+msgid "There is no dedicated active.enguiries state."
+msgstr "Немає стану active.enguiries."
+
+msgid "Questions can be asked within enquiryPeriod that is based upon tenderPeriod."
+msgstr "Запитання можна задавати в період уточнень - enquiryPeriod, що відбувається в період подання пропозицій - tenderPeriod."
+
+msgid "Answers are provided during the whole tenderPeriod."
+msgstr "Відповіді можна давати протягом усього періоду подання пропозицій - tenderPeriod."
+
+msgid "Bids can be placed during the whole tenderPeriod."
+msgstr "Пропозиції можна подавати протягом усього періоду подання пропозицій - tenderPeriod."
+
+msgid "Placed bids are invalidated after any tender condition editing and have to be re-confirmed."
+msgstr "Подані пропозиції стають недійсними після будь-якої зміни закупівлі замовником, тому їх потрібно підтвердити знову."
+
+msgid "Next steps"
+msgstr "Наступні кроки"
+
+msgid "You might find it helpful to look at the :ref:`open_tutorial`."
+msgstr "Можливо вам буде цікаво прочитати :ref:`open_tutorial`."
