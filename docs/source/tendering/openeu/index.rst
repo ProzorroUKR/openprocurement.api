@@ -1,7 +1,7 @@
 .. _openeu:
 
-Open tender procedure with publication in English (OpenEU)
-==========================================================
+Open procedure with publication in English - `aboveThresholdEU`
+===============================================================
 
 Contents:
 

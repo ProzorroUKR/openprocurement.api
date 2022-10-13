@@ -1,10 +1,12 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
 #
-# Copyright (C) 2014-2015, Quintagroup, Ltd
-# This file is distributed under the same license as the openprocurement.api
-# package.
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: openprocurement.api 2.4\n"
+"Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-13 12:27+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
@@ -15,8 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-msgid "Close Framework Agreement (Selection) procedure - `closeFrameworkAgreementSelectionUA`"
-msgstr "Відбір для закупівлі за рамковою угодою - `closeFrameworkAgreementSelectionUA`"
+msgid "Below Threshold procedure - `belowThreshold`"
+msgstr "Спрощена закупівля - `belowThreshold`"
 
 msgid "Contents:"
 msgstr "Зміст:"
