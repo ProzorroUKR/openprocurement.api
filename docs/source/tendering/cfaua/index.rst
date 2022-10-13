@@ -1,7 +1,7 @@
 .. _cfaua:
 
-Close Framework Agreement procedure - `closeFrameworkAgreement`
-===============================================================
+Close Framework Agreement procedure - ``closeFrameworkAgreement``
+=================================================================
 
 Contents:
 

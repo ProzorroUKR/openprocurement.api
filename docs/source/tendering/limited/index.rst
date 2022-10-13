@@ -1,7 +1,7 @@
 .. _limited:
 
-Reporting, negotiation procedures - `reporting`, `negotiation`, `negotiation.quick`
-===================================================================================
+Reporting, negotiation procedures - ``reporting``, ``negotiation``, ``negotiation.quick``
+=========================================================================================
 
 Contents:
 

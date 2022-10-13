@@ -1,7 +1,7 @@
 .. _defense:
 
-Defense procedure - `aboveThresholdUA.defense`
-==============================================
+Defense procedure - ``aboveThresholdUA.defense``
+================================================
 
 Contents:
 

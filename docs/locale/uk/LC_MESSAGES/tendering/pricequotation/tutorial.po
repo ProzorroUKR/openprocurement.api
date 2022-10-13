@@ -82,9 +82,8 @@ msgstr "Після створення Замовник публікує проц
 msgid "After successful validation priceQuotationBot transmit procedure to status: `active.tendering`"
 msgstr "Після успішної валідації priceQuotationBot переводить процедуру в статус: `active.tendering`"
 
-#, fuzzy
 msgid "In case if procedure do not pass validation due to invalid options, it will be switched to status: `draft.unsuccessful` by the **priceQuotationBot**."
-msgstr "У разі, якщо процедура не пройде перевірку через недійсні параметри, вона буде переведена в статус: `draft.unsuccessful` за допомогою priceQuotationBot."
+msgstr "У разі, якщо процедура не пройде перевірку через недійсні параметри, вона буде переведена в статус: `draft.unsuccessful` за допомогою **priceQuotationBot**."
 
 msgid "Bid submission"
 msgstr "Подача пропозицій"
@@ -253,10 +252,3 @@ msgstr "Завантажити нову версію документа"
 
 msgid "Activating the request and cancelling tender"
 msgstr "Активація запиту на відміну закупівлі"
-
-#~ msgid "Procuring entity can set bid guarantee:"
-#~ msgstr "Замовник може встановити забезпечення тендерної пропозиції:"
-
-#~ msgid "Supplier-winner refused to sign contract and `award` was canceled by Procuring Entity."
-#~ msgstr "Постачальник-переможець відмовився підписувати контракт і `award` був скасований Замовником."
-
