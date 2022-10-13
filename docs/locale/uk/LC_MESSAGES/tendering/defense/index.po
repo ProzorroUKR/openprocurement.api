@@ -15,7 +15,7 @@ msgstr ""
 "Generated-By: Babel 2.9.1\n"
 
 msgid "Defense procedure - ``aboveThresholdUA.defense``"
-msgstr "Процедура відкритих торгів для оборонних цілей - ``aboveThresholdUA.defense``"
+msgstr "Переговорна процедура для потреб оборони - ``aboveThresholdUA.defense``"
 
 msgid "Contents:"
 msgstr "Зміст:"
