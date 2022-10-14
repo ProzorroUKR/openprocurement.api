@@ -8,21 +8,21 @@ Exploring basic rules
 
 Let's try exploring the `/tenders` endpoint:
 
-.. include:: http/tutorial/tender-listing.http
+.. http:example:: http/tutorial/tender-listing.http
    :code:
 
 Just invoking it reveals empty set.
 
 Now let's attempt creating some tender:
 
-.. include:: http/tutorial/tender-post-attempt.http
+.. http:example:: http/tutorial/tender-post-attempt.http
    :code:
 
 Error states that the only accepted Content-Type is `application/json`.
 
 Let's satisfy the Content-type requirement:
 
-.. include:: http/tutorial/tender-post-attempt-json.http
+.. http:example:: http/tutorial/tender-post-attempt-json.http
    :code:
 
 Error states that no `data` has been found in JSON body.
@@ -35,7 +35,7 @@ Creating tender
 
 Let's create tender with the minimal (only required) data set:
 
-.. include:: http/tutorial/tender-post-attempt-json-data.http
+.. http:example:: http/tutorial/tender-post-attempt-json-data.http
    :code:
 
 Success! Now we can see that new object was created. Response code is `201`
@@ -48,7 +48,7 @@ created with `draft` status.
 
 Let's access the URL of the created object (the `Location` header of the response):
 
-.. include:: http/tutorial/blank-tender-view.http
+.. http:example:: http/tutorial/blank-tender-view.http
    :code:
 
 .. XXX body is empty for some reason (printf fails)
@@ -57,7 +57,7 @@ We can see the same response we got after creating tender.
 
 Let's see what listing of tenders reveals us:
 
-.. include:: http/tutorial/initial-tender-listing.http
+.. http:example:: http/tutorial/initial-tender-listing.http
    :code:
 
 We don't see internal `id` of tender, because tender appears in the listing from `active.enquiries` status.
@@ -68,12 +68,12 @@ Tender activating
 
 For activating tender you should update status to ``active.enquiries``:
 
-.. include:: http/tutorial/tender-activating.http
+.. http:example:: http/tutorial/tender-activating.http
    :code:
 
 Let's see what listing of tenders reveals us:
 
-.. include:: http/tutorial/active-tender-listing-no-auth.http
+.. http:example:: http/tutorial/active-tender-listing-no-auth.http
    :code:
 
 We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp.
@@ -85,21 +85,21 @@ Creating second tender
 The previous tender contained only required fields. Let's try creating tender with more data
 (tender has status `created`):
 
-.. include:: http/tutorial/create-tender-procuringEntity.http
+.. http:example:: http/tutorial/create-tender-procuringEntity.http
    :code:
 
 And again we have `201 Created` response code, `Location` header and body with extra `id`, `tenderID`, and `dateModified` properties.
 
 Let's check what tender registry contains:
 
-.. include:: http/tutorial/tender-listing-after-procuringEntity.http
+.. http:example:: http/tutorial/tender-listing-after-procuringEntity.http
    :code:
 
 And indeed we have 2 tenders now.
 
 We can create tender with optional `funders` field:
 
-.. include:: http/tutorial/create-tender-funders.http
+.. http:example:: http/tutorial/create-tender-funders.http
    :code:
 
 
@@ -108,7 +108,7 @@ Modifying tender
 
 Let's update tender by supplementing it with all other essential properties:
 
-.. include:: http/tutorial/patch-items-value-periods.http
+.. http:example:: http/tutorial/patch-items-value-periods.http
    :code:
 
 .. XXX body is empty for some reason (printf fails)
@@ -117,17 +117,17 @@ We see the added properies have merged with existing tender data. Additionally, 
 
 Checking the listing again reflects the new modification date:
 
-.. include:: http/tutorial/tender-listing-after-patch.http
+.. http:example:: http/tutorial/tender-listing-after-patch.http
    :code:
 
 Procuring entity can set bid guarantee:
 
-.. include:: http/tutorial/set-bid-guarantee.http
+.. http:example:: http/tutorial/set-bid-guarantee.http
    :code:
 
 Also we can modify tender by adding `funders` field data:
 
-.. include:: http/tutorial/patch-tender-funders.http
+.. http:example:: http/tutorial/patch-tender-funders.http
    :code:
 
 
@@ -139,48 +139,48 @@ Uploading documentation
 Procuring entity can upload PDF files into the created tender. Uploading should
 follow the :ref:`upload` rules.
 
-.. include:: http/tutorial/upload-tender-notice.http
+.. http:example:: http/tutorial/upload-tender-notice.http
    :code:
 
 `201 Created` response code and `Location` header confirm document creation.
 We can additionally query the `documents` collection API endpoint to confirm the
 action:
 
-.. include:: http/tutorial/tender-documents.http
+.. http:example:: http/tutorial/tender-documents.http
    :code:
 
 The single array element describes the uploaded document. We can upload more documents:
 
-.. include:: http/tutorial/upload-award-criteria.http
+.. http:example:: http/tutorial/upload-award-criteria.http
    :code:
 
 And again we can confirm that there are two documents uploaded.
 
-.. include:: http/tutorial/tender-documents-2.http
+.. http:example:: http/tutorial/tender-documents-2.http
    :code:
 
 Let’s add new `documentType` field with `technicalSpecifications` parameter to the previously uploaded document:
 
-.. include:: http/tutorial/tender-document-add-documentType.http
+.. http:example:: http/tutorial/tender-document-add-documentType.http
    :code:
 
 Success! Response code is `200 OK` and it confirms that `documentType` field with `technicalSpecifications` parameter was added .
 
 Now let’s try to modify any field in our document. For example, `description`:
 
-.. include:: http/tutorial/tender-document-edit-docType-desc.http
+.. http:example:: http/tutorial/tender-document-edit-docType-desc.http
    :code:
 
 `200 OK` response was returned. The description was modified successfully.
 
 In case we made an error, we can reupload the document over the older version:
 
-.. include:: http/tutorial/update-award-criteria.http
+.. http:example:: http/tutorial/update-award-criteria.http
    :code:
 
 And we can see that it is overriding the original version:
 
-.. include:: http/tutorial/tender-documents-3.http
+.. http:example:: http/tutorial/tender-documents-3.http
    :code:
 
 
@@ -191,22 +191,22 @@ Enquiries
 
 When tender is in `active.enquiry` status, interested parties can ask questions:
 
-.. include:: http/tutorial/ask-question.http
+.. http:example:: http/tutorial/ask-question.http
    :code:
 
 Procuring entity can answer them:
 
-.. include:: http/tutorial/answer-question.http
+.. http:example:: http/tutorial/answer-question.http
    :code:
 
 And one can retrieve the questions list:
 
-.. include:: http/tutorial/list-question.http
+.. http:example:: http/tutorial/list-question.http
    :code:
 
 And individual answer:
 
-.. include:: http/tutorial/get-answer.http
+.. http:example:: http/tutorial/get-answer.http
    :code:
 
 
@@ -222,22 +222,22 @@ When ``Tender.tenderingPeriod.startDate`` comes, Tender switches to `active.tend
 
 Bidder can register a bid in `draft` status:
 
-.. include:: http/tutorial/register-bidder.http
+.. http:example:: http/tutorial/register-bidder.http
    :code:
 
 And activate a bid:
 
-.. include:: http/tutorial/activate-bidder.http
+.. http:example:: http/tutorial/activate-bidder.http
    :code:
 
 And upload proposal document:
 
-.. include:: http/tutorial/upload-bid-proposal.http
+.. http:example:: http/tutorial/upload-bid-proposal.http
    :code:
 
 It is possible to check the uploaded documents:
 
-.. include:: http/tutorial/bidder-documents.http
+.. http:example:: http/tutorial/bidder-documents.http
    :code:
 
 Batch-mode registration
@@ -245,7 +245,7 @@ Batch-mode registration
 
 Register bid with documents using one request:
 
-.. include:: http/tutorial/register-2nd-bidder.http
+.. http:example:: http/tutorial/register-2nd-bidder.http
    :code:
 
 
@@ -256,17 +256,17 @@ Auction
 
 After auction is scheduled anybody can visit it to watch. The auction can be reached at `Tender.auctionUrl`:
 
-.. include:: http/tutorial/auction-url.http
+.. http:example:: http/tutorial/auction-url.http
    :code:
 
 And bidders can find out their participation URLs via their bids:
 
-.. include:: http/tutorial/bidder-participation-url.http
+.. http:example:: http/tutorial/bidder-participation-url.http
    :code:
 
 See the `Bid.participationUrl` in the response. Similar, but different, URL can be retrieved for other participants:
 
-.. include:: http/tutorial/bidder2-participation-url.http
+.. http:example:: http/tutorial/bidder2-participation-url.http
    :code:
 
 Confirming qualification
@@ -274,7 +274,7 @@ Confirming qualification
 
 Qualification comission registers its decision via the following call:
 
-.. include:: http/tutorial/confirm-qualification.http
+.. http:example:: http/tutorial/confirm-qualification.http
    :code:
 
 .. _SettingContractValue:
@@ -284,7 +284,7 @@ Setting contract value
 
 Let's see the created contract with next request:
 
-.. include:: http/tutorial/tender-contract-get-contract-value.http
+.. http:example:: http/tutorial/tender-contract-get-contract-value.http
    :code:
 
 
@@ -310,7 +310,7 @@ You can update value `amount` and `amountNet` following next rules:
 
 Let's set contract contract value with next request:
 
-.. include:: http/tutorial/tender-contract-set-contract-value.http
+.. http:example:: http/tutorial/tender-contract-set-contract-value.http
    :code:
 
 `200 OK` response was returned. The value was modified successfully.
@@ -322,7 +322,7 @@ There is a possibility to set custom contract signature date. You can insert app
 
 If this date is not set, it will be auto-generated on the date of contract registration.
 
-.. include:: http/tutorial/tender-contract-sign-date.http
+.. http:example:: http/tutorial/tender-contract-sign-date.http
    :code:
 
 Setting contract validity period
@@ -330,7 +330,7 @@ Setting contract validity period
 
 Setting contract validity period is optional, but if it is needed, you can set appropriate `startDate` and `endDate`.
 
-.. include:: http/tutorial/tender-contract-period.http
+.. http:example:: http/tutorial/tender-contract-period.http
    :code:
 
 Uploading contract documentation
@@ -338,26 +338,26 @@ Uploading contract documentation
 
 You can upload contract documents. Let's upload contract document:
 
-.. include:: http/tutorial/tender-contract-upload-document.http
+.. http:example:: http/tutorial/tender-contract-upload-document.http
    :code:
 
 `201 Created` response code and `Location` header confirm document was added.
 
 Let's see the list of contract documents:
 
-.. include:: http/tutorial/tender-contract-get-documents.http
+.. http:example:: http/tutorial/tender-contract-get-documents.http
    :code:
 
 We can add another contract document:
 
-.. include:: http/tutorial/tender-contract-upload-second-document.http
+.. http:example:: http/tutorial/tender-contract-upload-second-document.http
    :code:
 
 `201 Created` response code and `Location` header confirm second document was uploaded.
 
 Let's see the list of all added contract documents:
 
-.. include:: http/tutorial/tender-contract-get-documents-again.http
+.. http:example:: http/tutorial/tender-contract-get-documents-again.http
    :code:
 
 Set contract signature date
@@ -366,13 +366,13 @@ Set contract signature date
 There is a possibility to set custom contract signature date.
 If the date is not set it will be generated on contract registration.
 
-.. include:: http/tutorial/tender-contract-sign-date.http
+.. http:example:: http/tutorial/tender-contract-sign-date.http
    :code:
 
 Contract registration
 ---------------------
 
-.. include:: http/tutorial/tender-contract-sign.http
+.. http:example:: http/tutorial/tender-contract-sign.http
    :code:
 
 Cancelling tender
@@ -399,7 +399,7 @@ You should pass `reason` and `reasonType`, `status` defaults to `draft`.
 
 `id` is autogenerated and passed in the `Location` header of response.
 
-.. include:: http/tutorial/prepare-cancellation.http
+.. http:example:: http/tutorial/prepare-cancellation.http
    :code:
 
 
@@ -410,21 +410,21 @@ This step is required. Without documents you can't update tender status.
 
 Upload the file contents
 
-.. include:: http/tutorial/upload-cancellation-doc.http
+.. http:example:: http/tutorial/upload-cancellation-doc.http
    :code:
 
 Change the document description and other properties
 
-.. include:: http/tutorial/patch-cancellation.http
+.. http:example:: http/tutorial/patch-cancellation.http
    :code:
 
 Upload new version of the document
 
-.. include:: http/tutorial/update-cancellation-doc.http
+.. http:example:: http/tutorial/update-cancellation-doc.http
    :code:
 
 Activating the request and cancelling tender
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. include:: http/tutorial/active-cancellation.http
+.. http:example:: http/tutorial/active-cancellation.http
    :code:

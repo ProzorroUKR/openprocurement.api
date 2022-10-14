@@ -10,7 +10,7 @@ import os
 
 class HTTPExample(CodeBlock):
 
-    required_arguments = 0
+    required_arguments = 1
     option_spec = {
         # Unused. Just to skip removing of all existing :code: options
         'code': directives.unchanged,

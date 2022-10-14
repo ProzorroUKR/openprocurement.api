@@ -8,12 +8,12 @@ Tender Qualification Claim/Complaint Retrieval
 
 You can list all Tender Qualification Claims/Complaints:
 
-.. include:: http/complaints/qualification-complaints-list.http
+.. http:example:: http/complaints/qualification-complaints-list.http
    :code:
 
 And check individual complaint:
 
-.. include:: http/complaints/qualification-complaint.http
+.. http:example:: http/complaints/qualification-complaint.http
    :code:
 
 Complaint Submission
@@ -26,17 +26,17 @@ Tender Qualification Complaint Submission
 
 At first create a complaint. Send POST request with bidder's access token.
 
-.. include:: http/complaints/qualification-complaint-submission.http
+.. http:example:: http/complaints/qualification-complaint-submission.http
    :code:
 
 This step is optional. Upload documents:
 
-.. include:: http/complaints/qualification-complaint-submission-upload.http
+.. http:example:: http/complaints/qualification-complaint-submission-upload.http
    :code:
 
 Submit tender qualification complaint:
 
-.. include:: http/complaints/qualification-complaint-complaint.http
+.. http:example:: http/complaints/qualification-complaint-complaint.http
    :code:
 
 
@@ -50,12 +50,12 @@ Tender Conditions Complaint Posts (with complaint owner)
 
 Reviewer can submit a post to complaint owner:
 
-.. include:: http/complaints/qualification-complaint-post-reviewer-complaint-owner.http
+.. http:example:: http/complaints/qualification-complaint-post-reviewer-complaint-owner.http
    :code:
 
 Complaint owner can submit a reply post to reviewer by setting reviewer's post `id` as `relatedPost`:
 
-.. include:: http/complaints/qualification-complaint-post-complaint-owner.http
+.. http:example:: http/complaints/qualification-complaint-post-complaint-owner.http
    :code:
 
 Tender Conditions Complaint Posts (with tender owner)
@@ -63,12 +63,12 @@ Tender Conditions Complaint Posts (with tender owner)
 
 Reviewer can submit a post to tender owner:
 
-.. include:: http/complaints/qualification-complaint-post-reviewer-tender-owner.http
+.. http:example:: http/complaints/qualification-complaint-post-reviewer-tender-owner.http
    :code:
 
 Tender owner can submit a reply post to reviewer by setting reviewer's post `id` as `relatedPost`:
 
-.. include:: http/complaints/qualification-complaint-post-tender-owner.http
+.. http:example:: http/complaints/qualification-complaint-post-tender-owner.http
    :code:
 
 
@@ -78,14 +78,14 @@ Complaint Resolution
 Rejecting Tender Qualification Complaint
 ----------------------------------------
 
-.. include:: http/complaints/qualification-complaint-reject.http
+.. http:example:: http/complaints/qualification-complaint-reject.http
    :code:
 
 
 Accepting Tender Qualification Complaint
 ----------------------------------------
 
-.. include:: http/complaints/qualification-complaint-accept.http
+.. http:example:: http/complaints/qualification-complaint-accept.http
    :code:
 
 
@@ -94,23 +94,23 @@ Submitting Tender Qualification Complaint Resolution
 
 The Complaint Review Body uploads the resolution document:
 
-.. include:: http/complaints/qualification-complaint-resolution-upload.http
+.. http:example:: http/complaints/qualification-complaint-resolution-upload.http
    :code:
 
 And either resolves complaint:
 
-.. include:: http/complaints/qualification-complaint-resolve.http
+.. http:example:: http/complaints/qualification-complaint-resolve.http
    :code:
 
 Or declines it:
 
-.. include:: http/complaints/qualification-complaint-decline.http
+.. http:example:: http/complaints/qualification-complaint-decline.http
    :code:
 
 Submitting Resolution Confirmation
 ----------------------------------
 
-.. include:: http/complaints/qualification-complaint-resolved.http
+.. http:example:: http/complaints/qualification-complaint-resolved.http
    :code:
 
 Cancelling Tender Qualification Complaint
@@ -119,20 +119,20 @@ Cancelling Tender Qualification Complaint
 Cancelling draft complaint by Complainant
 -----------------------------------------
 
-.. include:: http/complaints/qualification-complaint-mistaken-2020-04-19.http
+.. http:example:: http/complaints/qualification-complaint-mistaken-2020-04-19.http
    :code:
 
 Cancelling accepted complaint by Complainant
 --------------------------------------------
 
-.. include:: http-outdated/complaints/qualification-complaint-accepted-stopping.http
+.. http:example:: http-outdated/complaints/qualification-complaint-accepted-stopping.http
    :code:
 
-.. include:: http-outdated/complaints/qualification-complaint-stopping-stopped.http
+.. http:example:: http-outdated/complaints/qualification-complaint-stopping-stopped.http
    :code:
 
 Cancelling accepted complaint by Reviewer
 -----------------------------------------
 
-.. include:: http/complaints/qualification-complaint-accepted-stopped.http
+.. http:example:: http/complaints/qualification-complaint-accepted-stopped.http
    :code:

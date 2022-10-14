@@ -10,7 +10,7 @@ Creating plan procurement
 
 Buyer creates a plan. He should specify himself in `buyers` list and point at one of the central procurement organizations in `procuringEntity` field:
 
-.. include:: http/create-plan.http
+.. http:example:: http/create-plan.http
    :code:
 
 
@@ -20,12 +20,12 @@ Creating approve milestone
 As central procurement organization sees itself as `procuringEntity` of a plan,
 it can post milestones to this plan:
 
-    .. include:: http/post-plan-milestone.http
+    .. http:example:: http/post-plan-milestone.http
        :code:
 
 Only if the access token from the response is provided, the milestone can be changed later:
 
-    .. include:: http/patch-plan-milestone.http
+    .. http:example:: http/patch-plan-milestone.http
        :code:
 
 .. note::
@@ -35,7 +35,7 @@ Only if the access token from the response is provided, the milestone can be cha
 
 Posting documents is also require the milestone access token (as well as changing documents using PATCH/PUT methods):
 
-    .. include:: http/post-plan-milestone-document.http
+    .. http:example:: http/post-plan-milestone-document.http
        :code:
 
 
@@ -45,7 +45,7 @@ Creating tender
 The central procurement organization creates an aggregated tender in `draft` status
 and specifies all the buyer organizations using `buyers` list of :ref:`PlanOrganization`:
 
-.. include:: http/create-tender.http
+.. http:example:: http/create-tender.http
    :code:
 
 
@@ -56,19 +56,19 @@ The central procurement organization connects the plan to the tender.
 If there are many plans, they should be connected one by one.
 
 
-.. include:: http/post-tender-plans.http
+.. http:example:: http/post-tender-plans.http
     :code:
 
 
 As a result the plan is moved to "complete" status
 
-.. include:: http/plan-complete.http
+.. http:example:: http/plan-complete.http
     :code:
 
 
 The tender `plans` field contains all the plan ids
 
-.. include:: http/tender-get.http
+.. http:example:: http/tender-get.http
     :code:
 
 
@@ -79,25 +79,25 @@ For each `buyer` object in tender system is creating separate `contract` respect
 
 Create tender with several buyers, each `item` should be assigned to related `buyer` using `relatedBuyer` field :
 
-.. include:: ../contracting/http/create-multiple-buyers-tender.http
+.. http:example:: ../contracting/http/create-multiple-buyers-tender.http
     :code:
 
 Move forward as usual, activate award:
 
-.. include:: ../contracting/http/set-active-award.http
+.. http:example:: ../contracting/http/set-active-award.http
     :code:
 
 After activating award system is creating such amount of contracts that corresponds to the amount of buyers
 
-.. include:: ../contracting/http/get-multi-contracts.http
+.. http:example:: ../contracting/http/get-multi-contracts.http
     :code:
 
 Update Amount.Value of each contract considering the sum of product of Unit.Value by Quantity for each item in contract.
 
-.. include:: ../contracting/http/patch-1st-contract-value.http
+.. http:example:: ../contracting/http/patch-1st-contract-value.http
     :code:
 
-.. include:: ../contracting/http/patch-2nd-contract-value.http
+.. http:example:: ../contracting/http/patch-2nd-contract-value.http
     :code:
 
 You can activate or terminate each contract as usual.
@@ -111,20 +111,20 @@ Cancellation of aggregate contracts
 
 Contracts can be cancelled:
 
-.. include:: ../contracting/http/patch-to-cancelled-1st-contract.http
+.. http:example:: ../contracting/http/patch-to-cancelled-1st-contract.http
     :code:
 
 Except when contract is the last not cancelled contract:
 
-.. include:: ../contracting/http/patch-to-cancelled-2nd-contract-error.http
+.. http:example:: ../contracting/http/patch-to-cancelled-2nd-contract-error.http
     :code:
 
 In that case related award should be cancelled:
 
-.. include:: ../contracting/http/set-active-award.http
+.. http:example:: ../contracting/http/set-active-award.http
     :code:
 
 Let's check all contracts are cancelled:
 
-.. include:: ../contracting/http/get-multi-contracts-cancelled.http
+.. http:example:: ../contracting/http/get-multi-contracts-cancelled.http
     :code:

@@ -19,14 +19,14 @@ To create tender for **reporting** procedure you should set ``reporting`` value 
 
 Let’s create a tender:
 
-.. include:: http/tutorial/create-tender-procuringEntity.http
+.. http:example:: http/tutorial/create-tender-procuringEntity.http
    :code:
 
 We have `201 Created` response code, `Location` header and body with extra `id`, `tenderID`, and `dateModified` properties.
 
 Let's check what tender registry contains:
 
-.. include:: http/tutorial/tender-listing-after-procuringEntity.http
+.. http:example:: http/tutorial/tender-listing-after-procuringEntity.http
    :code:
 
 We don't see internal `id` of tender, because tender appears in the listing from `active` status.
@@ -37,7 +37,7 @@ Creating tender for negotiation procedure
 
 To create tender for **negotiation** procedure you should set ``negotiation`` value for ``procurementMethodType``.
 
-.. include:: http/tutorial/create-tender-negotiation-procuringEntity.http
+.. http:example:: http/tutorial/create-tender-negotiation-procuringEntity.http
    :code:
 
 
@@ -46,7 +46,7 @@ Creating tender for negotiation.quick procedure
 
 To create tender for **negotiation.quick** procedure you should set ``negotiation.quick`` value for ``procurementMethodType``.
 
-.. include:: http/tutorial/create-tender-negotiation-quick-procuringEntity.http
+.. http:example:: http/tutorial/create-tender-negotiation-quick-procuringEntity.http
    :code:
 
 
@@ -55,12 +55,12 @@ Tender activating
 
 For activating **reporting**, **negotiation**, **negotiation.quick** procedures you should update status to ``active``:
 
-.. include:: http/tutorial/tender-activating.http
+.. http:example:: http/tutorial/tender-activating.http
    :code:
 
 Let's see what listing of tenders reveals us:
 
-.. include:: http/tutorial/active-tender-listing-after-procuringEntity.http
+.. http:example:: http/tutorial/active-tender-listing-after-procuringEntity.http
    :code:
 
 We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp.
@@ -71,7 +71,7 @@ Modifying tender
 
 Let's update tender by supplementing it with all other essential properties:
 
-.. include:: http/tutorial/patch-items-value-periods.http
+.. http:example:: http/tutorial/patch-items-value-periods.http
    :code:
 
 .. XXX body is empty for some reason (printf fails)
@@ -80,7 +80,7 @@ We see the added properies have merged with existing tender data. Additionally, 
 
 Checking the listing again reflects the new modification date:
 
-.. include:: http/tutorial/tender-listing-after-patch.http
+.. http:example:: http/tutorial/tender-listing-after-patch.http
    :code:
 
 
@@ -92,14 +92,14 @@ Uploading documentation
 Procuring entity can upload documents and files into the created tender. Uploading should
 follow the :ref:`upload` rules.
 
-.. include:: http/tutorial/upload-tender-notice.http
+.. http:example:: http/tutorial/upload-tender-notice.http
    :code:
 
 `201 Created` response code and `Location` header confirm document creation. 
 
 In case we made an error, we can reupload the document over the older version:
 
-.. include:: http/tutorial/update-tender-notice.http
+.. http:example:: http/tutorial/update-tender-notice.http
    :code:
 
 Awarding
@@ -112,19 +112,19 @@ Addition of supplier information is the same for all procedures.
 
 Procuring entity registers supplier information for **reporting** procedure:
 
-.. include:: http/tutorial/tender-award.http
+.. http:example:: http/tutorial/tender-award.http
    :code:
 
 Procuring entity registers supplier information for **negotiation** procedure:
 
-.. include:: http/tutorial/tender-negotiation-award.http
+.. http:example:: http/tutorial/tender-negotiation-award.http
    :code:
 
 You can notice that there is ``complaintPeriod`` record with ``startDate`` value generated.
 
 Procuring entity registers supplier information for **negotiation.quick** procedure:
 
-.. include:: http/tutorial/tender-negotiation-quick-award.http
+.. http:example:: http/tutorial/tender-negotiation-quick-award.http
    :code:
 
 Award for **negotiation.quick** procedure also has ``complaintPeriod`` record with ``startDate`` value.
@@ -135,26 +135,26 @@ Uploading award documentation
 
 You can upload award documents only before awarding decision is confirmed. Let's add award document:
 
-.. include:: http/tutorial/tender-award-upload-document.http
+.. http:example:: http/tutorial/tender-award-upload-document.http
    :code:
 
 `201 Created` response code and `Location` header confirm that document has been added.
 
 Let's see the list of award documents:
 
-.. include:: http/tutorial/tender-award-get-documents.http
+.. http:example:: http/tutorial/tender-award-get-documents.http
    :code:
 
 We can add another award document:
 
-.. include:: http/tutorial/tender-award-upload-second-document.http
+.. http:example:: http/tutorial/tender-award-upload-second-document.http
    :code:
 
 `201 Created` response code and `Location` header confirm second document has been added.
 
 Let's see the list of all uploaded award documents:
 
-.. include:: http/tutorial/tender-award-get-documents-again.http
+.. http:example:: http/tutorial/tender-award-get-documents-again.http
    :code:
 
 
@@ -163,19 +163,19 @@ Award confirmation
 
 Procuring entity can confirm awarding decision:
 
-.. include:: http/tutorial/tender-award-approve.http
+.. http:example:: http/tutorial/tender-award-approve.http
    :code:
 
 Award confirmation for **negotiation** procedure:
 
-.. include:: http/tutorial/tender-negotiation-award-approve.http
+.. http:example:: http/tutorial/tender-negotiation-award-approve.http
    :code:
 
 The difference between ``startDate`` and ``endDate`` in ``complaintPeriod`` record for **negotiation** is 10 days.
 
 Award confirmation for **negotiation.quick** procedure:
 
-.. include:: http/tutorial/tender-negotiation-quick-award-approve.http
+.. http:example:: http/tutorial/tender-negotiation-quick-award-approve.http
    :code:
 
 The difference between ``startDate`` and ``endDate`` in ``complaintPeriod`` record for **negotiation.quick** is 5 days.
@@ -187,7 +187,7 @@ By default contract value is set based on the award, but there is a possibility 
 
 If you want to **lower contract value**, you can insert new one into the `amount` field.
 
-.. include:: http/tutorial/tender-contract-set-contract-value.http
+.. http:example:: http/tutorial/tender-contract-set-contract-value.http
    :code:
 
 `200 OK` response was returned. The value was modified successfully.
@@ -195,7 +195,7 @@ If you want to **lower contract value**, you can insert new one into the `amount
 Setting value per item's unit
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. include:: http/tutorial/tender-contract-set-contract_items_unit-value.http
+.. http:example:: http/tutorial/tender-contract-set-contract_items_unit-value.http
    :code:
 
 `200 OK` response was returned with successfully set item.unit.value structure.
@@ -207,7 +207,7 @@ contract.value(if exists), otherwise using tender.value data
 Setting a single item unit value
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. include:: http/tutorial/tender-contract_items_unit_value.http
+.. http:example:: http/tutorial/tender-contract_items_unit_value.http
    :code:
 
 `200 OK` response was returned with successfully set item.unit.value structure.
@@ -223,7 +223,7 @@ There is a possibility to set custom contract signature date. You can insert app
 
 If this date is not set, it will be auto-generated on the date of contract registration.
 
-.. include:: http/tutorial/tender-contract-sign-date.http
+.. http:example:: http/tutorial/tender-contract-sign-date.http
    :code:
 
 Setting contract validity period
@@ -231,7 +231,7 @@ Setting contract validity period
 
 Setting contract validity period is optional, but if it is needed, you can set appropriate `startDate` and `endDate`.
 
-.. include:: http/tutorial/tender-contract-period.http
+.. http:example:: http/tutorial/tender-contract-period.http
    :code:
 
 Uploading contract documentation
@@ -239,26 +239,26 @@ Uploading contract documentation
 
 Contract documents can be uploaded only up until conclusion of the agreement. Let's add contract document:
 
-.. include:: http/tutorial/tender-contract-upload-document.http
+.. http:example:: http/tutorial/tender-contract-upload-document.http
    :code:
 
 `201 Created` response code and `Location` header confirm that document has been added.
 
 Let's see the list of contract documents:
 
-.. include:: http/tutorial/tender-contract-get-documents.http
+.. http:example:: http/tutorial/tender-contract-get-documents.http
    :code:
 
 We can add another contract document:
 
-.. include:: http/tutorial/tender-contract-upload-second-document.http
+.. http:example:: http/tutorial/tender-contract-upload-second-document.http
    :code:
 
 `201 Created` response code and `Location` header confirm second document has been added.
 
 Let's see the list of all uploaded contract documents:
 
-.. include:: http/tutorial/tender-contract-get-documents-again.http
+.. http:example:: http/tutorial/tender-contract-get-documents-again.http
    :code:
 
 Contract registration
@@ -266,17 +266,17 @@ Contract registration
 
 **Reporting** tender contract can be registered immediately after award confirmation:
 
-.. include:: http/tutorial/tender-contract-sign.http
+.. http:example:: http/tutorial/tender-contract-sign.http
    :code:
 
 **Negotiation** tender contract can be registered only after the stand-still (10 day period after the award confirmation):
 
-.. include:: http/tutorial/tender-negotiation-contract-sign.http
+.. http:example:: http/tutorial/tender-negotiation-contract-sign.http
    :code:
 
 **Negotiation.quick** tender contract can be registered after the stand-still (5 day period after the award confirmation):
 
-.. include:: http/tutorial/tender-negotiation-quick-contract-sign.http
+.. http:example:: http/tutorial/tender-negotiation-quick-contract-sign.http
    :code:
 
 Cancelling tender
@@ -309,12 +309,12 @@ There are four possible types of cancellation reason - tender was `noDemand`, `u
 
 `id` is autogenerated and passed in the `Location` header of response.
 
-.. include::  http/tutorial/prepare-cancellation.http
+.. http:example:: http/tutorial/prepare-cancellation.http
    :code:
 
 You can change ``reasonType`` value to any of the above.
 
-.. include::  http/tutorial/update-cancellation-reasonType.http
+.. http:example:: http/tutorial/update-cancellation-reasonType.http
    :code:
 
 Preparing the cancellation request for `negotiation` and `negotiation.quick` procedures
@@ -322,12 +322,12 @@ Preparing the cancellation request for `negotiation` and `negotiation.quick` pro
 
 There are five possible types of cancellation reason - tender was `noObjectiveness`,  `unFixable`, `noDemand`, `expensesCut`, `dateViolation`.
 
-.. include::  http/tutorial/negotiation-prepare-cancellation.http
+.. http:example:: http/tutorial/negotiation-prepare-cancellation.http
    :code:
 
 You can change ``reasonType`` value to any of the above.
 
-.. include::  http/tutorial/negotiation-update-cancellation-reasonType.http
+.. http:example:: http/tutorial/negotiation-update-cancellation-reasonType.http
    :code:
 
 
@@ -338,19 +338,19 @@ This step is required. Without documents you can't update tender status.
 
 Upload the file contents
 
-.. include::  http/tutorial/upload-cancellation-doc.http
+.. http:example:: http/tutorial/upload-cancellation-doc.http
    :code:
 
 Change the document description and other properties
 
 
-.. include::  http/tutorial/patch-cancellation.http
+.. http:example:: http/tutorial/patch-cancellation.http
    :code:
 
 Upload new version of the document
 
 
-.. include::  http/tutorial/update-cancellation-doc.http
+.. http:example:: http/tutorial/update-cancellation-doc.http
    :code:
 
 Passing Complaint Period(only for `negotiation` and `negotiation.quick`)
@@ -358,7 +358,7 @@ Passing Complaint Period(only for `negotiation` and `negotiation.quick`)
 
 For activate complaint period, you need to update cancellation from `draft` to `pending`.
 
-.. include::  http/tutorial/pending-cancellation.http
+.. http:example:: http/tutorial/pending-cancellation.http
    :code:
 
 When cancellation in `pending` status the tender owner is prohibited from all actions on the tender.
