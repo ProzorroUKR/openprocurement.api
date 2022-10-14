@@ -13,7 +13,6 @@ from openprocurement.tender.pricequotation.tests.data import test_bids
 class TenderChronographResourceTest(TenderContentWebTest):
     initial_status = "active.tendering"
     initial_bids = test_bids
-    maxAwards = 1
 
     test_switch_to_qualification = snitch(switch_to_qualification)
     test_switch_to_unsuccessful = snitch(switch_to_unsuccessful)

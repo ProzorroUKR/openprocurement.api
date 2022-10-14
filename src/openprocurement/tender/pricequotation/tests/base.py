@@ -29,7 +29,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
     initial_bids = None
     initial_auth = ("Basic", ("broker", ""))
     docservice = True
-    enable_couch = True
     min_bids_number = MIN_BIDS_NUMBER
     # Statuses for test, that will be imported from others procedures
     primary_tender_status = "draft.publishing"  # status, to which tender should be switched from 'draft'
@@ -48,10 +47,8 @@ class BaseTenderWebTest(BaseCoreWebTest):
     forbidden_auction_document_create_actions_status = (
         "active.tendering"
     )  # status, in which adding document to tender auction is forbidden
-    maxAwards = 2
     periods = PERIODS
     meta_initial_bids = test_bids
-    init_awards = True
     tender_class = Tender
 
     def setUp(self):
@@ -68,24 +65,21 @@ class BaseTenderWebTest(BaseCoreWebTest):
     def generate_awards(self, status, startend):
         bids = self.tender_document.get("bids", []) or self.tender_document_patch.get("bids", [])
         awardPeriod_startDate = (self.now + self.periods[status][startend]["awardPeriod"]["startDate"]).isoformat()
-        if "awards" not in self.tender_document and self.init_awards:
+        if "awards" not in self.tender_document and bids:
             self.award_ids = []
             self.tender_document_patch["awards"] = []
-            for bid in bids:
-                id_ = uuid4().hex
-                award = {
-                    "status": "pending",
-                    "suppliers": bid["tenderers"],
-                    "bid_id": bid["id"],
-                    "value": bid["value"],
-                    "date": awardPeriod_startDate,
-                    # "documents": [],
-                    "id": id_,
-                }
-                self.tender_document_patch["awards"].append(award)
-                self.award_ids.append(id_)
-                if len(self.tender_document_patch["awards"]) == self.maxAwards:
-                    break
+            id_ = uuid4().hex
+            award = {
+                "status": "pending",
+                "suppliers": bids[0]["tenderers"],
+                "bid_id": bids[0]["id"],
+                "value": bids[0]["value"],
+                "date": awardPeriod_startDate,
+                # "documents": [],
+                "id": id_,
+            }
+            self.tender_document_patch["awards"].append(award)
+            self.award_ids.append(id_)
             self.save_changes()
 
     def activate_awards(self):

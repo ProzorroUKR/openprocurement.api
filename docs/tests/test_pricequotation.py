@@ -306,17 +306,23 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 {"data": {"status": "unsuccessful"}})
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'awards-listing-after-cancel.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'awards-listing-after-unsuccesful.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
             self.assertEqual(response.status, '200 OK')
+
+        # get pending award
         award = [i for i in response.json['data'] if i['status'] == 'pending'][0]
         award_id = award['id']
         award_token = bids_access[award['bid_id']]
-        
+
         with open(TARGET_DIR + 'award-active.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, award_token),
                 {"data": {"status": "active"}})
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'awards-listing-after-activation.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'contract-listing.http', 'w') as self.app.file_obj:

@@ -1,0 +1,79 @@
+GET /api/2.5/tenders/09b9ff4fc8654d1bb24fb14572e88f1c/awards HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "id": "50caa882244f4300aed60835d798a6a1",
+      "status": "unsuccessful",
+      "date": "2023-01-01T00:00:01+02:00",
+      "value": {
+        "amount": 459.0,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true
+      },
+      "suppliers": [
+        {
+          "name": "Державне управління справами",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00037256",
+            "uri": "http://www.dus.gov.ua/"
+          },
+          "address": {
+            "streetAddress": "вул. Банкова, 11, корпус 1",
+            "locality": "м. Київ",
+            "region": "м. Київ",
+            "postalCode": "01220",
+            "countryName": "Україна"
+          },
+          "contactPoint": {
+            "telephone": "+0440000000",
+            "name": "Державне управління справами"
+          },
+          "scale": "micro"
+        }
+      ],
+      "bid_id": "cccea5956bdc433e8120b259d6fdcf59"
+    },
+    {
+      "id": "119e70d85d2e4489aa7fbdd0d384a7b2",
+      "status": "active",
+      "date": "2023-01-01T00:00:01+02:00",
+      "value": {
+        "amount": 479.0,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true
+      },
+      "suppliers": [
+        {
+          "name": "Державне управління справами",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00037256",
+            "uri": "http://www.dus.gov.ua/"
+          },
+          "address": {
+            "streetAddress": "вул. Банкова, 11, корпус 1",
+            "locality": "м. Київ",
+            "region": "м. Київ",
+            "postalCode": "01220",
+            "countryName": "Україна"
+          },
+          "contactPoint": {
+            "telephone": "+0440000000",
+            "name": "Державне управління справами"
+          },
+          "scale": "micro"
+        }
+      ],
+      "bid_id": "e0950a264cbb4e31b09fab7b5ec714f8"
+    }
+  ]
+}
+

@@ -233,7 +233,7 @@ def patch_tender_award(self):
     self.assertEqual(
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
     )
-    award_id = self.award_ids[0]
+    award_id = self.award_ids[-1]
     token = self.initial_bids_tokens[0]
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, token),
@@ -342,7 +342,7 @@ def patch_tender_award(self):
 
 
 def tender_award_transitions(self):
-    award_id = self.award_ids[0]
+    award_id = self.award_ids[-1]
     tender_token = self.mongodb.tenders.get(self.tender_id)['owner_token']
     bid_token = self.initial_bids_tokens[0]
     # pending -> cancelled
