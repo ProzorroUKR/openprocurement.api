@@ -1,8 +1,10 @@
 GET /api/1.0/registry/inn.json HTTP/1.0
 Host: medicines-registry-sandbox.prozorro.gov.ua
 
-Response: 403 Forbidden
+
+HTTP/1.0 403 Forbidden
 Content-Type: application/json
+
 {
   "status": "error", 
   "errors": [

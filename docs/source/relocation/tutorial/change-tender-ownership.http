@@ -3,7 +3,7 @@ Authorization: Bearer broker1
 Content-Length: 100
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "id": "e1f545dc62744379af62821162c43008",
@@ -11,9 +11,10 @@ DATA:
   }
 }
 
-Response: 200 OK
+
+HTTP/1.0 200 OK
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "title": "футляри до державних нагород",

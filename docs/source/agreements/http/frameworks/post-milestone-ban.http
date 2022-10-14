@@ -3,7 +3,7 @@ Authorization: Bearer token
 Content-Length: 499
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "type": "ban",
@@ -21,9 +21,10 @@ DATA:
   }
 }
 
-Response: 201 Created
+
+HTTP/1.0 201 Created
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "id": "adfa001711a641339f03913be89ebc70",

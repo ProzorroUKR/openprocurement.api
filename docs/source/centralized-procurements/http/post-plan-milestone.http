@@ -3,7 +3,7 @@ Authorization: Bearer broker
 Content-Length: 1623
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "title": "Підготовка до проведення процедури",
@@ -29,10 +29,11 @@ DATA:
   }
 }
 
-Response: 201 Created
+
+HTTP/1.0 201 Created
 Content-Type: application/json
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/2c376a06cbf7476b8c229e6955bd8194/milestones/15a9ab37fec7476aa9ef10890b9b2f4a
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "id": "15a9ab37fec7476aa9ef10890b9b2f4a",

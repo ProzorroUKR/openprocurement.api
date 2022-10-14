@@ -1233,7 +1233,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         #### Activating the request and cancelling tender
-        with open(TARGET_DIR + 'pending-cancellation.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'stage2/EU/pending-cancellation.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/cancellations/{}?acc_token={}'.format(
                     self.tender_id, cancellation_id, owner_token),
@@ -2019,7 +2019,7 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTe
             self.assertEqual(response.status, '200 OK')
 
         #### Activating the request and cancelling tender
-        with open(TARGET_DIR + 'pending-cancellation.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'stage2/UA/pending-cancellation.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/cancellations/{}?acc_token={}'.format(
                     self.tender_id, cancellation_id, owner_token),
@@ -2030,7 +2030,7 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTe
 
         self.check_chronograph()
 
-        with open(TARGET_DIR + 'active-cancellation.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'stage2/UA/active-cancellation.http', 'w') as self.app.file_obj:
             response = self.app.get(
                 '/tenders/{}/cancellations/{}?acc_token={}'.format(
                     self.tender_id, cancellation_id, owner_token))

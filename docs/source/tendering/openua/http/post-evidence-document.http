@@ -3,7 +3,7 @@ Authorization: Bearer broker
 Content-Length: 352
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "title": "lorem.doc",
@@ -14,10 +14,11 @@ DATA:
   }
 }
 
-Response: 201 Created
+
+HTTP/1.0 201 Created
 Content-Type: application/json
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7a10c7f4fa484faca13613c1361ee4b3/bids/3083346e7e0a4ce0bf1114614d78e3be/documents/192c94932298436da5cce9e2156d8f21
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "documentType": "evidence",

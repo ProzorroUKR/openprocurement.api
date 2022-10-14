@@ -1,9 +1,10 @@
 GET /api/2.5/tenders/9c964a6216c946b2b82a78720b389a93 HTTP/1.0
 Host: lb-api-sandbox.prozorro.gov.ua
 
-Response: 200 OK
+
+HTTP/1.0 200 OK
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "title_en": "Services in school canteens",

@@ -149,25 +149,6 @@ ban_milestone_data_with_documents = {
 }
 
 
-disqualification_milestone_data = {
-    "type": "disqualification"
-}
-
-disqualification_milestone_data_with_documents = {
-    "type": "disqualification",
-    "documents": [
-        {
-            "hash": "md5:00000000000000000000000000000000",
-            "title": "milestone.doc",
-            "format": "application/msword",
-            "datePublished": "2020-09-08T01:00:00+03:00",
-            "id": "cd52b90af77e4f5b8cb0f210e83987b5",
-            "dateModified": "2020-09-08T01:00:00+03:00"
-        }
-    ]
-}
-
-
 class BaseApiWebTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
     initial_auth = ("Basic", ("broker", ""))

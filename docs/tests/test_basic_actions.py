@@ -3,6 +3,10 @@ import os
 
 from copy import deepcopy
 from datetime import timedelta
+from unittest import mock
+
+from freezegun import freeze_time
+from parameterized import parameterized
 
 from openprocurement.api.models import get_now
 from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
@@ -42,6 +46,7 @@ test_lots[1]['minimalStep'] = test_tender_data['minimalStep']
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TARGET_DIR = os.path.join(BASE_DIR, 'source/tendering/basic-actions/http/')
+OUTDATED_DIR = os.path.join(BASE_DIR, 'source/tendering/basic-actions/http-outdated/')
 
 
 class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
@@ -280,7 +285,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         if RELEASE_2020_04_19 > get_now():
-            with open(TARGET_DIR + 'complaints/complaint-accepted-stopping.http', 'w') as self.app.file_obj:
+            with open(OUTDATED_DIR + 'complaints/complaint-accepted-stopping.http', 'w') as self.app.file_obj:
                 response = self.app.patch_json(
                     '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint6_id, complaint6_token),
                     {"data": {
@@ -292,7 +297,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
             self.app.authorization = ('Basic', ('reviewer', ''))
-            with open(TARGET_DIR + 'complaints/complaint-stopping-stopped.http', 'w') as self.app.file_obj:
+            with open(OUTDATED_DIR + 'complaints/complaint-stopping-stopped.http', 'w') as self.app.file_obj:
                 response = self.app.patch_json(
                     '/tenders/{}/complaints/{}'.format(self.tender_id, complaint6_id),
                     {'data': {
@@ -318,7 +323,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.app.authorization = ('Basic', ('broker', ''))
             complaint7_id, complaint7_token = complaint_create_pending(self, complaint_url, complaint_data)
 
-            with open(TARGET_DIR + 'complaints/complaint-mistaken.http', 'w') as self.app.file_obj:
+            with open(OUTDATED_DIR + 'complaints/complaint-mistaken.http', 'w') as self.app.file_obj:
                 self.app.authorization = ('Basic', ('reviewer', ''))
                 response = self.app.patch_json(
                     '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint7_id, complaint7_token),
@@ -682,7 +687,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.app.authorization = ('Basic', ('broker', ''))
             complaint9_id, complaint9_token = complaint_create_pending(self, complaint_url, complaint_data, bid_token)
 
-            with open(TARGET_DIR + 'complaints/qualification-complaint-mistaken.http', 'w') as self.app.file_obj:
+            with open(OUTDATED_DIR + 'complaints/qualification-complaint-mistaken.http', 'w') as self.app.file_obj:
                 self.app.authorization = ('Basic', ('reviewer', ''))
                 response = self.app.patch_json(
                     '/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(
@@ -826,7 +831,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         if RELEASE_2020_04_19 > get_now():
-            with open(TARGET_DIR + 'complaints/qualification-complaint-accepted-stopping.http', 'w') as self.app.file_obj:
+            with open(OUTDATED_DIR + 'complaints/qualification-complaint-accepted-stopping.http', 'w') as self.app.file_obj:
                 response = self.app.patch_json(
                     '/tenders/{}/qualifications/{}/complaints/{}?acc_token={}'.format(
                         self.tender_id, qualification_id, complaint4_id, complaint4_token),
@@ -839,7 +844,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 self.assertEqual(response.status, '200 OK')
 
                 self.app.authorization = ('Basic', ('reviewer', ''))
-                with open(TARGET_DIR + 'complaints/qualification-complaint-stopping-stopped.http', 'w') as self.app.file_obj:
+                with open(OUTDATED_DIR + 'complaints/qualification-complaint-stopping-stopped.http', 'w') as self.app.file_obj:
                     response = self.app.patch_json(
                         '/tenders/{}/qualifications/{}/complaints/{}'.format(
                             self.tender_id, qualification_id, complaint4_id),
@@ -1000,7 +1005,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         complaint_data = {'data': complaint.copy()}
-        # with open(TARGET_DIR + 'complaints/award-complaint-submission-complaint.http', 'w') as self.app.file_obj:
+        # with open(OUTDATED_DIR + 'complaints/award-complaint-submission-complaint.http', 'w') as self.app.file_obj:
         #     response = self.app.post_json(
         #         '/tenders/{}/awards/{}/complaints?acc_token={}'.format(
         #             self.tender_id, award_id, bid_token),
@@ -1273,7 +1278,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         if RELEASE_2020_04_19 > get_now():
-            with open(TARGET_DIR + 'complaints/award-complaint-accepted-stopping.http', 'w') as self.app.file_obj:
+            with open(OUTDATED_DIR + 'complaints/award-complaint-accepted-stopping.http', 'w') as self.app.file_obj:
                 response = self.app.patch_json(
                     '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(
                         self.tender_id, award_id, complaint4_id, complaint4_token),
@@ -1286,7 +1291,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 self.assertEqual(response.status, '200 OK')
 
                 self.app.authorization = ('Basic', ('reviewer', ''))
-                with open(TARGET_DIR + 'complaints/award-complaint-stopping-stopped.http', 'w') as self.app.file_obj:
+                with open(OUTDATED_DIR + 'complaints/award-complaint-stopping-stopped.http', 'w') as self.app.file_obj:
                     response = self.app.patch_json(
                         '/tenders/{}/awards/{}/complaints/{}'.format(self.tender_id, award_id, complaint4_id),
                         {'data': {
@@ -1347,7 +1352,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.app.authorization = ('Basic', ('broker', ''))
             complaint9_id, complaint9_token = complaint_create_pending(self, complaint_url, complaint_data, bid_token)
 
-            with open(TARGET_DIR + 'complaints/award-complaint-mistaken.http', 'w') as self.app.file_obj:
+            with open(OUTDATED_DIR + 'complaints/award-complaint-mistaken.http', 'w') as self.app.file_obj:
                 self.app.authorization = ('Basic', ('reviewer', ''))
                 response = self.app.patch_json(
                     '/tenders/{}/awards/{}/complaints/{}?acc_token={}'.format(

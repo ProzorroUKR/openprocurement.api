@@ -2,9 +2,10 @@ GET /api/2.5/tenders/c8fbbe1ddf3642a6815bd2c7c26581b1/qualifications?acc_token=b
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
-Response: 200 OK
+
+HTTP/1.0 200 OK
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "data": [
     {

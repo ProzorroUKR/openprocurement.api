@@ -17,7 +17,7 @@ from openprocurement.framework.electroniccatalogue.traversal import contract_fac
 DAYS_TO_UNSUCCESSFUL_STATUS = 20
 CONTRACT_BAN_DURATION = 90
 AUTHORIZED_CPB = standards.load("organizations/authorized_cpb.json")
-MILESTONE_CONTRACT_STATUSES = {"ban": "suspended", "disqualification": "terminated", "terminated": "terminated"}
+MILESTONE_CONTRACT_STATUSES = {"ban": "suspended", "terminated": "terminated"}
 
 contractresource = partial(resource, factory=contract_factory, error_handler=error_handler)
 

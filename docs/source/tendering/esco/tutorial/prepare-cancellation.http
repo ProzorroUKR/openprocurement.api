@@ -3,7 +3,7 @@ Authorization: Bearer broker
 Content-Length: 70
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "reason": "cancellation reason",
@@ -11,10 +11,11 @@ DATA:
   }
 }
 
-Response: 201 Created
+
+HTTP/1.0 201 Created
 Content-Type: application/json
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/501cb77768e446f39265deb722b208a3/cancellations/f5a033487cb8465ba446a12707b14d86
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "reasonType": "unFixable",

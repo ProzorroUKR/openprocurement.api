@@ -11,7 +11,6 @@ from openprocurement.tender.cfaua.tests.base import (
 from openprocurement.framework.electroniccatalogue.tests.base import (
     test_electronicCatalogue_data,
     ban_milestone_data_with_documents,
-    disqualification_milestone_data_with_documents,
     BaseElectronicCatalogueWebTest,
 )
 
@@ -339,7 +338,3 @@ class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTes
                 f"/agreements/{self.agreement_id}/contracts/{contract_1_id}/milestones?acc_token={self.framework_token}",
                 {'data': ban_milestone},
             )
-
-        disqualification_milestone = deepcopy(disqualification_milestone_data_with_documents)
-        disqualification_milestone["documents"][0]["url"] = self.generate_docservice_url()
-

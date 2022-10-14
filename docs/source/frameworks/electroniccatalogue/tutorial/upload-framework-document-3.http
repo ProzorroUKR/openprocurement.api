@@ -3,7 +3,7 @@ Authorization: Bearer broker
 Content-Length: 181
 Content-Type: multipart/form-data; boundary=---BOUNDARY
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 -----BOUNDARY
 Content-Disposition: form-data; name="file"; filename="framework_additional_docs.doc"
 Content-Type: application/msword
@@ -12,9 +12,10 @@ extended additional info
 -----BOUNDARY--
 
 
-Response: 200 OK
+
+HTTP/1.0 200 OK
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "id": "5fae6b7a6a484d0d9463518885170f31",

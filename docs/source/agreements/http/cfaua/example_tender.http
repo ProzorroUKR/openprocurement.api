@@ -2,9 +2,10 @@ GET /api/2.5/tenders/d3e312b04f024e00b2ea4a43dfaf661e HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
-Response: 200 OK
+
+HTTP/1.0 200 OK
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "title_en": "Cases for state awards",

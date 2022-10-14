@@ -2,8 +2,10 @@ GET /api/1.0/registry/atc.json HTTP/1.0
 Authorization: Basic YnJva2VybmFtZTpicm9rZXJuYW1l
 Host: medicines-registry-sandbox.prozorro.gov.ua
 
-Response: 200 OK
+
+HTTP/1.0 200 OK
 Content-Type: application/json
+
 {
   "data": {
     "N07BB04": "N07BB04", 

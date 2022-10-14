@@ -3,7 +3,7 @@ Authorization: Bearer broker
 Content-Length: 344
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "title": "Complaint_Attachment.pdf",
@@ -13,10 +13,11 @@ DATA:
   }
 }
 
-Response: 201 Created
+
+HTTP/1.0 201 Created
 Content-Type: application/json
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9056b6881e5c4accadfcaa96d4409069/cancellations/fcbd87c46f7d49e3a21f70b1a0b85f6a/complaints/f1dcc4a59bc54974bcab49c81f5df20e/documents/81d032fcca0f4f60bbdb3c79db0c5c8a
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "id": "81d032fcca0f4f60bbdb3c79db0c5c8a",

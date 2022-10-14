@@ -3,7 +3,7 @@ Authorization: Bearer token
 Content-Length: 147
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "title": "Requirement response",
@@ -15,10 +15,11 @@ DATA:
   }
 }
 
-Response: 201 Created
+
+HTTP/1.0 201 Created
 Content-Type: application/json
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0babf43ffe2a4934bcbb730f93d38601/bids/0e4c0ac9fb214aec86664334f935e806/requirement_responses/d898d8f3fb1f4fe4aab497396b668577/evidences/42c5fb1b2da346ea81729985d98aa38e
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "id": "42c5fb1b2da346ea81729985d98aa38e",

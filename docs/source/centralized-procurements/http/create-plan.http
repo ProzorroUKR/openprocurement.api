@@ -3,7 +3,7 @@ Authorization: Bearer broker
 Content-Length: 2815
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "tender": {
@@ -120,10 +120,11 @@ DATA:
   }
 }
 
-Response: 201 Created
+
+HTTP/1.0 201 Created
 Content-Type: application/json
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/2c376a06cbf7476b8c229e6955bd8194
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "procuringEntity": {

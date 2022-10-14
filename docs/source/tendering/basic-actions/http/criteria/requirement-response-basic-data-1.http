@@ -3,7 +3,7 @@ Authorization: Bearer token
 Content-Length: 1577
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "requirementResponses": [
@@ -30,9 +30,10 @@ DATA:
   }
 }
 
-Response: 200 OK
+
+HTTP/1.0 200 OK
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "requirementResponses": [

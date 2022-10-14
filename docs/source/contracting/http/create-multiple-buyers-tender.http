@@ -3,7 +3,7 @@ Authorization: Bearer broker
 Content-Length: 6008
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "title": "футляри до державних нагород",
@@ -201,10 +201,11 @@ DATA:
   }
 }
 
-Response: 201 Created
+
+HTTP/1.0 201 Created
 Content-Type: application/json
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/55e45df6d0ca4d4fba2f3e8dc78abb98
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "mainProcurementCategory": "goods",

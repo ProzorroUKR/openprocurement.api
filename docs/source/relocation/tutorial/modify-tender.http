@@ -3,16 +3,17 @@ Authorization: Bearer broker1
 Content-Length: 62
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "description": "broker1 now can change the tender"
   }
 }
 
-Response: 200 OK
+
+HTTP/1.0 200 OK
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "description": "broker1 now can change the tender",

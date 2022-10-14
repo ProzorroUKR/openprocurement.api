@@ -2,9 +2,10 @@ GET /api/2.5/qualifications/6cb44b948f124cf2bf2e1621a71f19ee HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
-Response: 200 OK
+
+HTTP/1.0 200 OK
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "submissionID": "f68c222b077f4657a6df8f51de0ae451",

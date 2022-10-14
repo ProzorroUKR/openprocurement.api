@@ -81,15 +81,6 @@ def validate_contract_operation_not_in_allowed_status(request, **kwargs):
         )
 
 
-def validate_contract_banned(request, **kwargs):
-    milestone_type = request.validated["milestone"].type
-    if request.validated["contract"].status == "banned" and milestone_type != "disqualification":
-        raise_operation_error(
-            request,
-            f"Can't {OPERATIONS.get(request.method)} {milestone_type} milestone for contract in banned status"
-        )
-
-
 def validate_milestone_type(request, **kwargs):
     obj_name = "object"
     if "documents" in request.path:
