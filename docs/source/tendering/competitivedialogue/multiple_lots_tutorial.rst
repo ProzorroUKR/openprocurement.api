@@ -9,7 +9,7 @@ Creating tender
 
 Let's create tender:
 
-.. httpexample:: multiple_lots_tutorial/tender-post-attempt-json-data.http
+.. include:: multiple_lots_tutorial/tender-post-attempt-json-data.http
    :code:
 
 Now we can see that new object was created. Response code is `201`
@@ -24,22 +24,22 @@ Also there is no opportunity to set up ``enquiryPeriod``, it will be assigned au
 
 Tender can contain several different lots. We can add lot using the following way:
 
-.. httpexample:: multiple_lots_tutorial/tender-add-lot.http
+.. include:: multiple_lots_tutorial/tender-add-lot.http
    :code:
 
 Also you will need to update data about item's related lots:
 
-.. httpexample:: multiple_lots_tutorial/tender-add-relatedLot-to-item.http
+.. include:: multiple_lots_tutorial/tender-add-relatedLot-to-item.http
    :code:
 
 View tender listing:
 
-.. httpexample:: multiple_lots_tutorial/tender-listing-no-auth.http
+.. include:: multiple_lots_tutorial/tender-listing-no-auth.http
    :code:
 
 or view tender:
 
-.. httpexample:: multiple_lots_tutorial/tender-view.http
+.. include:: multiple_lots_tutorial/tender-view.http
    :code:
 
 
@@ -51,34 +51,34 @@ Tender status ``active.tendering`` allows registration of bids.
 
 Bidder can register a bid for lot №1:
 
-.. httpexample:: multiple_lots_tutorial/bid-lot1.http
+.. include:: multiple_lots_tutorial/bid-lot1.http
    :code:
 
 Bidder can register bids for all lots:
 
-.. httpexample:: multiple_lots_tutorial/bid-lot2.http
+.. include:: multiple_lots_tutorial/bid-lot2.http
    :code:
 
 Then bidder should upload technical and private documents of proposal.
 
 We can update tender during ``active.tendering`` period. Bids will be invalid after updating tender. For example, let's reduce the lot price to 400.
 
-.. httpexample:: multiple_lots_tutorial/tender-invalid-all-bids.http
+.. include:: multiple_lots_tutorial/tender-invalid-all-bids.http
    :code:
 
 Here is the bidder's proposal after tender was updated.
 
-.. httpexample:: multiple_lots_tutorial/bid-lot1-invalid-view.http
+.. include:: multiple_lots_tutorial/bid-lot1-invalid-view.http
    :code:
 
 Firstly bidder has to renew bid, even if he was placing a bid just for a lot №1.
 
-.. httpexample:: multiple_lots_tutorial/bid-lot1-update-view.http
+.. include:: multiple_lots_tutorial/bid-lot1-update-view.http
    :code:
 
 Then bidder has to renew bid only for a lot №1.
 
-.. httpexample:: multiple_lots_tutorial/bid-lot2-update-view.http
+.. include:: multiple_lots_tutorial/bid-lot2-update-view.http
    :code:
 
 
@@ -89,23 +89,23 @@ CompetitiveDialogue procedure requires bid's value qualification.
 
 Let's view tender: 
 
-.. httpexample:: multiple_lots_tutorial/tender-view-pre-qualification.http
+.. include:: multiple_lots_tutorial/tender-view-pre-qualification.http
    :code:
 
 Let's list qualifications:
 
-.. httpexample:: multiple_lots_tutorial/qualifications-view.http
+.. include:: multiple_lots_tutorial/qualifications-view.http
    :code:
 
 Approve bid's value through qualification objects:
 
-.. httpexample:: multiple_lots_tutorial/tender-activate-qualifications.http
+.. include:: multiple_lots_tutorial/tender-activate-qualifications.http
    :code:
 
 
 Procuring entity approves qualifications by switching to next status:
 
-.. httpexample:: multiple_lots_tutorial/tender-view-pre-qualification-stand-still.http
+.. include:: multiple_lots_tutorial/tender-view-pre-qualification-stand-still.http
    :code:
 
 There is 10 day stand-still period set in `qualificationPeriod`.
@@ -117,21 +117,21 @@ On second stage we must register new bids, but register bid can only users who w
 
 Let's try register bid by procuring which didn't was on first stage
 
-.. httpexample:: multiple_lots_tutorial/register_bad_bid.http
+.. include:: multiple_lots_tutorial/register_bad_bid.http
    :code:
 
 We catch error.
 
 Now procuring which was approved on 1 lot.
 
-.. httpexample:: multiple_lots_tutorial/register_ok_bid.http
+.. include:: multiple_lots_tutorial/register_ok_bid.http
    :code:
 
 Successs!
 
 And now try register on lot which he not allowed.
 
-.. httpexample:: multiple_lots_tutorial/register_bad_not_allowed_lot.http
+.. include:: multiple_lots_tutorial/register_bad_not_allowed_lot.http
    :code:
 
 We again catch error. So we can conclude that, only user from first stage can register bid on second stage.

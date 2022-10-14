@@ -8,21 +8,21 @@ Exploring basic rules
 
 Let's try exploring the `/tenders` endpoint:
 
-.. httpexample:: tutorial/tender-listing.http
+.. include:: tutorial/tender-listing.http
    :code:
 
 Just invoking it reveals empty set.
 
 Now let's attempt creating some tender:
 
-.. httpexample:: tutorial/tender-post-attempt.http
+.. include:: tutorial/tender-post-attempt.http
    :code:
 
 Error states that the only accepted Content-Type is `application/json`.
 
 Let's satisfy the Content-type requirement:
 
-.. httpexample:: tutorial/tender-post-attempt-json.http
+.. include:: tutorial/tender-post-attempt-json.http
    :code:
 
 Error states that no `data` has been found in JSON body.
@@ -35,7 +35,7 @@ Creating tender on first stage
 
 Let's provide the data attribute in the submitted body :
 
-.. httpexample:: tutorial/tender-post-attempt-json-data.http
+.. include:: tutorial/tender-post-attempt-json-data.http
    :code:
 
 Success! Now we can see that new object was created. Response code is `201`
@@ -54,7 +54,7 @@ Also there is no opportunity to set up ``enquiryPeriod``, it will be assigned au
 
 Let's access the URL of the created object (the `Location` header of the response):
 
-.. httpexample:: tutorial/blank-tender-view.http
+.. include:: tutorial/blank-tender-view.http
    :code:
 
 .. XXX body is empty for some reason (printf fails)
@@ -63,7 +63,7 @@ We can see the same response we got after creating tender.
 
 Let's see what listing of tenders reveals us:
 
-.. httpexample:: tutorial/tender-listing-no-auth.http
+.. include:: tutorial/tender-listing-no-auth.http
    :code:
 
 We don't see internal `id` of tender, because tender appears in the listing from `active.tendering` status.
@@ -73,17 +73,17 @@ Tender activating
 
 At first we needed to add EXCLUSION criteria to our tender(:ref:`About criteria you can read here<criteria_operation>`).
 
-.. httpexample:: tutorial/add-exclusion-criteria.http
+.. include:: tutorial/add-exclusion-criteria.http
    :code:
 
 After adding needed criteria we can activate our tender, so let's do that:
 
-.. httpexample:: tutorial/tender-activating.http
+.. include:: tutorial/tender-activating.http
    :code:
 
 Let's see what listing of tenders reveals us:
 
-.. httpexample:: tutorial/active-tender-listing-no-auth.http
+.. include:: tutorial/active-tender-listing-no-auth.http
    :code:
 
 Now We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp.
@@ -94,7 +94,7 @@ Modifying tender
 
 Let's update tender by supplementing it with all other essential properties:
 
-.. httpexample:: tutorial/patch-items-value-periods.http
+.. include:: tutorial/patch-items-value-periods.http
    :code:
 
 .. XXX body is empty for some reason (printf fails)
@@ -103,22 +103,22 @@ We see the added properies have merged with existing tender data. Additionally, 
 
 Checking the listing again reflects the new modification date:
 
-.. httpexample:: tutorial/tender-listing-after-patch.http
+.. include:: tutorial/tender-listing-after-patch.http
    :code:
 
 Procuring entity can not change tender if there are less than 7 days before tenderPeriod ends. Changes will not be accepted by API.
 
-.. httpexample:: tutorial/update-tender-after-enqiery.http
+.. include:: tutorial/update-tender-after-enqiery.http
    :code:
 
 That is why tenderPeriod has to be extended by 7 days.
 
-.. httpexample:: tutorial/update-tender-after-enqiery-with-update-periods.http
+.. include:: tutorial/update-tender-after-enqiery-with-update-periods.http
    :code:
 
 Procuring entity can set bid guarantee:
 
-.. httpexample:: tutorial/set-bid-guarantee.http
+.. include:: tutorial/set-bid-guarantee.http
    :code:
 
 
@@ -130,26 +130,26 @@ Uploading documentation
 Procuring entity can upload PDF files into the created tender. Uploading should
 follow the :ref:`upload` rules.
 
-.. httpexample:: tutorial/upload-tender-notice.http
+.. include:: tutorial/upload-tender-notice.http
    :code:
 
 `201 Created` response code and `Location` header confirm document creation.
 We can additionally query the `documents` collection API endpoint to confirm the
 action:
 
-.. httpexample:: tutorial/tender-documents.http
+.. include:: tutorial/tender-documents.http
    :code:
 
 
 And again we can confirm that there are two documents uploaded.
 
-.. httpexample:: tutorial/tender-documents-2.http
+.. include:: tutorial/tender-documents-2.http
    :code:
 
 
 And we can see that it is overriding the original version:
 
-.. httpexample:: tutorial/tender-documents-3.http
+.. include:: tutorial/tender-documents-3.http
    :code:
 
 
@@ -160,28 +160,28 @@ Enquiries
 
 When tender has ``active.tendering`` status and ``Tender.enqueryPeriod.endDate``  hasn't come yet, interested parties can ask questions:
 
-.. httpexample:: tutorial/ask-question.http
+.. include:: tutorial/ask-question.http
    :code:
 
 Procuring entity can answer them:
 
-.. httpexample:: tutorial/answer-question.http
+.. include:: tutorial/answer-question.http
    :code:
 
 One can retrieve either questions list:
 
-.. httpexample:: tutorial/list-question.http
+.. include:: tutorial/list-question.http
    :code:
 
 or individual answer:
 
-.. httpexample:: tutorial/get-answer.http
+.. include:: tutorial/get-answer.http
    :code:
 
 
 Enquiries can be made only during ``Tender.enqueryPeriod``
 
-.. httpexample:: tutorial/ask-question-after-enquiry-period.http
+.. include:: tutorial/ask-question-after-enquiry-period.http
    :code:
 
 
@@ -194,17 +194,17 @@ Tender status ``active.tendering`` allows registration of bids.
 
 Bidder can register a bid with `draft` status:
 
-.. httpexample:: tutorial/register-bidder.http
+.. include:: tutorial/register-bidder.http
    :code:
 
 And append responses for criteria requirements:
 
-.. httpexample:: tutorial/add-requirement-responses-to-bidder.http
+.. include:: tutorial/add-requirement-responses-to-bidder.http
    :code:
 
 and approve to pending status:
 
-.. httpexample:: tutorial/activate-bidder.http
+.. include:: tutorial/activate-bidder.http
    :code:
 
 Proposal Uploading
@@ -212,7 +212,7 @@ Proposal Uploading
 
 Then bidder should upload proposal technical document(s):
 
-.. httpexample:: tutorial/upload-bid-proposal.http
+.. include:: tutorial/upload-bid-proposal.http
    :code:
 
 
@@ -221,12 +221,12 @@ If you want that document be descriptive decision need set `isDescriptionDecisio
 
 First upload file
 
-.. httpexample:: tutorial/upload-bid-descriptive-decision-proposal.http
+.. include:: tutorial/upload-bid-descriptive-decision-proposal.http
    :code:
 
 Then set `isDescriptionDecision`
 
-.. httpexample:: tutorial/mark-bid-doc-decision-proposal.http
+.. include:: tutorial/mark-bid-doc-decision-proposal.http
    :code:
 
 Confidentiality
@@ -241,7 +241,7 @@ Documents can be either public or private:
 
 Let's upload private document:
 
-.. httpexample:: tutorial/upload-bid-private-proposal.http
+.. include:: tutorial/upload-bid-private-proposal.http
    :code:
 
 To define the document as "private" - `confidentiality` and `confidentialityRationale` fields should be set.
@@ -254,19 +254,19 @@ Content of private documents (`buyerOnly`) can be accessed only by procuring ent
 
 Let's mark the document as "private":
 
-.. httpexample:: tutorial/mark-bid-doc-private.http
+.. include:: tutorial/mark-bid-doc-private.http
    :code:
 
 When documents with parameter ``isDescriptionDecision`` set to privacy ``confidentialityRationale`` must be missed.
 
 Let's mark the document as "private":
 
-.. httpexample:: tutorial/mark-bid-doc-decision-private.http
+.. include:: tutorial/mark-bid-doc-decision-private.http
    :code:
 
 It is possible to check the uploaded documents:
 
-.. httpexample:: tutorial/bidder-documents.http
+.. include:: tutorial/bidder-documents.http
    :code:
 
 .. _competitivedialogue_envelopes:
@@ -277,7 +277,7 @@ Bid invalidation
 
 If tender is modified, status of all bid proposals will be changed to ``invalid``. Bid proposal will look the following way after tender has been modified:
 
-.. httpexample:: tutorial/bidder-after-changing-tender.http
+.. include:: tutorial/bidder-after-changing-tender.http
    :code:
 
 Bid confirmation
@@ -285,17 +285,17 @@ Bid confirmation
 
 Bidder should confirm bid proposal:
 
-.. httpexample:: tutorial/bidder-activate-after-changing-tender.http
+.. include:: tutorial/bidder-activate-after-changing-tender.http
    :code:
 
 Competitive Dialogue procedure demands at least three bidders:
 
-.. httpexample:: tutorial/register-2nd-bidder.http
+.. include:: tutorial/register-2nd-bidder.http
    :code:
 
 Register two more bid:
 
-.. httpexample:: tutorial/register-3rd-bidder.http
+.. include:: tutorial/register-3rd-bidder.http
    :code:
 
 Batch-mode bid registration
@@ -303,7 +303,7 @@ Batch-mode bid registration
 
 Register one more bid with documents using single request (batch-mode):
 
-.. httpexample:: tutorial/register-4rd-bidder.http
+.. include:: tutorial/register-4rd-bidder.http
    :code:
 
 
@@ -317,40 +317,40 @@ Competitive Dialogue procedure requires bid qualification.
 Let's list qualifications:
 
 
-.. httpexample:: tutorial/qualifications-listing.http
+.. include:: tutorial/qualifications-listing.http
    :code:
 
 Approve first three bids through qualification objects:
 
-.. httpexample:: tutorial/approve-qualification1.http
+.. include:: tutorial/approve-qualification1.http
    :code:
 
-.. httpexample:: tutorial/approve-qualification2.http
+.. include:: tutorial/approve-qualification2.http
    :code:
 
-.. httpexample:: tutorial/approve-qualification4.http
+.. include:: tutorial/approve-qualification4.http
    :code:
 
 We can also reject bid:
 
-.. httpexample:: tutorial/reject-qualification3.http
+.. include:: tutorial/reject-qualification3.http
    :code:
 
 And check that qualified bids are switched to `active`:
 
-.. httpexample:: tutorial/qualificated-bids-view.http
+.. include:: tutorial/qualificated-bids-view.http
    :code:
 
 Rejected bid is not shown in `bids/` listing.
 
 We can access rejected bid by id:
 
-.. httpexample:: tutorial/rejected-bid-view.http
+.. include:: tutorial/rejected-bid-view.http
    :code:
 
 Procuring entity approves qualifications by switching to next status:
 
-.. httpexample:: tutorial/pre-qualification-confirmation.http
+.. include:: tutorial/pre-qualification-confirmation.http
    :code:
 
 You may notice 10 day stand-still time set in `qualificationPeriod`.
@@ -363,13 +363,13 @@ When qualification period end tender will has status active.stage2.pending
 
 Lets look on your tender
 
-.. httpexample:: tutorial/stage2-pending.http
+.. include:: tutorial/stage2-pending.http
    :code:
 
 
 Hoт purchasing can set that he is ready for second stage, by setting status to ``active.stage2.waiting``.
 
-.. httpexample:: tutorial/stage2-waiting.http
+.. include:: tutorial/stage2-waiting.http
    :code:
 
 
@@ -380,13 +380,13 @@ When tender status is ``complete``, we can get id new stage.
 
 First lets look on tender and find field ``stage2TenderID``
 
-.. httpexample:: tutorial/tender_stage1_complete.http
+.. include:: tutorial/tender_stage1_complete.http
    :code:
 
 
 Form making changes in second stage we need token
 
-.. httpexample:: tutorial/tender_stage2_get_token.http
+.. include:: tutorial/tender_stage2_get_token.http
     :code:
 
 Make changes second stage
@@ -395,7 +395,7 @@ Make changes second stage
 Good, now we get token, and can make changes, so lets change status from ``draft.stage2`` to ``active.tendering``
 
 
-.. httpexample:: tutorial/tender_stage2_modify_status.http
+.. include:: tutorial/tender_stage2_modify_status.http
     :code:
 
 Stage2 EU

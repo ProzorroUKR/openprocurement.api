@@ -8,7 +8,7 @@ Exploring basic rules
 
 Let's try exploring the `/contracts` endpoint:
 
-.. httpexample:: http/contracts-listing-0.http
+.. include:: http/contracts-listing-0.http
    :code:
 
 Just invoking it reveals an empty set.
@@ -30,14 +30,14 @@ Getting contract
 
 Contract in the tender system
 
-.. httpexample:: http/example_contract.http
+.. include:: http/example_contract.http
    :code:
 
 *Contract id is the same in both tender and contract system.*
 
 Let's access the URL of the created object:
 
-.. httpexample:: http/contract-view.http
+.. include:: http/contract-view.http
    :code:
 
 
@@ -54,12 +54,12 @@ In the ``PATCH: /contracts/{id}/credentials?acc_token={tender_token}``:
 
 Response will contain ``access.token`` for the contract that can be used for further contract modification.
 
-.. httpexample:: http/contract-credentials.http
+.. include:: http/contract-credentials.http
    :code:
 
 Let's view contracts.
 
-.. httpexample:: http/contracts-listing-1.http
+.. include:: http/contracts-listing-1.http
    :code:
 
 
@@ -80,19 +80,19 @@ Submitting a change
 
 Let's add new `change` to the contract:
 
-.. httpexample:: http/add-contract-change.http
+.. include:: http/add-contract-change.http
    :code:
 
 Note that you can provide more than one value in ``rationaleTypes`` field.
 
 You can view the `change`:
 
-.. httpexample:: http/view-contract-change.http
+.. include:: http/view-contract-change.http
    :code:
 
 `Change` can be modified while it is in the ``pending`` status:
 
-.. httpexample:: http/patch-contract-change.http
+.. include:: http/patch-contract-change.http
    :code:
 
 Uploading change document
@@ -104,12 +104,12 @@ Document has to be added in two stages:
 
 * you should upload document
 
-.. httpexample:: http/add-contract-change-document.http
+.. include:: http/add-contract-change-document.http
    :code:
 
 * you should set document properties ``"documentOf": "change"`` and ``"relatedItem": "{change.id}"`` in order to bind the uploaded document to the `change`:
 
-.. httpexample:: http/set-document-of-change.http
+.. include:: http/set-document-of-change.http
    :code:
 
 Updating contract properties
@@ -128,7 +128,7 @@ You can update value `amount` and `amountNet` following next rules:
 +-------------------------+------------------------------------------------------------------------+
 
 
-.. httpexample:: http/contracts-patch.http
+.. include:: http/contracts-patch.http
    :code:
 
 We see the added properties have merged with existing contract data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp.
@@ -139,7 +139,7 @@ See examples of `items` customization below. You can:
 
 * update item:
 
-.. httpexample:: http/update-contract-item.http
+.. include:: http/update-contract-item.http
    :code:
 
 Applying the change
@@ -151,7 +151,7 @@ In order to apply ``active`` status `dateSigned` field must be set.
 
 After this `change` can't be modified anymore.
 
-.. httpexample:: http/apply-contract-change.http
+.. include:: http/apply-contract-change.http
    :code:
 
 `dateSigned` field validation:
@@ -162,12 +162,12 @@ After this `change` can't be modified anymore.
 
 You can view all changes:
 
-.. httpexample:: http/view-all-contract-changes.http
+.. include:: http/view-all-contract-changes.http
    :code:
 
 All changes are also listed on the contract view.
 
-.. httpexample:: http/view-contract.http
+.. include:: http/view-contract.http
    :code:
 
 
@@ -177,29 +177,29 @@ Uploading documentation
 Procuring entity can upload PDF files into the created contract. Uploading should
 follow the :ref:`upload` rules.
 
-.. httpexample:: http/upload-contract-document.http
+.. include:: http/upload-contract-document.http
    :code:
 
 `201 Created` response code and `Location` header confirm document creation.
 We can additionally query the `documents` collection API endpoint to confirm the
 action:
 
-.. httpexample:: http/contract-documents.http
+.. include:: http/contract-documents.http
    :code:
 
 And again we can confirm that there are two documents uploaded.
 
-.. httpexample:: http/upload-contract-document-2.http
+.. include:: http/upload-contract-document-2.http
    :code:
 
 In case we made an error, we can reupload the document over the older version:
 
-.. httpexample:: http/upload-contract-document-3.http
+.. include:: http/upload-contract-document-3.http
    :code:
 
 And we can see that it is overriding the original version:
 
-.. httpexample:: http/get-contract-document-3.http
+.. include:: http/get-contract-document-3.http
    :code:
 
 
@@ -214,7 +214,7 @@ Before contract can be completed ``amountPaid`` field value should be set (regar
 Contract can be completed by switching to ``terminated`` status.
 Let's perform these actions in single request:
 
-.. httpexample:: http/contract-termination.http
+.. include:: http/contract-termination.http
    :code:
 
 Note that you can set/change only ``amountPaid.amount`` value. ``amountPaid.currency`` and ``amountPaid.valueAddedTaxIncluded`` fields' values are generated from ``Contract.value`` field.

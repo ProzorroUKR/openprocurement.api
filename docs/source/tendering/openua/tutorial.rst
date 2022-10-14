@@ -8,21 +8,21 @@ Exploring basic rules
 
 Let's try exploring the `/tenders` endpoint:
 
-.. httpexample:: http/tender-listing.http
+.. include:: http/tender-listing.http
    :code:
 
 Just invoking it reveals empty set.
 
 Now let's attempt creating some tender:
 
-.. httpexample:: http/tender-post-attempt.http
+.. include:: http/tender-post-attempt.http
    :code:
 
 Error states that the only accepted Content-Type is `application/json`.
 
 Let's satisfy the Content-type requirement:
 
-.. httpexample:: http/tender-post-attempt-json.http
+.. include:: http/tender-post-attempt-json.http
    :code:
 
 Error states that no `data` has been found in JSON body.
@@ -35,7 +35,7 @@ Creating tender
 
 Let's provide the data attribute in the submitted body :
 
-.. httpexample:: http/tender-post-attempt-json-data.http
+.. include:: http/tender-post-attempt-json-data.http
    :code:
 
 Success! Now we can see that new object was created. Response code is `201`
@@ -50,7 +50,7 @@ Also there is no opportunity to set up ``enquiryPeriod``, it will be assigned au
 
 Let's access the URL of the created object (the `Location` header of the response):
 
-.. httpexample:: http/blank-tender-view.http
+.. include:: http/blank-tender-view.http
    :code:
 
 .. XXX body is empty for some reason (printf fails)
@@ -59,7 +59,7 @@ We can see the same response we got after creating tender.
 
 Let's see what listing of tenders reveals us:
 
-.. httpexample:: http/tender-listing-no-auth.http
+.. include:: http/tender-listing-no-auth.http
    :code:
 
 We don't see internal `id` of tender, because tender appears in the listing from `active.tendering` status.
@@ -69,17 +69,17 @@ Tender activating
 
 At first we needed to add EXCLUSION criteria to our tender(:ref:`About criteria you can read here<criteria_operation>`).
 
-.. httpexample:: http/add-exclusion-criteria.http
+.. include:: http/add-exclusion-criteria.http
    :code:
 
 After adding needed criteria we can activate our tender, so let's do that:
 
-.. httpexample:: http/tender-activating.http
+.. include:: http/tender-activating.http
    :code:
 
 Let's see what listing of tenders reveals us:
 
-.. httpexample:: http/active-tender-listing-no-auth.http
+.. include:: http/active-tender-listing-no-auth.http
    :code:
 
 Now We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp.
@@ -89,7 +89,7 @@ Modifying tender
 
 Let's update tender by supplementing it with all other essential properties:
 
-.. httpexample:: http/patch-items-value-periods.http
+.. include:: http/patch-items-value-periods.http
    :code:
 
 .. XXX body is empty for some reason (printf fails)
@@ -98,23 +98,23 @@ We see the added properies have merged with existing tender data. Additionally, 
 
 Checking the listing again reflects the new modification date:
 
-.. httpexample:: http/tender-listing-after-patch.http
+.. include:: http/tender-listing-after-patch.http
    :code:
 
 
 Procuring entity can not change tender if there are less than 7 days before tenderPeriod ends. Changes will not be accepted by API.
 
-.. httpexample:: http/update-tender-after-enqiery.http
+.. include:: http/update-tender-after-enqiery.http
    :code:
 
 That is why tenderPeriod has to be extended by 7 days.
 
-.. httpexample:: http/update-tender-after-enqiery-with-update-periods.http
+.. include:: http/update-tender-after-enqiery-with-update-periods.http
    :code:
 
 Procuring entity can set bid guarantee:
 
-.. httpexample:: http/set-bid-guarantee.http
+.. include:: http/set-bid-guarantee.http
    :code:
 
 
@@ -126,34 +126,34 @@ Uploading documentation
 Procuring entity can upload PDF files into the created tender. Uploading should
 follow the :ref:`upload` rules.
 
-.. httpexample:: http/upload-tender-notice.http
+.. include:: http/upload-tender-notice.http
    :code:
 
 `201 Created` response code and `Location` header confirm document creation.
 We can additionally query the `documents` collection API endpoint to confirm the
 action:
 
-.. httpexample:: http/tender-documents.http
+.. include:: http/tender-documents.http
    :code:
 
 The single array element describes the uploaded document. We can upload more documents:
 
-.. httpexample:: http/upload-award-criteria.http
+.. include:: http/upload-award-criteria.http
    :code:
 
 And again we can confirm that there are two documents uploaded.
 
-.. httpexample:: http/tender-documents-2.http
+.. include:: http/tender-documents-2.http
    :code:
 
 In case we made an error, we can reupload the document over the older version:
 
-.. httpexample:: http/update-award-criteria.http
+.. include:: http/update-award-criteria.http
    :code:
 
 And we can see that it is overriding the original version:
 
-.. httpexample:: http/tender-documents-3.http
+.. include:: http/tender-documents-3.http
    :code:
 
 
@@ -164,28 +164,28 @@ Enquiries
 
 When tender has ``active.tendering`` status and ``Tender.enqueryPeriod.endDate``  hasn't come yet, interested parties can ask questions:
 
-.. httpexample:: http/ask-question.http
+.. include:: http/ask-question.http
    :code:
 
 Procuring entity can answer them:
 
-.. httpexample:: http/answer-question.http
+.. include:: http/answer-question.http
    :code:
 
 One can retrieve either questions list:
 
-.. httpexample:: http/list-question.http
+.. include:: http/list-question.http
    :code:
 
 or individual answer:
 
-.. httpexample:: http/get-answer.http
+.. include:: http/get-answer.http
    :code:
 
 
 Enquiries can be made only during ``Tender.enqueryPeriod``
 
-.. httpexample:: http/ask-question-after-enquiry-period.http
+.. include:: http/ask-question-after-enquiry-period.http
    :code:
 
 
@@ -198,17 +198,17 @@ Tender status ``active.tendering`` allows registration of bids.
 
 Bidder can register a bid with ``draft`` status:
 
-.. httpexample:: http/register-bidder.http
+.. include:: http/register-bidder.http
    :code:
 
 And append responses for criteria requirements:
 
-.. httpexample:: http/add-requirement-responses-to-bidder.http
+.. include:: http/add-requirement-responses-to-bidder.http
    :code:
 
 And activate a bid:
 
-.. httpexample:: http/activate-bidder.http
+.. include:: http/activate-bidder.http
    :code:
 
 Proposal Uploading
@@ -216,12 +216,12 @@ Proposal Uploading
 
 Then bidder should upload proposal document(s):
 
-.. httpexample:: http/upload-bid-proposal.http
+.. include:: http/upload-bid-proposal.http
    :code:
 
 It is possible to check the uploaded documents:
 
-.. httpexample:: http/bidder-documents.http
+.. include:: http/bidder-documents.http
    :code:
 
 Bid invalidation
@@ -229,7 +229,7 @@ Bid invalidation
 
 If tender is modified, status of all bid proposals will be changed to ``invalid``. Bid proposal will look the following way after tender has been modified:
 
-.. httpexample:: http/bidder-after-changing-tender.http
+.. include:: http/bidder-after-changing-tender.http
    :code:
 
 Bid confirmation
@@ -237,12 +237,12 @@ Bid confirmation
 
 Bidder should confirm bid proposal:
 
-.. httpexample:: http/bidder-activate-after-changing-tender.http
+.. include:: http/bidder-activate-after-changing-tender.http
    :code:
 
 Open UA procedure demands at least two bidders, so there should be at least two bid proposals registered to move to auction stage:
 
-.. httpexample:: http/register-2nd-bidder.http
+.. include:: http/register-2nd-bidder.http
    :code:
 
 
@@ -253,17 +253,17 @@ Auction
 
 After auction is scheduled anybody can visit it to watch. The auction can be reached at `Tender.auctionUrl`:
 
-.. httpexample:: http/auction-url.http
+.. include:: http/auction-url.http
    :code:
 
 Bidders can find out their participation URLs via their bids:
 
-.. httpexample:: http/bidder-participation-url.http
+.. include:: http/bidder-participation-url.http
    :code:
 
 See the `Bid.participationUrl` in the response. Similar, but different, URL can be retrieved for other participants:
 
-.. httpexample:: http/bidder2-participation-url.http
+.. include:: http/bidder2-participation-url.http
    :code:
 
 
@@ -272,19 +272,19 @@ Abnormally low price
 
 An award can contain a milestone of type ``apl`` 
 
-.. httpexample:: http/get-awards-list.http
+.. include:: http/get-awards-list.http
    :code:
 
 
 Procuring entity cannot change the status of the award before ``milestone.dueDate``
 
-.. httpexample:: http/fail-disqualification.http
+.. include:: http/fail-disqualification.http
    :code:
 
 
 During this time the bidder can upload ``evidence`` documents to his bid
 
-.. httpexample:: http/post-evidence-document.http
+.. include:: http/post-evidence-document.http
    :code:
 
 
@@ -294,7 +294,7 @@ Confirming qualification
 
 Qualification commission registers its decision via the following call:
 
-.. httpexample:: http/confirm-qualification.http
+.. include:: http/confirm-qualification.http
    :code:
 
 Setting contract value
@@ -304,7 +304,7 @@ By default contract value is set based on the award, but there is a possibility 
 
 If you want to **lower contract value**, you can insert new one into the `amount` field.
 
-.. httpexample:: http/tender-contract-set-contract-value.http
+.. include:: http/tender-contract-set-contract-value.http
    :code:
 
 `200 OK` response was returned. The value was modified successfully.
@@ -316,7 +316,7 @@ There is a possibility to set custom contract signature date. You can insert app
 
 If this date is not set, it will be auto-generated on the date of contract registration.
 
-.. httpexample:: http/tender-contract-sign-date.http
+.. include:: http/tender-contract-sign-date.http
    :code:
 
 Setting contract validity period
@@ -324,7 +324,7 @@ Setting contract validity period
 
 Setting contract validity period is optional, but if it is needed, you can set appropriate `startDate` and `endDate`.
 
-.. httpexample:: http/tender-contract-period.http
+.. include:: http/tender-contract-period.http
    :code:
 
 Uploading contract documentation
@@ -334,14 +334,14 @@ You can upload contract documents for the OpenUA procedure.
 
 Let's upload contract document:
 
-.. httpexample:: http/tender-contract-upload-document.http
+.. include:: http/tender-contract-upload-document.http
    :code:
 
 `201 Created` response code and `Location` header confirm that this document was added.
 
 Let's view the uploaded contract document:
 
-.. httpexample:: http/tender-contract-get.http
+.. include:: http/tender-contract-get.http
    :code:
 
 Cancelling tender
@@ -374,12 +374,12 @@ There are four possible types of cancellation reason - tender was `noDemand`, `u
 
 `id` is autogenerated and passed in the `Location` header of response.
 
-.. httpexample::  http/prepare-cancellation.http
+.. include::  http/prepare-cancellation.http
    :code:
 
 You can change ``reasonType`` value to any of the above.
 
-.. httpexample::  http/update-cancellation-reasonType.http
+.. include::  http/update-cancellation-reasonType.http
      :code:
 
 Filling cancellation with protocol and supplementary documentation
@@ -389,19 +389,19 @@ This step is required. Without documents you can't update tender status.
 
 Upload the file contents
 
-.. httpexample::  http/upload-cancellation-doc.http
+.. include::  http/upload-cancellation-doc.http
    :code:
 
 Change the document description and other properties
 
 
-.. httpexample::  http/patch-cancellation.http
+.. include::  http/patch-cancellation.http
    :code:
 
 Upload new version of the document
 
 
-.. httpexample::  http/update-cancellation-doc.http
+.. include::  http/update-cancellation-doc.http
    :code:
 
 Passing Complaint Period
@@ -409,7 +409,7 @@ Passing Complaint Period
 
 For activate complaint period, you need to update cancellation from `draft` to `pending`.
 
-.. httpexample::  http/pending-cancellation.http
+.. include::  http/pending-cancellation.http
    :code:
 
 When cancellation in `pending` status the tender owner is prohibited from all actions on the tender.

@@ -20,7 +20,7 @@ Also documents could be uploaded if:
  - tender has criterion `CRITERION.OTHER.CONTRACT.GUARANTEE`
  - document has type `contractGuarantees`
 
-.. httpexample:: http-handwritten/bidding/add-bid-document-with-active-award.http
+.. include:: http-handwritten/bidding/add-bid-document-with-active-award.http
    :code:
 
 Uploading Bid documents

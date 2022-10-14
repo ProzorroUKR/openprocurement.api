@@ -9,21 +9,21 @@ Exploring basic rules
 Let's try exploring the `/tenders` endpoint:
 
 
-.. httpexample:: http/initial-tender-listing.http
+.. include:: http/initial-tender-listing.http
    :code:
 
 Just invoking it reveals empty set.
 
 Now let's attempt creating some tender:
 
-.. httpexample:: http/tender-post-attempt.http
+.. include:: http/tender-post-attempt.http
    :code:
 
 Error states that the only accepted Content-Type is `application/json`.
 
 Let's satisfy the Content-type requirement:
 
-.. httpexample:: http/tender-post-attempt-json.http
+.. include:: http/tender-post-attempt-json.http
    :code:
 
 Error states that no `data` has been found in JSON body.
@@ -36,7 +36,7 @@ Creating tender
 
 Let's provide the data attribute in the submitted body :
 
-.. httpexample:: http/tender-post-attempt-json-data.http
+.. include:: http/tender-post-attempt-json-data.http
    :code:
 
 Success! Now we can see that new object was created. Response code is `201`
@@ -52,7 +52,7 @@ Price Quotation procedure has ``procurementMethodType``: ``priceQuotation`` and 
 
 Let's access the URL of the created object (the `Location` header of the response):
 
-.. httpexample:: http/blank-tender-view.http
+.. include:: http/blank-tender-view.http
    :code:
 
 We can see the same response we got after creating tender.
@@ -63,14 +63,14 @@ Modifying tender
 Procuring Entity can modify tender before publishing. 
 Let's update tender by supplementing it with all other essential properties:
 
-.. httpexample:: http/patch-tender-data.http
+.. include:: http/patch-tender-data.http
    :code:
 
 We see the added properties have merged with existing tender data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp.
 
 Checking the listing again reflects the new modification date:
 
-.. httpexample:: http/tender-listing-after-patch.http
+.. include:: http/tender-listing-after-patch.http
    :code:
 
 Publishing tender
@@ -78,18 +78,18 @@ Publishing tender
    
 After creation Procuring Entity publishes procedure by changing status to `draft.publishing` where **priceQuotationBot** robot runs validation of the procedure and supplement procedure with additional data taken from ProZorro e-Catalogues database including `shortListedFirms`.
 
-.. httpexample:: http/publish-tender.http
+.. include:: http/publish-tender.http
    :code:
 
 
 After successful validation priceQuotationBot transmit procedure to status: `active.tendering` 
 
-.. httpexample:: http/tender-after-bot-active.http
+.. include:: http/tender-after-bot-active.http
    :code:
 
 In case if procedure do not pass validation due to invalid options, it will be switched to status: `draft.unsuccessful` by the **priceQuotationBot**.
 
-.. httpexample:: http/tender-after-bot-unsuccessful.http
+.. include:: http/tender-after-bot-unsuccessful.http
    :code:
 
 .. index:: Document
@@ -103,7 +103,7 @@ Tender status ``active.tendering`` allows registration of bids.
 
 Bidder can register a bid with ``draft`` status:
 
-.. httpexample:: http/register-bidder.http
+.. include:: http/register-bidder.http
    :code:
    
 **! Note:** User receives `access`: `token`: ``"00e173e5f31f4decbb811cc01e10c1bf"`` with which operations as a `Supplier` role are accessible.
@@ -111,7 +111,7 @@ Bidder can register a bid with ``draft`` status:
 
 And activate a bid:
 
-.. httpexample:: http/activate-bidder.http
+.. include:: http/activate-bidder.http
    :code:
 
 Modifying bid
@@ -119,7 +119,7 @@ Modifying bid
    
 Bid can be updated until the end of tender period. 
 
-.. httpexample:: http/patch-bidder.http
+.. include:: http/patch-bidder.http
    :code:
    
 Proposal Uploading
@@ -127,12 +127,12 @@ Proposal Uploading
 
 Then bidder should upload proposal document(s):
 
-.. httpexample:: http/upload-bid-proposal.http
+.. include:: http/upload-bid-proposal.http
    :code:
 
 It is possible to check the uploaded documents:
 
-.. httpexample:: http/bidder-documents.http
+.. include:: http/bidder-documents.http
    :code:
    
 .. index:: Awarding
@@ -142,12 +142,12 @@ Awarding process
 
 After the tender period end date, system automatically creates `award` in `pending` status for the bid with the most economically advantageous price.
 
-.. httpexample:: http/awards-listing.http
+.. include:: http/awards-listing.http
    :code:
 
 The Supplier-winner can accept `award` by transferring it to status: `active`. The system is waiting for acceptance from the supplier-winner within `two working days`.
 
-.. httpexample:: http/award-active.http
+.. include:: http/award-active.http
    :code:
 
 Procuring Entity can cancel `award` after acceptance by changing `award` status to `cancelled` in case if supplier-winner declines to sign contract.
@@ -156,7 +156,7 @@ Procuring Entity can change `second` `award` status to `unsuccessful` with abili
    
 The Supplier-winner can decline `award` by transferring it to status: `unsuccessful`.
 
-.. httpexample:: http/award-unsuccesful.http
+.. include:: http/award-unsuccesful.http
    :code:
  
 `Award` will be granted to the next bid with most economically advantageous price, for the following cases:
@@ -178,7 +178,7 @@ By default contract value is set based on the award, but there is a possibility 
 
 If you want to **lower contract value**, you can insert new one into the `amount` field.
 
-.. httpexample:: http/tender-contract-set-contract-value.http
+.. include:: http/tender-contract-set-contract-value.http
    :code:
 
 `200 OK` response was returned. The value was modified successfully.
@@ -190,7 +190,7 @@ There is a possibility to set custom contract signature date. You can insert app
 
 If this date is not set, it will be auto-generated on the date of contract registration.
 
-.. httpexample:: http/tender-contract-sign-date.http
+.. include:: http/tender-contract-sign-date.http
    :code:
 
 Setting contract validity period
@@ -198,7 +198,7 @@ Setting contract validity period
 
 Setting contract validity period is optional, but if it is needed, you can set appropriate `startDate` and `endDate`.
 
-.. httpexample:: http/tender-contract-period.http
+.. include:: http/tender-contract-period.http
    :code:
 
 Uploading contract documentation
@@ -208,14 +208,14 @@ You can upload contract documents for the Price Quotation procedure.
 
 Let's upload contract document:
 
-.. httpexample:: http/tender-contract-upload-document.http
+.. include:: http/tender-contract-upload-document.http
    :code:
 
 `201 Created` response code and `Location` header confirm that this document was added.
 
 Let's view the uploaded contract document:
 
-.. httpexample:: http/tender-contract-get-documents.http
+.. include:: http/tender-contract-get-documents.http
    :code:
    
 Cancelling tender
@@ -247,12 +247,12 @@ There are four possible types of cancellation reason - tender was `noDemand`, `u
 
 `id` is autogenerated and passed in the `Location` header of response.
 
-.. httpexample::  http/prepare-cancellation.http
+.. include::  http/prepare-cancellation.http
    :code:
 
 You can change ``reasonType`` value to any of the above.
 
-.. httpexample::  http/update-cancellation-reasonType.http
+.. include::  http/update-cancellation-reasonType.http
      :code:
 
 Filling cancellation with protocol and supplementary documentation
@@ -262,23 +262,23 @@ This step is required. Without documents you can't update tender status.
 
 Upload the file contents
 
-.. httpexample::  http/upload-cancellation-doc.http
+.. include::  http/upload-cancellation-doc.http
    :code:
 
 Change the document description and other properties
 
 
-.. httpexample::  http/patch-cancellation.http
+.. include::  http/patch-cancellation.http
    :code:
 
 Upload new version of the document
 
 
-.. httpexample::  http/update-cancellation-doc.http
+.. include::  http/update-cancellation-doc.http
    :code:
 
 Activating the request and cancelling tender
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. httpexample:: http/active-cancellation.http
+.. include:: http/active-cancellation.http
    :code:
