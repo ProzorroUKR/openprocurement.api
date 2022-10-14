@@ -27,7 +27,7 @@ def copy_assets(app, exception):
 
 def setup(app):
     app.connect('build-finished', copy_assets)
-    app.add_directive_to_domain('http', 'example', HTTPExample)
+    app.add_directive('httpexample', HTTPExample)
     app.add_js_file(JS_FILE)
     app.add_css_file(CSS_FILE)
     return {'version': '1.0'}

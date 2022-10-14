@@ -9,7 +9,7 @@ Exploring basic rules
 
 Let's try exploring the `/agreements` endpoint:
 
-.. http:example:: http/frameworks/agreements-listing-0.http
+.. httpexample:: http/frameworks/agreements-listing-0.http
    :code:
 
 Just invoking it reveals an empty set.
@@ -29,13 +29,13 @@ Getting agreement
 
 Let's see our created framework:
 
-.. http:example:: http/frameworks/example-framework.http
+.. httpexample:: http/frameworks/example-framework.http
    :code:
 
 In our framework you can see the `agreementID` field where stores id of related agreement.
 When we know id of our agreement we can get it:
 
-.. http:example:: http/frameworks/agreement-view.http
+.. httpexample:: http/frameworks/agreement-view.http
    :code:
 
 
@@ -54,5 +54,5 @@ Contract ban
 
 For ban contract, you just need to add milestone to contract with status `ban`:
 
-.. http:example:: http/frameworks/post-milestone-ban.http
+.. httpexample:: http/frameworks/post-milestone-ban.http
    :code:

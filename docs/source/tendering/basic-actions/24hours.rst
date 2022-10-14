@@ -9,14 +9,14 @@ procuring entity can decide to allow a bidder to upload more documents to their 
 
 Example of posting :ref:`qualificationmilestone` for qualification
 
-.. http:example:: ./http/24hours/award-milestone-post.http
+.. httpexample:: ./http/24hours/award-milestone-post.http
    :code:
 
 
 Example of pre-qualification
 
 
-.. http:example:: ./http/24hours/qualification-milestone-post.http
+.. httpexample:: ./http/24hours/qualification-milestone-post.http
    :code:
 
 
@@ -24,18 +24,18 @@ The "dueDate" field in the response indicates the end of the period when
 procuring entity is unable to make a decision on the qualification object
 
 
-.. http:example:: ./http/24hours/award-patch.http
+.. httpexample:: ./http/24hours/award-patch.http
    :code:
 
 
 The bidder can post new documents to their bid
 
 
-.. http:example:: ./http/24hours/post-doc.http
+.. httpexample:: ./http/24hours/post-doc.http
    :code:
 
 
 The bidder can update their documents
 
-.. http:example:: ./http/24hours/put-doc.http
+.. httpexample:: ./http/24hours/put-doc.http
    :code:

@@ -12,7 +12,7 @@ Upload document with registration
 
 #. Add document in API:
 
-    .. http:example:: ../belowthreshold/http/tutorial/upload-tender-notice.http
+    .. httpexample:: ../belowthreshold/http/tutorial/upload-tender-notice.http
         :code:
 
 #. :ref:`Upload document in document service <documentservice:upload-document>`.
@@ -24,5 +24,5 @@ Upload document w/o registration
 
 #. Add document in API:
 
-    .. http:example:: ../belowthreshold/http/tutorial/upload-tender-notice.http
+    .. httpexample:: ../belowthreshold/http/tutorial/upload-tender-notice.http
         :code:

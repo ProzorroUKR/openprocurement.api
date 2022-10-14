@@ -9,7 +9,7 @@ Creating tender
 
 Let's create tender:
 
-.. http:example:: http/multiple_lots_tutorial/tender-post-attempt-json-data.http
+.. httpexample:: http/multiple_lots_tutorial/tender-post-attempt-json-data.http
    :code:
 
 Now we can see that new object was created. Response code is `201`
@@ -21,22 +21,22 @@ modified.  Note that tender is created with `active.tendering` status.
 
 Tender can contain several different lots. We can add lot using the following way:
 
-.. http:example:: http/multiple_lots_tutorial/tender-add-lot.http
+.. httpexample:: http/multiple_lots_tutorial/tender-add-lot.http
    :code:
 
 Also you will need to update data about item's related lots:
 
-.. http:example:: http/multiple_lots_tutorial/tender-add-relatedLot-to-item.http
+.. httpexample:: http/multiple_lots_tutorial/tender-add-relatedLot-to-item.http
    :code:
 
 View tender listing:
 
-.. http:example:: http/multiple_lots_tutorial/tender-listing-no-auth.http
+.. httpexample:: http/multiple_lots_tutorial/tender-listing-no-auth.http
    :code:
 
 or view tender:
 
-.. http:example:: http/multiple_lots_tutorial/tender-view.http
+.. httpexample:: http/multiple_lots_tutorial/tender-view.http
    :code:
 
 
@@ -47,12 +47,12 @@ Addition of supplier information is the same for all procedures.
 
 Add award for lot №1:
 
-.. http:example:: http/multiple_lots_tutorial/tender-award.http
+.. httpexample:: http/multiple_lots_tutorial/tender-award.http
    :code:
 
 Award confirmation:
 
-.. http:example:: http/multiple_lots_tutorial/tender-award-approve.http
+.. httpexample:: http/multiple_lots_tutorial/tender-award-approve.http
    :code:
 
 The difference between ``startDate`` and ``endDate`` in ``complaintPeriod`` record for **negotiation** is 10 days and for **negotiation.quick** is 5 days.
@@ -65,7 +65,7 @@ By default contract value is set based on the award, but there is a possibility 
 
 If you want to **lower contract value**, you can insert new one into the `amount` field.
 
-.. http:example:: http/multiple_lots_tutorial/tender-contract-set-contract-value.http
+.. httpexample:: http/multiple_lots_tutorial/tender-contract-set-contract-value.http
    :code:
 
 `200 OK` response was returned. The value was modified successfully.
@@ -76,5 +76,5 @@ Contract registration
 
 **Negotiation** and **Negotiation.quick** tender contract can be registered only after the stand-still (10 and 5 days period after the award confirmation).
 
-.. http:example:: http/multiple_lots_tutorial/tender-contract-sign.http
+.. httpexample:: http/multiple_lots_tutorial/tender-contract-sign.http
    :code:

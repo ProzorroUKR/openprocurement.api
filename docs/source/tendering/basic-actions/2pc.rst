@@ -17,7 +17,7 @@ Creating tender with single-phase commit
 
 Sending a single-phase request for a tender creation (POST /tenders) according to the "old" mechanism, that creates a tender already in the ``active.enquiries`` status:
 
-.. http:example:: ../belowthreshold/http/tutorial/tender-post-attempt-json-data.http
+.. httpexample:: ../belowthreshold/http/tutorial/tender-post-attempt-json-data.http
    :code:
 
 Creating tender with 2-phase commit
@@ -34,7 +34,7 @@ Creation of a tender
 
 A request `POST /tenders` creates a tender in status ``draft``. As a result, an ``acc_token`` is passed for the further tender management. 
 
-.. http:example:: ../belowthreshold/http/tutorial/tender-post-2pc.http
+.. httpexample:: ../belowthreshold/http/tutorial/tender-post-2pc.http
    :code:
 
 Tender with the ``draft`` status is "invisible" in the `GET /tenders` list. Chronograph does not "see" it, therefore, does not switch statuses.
@@ -45,7 +45,7 @@ Publication of a tender
 
 The request `PATCH /tenders/{id}?acc_token=...`  ``{“data”:{“status”:”active.enquiries”}}`` changes status of tender (according to the request), therefore, publishes it ("visualizes" it in the `GET /tenders list`).
 
-.. http:example:: ../belowthreshold/http/tutorial/tender-patch-2pc.http
+.. httpexample:: ../belowthreshold/http/tutorial/tender-patch-2pc.http
    :code:
    
 All tenders created in the CDB but not yet published will not be displayed on the web platform and, therefore, will not lead to their announcement.
@@ -63,6 +63,6 @@ You can view more detailed error description :ref:`here <errors>`.
 
 Here is an example of incorrectly formed request. This error indicates that the data is not found in the body of JSON.
 
-.. http:example:: ../belowthreshold/http/tutorial/tender-post-attempt-json.http
+.. httpexample:: ../belowthreshold/http/tutorial/tender-post-attempt-json.http
    :code:
 

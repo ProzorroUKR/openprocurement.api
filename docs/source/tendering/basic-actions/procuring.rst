@@ -44,7 +44,7 @@ The response produced will have URL of the tender uploaded document in Location 
 
 Example request:
 
-.. http:example:: ../belowthreshold/http/tutorial/upload-tender-notice.http
+.. httpexample:: ../belowthreshold/http/tutorial/upload-tender-notice.http
    :code:
 
 Changing the Tender
@@ -81,7 +81,7 @@ can see supported request types in :ref:`upload` section.
 
 Example request:
 
-.. http:example:: ../belowthreshold/http/tutorial/update-award-criteria.http
+.. httpexample:: ../belowthreshold/http/tutorial/update-award-criteria.http
    :code:
 
 Uploading additional documents
