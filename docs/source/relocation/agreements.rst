@@ -12,7 +12,7 @@ Getting agreement's credentials
 
 At first let's get agreement credentials:
 
-.. httpexample:: tutorial/get-agreement-credentials.http
+.. include:: tutorial/get-agreement-credentials.http
    :code:
 
 `broker` is current agreement's ``owner``.
@@ -28,7 +28,7 @@ First of all, you must know ID of the agreement that you want to transfer.
 
 Broker that is going to become new agreement owner should create a `Transfer`.
 
-.. httpexample:: tutorial/create-agreement-transfer.http
+.. include:: tutorial/create-agreement-transfer.http
    :code:
 
 `Transfer` object contains new access ``token`` and new ``transfer`` token for the object that will be transferred to new broker.
@@ -48,7 +48,7 @@ An ability to change agreement's ownership depends on agreement's status:
 
 In order to change agreement's ownership new broker should send POST request to appropriate `/agreements/id/` with `data` section containing ``id`` of `Transfer` and ``transfer`` token received from customer:
 
-.. httpexample:: tutorial/change-agreement-ownership.http
+.. include:: tutorial/change-agreement-ownership.http
    :code:
 
 Updated ``owner`` value indicates that ownership is successfully changed. 
@@ -57,20 +57,20 @@ Note that new broker has to provide its customer with new ``transfer`` key (gene
 
 After `Transfer` is applied it stores agreement path in ``usedFor`` property.
 
-.. httpexample:: tutorial/get-used-agreement-transfer.http
+.. include:: tutorial/get-used-agreement-transfer.http
    :code:
 
 Let's try to change the agreement using ``token`` received on `Transfer` creation:
 
-.. httpexample:: tutorial/modify-agreement.http
+.. include:: tutorial/modify-agreement.http
    :code:
 
 Pay attention that only broker with appropriate accreditation level can become new owner. Otherwise broker will be forbidden from this action.
 
-.. httpexample:: tutorial/change-agreement-ownership-forbidden.http
+.. include:: tutorial/change-agreement-ownership-forbidden.http
    :code:
 
 Also ownership change is allowed only if current owner has a special accreditation level that allows ownership change:
 
-.. httpexample:: tutorial/change-agreement-ownership-forbidden-owner.http
+.. include:: tutorial/change-agreement-ownership-forbidden-owner.http
    :code:

@@ -22,24 +22,24 @@ To cancel lot or set item quantity to 0 you should set `cancelled` status to all
 You can create few criteria in one request with complete set of data.
 
 
-.. httpexample:: http/criteria/bulk-create-criteria.http
+.. include:: http/criteria/bulk-create-criteria.http
    :code:
 
 
 Update Tender Criteria
 """"""""""""""""""""""
 
-.. httpexample:: http/criteria/patch-criteria.http
+.. include:: http/criteria/patch-criteria.http
    :code:
 
 
 Get Tender Criteria
 """""""""""""""""""
 
-.. httpexample:: http/criteria/criteria-list.http
+.. include:: http/criteria/criteria-list.http
    :code:
 
-.. httpexample:: http/criteria/criteria.http
+.. include:: http/criteria/criteria.http
    :code:
 
 
@@ -60,23 +60,23 @@ If you try to gave responses to few requirement groups system will be returned e
 Create Criteria Requirement Group
 """""""""""""""""""""""""""""""""
 
-.. httpexample:: http/criteria/add-criteria-requirement-group.http
+.. include:: http/criteria/add-criteria-requirement-group.http
    :code:
 
 
 Update Criteria Requirement Group
 """""""""""""""""""""""""""""""""
 
-.. httpexample:: http/criteria/patch-criteria-requirement-group.http
+.. include:: http/criteria/patch-criteria-requirement-group.http
    :code:
 
 Get Criteria Requirement Group
 """"""""""""""""""""""""""""""
 
-.. httpexample:: http/criteria/criteria-requirement-group-list.http
+.. include:: http/criteria/criteria-requirement-group-list.http
    :code:
 
-.. httpexample:: http/criteria/criteria-requirement-group.http
+.. include:: http/criteria/criteria-requirement-group.http
    :code:
 
 
@@ -88,7 +88,7 @@ Requirement model :ref:`schema<requirement>`
 Create Requirement
 """"""""""""""""""
 
-.. httpexample:: http/criteria/add-criteria-requirement.http
+.. include:: http/criteria/add-criteria-requirement.http
    :code:
 
 
@@ -96,33 +96,33 @@ Update Requirement
 """"""""""""""""""
 You can use PATCH method to update requirements for tenders in draft statuses.
 
-.. httpexample:: http/criteria/patch-criteria-requirement.http
+.. include:: http/criteria/patch-criteria-requirement.http
    :code:
 
 To update requirement in non-draft status of tender you should use PUT method.
 New version with status `active` will be created.
 Status of old version of requirement will be changed to `cancelled`.
 
-.. httpexample:: http/criteria/put-exclusion-criteria-requirement.http
+.. include:: http/criteria/put-exclusion-criteria-requirement.http
    :code:
 
-.. httpexample:: http/criteria/criteria-requirement-list.http
+.. include:: http/criteria/criteria-requirement-list.http
    :code:
 
 Delete Requirement
 """"""""""""""""""
 To delete requirement from requirement group you can set status `cancelled` to this requirement.
 
-.. httpexample:: http/criteria/criteria-requirement-cancellation.http
+.. include:: http/criteria/criteria-requirement-cancellation.http
    :code:
 
 Get Requirement
 """""""""""""""
 
-.. httpexample:: http/criteria/criteria-requirement-list.http
+.. include:: http/criteria/criteria-requirement-list.http
    :code:
 
-.. httpexample:: http/criteria/criteria-requirement.http
+.. include:: http/criteria/criteria-requirement.http
    :code:
 
 Eligible Evidence basic operation
@@ -134,57 +134,57 @@ Create Eligible Evidence
 """"""""""""""""""""""""
 You can use POST method to add evidence for tenders in draft statuses.
 
-.. httpexample:: http/criteria/add-requirement-evidence.http
+.. include:: http/criteria/add-requirement-evidence.http
    :code:
 
 To add evidence(s) in non-draft status of tender you should use PUT method on Requirement level with extended eligibleEvidences array.
 New version or Requirement with status `active` and with extended eligibleEvidences array will be created.
 
-.. httpexample:: http/criteria/requirement-put-add-evidence.http
+.. include:: http/criteria/requirement-put-add-evidence.http
    :code:
 
 Update Eligible Evidence
 """"""""""""""""""""""""
 You can use PATCH method to update evidence for tenders in draft statuses.
 
-.. httpexample:: http/criteria/patch-requirement-evidence.http
+.. include:: http/criteria/patch-requirement-evidence.http
    :code:
 
 To update evidence(s) in non-draft status of tender you should use PUT method on Requirement level with updated evidence(s) in eligibleEvidences array.
 New version or Requirement with status `active` and with changed eligibleEvidences array will be created.
 
-.. httpexample:: http/criteria/requirement-put-update-evidence.http
+.. include:: http/criteria/requirement-put-update-evidence.http
    :code:
 
 Delete Eligible Evidence
 """"""""""""""""""""""""
 You can use DELETE method to delete evidence for tenders in draft statuses.
 
-.. httpexample:: http/criteria/delete-requirement-evidence.http
+.. include:: http/criteria/delete-requirement-evidence.http
    :code:
 
 For tenders in non-draft statuses evidence(s) can be deleted from Requirement only by using PUT method on Requirement level.
 Use eligibleEvidences array without some evidence(s) to delete them from Requirement.
 To delete all evidences from Requirement use empty array for eligibleEvidences field.
 
-.. httpexample:: http/criteria/requirement-put-delete-evidence.http
+.. include:: http/criteria/requirement-put-delete-evidence.http
    :code:
 
 For tenders in draft statuses there is possibility to create, update and delete eligibleEvidences, make PATCH request to requirement and send new list of `eligibleEvidences`:
 
-.. httpexample:: http/criteria/bulk-update-requirement-evidence.http
+.. include:: http/criteria/bulk-update-requirement-evidence.http
    :code:
 
-.. httpexample:: http/criteria/bulk-delete-requirement-evidence.http
+.. include:: http/criteria/bulk-delete-requirement-evidence.http
    :code:
 
 Retrieve Eligible Evidence
 """"""""""""""""""""""""""
 
- .. httpexample:: http/criteria/requirement-evidences-list.http
+ .. include:: http/criteria/requirement-evidences-list.http
    :code:
 
-.. httpexample:: http/criteria/requirement-evidence.http
+.. include:: http/criteria/requirement-evidence.http
    :code:
 
 
@@ -198,31 +198,31 @@ competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage
 
 You can't update tender to status `active.tendering` without 9 EXCLUSION and 1 OTHER.BID.LANGUAGE criteria:
 
-.. httpexample:: http/criteria/update-tender-status-without-criteria.http
+.. include:: http/criteria/update-tender-status-without-criteria.http
    :code:
 
 EXCLUSION criteria and all criteria objects are unchangeable:
 
-.. httpexample:: http/criteria/patch-exclusion-criteria.http
+.. include:: http/criteria/patch-exclusion-criteria.http
    :code:
 
-.. httpexample:: http/criteria/add-exclusion-criteria-requirement-group.http
+.. include:: http/criteria/add-exclusion-criteria-requirement-group.http
    :code:
 
-.. httpexample:: http/criteria/patch-exclusion-criteria-requirement-group.http
+.. include:: http/criteria/patch-exclusion-criteria-requirement-group.http
    :code:
 
-.. httpexample:: http/criteria/add-exclusion-criteria-requirement.http
+.. include:: http/criteria/add-exclusion-criteria-requirement.http
    :code:
 
 For tenders in draft statuses you can patch exclusion requirement, but you can send only `eligibleEvidences`
 
-.. httpexample:: http/criteria/patch-exclusion-criteria-requirement.http
+.. include:: http/criteria/patch-exclusion-criteria-requirement.http
    :code:
 
 For tenders in non-draft statuses you can PUT exclusion requirement, but you can change only `status` and `eligibleEvidences`
 
-.. httpexample:: http/criteria/put-exclusion-criteria-requirement.http
+.. include:: http/criteria/put-exclusion-criteria-requirement.http
    :code:
 
 Language criterion workflow
@@ -230,31 +230,31 @@ Language criterion workflow
 
 Language criterion creates as other and could be presented in bulk request with other criteria. Language should be specified in `title`
 
-.. httpexample:: http-handwritten/criteria/create-language-criterion.http
+.. include:: http-handwritten/criteria/create-language-criterion.http
    :code:
 
 But field `eligibleEvidences` is forbidden
 
-.. httpexample:: http-handwritten/criteria/update-language-criterion-with-evidence.http
+.. include:: http-handwritten/criteria/update-language-criterion-with-evidence.http
    :code:
 
 `expectedValue` must be only true
 
-.. httpexample:: http-handwritten/criteria/update-language-criterion-with-not-listed-lang.http
+.. include:: http-handwritten/criteria/update-language-criterion-with-not-listed-lang.http
    :code:
 
 Bid guarantee criterion (available for tenders: `belowThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`).
 If specified, should be also specified `guarantee` for tender if criterion
 `relatesTo` = `'tender'` or `guarantee` for lot if `relatesTo` = `'lot'`
 
-.. httpexample:: http-handwritten/criteria/create-bid-guarantee-criterion.http
+.. include:: http-handwritten/criteria/create-bid-guarantee-criterion.http
    :code:
 
 Contract guarantee criterion (available for tenders: `belowThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`).
 For current criterion could be set only `source` = `'winner'`.
 `eligibleEvidences` could be added according to :ref:`bidding`
 
-.. httpexample:: http-handwritten/criteria/create-contract-guarantee-criterion.http
+.. include:: http-handwritten/criteria/create-contract-guarantee-criterion.http
    :code:
 
 .. _criteria_workflow:

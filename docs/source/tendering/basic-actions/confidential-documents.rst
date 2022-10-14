@@ -26,23 +26,23 @@ Tutorial
 Let's upload a private document
 
 
-.. httpexample:: ./http/confidential-documents/create-document.http
+.. include:: ./http/confidential-documents/create-document.http
    :code:
 
 
 `confidentiality` can be changed during `active.tendering` tender status
 
-.. httpexample:: ./http/confidential-documents/patch-public-document.http
+.. include:: ./http/confidential-documents/patch-public-document.http
    :code:
 
 
 The confidential documents shown without the `url` field
 
-.. httpexample:: ./http/confidential-documents/document-list-public.http
+.. include:: ./http/confidential-documents/document-list-public.http
    :code:
 
 
 Only tender and bid owner should see the `url` fields and be able to download confidential documents
 
-.. httpexample:: ./http/confidential-documents/document-list-private.http
+.. include:: ./http/confidential-documents/document-list-private.http
    :code:

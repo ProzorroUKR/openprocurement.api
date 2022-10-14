@@ -8,12 +8,12 @@ Tender Conditions Claim/Complaint Retrieval
 
 You can list all Tender Conditions Claims/Complaints:
 
-.. httpexample:: http/complaints/complaints-list.http
+.. include:: http/complaints/complaints-list.http
    :code:
 
 And check individual complaint or claim:
 
-.. httpexample:: http/complaints/complaint.http
+.. include:: http/complaints/complaint.http
    :code:
 
 
@@ -28,17 +28,17 @@ Tender Conditions Complaint Submission (with documents)
 
 At first create a draft:
 
-.. httpexample:: http/complaints/complaint-submission.http
+.. include:: http/complaints/complaint-submission.http
    :code:
 
 Then upload necessary documents:
    
-.. httpexample:: http/complaints/complaint-submission-upload.http
+.. include:: http/complaints/complaint-submission-upload.http
    :code:
 
 Submit tender conditions complaint:
    
-.. httpexample:: http/complaints/complaint-complaint.http
+.. include:: http/complaints/complaint-complaint.http
    :code:
 
 Tender Conditions Complaint Submission (without documents)
@@ -46,7 +46,7 @@ Tender Conditions Complaint Submission (without documents)
 
 You can submit complaint that does not need additional documents:
 
-.. httpexample:: http-outdated/complaints/complaint-submission-complaint.http
+.. include:: http-outdated/complaints/complaint-submission-complaint.http
    :code:
 
 Complaint Posts
@@ -59,12 +59,12 @@ Tender Conditions Complaint Posts (with complaint owner)
 
 Reviewer can submit a post to complaint owner:
 
-.. httpexample:: http/complaints/complaint-post-reviewer-complaint-owner.http
+.. include:: http/complaints/complaint-post-reviewer-complaint-owner.http
    :code:
 
 Complaint owner can submit a reply post to reviewer by setting reviewer's post `id` as `relatedPost`:
 
-.. httpexample:: http/complaints/complaint-post-complaint-owner.http
+.. include:: http/complaints/complaint-post-complaint-owner.http
    :code:
 
 Tender Conditions Complaint Posts (with tender owner)
@@ -72,12 +72,12 @@ Tender Conditions Complaint Posts (with tender owner)
 
 Reviewer can submit a post to tender owner:
 
-.. httpexample:: http/complaints/complaint-post-reviewer-tender-owner.http
+.. include:: http/complaints/complaint-post-reviewer-tender-owner.http
    :code:
 
 Tender owner can submit a reply post to reviewer by setting reviewer's post `id` as `relatedPost`:
 
-.. httpexample:: http/complaints/complaint-post-tender-owner.http
+.. include:: http/complaints/complaint-post-tender-owner.http
    :code:
 
 
@@ -87,14 +87,14 @@ Complaint Resolution
 Rejecting Tender Conditions Complaint
 -------------------------------------
 
-.. httpexample:: http/complaints/complaint-reject.http
+.. include:: http/complaints/complaint-reject.http
    :code:
 
 
 Accepting Tender Conditions Complaint
 -------------------------------------
 
-.. httpexample:: http/complaints/complaint-accept.http
+.. include:: http/complaints/complaint-accept.http
    :code:
 
 
@@ -103,23 +103,23 @@ Submitting Tender Conditions Complaint Resolution
 
 The Complaint Review Body uploads the resolution document:
 
-.. httpexample:: http/complaints/complaint-resolution-upload.http
+.. include:: http/complaints/complaint-resolution-upload.http
    :code:
 
 And either resolves complaint:
 
-.. httpexample:: http/complaints/complaint-resolve.http
+.. include:: http/complaints/complaint-resolve.http
    :code:
 
 Or declines it:
 
-.. httpexample:: http/complaints/complaint-decline.http
+.. include:: http/complaints/complaint-decline.http
    :code:
 
 Submitting Resolution Confirmation
 ----------------------------------
 
-.. httpexample:: http/complaints/complaint-resolved.http
+.. include:: http/complaints/complaint-resolved.http
    :code:
 
 Cancelling Tender Conditions Complaint
@@ -128,20 +128,20 @@ Cancelling Tender Conditions Complaint
 Cancelling not accepted(pending) complaint by Reviewer
 ------------------------------------------------------
 
-.. httpexample:: http-outdated/complaints/complaint-mistaken.http
+.. include:: http-outdated/complaints/complaint-mistaken.http
    :code:
 
 Cancelling accepted complaint by Complainant
 --------------------------------------------
 
-.. httpexample:: http-outdated/complaints/complaint-accepted-stopping.http
+.. include:: http-outdated/complaints/complaint-accepted-stopping.http
    :code:
 
-.. httpexample:: http-outdated/complaints/complaint-stopping-stopped.http
+.. include:: http-outdated/complaints/complaint-stopping-stopped.http
    :code:
 
 Cancelling accepted complaint by Reviewer
 -----------------------------------------
 
-.. httpexample:: http/complaints/complaint-accepted-stopped.http
+.. include:: http/complaints/complaint-accepted-stopped.http
    :code:

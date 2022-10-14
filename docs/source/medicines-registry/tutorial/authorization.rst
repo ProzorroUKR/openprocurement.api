@@ -7,5 +7,5 @@ Authorization
 
 Response to an unauthorized user:
 
-.. httpexample:: http/unauthorized-inn-get.http
+.. include:: http/unauthorized-inn-get.http
     :code:

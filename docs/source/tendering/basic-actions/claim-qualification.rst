@@ -8,12 +8,12 @@ Tender Qualification Claim/Complaint Retrieval
 
 You can list all Tender Qualification Claims/Complaints:
 
-.. httpexample:: http/complaints/qualification-complaints-list.http
+.. include:: http/complaints/qualification-complaints-list.http
    :code:
 
 And check individual complaint:
 
-.. httpexample:: http/complaints/qualification-complaint.http
+.. include:: http/complaints/qualification-complaint.http
    :code:
 
 Claim Submission
@@ -26,17 +26,17 @@ Tender Qualification Claim Submission (with documents)
 
 At first create a claim. Send POST request with bidder's access token.
 
-.. httpexample:: http/complaints/qualification-complaint-submission.http
+.. include:: http/complaints/qualification-complaint-submission.http
    :code:
 
 Then upload necessary documents:
 
-.. httpexample:: http/complaints/qualification-complaint-submission-upload.http
+.. include:: http/complaints/qualification-complaint-submission-upload.http
    :code:
 
 Submit tender qualification claim:
 
-.. httpexample:: http/complaints/qualification-complaint-claim.http
+.. include:: http/complaints/qualification-complaint-claim.http
    :code:
 
 Tender Qualification Claim Submission (without documents)
@@ -44,7 +44,7 @@ Tender Qualification Claim Submission (without documents)
 
 You can submit claim that does not need additional documents:
 
-.. httpexample:: http/complaints/qualification-complaint-submission-claim.http
+.. include:: http/complaints/qualification-complaint-submission-claim.http
    :code:
 
 
@@ -54,7 +54,7 @@ Claim's Answer
 Answer to resolved claim
 ------------------------
 
-.. httpexample:: http/complaints/qualification-complaint-answer.http
+.. include:: http/complaints/qualification-complaint-answer.http
    :code:
 
 
@@ -64,12 +64,12 @@ Satisfied Claim
 Satisfying resolution
 ---------------------
 
-.. httpexample:: http/complaints/qualification-complaint-satisfy.http
+.. include:: http/complaints/qualification-complaint-satisfy.http
    :code:
 
 
 Unsatisfying resolution
 -----------------------
 
-.. httpexample:: http/complaints/qualification-complaint-unsatisfy.http
+.. include:: http/complaints/qualification-complaint-unsatisfy.http
    :code:
