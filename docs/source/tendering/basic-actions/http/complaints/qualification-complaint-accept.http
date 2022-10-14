@@ -3,7 +3,7 @@ Authorization: Bearer reviewer
 Content-Length: 109
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "status": "accepted",
@@ -12,9 +12,10 @@ DATA:
   }
 }
 
-Response: 200 OK
+
+HTTP/1.0 200 OK
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "id": "76c9184415d946398f79ead1c869fd66",

@@ -3,7 +3,7 @@ Authorization: Bearer broker
 Content-Length: 815
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "tenderers": [
@@ -37,10 +37,11 @@ DATA:
   }
 }
 
-Response: 201 Created
+
+HTTP/1.0 201 Created
 Content-Type: application/json
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7a10c7f4fa484faca13613c1361ee4b3/bids/38f3f6cf89fc403db806363e0cc6ad2f
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "value": {
@@ -86,9 +87,10 @@ GET /api/2.5/tenders/7a10c7f4fa484faca13613c1361ee4b3 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
-Response: 200 OK
+
+HTTP/1.0 200 OK
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "criteria": [
@@ -861,7 +863,7 @@ Authorization: Bearer broker
 Content-Length: 14524
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "status": "active",
@@ -969,9 +971,10 @@ DATA:
   }
 }
 
-Response: 200 OK
+
+HTTP/1.0 200 OK
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "requirementResponses": [

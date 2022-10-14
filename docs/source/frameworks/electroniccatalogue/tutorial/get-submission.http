@@ -2,9 +2,10 @@ GET /api/2.5/submissions/d1d54933ea314d9e838f5056857fe14d HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
-Response: 200 OK
+
+HTTP/1.0 200 OK
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "documents": [

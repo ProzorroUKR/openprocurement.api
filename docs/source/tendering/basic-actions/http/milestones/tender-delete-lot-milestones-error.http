@@ -3,9 +3,10 @@ Authorization: Bearer broker
 Content-Length: 0
 Host: lb-api-sandbox.prozorro.gov.ua
 
-Response: 422 Unprocessable Entity
+
+HTTP/1.0 422 Unprocessable Entity
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "status": "error",
   "errors": [

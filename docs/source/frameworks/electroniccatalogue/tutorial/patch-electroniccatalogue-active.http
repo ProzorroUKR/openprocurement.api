@@ -3,7 +3,7 @@ Authorization: Bearer broker
 Content-Length: 360
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "procuringEntity": {
@@ -20,9 +20,10 @@ DATA:
   }
 }
 
-Response: 200 OK
+
+HTTP/1.0 200 OK
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "prettyID": "UA-F-2023-01-01-000001",

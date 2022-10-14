@@ -3,7 +3,7 @@ Authorization: Bearer reviewer
 Content-Length: 278
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "title": "Уточнення по вимозі",
@@ -12,10 +12,11 @@ DATA:
   }
 }
 
-Response: 201 Created
+
+HTTP/1.0 201 Created
 Content-Type: application/json
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/06a89d3522bf4ba5902cacc12c9a8788/complaints/e4a2dfd3cee1428fb5f0fa24088dd607/posts/a3008639034f4107b73c591b25a0e506
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "id": "a3008639034f4107b73c591b25a0e506",

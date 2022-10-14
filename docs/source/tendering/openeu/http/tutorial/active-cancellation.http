@@ -2,9 +2,10 @@ GET /api/2.5/tenders/977181c686f34e1bbfa6bba31adb772b/cancellations/49f4c22c472e
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
-Response: 200 OK
+
+HTTP/1.0 200 OK
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "id": "49f4c22c472e42968d8eeb035485080a",

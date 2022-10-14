@@ -2,9 +2,10 @@ GET /api/2.5/agreements/1746cfba69864f7d996e4bd000858884/documents?acc_token=6c0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
-Response: 200 OK
+
+HTTP/1.0 200 OK
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "data": [
     {

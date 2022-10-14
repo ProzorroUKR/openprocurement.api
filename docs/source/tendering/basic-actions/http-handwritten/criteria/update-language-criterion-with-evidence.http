@@ -1,0 +1,73 @@
+PATCH /api/2.5/tenders/fb07ce223a754201a341023b86d832ef/criteria/1cbf6bce07ae4474856908846baa5b90?acc_token=056f6edd10e84810b429550ae3a12f86 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 40
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data":
+    {
+      "requirementGroups": [
+        {
+          "requirements": [
+            {
+              "dataType": "boolean",
+              "expectedValue": "true",
+              "title": "Мова тендерної пропозиції українська",
+              "eligibleEvidences": [
+                            {
+                                "description": "Довідка в довільній формі",
+                                "type": "document",
+                                "title": "Документальне підтвердження"
+                            }
+                        ]
+            }
+          ],
+          "description": "Учасник фізична особа підтверджує, що"
+        }
+      ],
+      "classification": {
+        "scheme": " GENERAL",
+        "id": "CRITERION.OTHER.BID.LANGUAGE"
+      },
+      "title": "Мова (мови), якою (якими) повинні готуватися тендерні пропозиції",
+      "relatesTo": "tenderer",
+      "legislation": [
+            {
+                "version": "2020-04-19",
+                "identifier": {
+                    "id": "922-VIII",
+                    "legalName": "Закон України \"Про публічні закупівлі\"",
+                    "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+                },
+                "type": "NATIONAL_LEGISLATION"
+            }
+      ],
+      "source": "tenderer"
+    }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json; charset=UTF-8
+
+{
+    "status": "error",
+    "errors": [
+        {
+            "location": "body",
+            "name": "requirementGroups",
+            "description": [
+                {
+                    "requirements": [
+                        {
+                            "eligibleEvidences": [
+                                "This field is forbidden for current criterion"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -3,7 +3,7 @@ Authorization: Bearer broker
 Content-Length: 354
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "title": "Документальне підтвердження",
@@ -12,10 +12,11 @@ DATA:
   }
 }
 
-Response: 201 Created
+
+HTTP/1.0 201 Created
 Content-Type: application/json
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f83728385fa9438bb4c5c118ffc5012a/criteria/19d060499b3d4297928c7a4b36e04265/requirement_groups/13f82a0355384cf28e30497d6770cb65/requirements/360d4d5561bd49428bed69ad4f9f0e44/evidences/3a392f7a269442969507fc472ef4ce1f
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "id": "3a392f7a269442969507fc472ef4ce1f",

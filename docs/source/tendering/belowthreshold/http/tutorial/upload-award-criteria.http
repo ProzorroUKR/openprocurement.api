@@ -3,7 +3,7 @@ Authorization: Bearer broker
 Content-Length: 331
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "title": "AwardCriteria.pdf",
@@ -13,10 +13,11 @@ DATA:
   }
 }
 
-Response: 201 Created
+
+HTTP/1.0 201 Created
 Content-Type: application/json
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/63fbe5f55ec14294b590969e4ec72af6/documents/b936a25fe7264084bc01c7b916661d26
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000",

@@ -3,7 +3,7 @@ Authorization: Bearer broker
 Content-Length: 1463
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
@@ -34,9 +34,10 @@ DATA:
   }
 }
 
-Response: 409 Conflict
+
+HTTP/1.0 409 Conflict
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "status": "error",
   "errors": [

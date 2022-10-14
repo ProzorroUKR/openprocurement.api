@@ -8,7 +8,7 @@ Complaints Payments
 
 Let's create a complaint:
 
-.. include:: ./http/complaints-value/complaint-creation.http
+.. http:example:: ./http/complaints-value/complaint-creation.http
    :code:
 
 
@@ -20,14 +20,14 @@ posting complaint will request bank.gov.ua
 and return complaint `value` in UAH anyway.
 This also can cause connection errors of different types:
 
-.. include:: ./http/complaints-value/complaint-creation-decoding.http
+.. http:example:: ./http/complaints-value/complaint-creation-decoding.http
    :code:
 
-.. include:: ./http/complaints-value/complaint-creation-connection.http
+.. http:example:: ./http/complaints-value/complaint-creation-connection.http
    :code:
 
 In case of 409 code, request should be repeated. And it shouldn't in case of 422:
 
-.. include:: ./http/complaints-value/complaint-creation-rur.http
+.. http:example:: ./http/complaints-value/complaint-creation-rur.http
    :code:
 

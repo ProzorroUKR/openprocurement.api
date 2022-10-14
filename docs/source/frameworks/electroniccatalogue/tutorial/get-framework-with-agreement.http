@@ -2,9 +2,10 @@ GET /api/2.5/frameworks/86396c65e9154359a2329bfc7dddd3eb HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
-Response: 200 OK
+
+HTTP/1.0 200 OK
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "prettyID": "UA-F-2023-01-01-000001",

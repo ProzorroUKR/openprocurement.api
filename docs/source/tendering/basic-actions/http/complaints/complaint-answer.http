@@ -3,7 +3,7 @@ Authorization: Bearer broker
 Content-Length: 250
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "status": "answered",
@@ -12,9 +12,10 @@ DATA:
   }
 }
 
-Response: 200 OK
+
+HTTP/1.0 200 OK
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "id": "c6aa1d14cf4a467586fe3e9bbbd5b782",

@@ -3,7 +3,7 @@ Authorization: Bearer broker
 Content-Length: 4330
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "tenderPeriod": {
@@ -146,10 +146,11 @@ DATA:
   }
 }
 
-Response: 201 Created
+
+HTTP/1.0 201 Created
 Content-Type: application/json
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc2c91a2523c470086cae2222065fc32
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "title_en": "Services in school canteens",

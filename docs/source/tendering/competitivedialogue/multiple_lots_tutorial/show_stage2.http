@@ -2,9 +2,10 @@ GET /api/2.5/tenders/861c0e65005843e0acd0c3f9c6e560b3?acc_token=de0a3bc2e8fa4f25
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
-Response: 200 OK
+
+HTTP/1.0 200 OK
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "title_en": "Services in school canteens",

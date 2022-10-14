@@ -2,9 +2,10 @@ GET /api/2.5/tenders/977181c686f34e1bbfa6bba31adb772b?acc_token=aa56c9cec9e247ec
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
-Response: 200 OK
+
+HTTP/1.0 200 OK
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "title": "Послуги шкільних їдалень",
@@ -820,7 +821,7 @@ Authorization: Bearer broker
 Content-Length: 38
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "value": {
@@ -829,9 +830,10 @@ DATA:
   }
 }
 
-Response: 403 Forbidden
+
+HTTP/1.0 403 Forbidden
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "status": "error",
   "errors": [

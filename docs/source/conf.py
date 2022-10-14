@@ -29,10 +29,17 @@ import pkg_resources
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
+
+# from .http import setup as http_setup
+# http_setup()
+
+sys.path.append(os.path.abspath('../extensions'))
+
 extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.graphviz',
     'sphinxcontrib.httpdomain',
+    'prozorro.httpexample',
 ]
 
 # Add any paths that contain templates here, relative to this directory.

@@ -3,16 +3,17 @@ Authorization: Bearer token
 Content-Length: 30
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "status": "active"
   }
 }
 
-Response: 422 Unprocessable Entity
+
+HTTP/1.0 422 Unprocessable Entity
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "status": "error",
   "errors": [

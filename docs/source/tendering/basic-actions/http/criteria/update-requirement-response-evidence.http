@@ -3,16 +3,17 @@ Authorization: Bearer token
 Content-Length: 44
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "title": "Update evidence title"
   }
 }
 
-Response: 200 OK
+
+HTTP/1.0 200 OK
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "id": "42c5fb1b2da346ea81729985d98aa38e",

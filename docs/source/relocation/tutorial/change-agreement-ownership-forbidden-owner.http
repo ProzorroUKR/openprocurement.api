@@ -3,7 +3,7 @@ Authorization: Bearer broker
 Content-Length: 100
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "id": "6ec536f272c54558b4d6a4eac61a6f9e",
@@ -11,9 +11,10 @@ DATA:
   }
 }
 
-Response: 403 Forbidden
+
+HTTP/1.0 403 Forbidden
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "status": "error",
   "errors": [

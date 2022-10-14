@@ -469,18 +469,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
                 {"data": {"status": "unsuccessful"}})
 
-        # post document for unsuccessful award
-        # with open(TARGET_DIR + 'award-qualification-unsuccessful1_document.http', 'w') as self.app.file_obj:
-        #     self.app.post_json(
-        #         '/tenders/{}/awards/{}/documents?acc_token={}'.format(
-        #             self.tender_id, award_id, owner_token),
-        #         {"data": {
-        #             "title": "explanation.pdf",
-        #             "url": self.generate_docservice_url(),
-        #             "hash": "md5:" + "0" * 32,
-        #             "format": "application/pdf",
-        #         }})
-
         # get new pending award
         response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
         award_id = [i['id'] for i in response.json['data'] if i['status'] == 'pending'][0]

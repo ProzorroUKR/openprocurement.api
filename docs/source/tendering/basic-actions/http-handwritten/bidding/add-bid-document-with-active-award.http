@@ -1,0 +1,38 @@
+POST /api/2.5/tenders/24660b6d159d42adb6aaba9d978575c7/bids/7d0b2418ff254e1c827ffe021c832900/documents?acc_token=f0760e708e124c8fb9f34e562dbf59cf HTTP/1.0
+Authorization: Bearer token
+Content-Length: 1551
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "hash": "md5:00000000000000000000000000000000",
+    "description": "document description modified",
+    "title": "Notice.pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/989723c05a4246dfa9199c3727deb4a6?KeyID=a8968c46&Signature=y87Tei%252BRdqEID6fl815tazVP1pwISubhiT5bdGHlJEPuxxPlYcYebcmQHc3SVjf%252Bmznstx8QJ19JB7s8tQ6yCQ%253D%253D",
+    "format": "application/pdf",
+    "documentOf": "tender",
+    "author": "tender_owner",
+    "documentType": "contractGuarantees"
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json; charset=UTF-8
+
+{
+  "data": {
+    "hash": "md5:00000000000000000000000000000000",
+    "description": "document description modified",
+    "title": "Notice.pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/989723c05a4246dfa9199c3727deb4a6?KeyID=a8968c46&Signature=RknHmCXe1C0T0rP4bqC%2FqybCY9mL8hD6Dj7IQuhLLET6hzGrSV4kuDo0XooVwu2rqKYCdVGKOqr0us8W8RLSBw%253D%253D",
+    "format": "application/pdf",
+    "documentOf": "tender",
+    "datePublished": "2021-01-10T23:06:03.375403+02:00",
+    "documentType": "contractGuarantees",
+    "id": "89f61e167b004d8ebc8038b16341db8a",
+    "dateModified": "2021-01-10T23:06:03.375436+02:00"
+  }
+}
+

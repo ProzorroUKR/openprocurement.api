@@ -40,9 +40,9 @@ class DumpsWebTestApp(BaseTestApp):
                     try:
                         obj = json.loads(req.body)
                     except ValueError:
-                        self.file_obj.write('DATA:\n' + req.body.decode("utf-8"))
+                        self.file_obj.write('\n' + req.body.decode("utf-8"))
                     else:
-                        self.file_obj.write('DATA:\n' + json.dumps(
+                        self.file_obj.write('\n' + json.dumps(
                             obj, indent=self.indent, ensure_ascii=self.ensure_ascii
                         ))
                     self.file_obj.write("\n")
@@ -54,9 +54,9 @@ class DumpsWebTestApp(BaseTestApp):
                     try:
                         obj = json.loads(req.body)
                     except ValueError:
-                        self.file_obj.write(b'DATA:\n' + req.body)
+                        self.file_obj.write(b'\n' + req.body)
                     else:
-                        self.file_obj.write(b'DATA:\n' + json.dumps(
+                        self.file_obj.write(b'\n' + json.dumps(
                             obj, indent=self.indent, ensure_ascii=self.ensure_ascii
                         ).encode('utf8'))
                     self.file_obj.write(b"\n")
@@ -64,43 +64,41 @@ class DumpsWebTestApp(BaseTestApp):
 
     def write_response(self, resp):
         if hasattr(self, 'file_obj') and not self.file_obj.closed:
+            exclude_headers = ('content-length', 'set-cookie')
+            exclude_prefixes = ('x-',)
             headers = [
                 (n.title(), v)
                 for n, v in resp.headerlist
-                if n.lower() not in ('content-length', 'set-cookie')
+                if n.lower() not in exclude_headers and not n.lower().startswith(exclude_prefixes)
             ]
             headers.sort()
+            header = str('\nHTTP/1.0 %s\n%s\n') % (
+                resp.status,
+                str('\n').join([str('%s: %s') % (n, v) for n, v in headers]),
+            )
+            body = None
+            if resp.testbody:
+                try:
+                    obj = json.loads(resp.testbody)
+                except ValueError:
+                    pass
+                else:
+                    body = json.dumps(
+                        obj, indent=self.indent, ensure_ascii=self.ensure_ascii
+                    )
             if isinstance(self.file_obj, io.TextIOWrapper):
-                self.file_obj.write(str('Response: %s\n%s\n') % (
-                    resp.status,
-                    str('\n').join([str('%s: %s') % (n, v) for n, v in headers]),
-                ))
-                if resp.testbody:
-                    try:
-                        obj = json.loads(resp.testbody)
-                    except ValueError:
-                        pass
-                    else:
-                        self.file_obj.write(json.dumps(
-                            obj, indent=self.indent, ensure_ascii=self.ensure_ascii
-                        ))
-                        self.file_obj.write("\n")
+                self.file_obj.write(header)
+                self.file_obj.write("\n")
+                if body:
+                    self.file_obj.write(body)
+                    self.file_obj.write("\n")
                 self.file_obj.write("\n")
             else:
-                self.file_obj.write((str('Response: %s\n%s\n') % (
-                    resp.status,
-                    str('\n').join([str('%s: %s') % (n, v) for n, v in headers]),
-                )).encode('utf8'))
-                if resp.testbody:
-                    try:
-                        obj = json.loads(resp.testbody)
-                    except ValueError:
-                        pass
-                    else:
-                        self.file_obj.write((json.dumps(
-                            obj, indent=self.indent, ensure_ascii=self.ensure_ascii
-                        )).encode('utf8'))
-                        self.file_obj.write(b"\n")
+                self.file_obj.write(header.encode('utf8'))
+                self.file_obj.write(b"\n")
+                if body:
+                    self.file_obj.write(body.encode('utf8'))
+                    self.file_obj.write(b"\n")
                 self.file_obj.write(b"\n")
 
     def encode_multipart(self, params, files):

@@ -3,16 +3,17 @@ Authorization: Bearer broker3
 Content-Length: 64
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "description": "broker3 now can change the contract"
   }
 }
 
-Response: 200 OK
+
+HTTP/1.0 200 OK
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "awardID": "8481d7eb01694c25b18658036c236c5d",

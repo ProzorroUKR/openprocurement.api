@@ -3,7 +3,7 @@ Authorization: Bearer broker
 Content-Length: 1463
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
-DATA:
+
 {
   "data": {
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
@@ -34,10 +34,11 @@ DATA:
   }
 }
 
-Response: 201 Created
+
+HTTP/1.0 201 Created
 Content-Type: application/json
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5f16f024cad74253882085d3438eb6e0/qualifications/08a71731ca1d4b4fa6cc76d96a018bee/complaints/76c9184415d946398f79ead1c869fd66
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "id": "76c9184415d946398f79ead1c869fd66",

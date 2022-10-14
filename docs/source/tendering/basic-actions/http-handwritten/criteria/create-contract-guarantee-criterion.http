@@ -1,0 +1,107 @@
+POST /api/2.5/tenders/fb07ce223a754201a341023b86d832ef/criteria?acc_token=056f6edd10e84810b429550ae3a12f86 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 1332
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": [
+    {
+        "title": "Вид та умови надання забезпечення тендерних пропозицій",
+        "source": "winner",
+        "classification": {
+            "scheme": "ESPD211",
+            "id": "CRITERION.OTHER.CONTRACT.GUARANTEE"
+        },
+        "relatesTo": "tender",
+        "legislation": [
+            {
+                "version": "2020-04-19",
+                "identifier": {
+                    "id": "922-VIII",
+                    "legalName": "Закон України \"Про публічні закупівлі\"",
+                    "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+                },
+                "type": "NATIONAL_LEGISLATION",
+                "article": "21.2.9"
+            }
+    ],
+           "requirementGroups": [
+            {
+                "description": "Учасник підтверджує, що",
+                "requirements": [
+                  {
+                        "title": "вид та умови надання забезпечення тендерних пропозицій",
+                        "description": "Умови забезпечення тендерної пропозиції: строк дії забезпечення тендерної пропозиції повинен бути протягом строку дії тендерної пропозиції, не менше ніж 90 днів з дати розкриття тендерних пропозицій електронною системою закупівель (відповідно до ст. 253 Цивільного кодексу України розраховується з наступного дня після розкриття тендерних пропозицій електронною системою закупівель), вид банківська гарантія",
+                        "dataType": "boolean",
+                        "expectedValue": "true",
+                        "eligibleEvidences": [
+                          {
+                            "description": "Різнокольоровий скан у форматі pdf",
+                            "type": "document",
+                            "title": "Підтвердження банківської гарантії"
+                          }
+                          ]
+                    }
+                    ]
+
+            }
+        ]
+    }
+]
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json; charset=UTF-8
+
+{
+    "data": [
+        {
+            "id": "990fb5d782a943fe805bc8e40e632573",
+            "title": "Вид та умови надання забезпечення тендерних пропозицій",
+            "source": "winner",
+            "relatesTo": "tender",
+            "classification": {
+                "scheme": "ESPD211",
+                "id": "CRITERION.OTHER.CONTRACT.GUARANTEE"
+            },
+            "legislation": [
+                {
+                    "version": "2020-04-19",
+                    "identifier": {
+                        "id": "922-VIII",
+                        "legalName": "Закон України \"Про публічні закупівлі\"",
+                        "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+                    },
+                    "type": "NATIONAL_LEGISLATION",
+                    "article": "21.2.9"
+                }
+            ],
+            "requirementGroups": [
+                {
+                    "id": "acdda0a0eb054636b36930235f13335a",
+                    "description": "Учасник підтверджує, що",
+                    "requirements": [
+                        {
+                            "id": "781bb46e2e5840dfa954564a52e438fe",
+                            "title": "вид та умови надання забезпечення тендерних пропозицій",
+                            "description": "Умови забезпечення тендерної пропозиції: строк дії забезпечення тендерної пропозиції повинен бути протягом строку дії тендерної пропозиції, не менше ніж 90 днів з дати розкриття тендерних пропозицій електронною системою закупівель (відповідно до ст. 253 Цивільного кодексу України розраховується з наступного дня після розкриття тендерних пропозицій електронною системою закупівель), вид банківська гарантія",
+                            "dataType": "boolean",
+                            "eligibleEvidences": [
+                                {
+                                    "id": "5003840a832a4b489fe7782cfe5d76c2",
+                                    "title": "Підтвердження банківської гарантії",
+                                    "description": "Різнокольоровий скан у форматі pdf",
+                                    "type": "document"
+                                }
+                            ],
+                            "expectedValue": "true",
+                            "status": "active",
+                            "datePublished": "2021-03-14T22:31:17.206820+02:00"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -2,9 +2,10 @@ GET /api/2.5/frameworks/d54d368b9cc844e59b2dc1e7ccbf4bb4 HTTP/1.0
 Authorization: Bearer token
 Host: lb-api-sandbox.prozorro.gov.ua
 
-Response: 200 OK
+
+HTTP/1.0 200 OK
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "prettyID": "UA-F-2023-01-01-000001",

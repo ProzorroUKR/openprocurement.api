@@ -2,9 +2,10 @@ GET /api/2.5/tenders/63fbe5f55ec14294b590969e4ec72af6/questions/f937991b12f343b8
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
-Response: 200 OK
+
+HTTP/1.0 200 OK
 Content-Type: application/json
-X-Content-Type-Options: nosniff
+
 {
   "data": {
     "id": "f937991b12f343b89e5bae6b87080cdb",
