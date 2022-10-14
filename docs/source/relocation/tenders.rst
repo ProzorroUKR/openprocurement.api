@@ -12,7 +12,7 @@ Tender creation
 
 At first let's create a tender:
 
-.. http:example:: tutorial/create-tender.http
+.. httpexample:: tutorial/create-tender.http
    :code:
 
 `broker` is current tender's ``owner``.
@@ -26,14 +26,14 @@ Transfer creation
 
 Broker that is going to become new tender owner should create a `Transfer`.
 
-.. http:example:: tutorial/create-tender-transfer.http
+.. httpexample:: tutorial/create-tender-transfer.http
    :code:
 
 `Transfer` object contains new access ``token`` and new ``transfer`` token for the object that will be transferred to new broker.
 
 `Transfer` can be retrieved by `id`:
 
-.. http:example:: tutorial/get-tender-transfer.http
+.. httpexample:: tutorial/get-tender-transfer.http
    :code:
 
 Changing tender's owner
@@ -199,7 +199,7 @@ An ability to change tender's ownership depends on tender's status:
 
 To change tender's ownership new broker should send POST request to appropriate `/tenders/id/` with `data` section containing ``id`` of `Transfer` and ``transfer`` token received from customer:
 
-.. http:example:: tutorial/change-tender-ownership.http
+.. httpexample:: tutorial/change-tender-ownership.http
    :code:
 
 Updated ``owner`` value indicates that ownership is successfully changed. 
@@ -208,22 +208,22 @@ Note that new broker has to provide its customer with new ``transfer`` key (gene
 
 After `Transfer` is applied it stores tender path in ``usedFor`` property:
 
-.. http:example:: tutorial/get-used-tender-transfer.http
+.. httpexample:: tutorial/get-used-tender-transfer.http
    :code:
 
 'Used' `Transfer` can't be applied to any other object.
 
 Let's try to change the tender using ``token`` received on `Transfer` creation:
 
-.. http:example:: tutorial/modify-tender.http
+.. httpexample:: tutorial/modify-tender.http
    :code:
 
 Pay attention that only broker with appropriate accreditation level can become new owner. Otherwise broker will be forbidden from this action.
 
-.. http:example:: tutorial/change-tender-ownership-forbidden.http
+.. httpexample:: tutorial/change-tender-ownership-forbidden.http
    :code:
 
 Also ownership change is allowed only if current owner has a special accreditation level that allows ownership change:
 
-.. http:example:: tutorial/change-tender-ownership-forbidden-owner.http
+.. httpexample:: tutorial/change-tender-ownership-forbidden-owner.http
    :code:

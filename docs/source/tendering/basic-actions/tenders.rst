@@ -80,7 +80,7 @@ Reading the tender documents list
 
 Example request:
 
-.. http:example:: ../belowthreshold/http/tutorial/tender-documents-2.http
+.. httpexample:: ../belowthreshold/http/tutorial/tender-documents-2.http
    :code:
 
 Reading the tender document
