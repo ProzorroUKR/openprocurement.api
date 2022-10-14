@@ -3,339 +3,252 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.competitivedialogue 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-15 10:53+0300\n"
+"POT-Creation-Date: 2022-10-14 12:33+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
 
-#: ../../source/tutorial_stage2UA.rst:8
+msgid "If on first stage you set ``procurementMethodType`` to ``CompetitiveDialogueUA`` then on second stage you have tender witch similar to Open UA procedure"
+msgstr "На першому етапі параметр ``procurementMethodType`` був ``CompetitiveDialogueUA`` тому на другому етапі створюється процедура, яка схожа на Open UA процедуру."
+
 msgid "Modifying tender"
 msgstr "Редагування закупівлі"
 
-#: ../../source/tutorial_stage2UA.rst:19
-msgid ""
-"We see the added properies have merged with existing tender data. "
-"Additionally, the `dateModified` property was updated to reflect the last "
-"modification datestamp."
-msgstr ""
-"Ми бачимо, що додаткові властивості об’єднані з існуючими даними закупівлі. "
-"Додатково оновлена властивість `dateModified`, щоб відображати останню дату "
-"модифікації."
+msgid "You can modify only ``tenderPeriod.endDate`` and ``deliveryDate`` for ``items``. Another changes will not be saved. Let's update tender by supplementing it with all other essential properties:"
+msgstr "На другому етапі є можливість редагувати тільки ``tenderPeriod.endDate`` та ``deliveryDate`` в ``items`` . Інші зміни небудуть збережені. Спробуємо внести зміни:"
 
-#: ../../source/tutorial_stage2UA.rst:21
+msgid "We see the added properies have merged with existing tender data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp."
+msgstr "Ми бачимо, що додаткові властивості об’єднані з існуючими даними закупівлі. Додатково оновлена властивість `dateModified`, щоб відображати останню дату модифікації."
+
 msgid "Checking the listing again reflects the new modification date:"
 msgstr "Ще одна перевірка списку відображає нову дату модифікації:"
 
-#: ../../source/tutorial_stage2UA.rst:27
-msgid ""
-"Procuring entity can not change tender if there are less than 7 days before "
-"tenderPeriod ends. Changes will not be accepted by API."
-msgstr ""
-"Замовник не може редагувати закупівлю, якщо залишилось менше 7 днів до "
-"завершення періоду подання пропозицій. API таких змін не прийме."
+msgid "Procuring entity can not change tender if there are less than 7 days before tenderPeriod ends. Changes will not be accepted by API."
+msgstr "Замовник не може редагувати закупівлю, якщо залишилось менше 7 днів до завершення періоду подання пропозицій. API таких змін не прийме."
 
-#: ../../source/tutorial_stage2UA.rst:32
 msgid "That is why tenderPeriod has to be extended by 7 days."
 msgstr "Ось чому потрібно продовжити період подання пропозицій на 7 днів."
 
-#: ../../source/tutorial_stage2UA.rst:41
 msgid "Uploading documentation"
 msgstr "Завантаження документів"
 
-#: ../../source/tutorial_stage2UA.rst:43
-msgid ""
-"Procuring entity can upload PDF files into the created tender. Uploading "
-"should follow the :ref:`upload` rules."
-msgstr ""
-"Замовник може завантажити PDF файл у створену закупівлю. Завантаження "
-"повинно відбуватись згідно правил :ref:`upload`."
+msgid "Procuring entity can upload PDF files into the created tender. Uploading should follow the :ref:`upload` rules."
+msgstr "Замовник може завантажити PDF файл у створену закупівлю. Завантаження повинно відбуватись згідно правил :ref:`upload`."
 
-#: ../../source/tutorial_stage2UA.rst:49
-msgid ""
-"`201 Created` response code and `Location` header confirm document creation."
-" We can additionally query the `documents` collection API endpoint to "
-"confirm the action:"
-msgstr ""
-"Код відповіді `201 Created` та заголовок `Location` підтверджують, що "
-"документ було створено. Додатково можна зробити запит точки входу API "
-"колекції `документів`, щоб підтвердити дію:"
+msgid "`201 Created` response code and `Location` header confirm document creation. We can additionally query the `documents` collection API endpoint to confirm the action:"
+msgstr "Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ було створено. Додатково можна зробити запит точки входу API колекції `документів`, щоб підтвердити дію:"
 
-#: ../../source/tutorial_stage2UA.rst:56
-msgid ""
-"The single array element describes the uploaded document. We can upload more"
-" documents:"
-msgstr ""
-"Один елемент масиву описує завантажений документ. Ми можемо завантажити "
-"більше документів:"
+msgid "The single array element describes the uploaded document. We can upload more documents:"
+msgstr "Один елемент масиву описує завантажений документ. Ми можемо завантажити більше документів:"
 
-#: ../../source/tutorial_stage2UA.rst:61
 msgid "And again we can confirm that there are two documents uploaded."
 msgstr "І знову можна перевірити, що є два завантажених документа."
 
-#: ../../source/tutorial_stage2UA.rst:66
-msgid ""
-"In case we made an error, we can reupload the document over the older "
-"version:"
-msgstr ""
-"Якщо сталась помилка, ми можемо ще раз завантажити документ поверх старої "
-"версії:"
+msgid "In case we made an error, we can reupload the document over the older version:"
+msgstr "Якщо сталась помилка, ми можемо ще раз завантажити документ поверх старої версії:"
 
-#: ../../source/tutorial_stage2UA.rst:71
 msgid "And we can see that it is overriding the original version:"
 msgstr "І ми бачимо, що вона перекриває оригінальну версію:"
 
-#: ../../source/tutorial_stage2UA.rst:80
 msgid "Enquiries"
 msgstr "Уточнення і запитання"
 
-#: ../../source/tutorial_stage2UA.rst:82
-msgid ""
-"When tender has ``active.tendering`` status and "
-"``Tender.enqueryPeriod.endDate``  hasn't come yet, interested parties can "
-"ask questions. Ask question can only participants which were approved on "
-"first stage, someone else try ask, he catch error:"
-msgstr ""
-"Якщо закупівля має статус ``active.tendering`` та дата завершення періоду "
-"подання пропозицій ``Tender.enqueryPeriod.endDate`` ще не прийшла , то "
-"зацікавлені учасники можуть задавати питання чи просити уточнень умов "
-"закупівлі. Запитання можуть задавати тільки учасники, які були допущені на "
-"першому етапі, інші при спробі отримають помилку:"
+msgid "When tender has ``active.tendering`` status and ``Tender.enqueryPeriod.endDate``  hasn't come yet, interested parties can ask questions. Ask question can only participants which were approved on first stage, someone else try ask, he catch error:"
+msgstr "Якщо закупівля має статус ``active.tendering`` та дата завершення періоду подання пропозицій ``Tender.enqueryPeriod.endDate`` ще не прийшла , то зацікавлені учасники можуть задавати питання чи просити уточнень умов закупівлі. Запитання можуть задавати тільки учасники, які були допущені на першому етапі, інші при спробі отримають помилку:"
 
-#: ../../source/tutorial_stage2UA.rst:92
 msgid "Procuring entity can answer them:"
 msgstr "Замовник може відповісти на них:"
 
-#: ../../source/tutorial_stage2UA.rst:97
 msgid "One can retrieve either questions list:"
 msgstr "Можна отримати список запитань:"
 
-#: ../../source/tutorial_stage2UA.rst:102
 msgid "or individual answer:"
 msgstr "або окрему відповідь:"
 
-#: ../../source/tutorial_stage2UA.rst:108
 msgid "Enquiries can be made only during ``Tender.enqueryPeriod``"
-msgstr ""
-"Запитання можна задавати лише протягом періоду уточнень "
-"``Tender.enqueryPeriod``."
+msgstr "Запитання можна задавати лише протягом періоду уточнень ``Tender.enqueryPeriod``."
 
-#: ../../source/tutorial_stage2UA.rst:117
 msgid "Registering bid"
 msgstr "Реєстрація пропозиції"
 
-#: ../../source/tutorial_stage2UA.rst:119
 msgid "Tender status ``active.tendering`` allows registration of bids."
 msgstr "Статус закупівлі ``active.tendering`` дозволяє подання пропозицій."
 
-#: ../../source/tutorial_stage2UA.rst:127
+msgid "Like with question only approved participants can register bid. First participant witch didn't was on first stage try create bid."
+msgstr "Як і з запитаннями тільки допущені учасники на першому етапі можуть реєструвати пропозиції. Якщо учасник якого не було допущено на першому етапі пробує створити пропозицію то йому поверне помилку."
+
 msgid "Bidder can register a bid with draft status:"
 msgstr "Учасник може зареєструвати цінову пропозицію:"
 
-#: ../../source/tutorial_stage2UA.rst:132
 msgid "And activate a bid:"
 msgstr "та активуемо його:"
 
-#: ../../source/tutorial_stage2UA.rst:138
 msgid "Proposal Uploading"
 msgstr "Завантаження пропозиції"
 
-#: ../../source/tutorial_stage2UA.rst:140
 msgid "Then bidder should upload proposal document(s):"
 msgstr "Потім учасник повинен завантажити документ(и) пропозиції:"
 
-#: ../../source/tutorial_stage2UA.rst:145
 msgid "It is possible to check the uploaded documents:"
 msgstr "Можна перевірити завантажені документи:"
 
-#: ../../source/tutorial_stage2UA.rst:151
 msgid "Bid invalidation"
 msgstr "Пропозиція стає недійсною"
 
-#: ../../source/tutorial_stage2UA.rst:153
-msgid ""
-"If tender is modified, status of all bid proposals will be changed to "
-"``invalid``. Bid proposal will look the following way after tender has been "
-"modified:"
-msgstr ""
-"Якщо закупівля була модифікована, статус всіх пропозицій змінюється на "
-"``invalid`` (недійсний). Ось так пропозиція буде виглядати після редагування"
-" закупівлі:"
+msgid "If tender is modified, status of all bid proposals will be changed to ``invalid``. Bid proposal will look the following way after tender has been modified:"
+msgstr "Якщо закупівля була модифікована, статус всіх пропозицій змінюється на ``invalid`` (недійсний). Ось так пропозиція буде виглядати після редагування закупівлі:"
 
-#: ../../source/tutorial_stage2UA.rst:159
 msgid "Bid confirmation"
 msgstr "Підтвердження пропозиції"
 
-#: ../../source/tutorial_stage2UA.rst:161
 msgid "Bidder should confirm bid proposal:"
 msgstr "Учасник повинен підтвердити свою пропозицію:"
 
-#: ../../source/tutorial_stage2UA.rst:180
-msgid "Auction"
-msgstr "Аукціон"
+msgid "Second stage Competitive Dialogue UA procedure demands at least two bidders, so there should be at least two bid proposals registered to move to auction stage."
+msgstr "Для того, щоб другий етап процедуру конкурентного діалогу відбувся, необхідно хоча б два учасника, тобто хоча б дві пропозиції повинні бути зареєстровані до початку аукціону."
 
-#: ../../source/tutorial_stage2UA.rst:182
-msgid ""
-"After auction is scheduled anybody can visit it to watch. The auction can be"
-" reached at `Tender.auctionUrl`:"
-msgstr ""
-"Після того, як аукціон заплановано, будь-хто може його відвідати для "
-"перегляду. Аукціон можна подивитись за допомогою `Tender.auctionUrl`:"
-
-#: ../../source/tutorial_stage2UA.rst:187
-msgid "Bidders can find out their participation URLs via their bids:"
-msgstr ""
-"Учасники можуть дізнатись свої URL-адреси для участі через свої пропозиції:"
-
-#: ../../source/tutorial_stage2UA.rst:192
-msgid ""
-"See the `Bid.participationUrl` in the response. Similar, but different, URL "
-"can be retrieved for other participants:"
-msgstr ""
-"Дивіться на `Bid.participationUrl` у відповіді. Схожу, але іншу, URL-адресу "
-"можна отримати для інших учасників."
-
-#: ../../source/tutorial_stage2UA.rst:198
-msgid "Confirming qualification"
-msgstr "Підтвердження кваліфікації"
-
-#: ../../source/tutorial_stage2UA.rst:200
-msgid ""
-"Qualification commission registers its decision via the following call:"
-msgstr "Кваліфікаційна комісія реєструє своє рішення:"
-
-#: ../../source/tutorial_stage2UA.rst:206
-msgid "Setting contract value"
-msgstr "Скасування закупівлі"
-
-#: ../../source/tutorial_stage2UA.rst:208
-msgid ""
-"By default contract value is set based on the award, but there is a "
-"possibility to set custom contract value."
-msgstr ""
-"Замовник може скасувати закупівлю у будь-який момент. Для цього виконайте "
-"наступні кроки:"
-
-#: ../../source/tutorial_stage2UA.rst:210
-msgid ""
-"If you want to **lower contract value**, you can insert new one into the "
-"`amount` field."
-msgstr ""
-"Якщо ви хочете **знизити вартість угоди**, ви можете встановити нове "
-"значення для поля `amount`."
-
-#: ../../source/tutorial_stage2UA.rst:215
-msgid "`200 OK` response was returned. The value was modified successfully."
-msgstr "Було повернуто код відповіді `200 OK`. Значення змінено успішно."
-
-#: ../../source/tutorial_stage2UA.rst:218
-msgid "Setting contract signature date"
-msgstr "Встановлення дати підписання угоди"
-
-#: ../../source/tutorial_stage2UA.rst:220
-msgid ""
-"There is a possibility to set custom contract signature date. You can insert"
-" appropriate date into the `dateSigned` field."
-msgstr ""
-"Є можливість встановити дату підписання угоди. Для цього вставте відповідну "
-"дату в поле `dateSigned`."
-
-#: ../../source/tutorial_stage2UA.rst:222
-msgid ""
-"If this date is not set, it will be auto-generated on the date of contract "
-"registration."
-msgstr ""
-"Якщо ви не встановите дату підписання, то вона буде згенерована автоматично "
-"під час реєстрації угоди."
-
-#: ../../source/tutorial_stage2UA.rst:228
-msgid "Setting contract validity period"
-msgstr "Встановлення терміну дії угоди"
-
-#: ../../source/tutorial_stage2UA.rst:230
-msgid ""
-"Setting contract validity period is optional, but if it is needed, you can "
-"set appropriate `startDate` and `endDate`."
-msgstr ""
-"Встановлення терміну дії угоди необов’язкове, але, якщо є необхідність, ви "
-"можете встановити відповідну дату початку `startDate` та кінця `endDate` "
-"терміну дії."
-
-#: ../../source/tutorial_stage2UA.rst:236
-msgid "Uploading contract documentation"
-msgstr "Завантаження документації по угоді"
-
-#: ../../source/tutorial_stage2UA.rst:238
-msgid ""
-"You can upload contract documents for the second stage Competitive Dialogue "
-"procedure."
-msgstr ""
-"Ви можете завантажити документи угоди для другого етапу конкрентного ділогу"
-
-#: ../../source/tutorial_stage2UA.rst:240
-msgid "Let's upload contract document:"
-msgstr "Завантажимо документ угоди:"
-
-#: ../../source/tutorial_stage2UA.rst:245
-msgid ""
-"`201 Created` response code and `Location` header confirm that this document"
-" was added."
-msgstr ""
-"Код відповіді `201 Created` та заголовок `Location` підтверджують, що "
-"документ було додано."
-
-#: ../../source/tutorial_stage2UA.rst:247
-msgid "Let's view the uploaded contract document:"
-msgstr "Подивимось на список документів пов’язаних з угодою:"
-
-#: ../../source/tutorial_stage2UA.rst:4
-msgid ""
-"If on first stage you set ``procurementMethodType`` to "
-"``CompetitiveDialogueUA`` then on second stage you have tender witch similar"
-" to Open UA procedure"
-msgstr ""
-"На першому етапі параметр ``procurementMethodType`` був "
-"``CompetitiveDialogueUA`` тому на другому етапі створюється процедура, яка "
-"схожа на Open UA процедуру."
-
-#: ../../source/tutorial_stage2UA.rst:11
-msgid ""
-"You can modify only ``tenderPeriod.endDate`` and ``deliveryDate`` for "
-"``items``. Another changes will not be saved. Let's update tender by "
-"supplementing it with all other essential properties:"
-msgstr ""
-"На другому етапі є можливість редагувати тільки ``tenderPeriod.endDate`` та "
-"``deliveryDate`` в ``items`` . Інші зміни небудуть збережені. Спробуємо "
-"внести зміни:"
-
-#: ../../source/tutorial_stage2UA.rst:121
-msgid ""
-"Like with question only approved participants can register bid. First "
-"participant witch didn't was on first stage try create bid."
-msgstr ""
-"Як і з запитаннями тільки допущені учасники на першому етапі можуть "
-"реєструвати пропозиції. Якщо учасник якого не було допущено на першому етапі"
-" пробує створити пропозицію то йому поверне помилку."
-
-#: ../../source/tutorial_stage2UA.rst:166
-msgid ""
-"Second stage Competitive Dialogue UA procedure demands at least two bidders,"
-" so there should be at least two bid proposals registered to move to auction"
-" stage."
-msgstr ""
-"Для того, щоб другий етап процедуру конкурентного діалогу відбувся, "
-"необхідно хоча б два учасника, тобто хоча б дві пропозиції повинні бути "
-"зареєстровані до початку аукціону."
-
-#: ../../source/tutorial_stage2UA.rst:169
 msgid "Batch-mode bid registration"
 msgstr "Пакетний режим реєстрації"
 
-#: ../../source/tutorial_stage2UA.rst:171
-msgid ""
-"Register one more bid with documents using single request (batch-mode):"
-msgstr ""
-"У пакетному режимі (batch-mode) є можливість зареєструвати пропозицію одним "
-"запитом. Зареєструйте ще одну пропозицію:"
+msgid "Register one more bid with documents using single request (batch-mode):"
+msgstr "У пакетному режимі (batch-mode) є можливість зареєструвати пропозицію одним запитом. Зареєструйте ще одну пропозицію:"
+
+msgid "Auction"
+msgstr "Аукціон"
+
+msgid "After auction is scheduled anybody can visit it to watch. The auction can be reached at `Tender.auctionUrl`:"
+msgstr "Після того, як аукціон заплановано, будь-хто може його відвідати для перегляду. Аукціон можна подивитись за допомогою `Tender.auctionUrl`:"
+
+msgid "Bidders can find out their participation URLs via their bids:"
+msgstr "Учасники можуть дізнатись свої URL-адреси для участі через свої пропозиції:"
+
+msgid "See the `Bid.participationUrl` in the response. Similar, but different, URL can be retrieved for other participants:"
+msgstr "Дивіться на `Bid.participationUrl` у відповіді. Схожу, але іншу, URL-адресу можна отримати для інших учасників."
+
+msgid "Confirming qualification"
+msgstr "Підтвердження кваліфікації"
+
+msgid "Qualification commission registers its decision via the following call:"
+msgstr "Кваліфікаційна комісія реєструє своє рішення:"
+
+msgid "Setting contract value"
+msgstr "Скасування закупівлі"
+
+msgid "By default contract value is set based on the award, but there is a possibility to set custom contract value."
+msgstr "Замовник може скасувати закупівлю у будь-який момент. Для цього виконайте наступні кроки:"
+
+msgid "If you want to **lower contract value**, you can insert new one into the `amount` field."
+msgstr "Якщо ви хочете **знизити вартість угоди**, ви можете встановити нове значення для поля `amount`."
+
+msgid "`200 OK` response was returned. The value was modified successfully."
+msgstr "Було повернуто код відповіді `200 OK`. Значення змінено успішно."
+
+msgid "Setting contract signature date"
+msgstr "Встановлення дати підписання угоди"
+
+msgid "There is a possibility to set custom contract signature date. You can insert appropriate date into the `dateSigned` field."
+msgstr "Є можливість встановити дату підписання угоди. Для цього вставте відповідну дату в поле `dateSigned`."
+
+msgid "If this date is not set, it will be auto-generated on the date of contract registration."
+msgstr "Якщо ви не встановите дату підписання, то вона буде згенерована автоматично під час реєстрації угоди."
+
+msgid "Setting contract validity period"
+msgstr "Встановлення терміну дії угоди"
+
+msgid "Setting contract validity period is optional, but if it is needed, you can set appropriate `startDate` and `endDate`."
+msgstr "Встановлення терміну дії угоди необов’язкове, але, якщо є необхідність, ви можете встановити відповідну дату початку `startDate` та кінця `endDate` терміну дії."
+
+msgid "Uploading contract documentation"
+msgstr "Завантаження документації по угоді"
+
+msgid "You can upload contract documents for the second stage Competitive Dialogue procedure."
+msgstr "Ви можете завантажити документи угоди для другого етапу конкрентного ділогу"
+
+msgid "Let's upload contract document:"
+msgstr "Завантажимо документ угоди:"
+
+msgid "`201 Created` response code and `Location` header confirm that this document was added."
+msgstr "Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ було додано."
+
+msgid "Let's view the uploaded contract document:"
+msgstr "Подивимось на список документів пов’язаних з угодою:"
+
+msgid "Cancelling tender"
+msgstr "Скасування закупівлі"
+
+msgid "Tender creator can cancel tender anytime. The following steps should be applied:"
+msgstr "Замовник може скасувати закупівлю у будь-який момент. Для цього виконайте наступні кроки:"
+
+msgid "Prepare cancellation request."
+msgstr "Приготуйте запит на скасування."
+
+msgid "Fill it with the protocol describing the cancellation reasons."
+msgstr "Наповніть його протоколом про причини скасування."
+
+msgid "Passing complaint period(10 days)"
+msgstr "Проходження періоду оскарження(триває 10 днів)"
+
+msgid "Cancel the tender with the prepared reasons."
+msgstr "Скасуйте закупівлю через подані причини."
+
+msgid "Only the request that has been activated (th step above) has power to cancel tender.  I.e.  you have to not only prepare cancellation request but to activate it as well."
+msgstr "Запит на скасування, який не пройшов активації (4-й крок), не матиме сили, тобто, для скасування закупівлі буде обов’язковим не тільки створити заявку, але і активувати її."
+
+msgid "For cancelled cancellation you need to update cancellation status to `unsuccessful` from `draft` or `pending`."
+msgstr "Для відміни скасування закупівлі, вам потрібно оновоить статус скасування до `unsuccessful` з `draft` чи `pending`"
+
+msgid "See :ref:`cancellation` data structure for details."
+msgstr "Дивіться структуру запиту :ref:`cancellation` для більш детальної інформації."
+
+msgid "Preparing the cancellation request"
+msgstr "Формування запиту на скасування"
+
+msgid "Tender creator can cancel tender anytime (except when tender in status `active.auction` or in terminal status e.g. `unsuccessful`, `canceled`, `complete`)."
+msgstr "Замовник може скасувати закупівлю у будь-який момент (крім закупівель у статусі `active.auction` чи у кінцевому стані, наприклад, `usuccesfull`, `canceled`, `complete`)."
+
+msgid "The following steps should be applied:"
+msgstr "Для цього потрібно виконати наступні кроки:"
+
+msgid "There are four possible types of cancellation reason - tender was `noDemand`, `unFixable`, `forceMajeure` and `expensesCut`."
+msgstr "При скасуванні, замовник має визначити один з чотирьох типів reasonType: `noDemand`, `unFixable`, `forceMajeure` aбо `expensesCut`. "
+
+msgid "`id` is autogenerated and passed in the `Location` header of response."
+msgstr "`id` генерується автоматично і повертається у додатковому заголовку відповіді `Location`:"
+
+msgid "You can change ``reasonType`` value to any of the above."
+msgstr "Ви можете виправити тип на будь-який що вказаний вище"
+
+msgid "Filling cancellation with protocol and supplementary documentation"
+msgstr "Наповнення протоколом та іншою супровідною документацією"
+
+msgid "This step is required. Without documents you can't update tender status."
+msgstr "Цей крок обов'язковий. Без документів ви не можете оновити статус скарги."
+
+msgid "Upload the file contents"
+msgstr "Завантажте вміст файлу"
+
+msgid "Change the document description and other properties"
+msgstr "Змініть опис документа та інші властивості"
+
+msgid "Upload new version of the document"
+msgstr "Завантажте нову версію документа"
+
+msgid "Passing Complaint Period"
+msgstr "Проходження періоду оскарження"
+
+msgid "For activate complaint period, you need to update cancellation from `draft` to `pending`."
+msgstr "Для того щоб перейти до періоду оскарження потрібно змінити стаутс скасування з `draft` на `pending`."
+
+msgid "When cancellation in `pending` status the tender owner is prohibited from all actions on the tender."
+msgstr "Коли скасування закупівлі в статусі `pending` замовнику зобороняються всі дії по закупівлі."
+
+msgid "Activating the request and cancelling tender"
+msgstr "Активація запиту та скасування закупівлі"
+
+msgid "if the complaint period(duration 10 days) is over and there were no complaints or all complaints are canceled, then cancellation will automatically update status to `active`."
+msgstr "Якщо період оскарження(триває 10 днів) скінчився та не було ніяких скарг на скасування закупівлі або скарги були скасовані, то скасування автоматично зміює статус на `active`"
+

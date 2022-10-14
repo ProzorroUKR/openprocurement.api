@@ -42,7 +42,14 @@ Content-Type: application/json
       "bid_id": "cccea5956bdc433e8120b259d6fdcf59"
     },
     {
+      "id": "119e70d85d2e4489aa7fbdd0d384a7b2",
       "status": "pending",
+      "date": "2023-01-01T00:00:01+02:00",
+      "value": {
+        "amount": 479.0,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true
+      },
       "suppliers": [
         {
           "name": "Державне управління справами",
@@ -65,14 +72,7 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "bid_id": "e0950a264cbb4e31b09fab7b5ec714f8",
-      "value": {
-        "amount": 479.0,
-        "currency": "UAH",
-        "valueAddedTaxIncluded": true
-      },
-      "date": "2023-01-01T00:00:01+02:00",
-      "id": "2457dbf1f0fa43daaf6148695865ce39"
+      "bid_id": "e0950a264cbb4e31b09fab7b5ec714f8"
     }
   ]
 }

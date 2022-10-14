@@ -40,8 +40,6 @@ class TenderAwardResourceTest(TenderContentWebTest, TenderAwardResourceTestMixin
     initial_status = "active.qualification"
     initial_bids = test_bids
     reverse = False
-    maxAwards = 1
-    # init_awards = False
 
     test_create_tender_award = snitch(create_tender_award)
     test_patch_tender_award = snitch(patch_tender_award)

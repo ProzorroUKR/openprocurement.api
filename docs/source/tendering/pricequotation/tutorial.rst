@@ -145,26 +145,36 @@ After the tender period end date, system automatically creates `award` in `pendi
 .. http:example:: http/awards-listing.http
    :code:
 
+The Supplier-winner can decline `award` by transferring it to status: `unsuccessful`.
+
+.. http:example:: http/award-unsuccesful.http
+   :code:
+
+`Award` will be granted to the next bid with most economically advantageous price, for the following cases:
+
+ 1. Supplier-winner didn't accept `award` within two working days.
+ 2. Supplier-winner declined `award`.
+
+**Note !** In the case of `award` being transferred to `unsuccessful` status for the last bid or if cancelled by Procuring Entity procedure will inherit termination status: **`unsuccessful`**.
+
+Let's check the listing of `awards`:
+
+.. http:example:: http/awards-listing-after-unsuccesful.http
+   :code:
+
 The Supplier-winner can accept `award` by transferring it to status: `active`. The system is waiting for acceptance from the supplier-winner within `two working days`.
 
 .. http:example:: http/award-active.http
    :code:
 
+Let's check the listing of `awards`:
+
+.. http:example:: http/awards-listing-after-activation.http
+   :code:
+
 Procuring Entity can cancel `award` after acceptance by changing `award` status to `cancelled` in case if supplier-winner declines to sign contract.
 After canceling `award` system creates `second` `award` for the same bid in status: `pending` with access for Procuring Entity only. 
 Procuring Entity can change `second` `award` status to `unsuccessful` with ability to upload supplementary documents.
-   
-The Supplier-winner can decline `award` by transferring it to status: `unsuccessful`.
-
-.. http:example:: http/award-unsuccesful.http
-   :code:
- 
-`Award` will be granted to the next bid with most economically advantageous price, for the following cases:
- 
- 1. Supplier-winner didn't accept `award` within two working days.
- 2. Supplier-winner declined `award`.
-
-**Note !** In the case of `award` being transferred to `unsuccessful` status for the last bid or if cancelled by Procuring Entity procedure will inherit termination status: **`unsuccessful`**.
 
 .. index:: Setting Contract
 
