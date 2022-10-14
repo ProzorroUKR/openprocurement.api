@@ -30,10 +30,7 @@ import pkg_resources
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 
-# from .http import setup as http_setup
-# http_setup()
-
-sys.path.append(os.path.abspath('../extensions'))
+sys.path.append(os.path.abspath('_exts'))
 
 extensions = [
     'sphinx.ext.intersphinx',
