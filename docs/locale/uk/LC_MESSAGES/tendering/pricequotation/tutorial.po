@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-14 12:33+0300\n"
+"POT-Creation-Date: 2022-10-14 14:57+0300\n"
 "PO-Revision-Date: 2020-09-14 17:38+0200\n"
 "Last-Translator: Oleh Helesh <olehhelesh@quintagroup.org>\n"
 "Language-Team: English <kde-i18n-doc@kde.org>\n"
@@ -49,8 +49,8 @@ msgstr "Введемо data атрибут у поданому тілі:"
 msgid "Success! Now we can see that new object was created. Response code is `201` and `Location` response header reports the location of the created object.  The body of response reveals the information about the created tender: its internal `id` (that matches the `Location` segment), its official `tenderID` and `dateModified` datestamp stating the moment in time when tender was last modified.  Note that tender is created with `draft` status."
 msgstr "Успіх! Тепер ми бачимо, що новий об’єкт було створено. Код відповіді `201` та заголовок відповіді `Location` вказує місцерозташування створеного об’єкта. Тіло відповіді показує інформацію про створену закупівлю, її внутрішнє `id` (яке співпадає з сегментом `Location`), її офіційне `tenderID` та `dateModified` дату, що показує час, коли закупівля востаннє модифікувалась. Зверніть увагу, що закупівля створюється зі статусом `draft`."
 
-msgid "**! Note:** User receives `access`: `token`: ``\"151a30932ee245e989771be867bc8235\"`` with which operations as a `Procuring Entity` role are accessible."
-msgstr "**! Примітка:** Користувач отримує `access`: `token`: ``\"151a30932ee245e989771be867bc8235\"`` з яким доступні операції ролі Замовника."
+msgid "User receives `access`: `token` with which operations as a `Procuring Entity` role are accessible."
+msgstr "Користувач отримує `access`: `token` з яким доступні операції ролі Замовника."
 
 msgid "Price Quotation procedure has ``procurementMethodType``: ``priceQuotation`` and ``procurementMethod``: ``selective``."
 msgstr "Процедура Запиту цінових пропозицій має ``procurementMethodType``: ``priceQuotation`` та ``procurementMethod``: ``selective``."
@@ -97,8 +97,8 @@ msgstr "Статус закупівлі ``active.tendering`` дозволяє п
 msgid "Bidder can register a bid with ``draft`` status:"
 msgstr "Учасник може зареєструвати пропозицію зі статусом ``draft`` (чернетка):"
 
-msgid "**! Note:** User receives `access`: `token`: ``\"00e173e5f31f4decbb811cc01e10c1bf\"`` with which operations as a `Supplier` role are accessible."
-msgstr "**! Примітка:** Користувач отримує `access`: `token`: ``\"151a30932ee245e989771be867bc8235\"`` з яким доступні операції ролі Постачальника."
+msgid "User receives `access`: `token` with which operations as a `Supplier` role are accessible."
+msgstr "Користувач отримує `access`: `token` з яким доступні операції ролі Постачальника."
 
 msgid "And activate a bid:"
 msgstr "Та активувати пропозицію:"
@@ -136,8 +136,8 @@ msgstr "Постачальник-переможець не підтвердив 
 msgid "Supplier-winner declined `award`."
 msgstr "Постачальник-переможець відмовився від `award`."
 
-msgid "**Note !** In the case of `award` being transferred to `unsuccessful` status for the last bid or if cancelled by Procuring Entity procedure will inherit termination status: **`unsuccessful`**."
-msgstr "**! Примітка:** У випадку переходу `award` останньої пропозиції у статус `unsuccessful` або якщо `award` був скаcовний Замовником процедура набуде кінцевий статус: **`unsuccessful`**."
+msgid "In the case of `award` being transferred to `unsuccessful` status for the last bid or if cancelled by Procuring Entity procedure will inherit termination status: **`unsuccessful`**."
+msgstr "У випадку переходу `award` останньої пропозиції у статус `unsuccessful` або якщо `award` був скаcовний Замовником процедура набуде кінцевий статус: **`unsuccessful`**."
 
 msgid "Let's check the listing of `awards`:"
 msgstr "Поглянемо на список `awards`:"
@@ -252,3 +252,4 @@ msgstr "Завантажити нову версію документа"
 
 msgid "Activating the request and cancelling tender"
 msgstr "Активація запиту на відміну закупівлі"
+

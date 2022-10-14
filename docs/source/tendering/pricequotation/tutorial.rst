@@ -46,7 +46,9 @@ body of response reveals the information about the created tender: its internal
 `dateModified` datestamp stating the moment in time when tender was last
 modified.  Note that tender is created with `draft` status.
 
-**! Note:** User receives `access`: `token`: ``"151a30932ee245e989771be867bc8235"`` with which operations as a `Procuring Entity` role are accessible.
+.. note::
+
+    User receives `access`: `token` with which operations as a `Procuring Entity` role are accessible.
 
 Price Quotation procedure has ``procurementMethodType``: ``priceQuotation`` and ``procurementMethod``: ``selective``.
 
@@ -105,8 +107,10 @@ Bidder can register a bid with ``draft`` status:
 
 .. http:example:: http/register-bidder.http
    :code:
-   
-**! Note:** User receives `access`: `token`: ``"00e173e5f31f4decbb811cc01e10c1bf"`` with which operations as a `Supplier` role are accessible.
+
+.. note::
+
+    User receives `access`: `token` with which operations as a `Supplier` role are accessible.
 
 
 And activate a bid:
@@ -155,7 +159,9 @@ The Supplier-winner can decline `award` by transferring it to status: `unsuccess
  1. Supplier-winner didn't accept `award` within two working days.
  2. Supplier-winner declined `award`.
 
-**Note !** In the case of `award` being transferred to `unsuccessful` status for the last bid or if cancelled by Procuring Entity procedure will inherit termination status: **`unsuccessful`**.
+.. note::
+
+    In the case of `award` being transferred to `unsuccessful` status for the last bid or if cancelled by Procuring Entity procedure will inherit termination status: **`unsuccessful`**.
 
 Let's check the listing of `awards`:
 
