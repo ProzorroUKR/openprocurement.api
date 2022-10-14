@@ -13,6 +13,7 @@
 }
 .http-example div[class^='highlight'] {
     margin-top: -1px;
+    max-height: 70vh;
 }
 .http-example div[class^='highlight'] pre {
     white-space: normal;
