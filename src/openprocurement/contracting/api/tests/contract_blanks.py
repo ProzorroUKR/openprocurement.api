@@ -1334,33 +1334,7 @@ def patch_tender_contract(self):
     self.assertEqual(response.json["data"]["terminationDetails"], "sink")
 
 
-@mock.patch("openprocurement.contracting.api.validation.VAT_FROM", get_now() - timedelta(days=1))
 def patch_tender_contract_readonly(self):
-    tender_token = self.initial_data["tender_token"]
-    credentials_url = "/contracts/{}/credentials?acc_token={}".format(self.contract["id"], tender_token)
-    response = self.app.patch_json(credentials_url, {"data": ""})
-    self.assertEqual(response.status, "200 OK")
-    token = response.json["access"]["token"]
-
-    response = self.app.patch_json(
-        "/contracts/{}?acc_token={}".format(self.contract["id"], token),
-        {"data": {"value": {"currency": "USD"}}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update currency for contract value")
-
-    response = self.app.patch_json(
-        "/contracts/{}?acc_token={}".format(self.contract["id"], token),
-        {"data": {"value": {"valueAddedTaxIncluded": False}}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update valueAddedTaxIncluded for contract value")
-
-
-@mock.patch("openprocurement.contracting.api.validation.VAT_FROM", get_now() + timedelta(days=1))
-def patch_tender_contract_readonly_before_vat(self):
     tender_token = self.initial_data["tender_token"]
     credentials_url = "/contracts/{}/credentials?acc_token={}".format(self.contract["id"], tender_token)
     response = self.app.patch_json(credentials_url, {"data": ""})

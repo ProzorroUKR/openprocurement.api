@@ -203,10 +203,7 @@ def validate_contract_patch_items_amount_unchanged(request, **kwargs):
 
 
 def validate_update_contracting_value_readonly(request, **kwargs):
-    schematics_document = get_schematics_document(request.validated["contract"])
-    validation_date = get_first_revision_date(schematics_document, default=get_now())
-    readonly_attrs = ("currency",) if validation_date < VAT_FROM else ("valueAddedTaxIncluded", "currency")
-    validate_update_contract_value(request, name="value", attrs=readonly_attrs)
+    validate_update_contract_value(request, name="value", attrs=("currency",))
 
 
 def validate_update_contracting_value_identical(request, **kwargs):
