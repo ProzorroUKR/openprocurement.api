@@ -111,7 +111,6 @@ item_edit_role = whitelist(
     "deliveryAddress",
     "deliveryLocation",
     "quantity",
-    "additionalClassifications",
 )
 
 
