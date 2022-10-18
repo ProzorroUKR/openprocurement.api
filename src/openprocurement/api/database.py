@@ -275,7 +275,7 @@ class BaseCollection:
 
     def create_indexes(self):
         indexes = self.get_indexes()
-        self.collection.drop_indexes()
+        # self.collection.drop_indexes()
         # index management probably shouldn't be a part of api initialization
         # a command like `migrate_db` could be called once per release
         # that can manage indexes and data migrations
