@@ -29,7 +29,6 @@ class LimitedReportingContractState(ContractStateMixing, NegotiationTenderState)
 
     def contract_on_patch(self, before: dict, after: dict):
         self.validate_contract_items(before, after)
-        after["date"] = get_now().isoformat()
         super().contract_on_patch(before, after)
 
     # validation
