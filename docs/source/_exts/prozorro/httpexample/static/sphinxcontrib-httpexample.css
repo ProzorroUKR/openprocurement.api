@@ -13,7 +13,6 @@
 }
 .http-example div[class^='highlight'] {
     margin-top: -1px;
-    max-height: 70vh;
 }
 .http-example div[class^='highlight'] pre {
     white-space: normal;
@@ -24,4 +23,8 @@
 .http-example-http div[class^='highlight'] pre,
 .http-example-response div[class^='highlight'] pre {
     white-space: pre;
+}
+.http-example div[class*='highlight-http'] {
+    overflow: auto;
+    max-height: 70vh;
 }
