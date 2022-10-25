@@ -24,11 +24,6 @@
 .http-example-response div[class^='highlight'] pre {
     white-space: pre;
 }
-.http-example div[class~='highlight-http'] {
-    overflow: auto;
+.http-example div[class~='highlight'] pre {
     max-height: 70vh;
-}
-.http-example div[class~='highlight'] {
-    display: inline-block;
-    overflow: unset;
 }
