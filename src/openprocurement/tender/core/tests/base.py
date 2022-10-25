@@ -9,6 +9,7 @@ from base64 import b64encode
 from datetime import datetime, timedelta
 from requests.models import Response
 
+from openprocurement.api.constants import TZ
 from openprocurement.tender.core.models import QualificationMilestone
 from openprocurement.api.tests.base import BaseWebTest as BaseApiWebTest
 from openprocurement.api.utils import SESSION, apply_data_patch, get_now
@@ -122,7 +123,7 @@ class BaseCoreWebTest(BaseWebTest):
                 for date in self.periods[status][startend][period]:
                     self.tender_document_patch[period][date] = (self.calculate_period_date(
                         date, period, startend, status
-                    ) + shift).isoformat()
+                    ) + shift).astimezone(TZ).isoformat()
 
             lots = self.tender_document.get("lots", [])
             if lots:
@@ -134,7 +135,7 @@ class BaseCoreWebTest(BaseWebTest):
                                 for date in self.periods[status][startend][period]:
                                     lot[period][date] = (self.calculate_period_date(
                                         date, period, startend, status
-                                    ) + shift).isoformat()
+                                    ) + shift).astimezone(TZ).isoformat()
                 self.tender_document_patch.update({"lots": lots})
 
     def calculate_period_date(self, date, period, startend, status):

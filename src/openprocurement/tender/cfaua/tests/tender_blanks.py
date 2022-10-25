@@ -10,6 +10,7 @@ from openprocurement.api.constants import (
     CPV_ITEMS_CLASS_FROM,
     SANDBOX_MODE,
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
+    TZ,
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.api.utils import get_now, parse_date
@@ -755,9 +756,9 @@ def patch_tender_period(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender = response.json["data"]
 
-    tender_period_end_date = calculate_tender_business_date(
+    tender_period_end_date = (calculate_tender_business_date(
         get_now(), timedelta(days=7), tender
-    ) + timedelta(seconds=10)
+    ) + timedelta(seconds=1)).astimezone(TZ)
     enquiry_period_end_date = calculate_tender_business_date(
         tender_period_end_date, -timedelta(days=10), tender
     )
