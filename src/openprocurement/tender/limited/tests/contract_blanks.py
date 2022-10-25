@@ -112,7 +112,6 @@ def patch_tender_contract(self):
 
     tender = self.mongodb.tenders.get(self.tender_id)
     self.assertNotEqual(tender["dateModified"], old_tender_date_modified)
-    self.assertNotEqual(response.json["data"]["date"], old_date)
 
     old_currency = value["currency"]
     value["currency"] = "USD"

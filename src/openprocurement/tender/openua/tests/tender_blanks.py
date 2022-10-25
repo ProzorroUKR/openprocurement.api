@@ -6,6 +6,7 @@ from openprocurement.api.models import get_now
 from openprocurement.api.constants import (
     CPV_ITEMS_CLASS_FROM,
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
+    TZ,
 )
 from openprocurement.api.utils import parse_date
 
@@ -855,9 +856,10 @@ def patch_tender_period(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"], "tenderPeriod should be extended by 7 days")
-    tender_period_end_date = calculate_tender_business_date(
+
+    tender_period_end_date = (calculate_tender_business_date(
         get_now(), timedelta(days=7), tender
-    ) + timedelta(seconds=10)
+    ) + timedelta(seconds=1)).astimezone(TZ)
     enquiry_period_end_date = calculate_tender_business_date(
         tender_period_end_date, -timedelta(days=10), tender
     )

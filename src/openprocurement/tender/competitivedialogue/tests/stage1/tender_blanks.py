@@ -2,7 +2,7 @@ from unittest.mock import patch
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.constants import CPV_ITEMS_CLASS_FROM
+from openprocurement.api.constants import CPV_ITEMS_CLASS_FROM, TZ
 from openprocurement.api.utils import get_now, parse_date
 
 from openprocurement.tender.belowthreshold.tests.base import test_organization, set_tender_lots
@@ -1270,9 +1270,9 @@ def patch_tender_eu_ua(self):
     response = self.app.get("/tenders/{}".format(tender["id"]))
     tender = response.json["data"]
 
-    tender_period_end_date = calculate_tender_business_date(
+    tender_period_end_date = (calculate_tender_business_date(
         get_now(), timedelta(days=7), tender
-    ) + timedelta(seconds=10)
+    ) + timedelta(seconds=1)).astimezone(TZ)
     enquiry_period_end_date = calculate_tender_business_date(
         tender_period_end_date, -timedelta(days=10), tender
     )
