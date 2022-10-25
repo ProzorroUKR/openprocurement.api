@@ -1349,11 +1349,55 @@ def patch_tender_contract_readonly(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.json["errors"][0]["description"], "Can't update currency for contract value")
 
+
+def patch_tender_contract_vat(self):
+    tender_token = self.initial_data["tender_token"]
+    credentials_url = "/contracts/{}/credentials?acc_token={}".format(self.contract["id"], tender_token)
+    response = self.app.patch_json(credentials_url, {"data": ""})
+    self.assertEqual(response.status, "200 OK")
+    token = response.json["access"]["token"]
+
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token),
+        {"data": {"amountPaid": {"amount": 238, "amountNet": 237}}},
+    )
+
+    for item in response.json["data"]["items"]:
+        self.assertTrue(item["unit"]["value"]["valueAddedTaxIncluded"])
+
+    self.assertTrue(response.json["data"]["amountPaid"]["valueAddedTaxIncluded"])
+
     response = self.app.patch_json(
         "/contracts/{}?acc_token={}".format(self.contract["id"], token),
         {"data": {"value": {"valueAddedTaxIncluded": False, "amount": 238, "amountNet": 238}}},
     )
     self.assertEqual(response.status, "200 OK")
+
+    for item in response.json["data"]["items"]:
+        self.assertFalse(item["unit"]["value"]["valueAddedTaxIncluded"])
+
+    self.assertFalse(response.json["data"]["amountPaid"]["valueAddedTaxIncluded"])
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token), {"data": {"status": "terminated"}}, status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "amountPaid",
+                "description": "Amount and amountNet should be equal"
+            }
+        ],
+    )
+
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token),
+        {"data": {"amountPaid": {"amount": 238, "amountNet": 238}}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
 
 
 @mock.patch("openprocurement.contracting.api.validation.VAT_FROM", get_now() - timedelta(days=1))

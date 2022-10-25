@@ -46,6 +46,7 @@ from openprocurement.contracting.api.tests.contract_blanks import (
     skip_address_validation,
     put_transaction_to_contract,
     contract_update_add_remove_items,
+    patch_tender_contract_vat,
 )
 
 
@@ -83,6 +84,7 @@ class ContractResource4BrokersTest(BaseContractWebTest):
     test_patch_tender_contract = snitch(patch_tender_contract)
     test_patch_tender_contract_identical = snitch(patch_tender_contract_identical)
     test_patch_tender_contract_readonly = snitch(patch_tender_contract_readonly)
+    test_patch_tender_contract_vat = snitch(patch_tender_contract_vat)
     test_patch_tender_without_value = snitch(patch_tender_without_value)
     test_patch_tender_contract_amount = snitch(patch_tender_contract_amount)
     test_patch_tender_contract_amount_paid_zero = snitch(patch_tender_contract_amount_paid_zero)

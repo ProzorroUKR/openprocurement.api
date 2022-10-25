@@ -87,6 +87,8 @@ class ContractResource(ContractsResource):
         contract = self.request.validated["contract"]
         apply_patch(self.request, save=False, src=self.request.validated["contract_src"])
 
+        self.synchronize_items_unit_value(contract)
+
         validate_terminate_contract_without_amountPaid(self.request)
         validate_update_contracting_items_unit_value_amount(self.request)
 
@@ -96,6 +98,19 @@ class ContractResource(ContractsResource):
                 extra=context_unpack(self.request, {"MESSAGE_ID": "contract_patch"}),
             )
             return {"data": contract.serialize("view")}
+
+    def synchronize_items_unit_value(self, contract):
+        # TODO: for refactoring look at tender.core.state.ContractStateMixing.synchronize_items_unit_value
+        value = contract["value"]
+        if not value:
+            return
+        valueAddedTaxIncluded = contract["value"]["valueAddedTaxIncluded"]
+        currency = contract["value"]["currency"]
+        for item in contract.get("items") or []:
+            if item.get("unit"):
+                if item["unit"].get("value"):
+                    item["unit"]["value"]["valueAddedTaxIncluded"] = valueAddedTaxIncluded
+                    item["unit"]["value"]["currency"] = currency
 
 
 @contractingresource(
