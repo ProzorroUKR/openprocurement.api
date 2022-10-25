@@ -1,4 +1,5 @@
 from openprocurement.api.utils import json_view
+from openprocurement.tender.cfaua.procedure.serializers.agreement import AgreementSerializer
 from openprocurement.tender.core.procedure.validation import (
     validate_item_owner,
     validate_input_data,
@@ -18,6 +19,7 @@ from cornice.resource import resource
     description="Tender EU agreements",
 )
 class CFAUAAgreementResource(TenderAgreementResource):
+    serializer_class = AgreementSerializer
     state_class = AgreementState
 
     @json_view(

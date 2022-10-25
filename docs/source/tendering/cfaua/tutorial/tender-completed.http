@@ -2203,7 +2203,7 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "agreement_first_document.doc",
             "format": "application/msdoc",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b69c06ceeeb145a4b5cc46d3d56de4d2/agreements/0fea7d7c4c8649f5a499885d630671f5/documents/5402687eab9d4ebc9b0f425d9ba8a080?download=79e167453f5a401fb8cf408f6e3f2580",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/79e167453f5a401fb8cf408f6e3f2580?Signature=23bscymQYesYOw%2FZpHY7funx9xxU82w8GGZQSF0jYm1mwr9no2e7NHI2oej4xx%2B9tkhdeyxVjXB4ye6L4Kg9DQ%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "id": "5402687eab9d4ebc9b0f425d9ba8a080",
             "datePublished": "2023-01-01T00:00:00+02:00",
@@ -2218,7 +2218,7 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "agreement_second_document.doc",
             "format": "application/msdoc",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b69c06ceeeb145a4b5cc46d3d56de4d2/agreements/0fea7d7c4c8649f5a499885d630671f5/documents/325b32fa41d84a6e9f5cd2a1971255dc?download=19d8247422d744baac8d227f47d1c28c",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/19d8247422d744baac8d227f47d1c28c?Signature=6LIfqdeMREwFZds4MdkMI5It2QgX%2FidPLIeMnHRAZQ2dlg%2FqGMM49QlTd0JISwsMdCs9BVxTYfGxYaUyeF86Ag%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-01-01T00:00:00+02:00"
           }
