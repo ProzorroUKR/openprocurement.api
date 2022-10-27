@@ -217,7 +217,7 @@ Let's perform these actions in single request:
 .. http:example:: http/contract-termination.http
    :code:
 
-Note that you can set/change only ``amountPaid.amount`` value. ``amountPaid.currency`` and ``amountPaid.valueAddedTaxIncluded`` fields' values are generated from ``Contract.value`` field.
+Note that you can set/change ``amountPaid.amount``, ``amountPaid.amountNet``, ``amountPaid.valueAddedTaxIncluded`` values. ``amountPaid.currency`` field value is generated from ``Contract.value`` field.
 
 If contract is unsuccessful reasons for termination ``terminationDetails`` should be specified.
 

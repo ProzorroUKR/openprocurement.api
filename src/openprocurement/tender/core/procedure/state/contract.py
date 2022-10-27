@@ -457,7 +457,7 @@ class ContractStateMixing:
                     raise_operation_error(request, "Amount should be less or equal to awarded amount", name="value")
 
     @staticmethod
-    def validate_update_contract_value_amount(request, after, name="value", allow_equal=False):
+    def validate_update_contract_value_amount(request, after, name="value"):
         # TODO: move to model validation ?
         contract_value = after.get(name)
         value = after.get("value") or after.get(name)
@@ -469,14 +469,7 @@ class ContractStateMixing:
             if not (amount == 0 and amount_net == 0):
                 if tax_included:
                     amount_max = (amount_net * AMOUNT_NET_COEF).quantize(Decimal("1E-2"), rounding=ROUND_UP)
-                    if (amount <= amount_net or amount > amount_max) and not allow_equal:
-                        raise_operation_error(
-                            request,
-                            "Amount should be greater than amountNet and differ by "
-                            "no more than {}%".format(AMOUNT_NET_COEF * 100 - 100),
-                            name=name,
-                        )
-                    elif (amount < amount_net or amount > amount_max) and allow_equal:
+                    if (amount < amount_net or amount > amount_max):
                         raise_operation_error(
                             request,
                             f"Amount should be equal or greater than amountNet and differ by "

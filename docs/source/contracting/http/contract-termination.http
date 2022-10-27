@@ -1,6 +1,6 @@
 PATCH /api/2.5/contracts/38da025ae53f4e0d8fa4474bb5923d12?acc_token=a0e030a63cbe4390a164f7dee4f37dc9 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 83
+Content-Length: 114
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -9,7 +9,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "status": "terminated",
     "amountPaid": {
       "amount": 430,
-      "amountNet": 420
+      "amountNet": 420,
+      "valueAddedTaxIncluded": true
     }
   }
 }
@@ -212,8 +213,8 @@ Content-Type: application/json
     "amountPaid": {
       "amount": 430.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amountNet": 420.0
+      "amountNet": 420.0,
+      "valueAddedTaxIncluded": true
     },
     "value": {
       "amount": 438.0,

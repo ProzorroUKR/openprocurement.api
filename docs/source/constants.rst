@@ -62,12 +62,6 @@ ORGANIZATION_SCALE_FROM
 """""""""""""""""""""""
 Make `scale` field of :ref:`BusinessOrganization` required
 
-.. _VAT_FROM:
-
-VAT_FROM
-""""""""
-Make `valueAddedTaxIncluded` field of :ref:`ContractValue` readonly
-
 .. _MPC_REQUIRED_FROM:
 
 MPC_REQUIRED_FROM

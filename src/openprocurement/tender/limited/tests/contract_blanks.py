@@ -356,7 +356,7 @@ def patch_tender_negotiation_contract(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn("Amount should be greater than amountNet and differ by no more than 20.0%", response.json["errors"][0]["description"])
+    self.assertIn("Can't sign contract before stand-still period end (", response.json["errors"][0]["description"])
 
     response = self.app.get("/tenders/{}/awards".format(self.tender_id))
     self.assertEqual(response.content_type, "application/json")

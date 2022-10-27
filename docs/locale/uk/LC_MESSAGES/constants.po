@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-26 15:46+0300\n"
+"POT-Creation-Date: 2022-10-27 23:52+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,12 +55,6 @@ msgid "ORGANIZATION_SCALE_FROM"
 msgstr ""
 
 msgid "Make `scale` field of :ref:`BusinessOrganization` required"
-msgstr ""
-
-msgid "VAT_FROM"
-msgstr ""
-
-msgid "Make `valueAddedTaxIncluded` field of :ref:`ContractValue` readonly"
 msgstr ""
 
 msgid "MPC_REQUIRED_FROM"
@@ -206,3 +200,7 @@ msgstr ""
 
 msgid "Implemented creation of aggregate contracts. Look at `centralized-procurements` source."
 msgstr ""
+
+#~ msgid "Make `valueAddedTaxIncluded` field of :ref:`ContractValue` readonly"
+#~ msgstr ""
+
