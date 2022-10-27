@@ -84,7 +84,7 @@ cd docs
 sphinx-intl update -p build/locale -l uk -w 0
 ```
 
-3. Update updated/missing strings in `docs/source/locale/<lang>/LC_MESSAGES/*.po` with your-favorite-editor/poedit/transifex/pootle/etc. to have all translations complete/updated.
+3. Update updated/missing strings in `docs/locale/uk/LC_MESSAGES/*.po` with your-favorite-editor/poedit/transifex/pootle/etc to have all translations complete/updated.
 
 4. Compile the translation
 
