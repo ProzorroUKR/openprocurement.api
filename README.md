@@ -30,16 +30,16 @@ source venv/bin/activate
 pip install -r docs/source/requirements.txt
 ```
 
-2. Add "couchdb" to be resolved to localhost in /etc/hosts
+2. Add "mongo" to be resolved to localhost in /etc/hosts
 
 ```
-echo "127.0.0.1 couchdb" >> /etc/hosts
+echo "127.0.0.1 mongo" >> /etc/hosts
 ```
 
-3. To run couchdb if you don't have one
+3. To run mongo if you don't have one
 
 ```
-docker-compose up -d couchdb
+docker-compose up -d mongo
 ```
 
 ### Update
