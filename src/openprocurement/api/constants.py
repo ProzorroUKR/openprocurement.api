@@ -137,9 +137,6 @@ JOURNAL_PREFIX = os.environ.get("JOURNAL_PREFIX", "JOURNAL_")
 # Add scale field to organization
 ORGANIZATION_SCALE_FROM = get_constant(CONSTANTS_CONFIG, "ORGANIZATION_SCALE_FROM")
 
-# Add vat validation
-VAT_FROM = get_constant(CONSTANTS_CONFIG, "VAT_FROM")
-
 # Set mainProcurementCategory required
 MPC_REQUIRED_FROM = get_constant(CONSTANTS_CONFIG, "MPC_REQUIRED_FROM")
 

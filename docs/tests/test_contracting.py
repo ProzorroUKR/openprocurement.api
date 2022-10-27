@@ -297,7 +297,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 '/contracts/{}?acc_token={}'.format(contract_id, contract_token),
                 {"data": {
                     "status": "terminated",
-                    "amountPaid": {"amount": 430, "amountNet": 420}
+                    "amountPaid": {"amount": 430, "amountNet": 420, "valueAddedTaxIncluded": True},
                 }})
             self.assertEqual(response.status, '200 OK')
 

@@ -1,15 +1,7 @@
 # -*- coding: utf-8 -*-
-from collections import namedtuple
-from itertools import zip_longest
-
-from openprocurement.api.constants import VAT_FROM, COUNTRIES_MAP
 from openprocurement.api.utils import (
     update_logging_context,
     raise_operation_error,
-    get_first_revision_date,
-    get_now,
-    get_schematics_document,
-    error_handler,
 )
 from openprocurement.api.validation import (
     validate_json_data,
@@ -168,10 +160,8 @@ def validate_add_document_to_active_change(request, **kwargs):
 
 # contract value and paid
 def validate_update_contracting_value_amount(request, name="value", **kwargs):
-    schematics_document = get_schematics_document(request.validated["contract"])
-    validation_date = get_first_revision_date(schematics_document, default=get_now())
     validate_update_contract_value_amount(
-        request, name=name, allow_equal=validation_date < VAT_FROM, scope="contracting"
+        request, name=name, allow_equal=True, scope="contracting"
     )
 
 
@@ -210,7 +200,7 @@ def validate_update_contracting_value_identical(request, **kwargs):
     if requested_fields_changes(request, ("amountPaid",)):
         value = request.validated["data"].get("value")
         paid_data = request.validated["json_data"].get("amountPaid")
-        for attr in ("valueAddedTaxIncluded", "currency"):
+        for attr in ("currency",):
             if value and paid_data and paid_data.get(attr) is not None:
                 paid = ContractValue(paid_data)
                 if value.get(attr) != paid.get(attr):
