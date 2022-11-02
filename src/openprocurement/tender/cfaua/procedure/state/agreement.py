@@ -1,6 +1,6 @@
 from openprocurement.tender.core.procedure.context import get_now, get_request, get_tender
-from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import dt_from_iso
+from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
 from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
@@ -32,7 +32,7 @@ class AgreementStateMixing:
                 if i.get("relatedLot") in lot_ids
             )
             pending_awards_complaints = (
-                i["status"] in tender.block_complaint_status
+                i["status"] in self.block_complaint_status
                 for a in tender.get("awards", "")
                 for i in a.get("complaints", "")
                 if a.get("lotID") in lot_ids
@@ -105,8 +105,7 @@ class AgreementStateMixing:
             raise_operation_error(request, "Can't update agreement with accepted complaint")
 
 
-class AgreementState(AgreementStateMixing, TenderState):
-
+class AgreementState(AgreementStateMixing, CFAUATenderState):
     def agreement_on_patch(self, before, after):
         super().agreement_on_patch(before, after)
         self.check_tender_status_on_active_awarded()
