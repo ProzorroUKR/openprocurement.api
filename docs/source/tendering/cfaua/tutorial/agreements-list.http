@@ -26,10 +26,6 @@ Content-Type: application/json
               "description": "папір і картон гофровані, паперова й картонна тара"
             }
           ],
-          "unit": {
-            "name": "item",
-            "code": "KGM"
-          },
           "quantity": 5.0,
           "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
           "deliveryDate": {
@@ -43,7 +39,11 @@ Content-Type: application/json
             "postalCode": "79000",
             "countryName": "Україна"
           },
-          "description_en": "Cases for state awards"
+          "description_en": "Cases for state awards",
+          "unit": {
+            "name": "item",
+            "code": "KGM"
+          }
         },
         {
           "id": "fc62a07c463c4750b0bdc92dd8787e2a",
@@ -60,10 +60,6 @@ Content-Type: application/json
               "description": "папір і картон гофровані, паперова й картонна тара"
             }
           ],
-          "unit": {
-            "name": "item",
-            "code": "GRM"
-          },
           "quantity": 5.0,
           "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
           "deliveryDate": {
@@ -77,7 +73,11 @@ Content-Type: application/json
             "postalCode": "79000",
             "countryName": "Україна"
           },
-          "description_en": "Cases for state awards"
+          "description_en": "Cases for state awards",
+          "unit": {
+            "name": "item",
+            "code": "GRM"
+          }
         }
       ],
       "agreementID": "UA-2023-01-01-000001-a-774f515207d840bbb2291a27f848ca611",
