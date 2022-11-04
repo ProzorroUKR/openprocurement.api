@@ -1,0 +1,194 @@
+{
+  "_id": "4aa249ccb625434eb1dfece8027761b1",
+  "procuringEntity": {
+    "id": "2ed30e0cc34c48b391e7db17a97404d6",
+    "name": "ДТП",
+    "identifier": {
+      "scheme": "UA-EDR",
+      "id": "00000001",
+      "legalName": "Державне тестове підприемство"
+    },
+    "address": {
+      "streetAddress": "вул. Тестова, 11, корпус 1",
+      "locality": "м. Київ",
+      "region": "м. Київ",
+      "postalCode": "01220",
+      "countryName": "Україна"
+    },
+    "kind": "general"
+  },
+  "tender": {
+    "procurementMethod": "limited",
+    "procurementMethodType": "reporting",
+    "tenderPeriod": {
+      "startDate": "2022-06-01T13:51:12.003502+03:00"
+    }
+  },
+  "budget": {
+    "id": "12303111000-2",
+    "description": "Загальний опис джерел фінансування закупівлі.",
+    "amount": 10000,
+    "currency": "UAH",
+    "amountNet": 12222,
+    "project": {
+      "id": "123",
+      "name": "Тестова назва проєкту"
+    },
+    "period": {
+      "startDate": "2019-01-01T00:00:00+02:00",
+      "endDate": "2019-12-31T00:00:00+02:00"
+    },
+    "breakdown": [
+      {
+        "id": "b42270c2669247dea3d51aefe858780d",
+        "title": "other",
+        "description": "Детальний опис джерел фінансування закупівлі.",
+        "value": {
+          "amount": 1500,
+          "currency": "UAH"
+        }
+      }
+    ]
+  },
+  "classification": {
+    "description": "Промислова техніка",
+    "scheme": "ДК021",
+    "id": "42000000-6"
+  },
+  "tender_id": "b62d296e58c24d24abc8465013ccd6a6",
+  "planID": "UA-P-2022-06-01-000001",
+  "items": [
+    {
+      "id": "0006934a51de476a9378bea5e97731f2",
+      "classification": {
+        "description": "Промислова техніка",
+        "scheme": "ДК021",
+        "id": "42000000-6"
+      },
+      "unit": {
+        "name": "кг",
+        "code": "KGM"
+      },
+      "quantity": 1000,
+      "deliveryDate": {
+        "endDate": "2019-10-16T01:00:00+03:00"
+      },
+      "description": "Тестова назва предмета закупівлі"
+    }
+  ],
+  "buyers": [
+    {
+      "id": "baa733fe88b349808db00f1685361b79",
+      "name": "ДТП",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "111983",
+        "legalName": "Державне тестове підприемство"
+      },
+      "address": {
+        "streetAddress": "вул. Тестова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "kind": "general"
+    }
+  ],
+  "status": "complete",
+  "dateCreated": "2022-06-01T13:51:12.513096+03:00",
+  "dateModified": "2022-06-01T13:51:12.655349+03:00",
+  "datePublished": "2022-06-01T13:51:12.482806+03:00",
+  "owner_token": "a239b0764d63459d928de99383add121",
+  "transfer_token": "7dfe21df5bed7abef200303942462bf41f72e8890c8aecb1d984d7acd56b0e71d14311ef3e75f5babf026794472380be98b7ce244724f223eb47ffd8f3bcfba6",
+  "owner": "broker",
+  "revisions": [
+    {
+      "author": "broker",
+      "date": "2022-06-01T13:51:12.512924+03:00",
+      "changes": [
+        {
+          "op": "remove",
+          "path": "/datePublished"
+        },
+        {
+          "op": "remove",
+          "path": "/buyers"
+        },
+        {
+          "op": "remove",
+          "path": "/planID"
+        },
+        {
+          "op": "remove",
+          "path": "/id"
+        },
+        {
+          "op": "remove",
+          "path": "/tender"
+        },
+        {
+          "op": "remove",
+          "path": "/items"
+        },
+        {
+          "op": "remove",
+          "path": "/budget"
+        },
+        {
+          "op": "remove",
+          "path": "/classification"
+        },
+        {
+          "op": "remove",
+          "path": "/owner_token"
+        },
+        {
+          "op": "remove",
+          "path": "/procuringEntity"
+        },
+        {
+          "op": "remove",
+          "path": "/owner"
+        },
+        {
+          "op": "remove",
+          "path": "/transfer_token"
+        },
+        {
+          "op": "remove",
+          "path": "/status"
+        }
+      ]
+    },
+    {
+      "author": "broker",
+      "date": "2022-06-01T13:51:12.563845+03:00",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/status",
+          "value": "draft"
+        }
+      ],
+      "rev": "2-e2945125744b4240a55cd5c1915d8d0b"
+    },
+    {
+      "author": "broker",
+      "date": "2022-06-01T13:51:12.655250+03:00",
+      "changes": [
+        {
+          "op": "remove",
+          "path": "/tender_id"
+        },
+        {
+          "op": "replace",
+          "path": "/status",
+          "value": "scheduled"
+        }
+      ],
+      "rev": "3-3b81aae0f8f3482190efb1ae7a6a737e"
+    }
+  ],
+  "_rev": "4-ec10a04bfd07440a8d5d998b7c139d39"
+}

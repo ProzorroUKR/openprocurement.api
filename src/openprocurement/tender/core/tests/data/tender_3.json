@@ -888,7 +888,7 @@
                "identifier": {
                    "scheme": "UA-EDR",
                    "legalName_en": "ZamovnikUrOsobaOboroni",
-                   "id": "22990434",
+                   "id": "00000003",
                    "legalName": "Замовник для оборони111"
                },
                "name_en": "ZamovnikUrOsobaOboroni"
@@ -1185,7 +1185,7 @@
        "identifier": {
            "scheme": "UA-EDR",
            "legalName_en": "ZamovnikUrOsobaOboroni",
-           "id": "32121121",
+           "id": "00000003",
            "legalName": "Замовник для оборони111"
        },
        "name_en": "ZamovnikUrOsobaOboroni"
