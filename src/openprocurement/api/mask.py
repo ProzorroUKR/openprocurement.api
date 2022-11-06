@@ -99,9 +99,10 @@ def mask_object_data(request, data):
         return
 
     identifier_id = data.get("procuringEntity", {}).get("identifier", {}).get("id")
+    is_masked = data.get("is_masked", False)
     if (
         (identifier_id and sha224(identifier_id.encode()).hexdigest() in MASK_IDENTIFIER_IDS)
-        or data.get("is_masked", False) is True
+        or is_masked is True
     ):
         revisions = data.pop("revisions", [])
         # data["transfer_token"] = uuid4().hex
@@ -112,5 +113,3 @@ def mask_object_data(request, data):
             data["title"] = "Тимчасово замасковано, щоб русня не підглядала"
         if "title_en" in data:
             data["title_en"] = "It is temporarily disguised so that the rusnya does not spy"
-
-        data.pop("is_masked", None)

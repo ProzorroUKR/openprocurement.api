@@ -33,7 +33,7 @@ from openprocurement.planning.api.constants import (
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist, blacklist
-from schematics.types import StringType, IntType, FloatType, BaseType, MD5Type
+from schematics.types import StringType, IntType, FloatType, BaseType, MD5Type, BooleanType
 from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 from zope.interface import implementer
@@ -395,6 +395,7 @@ class Plan(RootModel):
     owner = StringType()
     procurementMethodType = StringType()
     revisions = BaseType(default=list)
+    is_masked = BooleanType()
 
     create_accreditations = (ACCR_1, ACCR_3, ACCR_5)
 

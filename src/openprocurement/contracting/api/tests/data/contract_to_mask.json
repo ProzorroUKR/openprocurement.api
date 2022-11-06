@@ -77,10 +77,6 @@
         },
         {
           "op": "remove",
-          "path": "/mode"
-        },
-        {
-          "op": "remove",
           "path": "/status"
         }
       ]
@@ -128,7 +124,6 @@
   "owner_token": "c9f88a3665d74d5f9065d154ec3cbc21",
   "transfer_token": "4215a186c1f049a7ab7e78c990f0440c",
   "owner": "broker",
-  "mode": "test",
   "status": "active",
   "suppliers": [
     {

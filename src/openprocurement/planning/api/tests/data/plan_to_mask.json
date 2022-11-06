@@ -1,11 +1,11 @@
 {
-  "_id": "4aa249ccb625434eb1dfece8027761b1",
+  "_id": "1b47b29085da457ba3cd9d50c47dd01e",
   "procuringEntity": {
-    "id": "2ed30e0cc34c48b391e7db17a97404d6",
+    "id": "d0b8a52da5ad4811ad8bf27879ce956b",
     "name": "ДТП",
     "identifier": {
       "scheme": "UA-EDR",
-      "id": "00000001",
+      "id": "00000000",
       "legalName": "Державне тестове підприемство"
     },
     "address": {
@@ -18,10 +18,10 @@
     "kind": "general"
   },
   "tender": {
-    "procurementMethod": "limited",
-    "procurementMethodType": "reporting",
+    "procurementMethod": "open",
+    "procurementMethodType": "aboveThresholdEU",
     "tenderPeriod": {
-      "startDate": "2022-06-01T13:51:12.003502+03:00"
+      "startDate": "2022-06-06T19:18:43.004128+03:00"
     }
   },
   "budget": {
@@ -40,7 +40,7 @@
     },
     "breakdown": [
       {
-        "id": "b42270c2669247dea3d51aefe858780d",
+        "id": "58b5a252806744e5b30df20aba60cce7",
         "title": "other",
         "description": "Детальний опис джерел фінансування закупівлі.",
         "value": {
@@ -55,11 +55,11 @@
     "scheme": "ДК021",
     "id": "42000000-6"
   },
-  "tender_id": "b62d296e58c24d24abc8465013ccd6a6",
-  "planID": "UA-P-2022-06-01-000001",
+  "tender_id": "f92389856345451188f682708e0ff86d",
+  "planID": "UA-P-2022-06-06-000003",
   "items": [
     {
-      "id": "0006934a51de476a9378bea5e97731f2",
+      "id": "61c4e015c6dc437d83a1a6e415a7a84b",
       "classification": {
         "description": "Промислова техніка",
         "scheme": "ДК021",
@@ -74,11 +74,28 @@
         "endDate": "2019-10-16T01:00:00+03:00"
       },
       "description": "Тестова назва предмета закупівлі"
+    },
+    {
+      "id": "9ccb5b0c564d4b24854ae202630dbcac",
+      "classification": {
+        "description": "Промислова техніка",
+        "scheme": "ДК021",
+        "id": "42000000-6"
+      },
+      "unit": {
+        "name": "кг",
+        "code": "KGM"
+      },
+      "quantity": 2000,
+      "deliveryDate": {
+        "endDate": "2019-10-17T01:00:00+03:00"
+      },
+      "description": "Тестова назва предмета закупівлі"
     }
   ],
   "buyers": [
     {
-      "id": "baa733fe88b349808db00f1685361b79",
+      "id": "d30c296ffd5e460da36e93471cb72763",
       "name": "ДТП",
       "identifier": {
         "scheme": "UA-EDR",
@@ -95,53 +112,21 @@
       "kind": "general"
     }
   ],
-  "status": "complete",
-  "dateCreated": "2022-06-01T13:51:12.513096+03:00",
-  "dateModified": "2022-06-01T13:51:12.655349+03:00",
-  "datePublished": "2022-06-01T13:51:12.482806+03:00",
-  "owner_token": "a239b0764d63459d928de99383add121",
-  "transfer_token": "7dfe21df5bed7abef200303942462bf41f72e8890c8aecb1d984d7acd56b0e71d14311ef3e75f5babf026794472380be98b7ce244724f223eb47ffd8f3bcfba6",
+  "status": "active",
+  "dateCreated": "2022-06-06T19:18:43.468753+03:00",
+  "dateModified": "2022-06-06T19:18:43.595203+03:00",
+  "datePublished": "2022-06-06T19:18:43.463201+03:00",
+  "owner_token": "8af3d8774258491ba34c1b7847c3da1f",
+  "transfer_token": "92fa1c49a1a294c277f1809f5f667e2c76fe582e09e16f11b5d77672c04990c046ae4a84b78621313aba2708c2a15b7681935d42c0c0f9348ee795c241c336cc",
   "owner": "broker",
   "revisions": [
     {
       "author": "broker",
-      "date": "2022-06-01T13:51:12.512924+03:00",
+      "date": "2022-06-06T19:18:43.468524+03:00",
       "changes": [
         {
           "op": "remove",
-          "path": "/datePublished"
-        },
-        {
-          "op": "remove",
-          "path": "/buyers"
-        },
-        {
-          "op": "remove",
-          "path": "/planID"
-        },
-        {
-          "op": "remove",
           "path": "/id"
-        },
-        {
-          "op": "remove",
-          "path": "/tender"
-        },
-        {
-          "op": "remove",
-          "path": "/items"
-        },
-        {
-          "op": "remove",
-          "path": "/budget"
-        },
-        {
-          "op": "remove",
-          "path": "/classification"
-        },
-        {
-          "op": "remove",
-          "path": "/owner_token"
         },
         {
           "op": "remove",
@@ -149,7 +134,31 @@
         },
         {
           "op": "remove",
-          "path": "/owner"
+          "path": "/status"
+        },
+        {
+          "op": "remove",
+          "path": "/datePublished"
+        },
+        {
+          "op": "remove",
+          "path": "/classification"
+        },
+        {
+          "op": "remove",
+          "path": "/planID"
+        },
+        {
+          "op": "remove",
+          "path": "/buyers"
+        },
+        {
+          "op": "remove",
+          "path": "/tender"
+        },
+        {
+          "op": "remove",
+          "path": "/budget"
         },
         {
           "op": "remove",
@@ -157,13 +166,21 @@
         },
         {
           "op": "remove",
-          "path": "/status"
+          "path": "/owner_token"
+        },
+        {
+          "op": "remove",
+          "path": "/items"
+        },
+        {
+          "op": "remove",
+          "path": "/owner"
         }
       ]
     },
     {
       "author": "broker",
-      "date": "2022-06-01T13:51:12.563845+03:00",
+      "date": "2022-06-06T19:18:43.519520+03:00",
       "changes": [
         {
           "op": "replace",
@@ -171,11 +188,11 @@
           "value": "draft"
         }
       ],
-      "rev": "2-e2945125744b4240a55cd5c1915d8d0b"
+      "rev": "2-b4a0d5bf584342cfb4fbd6b061da74c6"
     },
     {
       "author": "broker",
-      "date": "2022-06-01T13:51:12.655250+03:00",
+      "date": "2022-06-06T19:18:43.595078+03:00",
       "changes": [
         {
           "op": "remove",
@@ -187,8 +204,8 @@
           "value": "scheduled"
         }
       ],
-      "rev": "3-3b81aae0f8f3482190efb1ae7a6a737e"
+      "rev": "3-ef40f71b5aa1412ebc159d1e0f2a98ad"
     }
   ],
-  "_rev": "4-ec10a04bfd07440a8d5d998b7c139d39"
+  "_rev": "4-f70416e965e54b0a8a15574c23ca575b"
 }

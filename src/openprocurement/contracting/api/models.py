@@ -301,6 +301,7 @@ class Contract(RootModel, BaseContract):
     value = ModelType(ContractValue)
     terminationDetails = StringType()
     implementation = ModelType(Implementation, default=dict())
+    is_masked = BooleanType()
 
     create_accreditations = (ACCR_3, ACCR_5)  # TODO
 
