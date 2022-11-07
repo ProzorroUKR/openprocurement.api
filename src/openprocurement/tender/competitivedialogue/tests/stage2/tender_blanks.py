@@ -1391,30 +1391,6 @@ def patch_tender_1(self):
         }]
     )
 
-    items = deepcopy(self.initial_data["items"])
-    items[0].update({
-        "description": "Шолом Дарта Вейдера",
-        "unit": {"name": "item", "code": "99999999-9"}
-    })
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {
-            "data": {
-                "items": items
-            }
-        },
-        status=422
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(
-        response.json["errors"][0],
-        {
-            "location": "body",
-            "name": "items",
-            "description": [{"unit": {"code": ["Code should be one of valid unit codes."]}}]
-        }
-    )
-
     deliveryDateStart = (get_now() + timedelta(days=10)).isoformat()
     deliveryDateEnd = (get_now() + timedelta(days=15)).isoformat()
 

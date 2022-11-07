@@ -9,7 +9,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_contract_input_data,
 )
 from openprocurement.tender.openua.procedure.state.contract import OpenUAContractState
-from openprocurement.tender.competitivedialogue.procedure.models.contract import (
+from openprocurement.tender.competitivedialogue.procedure.models.stage2.contract import (
     UAContract,
     UAPostContract,
     UAPatchContract,

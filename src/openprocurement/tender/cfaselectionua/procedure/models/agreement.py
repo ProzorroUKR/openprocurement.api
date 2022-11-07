@@ -11,7 +11,7 @@ from openprocurement.tender.core.models import validate_features_uniq
 from openprocurement.tender.cfaselectionua.procedure.models.feature import Feature
 from openprocurement.tender.cfaselectionua.procedure.models.agreement_contract import AgreementContract
 from openprocurement.tender.cfaselectionua.procedure.models.parameter_contract import validate_parameter_contracts
-from openprocurement.tender.core.procedure.models.item import Item
+from openprocurement.tender.cfaselectionua.procedure.models.item import Item
 from openprocurement.tender.cfaselectionua.procedure.models.organization import ProcuringEntity
 from openprocurement.tender.cfaselectionua.procedure.models.change import (
     ChangeTaxRate,

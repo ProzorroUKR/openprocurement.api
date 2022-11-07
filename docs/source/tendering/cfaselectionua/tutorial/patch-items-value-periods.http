@@ -27,15 +27,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "unit": {
-          "name": "item",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
         "quantity": 6,
         "deliveryDate": {
           "startDate": "2023-01-03T00:00:00+02:00",
@@ -48,7 +39,16 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "f2599a519a45416db792d9ee833a8e5a"
+        "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
+        "unit": {
+          "name": "item",
+          "code": "KGM",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          }
+        }
       }
     ]
   }
@@ -161,10 +161,6 @@ Content-Type: application/json
                 "description": "папір і картон гофровані, паперова й картонна тара"
               }
             ],
-            "unit": {
-              "name": "item",
-              "code": "KGM"
-            },
             "quantity": 5.0,
             "deliveryDate": {
               "startDate": "2018-06-27T13:39:09.362837+03:00",
@@ -176,6 +172,10 @@ Content-Type: application/json
               "region": "м. Київ",
               "postalCode": "79000",
               "countryName": "Україна"
+            },
+            "unit": {
+              "name": "item",
+              "code": "KGM"
             }
           }
         ],
@@ -457,15 +457,6 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "unit": {
-          "name": "item",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
         "quantity": 6.0,
         "deliveryDate": {
           "startDate": "2023-01-03T00:00:00+02:00",
@@ -478,7 +469,16 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "f2599a519a45416db792d9ee833a8e5a"
+        "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
+        "unit": {
+          "name": "item",
+          "code": "KGM",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          }
+        }
       }
     ],
     "lots": [

@@ -7,16 +7,8 @@ from openprocurement.tender.core.procedure.models.item import (
     validate_related_buyer_in_items,
     validate_classification_id,
     validate_cpv_group,
-    Item,
 )
-from openprocurement.tender.core.procedure.models.period import (
-    EnquiryPeriod,
-    PeriodEndRequired,
-    PostPeriodStartEndRequired,
-    PeriodStartEndRequired,
-    StartedPeriodEndRequired,
-    Period,
-)
+from openprocurement.tender.core.procedure.models.period import PeriodEndRequired
 from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.models.lot import validate_lots_uniq
@@ -31,6 +23,7 @@ from openprocurement.tender.cfaselectionua.procedure.models.feature import Featu
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
 from openprocurement.tender.cfaselectionua.procedure.models.organization import ProcuringEntity
 from openprocurement.tender.cfaselectionua.procedure.models.agreement import Agreement, AgreementUUID
+from openprocurement.tender.cfaselectionua.procedure.models.item import Item
 from openprocurement.tender.core.procedure.models.tender import (
     validate_items_related_lot,
     validate_milestones,
