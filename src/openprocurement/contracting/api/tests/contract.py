@@ -33,20 +33,19 @@ from openprocurement.contracting.api.tests.contract_blanks import (
     patch_tender_contract,
     patch_tender_contract_identical,
     patch_tender_contract_readonly,
-    patch_tender_contract_amount,
+    patch_tender_contract_value_amount,
     patch_tender_contract_amount_paid_zero,
-    patch_tender_contract_before_vat,
-    patch_tender_contract_readonly_before_vat,
-    patch_tender_contract_before_vat_single_request,
+    patch_tender_contract_single_request,
     get_credentials,
     generate_credentials,
     generate_credentials_invalid,
     contract_wo_items_status_change,
     patch_tender_contract_wo_amount_net,
-    patch_tender_without_value,
+    patch_tender_contract_without_value,
     skip_address_validation,
     put_transaction_to_contract,
     contract_update_add_remove_items,
+    patch_tender_contract_value_vat_change,
 )
 
 
@@ -84,12 +83,11 @@ class ContractResource4BrokersTest(BaseContractWebTest):
     test_patch_tender_contract = snitch(patch_tender_contract)
     test_patch_tender_contract_identical = snitch(patch_tender_contract_identical)
     test_patch_tender_contract_readonly = snitch(patch_tender_contract_readonly)
-    test_patch_tender_contract_readonly_before_vat = snitch(patch_tender_contract_readonly_before_vat)
-    test_patch_tender_without_value = snitch(patch_tender_without_value)
-    test_patch_tender_contract_amount = snitch(patch_tender_contract_amount)
+    test_patch_tender_contract_value_vat_change = snitch(patch_tender_contract_value_vat_change)
+    test_patch_tender_contract_without_value = snitch(patch_tender_contract_without_value)
+    test_patch_tender_contract_value_amount = snitch(patch_tender_contract_value_amount)
     test_patch_tender_contract_amount_paid_zero = snitch(patch_tender_contract_amount_paid_zero)
-    test_patch_tender_contract_before_vat = snitch(patch_tender_contract_before_vat)
-    test_patch_tender_contract_before_vat_single_request = snitch(patch_tender_contract_before_vat_single_request)
+    test_patch_tender_contract_single_request = snitch(patch_tender_contract_single_request)
     test_get_credentials = snitch(get_credentials)
     test_generate_credentials = snitch(generate_credentials)
     test_generate_credentials_invalid = snitch(generate_credentials_invalid)

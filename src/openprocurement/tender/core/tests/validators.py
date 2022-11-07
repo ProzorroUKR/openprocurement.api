@@ -248,7 +248,7 @@ class TestValidateUpdateContractValueAmount(unittest.TestCase):
             validate_update_contract_value_amount(request)
 
         request.errors.add.assert_called_once_with(
-            "body", "value", "Amount should be greater than amountNet and differ by no more than 20.0%"
+            "body", "value", "Amount should be equal or greater than amountNet and differ by no more than 20.0%"
         )
 
     def test_amount_net_too_match_less_than_amount_error(self):
@@ -260,7 +260,7 @@ class TestValidateUpdateContractValueAmount(unittest.TestCase):
             validate_update_contract_value_amount(request)
 
         request.errors.add.assert_called_once_with(
-            "body", "value", "Amount should be greater than amountNet and differ by no more than 20.0%"
+            "body", "value", "Amount should be equal or greater than amountNet and differ by no more than 20.0%"
         )
 
     def test_amount_net_not_equal_to_amount_error(self):

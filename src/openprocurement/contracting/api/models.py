@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from uuid import uuid4
-from zope.interface import implementer, Interface
+from zope.interface import implementer
 from pyramid.security import Allow
-from schematics.types import StringType, BaseType, MD5Type, FloatType
+from schematics.types import StringType, BaseType, MD5Type, BooleanType
 from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
@@ -18,7 +18,7 @@ from openprocurement.api.models import ContactPoint as BaseContactPoint
 from openprocurement.api.models import CPVClassification as BaseCPVClassification
 from openprocurement.api.models import Item as BaseItem
 from openprocurement.api.models import AdditionalClassification as BaseAdditionalClassification
-from openprocurement.api.models import Model, ListType, Revision, Value, IsoDateTimeType, Guarantee
+from openprocurement.api.models import Model, ListType, IsoDateTimeType, Guarantee
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.api.models import plain_role, schematics_default_role, schematics_embedded_role
 from openprocurement.api.interfaces import IOPContent
@@ -272,6 +272,10 @@ class Implementation(Model):
     transactions = ListType(ModelType(Transaction), default=list())
 
 
+class AmountPaid(ContractValue):
+    valueAddedTaxIncluded = BooleanType()
+
+
 @implementer(IContract)
 class Contract(RootModel, BaseContract):
     """ Contract """
@@ -293,7 +297,7 @@ class Contract(RootModel, BaseContract):
     )  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
     changes = ListType(ModelType(Change, required=True), default=list())
     documents = ListType(ModelType(Document, required=True), default=list())
-    amountPaid = ModelType(ContractValue)
+    amountPaid = ModelType(AmountPaid)
     value = ModelType(ContractValue)
     terminationDetails = StringType()
     implementation = ModelType(Implementation, default=dict())
@@ -355,15 +359,10 @@ class Contract(RootModel, BaseContract):
             role = "edit_{}".format(request.context.status)
         return role
 
-    @serializable(serialized_name="amountPaid", serialize_when_none=False, type=ModelType(Value))
+    @serializable(serialized_name="amountPaid", serialize_when_none=False, type=ModelType(AmountPaid))
     def contract_amountPaid(self):
         if self.amountPaid:
-            value = self.value or self.amountPaid
-            return ContractValue(
-                dict(
-                    amount=self.amountPaid.amount,
-                    amountNet=self.amountPaid.amountNet,
-                    currency=value.currency,
-                    valueAddedTaxIncluded=value.valueAddedTaxIncluded,
-                )
-            )
+            self.amountPaid.currency = self.value.currency if self.value else self.amountPaid.currency
+            if self.amountPaid.valueAddedTaxIncluded is None:
+                self.amountPaid.valueAddedTaxIncluded = self.value.valueAddedTaxIncluded
+            return self.amountPaid

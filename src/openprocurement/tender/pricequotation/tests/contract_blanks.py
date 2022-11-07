@@ -219,10 +219,8 @@ def patch_tender_contract_value_vat_not_included(self):
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
         {"data": {"value": value}},
-        status=403,
     )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Amount should be greater than amountNet and differ by no more than 20.0%",
-    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["value"]["valueAddedTaxIncluded"], True)
+    self.assertEqual(response.json["data"]["value"]["amount"], 400)
+    self.assertEqual(response.json["data"]["value"]["amountNet"], 400)

@@ -82,7 +82,7 @@ def patch_tender_contract(self):
     self.assertEqual(response.status_code, 403)
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Amount should be greater than amountNet and differ by no more than 20.0%",
+        "Amount should be equal or greater than amountNet and differ by no more than 20.0%",
     )
 
     value["amountNet"] = 10
@@ -93,7 +93,7 @@ def patch_tender_contract(self):
     )
     self.assertEqual(response.status_code, 403)
     self.assertIn(
-        "Amount should be greater than amountNet and differ by no more than 20.0%",
+        "Amount should be equal or greater than amountNet and differ by no more than 20.0%",
         response.json["errors"][0]["description"],
     )
 

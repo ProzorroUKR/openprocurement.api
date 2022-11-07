@@ -1670,7 +1670,7 @@ def validate_update_contract_value_with_award(request, **kwargs):
                 raise_operation_error(request, "Amount should be less or equal to awarded amount", name="value")
 
 
-def validate_update_contract_value_amount(request, name="value", allow_equal=False, **kwargs):
+def validate_update_contract_value_amount(request, name="value", **kwargs):
     data = request.validated["data"]
     contract_value = data.get(name)
     value = data.get("value") or data.get(name)
@@ -1682,14 +1682,7 @@ def validate_update_contract_value_amount(request, name="value", allow_equal=Fal
         if not (amount == 0 and amount_net == 0):
             if tax_included:
                 amount_max = (amount_net * AMOUNT_NET_COEF).quantize(Decimal("1E-2"), rounding=ROUND_UP)
-                if (amount <= amount_net or amount > amount_max) and not allow_equal:
-                    raise_operation_error(
-                        request,
-                        "Amount should be greater than amountNet and differ by "
-                        "no more than {}%".format(AMOUNT_NET_COEF * 100 - 100),
-                        name=name,
-                    )
-                elif (amount < amount_net or amount > amount_max) and allow_equal:
+                if (amount < amount_net or amount > amount_max):
                     raise_operation_error(
                         request,
                         "Amount should be equal or greater than amountNet and differ by "

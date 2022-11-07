@@ -1248,7 +1248,6 @@ def contract_update_add_remove_items(self):
     )
 
 
-@mock.patch("openprocurement.contracting.api.validation.VAT_FROM", get_now() - timedelta(days=1))
 def patch_tender_contract(self):
     response = self.app.patch_json(
         "/contracts/{}".format(self.contract["id"]), {"data": {"title": "New Title"}}, status=403
@@ -1334,7 +1333,6 @@ def patch_tender_contract(self):
     self.assertEqual(response.json["data"]["terminationDetails"], "sink")
 
 
-@mock.patch("openprocurement.contracting.api.validation.VAT_FROM", get_now() - timedelta(days=1))
 def patch_tender_contract_readonly(self):
     tender_token = self.initial_data["tender_token"]
     credentials_url = "/contracts/{}/credentials?acc_token={}".format(self.contract["id"], tender_token)
@@ -1350,56 +1348,108 @@ def patch_tender_contract_readonly(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.json["errors"][0]["description"], "Can't update currency for contract value")
 
-    response = self.app.patch_json(
-        "/contracts/{}?acc_token={}".format(self.contract["id"], token),
-        {"data": {"value": {"valueAddedTaxIncluded": False}}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update valueAddedTaxIncluded for contract value")
 
-
-@mock.patch("openprocurement.contracting.api.validation.VAT_FROM", get_now() + timedelta(days=1))
-def patch_tender_contract_readonly_before_vat(self):
+def patch_tender_contract_value_vat_change(self):
     tender_token = self.initial_data["tender_token"]
     credentials_url = "/contracts/{}/credentials?acc_token={}".format(self.contract["id"], tender_token)
     response = self.app.patch_json(credentials_url, {"data": ""})
     self.assertEqual(response.status, "200 OK")
     token = response.json["access"]["token"]
 
+    # check that contract.value.valueAddedTaxIncluded is True
+    self.assertEqual(
+        response.json["data"]["value"]["valueAddedTaxIncluded"],
+        True,
+    )
+
+    # set contract.amountPaid
     response = self.app.patch_json(
         "/contracts/{}?acc_token={}".format(self.contract["id"], token),
-        {"data": {"value": {"currency": "USD"}}},
-        status=403,
+        {"data": {"amountPaid": {"amount": 238, "amountNet": 237}}},
     )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update currency for contract value")
 
+    # check contract.amountPaid.valueAddedTaxIncluded
+    # copied from contract.value.valueAddedTaxIncluded
+    # if it was not set in request
+    self.assertEqual(
+        response.json["data"]["amountPaid"]["valueAddedTaxIncluded"],
+        response.json["data"]["value"]["valueAddedTaxIncluded"],
+    )
+
+    # check contract.items.unit.value.valueAddedTaxIncluded
+    # is the same as contract.value.valueAddedTaxIncluded
+    for item in response.json["data"]["items"]:
+        self.assertEqual(
+            item["unit"]["value"]["valueAddedTaxIncluded"],
+            response.json["data"]["value"]["valueAddedTaxIncluded"],
+        )
+
+    # change contract.value.valueAddedTaxIncluded from True to False
     response = self.app.patch_json(
         "/contracts/{}?acc_token={}".format(self.contract["id"], token),
         {"data": {"value": {"valueAddedTaxIncluded": False, "amount": 238, "amountNet": 238}}},
     )
     self.assertEqual(response.status, "200 OK")
 
+    # check that contract.value.valueAddedTaxIncluded is False
+    self.assertEqual(
+        response.json["data"]["value"]["valueAddedTaxIncluded"],
+        False,
+    )
 
-@mock.patch("openprocurement.contracting.api.validation.VAT_FROM", get_now() - timedelta(days=1))
+    # check contract.items.unit.value.valueAddedTaxIncluded
+    # updated from contract.value.valueAddedTaxIncluded
+    for item in response.json["data"]["items"]:
+        self.assertEqual(
+            item["unit"]["value"]["valueAddedTaxIncluded"],
+            response.json["data"]["value"]["valueAddedTaxIncluded"],
+        )
+
+    # check contract.amountPaid.valueAddedTaxIncluded
+    # was not updated with contract.value.valueAddedTaxIncluded
+    self.assertNotEqual(
+        response.json["data"]["amountPaid"]["valueAddedTaxIncluded"],
+        response.json["data"]["value"]["valueAddedTaxIncluded"],
+    )
+
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token),
+        {"data": {"status": "terminated"}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "amountPaid",
+                "description": "Amount and amountNet should be equal"
+            }
+        ],
+    )
+
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token),
+        {"data": {"amountPaid": {"amount": 238, "amountNet": 238}}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.patch_json(
+        "/contracts/{}?acc_token={}".format(self.contract["id"], token),
+        {"data": {"status": "terminated"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+
+
+
 def patch_tender_contract_identical(self):
     tender_token = self.initial_data["tender_token"]
     credentials_url = "/contracts/{}/credentials?acc_token={}".format(self.contract["id"], tender_token)
     response = self.app.patch_json(credentials_url, {"data": ""})
     self.assertEqual(response.status, "200 OK")
     token = response.json["access"]["token"]
-
-    response = self.app.patch_json(
-        "/contracts/{}?acc_token={}".format(self.contract["id"], token),
-        {"data": {"amountPaid": {"amount": 100, "amountNet": 90, "valueAddedTaxIncluded": False}}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "valueAddedTaxIncluded of amountPaid should be identical to valueAddedTaxIncluded of value of contract",
-    )
 
     response = self.app.patch_json(
         "/contracts/{}?acc_token={}".format(self.contract["id"], token),
@@ -1424,7 +1474,7 @@ def patch_tender_contract_identical(self):
     )
     self.assertEqual(response.status, "200 OK")
 
-def patch_tender_without_value(self):
+def patch_tender_contract_without_value(self):
     tender_token = self.initial_data["tender_token"]
     credentials_url = "/contracts/{}/credentials?acc_token={}".format(self.contract["id"], tender_token)
     response = self.app.patch_json(credentials_url, {"data": ""})
@@ -1442,8 +1492,7 @@ def patch_tender_without_value(self):
     )
 
 
-@mock.patch("openprocurement.contracting.api.validation.VAT_FROM", get_now() - timedelta(days=1))
-def patch_tender_contract_amount(self):
+def patch_tender_contract_value_amount(self):
     tender_token = self.initial_data["tender_token"]
     credentials_url = "/contracts/{}/credentials?acc_token={}".format(self.contract["id"], tender_token)
     response = self.app.patch_json(credentials_url, {"data": ""})
@@ -1458,7 +1507,7 @@ def patch_tender_contract_amount(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Amount should be greater than amountNet and differ by no more than 20.0%",
+        "Amount should be equal or greater than amountNet and differ by no more than 20.0%",
     )
 
     response = self.app.patch_json(
@@ -1469,7 +1518,7 @@ def patch_tender_contract_amount(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Amount should be greater than amountNet and differ by no more than 20.0%",
+        "Amount should be equal or greater than amountNet and differ by no more than 20.0%",
     )
 
     response = self.app.patch_json(
@@ -1492,16 +1541,10 @@ def patch_tender_contract_amount(self):
                 "terminationDetails": "sink",
             }
         },
-        status=403,
     )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Amount should be greater than amountNet and differ by no more than 20.0%",
-    )
+    self.assertEqual(response.status, "200 OK")
 
 
-@mock.patch("openprocurement.contracting.api.validation.VAT_FROM", get_now() - timedelta(days=1))
 def patch_tender_contract_amount_paid_zero(self):
     tender_token = self.initial_data["tender_token"]
     credentials_url = "/contracts/{}/credentials?acc_token={}".format(self.contract["id"], tender_token)
@@ -1524,64 +1567,7 @@ def patch_tender_contract_amount_paid_zero(self):
     self.assertEqual(response.json["data"]["amountPaid"]["valueAddedTaxIncluded"], True)
 
 
-@mock.patch("openprocurement.contracting.api.validation.VAT_FROM", get_now() + timedelta(days=1))
-def patch_tender_contract_before_vat(self):
-    tender_token = self.initial_data["tender_token"]
-    credentials_url = "/contracts/{}/credentials?acc_token={}".format(self.contract["id"], tender_token)
-    response = self.app.patch_json(credentials_url, {"data": ""})
-    self.assertEqual(response.status, "200 OK")
-    token = response.json["access"]["token"]
-
-    response = self.app.patch_json(
-        "/contracts/{}?acc_token={}".format(self.contract["id"], token),
-        {"data": {"amountPaid": {"amount": 100, "amountNet": 90}}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["value"]["valueAddedTaxIncluded"], True)
-    self.assertEqual(response.json["data"]["amountPaid"]["valueAddedTaxIncluded"], True)
-
-    response = self.app.patch_json(
-        "/contracts/{}?acc_token={}".format(self.contract["id"], token),
-        {"data": {"amountPaid": {"valueAddedTaxIncluded": False}}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "valueAddedTaxIncluded of amountPaid should be identical to valueAddedTaxIncluded of value of contract",
-    )
-
-    response = self.app.patch_json(
-        "/contracts/{}?acc_token={}".format(self.contract["id"], token),
-        {"data": {"value": {"valueAddedTaxIncluded": False, "amount": 238, "amountNet": 238}}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["value"]["valueAddedTaxIncluded"], False)
-    self.assertEqual(response.json["data"]["amountPaid"]["valueAddedTaxIncluded"], False)
-
-    response = self.app.patch_json(
-        "/contracts/{}?acc_token={}".format(self.contract["id"], token),
-        {"data": {"status": "terminated", "terminationDetails": "sink"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json["errors"][0]["description"], "Amount and amountNet should be equal")
-
-    response = self.app.patch_json(
-        "/contracts/{}?acc_token={}".format(self.contract["id"], token),
-        {
-            "data": {
-                "amountPaid": {"amount": 238, "amountNet": 238},
-                "status": "terminated",
-                "terminationDetails": "sink",
-            }
-        },
-    )
-    self.assertEqual(response.status, "200 OK")
-
-
-@mock.patch("openprocurement.contracting.api.validation.VAT_FROM", get_now() + timedelta(days=1))
-def patch_tender_contract_before_vat_single_request(self):
+def patch_tender_contract_single_request(self):
     tender_token = self.initial_data["tender_token"]
     credentials_url = "/contracts/{}/credentials?acc_token={}".format(self.contract["id"], tender_token)
     response = self.app.patch_json(credentials_url, {"data": ""})
@@ -1594,8 +1580,8 @@ def patch_tender_contract_before_vat_single_request(self):
         "/contracts/{}?acc_token={}".format(self.contract["id"], token),
         {
             "data": {
-                "value": {"valueAddedTaxIncluded": "False", "amount": 200, "amountNet": 200},
-                "amountPaid": {"valueAddedTaxIncluded": "False", "amount": 100, "amountNet": 100},
+                "value": {"valueAddedTaxIncluded": False, "amount": 200, "amountNet": 200},
+                "amountPaid": {"valueAddedTaxIncluded": False, "amount": 100, "amountNet": 100},
                 "status": "terminated",
                 "terminationDetails": "sink",
             }
