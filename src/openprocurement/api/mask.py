@@ -77,24 +77,39 @@ def mask_process_compound(data):
 
 
 def mask_object_data(request, data):
-    if data is not None and MASK_OBJECT_DATA:
-        identifier_id = data.get("procuringEntity", {}).get("identifier", {}).get("id")
-        if (
-            identifier_id
-            and sha224(identifier_id.encode()).hexdigest() in MASK_IDENTIFIER_IDS
-            and request.authenticated_role not in (
-                "chronograph", "auction", "bots",
-                "contracting", "competitive_dialogue",
-                "agreements", "agreement_selection",
-                "Administrator",
-            )
-        ):
-            revisions = data.pop("revisions", [])
-            # data["transfer_token"] = uuid4().hex
-            # data["owner_token"] = uuid4().hex
-            mask_process_compound(data)
-            data["revisions"] = revisions
-            if "title" in data:
-                data["title"] = "Тимчасово замасковано, щоб русня не підглядала"
-            if "title_en" in data:
-                data["title_en"] = "It is temporarily disguised so that the rusnya does not spy"
+    if not MASK_OBJECT_DATA:
+        # Masking is disabled
+        return
+
+    if data is None:
+        # Nothing to mask
+        return
+
+    if request.authenticated_role in (
+        "chronograph",
+        "auction",
+        "bots",
+        "contracting",
+        "competitive_dialogue",
+        "agreements",
+        "agreement_selection",
+        "Administrator",
+    ):
+        # Masking is not required for these roles
+        return
+
+    identifier_id = data.get("procuringEntity", {}).get("identifier", {}).get("id")
+    is_masked = data.get("is_masked", False)
+    if (
+        (identifier_id and sha224(identifier_id.encode()).hexdigest() in MASK_IDENTIFIER_IDS)
+        or is_masked is True
+    ):
+        revisions = data.pop("revisions", [])
+        # data["transfer_token"] = uuid4().hex
+        # data["owner_token"] = uuid4().hex
+        mask_process_compound(data)
+        data["revisions"] = revisions
+        if "title" in data:
+            data["title"] = "Тимчасово замасковано, щоб русня не підглядала"
+        if "title_en" in data:
+            data["title_en"] = "It is temporarily disguised so that the rusnya does not spy"

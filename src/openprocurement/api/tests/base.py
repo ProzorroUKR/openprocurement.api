@@ -157,7 +157,13 @@ def singleton_app():
 def app(singleton_app):
     singleton_app.authorization = None
     yield singleton_app
-    singleton_app.app.registry.mongodb.tenders.flush()
+    mongodb = singleton_app.app.registry.mongodb
+    if hasattr(mongodb, "tenders"):
+        mongodb.tenders.flush()
+    if hasattr(mongodb, "plans"):
+        mongodb.plans.flush()
+    if hasattr(mongodb, "contracts"):
+        mongodb.contracts.flush()
 
 
 @contextmanager

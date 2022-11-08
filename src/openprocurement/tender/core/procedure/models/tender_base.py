@@ -1,6 +1,6 @@
 from uuid import uuid4
 from schematics.exceptions import ValidationError
-from schematics.types import MD5Type, BaseType
+from schematics.types import MD5Type, BaseType, BooleanType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from openprocurement.api.models import IsoDateTimeType, ListType, Model
@@ -64,6 +64,7 @@ class CommonBaseTender(Model):
         validators=[validate_funders_unique, validate_funders_ids]
     )
     plans = ListType(ModelType(PlanRelation, required=True))
+    is_masked = BooleanType()
 
     if SANDBOX_MODE:
         procurementMethodDetails = StringType()
