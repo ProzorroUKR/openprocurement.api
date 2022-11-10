@@ -41,8 +41,7 @@ def test_mask_tender_by_identifier(app):
     data = response.json["data"]
     assert data["title"] == "Тимчасово замасковано, щоб русня не підглядала"
 
-@patch("openprocurement.api.mask.MASK_OBJECT_DATA", True)
-@patch("openprocurement.api.mask.MASK_IDENTIFIER_IDS", [])
+@patch("openprocurement.api.mask.MASK_OBJECT_DATA_SINGLE", True)
 def test_mask_tender_by_is_masked(app):
     set_now()
     with open(f"src/openprocurement/tender/core/tests/data/tender_to_mask.json") as f:
@@ -102,6 +101,7 @@ def test_mask_tender_by_is_masked(app):
 
 @patch("openprocurement.api.mask.MASK_OBJECT_DATA", True)
 @patch("openprocurement.api.mask.MASK_IDENTIFIER_IDS", [])
+@patch("openprocurement.api.mask.MASK_OBJECT_DATA_SINGLE", True)
 def test_mask_tender_skipped(app):
     set_now()
     with open(f"src/openprocurement/tender/core/tests/data/tender_to_mask.json") as f:

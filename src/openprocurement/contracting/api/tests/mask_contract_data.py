@@ -62,8 +62,7 @@ def test_mask_contract_by_identifier(app):
     assert data["mode"] == "test"
 
 
-@patch("openprocurement.api.mask.MASK_OBJECT_DATA", True)
-@patch("openprocurement.api.mask.MASK_IDENTIFIER_IDS", [])
+@patch("openprocurement.api.mask.MASK_OBJECT_DATA_SINGLE", True)
 def test_mask_contract_by_is_masked(app):
     set_now()
     with open(f"src/openprocurement/contracting/api/tests/data/contract_to_mask.json") as f:
@@ -134,6 +133,7 @@ def test_mask_contract_by_is_masked(app):
 
 @patch("openprocurement.api.mask.MASK_OBJECT_DATA", True)
 @patch("openprocurement.api.mask.MASK_IDENTIFIER_IDS", [])
+@patch("openprocurement.api.mask.MASK_OBJECT_DATA_SINGLE", True)
 def test_mask_contract_skipped(app):
     set_now()
     with open(f"src/openprocurement/contracting/api/tests/data/contract_to_mask.json") as f:

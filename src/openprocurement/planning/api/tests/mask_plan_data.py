@@ -46,8 +46,7 @@ def test_mask_plan_by_identifier(app):
     assert data["items"][0]["description"] == "00000000000000000000000000000000"
 
 
-@patch("openprocurement.api.mask.MASK_OBJECT_DATA", True)
-@patch("openprocurement.api.mask.MASK_IDENTIFIER_IDS", [])
+@patch("openprocurement.api.mask.MASK_OBJECT_DATA_SINGLE", True)
 def test_mask_plan_by_is_masked(app):
     set_now()
     with open(f"src/openprocurement/planning/api/tests/data/plan_to_mask.json") as f:
@@ -118,6 +117,7 @@ def test_mask_plan_by_is_masked(app):
 
 @patch("openprocurement.api.mask.MASK_OBJECT_DATA", True)
 @patch("openprocurement.api.mask.MASK_IDENTIFIER_IDS", [])
+@patch("openprocurement.api.mask.MASK_OBJECT_DATA_SINGLE", True)
 def test_mask_plan_skipped(app):
     set_now()
     with open(f"src/openprocurement/planning/api/tests/data/plan_to_mask.json") as f:
