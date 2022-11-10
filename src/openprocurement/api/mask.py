@@ -77,6 +77,10 @@ def mask_process_compound(data):
 
 
 def mask_object_data(request, data):
+    if "is_masked" in data and data.get("is_masked") is not True:
+        # Do not show is_masked field if it is False
+        data.pop("is_masked")
+
     if not MASK_OBJECT_DATA:
         # Masking is disabled
         return

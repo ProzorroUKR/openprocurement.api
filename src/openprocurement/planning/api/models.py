@@ -334,7 +334,7 @@ class Plan(RootModel):
             "revision": whitelist("revisions"),
             "create": _create_role,
             "edit": _edit_role,
-            "view": _common_view + whitelist("dateModified"),
+            "view": _common_view + whitelist("dateModified", "is_masked"),
             "listing": whitelist("dateModified", "doc_id"),  # not used since MongodbResourceListing?
             "Administrator": whitelist("status", "mode", "procuringEntity"),
             "default": schematics_default_role,
