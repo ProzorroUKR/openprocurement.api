@@ -55,7 +55,6 @@
     "scheme": "ДК021",
     "id": "42000000-6"
   },
-  "tender_id": "f92389856345451188f682708e0ff86d",
   "planID": "UA-P-2022-06-06-000003",
   "items": [
     {
@@ -112,7 +111,7 @@
       "kind": "general"
     }
   ],
-  "status": "active",
+  "status": "scheduled",
   "dateCreated": "2022-06-06T19:18:43.468753+03:00",
   "dateModified": "2022-06-06T19:18:43.595203+03:00",
   "datePublished": "2022-06-06T19:18:43.463201+03:00",

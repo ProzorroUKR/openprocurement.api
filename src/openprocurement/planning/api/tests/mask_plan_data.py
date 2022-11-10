@@ -31,14 +31,16 @@ def test_mask_function():
 def test_mask_plan_by_identifier(app):
     set_now()
     with open(f"src/openprocurement/planning/api/tests/data/plan_to_mask.json") as f:
-        data = json.load(f)
+        initial_data = json.load(f)
     app.app.registry.mongodb.plans.store.save_data(
         app.app.registry.mongodb.plans.collection,
-        data,
+        initial_data,
         insert=True,
     )
 
-    response = app.get(f"/plans/{data['_id']}")
+    id = initial_data['_id']
+
+    response = app.get(f"/plans/{id}")
     assert response.status_code == 200
     data = response.json["data"]
     assert data["items"][0]["description"] == "00000000000000000000000000000000"
@@ -49,15 +51,30 @@ def test_mask_plan_by_identifier(app):
 def test_mask_plan_by_is_masked(app):
     set_now()
     with open(f"src/openprocurement/planning/api/tests/data/plan_to_mask.json") as f:
-        data = json.load(f)
-    data["is_masked"] = True
+        initial_data = json.load(f)
     app.app.registry.mongodb.plans.store.save_data(
         app.app.registry.mongodb.plans.collection,
-        data,
+        initial_data,
         insert=True,
     )
 
-    id = data['_id']
+    id = initial_data['_id']
+
+    # Check plan not masked
+    response = app.get(f"/plans/{id}")
+    assert response.status_code == 200
+    data = response.json["data"]
+
+    # Check is_masked field not appears
+    assert "is_masked" not in data
+
+    # Mask plan
+    initial_data["_rev"] = app.app.registry.mongodb.plans.get(id)["_rev"]
+    initial_data["is_masked"] = True
+    app.app.registry.mongodb.plans.store.save_data(
+        app.app.registry.mongodb.plans.collection,
+        initial_data,
+    )
 
     # Check plan masked
     response = app.get(f"/plans/{id}")
@@ -66,8 +83,8 @@ def test_mask_plan_by_is_masked(app):
     assert "mode" not in data
     assert data["items"][0]["description"] == "0" * len(data["items"][0]["description"])
 
-    # Check field is hidden
-    assert "is_masked" not in response.json["data"]
+    # Check field
+    assert "is_masked" in data
 
     # Patch plan as excluded from masking role
     with change_auth(app, ("Basic", ("administrator", ""))):
@@ -77,8 +94,8 @@ def test_mask_plan_by_is_masked(app):
     assert data["mode"] == "test"
     assert data["items"][0]["description"] != "0" * len(data["items"][0]["description"])
 
-    # Check field is hidden
-    assert "is_masked" not in response.json["data"]
+    # Check field
+    assert "is_masked" in data
 
     # Check that after modification plan is still masked
     response = app.get(f"/plans/{id}")
@@ -87,20 +104,33 @@ def test_mask_plan_by_is_masked(app):
     assert data["mode"] == "test"
     assert data["items"][0]["description"] == "0" * len(data["items"][0]["description"])
 
+    # Unmask plan
+    initial_data["_rev"] = app.app.registry.mongodb.plans.get(id)["_rev"]
+    initial_data["is_masked"] = False
+    app.app.registry.mongodb.plans.store.save_data(
+        app.app.registry.mongodb.plans.collection,
+        initial_data,
+    )
+
+    # Check is_masked field was removed
+    assert "is_masked" not in app.app.registry.mongodb.plans.get(id)
+
 
 @patch("openprocurement.api.mask.MASK_OBJECT_DATA", True)
 @patch("openprocurement.api.mask.MASK_IDENTIFIER_IDS", [])
 def test_mask_plan_skipped(app):
     set_now()
     with open(f"src/openprocurement/planning/api/tests/data/plan_to_mask.json") as f:
-        data = json.load(f)
+        initial_data = json.load(f)
     app.app.registry.mongodb.plans.store.save_data(
         app.app.registry.mongodb.plans.collection,
-        data,
+        initial_data,
         insert=True,
     )
 
-    response = app.get(f"/plans/{data['_id']}")
+    id = initial_data['_id']
+
+    response = app.get(f"/plans/{id}")
     assert response.status_code == 200
     data = response.json["data"]
     assert data["items"][0]["description"] != "00000000000000000000000000000000"

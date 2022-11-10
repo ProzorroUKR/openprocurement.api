@@ -24,7 +24,6 @@ class TenderBaseSerializer(BaseUIDSerializer):
         "public_modified",
         "is_public",
         "is_test",
-        "is_masked",
     }
     serializers = {
         "bids": ListSerializer(BidSerializer),

@@ -31,10 +31,10 @@ def test_mask_function():
 def test_mask_tender_by_identifier(app):
     set_now()
     with open(f"src/openprocurement/tender/core/tests/data/tender_to_mask.json") as f:
-        data = json.load(f)
-    app.app.registry.mongodb.tenders.save(data, insert=True)
+        initial_data = json.load(f)
+    app.app.registry.mongodb.tenders.save(initial_data, insert=True)
 
-    id = data['_id']
+    id = initial_data['_id']
 
     response = app.get(f"/tenders/{id}")
     assert response.status_code == 200
@@ -46,11 +46,23 @@ def test_mask_tender_by_identifier(app):
 def test_mask_tender_by_is_masked(app):
     set_now()
     with open(f"src/openprocurement/tender/core/tests/data/tender_to_mask.json") as f:
-        data = json.load(f)
-    data["is_masked"] = True
-    app.app.registry.mongodb.tenders.save(data, insert=True)
+        initial_data = json.load(f)
+    app.app.registry.mongodb.tenders.save(initial_data, insert=True)
 
-    id = data['_id']
+    id = initial_data['_id']
+
+    # Check tender not masked
+    response = app.get(f"/tenders/{id}")
+    assert response.status_code == 200
+    data = response.json["data"]
+
+    # Check is_masked field not appears
+    assert "is_masked" not in data
+
+    # Mask tender
+    initial_data["_rev"] = app.app.registry.mongodb.tenders.get(id)["_rev"]
+    initial_data["is_masked"] = True
+    app.app.registry.mongodb.tenders.save(initial_data)
 
     # Check tender masked
     response = app.get(f"/tenders/{id}")
@@ -59,8 +71,8 @@ def test_mask_tender_by_is_masked(app):
     assert data["title"] == "Тимчасово замасковано, щоб русня не підглядала"
     assert data["items"][0]["description"] ==  "0" * len(data["items"][0]["description"])
 
-    # Check field is hidden
-    assert "is_masked" not in response.json["data"]
+    # Check field
+    assert "is_masked" in data
 
     # Patch tender as excluded from masking role
     with change_auth(app, ("Basic", ("administrator", ""))):
@@ -70,8 +82,8 @@ def test_mask_tender_by_is_masked(app):
     assert data["description"] == "test"
     assert data["items"][0]["description"] !=  "0" * len(data["items"][0]["description"])
 
-    # Check field is hidden
-    assert "is_masked" not in response.json["data"]
+    # Check field
+    assert "is_masked" in data
 
     # Check that after modification tender is still masked
     response = app.get(f"/tenders/{id}")
@@ -80,15 +92,23 @@ def test_mask_tender_by_is_masked(app):
     assert data["title"] == "Тимчасово замасковано, щоб русня не підглядала"
     assert data["items"][0]["description"] ==  "0" * len(data["items"][0]["description"])
 
+    # Unmask tender
+    initial_data["_rev"] = app.app.registry.mongodb.tenders.get(id)["_rev"]
+    initial_data["is_masked"] = False
+    app.app.registry.mongodb.tenders.save(initial_data)
+
+    # Check is_masked field was removed
+    assert "is_masked" not in app.app.registry.mongodb.tenders.get(id)
+
 @patch("openprocurement.api.mask.MASK_OBJECT_DATA", True)
 @patch("openprocurement.api.mask.MASK_IDENTIFIER_IDS", [])
 def test_mask_tender_skipped(app):
     set_now()
     with open(f"src/openprocurement/tender/core/tests/data/tender_to_mask.json") as f:
-        data = json.load(f)
-    app.app.registry.mongodb.tenders.save(data, insert=True)
+        initial_data = json.load(f)
+    app.app.registry.mongodb.tenders.save(initial_data, insert=True)
 
-    id = data['_id']
+    id = initial_data['_id']
 
     response = app.get(f"/tenders/{id}")
     assert response.status_code == 200

@@ -163,6 +163,8 @@ class MongodbStore:
         data["_rev"] = self.get_next_rev(revision)
         data["is_public"] = data.get("status") not in ("draft", "deleted")
         data["is_test"] = data.get("mode") == "test"
+        if "is_masked" in data and data.get("is_masked") is not True:
+            data.pop("is_masked")
 
         pipeline = [
             {"$replaceWith": {"$literal": data}},

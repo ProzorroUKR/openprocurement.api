@@ -98,6 +98,7 @@ contract_view_role = whitelist(
     "terminationDetails",
     "contract_amountPaid",
     "implementation",
+    "is_masked",
 )
 
 contract_administrator_role = Tender.Options.roles["Administrator"] + whitelist("suppliers")
