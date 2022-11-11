@@ -142,10 +142,6 @@ Content-Type: application/json
       {
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
         "description": "футляри до державних нагород",
-        "unit": {
-          "name": "item",
-          "code": "KGM"
-        },
         "quantity": 5.0,
         "classification": {
           "description": "Cartons",
@@ -170,6 +166,10 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
+        },
+        "unit": {
+          "name": "item",
+          "code": "KGM"
         }
       }
     ],

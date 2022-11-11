@@ -23,6 +23,7 @@ from openprocurement.api.models import Document as BaseDocument
 from openprocurement.api.models import (
     Item as BaseItem,
     ListType as BaseListType,
+    Unit,
     CPVClassification,
     AdditionalClassification,
     Address,
@@ -105,6 +106,11 @@ class Feature(Model):
                 raise ValidationError(u"relatedItem should be one of lots")
 
 
+class UnitDeprecated(Unit):
+    def validate_code(self, data, value):
+        pass
+
+
 class Item(BaseItem):
     class Options:
         roles = BaseItem.Options.roles
@@ -114,6 +120,7 @@ class Item(BaseItem):
     description_en = StringType(required=True, min_length=1)
     deliveryDate = ModelType(PeriodEndRequired, required=True)
     deliveryAddress = ModelType(Address, required=True)
+    unit = ModelType(UnitDeprecated)
 
 
 class UnitPriceModification(Model):
