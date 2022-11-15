@@ -273,7 +273,9 @@ def create_change(self):
                 "name": "rationaleTypes",
                 "description": [
                     [
-                        "Value must be one of ['volumeCuts', 'itemPriceVariation', 'qualityImprovement', 'thirdParty', 'durationExtension', 'priceReduction', 'taxRate', 'fiscalYearExtension']."
+                        "Value must be one of ('durationExtension', 'fiscalYearExtension', 'itemPriceVariation', "
+                        "'itemPriceChange', 'priceReduction', 'priceReductionWithoutQuantity', 'qualityImprovement', "
+                        "'taxRate', 'taxationSystem', 'thirdParty', 'externalIndicators', 'volumeCuts')."
                     ]
                 ],
             }
@@ -373,7 +375,9 @@ def patch_change(self):
                 "name": "rationaleTypes",
                 "description": [
                     [
-                        "Value must be one of ['volumeCuts', 'itemPriceVariation', 'qualityImprovement', 'thirdParty', 'durationExtension', 'priceReduction', 'taxRate', 'fiscalYearExtension']."
+                        "Value must be one of ('durationExtension', 'fiscalYearExtension', 'itemPriceVariation', "
+                        "'itemPriceChange', 'priceReduction', 'priceReductionWithoutQuantity', 'qualityImprovement', "
+                        "'taxRate', 'taxationSystem', 'thirdParty', 'externalIndicators', 'volumeCuts')."
                     ]
                 ],
             }
