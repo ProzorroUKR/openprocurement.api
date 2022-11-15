@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from uuid import uuid4
+
+import standards
 from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.types import StringType, BaseType, MD5Type, BooleanType
@@ -25,6 +27,9 @@ from openprocurement.api.interfaces import IOPContent
 from openprocurement.tender.core.models import Tender, ContractValue, PROCURING_ENTITY_KINDS
 from openprocurement.api.models import BankAccount
 from openprocurement.api.models import Unit as BaseUnit
+
+
+RATIONALE_TYPES = tuple(standards.load("codelists/contract_change_rationale_type.json").keys())
 
 
 contract_create_role = whitelist(
@@ -226,16 +231,7 @@ class Change(Model):
     rationale_ru = StringType()
     rationaleTypes = ListType(
         StringType(
-            choices=[
-                "volumeCuts",
-                "itemPriceVariation",
-                "qualityImprovement",
-                "thirdParty",
-                "durationExtension",
-                "priceReduction",
-                "taxRate",
-                "fiscalYearExtension",
-            ],
+            choices=RATIONALE_TYPES,
             required=True,
         ),
         min_size=1,
