@@ -41,6 +41,14 @@ HOLIDAYS = standards.load("calendars/workdays_off.json")
 for date_str in HOLIDAYS:
     WORKING_DAYS[date_str] = True
 
+
+def parse_str_list(value):
+    return [x.strip() for x in value.split(',') if x.strip()]
+
+
+DEPRECATED_FEED_USER_AGENTS = parse_str_list(os.environ.get("DEPRECATED_FEED_USER_AGENTS", ""))
+
+
 def read_json(name):
     import os.path
     from json import loads
@@ -109,10 +117,6 @@ def parse_constant_date(value):
     if not date.tzinfo:
         date = TZ.localize(date)
     return date
-
-
-def parse_str_list(value):
-    return [x.strip() for x in value.split(',') if x.strip()]
 
 
 def get_constant(config, constant, section=DEFAULTSECT, parse_func=parse_constant_date):
