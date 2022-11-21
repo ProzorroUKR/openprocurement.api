@@ -1,3 +1,6 @@
+from datetime import datetime
+
+from openprocurement.api.constants import DEPRECATED_FEED_USER_AGENTS, TZ
 from openprocurement.api.context import set_request, set_now
 from openprocurement.api.utils import parse_date, json_view, LOGGER, raise_operation_error
 from logging import getLogger
@@ -15,16 +18,21 @@ class BaseResource:
         set_now()
 
 
-def fix_deprecated_offset(offset: str):
+def parse_offset(offset: str):
     try:
-        float(offset)
+        # Used new offset in timestamp format
+        return float(offset)
     except ValueError:
-        try:
-            return parse_date(offset.replace(" ", "+")).timestamp()
-        except ValueError as e:
-            LOGGER.warning(e)
-            return offset
+        # Used deprecated offset in iso format
+        return parse_date(offset.replace(" ", "+")).timestamp()
+
+
+def compose_offset(request, offset: float):
+    if request.user_agent in DEPRECATED_FEED_USER_AGENTS:
+        # Use deprecated offset in iso format
+        return datetime.fromtimestamp(offset).astimezone(TZ).isoformat()
     else:
+        # Use new offset in timestamp format
         return offset
 
 
@@ -53,15 +61,16 @@ class MongodbResourceListing(BaseResource):
             keys[self.filter_key] = filter_value
 
         offset = None
-        if self.request.params.get('offset'):
-            params["offset"] = fix_deprecated_offset(self.request.params.get('offset'))
+        offset_param = self.request.params.get('offset')
+        if offset_param:
             try:
-                offset = float(params["offset"])
+                offset = parse_offset(offset_param)
             except ValueError:
                 raise_operation_error(
                     self.request,
-                    f"Invalid offset provided: {params['offset']}",
+                    f"Invalid offset provided: {offset_param}",
                     status=404, location="querystring", name="offset")
+            params["offset"] = compose_offset(self.request, offset)
 
         if self.request.params.get('limit'):
             try:
@@ -98,8 +107,8 @@ class MongodbResourceListing(BaseResource):
         )
 
         if results:
-            params['offset'] = results[-1][self.offset_field]
-            prev_params['offset'] = results[0][self.offset_field]
+            params['offset'] = compose_offset(self.request, results[-1][self.offset_field])
+            prev_params['offset'] = compose_offset(self.request, results[0][self.offset_field])
             if self.offset_field not in self.all_fields:
                 for r in results:
                     r.pop(self.offset_field)
