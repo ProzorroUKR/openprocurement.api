@@ -25,7 +25,6 @@ from openprocurement.api.constants import (
     TZ,
     WORKING_DATE_ALLOW_MIDNIGHT_FROM,
     NORMALIZED_CLARIFICATIONS_PERIOD_FROM,
-    NORMALIZE_SHOULD_START_AFTER,
     RELEASE_2020_04_19,
     NORMALIZED_TENDER_PERIOD_FROM,
 )
@@ -85,10 +84,7 @@ def submission_search(pattern, tender):
 def normalize_should_start_after(start_after, tender):
     if submission_search(QUICK, tender):
         return start_after
-    date = tender.enquiryPeriod and tender.enquiryPeriod.startDate or get_now()
-    if NORMALIZE_SHOULD_START_AFTER < date:
-        return calc_normalized_datetime(start_after, ceil=True)
-    return start_after
+    return calc_normalized_datetime(start_after, ceil=True)
 
 
 def calc_auction_end_time(bids, start):

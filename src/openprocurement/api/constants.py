@@ -90,8 +90,6 @@ COORDINATES_REG_EXP = re.compile(r"-?\d{1,3}\.\d+|-?\d{1,3}")
 
 SCALE_CODES = ["micro", "sme", "mid", "large", "not specified"]
 
-NORMALIZE_SHOULD_START_AFTER = datetime(2016, 7, 16, tzinfo=TZ)
-
 CPV_ITEMS_CLASS_FROM = datetime(2017, 1, 1, tzinfo=TZ)
 CPV_BLOCK_FROM = datetime(2017, 6, 2, tzinfo=TZ)
 

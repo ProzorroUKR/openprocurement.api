@@ -3,7 +3,6 @@ from openprocurement.api.auth import extract_access_token
 from openprocurement.api.constants import (
     SANDBOX_MODE,
     TZ,
-    NORMALIZE_SHOULD_START_AFTER,
 )
 from openprocurement.tender.core.procedure.context import get_now
 from openprocurement.tender.core.utils import QUICK
@@ -230,13 +229,7 @@ def submission_search(pattern, tender):
 def normalize_should_start_after(start_after, tender):
     if submission_search(QUICK, tender):
         return start_after
-    if tender.get("enquiryPeriod", {}).get("startDate"):
-        date = dt_from_iso(tender["enquiryPeriod"]["startDate"])
-    else:
-        date = get_now()
-    if NORMALIZE_SHOULD_START_AFTER < date:
-        return calc_normalized_datetime(start_after, ceil=True)
-    return start_after
+    return calc_normalized_datetime(start_after, ceil=True)
 
 
 def contracts_allow_to_complete(contracts) -> bool:
