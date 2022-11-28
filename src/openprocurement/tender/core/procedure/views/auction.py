@@ -14,7 +14,7 @@ from openprocurement.tender.core.procedure.models.auction import (
     AuctionResults, AuctionLotResults,
 )
 from openprocurement.tender.core.procedure.serializers.auction import AuctionSerializer
-from openprocurement.tender.core.procedure.utils import submission_search
+from openprocurement.tender.core.procedure.utils import submission_method_details_includes
 from openprocurement.tender.core.utils import QUICK_NO_AUCTION, QUICK_FAST_FORWARD, QUICK_FAST_AUCTION
 
 
@@ -150,7 +150,8 @@ class TenderAuctionResource(TenderBaseResource):
     def get_auction_period(self):
         tender = self.request.validated["tender"]
         now = get_now().isoformat()
-        if submission_search((QUICK_NO_AUCTION, QUICK_FAST_FORWARD, QUICK_FAST_AUCTION), tender):
+        quick_modes = (QUICK_NO_AUCTION, QUICK_FAST_FORWARD, QUICK_FAST_AUCTION)
+        if submission_method_details_includes(quick_modes, tender):
             return {"startDate": now, "endDate": now}
         else:
             return {"endDate": now}

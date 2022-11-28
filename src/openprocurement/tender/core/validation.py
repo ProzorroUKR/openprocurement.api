@@ -65,7 +65,7 @@ from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
     requested_fields_changes,
     check_skip_award_complaint_period,
-    submission_search,
+    submission_method_details_includes,
     QUICK_NO_AUCTION,
     QUICK_FAST_FORWARD,
     QUICK_FAST_AUCTION,
@@ -234,7 +234,8 @@ def validate_tender_auction_data(request, **kwargs):
         data = {}
     if request.method == "POST":
         now = get_now().isoformat()
-        if submission_search((QUICK_NO_AUCTION, QUICK_FAST_FORWARD, QUICK_FAST_AUCTION), tender):
+        quick_modes = (QUICK_NO_AUCTION, QUICK_FAST_FORWARD, QUICK_FAST_AUCTION)
+        if submission_method_details_includes(quick_modes, tender):
             auction_period = {"startDate": now, "endDate": now}
         else:
             auction_period = {"endDate": now}
