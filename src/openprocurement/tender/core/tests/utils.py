@@ -318,54 +318,41 @@ class TestIsTender(TestUtilsBase):
 
 class TestSubmissionMethodDetailsSearch(TestUtilsBase):
 
-    @patch("openprocurement.tender.core.utils.SANDBOX_MODE", True)
     def test_search_quick(self):
         tender = Tender(self.tender_data)
         tender.submissionMethodDetails = "some;quick"
 
         self.assertTrue(submission_method_details_includes(QUICK, tender))
 
-    @patch("openprocurement.tender.core.utils.SANDBOX_MODE", True)
     def test_search_quick_fast_forward(self):
         tender = Tender(self.tender_data)
         tender.submissionMethodDetails = "some;quick(mode:fast-forward)"
 
         self.assertTrue(submission_method_details_includes(QUICK_FAST_FORWARD, tender))
 
-    @patch("openprocurement.tender.core.utils.SANDBOX_MODE", True)
     def test_search_quick_fast_auction(self):
         tender = Tender(self.tender_data)
         tender.submissionMethodDetails = "some;quick(mode:fast-auction)"
 
         self.assertTrue(submission_method_details_includes(QUICK_FAST_AUCTION, tender))
 
-    @patch("openprocurement.tender.core.utils.SANDBOX_MODE", True)
     def test_search_quick_no_auction(self):
         tender = Tender(self.tender_data)
         tender.submissionMethodDetails = "some;quick(mode:no-auction)"
 
         self.assertTrue(submission_method_details_includes(QUICK_NO_AUCTION, tender))
 
-    @patch("openprocurement.tender.core.utils.SANDBOX_MODE", True)
     def test_search_tuple(self):
         tender = Tender(self.tender_data)
         tender.submissionMethodDetails = "some;quick(mode:fast-forward)"
 
         self.assertTrue(submission_method_details_includes((QUICK_FAST_FORWARD, "another"), tender))
 
-    @patch("openprocurement.tender.core.utils.SANDBOX_MODE", True)
     def test_search_list(self):
         tender = Tender(self.tender_data)
         tender.submissionMethodDetails = "some;quick(mode:fast-forward)"
 
         self.assertTrue(submission_method_details_includes([QUICK_FAST_FORWARD, "another"], tender))
-
-    @patch("openprocurement.tender.core.utils.SANDBOX_MODE", False)
-    def test_search_not_sandbox(self):
-        tender = Tender(self.tender_data)
-        tender.submissionMethodDetails = "some;quick(mode:fast-forward)"
-
-        self.assertFalse(submission_method_details_includes(QUICK_FAST_FORWARD, tender))
 
 
 def suite():
