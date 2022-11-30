@@ -97,8 +97,7 @@ class TenderAuctionResource(TenderBaseResource):
             self.request.validated["tender"] = tender = updated
 
         self.state.add_next_award()
-        auction_period = self.get_auction_period()
-        tender["auctionPeriod"].update(auction_period)
+        self.update_auction_period(tender)
 
         self.state.on_patch(self.request.validated["tender_src"], self.request.validated["tender"])
         if save_tender(self.request):
@@ -127,16 +126,14 @@ class TenderAuctionResource(TenderBaseResource):
 
         for lot in tender["lots"]:
             if lot["id"] == lot_id:
-                lot["auctionPeriod"].update(
-                    self.get_auction_period()
-                )
+                self.update_auction_period(lot)
                 break
         if all(
-                i.get("auctionPeriod") and i["auctionPeriod"].get("endDate")
-                # I believe, bids number check only required for belowThreshold procedure
-                # openua, for example, changes its lot.status to "unsuccessful"
-                for i in tender["lots"]
-                if i["status"] == "active" and self.state.count_lot_bids_number(tender, i["id"]) > 1
+            i.get("auctionPeriod") and i["auctionPeriod"].get("endDate")
+            # I believe, bids number check only required for belowThreshold procedure
+            # openua, for example, changes its lot.status to "unsuccessful"
+            for i in tender["lots"]
+            if i["status"] == "active" and self.state.count_lot_bids_number(tender, i["id"]) > 1
         ):
             self.state.add_next_award()
 
@@ -147,11 +144,11 @@ class TenderAuctionResource(TenderBaseResource):
             )
             return {"data": self.serializer_class(tender).data}
 
-    def get_auction_period(self):
+    def update_auction_period(self, obj):
         tender = self.request.validated["tender"]
         now = get_now().isoformat()
         quick_modes = (QUICK_NO_AUCTION, QUICK_FAST_FORWARD, QUICK_FAST_AUCTION)
-        if submission_method_details_includes(quick_modes, tender):
-            return {"startDate": now, "endDate": now}
+        if not submission_method_details_includes(quick_modes, tender):
+            obj["auctionPeriod"].update({"endDate": now})
         else:
-            return {"endDate": now}
+            obj["auctionPeriod"].update({"startDate": now, "endDate": now})
