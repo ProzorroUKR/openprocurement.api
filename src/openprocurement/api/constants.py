@@ -255,4 +255,4 @@ FAST_CATALOGUE_FLOW_FRAMEWORK_IDS = get_constant(
     parse_func=parse_str_list,
 )
 
-QUICK_NO_AUCTION_BY_DEFAULT = get_constant(CONSTANTS_CONFIG, "QUICK_NO_AUCTION_BY_DEFAULT", parse_func=parse_bool)
+QUICK_NO_AUCTION_FORCED = get_constant(CONSTANTS_CONFIG, "QUICK_NO_AUCTION_FORCED", parse_func=parse_bool)

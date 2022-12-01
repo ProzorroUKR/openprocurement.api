@@ -1,4 +1,4 @@
-from openprocurement.api.constants import QUICK_NO_AUCTION_BY_DEFAULT
+from openprocurement.api.constants import QUICK_NO_AUCTION_FORCED
 from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
 from openprocurement.tender.core.procedure.context import get_request, get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
@@ -107,12 +107,8 @@ class TenderDetailsState(TenderDetailsMixing, OpenTenderState):
             tender["enquiryPeriod"]["invalidationDate"] = invalidation_date
 
     def initialize_submission_method_details(self, tender):
-        if QUICK_NO_AUCTION_BY_DEFAULT:
-            smd = tender.get("submissionMethodDetails", "")
-            if not smd.endswith(QUICK_NO_AUCTION):
-                smd += ";" if smd else ""
-                smd += QUICK_NO_AUCTION
-            tender["submissionMethodDetails"] = smd
+        if QUICK_NO_AUCTION_FORCED:
+            tender["submissionMethodDetails"] = QUICK_NO_AUCTION
 
     def validate_tender_period_extension(self, tender):
         if "tenderPeriod" in tender and "endDate" in tender["tenderPeriod"]:
