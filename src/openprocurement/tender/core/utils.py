@@ -21,11 +21,9 @@ from cornice.resource import resource
 from openprocurement.api.mask import mask_object_data
 from openprocurement.api.constants import (
     WORKING_DAYS,
-    SANDBOX_MODE,
     TZ,
     WORKING_DATE_ALLOW_MIDNIGHT_FROM,
     NORMALIZED_CLARIFICATIONS_PERIOD_FROM,
-    NORMALIZE_SHOULD_START_AFTER,
     RELEASE_2020_04_19,
     NORMALIZED_TENDER_PERIOD_FROM,
 )
@@ -57,7 +55,6 @@ from openprocurement.tender.openua.constants import AUCTION_PERIOD_TIME
 from jsonpointer import JsonPointerException
 from jsonpatch import JsonPatchException, apply_patch as apply_json_patch
 from barbecue import chef, vnmax
-from uuid import uuid4
 import math
 
 LOGGER = getLogger("openprocurement.tender.core")
@@ -68,27 +65,24 @@ ACCELERATOR_RE = re.compile(".accelerator=(?P<accelerator>\d+)")
 optendersresource = partial(resource, error_handler=error_handler, factory=factory)
 
 
-QUICK = r"quick"
-QUICK_NO_AUCTION = r"quick\(mode:no-auction\)"
-QUICK_FAST_FORWARD = r"quick\(mode:fast-forward\)"
-QUICK_FAST_AUCTION = r"quick\(mode:fast-auction\)"
+QUICK = "quick"
+QUICK_NO_AUCTION = "quick(mode:no-auction)"
+QUICK_FAST_FORWARD = "quick(mode:fast-forward)"
+QUICK_FAST_AUCTION = "quick(mode:fast-auction)"
 
 
-def submission_search(pattern, tender):
-    patterns = pattern if isinstance(pattern, (tuple, list)) else (pattern,)
+def submission_method_details_includes(substr, tender):
     details = tender.submissionMethodDetails
-    if SANDBOX_MODE and details:
-        return any(re.search(pattern, details) for pattern in patterns)
+    if details:
+        substrs = substr if isinstance(substr, (tuple, list)) else (substr,)
+        return any(substr in details for substr in substrs)
     return False
 
 
 def normalize_should_start_after(start_after, tender):
-    if submission_search(QUICK, tender):
+    if submission_method_details_includes(QUICK, tender):
         return start_after
-    date = tender.enquiryPeriod and tender.enquiryPeriod.startDate or get_now()
-    if NORMALIZE_SHOULD_START_AFTER < date:
-        return calc_normalized_datetime(start_after, ceil=True)
-    return start_after
+    return calc_normalized_datetime(start_after, ceil=True)
 
 
 def calc_auction_end_time(bids, start):

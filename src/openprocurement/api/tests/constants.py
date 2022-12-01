@@ -1,10 +1,11 @@
+import configparser
+import unittest
+
+from os.path import dirname, join
+
 from openprocurement.api.constants import COORDINATES_REG_EXP
 from openprocurement.api.tests.base import BaseWebTest
-import configparser
-from os.path import dirname, join
-import unittest
-from os import environ
-from openprocurement.api.constants import parse_constant_date
+from openprocurement.api.constants import parse_date
 
 class ConstantsTestCase(unittest.TestCase):
 
@@ -44,14 +45,12 @@ class HealthTestBase(BaseWebTest):
         config = configparser.ConfigParser()
         config.read(file_path)
         result = {k.upper(): v for k, v in config["DEFAULT"].items()}
-        result.pop("MASK_OBJECT_DATA")
-        result.pop("MASK_OBJECT_DATA_SINGLE")
-        result.pop("FAST_CATALOGUE_FLOW_FRAMEWORK_IDS")
-        if "DEFAULT_RELEASE_2020_04_19" in environ:
-            date = environ['DEFAULT_RELEASE_2020_04_19']
-            result["RELEASE_2020_04_19"] = parse_constant_date(date).isoformat()
-        elif "DEFAULT_RELEASE_ECRITERIA_ARTICLE_17" in environ:
-            date = environ['DEFAULT_RELEASE_ECRITERIA_ARTICLE_17']
-            result["RELEASE_ECRITERIA_ARTICLE_17"] = parse_constant_date(date).isoformat()
+
+        # Only dates
+        for key in list(result.keys()):
+            try:
+                parse_date(result[key])
+            except ValueError:
+                result.pop(key)
 
         self.assertEqual(response.json, result)

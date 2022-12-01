@@ -1,10 +1,6 @@
 from openprocurement.api.utils import handle_store_exceptions, context_unpack
 from openprocurement.api.auth import extract_access_token
-from openprocurement.api.constants import (
-    SANDBOX_MODE,
-    TZ,
-    NORMALIZE_SHOULD_START_AFTER,
-)
+from openprocurement.api.constants import TZ
 from openprocurement.tender.core.procedure.context import get_now
 from openprocurement.tender.core.utils import QUICK
 from dateorro import calc_normalized_datetime
@@ -14,7 +10,6 @@ from hashlib import sha512
 from uuid import uuid4
 from logging import getLogger
 from datetime import datetime
-import re
 
 
 LOGGER = getLogger(__name__)
@@ -219,24 +214,18 @@ def prepare_patch(changes, orig, patch, basepath="", none_means_remove=False):
 # --- PATCHING
 
 
-def submission_search(pattern, tender):
-    patterns = pattern if isinstance(pattern, (tuple, list)) else (pattern,)
+def submission_method_details_includes(substr, tender):
     details = tender.get("submissionMethodDetails")
-    if SANDBOX_MODE and details:
-        return any(re.search(pattern, details) for pattern in patterns)
+    if details:
+        substrs = substr if isinstance(substr, (tuple, list)) else (substr,)
+        return any(substr in details for substr in substrs)
     return False
 
 
 def normalize_should_start_after(start_after, tender):
-    if submission_search(QUICK, tender):
+    if submission_method_details_includes(QUICK, tender):
         return start_after
-    if tender.get("enquiryPeriod", {}).get("startDate"):
-        date = dt_from_iso(tender["enquiryPeriod"]["startDate"])
-    else:
-        date = get_now()
-    if NORMALIZE_SHOULD_START_AFTER < date:
-        return calc_normalized_datetime(start_after, ceil=True)
-    return start_after
+    return calc_normalized_datetime(start_after, ceil=True)
 
 
 def contracts_allow_to_complete(contracts) -> bool:

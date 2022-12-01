@@ -90,8 +90,6 @@ COORDINATES_REG_EXP = re.compile(r"-?\d{1,3}\.\d+|-?\d{1,3}")
 
 SCALE_CODES = ["micro", "sme", "mid", "large", "not specified"]
 
-NORMALIZE_SHOULD_START_AFTER = datetime(2016, 7, 16, tzinfo=TZ)
-
 CPV_ITEMS_CLASS_FROM = datetime(2017, 1, 1, tzinfo=TZ)
 CPV_BLOCK_FROM = datetime(2017, 6, 2, tzinfo=TZ)
 
@@ -112,14 +110,19 @@ def load_constants(file_path):
     return config
 
 
-def parse_constant_date(value):
+def parse_date(value):
     date = parse_datetime(value)
     if not date.tzinfo:
         date = TZ.localize(date)
     return date
 
+def parse_bool(value):
+    if str(value).lower() in ("yes", "y", "true",  "t", "1"): return True
+    if str(value).lower() in ("no",  "n", "false", "f", "0", "0.0", "", "none", "[]", "{}"): return False
+    raise ValueError('Invalid value for boolean conversion: ' + str(value))
 
-def get_constant(config, constant, section=DEFAULTSECT, parse_func=parse_constant_date):
+
+def get_constant(config, constant, section=DEFAULTSECT, parse_func=parse_date):
     return parse_func(os.environ.get("{}_{}".format(section, constant)) or config.get(section, constant))
 
 
@@ -238,9 +241,9 @@ MINIMAL_STEP_VALIDATION_UPPER_LIMIT = 0.03
 
 
 # Masking
-MASK_OBJECT_DATA = get_constant(CONSTANTS_CONFIG, "MASK_OBJECT_DATA", parse_func=bool)
+MASK_OBJECT_DATA = get_constant(CONSTANTS_CONFIG, "MASK_OBJECT_DATA", parse_func=parse_bool)
 MASK_IDENTIFIER_IDS = set(standards.load("organizations/mask_identifiers.json"))
-MASK_OBJECT_DATA_SINGLE = get_constant(CONSTANTS_CONFIG, "MASK_OBJECT_DATA_SINGLE", parse_func=bool)
+MASK_OBJECT_DATA_SINGLE = get_constant(CONSTANTS_CONFIG, "MASK_OBJECT_DATA_SINGLE", parse_func=parse_bool)
 
 # CS-12463
 FRAMEWORK_ENQUIRY_PERIOD_OFF_FROM = get_constant(CONSTANTS_CONFIG, "FRAMEWORK_ENQUIRY_PERIOD_OFF_FROM")
@@ -251,3 +254,5 @@ FAST_CATALOGUE_FLOW_FRAMEWORK_IDS = get_constant(
     "FAST_CATALOGUE_FLOW_FRAMEWORK_IDS",
     parse_func=parse_str_list,
 )
+
+QUICK_NO_AUCTION_FORCED = get_constant(CONSTANTS_CONFIG, "QUICK_NO_AUCTION_FORCED", parse_func=parse_bool)
