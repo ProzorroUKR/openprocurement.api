@@ -2298,6 +2298,7 @@ class BaseTender(RootModel):
                 "owner",
                 "plans",
                 "criteria",
+                "is_masked",
             ),
             "auction_view": whitelist(
                 "tenderID",
@@ -2373,6 +2374,8 @@ class BaseTender(RootModel):
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
     buyers = ListType(ModelType(BaseOrganization, required=True), default=list())
     plans = ListType(ModelType(PlanRelation, required=True), default=list())
+
+    is_masked = BooleanType()
 
     def link_plan(self, plan_id):
         self.plans.append(PlanRelation({"id": plan_id}))
