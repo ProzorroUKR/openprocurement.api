@@ -29,7 +29,7 @@ class DBSessionCookieMiddleware:
                         values["operation_time"]
                     )
                 except Exception as e:
-                    LOGGER.warning(f"Error on cookie parsing: {type(e)} {e.args}")
+                    LOGGER.debug(f"Error on cookie parsing: {type(e)} {e.args}")
 
             set_db_session(session)
             try:
