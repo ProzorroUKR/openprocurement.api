@@ -48,6 +48,8 @@ def parse_str_list(value):
 
 DEPRECATED_FEED_USER_AGENTS = parse_str_list(os.environ.get("DEPRECATED_FEED_USER_AGENTS", ""))
 
+TENDER_PERIOD_START_DATE_STALE_MINUTES = int(os.environ.get("TENDER_PERIOD_START_DATE_STALE_MINUTES", 10))
+
 
 def read_json(name):
     import os.path

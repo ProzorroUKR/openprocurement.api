@@ -1,7 +1,7 @@
 from openprocurement.tender.core.procedure.context import get_request, get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.api.utils import raise_operation_error, get_first_revision_date
-from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
+from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17, TENDER_PERIOD_START_DATE_STALE_MINUTES
 from datetime import timedelta
 
 
@@ -66,7 +66,7 @@ class TenderDetailsMixing:
             )
         elif after == "active.tendering" and before != "active.tendering":
             tendering_start = data["tenderPeriod"]["startDate"]
-            if dt_from_iso(tendering_start) <= get_now() - timedelta(minutes=10):
+            if dt_from_iso(tendering_start) <= get_now() - timedelta(minutes=TENDER_PERIOD_START_DATE_STALE_MINUTES):
                 raise_operation_error(
                     get_request(),
                     "tenderPeriod.startDate should be in greater than current date",
