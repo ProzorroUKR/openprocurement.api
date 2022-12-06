@@ -1414,26 +1414,11 @@ def patch_tender_contract_value_vat_change(self):
 
     response = self.app.patch_json(
         "/contracts/{}?acc_token={}".format(self.contract["id"], token),
-        {"data": {"status": "terminated"}},
+        {"data": {"amountPaid": {"valueAddedTaxIncluded": False, "amount": 238, "amountNet": 239}}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "location": "body",
-                "name": "amountPaid",
-                "description": "Amount and amountNet should be equal"
-            }
-        ],
-    )
-
-    response = self.app.patch_json(
-        "/contracts/{}?acc_token={}".format(self.contract["id"], token),
-        {"data": {"amountPaid": {"amount": 238, "amountNet": 238}}},
-    )
-    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["errors"][0]["description"], "Amount and amountNet should be equal")
 
     response = self.app.patch_json(
         "/contracts/{}?acc_token={}".format(self.contract["id"], token),

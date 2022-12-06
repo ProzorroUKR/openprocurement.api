@@ -464,7 +464,7 @@ class ContractStateMixing:
         if contract_value and {"status", name} & set(request.validated["json_data"].keys()):
             amount = to_decimal(contract_value.get("amount") or 0)
             amount_net = to_decimal(contract_value.get("amountNet") or 0)
-            tax_included = value.get("valueAddedTaxIncluded")
+            tax_included = contract_value.get("valueAddedTaxIncluded")
 
             if not (amount == 0 and amount_net == 0):
                 if tax_included:
