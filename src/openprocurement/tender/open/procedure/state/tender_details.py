@@ -36,10 +36,13 @@ class TenderDetailsState(TenderDetailsMixing, OpenTenderState):
         "CRITERION.EXCLUSION.NATIONAL.OTHER",
     }
 
+    def always(self, data):
+        super().always(data)
+        self.set_no_auction_forced(data)
+
     def on_post(self, tender):
         super().on_post(tender)  # TenderDetailsMixing.on_post
         self.initialize_enquiry_period(tender)
-        self.initialize_submission_method_details(tender)
 
     def on_patch(self, before, after):
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
@@ -106,7 +109,7 @@ class TenderDetailsState(TenderDetailsMixing, OpenTenderState):
         if invalidation_date:
             tender["enquiryPeriod"]["invalidationDate"] = invalidation_date
 
-    def initialize_submission_method_details(self, tender):
+    def set_no_auction_forced(self, tender):
         if QUICK_NO_AUCTION_FORCED:
             tender["submissionMethodDetails"] = QUICK_NO_AUCTION
 
