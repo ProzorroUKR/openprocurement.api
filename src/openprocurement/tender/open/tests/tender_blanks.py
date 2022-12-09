@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from datetime import timedelta, datetime
 from copy import deepcopy
@@ -472,6 +474,35 @@ def create_tender_invalid(self):
             }
         ],
     )
+
+
+
+@patch("openprocurement.tender.open.procedure.state.tender_details.QUICK_NO_AUCTION_FORCED", True)
+def create_tender_no_auction(self):
+    data = self.initial_data.copy()
+    if "submissionMethodDetails" in data:
+        data.pop("submissionMethodDetails")
+    response = self.app.post_json("/tenders", {"data": data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+
+    tender = response.json["data"]
+    owner_token = response.json["access"]["token"]
+    self.assertEqual(tender.get("submissionMethodDetails"), "quick(mode:no-auction)")
+
+    update_data = {
+        "submissionMethodDetails": "",
+    }
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
+        {"data": update_data},
+        content_type="application/json"
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    tender = response.json["data"]
+    self.assertEqual(tender.get("submissionMethodDetails"), "quick(mode:no-auction)")
 
 
 def create_tender_generated(self):
