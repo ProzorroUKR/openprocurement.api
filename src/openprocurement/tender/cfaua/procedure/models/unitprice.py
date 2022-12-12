@@ -6,7 +6,7 @@ from openprocurement.tender.core.procedure.models.guarantee import Guarantee
 
 
 class Value(Guarantee):
-    amount = DecimalType(precision=-2, min_value=Decimal("0.0"))
+    amount = DecimalType(min_value=Decimal("0.0"))
     valueAddedTaxIncluded = BooleanType(required=True)
 
 

@@ -903,12 +903,13 @@ def patch_tender_agreement_contract(self):
         ),
         {
             "data": {
-                "unitPrices": [
-                    {"relatedItem": related_item, "value": {"amount": 100, "currency": "UAH",
-                                                            "valueAddedTaxIncluded": True}},
-                    {"relatedItem": uuid4().hex, "value": {"amount": 1, "currency": "UAH",
-                                                           "valueAddedTaxIncluded": True}},
-                ]
+                "unitPrices": [{
+                    "relatedItem": related_item,
+                    "value": {"amount": 100, "currency": "UAH", "valueAddedTaxIncluded": True},
+                }, {
+                    "relatedItem": uuid4().hex,
+                    "value": {"amount": 1, "currency": "UAH", "valueAddedTaxIncluded": True},
+                }]
             }
         },
         status=422,
@@ -928,19 +929,18 @@ def patch_tender_agreement_contract(self):
         "/tenders/{}/agreements/{}/contracts/{}?acc_token={}".format(
             self.tender_id, self.agreement_id, self.contract_id, self.tender_token
         ),
-        {"data": {"unitPrices": [{"relatedItem": uuid4().hex,
-                                  "value": {"amount": 1, "currency": "UAH", "valueAddedTaxIncluded": True}}]}},
+        {"data": {"unitPrices": [{
+            "relatedItem": uuid4().hex,
+            "value": {"amount": 1, "currency": "UAH", "valueAddedTaxIncluded": True},
+        }]}},
         status=422,
     )
     self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": "All relatedItem values doesn't match with contract.",
-                "location": "body",
-                "name": "data",
-            }
-        ],
+        response.json["errors"], [{
+            "description": "All relatedItem values doesn't match with contract.",
+            "location": "body",
+            "name": "data",
+        }],
     )
 
     response = self.app.patch_json(
@@ -1028,6 +1028,13 @@ def patch_tender_agreement_contract(self):
 
 
 def patch_lots_agreement_contract_unit_prices(self):
+    self.tender_document_patch["agreements"] = self.tender_document["agreements"]
+    self.tender_document_patch["agreements"][0]["items"][0]["quantity"] = 320000.0
+    self.tender_document_patch["bids"] = self.tender_document["bids"]
+    for bid in self.tender_document_patch["bids"]:
+        bid["lotValues"][0]["value"]["amount"] = 25590000.0
+    self.save_changes()
+
     response = self.app.get("/tenders/{}".format(self.tender_id))
     bid_id = response.json["data"]["bids"][-1]["id"]
     bid_value = response.json["data"]["bids"][-1]["lotValues"][0]["value"]["amount"]
@@ -1040,14 +1047,16 @@ def patch_lots_agreement_contract_unit_prices(self):
 
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}/contracts/{}?acc_token={}".format(
-            self.tender_id, agreement["id"], contract["id"], self.tender_token
+            self.tender_id, self.agreement_id, self.contract_id, self.tender_token
         ),
         {"data": {"unitPrices": [{
-            "value": {"amount": 60, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "value": {"amount": 79.968, "currency": "UAH", "valueAddedTaxIncluded": True},
             "relatedItem": related_item,
         }]}},
     )
     self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "active")
+    self.assertEqual(response.json["data"]["unitPrices"][0]["value"]["amount"], 79.968)
 
     response = self.app.get("/tenders/{}/bids".format(self.tender_id))
     bids = response.json["data"]
@@ -1059,7 +1068,7 @@ def patch_lots_agreement_contract_unit_prices(self):
             self.tender_id, agreement["id"], contract["id"], self.tender_token
         ),
         {"data": {"unitPrices": [
-            {"value": {"amount": 6000, "currency": "UAH", "valueAddedTaxIncluded": True},
+            {"value": {"amount": 79.97, "currency": "UAH", "valueAddedTaxIncluded": True},
              "relatedItem": related_item}
         ]}},
         status=422,
