@@ -1678,7 +1678,7 @@ def validate_update_contract_value_amount(request, name="value", **kwargs):
     if contract_value and requested_fields_changes(request, (name, "status")):
         amount = to_decimal(contract_value.get("amount"))
         amount_net = to_decimal(contract_value.get("amountNet"))
-        tax_included = value.get("valueAddedTaxIncluded")
+        tax_included = contract_value.get("valueAddedTaxIncluded")
 
         if not (amount == 0 and amount_net == 0):
             if tax_included:
