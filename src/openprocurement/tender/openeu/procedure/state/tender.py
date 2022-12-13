@@ -126,6 +126,12 @@ class BaseOpenEUTenderState(PreQualificationShouldStartAfterMixing, TenderState)
                 self.get_change_tender_status_handler("cancelled")(tender)
         return handler
 
+    def invalidate_bids_data(self, tender):
+        tender["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
+        for bid in tender.get("bids", ""):
+            if bid.get("status") not in ("deleted", "draft"):
+                bid["status"] = "invalid"
+
     def pre_qualification_stand_still_ends_handler(self, tender):
         handler = self.get_change_tender_status_handler("active.auction")
         handler(tender)

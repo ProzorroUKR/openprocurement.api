@@ -137,11 +137,11 @@ class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing):
                 name="item"
             )
 
-    def invalidate_bids_data(self, tender):
-        tender["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
-        for bid in tender.get("bids", ""):
-            if bid.get("status") not in ("deleted", "draft"):
-                bid["status"] = "invalid"
+    # def invalidate_bids_data(self, tender):
+    #     tender["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
+    #     for bid in tender.get("bids", ""):
+    #         if bid.get("status") not in ("deleted", "draft"):
+    #             bid["status"] = "invalid"
 
     @staticmethod
     def update_complaint_period(tender):

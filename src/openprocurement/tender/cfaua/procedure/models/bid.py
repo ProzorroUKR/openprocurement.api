@@ -1,5 +1,5 @@
 from schematics.types import StringType, BooleanType
-from openprocurement.tender.core.procedure.models.req_response import PostBidResponsesMixin, PatchBidResponsesMixin
+from openprocurement.tender.core.procedure.models.req_response import PostBidResponsesMixin, PatchObjResponsesMixin
 from openprocurement.tender.core.procedure.models.bid import (
     Bid as BaseBid,
     PostBid as BasePostBid,
@@ -15,7 +15,7 @@ from openprocurement.tender.openeu.procedure.models.document import (
 from schematics.types.compound import ModelType
 
 
-class PatchBid(PatchBidResponsesMixin, BasePatchBid):
+class PatchBid(PatchObjResponsesMixin, BasePatchBid):
     subcontractingDetails = StringType()
     lotValues = ListType(ModelType(PatchLotValue, required=True))
     selfQualified = BooleanType(choices=[True])  # selfQualified, selfEligible are the same as in the parent but

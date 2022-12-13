@@ -7,12 +7,12 @@ from openprocurement.tender.core.procedure.models.base import (
     ListType,
     BaseQualification,
 )
-from openprocurement.tender.core.procedure.models.req_response import RequirementResponse
+from openprocurement.tender.core.procedure.models.req_response import RequirementResponse, PatchObjResponsesMixin
 from openprocurement.tender.core.procedure.models.document import EUDocument
 from openprocurement.tender.core.procedure.models.milestone import QualificationMilestoneListMixin
 
 
-class PatchQualification(BaseQualification):
+class PatchQualification(PatchObjResponsesMixin):
     title = StringType()
     title_en = StringType()
     title_ru = StringType()
@@ -22,9 +22,6 @@ class PatchQualification(BaseQualification):
     status = StringType(choices=["pending", "active", "unsuccessful", "cancelled"])
     qualified = BooleanType()
     eligible = BooleanType()
-    requirementResponses = ListType(
-        ModelType(RequirementResponse, required=True),
-    )
 
 
 class Qualification(PatchQualification, QualificationMilestoneListMixin):

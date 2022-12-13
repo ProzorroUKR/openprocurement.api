@@ -4,7 +4,7 @@ from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.validation import validate_bid_value
 from openprocurement.tender.competitivedialogue.procedure.models.lot_value import LotValue, PatchLotValue, PostLotValue
 from openprocurement.tender.competitivedialogue.procedure.models.document import PostDocument, Document
-from openprocurement.tender.core.procedure.models.req_response import PostBidResponsesMixin, PatchBidResponsesMixin
+from openprocurement.tender.core.procedure.models.req_response import PostBidResponsesMixin, PatchObjResponsesMixin
 from openprocurement.tender.core.procedure.models.bid import MetaBid, validate_lot_values, get_default_bid_status
 from schematics.types.compound import ModelType
 from schematics.types import BooleanType, StringType
@@ -12,7 +12,7 @@ from schematics.types.serializable import serializable
 from uuid import uuid4
 
 
-class PatchBid(PatchBidResponsesMixin, BaseBid):
+class PatchBid(PatchObjResponsesMixin, BaseBid):
     tenderers = ListType(ModelType(PatchBusinessOrganization, required=True), min_size=1, max_size=1)
     lotValues = ListType(ModelType(PatchLotValue, required=True))
     subcontractingDetails = StringType()

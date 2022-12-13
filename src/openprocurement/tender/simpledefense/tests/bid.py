@@ -206,7 +206,6 @@ class TenderBidRequirementResponseEvidenceResourceTest(
 ):
     test_bids_data = test_bids
     initial_status = "active.tendering"
-    tender_auth = ("Basic", ("token", ""))
     guarantee_criterion = False
 
 

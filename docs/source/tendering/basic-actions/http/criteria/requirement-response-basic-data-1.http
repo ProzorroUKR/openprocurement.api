@@ -11,7 +11,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "c8ab68b273a049e2a383e50762e57a27",
+          "id": "4198c9413b51442eab2d779a5f23f656",
           "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
         },
         "evidences": [
@@ -38,25 +38,25 @@ Content-Type: application/json
   "data": {
     "requirementResponses": [
       {
-        "id": "cf9dd4e55be44146a4be1c540c06852c",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "c8ab68b273a049e2a383e50762e57a27",
+          "id": "4198c9413b51442eab2d779a5f23f656",
           "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
         },
         "evidences": [
           {
-            "id": "e4e1c9bcf7cc424688b6e9ab1b53fc2b",
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
               "id": "82f8566f236e42329fd7ea1aacc38cd1",
               "title": "name.doc"
-            }
+            },
+            "id": "7affe1d416f646599cc2610c48c58fc6"
           }
         ],
-        "value": "True"
+        "value": "True",
+        "id": "cf9dd4e55be44146a4be1c540c06852c"
       }
     ],
     "value": {

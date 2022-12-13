@@ -1,7 +1,9 @@
+from typing import Optional
+
 from openprocurement.api.utils import handle_store_exceptions, context_unpack
 from openprocurement.api.auth import extract_access_token
 from openprocurement.api.constants import TZ
-from openprocurement.tender.core.procedure.context import get_now
+from openprocurement.tender.core.procedure.context import get_now, get_json_data, get_bid, get_request
 from openprocurement.tender.core.utils import QUICK
 from dateorro import calc_normalized_datetime
 from jsonpatch import make_patch, apply_patch
@@ -255,3 +257,23 @@ def find_item_by_id(list_items: list, find_id: str) -> dict:
         if item.get("id") == find_id:
             return item
     return {}
+
+
+def get_criterion_requirement(tender, requirement_id) -> Optional[dict]:
+    for criteria in tender.get("criteria", ""):
+        for group in criteria.get("requirementGroups", ""):
+            for req in group.get("requirements", ""):
+                if req["id"] == requirement_id:
+                    return criteria
+
+
+def bid_in_invalid_status() -> Optional[bool]:
+    request = get_request()
+    if "/bids" not in request.url:
+        return
+    json_data = get_json_data()
+    status = json_data.get("status") if isinstance(json_data, dict) else None
+    if not status:
+        bid = get_bid()
+        status = bid["status"] if bid else "draft"
+    return status in ("deleted", "invalid", "invalid.pre-qualification", "unsuccessful", "draft")

@@ -16,6 +16,7 @@ from openprocurement.tender.belowthreshold.tests.criterion_blanks import (
     delete_requirement_evidence,
     put_rg_requirement_invalid,
     put_rg_requirement_valid,
+    create_patch_delete_evidences_from_requirement,
 )
 
 
@@ -57,6 +58,7 @@ class TenderCriteriaRGRequirementEvidenceTest(
     test_lots_data = test_lots
     initial_status = "active.enquiries"
 
+    test_create_patch_delete_evidences_from_requirement = snitch(create_patch_delete_evidences_from_requirement)
     test_delete_requirement_evidence = snitch(delete_requirement_evidence)
 
 

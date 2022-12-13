@@ -5,7 +5,7 @@ from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.validation import validate_bid_value
 from openprocurement.tender.core.procedure.models.base import ListType
 from openprocurement.tender.core.procedure.models.parameter import Parameter, PatchParameter
-from openprocurement.tender.core.procedure.models.req_response import PostBidResponsesMixin, PatchBidResponsesMixin
+from openprocurement.tender.core.procedure.models.req_response import PostBidResponsesMixin, PatchObjResponsesMixin
 from openprocurement.tender.openua.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
 from openprocurement.tender.openua.procedure.models.document import PostDocument, Document
 from openprocurement.tender.core.procedure.models.bid import (
@@ -15,7 +15,7 @@ from openprocurement.tender.core.procedure.models.bid import (
 )
 
 
-class PatchBid(BasePatchBid, PatchBidResponsesMixin):
+class PatchBid(BasePatchBid, PatchObjResponsesMixin):
     selfEligible = BooleanType(choices=[True])
     selfQualified = BooleanType(choices=[True])
     subcontractingDetails = StringType()

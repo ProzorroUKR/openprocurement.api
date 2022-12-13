@@ -2165,9 +2165,24 @@ def create_bid_requirement_response(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{'description': {'requirement': ['This field is required.'], 'value': ['This field is required.']},
-          'location': 'body',
-          'name': 0}]
+        [
+            {'location': 'body', 'name': 'requirement', 'description': ['This field is required.']},
+            {'location': 'body', 'name': 'value', 'description': ['This field is required.']},
+        ]
+    )
+
+    response = self.app.post_json(request_path, {"data": valid_data})
+    self.assertEqual(response.status, "201 Created")
+
+    response = self.app.post_json(request_path, {"data": valid_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": 0,
+            "description": {"requirement": "Requirement id should be uniq for all requirement responses"}
+        }]
     )
 
 
@@ -2185,10 +2200,24 @@ def patch_bid_requirement_response(self):
         "value": "True"
     }]
 
+    valid_data_2 = [{
+        "title": "Requirement response 2",
+        "description": "some description 2",
+        "requirement": {
+            "id": self.requirement_2_id,
+            "title": self.requirement_2_title,
+        },
+        "value": "True"
+    }]
+
     response = self.app.post_json(request_path, {"data": valid_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     rr_id = response.json["data"][0]["id"]
+
+    response = self.app.post_json(request_path, {"data": valid_data_2})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
 
     base_request_path = "/tenders/{}/bids/{}/requirement_responses/{}".format(self.tender_id, self.bid_id, rr_id)
     request_path = "{}?acc_token={}".format(base_request_path, self.bid_token)
@@ -2263,6 +2292,27 @@ def patch_bid_requirement_response(self):
     self.assertEqual(rr["title"], updated_data["title"])
     self.assertEqual(rr["value"], updated_data["value"])
     self.assertNotIn("evidences", rr)
+
+    response = self.app.patch_json(
+        request_path,
+        {"data": {
+            "requirement": {
+                "id": self.requirement_2_id,
+                "title": self.requirement_2_title,
+            },
+        }},
+        status=422,
+    )
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "requirement",
+            "description": "Requirement id should be uniq for all requirement responses"
+        }]
+    )
 
 
 def get_bid_requirement_response(self):

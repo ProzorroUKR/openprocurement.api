@@ -96,14 +96,6 @@ class TenderDetailsState(OpenUATenderDetailsMixing, OpenUATenderState):
                     )
                 )
 
-    @classmethod
-    def invalidate_bids_data(cls, tender):
-        cls.check_auction_time(tender)
-        tender["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
-        for bid in tender.get("bids", ""):
-            if bid.get("status") not in ("deleted", "draft"):
-                bid["status"] = "invalid"
-
     @staticmethod
     def check_auction_time(tender):
         if check_auction_period(tender.get("auctionPeriod", {}), tender):

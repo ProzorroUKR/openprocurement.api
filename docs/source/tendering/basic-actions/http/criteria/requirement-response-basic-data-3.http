@@ -11,7 +11,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "c8ab68b273a049e2a383e50762e57a27",
+          "id": "4198c9413b51442eab2d779a5f23f656",
           "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
         },
         "evidences": [
@@ -30,7 +30,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Requirement response 2",
         "description": "some description",
         "requirement": {
-          "id": "86946b3dc1bb4ee4b173659c2a69860e",
+          "id": "55793858b955403c94b8684888df3e3a",
           "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
         },
         "evidences": [
@@ -57,46 +57,46 @@ Content-Type: application/json
   "data": {
     "requirementResponses": [
       {
-        "id": "189aa706a8654173aef499aa057846a7",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "c8ab68b273a049e2a383e50762e57a27",
+          "id": "4198c9413b51442eab2d779a5f23f656",
           "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
         },
         "evidences": [
           {
-            "id": "c85bfec668e34805aad3947bbfb8a986",
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
               "id": "82f8566f236e42329fd7ea1aacc38cd1",
               "title": "name.doc"
-            }
+            },
+            "id": "b7f975ba9587479e841d953337fd0b69"
           }
         ],
-        "value": "True"
+        "value": "True",
+        "id": "189aa706a8654173aef499aa057846a7"
       },
       {
-        "id": "28221a90f7174fb0a5874a8532604ba9",
         "title": "Requirement response 2",
         "description": "some description",
         "requirement": {
-          "id": "86946b3dc1bb4ee4b173659c2a69860e",
+          "id": "55793858b955403c94b8684888df3e3a",
           "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
         },
         "evidences": [
           {
-            "id": "8432241e2fe24e189f38e3c135ec81d7",
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
               "id": "82f8566f236e42329fd7ea1aacc38cd1",
               "title": "name.doc"
-            }
+            },
+            "id": "340410c436c14cc480bcdaceba1fdd8b"
           }
         ],
-        "value": "True"
+        "value": "True",
+        "id": "28221a90f7174fb0a5874a8532604ba9"
       }
     ],
     "value": {

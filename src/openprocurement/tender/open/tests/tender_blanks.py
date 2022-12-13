@@ -1522,15 +1522,13 @@ def create_tender_with_criteria_lcc(self):
         response.json["errors"],
         [{
             "location": "body",
-            "name": 0,
+            "name": "classification",
             "description": {
-                "classification": {
-                    "id": [
-                        "{} is available only with lifeCycleCost awardCriteria".format(
-                            test_lcc_criteria[0]["classification"]["id"]
-                        )
-                    ]
-                }
+                "id": [
+                    "{} is available only with lifeCycleCost awardCriteria".format(
+                        test_lcc_criteria[0]["classification"]["id"]
+                    )
+                ]
             }
         }]
     )

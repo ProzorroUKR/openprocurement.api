@@ -1,5 +1,5 @@
 from schematics.types import StringType
-from openprocurement.tender.core.procedure.models.req_response import PostBidResponsesMixin, PatchBidResponsesMixin
+from openprocurement.tender.core.procedure.models.req_response import PostBidResponsesMixin, PatchObjResponsesMixin
 from openprocurement.tender.core.procedure.models.bid import (
     Bid as BaseBid,
     PostBid as BasePostBid,
@@ -12,7 +12,7 @@ from schematics.types.compound import ModelType
 from openprocurement.tender.core.models import validate_parameters_uniq
 
 
-class PatchBid(PatchBidResponsesMixin, BasePatchBid):
+class PatchBid(PatchObjResponsesMixin, BasePatchBid):
     parameters = ListType(ModelType(PatchParameter, required=True), validators=[validate_parameters_uniq])
     lotValues = ListType(ModelType(PatchLotValue, required=True))
     subcontractingDetails = StringType()

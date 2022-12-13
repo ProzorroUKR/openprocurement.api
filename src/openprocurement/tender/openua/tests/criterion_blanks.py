@@ -38,10 +38,11 @@ def create_tender_criteria_valid(self):
     self.assertEqual(response3.status, "201 Created")
     self.assertEqual(response3.content_type, "application/json")
     criterion_id = response3.json["data"][0]["id"]
+    criterion_data = response3.json["data"][0]
 
     response3 = self.app.patch_json(
         "/tenders/{}/criteria/{}?acc_token={}".format(self.tender_id, criterion_id, self.tender_token),
-        {"data": {"classification": {"id": test_criteria[0]["classification"]["id"]}}},
+        {"data": {"classification": {**criterion_data["classification"], "id": test_criteria[0]["classification"]["id"]}}},
         status=403
     )
     self.assertEqual(response3.status, "403 Forbidden")
@@ -121,9 +122,9 @@ def create_tender_criteria_invalid(self):
         response.json["errors"],
         [
             {
-                "description": {"relatedItem": ["This field is required."]},
+                "description": ["This field is required."],
                 "location": "body",
-                "name": 0,
+                "name": "relatedItem",
             }
         ],
     )
@@ -137,9 +138,9 @@ def create_tender_criteria_invalid(self):
         response.json["errors"],
         [
             {
-                "description": {"relatedItem": ["relatedItem should be one of lots"]},
+                "description": ["relatedItem should be one of lots"],
                 "location": "body",
-                "name": 0,
+                "name": "relatedItem",
             }
         ],
     )
@@ -153,9 +154,9 @@ def create_tender_criteria_invalid(self):
         response.json["errors"],
         [
             {
-                "description": {"relatedItem": ["relatedItem should be one of items"]},
+                "description": ["relatedItem should be one of items"],
                 "location": "body",
-                "name": 0,
+                "name": "relatedItem",
             }
         ],
     )
@@ -172,24 +173,18 @@ def create_tender_criteria_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [
-            {
-                "description": {
-                    'requirementGroups': [
-                        {
-                            'requirements': [
-                                {
-                                    'expectedValue': ['Must be either true or false.'],
-                                    'relatedFeature': ['relatedFeature should be one of features'],
-                                }
-                            ],
-                        }
-                    ],
-                },
-                "location": "body",
-                "name": 0,
-            }
-        ],
+        [{
+            'location': 'body',
+            'name': 'requirementGroups',
+            'description': [{
+                'requirements': [
+                    {
+                        'relatedFeature': ['relatedFeature should be one of features'],
+                        'expectedValue': ['Must be either true or false.'],
+                    }
+                ]
+            }]
+        }]
     )
 
     requirement_1["minValue"] = "min some text"
@@ -202,17 +197,11 @@ def create_tender_criteria_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [
-            {
-                "description": {
-                    'requirementGroups': [
-                        {'requirements': [['expectedValue conflicts with ["minValue", "maxValue"]']]}
-                    ]
-                },
-                "location": "body",
-                "name": 0,
-            }
-        ],
+        [{
+            'location': 'body',
+            'name': 'requirementGroups',
+            'description': [{'requirements': [['expectedValue conflicts with ["minValue", "maxValue"]']]}]
+        }],
     )
 
     lang_criterion = deepcopy(language_criteria)
@@ -223,21 +212,13 @@ def create_tender_criteria_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [
-            {
-                "description": {
-                    "requirementGroups": [
-                        {
-                            "requirements": [
-                                {'expectedValue': ["Value must be true"]}
-                            ]
-                        }
-                    ]
-                },
-                "location": "body",
-                "name": 0,
-            }
-        ],
+        [{
+            "location": "body",
+            "name": "requirementGroups",
+            "description": [{
+                "expectedValue": ["Value must be true"],
+            }],
+        }],
     )
 
     lang_criterion[0]["requirementGroups"][0]["requirements"][0]["expectedValue"] = True
@@ -248,28 +229,15 @@ def create_tender_criteria_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [
-            {
-                "description": {
-                    "requirementGroups": [
-                        {
-                            "requirements": [
-                                {
-                                    "dataType": [
-                                        "dataType must be boolean"
-                                    ],
-                                    "expectedValue": [
-                                        "Value must be true"
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                "location": "body",
-                "name": 0,
-            }
-        ],
+        [{
+            'location': 'body',
+            'name': 'requirementGroups',
+            'description': [{
+                "dataType": [
+                    "dataType must be boolean"
+                ]
+            }],
+        }],
     )
 
     lang_criterion[0]["requirementGroups"][0]["requirements"][0]["dataType"] = "boolean"
@@ -287,23 +255,15 @@ def create_tender_criteria_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [
-            {
-                "description": {
-                    "requirementGroups": [
-                        {
-                            "requirements": [
-                                {"eligibleEvidences": [
-                                    "This field is forbidden for current criterion"
-                                ]}
-                            ]
-                        }
-                    ]
-                },
-                "location": "body",
-                "name": 0,
-            }
-        ],
+        [{
+            'location': 'body',
+            'name': 'requirementGroups',
+            'description': [{
+                "eligibleEvidences": [
+                    "This field is forbidden for current criterion"
+                ]},
+            ],
+        }],
     )
 
     lang_criterion = deepcopy(language_criteria)
@@ -315,7 +275,7 @@ def create_tender_criteria_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{'location': 'body', 'name': 0, 'description': {'relatesTo': ['This field is required.']}}]
+        [{'location': 'body', 'name': 'relatesTo', 'description': ['This field is required.']}]
     )
 
 
@@ -339,11 +299,6 @@ def patch_tender_criteria_valid(self):
         "title_en": "Updated title",
         "title_ru": "Обновлённое название",
         "description": "Оновлений опис",
-        "requirementGroups": [
-            {
-                "description": "Not added requirementGroup",
-            }
-        ]
     }
     response = self.app.patch_json(
         request_path,
@@ -356,12 +311,10 @@ def patch_tender_criteria_valid(self):
     self.assertEqual(criteria["title_en"], updated_data["title_en"])
     self.assertEqual(criteria["title_ru"], updated_data["title_ru"])
     self.assertEqual(criteria["description"], updated_data["description"])
-    self.assertNotEqual(criteria["requirementGroups"], updated_data["requirementGroups"])
-    for rg in criteria["requirementGroups"]:
-        self.assertNotEqual(rg["description"], updated_data["requirementGroups"][0]["description"])
 
     updated_data = {
         "classification": {
+            **criteria["classification"],
             "id": criteria_data[1]["classification"]["id"]
         },
     }
@@ -406,7 +359,6 @@ def patch_tender_criteria_invalid(self):
         "title_en": "Updated title",
         "title_ru": "Обновлённое название",
         "description": "Оновлений опис",
-        "relatesTo": "lot",
     }
 
     response = self.app.patch_json(
@@ -427,6 +379,7 @@ def patch_tender_criteria_invalid(self):
         }]
     )
 
+    updated_data["relatesTo"] = "lot"
     response = self.app.patch_json(
         request_path,
         {"data": updated_data},
@@ -751,17 +704,17 @@ def create_rg_requirement_valid(self):
 
     requirement_data = deepcopy(self.test_requirement_data)
     requirement_data["id"] = requirement["id"]
-
-    response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{'description': ['Requirement id should be uniq for all requirements in tender'],
-          'location': 'body',
-          'name': 'criteria'}],
-    )
+    # Now it's useless test
+    # response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
+    # self.assertEqual(response.status, "422 Unprocessable Entity")
+    # self.assertEqual(response.content_type, "application/json")
+    # self.assertEqual(response.json["status"], "error")
+    # self.assertEqual(
+    #     response.json["errors"],
+    #     [{'description': ['Requirement id should be uniq for all requirements in tender'],
+    #       'location': 'body',
+    #       'name': 'criteria'}],
+    # )
 
 
 def create_rg_requirement_invalid(self):
@@ -906,9 +859,6 @@ def put_rg_requirement_valid(self):
     put_fields = {
         "title": "Фізична особа",
         "expectedValue": "false",
-        "datePublished": "2030-10-22T11:14:18.511585+03:00",
-        "dateModified": "2030-10-22T11:14:18.511585+03:00",
-        "id": "11111111111111111111111111111111",
     }
     put_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}"
     get_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements"
@@ -944,22 +894,6 @@ def put_rg_requirement_valid(self):
     self.assertIsNone(response.json["data"][1].get("dateModified"))
     self.assertNotEqual(response.json["data"][0]["datePublished"], response.json["data"][1]["datePublished"])
 
-    put_non_exclusion_ignore_data = {
-        "id": f"{'0'*32}",
-        "datePublished": "2018-10-22T11:14:18.511585+03:00",
-        "dateModified": "2018-10-22T11:14:18.511585+03:00",
-    }
-    response = self.app.put_json(
-        put_url.format(self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),
-        {"data": put_non_exclusion_ignore_data},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    response = self.app.get(get_url.format(self.tender_id, self.criteria_id, self.rg_id))
-    self.assertEqual(len(response.json["data"]), 2)
-    for field in put_non_exclusion_ignore_data:
-        self.assertNotEqual(put_non_exclusion_ignore_data.get(field), response.json["data"][1].get(field))
-
     # Test put exclusion criteria
     response = self.app.get(
         get_url.format(self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id, self.tender_token)
@@ -972,7 +906,7 @@ def put_rg_requirement_valid(self):
         put_url.format(
             self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id, exc_requirement_id, self.tender_token
         ),
-        {"data": put_fields})
+        {"data": {"status": "active"}})
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
@@ -1052,7 +986,6 @@ def put_rg_requirement_valid(self):
     self.assertEqual(response.content_type, "application/json")
     response = self.app.get(get_url.format(self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id))
     self.assertEqual(len(response.json["data"]), 4)
-    self.assertEqual(response.json["data"][2]["status"], "cancelled")
     self.assertEqual(response.json["data"][3]["status"], "cancelled")
 
     response = self.app.put_json(
@@ -1072,41 +1005,40 @@ def put_rg_requirement_valid(self):
     self.assertEqual(response.json["data"][4]["status"], "active")
     self.assertNotEqual(response.json["data"][4]["datePublished"], response.json["data"][3]["datePublished"])
     self.assertIsNone(response.json["data"][4].get("dateModified"))
-    self.assertIsNone(response.json["data"][4].get("eligibleEvidences"))
+    # self.assertIsNone(response.json["data"][3].get("eligibleEvidences"))
 
-    put_exclusion_ignore_data = {
-        "id": f"{'0'*32}",
-        "title": "111",
-        "title_en": "",
-        "title_ru": "",
-        "description": "",
-        "description_en": "",
-        "description_ru": "",
-        "dataType": "string",
-        "minValue": "",
-        "maxValue": "",
-        "period": {
-            "maxExtendDate": "2030-10-22T11:14:18.511585+03:00",
-            "durationInDays": 1,
-            "duration": "days"
-        },
-        "expectedValue": "",
-        "datePublished": "2020-10-22T11:14:18.511585+03:00",
-        "dateModified": "2020-10-22T11:14:18.511585+03:00",
-    }
-
-    response = self.app.put_json(
-        put_url.format(
-            self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id, exc_requirement_id, self.tender_token
-        ),
-        {"data": put_exclusion_ignore_data},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    response = self.app.get(get_url.format(self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id))
-    self.assertEqual(len(response.json["data"]), 5)
-    for field in put_exclusion_ignore_data:
-        self.assertNotEqual(put_exclusion_ignore_data.get(field), response.json["data"][4].get(field))
+    # put_exclusion_ignore_data = {
+    #     "title": "111",
+    #     "title_en": "",
+    #     "title_ru": "",
+    #     "description": "",
+    #     "description_en": "",
+    #     "description_ru": "",
+    #     "dataType": "string",
+    #     "minValue": "",
+    #     "maxValue": "",
+    #     "period": {
+    #         "maxExtendDate": "2030-10-22T11:14:18.511585+03:00",
+    #         "durationInDays": 1,
+    #         "duration": "days"
+    #     },
+    #     "expectedValue": "",
+    #     "datePublished": "2020-10-22T11:14:18.511585+03:00",
+    #     "dateModified": "2020-10-22T11:14:18.511585+03:00",
+    # }
+    #
+    # response = self.app.put_json(
+    #     put_url.format(
+    #         self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id, exc_requirement_id, self.tender_token
+    #     ),
+    #     {"data": put_exclusion_ignore_data},
+    # )
+    # self.assertEqual(response.status, "200 OK")
+    # self.assertEqual(response.content_type, "application/json")
+    # response = self.app.get(get_url.format(self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id))
+    # self.assertEqual(len(response.json["data"]), 4)
+    # for field in put_exclusion_ignore_data:
+    #     self.assertNotEqual(put_exclusion_ignore_data.get(field), response.json["data"][4].get(field))
 
 
 def put_rg_requirement_invalid(self):
@@ -1118,11 +1050,11 @@ def put_rg_requirement_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.requirement_id = response.json["data"]["id"]
 
-    with mock.patch("openprocurement.tender.core.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
+    with mock.patch("openprocurement.tender.core.procedure.state.criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
                     get_now() + timedelta(days=1)):
         response = self.app.put_json(
             put_url.format(self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),
-            {"data": {}},
+            {"data": {"title": "title"}},
             status=403
         )
         self.assertEqual(response.status, "403 Forbidden")
@@ -1133,12 +1065,12 @@ def put_rg_requirement_invalid(self):
             [{'description': 'Forbidden', 'location': 'body', 'name': 'data'}],
         )
 
-    with mock.patch("openprocurement.tender.core.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
+    with mock.patch("openprocurement.tender.core.procedure.state.criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
                     get_now() - timedelta(days=1)):
         self.set_status("active.auction")
         response = self.app.put_json(
             put_url.format(self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),
-            {"data": {}},
+            {"data": {"title": "title"}},
             status=403
         )
         self.assertEqual(response.status, "403 Forbidden")
@@ -1262,14 +1194,32 @@ def create_patch_delete_evidences_from_requirement(self):
         self.exclusion_requirement_id,
         self.tender_token
     )
-
     # add
     response = self.app.patch_json(
         request_path,
         {"data": {
-            "title": "Changed title",
             "expectedValue": 100,
-            "dataType": "number",
+            "eligibleEvidences": [self.test_evidence_data, self.test_evidence_data]
+        }},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "expectedValue",
+                "description": "Rogue field"
+            },
+        ]
+    )
+
+    response = self.app.patch_json(
+        request_path,
+        {"data": {
             "eligibleEvidences": [self.test_evidence_data, self.test_evidence_data]
         }}
     )
@@ -1367,7 +1317,8 @@ def delete_requirement_evidence(self):
 
     self.set_status("active.tendering")
 
-    with mock.patch("openprocurement.tender.core.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
+    with mock.patch("openprocurement.tender.core.procedure.state."
+                    "criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
                     get_now() - timedelta(days=1)):
         response = self.app.delete(
             "{}/{}?acc_token={}".format(base_request_path, evidence_id, self.tender_token),
@@ -1387,7 +1338,8 @@ def delete_requirement_evidence(self):
         )
 
     self.set_status("active.auction")
-    with mock.patch("openprocurement.tender.core.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
+    with mock.patch("openprocurement.tender.core.procedure.state."
+                    "criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
                     get_now() + timedelta(days=1)):
         response = self.app.delete(
             "{}/{}?acc_token={}".format(base_request_path, evidence_id, self.tender_token),
@@ -1620,13 +1572,11 @@ def lcc_criterion_invalid(self):
             response.json["errors"],
             [{
                 "location": "body",
-                "name": 0,
-                "description": {
-                    "relatesTo": [
-                        "{} criteria relatesTo should be `tender` if tender has no lots"
+                "name": "relatesTo",
+                "description": [
+                    "{} criteria relatesTo should be `tender` if tender has no lots"
                         .format(test_lcc_criteria[0]["classification"]["id"])
-                    ]
-                }
+                ]
             }]
         )
 
@@ -1659,14 +1609,12 @@ def lcc_criterion_invalid(self):
             response.json["errors"],
             [{
                 "location": "body",
-                "name": 0,
-                "description": {
-                    "relatesTo": [
-                        "{} criteria relatesTo should be `lot` if tender has lots"
+                "name": "relatesTo",
+                "description": [
+                    "{} criteria relatesTo should be `lot` if tender has lots"
                         .format(
                             test_lcc_criteria[0]["classification"]["id"],
                         )
-                    ]
-                }
+                ]
             }]
         )
