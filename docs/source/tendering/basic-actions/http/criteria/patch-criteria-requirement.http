@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/f83728385fa9438bb4c5c118ffc5012a/criteria/19d060499b3d4297928c7a4b36e04265/requirement_groups/13f82a0355384cf28e30497d6770cb65/requirements/360d4d5561bd49428bed69ad4f9f0e44?acc_token=ca00870e9e594a068127cf82158c01a2 HTTP/1.0
+PATCH /api/2.5/tenders/f83728385fa9438bb4c5c118ffc5012a/criteria/8cb5668f02724539806c54f72d941e93/requirement_groups/8400e4decbe74b99af293a42e94c7671/requirements/fc4c7b31124044c691ba5f51c6520312?acc_token=ca00870e9e594a068127cf82158c01a2 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 405
 Content-Type: application/json
@@ -23,20 +23,20 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "360d4d5561bd49428bed69ad4f9f0e44",
     "title": "Updated title",
     "dataType": "boolean",
     "eligibleEvidences": [
       {
-        "id": "73008b0f32df4db3a694b51dc46f606d",
         "title": "Документальне підтвердження",
         "description": "Довідка в довільній формі",
-        "type": "document"
+        "type": "document",
+        "id": "ea7129f38f504614aea6fc27e8c8d081"
       }
     ],
     "expectedValue": "true",
-    "status": "active",
-    "datePublished": "2023-01-01T00:00:00+02:00"
+    "datePublished": "2023-01-01T00:00:00+02:00",
+    "id": "fc4c7b31124044c691ba5f51c6520312",
+    "status": "active"
   }
 }
 

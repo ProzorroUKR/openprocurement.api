@@ -1,6 +1,6 @@
 PATCH /api/2.5/tenders/5d8c9b51c2d14c1196b1f7833c8ac475/qualifications/87e242f193204949928568e3f7b2d6d0?acc_token=ae43448b946e4f49a99e064e0178c255 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 4253
+Content-Length: 1689
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -11,27 +11,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "6da7bc28eee44cd6a4c5ebe1048fae5b",
+          "id": "2912e1a1b5ac4d15a8c08ce48013f8e3",
           "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
-        },
-        "evidences": [
-          {
-            "title": "Requirement response",
-            "relatedDocument": {
-              "id": "96dc3b1f84d54785a15c72f6793a0b44",
-              "title": "name.doc"
-            },
-            "type": "document"
-          }
-        ],
-        "value": "True"
-      },
-      {
-        "title": "Requirement response 2",
-        "description": "some description",
-        "requirement": {
-          "id": "565c82feae72451fbfbbff9424f5510a",
-          "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі"
         },
         "evidences": [
           {
@@ -57,46 +38,25 @@ Content-Type: application/json
   "data": {
     "requirementResponses": [
       {
-        "id": "4b6c18ef6646405b9929ca21a97e85dd",
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "6da7bc28eee44cd6a4c5ebe1048fae5b",
+          "id": "2912e1a1b5ac4d15a8c08ce48013f8e3",
           "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
         },
         "evidences": [
           {
-            "id": "1ce9ff849bd54d9c9aa83fde2f6a3642",
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
               "id": "96dc3b1f84d54785a15c72f6793a0b44",
               "title": "name.doc"
-            }
+            },
+            "id": "0d185bf81a3942a0adfd1ec1f5d59501"
           }
         ],
-        "value": "True"
-      },
-      {
-        "id": "ca7ad03aaae5448aa8804158da95a259",
-        "title": "Requirement response 2",
-        "description": "some description",
-        "requirement": {
-          "id": "565c82feae72451fbfbbff9424f5510a",
-          "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі"
-        },
-        "evidences": [
-          {
-            "id": "0dd80ec726454134958a6ef603ada4de",
-            "title": "Requirement response",
-            "type": "document",
-            "relatedDocument": {
-              "id": "96dc3b1f84d54785a15c72f6793a0b44",
-              "title": "name.doc"
-            }
-          }
-        ],
-        "value": "True"
+        "value": "True",
+        "id": "4b6c18ef6646405b9929ca21a97e85dd"
       }
     ],
     "id": "87e242f193204949928568e3f7b2d6d0",

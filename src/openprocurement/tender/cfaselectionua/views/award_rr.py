@@ -3,12 +3,12 @@ from openprocurement.tender.core.views.award_rr import BaseAwardRequirementRespo
 from openprocurement.tender.core.utils import optendersresource
 
 
-@optendersresource(
-    name="closeFrameworkAgreementSelectionUA:Award Requirement Response",
-    collection_path="/tenders/{tender_id}/awards/{award_id}/requirement_responses",
-    path="/tenders/{tender_id}/awards/{award_id}/requirement_responses/{requirement_response_id}",
-    procurementMethodType="closeFrameworkAgreementSelectionUA",
-    description="Tender award requirement responses",
-)
+# @optendersresource(
+#     name="closeFrameworkAgreementSelectionUA:Award Requirement Response",
+#     collection_path="/tenders/{tender_id}/awards/{award_id}/requirement_responses",
+#     path="/tenders/{tender_id}/awards/{award_id}/requirement_responses/{requirement_response_id}",
+#     procurementMethodType="closeFrameworkAgreementSelectionUA",
+#     description="Tender award requirement responses",
+# )
 class AwardRequirementResponseResource(BaseAwardRequirementResponseResource):
     pass

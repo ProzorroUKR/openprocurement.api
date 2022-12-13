@@ -5,8 +5,7 @@ from openprocurement.tender.core.procedure.models.organization import PostBusine
 from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.models.item import Item
 from openprocurement.tender.core.procedure.models.req_response import (
-    RequirementResponse,
-    validate_response_requirement_uniq,
+    PatchObjResponsesMixin,
 )
 from openprocurement.tender.core.procedure.context import get_tender, get_now
 from schematics.types import StringType, MD5Type, BooleanType, BaseType
@@ -40,7 +39,7 @@ class PostAward(BaseAward):
             raise ValidationError("lotID should be one of lots")
 
 
-class PatchAward(BaseAward):
+class PatchAward(PatchObjResponsesMixin, BaseAward):
     status = StringType(choices=["pending", "unsuccessful", "active", "cancelled"])
     qualified = BooleanType()
     title = StringType()
@@ -50,13 +49,9 @@ class PatchAward(BaseAward):
     description_en = StringType()
     description_ru = StringType()
     items = ListType(ModelType(Item))
-    requirementResponses = ListType(
-        ModelType(RequirementResponse, required=True),
-        validators=[validate_response_requirement_uniq],
-    )
 
 
-class Award(BaseAward):
+class Award(PatchObjResponsesMixin, BaseAward):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     status = StringType(required=True, choices=["pending", "unsuccessful", "active", "cancelled"])
     date = IsoDateTimeType(required=True)
@@ -69,10 +64,6 @@ class Award(BaseAward):
     complaints = BaseType()
     documents = ListType(ModelType(Document, required=True))
     items = ListType(ModelType(Item))
-    requirementResponses = ListType(
-        ModelType(RequirementResponse, required=True),
-        validators=[validate_response_requirement_uniq],
-    )
 
     qualified = BooleanType()
     title = StringType()

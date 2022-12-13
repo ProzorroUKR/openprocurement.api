@@ -11,15 +11,15 @@ from openprocurement.tender.belowthreshold.validation import validate_change_req
 from openprocurement.api.utils import json_view
 
 
-@optendersresource(
-    name="belowThreshold:Requirement Eligible Evidence",
-    collection_path="/tenders/{tender_id}/criteria/{criterion_id}/"
-                    "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences",
-    path="/tenders/{tender_id}/criteria/{criterion_id}/"
-         "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences/{evidence_id}",
-    procurementMethodType="belowThreshold",
-    description="Tender requirement evidence",
-)
+# @optendersresource(
+#     name="belowThreshold:Requirement Eligible Evidence",
+#     collection_path="/tenders/{tender_id}/criteria/{criterion_id}/"
+#                     "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences",
+#     path="/tenders/{tender_id}/criteria/{criterion_id}/"
+#          "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences/{evidence_id}",
+#     procurementMethodType="belowThreshold",
+#     description="Tender requirement evidence",
+# )
 class TenderCriteriaRGRequirementEvidenceResource(BaseTenderCriteriaRGRequirementEvidenceResource):
     @json_view(
         content_type="application/json",

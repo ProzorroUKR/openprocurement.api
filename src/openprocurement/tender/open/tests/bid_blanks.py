@@ -2207,9 +2207,10 @@ def create_bid_requirement_response(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{'description': {'requirement': ['This field is required.'], 'value': ['This field is required.']},
-          'location': 'body',
-          'name': 0}]
+        [
+            {'location': 'body', 'name': 'requirement', 'description': ['This field is required.']},
+            {'location': 'body', 'name': 'value', 'description': ['This field is required.']},
+        ]
     )
 
 

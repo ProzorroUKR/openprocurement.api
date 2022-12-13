@@ -1741,7 +1741,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.patch_json(
                 '/tenders/{}/criteria/{}/requirement_groups/{}?acc_token={}'.format(
                     self.tender_id, criteria_id_2, rg_id_2, owner_token),
-                {'data': {'title': 'Updated title'}},
+                {'data': {'description': 'Updated description'}},
                 status=403,
             )
             self.assertEqual(response.status, '403 Forbidden')
@@ -1798,7 +1798,6 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}'.format(
                     self.tender_id, criteria_id_2, rg_id_2, requirement_id_2, owner_token),
                 {'data': {
-                    'title': 'Updated title',
                     'eligibleEvidences': [
                         test_evidence_data,
                     ]
@@ -1901,7 +1900,6 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 '/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}'.format(
                     self.tender_id, criteria_id_2, rg_id_2, requirement_id_2, owner_token),
                 {'data': {
-                    'title': 'Updated title',
                     'eligibleEvidences': [
                         test_evidence_data,
                     ]
@@ -2541,7 +2539,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.patch_json(
                 '/tenders/{}/qualifications/{}?acc_token={}'.format(
                     self.tender_id, qualification_id, owner_token),
-                {'data': {'requirementResponses': [rr_1, rr_2]}},
+                {'data': {'requirementResponses': [rr_1]}},
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -2550,7 +2548,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.patch_json(
                 '/tenders/{}/qualifications/{}?acc_token={}'.format(
                     self.tender_id, qualification_id, owner_token),
-                {'data': {'requirementResponses': [rr_1, rr_2]}},
+                {'data': {'requirementResponses': [rr_1]}},
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -2562,7 +2560,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, '200 OK')
 
-        test_rr_data = [deepcopy(rr_mock), ]
+        test_rr_data = [rr_2, ]
 
         with open(TARGET_DIR + 'criteria/qualification-create-requirement-response.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(

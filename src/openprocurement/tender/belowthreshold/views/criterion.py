@@ -11,13 +11,13 @@ from openprocurement.tender.belowthreshold.validation import validate_operation_
 from openprocurement.api.utils import json_view
 
 
-@optendersresource(
-    name="belowThreshold:Tender Criteria",
-    collection_path="/tenders/{tender_id}/criteria",
-    path="/tenders/{tender_id}/criteria/{criterion_id}",
-    procurementMethodType="belowThreshold",
-    description="Tender criteria",
-)
+# @optendersresource(
+#     name="belowThreshold:Tender Criteria",
+#     collection_path="/tenders/{tender_id}/criteria",
+#     path="/tenders/{tender_id}/criteria/{criterion_id}",
+#     procurementMethodType="belowThreshold",
+#     description="Tender criteria",
+# )
 class TenderCriteriaResource(BaseTenderCriteriaResource):
     @json_view(
         content_type="application/json",

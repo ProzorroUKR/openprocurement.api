@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/f83728385fa9438bb4c5c118ffc5012a/criteria/19d060499b3d4297928c7a4b36e04265 HTTP/1.0
+GET /api/2.5/tenders/f83728385fa9438bb4c5c118ffc5012a/criteria/8cb5668f02724539806c54f72d941e93 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,7 +8,6 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "19d060499b3d4297928c7a4b36e04265",
     "title": "Updated title",
     "description": "Службова (посадова) особа учасника процедури закупівлі, яка підписала тендерну пропозицію (або уповноважена на підписання договору в разі переговорної процедури закупівлі) або фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку",
     "source": "tenderer",
@@ -41,72 +40,73 @@ Content-Type: application/json
     ],
     "requirementGroups": [
       {
-        "id": "13f82a0355384cf28e30497d6770cb65",
         "description": "Updated description",
         "requirements": [
           {
-            "id": "360d4d5561bd49428bed69ad4f9f0e44",
             "title": "Updated title",
             "dataType": "boolean",
             "eligibleEvidences": [
               {
-                "id": "2ba76c3ead5f4f789423a2d8e435aef5",
                 "title": "Документальне підтвердження",
                 "description": "Довідка в довільній формі",
-                "type": "document"
+                "type": "document",
+                "id": "3f6418993fe44ff69bc7f0aaacbb8112"
               },
               {
-                "id": "0520ade3b58642fda8f3e8c8e6b37038",
                 "title": "Документальне підтвердження",
                 "description": "Довідка в довільній формі",
-                "type": "statement"
+                "type": "statement",
+                "id": "bff18e694dad4023b2de3d5aed952778"
               }
             ],
             "expectedValue": "true",
-            "status": "active",
-            "datePublished": "2023-01-01T00:00:00+02:00"
+            "datePublished": "2023-01-01T00:00:00+02:00",
+            "id": "fc4c7b31124044c691ba5f51c6520312",
+            "status": "active"
           },
           {
-            "id": "f7bbfeb1626d48f7b53d1a6109fa44a2",
             "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку",
             "dataType": "boolean",
             "eligibleEvidences": [
               {
-                "id": "ec6717c5ab1e4c17812cb8f954a70a4b",
                 "title": "Документальне підтвердження",
                 "description": "Довідка в довільній формі",
-                "type": "document"
+                "type": "document",
+                "id": "f8cfe846869f44c49e2663d9afc1bb95"
               }
             ],
             "expectedValue": "true",
             "status": "active",
-            "datePublished": "2023-01-01T00:00:00+02:00"
+            "datePublished": "2023-01-01T00:00:00+02:00",
+            "id": "5a03c390b79346bea27233125c14dff2"
           }
-        ]
+        ],
+        "id": "8400e4decbe74b99af293a42e94c7671"
       },
       {
-        "id": "d0362d80d67c475f8cb3e034ac9093d7",
         "description": "Учасник фізична особа підтверджує, що",
         "requirements": [
           {
-            "id": "160e5b39099343bebf7d3a4070662b72",
             "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку",
             "dataType": "boolean",
             "eligibleEvidences": [
               {
-                "id": "fc3aa84c07c941788a3b5747db225934",
                 "title": "Документальне підтвердження",
                 "description": "Довідка в довільній формі",
-                "type": "document"
+                "type": "document",
+                "id": "8d4dde72297f40b18fcec8def4ee05cc"
               }
             ],
             "expectedValue": "true",
             "status": "active",
+            "id": "72ee4ac40a9a4dbf942d112bf821d9a5",
             "datePublished": "2023-01-01T00:00:00+02:00"
           }
-        ]
+        ],
+        "id": "037258fbd29e4570866a6967bd01fcc4"
       }
-    ]
+    ],
+    "id": "8cb5668f02724539806c54f72d941e93"
   }
 }
 

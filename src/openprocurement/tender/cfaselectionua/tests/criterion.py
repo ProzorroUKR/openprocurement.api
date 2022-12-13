@@ -7,6 +7,7 @@ from openprocurement.tender.belowthreshold.tests.criterion_blanks import (
     patch_tender_criteria_invalid,
     patch_criteria_rg,
     delete_requirement_evidence,
+    create_patch_delete_evidences_from_requirement,
 )
 from openprocurement.tender.cfaselectionua.tests.base import test_tender_data, test_lots, TenderContentWebTest
 from openprocurement.tender.openua.tests.criterion import (
@@ -53,6 +54,7 @@ class TenderCriteriaRGRequirementEvidenceTest(
     initial_lots = test_lots
 
     test_delete_requirement_evidence = snitch(delete_requirement_evidence)
+    test_create_patch_delete_evidences_from_requirement = snitch(create_patch_delete_evidences_from_requirement)
 
 
 def suite():

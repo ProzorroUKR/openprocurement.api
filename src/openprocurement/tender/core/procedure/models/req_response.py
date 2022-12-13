@@ -1,28 +1,36 @@
+from typing import Optional, List, Tuple
+from logging import getLogger
 from uuid import uuid4
+
 from schematics.exceptions import ValidationError
-from schematics.types.compound import ModelType
-from schematics.types import MD5Type, IntType
-from openprocurement.api.models import (
-    Period,
-    IsoDateTimeType,
-    ListType,
-    Reference,
-    Model,
-)
+from schematics.types import IntType
+from schematics.types import MD5Type
 from schematics.types import StringType
-from openprocurement.api.constants import (
-    RELEASE_ECRITERIA_ARTICLE_17,
-    CRITERION_REQUIREMENT_STATUSES_FROM,
+from schematics.types.compound import ModelType
+
+from openprocurement.api.constants import CRITERION_REQUIREMENT_STATUSES_FROM
+from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
+from openprocurement.api.models import IsoDateTimeType
+from openprocurement.api.models import ListType
+from openprocurement.api.models import Model
+from openprocurement.api.models import Period
+from openprocurement.api.models import Reference
+from openprocurement.tender.core.procedure.context import (
+    get_now,
+    get_tender,
+    get_bid,
+    get_json_data,
 )
+from openprocurement.tender.core.procedure.models.base import validate_object_id_uniq
+from openprocurement.tender.core.procedure.utils import (
+    get_first_revision_date,
+    get_criterion_requirement,
+    bid_in_invalid_status,
+)
+from openprocurement.tender.core.procedure.models.evidence import Evidence
 from openprocurement.tender.core.procedure.validation import (
     validate_value_type,
 )
-from openprocurement.tender.core.procedure.context import get_tender, get_bid, get_json_data, get_now
-from openprocurement.tender.core.procedure.utils import get_first_revision_date
-from openprocurement.tender.core.procedure.models.base import BaseBid, validate_object_id_uniq
-from openprocurement.tender.core.procedure.models.base import BaseAward, BaseQualification
-from openprocurement.tender.core.models import validate_response_requirement_uniq
-from logging import getLogger
 
 LOGGER = getLogger(__name__)
 DEFAULT_REQUIREMENT_STATUS = "active"
@@ -35,51 +43,8 @@ class ExtendPeriod(Period):
 
 
 # ECriteria
-class EligibleEvidence(Model):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    title = StringType()
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
-    type = StringType(
-        choices=["document", "statement"],
-        default="statement"
-    )
-    relatedDocument = ModelType(Reference)
 
-    def validate_relatedDocument(self, data, document_reference):
-        if document_reference:
-            tender = get_tender()
-            if not any(d and document_reference.id == d["id"] for d in tender.get("documents")):
-                raise ValidationError("relatedDocument.id should be one of tender documents")
-
-
-class Evidence(EligibleEvidence):
-
-    def validate_relatedDocument(self, data, document_reference):
-        if bid_in_invalid_status():
-            return
-
-        if data["type"] in ["document"] and not document_reference:
-            raise ValidationError("This field is required.")
-
-    def validate_type(self, data, value):
-        if bid_in_invalid_status():
-            return
-
-        parent = data["__parent__"]
-        requirement_reference = parent.requirement
-        requirement, *_ = get_requirement_obj(requirement_reference.id)
-        if requirement:
-            evidences_type = [i["type"] for i in requirement.get("eligibleEvidences", "")]
-            if evidences_type and value not in evidences_type:
-                raise ValidationError("type should be one of eligibleEvidences types")
-
-
-class RequirementResponse(Model):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
+class BaseRequirementResponse(Model):
     title = StringType()
     title_en = StringType()
     title_ru = StringType()
@@ -99,7 +64,21 @@ class RequirementResponse(Model):
 
     value = StringType(required=True)
 
-    def validate_relatedItem(self, data, relatedItem):
+
+class PatchRequirementResponse(BaseRequirementResponse):
+    requirement = ModelType(Reference)
+    value = StringType()
+    evidences = ListType(
+        ModelType(Evidence, required=True),
+        default=list(),
+        validators=[validate_object_id_uniq],
+    )
+
+
+class RequirementResponse(BaseRequirementResponse):
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+
+    def validate_relatedItem(self, data: dict, relatedItem: str) -> None:
         if relatedItem is None or bid_in_invalid_status():
             return
 
@@ -107,19 +86,7 @@ class RequirementResponse(Model):
         if not any(i and relatedItem == i["id"] for i in tender.get("items")):
             raise ValidationError("relatedItem should be one of items")
 
-    def validate_relatedTenderer(self, data, relatedTenderer):
-        if bid_in_invalid_status():
-            return
-
-        parent = data["__parent__"]
-        if relatedTenderer and isinstance(parent, Model):
-            if relatedTenderer.id not in [
-                organization.identifier.id
-                for organization in parent.get("tenderers", "")
-            ]:
-                raise ValidationError("relatedTenderer should be one of bid tenderers")
-
-    def validate_evidences(self, data, evidences):
+    def validate_evidences(self, data: dict, evidences: List[dict]) -> None:
         if bid_in_invalid_status():
             return
         if not evidences:
@@ -134,39 +101,10 @@ class RequirementResponse(Model):
             if tender["status"] not in valid_statuses:
                 raise ValidationError("available only in {} status".format(valid_statuses))
 
-    def validate_requirement(self, data, requirement_ref):
-        if bid_in_invalid_status():
-            return
+        for evidence in evidences:
+            validate_evidence_type(data, evidence)
 
-        # Finding out what the f&#ck is going on
-        # parent is mist be Bid
-        requirement_ref_id = requirement_ref.get("id")
-
-        # now we use requirement_ref.id to find something in this Bid
-        requirement, _, criterion = get_requirement_obj(requirement_ref_id)
-        # well this function above only use parent to check if it's Model (???)
-        # then it takes Tender.criteria.requirementGroups.requirements
-        # finds one with exact "id" and "not default status"
-        if not requirement:
-            raise ValidationError("requirement should be one of criteria requirements")
-
-        # looks at criterion.source
-        # and decides if our requirement_ref actually can be provided by Bid
-        # (in this case, also seems this validation can be reused in BaseAward, QualificationMilestoneListMixin)
-        source_map = {
-            "procuringEntity": (BaseAward, BaseQualification),
-            "tenderer": BaseBid,
-            "winner": BaseBid,
-        }
-        parent = data["__parent__"]
-        source = criterion['source']
-        available_parents = source_map.get(source)
-        if available_parents and not isinstance(parent, available_parents):
-            raise ValidationError(f"Requirement response in {parent.__class__.__name__} can't have requirement "
-                                  f"criteria with source: {source}")
-        return requirement_ref
-
-    def validate_value(self, data, value):
+    def validate_value(self, data: dict, value: str) -> None:
         if bid_in_invalid_status():
             return
 
@@ -191,18 +129,9 @@ class RequirementResponse(Model):
 
 
 # UTILS ---
-def bid_in_invalid_status():
-    status = get_json_data().get("status")
-    if not status:
-        bid = get_bid()
-        if bid:
-            status = bid["status"]
-        else:
-            status = "active"
-    return status in ("deleted", "invalid", "invalid.pre-qualification", "unsuccessful", "draft")
 
 
-def get_requirement_obj(requirement_id):
+def get_requirement_obj(requirement_id: str) -> Tuple[Optional[dict], Optional[dict], Optional[dict]]:
     tender = get_tender()
     tender_creation = get_first_revision_date(tender, default=get_now())
     for criteria in tender.get("criteria", ""):
@@ -216,34 +145,127 @@ def get_requirement_obj(requirement_id):
     return None, None, None
 
 
-def get_criterion_requirement(tender, requirement_id):
-    for criteria in tender.get("criteria", ""):
-        for group in criteria.get("requirementGroups", ""):
-            for req in group.get("requirements", ""):
-                if req["id"] == requirement_id:
-                    return criteria
-
-
 # --- UTILS
-# requirementResponses mixin ---
-def is_doc_id_in_container(bid, container_name, doc_id):
+
+# Validations ---
+
+def validate_req_response_requirement(
+        req_response: dict,
+        parent_obj_name: str = "bid"
+) -> None:
+
+    # Finding out what the f&#ck is going on
+    # parent is mist be Bid
+    requirement_ref = req_response.get("requirement") or {}
+    requirement_ref_id = requirement_ref.get("id")
+
+    # now we use requirement_ref.id to find something in this Bid
+    requirement, _, criterion = get_requirement_obj(requirement_ref_id)
+    # well this function above only use parent to check if it's Model (???)
+    # then it takes Tender.criteria.requirementGroups.requirements
+    # finds one with exact "id" and "not default status"
+    if not requirement:
+        raise ValidationError([{"requirement": ["requirement should be one of criteria requirements"]}])
+
+    # looks at criterion.source
+    # and decides if our requirement_ref actually can be provided by Bid
+    # (in this case, also seems this validation can be reused in BaseAward, QualificationMilestoneListMixin)
+    source_map = {
+        "procuringEntity": ("award", "qualification"),
+        "tenderer": ("bid",),
+        "winner": ("bid",),
+    }
+    source = criterion.get('source', "tenderer")
+    available_parents = source_map.get(source)
+    if available_parents and parent_obj_name.lower() not in available_parents:
+        raise ValidationError([{
+            "requirement": [f"Requirement response in {parent_obj_name} "
+                            f"can't have requirement criteria with source: {source}"]
+        }])
+
+
+def validate_req_response_related_tenderer(parent_data: dict, req_response: dict) -> None:
+
+    related_tenderer = req_response.get("relatedTenderer")
+
+    if related_tenderer and related_tenderer["id"] not in [
+        organization["identifier"]["id"]
+        for organization in parent_data.get("tenderers", "")
+    ]:
+        raise ValidationError([{"relatedTenderer": ["relatedTenderer should be one of bid tenderers"]}])
+
+
+def validate_req_response_evidences_relatedDocument(
+        parent_data: dict,
+        req_response: dict,
+        parent_obj_name: str,
+) -> None:
+    for evidence in req_response.get("evidences", ""):
+        error = validate_evidence_relatedDocument(parent_data, evidence, parent_obj_name, raise_error=False)
+        if error:
+            raise ValidationError([{"evidences": error}])
+
+
+def validate_evidence_relatedDocument(
+        parent_data: dict,
+        evidence: dict,
+        parent_obj_name: str,
+        raise_error: bool = True,
+) -> List[dict]:
+    related_doc = evidence.get("relatedDocument")
+    if related_doc:
+        doc_id = related_doc["id"]
+        if (
+                not is_doc_id_in_container(parent_data, "documents", doc_id) and
+                not is_doc_id_in_container(parent_data, "financialDocuments", doc_id) and
+                not is_doc_id_in_container(parent_data, "eligibilityDocuments", doc_id) and
+                not is_doc_id_in_container(parent_data, "qualificationDocuments", doc_id)
+        ):
+            error_msg = [{"relatedDocument": [f"relatedDocument.id should be one of {parent_obj_name} documents"]}]
+            if not raise_error:
+                return error_msg
+            raise ValidationError(error_msg)
+
+
+def validate_evidence_type(req_response_data: dict, evidence: dict) -> None:
+    requirement_reference = req_response_data["requirement"]
+    requirement, *_ = get_requirement_obj(requirement_reference["id"])
+    if requirement:
+        evidences_type = [i["type"] for i in requirement.get("eligibleEvidences", "")]
+        value = evidence.get("type")
+        if evidences_type and value not in evidences_type:
+            raise ValidationError([{"type": ["type should be one of eligibleEvidences types"]}])
+
+
+def validate_response_requirement_uniq(requirement_responses):
+    if requirement_responses:
+        req_ids = [i["requirement"]["id"] for i in requirement_responses]
+        if any([i for i in set(req_ids) if req_ids.count(i) > 1]):
+            raise ValidationError([{"requirement": "Requirement id should be uniq for all requirement responses"}])
+
+
+# --- Validations
+
+
+# Bid requirementResponses mixin ---
+def is_doc_id_in_container(bid: dict, container_name: str, doc_id: str):
     documents = bid.get(container_name)
     if isinstance(documents, list):
         return any(d["id"] == doc_id for d in documents)
 
 
-class PatchBidResponsesMixin(Model):
+class PatchObjResponsesMixin(Model):
     requirementResponses = ListType(
         ModelType(RequirementResponse, required=True),
         validators=[validate_object_id_uniq, validate_response_requirement_uniq],
     )
 
 
-class PostBidResponsesMixin(PatchBidResponsesMixin):
+class PostBidResponsesMixin(PatchObjResponsesMixin):
     """
     this model is used to update "full" data during patch and post requests
     """
-    def validate_selfEligible(self, data, value):
+    def validate_selfEligible(self, data: dict, value: Optional[bool]):
         tender = get_tender()
         if get_first_revision_date(tender, default=get_now()) > RELEASE_ECRITERIA_ARTICLE_17:
             if value is not None:
@@ -251,7 +273,7 @@ class PostBidResponsesMixin(PatchBidResponsesMixin):
         elif value is None:
             raise ValidationError("This field is required.")
 
-    def validate_requirementResponses(self, data, requirement_responses):
+    def validate_requirementResponses(self, data: dict, requirement_responses: Optional[List[dict]]) -> None:
         tender = get_tender()
         tender_created = get_first_revision_date(tender, default=get_now())
 
@@ -262,6 +284,12 @@ class PostBidResponsesMixin(PatchBidResponsesMixin):
 
         if data["status"] not in ["active", "pending"]:
             return
+
+        # Validation requirement_response data
+        for response in requirement_responses or "":
+            validate_req_response_requirement(response)
+            validate_req_response_related_tenderer(data, response)
+            validate_req_response_evidences_relatedDocument(data, response, parent_obj_name="bid")
 
         all_answered_requirements = [i.requirement.id for i in requirement_responses or ""]
         for criteria in tender.get("criteria", ""):
@@ -306,22 +334,5 @@ class PostBidResponsesMixin(PatchBidResponsesMixin):
             rg_id = list(group_answered_requirement_ids.keys())[0]
             if set(criteria_ids[rg_id]).difference(set(group_answered_requirement_ids[rg_id])):
                 raise ValidationError("Inside requirement group must get answered all of requirements")
-
-        # validating relatedDocument.id
-        for response in requirement_responses or "":
-            for evidence in response.get("evidences", ""):
-                related_doc = evidence.get("relatedDocument")
-                if related_doc:
-                    doc_id = related_doc["id"]
-                    if (
-                            not is_doc_id_in_container(data, "documents", doc_id) and
-                            not is_doc_id_in_container(data, "financialDocuments", doc_id) and
-                            not is_doc_id_in_container(data, "eligibilityDocuments", doc_id) and
-                            not is_doc_id_in_container(data, "qualificationDocuments", doc_id)
-                    ):
-                        raise ValidationError([{
-                            "evidences": [{"relatedDocument": ["relatedDocument.id should be one of bid documents"]}]
-                        }])
-
 
 # --- requirementResponses mixin

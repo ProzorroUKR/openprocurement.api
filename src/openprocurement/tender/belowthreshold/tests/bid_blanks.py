@@ -1065,6 +1065,7 @@ def update_tender_bid_pmr_related_tenderer(self):
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": {
+            "status": "active",
             "requirementResponses": rr_data,
             "tenderers": [test_organization],
             "value": {"amount": 500},
@@ -1668,7 +1669,6 @@ def create_tender_bid_document_with_award_json(self):
             }]
         }}, status=422
     )
-
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(response.json["errors"], [
         {

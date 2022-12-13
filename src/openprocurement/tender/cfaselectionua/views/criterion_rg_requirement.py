@@ -10,15 +10,15 @@ from openprocurement.tender.core.validation import (
 
 from openprocurement.api.utils import json_view
 
-@optendersresource(
-    name="closeFrameworkAgreementSelectionUA:Requirement Group Requirement",
-    collection_path="/tenders/{tender_id}/criteria/{criterion_id}/"
-                    "requirement_groups/{requirement_group_id}/requirements",
-    path="/tenders/{tender_id}/criteria/{criterion_id}/"
-         "requirement_groups/{requirement_group_id}/requirements/{requirement_id}",
-    procurementMethodType="closeFrameworkAgreementSelectionUA",
-    description="Tender requirement group requirement",
-)
+# @optendersresource(
+#     name="closeFrameworkAgreementSelectionUA:Requirement Group Requirement",
+#     collection_path="/tenders/{tender_id}/criteria/{criterion_id}/"
+#                     "requirement_groups/{requirement_group_id}/requirements",
+#     path="/tenders/{tender_id}/criteria/{criterion_id}/"
+#          "requirement_groups/{requirement_group_id}/requirements/{requirement_id}",
+#     procurementMethodType="closeFrameworkAgreementSelectionUA",
+#     description="Tender requirement group requirement",
+# )
 class TenderCriteriaRGRequirementResource(TenderCriteriaRGRequirementResource):
     @json_view(
         content_type="application/json",

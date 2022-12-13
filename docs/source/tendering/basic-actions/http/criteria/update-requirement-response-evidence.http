@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/0babf43ffe2a4934bcbb730f93d38601/bids/0e4c0ac9fb214aec86664334f935e806/requirement_responses/d898d8f3fb1f4fe4aab497396b668577/evidences/42c5fb1b2da346ea81729985d98aa38e?acc_token=62ce299578e94246b3f2648888d1f6a7 HTTP/1.0
+PATCH /api/2.5/tenders/0babf43ffe2a4934bcbb730f93d38601/bids/0e4c0ac9fb214aec86664334f935e806/requirement_responses/7bd5c5f8700d45c68825df6a8682e54a/evidences/6657ca4b9cdf4fb09b1cbc137e319175?acc_token=62ce299578e94246b3f2648888d1f6a7 HTTP/1.0
 Authorization: Bearer token
 Content-Length: 44
 Content-Type: application/json
@@ -16,13 +16,13 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "42c5fb1b2da346ea81729985d98aa38e",
     "title": "Update evidence title",
     "type": "document",
     "relatedDocument": {
       "id": "82f8566f236e42329fd7ea1aacc38cd1",
       "title": "name.doc"
-    }
+    },
+    "id": "6657ca4b9cdf4fb09b1cbc137e319175"
   }
 }
 

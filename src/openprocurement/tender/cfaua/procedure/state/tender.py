@@ -213,3 +213,9 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, PreQualificationShouldSta
                             "date": get_now().isoformat()
                         }).serialize()
                         tender["qualifications"].append(qualification)
+
+    def invalidate_bids_data(self, tender):
+        tender["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
+        for bid in tender.get("bids", ""):
+            if bid.get("status") not in ("deleted", "draft"):
+                bid["status"] = "invalid"
