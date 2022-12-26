@@ -1,3 +1,5 @@
+import json
+
 from openprocurement.tender.core.procedure.context import get_now
 import logging
 
@@ -29,4 +31,4 @@ class BaseState:
             obj["status"] = status
             obj["date"] = get_now().isoformat()
         else:
-            logger.warning(f"Obj status already set", extra={"CONTEXT": obj})
+            logger.warning(f"Obj status already set")
