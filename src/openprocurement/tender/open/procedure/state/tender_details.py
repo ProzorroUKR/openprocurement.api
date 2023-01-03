@@ -108,9 +108,8 @@ class TenderDetailsState(TenderDetailsMixing, OpenTenderState):
             tender["enquiryPeriod"]["invalidationDate"] = invalidation_date
 
     def set_no_auction_forced(self, before, after):
-        if QUICK_NO_AUCTION_FORCED:
-            if not before or before.get("submissionMethodDetails") == QUICK_NO_AUCTION:
-                after["submissionMethodDetails"] = QUICK_NO_AUCTION
+        if (QUICK_NO_AUCTION_FORCED and not before) or before.get("submissionMethodDetails") == QUICK_NO_AUCTION:
+            after["submissionMethodDetails"] = QUICK_NO_AUCTION
 
     def validate_tender_period_extension(self, tender):
         if "tenderPeriod" in tender and "endDate" in tender["tenderPeriod"]:
