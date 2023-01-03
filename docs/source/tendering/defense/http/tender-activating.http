@@ -65,8 +65,8 @@ Content-Type: application/json
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
       "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-17T00:00:00+02:00",
-      "clarificationsUntil": "2023-01-20T00:00:00+02:00",
+      "endDate": "2023-01-24T00:00:00+02:00",
+      "clarificationsUntil": "2023-01-26T00:00:00+02:00",
       "invalidationDate": "2023-01-01T00:00:00+02:00"
     },
     "tenderPeriod": {

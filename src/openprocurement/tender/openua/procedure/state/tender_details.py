@@ -15,10 +15,16 @@ from openprocurement.api.utils import raise_operation_error
 
 
 class OpenUATenderDetailsMixing(TenderDetailsMixing):
+    period_working_day = False
 
     def initialize_enquiry_period(self, tender):  # openeu, openua
         tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
-        end_date = calculate_tender_business_date(tendering_end, self.enquiry_period_timedelta, tender)
+        end_date = calculate_tender_business_date(
+            tendering_end,
+            self.enquiry_period_timedelta,
+            tender,
+            working_days=self.period_working_day,
+        )
         clarifications_until = calculate_clarif_business_date(
             end_date, self.enquiry_stand_still_timedelta, tender, True,
         )
