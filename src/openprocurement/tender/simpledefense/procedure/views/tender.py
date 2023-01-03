@@ -13,6 +13,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_tender_change_status_with_cancellation_lot_pending,
 )
 from cornice.resource import resource
+from openprocurement.tender.simpledefense.procedure.state.tender_details import SimpleDefenseTenderDetailsState
 
 
 @resource(
@@ -24,6 +25,9 @@ from cornice.resource import resource
     accept="application/json",
 )
 class SimpleDefenseTenderResource(AboveThresholdUADefenseTenderResource):
+
+    state_class = SimpleDefenseTenderDetailsState
+
     @json_view(
         content_type="application/json",
         permission="create_tender",

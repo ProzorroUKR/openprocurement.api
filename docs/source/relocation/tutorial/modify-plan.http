@@ -53,8 +53,8 @@ Content-Type: application/json
         "name": "proj_name"
       },
       "period": {
-        "startDate": "2022-01-01T00:00:00+02:00",
-        "endDate": "2022-12-31T00:00:00+02:00"
+        "startDate": "2023-01-01T00:00:00+02:00",
+        "endDate": "2023-12-31T00:00:00+02:00"
       },
       "breakdown": [
         {
