@@ -36,13 +36,10 @@ class TenderDetailsState(TenderDetailsMixing, OpenTenderState):
         "CRITERION.EXCLUSION.NATIONAL.OTHER",
     }
 
-    def always(self, data):
-        super().always(data)
-        self.set_no_auction_forced(data)
-
     def on_post(self, tender):
         super().on_post(tender)  # TenderDetailsMixing.on_post
         self.initialize_enquiry_period(tender)
+        self.set_no_auction_forced(None, tender)
 
     def on_patch(self, before, after):
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
@@ -92,6 +89,7 @@ class TenderDetailsState(TenderDetailsMixing, OpenTenderState):
 
         if after["status"] in ("draft", "active.tendering"):
             self.initialize_enquiry_period(after)
+        self.set_no_auction_forced(before, after)
 
     def initialize_enquiry_period(self, tender):
         tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
@@ -109,9 +107,10 @@ class TenderDetailsState(TenderDetailsMixing, OpenTenderState):
         if invalidation_date:
             tender["enquiryPeriod"]["invalidationDate"] = invalidation_date
 
-    def set_no_auction_forced(self, tender):
+    def set_no_auction_forced(self, before, after):
         if QUICK_NO_AUCTION_FORCED:
-            tender["submissionMethodDetails"] = QUICK_NO_AUCTION
+            if not before or before.get("submissionMethodDetails") == QUICK_NO_AUCTION:
+                after["submissionMethodDetails"] = QUICK_NO_AUCTION
 
     def validate_tender_period_extension(self, tender):
         if "tenderPeriod" in tender and "endDate" in tender["tenderPeriod"]:
