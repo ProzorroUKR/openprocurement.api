@@ -167,16 +167,20 @@ def validate_update_contracting_paid_amount(request, **kwargs):
     data = request.validated["data"]
     value = data.get("value")
     paid = data.get("amountPaid")
-    if paid:
-        validate_update_contracting_value_amount(request, name="amountPaid")
-        if value:
-            for attr in ("amount", "amountNet"):
-                paid_amount = paid.get(attr)
-                value_amount = value.get(attr)
-                if value_amount and paid_amount > value_amount:
-                    raise_operation_error(
-                        request, "AmountPaid {} can`t be greater than value {}".format(attr, attr), name="amountPaid"
-                    )
+    if not paid:
+        return
+    validate_update_contracting_value_amount(request, name="amountPaid")
+    if not value:
+        return
+    attr = "amountNet"
+    paid_amount = paid.get(attr)
+    value_amount = value.get(attr)
+    if value_amount and paid_amount > value_amount:
+        raise_operation_error(
+            request,
+            "AmountPaid {} can`t be greater than value {}".format(attr, attr),
+            name="amountPaid",
+        )
 
 
 def validate_contract_patch_items_amount_unchanged(request, **kwargs):
