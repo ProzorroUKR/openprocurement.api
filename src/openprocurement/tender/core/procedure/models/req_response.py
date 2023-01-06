@@ -261,7 +261,32 @@ class PatchObjResponsesMixin(Model):
     )
 
 
-class PostBidResponsesMixin(PatchObjResponsesMixin):
+class ObjResponseMixin(PatchObjResponsesMixin):
+    def validate_requirementResponses(self, data: dict, requirement_responses: Optional[List[dict]]) -> None:
+        tender = get_tender()
+        tender_created = get_first_revision_date(tender, default=get_now())
+
+        if tender_created < RELEASE_ECRITERIA_ARTICLE_17:
+            if requirement_responses:
+                raise ValidationError("Rogue field.")
+            return
+
+        if data["status"] not in ["active", "pending"]:
+            return
+
+        parent_obj_name = self.__name__.lower()
+        for name in ["award", "qualification", "bid"]:
+            if name in parent_obj_name:
+                parent_obj_name = name
+                break
+        # Validation requirement_response data
+        for response in requirement_responses or "":
+            validate_req_response_requirement(response, parent_obj_name=parent_obj_name)
+            validate_req_response_related_tenderer(data, response)
+            validate_req_response_evidences_relatedDocument(data, response, parent_obj_name=parent_obj_name)
+
+
+class PostBidResponsesMixin(ObjResponseMixin):
     """
     this model is used to update "full" data during patch and post requests
     """

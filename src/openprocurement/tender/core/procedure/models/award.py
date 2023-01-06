@@ -6,6 +6,7 @@ from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.models.item import Item
 from openprocurement.tender.core.procedure.models.req_response import (
     PatchObjResponsesMixin,
+    ObjResponseMixin,
 )
 from openprocurement.tender.core.procedure.context import get_tender, get_now
 from schematics.types import StringType, MD5Type, BooleanType, BaseType
@@ -51,7 +52,7 @@ class PatchAward(PatchObjResponsesMixin, BaseAward):
     items = ListType(ModelType(Item))
 
 
-class Award(PatchObjResponsesMixin, BaseAward):
+class Award(ObjResponseMixin, BaseAward):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     status = StringType(required=True, choices=["pending", "unsuccessful", "active", "cancelled"])
     date = IsoDateTimeType(required=True)
