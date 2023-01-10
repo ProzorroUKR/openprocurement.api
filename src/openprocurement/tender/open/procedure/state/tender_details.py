@@ -39,7 +39,7 @@ class TenderDetailsState(TenderDetailsMixing, OpenTenderState):
     def on_post(self, tender):
         super().on_post(tender)  # TenderDetailsMixing.on_post
         self.initialize_enquiry_period(tender)
-        self.set_no_auction_forced(None, tender)
+        self.set_no_auction_forced({}, tender)
 
     def on_patch(self, before, after):
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
