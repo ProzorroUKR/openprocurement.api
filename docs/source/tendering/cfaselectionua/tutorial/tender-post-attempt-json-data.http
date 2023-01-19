@@ -109,13 +109,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae82551e95d84a53
         "id": "00037256",
         "uri": "http://www.dus.gov.ua/"
       },
-      "address": {
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220",
-        "countryName": "Україна"
-      },
       "contactPoint": {
         "telephone": "+0440000000",
         "name": "Державне управління справами",
@@ -128,6 +121,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae82551e95d84a53
           "availableLanguage": "uk"
         }
       ],
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
       "kind": "general"
     },
     "status": "draft",
@@ -158,13 +158,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae82551e95d84a53
           "startDate": "2023-01-03T00:00:00+02:00",
           "endDate": "2023-01-06T00:00:00+02:00"
         },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
         "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
         "unit": {
           "name": "item",
@@ -174,6 +167,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae82551e95d84a53
             "currency": "UAH",
             "valueAddedTaxIncluded": true
           }
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
         }
       }
     ],

@@ -33,13 +33,6 @@ Content-Type: application/json
         "id": "00037256",
         "uri": "http://www.dus.gov.ua/"
       },
-      "address": {
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220",
-        "countryName": "Україна"
-      },
       "contactPoint": {
         "telephone": "+0440000000",
         "name": "Державне управління справами",
@@ -52,6 +45,13 @@ Content-Type: application/json
           "availableLanguage": "uk"
         }
       ],
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
       "kind": "general"
     },
     "status": "draft.pending",
@@ -82,13 +82,6 @@ Content-Type: application/json
           "startDate": "2023-01-03T00:00:00+02:00",
           "endDate": "2023-01-06T00:00:00+02:00"
         },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
         "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
         "unit": {
           "name": "item",
@@ -98,6 +91,13 @@ Content-Type: application/json
             "currency": "UAH",
             "valueAddedTaxIncluded": true
           }
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
         }
       }
     ],

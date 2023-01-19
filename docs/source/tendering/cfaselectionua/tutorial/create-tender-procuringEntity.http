@@ -124,17 +124,17 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ebba2ec7a3aa4767
         "id": "00037256",
         "uri": "http://www.dus.gov.ua/"
       },
+      "contactPoint": {
+        "telephone": "+0440000000",
+        "name": "Державне управління справами",
+        "availableLanguage": "uk"
+      },
       "address": {
         "streetAddress": "вул. Банкова, 11, корпус 1",
         "locality": "м. Київ",
         "region": "м. Київ",
         "postalCode": "01220",
         "countryName": "Україна"
-      },
-      "contactPoint": {
-        "telephone": "+0440000000",
-        "name": "Державне управління справами",
-        "availableLanguage": "uk"
       },
       "kind": "general"
     },
