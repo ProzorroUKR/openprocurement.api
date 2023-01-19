@@ -63,7 +63,6 @@ class BaseOrganization(Model):
 
 
 class Organization(Model):
-
     name = StringType(required=True)
     name_en = StringType()
     name_ru = StringType()
