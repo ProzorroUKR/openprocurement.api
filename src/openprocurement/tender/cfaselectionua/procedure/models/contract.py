@@ -1,3 +1,4 @@
+from openprocurement.tender.cfaselectionua.procedure.models.organization import BusinessOrganization
 from openprocurement.tender.core.procedure.models.contract import (
     PatchContractSupplier as BasePatchContractSupplier,
     PatchContract as BasePatchContract,
@@ -18,6 +19,7 @@ class Contract(BaseContract):
     awardID = StringType(required=True)
     documents = ListType(ModelType(ContractDocument, required=True))
     items = ListType(ModelType(ContractItem, required=True))
+    suppliers = ListType(ModelType(BusinessOrganization), min_size=1, max_size=1)
 
     def validate_dateSigned(self, data, value):
         if value and value > get_now():
