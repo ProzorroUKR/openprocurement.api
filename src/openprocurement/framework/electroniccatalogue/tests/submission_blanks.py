@@ -698,7 +698,7 @@ def patch_submission_active(self):
 
 
 def patch_submission_active_fast(self):
-    target = "openprocurement.framework.electroniccatalogue.views.submission.FAST_CATALOGUE_FLOW_FRAMEWORK_IDS"
+    target = "openprocurement.framework.core.views.submission.FAST_CATALOGUE_FLOW_FRAMEWORK_IDS"
 
     data = deepcopy(self.initial_submission_data)
     response = self.app.post_json("/submissions", {"data": data})

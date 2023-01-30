@@ -1,25 +1,23 @@
 from datetime import timedelta
-from functools import partial
 
 import standards
-from cornice.resource import resource
 from dateorro import calc_normalized_datetime, calc_working_datetime, calc_datetime
 
 from openprocurement.api.constants import WORKING_DAYS, FRAMEWORK_ENQUIRY_PERIOD_OFF_FROM
-from openprocurement.api.utils import get_now, context_unpack, error_handler, get_first_revision_date
+from openprocurement.api.utils import get_now, context_unpack, get_first_revision_date
 from openprocurement.framework.core.utils import (
     ENQUIRY_PERIOD_DURATION,
     SUBMISSION_STAND_STILL_DURATION,
     acceleratable, LOGGER
 )
-from openprocurement.framework.electroniccatalogue.traversal import contract_factory
 
 DAYS_TO_UNSUCCESSFUL_STATUS = 20
 CONTRACT_BAN_DURATION = 90
 AUTHORIZED_CPB = standards.load("organizations/authorized_cpb.json")
-MILESTONE_CONTRACT_STATUSES = {"ban": "suspended", "terminated": "terminated"}
-
-contractresource = partial(resource, factory=contract_factory, error_handler=error_handler)
+MILESTONE_CONTRACT_STATUSES = {
+    "ban": "suspended",
+    "terminated": "terminated",
+}
 
 
 @acceleratable
@@ -40,19 +38,34 @@ def calculate_framework_periods(request, model):
     if get_first_revision_date(framework, default=get_now()) >= FRAMEWORK_ENQUIRY_PERIOD_OFF_FROM:
         enquiryPeriod_endDate = enquiryPeriod_startDate + timedelta(seconds=1)
     else:
-        enquiryPeriod_endDate = (framework.enquiryPeriod and framework.enquiryPeriod.endDate
-                                 or calculate_framework_date(enquiryPeriod_startDate,
-                                                             timedelta(days=ENQUIRY_PERIOD_DURATION), framework,
-                                                             working_days=True, ceil=True)
-                                 )
-    data["enquiryPeriod"] = {"startDate": enquiryPeriod_startDate, "endDate": enquiryPeriod_endDate}
+        enquiryPeriod_endDate = (
+            framework.enquiryPeriod
+            and framework.enquiryPeriod.endDate
+            or calculate_framework_date(
+                enquiryPeriod_startDate,
+                timedelta(days=ENQUIRY_PERIOD_DURATION),
+                framework,
+                working_days=True,
+                ceil=True
+            ),
+        )
+
+    data["enquiryPeriod"] = {
+        "startDate": enquiryPeriod_startDate,
+        "endDate": enquiryPeriod_endDate,
+    }
 
     qualification_endDate = model(data["qualificationPeriod"]).endDate
     period_startDate = framework.period and framework.period.startDate or get_now()
     period_endDate = calculate_framework_date(
-        qualification_endDate, timedelta(days=-SUBMISSION_STAND_STILL_DURATION), framework
+        qualification_endDate,
+        timedelta(days=-SUBMISSION_STAND_STILL_DURATION),
+        framework,
     )
-    data["period"] = {"startDate": period_startDate, "endDate": period_endDate}
+    data["period"] = {
+        "startDate": period_startDate,
+        "endDate": period_endDate,
+    }
 
     data["qualificationPeriod"]["startDate"] = enquiryPeriod_endDate
 

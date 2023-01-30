@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import (
-    json_view,
-)
+from openprocurement.api.utils import json_view
 from openprocurement.api.validation import (
     validate_file_update,
     validate_patch_document_data,

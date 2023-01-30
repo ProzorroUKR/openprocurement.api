@@ -1,6 +1,5 @@
 from functools import partial, wraps
 from logging import getLogger
-from time import sleep
 
 from cornice.resource import resource
 from dateorro import calc_datetime
@@ -28,6 +27,7 @@ from openprocurement.framework.core.traversal import (
     submission_factory,
     qualification_factory,
     agreement_factory,
+    contract_factory,
 )
 
 LOGGER = getLogger("openprocurement.framework.core")
@@ -38,6 +38,7 @@ frameworksresource = partial(resource, error_handler=error_handler, factory=fram
 submissionsresource = partial(resource, error_handler=error_handler, factory=submission_factory)
 qualificationsresource = partial(resource, error_handler=error_handler, factory=qualification_factory)
 agreementsresource = partial(resource, error_handler=error_handler, factory=agreement_factory)
+contractresource = partial(resource, error_handler=error_handler, factory=contract_factory)
 
 
 class isFramework(object):
@@ -213,7 +214,7 @@ def generate_framework_pretty_id(request):
     )
 
 
-def generate_agreementID(request):
+def generate_agreement_id(request):
     ctime = get_now().date()
     index = request.registry.mongodb.get_next_sequence_value(f"agreement_{ctime.isoformat()}")
     return "UA-{:04}-{:02}-{:02}-{:06}".format(

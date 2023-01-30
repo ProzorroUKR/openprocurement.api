@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import json_view
-from openprocurement.api.validation import validate_file_update, validate_patch_document_data, validate_file_upload
-
-from openprocurement.framework.core.views.document import CoreMilestoneDocumentResource
-from openprocurement.framework.electroniccatalogue.utils import contractresource
+from openprocurement.api.validation import (
+    validate_file_update,
+    validate_patch_document_data,
+    validate_file_upload,
+)
+from openprocurement.framework.core.utils import contractresource
 from openprocurement.framework.electroniccatalogue.validation import (
     validate_agreement_operation_not_in_allowed_status,
     validate_contract_operation_not_in_allowed_status,
     validate_action_in_milestone_status,
 )
+from openprocurement.framework.core.views.document import CoreMilestoneDocumentResource
 
 
 @contractresource(

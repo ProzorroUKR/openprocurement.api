@@ -4,14 +4,19 @@ from openprocurement.api.utils import (
     set_ownership,
     context_unpack,
     upload_objects_documents,
+    raise_operation_error,
 )
-from openprocurement.api.views.base import MongodbResourceListing
+from openprocurement.api.views.base import MongodbResourceListing, BaseResource
 from openprocurement.framework.core.utils import (
     frameworksresource,
     generate_framework_pretty_id,
-    save_framework,
+    save_framework, apply_patch,
 )
 from openprocurement.framework.core.validation import validate_framework_data
+from openprocurement.framework.electroniccatalogue.utils import check_status, calculate_framework_periods
+from openprocurement.framework.electroniccatalogue.validation import validate_qualification_period_duration
+
+AGREEMENT_DEPENDENT_FIELDS = ("qualificationPeriod", "procuringEntity")
 
 
 @frameworksresource(
@@ -32,7 +37,7 @@ class FrameworkResource(MongodbResourceListing):
         content_type="application/json",
         permission="create_framework",
         validators=(
-                validate_framework_data,
+            validate_framework_data,
         )
     )
     def post(self):
@@ -55,8 +60,10 @@ class FrameworkResource(MongodbResourceListing):
                 extra=context_unpack(
                     self.request,
                     {"MESSAGE_ID": "framework_create"},
-                    {"framework_id": framework_id, "prettyID": framework.prettyID,
-                     "framework_mode": framework.mode},
+                    {
+                        "framework_id": framework_id, "prettyID": framework.prettyID,
+                        "framework_mode": framework.mode,
+                    },
                 ),
             )
             self.request.response.status = 201
@@ -108,3 +115,70 @@ class FrameworkQualificationRequestResource(MongodbResourceListing):
             "submissionID", "frameworkID", "documents",
         }
         self.db_listing_method = request.registry.mongodb.qualifications.list
+
+
+class CoreFrameworkResource(BaseResource):
+    @json_view(permission="view_framework")
+    def get(self):
+        if self.request.authenticated_role == "chronograph":
+            framework_data = self.context.serialize("chronograph_view")
+        else:
+            framework_data = self.context.serialize(self.context.status)
+        return {"data": framework_data}
+
+    def patch(self):
+        framework = self.context
+        if self.request.authenticated_role == "chronograph":
+            check_status(self.request)
+            save_framework(self.request)
+        else:
+            if self.request.validated["data"].get("status") not in ("draft", "active"):
+                raise_operation_error(
+                    self.request,
+                    "Can't switch to {} status".format(self.request.validated["data"].get("status")),
+                )
+            if self.request.validated["data"].get("status") == "active":
+                model = self.request.context._fields["qualificationPeriod"]
+                calculate_framework_periods(self.request, model)
+                validate_qualification_period_duration(self.request, model)
+
+            apply_patch(
+                self.request,
+                src=self.request.validated["framework_src"],
+                obj_name="framework",
+            )
+
+            if (
+                any([f in self.request.validated["json_data"] for f in AGREEMENT_DEPENDENT_FIELDS])
+                and framework.agreementID
+                and self.request.validated["agreement_src"]["status"] == "active"
+            ):
+                self.update_agreement()
+
+        self.LOGGER.info(
+            "Updated framework {}".format(framework.id),
+            extra=context_unpack(self.request, {"MESSAGE_ID": "framework_patch"}),
+        )
+        # TODO: Change to chronograph_view for chronograph
+        return {"data": framework.serialize(framework.status)}
+
+    def update_agreement(self):
+        framework = self.request.validated["framework"]
+
+        updated_agreement_data = {
+            "period": {
+                "startDate": self.request.validated["agreement_src"]["period"]["startDate"],
+                "endDate": framework.qualificationPeriod.endDate.isoformat()
+            },
+            "procuringEntity": framework.procuringEntity
+        }
+        apply_patch(
+            self.request,
+            src=self.request.validated["agreement_src"],
+            data=updated_agreement_data,
+            obj_name="agreement",
+        )
+        self.LOGGER.info(
+            "Updated agreement {}".format(self.request.validated["agreement_src"]["id"]),
+            extra=context_unpack(self.request, {"MESSAGE_ID": "framework_patch"}),
+        )

@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import (
-    json_view,
-)
+from openprocurement.api.utils import json_view
 from openprocurement.api.validation import (
     validate_file_update,
     validate_patch_document_data,
@@ -9,7 +7,7 @@ from openprocurement.api.validation import (
 )
 from openprocurement.framework.core.utils import qualificationsresource
 from openprocurement.framework.core.validation import (
-    validate_document_operation_in_not_allowed_status
+    validate_document_operation_in_not_allowed_status,
 )
 from openprocurement.framework.core.views.document import (
     CoreQualificationDocumentResource,
