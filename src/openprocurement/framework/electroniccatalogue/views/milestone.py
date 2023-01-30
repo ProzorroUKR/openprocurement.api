@@ -34,11 +34,11 @@ class ContractMilestoneResource(BaseResource):
     @json_view(
         content_type="application/json",
         validators=(
-                validate_milestone_data,
-                validate_agreement_operation_not_in_allowed_status,
-                validate_contract_operation_not_in_allowed_status,
-                validate_contract_suspended,
-                validate_milestone_type,
+            validate_milestone_data,
+            validate_agreement_operation_not_in_allowed_status,
+            validate_contract_operation_not_in_allowed_status,
+            validate_contract_suspended,
+            validate_milestone_type,
         ),
         permission="edit_agreement"
     )
@@ -62,20 +62,25 @@ class ContractMilestoneResource(BaseResource):
     @json_view(
         content_type="application/json",
         validators=(
-                validate_patch_milestone_data,
-                validate_agreement_operation_not_in_allowed_status,
-                validate_contract_operation_not_in_allowed_status,
-                validate_contract_suspended,
-                validate_patch_not_activation_milestone,
-                validate_action_in_milestone_status,
-                validate_patch_milestone_status,
+            validate_patch_milestone_data,
+            validate_agreement_operation_not_in_allowed_status,
+            validate_contract_operation_not_in_allowed_status,
+            validate_contract_suspended,
+            validate_patch_not_activation_milestone,
+            validate_action_in_milestone_status,
+            validate_patch_milestone_status,
         ),
         permission="edit_agreement"
     )
     def patch(self):
         # PATCH now working only for milestone type `activation`
         milestone = self.request.context
-        apply_patch(self.request, obj_name="agreement", save=False, src=milestone.to_primitive())
+        apply_patch(
+            self.request,
+            obj_name="agreement",
+            save=False,
+            src=milestone.to_primitive(),
+        )
 
         if milestone.status == "met":
             contract = self.request.validated["contract"]

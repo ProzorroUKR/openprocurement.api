@@ -26,10 +26,10 @@ class MilestoneDocumentResource(CoreMilestoneDocumentResource):
     @json_view(
         permission="upload_milestone_documents",
         validators=(
-                validate_file_upload,
-                validate_agreement_operation_not_in_allowed_status,
-                validate_contract_operation_not_in_allowed_status,
-                validate_action_in_milestone_status,
+            validate_file_upload,
+            validate_agreement_operation_not_in_allowed_status,
+            validate_contract_operation_not_in_allowed_status,
+            validate_action_in_milestone_status,
         ),
     )
     def collection_post(self):
@@ -44,10 +44,10 @@ class MilestoneDocumentResource(CoreMilestoneDocumentResource):
     @json_view(
         permission="upload_milestone_documents",
         validators=(
-                validate_file_update,
-                validate_agreement_operation_not_in_allowed_status,
-                validate_contract_operation_not_in_allowed_status,
-                validate_action_in_milestone_status,
+            validate_file_update,
+            validate_agreement_operation_not_in_allowed_status,
+            validate_contract_operation_not_in_allowed_status,
+            validate_action_in_milestone_status,
         ),
     )
     def put(self):
@@ -58,10 +58,10 @@ class MilestoneDocumentResource(CoreMilestoneDocumentResource):
         content_type="application/json",
         permission="upload_milestone_documents",
         validators=(
-                validate_patch_document_data,
-                validate_agreement_operation_not_in_allowed_status,
-                validate_contract_operation_not_in_allowed_status,
-                validate_action_in_milestone_status,
+            validate_patch_document_data,
+            validate_agreement_operation_not_in_allowed_status,
+            validate_contract_operation_not_in_allowed_status,
+            validate_action_in_milestone_status,
         ),
     )
     def patch(self):

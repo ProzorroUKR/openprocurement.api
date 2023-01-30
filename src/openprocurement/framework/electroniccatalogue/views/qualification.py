@@ -146,8 +146,10 @@ class QualificationResource(BaseResource, AgreementMixin):
                     extra=context_unpack(
                         self.request,
                         {"MESSAGE_ID": "agreement_create"},
-                        {"agreement_id": agreement_id,
-                         "agreement_mode": agreement.mode},
+                        {
+                            "agreement_id": agreement_id,
+                            "agreement_mode": agreement.mode
+                        },
                     ),
                 )
 
@@ -156,8 +158,10 @@ class QualificationResource(BaseResource, AgreementMixin):
                     self.request, data=framework_data_updated, src=self.request.validated["framework_src"],
                     obj_name="framework"
                 )
-                self.LOGGER.info("Updated framework {} with agreementID".format(framework_data["id"]),
-                                 extra=context_unpack(self.request, {"MESSAGE_ID": "qualification_patch"}))
+                self.LOGGER.info(
+                    "Updated framework {} with agreementID".format(framework_data["id"]),
+                     extra=context_unpack(self.request, {"MESSAGE_ID": "qualification_patch"}),
+                )
 
     def create_agreement_contract(self):
         qualification = self.request.validated["qualification"]
@@ -194,5 +198,7 @@ class QualificationResource(BaseResource, AgreementMixin):
         new_contracts.append(contract_data)
 
         apply_patch(self.request, data={"contracts": new_contracts}, src=agreement_data, obj_name="agreement")
-        self.LOGGER.info("Updated agreement {} with contract {}".format(agreement_data["_id"], contract_id),
-                         extra=context_unpack(self.request, {"MESSAGE_ID": "qualification_patch"}))
+        self.LOGGER.info(
+            "Updated agreement {} with contract {}".format(agreement_data["_id"], contract_id),
+             extra=context_unpack(self.request, {"MESSAGE_ID": "qualification_patch"}),
+        )

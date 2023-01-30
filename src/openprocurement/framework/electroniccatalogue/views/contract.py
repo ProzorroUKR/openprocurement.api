@@ -26,8 +26,8 @@ class AgreementContractsResource(BaseResource):
     @json_view(
         content_type="application/json",
         validators=(
-                validate_patch_contract_data,
-                validate_agreement_operation_not_in_allowed_status,
+            validate_patch_contract_data,
+            validate_agreement_operation_not_in_allowed_status,
         ),
         permission="edit_agreement",
     )

@@ -17,7 +17,7 @@ from openprocurement.framework.core.validation import validate_framework_data
 @frameworksresource(
     name="Frameworks",
     path="/frameworks",
-    description="See https://standard.open-contracting.org/latest/en/guidance/map/related_processes/",
+    description="",
 )
 class FrameworkResource(MongodbResourceListing):
     def __init__(self, request, context):

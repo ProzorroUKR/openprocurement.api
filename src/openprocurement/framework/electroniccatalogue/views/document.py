@@ -28,7 +28,10 @@ class FrameworkDocumentResource(CoreFrameworkDocumentResource):
 
     @json_view(
         permission="upload_framework_documents",
-        validators=(validate_file_upload, validate_framework_document_operation_not_in_allowed_status),
+        validators=(
+            validate_file_upload,
+            validate_framework_document_operation_not_in_allowed_status,
+        ),
     )
     def collection_post(self):
         """Framework Document Upload"""
@@ -41,7 +44,10 @@ class FrameworkDocumentResource(CoreFrameworkDocumentResource):
 
     @json_view(
         permission="upload_framework_documents",
-        validators=(validate_file_update, validate_framework_document_operation_not_in_allowed_status),
+        validators=(
+            validate_file_update,
+            validate_framework_document_operation_not_in_allowed_status,
+        ),
     )
     def put(self):
         """Framework Document Update"""
@@ -51,7 +57,8 @@ class FrameworkDocumentResource(CoreFrameworkDocumentResource):
         content_type="application/json",
         permission="upload_framework_documents",
         validators=(
-                validate_patch_document_data, validate_framework_document_operation_not_in_allowed_status
+            validate_patch_document_data,
+            validate_framework_document_operation_not_in_allowed_status,
         ),
     )
     def patch(self):

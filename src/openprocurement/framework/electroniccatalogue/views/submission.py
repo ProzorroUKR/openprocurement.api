@@ -142,4 +142,3 @@ class SubmissionResource(BaseResource, AgreementMixin):
             "Updated qualification {}".format(qualification.id),
             extra=context_unpack(self.request, {"MESSAGE_ID": "qualification_patch"})
         )
-

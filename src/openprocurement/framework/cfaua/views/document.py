@@ -25,7 +25,10 @@ class AgreementContractsResource(CoreAgreementDocumentResource):
 
     @json_view(
         permission="upload_agreement_documents",
-        validators=(validate_file_upload, validate_document_operation_on_agreement_status),
+        validators=(
+            validate_file_upload,
+            validate_document_operation_on_agreement_status,
+        ),
     )
     def collection_post(self):
         """ Agreement Document Upload"""
@@ -38,7 +41,10 @@ class AgreementContractsResource(CoreAgreementDocumentResource):
 
     @json_view(
         permission="upload_agreement_documents",
-        validators=(validate_file_update, validate_document_operation_on_agreement_status),
+        validators=(
+            validate_file_update,
+            validate_document_operation_on_agreement_status,
+        ),
     )
     def put(self):
         """ Agreement Document Update"""
@@ -47,7 +53,10 @@ class AgreementContractsResource(CoreAgreementDocumentResource):
     @json_view(
         content_type="application/json",
         permission="upload_agreement_documents",
-        validators=(validate_patch_document_data, validate_document_operation_on_agreement_status),
+        validators=(
+            validate_patch_document_data,
+            validate_document_operation_on_agreement_status,
+        ),
     )
     def patch(self):
         """ Agreement Document Update """

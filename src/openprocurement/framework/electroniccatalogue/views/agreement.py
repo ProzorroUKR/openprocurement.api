@@ -31,8 +31,8 @@ class AgreementResource(BaseResource):
     @json_view(
         content_type="application/json",
         validators=(
-                validate_patch_agreement_data,
-                validate_agreement_operation_not_in_allowed_status,
+            validate_patch_agreement_data,
+            validate_agreement_operation_not_in_allowed_status,
         ),
         permission="edit_agreement"
     )
@@ -42,10 +42,10 @@ class AgreementResource(BaseResource):
             if not check_agreement_status(self.request, now):
                 check_contract_statuses(self.request, now)
         if apply_patch(
-                self.request,
-                obj_name="agreement",
-                data=self.request.validated["agreement"].to_primitive(),
-                src=self.request.validated["agreement_src"]
+            self.request,
+            obj_name="agreement",
+            data=self.request.validated["agreement"].to_primitive(),
+            src=self.request.validated["agreement_src"]
         ):
             self.LOGGER.info(f"Updated agreement {self.request.validated['agreement'].id}",
                              extra=context_unpack(self.request, {"MESSAGE_ID": "agreement_patch"}))
@@ -88,7 +88,6 @@ class AgreementMixin:
     request = None
     LOGGER = None
     server_id = None
-
 
     def ensure_agreement(self):
         framework_data = self.request.validated["framework_src"]
