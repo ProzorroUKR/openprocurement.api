@@ -6,10 +6,10 @@ from openprocurement.framework.core.utils import apply_patch, context_unpack, sa
 
 
 @agreementsresource(
-    name="cfaua.Agreement",
+    name="cfaua:Agreement",
     path="/agreements/{agreement_id}",
     agreementType="cfaua",
-    description="Agreements resource",
+    description="Agreements",
 )
 class AgreementResource(BaseResource):
     @json_view(permission="view_agreement")

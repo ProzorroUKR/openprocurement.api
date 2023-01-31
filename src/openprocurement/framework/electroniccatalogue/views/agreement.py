@@ -5,13 +5,14 @@ from openprocurement.framework.core.validation import (
     validate_patch_agreement_data,
     validate_agreement_operation_not_in_allowed_status,
 )
+from openprocurement.framework.electroniccatalogue.constants import ELECTRONIC_CATALOGUE_TYPE
 
 
 @agreementsresource(
-    name="electronicCatalogue:Agreements",
+    name=f"{ELECTRONIC_CATALOGUE_TYPE}:Agreements",
     path="/agreements/{agreement_id}",
-    agreementType="electronicCatalogue",
-    description="Agreements resource"
+    agreementType=ELECTRONIC_CATALOGUE_TYPE,
+    description="Agreements"
 )
 class AgreementResource(CoreAgreementResource):
 

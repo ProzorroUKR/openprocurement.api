@@ -12,12 +12,14 @@ from openprocurement.framework.core.validation import (
     validate_contract_operation_not_in_allowed_status,
     validate_action_in_milestone_status,
 )
+from openprocurement.framework.electroniccatalogue.constants import ELECTRONIC_CATALOGUE_TYPE
 
 
 @contractresource(
-    name="electronicCatalogue:Agreements:Contracts:Milestone Documents",
+    name=f"{ELECTRONIC_CATALOGUE_TYPE}:Agreements:Contracts:Milestone Documents",
     collection_path="/agreements/{agreement_id}/contracts/{contract_id}/milestones/{milestone_id}/documents",
     path="/agreements/{agreement_id}/contracts/{contract_id}/milestones/{milestone_id}/documents/{document_id}",
+    agreementType=ELECTRONIC_CATALOGUE_TYPE,
     description="Agreement contract milestone related binary files (PDFs, etc.)",
 )
 class MilestoneDocumentResource(CoreMilestoneDocumentResource):

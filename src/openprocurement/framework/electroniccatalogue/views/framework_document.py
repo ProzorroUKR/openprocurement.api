@@ -10,12 +10,14 @@ from openprocurement.framework.core.views.document import CoreFrameworkDocumentR
 from openprocurement.framework.core.validation import (
     validate_framework_document_operation_not_in_allowed_status,
 )
+from openprocurement.framework.electroniccatalogue.constants import ELECTRONIC_CATALOGUE_TYPE
 
 
 @frameworksresource(
-    name="electronicCatalogue:Framework Documents",
+    name=f"{ELECTRONIC_CATALOGUE_TYPE}:Framework Documents",
     collection_path="/frameworks/{framework_id}/documents",
     path="/frameworks/{framework_id}/documents/{document_id}",
+    frameworkType=ELECTRONIC_CATALOGUE_TYPE,
     description="Framework related binary files (PDFs, etc.)",
 )
 class FrameworkDocumentResource(CoreFrameworkDocumentResource):

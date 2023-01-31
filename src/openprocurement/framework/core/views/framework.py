@@ -23,7 +23,7 @@ MAX_QUALIFICATION_DURATION = 1095
 @frameworksresource(
     name="Frameworks",
     path="/frameworks",
-    description="",
+    description="Frameworks",
 )
 class FrameworkResource(MongodbResourceListing):
     def __init__(self, request, context):
@@ -77,7 +77,7 @@ class FrameworkResource(MongodbResourceListing):
 @frameworksresource(
     name='FrameworkSubmissions',
     path='/frameworks/{frameworkID}/submissions',
-    description="",
+    description="Framework Submissions",
 )
 class FrameworkSubmissionRequestResource(MongodbResourceListing):
     filter_key = "frameworkID"
@@ -99,7 +99,7 @@ class FrameworkSubmissionRequestResource(MongodbResourceListing):
 @frameworksresource(
     name='FrameworkQualifications',
     path='/frameworks/{frameworkID}/qualifications',
-    description="",
+    description="Framework Qualifications",
 )
 class FrameworkQualificationRequestResource(MongodbResourceListing):
     filter_key = "frameworkID"

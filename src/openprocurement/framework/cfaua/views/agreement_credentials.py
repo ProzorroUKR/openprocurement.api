@@ -6,9 +6,9 @@ from openprocurement.framework.core.utils import context_unpack, save_agreement
 
 
 @agreementsresource(
-    name="cfaua.Agreement.credentials",
+    name="cfaua:Agreement Credentials",
     path="/agreements/{agreement_id}/credentials",
-    description="Agreement credentials",
+    description="Agreement Credentials",
 )
 class AgreementCredentialsResource(BaseResource):
     @json_view(permission="generate_credentials", validators=validate_credentials_generate)

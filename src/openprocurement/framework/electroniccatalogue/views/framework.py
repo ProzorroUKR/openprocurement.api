@@ -6,13 +6,14 @@ from openprocurement.framework.core.validation import (
     validate_patch_framework_data,
     validate_framework_patch_status,
 )
+from openprocurement.framework.electroniccatalogue.constants import ELECTRONIC_CATALOGUE_TYPE
 
 
 @frameworksresource(
-    name="electronicCatalogue:Frameworks",
+    name=f"{ELECTRONIC_CATALOGUE_TYPE}:Frameworks",
     path="/frameworks/{framework_id}",
-    frameworkType="electronicCatalogue",
-    description="Electronic Catalogue Frameworks",
+    frameworkType=ELECTRONIC_CATALOGUE_TYPE,
+    description="Frameworks",
 )
 class FrameworkResource(CoreFrameworkResource):
 

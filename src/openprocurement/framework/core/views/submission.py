@@ -15,11 +15,7 @@ from openprocurement.framework.core.utils import (
 from openprocurement.framework.core.validation import (
     validate_submission_data,
     validate_post_submission_with_active_contract,
-    validate_patch_submission_data,
     validate_operation_submission_in_not_allowed_period,
-    validate_submission_status,
-    validate_update_submission_in_not_allowed_status,
-    validate_activate_submission,
     validate_action_in_not_allowed_framework_status,
 )
 from openprocurement.framework.electroniccatalogue.models import Qualification

@@ -1,16 +1,25 @@
 from datetime import timedelta
 
-import standards
-from functools import partial, wraps
+from functools import (
+    partial,
+    wraps,
+)
 from logging import getLogger
 
 from cornice.resource import resource
-from dateorro import calc_datetime, calc_normalized_datetime, calc_working_datetime
+from dateorro import (
+    calc_datetime,
+    calc_normalized_datetime,
+    calc_working_datetime,
+)
 from jsonpointer import resolve_pointer
 from pyramid.compat import decode_path_info
 from pyramid.exceptions import URLDecodeError
 
-from openprocurement.api.constants import WORKING_DAYS, FRAMEWORK_ENQUIRY_PERIOD_OFF_FROM
+from openprocurement.api.constants import (
+    WORKING_DAYS,
+    FRAMEWORK_ENQUIRY_PERIOD_OFF_FROM,
+)
 from openprocurement.api.utils import (
     error_handler,
     update_logging_context,
@@ -22,7 +31,8 @@ from openprocurement.api.utils import (
     apply_data_patch,
     append_revision,
     ACCELERATOR_RE,
-    generate_id, get_first_revision_date,
+    generate_id,
+    get_first_revision_date,
 )
 from openprocurement.framework.core.models import IAgreement
 from openprocurement.framework.core.traversal import (
@@ -38,7 +48,6 @@ LOGGER = getLogger("openprocurement.framework.core")
 ENQUIRY_PERIOD_DURATION = 10
 SUBMISSION_STAND_STILL_DURATION = 30
 DAYS_TO_UNSUCCESSFUL_STATUS = 20
-AUTHORIZED_CPB = standards.load("organizations/authorized_cpb.json")
 MILESTONE_CONTRACT_STATUSES = {
     "ban": "suspended",
     "terminated": "terminated",
@@ -270,18 +279,24 @@ def save_framework(request, additional_obj_names="", insert=False):
 
 
 def save_submission(request, additional_obj_names="", insert=False):
-    return save_object(request, "submission", with_test_mode=False,
-                       additional_obj_names=additional_obj_names, insert=insert)
+    return save_object(
+        request, "submission", with_test_mode=False,
+        additional_obj_names=additional_obj_names, insert=insert
+        )
 
 
 def save_qualification(request, additional_obj_names="", insert=False):
-    return save_object(request, "qualification", with_test_mode=False,
-                       additional_obj_names=additional_obj_names, insert=insert)
+    return save_object(
+        request, "qualification", with_test_mode=False,
+        additional_obj_names=additional_obj_names, insert=insert
+        )
 
 
 def save_agreement(request, additional_obj_names="", insert=False):
-    return save_object(request, "agreement", with_test_mode=False,
-                       additional_obj_names=additional_obj_names, insert=insert)
+    return save_object(
+        request, "agreement", with_test_mode=False,
+        additional_obj_names=additional_obj_names, insert=insert
+        )
 
 
 def get_framework_accelerator(context):
@@ -294,13 +309,14 @@ def get_framework_accelerator(context):
 
 def acceleratable(wrapped):
     @wraps(wrapped)
-    def wrapper(date_obj, timedelta_obj,  framework=None, working_days=False, calendar=WORKING_DAYS, **kwargs):
+    def wrapper(date_obj, timedelta_obj, framework=None, working_days=False, calendar=WORKING_DAYS, **kwargs):
         accelerator = get_framework_accelerator(framework)
         if accelerator:
             return calc_datetime(date_obj, timedelta_obj, accelerator=accelerator)
         return wrapped(
             date_obj, timedelta_obj, framework=framework, working_days=working_days, calendar=calendar, **kwargs
         )
+
     return wrapper
 
 
@@ -326,10 +342,12 @@ def apply_patch(request, obj_name, data=None, save=True, src=None, additional_ob
 
 
 def append_obj_revision(request, obj, patch, date):
-    status_changes = [p for p in patch if all([
-        p["path"].endswith("/status"),
-        p["op"] == "replace"
-    ])]
+    status_changes = [p for p in patch if all(
+        [
+            p["path"].endswith("/status"),
+            p["op"] == "replace"
+        ]
+    )]
     changed_obj = obj
     for change in status_changes:
         changed_obj = resolve_pointer(obj, change["path"].replace("/status", ""))

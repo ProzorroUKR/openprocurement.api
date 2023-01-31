@@ -12,14 +12,15 @@ from openprocurement.framework.core.validation import (
     validate_action_in_milestone_status,
     validate_patch_milestone_status,
 )
+from openprocurement.framework.electroniccatalogue.constants import ELECTRONIC_CATALOGUE_TYPE
 
 
 @contractresource(
-    name="electronicCatalogue:Agreements:Contracts:Milestones",
+    name=f"{ELECTRONIC_CATALOGUE_TYPE}:Agreements Contracts Milestones",
     collection_path="/agreements/{agreement_id}/contracts/{contract_id}/milestones",
     path="/agreements/{agreement_id}/contracts/{contract_id}/milestones/{milestone_id}",
-    agreementType="electronicCatalogue",
-    description="Agreement contract milestones resource",
+    agreementType=ELECTRONIC_CATALOGUE_TYPE,
+    description="Agreements Contracts Milestones",
 )
 class ContractMilestoneResource(CoreContractMilestoneResource):
     @json_view(

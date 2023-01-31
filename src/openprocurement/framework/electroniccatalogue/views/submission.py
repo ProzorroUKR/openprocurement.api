@@ -9,13 +9,14 @@ from openprocurement.framework.core.validation import (
     validate_activate_submission,
     validate_action_in_not_allowed_framework_status,
 )
+from openprocurement.framework.electroniccatalogue.constants import ELECTRONIC_CATALOGUE_TYPE
 
 
 @submissionsresource(
-    name="electronicCatalogue:Submissions",
+    name=f"{ELECTRONIC_CATALOGUE_TYPE}:Submissions",
     path="/submissions/{submission_id}",
-    submissionType="electronicCatalogue",
-    description="",  # TODO: add description
+    submissionType=ELECTRONIC_CATALOGUE_TYPE,
+    description="Submissions",
 )
 class SubmissionResource(CoreSubmissionResource):
     @json_view(

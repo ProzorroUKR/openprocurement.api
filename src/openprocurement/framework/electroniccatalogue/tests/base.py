@@ -7,9 +7,13 @@ from freezegun import freeze_time
 from openprocurement.api.tests.base import BaseWebTest, change_auth
 from openprocurement.api.utils import get_now, apply_data_patch
 from openprocurement.framework.core.tests.base import BaseCoreWebTest
-from openprocurement.framework.electroniccatalogue.models import Framework, Submission, Agreement
+from openprocurement.framework.electroniccatalogue.models import (
+    Framework,
+    Submission,
+    Agreement,
+    AUTHORIZED_CPB,
+)
 from openprocurement.framework.electroniccatalogue.tests.periods import PERIODS
-from openprocurement.framework.core.utils import AUTHORIZED_CPB
 
 
 def get_cpb_ids_by_activity():

@@ -4,11 +4,11 @@ from openprocurement.framework.core.utils import agreementsresource
 
 
 @agreementsresource(
-    name="cfaua.Agreement.Contract",
+    name="cfaua:Agreement Contract",
     collection_path="/agreements/{agreement_id}/contracts",
     path="/agreements/{agreement_id}/contracts/{contract_id}",
     agreementType="cfaua",
-    description="Agreements resource",
+    description="Agreements",
 )
 class AgreementContractsResource(BaseResource):
     @json_view(permission="view_agreement")

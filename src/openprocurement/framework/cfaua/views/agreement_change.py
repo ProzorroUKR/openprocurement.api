@@ -15,11 +15,11 @@ from openprocurement.framework.core.utils import save_agreement, apply_patch
 
 
 @changeresource(
-    name="cfaua.Agreement_changes",
+    name="cfaua:Agreement Changes",
     collection_path="/agreements/{agreement_id}/changes",
     path="/agreements/{agreement_id}/changes/{change_id}",
     agreementType="cfaua",
-    description="Agreements Changes",
+    description="Agreement Changes",
 )
 class AgreementChangesResource(BaseResource):
     """ Agreement changes resource """

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import standards
 from uuid import uuid4
 
 from pyramid.security import Allow
@@ -33,11 +34,12 @@ from openprocurement.framework.core.models import (
     Agreement as BaseAgreement,
 )
 from openprocurement.framework.core.utils import (
-    AUTHORIZED_CPB,
     get_framework_next_check,
     get_milestone_next_check,
     get_milestone_due_date,
 )
+
+AUTHORIZED_CPB = standards.load("organizations/authorized_cpb.json")
 
 CONTRACT_BAN_DURATION = 90
 

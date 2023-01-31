@@ -6,13 +6,14 @@ from openprocurement.framework.core.validation import (
     validate_update_qualification_in_not_allowed_status,
     validate_action_in_not_allowed_framework_status,
 )
+from openprocurement.framework.electroniccatalogue.constants import ELECTRONIC_CATALOGUE_TYPE
 
 
 @qualificationsresource(
-    name="electronicCatalogue:Qualifications",
+    name=f"{ELECTRONIC_CATALOGUE_TYPE}:Qualifications",
     path="/qualifications/{qualification_id}",
-    qualificationType="electronicCatalogue",
-    description="",  # TODO: add description
+    qualificationType=ELECTRONIC_CATALOGUE_TYPE,
+    description="Qualifications",
 )
 class QualificationResource(CoreQualificationResource):
     @json_view(

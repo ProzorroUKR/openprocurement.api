@@ -2,7 +2,7 @@ from uuid import uuid4
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
 from schematics.transforms import blacklist, whitelist
-from schematics.types import StringType, BaseType, MD5Type
+from schematics.types import StringType, BaseType
 from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 from zope.interface import implementer
@@ -10,7 +10,6 @@ from zope.interface import implementer
 from openprocurement.api.auth import ACCR_5
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.interfaces import IOPContent
-from openprocurement.api.models import Model
 from openprocurement.api.models import (
     RootModel,
     IsoDateTimeType,

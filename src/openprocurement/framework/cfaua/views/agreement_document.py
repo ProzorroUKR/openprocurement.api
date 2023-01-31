@@ -10,18 +10,18 @@ from openprocurement.framework.core.views.document import CoreAgreementDocumentR
 
 
 @agreementsresource(
-    name="cfaua.Agreement.Document",
+    name="cfaua:Agreement Documents",
     collection_path="/agreements/{agreement_id}/documents",
     path="/agreements/{agreement_id}/documents/{document_id}",
     agreementType="cfaua",
-    description="Agreements resource",
+    description="Agreement Documents",
 )
-class AgreementContractsResource(CoreAgreementDocumentResource):
+class AgreementDocumentsResource(CoreAgreementDocumentResource):
 
     @json_view(permission="view_agreement")
     def collection_get(self):
         """Plan Documents List"""
-        return super(AgreementContractsResource, self).collection_get()
+        return super(AgreementDocumentsResource, self).collection_get()
 
     @json_view(
         permission="upload_agreement_documents",
@@ -32,12 +32,12 @@ class AgreementContractsResource(CoreAgreementDocumentResource):
     )
     def collection_post(self):
         """ Agreement Document Upload"""
-        return super(AgreementContractsResource, self).collection_post()
+        return super(AgreementDocumentsResource, self).collection_post()
 
     @json_view(permission="view_agreement")
     def get(self):
         """Plan Document Read"""
-        return super(AgreementContractsResource, self).get()
+        return super(AgreementDocumentsResource, self).get()
 
     @json_view(
         permission="upload_agreement_documents",
@@ -48,7 +48,7 @@ class AgreementContractsResource(CoreAgreementDocumentResource):
     )
     def put(self):
         """ Agreement Document Update"""
-        return super(AgreementContractsResource, self).put()
+        return super(AgreementDocumentsResource, self).put()
 
     @json_view(
         content_type="application/json",
@@ -60,4 +60,4 @@ class AgreementContractsResource(CoreAgreementDocumentResource):
     )
     def patch(self):
         """ Agreement Document Update """
-        return super(AgreementContractsResource, self).patch()
+        return super(AgreementDocumentsResource, self).patch()

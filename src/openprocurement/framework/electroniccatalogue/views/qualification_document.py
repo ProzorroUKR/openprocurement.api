@@ -10,12 +10,14 @@ from openprocurement.framework.core.views.document import CoreQualificationDocum
 from openprocurement.framework.core.validation import (
     validate_document_operation_in_not_allowed_status,
 )
+from openprocurement.framework.electroniccatalogue.constants import ELECTRONIC_CATALOGUE_TYPE
 
 
 @qualificationsresource(
-    name="electronicCatalogue:Qualification Documents",
+    name=f"{ELECTRONIC_CATALOGUE_TYPE}:Qualification Documents",
     collection_path="/qualifications/{qualification_id}/documents",
     path="/qualifications/{qualification_id}/documents/{document_id}",
+    qualificationType=ELECTRONIC_CATALOGUE_TYPE,
     description="Qualification related binary files (PDFs, etc.)",
 )
 class QualificationDocumentResource(CoreQualificationDocumentResource):
