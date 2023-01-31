@@ -82,6 +82,10 @@ class CentralProcuringEntity(BaseOrganization):
             "edit_active": whitelist("contactPoint"),
         }
 
+    identifier = ModelType(Identifier, required=True)
+    additionalIdentifiers = ListType(ModelType(Identifier))
+    address = ModelType(Address, required=True)
+    contactPoint = ModelType(ContactPoint, required=True)
     kind = StringType(choices=["central"], default="central")
 
     def validate_identifier(self, data, identifier):
