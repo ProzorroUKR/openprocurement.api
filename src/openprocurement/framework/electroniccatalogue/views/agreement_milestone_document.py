@@ -16,7 +16,7 @@ from openprocurement.framework.electroniccatalogue.constants import ELECTRONIC_C
 
 
 @contractresource(
-    name=f"{ELECTRONIC_CATALOGUE_TYPE}:Agreements:Contracts:Milestone Documents",
+    name=f"{ELECTRONIC_CATALOGUE_TYPE}:Agreements Contracts Milestone Documents",
     collection_path="/agreements/{agreement_id}/contracts/{contract_id}/milestones/{milestone_id}/documents",
     path="/agreements/{agreement_id}/contracts/{contract_id}/milestones/{milestone_id}/documents/{document_id}",
     agreementType=ELECTRONIC_CATALOGUE_TYPE,
