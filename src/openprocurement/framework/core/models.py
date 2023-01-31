@@ -26,6 +26,12 @@ class IFramework(IOPContent):
     """ Base framework marker interface """
 
 
+def get_agreement(model):
+    while not IAgreement.providedBy(model):
+        model = model.__parent__
+    return model
+
+
 @implementer(IFramework)
 class Framework(RootModel):
     class Options:
@@ -351,7 +357,7 @@ class Agreement(RootModel):
 
     # id = MD5Type(required=True, default=lambda: uuid4().hex)
     agreementID = StringType()
-    agreementType = StringType(default="electronicCatalogue")
+    agreementType = StringType(required=True)
     # maybe terminated ????
     status = StringType(choices=["active", "terminated"], required=True)
     date = IsoDateTimeType()

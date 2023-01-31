@@ -42,8 +42,11 @@ from openprocurement.framework.cfaua.validation import (
     validate_parameters_uniq,
     validate_features_uniq,
 )
-from openprocurement.framework.core.models import IAgreement, Agreement as BaseAgreement
-from openprocurement.framework.core.utils import get_agreement
+from openprocurement.framework.core.models import (
+    IAgreement,
+    Agreement as BaseAgreement,
+    get_agreement,
+)
 
 PROCURING_ENTITY_KINDS = ("authority", "central", "defense", "general", "other", "social", "special")
 

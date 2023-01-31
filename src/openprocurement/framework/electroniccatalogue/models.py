@@ -39,6 +39,7 @@ from openprocurement.framework.core.utils import (
     get_framework_unsuccessful_status_check_date,
     calculate_framework_date,
 )
+from openprocurement.framework.electroniccatalogue.constants import ELECTRONIC_CATALOGUE_TYPE
 
 AUTHORIZED_CPB = standards.load("organizations/authorized_cpb.json")
 
@@ -172,7 +173,7 @@ class Framework(BaseFramework):
     period = ModelType(BasePeriodEndRequired)
     qualificationPeriod = ModelType(BasePeriodEndRequired, required=True)
     enquiryPeriod = ModelType(BasePeriodEndRequired)
-    frameworkType = StringType(default="electronicCatalogue")
+    frameworkType = StringType(default=ELECTRONIC_CATALOGUE_TYPE)
     procuringEntity = ModelType(CentralProcuringEntity, required=True)
     classification = ModelType(DKClassification, required=True)
     additionalClassifications = ListType(ModelType(BaseClassification))
@@ -272,7 +273,7 @@ class Submission(BaseSubmission):
         ],
         default="draft",
     )
-    submissionType = StringType(default="electronicCatalogue")
+    submissionType = StringType(default=ELECTRONIC_CATALOGUE_TYPE)
     tenderers = ListType(ModelType(BusinessOrganizationForSubmission, required=True), required=True, min_size=1,)
 
 
@@ -286,7 +287,7 @@ class Qualification(BaseQualification):
         default="pending",
     )
 
-    qualificationType = StringType(default="electronicCatalogue", required=True)
+    qualificationType = StringType(default=ELECTRONIC_CATALOGUE_TYPE, required=True)
 
 
 class ContactPointForContract(BaseContactPoint):
@@ -375,7 +376,7 @@ class Agreement(BaseAgreement):
             "chronograph": whitelist("next_check"),
         }
 
-    agreementType = StringType(default="electronicCatalogue")
+    agreementType = StringType(default=ELECTRONIC_CATALOGUE_TYPE)
     frameworkID = StringType()
     period = ModelType(BasePeriodEndRequired)
     procuringEntity = ModelType(CentralProcuringEntity, required=True)

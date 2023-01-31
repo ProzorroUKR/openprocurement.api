@@ -65,7 +65,7 @@ class AgreementResource(MongodbResourceListing):
             )
             self.request.response.status = 201
             self.request.response.headers["Location"] = self.request.route_url(
-                "{}.Agreement".format(agreement.agreementType), agreement_id=agreement.id
+                "{}:Agreements".format(agreement.agreementType), agreement_id=agreement.id
             )
             return {"data": agreement.serialize("view"), "access": access}
 

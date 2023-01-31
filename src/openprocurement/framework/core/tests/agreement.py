@@ -15,9 +15,11 @@ from openprocurement.framework.core.utils import (
     save_agreement,
     apply_patch,
     set_agreement_ownership,
+)
+from openprocurement.framework.core.models import (
+    Agreement,
     get_agreement,
 )
-from openprocurement.framework.core.models import Agreement
 from openprocurement.framework.core.validation import validate_agreement_data
 from openprocurement.framework.core.views.agreement import AgreementResource
 from schematics.types import StringType

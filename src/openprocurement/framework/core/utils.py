@@ -34,7 +34,6 @@ from openprocurement.api.utils import (
     generate_id,
     get_first_revision_date,
 )
-from openprocurement.framework.core.models import IAgreement
 from openprocurement.framework.core.traversal import (
     framework_factory,
     submission_factory,
@@ -391,12 +390,6 @@ def get_agreement_by_id(request, agreement_id):
 
 def set_agreement_ownership(item, request):
     item.owner_token = generate_id()
-
-
-def get_agreement(model):
-    while not IAgreement.providedBy(model):
-        model = model.__parent__
-    return model
 
 
 @acceleratable
