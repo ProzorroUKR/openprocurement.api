@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from datetime import timedelta
+
 import standards
 from uuid import uuid4
 
@@ -34,9 +36,8 @@ from openprocurement.framework.core.models import (
     Agreement as BaseAgreement,
 )
 from openprocurement.framework.core.utils import (
-    get_framework_next_check,
-    get_milestone_next_check,
-    get_milestone_due_date,
+    get_framework_unsuccessful_status_check_date,
+    calculate_framework_date,
 )
 
 AUTHORIZED_CPB = standards.load("organizations/authorized_cpb.json")
@@ -186,7 +187,14 @@ class Framework(BaseFramework):
 
     @serializable(serialize_when_none=False)
     def next_check(self):
-        return get_framework_next_check(self)
+        checks = []
+        if self.status == "active":
+            if not self.successful:
+                unsuccessful_status_check = get_framework_unsuccessful_status_check_date(self)
+                if unsuccessful_status_check:
+                    checks.append(unsuccessful_status_check)
+            checks.append(self.qualificationPeriod.endDate)
+        return min(checks).isoformat() if checks else None
 
     def __acl__(self):
         acl = super(Framework, self).__acl__()
@@ -317,7 +325,12 @@ class Milestone(Model):
 
     @serializable(serialized_name="dueDate", serialize_when_none=False)
     def milestone_dueDate(self):
-        return get_milestone_due_date(self)
+        if self.type == "ban" and not self.dueDate:
+            request = self.get_root().request
+            agreement = request.validated["agreement_src"]
+            dueDate = calculate_framework_date(get_now(), timedelta(days=CONTRACT_BAN_DURATION), agreement, ceil=True)
+            return dueDate.isoformat()
+        return self.dueDate.isoformat() if self.dueDate else None
 
 
 class Contract(Model):
@@ -380,7 +393,17 @@ class Agreement(BaseAgreement):
 
     @serializable(serialize_when_none=False)
     def next_check(self):
-        return get_milestone_next_check(self)
+        checks = []
+        if self.status == "active":
+            milestone_dueDates = [
+                milestone.dueDate
+                for contract in self.contracts for milestone in contract.milestones
+                if milestone.dueDate and milestone.status == "scheduled"
+            ]
+            if milestone_dueDates:
+                checks.append(min(milestone_dueDates))
+            checks.append(self.period.endDate)
+        return min(checks).isoformat() if checks else None
 
     def __acl__(self):
         acl = super().__acl__()

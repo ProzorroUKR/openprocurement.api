@@ -42,7 +42,6 @@ from openprocurement.framework.core.traversal import (
     agreement_factory,
     contract_factory,
 )
-from openprocurement.framework.electroniccatalogue.models import CONTRACT_BAN_DURATION
 
 LOGGER = getLogger("openprocurement.framework.core")
 ENQUIRY_PERIOD_DURATION = 10
@@ -531,35 +530,3 @@ def check_contract_statuses(request, now=None):
                     break
 
 
-def get_framework_next_check(framework):
-    checks = []
-    if framework.status == "active":
-        if not framework.successful:
-            unsuccessful_status_check = get_framework_unsuccessful_status_check_date(framework)
-            if unsuccessful_status_check:
-                checks.append(unsuccessful_status_check)
-        checks.append(framework.qualificationPeriod.endDate)
-    return min(checks).isoformat() if checks else None
-
-
-def get_milestone_next_check(milestone):
-    checks = []
-    if milestone.status == "active":
-        milestone_dueDates = [
-            milestone.dueDate
-            for contract in milestone.contracts for milestone in contract.milestones
-            if milestone.dueDate and milestone.status == "scheduled"
-        ]
-        if milestone_dueDates:
-            checks.append(min(milestone_dueDates))
-        checks.append(milestone.period.endDate)
-    return min(checks).isoformat() if checks else None
-
-
-def get_milestone_due_date(milestone):
-    if milestone.type == "ban" and not milestone.dueDate:
-        request = milestone.get_root().request
-        agreement = request.validated["agreement_src"]
-        dueDate = calculate_framework_date(get_now(), timedelta(days=CONTRACT_BAN_DURATION), agreement, ceil=True)
-        return dueDate.isoformat()
-    return milestone.dueDate.isoformat() if milestone.dueDate else None
