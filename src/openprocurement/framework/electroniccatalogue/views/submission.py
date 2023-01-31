@@ -1,5 +1,6 @@
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.utils import submissionsresource
+from openprocurement.framework.core.views.submission import CoreSubmissionResource
 from openprocurement.framework.core.validation import (
     validate_patch_submission_data,
     validate_operation_submission_in_not_allowed_period,
@@ -8,7 +9,6 @@ from openprocurement.framework.core.validation import (
     validate_activate_submission,
     validate_action_in_not_allowed_framework_status,
 )
-from openprocurement.framework.core.views.submission import CoreSubmissionResource
 
 
 @submissionsresource(

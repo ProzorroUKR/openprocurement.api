@@ -1,7 +1,7 @@
 import os.path
 from openprocurement.api.tests.base import BaseWebTest as BaseApiWebTest, change_auth
 from openprocurement.api.utils import get_now, apply_data_patch, SESSION
-from openprocurement.framework.electroniccatalogue.utils import calculate_framework_date
+from openprocurement.framework.core.utils import calculate_framework_date
 from openprocurement.framework.core.models import Framework
 from openprocurement.tender.core.tests.base import BaseWebTest
 

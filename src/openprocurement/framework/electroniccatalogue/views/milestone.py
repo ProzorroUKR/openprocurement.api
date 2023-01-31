@@ -1,8 +1,9 @@
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.utils import contractresource
-from openprocurement.framework.core.validation import validate_milestone_data, validate_patch_milestone_data
 from openprocurement.framework.core.views.milestone import CoreContractMilestoneResource
-from openprocurement.framework.electroniccatalogue.validation import (
+from openprocurement.framework.core.validation import (
+    validate_milestone_data,
+    validate_patch_milestone_data,
     validate_agreement_operation_not_in_allowed_status,
     validate_contract_operation_not_in_allowed_status,
     validate_milestone_type,

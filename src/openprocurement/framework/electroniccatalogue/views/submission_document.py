@@ -6,10 +6,10 @@ from openprocurement.api.validation import (
     validate_file_upload,
 )
 from openprocurement.framework.core.utils import submissionsresource
-from openprocurement.framework.core.validation import (
-    validate_document_operation_in_not_allowed_period
-)
 from openprocurement.framework.core.views.document import CoreSubmissionDocumentResource
+from openprocurement.framework.core.validation import (
+    validate_document_operation_in_not_allowed_period,
+)
 
 
 @submissionsresource(

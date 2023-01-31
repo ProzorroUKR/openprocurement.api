@@ -6,12 +6,12 @@ from openprocurement.api.validation import (
     validate_file_upload,
 )
 from openprocurement.framework.core.utils import contractresource
-from openprocurement.framework.electroniccatalogue.validation import (
+from openprocurement.framework.core.views.document import CoreMilestoneDocumentResource
+from openprocurement.framework.core.validation import (
     validate_agreement_operation_not_in_allowed_status,
     validate_contract_operation_not_in_allowed_status,
     validate_action_in_milestone_status,
 )
-from openprocurement.framework.core.views.document import CoreMilestoneDocumentResource
 
 
 @contractresource(

@@ -14,14 +14,11 @@ from openprocurement.api.views.base import MongodbResourceListing, BaseResource
 from openprocurement.framework.core.utils import (
     generate_agreement_id,
     save_agreement,
-    agreementsresource, apply_patch, get_agreement_by_id, get_submission_by_id,
+    agreementsresource, apply_patch, get_agreement_by_id, get_submission_by_id, check_agreement_status,
+    check_contract_statuses,
 )
 from openprocurement.framework.core.validation import validate_agreement_data
 from openprocurement.framework.electroniccatalogue.models import Agreement
-from openprocurement.framework.electroniccatalogue.utils import (
-    check_agreement_status,
-    check_contract_statuses,
-)
 
 
 @agreementsresource(name="Agreements", path="/agreements")

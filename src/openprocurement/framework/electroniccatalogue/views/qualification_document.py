@@ -6,11 +6,9 @@ from openprocurement.api.validation import (
     validate_file_upload,
 )
 from openprocurement.framework.core.utils import qualificationsresource
+from openprocurement.framework.core.views.document import CoreQualificationDocumentResource
 from openprocurement.framework.core.validation import (
     validate_document_operation_in_not_allowed_status,
-)
-from openprocurement.framework.core.views.document import (
-    CoreQualificationDocumentResource,
 )
 
 

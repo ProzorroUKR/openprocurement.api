@@ -13,11 +13,8 @@ from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
 from openprocurement.framework.electroniccatalogue.models import Framework
 from openprocurement.framework.electroniccatalogue.tests.base import non_active_cpb_id
-from openprocurement.framework.electroniccatalogue.utils import (
-    ENQUIRY_PERIOD_DURATION,
-    calculate_framework_date,
-    get_framework_unsuccessful_status_check_date,
-)
+from openprocurement.framework.core.utils import ENQUIRY_PERIOD_DURATION
+from openprocurement.framework.core.utils import calculate_framework_date, get_framework_unsuccessful_status_check_date
 
 
 def simple_add_framework(self):
@@ -1112,8 +1109,8 @@ def unsuccessful_status(self):
     date = get_framework_unsuccessful_status_check_date(framework)
     with freeze_time((date+timedelta(hours=1)).isoformat()):
         with mock.patch(
-                "openprocurement.framework.electroniccatalogue.utils.get_framework_number_of_submissions",
-                lambda x, y: 1
+            "openprocurement.framework.core.utils.get_framework_number_of_submissions",
+            lambda x, y: 1
         ):
             self.check_chronograph()
     response = self.app.get("/frameworks/{}".format(self.framework_id))
@@ -1141,8 +1138,8 @@ def complete_status(self):
     date = framework["qualificationPeriod"]["endDate"]
     with freeze_time((date+timedelta(hours=1)).isoformat()):
         with mock.patch(
-                "openprocurement.framework.electroniccatalogue.utils.get_framework_number_of_submissions",
-                lambda x, y: 1
+            "openprocurement.framework.core.utils.get_framework_number_of_submissions",
+            lambda x, y: 1
         ):
             self.check_chronograph()
     response = self.app.get("/frameworks/{}".format(self.framework_id))

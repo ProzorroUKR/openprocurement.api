@@ -10,13 +10,14 @@ from openprocurement.api.views.base import MongodbResourceListing, BaseResource
 from openprocurement.framework.core.utils import (
     frameworksresource,
     generate_framework_pretty_id,
-    save_framework, apply_patch,
+    save_framework, apply_patch, calculate_framework_periods, check_status,
 )
-from openprocurement.framework.core.validation import validate_framework_data
-from openprocurement.framework.electroniccatalogue.utils import check_status, calculate_framework_periods
-from openprocurement.framework.electroniccatalogue.validation import validate_qualification_period_duration
+from openprocurement.framework.core.validation import validate_framework_data, validate_qualification_period_duration
 
 AGREEMENT_DEPENDENT_FIELDS = ("qualificationPeriod", "procuringEntity")
+
+MIN_QUALIFICATION_DURATION = 30
+MAX_QUALIFICATION_DURATION = 1095
 
 
 @frameworksresource(
@@ -140,7 +141,12 @@ class CoreFrameworkResource(BaseResource):
             if self.request.validated["data"].get("status") == "active":
                 model = self.request.context._fields["qualificationPeriod"]
                 calculate_framework_periods(self.request, model)
-                validate_qualification_period_duration(self.request, model)
+                validate_qualification_period_duration(
+                    self.request,
+                    model,
+                    MIN_QUALIFICATION_DURATION,
+                    MAX_QUALIFICATION_DURATION,
+                )
 
             apply_patch(
                 self.request,

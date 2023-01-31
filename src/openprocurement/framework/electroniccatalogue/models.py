@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
 from uuid import uuid4
 
 from pyramid.security import Allow
@@ -33,12 +32,14 @@ from openprocurement.framework.core.models import (
     Qualification as BaseQualification,
     Agreement as BaseAgreement,
 )
-from openprocurement.framework.electroniccatalogue.utils import (
+from openprocurement.framework.core.utils import (
     AUTHORIZED_CPB,
-    get_framework_unsuccessful_status_check_date,
-    calculate_framework_date,
-    CONTRACT_BAN_DURATION,
+    get_framework_next_check,
+    get_milestone_next_check,
+    get_milestone_due_date,
 )
+
+CONTRACT_BAN_DURATION = 90
 
 
 class DKClassification(BaseClassification):
@@ -63,13 +64,12 @@ class Address(BaseAddress):
 
 class ContactPoint(BaseContactPoint):
     email = EmailType(required=True)
-    # telephone = StringType(required=True)
 
     def validate_telephone(self, data, value):
         pass
 
 
-class CentralProcuringEntity(Model):
+class CentralProcuringEntity(BaseOrganization):
     class Options:
         roles = {
             "embedded": schematics_embedded_role,
@@ -78,13 +78,6 @@ class CentralProcuringEntity(Model):
             "edit_active": whitelist("contactPoint"),
         }
 
-    name = StringType(required=True)
-    name_en = StringType()
-    name_ru = StringType()
-    identifier = ModelType(Identifier, required=True)
-    additionalIdentifiers = ListType(ModelType(Identifier))
-    address = ModelType(Address, required=True)
-    contactPoint = ModelType(ContactPoint, required=True)
     kind = StringType(choices=["central"], default="central")
 
     def validate_identifier(self, data, identifier):
@@ -191,14 +184,7 @@ class Framework(BaseFramework):
 
     @serializable(serialize_when_none=False)
     def next_check(self):
-        checks = []
-        if self.status == "active":
-            if not self.successful:
-                unsuccessful_status_check = get_framework_unsuccessful_status_check_date(self)
-                if unsuccessful_status_check:
-                    checks.append(unsuccessful_status_check)
-            checks.append(self.qualificationPeriod.endDate)
-        return min(checks).isoformat() if checks else None
+        return get_framework_next_check(self)
 
     def __acl__(self):
         acl = super(Framework, self).__acl__()
@@ -248,7 +234,6 @@ class ContactPointForSubmission(BaseContactPoint):
         super().validate_email(self, data, value)
         return value
 
-    # @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
     def validate_telephone(self, data, value):
         pass
 
@@ -330,12 +315,7 @@ class Milestone(Model):
 
     @serializable(serialized_name="dueDate", serialize_when_none=False)
     def milestone_dueDate(self):
-        if self.type == "ban" and not self.dueDate:
-            request = self.get_root().request
-            agreement = request.validated["agreement_src"]
-            dueDate = calculate_framework_date(get_now(), timedelta(days=CONTRACT_BAN_DURATION), agreement, ceil=True)
-            return dueDate.isoformat()
-        return self.dueDate.isoformat() if self.dueDate else None
+        return get_milestone_due_date(self)
 
 
 class Contract(Model):
@@ -398,17 +378,7 @@ class Agreement(BaseAgreement):
 
     @serializable(serialize_when_none=False)
     def next_check(self):
-        checks = []
-        if self.status == "active":
-            milestone_dueDates = [
-                milestone.dueDate
-                for contract in self.contracts for milestone in contract.milestones
-                if milestone.dueDate and milestone.status == "scheduled"
-            ]
-            if milestone_dueDates:
-                checks.append(min(milestone_dueDates))
-            checks.append(self.period.endDate)
-        return min(checks).isoformat() if checks else None
+        return get_milestone_next_check(self)
 
     def __acl__(self):
         acl = super().__acl__()

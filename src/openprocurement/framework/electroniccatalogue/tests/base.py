@@ -4,13 +4,12 @@ from copy import deepcopy
 from datetime import timedelta
 from freezegun import freeze_time
 
-import standards
-
 from openprocurement.api.tests.base import BaseWebTest, change_auth
-from openprocurement.api.utils import get_now, apply_data_patch, parse_date
+from openprocurement.api.utils import get_now, apply_data_patch
 from openprocurement.framework.core.tests.base import BaseCoreWebTest
 from openprocurement.framework.electroniccatalogue.models import Framework, Submission, Agreement
 from openprocurement.framework.electroniccatalogue.tests.periods import PERIODS
+from openprocurement.framework.core.utils import AUTHORIZED_CPB
 
 
 def get_cpb_ids_by_activity():
@@ -19,12 +18,11 @@ def get_cpb_ids_by_activity():
     To test rule that only CPB that have "active": true in standards can create electronicCatalogue framework
     https://prozorroukr.github.io/standards/organizations/authorized_cpb.json
 
-    :return: active cpb id, non active cpb id
+    :return: active cpb id, non-active cpb id
     """
     active_cpb = []
     non_active_cpb = []
-    authorized_cpb = standards.load("organizations/authorized_cpb.json")
-    for cpb in authorized_cpb:
+    for cpb in AUTHORIZED_CPB:
         if not active_cpb or not non_active_cpb:
             id_ = cpb["identifier"]["id"]
             active_cpb.append(id_) if cpb["active"] else non_active_cpb.append(id_)

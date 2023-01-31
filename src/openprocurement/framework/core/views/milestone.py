@@ -1,7 +1,6 @@
 from openprocurement.api.utils import json_view, upload_objects_documents, context_unpack
 from openprocurement.api.views.base import BaseResource
-from openprocurement.framework.core.utils import apply_patch, save_agreement
-from openprocurement.framework.electroniccatalogue.utils import MILESTONE_CONTRACT_STATUSES
+from openprocurement.framework.core.utils import apply_patch, save_agreement, MILESTONE_CONTRACT_STATUSES
 
 
 class CoreContractMilestoneResource(BaseResource):

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.utils import frameworksresource
-from openprocurement.framework.core.validation import validate_patch_framework_data
 from openprocurement.framework.core.views.framework import CoreFrameworkResource
-from openprocurement.framework.electroniccatalogue.validation import (
-    validate_ec_framework_patch_status,
+from openprocurement.framework.core.validation import (
+    validate_patch_framework_data,
+    validate_framework_patch_status,
 )
 
 
@@ -20,7 +20,7 @@ class FrameworkResource(CoreFrameworkResource):
         content_type="application/json",
         validators=(
             validate_patch_framework_data,
-            validate_ec_framework_patch_status,
+            validate_framework_patch_status,
         ),
         permission="edit_framework",
     )
