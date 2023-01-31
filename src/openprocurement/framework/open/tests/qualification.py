@@ -3,9 +3,9 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.framework.electroniccatalogue.tests.base import (
+from openprocurement.framework.open.tests.base import (
     SubmissionContentWebTest,
-    test_electronicCatalogue_data,
+    test_open_data,
     test_submission_data,
 )
 from openprocurement.framework.open.tests.qualification_blanks import (
@@ -56,13 +56,13 @@ class QualificationResourceTest(SubmissionContentWebTest):
     test_qualification_not_found = snitch(qualification_not_found)
     test_qualification_token_invalid = snitch(qualification_token_invalid)
 
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_open_data
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
 
 
 class TestQualificationDocumentGet(QualificationContentWebTest):
-    initial_data = deepcopy(test_electronicCatalogue_data)
+    initial_data = deepcopy(test_open_data)
     initial_submission_data = deepcopy(test_submission_data)
 
     test_get_documents_list = snitch(get_documents_list)
@@ -70,7 +70,7 @@ class TestQualificationDocumentGet(QualificationContentWebTest):
 
 
 class TestQualificationDocumentsCreate(QualificationContentWebTest):
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_open_data
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
     docservice = True

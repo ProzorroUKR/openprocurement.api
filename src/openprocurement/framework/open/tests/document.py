@@ -3,11 +3,11 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.framework.electroniccatalogue.tests.base import (
-    test_electronicCatalogue_data,
-    test_electronicCatalogue_documents,
-    ElectronicCatalogueContentWebTest,
-    BaseDSElectronicCatalogueContentWebTest,
+from openprocurement.framework.open.tests.base import (
+    test_open_data,
+    test_open_documents,
+    OpenContentWebTest,
+    BaseDSOpenContentWebTest,
 )
 from openprocurement.framework.open.tests.document_blanks import (
     get_documents_list,
@@ -20,11 +20,11 @@ from openprocurement.framework.open.tests.document_blanks import (
 )
 
 
-class TestDocumentGet(ElectronicCatalogueContentWebTest):
-    initial_data = deepcopy(test_electronicCatalogue_data)
+class TestDocumentGet(OpenContentWebTest):
+    initial_data = deepcopy(test_open_data)
 
     def setUp(self):
-        self.initial_data["documents"] = deepcopy(test_electronicCatalogue_documents)
+        self.initial_data["documents"] = deepcopy(test_open_documents)
         for document in self.initial_data["documents"]:
             document["url"] = self.generate_docservice_url()
         super(TestDocumentGet, self).setUp()
@@ -33,8 +33,8 @@ class TestDocumentGet(ElectronicCatalogueContentWebTest):
     test_get_document_by_id = snitch(get_document_by_id)
 
 
-class TestDocumentsCreate(BaseDSElectronicCatalogueContentWebTest):
-    initial_data = test_electronicCatalogue_data
+class TestDocumentsCreate(BaseDSOpenContentWebTest):
+    initial_data = test_open_data
     initial_auth = ("Basic", ("broker", ""))
 
     test_create_framework_document_forbidden = snitch(create_framework_document_forbidden)
@@ -42,8 +42,8 @@ class TestDocumentsCreate(BaseDSElectronicCatalogueContentWebTest):
     test_create_framework_document_json_bulk = snitch(create_framework_document_json_bulk)
 
 
-class ElectronicCatalogueDocumentWithDSResourceTest(BaseDSElectronicCatalogueContentWebTest):
-    initial_data = test_electronicCatalogue_data
+class OpenDocumentWithDSResourceTest(BaseDSOpenContentWebTest):
+    initial_data = test_open_data
 
     test_not_found = snitch(not_found)
     test_put_contract_document = snitch(put_contract_document)
@@ -53,5 +53,5 @@ def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestDocumentGet))
     suite.addTest(unittest.makeSuite(TestDocumentsCreate))
-    suite.addTest(unittest.makeSuite(ElectronicCatalogueDocumentWithDSResourceTest))
+    suite.addTest(unittest.makeSuite(OpenDocumentWithDSResourceTest))
     return suite

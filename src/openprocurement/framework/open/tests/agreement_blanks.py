@@ -7,9 +7,12 @@ from freezegun import freeze_time
 
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
-from openprocurement.framework.electroniccatalogue.models import Submission, Agreement, CONTRACT_BAN_DURATION
-from openprocurement.framework.electroniccatalogue.tests.base import (
-    test_electronicCatalogue_data,
+from openprocurement.framework.open.models import (
+    Submission,
+    Agreement,
+    CONTRACT_BAN_DURATION,
+)
+from openprocurement.framework.open.tests.base import (
     ban_milestone_data,
     ban_milestone_data_with_documents,
 )
@@ -71,7 +74,7 @@ def create_agreement(self):
 
 def change_agreement(self):
     new_endDate = (
-            parse_datetime(test_electronicCatalogue_data["qualificationPeriod"]["endDate"]) - timedelta(days=1)
+        parse_datetime(self.initial_data["qualificationPeriod"]["endDate"]) - timedelta(days=1)
     ).isoformat()
 
     response = self.app.patch_json(
@@ -87,7 +90,7 @@ def change_agreement(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["period"]["endDate"], new_endDate)
 
-    new_procuringEntity = deepcopy(test_electronicCatalogue_data["procuringEntity"])
+    new_procuringEntity = deepcopy(self.initial_data["procuringEntity"])
     new_procuringEntity["contactPoint"]["telephone"] = "+380440000000"
     response = self.app.patch_json(
         f"/frameworks/{self.framework_id}?acc_token={self.framework_token}",
@@ -191,8 +194,10 @@ def patch_contract_suppliers(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertTrue(len(response.json["data"]["suppliers"]), 1)
     for field in contract_patch_fields["suppliers"][0]:
-        self.assertEqual(response.json["data"]["suppliers"][0].get(field),
-                         contract_patch_fields["suppliers"][0].get(field))
+        self.assertEqual(
+            response.json["data"]["suppliers"][0].get(field),
+            contract_patch_fields["suppliers"][0].get(field)
+            )
 
 
 def post_submission_with_active_contract(self):
@@ -207,16 +212,20 @@ def post_submission_with_active_contract(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"],
-                     "Can't add submission when contract in agreement with same identifier.id in active status")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Can't add submission when contract in agreement with same identifier.id in active status"
+        )
 
 
 def patch_agreement_terminated_status(self):
     response = self.app.patch_json(
         f"/frameworks/{self.framework_id}?acc_token={self.framework_token}",
-        {"data": {
-            "qualificationPeriod": {"endDate": (get_now() + timedelta(days=CONTRACT_BAN_DURATION-1)).isoformat()}
-        }}
+        {
+            "data": {
+                "qualificationPeriod": {"endDate": (get_now() + timedelta(days=CONTRACT_BAN_DURATION - 1)).isoformat()}
+            }
+        }
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -245,9 +254,11 @@ def patch_contract_active_status(self):
 
     response = self.app.patch_json(
         f"/frameworks/{self.framework_id}?acc_token={self.framework_token}",
-        {"data": {
-            "qualificationPeriod": {"endDate": (get_now() + timedelta(days=CONTRACT_BAN_DURATION+2)).isoformat()}
-        }}
+        {
+            "data": {
+                "qualificationPeriod": {"endDate": (get_now() + timedelta(days=CONTRACT_BAN_DURATION + 2)).isoformat()}
+            }
+        }
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -276,10 +287,12 @@ def patch_contract_active_status(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{'description': "Tenderer can't activate submission with active/suspended contract "
-                         f'in agreement for framework {self.framework_id}',
-          'location': 'body',
-          'name': 'data'}]
+        [{
+             'description': "Tenderer can't activate submission with active/suspended contract "
+                            f'in agreement for framework {self.framework_id}',
+             'location': 'body',
+             'name': 'data'
+         }]
     )
 
     # this contract is terminated but another user contract is active
@@ -302,9 +315,11 @@ def patch_contract_active_status(self):
 def patch_several_contracts_active_status(self):
     response = self.app.patch_json(
         f"/frameworks/{self.framework_id}?acc_token={self.framework_token}",
-        {"data": {
-            "qualificationPeriod": {"endDate": (get_now() + timedelta(days=CONTRACT_BAN_DURATION+3)).isoformat()}
-        }}
+        {
+            "data": {
+                "qualificationPeriod": {"endDate": (get_now() + timedelta(days=CONTRACT_BAN_DURATION + 3)).isoformat()}
+            }
+        }
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -521,7 +536,7 @@ def post_ban_milestone(self):
             "name": "data",
             "location": "body",
             "description": "Can't add ban milestone for contract in suspended status",
-          }]
+        }]
 
     )
 
@@ -560,12 +575,13 @@ def get_documents_list(self):
 
 def get_document_by_id(self):
     documents = self.app.get(
-            f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
-        ).json["data"].get("documents")
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+    ).json["data"].get("documents")
     for doc in documents:
         response = self.app.get(
             f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
-            f"/documents/{doc['id']}")
+            f"/documents/{doc['id']}"
+        )
         document = response.json["data"]
         self.assertEqual(doc["id"], document["id"])
         self.assertEqual(doc["title"], document["title"])
@@ -850,7 +866,9 @@ def patch_activation_milestone(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't switch milestone status from `scheduled` to `notMet`")
+    self.assertEqual(
+        response.json["errors"][0]["description"], "Can't switch milestone status from `scheduled` to `notMet`"
+        )
 
     response = self.app.patch_json(
         f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{activation_milestone_id}"
@@ -874,11 +892,12 @@ def patch_activation_milestone(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update object in current (terminated) contract status")
+    self.assertEqual(
+        response.json["errors"][0]["description"], "Can't update object in current (terminated) contract status"
+        )
 
 
 def patch_ban_milestone(self):
-
     response = self.app.patch_json(
         f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
         f"?acc_token={self.framework_token}",
@@ -887,7 +906,9 @@ def patch_ban_milestone(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't add ban milestone for contract in suspended status")
+    self.assertEqual(
+        response.json["errors"][0]["description"], "Can't add ban milestone for contract in suspended status"
+        )
 
 
 def search_by_classification(self):

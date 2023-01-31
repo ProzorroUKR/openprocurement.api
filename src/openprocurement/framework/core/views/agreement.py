@@ -8,17 +8,24 @@ from openprocurement.api.utils import (
     set_ownership,
     get_now,
     upload_objects_documents,
-    context_unpack, raise_operation_error,
+    context_unpack,
+    raise_operation_error,
 )
-from openprocurement.api.views.base import MongodbResourceListing, BaseResource
+from openprocurement.api.views.base import (
+    MongodbResourceListing,
+    BaseResource,
+)
 from openprocurement.framework.core.utils import (
     generate_agreement_id,
     save_agreement,
-    agreementsresource, apply_patch, get_agreement_by_id, get_submission_by_id, check_agreement_status,
+    agreementsresource,
+    apply_patch,
+    get_agreement_by_id,
+    get_submission_by_id,
+    check_agreement_status,
     check_contract_statuses,
 )
 from openprocurement.framework.core.validation import validate_agreement_data
-from openprocurement.framework.electroniccatalogue.models import Agreement
 
 
 @agreementsresource(name="Agreements", path="/agreements")
@@ -27,8 +34,16 @@ class AgreementResource(MongodbResourceListing):
         super().__init__(request, context)
         self.listing_name = "Agreements"
         self.listing_default_fields = {"dateModified"}
-        self.all_fields = {"dateCreated", "dateModified", "id", "agreementID",
-                           "agreementType", "status", "tender_id", "next_check"}
+        self.all_fields = {
+            "dateCreated",
+            "dateModified",
+            "id",
+            "agreementID",
+            "agreementType",
+            "status",
+            "tender_id",
+            "next_check",
+        }
         self.db_listing_method = request.registry.mongodb.agreements.list
 
     @json_view(content_type="application/json", permission="create_agreement", validators=(validate_agreement_data,))
@@ -68,6 +83,7 @@ class AgreementResource(MongodbResourceListing):
                 "{}:Agreements".format(agreement.agreementType), agreement_id=agreement.id
             )
             return {"data": agreement.serialize("view"), "access": access}
+
 
 class CoreAgreementResource(BaseResource):
     @json_view(permission="view_agreement")
@@ -136,7 +152,8 @@ class AgreementViewMixin:
                     self.request,
                     "agreementID must be one of exists agreement",
                 )
-            self.request.validated["agreement"] = agreement = Agreement(agreement)
+            model = self.request.agreement_from_data(agreement, create=False)
+            self.request.validated["agreement"] = agreement = model(agreement)
             agreement.__parent__ = self.request.validated["qualification"].__parent__
             self.request.validated["agreement_src"] = agreement.serialize("plain")
         else:
@@ -166,7 +183,8 @@ class AgreementViewMixin:
                 "transfer_token": transfer_token,
                 "frameworkDetails": framework_data.get("frameworkDetails"),
             }
-            agreement = Agreement(agreement_data)
+            model = self.request.agreement_from_data(agreement_data, create=False)
+            agreement = model(agreement_data)
 
             self.request.validated["agreement_src"] = {}
             self.request.validated["agreement"] = agreement
@@ -190,7 +208,7 @@ class AgreementViewMixin:
                 )
                 self.LOGGER.info(
                     "Updated framework {} with agreementID".format(framework_data["id"]),
-                    extra=context_unpack(self.request, {"MESSAGE_ID": "qualification_patch"})
+                    extra=context_unpack(self.request, {"MESSAGE_ID": "qualification_patch"}),
                 )
 
     def create_agreement_contract(self):
@@ -230,5 +248,5 @@ class AgreementViewMixin:
         apply_patch(self.request, data={"contracts": new_contracts}, src=agreement_data, obj_name="agreement")
         self.LOGGER.info(
             "Updated agreement {} with contract {}".format(agreement_data["_id"], contract_id),
-            extra=context_unpack(self.request, {"MESSAGE_ID": "qualification_patch"})
+            extra=context_unpack(self.request, {"MESSAGE_ID": "qualification_patch"}),
         )

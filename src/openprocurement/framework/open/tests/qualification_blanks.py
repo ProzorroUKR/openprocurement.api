@@ -2,12 +2,14 @@ from copy import deepcopy
 from datetime import datetime
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import change_auth
-from openprocurement.api.constants import ROUTE_PREFIX, TZ
+from openprocurement.api.constants import (
+    ROUTE_PREFIX,
+    TZ,
+)
 from datetime import timedelta
 
 
 def listing(self):
-
     response = self.app.get("/qualifications")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 0)
@@ -19,7 +21,6 @@ def listing(self):
     tenderer_ids = ["00037256", "00037257", "00037258"]
 
     for i in tenderer_ids:
-
         data["tenderers"][0]["identifier"]["id"] = i
         offset = get_now().timestamp()
         response = self.app.post_json("/submissions", {"data": data})
@@ -231,7 +232,7 @@ def patch_submission_pending(self):
     qualification_ignore_patch_data = {
         "date": (get_now() + timedelta(days=2)).isoformat(),
         "dateModified": (get_now() + timedelta(days=1)).isoformat(),
-        "submissionID": "0"*32,
+        "submissionID": "0" * 32,
         "qualificationType": "changed",
     }
     response = self.app.patch_json(
@@ -480,23 +481,25 @@ def qualification_fields(self):
     qualification = response.json["data"]
 
     fields = set(
-            [
-                "id",
-                "dateModified",
-                "date",
-                "status",
-                "qualificationType",
-                "submissionID",
-                "frameworkID",
-            ]
-        )
+        [
+            "id",
+            "dateModified",
+            "date",
+            "status",
+            "qualificationType",
+            "submissionID",
+            "frameworkID",
+        ]
+    )
     self.assertEqual(set(qualification), fields)
 
     response = self.app.patch_json(
-        "/qualifications/{}?acc_token={}".format(qualification["id"], self.framework_token), {"data": {"status": "active"}})
+        "/qualifications/{}?acc_token={}".format(qualification["id"], self.framework_token),
+        {"data": {"status": "active"}}
+    )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    qualification= response.json["data"]
+    qualification = response.json["data"]
     self.assertEqual(set(qualification), fields)
 
 
@@ -674,7 +677,6 @@ def qualification_token_invalid(self):
 
 
 def get_documents_list(self):
-
     self.app.post(
         "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
         upload_files=[("file", "name name.doc", b"content2")],

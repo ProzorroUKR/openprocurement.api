@@ -1,4 +1,7 @@
-from openprocurement.api.utils import json_view, context_unpack
+from openprocurement.api.utils import (
+    json_view,
+    context_unpack,
+)
 from openprocurement.api.views.base import BaseResource
 from openprocurement.framework.core.utils import apply_patch
 

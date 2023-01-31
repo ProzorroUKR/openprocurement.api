@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.tests.base import change_auth
-from openprocurement.framework.electroniccatalogue.tests.base import test_electronicCatalogue_documents
+from openprocurement.framework.open.tests.base import test_open_documents
 
 
 def get_documents_list(self):
     response = self.app.get("/frameworks/{}/documents".format(self.framework_id))
     documents = response.json["data"]
-    self.assertEqual(len(documents), len(test_electronicCatalogue_documents))
+    self.assertEqual(len(documents), len(test_open_documents))
 
 
 def get_document_by_id(self):

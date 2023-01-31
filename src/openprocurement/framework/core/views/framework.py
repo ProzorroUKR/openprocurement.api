@@ -6,13 +6,22 @@ from openprocurement.api.utils import (
     upload_objects_documents,
     raise_operation_error,
 )
-from openprocurement.api.views.base import MongodbResourceListing, BaseResource
+from openprocurement.api.views.base import (
+    MongodbResourceListing,
+    BaseResource,
+)
 from openprocurement.framework.core.utils import (
     frameworksresource,
     generate_framework_pretty_id,
-    save_framework, apply_patch, calculate_framework_periods, check_status,
+    save_framework,
+    apply_patch,
+    calculate_framework_periods,
+    check_status,
 )
-from openprocurement.framework.core.validation import validate_framework_data, validate_qualification_period_duration
+from openprocurement.framework.core.validation import (
+    validate_framework_data,
+    validate_qualification_period_duration,
+)
 
 AGREEMENT_DEPENDENT_FIELDS = ("qualificationPeriod", "procuringEntity")
 

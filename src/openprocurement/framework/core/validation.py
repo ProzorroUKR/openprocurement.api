@@ -18,7 +18,6 @@ from openprocurement.framework.core.utils import (
     get_submission_by_id,
     get_agreement_by_id, calculate_framework_date,
 )
-from openprocurement.framework.electroniccatalogue.models import Framework, Agreement
 
 
 def validate_framework_accreditation_level_central(request, model):
@@ -46,7 +45,9 @@ def validate_patch_framework_data(request, **kwargs):
                 request,
                 "agreementID must be one of exists agreement",
             )
-        request.validated["agreement"] = agreement = Agreement(agreement)
+
+        model = request.agreement_from_data(agreement, create=False)
+        request.validated["agreement"] = agreement = model(agreement)
         agreement.__parent__ = framework.__parent__
         request.validated["agreement_src"] = agreement.serialize("plain")
     return data
@@ -75,7 +76,8 @@ def validate_submission_data(request, **kwargs):
             request,
             "frameworkID must be one of exists frameworks",
         )
-    framework = Framework(framework)
+    model = request.framework_from_data(framework, create=False)
+    framework = model(framework)
     request.validated["framework_src"] = framework.serialize("plain")
     request.validated["framework"] = framework
     return data
@@ -92,8 +94,8 @@ def validate_patch_submission_data(request, **kwargs):
             request,
             "frameworkID must be one of exists frameworks",
         )
-
-    framework = Framework(framework)
+    model = request.framework_from_data(framework, create=False)
+    framework = model(framework)
     request.validated["framework_src"] = framework.serialize("plain")
     request.validated["framework"] = framework
     return data
@@ -242,7 +244,8 @@ def validate_patch_qualification_data(request, **kwargs):
             request,
             "frameworkID must be one of existing frameworks",
         )
-    framework = Framework(framework)
+    model = request.framework_from_data(framework, create=False)
+    framework = model(framework)
     framework.__parent__ = qualification.__parent__
     request.validated["framework_src"] = framework.serialize("plain")
     request.validated["framework"] = framework

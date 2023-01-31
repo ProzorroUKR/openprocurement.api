@@ -4,7 +4,12 @@ from openprocurement.api.utils import (
 )
 from openprocurement.api.views.base import MongodbResourceListing
 from openprocurement.api.constants import FAST_CATALOGUE_FLOW_FRAMEWORK_IDS
-from openprocurement.api.utils import json_view, context_unpack, get_now, generate_id
+from openprocurement.api.utils import (
+    json_view,
+    context_unpack,
+    get_now,
+    generate_id,
+)
 from openprocurement.api.views.base import BaseResource
 from openprocurement.framework.core.utils import (
     submissionsresource,
@@ -18,7 +23,6 @@ from openprocurement.framework.core.validation import (
     validate_operation_submission_in_not_allowed_period,
     validate_action_in_not_allowed_framework_status,
 )
-from openprocurement.framework.electroniccatalogue.models import Qualification
 from openprocurement.framework.core.views.agreement import AgreementViewMixin
 
 
@@ -32,8 +36,18 @@ class SubmissionResource(MongodbResourceListing):
         super().__init__(request, context)
         self.listing_name = "Submissions"
         self.listing_default_fields = {"dateModified"}
-        self.all_fields = {"dateCreated", "dateModified", "id", "frameworkID", "qualificationID", "status",
-                           "tenderers", "documents", "date", "datePublished"}
+        self.all_fields = {
+            "dateCreated",
+            "dateModified",
+            "id",
+            "frameworkID",
+            "qualificationID",
+            "status",
+            "tenderers",
+            "documents",
+            "date",
+            "datePublished",
+        }
         self.db_listing_method = request.registry.mongodb.submissions.list
 
     @json_view(
@@ -54,6 +68,7 @@ class SubmissionResource(MongodbResourceListing):
         submission = self.request.validated["submission"]
         submission.id = submission_id
         framework = self.request.validated["framework"]
+        self.LOGGER.info(framework["frameworkType"])
         submission.submissionType = framework["frameworkType"]
         submission.mode = framework.get("mode")
         if self.request.json["data"].get("status") == "draft":
@@ -158,7 +173,8 @@ class CoreSubmissionResource(BaseResource, AgreementViewMixin):
             "qualificationType": framework["frameworkType"],
             "mode": framework.get("type")
         }
-        qualification = Qualification(qualification_data)
+        model = self.request.qualification_from_data(qualification_data, create=False)
+        qualification = model(qualification_data)
         self.request.validated["qualification_src"] = {}
         self.request.validated["qualification"] = qualification
 

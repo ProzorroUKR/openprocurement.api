@@ -488,11 +488,6 @@ def check_status(request):
             return
 
 
-def create_milestone_terminated():
-    from openprocurement.framework.electroniccatalogue.models import Milestone
-    return Milestone({"type": "terminated"})
-
-
 def check_agreement_status(request, now=None):
     if not now:
         now = get_now()

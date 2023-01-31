@@ -2,17 +2,13 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.framework.electroniccatalogue.tests.base import (
-    test_electronicCatalogue_data,
-    BaseElectronicCatalogueWebTest,
+from openprocurement.framework.open.tests.base import (
+    test_open_data,
+    BaseOpenWebTest,
     BaseApiWebTest,
 )
-from openprocurement.framework.electroniccatalogue.tests.framework_blanks import (
-    simple_add_framework,
-    cpb_standard_status,
-    create_framework_draft_invalid_kind,
-)
 from openprocurement.framework.open.tests.framework_blanks import (
+    simple_add_framework,
     listing,
     listing_changes,
     listing_draft,
@@ -26,6 +22,7 @@ from openprocurement.framework.open.tests.framework_blanks import (
     patch_framework_draft,
     patch_framework_draft_to_active,
     patch_framework_draft_to_active_invalid,
+    create_framework_draft_invalid_kind,
     patch_framework_active,
     get_framework,
     framework_token_invalid,
@@ -36,20 +33,19 @@ from openprocurement.framework.open.tests.framework_blanks import (
 
 
 class FrameworkTest(BaseApiWebTest):
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_open_data
 
     test_simple_add_framework = snitch(simple_add_framework)
 
 
-class FrameworkResourceTest(BaseElectronicCatalogueWebTest):
-    initial_data = test_electronicCatalogue_data
+class FrameworkResourceTest(BaseOpenWebTest):
+    initial_data = test_open_data
     initial_auth = ("Basic", ("broker", ""))
 
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)
     test_listing = snitch(listing)
     test_create_framework_draft = snitch(create_framework_draft)
-    test_cpb_standard_status = snitch(cpb_standard_status)
     test_accreditation_level = snitch(accreditation_level)
     test_create_framework_draft_invalid = snitch(create_framework_draft_invalid)
     test_create_framework_draft_invalid_kind = snitch(create_framework_draft_invalid_kind)

@@ -13,57 +13,36 @@ from openprocurement.api.utils import (
     apply_data_patch,
 )
 from openprocurement.framework.core.tests.base import BaseCoreWebTest
-from openprocurement.framework.electroniccatalogue.models import (
+from openprocurement.framework.open.models import (
     Framework,
     Submission,
     Agreement,
-    AUTHORIZED_CPB,
 )
-from openprocurement.framework.electroniccatalogue.tests.periods import PERIODS
-
-
-def get_cpb_ids_by_activity():
-    """
-    Get first active: True and first active: False cpb from standards
-    To test rule that only CPB that have "active": true in standards can create electronicCatalogue framework
-    https://prozorroukr.github.io/standards/organizations/authorized_cpb.json
-
-    :return: active cpb id, non-active cpb id
-    """
-    active_cpb = []
-    non_active_cpb = []
-    for cpb in AUTHORIZED_CPB:
-        if not active_cpb or not non_active_cpb:
-            id_ = cpb["identifier"]["id"]
-            active_cpb.append(id_) if cpb["active"] else non_active_cpb.append(id_)
-    return active_cpb[0] if active_cpb else None, non_active_cpb[0] if non_active_cpb else None
-
-
-active_cpb_id, non_active_cpb_id = get_cpb_ids_by_activity()
+from openprocurement.framework.open.tests.periods import PERIODS
 
 now = get_now()
-test_electronicCatalogue_data = {
-    "frameworkType": "electronicCatalogue",
+test_open_data = {
+    "frameworkType": "open",
     "procuringEntity": {
         "contactPoint": {
+            "name": "Державне управління справами",
             "telephone": "+0440000000",
-            "name": "Назва організації(ЦЗО)",
             "email": "aa@aa.com"
         },
         "identifier": {
             "scheme": "UA-EDR",
-            "id": active_cpb_id,
-            "legalName": "Назва організації(ЦЗО)"
+            "id": "00037256",
+            "legalName": "Назва організації"
         },
-        "kind": "central",
+        "kind": "general",
         "address": {
             "countryName": "Україна",
             "postalCode": "01220",
             "region": "м. Київ",
+            "locality": "м. Київ",
             "streetAddress": "вул. Банкова, 11, корпус 1",
-            "locality": "м. Київ"
         },
-        "name": "Повна назва юридичної організації."
+        "name": "Державне управління справами"
     },
     "additionalClassifications": [
         {
@@ -82,7 +61,7 @@ test_electronicCatalogue_data = {
     "qualificationPeriod": {"endDate": (now + timedelta(days=120)).isoformat()}
 }
 
-test_electronicCatalogue_documents = [
+test_open_documents = [
     {
         "hash": "md5:00000000000000000000000000000000",
         "title": "framework.doc",
@@ -136,8 +115,8 @@ tenderer = {
 }
 
 test_submission_data = {
-    "submissionType": "electronicCatalogue",
     "tenderers": [tenderer],
+    "submissionType": "open",
 }
 
 ban_milestone_data = {
@@ -164,9 +143,9 @@ class BaseApiWebTest(BaseWebTest):
     initial_auth = ("Basic", ("broker", ""))
 
 
-class BaseElectronicCatalogueWebTest(BaseCoreWebTest):
+class BaseOpenWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_open_data
     framework_class = Framework
     docservice = False
     periods = PERIODS
@@ -188,19 +167,19 @@ class BaseElectronicCatalogueWebTest(BaseCoreWebTest):
             self.framework_document_patch = {}
 
 
-class ElectronicCatalogueContentWebTest(BaseElectronicCatalogueWebTest):
+class OpenContentWebTest(BaseOpenWebTest):
     initial_status = None
 
     def setUp(self):
-        super(ElectronicCatalogueContentWebTest, self).setUp()
+        super(OpenContentWebTest, self).setUp()
         self.create_framework()
 
 
-class BaseDSElectronicCatalogueContentWebTest(ElectronicCatalogueContentWebTest):
+class BaseDSOpenContentWebTest(OpenContentWebTest):
     docservice = True
 
 
-class BaseSubmissionContentWebTest(ElectronicCatalogueContentWebTest):
+class BaseSubmissionContentWebTest(OpenContentWebTest):
     initial_submission_data = None
 
     def get_submission(self, role):
@@ -229,6 +208,7 @@ class BaseSubmissionContentWebTest(ElectronicCatalogueContentWebTest):
             self.submission_document_patch = {}
 
     def create_submission(self):
+        print(self.initial_submission_data)
         response = self.app.post_json("/submissions", {"data": self.initial_submission_data})
         self.submission_id = response.json["data"]["id"]
         self.submission_token = response.json["access"]["token"]

@@ -3,11 +3,11 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.framework.electroniccatalogue.tests.base import (
+from openprocurement.framework.open.tests.base import (
     BaseSubmissionContentWebTest,
     SubmissionContentWebTest,
-    test_electronicCatalogue_data,
-    test_electronicCatalogue_documents,
+    test_open_data,
+    test_open_documents,
     test_submission_data,
 )
 from openprocurement.framework.open.tests.submission_blanks import (
@@ -64,27 +64,27 @@ class SubmissionResourceTest(BaseSubmissionContentWebTest):
     test_submission_not_found = snitch(submission_not_found)
     test_submission_token_invalid = snitch(submission_token_invalid)
 
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_open_data
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
 
 
 class TestSubmissionDocumentGet(SubmissionContentWebTest):
-    initial_data = deepcopy(test_electronicCatalogue_data)
+    initial_data = deepcopy(test_open_data)
     initial_submission_data = deepcopy(test_submission_data)
 
     test_get_documents_list = snitch(get_documents_list)
     test_get_document_by_id = snitch(get_document_by_id)
 
     def setUp(self):
-        self.initial_submission_data["documents"] = deepcopy(test_electronicCatalogue_documents)
+        self.initial_submission_data["documents"] = deepcopy(test_open_documents)
         for document in self.initial_submission_data["documents"]:
             document["url"] = self.generate_docservice_url()
         super(TestSubmissionDocumentGet, self).setUp()
 
 
 class TestDocumentsCreate(SubmissionContentWebTest):
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_open_data
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
     docservice = True

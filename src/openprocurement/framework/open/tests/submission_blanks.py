@@ -2,9 +2,7 @@
 import mock
 from copy import deepcopy
 from datetime import timedelta
-from uuid import uuid4
 
-from openprocurement.framework.electroniccatalogue.models import Submission
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.tests.base import change_auth
@@ -22,7 +20,6 @@ def listing(self):
     tenderer_ids = ["00037256", "00037257", "00037258"]
 
     for i in tenderer_ids:
-
         data["tenderers"][0]["identifier"]["id"] = i
         offset = get_now().timestamp()
         response = self.app.post_json("/submissions", {"data": data})
@@ -310,7 +307,8 @@ def create_submission_draft_invalid(self):
         response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
-    response = self.app.post_json(request_path, {"data": {"submissionType": "invalid_value"}}, status=415)
+    data = {"submissionType": "invalid_value"}
+    response = self.app.post_json(request_path, {"data": data}, status=415)
     self.assertEqual(response.status, "415 Unsupported Media Type")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -319,7 +317,11 @@ def create_submission_draft_invalid(self):
         [{"description": "Not implemented", "location": "body", "name": "submissionType"}],
     )
 
-    response = self.app.post_json(request_path, {"data": {"invalid_field": "invalid_value"}}, status=422)
+    data = {
+        "submissionType": self.initial_submission_data["submissionType"],
+        "invalid_field": "invalid_value",
+    }
+    response = self.app.post_json(request_path, {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -327,7 +329,11 @@ def create_submission_draft_invalid(self):
         response.json["errors"], [{"description": "Rogue field", "location": "body", "name": "invalid_field"}]
     )
 
-    response = self.app.post_json(request_path, {"data": {"qualificationID": "0" * 32}}, status=422)
+    data = {
+        "submissionType": self.initial_submission_data["submissionType"],
+        "qualificationID": "0" * 32,
+    }
+    response = self.app.post_json(request_path, {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -348,9 +354,12 @@ def create_submission_draft_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{'description': ['Please use a mapping for this field or BusinessOrganizationForSubmission instance instead of str.'],
-          'location': 'body',
-          'name': 'tenderers'}],
+        [{
+             'description': [
+                 'Please use a mapping for this field or BusinessOrganizationForSubmission instance instead of str.'],
+             'location': 'body',
+             'name': 'tenderers'
+         }],
     )
 
     data = deepcopy(self.initial_submission_data)
@@ -491,7 +500,7 @@ def patch_submission_draft(self):
         "dateModified": (get_now() + timedelta(days=1)).isoformat(),
         "datePublished": (get_now() + timedelta(days=1)).isoformat(),
         "owner": "changed",
-        "qualificationID": "0"*32,
+        "qualificationID": "0" * 32,
         "submissionType": "changed",
     }
     response = self.app.patch_json(
@@ -529,7 +538,7 @@ def patch_submission_draft(self):
             },
             "scale": "micro"
         }],
-        "frameworkID": "0"*32,
+        "frameworkID": "0" * 32,
     }
     response = self.app.patch_json(
         "/submissions/{}?acc_token={}".format(submission["id"], token), {"data": submission_patch_data},
@@ -854,20 +863,20 @@ def submission_fields(self):
     submission = response.json["data"]
     token = response.json["access"]["token"]
     fields = set(
-            [
-                "id",
-                "dateModified",
-                "date",
-                "status",
-                "submissionType",
-                "owner",
-            ]
-        )
+        [
+            "id",
+            "dateModified",
+            "date",
+            "status",
+            "owner",
+        ]
+    )
     self.assertEqual(set(submission) - set(self.initial_submission_data), fields)
     self.assertIn(submission["id"], response.headers["Location"])
 
     response = self.app.patch_json(
-        "/submissions/{}?acc_token={}".format(submission["id"], token), {"data": {"status": "active"}})
+        "/submissions/{}?acc_token={}".format(submission["id"], token), {"data": {"status": "active"}}
+    )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     submission = response.json["data"]
@@ -1408,10 +1417,12 @@ def put_submission_document_fast(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
 
-    response = self.app.get("/submissions/{}/documents".format(
-        self.submission_id,
-        self.submission_token,
-    ))
+    response = self.app.get(
+        "/submissions/{}/documents".format(
+            self.submission_id,
+            self.submission_token,
+        )
+    )
     self.assertEqual(response.status, "200 OK")
     doc_id = response.json["data"][0]["id"]
 
