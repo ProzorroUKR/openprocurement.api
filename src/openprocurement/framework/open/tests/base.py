@@ -157,6 +157,7 @@ class BaseOpenWebTest(BaseCoreWebTest):
         self.framework_document = response.json["data"]
         self.framework_token = response.json["access"]["token"]
         self.framework_id = response.json["data"]["id"]
+        self.assertEqual(response.json["data"]["frameworkType"], "open")
 
     def save_changes(self):
         if self.framework_document_patch:
@@ -188,6 +189,7 @@ class BaseSubmissionContentWebTest(OpenContentWebTest):
             response = self.app.get(url)
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.content_type, "application/json")
+            self.assertEqual(response.json["data"]["submissionType"], "open")
         return response
 
     def set_submission_status(self, status, extra=None):
@@ -208,20 +210,24 @@ class BaseSubmissionContentWebTest(OpenContentWebTest):
             self.submission_document_patch = {}
 
     def create_submission(self):
-        print(self.initial_submission_data)
         response = self.app.post_json("/submissions", {"data": self.initial_submission_data})
         self.submission_id = response.json["data"]["id"]
         self.submission_token = response.json["access"]["token"]
+        self.assertEqual(response.json["data"]["submissionType"], "open")
 
     def setUp(self):
         super(BaseSubmissionContentWebTest, self).setUp()
         self.initial_submission_data["frameworkID"] = self.framework_id
+        self.activate_framework()
 
+    def activate_framework(self):
         with freeze_time((get_now() - timedelta(hours=1)).isoformat()):
-            self.app.patch_json(
+            response = self.app.patch_json(
                 "/frameworks/{}?acc_token={}".format(self.framework_id, self.framework_token),
                 {"data": {"status": "active"}}
             )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json["data"]["frameworkType"], "open")
 
     def tearDown(self):
         super(BaseSubmissionContentWebTest, self).tearDown()
@@ -251,12 +257,13 @@ class BaseAgreementContentWebTest(SubmissionContentWebTest):
             self.agreement_document = self.mongodb.agreements.get(self.agreement_id)
             self.agreement_document_patch = {}
 
-    def get_agreement(self, role):
-        with change_auth(self.app, ("Basic", (role, ""))):
+    def get_agreement(self, role=None):
+        with change_auth(self.app, self.get_auth(role)):
             url = "/agreements/{}".format(self.agreement_id)
             response = self.app.get(url)
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.content_type, "application/json")
+            self.assertEqual(response.json["data"]["agreementType"], "open")
         return response
 
     def check_chronograph(self, data=None):
@@ -282,44 +289,47 @@ class BaseAgreementContentWebTest(SubmissionContentWebTest):
 class AgreementContentWebTest(BaseAgreementContentWebTest):
     def setUp(self):
         super().setUp()
-
-        response = self.app.patch_json(
-            "/submissions/{}?acc_token={}".format(self.submission_id, self.submission_token),
-            {"data": {"status": "active"}},
-        )
-
+        response = self.activate_submission()
         self.qualification_id = response.json["data"]["qualificationID"]
+        self.activate_qualification()
+        response = self.get_framework()
+        self.agreement_id = response.json["data"]["agreementID"]
+        response = self.get_agreement()
+        self.contract_id = response.json["data"]["contracts"][0]["id"]
 
+    def activate_qualification(self):
         response = self.app.post(
             "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
             upload_files=[("file", "name  name.doc", b"content")]
         )
         self.assertEqual(response.status, "201 Created")
-
         response = self.app.patch_json(
             f"/qualifications/{self.qualification_id}?acc_token={self.framework_token}",
             {"data": {"status": "active"}},
         )
         self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json["data"]["qualificationType"], "open")
 
-        response = self.app.get(f"/frameworks/{self.framework_id}")
+    def activate_submission(self):
+        response = self.app.patch_json(
+            "/submissions/{}?acc_token={}".format(self.submission_id, self.submission_token),
+            {"data": {"status": "active"}},
+        )
         self.assertEqual(response.status, "200 OK")
-
-        self.agreement_id = response.json["data"]["agreementID"]
-
-        response = self.app.get(f"/agreements/{self.agreement_id}")
-        self.assertEqual(response.status, "200 OK")
-
-        self.contract_id = response.json["data"]["contracts"][0]["id"]
+        self.assertEqual(response.json["data"]["submissionType"], "open")
+        return response
 
 
 class MilestoneContentWebTest(AgreementContentWebTest):
     def setUp(self):
         super().setUp()
+        response = self.create_milestone()
+        self.milestone_id = response.json["data"]["id"]
+
+    def create_milestone(self):
         response = self.app.post_json(
             f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones?acc_token={self.framework_token}",
             {"data": self.initial_milestone_data}
         )
         self.assertEqual(response.status, "201 Created")
-
-        self.milestone_id = response.json["data"]["id"]
+        return response
