@@ -68,14 +68,15 @@ def validate_framework_patch_status(request, **kwargs):
 def validate_submission_data(request, **kwargs):
     update_logging_context(request, {"submission_id": "__new__"})
     data = validate_json_data(request)
-    model = request.submission_from_data(data, create=False)
-    data = validate_data(request, model, data=data)
-    framework = get_framework_by_id(request, data["frameworkID"])
+    framework = get_framework_by_id(request, data.get("frameworkID"))
     if not framework:
         raise_operation_error(
             request,
             "frameworkID must be one of exists frameworks",
         )
+    data["submissionType"] = framework["frameworkType"]
+    model = request.submission_from_data(data, create=False)
+    data = validate_data(request, model, data=data)
     model = request.framework_from_data(framework, create=False)
     framework = model(framework)
     request.validated["framework_src"] = framework.serialize("plain")

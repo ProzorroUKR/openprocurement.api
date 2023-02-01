@@ -136,7 +136,6 @@ tenderer = {
 }
 
 test_submission_data = {
-    "submissionType": "electronicCatalogue",
     "tenderers": [tenderer],
 }
 

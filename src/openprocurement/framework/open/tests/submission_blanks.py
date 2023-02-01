@@ -307,18 +307,8 @@ def create_submission_draft_invalid(self):
         response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
-    data = {"submissionType": "invalid_value"}
-    response = self.app.post_json(request_path, {"data": data}, status=415)
-    self.assertEqual(response.status, "415 Unsupported Media Type")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{"description": "Not implemented", "location": "body", "name": "submissionType"}],
-    )
-
     data = {
-        "submissionType": self.initial_submission_data["submissionType"],
+        "frameworkID": self.framework_id,
         "invalid_field": "invalid_value",
     }
     response = self.app.post_json(request_path, {"data": data}, status=422)
@@ -330,7 +320,7 @@ def create_submission_draft_invalid(self):
     )
 
     data = {
-        "submissionType": self.initial_submission_data["submissionType"],
+        "frameworkID": self.framework_id,
         "qualificationID": "0" * 32,
     }
     response = self.app.post_json(request_path, {"data": data}, status=422)
@@ -339,10 +329,6 @@ def create_submission_draft_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertIn(
         {"description": ["This field is required."], "location": "body", "name": "tenderers"},
-        response.json["errors"],
-    )
-    self.assertIn(
-        {"description": ["This field is required."], "location": "body", "name": "frameworkID"},
         response.json["errors"],
     )
 
@@ -849,6 +835,7 @@ def submission_fields(self):
     fields = set(
         [
             "id",
+            "submissionType",
             "dateModified",
             "date",
             "status",

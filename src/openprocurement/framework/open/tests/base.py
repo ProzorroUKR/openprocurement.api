@@ -116,7 +116,6 @@ tenderer = {
 
 test_submission_data = {
     "tenderers": [tenderer],
-    "submissionType": "open",
 }
 
 ban_milestone_data = {
