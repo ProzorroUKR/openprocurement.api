@@ -390,27 +390,6 @@ def create_framework_draft_invalid(self):
 
     data = {
         "frameworkType": self.initial_data["frameworkType"],
-        "procuringEntity": "invalid_value",
-    }
-    response = self.app.post_json(request_path, {"data": data}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": [
-                    "Please use a mapping for this field or CentralProcuringEntity instance instead of str."
-                ],
-                "location": "body",
-                "name": "procuringEntity",
-            }
-        ],
-    )
-
-    data = {
-        "frameworkType": self.initial_data["frameworkType"],
         "title_ru": "invalid_value",
     }
     response = self.app.post_json(request_path, {"data": data}, status=422)

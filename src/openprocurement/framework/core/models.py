@@ -1,14 +1,24 @@
+from datetime import timedelta
+
 from uuid import uuid4
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
 from schematics.transforms import blacklist, whitelist
-from schematics.types import StringType, BaseType
+from schematics.types import (
+    StringType,
+    BaseType,
+    MD5Type,
+)
 from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 from zope.interface import implementer
 
 from openprocurement.api.auth import ACCR_5
-from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.constants import (
+    SANDBOX_MODE,
+    DK_CODES,
+    REQUIRED_FIELDS_BY_SUBMISSION_FROM,
+)
 from openprocurement.api.interfaces import IOPContent
 from openprocurement.api.models import (
     RootModel,
@@ -17,9 +27,21 @@ from openprocurement.api.models import (
     BusinessOrganization,
     Document,
     Organization as BaseOrganization,
-    ContactPoint as BaseContactPoint
+    ContactPoint as BaseContactPoint,
+    Classification as BaseClassification,
+    Identifier as BaseIdentifier,
+    Address as BaseAddress,
+    BusinessOrganization as BaseBusinessOrganization,
+    Model,
 )
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import (
+    get_now,
+    required_field_from_date,
+)
+from openprocurement.framework.core.utils import calculate_framework_date
+
+
+CONTRACT_BAN_DURATION = 90
 
 
 class IFramework(IOPContent):
@@ -401,3 +423,142 @@ class Agreement(RootModel):
 
     def __repr__(self):
         return "<%s:%r@%r>" % (type(self).__name__, self.id, self.rev)
+
+
+class DKClassification(BaseClassification):
+    scheme = StringType(required=True, choices=["ДК021"])
+    id = StringType(required=True)
+
+    def validate_id(self, data, id):
+        if id not in DK_CODES:
+            raise ValidationError(BaseType.MESSAGES["choices"].format(DK_CODES))
+
+
+class Identifier(BaseIdentifier):
+    legalName = StringType(required=True)
+
+
+class Address(BaseAddress):
+    streetAddress = StringType(required=True)
+    locality = StringType(required=True)
+    region = StringType(required=True)
+    postalCode = StringType(required=True)
+
+
+class AddressForSubmission(BaseAddress):
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_region(self, data, value):
+        super().validate_region(self, data, value)
+        return value
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_postalCode(self, data, value):
+        return value
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_locality(self, data, value):
+        return value
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_streetAddress(self, data, value):
+        return value
+
+
+class IdentifierForSubmission(BaseIdentifier):
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_legalName(self, data, value):
+        return value
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_id(self, data, value):
+        return value
+
+
+class ContactPointForSubmission(BaseContactPoint):
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_name(self, data, value):
+        return value
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_email(self, data, value):
+        super().validate_email(self, data, value)
+        return value
+
+
+class OrganizationForSubmission(BaseOrganization):
+    identifier = ModelType(IdentifierForSubmission, required=True)
+    address = ModelType(AddressForSubmission, required=True)
+    contactPoint = ModelType(ContactPointForSubmission, required=True)
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_name(self, data, value):
+        return value
+
+
+class BusinessOrganizationForSubmission(OrganizationForSubmission, BaseBusinessOrganization):
+    pass
+
+
+class ContactPointForContract(BaseContactPoint):
+    pass
+
+
+class OrganizationForContract(BaseOrganization):
+    contactPoint = ModelType(ContactPointForContract, required=True)
+
+
+class BusinessOrganizationForContract(OrganizationForContract, BaseBusinessOrganization):
+    class Options:
+        roles = {
+            "edit": whitelist("contactPoint", "address"),
+            "view": blacklist("doc_type", "_id", "_rev", "__parent__"),
+        }
+
+
+class Milestone(Model):
+    class Options:
+        roles = {
+            "create": whitelist("type", "documents"),
+            "edit": whitelist("status", "documents"),
+            "view": blacklist("doc_type", "_id", "_rev", "__parent__"),
+        }
+
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    type = StringType(required=True, choices=["activation", "ban"])
+    status = StringType(choices=["scheduled", "met", "notMet", "partiallyMet"], default="scheduled")
+    dueDate = IsoDateTimeType()
+    documents = ListType(ModelType(Document, required=True), default=list())
+    dateModified = IsoDateTimeType(default=get_now)
+    dateMet = IsoDateTimeType()
+
+    @serializable(serialized_name="dueDate", serialize_when_none=False)
+    def milestone_dueDate(self):
+        if self.type == "ban" and not self.dueDate:
+            request = self.get_root().request
+            agreement = request.validated["agreement_src"]
+            dueDate = calculate_framework_date(get_now(), timedelta(days=CONTRACT_BAN_DURATION), agreement, ceil=True)
+            return dueDate.isoformat()
+        return self.dueDate.isoformat() if self.dueDate else None
+
+
+class Contract(Model):
+    class Options:
+        roles = {
+            "edit": whitelist("suppliers"),
+            "view": blacklist("doc_type", "_id", "_rev", "__parent__")
+        }
+
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    qualificationID = StringType()
+    status = StringType(choices=["active", "suspended", "terminated"])
+    submissionID = StringType()
+    suppliers = ListType(ModelType(BusinessOrganizationForContract, required=True), required=True, min_size=1, )
+    milestones = ListType(ModelType(Milestone, required=True), required=True, min_size=1, )
+    date = IsoDateTimeType(default=get_now)
+
+    def validate_suppliers(self, data, suppliers):
+        if len(suppliers) != 1:
+            raise ValidationError("Contract must have only one supplier")

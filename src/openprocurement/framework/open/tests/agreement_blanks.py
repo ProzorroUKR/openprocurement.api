@@ -10,8 +10,8 @@ from openprocurement.api.utils import get_now
 from openprocurement.framework.open.models import (
     Submission,
     Agreement,
-    CONTRACT_BAN_DURATION,
 )
+from openprocurement.framework.core.models import CONTRACT_BAN_DURATION
 from openprocurement.framework.open.tests.base import (
     ban_milestone_data,
     ban_milestone_data_with_documents,

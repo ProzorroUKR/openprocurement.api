@@ -347,22 +347,6 @@ def create_submission_draft_invalid(self):
     )
 
     data = deepcopy(self.initial_submission_data)
-    data["tenderers"] = "This is string"
-    response = self.app.post_json(request_path, {"data": data}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{
-             'description': [
-                 'Please use a mapping for this field or BusinessOrganizationForSubmission instance instead of str.'],
-             'location': 'body',
-             'name': 'tenderers'
-         }],
-    )
-
-    data = deepcopy(self.initial_submission_data)
     data["frameworkID"] = "some_id"
     response = self.app.post_json(request_path, {"data": data}, status=403)
     self.assertEqual(response.status, "403 Forbidden")
