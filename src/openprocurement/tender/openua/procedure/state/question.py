@@ -14,6 +14,14 @@ class UATenderQuestionStateMixin(TenderQuestionStateMixin):
         self.validate_question_update(get_tender())
         super().validate_question_on_patch(before, question)
 
+    def validate_question_operation(self, tender, question):
+        if tender["status"] != "active.tendering":
+            raise_operation_error(
+                get_request(),
+                "Can't update question in current ({}) tender status".format(tender["status"]),
+            )
+        super().validate_question_operation(tender, question)
+
     def validate_question_add(self, tender):
         now = get_now().isoformat()
         period = tender["enquiryPeriod"]
@@ -24,11 +32,6 @@ class UATenderQuestionStateMixin(TenderQuestionStateMixin):
             )
 
     def validate_question_update(self, tender):
-        if tender["status"] != "active.tendering":
-            raise_operation_error(
-                get_request(),
-                "Can't update question in current ({}) tender status".format(tender["status"]),
-            )
         now = get_now().isoformat()
         period = tender["enquiryPeriod"]
         if now > period["clarificationsUntil"]:
