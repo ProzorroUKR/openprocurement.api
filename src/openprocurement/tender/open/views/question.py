@@ -5,13 +5,13 @@ from openprocurement.tender.belowthreshold.views.question import TenderQuestionR
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 
 
-@optendersresource(
-    name=f"{ABOVE_THRESHOLD}:Tender Questions",
-    collection_path="/tenders/{tender_id}/questions",
-    path="/tenders/{tender_id}/questions/{question_id}",
-    procurementMethodType=ABOVE_THRESHOLD,
-    description="Tender questions",
-)
+# @optendersresource(
+#     name=f"{ABOVE_THRESHOLD}:Tender Questions",
+#     collection_path="/tenders/{tender_id}/questions",
+#     path="/tenders/{tender_id}/questions/{question_id}",
+#     procurementMethodType=ABOVE_THRESHOLD,
+#     description="Tender questions",
+# )
 class TenderUaQuestionResource(TenderQuestionResource):
     def validate_question(self, operation):
         """ TODO move validators

@@ -1,11 +1,12 @@
+
 from openprocurement.api.auth import ACCR_4
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.context import get_now, get_request, get_tender
 from openprocurement.tender.core.procedure.state.question import TenderQuestionStateMixin
-from openprocurement.tender.openua.procedure.state.tender import OpenUATenderState
+from openprocurement.tender.open.procedure.state.tender import OpenTenderState
 
 
-class UATenderQuestionStateMixin(TenderQuestionStateMixin):
+class OpenTenderQuestionStateMixin(TenderQuestionStateMixin):
     def validate_question_on_post(self, question):
         self.validate_question_add(get_tender())
         super().validate_question_on_post(question)
@@ -41,5 +42,5 @@ class UATenderQuestionStateMixin(TenderQuestionStateMixin):
             )
 
 
-class UATenderQuestionState(UATenderQuestionStateMixin, OpenUATenderState):
+class OpenTenderQuestionState(OpenTenderQuestionStateMixin, OpenTenderState):
     create_accreditations = (ACCR_4,)
