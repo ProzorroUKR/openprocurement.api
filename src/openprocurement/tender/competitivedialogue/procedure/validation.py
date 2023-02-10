@@ -82,7 +82,7 @@ def validate_author(request, tender, obj, obj_name):
         if shortlisted_firms[0].get("lots"):
             item_id = author_key.split("_")[-1]
             item = get_item_by_id(request.validated["tender"], item_id)
-            author_key = author_key.replace(author_key.split("_")[-1], item["relatedLot"])
+            author_key = author_key.replace(author_key.split("_")[-1], item["relatedLot"] if item else "")
         else:
             author_key = "_".join(author_key.split("_")[:-1])
     for firm in firms_keys:
