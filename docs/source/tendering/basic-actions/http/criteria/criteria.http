@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/f83728385fa9438bb4c5c118ffc5012a/criteria/8cb5668f02724539806c54f72d941e93 HTTP/1.0
+GET /api/2.5/tenders/f83728385fa9438bb4c5c118ffc5012a/criteria/df5cc43dbf914389a9b11f5d64b152f8 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -16,6 +16,7 @@ Content-Type: application/json
       "scheme": " espd211",
       "id": "CRITERION.OTHER"
     },
+    "id": "df5cc43dbf914389a9b11f5d64b152f8",
     "legislation": [
       {
         "version": "2020-04-19",
@@ -60,8 +61,8 @@ Content-Type: application/json
               }
             ],
             "expectedValue": "true",
-            "datePublished": "2023-01-01T00:00:00+02:00",
             "id": "fc4c7b31124044c691ba5f51c6520312",
+            "datePublished": "2023-01-01T00:00:00+02:00",
             "status": "active"
           },
           {
@@ -77,8 +78,8 @@ Content-Type: application/json
             ],
             "expectedValue": "true",
             "status": "active",
-            "datePublished": "2023-01-01T00:00:00+02:00",
-            "id": "5a03c390b79346bea27233125c14dff2"
+            "id": "5939752806064d71a87025348d2bcc43",
+            "datePublished": "2023-01-01T00:00:00+02:00"
           }
         ],
         "id": "8400e4decbe74b99af293a42e94c7671"
@@ -103,10 +104,9 @@ Content-Type: application/json
             "datePublished": "2023-01-01T00:00:00+02:00"
           }
         ],
-        "id": "037258fbd29e4570866a6967bd01fcc4"
+        "id": "702b4995c19f49d0ad08f9f2cc618f58"
       }
-    ],
-    "id": "8cb5668f02724539806c54f72d941e93"
+    ]
   }
 }
 

@@ -18,6 +18,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
         },
+        "id": "ec6dc12026ff429186bb3892b96abe62",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -57,8 +58,8 @@ Content-Type: application/json
                 ],
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2023-01-01T00:00:00+02:00",
-                "id": "85b51548a28140328884d98eef3365ce"
+                "id": "85b51548a28140328884d98eef3365ce",
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ],
             "id": "679f062154224cf48f5cb985c45b8f83"
@@ -71,14 +72,13 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2023-01-01T00:00:00+02:00",
-                "id": "9fd0a226844f47a89aa60257b95b6a91"
+                "id": "9fd0a226844f47a89aa60257b95b6a91",
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ],
             "id": "e4894670900645679fbb9c15f78c1bb8"
           }
-        ],
-        "id": "f44de63fbea542be8932eb57ae42f9f7"
+        ]
       },
       {
         "title": "Вчинення економічних правопорушень",
@@ -89,6 +89,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
         },
+        "id": "b511abbe4a774de7a73dc0ed9972eab0",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -130,14 +131,13 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2023-01-01T00:00:00+02:00",
-                "id": "c774665522474aed8f37e2ff9cde639a"
+                "id": "c774665522474aed8f37e2ff9cde639a",
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ],
             "id": "a2bccd2e8b8d42e89e5e0695b3e65a85"
           }
-        ],
-        "id": "48dfabbdfedf4f4d821c31deb8599aa8"
+        ]
       },
       {
         "title": "Вчинення корупційних правопорушень",
@@ -148,6 +148,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
         },
+        "id": "10ed26da28ce40508cafe3c6ccf9238b",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -179,22 +180,21 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2023-01-01T00:00:00+02:00",
-                "id": "cc49a051ae604ef4a4fd29d0a86ce20c"
+                "id": "cc49a051ae604ef4a4fd29d0a86ce20c",
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією",
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2023-01-01T00:00:00+02:00",
-                "id": "787e6d37e99e444a993bbabf3a0a3a13"
+                "id": "787e6d37e99e444a993bbabf3a0a3a13",
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ],
             "id": "9244f50b0254453abe1d1d8e83372082"
           }
-        ],
-        "id": "f676f0c3d6824ff7bb537e5c01f9e3c4"
+        ]
       },
       {
         "title": "Вчинення правопорушень, пов'язаних з використанням дитячої праці чи будь-якими формами торгівлі людьми",
@@ -205,6 +205,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING"
         },
+        "id": "8d6af1c446634bd399cba947f9aba933",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -226,14 +227,13 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2023-01-01T00:00:00+02:00",
-                "id": "be06415ab85d4025a0739d61aa043555"
+                "id": "be06415ab85d4025a0739d61aa043555",
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ],
             "id": "d28e2ec9bbb4493c9e9baa11ac31c6ec"
           }
-        ],
-        "id": "33a34171ebb94a0cb01221988eefb254"
+        ]
       },
       {
         "title": "Заборгованість зі сплати податків і зборів (обов'язкових платежів)",
@@ -244,6 +244,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES"
         },
+        "id": "f233027208c7423bb4a4de5bb5aa95f0",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -265,8 +266,8 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2023-01-01T00:00:00+02:00",
-                "id": "e83b27e560b44de7b5c9d1a4b3e04348"
+                "id": "e83b27e560b44de7b5c9d1a4b3e04348",
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ],
             "id": "b15464d6c1b44cbb91c20fda4beb9623"
@@ -279,43 +280,42 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2023-01-01T00:00:00+02:00",
-                "id": "ff94fec41d9c4db5bc38456925d9636d"
+                "id": "ff94fec41d9c4db5bc38456925d9636d",
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "title": "Сума існуючої заборгованості",
                 "dataType": "number",
                 "status": "active",
-                "datePublished": "2023-01-01T00:00:00+02:00",
-                "id": "6d74c860e7074f4987cbb1a86e112b89"
+                "id": "6d74c860e7074f4987cbb1a86e112b89",
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "title": "Характер існуючої заборгованості",
                 "dataType": "string",
                 "status": "active",
-                "datePublished": "2023-01-01T00:00:00+02:00",
-                "id": "f6fa93455df246fdb9c1fc929e892b5e"
+                "id": "f6fa93455df246fdb9c1fc929e892b5e",
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "title": "Причина виникнення існуючої заборгованості",
                 "dataType": "string",
                 "status": "active",
-                "datePublished": "2023-01-01T00:00:00+02:00",
-                "id": "11a3ce3fb97e454fa1ce0a4f02a340f1"
+                "id": "11a3ce3fb97e454fa1ce0a4f02a340f1",
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "title": "Учасник здійснив заходи щодо розстрочення і відстрочення такої заборгованості у порядку та на умовах, визначених законодавством країни реєстрації такого учасника",
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2023-01-01T00:00:00+02:00",
-                "id": "59dec3d37d7a43cb9a96f16f1d9fc3d6"
+                "id": "59dec3d37d7a43cb9a96f16f1d9fc3d6",
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ],
             "id": "b6f382231e8349619bae73571bc2db7c"
           }
-        ],
-        "id": "15e087c80c2a49b0875b2dcc5d861c8c"
+        ]
       },
       {
         "title": "Порушення справ про банкрутство",
@@ -326,6 +326,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY"
         },
+        "id": "ea09601f617f43f681ba335b1dc2af52",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -347,14 +348,13 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2023-01-01T00:00:00+02:00",
-                "id": "aa7e40235972472d9f39f87245713e90"
+                "id": "aa7e40235972472d9f39f87245713e90",
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ],
             "id": "3897d8990062489b8964db657ea4597a"
           }
-        ],
-        "id": "2ad0e6fc241f45cdb7e766d0804f7852"
+        ]
       },
       {
         "title": "Виявлення факту зв'язку учасника з іншими учасниками процедури або замовником",
@@ -365,6 +365,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION"
         },
+        "id": "73f246db92f242c0b08273cf0469ca36",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -393,14 +394,13 @@ Content-Type: application/json
                   }
                 ],
                 "status": "active",
-                "datePublished": "2023-01-01T00:00:00+02:00",
-                "id": "831f329eaf90430e87fa8db0845cce63"
+                "id": "831f329eaf90430e87fa8db0845cce63",
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ],
             "id": "b11e4c1914e449df95216dd200305909"
           }
-        ],
-        "id": "07aaa440ad744661bc367b864f792951"
+        ]
       },
       {
         "title": "Виявлення факту наміру впливу на прийняття рішення замовника",
@@ -411,6 +411,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION"
         },
+        "id": "37fa53fb77fd4bff97712163c39daec2",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -431,14 +432,13 @@ Content-Type: application/json
                 "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі",
                 "dataType": "boolean",
                 "status": "active",
-                "datePublished": "2023-01-01T00:00:00+02:00",
-                "id": "2f88c1a83af64d83b49b209039eb027c"
+                "id": "2f88c1a83af64d83b49b209039eb027c",
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ],
             "id": "14cb9bb0368449338b19f4966cbbf710"
           }
-        ],
-        "id": "1cf6e750ac34486f8ec051463ada09cd"
+        ]
       },
       {
         "title": "Наявність інших підстав для відмови в участі у процедурі закупівлі",
@@ -449,6 +449,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.NATIONAL.OTHER"
         },
+        "id": "df9ac117ecae499d873d3d64a2f9527b",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -509,30 +510,29 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2023-01-01T00:00:00+02:00",
-                "id": "eae847c2b9fb4667a194d308bffccb5e"
+                "id": "eae847c2b9fb4667a194d308bffccb5e",
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "title": "Юридична особа, яка є учасником процедури закупівлі (крім нерезидентів), має антикорупційну програму чи уповноваженого з реалізації антикорупційної програми, якщо вартість закупівлі товару (товарів), послуги (послуг) або робіт дорівнює чи перевищує 20 мільйонів гривень (у тому числі за лотом)",
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2023-01-01T00:00:00+02:00",
-                "id": "ee88cdba089d4d738ef0a53c190f32f4"
+                "id": "ee88cdba089d4d738ef0a53c190f32f4",
+                "datePublished": "2023-01-01T00:00:00+02:00"
               },
               {
                 "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\"",
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2023-01-01T00:00:00+02:00",
-                "id": "6275bd616be04b1186c42e060f164604"
+                "id": "6275bd616be04b1186c42e060f164604",
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ],
             "id": "4aeca01fe96a4f808186b353376af572"
           }
-        ],
-        "id": "72f31db172064291bba71d350e879d41"
+        ]
       },
       {
         "title": "Мова (мови), якою (якими) повинні готуватися тендерні пропозиції",
@@ -542,6 +542,7 @@ Content-Type: application/json
           "scheme": " ESPD211",
           "id": "CRITERION.OTHER.BID.LANGUAGE"
         },
+        "id": "5ad791218f93412eb902b2ebb0bbf63c",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -562,14 +563,13 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "datePublished": "2023-01-01T00:00:00+02:00",
-                "id": "8e5ca061fd38468bb67a91c66d893346"
+                "id": "8e5ca061fd38468bb67a91c66d893346",
+                "datePublished": "2023-01-01T00:00:00+02:00"
               }
             ],
             "id": "3b6d71c6cc174eaf8c901b5949e4485c"
           }
-        ],
-        "id": "402091009e3b4720b3175dde39eb0bbb"
+        ]
       }
     ],
     "date": "2023-01-01T00:00:00+02:00",

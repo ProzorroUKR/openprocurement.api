@@ -5,7 +5,7 @@ from pyramid.security import Allow
 
 from openprocurement.api.utils import json_view
 from openprocurement.tender.competitivedialogue.procedure.views.stage1.criterion_rg import BaseCDRequirementGroupResource
-from openprocurement.tender.core.procedure.models.criterion import PostRequirementGroup, PatchRequirementGroup, RequirementGroup
+from openprocurement.tender.core.procedure.models.criterion import RequirementGroup, PatchRequirementGroup
 from openprocurement.tender.competitivedialogue.procedure.state.criterion_rg import CDRequirementGroupState
 from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
 from openprocurement.tender.core.procedure.validation import (
@@ -26,7 +26,7 @@ class BaseStage2RequirementGroupResource(BaseCDRequirementGroupResource):
                 unless_cd_bridge(unless_admins(unless_administrator(
                     validate_item_owner("tender")
                 ))),
-                validate_input_data(PostRequirementGroup),
+                validate_input_data(RequirementGroup),
         ),
         permission="create_rg",
     )

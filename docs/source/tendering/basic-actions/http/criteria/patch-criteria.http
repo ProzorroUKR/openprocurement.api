@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/f83728385fa9438bb4c5c118ffc5012a/criteria/8cb5668f02724539806c54f72d941e93?acc_token=ca00870e9e594a068127cf82158c01a2 HTTP/1.0
+PATCH /api/2.5/tenders/f83728385fa9438bb4c5c118ffc5012a/criteria/df5cc43dbf914389a9b11f5d64b152f8?acc_token=ca00870e9e594a068127cf82158c01a2 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 36
 Content-Type: application/json
@@ -24,6 +24,7 @@ Content-Type: application/json
       "scheme": " espd211",
       "id": "CRITERION.OTHER"
     },
+    "id": "df5cc43dbf914389a9b11f5d64b152f8",
     "legislation": [
       {
         "version": "2020-04-19",
@@ -63,14 +64,13 @@ Content-Type: application/json
             ],
             "expectedValue": "true",
             "status": "active",
-            "datePublished": "2023-01-01T00:00:00+02:00",
-            "id": "fc4c7b31124044c691ba5f51c6520312"
+            "id": "fc4c7b31124044c691ba5f51c6520312",
+            "datePublished": "2023-01-01T00:00:00+02:00"
           }
         ],
         "id": "8400e4decbe74b99af293a42e94c7671"
       }
-    ],
-    "id": "8cb5668f02724539806c54f72d941e93"
+    ]
   }
 }
 

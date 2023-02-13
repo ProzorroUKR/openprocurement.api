@@ -32,6 +32,7 @@ class BelowThresholdRequirementState(BelowThresholdRequirementStateMixin, BelowT
 
     def validate_on_post(self, data: dict) -> None:
         self._validate_operation_criterion_in_tender_status()
+        self._validate_ids_uniq()
 
     def _validate_put_requirement_objects(self) -> None:
         _validate_tender_first_revision_date(self.request, validation_date=CRITERION_REQUIREMENT_STATUSES_FROM)

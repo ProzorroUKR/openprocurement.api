@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/f83728385fa9438bb4c5c118ffc5012a/criteria/f664b3e9e4b643cb93943105ce74ebec/requirement_groups/05b90eba26e14c66891211d4f8ef469c/requirements/1f1bc73db30e4c4da5a30da124af935e?acc_token=ca00870e9e594a068127cf82158c01a2 HTTP/1.0
+PATCH /api/2.5/tenders/f83728385fa9438bb4c5c118ffc5012a/criteria/c4ff58c4349647d4b8fe9de39bd19367/requirement_groups/05b90eba26e14c66891211d4f8ef469c/requirements/1f1bc73db30e4c4da5a30da124af935e?acc_token=ca00870e9e594a068127cf82158c01a2 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 379
 Content-Type: application/json
@@ -33,8 +33,8 @@ Content-Type: application/json
       }
     ],
     "expectedValue": "true",
-    "datePublished": "2023-01-01T00:00:00+02:00",
     "id": "1f1bc73db30e4c4da5a30da124af935e",
+    "datePublished": "2023-01-01T00:00:00+02:00",
     "status": "active"
   }
 }

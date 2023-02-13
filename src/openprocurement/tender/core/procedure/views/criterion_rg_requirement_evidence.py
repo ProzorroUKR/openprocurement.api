@@ -13,9 +13,8 @@ from openprocurement.tender.core.procedure.serializers.criterion_rg_requirement_
 )
 from openprocurement.tender.core.procedure.state.criterion_rq_requirement_evidence import EligibleEvidenceState
 from openprocurement.tender.core.procedure.models.criterion import (
-    PostEligibleEvidence,
-    PatchEligibleEvidence,
     EligibleEvidence,
+    PatchEligibleEvidence
 )
 from openprocurement.tender.core.procedure.views.criterion_rg_requirement import (
     resolve_criterion,
@@ -72,7 +71,7 @@ class BaseEligibleEvidenceResource(TenderBaseResource):
         content_type="application/json",
         validators=(
                 unless_administrator(validate_item_owner("tender")),
-                validate_input_data(PostEligibleEvidence),
+                validate_input_data(EligibleEvidence),
         ),
         permission="create_evidence",
     )
@@ -81,11 +80,11 @@ class BaseEligibleEvidenceResource(TenderBaseResource):
         evidence = self.request.validated["data"]
         requirement = self.request.validated["requirement"]
 
-        self.state.evidence_on_post(requirement)
-
         if "eligibleEvidences" not in requirement:
             requirement["eligibleEvidences"] = []
         requirement["eligibleEvidences"].append(evidence)
+
+        self.state.evidence_on_post(requirement)
 
         if save_tender(self.request):
             self.LOGGER.info(

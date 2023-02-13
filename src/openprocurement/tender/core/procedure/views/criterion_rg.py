@@ -11,9 +11,8 @@ from openprocurement.tender.core.procedure.utils import save_tender, set_item
 from openprocurement.tender.core.procedure.serializers.criterion_rg import RequirementGroupSerializer
 from openprocurement.tender.core.procedure.state.criterion_rg import RequirementGroupState
 from openprocurement.tender.core.procedure.models.criterion import (
-    PostRequirementGroup,
-    PatchRequirementGroup,
     RequirementGroup,
+    PatchRequirementGroup,
 )
 from openprocurement.tender.core.procedure.views.criterion import resolve_criterion
 from openprocurement.tender.core.procedure.validation import (
@@ -64,7 +63,7 @@ class BaseRequirementGroupResource(TenderBaseResource):
         content_type="application/json",
         validators=(
                 unless_administrator(validate_item_owner("tender")),
-                validate_input_data(PostRequirementGroup),
+                validate_input_data(RequirementGroup),
         ),
         permission="create_rg",
     )
@@ -72,11 +71,11 @@ class BaseRequirementGroupResource(TenderBaseResource):
         requirement_group = self.request.validated["data"]
         criterion = self.request.validated["criterion"]
 
-        self.state.requirement_group_on_post(requirement_group)
-
         if "requirementGroups" not in criterion:
             criterion["requirementGroups"] = []
         criterion["requirementGroups"].append(requirement_group)
+
+        self.state.requirement_group_on_post(requirement_group)
 
         if save_tender(self.request):
             self.LOGGER.info(
