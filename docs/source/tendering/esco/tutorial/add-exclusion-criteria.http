@@ -505,6 +505,7 @@ Content-Type: application/json
         "scheme": " espd211",
         "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
       },
+      "id": "4bcfe306afd0485ca18548a18b9ee368",
       "legislation": [
         {
           "version": "2020-04-19",
@@ -564,8 +565,7 @@ Content-Type: application/json
           ],
           "id": "e114321f28c8474f9ed054dea37b7d44"
         }
-      ],
-      "id": "c10210dd54f748efbe3903eb4cdf402c"
+      ]
     },
     {
       "title": "Вчинення економічних правопорушень",
@@ -576,6 +576,7 @@ Content-Type: application/json
         "scheme": " espd211",
         "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
       },
+      "id": "611918d3debc4023ba0305f49a384dd7",
       "legislation": [
         {
           "version": "2020-04-19",
@@ -623,8 +624,7 @@ Content-Type: application/json
           ],
           "id": "78f4b7c3ffa74f1f844b8f9ca6a49a0e"
         }
-      ],
-      "id": "d4941c1239054c638ae113c705be81e1"
+      ]
     },
     {
       "title": "Вчинення корупційних правопорушень",
@@ -635,6 +635,7 @@ Content-Type: application/json
         "scheme": " espd211",
         "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
       },
+      "id": "cabebf88e0174b788b59e84830dd00af",
       "legislation": [
         {
           "version": "2020-04-19",
@@ -680,8 +681,7 @@ Content-Type: application/json
           ],
           "id": "d260d2f8052c42d69afb37e258d7cb9b"
         }
-      ],
-      "id": "b73ce9c9a46842d2bba42ccdfecae755"
+      ]
     },
     {
       "title": "Вчинення правопорушень, пов'язаних з використанням дитячої праці чи будь-якими формами торгівлі людьми",
@@ -692,6 +692,7 @@ Content-Type: application/json
         "scheme": " espd211",
         "id": "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING"
       },
+      "id": "36adb13b9f4246ee8ca279358aa00598",
       "legislation": [
         {
           "version": "2020-04-19",
@@ -719,8 +720,7 @@ Content-Type: application/json
           ],
           "id": "1eed7d1e81d54a83a7a5c3cd1f759cb1"
         }
-      ],
-      "id": "a9255396d4ae461b8d3565d88baade85"
+      ]
     },
     {
       "title": "Заборгованість зі сплати податків і зборів (обов'язкових платежів)",
@@ -731,6 +731,7 @@ Content-Type: application/json
         "scheme": " espd211",
         "id": "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES"
       },
+      "id": "aec533d23bd14cfba8def6407a622d34",
       "legislation": [
         {
           "version": "2020-04-19",
@@ -801,8 +802,7 @@ Content-Type: application/json
           ],
           "id": "51ce391b38654ca0b3b0d06f25e1f21a"
         }
-      ],
-      "id": "e0e21211a9b944ddb4241e31afa8fcb7"
+      ]
     },
     {
       "title": "Порушення справ про банкрутство",
@@ -813,6 +813,7 @@ Content-Type: application/json
         "scheme": " espd211",
         "id": "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY"
       },
+      "id": "86250d2590a54660b070af38de5a2e05",
       "legislation": [
         {
           "version": "2020-04-19",
@@ -840,8 +841,7 @@ Content-Type: application/json
           ],
           "id": "5bf47d8c579949e4ae3e7dd2e7e697ca"
         }
-      ],
-      "id": "a2ecc46b37474339b5d8736b01178be4"
+      ]
     },
     {
       "title": "Виявлення факту зв'язку учасника з іншими учасниками процедури або замовником",
@@ -852,6 +852,7 @@ Content-Type: application/json
         "scheme": " espd211",
         "id": "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION"
       },
+      "id": "5500288a1a2f4ddbbde8f3f5553d7bcc",
       "legislation": [
         {
           "version": "2020-04-19",
@@ -886,8 +887,7 @@ Content-Type: application/json
           ],
           "id": "16a1c7fc78654c5896158277cf454c11"
         }
-      ],
-      "id": "d0e77a1612a0437191afc2f399cde15d"
+      ]
     },
     {
       "title": "Виявлення факту наміру впливу на прийняття рішення замовника",
@@ -898,6 +898,7 @@ Content-Type: application/json
         "scheme": " espd211",
         "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION"
       },
+      "id": "a732ce1924ff479b84d513854d06cd59",
       "legislation": [
         {
           "version": "2020-04-19",
@@ -924,8 +925,7 @@ Content-Type: application/json
           ],
           "id": "1aada68acaf542f585dbc9c75f8fe220"
         }
-      ],
-      "id": "5475d92f76c84959848da2ca69d2b7d0"
+      ]
     },
     {
       "title": "Наявність інших підстав для відмови в участі у процедурі закупівлі",
@@ -936,6 +936,7 @@ Content-Type: application/json
         "scheme": " espd211",
         "id": "CRITERION.EXCLUSION.NATIONAL.OTHER"
       },
+      "id": "c282508353a9404d9ee1f535bbad28cd",
       "legislation": [
         {
           "version": "2020-04-19",
@@ -1018,8 +1019,7 @@ Content-Type: application/json
           ],
           "id": "accd95fb062d4c5abd3ebbe1596a964d"
         }
-      ],
-      "id": "acba58c7d0ea4546bdf178f869f46d7d"
+      ]
     },
     {
       "title": "Мова (мови), якою (якими) повинні готуватися тендерні пропозиції",
@@ -1029,6 +1029,7 @@ Content-Type: application/json
         "scheme": " ESPD211",
         "id": "CRITERION.OTHER.BID.LANGUAGE"
       },
+      "id": "e30c1f8ef8b94076b7a2f20e3de42832",
       "legislation": [
         {
           "version": "2020-04-19",
@@ -1055,8 +1056,7 @@ Content-Type: application/json
           ],
           "id": "bc8d9635f0f44c80a64fce8c2a637ed0"
         }
-      ],
-      "id": "653d68f7283647759395d9ca7f749d18"
+      ]
     }
   ]
 }

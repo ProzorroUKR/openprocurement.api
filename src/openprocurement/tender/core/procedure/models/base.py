@@ -81,10 +81,12 @@ class BaseQualification(Model):
     pass
 
 
-def validate_object_id_uniq(objs, *args):
+def validate_object_id_uniq(objs, *_, obj_name=None):
+
     if objs:
-        obj_name = objs[0].__class__.__name__
+        if not obj_name:
+            obj_name = objs[0].__class__.__name__
         obj_name_multiple = obj_name[0].lower() + obj_name[1:]
-        ids = [i.id for i in objs]
-        if [i for i in set(ids) if ids.count(i) > 1]:
+        ids = [i["id"] for i in objs]
+        if ids and len(set(ids)) != len(ids):
             raise ValidationError("{} id should be uniq for all {}s".format(obj_name, obj_name_multiple))

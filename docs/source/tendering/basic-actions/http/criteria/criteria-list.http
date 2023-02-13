@@ -17,6 +17,7 @@ Content-Type: application/json
         "scheme": " espd211",
         "id": "CRITERION.OTHER"
       },
+      "id": "df5cc43dbf914389a9b11f5d64b152f8",
       "legislation": [
         {
           "version": "2020-04-19",
@@ -61,8 +62,8 @@ Content-Type: application/json
                 }
               ],
               "expectedValue": "true",
-              "datePublished": "2023-01-01T00:00:00+02:00",
               "id": "fc4c7b31124044c691ba5f51c6520312",
+              "datePublished": "2023-01-01T00:00:00+02:00",
               "status": "active"
             },
             {
@@ -78,8 +79,8 @@ Content-Type: application/json
               ],
               "expectedValue": "true",
               "status": "active",
-              "datePublished": "2023-01-01T00:00:00+02:00",
-              "id": "5a03c390b79346bea27233125c14dff2"
+              "id": "5939752806064d71a87025348d2bcc43",
+              "datePublished": "2023-01-01T00:00:00+02:00"
             }
           ],
           "id": "8400e4decbe74b99af293a42e94c7671"
@@ -104,10 +105,9 @@ Content-Type: application/json
               "datePublished": "2023-01-01T00:00:00+02:00"
             }
           ],
-          "id": "037258fbd29e4570866a6967bd01fcc4"
+          "id": "702b4995c19f49d0ad08f9f2cc618f58"
         }
-      ],
-      "id": "8cb5668f02724539806c54f72d941e93"
+      ]
     },
     {
       "title": "Вчинення злочинів, учинених з корисливих мотивів",
@@ -118,6 +118,7 @@ Content-Type: application/json
         "scheme": " espd211",
         "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
       },
+      "id": "c4ff58c4349647d4b8fe9de39bd19367",
       "legislation": [
         {
           "version": "2020-04-19",
@@ -156,15 +157,14 @@ Content-Type: application/json
                 }
               ],
               "expectedValue": "true",
-              "datePublished": "2023-01-01T00:00:00+02:00",
               "id": "1f1bc73db30e4c4da5a30da124af935e",
+              "datePublished": "2023-01-01T00:00:00+02:00",
               "status": "active"
             }
           ],
           "id": "05b90eba26e14c66891211d4f8ef469c"
         }
-      ],
-      "id": "f664b3e9e4b643cb93943105ce74ebec"
+      ]
     }
   ]
 }

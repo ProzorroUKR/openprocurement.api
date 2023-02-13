@@ -35,12 +35,6 @@ from logging import getLogger
 LOGGER = getLogger(__name__)
 
 
-class PostMixin(Model):
-    @serializable
-    def id(self):
-        return uuid4().hex
-
-
 class CriterionClassification(BaseClassification):
     description = StringType()
 
@@ -96,7 +90,9 @@ class BaseEligibleEvidence(Model):
     relatedDocument = ModelType(Reference)
 
 
-class BasePostEligibleEvidence(BaseEligibleEvidence):
+class EligibleEvidence(BaseEligibleEvidence):
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+
     def validate_relatedDocument(self, data, document_reference):
         if document_reference:
             tender = get_tender()
@@ -104,16 +100,8 @@ class BasePostEligibleEvidence(BaseEligibleEvidence):
                 raise ValidationError("relatedDocument.id should be one of tender documents")
 
 
-class PostEligibleEvidence(PostMixin, BaseEligibleEvidence):
-    pass
-
-
 class PatchEligibleEvidence(BaseEligibleEvidence):
     type = StringType(choices=["document", "statement"])
-
-
-class EligibleEvidence(BasePostEligibleEvidence):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
 
 
 # ---- Requirement
@@ -150,7 +138,8 @@ class BaseRequirement(Model):
     ], default=ReqStatuses.DEFAULT)
 
 
-class BasePostRequirement(BaseRequirement):
+class PostRequirement(BaseRequirement):
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
     datePublished = IsoDateTimeType()
 
     def validate_minValue(self, data, value):
@@ -189,10 +178,6 @@ class BasePostRequirement(BaseRequirement):
             return self.datePublished.isoformat() if self.datePublished else get_now().isoformat()
 
 
-class PostRequirement(PostMixin, BasePostRequirement):
-    pass
-
-
 class PatchRequirement(BaseRequirement):
     title = StringType(min_length=1)
     dataType = StringType(
@@ -218,8 +203,7 @@ class PutExclusionLccRequirement(PatchExclusionLccRequirement):
     status = StringType(choices=[ReqStatuses.ACTIVE, ReqStatuses.CANCELLED])
 
 
-class RequirementForeign(BasePostRequirement):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
+class RequirementForeign(PostRequirement):
     dateModified = IsoDateTimeType()
 
 
@@ -244,16 +228,13 @@ class BaseRequirementGroup(Model):
     ), min_size=1)
 
 
-class PostRequirementGroup(PostMixin, BaseRequirementGroup):
-    pass
+class RequirementGroup(BaseRequirementGroup):
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
 
 
 class PatchRequirementGroup(BaseRequirementGroup):
     pass
 
-
-class RequirementGroup(BaseRequirementGroup):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
 # Requirement Group ----
 
 
@@ -272,7 +253,8 @@ class BaseCriterion(Model):
     classification = ModelType(CriterionClassification, required=True)
 
 
-class BasePostCriterion(BaseCriterion):
+class Criterion(BaseCriterion):
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
     additionalClassifications = ListType(ModelType(BaseClassification, required=True))
     legislation = ListType(ModelType(LegislationItem, required=True))
     requirementGroups = ListType(
@@ -329,29 +311,22 @@ class BasePostCriterion(BaseCriterion):
                 validate_requirement(data, requirement)
 
 
-class PostCriterion(PostMixin, BasePostCriterion):
-    pass
-
-
 class PatchCriterion(BaseCriterion):
     title = StringType(min_length=1)
     classification = ModelType(CriterionClassification)
 
-
-class Criterion(BasePostCriterion):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
 # Criterion ----
 
 
 def validate_criteria_requirement_id_uniq(criteria, *_) -> None:
     if criteria:
-        req_ids = [req.id for c in criteria for rg in c.requirementGroups for req in rg.requirements]
+        req_ids = [req["id"] for c in criteria for rg in c["requirementGroups"] for req in rg["requirements"]]
         if get_first_revision_date(get_tender(), default=get_now()) > CRITERION_REQUIREMENT_STATUSES_FROM:
-            req_ids = [req.id
+            req_ids = [req["id"]
                        for c in criteria
-                       for rg in c.requirementGroups
-                       for req in rg.requirements if req.status == ReqStatuses.DEFAULT]
-        if [i for i in set(req_ids) if req_ids.count(i) > 1]:
+                       for rg in c["requirementGroups"]
+                       for req in rg["requirements"] if req["status"] == ReqStatuses.DEFAULT]
+        if req_ids and len(set(req_ids)) != len(req_ids):
             raise ValidationError("Requirement id should be uniq for all requirements in tender")
 
 

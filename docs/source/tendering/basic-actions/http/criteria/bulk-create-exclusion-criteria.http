@@ -75,6 +75,7 @@ Content-Type: application/json
         "scheme": " espd211",
         "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
       },
+      "id": "c4ff58c4349647d4b8fe9de39bd19367",
       "legislation": [
         {
           "version": "2020-04-19",
@@ -120,8 +121,7 @@ Content-Type: application/json
           ],
           "id": "05b90eba26e14c66891211d4f8ef469c"
         }
-      ],
-      "id": "f664b3e9e4b643cb93943105ce74ebec"
+      ]
     }
   ]
 }

@@ -10,7 +10,7 @@ from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.core.procedure.utils import save_tender, set_item
 from openprocurement.tender.core.procedure.serializers.criterion import CriterionSerializer
 from openprocurement.tender.core.procedure.state.criterion import CriterionState
-from openprocurement.tender.core.procedure.models.criterion import PostCriterion, PatchCriterion, Criterion
+from openprocurement.tender.core.procedure.models.criterion import Criterion, PatchCriterion
 from openprocurement.tender.core.procedure.validation import (
     unless_administrator,
     validate_item_owner,
@@ -53,7 +53,7 @@ class BaseCriterionResource(TenderBaseResource):
         content_type="application/json",
         validators=(
                 unless_administrator(validate_item_owner("tender")),
-                validate_input_data(PostCriterion, allow_bulk=True),
+                validate_input_data(Criterion, allow_bulk=True),
         ),
         permission="create_criterion",
     )
@@ -64,8 +64,9 @@ class BaseCriterionResource(TenderBaseResource):
         if "criteria" not in tender:
             tender["criteria"] = []
 
-        self.state.criterion_on_post(criteria)
+        self.state.validate_on_post(criteria)
         tender["criteria"].extend(criteria)
+        self.state.criterion_on_post(criteria)
 
         if save_tender(self.request):
             for criterion in criteria:

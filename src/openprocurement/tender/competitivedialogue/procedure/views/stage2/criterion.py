@@ -5,7 +5,7 @@ from pyramid.security import Allow
 
 from openprocurement.api.utils import json_view
 from openprocurement.tender.competitivedialogue.procedure.views.stage1.criterion import BaseCDCriterionResource
-from openprocurement.tender.core.procedure.models.criterion import PostCriterion, PatchCriterion, Criterion
+from openprocurement.tender.core.procedure.models.criterion import Criterion, PatchCriterion
 from openprocurement.tender.competitivedialogue.procedure.state.criterion import CDCriterionState
 from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
 from openprocurement.tender.core.procedure.validation import (
@@ -33,7 +33,7 @@ class BaseStage2CriterionResource(BaseCDCriterionResource):
                 unless_cd_bridge(unless_admins(unless_administrator(
                     validate_item_owner("tender")
                 ))),
-                validate_input_data(PostCriterion, allow_bulk=True),
+                validate_input_data(Criterion, allow_bulk=True),
         ),
         permission="create_criterion",
     )

@@ -12,7 +12,8 @@ from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.validation import base_validate_operation_ecriteria_objects
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.state.criterion import BaseCriterionStateMixin
-from openprocurement.tender.core.procedure.models.criterion import validate_requirement
+from openprocurement.tender.core.procedure.models.criterion import validate_requirement, validate_criteria_requirement_id_uniq
+from openprocurement.tender.core.procedure.state.utils import validation_error_handler
 
 
 class RequirementValidationsMixin:
@@ -50,6 +51,7 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
         criterion = self.request.validated["criterion"]
         self._validate_operation_criterion_in_tender_status()
         self._validate_patch_exclusion_ecriteria_objects(criterion)
+        self._validate_ids_uniq()
 
     def validate_on_patch(self, before: dict, after: dict) -> None:
         self._validate_change_requirement_objects()
@@ -60,21 +62,20 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
     def validate_always(self, data: dict) -> None:
         self._validate_requirement_data(data)
 
+    @validation_error_handler
+    def _validate_ids_uniq(self) -> None:
+        criteria = self.request.validated["tender"]["criteria"]
+        validate_criteria_requirement_id_uniq(criteria)
+
     def _validate_put_requirement_objects(self) -> None:
         _validate_tender_first_revision_date(self.request, validation_date=CRITERION_REQUIREMENT_STATUSES_FROM)
         valid_statuses = ["active.tendering"]
         base_validate_operation_ecriteria_objects(self.request, valid_statuses)
 
+    @validation_error_handler
     def _validate_requirement_data(self, data: dict) -> None:
         criterion = self.request.validated["criterion"]
-        try:
-            validate_requirement(criterion, data)
-        except ValidationError as e:
-            error_name = list(e.messages[0].keys())[0]
-            error_msg = e.messages[0][error_name]
-            self.request.errors.status = 422
-            self.request.errors.add("body", error_name, error_msg)
-            raise error_handler(self.request)
+        validate_requirement(criterion, data)
 
 
 class RequirementState(RequirementStateMixin, TenderState):

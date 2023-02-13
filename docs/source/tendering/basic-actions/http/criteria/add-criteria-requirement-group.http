@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/f83728385fa9438bb4c5c118ffc5012a/criteria/8cb5668f02724539806c54f72d941e93/requirement_groups?acc_token=ca00870e9e594a068127cf82158c01a2 HTTP/1.0
+POST /api/2.5/tenders/f83728385fa9438bb4c5c118ffc5012a/criteria/df5cc43dbf914389a9b11f5d64b152f8/requirement_groups?acc_token=ca00870e9e594a068127cf82158c01a2 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1904
 Content-Type: application/json
@@ -49,7 +49,7 @@ Content-Type: application/json
         "datePublished": "2023-01-01T00:00:00+02:00"
       }
     ],
-    "id": "037258fbd29e4570866a6967bd01fcc4"
+    "id": "702b4995c19f49d0ad08f9f2cc618f58"
   }
 }
 

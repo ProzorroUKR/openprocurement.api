@@ -97,11 +97,11 @@ class BaseRequirementResource(TenderBaseResource):
         requirement = self.request.validated["data"]
         requirement_group = self.request.validated["requirement_group"]
 
-        self.state.requirement_on_post(requirement)
-
         if "requirements" not in requirement_group:
             requirement_group["requirements"] = []
         requirement_group["requirements"].append(requirement)
+
+        self.state.requirement_on_post(requirement)
 
         if save_tender(self.request):
             self.LOGGER.info(
@@ -188,9 +188,10 @@ class BaseRequirementResource(TenderBaseResource):
         ):
             return {"data": (self.serializer_class(requirement).data, )}
 
+        now = get_now().isoformat()
         if updated_requirement.get("status") != "cancelled":
 
-            updated_requirement["datePublished"] = get_now()
+            updated_requirement["datePublished"] = now
             if "dateModified" in updated_requirement:
                 del updated_requirement["dateModified"]
             self.request.validated["requirement_group"]["requirements"].append(updated_requirement)
@@ -199,7 +200,7 @@ class BaseRequirementResource(TenderBaseResource):
 
         if requirement["status"] == "active":
             requirement["status"] = "cancelled"
-            requirement["dateModified"] = get_now()
+            requirement["dateModified"] = now
 
         if save_tender(self.request):
             self.LOGGER.info(

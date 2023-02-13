@@ -88,6 +88,22 @@ def create_tender_criteria_valid(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
+    existed_id = response.json["data"][0]["id"]
+
+    criterion["classification"]["id"] = 'CRITERION.CONVICTIONS.OTHER'
+    criterion["id"] = existed_id
+    response = self.app.post_json(request_path, {"data": [criterion]}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            'description': 'Criterion id should be uniq for all criterions',
+            'location': 'body',
+            'name': 'data',
+        }]
+    )
+
 
 def create_tender_criteria_invalid(self):
 

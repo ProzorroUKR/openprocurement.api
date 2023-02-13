@@ -3,6 +3,9 @@ from openprocurement.tender.core.procedure.validation import base_validate_opera
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.tender.core.procedure.models.base import validate_object_id_uniq
+from openprocurement.tender.core.procedure.models.criterion import validate_criteria_requirement_id_uniq
+from openprocurement.tender.core.procedure.state.utils import validation_error_handler
 
 
 class BaseCriterionStateMixin:
@@ -22,8 +25,8 @@ class BaseCriterionStateMixin:
 
 class CriterionStateMixin(BaseCriterionStateMixin):
     def criterion_on_post(self, data: dict) -> None:
-        self.validate_on_post(data)
         self.criterion_always(data)
+        self._validate_ids_uniq(data)
 
     def criterion_on_patch(self, before: dict, after: dict) -> None:
         self.validate_on_patch(before, after)
@@ -41,7 +44,13 @@ class CriterionStateMixin(BaseCriterionStateMixin):
         self._validate_patch_exclusion_ecriteria_objects(before)
         self._validate_criterion_uniq_patch(before, after)
 
-    def _validate_criterion_uniq(self, data):
+    @validation_error_handler
+    def _validate_ids_uniq(self, data) -> None:
+        criteria = self.request.validated["tender"]["criteria"]
+        validate_object_id_uniq(criteria, obj_name="Criterion")
+        validate_criteria_requirement_id_uniq(criteria)
+
+    def _validate_criterion_uniq(self, data) -> None:
         criteria = self.request.validated["tender"]["criteria"]
         new_criteria = {}
 

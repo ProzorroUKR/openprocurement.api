@@ -7,9 +7,8 @@ from openprocurement.tender.competitivedialogue.procedure.views.stage1.criterion
     BaseCDEligibleEvidenceResource,
 )
 from openprocurement.tender.core.procedure.models.criterion import (
-    PostEligibleEvidence,
-    PatchEligibleEvidence,
     EligibleEvidence,
+    PatchEligibleEvidence
 )
 from openprocurement.tender.competitivedialogue.procedure.state.criterion_rg_requirement_evidence import (
     Stage1EligibleEvidenceState,
@@ -32,7 +31,7 @@ class BaseStage2EligibleEvidenceResource(BaseCDEligibleEvidenceResource):
                 unless_cd_bridge(unless_admins(unless_administrator(
                     validate_item_owner("tender")
                 ))),
-                validate_input_data(PostEligibleEvidence),
+                validate_input_data(EligibleEvidence),
         ),
         permission="create_evidence",
     )
