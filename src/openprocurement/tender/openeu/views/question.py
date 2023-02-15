@@ -3,12 +3,12 @@ from openprocurement.tender.openua.views.question import TenderUaQuestionResourc
 from openprocurement.tender.core.utils import optendersresource
 
 
-@optendersresource(
-    name="aboveThresholdEU:Tender Questions",
-    collection_path="/tenders/{tender_id}/questions",
-    path="/tenders/{tender_id}/questions/{question_id}",
-    procurementMethodType="aboveThresholdEU",
-    description="Tender questions",
-)
+# @optendersresource(
+#     name="aboveThresholdEU:Tender Questions",
+#     collection_path="/tenders/{tender_id}/questions",
+#     path="/tenders/{tender_id}/questions/{question_id}",
+#     procurementMethodType="aboveThresholdEU",
+#     description="Tender questions",
+# )
 class TenderQuestionResource(BaseResource):
     """ TenderEU Questions """

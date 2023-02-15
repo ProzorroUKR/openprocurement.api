@@ -7,7 +7,10 @@ from mock import patch
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_cancellation, test_draft_claim, test_complaint, test_claim,
+    test_cancellation,
+    test_draft_claim,
+    test_complaint,
+    test_claim,
     test_draft_complaint,
 )
 from openprocurement.tender.core.tests.base import change_auth

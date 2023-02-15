@@ -1,7 +1,42 @@
-from openprocurement.api.models import ValidationError, IsoDateTimeType, Model
-from openprocurement.tender.core.procedure.models.base import ModelType, ListType
-from openprocurement.tender.core.procedure.models.organization import Organization
+from uuid import uuid4
+
+from schematics.types.serializable import serializable
 from schematics.types import StringType, MD5Type
+
+from openprocurement.api.models import ValidationError, IsoDateTimeType, Model
+from openprocurement.tender.core.procedure.context import get_now, get_tender
+from openprocurement.tender.core.procedure.models.base import ModelType
+from openprocurement.tender.core.procedure.models.organization import Organization
+
+
+class PostQuestion(Model):
+    @serializable
+    def id(self):
+        return uuid4().hex
+
+    @serializable
+    def date(self):
+        return get_now().isoformat()
+
+    author = ModelType(Organization, required=True)
+    title = StringType(required=True)
+    description = StringType()
+    questionOf = StringType(required=True, choices=["tender", "item", "lot"], default="tender")
+    relatedItem = StringType(min_length=1)
+
+    def validate_relatedItem(self, data, related_item):
+        if not related_item and data.get("questionOf") in ["item", "lot"]:
+            raise ValidationError("This field is required.")
+        if related_item:
+            tender = get_tender()
+            if data.get("questionOf") == "lot" and related_item not in [i["id"] for i in tender.get("lots", []) if i]:
+                raise ValidationError("relatedItem should be one of lots")
+            if data.get("questionOf") == "item" and related_item not in [i["id"] for i in tender.get("items", []) if i]:
+                raise ValidationError("relatedItem should be one of items")
+
+
+class PatchQuestion(Model):
+    answer = StringType(required=True)
 
 
 class Question(Model):

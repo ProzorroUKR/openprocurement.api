@@ -32,12 +32,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "description_en": "Services in school canteens",
         "unit": {
           "name": "кілограм",
-          "code": "KGM",
           "value": {
             "amount": 6.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
-          }
+          },
+          "code": "KGM"
         },
         "classification": {
           "description": "Test",

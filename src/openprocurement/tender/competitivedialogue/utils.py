@@ -250,15 +250,22 @@ def prepare_author(obj):
     """ Make key
         {author.identifier.id}_{author.identifier.scheme}
         or
-        {author.identifier.id}_{author.identifier.scheme}_{lot.id}
+        {author.identifier.id}_{author.identifier.scheme}_{id}
         if obj has relatedItem and questionOf != tender or obj has relatedLot than
     """
     base_key = "{id}_{scheme}".format(
-        scheme=obj["author"]["identifier"]["scheme"], id=obj["author"]["identifier"]["id"]
+        scheme=obj["author"]["identifier"]["scheme"],
+        id=obj["author"]["identifier"]["id"],
     )
-    if obj.get("relatedLot") or (obj.get("relatedItem") and obj.get("questionOf") == "lot"):
-        base_key = "{base_key}_{lotId}".format(
-            base_key=base_key, lotId=obj.get("relatedLot") or obj.get("relatedItem")
+    related_id = None
+    if obj.get("relatedLot"):
+        related_id = obj.get("relatedLot")
+    elif (obj.get("relatedItem") and obj.get("questionOf") in ("lot", "item")):
+        related_id = obj.get("relatedItem")
+    if related_id:
+        base_key = "{base_key}_{id}".format(
+            base_key=base_key,
+            id=related_id,
         )
     return base_key
 

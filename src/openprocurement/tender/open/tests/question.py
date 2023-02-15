@@ -7,15 +7,15 @@ from openprocurement.tender.belowthreshold.tests.base import test_lots, test_aut
 
 from openprocurement.tender.belowthreshold.tests.question import TenderQuestionResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.question_blanks import (
+    create_tender_question,
+    patch_tender_question,
     lot_create_tender_question,
     lot_patch_tender_question,
     lot_patch_tender_question_lots_none,
-    patch_tender_question,
 )
 
 from openprocurement.tender.open.tests.base import BaseTenderUAContentWebTest
 from openprocurement.tender.open.tests.question_blanks import (
-    create_tender_question,
     tender_has_unanswered_questions,
     lot_has_unanswered_questions,
     item_has_unanswered_questions,
@@ -23,8 +23,6 @@ from openprocurement.tender.open.tests.question_blanks import (
 
 
 class TenderQuestionResourceTest(BaseTenderUAContentWebTest, TenderQuestionResourceTestMixin):
-    initial_lots = test_lots
-
     test_create_tender_question = snitch(create_tender_question)
     test_patch_tender_question = snitch(patch_tender_question)
 

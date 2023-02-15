@@ -842,7 +842,7 @@ Content-Type: application/json
     ],
     "questions": [
       {
-        "id": "4b81f2234ab94d6f9a0f96dbcdea84fd",
+        "id": "9fd2c128b905491bac5786e744e2f4ad",
         "author": {
           "name": "ДКП «Книга»",
           "identifier": {
@@ -873,37 +873,34 @@ Content-Type: application/json
     ],
     "documents": [
       {
-        "language": "uk",
         "id": "76ae4fb298fd4be1ae9b5f9ee94f447d",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0ebab89f70e14ee79ac687594e90aa45?Signature=9aoCYzGqWd6EnH2PO5FddFgVKa0%2BzDPyB5hofn0%2FlwHTA%2BGSMyAGVFqho1BSeRayT%2Bjugg3Z26AyoNAr934UCA%3D%3D&KeyID=a8968c46",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/118fb7835ef441e7881da132730071d0/documents/76ae4fb298fd4be1ae9b5f9ee94f447d?download=0ebab89f70e14ee79ac687594e90aa45",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner"
       },
       {
-        "language": "uk",
         "id": "ef93c16e036d41069f317790333b4edd",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0798ddc1fc8c46dd8a2d87c9f95d7a30?Signature=20AJfOxal2dtOCz4JJxLXz%2FUDNFsjbCPZT527W0cTZ1Ief9CLoyYGbXqyNcEFekRLAHQg5tVz%2Flxff%2Bf0MM4DQ%3D%3D&KeyID=a8968c46",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/118fb7835ef441e7881da132730071d0/documents/ef93c16e036d41069f317790333b4edd?download=0798ddc1fc8c46dd8a2d87c9f95d7a30",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner"
       },
       {
-        "language": "uk",
         "id": "ef93c16e036d41069f317790333b4edd",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5473b7fdbe7d4b1f8a060c46741239e3?Signature=mdzbJis%2BvVUrG8DwMH%2Bw%2B9PU858eiWVbtO4rbe0q1YK4nO4tUv7VsKVZ8tIT7kdvNcACnbMJdfUdcDZ15A4fAw%3D%3D&KeyID=a8968c46",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/118fb7835ef441e7881da132730071d0/documents/ef93c16e036d41069f317790333b4edd?download=5473b7fdbe7d4b1f8a060c46741239e3",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner"

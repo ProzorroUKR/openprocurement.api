@@ -1,8 +1,10 @@
 from openprocurement.tender.competitivedialogue.utils import (
     prepare_shortlistedFirms,
     prepare_bid_identifier,
+    prepare_author,
+    get_item_by_id,
 )
-from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.utils import raise_operation_error, error_handler
 from openprocurement.tender.core.procedure.validation import OPERATIONS
 
 
@@ -68,6 +70,28 @@ def validate_cd2_allowed_patch_fields(request, **_):
                         )
 
 
-# lot
 def validate_lot_operation_for_stage2(request, **_):
     raise_operation_error(request, "Can't {} lot for tender stage2".format(OPERATIONS.get(request.method)))
+
+def validate_author(request, tender, obj, obj_name):
+    """ Compare author key and key from shortlistedFirms """
+    shortlisted_firms = tender["shortlistedFirms"]
+    firms_keys = prepare_shortlistedFirms(shortlisted_firms)
+    author_key = prepare_author(obj)
+    if obj.get("questionOf") == "item":  # question can create on item
+        if shortlisted_firms[0].get("lots"):
+            item_id = author_key.split("_")[-1]
+            item = get_item_by_id(request.validated["tender"], item_id)
+            author_key = author_key.replace(author_key.split("_")[-1], item["relatedLot"] if item else "")
+        else:
+            author_key = "_".join(author_key.split("_")[:-1])
+    for firm in firms_keys:
+        if author_key in firm:  # if we found legal firm then check another complaint
+            break
+    else:  # we didn't find legal firm, then return error
+        error_message = "Author can't {} {}".format(
+            "create" if request.method == "POST" else "patch", obj_name
+        )
+        request.errors.add("body", "author", error_message)
+        request.errors.status = 403
+        raise error_handler(request)

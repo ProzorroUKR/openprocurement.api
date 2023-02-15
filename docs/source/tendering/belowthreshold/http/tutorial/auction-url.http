@@ -8,49 +8,6 @@ Content-Type: application/json
 
 {
   "data": {
-    "title": "футляри до державних нагород",
-    "documents": [
-      {
-        "id": "634d04d09d5f46efa18ca3423714f4bd",
-        "hash": "md5:00000000000000000000000000000000",
-        "documentType": "technicalSpecifications",
-        "title": "Notice.pdf",
-        "description": "document description modified",
-        "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ae50ebf41e54463faca2b20961cec265?Signature=vwVV5yBxoQF9tqHPeCmryD53w8gnll1fHTDbd5zeJaxFY0yt9pqIso9lPTh6uoOq9oM42i%2FfziR1dRPW08mAAQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2023-01-01T00:00:01+02:00",
-        "dateModified": "2023-01-01T00:00:01+02:00",
-        "author": "tender_owner",
-        "documentOf": "tender"
-      },
-      {
-        "id": "b936a25fe7264084bc01c7b916661d26",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "AwardCriteria.pdf",
-        "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cdae0c7762d04dd79267107910a38887?Signature=XYYEbloOKUZEJGpSNkVG2W6akky8yhAYXv3PQEBg%2F58GSCH3Q4rTcKzx7BgsChTUjfRmETSbVHxZvoPo0vgNCw%3D%3D&KeyID=a8968c46",
-        "datePublished": "2023-01-01T00:00:01+02:00",
-        "dateModified": "2023-01-01T00:00:01+02:00",
-        "author": "tender_owner",
-        "documentOf": "tender"
-      },
-      {
-        "id": "b936a25fe7264084bc01c7b916661d26",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "AwardCriteria-2.pdf",
-        "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d2ddcb167ca344f8a134f53a369b2d74?Signature=Fj1QZ2XYWz9ZmlUWoO1mWazItV5%2B71k2fdj56oiNOTx5Vi6tLqeIvwEycORox70I%2FSN8D%2BO8uoZpGV8bABpfCA%3D%3D&KeyID=a8968c46",
-        "datePublished": "2023-01-01T00:00:01+02:00",
-        "dateModified": "2023-01-01T00:00:01+02:00",
-        "author": "tender_owner",
-        "documentOf": "tender"
-      }
-    ],
-    "date": "2023-01-01T00:00:00+02:00",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:01+02:00",
-    "tenderID": "UA-2023-01-01-000001-a",
-    "owner": "broker",
     "funders": [
       {
         "name": "Глобальний фонд",
@@ -67,15 +24,74 @@ Content-Type: application/json
           "countryName": "Швейцарська Конфедерація"
         },
         "contactPoint": {
-          "name": "",
           "email": "ccm@theglobalfund.org",
           "telephone": "+41587911700",
           "faxNumber": "+41 44 580 6820",
-          "url": "https://www.theglobalfund.org/en/"
+          "url": "https://www.theglobalfund.org/en/",
+          "name": ""
         }
       }
     ],
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:01+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "tenderID": "UA-2023-01-01-000001-a",
+    "status": "active.auction",
+    "owner": "broker",
+    "title": "футляри до державних нагород",
     "mainProcurementCategory": "goods",
+    "submissionMethod": "electronicAuction",
+    "procurementMethod": "open",
+    "awardCriteria": "lowestCost",
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "guarantee": {
+      "amount": 8.0,
+      "currency": "USD"
+    },
+    "next_check": "2023-01-01T00:36:01+02:00",
+    "minimalStep": {
+      "amount": 15.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "tenderPeriod": {
+      "startDate": "2022-12-25T00:00:01+02:00",
+      "endDate": "2023-01-01T00:00:01+02:00"
+    },
+    "items": [
+      {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0
+      }
+    ],
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -102,54 +118,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       }
     ],
-    "procurementMethod": "open",
-    "awardCriteria": "lowestCost",
-    "submissionMethod": "electronicAuction",
-    "status": "active.auction",
-    "items": [
-      {
-        "id": "ffffffffffffffffffffffffffffffff",
-        "description": "футляри до державних нагород",
-        "description_en": "Cases with state awards",
-        "description_ru": "футляры к государственным наградам",
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "quantity": 5.0,
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
-        "unit": {
-          "name": "кілограм",
-          "code": "KGM",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          }
-        }
-      }
-    ],
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "enquiryPeriod": {
-      "startDate": "2022-12-17T00:00:01+02:00",
-      "endDate": "2022-12-25T00:00:01+02:00",
-      "clarificationsUntil": "2022-12-26T00:00:01+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2022-12-25T00:00:01+02:00",
-      "endDate": "2023-01-01T00:00:01+02:00"
-    },
+    "procurementMethodType": "belowThreshold",
     "procuringEntity": {
       "name": "Державне управління справами",
       "identifier": {
@@ -165,19 +134,56 @@ Content-Type: application/json
         "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Державне управління справами",
-        "telephone": "+0440000000"
+        "telephone": "+0440000000",
+        "name": "Державне управління справами"
       },
       "kind": "general"
     },
-    "minimalStep": {
-      "amount": 15.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
+    "enquiryPeriod": {
+      "startDate": "2022-12-17T00:00:01+02:00",
+      "clarificationsUntil": "2022-12-26T00:00:01+02:00",
+      "endDate": "2022-12-25T00:00:01+02:00"
     },
+    "documents": [
+      {
+        "documentType": "technicalSpecifications",
+        "description": "document description modified",
+        "id": "634d04d09d5f46efa18ca3423714f4bd",
+        "datePublished": "2023-01-01T00:00:01+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Notice.pdf",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/63fbe5f55ec14294b590969e4ec72af6/documents/634d04d09d5f46efa18ca3423714f4bd?download=ae50ebf41e54463faca2b20961cec265",
+        "documentOf": "tender",
+        "dateModified": "2023-01-01T00:00:01+02:00",
+        "author": "tender_owner"
+      },
+      {
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "AwardCriteria.pdf",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/63fbe5f55ec14294b590969e4ec72af6/documents/b936a25fe7264084bc01c7b916661d26?download=cdae0c7762d04dd79267107910a38887",
+        "documentOf": "tender",
+        "id": "b936a25fe7264084bc01c7b916661d26",
+        "datePublished": "2023-01-01T00:00:01+02:00",
+        "dateModified": "2023-01-01T00:00:01+02:00",
+        "author": "tender_owner"
+      },
+      {
+        "id": "b936a25fe7264084bc01c7b916661d26",
+        "datePublished": "2023-01-01T00:00:01+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "AwardCriteria-2.pdf",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/63fbe5f55ec14294b590969e4ec72af6/documents/b936a25fe7264084bc01c7b916661d26?download=d2ddcb167ca344f8a134f53a369b2d74",
+        "documentOf": "tender",
+        "dateModified": "2023-01-01T00:00:01+02:00",
+        "author": "tender_owner"
+      }
+    ],
     "questions": [
       {
-        "id": "f937991b12f343b89e5bae6b87080cdb",
+        "id": "6cd1b033ee50442b880e90f1c87520e0",
         "author": {
           "name": "ДКП «Книга»",
           "identifier": {
@@ -193,9 +199,9 @@ Content-Type: application/json
             "countryName": "Україна"
           },
           "contactPoint": {
-            "name": "Андрій Олексюк",
             "email": "aagt@gmail.com",
-            "telephone": "+380322916930"
+            "telephone": "+380322916930",
+            "name": "Андрій Олексюк"
           }
         },
         "title": "Калорійність",
@@ -206,12 +212,6 @@ Content-Type: application/json
         "dateAnswered": "2023-01-01T00:00:01+02:00"
       }
     ],
-    "guarantee": {
-      "amount": 8.0,
-      "currency": "USD"
-    },
-    "procurementMethodType": "belowThreshold",
-    "next_check": "2023-01-01T00:36:01+02:00",
     "auctionPeriod": {
       "startDate": "2023-01-01T00:00:01+02:00",
       "shouldStartAfter": "2023-01-02T00:00:00+02:00"

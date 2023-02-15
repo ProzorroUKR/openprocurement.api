@@ -1,8 +1,10 @@
 from openprocurement.api.utils import json_view
 from openprocurement.api.auth import ACCR_3, ACCR_5, ACCR_4, ACCR_COMPETITIVE
 from openprocurement.tender.core.procedure.views.tender import TendersResource
-from openprocurement.tender.competitivedialogue.procedure.state.stage2.eu_tender_details import CDEUTenderDetailsState
-from openprocurement.tender.competitivedialogue.procedure.state.stage2.ua_tender_details import CDUATenderDetailsState
+from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_details import (
+    CDEUTenderDetailsState,
+    CDUATenderDetailsState,
+)
 from openprocurement.tender.competitivedialogue.procedure.models.stage2.tender import (
     PostEUTender,
     PatchEUTender,

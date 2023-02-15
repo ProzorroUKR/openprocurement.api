@@ -496,7 +496,7 @@ Content-Type: application/json
     "tenderID": "UA-2023-01-01-000001-a",
     "questions": [
       {
-        "id": "e646c1d193454cdd957f680de0db1adc",
+        "id": "a3f5a89216114b8b832735eecda80b70",
         "author": {
           "name": "ДКП «Книга»",
           "identifier": {
@@ -532,7 +532,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6f72b559e17b4fb1a158face31d48124?Signature=FcJF5VRveJORJPLT%2F8aRrG0JRV%2FGHigs8MJ8D31MDjhRxDOB3ZfD1Sg7W2MHBhwj3Pourc5V%2B2aELsR3eozJCw%3D%3D&KeyID=a8968c46",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/69a0774b217e477cb01ddad3849397e2/documents/0d6f900ba34b4338a86342b1bdfd155c?download=6f72b559e17b4fb1a158face31d48124",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner"
@@ -543,7 +543,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b75678ee01c24d909047b4b22b67318f?Signature=K%2BgbGdOd%2B%2Fo6DYmW4i%2FrsnvYE5%2Fc1NQHqUjAvXuTir7jvPqsZZ1Y55I204d8zX3HHYYDX%2FgQICCfZsWAx7c1Ag%3D%3D&KeyID=a8968c46",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/69a0774b217e477cb01ddad3849397e2/documents/bb9b29cb29c240699867f940c8945d50?download=b75678ee01c24d909047b4b22b67318f",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner"
@@ -554,7 +554,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6679e9cce2a8499fb63cdb5bfee982f3?Signature=33TREw8EQ%2Fdjd%2BAf3mLhL71oNsmutjWXbKqitsD3765wgx26eONRrOW0yZXQUKt5fjaWRA0%2BJ9pfzKnNsJ5ICA%3D%3D&KeyID=a8968c46",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/69a0774b217e477cb01ddad3849397e2/documents/bb9b29cb29c240699867f940c8945d50?download=6679e9cce2a8499fb63cdb5bfee982f3",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner"
