@@ -19,6 +19,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_with_earlier_non_required_unit,
     create_tender_with_required_unit,
     patch_items_related_buyer_id,
+    create_tender_config_test,
 )
 from openprocurement.tender.limited.models import ReportingTender
 from openprocurement.tender.limited.tests.base import (
@@ -102,6 +103,7 @@ class TenderResourceTest(BaseTenderWebTest):
     test_create_tender_with_earlier_non_required_unit = snitch(create_tender_with_earlier_non_required_unit)
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
     test_patch_items_related_buyer_id = snitch(patch_items_related_buyer_id)
+    test_create_tender_config_test = snitch(create_tender_config_test)
 
 
 class TenderNegotiationResourceTest(TenderResourceTest):

@@ -250,6 +250,10 @@ def save_object(request, obj_name, with_test_mode=True, additional_obj_names="",
         now = get_now()
         append_obj_revision(request, obj, patch, now)
 
+        config = request.validated.get("%s_config" % obj_name)
+        if config:
+            obj["config"] = config
+
         old_date_modified = obj.dateModified
         modified = getattr(obj, "modified", True)
 
@@ -280,21 +284,21 @@ def save_submission(request, additional_obj_names="", insert=False):
     return save_object(
         request, "submission", with_test_mode=False,
         additional_obj_names=additional_obj_names, insert=insert
-        )
+    )
 
 
 def save_qualification(request, additional_obj_names="", insert=False):
     return save_object(
         request, "qualification", with_test_mode=False,
         additional_obj_names=additional_obj_names, insert=insert
-        )
+    )
 
 
 def save_agreement(request, additional_obj_names="", insert=False):
     return save_object(
         request, "agreement", with_test_mode=False,
         additional_obj_names=additional_obj_names, insert=insert
-        )
+    )
 
 
 def get_framework_accelerator(context):

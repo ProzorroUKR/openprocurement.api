@@ -10,6 +10,7 @@ from openprocurement.api.views.base import (
     MongodbResourceListing,
     BaseResource,
 )
+from openprocurement.framework.core.models import FrameworkConfig
 from openprocurement.framework.core.utils import (
     frameworksresource,
     generate_framework_pretty_id,
@@ -22,6 +23,7 @@ from openprocurement.framework.core.validation import (
     validate_framework_data,
     validate_qualification_period_duration,
 )
+from openprocurement.tender.core.procedure.validation import validate_config_data
 
 AGREEMENT_DEPENDENT_FIELDS = ("qualificationPeriod", "procuringEntity")
 
@@ -39,7 +41,7 @@ class FrameworkResource(MongodbResourceListing):
         super(FrameworkResource, self).__init__(request, context)
         self.listing_name = "Frameworks"
         self.listing_default_fields = {"dateModified"}
-        self.all_fields = {"dateCreated", "dateModified", "id", "title", "prettyID", "enquiryPeriod",
+        self.listing_allowed_fields = {"dateCreated", "dateModified", "id", "title", "prettyID", "enquiryPeriod",
                            "period", "qualificationPeriod", "status", "frameworkType", "next_check"}
         self.db_listing_method = request.registry.mongodb.frameworks.list
 
@@ -48,12 +50,16 @@ class FrameworkResource(MongodbResourceListing):
         permission="create_framework",
         validators=(
             validate_framework_data,
+            validate_config_data(FrameworkConfig, obj_name="framework"),
         )
     )
     def post(self):
+        framework_config = self.request.validated["framework_config"]
         framework_id = generate_id()
         framework = self.request.validated["framework"]
         framework.id = framework_id
+        if framework_config.get("test"):
+            framework.mode = "test"
         if not framework.get("prettyID"):
             framework.prettyID = generate_framework_pretty_id(self.request)
         access = set_ownership(framework, self.request)
@@ -80,7 +86,10 @@ class FrameworkResource(MongodbResourceListing):
             self.request.response.headers["Location"] = self.request.route_url(
                 "{}:Frameworks".format(framework.frameworkType), framework_id=framework_id
             )
-            return {"data": framework.serialize(framework.status), "access": access}
+            response_data = {"data": framework.serialize(framework.status), "access": access}
+            if framework_config:
+                response_data["config"] = framework_config
+            return response_data
 
 
 @frameworksresource(
@@ -120,7 +129,7 @@ class FrameworkQualificationRequestResource(MongodbResourceListing):
             "dateModified", "dateCreated", "id", "date", "status",
             "submissionID", "frameworkID", "documents",
         }
-        self.all_fields = {
+        self.listing_allowed_fields = {
             "dateModified", "dateCreated", "id", "date", "status",
             "submissionID", "frameworkID", "documents",
         }
@@ -130,13 +139,18 @@ class FrameworkQualificationRequestResource(MongodbResourceListing):
 class CoreFrameworkResource(BaseResource):
     @json_view(permission="view_framework")
     def get(self):
+        config = self.request.validated["framework_config"]
         if self.request.authenticated_role == "chronograph":
             framework_data = self.context.serialize("chronograph_view")
         else:
             framework_data = self.context.serialize(self.context.status)
-        return {"data": framework_data}
+        response_data = {"data": framework_data}
+        if config:
+            response_data["config"] = config
+        return response_data
 
     def patch(self):
+        framework_config = self.request.validated["framework_config"]
         framework = self.context
         if self.request.authenticated_role == "chronograph":
             check_status(self.request)
@@ -175,7 +189,10 @@ class CoreFrameworkResource(BaseResource):
             extra=context_unpack(self.request, {"MESSAGE_ID": "framework_patch"}),
         )
         # TODO: Change to chronograph_view for chronograph
-        return {"data": framework.serialize(framework.status)}
+        response_data = {"data": framework.serialize(framework.status)}
+        if framework_config:
+            response_data["config"] = framework_config
+        return response_data
 
     def update_agreement(self):
         framework = self.request.validated["framework"]

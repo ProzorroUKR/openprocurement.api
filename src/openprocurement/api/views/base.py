@@ -40,8 +40,11 @@ class MongodbResourceListing(BaseResource):
 
     listing_name = "Items"
     offset_field = "public_modified"
+    config_filed = "config"
+    owner_filed = "owner"
     listing_default_fields = {"dateModified"}
-    all_fields = {"dateModified", "created", "modified"}
+    listing_allowed_fields = {"dateModified", "created", "modified"}
+    listing_public_fields = {"dateModified"}
     default_limit = 100
     max_limit = 1000
     db_listing_method: callable
@@ -50,16 +53,20 @@ class MongodbResourceListing(BaseResource):
     @json_view(permission='view_listing')
     def get(self):
         params = {}
-        if self.request.params.get('mode'):
-            params["mode"] = self.request.params.get('mode')
-
         filters = {}
         keys = {}
+
+        # filter
         if self.filter_key:
             filter_value = self.request.matchdict[self.filter_key]
             filters[self.filter_key] = filter_value
             keys[self.filter_key] = filter_value
 
+        # mode param
+        if self.request.params.get('mode'):
+            params["mode"] = self.request.params.get('mode')
+
+        # offset param
         offset = None
         offset_param = self.request.params.get('offset')
         if offset_param:
@@ -67,64 +74,98 @@ class MongodbResourceListing(BaseResource):
                 offset = parse_offset(offset_param)
             except ValueError:
                 raise_operation_error(
-                    self.request,
-                    f"Invalid offset provided: {offset_param}",
-                    status=404, location="querystring", name="offset")
+                    self.request, f"Invalid offset provided: {offset_param}",
+                    status=404, location="querystring", name="offset"
+                )
             params["offset"] = compose_offset(self.request, offset)
 
-        if self.request.params.get('limit'):
+        # limit param
+        limit_param = self.request.params.get('limit')
+        if limit_param:
             try:
-                limit = int(self.request.params.get('limit'))
+                limit = int(limit_param)
             except ValueError as e:
-                raise_operation_error(self.request, e.args[0], status=400, location="querystring", name="offset")
+                raise_operation_error(
+                    self.request, e.args[0],
+                    status=400, location="querystring", name="limit"
+                )
             else:
                 params["limit"] = min(limit, self.max_limit)
+
+        # descending param
         if self.request.params.get('descending'):
             params["descending"] = 1
+
+        # opt_fields param
         if self.request.params.get('opt_fields'):
-            fields = set(self.request.params.get('opt_fields', '').split(",")) & self.all_fields
-            filtered_fields = fields - self.listing_default_fields
+            opt_fields = set(self.request.params.get('opt_fields', '').split(",")) & self.listing_allowed_fields
+            filtered_fields = opt_fields - self.listing_default_fields
             if filtered_fields:
                 params["opt_fields"] = ",".join(filtered_fields)
         else:
-            fields = set()
+            opt_fields = set()
 
+        # prev_page
         prev_params = dict(**params)
         if params.get("descending"):
             del prev_params["descending"]
         else:
             prev_params["descending"] = 1
 
+        fields = opt_fields | self.listing_default_fields
+        request_fields = fields | {self.config_filed, self.owner_filed}
+
         # call db method
         results = self.db_listing_method(
             offset_field=self.offset_field,
             offset_value=offset,
-            fields=fields | self.listing_default_fields,
+            fields=request_fields,
             descending=params.get("descending"),
             limit=params.get("limit", self.default_limit),
             mode=params.get("mode"),
             filters=filters,
         )
 
+        # prepare response
         if results:
             params['offset'] = compose_offset(self.request, results[-1][self.offset_field])
             prev_params['offset'] = compose_offset(self.request, results[0][self.offset_field])
-            if self.offset_field not in self.all_fields:
+            if self.offset_field not in self.listing_allowed_fields:
                 for r in results:
                     r.pop(self.offset_field)
         data = {
-            'data': [r for r in results],
-            'next_page': {
-                "offset": params.get("offset", ""),
-                "path": self.request.route_path(self.listing_name, _query=params, **keys),
-                "uri": self.request.route_url(self.listing_name, _query=params, **keys)
-            }
+            'data': self.visible_fields(results, fields),
+            'next_page': self.get_page(keys, params)
         }
         if self.request.params.get('descending') or self.request.params.get('offset'):
-            data['prev_page'] = {
-                "offset": prev_params.get("offset", ""),
-                "path": self.request.route_path(self.listing_name, _query=prev_params, **keys),
-                "uri": self.request.route_url(self.listing_name, _query=prev_params, **keys)
-            }
+            data['prev_page'] = self.get_page(keys, prev_params)
 
         return data
+
+    def get_page(self, keys, params):
+        return {
+            "offset": params.get("offset", ""),
+            "path": self.request.route_path(self.listing_name, _query=params, **keys),
+            "uri": self.request.route_url(self.listing_name, _query=params, **keys)
+        }
+
+    def visible_fields(self, results, fields):
+        visible_results = []
+        visible_fields = {'id'}
+        for result in results:
+            if result.get(self.config_filed, {}).get('private', False) is False:
+                # not a private item
+                visible_fields = visible_fields | fields
+            elif self.request.authenticated_userid and result.get(self.owner_filed) == self.request.authenticated_userid:
+                # private item owned by current user
+                visible_fields = visible_fields | fields
+            else:
+                # private item not owned by current user
+                visible_fields = visible_fields | self.listing_public_fields
+            visible_results.append(
+                {
+                    k: v for k, v in result.items()
+                    if k in visible_fields
+                }
+            )
+        return visible_results

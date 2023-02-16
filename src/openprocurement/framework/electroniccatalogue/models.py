@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
-
 import standards
 
 from pyramid.security import Allow
@@ -89,6 +87,7 @@ class Framework(BaseFramework):
             "_rev",
             "__parent__",
             "public_modified",
+            "config",
         )
         _edit_role = _status_view_role + blacklist(
             "frameworkType",
@@ -136,7 +135,7 @@ class Framework(BaseFramework):
             "default": blacklist("doc_id", "__parent__"),  # obj.store() use default role
             "plain": blacklist(  # is used for getting patches
                 "_attachments", "revisions", "dateModified", "_id", "_rev", "doc_type",
-                "__parent__", "public_modified",
+                "__parent__", "public_modified", "config",
             ),
             "listing": whitelist("dateModified", "doc_id"),
             "embedded": blacklist("_id", "_rev", "doc_type", "__parent__", "public_modified"),
@@ -223,12 +222,14 @@ class Agreement(BaseAgreement):
             "__parent__",
             "frameworkDetails",
             "public_modified",
+            "config",
         )
         roles = {
             "edit": whitelist("status"),
             "view": _view_role,
             "plain": blacklist(  # is used for getting patches
-                "_attachments", "revisions", "dateModified", "_id", "_rev", "doc_type", "__parent__"
+                "_attachments", "revisions", "dateModified",
+                "_id", "_rev", "doc_type", "__parent__", "config",
             ),
             "default": blacklist("doc_id", "__parent__"),  # obj.store() use default role
             "chronograph": whitelist("next_check"),

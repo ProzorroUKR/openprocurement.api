@@ -35,3 +35,4 @@ class TenderBaseResource(BaseResource):
             if match_dict and match_dict.get("tender_id"):
                 request.validated["tender_src"] = request.tender_doc
                 request.validated["tender"] = deepcopy(request.validated["tender_src"])
+                request.validated["config"] = request.validated["tender"].pop("config", None) or {}

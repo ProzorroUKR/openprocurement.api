@@ -22,6 +22,8 @@ from openprocurement.framework.open.tests.agreement_blanks import (
     search_by_classification,
     agreement_chronograph_milestones,
     post_submission_with_active_contract,
+    create_agreement_config_test,
+    create_agreement_config_private,
 )
 from openprocurement.framework.open.tests.base import (
     test_open_data,
@@ -51,6 +53,8 @@ class TestAgreementCreation(QualificationContentWebTest):
     initial_auth = ('Basic', ('broker', ''))
 
     test_create_agreement = snitch(create_agreement)
+    test_create_agreement_config_test = snitch(create_agreement_config_test)
+    test_create_agreement_config_private = snitch(create_agreement_config_private)
 
 
 class TestAgreementChanges(AgreementContentWebTest):

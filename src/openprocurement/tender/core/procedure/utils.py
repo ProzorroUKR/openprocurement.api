@@ -61,6 +61,7 @@ def save_tender(request, modified: bool = True, insert: bool = False) -> bool:
     if patch:
         now = get_now()
         append_tender_revision(request, tender, patch, now)
+        set_tender_config(request, tender)
 
         old_date_modified = tender.get("dateModified", now.isoformat())
         with handle_store_exceptions(request):
@@ -79,6 +80,12 @@ def save_tender(request, modified: bool = True, insert: bool = False) -> bool:
             )
             return True
     return False
+
+
+def set_tender_config(request, tender):
+    config = request.validated.get("config", {})
+    if config:
+        tender["config"] = config
 
 
 def append_tender_revision(request, tender, patch, date):
@@ -123,7 +130,7 @@ def set_mode_test_titles(item):
         ("title_en", "TESTING"),
         ("title_ru", "ТЕСТИРОВАНИЕ"),
     ):
-        if not item.get(key) or prefix not in item[key]:
+        if not item.get(key) or not item[key].startswith(f"[{prefix}]"):
             item[key] = f"[{prefix}] {item.get(key) or ''}"
 
 

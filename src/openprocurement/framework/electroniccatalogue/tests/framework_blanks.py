@@ -2,6 +2,7 @@ from copy import deepcopy
 from uuid import uuid4
 
 from openprocurement.api.context import set_now
+from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
 from openprocurement.framework.electroniccatalogue.models import Framework
 from openprocurement.framework.electroniccatalogue.tests.base import non_active_cpb_id
@@ -69,3 +70,49 @@ def cpb_standard_status(self):
             }
         ],
     )
+
+
+def accreditation_level(self):
+    with change_auth(self.app, ("Basic", ("broker1", ""))):
+        response = self.app.post_json("/frameworks", {"data": self.initial_data}, status=403)
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"],
+            [{"location": "url", "name": "accreditation",
+              "description": "Broker Accreditation level does not permit framework creation"}],
+        )
+
+    with change_auth(self.app, ("Basic", ("broker2", ""))):
+        response = self.app.post_json("/frameworks", {"data": self.initial_data}, status=403)
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"],
+            [{"location": "url", "name": "accreditation",
+              "description": "Broker Accreditation level does not permit framework creation"}],
+        )
+
+    with change_auth(self.app, ("Basic", ("broker3", ""))):
+        response = self.app.post_json("/frameworks", {"data": self.initial_data}, status=403)
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"],
+            [{"location": "url", "name": "accreditation",
+              "description": "Broker Accreditation level does not permit framework creation"}],
+        )
+
+    with change_auth(self.app, ("Basic", ("broker4", ""))):
+        response = self.app.post_json("/frameworks", {"data": self.initial_data}, status=403)
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"],
+            [{"location": "url", "name": "accreditation",
+              "description": "Broker Accreditation level does not permit framework creation"}],
+        )
+
+    with change_auth(self.app, ("Basic", ("broker5", ""))):
+        response = self.app.post_json("/frameworks", {"data": self.initial_data})
+        self.assertEqual(response.status, "201 Created")

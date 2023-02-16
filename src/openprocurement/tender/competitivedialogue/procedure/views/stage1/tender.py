@@ -1,5 +1,6 @@
 from openprocurement.api.utils import json_view
 from openprocurement.api.auth import ACCR_3, ACCR_5, ACCR_4
+from openprocurement.tender.core.procedure.models.tender import TenderConfig
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 from openprocurement.tender.competitivedialogue.procedure.models.stage1.tender import (
     PostEUTender,
@@ -27,6 +28,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_item_quantity,
     validate_tender_guarantee,
     validate_tender_change_status_with_cancellation_lot_pending,
+    validate_config_data,
 )
 from pyramid.security import Allow
 from cornice.resource import resource
@@ -73,6 +75,7 @@ class CDEUTenderResource(TendersResource):
         permission="create_tender",
         validators=(
             validate_input_data(PostEUTender),
+            validate_config_data(TenderConfig),
             validate_accreditation_level(
                 levels=(ACCR_3, ACCR_5),
                 kind_central_levels=(ACCR_5,),
@@ -147,6 +150,7 @@ class CDUATenderResource(TendersResource):
         permission="create_tender",
         validators=(
             validate_input_data(PostUATender),
+            validate_config_data(TenderConfig),
             validate_accreditation_level(
                 levels=(ACCR_3, ACCR_5),
                 kind_central_levels=(ACCR_5,),

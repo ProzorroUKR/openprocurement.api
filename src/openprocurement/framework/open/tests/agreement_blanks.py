@@ -72,6 +72,164 @@ def create_agreement(self):
     self.assertEqual(contract_data["milestones"][0]["type"], "activation")
 
 
+def create_agreement_config_test(self):
+    # Create framework
+    self.create_framework(config={"test": True})
+    response = self.activate_framework()
+
+    framework = response.json["data"]
+    self.assertNotIn("config", framework)
+    self.assertEqual(framework["mode"], "test")
+    self.assertTrue(response.json["config"]["test"])
+
+    # Create and activate submission
+    self.create_submission()
+    response = self.activate_submission()
+
+    qualification_id = response.json["data"]["qualificationID"]
+
+    # Activate qualification
+    response = self.activate_qualification()
+
+    # Check framework was updated
+    response = self.app.get(f"/frameworks/{self.framework_id}")
+    self.assertEqual(response.status, "200 OK")
+    framework_data = response.json["data"]
+    self.assertIsNotNone(framework_data["agreementID"])
+
+    agreement_id = self.agreement_id = framework_data["agreementID"]
+
+    # Check agreement
+    expected_config = {
+        "test": True,
+    }
+
+    response = self.app.patch_json(
+        "/agreements/{}?acc_token={}".format(agreement_id, self.framework_token),
+        {"data": {"status": "terminated"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    agreement = response.json["data"]
+    self.assertNotIn("config", agreement)
+    self.assertEqual(agreement["mode"], "test")
+    self.assertEqual(response.json["config"], expected_config)
+
+    response = self.app.get("/agreements/{}".format(agreement_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    agreement = response.json["data"]
+    self.assertNotIn("config", agreement)
+    self.assertEqual(agreement["mode"], "test")
+    self.assertEqual(response.json["config"], expected_config)
+
+
+def create_agreement_config_private(self):
+    # Create framework
+    with change_auth(self.app, ("Basic", ("broker1", ""))):
+        data = deepcopy(self.initial_data)
+        data["procuringEntity"]["kind"] = "defense"
+        self.create_framework(data)
+        response = self.activate_framework()
+
+        framework = response.json["data"]
+        framework_owner = framework["owner"]
+
+        self.assertNotIn("config", framework)
+        self.assertEqual(framework["procuringEntity"]["kind"], "defense")
+
+    # Create and activate submission
+    with change_auth(self.app, ("Basic", ("broker2", ""))):
+        # Change authorization so framework and submission have different owners
+
+        self.create_submission()
+        response = self.activate_submission()
+
+        submission = response.json["data"]
+        qualification_id = submission["qualificationID"]
+
+        submission_owner = submission["owner"]
+        self.assertNotEqual(submission_owner, framework_owner)
+
+    # Activate qualification
+    with change_auth(self.app, ("Basic", ("broker1", ""))):
+        expected_config = {
+            "private": True,
+        }
+
+        response = self.activate_qualification()
+
+        # Check framework was updated
+        response = self.app.get(f"/frameworks/{self.framework_id}")
+        self.assertEqual(response.status, "200 OK")
+        framework_data = response.json["data"]
+        self.assertIsNotNone(framework_data["agreementID"])
+
+        agreement_id = self.agreement_id = framework_data["agreementID"]
+
+        # Check agreement
+        expected_config = {
+            "private": True,
+        }
+
+        response = self.app.patch_json(
+            "/agreements/{}?acc_token={}".format(agreement_id, self.framework_token),
+            {"data": {"status": "terminated"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
+        agreement = response.json["data"]
+        self.assertNotIn("config", agreement)
+        self.assertEqual(response.json["config"], expected_config)
+
+        response = self.app.get("/agreements/{}".format(agreement_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
+        agreement = response.json["data"]
+        self.assertNotIn("config", agreement)
+        self.assertEqual(response.json["config"], expected_config)
+
+    # Check listing (framework owner)
+    with change_auth(self.app, ("Basic", ("broker1", ""))):
+        response = self.app.get("/agreements?opt_fields=status")
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
+        submissions = response.json["data"]
+        self.assertEqual(len(submissions), 1)
+        self.assertNotIn("config", submissions[0])
+        self.assertNotIn("owner", submissions[0])
+        self.assertEqual(set(submissions[0].keys()), {"id", "dateModified", "status"})
+
+    # Check listing (submission owner)
+    with change_auth(self.app, ("Basic", ("broker2", ""))):
+        response = self.app.get("/agreements?opt_fields=status")
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
+        submissions = response.json["data"]
+        self.assertEqual(len(submissions), 1)
+        self.assertNotIn("config", submissions[0])
+        self.assertNotIn("owner", submissions[0])
+        self.assertEqual(set(submissions[0].keys()), {"id", "dateModified"})
+
+    # Check listing (anonymous)
+    with change_auth(self.app, ("Basic", ("", ""))):
+        response = self.app.get("/agreements?opt_fields=status")
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
+        submissions = response.json["data"]
+        self.assertEqual(len(submissions), 1)
+        self.assertNotIn("config", submissions[0])
+        self.assertNotIn("owner", submissions[0])
+        self.assertEqual(set(submissions[0].keys()), {"id", "dateModified"})
+
+
 def change_agreement(self):
     new_endDate = (
         parse_datetime(self.initial_data["qualificationPeriod"]["endDate"]) - timedelta(days=1)

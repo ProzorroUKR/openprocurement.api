@@ -11,6 +11,7 @@ from openprocurement.framework.electroniccatalogue.tests.framework_blanks import
     simple_add_framework,
     cpb_standard_status,
     create_framework_draft_invalid_kind,
+    accreditation_level,
 )
 from openprocurement.framework.open.tests.framework_blanks import (
     listing,
@@ -22,7 +23,6 @@ from openprocurement.framework.open.tests.framework_blanks import (
     framework_not_found,
     create_framework_draft,
     create_framework_draft_invalid,
-    accreditation_level,
     patch_framework_draft,
     patch_framework_draft_to_active,
     patch_framework_draft_to_active_invalid,

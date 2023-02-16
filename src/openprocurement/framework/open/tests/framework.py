@@ -18,7 +18,6 @@ from openprocurement.framework.open.tests.framework_blanks import (
     framework_not_found,
     create_framework_draft,
     create_framework_draft_invalid,
-    accreditation_level,
     patch_framework_draft,
     patch_framework_draft_to_active,
     patch_framework_draft_to_active_invalid,
@@ -29,6 +28,8 @@ from openprocurement.framework.open.tests.framework_blanks import (
     framework_fields,
     unsuccessful_status,
     complete_status,
+    create_framework_config_test,
+    accreditation_level,
 )
 
 
@@ -46,6 +47,7 @@ class FrameworkResourceTest(BaseOpenWebTest):
     test_listing_draft = snitch(listing_draft)
     test_listing = snitch(listing)
     test_create_framework_draft = snitch(create_framework_draft)
+    test_create_framework_config_test = snitch(create_framework_config_test)
     test_accreditation_level = snitch(accreditation_level)
     test_create_framework_draft_invalid = snitch(create_framework_draft_invalid)
     test_create_framework_draft_invalid_kind = snitch(create_framework_draft_invalid_kind)

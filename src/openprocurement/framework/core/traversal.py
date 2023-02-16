@@ -45,6 +45,7 @@ def resolve_document(request, obj, document_type=None):
 
 def base_factory(request, obj_name):
     obj_name_src = "%s_src" % obj_name
+    obj_name_config = "%s_config" % obj_name
     obj_name_id = "%s_id" % obj_name
 
     request.validated[obj_name_src] = {}
@@ -55,6 +56,7 @@ def base_factory(request, obj_name):
     obj = getattr(request, obj_name)
     obj.__parent__ = root
     request.validated[obj_name] = request.validated["db_doc"] = obj
+    request.validated[obj_name_config] = obj.get("config", {})
     if request.method != "GET":
         request.validated[obj_name_src] = obj.serialize("plain")
     if request.method != "GET" and obj._initial.get("next_check"):

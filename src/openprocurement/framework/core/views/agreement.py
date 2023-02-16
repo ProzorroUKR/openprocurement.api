@@ -34,7 +34,7 @@ class AgreementResource(MongodbResourceListing):
         super().__init__(request, context)
         self.listing_name = "Agreements"
         self.listing_default_fields = {"dateModified"}
-        self.all_fields = {
+        self.listing_allowed_fields = {
             "dateCreated",
             "dateModified",
             "id",
@@ -88,9 +88,16 @@ class AgreementResource(MongodbResourceListing):
 class CoreAgreementResource(BaseResource):
     @json_view(permission="view_agreement")
     def get(self):
-        return {"data": self.context.serialize("view")}
+        agreement_config = self.request.validated["agreement_config"]
+
+        response_data = {"data": self.context.serialize("view")}
+        if agreement_config:
+            response_data["config"] = agreement_config
+
+        return response_data
 
     def patch(self):
+        agreement_config = self.request.validated["agreement_config"]
         if self.request.authenticated_role == "chronograph":
             now = get_now()
             if not check_agreement_status(self.request, now):
@@ -105,7 +112,12 @@ class CoreAgreementResource(BaseResource):
                 f"Updated agreement {self.request.validated['agreement'].id}",
                 extra=context_unpack(self.request, {"MESSAGE_ID": "agreement_patch"}),
             )
-        return {"data": self.request.context.serialize("view")}
+
+        response_data = {"data": self.request.context.serialize("view")}
+        if agreement_config:
+            response_data["config"] = agreement_config
+
+        return response_data
 
 
 @agreementsresource(
@@ -142,7 +154,8 @@ class AgreementViewMixin:
     LOGGER = None
     server_id = None
 
-    def ensure_agreement(self):
+    def get_or_create_agreement(self):
+        framework_config = self.request.validated["framework_config"]
         framework_data = self.request.validated["framework_src"]
         agreementID = framework_data.get("agreementID")
         if agreementID:
@@ -183,11 +196,17 @@ class AgreementViewMixin:
                 "transfer_token": transfer_token,
                 "frameworkDetails": framework_data.get("frameworkDetails"),
             }
+            agreement_config = {}
+            if framework_config.get("test", False):
+                agreement_config["test"] = framework_config["test"]
+            if framework_data["procuringEntity"]["kind"] == "defense":
+                agreement_config["private"] = True
             model = self.request.agreement_from_data(agreement_data, create=False)
             agreement = model(agreement_data)
 
             self.request.validated["agreement_src"] = {}
             self.request.validated["agreement"] = agreement
+            self.request.validated["agreement_config"] = agreement_config
             if save_agreement(self.request, insert=True):
                 self.LOGGER.info(
                     "Created agreement {}".format(agreement_id),

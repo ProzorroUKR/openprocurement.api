@@ -6,7 +6,6 @@ from schematics.types import StringType, BaseType, EmailType, BooleanType
 from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.auth import ACCR_5
 from openprocurement.api.constants import REQUIRED_FIELDS_BY_SUBMISSION_FROM
 from openprocurement.api.utils import required_field_from_date
 from openprocurement.api.models import (
@@ -76,6 +75,7 @@ class Framework(BaseFramework):
             "_rev",
             "__parent__",
             "public_modified",
+            "config",
         )
         _edit_role = _status_view_role + blacklist(
             "frameworkType",
@@ -123,7 +123,7 @@ class Framework(BaseFramework):
             "default": blacklist("doc_id", "__parent__"),  # obj.store() use default role
             "plain": blacklist(  # is used for getting patches
                 "_attachments", "revisions", "dateModified", "_id", "_rev", "doc_type",
-                "__parent__", "public_modified",
+                "__parent__", "public_modified", "config",
             ),
             "listing": whitelist("dateModified", "doc_id"),
             "embedded": blacklist("_id", "_rev", "doc_type", "__parent__", "public_modified"),
@@ -152,8 +152,6 @@ class Framework(BaseFramework):
     successful = BooleanType(required=True, default=False)
 
     procuring_entity_kinds = PROCURING_ENTITY_KINDS
-    central_accreditations = (ACCR_5,)
-    edit_accreditations = (ACCR_5,)
 
     @serializable(serialize_when_none=False)
     def next_check(self):
@@ -210,12 +208,14 @@ class Agreement(BaseAgreement):
             "__parent__",
             "frameworkDetails",
             "public_modified",
+            "config",
         )
         roles = {
             "edit": whitelist("status"),
             "view": _view_role,
             "plain": blacklist(  # is used for getting patches
-                "_attachments", "revisions", "dateModified", "_id", "_rev", "doc_type", "__parent__"
+                "_attachments", "revisions", "dateModified", "_id", "_rev",
+                "doc_type", "__parent__", "config",
             ),
             "default": blacklist("doc_id", "__parent__"),  # obj.store() use default role
             "chronograph": whitelist("next_check"),

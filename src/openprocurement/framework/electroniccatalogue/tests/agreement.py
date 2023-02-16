@@ -22,6 +22,7 @@ from openprocurement.framework.open.tests.agreement_blanks import (
     search_by_classification,
     agreement_chronograph_milestones,
     post_submission_with_active_contract,
+    create_agreement_config_test,
 )
 from openprocurement.framework.electroniccatalogue.tests.base import (
     test_electronicCatalogue_data,
@@ -51,6 +52,7 @@ class TestAgreementCreation(QualificationContentWebTest):
     initial_auth = ('Basic', ('broker', ''))
 
     test_create_agreement = snitch(create_agreement)
+    test_create_agreement_config_test = snitch(create_agreement_config_test)
 
 
 class TestAgreementChanges(AgreementContentWebTest):

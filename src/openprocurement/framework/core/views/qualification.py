@@ -22,10 +22,11 @@ class QualificationResource(MongodbResourceListing):
     def __init__(self, request, context):
         super().__init__(request, context)
         self.listing_name = "Qualifications"
+        self.owner_filed = "framework_owner"
         self.listing_default_fields = {
             "dateModified",
         }
-        self.all_fields = {
+        self.listing_allowed_fields = {
             "dateCreated",
             "dateModified",
             "id",
@@ -44,13 +45,20 @@ class CoreQualificationResource(BaseResource, AgreementViewMixin):
         """
         Get info by qualification
         """
+        qualification_config = self.request.validated["qualification_config"]
         qualification_data = self.context.serialize("view")
-        return {"data": qualification_data}
+
+        response_data = {"data": qualification_data}
+        if qualification_config:
+            response_data["config"] = qualification_config
+
+        return response_data
 
     def patch(self):
         """
         Qualification edit(partial)
         """
+        qualification_config = self.request.validated["qualification_config"]
         qualification = self.request.context
         old_status = qualification.status
         new_status = self.request.validated["data"].get("status", old_status)
@@ -71,10 +79,14 @@ class CoreQualificationResource(BaseResource, AgreementViewMixin):
         if changed_status:
             self.complete_submission()
         if old_status == "pending" and new_status == "active":
-            self.ensure_agreement()
+            self.get_or_create_agreement()
             self.create_agreement_contract()
 
-        return {"data": qualification.serialize("view")}
+        response_data = {"data": qualification.serialize("view")}
+        if qualification_config:
+            response_data["config"] = qualification_config
+
+        return response_data
 
     def complete_submission(self):
         qualification = self.request.validated["qualification"]

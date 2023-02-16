@@ -9,25 +9,34 @@ from openprocurement.api.utils import (
 from openprocurement.api.validation import (
     OPERATIONS,
     validate_json_data,
-    _validate_accreditation_level,
     validate_data,
     validate_doc_accreditation_level_mode,
+    _validate_accreditation_level,
+    _validate_accreditation_level_kind,
 )
 from openprocurement.framework.core.utils import (
     get_framework_by_id,
     get_submission_by_id,
-    get_agreement_by_id, calculate_framework_date,
+    get_agreement_by_id,
+    calculate_framework_date,
 )
 
 
+def validate_framework_accreditation_level(request, model):
+    _validate_accreditation_level(request, model.create_accreditations, "framework", "creation")
+
+
 def validate_framework_accreditation_level_central(request, model):
-    _validate_accreditation_level(request, model.central_accreditations, "framework", "creation")
+    data = request.validated["json_data"]
+    kind = data.get("procuringEntity", {}).get("kind", "")
+    _validate_accreditation_level_kind(request, model.central_accreditations, kind, "framework", "creation")
 
 
 def validate_framework_data(request, **kwargs):
     update_logging_context(request, {"framework_id": "__new__"})
     data = validate_json_data(request)
     model = request.framework_from_data(data, create=False)
+    validate_framework_accreditation_level(request, model)
     validate_framework_accreditation_level_central(request, model)
     data = validate_data(request, model, data=data)
     validate_doc_accreditation_level_mode(request, "frameworkType", "framework")
@@ -81,6 +90,7 @@ def validate_submission_data(request, **kwargs):
     framework = model(framework)
     request.validated["framework_src"] = framework.serialize("plain")
     request.validated["framework"] = framework
+    request.validated["framework_config"] = framework.get("config") or {}
     return data
 
 
@@ -99,6 +109,7 @@ def validate_patch_submission_data(request, **kwargs):
     framework = model(framework)
     request.validated["framework_src"] = framework.serialize("plain")
     request.validated["framework"] = framework
+    request.validated["framework_config"] = framework.get("config") or {}
     return data
 
 
@@ -250,6 +261,7 @@ def validate_patch_qualification_data(request, **kwargs):
     framework.__parent__ = qualification.__parent__
     request.validated["framework_src"] = framework.serialize("plain")
     request.validated["framework"] = framework
+    request.validated["framework_config"] = framework.get("config") or {}
     return validate_data(request, type(request.qualification), True, data)
 
 

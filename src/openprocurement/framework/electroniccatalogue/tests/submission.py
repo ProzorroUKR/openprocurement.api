@@ -39,6 +39,7 @@ from openprocurement.framework.open.tests.submission_blanks import (
     put_submission_document,
     put_submission_document_fast,
     create_submission_document_json_bulk,
+    create_submission_config_test,
 )
 
 
@@ -48,6 +49,7 @@ class SubmissionResourceTest(BaseSubmissionContentWebTest):
     test_listing_changes = snitch(listing_changes)
     test_create_submission_draft_invalid = snitch(create_submission_draft_invalid)
     test_create_submission_draft = snitch(create_submission_draft)
+    test_create_submission_config_test = snitch(create_submission_config_test)
     test_patch_submission_draft = snitch(patch_submission_draft)
     test_patch_submission_draft_to_active_invalid = snitch(patch_submission_draft_to_active_invalid)
     test_patch_submission_active = snitch(patch_submission_active)

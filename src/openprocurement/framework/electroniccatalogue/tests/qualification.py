@@ -28,6 +28,7 @@ from openprocurement.framework.open.tests.qualification_blanks import (
     document_not_found,
     put_qualification_document,
     create_qualification_document_json_bulk,
+    patch_submission_pending_config_test,
 )
 
 
@@ -46,6 +47,7 @@ class QualificationResourceTest(SubmissionContentWebTest):
     test_listing = snitch(listing)
     test_listing_changes = snitch(listing_changes)
     test_patch_submission_pending = snitch(patch_submission_pending)
+    test_patch_submission_pending_config_test = snitch(patch_submission_pending_config_test)
     test_patch_qualification_active = snitch(patch_qualification_active)
     test_patch_qualification_unsuccessful = snitch(patch_qualification_unsuccessful)
     test_get_qualification = snitch(get_qualification)

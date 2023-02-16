@@ -8,12 +8,19 @@ from schematics.types import (
     StringType,
     BaseType,
     MD5Type,
+    BooleanType,
 )
 from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 from zope.interface import implementer
 
-from openprocurement.api.auth import ACCR_5
+from openprocurement.api.auth import (
+    ACCR_1,
+    ACCR_2,
+    ACCR_3,
+    ACCR_4,
+    ACCR_5,
+)
 from openprocurement.api.constants import (
     SANDBOX_MODE,
     DK_CODES,
@@ -46,6 +53,10 @@ CONTRACT_BAN_DURATION = 90
 
 class IFramework(IOPContent):
     """ Base framework marker interface """
+
+
+class FrameworkConfig(Model):
+    test = BooleanType(required=False)
 
 
 def get_agreement(model):
@@ -88,7 +99,7 @@ class Framework(RootModel):
             "default": blacklist("doc_id", "__parent__"),  # obj.store() use default role
             "plain": blacklist(  # is used for getting patches
                 "_attachments", "revisions", "dateModified",
-                "_id", "_rev", "doc_type", "__parent__", "public_modified",
+                "_id", "_rev", "doc_type", "__parent__", "public_modified", "config"
             ),
             "listing": whitelist("dateModified", "doc_id"),
             "embedded": blacklist("_id", "_rev", "doc_type", "__parent__"),
@@ -115,9 +126,11 @@ class Framework(RootModel):
 
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
     revisions = BaseType(default=list)
+    config = BaseType()
 
+    create_accreditations = (ACCR_1, ACCR_3, ACCR_5)
     central_accreditations = (ACCR_5,)
-    edit_accreditations = (ACCR_5,)
+    edit_accreditations = (ACCR_2, ACCR_4)
 
     def __repr__(self):
         return "<%s:%r@%r>" % (type(self).__name__, self.id, self.rev)
@@ -184,6 +197,11 @@ class ISubmission(IOPContent):
     pass
 
 
+class SubmissionConfig(Model):
+    test = BooleanType(required=False)
+    private = BooleanType(required=False)
+
+
 class ContactPoint(BaseContactPoint):
     def validate_telephone(self, data, value):
         pass
@@ -209,7 +227,8 @@ class Submission(RootModel):
             "edit_bot": whitelist("status", "qualificationID"),
             "default": blacklist("doc_id", "__parent__"),
             "plain": blacklist(  # is used for getting patches
-                "_attachments", "revisions", "dateModified", "_id", "_rev", "doc_type", "__parent__", "public_modified",
+                "_attachments", "revisions", "dateModified", "_id", "_rev",
+                "doc_type", "__parent__", "public_modified", "config",
             ),
             "view": whitelist(
                 "doc_id",
@@ -223,6 +242,7 @@ class Submission(RootModel):
                 "date",
                 "datePublished",
                 "submissionType",
+                "mode",
             ),
             "embedded":  blacklist("_id", "_rev", "doc_type", "__parent__"),
         }
@@ -242,6 +262,7 @@ class Submission(RootModel):
 
     _attachments = DictType(DictType(BaseType), default=dict())
     revisions = BaseType(default=list)
+    config = BaseType()
 
     mode = StringType(choices=["test"])
 
@@ -295,6 +316,10 @@ class IQualification(IOPContent):
     pass
 
 
+class QualificationConfig(Model):
+    test = BooleanType(required=False)
+
+
 @implementer(IQualification)
 class Qualification(RootModel):
 
@@ -305,7 +330,8 @@ class Qualification(RootModel):
             "edit": whitelist("status", "documents"),
             "default": blacklist("doc_id", "__parent__"),
             "plain": blacklist(  # is used for getting patches
-                "_attachments", "revisions", "dateModified", "_id", "_rev", "doc_type", "__parent__", "public_modified",
+                "_attachments", "revisions", "dateModified", "_id", "_rev",
+                "doc_type", "__parent__", "public_modified", "config",
             ),
             "view": whitelist(
                 "doc_id",
@@ -316,6 +342,7 @@ class Qualification(RootModel):
                 "date",
                 "dateModified",
                 "qualificationType",
+                "mode",
             ),
             "embedded":  blacklist("_id", "_rev", "doc_type", "__parent__"),
         }
@@ -334,6 +361,7 @@ class Qualification(RootModel):
 
     _attachments = DictType(DictType(BaseType), default=dict())
     revisions = BaseType(default=list)
+    config = BaseType()
 
     mode = StringType(choices=["test"])
 
@@ -373,6 +401,10 @@ class IAgreement(IOPContent):
     """ Base interface for agreement container """
 
 
+class AgreementConfig(Model):
+    test = BooleanType(required=False)
+
+
 @implementer(IAgreement)
 class Agreement(RootModel):
     """ Base agreement model """
@@ -390,6 +422,7 @@ class Agreement(RootModel):
     transfer_token = StringType(default=lambda: uuid4().hex)
     owner = StringType()
     mode = StringType(choices=["test"])
+    config = BaseType()
 
     def import_data(self, raw_data, **kw):
         """

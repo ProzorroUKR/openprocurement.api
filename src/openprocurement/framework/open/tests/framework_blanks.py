@@ -553,6 +553,36 @@ def create_framework_draft(self):
     self.assertTrue(framework["prettyID"].startswith("UA-F"))
 
 
+def create_framework_config_test(self):
+    initial_config = {
+        "test": True,
+    }
+    response = self.create_framework(config=initial_config)
+
+    token = response.json["access"]["token"]
+
+    framework = response.json["data"]
+    self.assertNotIn("config", framework)
+    self.assertEqual(framework["mode"], "test")
+    self.assertEqual(response.json["config"], initial_config)
+
+    response = self.activate_framework()
+
+    framework = response.json["data"]
+    self.assertNotIn("config", framework)
+    self.assertEqual(framework["mode"], "test")
+    self.assertEqual(response.json["config"], initial_config)
+
+    response = self.app.get("/frameworks/{}".format(framework["id"]))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    framework = response.json["data"]
+    self.assertNotIn("config", framework)
+    self.assertEqual(framework["mode"], "test")
+    self.assertEqual(response.json["config"], initial_config)
+
+
 def patch_framework_draft(self):
     data = deepcopy(self.initial_data)
     response = self.app.post_json("/frameworks", {"data": data})
@@ -1042,6 +1072,10 @@ def framework_token_invalid(self):
 
 def accreditation_level(self):
     with change_auth(self.app, ("Basic", ("broker1", ""))):
+        response = self.app.post_json("/frameworks", {"data": self.initial_data})
+        self.assertEqual(response.status, "201 Created")
+
+    with change_auth(self.app, ("Basic", ("broker2", ""))):
         response = self.app.post_json("/frameworks", {"data": self.initial_data}, status=403)
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(response.content_type, "application/json")
@@ -1050,6 +1084,24 @@ def accreditation_level(self):
             [{"location": "url", "name": "accreditation",
               "description": "Broker Accreditation level does not permit framework creation"}],
         )
+
+    with change_auth(self.app, ("Basic", ("broker3", ""))):
+        response = self.app.post_json("/frameworks", {"data": self.initial_data})
+        self.assertEqual(response.status, "201 Created")
+
+    with change_auth(self.app, ("Basic", ("broker4", ""))):
+        response = self.app.post_json("/frameworks", {"data": self.initial_data}, status=403)
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"],
+            [{"location": "url", "name": "accreditation",
+              "description": "Broker Accreditation level does not permit framework creation"}],
+        )
+
+    with change_auth(self.app, ("Basic", ("broker5", ""))):
+        response = self.app.post_json("/frameworks", {"data": self.initial_data})
+        self.assertEqual(response.status, "201 Created")
 
 
 def unsuccessful_status(self):

@@ -456,6 +456,131 @@ def create_submission_draft(self):
     self.assertEqual(submission["status"], "active")
 
 
+def create_submission_config_test(self):
+    # Create framework
+    self.create_framework(config={"test": True})
+    response = self.activate_framework()
+
+    framework = response.json["data"]
+    self.assertNotIn("config", framework)
+    self.assertEqual(framework["mode"], "test")
+    self.assertTrue(response.json["config"]["test"])
+
+    # Create submission
+    expected_config = {
+        "test": True,
+    }
+
+    response = self.create_submission()
+
+    token = response.json["access"]["token"]
+
+    submission = response.json["data"]
+    self.assertNotIn("config", submission)
+    self.assertEqual(submission["mode"], "test")
+    self.assertEqual(response.json["config"], expected_config)
+
+    response = self.activate_submission()
+
+    submission = response.json["data"]
+    self.assertNotIn("config", submission)
+    self.assertEqual(submission["mode"], "test")
+    self.assertEqual(response.json["config"], expected_config)
+
+    response = self.app.get("/submissions/{}".format(submission["id"]))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    submission = response.json["data"]
+    self.assertNotIn("config", submission)
+    self.assertEqual(submission["mode"], "test")
+    self.assertEqual(response.json["config"], expected_config)
+
+
+def create_submission_config_private(self):
+    # Create framework
+    with change_auth(self.app, ("Basic", ("broker1", ""))):
+        data = deepcopy(self.initial_data)
+        data["procuringEntity"]["kind"] = "defense"
+        self.create_framework(data)
+        response = self.activate_framework()
+
+        framework = response.json["data"]
+        framework_owner = framework["owner"]
+
+        self.assertNotIn("config", framework)
+        self.assertEqual(framework["procuringEntity"]["kind"], "defense")
+
+    # Create and activate submission
+    with change_auth(self.app, ("Basic", ("broker2", ""))):
+        # Change authorization so framework and submission have different owners
+
+        expected_config = {
+            "private": True,
+        }
+
+        response = self.create_submission()
+
+        token = response.json["access"]["token"]
+
+        submission = response.json["data"]
+        self.assertNotIn("config", submission)
+        self.assertEqual(response.json["config"], expected_config)
+
+        submission_owner = submission["owner"]
+        self.assertNotEqual(submission_owner, framework_owner)
+
+        response = self.activate_submission()
+
+        submission = response.json["data"]
+        self.assertNotIn("config", submission)
+        self.assertEqual(response.json["config"], expected_config)
+
+        response = self.app.get("/submissions/{}".format(submission["id"]))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
+        submission = response.json["data"]
+        self.assertNotIn("config", submission)
+        self.assertEqual(response.json["config"], expected_config)
+
+    # Check listing (framework owner)
+    with change_auth(self.app, ("Basic", ("broker1", ""))):
+        response = self.app.get("/submissions?opt_fields=status")
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
+        submissions = response.json["data"]
+        self.assertEqual(len(submissions), 1)
+        self.assertNotIn("config", submissions[0])
+        self.assertNotIn("owner", submissions[0])
+        self.assertEqual(set(submissions[0].keys()), {"id", "dateModified"})
+
+    # Check listing (submission owner)
+    with change_auth(self.app, ("Basic", ("broker2", ""))):
+        response = self.app.get("/submissions?opt_fields=status")
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
+        submissions = response.json["data"]
+        self.assertEqual(len(submissions), 1)
+        self.assertNotIn("config", submissions[0])
+        self.assertNotIn("owner", submissions[0])
+        self.assertEqual(set(submissions[0].keys()), {"id", "dateModified", "status"})
+
+    # Check listing (anonymous)
+    with change_auth(self.app, ("Basic", ("", ""))):
+        response = self.app.get("/submissions?opt_fields=status")
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
+        submissions = response.json["data"]
+        self.assertEqual(len(submissions), 1)
+        self.assertNotIn("config", submissions[0])
+        self.assertNotIn("owner", submissions[0])
+        self.assertEqual(set(submissions[0].keys()), {"id", "dateModified"})
+
+
 def patch_submission_draft(self):
     data = deepcopy(self.initial_submission_data)
     response = self.app.post_json("/submissions", {"data": data})
