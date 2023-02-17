@@ -41,7 +41,7 @@ class MongodbResourceListing(BaseResource):
     listing_name = "Items"
     offset_field = "public_modified"
     config_filed = "config"
-    owner_filed = "owner"
+    owner_fields = {"owner"}
     listing_default_fields = {"dateModified"}
     listing_allowed_fields = {"dateModified", "created", "modified"}
     listing_public_fields = {"dateModified"}
@@ -113,7 +113,7 @@ class MongodbResourceListing(BaseResource):
             prev_params["descending"] = 1
 
         fields = opt_fields | self.listing_default_fields
-        request_fields = fields | {self.config_filed, self.owner_filed}
+        request_fields = fields | {self.config_filed} | self.owner_fields
 
         # call db method
         results = self.db_listing_method(
@@ -156,7 +156,10 @@ class MongodbResourceListing(BaseResource):
             if result.get(self.config_filed, {}).get('private', False) is False:
                 # not a private item
                 visible_fields = visible_fields | fields
-            elif self.request.authenticated_userid and result.get(self.owner_filed) == self.request.authenticated_userid:
+            elif self.request.authenticated_userid and any(
+                result.get(owner_filed) == self.request.authenticated_userid
+                for owner_filed in self.owner_fields
+            ):
                 # private item owned by current user
                 visible_fields = visible_fields | fields
             else:

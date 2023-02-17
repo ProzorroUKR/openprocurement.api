@@ -22,7 +22,7 @@ class QualificationResource(MongodbResourceListing):
     def __init__(self, request, context):
         super().__init__(request, context)
         self.listing_name = "Qualifications"
-        self.owner_filed = "framework_owner"
+        self.owner_fields = {"framework_owner", "submission_owner"}
         self.listing_default_fields = {
             "dateModified",
         }

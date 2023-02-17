@@ -258,6 +258,10 @@ class Submission(RootModel):
 
     owner = StringType()
     owner_token = StringType()
+
+    framework_owner = StringType()
+    framework_token = StringType()
+
     transfer_token = StringType()
 
     _attachments = DictType(DictType(BaseType), default=dict())
@@ -356,6 +360,9 @@ class Qualification(RootModel):
 
     framework_owner = StringType()
     framework_token = StringType()
+
+    submission_owner = StringType()
+    submission_token = StringType()
 
     documents = ListType(ModelType(Document, required=True), default=list())
 

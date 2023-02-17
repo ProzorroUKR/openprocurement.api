@@ -37,6 +37,7 @@ class SubmissionResource(MongodbResourceListing):
     def __init__(self, request, context):
         super().__init__(request, context)
         self.listing_name = "Submissions"
+        self.owner_fields = {"owner", "framework_owner"}
         self.listing_default_fields = {"dateModified"}
         self.listing_allowed_fields = {
             "dateCreated",
@@ -76,6 +77,8 @@ class SubmissionResource(MongodbResourceListing):
         self.LOGGER.info(framework["frameworkType"])
         submission.submissionType = framework["frameworkType"]
         submission.mode = framework.get("mode")
+        submission.framework_owner = framework["owner"]
+        submission.framework_token = framework["owner_token"]
         if framework_config.get("test", False):
             submission_config["test"] = framework_config["test"]
         if framework["procuringEntity"]["kind"] == "defense":
@@ -192,6 +195,8 @@ class CoreSubmissionResource(BaseResource, AgreementViewMixin):
             "submissionID": submission.id,
             "framework_owner": framework["owner"],
             "framework_token": framework["owner_token"],
+            "submission_owner": submission["owner"],
+            "submission_token": submission["owner_token"],
             "qualificationType": framework["frameworkType"],
             "mode": framework.get("mode")
         }
