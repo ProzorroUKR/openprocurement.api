@@ -96,15 +96,14 @@ class TendersResource(TenderBaseResource):
     @json_view(permission="view_tender")
     def get(self):
         tender = self.request.validated["tender"]
-        config = self.request.validated.get("config")
+        config = self.request.validated["config"]
         response_data = {"data": self.serializer_class(tender).data}
         if config:
             response_data["config"] = config
         return response_data
 
     def patch(self):
-        tender = self.request.validated["tender"]
-        config = self.request.validated.get("config")
+        config = self.request.validated["config"]
         updated = self.request.validated["data"]
         if updated:
             before = self.request.validated["tender_src"]
@@ -116,6 +115,7 @@ class TendersResource(TenderBaseResource):
                     f"Updated tender {updated['_id']}",
                     extra=context_unpack(self.request, {"MESSAGE_ID": "tender_patch"})
                 )
+        tender = self.request.validated["tender"]
         response_data = {"data": self.serializer_class(tender).data}
         if config:
             response_data["config"] = config
