@@ -25,7 +25,10 @@ from openprocurement.framework.core.utils import (
     check_agreement_status,
     check_contract_statuses,
 )
-from openprocurement.framework.core.validation import validate_agreement_data
+from openprocurement.framework.core.validation import (
+    validate_agreement_data,
+    validate_restricted_access,
+)
 
 
 @agreementsresource(name="Agreements", path="/agreements")
@@ -86,7 +89,12 @@ class AgreementResource(MongodbResourceListing):
 
 
 class CoreAgreementResource(BaseResource):
-    @json_view(permission="view_agreement")
+    @json_view(
+        validators=(
+            validate_restricted_access("agreement")
+        ),
+        permission="view_agreement",
+    )
     def get(self):
         agreement_config = self.request.validated["agreement_config"]
 

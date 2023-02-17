@@ -470,3 +470,18 @@ def validate_patch_milestone_status(request, **kwargs):
             request,
             f"Can't switch milestone status from `{curr_status}` to `{new_status}`"
         )
+
+def validate_restricted_access(obj_name, owner_fields=None):
+    owner_fields = owner_fields or {"owner"}
+    def validator(request, **kwargs):
+        obj = request.validated[obj_name]
+        config = request.validated["%s_config" % obj_name]
+
+        if config.get("private") is True:
+            if request.authenticated_role != "Administrator":
+                if not any(getattr(obj, field, None) == request.authenticated_userid for field in owner_fields):
+                    raise_operation_error(
+                        request,
+                        "Access restricted for {} object".format(obj_name)
+                    )
+    return validator

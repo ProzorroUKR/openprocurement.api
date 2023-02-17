@@ -23,6 +23,7 @@ from openprocurement.framework.core.validation import (
     validate_post_submission_with_active_contract,
     validate_operation_submission_in_not_allowed_period,
     validate_action_in_not_allowed_framework_status,
+    validate_restricted_access,
 )
 from openprocurement.framework.core.views.agreement import AgreementViewMixin
 from openprocurement.tender.core.procedure.validation import validate_config_data
@@ -116,7 +117,12 @@ class SubmissionResource(MongodbResourceListing):
 
 
 class CoreSubmissionResource(BaseResource, AgreementViewMixin):
-    @json_view(permission="view_submission")
+    @json_view(
+        validators=(
+            validate_restricted_access("submission", owner_fields={"owner", "framework_owner"})
+        ),
+        permission="view_submission",
+    )
     def get(self):
         """
         Get info by submission

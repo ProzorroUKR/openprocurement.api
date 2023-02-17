@@ -10,6 +10,7 @@ from openprocurement.framework.core.utils import (
     apply_patch,
     get_submission_by_id,
 )
+from openprocurement.framework.core.validation import validate_restricted_access
 from openprocurement.framework.core.views.agreement import AgreementViewMixin
 
 
@@ -40,7 +41,12 @@ class QualificationResource(MongodbResourceListing):
 
 
 class CoreQualificationResource(BaseResource, AgreementViewMixin):
-    @json_view(permission="view_qualification")
+    @json_view(
+        validators=(
+            validate_restricted_access("qualification", owner_fields={"framework_owner", "submission_owner"})
+        ),
+        permission="view_qualification",
+    )
     def get(self):
         """
         Get info by qualification

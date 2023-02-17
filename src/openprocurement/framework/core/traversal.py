@@ -56,7 +56,7 @@ def base_factory(request, obj_name):
     obj = getattr(request, obj_name)
     obj.__parent__ = root
     request.validated[obj_name] = request.validated["db_doc"] = obj
-    request.validated[obj_name_config] = obj.get("config", {})
+    request.validated[obj_name_config] = obj.get("config") or {}
     if request.method != "GET":
         request.validated[obj_name_src] = obj.serialize("plain")
     if request.method != "GET" and obj._initial.get("next_check"):

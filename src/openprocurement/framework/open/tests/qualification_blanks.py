@@ -372,8 +372,14 @@ def patch_submission_pending_config_private(self):
         self.assertNotIn("config", qualification)
         self.assertEqual(response.json["config"], expected_config)
 
-    # Check listing (framework owner)
+    # Check access (framework owner)
     with change_auth(self.app, ("Basic", ("broker1", ""))):
+        # Check object
+        response = self.app.get("/qualifications/{}".format(qualification_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
+        # Check listing
         response = self.app.get("/qualifications?opt_fields=status")
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
@@ -384,8 +390,14 @@ def patch_submission_pending_config_private(self):
         self.assertNotIn("owner", submissions[0])
         self.assertEqual(set(submissions[0].keys()), {"id", "dateModified", "status"})
 
-    # Check listing (submission owner)
+    # Check access (submission owner)
     with change_auth(self.app, ("Basic", ("broker2", ""))):
+        # Check object
+        response = self.app.get("/qualifications/{}".format(qualification_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
+        # Check listing
         response = self.app.get("/qualifications?opt_fields=status")
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
@@ -396,8 +408,22 @@ def patch_submission_pending_config_private(self):
         self.assertNotIn("owner", submissions[0])
         self.assertEqual(set(submissions[0].keys()), {"id", "dateModified", "status"})
 
-    # Check listing (anonymous)
+    # Check access (anonymous)
     with change_auth(self.app, ("Basic", ("", ""))):
+        # Check object
+        response = self.app.get("/qualifications/{}".format(qualification_id), status=403)
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"],
+            [{
+                "location": "body",
+                "name": "data",
+                "description": "Access restricted for qualification object"
+            }]
+        )
+
+        # Check listing
         response = self.app.get("/qualifications?opt_fields=status")
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
