@@ -105,11 +105,12 @@ class FrameworkSubmissionRequestResource(MongodbResourceListing):
     def __init__(self, request, context):
         super().__init__(request, context)
         self.listing_name = "FrameworkSubmissions"
+        self.owner_fields = {"owner", "framework_owner"}
         self.listing_default_fields = {
             "dateModified", "dateCreated", "datePublished", "id", "date", "status",
             "qualificationID", "frameworkID", "tenderers",
         }
-        self.listing_default_fields = {
+        self.listing_allowed_fields = {
             "dateModified", "dateCreated", "datePublished", "id", "date", "status",
             "qualificationID", "frameworkID", "tenderers",
         }
@@ -127,6 +128,7 @@ class FrameworkQualificationRequestResource(MongodbResourceListing):
     def __init__(self, request, context):
         super().__init__(request, context)
         self.listing_name = "FrameworkQualifications"
+        self.owner_fields = {"framework_owner", "submission_owner"}
         self.listing_default_fields = {
             "dateModified", "dateCreated", "id", "date", "status",
             "submissionID", "frameworkID", "documents",

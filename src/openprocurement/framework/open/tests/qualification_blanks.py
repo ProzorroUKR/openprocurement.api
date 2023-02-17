@@ -384,11 +384,30 @@ def patch_submission_pending_config_restricted(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
 
-        submissions = response.json["data"]
-        self.assertEqual(len(submissions), 1)
-        self.assertNotIn("config", submissions[0])
-        self.assertNotIn("owner", submissions[0])
-        self.assertEqual(set(submissions[0].keys()), {"id", "dateModified", "status"})
+        qualifications = response.json["data"]
+        self.assertEqual(len(qualifications), 1)
+        self.assertNotIn("config", qualifications[0])
+        self.assertNotIn("owner", qualifications[0])
+        self.assertEqual(set(qualifications[0].keys()), {"id", "dateModified", "status"})
+
+        response = self.app.get("/frameworks/{}/qualifications".format(self.framework_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
+        qualifications = response.json["data"]
+        self.assertEqual(len(qualifications), 1)
+        self.assertNotIn("config", qualifications[0])
+        self.assertNotIn("owner", qualifications[0])
+        self.assertEqual(set(qualifications[0].keys()), {
+            "id",
+            "dateModified",
+            "status",
+            "submissionID",
+            "documents",
+            "date",
+            "frameworkID",
+            "dateCreated",
+        })
 
     # Check access (submission owner)
     with change_auth(self.app, ("Basic", ("broker2", ""))):
@@ -402,11 +421,30 @@ def patch_submission_pending_config_restricted(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
 
-        submissions = response.json["data"]
-        self.assertEqual(len(submissions), 1)
-        self.assertNotIn("config", submissions[0])
-        self.assertNotIn("owner", submissions[0])
-        self.assertEqual(set(submissions[0].keys()), {"id", "dateModified", "status"})
+        qualifications = response.json["data"]
+        self.assertEqual(len(qualifications), 1)
+        self.assertNotIn("config", qualifications[0])
+        self.assertNotIn("owner", qualifications[0])
+        self.assertEqual(set(qualifications[0].keys()), {"id", "dateModified", "status"})
+
+        response = self.app.get("/frameworks/{}/qualifications".format(self.framework_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
+        qualifications = response.json["data"]
+        self.assertEqual(len(qualifications), 1)
+        self.assertNotIn("config", qualifications[0])
+        self.assertNotIn("owner", qualifications[0])
+        self.assertEqual(set(qualifications[0].keys()), {
+            "id",
+            "dateModified",
+            "status",
+            "submissionID",
+            "documents",
+            "date",
+            "frameworkID",
+            "dateCreated",
+        })
 
     # Check access (anonymous)
     with change_auth(self.app, ("Basic", ("", ""))):
@@ -428,11 +466,21 @@ def patch_submission_pending_config_restricted(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
 
-        submissions = response.json["data"]
-        self.assertEqual(len(submissions), 1)
-        self.assertNotIn("config", submissions[0])
-        self.assertNotIn("owner", submissions[0])
-        self.assertEqual(set(submissions[0].keys()), {"id", "dateModified"})
+        qualifications = response.json["data"]
+        self.assertEqual(len(qualifications), 1)
+        self.assertNotIn("config", qualifications[0])
+        self.assertNotIn("owner", qualifications[0])
+        self.assertEqual(set(qualifications[0].keys()), {"id", "dateModified"})
+
+        response = self.app.get("/frameworks/{}/qualifications".format(self.framework_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
+        qualifications = response.json["data"]
+        self.assertEqual(len(qualifications), 1)
+        self.assertNotIn("config", qualifications[0])
+        self.assertNotIn("owner", qualifications[0])
+        self.assertEqual(set(qualifications[0].keys()), {"id", "dateModified"})
 
 
 def patch_qualification_active(self):

@@ -563,6 +563,26 @@ def create_submission_config_restricted(self):
         self.assertNotIn("owner", submissions[0])
         self.assertEqual(set(submissions[0].keys()), {"id", "dateModified", "status"})
 
+        response = self.app.get("/frameworks/{}/submissions".format(self.framework_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
+        submissions = response.json["data"]
+        self.assertEqual(len(submissions), 1)
+        self.assertNotIn("config", submissions[0])
+        self.assertNotIn("owner", submissions[0])
+        self.assertEqual(set(submissions[0].keys()), {
+            "id",
+            "dateModified",
+            "status",
+            "dateCreated",
+            "datePublished",
+            "frameworkID",
+            "tenderers",
+            "qualificationID",
+            "date",
+        })
+
     # Check access (submission owner)
     with change_auth(self.app, ("Basic", ("broker2", ""))):
         # Check object
@@ -581,6 +601,26 @@ def create_submission_config_restricted(self):
         self.assertNotIn("owner", submissions[0])
         self.assertEqual(set(submissions[0].keys()), {"id", "dateModified", "status"})
 
+        response = self.app.get("/frameworks/{}/submissions".format(self.framework_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
+        submissions = response.json["data"]
+        self.assertEqual(len(submissions), 1)
+        self.assertNotIn("config", submissions[0])
+        self.assertNotIn("owner", submissions[0])
+        self.assertEqual(set(submissions[0].keys()), {
+            "id",
+            "dateModified",
+            "status",
+            "dateCreated",
+            "datePublished",
+            "frameworkID",
+            "tenderers",
+            "qualificationID",
+            "date",
+        })
+
     # Check access (anonymous)
     with change_auth(self.app, ("Basic", ("", ""))):
         # Check object
@@ -598,6 +638,16 @@ def create_submission_config_restricted(self):
 
         # Check listing
         response = self.app.get("/submissions?opt_fields=status")
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
+        submissions = response.json["data"]
+        self.assertEqual(len(submissions), 1)
+        self.assertNotIn("config", submissions[0])
+        self.assertNotIn("owner", submissions[0])
+        self.assertEqual(set(submissions[0].keys()), {"id", "dateModified"})
+
+        response = self.app.get("/frameworks/{}/submissions".format(self.framework_id))
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
 
