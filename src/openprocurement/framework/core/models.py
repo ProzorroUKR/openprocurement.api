@@ -57,6 +57,7 @@ class IFramework(IOPContent):
 
 class FrameworkConfig(Model):
     test = BooleanType(required=False)
+    restricted_derivatives = BooleanType(required=False)
 
 
 def get_agreement(model):
@@ -199,7 +200,7 @@ class ISubmission(IOPContent):
 
 class SubmissionConfig(Model):
     test = BooleanType(required=False)
-    private = BooleanType(required=False)
+    restricted = BooleanType(required=False)
 
 
 class ContactPoint(BaseContactPoint):

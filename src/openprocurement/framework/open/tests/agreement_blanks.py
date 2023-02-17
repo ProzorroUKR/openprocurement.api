@@ -126,7 +126,7 @@ def create_agreement_config_test(self):
     self.assertEqual(response.json["config"], expected_config)
 
 
-def create_agreement_config_private(self):
+def create_agreement_config_restricted(self):
     # Create framework
     with change_auth(self.app, ("Basic", ("broker1", ""))):
         data = deepcopy(self.initial_data)
@@ -156,7 +156,7 @@ def create_agreement_config_private(self):
     # Activate qualification
     with change_auth(self.app, ("Basic", ("broker1", ""))):
         expected_config = {
-            "private": True,
+            "restricted": True,
         }
 
         response = self.activate_qualification()
@@ -171,7 +171,7 @@ def create_agreement_config_private(self):
 
         # Check agreement
         expected_config = {
-            "private": True,
+            "restricted": True,
         }
 
         response = self.app.patch_json(

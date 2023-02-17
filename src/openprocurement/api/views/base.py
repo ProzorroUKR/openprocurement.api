@@ -44,7 +44,7 @@ class MongodbResourceListing(BaseResource):
     owner_fields = {"owner"}
     listing_default_fields = {"dateModified"}
     listing_allowed_fields = {"dateModified", "created", "modified"}
-    listing_public_fields = {"dateModified"}
+    listing_safe_fields = {"dateModified"}
     default_limit = 100
     max_limit = 1000
     db_listing_method: callable
@@ -134,7 +134,7 @@ class MongodbResourceListing(BaseResource):
                 for r in results:
                     r.pop(self.offset_field)
         data = {
-            'data': self.visible_fields(results, fields),
+            'data': self.filter_fields(results, fields),
             'next_page': self.get_page(keys, params)
         }
         if self.request.params.get('descending') or self.request.params.get('offset'):
@@ -149,22 +149,24 @@ class MongodbResourceListing(BaseResource):
             "uri": self.request.route_url(self.listing_name, _query=params, **keys)
         }
 
-    def visible_fields(self, results, fields):
+    def filter_fields(self, results, fields):
         visible_results = []
         visible_fields = {'id'}
         for result in results:
-            if result.get(self.config_filed, {}).get('private', False) is False:
-                # not a private item
-                visible_fields = visible_fields | fields
-            elif self.request.authenticated_userid and any(
-                result.get(owner_filed) == self.request.authenticated_userid
-                for owner_filed in self.owner_fields
-            ):
-                # private item owned by current user
+            if result.get(self.config_filed, {}).get("restricted", False) is False:
+                # not restricted item
                 visible_fields = visible_fields | fields
             else:
-                # private item not owned by current user
-                visible_fields = visible_fields | self.listing_public_fields
+                # restricted item
+                if self.request.authenticated_userid and any(
+                    result.get(owner_filed) == self.request.authenticated_userid
+                    for owner_filed in self.owner_fields
+                ):
+                    # private item owned by current user
+                    visible_fields = visible_fields | fields
+                else:
+                    # private item not owned by current user
+                    visible_fields = visible_fields | self.listing_safe_fields
             visible_results.append(
                 {
                     k: v for k, v in result.items()

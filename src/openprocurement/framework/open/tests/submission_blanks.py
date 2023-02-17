@@ -497,7 +497,7 @@ def create_submission_config_test(self):
     self.assertEqual(response.json["config"], expected_config)
 
 
-def create_submission_config_private(self):
+def create_submission_config_restricted(self):
     # Create framework
     with change_auth(self.app, ("Basic", ("broker1", ""))):
         data = deepcopy(self.initial_data)
@@ -509,6 +509,7 @@ def create_submission_config_private(self):
         framework_owner = framework["owner"]
 
         self.assertNotIn("config", framework)
+        self.assertTrue(response.json["config"]["restricted_derivatives"])
         self.assertEqual(framework["procuringEntity"]["kind"], "defense")
 
     # Create and activate submission
@@ -516,7 +517,7 @@ def create_submission_config_private(self):
         # Change authorization so framework and submission have different owners
 
         expected_config = {
-            "private": True,
+            "restricted": True,
         }
 
         response = self.create_submission()

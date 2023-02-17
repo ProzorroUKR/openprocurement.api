@@ -325,7 +325,7 @@ def patch_submission_pending_config_test(self):
     self.assertEqual(response.json["config"], expected_config)
 
 
-def patch_submission_pending_config_private(self):
+def patch_submission_pending_config_restricted(self):
     # Create framework
     with change_auth(self.app, ("Basic", ("broker1", ""))):
         data = deepcopy(self.initial_data)
@@ -355,7 +355,7 @@ def patch_submission_pending_config_private(self):
     # Activate qualification
     with change_auth(self.app, ("Basic", ("broker1", ""))):
         expected_config = {
-            "private": True,
+            "restricted": True,
         }
 
         response = self.activate_qualification()

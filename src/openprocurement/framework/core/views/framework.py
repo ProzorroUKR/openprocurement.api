@@ -62,6 +62,8 @@ class FrameworkResource(MongodbResourceListing):
             framework.mode = "test"
         if not framework.get("prettyID"):
             framework.prettyID = generate_framework_pretty_id(self.request)
+        if framework["procuringEntity"]["kind"] == "defense":
+            framework_config["restricted_derivatives"] = True
         access = set_ownership(framework, self.request)
         upload_objects_documents(
             self.request, framework,

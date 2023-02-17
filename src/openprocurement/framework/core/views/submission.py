@@ -82,8 +82,8 @@ class SubmissionResource(MongodbResourceListing):
         submission.framework_token = framework["owner_token"]
         if framework_config.get("test", False):
             submission_config["test"] = framework_config["test"]
-        if framework["procuringEntity"]["kind"] == "defense":
-            submission_config["private"] = True
+        if framework_config.get("restricted_derivatives", False):
+            submission_config["restricted"] = True
         if self.request.json["data"].get("status") == "draft":
             submission.status = "draft"
         upload_objects_documents(
@@ -209,8 +209,8 @@ class CoreSubmissionResource(BaseResource, AgreementViewMixin):
         qualification_config = {}
         if framework_config.get("test", False):
             qualification_config["test"] = framework_config["test"]
-        if framework["procuringEntity"]["kind"] == "defense":
-            qualification_config["private"] = True
+        if framework_config.get("restricted_derivatives", False):
+            qualification_config["restricted"] = True
         model = self.request.qualification_from_data(qualification_data, create=False)
         qualification = model(qualification_data)
         self.request.validated["qualification_src"] = {}
