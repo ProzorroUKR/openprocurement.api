@@ -26,7 +26,7 @@ from openprocurement.framework.open.tests.agreement_blanks import (
     create_agreement_config_restricted,
 )
 from openprocurement.framework.open.tests.base import (
-    test_open_data,
+    test_framework_open_data,
     test_submission_data,
     AgreementContentWebTest,
     MilestoneContentWebTest,
@@ -48,7 +48,7 @@ class QualificationContentWebTest(BaseQualificationContentWebTest):
 
 
 class TestAgreementCreation(QualificationContentWebTest):
-    initial_data = test_open_data
+    initial_data = test_framework_open_data
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
 
@@ -58,7 +58,7 @@ class TestAgreementCreation(QualificationContentWebTest):
 
 
 class TestAgreementChanges(AgreementContentWebTest):
-    initial_data = test_open_data
+    initial_data = test_framework_open_data
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
 
@@ -68,7 +68,7 @@ class TestAgreementChanges(AgreementContentWebTest):
 
 
 class TestAgreementResource(AgreementContentWebTest):
-    initial_data = test_open_data
+    initial_data = test_framework_open_data
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
 
@@ -80,7 +80,7 @@ class TestAgreementResource(AgreementContentWebTest):
 
 
 class TestAgreementMilestoneResource(AgreementContentWebTest):
-    initial_data = test_open_data
+    initial_data = test_framework_open_data
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
 
@@ -91,7 +91,7 @@ class TestAgreementMilestoneResource(AgreementContentWebTest):
 
 
 class TestMilestoneDocumentGet(MilestoneContentWebTest):
-    initial_data = test_open_data
+    initial_data = test_framework_open_data
     initial_submission_data = test_submission_data
     initial_milestone_data = ban_milestone_data_with_documents
 
@@ -105,7 +105,7 @@ class TestMilestoneDocumentGet(MilestoneContentWebTest):
 
 
 class TestMilestoneCreate(MilestoneContentWebTest):
-    initial_data = test_open_data
+    initial_data = test_framework_open_data
     initial_submission_data = test_submission_data
     initial_milestone_data = ban_milestone_data_with_documents
     initial_auth = ('Basic', ('broker', ''))

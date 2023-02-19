@@ -3,7 +3,7 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.framework.electroniccatalogue.tests.base import (
-    test_electronicCatalogue_data,
+    test_framework_electronic_catalogue_data,
     BaseElectronicCatalogueWebTest,
     BaseApiWebTest,
 )
@@ -36,13 +36,13 @@ from openprocurement.framework.open.tests.framework_blanks import (
 
 
 class FrameworkTest(BaseApiWebTest):
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_framework_electronic_catalogue_data
 
     test_simple_add_framework = snitch(simple_add_framework)
 
 
 class FrameworkResourceTest(BaseElectronicCatalogueWebTest):
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_framework_electronic_catalogue_data
     initial_auth = ("Basic", ("broker", ""))
 
     test_listing_changes = snitch(listing_changes)

@@ -3,7 +3,7 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.framework.open.tests.base import (
-    test_open_data,
+    test_framework_open_data,
     BaseOpenWebTest,
     BaseApiWebTest,
 )
@@ -34,13 +34,13 @@ from openprocurement.framework.open.tests.framework_blanks import (
 
 
 class FrameworkTest(BaseApiWebTest):
-    initial_data = test_open_data
+    initial_data = test_framework_open_data
 
     test_simple_add_framework = snitch(simple_add_framework)
 
 
 class FrameworkResourceTest(BaseOpenWebTest):
-    initial_data = test_open_data
+    initial_data = test_framework_open_data
     initial_auth = ("Basic", ("broker", ""))
 
     test_listing_changes = snitch(listing_changes)

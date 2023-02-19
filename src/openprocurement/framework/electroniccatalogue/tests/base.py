@@ -42,7 +42,7 @@ def get_cpb_ids_by_activity():
 active_cpb_id, non_active_cpb_id = get_cpb_ids_by_activity()
 
 now = get_now()
-test_electronicCatalogue_data = {
+test_framework_electronic_catalogue_data = {
     "frameworkType": "electronicCatalogue",
     "procuringEntity": {
         "contactPoint": {
@@ -166,7 +166,7 @@ class BaseApiWebTest(BaseWebTest):
 
 class BaseElectronicCatalogueWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_framework_electronic_catalogue_data
     initial_config = {}
     framework_class = Framework
     framework_type = "electronicCatalogue"

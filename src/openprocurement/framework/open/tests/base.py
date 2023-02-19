@@ -21,7 +21,7 @@ from openprocurement.framework.open.models import (
 from openprocurement.framework.open.tests.periods import PERIODS
 
 now = get_now()
-test_open_data = {
+test_framework_open_data = {
     "frameworkType": "open",
     "procuringEntity": {
         "contactPoint": {
@@ -144,7 +144,7 @@ class BaseApiWebTest(BaseWebTest):
 
 class BaseOpenWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
-    initial_data = test_open_data
+    initial_data = test_framework_open_data
     initial_config = {}
     framework_class = Framework
     framework_type = "open"

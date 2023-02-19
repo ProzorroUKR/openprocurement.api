@@ -6,7 +6,7 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.framework.electroniccatalogue.tests.base import (
     BaseSubmissionContentWebTest,
     SubmissionContentWebTest,
-    test_electronicCatalogue_data,
+    test_framework_electronic_catalogue_data,
     test_electronicCatalogue_documents,
     test_submission_data,
 )
@@ -66,13 +66,13 @@ class SubmissionResourceTest(BaseSubmissionContentWebTest):
     test_submission_not_found = snitch(submission_not_found)
     test_submission_token_invalid = snitch(submission_token_invalid)
 
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_framework_electronic_catalogue_data
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
 
 
 class TestSubmissionDocumentGet(SubmissionContentWebTest):
-    initial_data = deepcopy(test_electronicCatalogue_data)
+    initial_data = deepcopy(test_framework_electronic_catalogue_data)
     initial_submission_data = deepcopy(test_submission_data)
 
     test_get_documents_list = snitch(get_documents_list)
@@ -86,7 +86,7 @@ class TestSubmissionDocumentGet(SubmissionContentWebTest):
 
 
 class TestDocumentsCreate(SubmissionContentWebTest):
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_framework_electronic_catalogue_data
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
     docservice = True

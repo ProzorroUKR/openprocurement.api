@@ -4,7 +4,7 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.framework.open.tests.base import (
-    test_open_data,
+    test_framework_open_data,
     test_open_documents,
     OpenContentWebTest,
     BaseDSOpenContentWebTest,
@@ -21,7 +21,7 @@ from openprocurement.framework.open.tests.document_blanks import (
 
 
 class TestDocumentGet(OpenContentWebTest):
-    initial_data = deepcopy(test_open_data)
+    initial_data = deepcopy(test_framework_open_data)
 
     def setUp(self):
         self.initial_data["documents"] = deepcopy(test_open_documents)
@@ -34,7 +34,7 @@ class TestDocumentGet(OpenContentWebTest):
 
 
 class TestDocumentsCreate(BaseDSOpenContentWebTest):
-    initial_data = test_open_data
+    initial_data = test_framework_open_data
     initial_auth = ("Basic", ("broker", ""))
 
     test_create_framework_document_forbidden = snitch(create_framework_document_forbidden)
@@ -43,7 +43,7 @@ class TestDocumentsCreate(BaseDSOpenContentWebTest):
 
 
 class OpenDocumentWithDSResourceTest(BaseDSOpenContentWebTest):
-    initial_data = test_open_data
+    initial_data = test_framework_open_data
 
     test_not_found = snitch(not_found)
     test_put_contract_document = snitch(put_contract_document)

@@ -9,29 +9,29 @@ from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
 from openprocurement.api.utils import get_now, parse_date
 from openprocurement.framework.electroniccatalogue.tests.base import (
-    test_electronicCatalogue_data,
+    test_framework_electronic_catalogue_data,
     BaseElectronicCatalogueWebTest,
 )
 
 TARGET_DIR = 'docs/source/frameworks/electroniccatalogue/tutorial/'
 
-test_electronicCatalogue_data = deepcopy(test_electronicCatalogue_data)
+test_framework_electronic_catalogue_data = deepcopy(test_framework_electronic_catalogue_data)
 
 
-class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTestMixin):
+class FrameworkElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTestMixin):
     AppClass = DumpsWebTestApp
     relative_to = os.path.dirname(__file__)
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_framework_electronic_catalogue_data
     docservice = True
     docservice_url = DOCS_URL
 
     def setUp(self):
-        super(ElectronicCatalogueResourceTest, self).setUp()
+        super(FrameworkElectronicCatalogueResourceTest, self).setUp()
         self.setUpMock()
 
     def tearDown(self):
         self.tearDownMock()
-        super(ElectronicCatalogueResourceTest, self).tearDown()
+        super(FrameworkElectronicCatalogueResourceTest, self).tearDown()
 
     def create_framework(self):
         pass

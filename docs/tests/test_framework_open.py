@@ -9,29 +9,29 @@ from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
 from openprocurement.api.utils import get_now, parse_date
 from openprocurement.framework.open.tests.base import (
-    test_open_data,
+    test_framework_open_data,
     BaseOpenWebTest,
 )
 
 TARGET_DIR = 'docs/source/frameworks/open/tutorial/'
 
-test_open_data = deepcopy(test_open_data)
+test_framework_open_data = deepcopy(test_framework_open_data)
 
 
-class ElectronicCatalogueResourceTest(BaseOpenWebTest, MockWebTestMixin):
+class FrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
     AppClass = DumpsWebTestApp
     relative_to = os.path.dirname(__file__)
-    initial_data = test_open_data
+    initial_data = test_framework_open_data
     docservice = True
     docservice_url = DOCS_URL
 
     def setUp(self):
-        super(ElectronicCatalogueResourceTest, self).setUp()
+        super(FrameworkOpenResourceTest, self).setUp()
         self.setUpMock()
 
     def tearDown(self):
         self.tearDownMock()
-        super(ElectronicCatalogueResourceTest, self).tearDown()
+        super(FrameworkOpenResourceTest, self).tearDown()
 
     def create_framework(self):
         pass
