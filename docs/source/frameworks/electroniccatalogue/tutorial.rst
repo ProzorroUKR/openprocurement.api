@@ -1,4 +1,4 @@
-.. _electroniccatalogue_tutorial:
+.. _framework_electroniccatalogue_tutorial:
 
 Tutorial
 ========

@@ -1,6 +1,6 @@
 .. _frameworks_open:
 
-Electronic Open
+Open framework
 =====================================================
 
 Contents:
