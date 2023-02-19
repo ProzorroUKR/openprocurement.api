@@ -272,7 +272,7 @@ class RestrictedFrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
         with change_auth(self.app, ("Basic", ("broker", ""))):
 
             with open(TARGET_DIR + 'agreement-feed-broker.http', 'w') as self.app.file_obj:
-                response = self.app.get('/agreements?opt_fields=frameworkID,status')
+                response = self.app.get('/agreements?opt_fields=status')
                 self.assertEqual(response.status, '200 OK')
 
             with open(TARGET_DIR + 'agreement-get-broker.http', 'w') as self.app.file_obj:
@@ -283,7 +283,7 @@ class RestrictedFrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
         with change_auth(self.app, ("Basic", ("broker1", ""))):
 
             with open(TARGET_DIR + 'agreement-feed-broker1.http', 'w') as self.app.file_obj:
-                response = self.app.get('/agreements?opt_fields=frameworkID,status')
+                response = self.app.get('/agreements?opt_fields=status')
                 self.assertEqual(response.status, '200 OK')
 
             with open(TARGET_DIR + 'agreement-get-broker1.http', 'w') as self.app.file_obj:
@@ -294,7 +294,7 @@ class RestrictedFrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
         with change_auth(self.app, ("Basic", ("broker2", ""))):
 
             with open(TARGET_DIR + 'agreement-feed-broker2.http', 'w') as self.app.file_obj:
-                response = self.app.get('/agreements?opt_fields=frameworkID,status')
+                response = self.app.get('/agreements?opt_fields=status')
                 self.assertEqual(response.status, '200 OK')
 
             with open(TARGET_DIR + 'agreement-get-broker2.http', 'w') as self.app.file_obj:
@@ -305,7 +305,7 @@ class RestrictedFrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
         with change_auth(self.app, None):
 
             with open(TARGET_DIR + 'agreement-feed-anonymous.http', 'w') as self.app.file_obj:
-                response = self.app.get('/agreements?opt_fields=frameworkID,status')
+                response = self.app.get('/agreements?opt_fields=status')
                 self.assertEqual(response.status, '200 OK')
 
             with open(TARGET_DIR + 'agreement-get-anonymous.http', 'w') as self.app.file_obj:

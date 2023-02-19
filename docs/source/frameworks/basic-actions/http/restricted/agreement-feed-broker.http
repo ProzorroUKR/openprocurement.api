@@ -1,4 +1,4 @@
-GET /api/2.5/agreements?opt_fields=frameworkID,status HTTP/1.0
+GET /api/2.5/agreements?opt_fields=status HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
