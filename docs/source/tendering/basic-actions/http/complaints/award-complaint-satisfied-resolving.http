@@ -31,6 +31,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0f776099eb8344b4
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137226",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {

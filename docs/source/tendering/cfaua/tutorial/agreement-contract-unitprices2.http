@@ -41,6 +41,7 @@ Content-Type: application/json
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137226",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {

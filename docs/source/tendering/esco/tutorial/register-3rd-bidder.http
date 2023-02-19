@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/28db6af763c74fceaedc98e147fed6cb/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 2839
+Content-Length: 3223
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -22,6 +22,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "identifier": {
           "scheme": "UA-EDR",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "id": "00137226",
           "uri": "http://www.sc.gov.ua/"
         },
@@ -117,6 +118,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/28db6af763c74fce
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137226",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {
