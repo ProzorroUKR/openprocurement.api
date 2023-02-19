@@ -151,8 +151,8 @@ class MongodbResourceListing(BaseResource):
 
     def filter_fields(self, results, fields):
         visible_results = []
-        visible_fields = {"id", "restricted"}
         for result in results:
+            visible_fields = {"id", "restricted"}
             if result.get(self.config_filed, {}).get("restricted", False) is False:
                 # not restricted item
                 visible_fields = visible_fields | fields
