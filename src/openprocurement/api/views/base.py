@@ -50,7 +50,7 @@ class MongodbResourceListing(BaseResource):
     db_listing_method: callable
     filter_key = None
 
-    @json_view(permission='view_listing')
+    @json_view(permission="view_listing")
     def get(self):
         params = {}
         filters = {}
@@ -63,12 +63,12 @@ class MongodbResourceListing(BaseResource):
             keys[self.filter_key] = filter_value
 
         # mode param
-        if self.request.params.get('mode'):
-            params["mode"] = self.request.params.get('mode')
+        if self.request.params.get("mode"):
+            params["mode"] = self.request.params.get("mode")
 
         # offset param
         offset = None
-        offset_param = self.request.params.get('offset')
+        offset_param = self.request.params.get("offset")
         if offset_param:
             try:
                 offset = parse_offset(offset_param)
@@ -80,7 +80,7 @@ class MongodbResourceListing(BaseResource):
             params["offset"] = compose_offset(self.request, offset)
 
         # limit param
-        limit_param = self.request.params.get('limit')
+        limit_param = self.request.params.get("limit")
         if limit_param:
             try:
                 limit = int(limit_param)
@@ -93,12 +93,12 @@ class MongodbResourceListing(BaseResource):
                 params["limit"] = min(limit, self.max_limit)
 
         # descending param
-        if self.request.params.get('descending'):
+        if self.request.params.get("descending"):
             params["descending"] = 1
 
         # opt_fields param
-        if self.request.params.get('opt_fields'):
-            opt_fields = set(self.request.params.get('opt_fields', '').split(",")) & self.listing_allowed_fields
+        if self.request.params.get("opt_fields"):
+            opt_fields = set(self.request.params.get("opt_fields", "").split(",")) & self.listing_allowed_fields
             filtered_fields = opt_fields - self.listing_default_fields
             if filtered_fields:
                 params["opt_fields"] = ",".join(filtered_fields)
@@ -128,17 +128,17 @@ class MongodbResourceListing(BaseResource):
 
         # prepare response
         if results:
-            params['offset'] = compose_offset(self.request, results[-1][self.offset_field])
-            prev_params['offset'] = compose_offset(self.request, results[0][self.offset_field])
+            params["offset"] = compose_offset(self.request, results[-1][self.offset_field])
+            prev_params["offset"] = compose_offset(self.request, results[0][self.offset_field])
             if self.offset_field not in self.listing_allowed_fields:
                 for r in results:
                     r.pop(self.offset_field)
         data = {
-            'data': self.filter_fields(results, fields),
-            'next_page': self.get_page(keys, params)
+            "data": self.filter_fields(results, fields),
+            "next_page": self.get_page(keys, params)
         }
-        if self.request.params.get('descending') or self.request.params.get('offset'):
-            data['prev_page'] = self.get_page(keys, prev_params)
+        if self.request.params.get("descending") or self.request.params.get("offset"):
+            data["prev_page"] = self.get_page(keys, prev_params)
 
         return data
 
@@ -151,7 +151,7 @@ class MongodbResourceListing(BaseResource):
 
     def filter_fields(self, results, fields):
         visible_results = []
-        visible_fields = {'id'}
+        visible_fields = {"id", "restricted"}
         for result in results:
             if result.get(self.config_filed, {}).get("restricted", False) is False:
                 # not restricted item
@@ -165,6 +165,7 @@ class MongodbResourceListing(BaseResource):
                     # private item owned by current user
                     visible_fields = visible_fields | fields
                 else:
+                    result["restricted"] = True
                     # private item not owned by current user
                     visible_fields = visible_fields | self.listing_safe_fields
             visible_results.append(
