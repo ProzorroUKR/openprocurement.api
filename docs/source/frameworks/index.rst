@@ -9,4 +9,5 @@ Contents:
    :maxdepth: 4
 
    overview
+   open/index
    electroniccatalogue/index
