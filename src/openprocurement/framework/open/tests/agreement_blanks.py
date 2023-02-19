@@ -235,7 +235,7 @@ def create_agreement_config_restricted(self):
         self.assertEqual(len(submissions), 1)
         self.assertNotIn("config", submissions[0])
         self.assertNotIn("owner", submissions[0])
-        self.assertEqual(set(submissions[0].keys()), {"id", "dateModified"})
+        self.assertEqual(set(submissions[0].keys()), {"id", "dateModified", "restricted"})
 
     # Check access (anonymous)
     with change_auth(self.app, ("Basic", ("", ""))):
@@ -261,7 +261,7 @@ def create_agreement_config_restricted(self):
         self.assertEqual(len(submissions), 1)
         self.assertNotIn("config", submissions[0])
         self.assertNotIn("owner", submissions[0])
-        self.assertEqual(set(submissions[0].keys()), {"id", "dateModified"})
+        self.assertEqual(set(submissions[0].keys()), {"id", "dateModified", "restricted"})
 
 
 def change_agreement(self):

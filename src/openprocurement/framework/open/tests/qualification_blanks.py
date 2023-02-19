@@ -470,7 +470,7 @@ def patch_submission_pending_config_restricted(self):
         self.assertEqual(len(qualifications), 1)
         self.assertNotIn("config", qualifications[0])
         self.assertNotIn("owner", qualifications[0])
-        self.assertEqual(set(qualifications[0].keys()), {"id", "dateModified"})
+        self.assertEqual(set(qualifications[0].keys()), {"id", "dateModified", "restricted"})
 
         response = self.app.get("/frameworks/{}/qualifications".format(self.framework_id))
         self.assertEqual(response.status, "200 OK")
@@ -480,7 +480,7 @@ def patch_submission_pending_config_restricted(self):
         self.assertEqual(len(qualifications), 1)
         self.assertNotIn("config", qualifications[0])
         self.assertNotIn("owner", qualifications[0])
-        self.assertEqual(set(qualifications[0].keys()), {"id", "dateModified"})
+        self.assertEqual(set(qualifications[0].keys()), {"id", "dateModified", "restricted"})
 
 
 def patch_qualification_active(self):
