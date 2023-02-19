@@ -1,0 +1,116 @@
+POST /api/2.5/frameworks HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 1855
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "frameworkType": "open",
+    "procuringEntity": {
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000",
+        "email": "aa@aa.com"
+      },
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Назва організації"
+      },
+      "kind": "general",
+      "address": {
+        "countryName": "Україна",
+        "postalCode": "01220",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова, 11, корпус 1"
+      },
+      "name": "Державне управління справами"
+    },
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003",
+        "id": "17.21.1",
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ],
+    "classification": {
+      "scheme": "ДК021",
+      "description": "Mustard seeds",
+      "id": "03111600-8"
+    },
+    "title": "Узагальнена назва закупівлі",
+    "description": "Назва предмета закупівлі",
+    "qualificationPeriod": {
+      "endDate": "2023-03-02T00:00:00+02:00"
+    }
+  },
+  "config": {
+    "restricted_derivatives": true
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/79f3850495814cb1893350b0f6342f8f
+
+{
+  "data": {
+    "prettyID": "UA-F-2023-01-01-000001",
+    "title": "Узагальнена назва закупівлі",
+    "description": "Назва предмета закупівлі",
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "owner": "broker",
+    "status": "draft",
+    "qualificationPeriod": {
+      "endDate": "2023-03-02T00:00:00+02:00"
+    },
+    "frameworkType": "open",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Назва організації"
+      },
+      "address": {
+        "countryName": "Україна",
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000",
+        "email": "aa@aa.com"
+      },
+      "kind": "general"
+    },
+    "classification": {
+      "description": "Mustard seeds",
+      "scheme": "ДК021",
+      "id": "03111600-8"
+    },
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003",
+        "id": "17.21.1",
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ],
+    "id": "79f3850495814cb1893350b0f6342f8f"
+  },
+  "access": {
+    "token": "6d265ecdabed4b4eb6d1b3d41cb5e153",
+    "transfer": "a74743002ae945f48a42a54357586361"
+  },
+  "config": {
+    "restricted_derivatives": true
+  }
+}
+

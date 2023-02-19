@@ -11,3 +11,4 @@ Contents:
    overview
    open/index
    electroniccatalogue/index
+   basic-actions/index

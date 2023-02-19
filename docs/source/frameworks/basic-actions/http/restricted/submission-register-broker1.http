@@ -1,0 +1,84 @@
+POST /api/2.5/submissions HTTP/1.0
+Authorization: Bearer broker1
+Content-Length: 1204
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "tenderers": [
+      {
+        "address": {
+          "countryName": "Україна",
+          "locality": "м. Вінниця",
+          "postalCode": "21100",
+          "region": "Вінницька область",
+          "streetAddress": "вул. Островського, 33"
+        },
+        "contactPoint": {
+          "email": "soleksuk@gmail.com",
+          "name": "Сергій Олексюк",
+          "telephone": "+380432216930"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "id": "00137256",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "ДКП «Школяр»",
+        "scale": "micro"
+      }
+    ],
+    "frameworkID": "79f3850495814cb1893350b0f6342f8f"
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/9e93d88b8dfd41389080ad700066e320
+
+{
+  "data": {
+    "frameworkID": "79f3850495814cb1893350b0f6342f8f",
+    "dateModified": "2023-01-17T00:00:00+02:00",
+    "date": "2023-01-17T00:00:00+02:00",
+    "owner": "broker1",
+    "status": "draft",
+    "submissionType": "open",
+    "tenderers": [
+      {
+        "name": "ДКП «Школяр»",
+        "scale": "micro",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930"
+        }
+      }
+    ],
+    "id": "9e93d88b8dfd41389080ad700066e320"
+  },
+  "access": {
+    "token": "63fdc532ff4d4806bf7836fdac1197cd",
+    "transfer": "ada859837ca44dcf95e6512a34b41a71"
+  },
+  "config": {
+    "restricted": true
+  }
+}
+

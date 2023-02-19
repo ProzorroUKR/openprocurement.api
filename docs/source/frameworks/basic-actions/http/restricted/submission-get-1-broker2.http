@@ -1,0 +1,19 @@
+GET /api/2.5/submissions/9e93d88b8dfd41389080ad700066e320 HTTP/1.0
+Authorization: Bearer broker2
+Host: lb-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Access restricted for submission object"
+    }
+  ]
+}
+
