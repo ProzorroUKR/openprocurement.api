@@ -35,7 +35,7 @@ class SimpleDefenseTenderResource(AboveThresholdUADefenseTenderResource):
         permission="create_tender",
         validators=(
             validate_input_data(PostTender),
-            validate_config_data(TenderConfig),
+            validate_config_data(TenderConfig, obj_name="tender"),
             validate_accreditation_level(
                 levels=(ACCR_3, ACCR_5),
                 kind_central_levels=(ACCR_5,),

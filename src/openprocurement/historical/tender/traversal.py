@@ -17,6 +17,7 @@ def historical_tender_factory(request):
     request.validated["tender_id"] = request.matchdict["doc_id"]
     doc = request.extract_doc_versioned("Tender")
     request.validated["tender"] = doc
+    request.validated["tender_config"] = doc.pop("config", None) or {}
     request.validated["id"] = request.matchdict["doc_id"]
     request.validated["tender_status"] = doc["status"]
 

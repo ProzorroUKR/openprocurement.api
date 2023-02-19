@@ -83,7 +83,7 @@ def save_tender(request, modified: bool = True, insert: bool = False) -> bool:
 
 
 def set_tender_config(request, tender):
-    config = request.validated.get("config", {})
+    config = request.validated.get("tender_config", {})
     if config:
         tender["config"] = config
 

@@ -75,7 +75,7 @@ class CDEUTenderResource(TendersResource):
         permission="create_tender",
         validators=(
             validate_input_data(PostEUTender),
-            validate_config_data(TenderConfig),
+            validate_config_data(TenderConfig, obj_name="tender"),
             validate_accreditation_level(
                 levels=(ACCR_3, ACCR_5),
                 kind_central_levels=(ACCR_5,),
@@ -150,7 +150,7 @@ class CDUATenderResource(TendersResource):
         permission="create_tender",
         validators=(
             validate_input_data(PostUATender),
-            validate_config_data(TenderConfig),
+            validate_config_data(TenderConfig, obj_name="tender"),
             validate_accreditation_level(
                 levels=(ACCR_3, ACCR_5),
                 kind_central_levels=(ACCR_5,),

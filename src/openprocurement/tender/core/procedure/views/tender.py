@@ -65,7 +65,7 @@ class TendersResource(TenderBaseResource):
     def collection_post(self):
         update_logging_context(self.request, {"tender_id": "__new__"})
         tender = self.request.validated["data"]
-        config = self.request.validated.get("config", {})
+        config = self.request.validated["tender_config"]
         self.state.config = config
         access = set_ownership(tender, self.request)
         self.state.on_post(tender)
@@ -96,14 +96,14 @@ class TendersResource(TenderBaseResource):
     @json_view(permission="view_tender")
     def get(self):
         tender = self.request.validated["tender"]
-        config = self.request.validated["config"]
+        config = self.request.validated["tender_config"]
         response_data = {"data": self.serializer_class(tender).data}
         if config:
             response_data["config"] = config
         return response_data
 
     def patch(self):
-        config = self.request.validated["config"]
+        config = self.request.validated["tender_config"]
         updated = self.request.validated["data"]
         if updated:
             before = self.request.validated["tender_src"]
