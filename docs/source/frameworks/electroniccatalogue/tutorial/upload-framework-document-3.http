@@ -1,4 +1,4 @@
-PUT /api/2.5/frameworks/86396c65e9154359a2329bfc7dddd3eb/documents/5fae6b7a6a484d0d9463518885170f31?acc_token=736a39718b2d4c6096e0a3d0c1f74126 HTTP/1.0
+PUT /api/2.5/frameworks/86396c65e9154359a2329bfc7dddd3eb/documents/f8b257f1183946eda2f09adb99cb2478?acc_token=736a39718b2d4c6096e0a3d0c1f74126 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 181
 Content-Type: multipart/form-data; boundary=---BOUNDARY
@@ -18,11 +18,11 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "5fae6b7a6a484d0d9463518885170f31",
+    "id": "f8b257f1183946eda2f09adb99cb2478",
     "hash": "md5:00000000000000000000000000000000",
     "title": "framework_additional_docs.doc",
     "format": "application/msword",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/eb64b89b919e475dba06f3f233861e17?Signature=mmpS7SIilj1XiUwQjW5obJ07Pz0FfSyYylJaWcJ1ZQtXtWLm6UNGFH47fMPeUpMpFSUEYFNCsqNmhzZA%2FxzBAA%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c4ad6dd4ff1e452d998e06a2a4b79c9b?Signature=LsW4OPqMzruo9MATnge9fzgYAy%2BIe71c68b82eXeZvZDV1rk%2FxWoqyczuTPo7ZppkKOb2mdi6U1nrBOXd06wBA%3D%3D&KeyID=a8968c46",
     "datePublished": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00"
   }

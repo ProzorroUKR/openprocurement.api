@@ -1,4 +1,4 @@
-GET /api/2.5/qualifications/6cb44b948f124cf2bf2e1621a71f19ee/documents HTTP/1.0
+GET /api/2.5/qualifications/edc70fc4b64f479e998cb3c808454f27/documents HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 

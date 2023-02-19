@@ -1,4 +1,4 @@
-POST /api/2.5/agreements/ab18eed84a774815b26a11258ddded7f/contracts/7ee300a5041141dca6bffc282c5f00f5/milestones?acc_token=d28db72befca4940863a08fe750d7a94 HTTP/1.0
+POST /api/2.5/agreements/562e05f3122f4cd7a8032273ab2ab575/contracts/cf98ae254a2445ecbbc07a6d2f0fd216/milestones?acc_token=a697767f7d884729ae8fea4d24690cd9 HTTP/1.0
 Authorization: Bearer token
 Content-Length: 499
 Content-Type: application/json
@@ -27,7 +27,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "adfa001711a641339f03913be89ebc70",
+    "id": "50dff194ff234f078ddbdc8eee8bb975",
     "type": "ban",
     "status": "scheduled",
     "documents": [

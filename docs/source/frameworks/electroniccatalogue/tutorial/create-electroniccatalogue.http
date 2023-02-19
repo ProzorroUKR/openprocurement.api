@@ -1,11 +1,12 @@
 POST /api/2.5/frameworks HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1791
+Content-Length: 1831
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
+    "frameworkType": "electronicCatalogue",
     "procuringEntity": {
       "contactPoint": {
         "telephone": "+0440000000",

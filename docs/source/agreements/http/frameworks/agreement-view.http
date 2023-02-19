@@ -1,4 +1,4 @@
-GET /api/2.5/agreements/ab18eed84a774815b26a11258ddded7f HTTP/1.0
+GET /api/2.5/agreements/562e05f3122f4cd7a8032273ab2ab575 HTTP/1.0
 Authorization: Bearer token
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -15,7 +15,7 @@ Content-Type: application/json
     "dateModified": "2023-01-17T00:00:00+02:00",
     "owner": "test",
     "agreementType": "electronicCatalogue",
-    "frameworkID": "d54d368b9cc844e59b2dc1e7ccbf4bb4",
+    "frameworkID": "f8835c57a51a4e798a0077653a921d3c",
     "period": {
       "startDate": "2023-01-17T00:00:00+02:00",
       "endDate": "2023-03-03T00:00:00+02:00"
@@ -55,8 +55,8 @@ Content-Type: application/json
     ],
     "contracts": [
       {
-        "id": "7ee300a5041141dca6bffc282c5f00f5",
-        "qualificationID": "18e3172c0dac4f7298f094885bdbf187",
+        "id": "cf98ae254a2445ecbbc07a6d2f0fd216",
+        "qualificationID": "731194384d994251a0f01ffedfb65d72",
         "status": "active",
         "submissionID": "42a0db3a5d9c4fe2aa5595b429d99a0f",
         "suppliers": [
@@ -85,7 +85,7 @@ Content-Type: application/json
         ],
         "milestones": [
           {
-            "id": "d60550864bb04f5c8772fb1694505dc2",
+            "id": "2100718fee6c4a36a461d5785176f6e2",
             "type": "activation",
             "status": "scheduled",
             "dueDate": "2023-03-03T00:00:00+02:00",
@@ -95,8 +95,8 @@ Content-Type: application/json
         "date": "2023-01-17T00:00:00+02:00"
       },
       {
-        "id": "cfe5a37fca4842d3ae6e06ff48d2a9b4",
-        "qualificationID": "02291adc1f9b4c85bd75faffd9111222",
+        "id": "93d25d7f3dde40e1b960e9ef57a7efa4",
+        "qualificationID": "24e9f90e1c4944c4af1d73f70f78297e",
         "status": "active",
         "submissionID": "38fdf6cbce1d4a799b0266d148959cb4",
         "suppliers": [
@@ -125,7 +125,7 @@ Content-Type: application/json
         ],
         "milestones": [
           {
-            "id": "7184d585b57345fbb03afc01d13f0b29",
+            "id": "32f6d701d40745e4ba973ff300a4b7ed",
             "type": "activation",
             "status": "scheduled",
             "dueDate": "2023-03-03T00:00:00+02:00",
@@ -135,7 +135,7 @@ Content-Type: application/json
         "date": "2023-01-17T00:00:00+02:00"
       }
     ],
-    "id": "ab18eed84a774815b26a11258ddded7f",
+    "id": "562e05f3122f4cd7a8032273ab2ab575",
     "next_check": "2023-03-03T00:00:00+02:00"
   }
 }

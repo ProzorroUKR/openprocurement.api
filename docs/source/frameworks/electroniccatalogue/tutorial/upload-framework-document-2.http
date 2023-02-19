@@ -15,15 +15,15 @@ additional info
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/86396c65e9154359a2329bfc7dddd3eb/documents/5fae6b7a6a484d0d9463518885170f31
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/86396c65e9154359a2329bfc7dddd3eb/documents/f8b257f1183946eda2f09adb99cb2478
 
 {
   "data": {
-    "id": "5fae6b7a6a484d0d9463518885170f31",
+    "id": "f8b257f1183946eda2f09adb99cb2478",
     "hash": "md5:00000000000000000000000000000000",
     "title": "framework_additional_docs.doc",
     "format": "application/msword",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ad7d857325104fa99795a21e528fb240?Signature=pgeeq1XIoeq6vn39IdsRe7WYoaKpNyeVh4mnDUxf3j717%2FlVpCcVkFUePW7aRxFG2H3y2BByPDONy9OZV8%2B9Cg%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7fd2cd06e02243259bd4261794e4c241?Signature=JqvO1GhYAL1Jv6nXbzsBOXtZ4NKSWO62wqivsv6u%2Bh0AVUGmEhTLinoxDp220dQ5i6qGoDM%2BpGye0I%2Fp5IYmCQ%3D%3D&KeyID=a8968c46",
     "datePublished": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00"
   }

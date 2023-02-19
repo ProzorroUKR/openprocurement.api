@@ -1,4 +1,4 @@
-POST /api/2.5/qualifications/6cb44b948f124cf2bf2e1621a71f19ee/documents?acc_token=736a39718b2d4c6096e0a3d0c1f74126 HTTP/1.0
+POST /api/2.5/qualifications/edc70fc4b64f479e998cb3c808454f27/documents?acc_token=736a39718b2d4c6096e0a3d0c1f74126 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 152
 Content-Type: multipart/form-data; boundary=---BOUNDARY
@@ -15,7 +15,7 @@ content
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/6cb44b948f124cf2bf2e1621a71f19ee/documents/47e832dbaa534ec7b62c7bb9b0cd9951
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/edc70fc4b64f479e998cb3c808454f27/documents/47e832dbaa534ec7b62c7bb9b0cd9951
 
 {
   "data": {

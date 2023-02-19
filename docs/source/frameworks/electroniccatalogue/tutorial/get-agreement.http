@@ -1,4 +1,4 @@
-GET /api/2.5/agreements/ab8ba0c4f8d14e5895534fd5e8ccb463 HTTP/1.0
+GET /api/2.5/agreements/bcc7b916f4e04aeaa554b80714816d13 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -55,8 +55,8 @@ Content-Type: application/json
     ],
     "contracts": [
       {
-        "id": "c85f244e77274f58b0c8d7c3185eb33e",
-        "qualificationID": "750eb6f709774c498a46d7495c66167a",
+        "id": "f9dbb283ca17415cb05783cd9ed0d30a",
+        "qualificationID": "efb616fa31ff4c3382d42f643cc447fe",
         "status": "active",
         "submissionID": "47f7edaba6ed400389f86984d62ef2ad",
         "suppliers": [
@@ -85,7 +85,7 @@ Content-Type: application/json
         ],
         "milestones": [
           {
-            "id": "77a25708210b47c3b93f7e3b2bd9ad91",
+            "id": "604ec81b06d1495290af8481e381105d",
             "type": "activation",
             "status": "scheduled",
             "dueDate": "2023-03-02T00:00:00+02:00",
@@ -95,7 +95,7 @@ Content-Type: application/json
         "date": "2023-01-17T00:00:00+02:00"
       }
     ],
-    "id": "ab8ba0c4f8d14e5895534fd5e8ccb463",
+    "id": "bcc7b916f4e04aeaa554b80714816d13",
     "next_check": "2023-03-02T00:00:00+02:00"
   }
 }
