@@ -11,14 +11,14 @@ Framework can be created only for cpb that have `active: true` status https://pr
 
 Let’s create a framework:
 
-.. http:example:: tutorial/create-electroniccatalogue.http
+.. http:example:: tutorial/create-framework.http
    :code:
 
 We have `201 Created` response code, `Location` header and body with extra properties.
 
 Framework was created in `draft` status. In this status any field, except technical, can be changed using PATCH method.
 
-.. http:example:: tutorial/patch-electroniccatalogue-draft.http
+.. http:example:: tutorial/patch-framework-draft.http
    :code:
 
 Uploading documentation
@@ -61,7 +61,7 @@ The second step is moving the framework to `active` status.
 
 There should be at least 1 document in addition to sign document.
 
-.. http:example:: tutorial/patch-electroniccatalogue-draft-to-active.http
+.. http:example:: tutorial/patch-framework-draft-to-active.http
    :code:
 
 After framework activation frameworks periods was calculated:
@@ -89,7 +89,7 @@ In `active` status only some fields can be changed: `telephone`, `name`, `email`
 
 If `qualificationPeriod.endDate` was changed all periods will be recalculated.
 
-.. http:example:: tutorial/patch-electroniccatalogue-active.http
+.. http:example:: tutorial/patch-framework-active.http
    :code:
 
 Additionally, the `dateModified` property was updated to reflect the last modification datestamp.
