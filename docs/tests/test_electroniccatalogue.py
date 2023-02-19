@@ -44,7 +44,7 @@ class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTes
         self.assertEqual(response.json['data'], [])
 
         # create frameworks
-        with open(TARGET_DIR + 'create-electroniccatalogue.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'create-framework.http', 'w') as self.app.file_obj:
             response = self.app.post_json('/frameworks', {'data': self.initial_data})
             self.assertEqual(response.status, '201 Created')
 
@@ -52,7 +52,7 @@ class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTes
         self.framework_id = framework["id"]
         owner_token = response.json['access']['token']
 
-        with open(TARGET_DIR + 'patch-electroniccatalogue-draft.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'patch-framework-draft.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/frameworks/{}?acc_token={}'.format(framework['id'], owner_token),
                 {'data': {
@@ -91,7 +91,7 @@ class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTes
             response = self.app.get(
                 '/frameworks/{}/documents/{}?acc_token={}'.format(framework['id'], doc_id, owner_token))
 
-        with open(TARGET_DIR + 'patch-electroniccatalogue-draft-to-active.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'patch-framework-draft-to-active.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/frameworks/{}?acc_token={}'.format(framework['id'], owner_token), {'data': {"status": "active"}}
             )
@@ -252,7 +252,7 @@ class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTes
             response = self.app.get('/frameworks'.format(framework['id']))
             self.assertEqual(len(response.json['data']), 1)
 
-        with open(TARGET_DIR + 'patch-electroniccatalogue-active.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'patch-framework-active.http', 'w') as self.app.file_obj:
             new_endDate = (parse_date(framework["qualificationPeriod"]["endDate"]) + timedelta(days=15)).isoformat()
             response = self.app.patch_json(
                 '/frameworks/{}?acc_token={}'.format(framework['id'], owner_token),
