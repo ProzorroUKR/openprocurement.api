@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/93f4fb7502554ab591dd397e3360b027/contracts/4280842259bb406781243e55a76040c6?acc_token=3f8107537abc4a978698af4ddbbe2cde HTTP/1.0
+PATCH /api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/contracts/69b6c04539ef44ed9c066ea9f47142c1?acc_token=5585cd490cac4cb68cd03d747b3c247c HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 104
 Content-Type: application/json
@@ -19,7 +19,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "4280842259bb406781243e55a76040c6",
+    "id": "69b6c04539ef44ed9c066ea9f47142c1",
     "contractID": "UA-2023-01-01-000004-a-2",
     "contractNumber": "contract #13111",
     "status": "pending",
@@ -35,7 +35,7 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true,
       "amountNet": 230.0
     },
-    "awardID": "373cdf721e874341bff555fb568a20d4",
+    "awardID": "988b8d3247044d1a947cf8c8cb082940",
     "items": [
       {
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
@@ -58,7 +58,7 @@ Content-Type: application/json
           "startDate": "2023-01-03T00:00:00+02:00",
           "endDate": "2023-01-06T00:00:00+02:00"
         },
-        "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
+        "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
         "unit": {
           "name": "item",
           "code": "KGM",

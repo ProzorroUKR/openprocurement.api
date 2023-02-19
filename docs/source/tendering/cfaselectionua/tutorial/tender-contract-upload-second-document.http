@@ -1,13 +1,13 @@
-POST /api/2.5/tenders/93f4fb7502554ab591dd397e3360b027/contracts/4280842259bb406781243e55a76040c6/documents?acc_token=3f8107537abc4a978698af4ddbbe2cde HTTP/1.0
+POST /api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/contracts/69b6c04539ef44ed9c066ea9f47142c1/documents?acc_token=5585cd490cac4cb68cd03d747b3c247c HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 343
+Content-Length: 341
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
     "title": "contract_second_document.doc",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/524dba59516640b99c1c7f5195c7df77?Signature=ruQlduT3cbvoIplo9YRmzv8Qm26MrJCcob%2Bu5mvjPsSGinBH0DibjiBtZId%2BaPu5PaZrm9papEUTPrdrEpIdBg%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/52885cec7411475ea472a5688d3739f9?Signature=6vsSN7PC7P0QepWvmz5xQ0QltP9f6c0hgg5sHvKaxOGaCFpDL%2FGzTPQ4PUfB5ZGhKqqF60J0xigyxfD0sKEcDg%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/msword"
   }
@@ -16,15 +16,15 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/93f4fb7502554ab591dd397e3360b027/contracts/4280842259bb406781243e55a76040c6/documents/c3ef1c7751544ce29baf849cda527f0a
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/contracts/69b6c04539ef44ed9c066ea9f47142c1/documents/141c6ddfa7f24a9da7291db7fe4f6718
 
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000",
     "title": "contract_second_document.doc",
     "format": "application/msword",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/524dba59516640b99c1c7f5195c7df77?Signature=tgAJvznHcEubX754JMDqKPitonexJEehSAbWFJjkEOnGW80CewSGiLLKPTJw%2FsyQCwwDaTbz23%2BAPC6xocapCQ%3D%3D&KeyID=a8968c46",
-    "id": "c3ef1c7751544ce29baf849cda527f0a",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/52885cec7411475ea472a5688d3739f9?Signature=eCACfBQqTNvM5orOFP9q1lq7%2Bo0kIVneUJC3Hd7cnFgS0ngh8QxWFf3CvXLgVOuLK2jYZLSSwJ2KaPDNI7fcCA%3D%3D&KeyID=a8968c46",
+    "id": "141c6ddfa7f24a9da7291db7fe4f6718",
     "datePublished": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00"
   }

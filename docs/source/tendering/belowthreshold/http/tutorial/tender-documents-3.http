@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/63fbe5f55ec14294b590969e4ec72af6/documents HTTP/1.0
+GET /api/2.5/tenders/f2ffdfd3a21b4081841738915486b18b/documents HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -11,23 +11,23 @@ Content-Type: application/json
     {
       "documentType": "technicalSpecifications",
       "description": "document description modified",
-      "id": "634d04d09d5f46efa18ca3423714f4bd",
+      "id": "ea74f145137e48f1a821c8b558884625",
       "datePublished": "2023-01-01T00:00:01+02:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "Notice.pdf",
       "format": "application/pdf",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ae50ebf41e54463faca2b20961cec265?Signature=vwVV5yBxoQF9tqHPeCmryD53w8gnll1fHTDbd5zeJaxFY0yt9pqIso9lPTh6uoOq9oM42i%2FfziR1dRPW08mAAQ%3D%3D&KeyID=a8968c46",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6d5acc9f6744445090ee6163719b792e?Signature=sgMJT6uclURHXV1QkzMq700s6436i6ynr4LaZyZf5B4O1Sn6ed7A8ogX5x1LCHhuC5HKuPrXHgPRYIyDC6H%2BDg%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
       "dateModified": "2023-01-01T00:00:01+02:00",
       "author": "tender_owner"
     },
     {
-      "id": "b936a25fe7264084bc01c7b916661d26",
+      "id": "31a5413231bb4a329febaf70768c953e",
       "datePublished": "2023-01-01T00:00:01+02:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "AwardCriteria-2.pdf",
       "format": "application/pdf",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d2ddcb167ca344f8a134f53a369b2d74?Signature=Fj1QZ2XYWz9ZmlUWoO1mWazItV5%2B71k2fdj56oiNOTx5Vi6tLqeIvwEycORox70I%2FSN8D%2BO8uoZpGV8bABpfCA%3D%3D&KeyID=a8968c46",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cc7c2e1fbe6a49fea049b4173a46deb0?Signature=Ll9xBeKOaMIyV4Pevgb8PUnKFy7IdwbH4qx5dP82%2F1xZyRrLncOjRe9WiUndVv31OgIMb7ENLhVIa0omK%2BNGAw%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
       "dateModified": "2023-01-01T00:00:01+02:00",
       "author": "tender_owner"

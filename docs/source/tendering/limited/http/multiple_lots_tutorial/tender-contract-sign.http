@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/9c964a6216c946b2b82a78720b389a93/contracts/b08be4fff45848aeaf022cd94459ac20?acc_token=0a10b32258a14dcea4a21bf94924418e HTTP/1.0
+PATCH /api/2.5/tenders/54784c9d4ff74af1986c35990954e7e6/contracts/29133b48e81646a3aeffbe60666529c3?acc_token=a9146db6eabf4db68c54b5f728d8d39a HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -16,8 +16,8 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "b08be4fff45848aeaf022cd94459ac20",
-    "awardID": "24dbf5b491e44568a303c54113b93e8d",
+    "id": "29133b48e81646a3aeffbe60666529c3",
+    "awardID": "6d66657aec2f41c29d1077f2a3cdceb8",
     "contractID": "UA-2023-01-01-000001-a-1",
     "status": "active",
     "value": {
@@ -28,7 +28,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "7473a6ac00df436194acc9a2a2ebe39a",
+        "id": "cb67762467844f0281d3dbf0910706ea",
         "description": "Послуги шкільних їдалень",
         "classification": {
           "description": "Послуги з харчування у школах",
@@ -63,7 +63,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "0fdb2b096a814e788e80812115a30319"
+        "relatedLot": "d049e59ecd494591ab40486ee8250cc7"
       }
     ],
     "suppliers": [

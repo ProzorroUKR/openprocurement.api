@@ -51,7 +51,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/86396c65e9154359a2329bfc7dddd3eb
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/19554516edc64b80ad4a2834f4505fbe
 
 {
   "data": {
@@ -100,11 +100,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/86396c65e9154
         "description": "папір і картон гофровані, паперова й картонна тара"
       }
     ],
-    "id": "86396c65e9154359a2329bfc7dddd3eb"
+    "id": "19554516edc64b80ad4a2834f4505fbe"
   },
   "access": {
-    "token": "736a39718b2d4c6096e0a3d0c1f74126",
-    "transfer": "d62639f1ebd04872a5e5bc2d67aa8aa1"
+    "token": "5f94ccea4dfb4cdebd5de69ecd449013",
+    "transfer": "6f6038c2516d49c3921309a580209b71"
   }
 }
 

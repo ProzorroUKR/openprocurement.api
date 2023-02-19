@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/b69c06ceeeb145a4b5cc46d3d56de4d2/qualifications HTTP/1.0
+GET /api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/qualifications HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -9,37 +9,37 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "ef09cd8e035b42b0a1699961b9f7dd62",
-      "bidID": "6bf64eb443e54b8db51e4156558d97e0",
+      "id": "fbbb064fb0ca4e51bc1e7ec7665d3496",
+      "bidID": "381f5658b23a448ea820b823934eeb79",
       "status": "pending",
-      "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
+      "lotID": "9dea7e57fca24c0fa6c43f752611342d",
       "date": "2023-01-01T00:00:00+02:00",
       "qualified": false,
       "eligible": false
     },
     {
-      "id": "223559f5ba3246c1b155a3ef32cbe44c",
-      "bidID": "a9427978bcd440bda085ad41b2547b78",
+      "id": "3a049b1a7357476e9a5d69269f9c3567",
+      "bidID": "8f1f5d51afcd4521ae73bc0799c5445d",
       "status": "pending",
-      "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
+      "lotID": "9dea7e57fca24c0fa6c43f752611342d",
       "date": "2023-01-01T00:00:00+02:00",
       "qualified": false,
       "eligible": false
     },
     {
-      "id": "2d10211cb2184b6faa2cb9dffe9d674e",
-      "bidID": "e319f0e45c624ada956bcc35806bd1d3",
+      "id": "32d7247464d94a83aac69196b8f8ad52",
+      "bidID": "88fde1bbbd544f0ca062b2919f71d2b4",
       "status": "pending",
-      "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
+      "lotID": "9dea7e57fca24c0fa6c43f752611342d",
       "date": "2023-01-01T00:00:00+02:00",
       "qualified": false,
       "eligible": false
     },
     {
-      "id": "06288b758a524a9bbe729309e4c63db1",
-      "bidID": "dcda7735b5384d7b803444397600baf1",
+      "id": "fde93f7cacc14fc99caf75c038df4222",
+      "bidID": "c3e41a3a099a41ad864be3893e0711b5",
       "status": "pending",
-      "lotID": "52815e9d01914c7a9bf4ba18ebb5e783",
+      "lotID": "9dea7e57fca24c0fa6c43f752611342d",
       "date": "2023-01-01T00:00:00+02:00",
       "qualified": false,
       "eligible": false

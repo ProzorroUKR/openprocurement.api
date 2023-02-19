@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/118fb7835ef441e7881da132730071d0/contracts/7548322cb11641759c0d05cea5121d50/documents HTTP/1.0
+GET /api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09/contracts/6960a01cb7454f9aa6bb6057e8a616ed/documents HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -12,9 +12,9 @@ Content-Type: application/json
       "hash": "md5:00000000000000000000000000000000",
       "title": "contract_first_document.doc",
       "format": "application/msword",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7277a1e671db4e23811faec0ebe3edaf?Signature=zhi4qDElkRIcpv2NNx%2BKh6SbUsAVbjtwA0CH26YmIDJilCZzkYa9MTTnBRc%2FDLZLQJ8dR0A%2FVma7zF1%2Fp6s5Dw%3D%3D&KeyID=a8968c46",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3f8d9c8005624716bf6567d90eddf47f?Signature=1aR77xAiiGL6frUnUgicFp8qKBLSWaGfAsA7pSQovn4WztWpThhtT00dIzv9A1MRD9u9sdyhZsoavxXXhMspAA%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
-      "id": "f46f9597eff544a9a719d0c3a03f6793",
+      "id": "97950b4128dc43b5b29f0b58683a27a1",
       "datePublished": "2023-01-01T00:00:01+02:00",
       "dateModified": "2023-01-01T00:00:01+02:00"
     }

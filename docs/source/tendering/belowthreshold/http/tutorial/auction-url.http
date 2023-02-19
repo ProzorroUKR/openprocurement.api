@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/63fbe5f55ec14294b590969e4ec72af6 HTTP/1.0
+GET /api/2.5/tenders/f2ffdfd3a21b4081841738915486b18b HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -106,7 +106,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "d8635a79813a4ac69626f0d504119cbe",
+        "id": "0f95cecf71134fa899a1be0dcf9ae13c",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -148,12 +148,12 @@ Content-Type: application/json
       {
         "documentType": "technicalSpecifications",
         "description": "document description modified",
-        "id": "634d04d09d5f46efa18ca3423714f4bd",
+        "id": "ea74f145137e48f1a821c8b558884625",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/63fbe5f55ec14294b590969e4ec72af6/documents/634d04d09d5f46efa18ca3423714f4bd?download=ae50ebf41e54463faca2b20961cec265",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f2ffdfd3a21b4081841738915486b18b/documents/ea74f145137e48f1a821c8b558884625?download=6d5acc9f6744445090ee6163719b792e",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:01+02:00",
         "author": "tender_owner"
@@ -162,20 +162,20 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/63fbe5f55ec14294b590969e4ec72af6/documents/b936a25fe7264084bc01c7b916661d26?download=cdae0c7762d04dd79267107910a38887",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f2ffdfd3a21b4081841738915486b18b/documents/31a5413231bb4a329febaf70768c953e?download=8b660719e71c4e3b80ac24648fac52c2",
         "documentOf": "tender",
-        "id": "b936a25fe7264084bc01c7b916661d26",
+        "id": "31a5413231bb4a329febaf70768c953e",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "dateModified": "2023-01-01T00:00:01+02:00",
         "author": "tender_owner"
       },
       {
-        "id": "b936a25fe7264084bc01c7b916661d26",
+        "id": "31a5413231bb4a329febaf70768c953e",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/63fbe5f55ec14294b590969e4ec72af6/documents/b936a25fe7264084bc01c7b916661d26?download=d2ddcb167ca344f8a134f53a369b2d74",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f2ffdfd3a21b4081841738915486b18b/documents/31a5413231bb4a329febaf70768c953e?download=cc7c2e1fbe6a49fea049b4173a46deb0",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:01+02:00",
         "author": "tender_owner"
@@ -183,7 +183,7 @@ Content-Type: application/json
     ],
     "questions": [
       {
-        "id": "6cd1b033ee50442b880e90f1c87520e0",
+        "id": "a03f134859d14cba948041dcbde4c80e",
         "author": {
           "name": "ДКП «Книга»",
           "identifier": {
@@ -216,8 +216,8 @@ Content-Type: application/json
       "startDate": "2023-01-01T00:00:01+02:00",
       "shouldStartAfter": "2023-01-02T00:00:00+02:00"
     },
-    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/63fbe5f55ec14294b590969e4ec72af6",
-    "id": "63fbe5f55ec14294b590969e4ec72af6"
+    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/f2ffdfd3a21b4081841738915486b18b",
+    "id": "f2ffdfd3a21b4081841738915486b18b"
   }
 }
 

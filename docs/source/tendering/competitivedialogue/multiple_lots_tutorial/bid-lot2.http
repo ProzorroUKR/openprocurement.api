@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/c8fbbe1ddf3642a6815bd2c7c26581b1/bids HTTP/1.0
+POST /api/2.5/tenders/cf488f0e7db04145a88a15ca0429e178/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1041
 Content-Type: application/json
@@ -33,11 +33,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "lotValues": [
       {
-        "relatedLot": "3f6334296c1540158ccf4b0a2532048c"
+        "relatedLot": "5042b6586cbb4a679380f561ba153121"
       },
       {
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
-        "relatedLot": "fd76df7029bf4e7e851a8c5c44ca5c36"
+        "relatedLot": "b2732357fe2843d1a3a29850b3cd09a8"
       }
     ]
   }
@@ -46,7 +46,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c8fbbe1ddf3642a6815bd2c7c26581b1/bids/0d58b19d50c345d5800ffbaf7ba04503
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cf488f0e7db04145a88a15ca0429e178/bids/2fc425bd1234426486aec58c4200b3ca
 
 {
   "data": {
@@ -75,12 +75,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c8fbbe1ddf3642a6
     ],
     "lotValues": [
       {
-        "relatedLot": "3f6334296c1540158ccf4b0a2532048c",
+        "relatedLot": "5042b6586cbb4a679380f561ba153121",
         "status": "pending",
         "date": "2023-01-01T00:00:00+02:00"
       },
       {
-        "relatedLot": "fd76df7029bf4e7e851a8c5c44ca5c36",
+        "relatedLot": "b2732357fe2843d1a3a29850b3cd09a8",
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "status": "pending",
         "date": "2023-01-01T00:00:00+02:00"
@@ -88,12 +88,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c8fbbe1ddf3642a6
     ],
     "selfQualified": true,
     "status": "draft",
-    "id": "0d58b19d50c345d5800ffbaf7ba04503",
+    "id": "2fc425bd1234426486aec58c4200b3ca",
     "date": "2023-01-01T00:00:00+02:00"
   },
   "access": {
-    "token": "70c74a8fa19b4f7b9e1e1d5915e66032",
-    "transfer": "6f75468f3ef04d96b898c32f917d6bd8"
+    "token": "a7a73ca856be432799f8d8a164cbad94",
+    "transfer": "9c0f5d709d5f4415870bfa68d09321e4"
   }
 }
 

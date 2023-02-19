@@ -1,13 +1,13 @@
-POST /api/2.5/tenders/501cb77768e446f39265deb722b208a3/documents?acc_token=5fe46d42add34695b80ca0158b173e47 HTTP/1.0
+POST /api/2.5/tenders/28db6af763c74fceaedc98e147fed6cb/documents?acc_token=871fba7d0f2840d48ed2394d778a5004 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 326
+Content-Length: 320
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
     "title": "Notice.pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bd899d26e31643489abf7981b0f34549?Signature=As5%2FWWhDNaWQ%2FKVbChs2ZOO6Fg%2BvP1ZU4MUfmgwKF57HxLWUlmjfeziUESDEqdctW7HgNmlxARO9CML%2F4LyKBg%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/24ab7b02c104473dbe8a5ea32a297be2?Signature=AGDThDSH4GaukKBsUkwXCkhTeQUIRR231hFYZaXvHFLqmtI8OKh0g9LGZ8WEN3wLS2VHTxmfJU%2BW3NEZWfx3AA%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
   }
@@ -16,16 +16,16 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/501cb77768e446f39265deb722b208a3/documents/14a51a4bd4dd4a52a8bb81f93de1cb44
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/28db6af763c74fceaedc98e147fed6cb/documents/44d8ad8fc1c142148381c3fee2507ff7
 
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000",
     "title": "Notice.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bd899d26e31643489abf7981b0f34549?Signature=LSjz%2FVncGdvIXATJCtqx9wZH4qCdIX8%2Bb%2BvtoDbhNrC3l6cVeUuudEVPDjzv29iIctnFCRy%2BquIkVXebQKJBAA%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/24ab7b02c104473dbe8a5ea32a297be2?Signature=2mqIIVZZZz0xdgPdnJS3IH8kxNLl%2BBMT4kVoXy2jmreEeyDvsbF4jF06FMnb9g5vyN0%2BBk8JpW1wqh44T%2BZvBw%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
-    "id": "14a51a4bd4dd4a52a8bb81f93de1cb44",
+    "id": "44d8ad8fc1c142148381c3fee2507ff7",
     "datePublished": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "author": "tender_owner"

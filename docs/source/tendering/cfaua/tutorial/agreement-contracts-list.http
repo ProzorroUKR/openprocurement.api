@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/b69c06ceeeb145a4b5cc46d3d56de4d2/agreements/0fea7d7c4c8649f5a499885d630671f5/contracts?acc_token=bf73c010063f4fb4a07e775871e11d60 HTTP/1.0
+GET /api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/agreements/b996fbc0afc54062aac0fbaa492eb9e0/contracts?acc_token=5a77c92a3fdf47b4917bc23307e42385 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "edb78279aaec40d3be65c96c5c5eb0db",
+      "id": "3cfdad4a64a54acfb88bc4b77dc03d71",
       "suppliers": [
         {
           "name": "«Снігур»",
@@ -33,19 +33,19 @@ Content-Type: application/json
           "scale": "mid"
         }
       ],
-      "awardID": "2972d86645dc4d31b315bca98fc47858",
-      "bidID": "dcda7735b5384d7b803444397600baf1",
+      "awardID": "3789733412144d409def94cb01edc747",
+      "bidID": "c3e41a3a099a41ad864be3893e0711b5",
       "date": "2023-01-01T00:00:00+02:00",
       "unitPrices": [
         {
-          "relatedItem": "78edae5503b94e0eb20ca906a762bc8d",
+          "relatedItem": "f7f221177ecc41369b255d9ba4620b02",
           "value": {
             "currency": "UAH",
             "valueAddedTaxIncluded": true
           }
         },
         {
-          "relatedItem": "fc62a07c463c4750b0bdc92dd8787e2a",
+          "relatedItem": "95fb67978b4a4d5185a03bebe11d2d59",
           "value": {
             "currency": "UAH",
             "valueAddedTaxIncluded": true
@@ -55,7 +55,7 @@ Content-Type: application/json
       "status": "active"
     },
     {
-      "id": "4ffc79bd176541f7a1aa8bdd26bc5a87",
+      "id": "b9c82bbdb13b481bae95d48eb2724c58",
       "suppliers": [
         {
           "name": "ДКП «Книга»",
@@ -79,19 +79,19 @@ Content-Type: application/json
           "scale": "sme"
         }
       ],
-      "awardID": "504459d46cbb42baa8b442f6da714db5",
-      "bidID": "a9427978bcd440bda085ad41b2547b78",
+      "awardID": "32907509b8104f639ea956c73592d912",
+      "bidID": "8f1f5d51afcd4521ae73bc0799c5445d",
       "date": "2023-01-01T00:00:00+02:00",
       "unitPrices": [
         {
-          "relatedItem": "78edae5503b94e0eb20ca906a762bc8d",
+          "relatedItem": "f7f221177ecc41369b255d9ba4620b02",
           "value": {
             "currency": "UAH",
             "valueAddedTaxIncluded": true
           }
         },
         {
-          "relatedItem": "fc62a07c463c4750b0bdc92dd8787e2a",
+          "relatedItem": "95fb67978b4a4d5185a03bebe11d2d59",
           "value": {
             "currency": "UAH",
             "valueAddedTaxIncluded": true
@@ -101,7 +101,7 @@ Content-Type: application/json
       "status": "active"
     },
     {
-      "id": "4b5cb6ae595b43a48a5a1ac2001d1dcb",
+      "id": "9a0c84972c4b468788d51e716c0ea464",
       "suppliers": [
         {
           "name": "ДКП «Школяр»",
@@ -126,19 +126,19 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "awardID": "5a20755806ec4ff885e2278e726c8f83",
-      "bidID": "6bf64eb443e54b8db51e4156558d97e0",
+      "awardID": "de71e66182cf4b7db411af2ef408fc74",
+      "bidID": "381f5658b23a448ea820b823934eeb79",
       "date": "2023-01-01T00:00:00+02:00",
       "unitPrices": [
         {
-          "relatedItem": "78edae5503b94e0eb20ca906a762bc8d",
+          "relatedItem": "f7f221177ecc41369b255d9ba4620b02",
           "value": {
             "currency": "UAH",
             "valueAddedTaxIncluded": true
           }
         },
         {
-          "relatedItem": "fc62a07c463c4750b0bdc92dd8787e2a",
+          "relatedItem": "95fb67978b4a4d5185a03bebe11d2d59",
           "value": {
             "currency": "UAH",
             "valueAddedTaxIncluded": true

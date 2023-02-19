@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/86396c65e9154359a2329bfc7dddd3eb/documents/f8b257f1183946eda2f09adb99cb2478?acc_token=736a39718b2d4c6096e0a3d0c1f74126 HTTP/1.0
+GET /api/2.5/frameworks/19554516edc64b80ad4a2834f4505fbe/documents/350033fa56864cb0a1619c547af14bf9?acc_token=5f94ccea4dfb4cdebd5de69ecd449013 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,20 +8,20 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "f8b257f1183946eda2f09adb99cb2478",
+    "id": "350033fa56864cb0a1619c547af14bf9",
     "hash": "md5:00000000000000000000000000000000",
     "title": "framework_additional_docs.doc",
     "format": "application/msword",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c4ad6dd4ff1e452d998e06a2a4b79c9b?Signature=LsW4OPqMzruo9MATnge9fzgYAy%2BIe71c68b82eXeZvZDV1rk%2FxWoqyczuTPo7ZppkKOb2mdi6U1nrBOXd06wBA%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b5271b0d014349529a8b38c71b55c819?Signature=HlFg8S7ntH2gcfmx13V6y36htfpgOq22dugjWBgZv4ow6xxZlbpFcDzp9h6AI%2BWPoa%2Bd7MKlSA3JfUgffEeOBA%3D%3D&KeyID=a8968c46",
     "datePublished": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "previousVersions": [
       {
-        "id": "f8b257f1183946eda2f09adb99cb2478",
+        "id": "350033fa56864cb0a1619c547af14bf9",
         "hash": "md5:00000000000000000000000000000000",
         "title": "framework_additional_docs.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7fd2cd06e02243259bd4261794e4c241?Signature=JqvO1GhYAL1Jv6nXbzsBOXtZ4NKSWO62wqivsv6u%2Bh0AVUGmEhTLinoxDp220dQ5i6qGoDM%2BpGye0I%2Fp5IYmCQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2457693b0d9c4b12967ec3837001555b?Signature=%2Fll%2BYXsXUWbcEEjjT0I75rQFZqFo53HxlJ1wnN1Xd15EVSExg3JWk9PtOcgnFADcomZi%2BPnp%2BcE3EbiCk3oNDQ%3D%3D&KeyID=a8968c46",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "dateModified": "2023-01-01T00:00:00+02:00"
       }

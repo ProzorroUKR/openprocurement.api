@@ -8,7 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "agreements": [
       {
-        "id": "b29bf3b2d53a43bb9103fbab098eb983"
+        "id": "53e68cfa78da42188f99f9e054e0e168"
       }
     ],
     "title": "футляри до державних нагород",
@@ -77,14 +77,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "startDate": "2023-01-03T00:00:00+02:00",
           "endDate": "2023-01-06T00:00:00+02:00"
         },
-        "relatedLot": "f2599a519a45416db792d9ee833a8e5a"
+        "relatedLot": "50fc7d0cb4e3423491c35387a046af42"
       }
     ],
     "lots": [
       {
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "id": "f2599a519a45416db792d9ee833a8e5a"
+        "id": "50fc7d0cb4e3423491c35387a046af42"
       }
     ]
   }
@@ -93,7 +93,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae82551e95d84a53a8179c418886d477
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bf399bcd03af45efa76f2d266f03ccf6
 
 {
   "data": {
@@ -133,7 +133,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae82551e95d84a53
     "status": "draft",
     "agreements": [
       {
-        "id": "b29bf3b2d53a43bb9103fbab098eb983"
+        "id": "53e68cfa78da42188f99f9e054e0e168"
       }
     ],
     "items": [
@@ -158,7 +158,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae82551e95d84a53
           "startDate": "2023-01-03T00:00:00+02:00",
           "endDate": "2023-01-06T00:00:00+02:00"
         },
-        "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
+        "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
         "unit": {
           "name": "item",
           "code": "KGM",
@@ -181,7 +181,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae82551e95d84a53
       {
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "id": "f2599a519a45416db792d9ee833a8e5a",
+        "id": "50fc7d0cb4e3423491c35387a046af42",
         "status": "active",
         "date": "2023-01-01T00:00:00+02:00"
       }
@@ -191,11 +191,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae82551e95d84a53
     "date": "2023-01-01T00:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
-    "id": "ae82551e95d84a53a8179c418886d477"
+    "id": "bf399bcd03af45efa76f2d266f03ccf6"
   },
   "access": {
-    "token": "7985d12589334bff9da2d9c442a09a48",
-    "transfer": "ad264154792749fd9719b55d977629f0"
+    "token": "1e9ca1a6b2574ae38056c8eac4729d40",
+    "transfer": "550fa6e8f8644be4888033fca7d61c6b"
   }
 }
 

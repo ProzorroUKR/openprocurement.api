@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/93f4fb7502554ab591dd397e3360b027/bids/2efd2715b22a4afbace6648c37d446bd?acc_token=d6b3015f74ab4091ba24b65a566dce3c HTTP/1.0
+GET /api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/bids/ba9c4ed2a7794a2d8234ba4ce62d909e?acc_token=66a6f8fd577143f0a72ce197fbc1ec37 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -31,7 +31,7 @@ Content-Type: application/json
       }
     ],
     "status": "active",
-    "id": "2efd2715b22a4afbace6648c37d446bd",
+    "id": "ba9c4ed2a7794a2d8234ba4ce62d909e",
     "date": "2023-01-01T00:00:00+02:00",
     "parameters": [
       {
@@ -50,9 +50,9 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
+        "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
         "date": "2023-01-01T00:00:00+02:00",
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/93f4fb7502554ab591dd397e3360b027_f2599a519a45416db792d9ee833a8e5a?key_for_bid=2efd2715b22a4afbace6648c37d446bd"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/e23dee5896254eb4ac3364a9a854c3fe_50fc7d0cb4e3423491c35387a046af42?key_for_bid=ba9c4ed2a7794a2d8234ba4ce62d909e"
       }
     ],
     "documents": [
@@ -60,9 +60,9 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/32dacd322185446594eb865b681b975d?Signature=85b5nciCwPI27%2BpzlbJkhTXxKofcDEfqcJBl3NaonZpWyuMxZpx3sqVSNgt4mOL9%2F4%2FqnBEEcq%2FO6AQ6ndybAQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e5d937aec73f4c07aec4e91e7de7d0c0?Signature=i1QFE0pwj%2BuQT99%2FY4GX2uZghCioK2WSMSpY6%2BMlXr1TETaF6FoXkWJE5ceSIenvOO9CMxJTx4kTn5aoga4JAw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "id": "4e5c1b91d6c84c168167e5cde02b4f2c",
+        "id": "ccbc49d9afb64e48bc47326d43f3df4f",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "dateModified": "2023-01-01T00:00:00+02:00"
       }

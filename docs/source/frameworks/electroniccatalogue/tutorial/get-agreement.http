@@ -1,4 +1,4 @@
-GET /api/2.5/agreements/bcc7b916f4e04aeaa554b80714816d13 HTTP/1.0
+GET /api/2.5/agreements/aee921790b7e4aa499579e35356db752 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -15,7 +15,7 @@ Content-Type: application/json
     "dateModified": "2023-01-17T00:00:00+02:00",
     "owner": "broker",
     "agreementType": "electronicCatalogue",
-    "frameworkID": "86396c65e9154359a2329bfc7dddd3eb",
+    "frameworkID": "19554516edc64b80ad4a2834f4505fbe",
     "period": {
       "startDate": "2023-01-17T00:00:00+02:00",
       "endDate": "2023-03-02T00:00:00+02:00"
@@ -55,10 +55,10 @@ Content-Type: application/json
     ],
     "contracts": [
       {
-        "id": "f9dbb283ca17415cb05783cd9ed0d30a",
-        "qualificationID": "efb616fa31ff4c3382d42f643cc447fe",
+        "id": "44bb648f8cff41b3b6a376d302a8088c",
+        "qualificationID": "7f9989cca2bd45d99a498754bd5aa6e4",
         "status": "active",
-        "submissionID": "47f7edaba6ed400389f86984d62ef2ad",
+        "submissionID": "2424b8b0c5ba45688a777cdca4f1f698",
         "suppliers": [
           {
             "name": "ДКП «Школяр»",
@@ -85,7 +85,7 @@ Content-Type: application/json
         ],
         "milestones": [
           {
-            "id": "604ec81b06d1495290af8481e381105d",
+            "id": "bf4a154a262d41cdbf6d9410172fa89a",
             "type": "activation",
             "status": "scheduled",
             "dueDate": "2023-03-02T00:00:00+02:00",
@@ -95,7 +95,7 @@ Content-Type: application/json
         "date": "2023-01-17T00:00:00+02:00"
       }
     ],
-    "id": "bcc7b916f4e04aeaa554b80714816d13",
+    "id": "aee921790b7e4aa499579e35356db752",
     "next_check": "2023-03-02T00:00:00+02:00"
   }
 }

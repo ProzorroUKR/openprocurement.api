@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/63fbe5f55ec14294b590969e4ec72af6/bids HTTP/1.0
+POST /api/2.5/tenders/f2ffdfd3a21b4081841738915486b18b/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1428
 Content-Type: application/json
@@ -35,13 +35,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "documents": [
       {
         "title": "Proposal_part1.pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4723ad37c9a04058983e5acc8d0ce9f4?Signature=PqrX4gSJPY5o8iWa4FzRezyR7movMD1Qdmfl85mJ8Ef96VsbRjdaPsOtv2sbx2Vb53utc4DsIPEuKOVEN0zpCQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cf174abb36e944eb8ca48f1afe8eb4d2?Signature=WDXegnKNg9AdBRTo4j4t6EF4BMzNnJNbBNfhLP7QnfC05OShy5may0d59F82Od7%2BwFgjO4wuvq6yD8mZa3tDAg%3D%3D&KeyID=a8968c46",
         "hash": "md5:00000000000000000000000000000000",
         "format": "application/pdf"
       },
       {
         "title": "Proposal_part2.pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/200d1dfb2afc4cf791ec2fea005cefde?Signature=xThmLS2fEYEU%2B7FnFIEXVhr1dgAHkBYyl8vSYa05jjqSeU%2FZO8e1VRpgsIlFulBno0NaZoRL9dRdNLgZlsrNDQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fa5035ab921b4fb2888800987217ada4?Signature=eTtba2q5X3l9k6OXoEK9GiiYSgndMWeOQoKywqUAHWCIwE2ErQXMA7NocAqnGRJDCHQXXQO%2FXXOF2SJlT2TwDw%3D%3D&KeyID=a8968c46",
         "hash": "md5:00000000000000000000000000000000",
         "format": "application/pdf"
       }
@@ -52,7 +52,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/63fbe5f55ec14294b590969e4ec72af6/bids/5066384a8aa640068ab2c37ac8330887
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f2ffdfd3a21b4081841738915486b18b/bids/7c93f54de7f8485889496ff805689a3d
 
 {
   "data": {
@@ -90,9 +90,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/63fbe5f55ec14294
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4723ad37c9a04058983e5acc8d0ce9f4?Signature=0ZVrM3IuFoNW6QI1eBPPulKeh2ywRON%2Fwp8nKbq7KJPS8w5gx4Tod6BQpwOwiAudl9IK%2BZ7ql7%2BA0kcRAeLjBg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cf174abb36e944eb8ca48f1afe8eb4d2?Signature=nhY11nzZvoAKjFc3a%2FPpyp9%2BxrzoIXCWAYyrTlcJ%2FVzF6BLISq%2FmFK7mkqMFMxpbHQrYyJ%2B0DcVJExrJdvE1DA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "id": "bef39a576ad749f3abcd2873541faa6d",
+        "id": "82a3302fb2a84cbc840262e5f4ff86a7",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "dateModified": "2023-01-01T00:00:01+02:00"
       },
@@ -100,19 +100,19 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/63fbe5f55ec14294
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/200d1dfb2afc4cf791ec2fea005cefde?Signature=vYRIxu%2F3oNjZ5mS1jHC3LFWwaYWC6jkFS4ilfqT%2B3cs75hjSzwVqfOXfYkKe0maf4S88STYJeupj6X%2FfGDMDDg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fa5035ab921b4fb2888800987217ada4?Signature=9meqwsW99XL5YpmHvnJQjExFMu2X6to3Wor7h88g%2F%2FV5eb6%2FfKI%2B872U0tVny68LXkJ0GMTjT2raZPL%2BOC%2BXAQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "id": "2d895a58794d4f2cb02ee002561b1e63",
+        "id": "8df1b1464a774b09a31c7ff0b79a2907",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "dateModified": "2023-01-01T00:00:01+02:00"
       }
     ],
-    "id": "5066384a8aa640068ab2c37ac8330887",
+    "id": "7c93f54de7f8485889496ff805689a3d",
     "date": "2023-01-01T00:00:01+02:00"
   },
   "access": {
-    "token": "baba1ac4a32544a8b569807d8faac6ab",
-    "transfer": "46a37cfee63e40658d8534d6ec47db89"
+    "token": "2a5c2fa6ded64c1a87722d5939bcc7fd",
+    "transfer": "1a726c36145d4e8a8944bcf80ee79212"
   }
 }
 

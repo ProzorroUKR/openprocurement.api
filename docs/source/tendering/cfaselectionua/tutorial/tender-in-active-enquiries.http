@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/ae82551e95d84a53a8179c418886d477 HTTP/1.0
+GET /api/2.5/tenders/bf399bcd03af45efa76f2d266f03ccf6 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -385,7 +385,7 @@ Content-Type: application/json
           },
           "kind": "general"
         },
-        "id": "b29bf3b2d53a43bb9103fbab098eb983"
+        "id": "53e68cfa78da42188f99f9e054e0e168"
       }
     ],
     "items": [
@@ -410,7 +410,7 @@ Content-Type: application/json
           "startDate": "2023-01-03T00:00:00+02:00",
           "endDate": "2023-01-06T00:00:00+02:00"
         },
-        "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
+        "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
         "unit": {
           "name": "item",
           "code": "KGM",
@@ -435,7 +435,7 @@ Content-Type: application/json
         "description": "Опис Лот №1",
         "status": "active",
         "date": "2023-01-01T00:00:00+02:00",
-        "id": "f2599a519a45416db792d9ee833a8e5a",
+        "id": "50fc7d0cb4e3423491c35387a046af42",
         "value": {
           "amount": 500.56,
           "currency": "UAH",
@@ -508,7 +508,7 @@ Content-Type: application/json
       }
     ],
     "next_check": "2023-01-02T00:00:00+02:00",
-    "id": "ae82551e95d84a53a8179c418886d477"
+    "id": "bf399bcd03af45efa76f2d266f03ccf6"
   }
 }
 

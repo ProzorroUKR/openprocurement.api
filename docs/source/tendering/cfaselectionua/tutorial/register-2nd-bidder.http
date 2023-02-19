@@ -1,6 +1,6 @@
-POST /api/2.5/tenders/93f4fb7502554ab591dd397e3360b027/bids HTTP/1.0
+POST /api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1695
+Content-Length: 1699
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -33,19 +33,19 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 499
         },
-        "relatedLot": "f2599a519a45416db792d9ee833a8e5a"
+        "relatedLot": "50fc7d0cb4e3423491c35387a046af42"
       }
     ],
     "documents": [
       {
         "title": "Proposal_part1.pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6f95f83074884c4793b92674ecbf017d?Signature=q4xU9WCacnqKzAmSqVKwhQUSOKPhyT3mVduKpGs17NvmzlsEp0ubEGeCoVfLRfL%2Bn9AH3dYTVPpzqFm56cz9Dg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6f5d54d6f96e4f93bb84aaf2005ecd74?Signature=Mo04A31PiR8t5ZU5YIge%2B%2FKNq930zaj52Y%2BQgdtIdmq1y1E%2BB5O5O8rWiWpgAR0VXxDd1FCp7nVSJLsKg3RhCQ%3D%3D&KeyID=a8968c46",
         "hash": "md5:00000000000000000000000000000000",
         "format": "application/pdf"
       },
       {
         "title": "Proposal_part2.pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/634443ba221c4aec9e80218dce5d9898?Signature=s1WdXui%2FGGT3L0jUo0yjuUtSEufT9H1BzoQlA8eZeEA4bmYksXIEhOGLW8Y5abXD9o6Lvg4MljWh4ZzpuswCBg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f7c465d3486b487db509f0e8482bcafd?Signature=hMKg5q0zUd5uHXOeMKHBLUxB4hjVOc9ILgQz2ZSbyqNPqsb7QEVoTlMJDNL15wFmJrKNyZWBGFf5bFYE5HPnDg%3D%3D&KeyID=a8968c46",
         "hash": "md5:00000000000000000000000000000000",
         "format": "application/pdf"
       }
@@ -66,7 +66,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/93f4fb7502554ab591dd397e3360b027/bids/17c5c113d17a4e6a82022eed0e27b18e
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/bids/c6ce785401b149cca81e00c5236c853b
 
 {
   "data": {
@@ -98,9 +98,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/93f4fb7502554ab5
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6f95f83074884c4793b92674ecbf017d?Signature=QoHCra37U%2FEXoEYg1Srz%2B%2BHfziG7TmHsS1Kwof8nkEHMWsbVlY%2BKnuoZbhVUBdcBnfmDucQGTJIjynfLt3wnAQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6f5d54d6f96e4f93bb84aaf2005ecd74?Signature=gWkknoOyOQh2cpnX6nZmhLZJrFxulp8qPlSiERXttONVOcfK8ZCL1ksm1AQp292iAQqY6uzphnL10nz8PEnlAA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "id": "d3a8b92c118646a3adb86846bb67b62b",
+        "id": "a75a8ee9ac0040c18c01303d794b899c",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "dateModified": "2023-01-01T00:00:00+02:00"
       },
@@ -108,9 +108,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/93f4fb7502554ab5
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/634443ba221c4aec9e80218dce5d9898?Signature=mtYQ%2BQUtqn3VyRg2qigXiCQOJfMEg%2BRShGSWo%2FvohBcnk2ajfiLnZJNPsiMteYmwwhdGgs6kU9vbSfMfOIdnCw%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f7c465d3486b487db509f0e8482bcafd?Signature=Dt0bUdqRLCf5ENnzoOZDqA6XZdViV36%2BLgE4rzqjUtBbVG0krDrux7p3D7C45U3%2BZaqfHqB1ntI9LVS%2F6PoeCg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "id": "684eb6ef4cab45a9bf98593cc81e9a50",
+        "id": "c941d9301fd94c54b59d79960954fdfd",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "dateModified": "2023-01-01T00:00:00+02:00"
       }
@@ -132,16 +132,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/93f4fb7502554ab5
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
+        "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
         "date": "2023-01-01T00:00:00+02:00"
       }
     ],
-    "id": "17c5c113d17a4e6a82022eed0e27b18e",
+    "id": "c6ce785401b149cca81e00c5236c853b",
     "date": "2023-01-01T00:00:00+02:00"
   },
   "access": {
-    "token": "08ecfbcf7ec84690a88cc8407c4b4f7f",
-    "transfer": "26d11b2a3657490e97377dc9b7fc20d9"
+    "token": "8120441ba0e4471ebbc6f7e9e5a73771",
+    "transfer": "c8e4ae56ba04430095535f7996b20379"
   }
 }
 

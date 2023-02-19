@@ -31,7 +31,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     },
     "items": [
       {
-        "id": "7d353f82463140ec8b5d524f868962f3",
+        "id": "7cafcae8b551443599f87782cd56a35d",
         "description": "футляри до державних нагород",
         "description_en": "Cases with state awards",
         "description_ru": "футляры к государственным наградам",
@@ -55,7 +55,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         },
         "quantity": 5,
-        "relatedLot": "f2599a519a45416db792d9ee833a8e5a"
+        "relatedLot": "50fc7d0cb4e3423491c35387a046af42"
       }
     ],
     "procurementMethodType": "closeFrameworkAgreementSelectionUA",
@@ -88,14 +88,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "mainProcurementCategory": "services",
     "agreements": [
       {
-        "id": "b29bf3b2d53a43bb9103fbab098eb983"
+        "id": "53e68cfa78da42188f99f9e054e0e168"
       }
     ],
     "lots": [
       {
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "id": "f2599a519a45416db792d9ee833a8e5a"
+        "id": "50fc7d0cb4e3423491c35387a046af42"
       }
     ]
   }
@@ -104,7 +104,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ebba2ec7a3aa4767afa2ea298590e2b7
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/dd5002cf75a64ce6bc9d60862b662d27
 
 {
   "data": {
@@ -141,12 +141,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ebba2ec7a3aa4767
     "status": "draft",
     "agreements": [
       {
-        "id": "b29bf3b2d53a43bb9103fbab098eb983"
+        "id": "53e68cfa78da42188f99f9e054e0e168"
       }
     ],
     "items": [
       {
-        "id": "7d353f82463140ec8b5d524f868962f3",
+        "id": "7cafcae8b551443599f87782cd56a35d",
         "description": "футляри до державних нагород",
         "description_en": "Cases with state awards",
         "description_ru": "футляры к государственным наградам",
@@ -163,7 +163,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ebba2ec7a3aa4767
           }
         ],
         "quantity": 5.0,
-        "relatedLot": "f2599a519a45416db792d9ee833a8e5a",
+        "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
         "unit": {
           "name": "кілограм",
           "code": "KGM",
@@ -179,7 +179,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ebba2ec7a3aa4767
       {
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "id": "f2599a519a45416db792d9ee833a8e5a",
+        "id": "50fc7d0cb4e3423491c35387a046af42",
         "status": "active",
         "date": "2023-01-01T00:00:00+02:00"
       }
@@ -198,7 +198,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ebba2ec7a3aa4767
         "sequenceNumber": 0
       },
       {
-        "id": "8722f8cf8e614cb580f9652ac5306be1",
+        "id": "e3ecb4dac667456ba483498c8c348d92",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -215,11 +215,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ebba2ec7a3aa4767
     "date": "2023-01-01T00:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
-    "id": "ebba2ec7a3aa4767afa2ea298590e2b7"
+    "id": "dd5002cf75a64ce6bc9d60862b662d27"
   },
   "access": {
-    "token": "5b6e34e060424e8fbd5fc3c4aca2c112",
-    "transfer": "1a81c9c623854990857acf3b8cd15184"
+    "token": "65ab2952b7c34b23bea707b8c33a7022",
+    "transfer": "a313947e69e048138630f529b090f6ba"
   }
 }
 

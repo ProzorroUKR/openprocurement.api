@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/09b9ff4fc8654d1bb24fb14572e88f1c/contracts HTTP/1.0
+GET /api/2.5/tenders/bb8949e735294cbaa864bd3bc68a1e5f/contracts HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -9,8 +9,8 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "3d625008dcea45cb9ce2c6f803c32511",
-      "awardID": "119e70d85d2e4489aa7fbdd0d384a7b2",
+      "id": "2694942d0c994615b6954362b0ea0c14",
+      "awardID": "78a03de3f8734019b968f91bcbfcdff8",
       "contractID": "UA-2023-01-01-000001-a-1",
       "status": "pending",
       "value": {
@@ -21,7 +21,7 @@ Content-Type: application/json
       },
       "items": [
         {
-          "id": "0e1d572c4dde4ad1ae9da7927fa5e824",
+          "id": "6d463cf854bc4c0eb04915ba7c172bea",
           "description": "Комп’ютерне обладнання",
           "classification": {
             "description": "Комп’ютерне обладнанн",
