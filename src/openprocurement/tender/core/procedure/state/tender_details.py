@@ -68,6 +68,7 @@ class TenderDetailsMixing:
 
     def always(self, data):
         self.set_mode_test(data)
+        super().always(data)
 
     def status_up(self, before, after, data):
         if after == "draft" and before != "draft":
