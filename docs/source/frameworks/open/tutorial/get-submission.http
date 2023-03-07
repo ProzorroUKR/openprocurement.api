@@ -19,7 +19,7 @@ Content-Type: application/json
         "dateModified": "2023-01-17T00:00:00+02:00"
       }
     ],
-    "frameworkID": "019a0935c719454eaa0dbab932c7ad06",
+    "frameworkID": "d05d8009c7ee4cd583fcc88b51af95f2",
     "dateModified": "2023-01-17T00:00:00+02:00",
     "date": "2023-01-17T00:00:00+02:00",
     "owner": "broker",
@@ -50,6 +50,9 @@ Content-Type: application/json
       }
     ],
     "id": "46bb14b7b4d54f84bb1b6ab1c78afaf7"
+  },
+  "config": {
+    "restricted": false
   }
 }
 

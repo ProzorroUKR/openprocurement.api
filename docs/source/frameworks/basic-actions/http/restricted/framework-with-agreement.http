@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/79f3850495814cb1893350b0f6342f8f HTTP/1.0
+GET /api/2.5/frameworks/27ccdb80d4234f69b99ab9ad18ecf6e1 HTTP/1.0
 Host: lb-api-sandbox.prozorro.gov.ua
 
 
@@ -47,7 +47,7 @@ Content-Type: application/json
         "telephone": "+0440000000",
         "email": "aa@aa.com"
       },
-      "kind": "general"
+      "kind": "defense"
     },
     "classification": {
       "description": "Mustard seeds",
@@ -62,7 +62,7 @@ Content-Type: application/json
       }
     ],
     "agreementID": "5d6633d4f393415685289b20f1c04348",
-    "id": "79f3850495814cb1893350b0f6342f8f",
+    "id": "27ccdb80d4234f69b99ab9ad18ecf6e1",
     "next_check": "2023-01-28T00:00:00+02:00"
   },
   "config": {

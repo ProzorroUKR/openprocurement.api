@@ -9,13 +9,13 @@ Content-Type: application/json
 {
   "data": [
     {
-      "frameworkID": "79f3850495814cb1893350b0f6342f8f",
+      "frameworkID": "27ccdb80d4234f69b99ab9ad18ecf6e1",
       "status": "pending",
       "dateModified": "2023-01-17T00:00:00+02:00",
       "id": "9d4d0508fff44ed38a945f4e6f66d4f9"
     },
     {
-      "frameworkID": "79f3850495814cb1893350b0f6342f8f",
+      "frameworkID": "27ccdb80d4234f69b99ab9ad18ecf6e1",
       "status": "pending",
       "dateModified": "2023-01-17T00:00:00+02:00",
       "id": "db3e0288e9274b6aaa41a007b3152590"
@@ -23,8 +23,8 @@ Content-Type: application/json
   ],
   "next_page": {
     "offset": 1673906400.0,
-    "path": "/api/2.5/qualifications?opt_fields=frameworkID%2Cstatus&offset=1673906400.0",
-    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/qualifications?opt_fields=frameworkID%2Cstatus&offset=1673906400.0"
+    "path": "/api/2.5/qualifications?opt_fields=status%2CframeworkID&offset=1673906400.0",
+    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/qualifications?opt_fields=status%2CframeworkID&offset=1673906400.0"
   }
 }
 

@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "qualificationID": "9d4d0508fff44ed38a945f4e6f66d4f9",
-    "frameworkID": "79f3850495814cb1893350b0f6342f8f",
+    "frameworkID": "27ccdb80d4234f69b99ab9ad18ecf6e1",
     "dateModified": "2023-01-17T00:00:00+02:00",
     "date": "2023-01-17T00:00:00+02:00",
     "datePublished": "2023-01-17T00:00:00+02:00",

@@ -1,6 +1,6 @@
 POST /api/2.5/submissions HTTP/1.0
 Authorization: Bearer broker1
-Content-Length: 1204
+Content-Length: 1236
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -30,7 +30,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "scale": "micro"
       }
     ],
-    "frameworkID": "79f3850495814cb1893350b0f6342f8f"
+    "frameworkID": "27ccdb80d4234f69b99ab9ad18ecf6e1"
+  },
+  "config": {
+    "restricted": true
   }
 }
 
@@ -41,7 +44,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/9e93d88b8dfd
 
 {
   "data": {
-    "frameworkID": "79f3850495814cb1893350b0f6342f8f",
+    "frameworkID": "27ccdb80d4234f69b99ab9ad18ecf6e1",
     "dateModified": "2023-01-17T00:00:00+02:00",
     "date": "2023-01-17T00:00:00+02:00",
     "owner": "broker1",

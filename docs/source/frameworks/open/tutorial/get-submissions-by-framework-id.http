@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/019a0935c719454eaa0dbab932c7ad06/submissions HTTP/1.0
+GET /api/2.5/frameworks/d05d8009c7ee4cd583fcc88b51af95f2/submissions HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -10,7 +10,7 @@ Content-Type: application/json
   "data": [
     {
       "qualificationID": "866de62ee2954601bc0d37130ded4a6a",
-      "frameworkID": "019a0935c719454eaa0dbab932c7ad06",
+      "frameworkID": "d05d8009c7ee4cd583fcc88b51af95f2",
       "dateCreated": "2023-01-17T00:00:00+02:00",
       "dateModified": "2023-01-17T00:00:00+02:00",
       "date": "2023-01-17T00:00:00+02:00",
@@ -44,7 +44,7 @@ Content-Type: application/json
     },
     {
       "qualificationID": "244c66c1d0634e378a801ed09fccecef",
-      "frameworkID": "019a0935c719454eaa0dbab932c7ad06",
+      "frameworkID": "d05d8009c7ee4cd583fcc88b51af95f2",
       "dateCreated": "2023-01-17T00:00:00+02:00",
       "dateModified": "2023-01-17T00:00:00+02:00",
       "date": "2023-01-17T00:00:00+02:00",
@@ -79,8 +79,8 @@ Content-Type: application/json
   ],
   "next_page": {
     "offset": 1673906400.0,
-    "path": "/api/2.5/frameworks/019a0935c719454eaa0dbab932c7ad06/submissions?offset=1673906400.0",
-    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/019a0935c719454eaa0dbab932c7ad06/submissions?offset=1673906400.0"
+    "path": "/api/2.5/frameworks/d05d8009c7ee4cd583fcc88b51af95f2/submissions?offset=1673906400.0",
+    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/d05d8009c7ee4cd583fcc88b51af95f2/submissions?offset=1673906400.0"
   }
 }
 

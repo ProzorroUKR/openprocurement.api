@@ -15,7 +15,7 @@ Content-Type: application/json
     "dateModified": "2023-01-17T00:00:00+02:00",
     "owner": "broker",
     "agreementType": "open",
-    "frameworkID": "019a0935c719454eaa0dbab932c7ad06",
+    "frameworkID": "d05d8009c7ee4cd583fcc88b51af95f2",
     "period": {
       "startDate": "2023-01-17T00:00:00+02:00",
       "endDate": "2023-03-02T00:00:00+02:00"

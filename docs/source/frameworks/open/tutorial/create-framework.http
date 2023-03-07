@@ -1,6 +1,6 @@
 POST /api/2.5/frameworks HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1811
+Content-Length: 1856
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -45,13 +45,16 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "qualificationPeriod": {
       "endDate": "2023-03-02T00:00:00+02:00"
     }
+  },
+  "config": {
+    "restricted_derivatives": false
   }
 }
 
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/019a0935c719454eaa0dbab932c7ad06
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/d05d8009c7ee4cd583fcc88b51af95f2
 
 {
   "data": {
@@ -100,11 +103,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/019a0935c7194
         "description": "папір і картон гофровані, паперова й картонна тара"
       }
     ],
-    "id": "019a0935c719454eaa0dbab932c7ad06"
+    "id": "d05d8009c7ee4cd583fcc88b51af95f2"
   },
   "access": {
-    "token": "a49fbec7180445808040f07d0b3bc750",
-    "transfer": "42a0012a05c84c8489027a30639ccb21"
+    "token": "ed54013b52b34163b25534bac3f20a92",
+    "transfer": "60ed20cee22349f38c38aaf1b5df0027"
+  },
+  "config": {
+    "restricted_derivatives": false
   }
 }
 

@@ -1,4 +1,4 @@
-PATCH /api/2.5/frameworks/019a0935c719454eaa0dbab932c7ad06?acc_token=a49fbec7180445808040f07d0b3bc750 HTTP/1.0
+PATCH /api/2.5/frameworks/d05d8009c7ee4cd583fcc88b51af95f2?acc_token=ed54013b52b34163b25534bac3f20a92 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 113
 Content-Type: application/json
@@ -66,7 +66,10 @@ Content-Type: application/json
         "description": "папір і картон гофровані, паперова й картонна тара"
       }
     ],
-    "id": "019a0935c719454eaa0dbab932c7ad06"
+    "id": "d05d8009c7ee4cd583fcc88b51af95f2"
+  },
+  "config": {
+    "restricted_derivatives": false
   }
 }
 

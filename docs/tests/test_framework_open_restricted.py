@@ -9,7 +9,10 @@ from tests.base.data import (
     tenderer2,
 )
 from tests.base.constants import DOCS_URL
-from tests.base.test import DumpsWebTestApp, MockWebTestMixin
+from tests.base.test import (
+    DumpsWebTestApp,
+    MockWebTestMixin,
+)
 
 from openprocurement.api.utils import get_now
 from openprocurement.framework.open.tests.base import (
@@ -42,19 +45,23 @@ class RestrictedFrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
 
     def test_docs(self):
         # empty frameworks listing
-        self.initial_data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=60)).isoformat()
+        data = deepcopy(self.initial_data)
+        data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=60)).isoformat()
+        data["procuringEntity"]["kind"] = "defense"
         response = self.app.get('/frameworks')
         self.assertEqual(response.json['data'], [])
 
         # create frameworks
         with change_auth(self.app, ("Basic", ("broker", ""))):
             with open(TARGET_DIR + 'framework-create-broker.http', 'w') as self.app.file_obj:
-                response = self.app.post_json('/frameworks', {
-                    'data': self.initial_data,
-                    'config': {
-                        'restricted_derivatives': True,
+                response = self.app.post_json(
+                    '/frameworks', {
+                        'data': data,
+                        'config': {
+                            'restricted_derivatives': True,
+                        }
                     }
-                })
+                )
                 self.assertEqual(response.status, '201 Created')
 
             framework = response.json['data']
@@ -74,14 +81,18 @@ class RestrictedFrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
 
         # Create by Broker 1
         with change_auth(self.app, ("Basic", ("broker1", ""))):
-
             with open(TARGET_DIR + 'submission-register-broker1.http', 'w') as self.app.file_obj:
                 response = self.app.post_json(
                     '/submissions',
-                    {'data': {
-                        "tenderers": [tenderer],
-                        "frameworkID": self.framework_id,
-                    }}
+                    {
+                        'data': {
+                            "tenderers": [tenderer],
+                            "frameworkID": self.framework_id,
+                        },
+                        'config': {
+                            'restricted': True,
+                        },
+                    }
                 )
                 self.assertEqual(response.status, '201 Created')
 
@@ -99,14 +110,18 @@ class RestrictedFrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
 
         # Create by Broker 2
         with change_auth(self.app, ("Basic", ("broker2", ""))):
-
             with open(TARGET_DIR + 'submission-register-broker2.http', 'w') as self.app.file_obj:
                 response = self.app.post_json(
                     '/submissions',
-                    {'data': {
-                        "tenderers": [tenderer2],
-                        "frameworkID": self.framework_id,
-                    }}
+                    {
+                        'data': {
+                            "tenderers": [tenderer2],
+                            "frameworkID": self.framework_id,
+                        },
+                        'config': {
+                            'restricted': True,
+                        },
+                    }
                 )
                 self.assertEqual(response.status, '201 Created')
 
@@ -124,7 +139,6 @@ class RestrictedFrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
 
         # Check by Broker (Procuring Entity) can see all submissions
         with change_auth(self.app, ("Basic", ("broker", ""))):
-
             with open(TARGET_DIR + 'submission-feed-broker.http', 'w') as self.app.file_obj:
                 response = self.app.get('/submissions?opt_fields=frameworkID,status')
                 self.assertEqual(response.status, '200 OK')
@@ -139,7 +153,6 @@ class RestrictedFrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
 
         # Check by Broker 1
         with change_auth(self.app, ("Basic", ("broker1", ""))):
-
             with open(TARGET_DIR + 'submission-feed-broker1.http', 'w') as self.app.file_obj:
                 response = self.app.get('/submissions?opt_fields=frameworkID,status')
                 self.assertEqual(response.status, '200 OK')
@@ -154,7 +167,6 @@ class RestrictedFrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
 
         # Check by Broker 2
         with change_auth(self.app, ("Basic", ("broker2", ""))):
-
             with open(TARGET_DIR + 'submission-feed-broker2.http', 'w') as self.app.file_obj:
                 response = self.app.get('/submissions?opt_fields=frameworkID,status')
                 self.assertEqual(response.status, '200 OK')
@@ -169,7 +181,6 @@ class RestrictedFrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
 
         # Check by Anonymous
         with change_auth(self.app, None):
-
             with open(TARGET_DIR + 'submission-feed-anonymous.http', 'w') as self.app.file_obj:
                 response = self.app.get('/submissions?opt_fields=frameworkID,status')
                 self.assertEqual(response.status, '200 OK')
@@ -186,7 +197,6 @@ class RestrictedFrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
 
         # Check by Broker (Procuring Entity) can see all qualifications
         with change_auth(self.app, ("Basic", ("broker", ""))):
-
             with open(TARGET_DIR + 'qualification-feed-broker.http', 'w') as self.app.file_obj:
                 response = self.app.get('/qualifications?opt_fields=frameworkID,status')
                 self.assertEqual(response.status, '200 OK')
@@ -201,7 +211,6 @@ class RestrictedFrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
 
         # Check by Broker 1
         with change_auth(self.app, ("Basic", ("broker1", ""))):
-
             with open(TARGET_DIR + 'qualification-feed-broker1.http', 'w') as self.app.file_obj:
                 response = self.app.get('/qualifications?opt_fields=frameworkID,status')
                 self.assertEqual(response.status, '200 OK')
@@ -216,7 +225,6 @@ class RestrictedFrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
 
         # Check by Broker 2
         with change_auth(self.app, ("Basic", ("broker2", ""))):
-
             with open(TARGET_DIR + 'qualification-feed-broker2.http', 'w') as self.app.file_obj:
                 response = self.app.get('/qualifications?opt_fields=frameworkID,status')
                 self.assertEqual(response.status, '200 OK')
@@ -231,7 +239,6 @@ class RestrictedFrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
 
         # Check by Anonymous
         with change_auth(self.app, None):
-
             with open(TARGET_DIR + 'qualification-feed-anonymous.http', 'w') as self.app.file_obj:
                 response = self.app.get('/qualifications?opt_fields=frameworkID,status')
                 self.assertEqual(response.status, '200 OK')
@@ -270,7 +277,6 @@ class RestrictedFrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
 
         # Check by Broker (Procuring Entity)
         with change_auth(self.app, ("Basic", ("broker", ""))):
-
             with open(TARGET_DIR + 'agreement-feed-broker.http', 'w') as self.app.file_obj:
                 response = self.app.get('/agreements?opt_fields=status')
                 self.assertEqual(response.status, '200 OK')
@@ -281,7 +287,6 @@ class RestrictedFrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
 
         # Check by Broker 1
         with change_auth(self.app, ("Basic", ("broker1", ""))):
-
             with open(TARGET_DIR + 'agreement-feed-broker1.http', 'w') as self.app.file_obj:
                 response = self.app.get('/agreements?opt_fields=status')
                 self.assertEqual(response.status, '200 OK')
@@ -292,7 +297,6 @@ class RestrictedFrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
 
         # Check by Broker 2
         with change_auth(self.app, ("Basic", ("broker2", ""))):
-
             with open(TARGET_DIR + 'agreement-feed-broker2.http', 'w') as self.app.file_obj:
                 response = self.app.get('/agreements?opt_fields=status')
                 self.assertEqual(response.status, '200 OK')
@@ -303,7 +307,6 @@ class RestrictedFrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
 
         # Check by Anonymous
         with change_auth(self.app, None):
-
             with open(TARGET_DIR + 'agreement-feed-anonymous.http', 'w') as self.app.file_obj:
                 response = self.app.get('/agreements?opt_fields=status')
                 self.assertEqual(response.status, '200 OK')

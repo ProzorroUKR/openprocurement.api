@@ -18,7 +18,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "id": "00037256",
         "legalName": "Назва організації"
       },
-      "kind": "general",
+      "kind": "defense",
       "address": {
         "countryName": "Україна",
         "postalCode": "01220",
@@ -54,7 +54,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/79f3850495814cb1893350b0f6342f8f
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/27ccdb80d4234f69b99ab9ad18ecf6e1
 
 {
   "data": {
@@ -89,7 +89,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/79f3850495814
         "telephone": "+0440000000",
         "email": "aa@aa.com"
       },
-      "kind": "general"
+      "kind": "defense"
     },
     "classification": {
       "description": "Mustard seeds",
@@ -103,11 +103,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/79f3850495814
         "description": "папір і картон гофровані, паперова й картонна тара"
       }
     ],
-    "id": "79f3850495814cb1893350b0f6342f8f"
+    "id": "27ccdb80d4234f69b99ab9ad18ecf6e1"
   },
   "access": {
-    "token": "6d265ecdabed4b4eb6d1b3d41cb5e153",
-    "transfer": "a74743002ae945f48a42a54357586361"
+    "token": "ca87280100464ac4902587819c3ac264",
+    "transfer": "ea9b006f024c45e38496bf5f09562805"
   },
   "config": {
     "restricted_derivatives": true

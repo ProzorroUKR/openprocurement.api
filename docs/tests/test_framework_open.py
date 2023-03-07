@@ -5,9 +5,15 @@ from datetime import timedelta
 
 from tests.base.data import tenderer
 from tests.base.constants import DOCS_URL
-from tests.base.test import DumpsWebTestApp, MockWebTestMixin
+from tests.base.test import (
+    DumpsWebTestApp,
+    MockWebTestMixin,
+)
 
-from openprocurement.api.utils import get_now, parse_date
+from openprocurement.api.utils import (
+    get_now,
+    parse_date,
+)
 from openprocurement.framework.open.tests.base import (
     test_framework_open_data,
     BaseOpenWebTest,
@@ -45,7 +51,14 @@ class FrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
 
         # create frameworks
         with open(TARGET_DIR + 'create-framework.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/frameworks', {'data': self.initial_data})
+            response = self.app.post_json(
+                '/frameworks', {
+                    'data': self.initial_data,
+                    'config': {
+                        'restricted_derivatives': False,
+                    },
+                }
+            )
             self.assertEqual(response.status, '201 Created')
 
         framework = response.json['data']
@@ -55,41 +68,56 @@ class FrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'patch-framework-draft.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/frameworks/{}?acc_token={}'.format(framework['id'], owner_token),
-                {'data': {
-                    "procuringEntity": {
-                        "contactPoint": {
-                            "telephone": "+0440000001"
-                        }
-                    },
-                    "title": "updated in draft status"
-                }}
+                {
+                    'data': {
+                        "procuringEntity": {
+                            "contactPoint": {
+                                "telephone": "+0440000001"
+                            }
+                        },
+                        "title": "updated in draft status"
+                    }
+                }
             )
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'upload-framework-document.http', 'w') as self.app.file_obj:
-            response = self.app.post('/frameworks/{}/documents?acc_token={}'.format(
-                framework['id'], owner_token),
-                upload_files=[('file', 'framework.doc', b'content')])
+            response = self.app.post(
+                '/frameworks/{}/documents?acc_token={}'.format(
+                    framework['id'], owner_token
+                ),
+                upload_files=[('file', 'framework.doc', b'content')]
+            )
 
         with open(TARGET_DIR + 'framework-documents.http', 'w') as self.app.file_obj:
-            response = self.app.get('/frameworks/{}/documents?acc_token={}'.format(
-                framework['id'], owner_token))
+            response = self.app.get(
+                '/frameworks/{}/documents?acc_token={}'.format(
+                    framework['id'], owner_token
+                )
+            )
 
         with open(TARGET_DIR + 'upload-framework-document-2.http', 'w') as self.app.file_obj:
-            response = self.app.post('/frameworks/{}/documents?acc_token={}'.format(
-                framework['id'], owner_token),
-                upload_files=[('file', 'framework_additional_docs.doc', b'additional info')])
+            response = self.app.post(
+                '/frameworks/{}/documents?acc_token={}'.format(
+                    framework['id'], owner_token
+                ),
+                upload_files=[('file', 'framework_additional_docs.doc', b'additional info')]
+            )
 
         doc_id = response.json['data']['id']
 
         with open(TARGET_DIR + 'upload-framework-document-3.http', 'w') as self.app.file_obj:
-            response = self.app.put('/frameworks/{}/documents/{}?acc_token={}'.format(
-                framework['id'], doc_id, owner_token),
-                upload_files=[('file', 'framework_additional_docs.doc', b'extended additional info')])
+            response = self.app.put(
+                '/frameworks/{}/documents/{}?acc_token={}'.format(
+                    framework['id'], doc_id, owner_token
+                ),
+                upload_files=[('file', 'framework_additional_docs.doc', b'extended additional info')]
+            )
 
         with open(TARGET_DIR + 'get-framework-document-3.http', 'w') as self.app.file_obj:
             response = self.app.get(
-                '/frameworks/{}/documents/{}?acc_token={}'.format(framework['id'], doc_id, owner_token))
+                '/frameworks/{}/documents/{}?acc_token={}'.format(framework['id'], doc_id, owner_token)
+            )
 
         with open(TARGET_DIR + 'patch-framework-draft-to-active.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
@@ -102,10 +130,15 @@ class FrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'register-submission.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/submissions',
-                {'data': {
-                    "tenderers": [tenderer],
-                    "frameworkID": self.framework_id,
-                }}
+                {
+                    'data': {
+                        "tenderers": [tenderer],
+                        "frameworkID": self.framework_id,
+                    },
+                    'config': {
+                        'restricted': False,
+                    },
+                }
             )
             self.assertEqual(response.status, '201 Created')
 
@@ -143,10 +176,15 @@ class FrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
 
         response = self.app.post_json(
             '/submissions'.format(self.submission_id, self.submission_token),
-            {'data': {
-                "tenderers": [tenderer],
-                "frameworkID": self.framework_id,
-            }}
+            {
+                'data': {
+                    "tenderers": [tenderer],
+                    "frameworkID": self.framework_id,
+                },
+                'config': {
+                    'restricted': False,
+                },
+            }
         )
         self.submission_id = response.json["data"]["id"]
         self.submission_token = response.json["access"]["token"]
@@ -171,14 +209,20 @@ class FrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'upload-qualification-document.http', 'w') as self.app.file_obj:
-            response = self.app.post('/qualifications/{}/documents?acc_token={}'.format(
-                self.qualification_id, owner_token),
-                upload_files=[('file', 'qualification.doc', b'content')])
+            response = self.app.post(
+                '/qualifications/{}/documents?acc_token={}'.format(
+                    self.qualification_id, owner_token
+                ),
+                upload_files=[('file', 'qualification.doc', b'content')]
+            )
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'qualification-documents.http', 'w') as self.app.file_obj:
-            response = self.app.get('/qualifications/{}/documents'.format(
-                self.qualification_id, owner_token))
+            response = self.app.get(
+                '/qualifications/{}/documents'.format(
+                    self.qualification_id, owner_token
+                )
+            )
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'get-qualification-documents.http', 'w') as self.app.file_obj:
@@ -198,10 +242,15 @@ class FrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
 
         response = self.app.post_json(
             '/submissions'.format(self.submission_id, self.submission_token),
-            {'data': {
-                "tenderers": [tenderer],
-                "frameworkID": self.framework_id,
-            }}
+            {
+                'data': {
+                    "tenderers": [tenderer],
+                    "frameworkID": self.framework_id,
+                },
+                'config': {
+                    'restricted': False,
+                },
+            }
         )
         self.submission_id = response.json["data"]["id"]
         self.submission_token = response.json["access"]["token"]
@@ -256,17 +305,20 @@ class FrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
             new_endDate = (parse_date(framework["qualificationPeriod"]["endDate"]) + timedelta(days=15)).isoformat()
             response = self.app.patch_json(
                 '/frameworks/{}?acc_token={}'.format(framework['id'], owner_token),
-                {'data': {
-                    "procuringEntity": {
-                        "contactPoint": {
-                            "telephone": "+0440000002",
-                            "name": "зміна",
-                            "email": "ab@aa.com"
-                        }},
-                    "description": "Назва предмета закупівлі1",
-                    "qualificationPeriod": {
-                        "endDate": new_endDate
+                {
+                    'data': {
+                        "procuringEntity": {
+                            "contactPoint": {
+                                "telephone": "+0440000002",
+                                "name": "зміна",
+                                "email": "ab@aa.com"
+                            }
+                        },
+                        "description": "Назва предмета закупівлі1",
+                        "qualificationPeriod": {
+                            "endDate": new_endDate
+                        }
                     }
-                }}
+                }
             )
             self.assertEqual(response.status, '200 OK')
