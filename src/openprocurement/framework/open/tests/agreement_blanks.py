@@ -74,7 +74,9 @@ def create_agreement(self):
 
 def create_agreement_config_test(self):
     # Create framework
-    self.create_framework(config={"test": True})
+    config = deepcopy(self.initial_config)
+    config["test"] = True
+    self.create_framework(config=config)
     response = self.activate_framework()
 
     framework = response.json["data"]
@@ -131,7 +133,9 @@ def create_agreement_config_restricted(self):
     with change_auth(self.app, ("Basic", ("broker1", ""))):
         data = deepcopy(self.initial_data)
         data["procuringEntity"]["kind"] = "defense"
-        self.create_framework(data)
+        config = deepcopy(self.initial_config)
+        config["restricted_derivatives"] = True
+        self.create_framework(data=data, config=config)
         response = self.activate_framework()
 
         framework = response.json["data"]
@@ -144,7 +148,10 @@ def create_agreement_config_restricted(self):
     with change_auth(self.app, ("Basic", ("broker2", ""))):
         # Change authorization so framework and submission have different owners
 
-        self.create_submission()
+        config = deepcopy(self.initial_submission_config)
+        config["restricted"] = True
+
+        response = self.create_submission(config=config)
         response = self.activate_submission()
 
         submission = response.json["data"]
@@ -389,7 +396,7 @@ def patch_contract_suppliers(self):
         self.assertEqual(
             response.json["data"]["suppliers"][0].get(field),
             contract_patch_fields["suppliers"][0].get(field)
-            )
+        )
 
 
 def post_submission_with_active_contract(self):
@@ -399,7 +406,10 @@ def post_submission_with_active_contract(self):
 
     response = self.app.post_json(
         f"/submissions",
-        {"data": self.initial_submission_data},
+        {
+            "data": self.initial_submission_data,
+            "config": self.initial_submission_config,
+        },
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -407,15 +417,18 @@ def post_submission_with_active_contract(self):
     self.assertEqual(
         response.json["errors"][0]["description"],
         "Can't add submission when contract in agreement with same identifier.id in active status"
-        )
+    )
 
 
 def patch_agreement_terminated_status(self):
+    end_date = get_now() + timedelta(days=CONTRACT_BAN_DURATION - 1)
     response = self.app.patch_json(
         f"/frameworks/{self.framework_id}?acc_token={self.framework_token}",
         {
             "data": {
-                "qualificationPeriod": {"endDate": (get_now() + timedelta(days=CONTRACT_BAN_DURATION - 1)).isoformat()}
+                "qualificationPeriod": {
+                    "endDate": end_date.isoformat()
+                }
             }
         }
     )
@@ -480,11 +493,11 @@ def patch_contract_active_status(self):
     self.assertEqual(
         response.json["errors"],
         [{
-             'description': "Tenderer can't activate submission with active/suspended contract "
-                            f'in agreement for framework {self.framework_id}',
-             'location': 'body',
-             'name': 'data'
-         }]
+            'description': "Tenderer can't activate submission with active/suspended contract "
+                           f'in agreement for framework {self.framework_id}',
+            'location': 'body',
+            'name': 'data'
+        }]
     )
 
     # this contract is terminated but another user contract is active
@@ -1060,7 +1073,7 @@ def patch_activation_milestone(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"], "Can't switch milestone status from `scheduled` to `notMet`"
-        )
+    )
 
     response = self.app.patch_json(
         f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{activation_milestone_id}"
@@ -1086,7 +1099,7 @@ def patch_activation_milestone(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"], "Can't update object in current (terminated) contract status"
-        )
+    )
 
 
 def patch_ban_milestone(self):
@@ -1100,7 +1113,7 @@ def patch_ban_milestone(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"], "Can't add ban milestone for contract in suspended status"
-        )
+    )
 
 
 def search_by_classification(self):

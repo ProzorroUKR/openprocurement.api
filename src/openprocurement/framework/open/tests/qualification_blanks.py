@@ -23,7 +23,10 @@ def listing(self):
     for i in tenderer_ids:
         data["tenderers"][0]["identifier"]["id"] = i
         offset = get_now().timestamp()
-        response = self.app.post_json("/submissions", {"data": data})
+        response = self.app.post_json("/submissions", {
+            "data": data,
+            "config": self.initial_submission_config,
+        })
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
         response = self.app.patch_json(
@@ -129,7 +132,10 @@ def listing_changes(self):
     for i in tenderer_ids:
         data["tenderers"][0]["identifier"]["id"] = i
         offset = get_now().isoformat()
-        response = self.app.post_json("/submissions", {"data": data})
+        response = self.app.post_json("/submissions", {
+            "data": data,
+            "config": self.initial_submission_config,
+        })
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
         response = self.app.patch_json(
@@ -263,7 +269,10 @@ def patch_submission_pending(self):
 
     submission_data = deepcopy(self.initial_submission_data)
     submission_data["tenderers"][0]["identifier"]["id"] = "00037258"
-    response = self.app.post_json("/submissions", {"data": submission_data})
+    response = self.app.post_json("/submissions", {
+        "data": submission_data,
+        "config": self.initial_submission_config,
+    })
     self.assertEqual(response.status, "201 Created")
     submission_id = response.json["data"]["id"]
     submission_token = response.json["access"]["token"]
@@ -289,7 +298,9 @@ def patch_submission_pending(self):
 
 def patch_submission_pending_config_test(self):
     # Create framework
-    self.create_framework(config={"test": True})
+    config = deepcopy(self.initial_config)
+    config["test"] = True
+    self.create_framework(config=config)
     response = self.activate_framework()
 
     framework = response.json["data"]
@@ -330,7 +341,9 @@ def patch_submission_pending_config_restricted(self):
     with change_auth(self.app, ("Basic", ("broker1", ""))):
         data = deepcopy(self.initial_data)
         data["procuringEntity"]["kind"] = "defense"
-        self.create_framework(data)
+        config = deepcopy(self.initial_config)
+        config["restricted_derivatives"] = True
+        self.create_framework(data=data, config=config)
         response = self.activate_framework()
 
         framework = response.json["data"]
@@ -343,7 +356,10 @@ def patch_submission_pending_config_restricted(self):
     with change_auth(self.app, ("Basic", ("broker2", ""))):
         # Change authorization so framework and submission have different owners
 
-        self.create_submission()
+        config = deepcopy(self.initial_submission_config)
+        config["restricted"] = True
+
+        response = self.create_submission(config=config)
         response = self.activate_submission()
 
         submission = response.json["data"]
@@ -484,7 +500,10 @@ def patch_submission_pending_config_restricted(self):
 
 
 def patch_qualification_active(self):
-    response = self.app.post_json("/frameworks", {"data": self.initial_data})
+    response = self.app.post_json("/frameworks", {
+        "data": self.initial_data,
+        "config": self.initial_config,
+    })
     framework2_id = response.json["data"]["id"]
     framework2_token = response.json["access"]["token"]
 

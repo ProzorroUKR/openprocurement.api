@@ -61,6 +61,10 @@ test_framework_open_data = {
     "qualificationPeriod": {"endDate": (now + timedelta(days=120)).isoformat()}
 }
 
+test_framework_open_config = {
+    "restricted_derivatives": False,
+}
+
 test_open_documents = [
     {
         "hash": "md5:00000000000000000000000000000000",
@@ -118,6 +122,10 @@ test_submission_data = {
     "tenderers": [tenderer],
 }
 
+test_submission_config = {
+    "restricted": False,
+}
+
 ban_milestone_data = {
     "type": "ban"
 }
@@ -145,7 +153,7 @@ class BaseApiWebTest(BaseWebTest):
 class BaseOpenWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_framework_open_data
-    initial_config = {}
+    initial_config = test_framework_open_config
     framework_class = Framework
     framework_type = "open"
     docservice = False
@@ -153,7 +161,7 @@ class BaseOpenWebTest(BaseCoreWebTest):
 
     def create_framework(self, data=None, config=None):
         data = data if data is not None else deepcopy(self.initial_data)
-        config = config if data is not None else deepcopy(self.initial_config)
+        config = config if config is not None else deepcopy(self.initial_config)
 
         response = self.app.post_json("/frameworks", {
             "data": data,
@@ -197,6 +205,7 @@ class BaseDSOpenContentWebTest(OpenContentWebTest):
 
 class BaseSubmissionContentWebTest(OpenContentWebTest):
     initial_submission_data = None
+    initial_submission_config = test_submission_config
 
     def get_submission(self, role):
         with change_auth(self.app, ("Basic", (role, ""))):
@@ -226,7 +235,7 @@ class BaseSubmissionContentWebTest(OpenContentWebTest):
 
     def create_submission(self, data=None, config=None):
         data = data if data is not None else deepcopy(self.initial_submission_data)
-        config = config if data is not None else deepcopy(self.initial_submission_config)
+        config = config if config is not None else deepcopy(self.initial_submission_config)
         data["frameworkID"] = self.framework_id
         response = self.app.post_json("/submissions", {
             "data": data,

@@ -301,4 +301,4 @@ class Tender(BaseTender):
 
 
 class TenderConfig(Model):
-    test = BooleanType(required=False)  # TODO: remove
+    test = BooleanType(required=False)

@@ -221,6 +221,7 @@ class BaseDSElectronicCatalogueContentWebTest(ElectronicCatalogueContentWebTest)
 
 class BaseSubmissionContentWebTest(ElectronicCatalogueContentWebTest):
     initial_submission_data = None
+    initial_submission_config = {}
 
     def get_submission(self, role):
         with change_auth(self.app, ("Basic", (role, ""))):

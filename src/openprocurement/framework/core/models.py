@@ -45,6 +45,7 @@ from openprocurement.api.utils import (
     get_now,
     required_field_from_date,
 )
+from openprocurement.framework.core.context import get_framework
 from openprocurement.framework.core.utils import calculate_framework_date
 
 
@@ -58,6 +59,23 @@ class IFramework(IOPContent):
 class FrameworkConfig(Model):
     test = BooleanType(required=False)
     restricted_derivatives = BooleanType(required=False)
+
+    def validate_restricted_derivatives(self, data, value):
+        framework = get_framework()
+        if not framework:
+            return
+        if framework.get("frameworkType") == "open":
+            if value is None:
+                raise ValidationError("restricted_derivatives is required for this framework type")
+            if framework.get("procuringEntity", {}).get("kind") == "defense":
+                if value is False:
+                    raise ValidationError("restricted_derivatives must be true for defense procuring entity")
+            else:
+                if value is True:
+                    raise ValidationError("restricted_derivatives must be false for non-defense procuring entity")
+        else:
+            if value is not None:
+                raise ValidationError("restricted_derivatives not allowed for this framework type")
 
 
 def get_agreement(model):
@@ -201,6 +219,23 @@ class ISubmission(IOPContent):
 class SubmissionConfig(Model):
     test = BooleanType(required=False)
     restricted = BooleanType(required=False)
+
+    def validate_restricted(self, data, value):
+        framework = get_framework()
+        if not framework:
+            return
+        if framework.get("frameworkType") == "open":
+            if value is None:
+                raise ValidationError("restricted is required for this framework type")
+            if framework.get("procuringEntity", {}).get("kind") == "defense":
+                if value is False:
+                    raise ValidationError("restricted must be true for defense procuring entity")
+            else:
+                if value is True:
+                    raise ValidationError("restricted must be false for non-defense procuring entity")
+        else:
+            if value is not None:
+                raise ValidationError("restricted not allowed for this framework type")
 
 
 class ContactPoint(BaseContactPoint):
