@@ -233,6 +233,85 @@ def create_agreement_config_restricted(self):
             }]
         )
 
+        # Check object contracts
+        response = self.app.get("/agreements/{}/contracts".format(agreement_id), status=403)
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"],
+            [{
+                "location": "body",
+                "name": "data",
+                "description": "Access restricted for agreement object"
+            }]
+        )
+
+        # Check object contract
+        response = self.app.get("/agreements/{}/contracts/{}".format(
+            agreement_id,
+            agreement["contracts"][0]["id"],
+        ), status=403)
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"],
+            [{
+                "location": "body",
+                "name": "data",
+                "description": "Access restricted for agreement object"
+            }]
+        )
+
+        # Check object milestones
+        response = self.app.get("/agreements/{}/contracts/{}/milestones".format(
+            agreement_id,
+            agreement["contracts"][0]["id"],
+        ), status=403)
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"],
+            [{
+                "location": "body",
+                "name": "data",
+                "description": "Access restricted for agreement object"
+            }]
+        )
+
+        # Check object milestones
+        response = self.app.get("/agreements/{}/contracts/{}/milestones/{}".format(
+            agreement_id,
+            agreement["contracts"][0]["id"],
+            agreement["contracts"][0]["milestones"][0]["id"],
+        ), status=403)
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"],
+            [{
+                "location": "body",
+                "name": "data",
+                "description": "Access restricted for agreement object"
+            }]
+        )
+
+        # Check object milestones documents
+        response = self.app.get("/agreements/{}/contracts/{}/milestones/{}/documents".format(
+            agreement_id,
+            agreement["contracts"][0]["id"],
+            agreement["contracts"][0]["milestones"][0]["id"],
+        ), status=403)
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"],
+            [{
+                "location": "body",
+                "name": "data",
+                "description": "Access restricted for agreement object"
+            }]
+        )
+
         # Check listing
         response = self.app.get("/agreements?opt_fields=status")
         self.assertEqual(response.status, "200 OK")

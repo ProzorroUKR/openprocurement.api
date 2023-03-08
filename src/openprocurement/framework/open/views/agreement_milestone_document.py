@@ -11,6 +11,7 @@ from openprocurement.framework.core.validation import (
     validate_agreement_operation_not_in_allowed_status,
     validate_contract_operation_not_in_allowed_status,
     validate_action_in_milestone_status,
+    validate_restricted_access,
 )
 from openprocurement.framework.open.constants import OPEN_TYPE
 
@@ -23,7 +24,12 @@ from openprocurement.framework.open.constants import OPEN_TYPE
     description="Agreement contract milestone related binary files (PDFs, etc.)",
 )
 class MilestoneDocumentResource(CoreMilestoneDocumentResource):
-    @json_view(permission="view_agreement")
+    @json_view(
+        validators=(
+            validate_restricted_access("agreement")
+        ),
+        permission="view_agreement",
+    )
     def collection_get(self):
         """Milestone Documents List"""
         return super(CoreMilestoneDocumentResource, self).collection_get()
@@ -41,7 +47,12 @@ class MilestoneDocumentResource(CoreMilestoneDocumentResource):
         """Milestone Document Upload"""
         return super(CoreMilestoneDocumentResource, self).collection_post()
 
-    @json_view(permission="view_agreement")
+    @json_view(
+        validators=(
+            validate_restricted_access("agreement")
+        ),
+        permission="view_agreement",
+    )
     def get(self):
         """Milestone Document Read"""
         return super(CoreMilestoneDocumentResource, self).get()

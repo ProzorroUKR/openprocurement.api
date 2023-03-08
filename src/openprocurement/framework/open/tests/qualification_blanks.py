@@ -374,6 +374,13 @@ def patch_submission_pending_config_restricted(self):
             "restricted": True,
         }
 
+        response = self.app.post(
+            "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
+            upload_files=[("file", "name  name.doc", b"content")]
+        )
+        self.assertEqual(response.status, "201 Created")
+        document = response.json["data"]
+
         response = self.activate_qualification()
 
         qualification = response.json["data"]
@@ -466,6 +473,32 @@ def patch_submission_pending_config_restricted(self):
     with change_auth(self.app, ("Basic", ("", ""))):
         # Check object
         response = self.app.get("/qualifications/{}".format(qualification_id), status=403)
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"],
+            [{
+                "location": "body",
+                "name": "data",
+                "description": "Access restricted for qualification object"
+            }]
+        )
+
+        # Check object documents
+        response = self.app.get("/qualifications/{}/documents".format(qualification_id), status=403)
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"],
+            [{
+                "location": "body",
+                "name": "data",
+                "description": "Access restricted for qualification object"
+            }]
+        )
+
+        # Check object document
+        response = self.app.get("/qualifications/{}/documents".format(qualification_id, document["id"]), status=403)
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(

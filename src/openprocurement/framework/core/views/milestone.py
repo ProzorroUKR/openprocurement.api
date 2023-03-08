@@ -9,15 +9,26 @@ from openprocurement.framework.core.utils import (
     save_agreement,
     MILESTONE_CONTRACT_STATUSES,
 )
+from openprocurement.framework.core.validation import validate_restricted_access
 
 
 class CoreContractMilestoneResource(BaseResource):
-    @json_view(permission="view_agreement")
+    @json_view(
+        validators=(
+            validate_restricted_access("agreement")
+        ),
+        permission="view_agreement",
+    )
     def collection_get(self):
         contract = self.context
         return {"data": [milestone.serialize("view") for milestone in contract.milestones]}
 
-    @json_view(permission="view_agreement")
+    @json_view(
+        validators=(
+            validate_restricted_access("agreement")
+        ),
+        permission="view_agreement",
+    )
     def get(self):
         return {"data": self.request.validated["milestone"].serialize("view")}
 

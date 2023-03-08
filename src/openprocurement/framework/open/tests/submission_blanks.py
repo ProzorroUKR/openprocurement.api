@@ -27,7 +27,7 @@ def listing(self):
                 "data": data,
                 "config": self.initial_submission_config,
             }
-            )
+        )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
         response = self.app.patch_json(
@@ -132,7 +132,7 @@ def listing_changes(self):
                 "data": data,
                 "config": self.initial_submission_config,
             }
-            )
+        )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
         response = self.app.patch_json(
@@ -238,7 +238,7 @@ def listing_draft(self):
                 "data": data,
                 "config": self.initial_submission_config,
             }
-            )
+        )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
         response = self.app.patch_json(
@@ -254,7 +254,7 @@ def listing_draft(self):
                 "data": data,
                 "config": self.initial_submission_config,
             }
-            )
+        )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
 
@@ -459,7 +459,7 @@ def create_submission_draft(self):
             "data": data,
             "config": self.initial_submission_config,
         }
-        )
+    )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     submission = response.json["data"]
@@ -563,6 +563,13 @@ def create_submission_config_restricted(self):
         submission_owner = submission["owner"]
         self.assertNotEqual(submission_owner, framework_owner)
 
+        response = self.app.post(
+            "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
+            upload_files=[("file", "укр.doc", b"content")],
+        )
+        self.assertEqual(response.status, "201 Created")
+        document = response.json["data"]
+
         response = self.activate_submission()
 
         submission = response.json["data"]
@@ -615,7 +622,7 @@ def create_submission_config_restricted(self):
                 "qualificationID",
                 "date",
             }
-            )
+        )
 
     # Check access (submission owner)
     with change_auth(self.app, ("Basic", ("broker2", ""))):
@@ -655,12 +662,38 @@ def create_submission_config_restricted(self):
                 "qualificationID",
                 "date",
             }
-            )
+        )
 
     # Check access (anonymous)
     with change_auth(self.app, ("Basic", ("", ""))):
         # Check object
         response = self.app.get("/submissions/{}".format(submission["id"]), status=403)
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"],
+            [{
+                "location": "body",
+                "name": "data",
+                "description": "Access restricted for submission object"
+            }]
+        )
+
+        # Check object documents
+        response = self.app.get("/submissions/{}/documents".format(submission["id"]), status=403)
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"],
+            [{
+                "location": "body",
+                "name": "data",
+                "description": "Access restricted for submission object"
+            }]
+        )
+
+        # Check object document
+        response = self.app.get("/submissions/{}/documents/{}".format(submission["id"], document["id"]), status=403)
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
@@ -701,7 +734,7 @@ def patch_submission_draft(self):
             "data": data,
             "config": self.initial_submission_config,
         }
-        )
+    )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     submission = response.json["data"]
@@ -796,7 +829,7 @@ def patch_framework_draft_to_active(self):
             "data": data,
             "config": self.initial_submission_config,
         }
-        )
+    )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     submission = response.json["data"]
@@ -821,7 +854,7 @@ def patch_framework_draft_to_active(self):
             "data": data,
             "config": self.initial_submission_config,
         }
-        )
+    )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     submission = response.json["data"]
@@ -842,7 +875,7 @@ def patch_submission_draft_to_active_invalid(self):
             "data": data,
             "config": self.initial_submission_config,
         }
-        )
+    )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     submission = response.json["data"]
@@ -862,7 +895,7 @@ def patch_submission_draft_to_active_invalid(self):
             "data": data,
             "config": self.initial_submission_config,
         }
-        )
+    )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     submission = response.json["data"]
@@ -893,7 +926,7 @@ def patch_submission_active(self):
             "data": data,
             "config": self.initial_submission_config,
         }
-        )
+    )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     submission = response.json["data"]
@@ -953,7 +986,7 @@ def patch_submission_active_fast(self):
             "data": data,
             "config": self.initial_submission_config,
         }
-        )
+    )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     submission = response.json["data"]
@@ -991,7 +1024,7 @@ def patch_submission_draft_to_deleted(self):
             "data": data,
             "config": self.initial_submission_config,
         }
-        )
+    )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     submission = response.json["data"]
@@ -1014,7 +1047,7 @@ def patch_submission_deleted(self):
             "data": data,
             "config": self.initial_submission_config,
         }
-        )
+    )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     submission = response.json["data"]
@@ -1072,7 +1105,7 @@ def patch_submission_complete(self):
             "data": data,
             "config": self.initial_submission_config,
         }
-        )
+    )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     submission = response.json["data"]
@@ -1121,7 +1154,7 @@ def submission_fields(self):
             "data": data,
             "config": self.initial_submission_config,
         }
-        )
+    )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     submission = response.json["data"]
@@ -1160,7 +1193,7 @@ def get_submission(self):
             "data": data,
             "config": self.initial_submission_config,
         }
-        )
+    )
     self.assertEqual(response.status, "201 Created")
     submission = response.json["data"]
 
@@ -1191,7 +1224,7 @@ def date_submission(self):
             "data": data,
             "config": self.initial_submission_config,
         }
-        )
+    )
     self.assertEqual(response.status, "201 Created")
     submission = response.json["data"]
     token = response.json["access"]["token"]
@@ -1229,7 +1262,7 @@ def dateModified_submission(self):
             "data": data,
             "config": self.initial_submission_config,
         }
-        )
+    )
     self.assertEqual(response.status, "201 Created")
     submission = response.json["data"]
     token = response.json["access"]["token"]
@@ -1283,7 +1316,7 @@ def datePublished_submission(self):
             "data": data,
             "config": self.initial_submission_config,
         }
-        )
+    )
     self.assertEqual(response.status, "201 Created")
     submission = response.json["data"]
     token = response.json["access"]["token"]
@@ -1340,7 +1373,7 @@ def submission_token_invalid(self):
             "data": data,
             "config": self.initial_submission_config,
         }
-        )
+    )
     self.assertEqual(response.status, "201 Created")
     submission_id = response.json["data"]["id"]
 

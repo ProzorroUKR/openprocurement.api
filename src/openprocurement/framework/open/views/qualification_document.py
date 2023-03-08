@@ -9,6 +9,7 @@ from openprocurement.framework.core.utils import qualificationsresource
 from openprocurement.framework.core.views.document import CoreQualificationDocumentResource
 from openprocurement.framework.core.validation import (
     validate_document_operation_in_not_allowed_status,
+    validate_restricted_access,
 )
 from openprocurement.framework.open.constants import OPEN_TYPE
 
@@ -23,7 +24,12 @@ from openprocurement.framework.open.constants import OPEN_TYPE
 class QualificationDocumentResource(CoreQualificationDocumentResource):
     context_name = "qualification"
 
-    @json_view(permission="view_qualification")
+    @json_view(
+        validators=(
+            validate_restricted_access("qualification", owner_fields={"framework_owner", "submission_owner"})
+        ),
+        permission="view_qualification",
+    )
     def collection_get(self):
         """Qualification Documents List"""
         return super(QualificationDocumentResource, self).collection_get()
@@ -39,7 +45,12 @@ class QualificationDocumentResource(CoreQualificationDocumentResource):
         """Qualification Document Upload"""
         return super(QualificationDocumentResource, self).collection_post()
 
-    @json_view(permission="view_qualification")
+    @json_view(
+        validators=(
+            validate_restricted_access("qualification", owner_fields={"framework_owner", "submission_owner"})
+        ),
+        permission="view_qualification",
+    )
     def get(self):
         """qualification Document Read"""
         return super(QualificationDocumentResource, self).get()

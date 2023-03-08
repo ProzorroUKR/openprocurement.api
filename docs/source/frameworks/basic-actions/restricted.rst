@@ -163,12 +163,12 @@ Let's check qualification feed for `Broker` that is `Procuring Entity` and has a
 
 Now make request by `Broker` for qualification of submission that was created by `Broker 1`:
 
-.. http:example:: http/restricted/submission-get-1-broker.http
+.. http:example:: http/restricted/qualification-get-1-broker.http
    :code:
 
 Then make request by `Broker` for qualification of submission that was created by `Broker 2`:
 
-.. http:example:: http/restricted/submission-get-2-broker.http
+.. http:example:: http/restricted/qualification-get-2-broker.http
    :code:
 
 Broker 1 (Supplier 1)

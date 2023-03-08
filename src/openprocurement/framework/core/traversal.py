@@ -97,6 +97,7 @@ def contract_factory(request):
     agreement = request.agreement
     agreement.__parent__ = root
     request.validated["agreement"] = request.validated["db_doc"] = agreement
+    request.validated["agreement_config"] = agreement.get("config") or {}
     if request.method != "GET":
         request.validated["agreement_src"] = agreement.serialize("plain")
     if request.matchdict.get("contract_id"):

@@ -9,6 +9,7 @@ from openprocurement.framework.core.utils import submissionsresource
 from openprocurement.framework.core.views.document import CoreSubmissionDocumentResource
 from openprocurement.framework.core.validation import (
     validate_document_operation_in_not_allowed_period,
+    validate_restricted_access,
 )
 from openprocurement.framework.open.constants import OPEN_TYPE
 
@@ -23,7 +24,12 @@ from openprocurement.framework.open.constants import OPEN_TYPE
 class SubmissionDocumentResource(CoreSubmissionDocumentResource):
     context_name = "submission"
 
-    @json_view(permission="view_submission")
+    @json_view(
+        validators=(
+            validate_restricted_access("submission", owner_fields={"owner", "framework_owner"})
+        ),
+        permission="view_submission",
+    )
     def collection_get(self):
         """Submission Documents List"""
         return super(SubmissionDocumentResource, self).collection_get()
@@ -39,7 +45,12 @@ class SubmissionDocumentResource(CoreSubmissionDocumentResource):
         """Submission Document Upload"""
         return super(SubmissionDocumentResource, self).collection_post()
 
-    @json_view(permission="view_submission")
+    @json_view(
+        validators=(
+            validate_restricted_access("submission", owner_fields={"owner", "framework_owner"})
+        ),
+        permission="view_submission",
+    )
     def get(self):
         """Submission Document Read"""
         return super(SubmissionDocumentResource, self).get()

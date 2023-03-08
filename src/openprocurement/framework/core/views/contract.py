@@ -4,15 +4,26 @@ from openprocurement.api.utils import (
 )
 from openprocurement.api.views.base import BaseResource
 from openprocurement.framework.core.utils import apply_patch
+from openprocurement.framework.core.validation import validate_restricted_access
 
 
 class CoreAgreementContractsResource(BaseResource):
-    @json_view(permission="view_agreement")
+    @json_view(
+        validators=(
+            validate_restricted_access("agreement")
+        ),
+        permission="view_agreement",
+    )
     def collection_get(self):
         agreement = self.context
         return {"data": [contract.serialize("view") for contract in agreement.contracts]}
 
-    @json_view(permission="view_agreement")
+    @json_view(
+        validators=(
+            validate_restricted_access("agreement")
+        ),
+        permission="view_agreement",
+    )
     def get(self):
         return {"data": self.request.validated["contract"].serialize("view")}
 
