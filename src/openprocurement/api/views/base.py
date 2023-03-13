@@ -101,7 +101,7 @@ class MongodbResourceListing(BaseResource):
             opt_fields = set(self.request.params.get("opt_fields", "").split(",")) & self.listing_allowed_fields
             filtered_fields = opt_fields - self.listing_default_fields
             if filtered_fields:
-                params["opt_fields"] = ",".join(filtered_fields)
+                params["opt_fields"] = ",".join(sorted(filtered_fields))
         else:
             opt_fields = set()
 
@@ -112,14 +112,14 @@ class MongodbResourceListing(BaseResource):
         else:
             prev_params["descending"] = 1
 
-        fields = opt_fields | self.listing_default_fields
-        request_fields = fields | {self.config_filed} | self.owner_fields
+        data_fields = opt_fields | self.listing_default_fields
+        db_fields = data_fields | self.owner_fields | {self.config_filed}
 
         # call db method
         results = self.db_listing_method(
             offset_field=self.offset_field,
             offset_value=offset,
-            fields=request_fields,
+            fields=db_fields,
             descending=params.get("descending"),
             limit=params.get("limit", self.default_limit),
             mode=params.get("mode"),
@@ -134,7 +134,7 @@ class MongodbResourceListing(BaseResource):
                 for r in results:
                     r.pop(self.offset_field)
         data = {
-            "data": self.filter_fields(results, fields),
+            "data": self.filter_fields(results, data_fields),
             "next_page": self.get_page(keys, params)
         }
         if self.request.params.get("descending") or self.request.params.get("offset"):
