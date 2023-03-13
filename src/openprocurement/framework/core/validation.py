@@ -353,13 +353,23 @@ def validate_patch_milestone_data(request, **kwargs):
 
 def validate_qualification_period_duration(request, model, min_duration, max_duration):
     data = request.validated["data"]
-    qualificationPeriod = model(request.validated["data"]["qualificationPeriod"])
-    qualification_period_end_date = calculate_framework_date(
-        qualificationPeriod.startDate,
+    qualification_period = model(request.validated["data"]["qualificationPeriod"])
+    start_date = qualification_period["startDate"]
+    if qualification_period["startDate"] < get_now():
+        start_date = get_now()
+
+    qualification_period_min_end_date = calculate_framework_date(
+        start_date,
         timedelta(days=min_duration),
         data
     )
-    if qualification_period_end_date > qualificationPeriod.endDate:
+    qualification_period_max_end_date = calculate_framework_date(
+        start_date,
+        timedelta(days=max_duration),
+        data,
+        ceil=True
+    )
+    if qualification_period_min_end_date > qualification_period["endDate"]:
         raise_operation_error(
             request,
             "qualificationPeriod must be at least "
@@ -367,14 +377,7 @@ def validate_qualification_period_duration(request, model, min_duration, max_dur
                 min_duration=min_duration
             )
         )
-    period = model(request.validated["data"]["period"])
-    qualification_period_end_date = calculate_framework_date(
-        period.startDate,
-        timedelta(days=max_duration),
-        data,
-        ceil=True
-    )
-    if qualification_period_end_date < qualificationPeriod.endDate:
+    if qualification_period_max_end_date < qualification_period["endDate"]:
         raise_operation_error(
             request,
             "qualificationPeriod must be less than "
