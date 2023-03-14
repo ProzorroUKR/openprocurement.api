@@ -1,0 +1,23 @@
+GET /api/2.5/agreements?opt_fields=status HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "status": "active",
+      "dateModified": "2023-01-17T00:00:00+02:00",
+      "id": "5d6633d4f393415685289b20f1c04348"
+    }
+  ],
+  "next_page": {
+    "offset": 1673906400.0,
+    "path": "/api/2.5/agreements?opt_fields=status&offset=1673906400.0",
+    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/agreements?opt_fields=status&offset=1673906400.0"
+  }
+}
+

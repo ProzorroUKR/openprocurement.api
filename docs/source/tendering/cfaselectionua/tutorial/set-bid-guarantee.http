@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/93f4fb7502554ab591dd397e3360b027/lots/f2599a519a45416db792d9ee833a8e5a?acc_token=3f8107537abc4a978698af4ddbbe2cde HTTP/1.0
+PATCH /api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/lots/50fc7d0cb4e3423491c35387a046af42?acc_token=5585cd490cac4cb68cd03d747b3c247c HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 57
 Content-Type: application/json
@@ -23,7 +23,7 @@ Content-Type: application/json
     "description": "Опис Лот №1",
     "status": "active",
     "date": "2023-01-01T00:00:00+02:00",
-    "id": "f2599a519a45416db792d9ee833a8e5a",
+    "id": "50fc7d0cb4e3423491c35387a046af42",
     "value": {
       "amount": 600.67,
       "currency": "UAH",

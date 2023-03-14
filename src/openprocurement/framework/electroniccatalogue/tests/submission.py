@@ -6,11 +6,11 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.framework.electroniccatalogue.tests.base import (
     BaseSubmissionContentWebTest,
     SubmissionContentWebTest,
-    test_electronicCatalogue_data,
+    test_framework_electronic_catalogue_data,
     test_electronicCatalogue_documents,
     test_submission_data,
 )
-from openprocurement.framework.electroniccatalogue.tests.submission_blanks import (
+from openprocurement.framework.open.tests.submission_blanks import (
     listing,
     listing_draft,
     listing_changes,
@@ -39,6 +39,7 @@ from openprocurement.framework.electroniccatalogue.tests.submission_blanks impor
     put_submission_document,
     put_submission_document_fast,
     create_submission_document_json_bulk,
+    create_submission_config_test,
 )
 
 
@@ -48,6 +49,7 @@ class SubmissionResourceTest(BaseSubmissionContentWebTest):
     test_listing_changes = snitch(listing_changes)
     test_create_submission_draft_invalid = snitch(create_submission_draft_invalid)
     test_create_submission_draft = snitch(create_submission_draft)
+    test_create_submission_config_test = snitch(create_submission_config_test)
     test_patch_submission_draft = snitch(patch_submission_draft)
     test_patch_submission_draft_to_active_invalid = snitch(patch_submission_draft_to_active_invalid)
     test_patch_submission_active = snitch(patch_submission_active)
@@ -64,13 +66,13 @@ class SubmissionResourceTest(BaseSubmissionContentWebTest):
     test_submission_not_found = snitch(submission_not_found)
     test_submission_token_invalid = snitch(submission_token_invalid)
 
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_framework_electronic_catalogue_data
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
 
 
 class TestSubmissionDocumentGet(SubmissionContentWebTest):
-    initial_data = deepcopy(test_electronicCatalogue_data)
+    initial_data = deepcopy(test_framework_electronic_catalogue_data)
     initial_submission_data = deepcopy(test_submission_data)
 
     test_get_documents_list = snitch(get_documents_list)
@@ -84,7 +86,7 @@ class TestSubmissionDocumentGet(SubmissionContentWebTest):
 
 
 class TestDocumentsCreate(SubmissionContentWebTest):
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_framework_electronic_catalogue_data
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
     docservice = True
@@ -107,5 +109,3 @@ def suite():
 
 if __name__ == "__main__":
     unittest.main(defaultTest="suite")
-
-

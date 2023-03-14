@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/69a0774b217e477cb01ddad3849397e2/awards/f93db424ee9640748eb33d5f23ade382?acc_token=2b976b1ceeb542098d70a6eec56c68a8 HTTP/1.0
+PATCH /api/2.5/tenders/cb76d20a62ef4e318ecb101430b63776/awards/909860d47d87434ea3b20411355b97fd?acc_token=ba20733189d94f8eb1f42516be4fddf3 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 67
 Content-Type: application/json
@@ -20,14 +20,14 @@ Content-Type: application/json
   "data": {
     "milestones": [
       {
-        "id": "ce826793dae045e8b14bcafadfc26d63",
+        "id": "e273668150694de789d2f0b1a8b93b43",
         "code": "alp",
         "dueDate": "2022-12-31T00:00:00+02:00",
         "description": "найбільш економічно вигідна пропозиція є меншою на 40 або більше відсотків від середньоарифметичного значення ціни/приведеної ціни тендерних пропозицій інших учасників на початковому етапі аукціону / найбільш економічно вигідна пропозиція є меншою на 30 або більше відсотків від наступної ціни/приведеної ціни тендерної пропозиції за результатами проведеного електронного аукціону",
         "date": "2023-01-01T00:00:00+02:00"
       }
     ],
-    "id": "f93db424ee9640748eb33d5f23ade382",
+    "id": "909860d47d87434ea3b20411355b97fd",
     "status": "active",
     "date": "2023-01-01T00:00:00+02:00",
     "value": {
@@ -59,8 +59,8 @@ Content-Type: application/json
         "scale": "micro"
       }
     ],
-    "bid_id": "0a809f0c0f8f4599b774f8e722bc548c",
-    "lotID": "c243ce7d66e040b8a69edbc86a864014",
+    "bid_id": "1fcbb7ab0a104c228baa39c0c89927fe",
+    "lotID": "eb3a2c7480d14c948cce6d516a8fb007",
     "qualified": true,
     "eligible": true,
     "complaintPeriod": {

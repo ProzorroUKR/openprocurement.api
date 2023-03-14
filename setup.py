@@ -59,6 +59,7 @@ entry_points = {
     ],
     "openprocurement.framework.core.plugins": [
         "framework.electroniccatalogue = openprocurement.framework.electroniccatalogue.includeme:includeme",
+        "framework.open = openprocurement.framework.open.includeme:includeme",
         "framework.cfaua = openprocurement.framework.cfaua.includeme:includeme",
     ],
     "openprocurement.api.migrations": [

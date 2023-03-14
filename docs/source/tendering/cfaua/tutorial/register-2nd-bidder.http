@@ -1,6 +1,6 @@
-POST /api/2.5/tenders/b69c06ceeeb145a4b5cc46d3d56de4d2/bids HTTP/1.0
+POST /api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 882
+Content-Length: 1266
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -22,6 +22,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "identifier": {
           "scheme": "UA-EDR",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "id": "00137226",
           "uri": "http://www.sc.gov.ua/"
         },
@@ -34,7 +35,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 499
         },
-        "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783"
+        "relatedLot": "9dea7e57fca24c0fa6c43f752611342d"
       }
     ],
     "selfQualified": true,
@@ -45,7 +46,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b69c06ceeeb145a4b5cc46d3d56de4d2/bids/a9427978bcd440bda085ad41b2547b78
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/bids/8f1f5d51afcd4521ae73bc0799c5445d
 
 {
   "data": {
@@ -55,6 +56,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b69c06ceeeb145a4
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137226",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {
@@ -79,19 +81,19 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b69c06ceeeb145a4
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
+        "relatedLot": "9dea7e57fca24c0fa6c43f752611342d",
         "status": "pending",
         "date": "2023-01-01T00:00:00+02:00"
       }
     ],
     "selfQualified": true,
     "status": "draft",
-    "id": "a9427978bcd440bda085ad41b2547b78",
+    "id": "8f1f5d51afcd4521ae73bc0799c5445d",
     "date": "2023-01-01T00:00:00+02:00"
   },
   "access": {
-    "token": "05169c460d0f4df49de5d86692be63d3",
-    "transfer": "bd21324e13a24c449186c03aba2171fe"
+    "token": "c7c15a8a0a804b73ba750af733cf2b1a",
+    "transfer": "79a93542b1284e849801f1ded09b44e2"
   }
 }
 

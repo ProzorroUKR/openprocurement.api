@@ -99,7 +99,7 @@ class ViewsFrameworkTest(BaseFrameworkTest):
         framework.id = data["id"]
         framework.frameworkType = "electronicCatalogue"
         framework.serialize.side_effect = [data]
-        request.validated = {"framework": framework}
+        request.validated = {"framework": framework, "framework_config": {}}
         mocked_save_framework.side_effect = [True]
         view = FrameworkResource(request=request, context=context)
         res = view.post()

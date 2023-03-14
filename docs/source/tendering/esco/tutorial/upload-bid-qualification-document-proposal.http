@@ -1,13 +1,13 @@
-POST /api/2.5/tenders/501cb77768e446f39265deb722b208a3/bids/658a2d2b9721494887a952371db42b5a/qualification_documents?acc_token=6624fd96edbc46c1b84b5ca323e4e239 HTTP/1.0
+POST /api/2.5/tenders/28db6af763c74fceaedc98e147fed6cb/bids/9f572f6770254b01b919e923bbbd86ab/qualification_documents?acc_token=8073f3a087cc4e2d9901115f4126bade HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 334
+Content-Length: 336
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
     "title": "qualification_document.pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/533b5c8290274e0fbd8aae966e42f4ee?Signature=6VssrC16eUC1zAiIm6V46VRbo8HuYewEQojYJQwDxOuvoFqrnGJPkgrpVTCTCDNHfwIX7f5hEnO5LLpaXhVnAg%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e12038e895304484ba2427c8ec12b48d?Signature=C5sdc6t8kgD2IIjvWo9oyY8rByF6PhUWm4zFxtZo9THBVxcILOwR9iprIPkUvsfDTj1XT8%2F4uYgEFAI6Rj3vBA%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
   }
@@ -16,18 +16,18 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/501cb77768e446f39265deb722b208a3/bids/658a2d2b9721494887a952371db42b5a/qualification_documents/58aa8fbd6e6b403e83867221df79cc67
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/28db6af763c74fceaedc98e147fed6cb/bids/9f572f6770254b01b919e923bbbd86ab/qualification_documents/1028a697039d475481111b3aac70c63b
 
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000",
     "title": "qualification_document.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/533b5c8290274e0fbd8aae966e42f4ee?Signature=DaKudlKyGMgGSy6b%2F%2BZtyCkQGoeIiHHMCxh%2FzMm%2BnYfGSMhrtdI80tqXegWP%2FlpjKqHClL7DddYDI69SYJodDA%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e12038e895304484ba2427c8ec12b48d?Signature=c6A9zbOW27L9%2FWezN39h69eBFTeCrQsrnc8uPK%2FYXhlnx3Ge%2BnZt2LFZrOSTEUrZS9QqBw99Ek0WGxAdcZ47BQ%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "confidentiality": "public",
     "language": "uk",
-    "id": "58aa8fbd6e6b403e83867221df79cc67",
+    "id": "1028a697039d475481111b3aac70c63b",
     "datePublished": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00"
   }

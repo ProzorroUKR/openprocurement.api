@@ -4,21 +4,24 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.framework.electroniccatalogue.tests.base import (
-    test_electronicCatalogue_data,
+    test_framework_electronic_catalogue_data,
     test_electronicCatalogue_documents,
     ElectronicCatalogueContentWebTest,
     BaseDSElectronicCatalogueContentWebTest,
 )
-from openprocurement.framework.electroniccatalogue.tests.document_blanks import (
+from openprocurement.framework.open.tests.document_blanks import (
     get_documents_list,
     get_document_by_id,
-    create_framework_document_forbidden, create_framework_document,
-    not_found, put_contract_document, create_framework_document_json_bulk,
+    create_framework_document_forbidden,
+    create_framework_document,
+    not_found,
+    put_contract_document,
+    create_framework_document_json_bulk,
 )
 
 
 class TestDocumentGet(ElectronicCatalogueContentWebTest):
-    initial_data = deepcopy(test_electronicCatalogue_data)
+    initial_data = deepcopy(test_framework_electronic_catalogue_data)
 
     def setUp(self):
         self.initial_data["documents"] = deepcopy(test_electronicCatalogue_documents)
@@ -31,7 +34,7 @@ class TestDocumentGet(ElectronicCatalogueContentWebTest):
 
 
 class TestDocumentsCreate(BaseDSElectronicCatalogueContentWebTest):
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_framework_electronic_catalogue_data
     initial_auth = ("Basic", ("broker", ""))
 
     test_create_framework_document_forbidden = snitch(create_framework_document_forbidden)
@@ -40,7 +43,7 @@ class TestDocumentsCreate(BaseDSElectronicCatalogueContentWebTest):
 
 
 class ElectronicCatalogueDocumentWithDSResourceTest(BaseDSElectronicCatalogueContentWebTest):
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_framework_electronic_catalogue_data
 
     test_not_found = snitch(not_found)
     test_put_contract_document = snitch(put_contract_document)

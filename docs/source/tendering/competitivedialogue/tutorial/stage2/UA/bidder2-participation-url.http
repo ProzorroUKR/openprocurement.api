@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/f5b1f7dad1d64ec09e0d406e09e7e816/bids/f530428ea0704642b3f7888bd2ddbf1f?acc_token=625b4d728cff424ea81b713745206427 HTTP/1.0
+GET /api/2.5/tenders/32bf03368c4c49869cf9b1103c9c69f8/bids/41b9a192eff440ee97d3461e2a9fac17?acc_token=44db79cab2f54de5ba13d29f7cab9c09 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -19,6 +19,7 @@ Content-Type: application/json
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137226",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {
@@ -38,9 +39,9 @@ Content-Type: application/json
     ],
     "status": "draft",
     "selfQualified": true,
-    "id": "f530428ea0704642b3f7888bd2ddbf1f",
+    "id": "41b9a192eff440ee97d3461e2a9fac17",
     "date": "2023-01-01T00:00:00+02:00",
-    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/f5b1f7dad1d64ec09e0d406e09e7e816?key_for_bid=f530428ea0704642b3f7888bd2ddbf1f"
+    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/32bf03368c4c49869cf9b1103c9c69f8?key_for_bid=41b9a192eff440ee97d3461e2a9fac17"
   }
 }
 

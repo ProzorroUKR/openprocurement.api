@@ -4,12 +4,21 @@ from copy import deepcopy
 from datetime import timedelta
 from freezegun import freeze_time
 
-import standards
-
-from openprocurement.api.tests.base import BaseWebTest, change_auth
-from openprocurement.api.utils import get_now, apply_data_patch, parse_date
+from openprocurement.api.tests.base import (
+    BaseWebTest,
+    change_auth,
+)
+from openprocurement.api.utils import (
+    get_now,
+    apply_data_patch,
+)
 from openprocurement.framework.core.tests.base import BaseCoreWebTest
-from openprocurement.framework.electroniccatalogue.models import Framework, Submission, Agreement
+from openprocurement.framework.electroniccatalogue.models import (
+    Framework,
+    Submission,
+    Agreement,
+    AUTHORIZED_CPB,
+)
 from openprocurement.framework.electroniccatalogue.tests.periods import PERIODS
 
 
@@ -19,12 +28,11 @@ def get_cpb_ids_by_activity():
     To test rule that only CPB that have "active": true in standards can create electronicCatalogue framework
     https://prozorroukr.github.io/standards/organizations/authorized_cpb.json
 
-    :return: active cpb id, non active cpb id
+    :return: active cpb id, non-active cpb id
     """
     active_cpb = []
     non_active_cpb = []
-    authorized_cpb = standards.load("organizations/authorized_cpb.json")
-    for cpb in authorized_cpb:
+    for cpb in AUTHORIZED_CPB:
         if not active_cpb or not non_active_cpb:
             id_ = cpb["identifier"]["id"]
             active_cpb.append(id_) if cpb["active"] else non_active_cpb.append(id_)
@@ -34,7 +42,8 @@ def get_cpb_ids_by_activity():
 active_cpb_id, non_active_cpb_id = get_cpb_ids_by_activity()
 
 now = get_now()
-test_electronicCatalogue_data = {
+test_framework_electronic_catalogue_data = {
+    "frameworkType": "electronicCatalogue",
     "procuringEntity": {
         "contactPoint": {
             "telephone": "+0440000000",
@@ -149,6 +158,7 @@ ban_milestone_data_with_documents = {
 }
 
 
+
 class BaseApiWebTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
     initial_auth = ("Basic", ("broker", ""))
@@ -156,18 +166,37 @@ class BaseApiWebTest(BaseWebTest):
 
 class BaseElectronicCatalogueWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_framework_electronic_catalogue_data
+    initial_config = {}
     framework_class = Framework
+    framework_type = "electronicCatalogue"
     docservice = False
     periods = PERIODS
 
-    def create_framework(self):
-        data = deepcopy(self.initial_data)
+    def create_framework(self, data=None, config=None):
+        data = data if data is not None else deepcopy(self.initial_data)
+        config = config if data is not None else deepcopy(self.initial_config)
 
-        response = self.app.post_json("/frameworks", {"data": data})
-        self.framework_document = response.json["data"]
+        response = self.app.post_json(
+            "/frameworks", {
+                "data": data,
+                "config": config,
+            }
+            )
         self.framework_token = response.json["access"]["token"]
         self.framework_id = response.json["data"]["id"]
+        self.assertEqual(response.json["data"]["frameworkType"], self.framework_type)
+        return response
+
+    def activate_framework(self):
+        with freeze_time((get_now() - timedelta(hours=1)).isoformat()):
+            response = self.app.patch_json(
+                "/frameworks/{}?acc_token={}".format(self.framework_id, self.framework_token),
+                {"data": {"status": "active"}}
+            )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json["data"]["frameworkType"], self.framework_type)
+        return response
 
     def save_changes(self):
         if self.framework_document_patch:
@@ -192,6 +221,7 @@ class BaseDSElectronicCatalogueContentWebTest(ElectronicCatalogueContentWebTest)
 
 class BaseSubmissionContentWebTest(ElectronicCatalogueContentWebTest):
     initial_submission_data = None
+    initial_submission_config = {}
 
     def get_submission(self, role):
         with change_auth(self.app, ("Basic", (role, ""))):
@@ -199,6 +229,7 @@ class BaseSubmissionContentWebTest(ElectronicCatalogueContentWebTest):
             response = self.app.get(url)
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.content_type, "application/json")
+            self.assertEqual(response.json["data"]["submissionType"], self.framework_type)
         return response
 
     def set_submission_status(self, status, extra=None):
@@ -218,20 +249,49 @@ class BaseSubmissionContentWebTest(ElectronicCatalogueContentWebTest):
             self.submission_document = self.mongodb.submissions.get(self.submission_id)
             self.submission_document_patch = {}
 
-    def create_submission(self):
-        response = self.app.post_json("/submissions", {"data": self.initial_submission_data})
+    def create_submission(self, data=None, config=None):
+        data = data if data is not None else deepcopy(self.initial_submission_data)
+        config = config if data is not None else deepcopy(self.initial_submission_config)
+        data["frameworkID"] = self.framework_id
+        response = self.app.post_json(
+            "/submissions", {
+                "data": data,
+                "config": config,
+            }
+            )
         self.submission_id = response.json["data"]["id"]
         self.submission_token = response.json["access"]["token"]
+        self.assertEqual(response.json["data"]["submissionType"], self.framework_type)
+        return response
+
+    def activate_submission(self):
+        response = self.app.patch_json(
+            "/submissions/{}?acc_token={}".format(self.submission_id, self.submission_token),
+            {"data": {"status": "active"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json["data"]["submissionType"], self.framework_type)
+        self.qualification_id = response.json["data"]["qualificationID"]
+        return response
+
+    def activate_qualification(self):
+        response = self.app.post(
+            "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
+            upload_files=[("file", "name  name.doc", b"content")]
+        )
+        self.assertEqual(response.status, "201 Created")
+        response = self.app.patch_json(
+            f"/qualifications/{self.qualification_id}?acc_token={self.framework_token}",
+            {"data": {"status": "active"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json["data"]["qualificationType"], self.framework_type)
+        return response
 
     def setUp(self):
         super(BaseSubmissionContentWebTest, self).setUp()
         self.initial_submission_data["frameworkID"] = self.framework_id
-
-        with freeze_time((get_now() - timedelta(hours=1)).isoformat()):
-            self.app.patch_json(
-                "/frameworks/{}?acc_token={}".format(self.framework_id, self.framework_token),
-                {"data": {"status": "active"}}
-            )
+        self.activate_framework()
 
     def tearDown(self):
         super(BaseSubmissionContentWebTest, self).tearDown()
@@ -261,12 +321,13 @@ class BaseAgreementContentWebTest(SubmissionContentWebTest):
             self.agreement_document = self.mongodb.agreements.get(self.agreement_id)
             self.agreement_document_patch = {}
 
-    def get_agreement(self, role):
-        with change_auth(self.app, ("Basic", (role, ""))):
+    def get_agreement(self, role=None):
+        with change_auth(self.app, self.get_auth(role)):
             url = "/agreements/{}".format(self.agreement_id)
             response = self.app.get(url)
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.content_type, "application/json")
+            self.assertEqual(response.json["data"]["agreementType"], self.framework_type)
         return response
 
     def check_chronograph(self, data=None):
@@ -292,44 +353,24 @@ class BaseAgreementContentWebTest(SubmissionContentWebTest):
 class AgreementContentWebTest(BaseAgreementContentWebTest):
     def setUp(self):
         super().setUp()
-
-        response = self.app.patch_json(
-            "/submissions/{}?acc_token={}".format(self.submission_id, self.submission_token),
-            {"data": {"status": "active"}},
-        )
-
-        self.qualification_id = response.json["data"]["qualificationID"]
-
-        response = self.app.post(
-            "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
-            upload_files=[("file", "name  name.doc", b"content")]
-        )
-        self.assertEqual(response.status, "201 Created")
-
-        response = self.app.patch_json(
-            f"/qualifications/{self.qualification_id}?acc_token={self.framework_token}",
-            {"data": {"status": "active"}},
-        )
-        self.assertEqual(response.status, "200 OK")
-
-        response = self.app.get(f"/frameworks/{self.framework_id}")
-        self.assertEqual(response.status, "200 OK")
-
+        response = self.activate_submission()
+        self.activate_qualification()
+        response = self.get_framework()
         self.agreement_id = response.json["data"]["agreementID"]
-
-        response = self.app.get(f"/agreements/{self.agreement_id}")
-        self.assertEqual(response.status, "200 OK")
-
+        response = self.get_agreement()
         self.contract_id = response.json["data"]["contracts"][0]["id"]
 
 
 class MilestoneContentWebTest(AgreementContentWebTest):
     def setUp(self):
         super().setUp()
+        response = self.create_milestone()
+        self.milestone_id = response.json["data"]["id"]
+
+    def create_milestone(self):
         response = self.app.post_json(
             f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones?acc_token={self.framework_token}",
             {"data": self.initial_milestone_data}
         )
         self.assertEqual(response.status, "201 Created")
-
-        self.milestone_id = response.json["data"]["id"]
+        return response

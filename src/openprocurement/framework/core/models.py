@@ -1,16 +1,32 @@
+from datetime import timedelta
+
 from uuid import uuid4
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
 from schematics.transforms import blacklist, whitelist
-from schematics.types import StringType, BaseType, MD5Type
+from schematics.types import (
+    StringType,
+    BaseType,
+    MD5Type,
+    BooleanType,
+)
 from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 from zope.interface import implementer
 
-from openprocurement.api.auth import ACCR_5
-from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.auth import (
+    ACCR_1,
+    ACCR_2,
+    ACCR_3,
+    ACCR_4,
+    ACCR_5,
+)
+from openprocurement.api.constants import (
+    SANDBOX_MODE,
+    DK_CODES,
+    REQUIRED_FIELDS_BY_SUBMISSION_FROM,
+)
 from openprocurement.api.interfaces import IOPContent
-from openprocurement.api.models import Model
 from openprocurement.api.models import (
     RootModel,
     IsoDateTimeType,
@@ -18,13 +34,54 @@ from openprocurement.api.models import (
     BusinessOrganization,
     Document,
     Organization as BaseOrganization,
-    ContactPoint as BaseContactPoint
+    ContactPoint as BaseContactPoint,
+    Classification as BaseClassification,
+    Identifier as BaseIdentifier,
+    Address as BaseAddress,
+    BusinessOrganization as BaseBusinessOrganization,
+    Model,
 )
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import (
+    get_now,
+    required_field_from_date,
+)
+from openprocurement.framework.core.context import get_framework
+from openprocurement.framework.core.utils import calculate_framework_date
+
+
+CONTRACT_BAN_DURATION = 90
 
 
 class IFramework(IOPContent):
     """ Base framework marker interface """
+
+
+class FrameworkConfig(Model):
+    test = BooleanType(required=False)
+    restricted_derivatives = BooleanType(required=False)
+
+    def validate_restricted_derivatives(self, data, value):
+        framework = get_framework()
+        if not framework:
+            return
+        if framework.get("frameworkType") == "open":
+            if value is None:
+                raise ValidationError("restricted_derivatives is required for this framework type")
+            if framework.get("procuringEntity", {}).get("kind") == "defense":
+                if value is False:
+                    raise ValidationError("restricted_derivatives must be true for defense procuring entity")
+            else:
+                if value is True:
+                    raise ValidationError("restricted_derivatives must be false for non-defense procuring entity")
+        else:
+            if value is not None:
+                raise ValidationError("restricted_derivatives not allowed for this framework type")
+
+
+def get_agreement(model):
+    while not IAgreement.providedBy(model):
+        model = model.__parent__
+    return model
 
 
 @implementer(IFramework)
@@ -61,7 +118,7 @@ class Framework(RootModel):
             "default": blacklist("doc_id", "__parent__"),  # obj.store() use default role
             "plain": blacklist(  # is used for getting patches
                 "_attachments", "revisions", "dateModified",
-                "_id", "_rev", "doc_type", "__parent__", "public_modified",
+                "_id", "_rev", "doc_type", "__parent__", "public_modified", "config"
             ),
             "listing": whitelist("dateModified", "doc_id"),
             "embedded": blacklist("_id", "_rev", "doc_type", "__parent__"),
@@ -88,9 +145,11 @@ class Framework(RootModel):
 
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
     revisions = BaseType(default=list)
+    config = BaseType()
 
+    create_accreditations = (ACCR_1, ACCR_3, ACCR_5)
     central_accreditations = (ACCR_5,)
-    edit_accreditations = (ACCR_5,)
+    edit_accreditations = (ACCR_2, ACCR_4)
 
     def __repr__(self):
         return "<%s:%r@%r>" % (type(self).__name__, self.id, self.rev)
@@ -157,6 +216,28 @@ class ISubmission(IOPContent):
     pass
 
 
+class SubmissionConfig(Model):
+    test = BooleanType(required=False)
+    restricted = BooleanType(required=False)
+
+    def validate_restricted(self, data, value):
+        framework = get_framework()
+        if not framework:
+            return
+        if framework.get("frameworkType") == "open":
+            if value is None:
+                raise ValidationError("restricted is required for this framework type")
+            if framework.get("procuringEntity", {}).get("kind") == "defense":
+                if value is False:
+                    raise ValidationError("restricted must be true for defense procuring entity")
+            else:
+                if value is True:
+                    raise ValidationError("restricted must be false for non-defense procuring entity")
+        else:
+            if value is not None:
+                raise ValidationError("restricted not allowed for this framework type")
+
+
 class ContactPoint(BaseContactPoint):
     def validate_telephone(self, data, value):
         pass
@@ -182,7 +263,8 @@ class Submission(RootModel):
             "edit_bot": whitelist("status", "qualificationID"),
             "default": blacklist("doc_id", "__parent__"),
             "plain": blacklist(  # is used for getting patches
-                "_attachments", "revisions", "dateModified", "_id", "_rev", "doc_type", "__parent__", "public_modified",
+                "_attachments", "revisions", "dateModified", "_id", "_rev",
+                "doc_type", "__parent__", "public_modified", "config",
             ),
             "view": whitelist(
                 "doc_id",
@@ -196,6 +278,7 @@ class Submission(RootModel):
                 "date",
                 "datePublished",
                 "submissionType",
+                "mode",
             ),
             "embedded":  blacklist("_id", "_rev", "doc_type", "__parent__"),
         }
@@ -211,10 +294,15 @@ class Submission(RootModel):
 
     owner = StringType()
     owner_token = StringType()
+
+    framework_owner = StringType()
+    framework_token = StringType()
+
     transfer_token = StringType()
 
     _attachments = DictType(DictType(BaseType), default=dict())
     revisions = BaseType(default=list)
+    config = BaseType()
 
     mode = StringType(choices=["test"])
 
@@ -268,6 +356,10 @@ class IQualification(IOPContent):
     pass
 
 
+class QualificationConfig(Model):
+    test = BooleanType(required=False)
+
+
 @implementer(IQualification)
 class Qualification(RootModel):
 
@@ -278,7 +370,8 @@ class Qualification(RootModel):
             "edit": whitelist("status", "documents"),
             "default": blacklist("doc_id", "__parent__"),
             "plain": blacklist(  # is used for getting patches
-                "_attachments", "revisions", "dateModified", "_id", "_rev", "doc_type", "__parent__", "public_modified",
+                "_attachments", "revisions", "dateModified", "_id", "_rev",
+                "doc_type", "__parent__", "public_modified", "config",
             ),
             "view": whitelist(
                 "doc_id",
@@ -289,6 +382,7 @@ class Qualification(RootModel):
                 "date",
                 "dateModified",
                 "qualificationType",
+                "mode",
             ),
             "embedded":  blacklist("_id", "_rev", "doc_type", "__parent__"),
         }
@@ -303,10 +397,14 @@ class Qualification(RootModel):
     framework_owner = StringType()
     framework_token = StringType()
 
+    submission_owner = StringType()
+    submission_token = StringType()
+
     documents = ListType(ModelType(Document, required=True), default=list())
 
     _attachments = DictType(DictType(BaseType), default=dict())
     revisions = BaseType(default=list)
+    config = BaseType()
 
     mode = StringType(choices=["test"])
 
@@ -346,13 +444,17 @@ class IAgreement(IOPContent):
     """ Base interface for agreement container """
 
 
+class AgreementConfig(Model):
+    test = BooleanType(required=False)
+
+
 @implementer(IAgreement)
 class Agreement(RootModel):
     """ Base agreement model """
 
     # id = MD5Type(required=True, default=lambda: uuid4().hex)
     agreementID = StringType()
-    agreementType = StringType(default="electronicCatalogue")
+    agreementType = StringType(required=True)
     # maybe terminated ????
     status = StringType(choices=["active", "terminated"], required=True)
     date = IsoDateTimeType()
@@ -363,6 +465,7 @@ class Agreement(RootModel):
     transfer_token = StringType(default=lambda: uuid4().hex)
     owner = StringType()
     mode = StringType(choices=["test"])
+    config = BaseType()
 
     def import_data(self, raw_data, **kw):
         """
@@ -396,3 +499,142 @@ class Agreement(RootModel):
 
     def __repr__(self):
         return "<%s:%r@%r>" % (type(self).__name__, self.id, self.rev)
+
+
+class DKClassification(BaseClassification):
+    scheme = StringType(required=True, choices=["ДК021"])
+    id = StringType(required=True)
+
+    def validate_id(self, data, id):
+        if id not in DK_CODES:
+            raise ValidationError(BaseType.MESSAGES["choices"].format(DK_CODES))
+
+
+class Identifier(BaseIdentifier):
+    legalName = StringType(required=True)
+
+
+class Address(BaseAddress):
+    streetAddress = StringType(required=True)
+    locality = StringType(required=True)
+    region = StringType(required=True)
+    postalCode = StringType(required=True)
+
+
+class AddressForSubmission(BaseAddress):
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_region(self, data, value):
+        super().validate_region(self, data, value)
+        return value
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_postalCode(self, data, value):
+        return value
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_locality(self, data, value):
+        return value
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_streetAddress(self, data, value):
+        return value
+
+
+class IdentifierForSubmission(BaseIdentifier):
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_legalName(self, data, value):
+        return value
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_id(self, data, value):
+        return value
+
+
+class ContactPointForSubmission(BaseContactPoint):
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_name(self, data, value):
+        return value
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_email(self, data, value):
+        super().validate_email(self, data, value)
+        return value
+
+
+class OrganizationForSubmission(BaseOrganization):
+    identifier = ModelType(IdentifierForSubmission, required=True)
+    address = ModelType(AddressForSubmission, required=True)
+    contactPoint = ModelType(ContactPointForSubmission, required=True)
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_name(self, data, value):
+        return value
+
+
+class BusinessOrganizationForSubmission(OrganizationForSubmission, BaseBusinessOrganization):
+    pass
+
+
+class ContactPointForContract(BaseContactPoint):
+    pass
+
+
+class OrganizationForContract(BaseOrganization):
+    contactPoint = ModelType(ContactPointForContract, required=True)
+
+
+class BusinessOrganizationForContract(OrganizationForContract, BaseBusinessOrganization):
+    class Options:
+        roles = {
+            "edit": whitelist("contactPoint", "address"),
+            "view": blacklist("doc_type", "_id", "_rev", "__parent__"),
+        }
+
+
+class Milestone(Model):
+    class Options:
+        roles = {
+            "create": whitelist("type", "documents"),
+            "edit": whitelist("status", "documents"),
+            "view": blacklist("doc_type", "_id", "_rev", "__parent__"),
+        }
+
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    type = StringType(required=True, choices=["activation", "ban"])
+    status = StringType(choices=["scheduled", "met", "notMet", "partiallyMet"], default="scheduled")
+    dueDate = IsoDateTimeType()
+    documents = ListType(ModelType(Document, required=True), default=list())
+    dateModified = IsoDateTimeType(default=get_now)
+    dateMet = IsoDateTimeType()
+
+    @serializable(serialized_name="dueDate", serialize_when_none=False)
+    def milestone_dueDate(self):
+        if self.type == "ban" and not self.dueDate:
+            request = self.get_root().request
+            agreement = request.validated["agreement_src"]
+            dueDate = calculate_framework_date(get_now(), timedelta(days=CONTRACT_BAN_DURATION), agreement, ceil=True)
+            return dueDate.isoformat()
+        return self.dueDate.isoformat() if self.dueDate else None
+
+
+class Contract(Model):
+    class Options:
+        roles = {
+            "edit": whitelist("suppliers"),
+            "view": blacklist("doc_type", "_id", "_rev", "__parent__")
+        }
+
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    qualificationID = StringType()
+    status = StringType(choices=["active", "suspended", "terminated"])
+    submissionID = StringType()
+    suppliers = ListType(ModelType(BusinessOrganizationForContract, required=True), required=True, min_size=1, )
+    milestones = ListType(ModelType(Milestone, required=True), required=True, min_size=1, )
+    date = IsoDateTimeType(default=get_now)
+
+    def validate_suppliers(self, data, suppliers):
+        if len(suppliers) != 1:
+            raise ValidationError("Contract must have only one supplier")

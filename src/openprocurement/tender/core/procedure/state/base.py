@@ -9,6 +9,7 @@ logger = logging.getLogger(__name__)
 class BaseState:
     def __init__(self, request):
         self.request = request
+        self.config = {}
 
     def status_up(self, before, after, data):
         assert before != after, "Statuses must be different"

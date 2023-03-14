@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/977181c686f34e1bbfa6bba31adb772b/bids/02153b74006348a79add971691b7ec13/financial_documents?acc_token=be69085e72624e74925ec70862432ec7 HTTP/1.0
+GET /api/2.5/tenders/26dac5d9cddc43f1b4178ec68bd3f601/bids/2096f1a2874b40e3bbf150c27e4824bf/financial_documents?acc_token=0d57c6be9b754553b15a01e3c465d471 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -12,11 +12,11 @@ Content-Type: application/json
       "hash": "md5:00000000000000000000000000000000",
       "title": "financial_doc.pdf",
       "format": "application/pdf",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/83d40b8f44aa42e8834777e83d65136a?Signature=bip331nzCa58Ro0Y6tWxS1g%2BHW9DN299ipVOsq6tbECjK2pA5vGsJ0PxwUbedCa%2Fl1WYhi9VWRi79MuYXOeGBw%3D%3D&KeyID=a8968c46",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d5ca5da8f8c44e4d8aceb3fcd04537e7?Signature=UueZW9gQJHbJ5%2FaqQqyBL5FrkHmTshZLRSHBSAnDsB22IJ3LxO2JoU%2FUUgaegamw85XkFU2bsahPaRoVJW%2B6DA%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
       "confidentiality": "public",
       "language": "uk",
-      "id": "2ed5d1b1a6914036864962a14b87f8be",
+      "id": "82ee9a2c18d74b98add3b196b7c9d4d4",
       "datePublished": "2023-01-01T00:00:00+02:00",
       "dateModified": "2023-01-01T00:00:00+02:00"
     },
@@ -24,11 +24,11 @@ Content-Type: application/json
       "hash": "md5:00000000000000000000000000000000",
       "title": "financial_doc2.pdf",
       "format": "application/pdf",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c3ae1eb4787a4dca98285ad72a6c6df1?Signature=HsId8%2FAi7FCNb5ZNS0SJ%2FJIWDmG8ia0Pn4Bi9ejApc2MGp6Scz27jObFqvzofmZVb3GEYR7P351h%2BmyFqsFBBg%3D%3D&KeyID=a8968c46",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8d9db5474d234818a0f392f4aa39bc72?Signature=agURXzVkROl8%2Fl41p9cMY5YSeL7Y412XZ1ki2CeqtCBW0H3nBgZKzy2%2FVWWjadphJaXC1Y90CSyod7kTmH6pAQ%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
       "confidentiality": "public",
       "language": "uk",
-      "id": "804fb633c877430a937ee9db1bbfd29b",
+      "id": "557e8a4c6ee14c8988cc1a7ef515d755",
       "datePublished": "2023-01-01T00:00:00+02:00",
       "dateModified": "2023-01-01T00:00:00+02:00"
     }

@@ -56,6 +56,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_item_with_zero_quantity,
     patch_items_related_buyer_id,
     patch_enquiry_tender_periods,
+    create_tender_config_test,
 )
 
 
@@ -79,6 +80,7 @@ class TenderResourceTestMixin(object):
     test_tender_token_invalid = snitch(tender_token_invalid)
     test_patch_item_with_zero_quantity = snitch(patch_item_with_zero_quantity)
     test_patch_items_related_buyer_id = snitch(patch_items_related_buyer_id)
+    test_create_tender_config_test = snitch(create_tender_config_test)
 
 
 class TenderTest(BaseApiWebTest):

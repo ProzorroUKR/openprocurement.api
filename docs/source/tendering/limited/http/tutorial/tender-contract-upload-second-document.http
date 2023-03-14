@@ -1,13 +1,13 @@
-POST /api/2.5/tenders/07a9d2daabfe4268a5b3f6db5a7e1287/contracts/7c82c25de63348eea5afb981c0fc2f54/documents?acc_token=63a33032ef0d47108bdada9cf1f0dde0 HTTP/1.0
+POST /api/2.5/tenders/f8573404c1ff4e8bac25fc817a2b68c0/contracts/2513bfeb531f4a7389d08917e2be960e/documents?acc_token=b1e5d31cae12404789b524b2c946715f HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 339
+Content-Length: 343
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
     "title": "contract_second_document.doc",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0b12bbd8bfab455c9fb99b06aad118ea?Signature=DFZAGjs8xsANYZfs4HNvFih0DVxCdqJOqLWJEYNrCl0TKZuIKhi2o4PrXF4iyRnJoV9BdUTaNeAaPO3OQT3TAA%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/406d025b64f04b06b7c226963c495758?Signature=JWkZ9wLsiUDWNqJpls1kj7VS%2F1Jp%2B2wkExSIs6jw1s80itwJZ1YRxdyJXWSEnkvgDPYP7eRJMfcXDO2v424KDg%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/msword"
   }
@@ -16,16 +16,16 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/07a9d2daabfe4268a5b3f6db5a7e1287/contracts/7c82c25de63348eea5afb981c0fc2f54/documents/69c26b501b764dfa9cbde7126983b297
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f8573404c1ff4e8bac25fc817a2b68c0/contracts/2513bfeb531f4a7389d08917e2be960e/documents/927568b9ad334352be8e0f2ac8c2f1cc
 
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000",
     "title": "contract_second_document.doc",
     "format": "application/msword",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0b12bbd8bfab455c9fb99b06aad118ea?Signature=sPxh11MIp5skV7S%2FQle7zI%2FwJvFLKL7dka8To9MNARQrQ7%2FOsjEkR2MoCSdSEURDi9N05Zi8ljukqXvL8eWtAA%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/406d025b64f04b06b7c226963c495758?Signature=LC8Q3dTbC0wavOf2OfyJzV3mLWJYIjD%2BX9wxIHyuMu4YZGzWQe15Hk4GepgwHCrcZQDdg6RgTnROKzriF7ThBg%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
-    "id": "69c26b501b764dfa9cbde7126983b297",
+    "id": "927568b9ad334352be8e0f2ac8c2f1cc",
     "datePublished": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00"
   }

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/bc2c91a2523c470086cae2222065fc32/bids/7b883bf41fdd4bc2b952febc06441aa4/documents?acc_token=0a5888d914b340dfbc8a054bddcedee1 HTTP/1.0
+GET /api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids/80525a9a0f714e2b9b8eb34a14ccb612/documents?acc_token=19e654e86b0e481d96eac5c38f8d74aa HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -12,22 +12,22 @@ Content-Type: application/json
       "hash": "md5:00000000000000000000000000000000",
       "title": "Proposal.pdf",
       "format": "application/pdf",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6fd15993186d4a1a9ee707acf1c674f7?Signature=fkPQ53A9kziXGk1d7ccA71hK8jAvjNIVLY4gyXifPf19DoCMua2%2Bm1kUaHHFiB%2BBywBxYdyntWfw3zKWi50LAg%3D%3D&KeyID=a8968c46",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d55cf7685594417eafcd6a81cf099e54?Signature=1lmwO8FdzkpNV7sfZM8iDPezssL9XWgJxVOAAHMp8fZ%2B%2BOWB2ZCmCQVfIZVSXG1uoVIBfqD8kb9feIK%2Bk6xXCg%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
       "confidentiality": "public",
       "language": "uk",
       "isDescriptionDecision": false,
-      "id": "93939774f565402eb3a983348761a641",
+      "id": "26e112a793854f3abe93b3206239b1bd",
       "datePublished": "2023-01-01T00:00:00+02:00",
       "dateModified": "2023-01-01T00:00:00+02:00"
     },
     {
-      "id": "4d08fcf8f141412c8d5a5d74537abda9",
+      "id": "a053991ecddc46819da0b39b3aad5e0a",
       "datePublished": "2023-01-01T00:00:00+02:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "DescriptiveProposal.pdf",
       "format": "application/pdf",
-      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc2c91a2523c470086cae2222065fc32/bids/7b883bf41fdd4bc2b952febc06441aa4/documents/4d08fcf8f141412c8d5a5d74537abda9?download=ae93541a5c9f4b64a861457a816489d1",
+      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids/80525a9a0f714e2b9b8eb34a14ccb612/documents/a053991ecddc46819da0b39b3aad5e0a?download=8b781eec9f744181a275c6919de639dc",
       "documentOf": "tender",
       "dateModified": "2023-01-01T00:00:00+02:00",
       "confidentiality": "buyerOnly",
@@ -35,12 +35,12 @@ Content-Type: application/json
       "isDescriptionDecision": true
     },
     {
-      "id": "6e281af872894a0ea01bdb56eca3c2f7",
+      "id": "8d7b9c1ac5ce4929a31c6147cc74ce45",
       "datePublished": "2023-01-01T00:00:00+02:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "Proposal_top_secrets.pdf",
       "format": "application/pdf",
-      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc2c91a2523c470086cae2222065fc32/bids/7b883bf41fdd4bc2b952febc06441aa4/documents/6e281af872894a0ea01bdb56eca3c2f7?download=154a4e2c544443d7a5d3c86aae5d0df9",
+      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids/80525a9a0f714e2b9b8eb34a14ccb612/documents/8d7b9c1ac5ce4929a31c6147cc74ce45?download=21c9ff3dd5e646208c8dd44b5853a9c0",
       "documentOf": "tender",
       "dateModified": "2023-01-01T00:00:00+02:00",
       "confidentiality": "buyerOnly",

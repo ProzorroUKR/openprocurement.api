@@ -1,4 +1,4 @@
-PATCH /api/2.5/qualifications/6cb44b948f124cf2bf2e1621a71f19ee?acc_token=736a39718b2d4c6096e0a3d0c1f74126 HTTP/1.0
+PATCH /api/2.5/qualifications/4bba1d35a1a3403cad249cfd0534b366?acc_token=5f94ccea4dfb4cdebd5de69ecd449013 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 36
 Content-Type: application/json
@@ -16,24 +16,24 @@ Content-Type: application/json
 
 {
   "data": {
-    "submissionID": "f68c222b077f4657a6df8f51de0ae451",
-    "frameworkID": "86396c65e9154359a2329bfc7dddd3eb",
+    "submissionID": "6fd0a56be1b540369988bd3cb725e6c7",
+    "frameworkID": "19554516edc64b80ad4a2834f4505fbe",
     "date": "2023-01-17T00:00:00+02:00",
     "dateModified": "2023-01-17T00:00:00+02:00",
     "documents": [
       {
-        "id": "47e832dbaa534ec7b62c7bb9b0cd9951",
+        "id": "642ad11189114d48b938810bb7515869",
         "hash": "md5:00000000000000000000000000000000",
         "title": "qualification.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b0d3aabcd98f4097bdce5d7d1d8a1c79?Signature=oB8hiXqlb3xJsjdINCsCItHhYtiB41ojMltnjuOHa28Y0qbLYIqCB%2B1rSQh0VEJJmWt59PGTNLM2Ve8DUsNoBg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/24c87269d662445eb0d26fdf2409afab?Signature=%2F0ZD7Wx%2FXaHvZCfnBLrzD7vOeX2zwkI8BdSooyVvBJasmjDazWhEKiuJ7j8gMhfR1LBonbIHe0yEIOKs4tWoDA%3D%3D&KeyID=a8968c46",
         "datePublished": "2023-01-17T00:00:00+02:00",
         "dateModified": "2023-01-17T00:00:00+02:00"
       }
     ],
     "status": "unsuccessful",
     "qualificationType": "electronicCatalogue",
-    "id": "6cb44b948f124cf2bf2e1621a71f19ee"
+    "id": "4bba1d35a1a3403cad249cfd0534b366"
   }
 }
 

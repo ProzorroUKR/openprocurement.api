@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/118fb7835ef441e7881da132730071d0/contracts/7548322cb11641759c0d05cea5121d50?acc_token=0f712374a39145a1be46d1c686df7376 HTTP/1.0
+PATCH /api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09/contracts/6960a01cb7454f9aa6bb6057e8a616ed?acc_token=b630da6f0eb34e9eb53e8be052b29ef3 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 53
 Content-Type: application/json
@@ -16,8 +16,8 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "7548322cb11641759c0d05cea5121d50",
-    "awardID": "ed1acc7c30f44879aa09e2a1e31298dc",
+    "id": "6960a01cb7454f9aa6bb6057e8a616ed",
+    "awardID": "c049e4448a5c49fca86f0ba4293445d4",
     "contractID": "UA-2023-01-01-000016-a.2-1",
     "contractNumber": "contract#1",
     "status": "pending",
@@ -33,6 +33,7 @@ Content-Type: application/json
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137226",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {
@@ -54,7 +55,7 @@ Content-Type: application/json
     "dateSigned": "2023-01-01T00:00:01+02:00",
     "items": [
       {
-        "id": "29438af4140f408185595f42f94c5799",
+        "id": "f250ed0f0e9b44c1ab6dfdd028054631",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "additionalClassifications": [

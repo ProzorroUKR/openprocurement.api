@@ -56,6 +56,7 @@ tenderer2 = {
     },
     "identifier": {
         "scheme": "UA-EDR",
+        "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
         "id": "00137226",
         "uri": "http://www.sc.gov.ua/"
     },

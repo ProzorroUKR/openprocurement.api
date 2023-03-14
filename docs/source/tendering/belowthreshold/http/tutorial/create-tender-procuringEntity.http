@@ -39,7 +39,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     },
     "items": [
       {
-        "id": "13df1db379a941f8bda8154f00ffcdb0",
+        "id": "de79b5f1dd5c4a5892c83a675595a080",
         "description": "футляри до державних нагород",
         "description_en": "Cases with state awards",
         "description_ru": "футляры к государственным наградам",
@@ -77,7 +77,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       {
         "code": "OCDS-123454-AIR-INTAKE",
         "featureOf": "item",
-        "relatedItem": "13df1db379a941f8bda8154f00ffcdb0",
+        "relatedItem": "de79b5f1dd5c4a5892c83a675595a080",
         "title": "Потужність всмоктування",
         "title_en": "Air Intake",
         "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
@@ -146,7 +146,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/80213e0f3ff34b7188241200adaf0bf9
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6f821eb52f1b4cfaa98210ca6e41e89d
 
 {
   "data": {
@@ -175,7 +175,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/80213e0f3ff34b71
     },
     "items": [
       {
-        "id": "13df1db379a941f8bda8154f00ffcdb0",
+        "id": "de79b5f1dd5c4a5892c83a675595a080",
         "description": "футляри до державних нагород",
         "description_en": "Cases with state awards",
         "description_ru": "футляры к государственным наградам",
@@ -207,7 +207,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/80213e0f3ff34b71
       {
         "code": "OCDS-123454-AIR-INTAKE",
         "featureOf": "item",
-        "relatedItem": "13df1db379a941f8bda8154f00ffcdb0",
+        "relatedItem": "de79b5f1dd5c4a5892c83a675595a080",
         "title": "Потужність всмоктування",
         "title_en": "Air Intake",
         "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
@@ -258,7 +258,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/80213e0f3ff34b71
         "sequenceNumber": 0
       },
       {
-        "id": "2ff389a56445410199af34d1cc90c78f",
+        "id": "99b04fa2eebd4b3f86f53fdd0fc74756",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -301,11 +301,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/80213e0f3ff34b71
     "date": "2023-01-01T00:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
-    "id": "80213e0f3ff34b7188241200adaf0bf9"
+    "id": "6f821eb52f1b4cfaa98210ca6e41e89d"
   },
   "access": {
-    "token": "62edeb21ed044511a3967f006b7b05fe",
-    "transfer": "ee03b07eccf944fb91c75b51026745e5"
+    "token": "5489a4b46edc47b1b63c2aa866e367ea",
+    "transfer": "f3c8954e1b364a64ac29a2c6e12278bb"
   }
 }
 

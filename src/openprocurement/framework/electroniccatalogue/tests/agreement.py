@@ -1,7 +1,7 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.framework.electroniccatalogue.tests.agreement_blanks import (
+from openprocurement.framework.open.tests.agreement_blanks import (
     create_agreement,
     change_agreement,
     patch_contract_suppliers,
@@ -22,9 +22,10 @@ from openprocurement.framework.electroniccatalogue.tests.agreement_blanks import
     search_by_classification,
     agreement_chronograph_milestones,
     post_submission_with_active_contract,
+    create_agreement_config_test,
 )
 from openprocurement.framework.electroniccatalogue.tests.base import (
-    test_electronicCatalogue_data,
+    test_framework_electronic_catalogue_data,
     test_submission_data,
     AgreementContentWebTest,
     MilestoneContentWebTest,
@@ -46,15 +47,16 @@ class QualificationContentWebTest(BaseQualificationContentWebTest):
 
 
 class TestAgreementCreation(QualificationContentWebTest):
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_framework_electronic_catalogue_data
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
 
     test_create_agreement = snitch(create_agreement)
+    test_create_agreement_config_test = snitch(create_agreement_config_test)
 
 
 class TestAgreementChanges(AgreementContentWebTest):
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_framework_electronic_catalogue_data
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
 
@@ -64,7 +66,7 @@ class TestAgreementChanges(AgreementContentWebTest):
 
 
 class TestAgreementResource(AgreementContentWebTest):
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_framework_electronic_catalogue_data
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
 
@@ -76,7 +78,7 @@ class TestAgreementResource(AgreementContentWebTest):
 
 
 class TestAgreementMilestoneResource(AgreementContentWebTest):
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_framework_electronic_catalogue_data
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
 
@@ -87,7 +89,7 @@ class TestAgreementMilestoneResource(AgreementContentWebTest):
 
 
 class TestMilestoneDocumentGet(MilestoneContentWebTest):
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_framework_electronic_catalogue_data
     initial_submission_data = test_submission_data
     initial_milestone_data = ban_milestone_data_with_documents
 
@@ -101,7 +103,7 @@ class TestMilestoneDocumentGet(MilestoneContentWebTest):
 
 
 class TestMilestoneCreate(MilestoneContentWebTest):
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_framework_electronic_catalogue_data
     initial_submission_data = test_submission_data
     initial_milestone_data = ban_milestone_data_with_documents
     initial_auth = ('Basic', ('broker', ''))

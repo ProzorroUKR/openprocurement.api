@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/69a0774b217e477cb01ddad3849397e2/contracts/416291a3464f4f57bcef53388100be6f?acc_token=2b976b1ceeb542098d70a6eec56c68a8 HTTP/1.0
+GET /api/2.5/tenders/cb76d20a62ef4e318ecb101430b63776/contracts/de62a91f7802494a98097e08d764d500?acc_token=ba20733189d94f8eb1f42516be4fddf3 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,8 +8,8 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "416291a3464f4f57bcef53388100be6f",
-    "awardID": "f93db424ee9640748eb33d5f23ade382",
+    "id": "de62a91f7802494a98097e08d764d500",
+    "awardID": "909860d47d87434ea3b20411355b97fd",
     "contractID": "UA-2023-01-01-000001-a-1",
     "status": "pending",
     "period": {
@@ -50,7 +50,7 @@ Content-Type: application/json
     "dateSigned": "2023-01-01T00:00:01+02:00",
     "items": [
       {
-        "id": "ff72a42a8b8c4e08bf62a8fe1ebd04ce",
+        "id": "43204fd932374740a40528f7712ca55e",
         "description": "Послуги шкільних їдалень",
         "classification": {
           "description": "Послуги з харчування у школах",
@@ -74,7 +74,7 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "c243ce7d66e040b8a69edbc86a864014",
+        "relatedLot": "eb3a2c7480d14c948cce6d516a8fb007",
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
           "endDate": "2023-02-20T00:00:00+02:00"
@@ -93,9 +93,9 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_document.doc",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7562b300d662447095f02df04ab25bd2?Signature=BNDmBYMjv7k7Oqq5ycJZ2Hg3Y9H29XvwRqAfpWtaI99omIl6YFecaZoK3SHEVvClLGvD%2BHgy%2BZpGfLYfmFAiDg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5d169ce23cec4af7bf917411b6f8d92e?Signature=LeqFakBbyoXFKn%2B0J2loXxLnNNmua3vIhxKIboSgi4TrpAYC5NxZosfktZvAtKTnoHI8%2BUf%2FYKCgK6frO1OjCQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "id": "519ab32723824cdeab1264cc2bfa244a",
+        "id": "ae31d9bd3adf4512bfd92bb4d5e76c2e",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "dateModified": "2023-01-01T00:00:01+02:00"
       }

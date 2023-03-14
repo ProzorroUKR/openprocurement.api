@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/9c964a6216c946b2b82a78720b389a93?acc_token=0a10b32258a14dcea4a21bf94924418e HTTP/1.0
+PATCH /api/2.5/tenders/54784c9d4ff74af1986c35990954e7e6?acc_token=a9146db6eabf4db68c54b5f728d8d39a HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1296
 Content-Type: application/json
@@ -8,7 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "7473a6ac00df436194acc9a2a2ebe39a",
+        "id": "cb67762467844f0281d3dbf0910706ea",
         "description": "Послуги шкільних їдалень",
         "classification": {
           "description": "Послуги з харчування у школах",
@@ -43,7 +43,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "0fdb2b096a814e788e80812115a30319"
+        "relatedLot": "d049e59ecd494591ab40486ee8250cc7"
       }
     ]
   }
@@ -96,7 +96,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "7473a6ac00df436194acc9a2a2ebe39a",
+        "id": "cb67762467844f0281d3dbf0910706ea",
         "description": "Послуги шкільних їдалень",
         "classification": {
           "description": "Послуги з харчування у школах",
@@ -120,7 +120,7 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "0fdb2b096a814e788e80812115a30319",
+        "relatedLot": "d049e59ecd494591ab40486ee8250cc7",
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
           "endDate": "2023-02-20T00:00:00+02:00"
@@ -142,7 +142,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "0fdb2b096a814e788e80812115a30319",
+        "id": "d049e59ecd494591ab40486ee8250cc7",
         "date": "2023-01-01T00:00:00+02:00",
         "value": {
           "amount": 500000.0,
@@ -165,7 +165,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "b06b394eb67642a78ae5ce8b4a62c428",
+        "id": "6fd39fb212c249d1a6bb26d118f09cca",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -179,7 +179,7 @@ Content-Type: application/json
     ],
     "procurementMethodType": "negotiation.quick",
     "cause": "twiceUnsuccessful",
-    "id": "9c964a6216c946b2b82a78720b389a93"
+    "id": "54784c9d4ff74af1986c35990954e7e6"
   }
 }
 

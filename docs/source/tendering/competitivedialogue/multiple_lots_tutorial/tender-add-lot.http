@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/c8fbbe1ddf3642a6815bd2c7c26581b1/lots?acc_token=b47d888f7c6e43afb61688490c7631d5 HTTP/1.0
+POST /api/2.5/tenders/cf488f0e7db04145a88a15ca0429e178/lots?acc_token=5a749d2e228f47feb54b59803addbc7a HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 213
 Content-Type: application/json
@@ -22,13 +22,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c8fbbe1ddf3642a6815bd2c7c26581b1/lots/3f6334296c1540158ccf4b0a2532048c
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cf488f0e7db04145a88a15ca0429e178/lots/5042b6586cbb4a679380f561ba153121
 
 {
   "data": {
     "title": "Лот №1",
     "description": "Опис Лот №1",
-    "id": "3f6334296c1540158ccf4b0a2532048c",
+    "id": "5042b6586cbb4a679380f561ba153121",
     "status": "active",
     "value": {
       "amount": 500.0,

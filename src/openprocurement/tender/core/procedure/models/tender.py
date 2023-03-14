@@ -23,11 +23,19 @@ from openprocurement.tender.core.procedure.models.item import (
     validate_cpv_group,
 )
 from schematics.exceptions import ValidationError
-from schematics.types import BaseType, StringType
+from schematics.types import (
+    BaseType,
+    StringType,
+    BooleanType,
+)
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from openprocurement.api.utils import get_first_revision_date
-from openprocurement.api.models import Value, ListType
+from openprocurement.api.models import (
+    Value,
+    ListType,
+    Model,
+)
 from openprocurement.api.constants import MILESTONES_VALIDATION_FROM
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.validation import validate_milestones
@@ -290,3 +298,7 @@ class Tender(BaseTender):
             raise ValidationError("Tender should contain at least one milestone")
 
         validate_milestones_lot(data, value)
+
+
+class TenderConfig(Model):
+    test = BooleanType(required=False)

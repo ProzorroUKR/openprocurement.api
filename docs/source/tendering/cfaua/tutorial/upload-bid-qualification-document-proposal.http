@@ -1,13 +1,13 @@
-POST /api/2.5/tenders/b69c06ceeeb145a4b5cc46d3d56de4d2/bids/6bf64eb443e54b8db51e4156558d97e0/qualification_documents?acc_token=2d0fd5fb837f4974a51ca1f675b37dfd HTTP/1.0
+POST /api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/bids/381f5658b23a448ea820b823934eeb79/qualification_documents?acc_token=3ad252bcc1b04cfea53da4697044d594 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 340
+Content-Length: 336
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
     "title": "qualification_document.pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e73683eb573b462197fba52699c470e6?Signature=CiDSkTLWSYa1%2Ftrigz5PqNsXshKQl43%2BUc9ifp5l9a7IS0AWTuiD3Ka1aIiHYVzo9uo5Mv8CsD%2BqDGy2acQSAQ%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/12445f37d5c44db0a6af92b7c6c3ff54?Signature=paOlBtTaSVOtQslSmlniwDV9Z5iMvE0UaASfSDlBPnVLFxgNsJGTvF4j6j7xkNFLEkjro1vCk9GIvOH%2BsKRfCg%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
   }
@@ -16,18 +16,18 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b69c06ceeeb145a4b5cc46d3d56de4d2/bids/6bf64eb443e54b8db51e4156558d97e0/qualification_documents/45331af8d79c4b17aa4c948be546243c
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/bids/381f5658b23a448ea820b823934eeb79/qualification_documents/bd4daa9ccac744848d185f6076e727ab
 
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000",
     "title": "qualification_document.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e73683eb573b462197fba52699c470e6?Signature=t5gVoF4QbfJd4GE1RR7XX058cfTiAcAm2fsY4%2BdL%2BtUCH3%2FBEMg5HIXT202dnnG%2Fw%2B62aFOEigVThfvB1%2FEVDg%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/12445f37d5c44db0a6af92b7c6c3ff54?Signature=i61noFvn8kkkCzLtFL1JFLNDRNSVhMV1C%2Bg12ajqOJoq4fRs6TG%2FQPcpZ8LXWTjxpgErXx91Jr5HpzRnBb7rDg%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "confidentiality": "public",
     "language": "uk",
-    "id": "45331af8d79c4b17aa4c948be546243c",
+    "id": "bd4daa9ccac744848d185f6076e727ab",
     "datePublished": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00"
   }

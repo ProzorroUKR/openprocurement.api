@@ -1,0 +1,86 @@
+GET /api/2.5/frameworks/d05d8009c7ee4cd583fcc88b51af95f2/submissions HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "qualificationID": "866de62ee2954601bc0d37130ded4a6a",
+      "frameworkID": "d05d8009c7ee4cd583fcc88b51af95f2",
+      "dateCreated": "2023-01-17T00:00:00+02:00",
+      "dateModified": "2023-01-17T00:00:00+02:00",
+      "date": "2023-01-17T00:00:00+02:00",
+      "datePublished": "2023-01-17T00:00:00+02:00",
+      "status": "complete",
+      "tenderers": [
+        {
+          "name": "ДКП «Школяр»",
+          "scale": "micro",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00137256",
+            "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+            "uri": "http://www.sc.gov.ua/"
+          },
+          "address": {
+            "streetAddress": "вул. Островського, 33",
+            "locality": "м. Вінниця",
+            "region": "Вінницька область",
+            "postalCode": "21100",
+            "countryName": "Україна"
+          },
+          "contactPoint": {
+            "name": "Сергій Олексюк",
+            "email": "soleksuk@gmail.com",
+            "telephone": "+380432216930"
+          }
+        }
+      ],
+      "id": "443badfba46d451bbb58f091ee1c81db"
+    },
+    {
+      "qualificationID": "244c66c1d0634e378a801ed09fccecef",
+      "frameworkID": "d05d8009c7ee4cd583fcc88b51af95f2",
+      "dateCreated": "2023-01-17T00:00:00+02:00",
+      "dateModified": "2023-01-17T00:00:00+02:00",
+      "date": "2023-01-17T00:00:00+02:00",
+      "datePublished": "2023-01-17T00:00:00+02:00",
+      "status": "complete",
+      "tenderers": [
+        {
+          "name": "ДКП «Школяр»",
+          "scale": "micro",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00137256",
+            "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+            "uri": "http://www.sc.gov.ua/"
+          },
+          "address": {
+            "streetAddress": "вул. Островського, 33",
+            "locality": "м. Вінниця",
+            "region": "Вінницька область",
+            "postalCode": "21100",
+            "countryName": "Україна"
+          },
+          "contactPoint": {
+            "name": "Сергій Олексюк",
+            "email": "soleksuk@gmail.com",
+            "telephone": "+380432216930"
+          }
+        }
+      ],
+      "id": "2da9ced2979446a38b18f656a27d89ce"
+    }
+  ],
+  "next_page": {
+    "offset": 1673906400.0,
+    "path": "/api/2.5/frameworks/d05d8009c7ee4cd583fcc88b51af95f2/submissions?offset=1673906400.0",
+    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/d05d8009c7ee4cd583fcc88b51af95f2/submissions?offset=1673906400.0"
+  }
+}
+

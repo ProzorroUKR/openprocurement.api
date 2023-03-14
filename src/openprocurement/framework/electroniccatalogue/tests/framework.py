@@ -3,12 +3,17 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.framework.electroniccatalogue.tests.base import (
-    test_electronicCatalogue_data,
+    test_framework_electronic_catalogue_data,
     BaseElectronicCatalogueWebTest,
     BaseApiWebTest,
 )
 from openprocurement.framework.electroniccatalogue.tests.framework_blanks import (
     simple_add_framework,
+    cpb_standard_status,
+    create_framework_draft_invalid_kind,
+    accreditation_level,
+)
+from openprocurement.framework.open.tests.framework_blanks import (
     listing,
     listing_changes,
     listing_draft,
@@ -18,13 +23,12 @@ from openprocurement.framework.electroniccatalogue.tests.framework_blanks import
     framework_not_found,
     create_framework_draft,
     create_framework_draft_invalid,
-    cpb_standard_status,
-    accreditation_level,
     patch_framework_draft,
     patch_framework_draft_to_active,
     patch_framework_draft_to_active_invalid,
     patch_framework_active,
-    get_framework, framework_token_invalid,
+    get_framework,
+    framework_token_invalid,
     framework_fields,
     unsuccessful_status,
     complete_status,
@@ -32,13 +36,13 @@ from openprocurement.framework.electroniccatalogue.tests.framework_blanks import
 
 
 class FrameworkTest(BaseApiWebTest):
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_framework_electronic_catalogue_data
 
     test_simple_add_framework = snitch(simple_add_framework)
 
 
 class FrameworkResourceTest(BaseElectronicCatalogueWebTest):
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_framework_electronic_catalogue_data
     initial_auth = ("Basic", ("broker", ""))
 
     test_listing_changes = snitch(listing_changes)
@@ -48,6 +52,7 @@ class FrameworkResourceTest(BaseElectronicCatalogueWebTest):
     test_cpb_standard_status = snitch(cpb_standard_status)
     test_accreditation_level = snitch(accreditation_level)
     test_create_framework_draft_invalid = snitch(create_framework_draft_invalid)
+    test_create_framework_draft_invalid_kind = snitch(create_framework_draft_invalid_kind)
     test_patch_framework_draft = snitch(patch_framework_draft)
     test_patch_framework_draft_to_active = snitch(patch_framework_draft_to_active)
     test_patch_framework_draft_to_active_invalid = snitch(patch_framework_draft_to_active_invalid)

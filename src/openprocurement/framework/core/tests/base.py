@@ -1,7 +1,7 @@
 import os.path
 from openprocurement.api.tests.base import BaseWebTest as BaseApiWebTest, change_auth
 from openprocurement.api.utils import get_now, apply_data_patch, SESSION
-from openprocurement.framework.electroniccatalogue.utils import calculate_framework_date
+from openprocurement.framework.core.utils import calculate_framework_date
 from openprocurement.framework.core.models import Framework
 from openprocurement.tender.core.tests.base import BaseWebTest
 
@@ -69,8 +69,14 @@ class BaseCoreWebTest(BaseWebTest):
             self.framework_document = self.mongodb.frameworks.get(self.framework_id)
             self.framework_document_patch = {}
 
-    def get_framework(self, role):
-        with change_auth(self.app, ("Basic", (role, ""))):
+
+    def get_auth(self, role=None):
+        if role:
+            return ("Basic", (role, ""))
+        return self.app.authorization
+
+    def get_framework(self, role=None):
+        with change_auth(self.app, self.get_auth(role)):
             url = "/frameworks/{}".format(self.framework_id)
             response = self.app.get(url)
             self.assertEqual(response.status, "200 OK")

@@ -1,0 +1,57 @@
+PATCH /api/2.5/submissions/ffaa523497964dd1be5e764ee48b9eac?acc_token=66f9604b255d494d95cd7ed674060377 HTTP/1.0
+Authorization: Bearer broker2
+Content-Length: 30
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "active"
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "qualificationID": "db3e0288e9274b6aaa41a007b3152590",
+    "frameworkID": "27ccdb80d4234f69b99ab9ad18ecf6e1",
+    "dateModified": "2023-01-17T00:00:00+02:00",
+    "date": "2023-01-17T00:00:00+02:00",
+    "datePublished": "2023-01-17T00:00:00+02:00",
+    "owner": "broker2",
+    "status": "active",
+    "submissionType": "open",
+    "tenderers": [
+      {
+        "name": "ДКП «Книга»",
+        "scale": "sme",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137226",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Андрій Олексюк",
+          "email": "aagt@gmail.com",
+          "telephone": "+380322916930"
+        }
+      }
+    ],
+    "id": "ffaa523497964dd1be5e764ee48b9eac"
+  },
+  "config": {
+    "restricted": true
+  }
+}
+

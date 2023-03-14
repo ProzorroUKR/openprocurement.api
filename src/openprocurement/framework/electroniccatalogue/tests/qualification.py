@@ -5,10 +5,10 @@ from copy import deepcopy
 from openprocurement.api.tests.base import snitch
 from openprocurement.framework.electroniccatalogue.tests.base import (
     SubmissionContentWebTest,
-    test_electronicCatalogue_data,
-    test_submission_data
+    test_framework_electronic_catalogue_data,
+    test_submission_data,
 )
-from openprocurement.framework.electroniccatalogue.tests.qualification_blanks import (
+from openprocurement.framework.open.tests.qualification_blanks import (
     listing,
     listing_changes,
     patch_submission_pending,
@@ -28,6 +28,7 @@ from openprocurement.framework.electroniccatalogue.tests.qualification_blanks im
     document_not_found,
     put_qualification_document,
     create_qualification_document_json_bulk,
+    patch_submission_pending_config_test,
 )
 
 
@@ -43,10 +44,10 @@ class QualificationContentWebTest(SubmissionContentWebTest):
 
 
 class QualificationResourceTest(SubmissionContentWebTest):
-
     test_listing = snitch(listing)
     test_listing_changes = snitch(listing_changes)
     test_patch_submission_pending = snitch(patch_submission_pending)
+    test_patch_submission_pending_config_test = snitch(patch_submission_pending_config_test)
     test_patch_qualification_active = snitch(patch_qualification_active)
     test_patch_qualification_unsuccessful = snitch(patch_qualification_unsuccessful)
     test_get_qualification = snitch(get_qualification)
@@ -57,13 +58,13 @@ class QualificationResourceTest(SubmissionContentWebTest):
     test_qualification_not_found = snitch(qualification_not_found)
     test_qualification_token_invalid = snitch(qualification_token_invalid)
 
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_framework_electronic_catalogue_data
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
 
 
 class TestQualificationDocumentGet(QualificationContentWebTest):
-    initial_data = deepcopy(test_electronicCatalogue_data)
+    initial_data = deepcopy(test_framework_electronic_catalogue_data)
     initial_submission_data = deepcopy(test_submission_data)
 
     test_get_documents_list = snitch(get_documents_list)
@@ -71,7 +72,7 @@ class TestQualificationDocumentGet(QualificationContentWebTest):
 
 
 class TestQualificationDocumentsCreate(QualificationContentWebTest):
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_framework_electronic_catalogue_data
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
     docservice = True

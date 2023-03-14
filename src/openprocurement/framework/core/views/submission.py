@@ -1,18 +1,32 @@
 from openprocurement.api.utils import (
-    json_view,
-    generate_id,
     set_ownership,
-    context_unpack,
     upload_objects_documents,
 )
 from openprocurement.api.views.base import MongodbResourceListing
-from openprocurement.framework.core.utils import submissionsresource, save_submission
+from openprocurement.api.constants import FAST_CATALOGUE_FLOW_FRAMEWORK_IDS
+from openprocurement.api.utils import (
+    json_view,
+    context_unpack,
+    get_now,
+    generate_id,
+)
+from openprocurement.api.views.base import BaseResource
+from openprocurement.framework.core.models import SubmissionConfig
+from openprocurement.framework.core.utils import (
+    submissionsresource,
+    apply_patch,
+    save_submission,
+    save_qualification,
+)
 from openprocurement.framework.core.validation import (
     validate_submission_data,
+    validate_post_submission_with_active_contract,
     validate_operation_submission_in_not_allowed_period,
     validate_action_in_not_allowed_framework_status,
-    validate_post_submission_with_active_contract,
+    validate_restricted_access,
 )
+from openprocurement.framework.core.views.agreement import AgreementViewMixin
+from openprocurement.tender.core.procedure.validation import validate_config_data
 
 
 @submissionsresource(
@@ -24,9 +38,20 @@ class SubmissionResource(MongodbResourceListing):
     def __init__(self, request, context):
         super().__init__(request, context)
         self.listing_name = "Submissions"
+        self.owner_fields = {"owner", "framework_owner"}
         self.listing_default_fields = {"dateModified"}
-        self.all_fields = {"dateCreated", "dateModified", "id", "frameworkID", "qualificationID", "status",
-                           "tenderers", "documents", "date", "datePublished"}
+        self.listing_allowed_fields = {
+            "dateCreated",
+            "dateModified",
+            "id",
+            "frameworkID",
+            "qualificationID",
+            "status",
+            "tenderers",
+            "documents",
+            "date",
+            "datePublished",
+        }
         self.db_listing_method = request.registry.mongodb.submissions.list
 
     @json_view(
@@ -34,6 +59,7 @@ class SubmissionResource(MongodbResourceListing):
         permission="create_submission",
         validators=(
             validate_submission_data,
+            validate_config_data(SubmissionConfig, obj_name="submission"),
             validate_operation_submission_in_not_allowed_period,
             validate_action_in_not_allowed_framework_status("submission"),
             validate_post_submission_with_active_contract,
@@ -43,12 +69,21 @@ class SubmissionResource(MongodbResourceListing):
         """
         Creating new submission
         """
+        submission_config = self.request.validated["submission_config"]
         submission_id = generate_id()
         submission = self.request.validated["submission"]
         submission.id = submission_id
+        framework_config = self.request.validated["framework_config"]
         framework = self.request.validated["framework"]
+        self.LOGGER.info(framework["frameworkType"])
         submission.submissionType = framework["frameworkType"]
         submission.mode = framework.get("mode")
+        submission.framework_owner = framework["owner"]
+        submission.framework_token = framework["owner_token"]
+        if framework_config.get("test", False):
+            submission_config["test"] = framework_config["test"]
+        if framework_config.get("restricted_derivatives", False):
+            submission_config["restricted"] = True
         if self.request.json["data"].get("status") == "draft":
             submission.status = "draft"
         upload_objects_documents(
@@ -65,13 +100,149 @@ class SubmissionResource(MongodbResourceListing):
                 extra=context_unpack(
                     self.request,
                     {"MESSAGE_ID": "submission_create"},
-                    {"submission_id": submission_id,
-                     "submission_mode": submission.mode},
+                    {
+                        "submission_id": submission_id,
+                        "submission_mode": submission.mode
+                    },
                 ),
             )
             self.request.response.status = 201
             self.request.response.headers["Location"] = self.request.route_url(
                 "{}:Submissions".format(submission.submissionType), submission_id=submission_id
             )
-            return {"data": submission.serialize("view"), "access": access}
+            response_data = {"data": submission.serialize("view"), "access": access}
+            if submission_config:
+                response_data["config"] = submission_config
+            return response_data
 
+
+class CoreSubmissionResource(BaseResource, AgreementViewMixin):
+    @json_view(
+        validators=(
+            validate_restricted_access("submission", owner_fields={"owner", "framework_owner"})
+        ),
+        permission="view_submission",
+    )
+    def get(self):
+        """
+        Get info by submission
+        """
+        submission_config = self.request.validated["submission_config"]
+        submission_data = self.context.serialize("view")
+        response_data = {"data": submission_data}
+        if submission_config:
+            response_data["config"] = submission_config
+        return response_data
+
+    def patch(self):
+        """
+        Submission edit(partial)
+        """
+        submission_config = self.request.validated["submission_config"]
+        submission = self.request.context
+        framework = self.request.validated["framework"]
+        old_status = submission.status
+        new_status = self.request.validated["data"].get("status", old_status)
+
+        now = get_now()
+        if new_status != old_status:
+            submission.date = now
+
+        activated = new_status == "active" and old_status != new_status
+        if activated:
+            submission.datePublished = now
+            self.create_qualification()
+
+        apply_patch(
+            self.request,
+            src=self.request.validated["submission_src"],
+            obj_name="submission"
+        )
+
+        self.LOGGER.info(
+            "Updated submission {}".format(submission.id),
+            extra=context_unpack(self.request, {"MESSAGE_ID": "submission_patch"})
+        )
+
+        data = submission.serialize("view")
+
+        if activated and submission.frameworkID in FAST_CATALOGUE_FLOW_FRAMEWORK_IDS:
+            self.activate_qualification()
+            self.get_or_create_agreement()
+            self.create_agreement_contract()
+            self.request.validated["data"]["status"] = "complete"
+
+            apply_patch(
+                self.request,
+                src=self.request.validated["submission_src"],
+                obj_name="submission"
+            )
+
+            self.LOGGER.info(
+                "Updated submission {}".format(submission.id),
+                extra=context_unpack(self.request, {"MESSAGE_ID": "submission_patch"})
+            )
+
+        response_data = {"data": data}
+        if submission_config:
+            response_data["config"] = submission_config
+
+        return response_data
+
+    def create_qualification(self):
+        submission = self.request.context
+        framework = self.request.validated["framework"]
+        framework_config = self.request.validated["framework_config"]
+
+        qualification_id = generate_id()
+        qualification_data = {
+            "id": qualification_id,
+            "frameworkID": framework["_id"],
+            "submissionID": submission.id,
+            "framework_owner": framework["owner"],
+            "framework_token": framework["owner_token"],
+            "submission_owner": submission["owner"],
+            "submission_token": submission["owner_token"],
+            "qualificationType": framework["frameworkType"],
+            "mode": framework.get("mode")
+        }
+        qualification_config = {}
+        if framework_config.get("test", False):
+            qualification_config["test"] = framework_config["test"]
+        if framework_config.get("restricted_derivatives", False):
+            qualification_config["restricted"] = True
+        model = self.request.qualification_from_data(qualification_data, create=False)
+        qualification = model(qualification_data)
+        self.request.validated["qualification_src"] = {}
+        self.request.validated["qualification"] = qualification
+        self.request.validated["qualification_config"] = qualification_config
+
+        if save_qualification(self.request, insert=True):
+            submission.qualificationID = qualification_id
+            self.LOGGER.info(
+                "Created qualification {}".format(qualification_id),
+                extra=context_unpack(
+                    self.request,
+                    {"MESSAGE_ID": "qualification_create"},
+                    {
+                        "qualification_id": qualification_id,
+                        "qualification_mode": qualification.mode
+                    },
+                ),
+            )
+
+    def activate_qualification(self):
+        qualification = self.request.validated["qualification"]
+        self.request.validated["qualification_src"] = qualification.serialize("plain")
+        qualification.status = "active"
+        self.request.validated["qualification"] = qualification
+        apply_patch(
+            self.request,
+            src=self.request.validated["qualification_src"],
+            data=qualification,
+            obj_name="qualification"
+        )
+        self.LOGGER.info(
+            "Updated qualification {}".format(qualification.id),
+            extra=context_unpack(self.request, {"MESSAGE_ID": "qualification_patch"})
+        )

@@ -1,6 +1,6 @@
-POST /api/2.5/tenders/09b9ff4fc8654d1bb24fb14572e88f1c/bids HTTP/1.0
+POST /api/2.5/tenders/bb8949e735294cbaa864bd3bc68a1e5f/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 2043
+Content-Length: 2037
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -36,19 +36,19 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "requirementResponses": [
       {
         "requirement": {
-          "id": "999fca7c01414e4ab35c88a02388582f"
+          "id": "25ad302697704d249e9d653933f909ee"
         },
         "value": "Розчин для інфузій"
       },
       {
         "requirement": {
-          "id": "0d6ac61303dc41609c2773d09e6593ef"
+          "id": "d3cb95288b334796b1562a0c638e526b"
         },
         "value": 5
       },
       {
         "requirement": {
-          "id": "2688fb5d39c84f618f45ade09c04d8f1"
+          "id": "a917b3e240d94416aac128cd1c3775e1"
         },
         "values": [
           "Відповідь1",
@@ -59,13 +59,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "documents": [
       {
         "title": "Proposal_part1.pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/192b7b24d38d4de6bc9a6b1e6c77960b?Signature=KZvg8%2BrfogEUWyFgSzDTkGRGEnKYenxZZFGYsF4%2FGgTlwcqr2Ce3l59X68OVJ0Q%2BM7LHNy67BE5p45F%2Bc%2B2mCg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0ec8fd2dc59a45c4a279f23fb91b2572?Signature=bmTcHBlg8m%2B9HsFA2JdwxLYzXTfNShfHe80%2FVeYryRV%2B4iVwg%2Frs9JjeYqkYk0wywNoFX1qyUsd4CErjgDRXBA%3D%3D&KeyID=a8968c46",
         "hash": "md5:00000000000000000000000000000000",
         "format": "application/pdf"
       },
       {
         "title": "Proposal_part2.pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e6ac8b976a3445839cd998263b5ffb42?Signature=zvZOxC7UDz%2BEdfbTEGPVBorDfc%2FN93QjOxcBJ6NKcalH0dgUdGOUMCkuJs%2Ba5QU6zg7SFUFwM11FS9T%2BZcuDDA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ec3cbabab3334b0f9405d0b48698fee7?Signature=ZmR8t4doI5nwyuuiUAkFk0xuLzTxC%2FW7nhpHm04qI9T8jrRahmQdWC2VeMwM6GUnucsPT78%2BVtx2fBHKg49PDA%3D%3D&KeyID=a8968c46",
         "hash": "md5:00000000000000000000000000000000",
         "format": "application/pdf"
       }
@@ -76,7 +76,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/09b9ff4fc8654d1bb24fb14572e88f1c/bids/e0950a264cbb4e31b09fab7b5ec714f8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bb8949e735294cbaa864bd3bc68a1e5f/bids/c586fda9baec46a9aa99c9f697250a2e
 
 {
   "data": {
@@ -113,9 +113,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/09b9ff4fc8654d1b
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/192b7b24d38d4de6bc9a6b1e6c77960b?Signature=CVZKWk94K98I8qC6AG1vXsG0a%2FevBdstqBn5YpFW41JCULXAM2vtaFWQsNTa5zbc%2BatZ9y4F0ewJk9%2FrxUDLBw%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0ec8fd2dc59a45c4a279f23fb91b2572?Signature=ogddqQNir075wYIRhUPZ6oI5BUvzCD30E0FvQqiiXat9Qib4uMcaop9PnCuO%2BH7lRvmqEqZSraQo3AifEAl8DA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "id": "62c232fa4eb24520bacea4d72a041bdb",
+        "id": "f0b8eaf0f5b54a9196bf72dd3ecd7014",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "dateModified": "2023-01-01T00:00:01+02:00"
       },
@@ -123,32 +123,32 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/09b9ff4fc8654d1b
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e6ac8b976a3445839cd998263b5ffb42?Signature=VCjd%2BsC5JO5dsnfKlP9NMTUwhUOAFwPWrRWHJknfgB0NZ81mf7OwZLG1oVrd2EKQ8G9ZQh8hXngt7%2BbwawjsCQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ec3cbabab3334b0f9405d0b48698fee7?Signature=qBVCZkrQZf2v6sbyohuyI5iQ37pvbp2baN2rdLaaHZkgB5P7KyYmNcfEe1tOEs5WB0P%2B1udLNbUMVs9KEFPIDQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "id": "81196303df3a401dac7a6f56ed1b8a27",
+        "id": "442c386215a04057bb30d1d1b24a7648",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "dateModified": "2023-01-01T00:00:01+02:00"
       }
     ],
     "requirementResponses": [
       {
-        "id": "aae84e1040e049aea5fc9a0304bc5548",
+        "id": "51407e8f0a334f6fb81b2f3df74a3a24",
         "requirement": {
-          "id": "999fca7c01414e4ab35c88a02388582f"
+          "id": "25ad302697704d249e9d653933f909ee"
         },
         "value": "Розчин для інфузій"
       },
       {
-        "id": "bd7a608d841b403e9feabf56a8a73d8b",
+        "id": "599842221e16445b8deb54383e7cf4a6",
         "requirement": {
-          "id": "0d6ac61303dc41609c2773d09e6593ef"
+          "id": "d3cb95288b334796b1562a0c638e526b"
         },
         "value": 5
       },
       {
-        "id": "113a36a6f490424aa5dfa5bd7b825592",
+        "id": "874558edf7d5466e8ed7e266265313b3",
         "requirement": {
-          "id": "2688fb5d39c84f618f45ade09c04d8f1"
+          "id": "a917b3e240d94416aac128cd1c3775e1"
         },
         "values": [
           "Відповідь1",
@@ -156,12 +156,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/09b9ff4fc8654d1b
         ]
       }
     ],
-    "id": "e0950a264cbb4e31b09fab7b5ec714f8",
+    "id": "c586fda9baec46a9aa99c9f697250a2e",
     "date": "2023-01-01T00:00:01+02:00"
   },
   "access": {
-    "token": "07de8722ab3e4408a88ba0a16dfe418d",
-    "transfer": "2b2e66e2a6af44b8a65e84f9f3eb44da"
+    "token": "cb68454134484224ac172b4aa8d6a282",
+    "transfer": "011ecc5851cd4e51b1ed885aeba8405d"
   }
 }
 

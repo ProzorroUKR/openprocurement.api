@@ -49,7 +49,7 @@ class PlansResource(MongodbResourceListing):
         super(PlansResource, self).__init__(request, context)
         self.listing_name = "Plans"
         self.listing_default_fields = {"dateModified"}
-        self.all_fields = {"dateCreated", "planID", "dateModified"}
+        self.listing_allowed_fields = {"dateCreated", "planID", "dateModified"}
         self.db_listing_method = request.registry.mongodb.plans.list
 
     @json_view(

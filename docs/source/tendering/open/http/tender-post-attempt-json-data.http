@@ -143,7 +143,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/69a0774b217e477cb01ddad3849397e2
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cb76d20a62ef4e318ecb101430b63776
 
 {
   "data": {
@@ -175,7 +175,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/69a0774b217e477c
         "sequenceNumber": 0
       },
       {
-        "id": "4a15dd64ab2e40fa9e98e6608ae3fa95",
+        "id": "9a0a73c7e00f49228dd67b72bcc34dbc",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -217,7 +217,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/69a0774b217e477c
     },
     "items": [
       {
-        "id": "ff72a42a8b8c4e08bf62a8fe1ebd04ce",
+        "id": "43204fd932374740a40528f7712ca55e",
         "description": "Послуги шкільних їдалень",
         "classification": {
           "description": "Послуги з харчування у школах",
@@ -254,7 +254,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/69a0774b217e477c
         }
       },
       {
-        "id": "ecd154fb47694f8f8accab77852371cc",
+        "id": "d81485ce6a9d4b6c8842d1c3c2fbae01",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "classification": {
@@ -306,11 +306,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/69a0774b217e477c
     },
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
-    "id": "69a0774b217e477cb01ddad3849397e2"
+    "id": "cb76d20a62ef4e318ecb101430b63776"
   },
   "access": {
-    "token": "2b976b1ceeb542098d70a6eec56c68a8",
-    "transfer": "b0d9fd8200cf4e28acce42bd2962bad6"
+    "token": "ba20733189d94f8eb1f42516be4fddf3",
+    "transfer": "1f183a204b2e4cd38844387249baeee4"
   }
 }
 

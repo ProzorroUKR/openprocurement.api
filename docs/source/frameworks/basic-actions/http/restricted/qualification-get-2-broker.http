@@ -1,0 +1,23 @@
+GET /api/2.5/qualifications/db3e0288e9274b6aaa41a007b3152590 HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "submissionID": "ffaa523497964dd1be5e764ee48b9eac",
+    "frameworkID": "27ccdb80d4234f69b99ab9ad18ecf6e1",
+    "date": "2023-01-17T00:00:00+02:00",
+    "dateModified": "2023-01-17T00:00:00+02:00",
+    "status": "pending",
+    "qualificationType": "open",
+    "id": "db3e0288e9274b6aaa41a007b3152590"
+  },
+  "config": {
+    "restricted": true
+  }
+}
+

@@ -1,0 +1,72 @@
+PATCH /api/2.5/frameworks/19554516edc64b80ad4a2834f4505fbe?acc_token=5f94ccea4dfb4cdebd5de69ecd449013 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 113
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "procuringEntity": {
+      "contactPoint": {
+        "telephone": "+0440000001"
+      }
+    },
+    "title": "updated in draft status"
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "prettyID": "UA-F-2023-01-01-000001",
+    "title": "updated in draft status",
+    "description": "Назва предмета закупівлі",
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "owner": "broker",
+    "status": "draft",
+    "qualificationPeriod": {
+      "endDate": "2023-03-02T00:00:00+02:00"
+    },
+    "frameworkType": "electronicCatalogue",
+    "procuringEntity": {
+      "name": "Повна назва юридичної організації.",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "40996564",
+        "legalName": "Назва організації(ЦЗО)"
+      },
+      "address": {
+        "countryName": "Україна",
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220"
+      },
+      "contactPoint": {
+        "name": "Назва організації(ЦЗО)",
+        "telephone": "+0440000001",
+        "email": "aa@aa.com"
+      },
+      "kind": "central"
+    },
+    "classification": {
+      "description": "Mustard seeds",
+      "scheme": "ДК021",
+      "id": "03111600-8"
+    },
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003",
+        "id": "17.21.1",
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ],
+    "id": "19554516edc64b80ad4a2834f4505fbe"
+  }
+}
+

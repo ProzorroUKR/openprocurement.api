@@ -36,7 +36,7 @@ class AgreementResource(BaseResource):
         agreement = self.request.validated["agreement"]
         data = self.request.validated["ownership_data"]
 
-        route_name = "{}.Agreement".format(agreement.agreementType)
+        route_name = "{}:Agreements".format(agreement.agreementType)
         location = get_transfer_location(self.request, route_name, agreement_id=agreement.id)
         transfer = extract_transfer(self.request, transfer_id=data["id"])
 

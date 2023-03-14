@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/09b9ff4fc8654d1bb24fb14572e88f1c/bids/cccea5956bdc433e8120b259d6fdcf59?acc_token=48efa86713f5477eb7ad1c90c8af2921 HTTP/1.0
+PATCH /api/2.5/tenders/bb8949e735294cbaa864bd3bc68a1e5f/bids/ef1bede622fc44a08d3caa36ebd1de36?acc_token=5f6e8944db8c465987b29fcc71cb81d6 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "cccea5956bdc433e8120b259d6fdcf59",
+    "id": "ef1bede622fc44a08d3caa36ebd1de36",
     "date": "2023-01-01T00:00:01+02:00",
     "tenderers": [
       {
@@ -48,23 +48,23 @@ Content-Type: application/json
     },
     "requirementResponses": [
       {
-        "id": "40f4e3ae07584d0abc3406650600d5d3",
+        "id": "41d6e0ec22344c04ba26d0c9860aa329",
         "requirement": {
-          "id": "999fca7c01414e4ab35c88a02388582f"
+          "id": "25ad302697704d249e9d653933f909ee"
         },
         "value": "Розчин для інфузій"
       },
       {
-        "id": "153c25acce1446cd8b61d5f3e6cc7fea",
+        "id": "99a57e5b692745158ef966db7820b11e",
         "requirement": {
-          "id": "0d6ac61303dc41609c2773d09e6593ef"
+          "id": "d3cb95288b334796b1562a0c638e526b"
         },
         "value": 5
       },
       {
-        "id": "fed9e853c11c4f489023f2c78eed6349",
+        "id": "f2263583450b4e2ea0344291b52cf2fc",
         "requirement": {
-          "id": "2688fb5d39c84f618f45ade09c04d8f1"
+          "id": "a917b3e240d94416aac128cd1c3775e1"
         },
         "values": [
           "Відповідь1",

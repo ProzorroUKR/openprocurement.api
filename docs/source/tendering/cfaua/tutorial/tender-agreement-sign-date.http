@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/b69c06ceeeb145a4b5cc46d3d56de4d2/agreements/0fea7d7c4c8649f5a499885d630671f5?acc_token=bf73c010063f4fb4a07e775871e11d60 HTTP/1.0
+PATCH /api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/agreements/b996fbc0afc54062aac0fbaa492eb9e0?acc_token=5a77c92a3fdf47b4917bc23307e42385 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 53
 Content-Type: application/json
@@ -16,13 +16,13 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "0fea7d7c4c8649f5a499885d630671f5",
-    "agreementID": "UA-2023-01-01-000001-a-774f515207d840bbb2291a27f848ca611",
+    "id": "b996fbc0afc54062aac0fbaa492eb9e0",
+    "agreementID": "UA-2023-01-01-000001-a-5bbbf8d945c940e7a4e133125410d6e71",
     "date": "2023-01-01T00:00:00+02:00",
     "dateSigned": "2023-01-01T00:00:01+02:00",
     "items": [
       {
-        "id": "78edae5503b94e0eb20ca906a762bc8d",
+        "id": "f7f221177ecc41369b255d9ba4620b02",
         "description": "футляри до державних нагород",
         "classification": {
           "description": "Cartons",
@@ -41,7 +41,7 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 5.0,
-        "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
+        "relatedLot": "9dea7e57fca24c0fa6c43f752611342d",
         "deliveryDate": {
           "startDate": "2018-06-27T13:39:09.362837+03:00",
           "endDate": "2018-06-30T13:39:09.362837+03:00"
@@ -56,7 +56,7 @@ Content-Type: application/json
         "description_en": "Cases for state awards"
       },
       {
-        "id": "fc62a07c463c4750b0bdc92dd8787e2a",
+        "id": "95fb67978b4a4d5185a03bebe11d2d59",
         "description": "футляри до державних нагород",
         "classification": {
           "description": "Cartons",
@@ -75,7 +75,7 @@ Content-Type: application/json
           "code": "GRM"
         },
         "quantity": 5.0,
-        "relatedLot": "52815e9d01914c7a9bf4ba18ebb5e783",
+        "relatedLot": "9dea7e57fca24c0fa6c43f752611342d",
         "deliveryDate": {
           "startDate": "2018-06-27T13:39:09.362837+03:00",
           "endDate": "2018-06-30T13:39:09.362837+03:00"
@@ -93,7 +93,7 @@ Content-Type: application/json
     "status": "pending",
     "contracts": [
       {
-        "id": "edb78279aaec40d3be65c96c5c5eb0db",
+        "id": "3cfdad4a64a54acfb88bc4b77dc03d71",
         "status": "active",
         "suppliers": [
           {
@@ -120,7 +120,7 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "78edae5503b94e0eb20ca906a762bc8d",
+            "relatedItem": "f7f221177ecc41369b255d9ba4620b02",
             "value": {
               "currency": "UAH",
               "amount": 0.5,
@@ -128,7 +128,7 @@ Content-Type: application/json
             }
           },
           {
-            "relatedItem": "fc62a07c463c4750b0bdc92dd8787e2a",
+            "relatedItem": "95fb67978b4a4d5185a03bebe11d2d59",
             "value": {
               "currency": "UAH",
               "amount": 0.5,
@@ -136,12 +136,12 @@ Content-Type: application/json
             }
           }
         ],
-        "awardID": "2972d86645dc4d31b315bca98fc47858",
-        "bidID": "dcda7735b5384d7b803444397600baf1",
+        "awardID": "3789733412144d409def94cb01edc747",
+        "bidID": "c3e41a3a099a41ad864be3893e0711b5",
         "date": "2023-01-01T00:00:00+02:00"
       },
       {
-        "id": "4ffc79bd176541f7a1aa8bdd26bc5a87",
+        "id": "b9c82bbdb13b481bae95d48eb2724c58",
         "status": "active",
         "suppliers": [
           {
@@ -149,6 +149,7 @@ Content-Type: application/json
             "identifier": {
               "scheme": "UA-EDR",
               "id": "00137226",
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
               "uri": "http://www.sc.gov.ua/"
             },
             "address": {
@@ -168,7 +169,7 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "78edae5503b94e0eb20ca906a762bc8d",
+            "relatedItem": "f7f221177ecc41369b255d9ba4620b02",
             "value": {
               "currency": "UAH",
               "amount": 0.5,
@@ -176,7 +177,7 @@ Content-Type: application/json
             }
           },
           {
-            "relatedItem": "fc62a07c463c4750b0bdc92dd8787e2a",
+            "relatedItem": "95fb67978b4a4d5185a03bebe11d2d59",
             "value": {
               "currency": "UAH",
               "amount": 0.5,
@@ -184,12 +185,12 @@ Content-Type: application/json
             }
           }
         ],
-        "awardID": "504459d46cbb42baa8b442f6da714db5",
-        "bidID": "a9427978bcd440bda085ad41b2547b78",
+        "awardID": "32907509b8104f639ea956c73592d912",
+        "bidID": "8f1f5d51afcd4521ae73bc0799c5445d",
         "date": "2023-01-01T00:00:00+02:00"
       },
       {
-        "id": "4b5cb6ae595b43a48a5a1ac2001d1dcb",
+        "id": "9a0c84972c4b468788d51e716c0ea464",
         "status": "active",
         "suppliers": [
           {
@@ -217,7 +218,7 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "78edae5503b94e0eb20ca906a762bc8d",
+            "relatedItem": "f7f221177ecc41369b255d9ba4620b02",
             "value": {
               "currency": "UAH",
               "amount": 0.5,
@@ -225,7 +226,7 @@ Content-Type: application/json
             }
           },
           {
-            "relatedItem": "fc62a07c463c4750b0bdc92dd8787e2a",
+            "relatedItem": "95fb67978b4a4d5185a03bebe11d2d59",
             "value": {
               "currency": "UAH",
               "amount": 0.5,
@@ -233,8 +234,8 @@ Content-Type: application/json
             }
           }
         ],
-        "awardID": "5a20755806ec4ff885e2278e726c8f83",
-        "bidID": "6bf64eb443e54b8db51e4156558d97e0",
+        "awardID": "de71e66182cf4b7db411af2ef408fc74",
+        "bidID": "381f5658b23a448ea820b823934eeb79",
         "date": "2023-01-01T00:00:00+02:00"
       }
     ],
@@ -243,9 +244,9 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "agreement_first_document.doc",
         "format": "application/msdoc",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/79e167453f5a401fb8cf408f6e3f2580?Signature=23bscymQYesYOw%2FZpHY7funx9xxU82w8GGZQSF0jYm1mwr9no2e7NHI2oej4xx%2B9tkhdeyxVjXB4ye6L4Kg9DQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/40137a4b174840698ca8b3aaf28eeb5b?Signature=tCeyLe%2B3DjDDTG4vsAwydgsKxHNLxjB5dIhwG%2FonMKXaabEh2Q1Wv7BJgorwI%2BNr4GLZ2vQ3JJCzhznoFUT%2BAw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "id": "5402687eab9d4ebc9b0f425d9ba8a080",
+        "id": "0e8e8bc364544bf2bf27439ac4d31e8f",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "dateModified": "2023-01-01T00:00:00+02:00"
       },
@@ -253,12 +254,12 @@ Content-Type: application/json
         "title_en": "Title of Document",
         "description_en": "Description of Document",
         "language": "en",
-        "id": "325b32fa41d84a6e9f5cd2a1971255dc",
+        "id": "41e70dcfc9174bd1945f556c221f8641",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "agreement_second_document.doc",
         "format": "application/msdoc",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/19d8247422d744baac8d227f47d1c28c?Signature=6LIfqdeMREwFZds4MdkMI5It2QgX%2FidPLIeMnHRAZQ2dlg%2FqGMM49QlTd0JISwsMdCs9BVxTYfGxYaUyeF86Ag%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6b86c18d8ffe4836af041e14fe4337dd?Signature=OQ27UsW1yVx2dUOATRGqk5APhXGCyM3%2FBTwM%2BM72JoCkTDNlGuxjmz1DaQymNzGtEBCd6ZLr02Avrgpw5O4NCg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00"
       }

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/3d69f16d617642b88f9248c606bb0723 HTTP/1.0
+GET /api/2.5/tenders/3cf3333f00394e93bc3caaea00cbe9e2 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -36,7 +36,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "3ddefd0abcb646e282e7af89b364adce",
+        "id": "751b591b7605421bb8cc3f258b26afc2",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -56,7 +56,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "70a277ae70f84244a5118938e9d17de0",
+        "id": "d7ad37910a9845afa314850acc7d7c90",
         "description": "Послуги шкільних їдалень",
         "classification": {
           "description": "Послуги з харчування у школах",
@@ -130,7 +130,7 @@ Content-Type: application/json
     },
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
-    "id": "3d69f16d617642b88f9248c606bb0723"
+    "id": "3cf3333f00394e93bc3caaea00cbe9e2"
   }
 }
 

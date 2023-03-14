@@ -1,14 +1,25 @@
-from functools import partial, wraps
+from datetime import timedelta
+
+from functools import (
+    partial,
+    wraps,
+)
 from logging import getLogger
-from time import sleep
 
 from cornice.resource import resource
-from dateorro import calc_datetime
+from dateorro import (
+    calc_datetime,
+    calc_normalized_datetime,
+    calc_working_datetime,
+)
 from jsonpointer import resolve_pointer
 from pyramid.compat import decode_path_info
 from pyramid.exceptions import URLDecodeError
 
-from openprocurement.api.constants import WORKING_DAYS
+from openprocurement.api.constants import (
+    WORKING_DAYS,
+    FRAMEWORK_ENQUIRY_PERIOD_OFF_FROM,
+)
 from openprocurement.api.utils import (
     error_handler,
     update_logging_context,
@@ -21,23 +32,30 @@ from openprocurement.api.utils import (
     append_revision,
     ACCELERATOR_RE,
     generate_id,
+    get_first_revision_date,
 )
-from openprocurement.framework.core.models import IAgreement
 from openprocurement.framework.core.traversal import (
     framework_factory,
     submission_factory,
     qualification_factory,
     agreement_factory,
+    contract_factory,
 )
 
 LOGGER = getLogger("openprocurement.framework.core")
 ENQUIRY_PERIOD_DURATION = 10
 SUBMISSION_STAND_STILL_DURATION = 30
+DAYS_TO_UNSUCCESSFUL_STATUS = 20
+MILESTONE_CONTRACT_STATUSES = {
+    "ban": "suspended",
+    "terminated": "terminated",
+}
 
 frameworksresource = partial(resource, error_handler=error_handler, factory=framework_factory)
 submissionsresource = partial(resource, error_handler=error_handler, factory=submission_factory)
 qualificationsresource = partial(resource, error_handler=error_handler, factory=qualification_factory)
 agreementsresource = partial(resource, error_handler=error_handler, factory=agreement_factory)
+contractresource = partial(resource, error_handler=error_handler, factory=contract_factory)
 
 
 class isFramework(object):
@@ -213,7 +231,7 @@ def generate_framework_pretty_id(request):
     )
 
 
-def generate_agreementID(request):
+def generate_agreement_id(request):
     ctime = get_now().date()
     index = request.registry.mongodb.get_next_sequence_value(f"agreement_{ctime.isoformat()}")
     return "UA-{:04}-{:02}-{:02}-{:06}".format(
@@ -231,6 +249,10 @@ def save_object(request, obj_name, with_test_mode=True, additional_obj_names="",
     if patch:
         now = get_now()
         append_obj_revision(request, obj, patch, now)
+
+        config = request.validated.get("%s_config" % obj_name)
+        if config:
+            obj["config"] = config
 
         old_date_modified = obj.dateModified
         modified = getattr(obj, "modified", True)
@@ -259,18 +281,24 @@ def save_framework(request, additional_obj_names="", insert=False):
 
 
 def save_submission(request, additional_obj_names="", insert=False):
-    return save_object(request, "submission", with_test_mode=False,
-                       additional_obj_names=additional_obj_names, insert=insert)
+    return save_object(
+        request, "submission", with_test_mode=False,
+        additional_obj_names=additional_obj_names, insert=insert
+    )
 
 
 def save_qualification(request, additional_obj_names="", insert=False):
-    return save_object(request, "qualification", with_test_mode=False,
-                       additional_obj_names=additional_obj_names, insert=insert)
+    return save_object(
+        request, "qualification", with_test_mode=False,
+        additional_obj_names=additional_obj_names, insert=insert
+    )
 
 
 def save_agreement(request, additional_obj_names="", insert=False):
-    return save_object(request, "agreement", with_test_mode=False,
-                       additional_obj_names=additional_obj_names, insert=insert)
+    return save_object(
+        request, "agreement", with_test_mode=False,
+        additional_obj_names=additional_obj_names, insert=insert
+    )
 
 
 def get_framework_accelerator(context):
@@ -283,13 +311,14 @@ def get_framework_accelerator(context):
 
 def acceleratable(wrapped):
     @wraps(wrapped)
-    def wrapper(date_obj, timedelta_obj,  framework=None, working_days=False, calendar=WORKING_DAYS, **kwargs):
+    def wrapper(date_obj, timedelta_obj, framework=None, working_days=False, calendar=WORKING_DAYS, **kwargs):
         accelerator = get_framework_accelerator(framework)
         if accelerator:
             return calc_datetime(date_obj, timedelta_obj, accelerator=accelerator)
         return wrapped(
             date_obj, timedelta_obj, framework=framework, working_days=working_days, calendar=calendar, **kwargs
         )
+
     return wrapper
 
 
@@ -315,10 +344,12 @@ def apply_patch(request, obj_name, data=None, save=True, src=None, additional_ob
 
 
 def append_obj_revision(request, obj, patch, date):
-    status_changes = [p for p in patch if all([
-        p["path"].endswith("/status"),
-        p["op"] == "replace"
-    ])]
+    status_changes = [p for p in patch if all(
+        [
+            p["path"].endswith("/status"),
+            p["op"] == "replace"
+        ]
+    )]
     changed_obj = obj
     for change in status_changes:
         changed_obj = resolve_pointer(obj, change["path"].replace("/status", ""))
@@ -365,7 +396,129 @@ def set_agreement_ownership(item, request):
     item.owner_token = generate_id()
 
 
-def get_agreement(model):
-    while not IAgreement.providedBy(model):
-        model = model.__parent__
-    return model
+@acceleratable
+def calculate_framework_date(
+    date_obj,
+    timedelta_obj,
+    framework=None,
+    working_days=False,
+    calendar=WORKING_DAYS,
+    ceil=False,
+):
+    date_obj = calc_normalized_datetime(date_obj, ceil=ceil)
+    if working_days:
+        return calc_working_datetime(date_obj, timedelta_obj, calendar=calendar)
+    else:
+        return calc_datetime(date_obj, timedelta_obj)
+
+
+def calculate_framework_periods(request, model):
+    framework = request.context
+    data = request.validated["data"]
+
+    enquiryPeriod_startDate = framework.enquiryPeriod and framework.enquiryPeriod.startDate or get_now()
+    if get_first_revision_date(framework, default=get_now()) >= FRAMEWORK_ENQUIRY_PERIOD_OFF_FROM:
+        enquiryPeriod_endDate = enquiryPeriod_startDate + timedelta(seconds=1)
+    else:
+        enquiryPeriod_endDate = (
+            framework.enquiryPeriod
+            and framework.enquiryPeriod.endDate
+            or calculate_framework_date(
+                enquiryPeriod_startDate,
+                timedelta(days=ENQUIRY_PERIOD_DURATION),
+                framework,
+                working_days=True,
+                ceil=True
+            ),
+        )
+
+    data["enquiryPeriod"] = {
+        "startDate": enquiryPeriod_startDate,
+        "endDate": enquiryPeriod_endDate,
+    }
+
+    qualification_endDate = model(data["qualificationPeriod"]).endDate
+    period_startDate = framework.period and framework.period.startDate or get_now()
+    period_endDate = calculate_framework_date(
+        qualification_endDate,
+        timedelta(days=-SUBMISSION_STAND_STILL_DURATION),
+        framework,
+    )
+    data["period"] = {
+        "startDate": period_startDate,
+        "endDate": period_endDate,
+    }
+
+    data["qualificationPeriod"]["startDate"] = enquiryPeriod_endDate
+
+
+def get_framework_unsuccessful_status_check_date(framework):
+    if framework.period and framework.period.startDate:
+        return calculate_framework_date(
+            framework.period.startDate, timedelta(days=DAYS_TO_UNSUCCESSFUL_STATUS),
+            framework, working_days=True, ceil=True
+        )
+
+
+def get_framework_number_of_submissions(request, framework):
+    result = request.registry.mongodb.submissions.count_total_submissions_by_framework_id(framework.id)
+    return result
+
+
+def check_status(request):
+    framework = request.validated["framework"]
+
+    if framework.status == "active":
+        if not framework.successful:
+            unsuccessful_status_check = get_framework_unsuccessful_status_check_date(framework)
+            if unsuccessful_status_check and unsuccessful_status_check < get_now():
+                number_of_submissions = get_framework_number_of_submissions(request, framework)
+                if number_of_submissions == 0:
+                    LOGGER.info(
+                        "Switched framework {} to {}".format(framework.id, "unsuccessful"),
+                        extra=context_unpack(request, {"MESSAGE_ID": "switched_framework_unsuccessful"}),
+                    )
+                    framework.status = "unsuccessful"
+                    return
+                else:
+                    framework.successful = True
+
+        if framework.qualificationPeriod.endDate < get_now():
+            LOGGER.info(
+                "Switched framework {} to {}".format(framework.id, "complete"),
+                extra=context_unpack(request, {"MESSAGE_ID": "switched_framework_complete"}),
+            )
+            framework.status = "complete"
+            return
+
+
+def check_agreement_status(request, now=None):
+    if not now:
+        now = get_now()
+    if request.validated["agreement"].period.endDate < now:
+        request.validated["agreement"].status = "terminated"
+        for contract in request.validated["agreement"].contracts:
+            for milestone in contract.milestones:
+                if milestone.status == "scheduled":
+                    milestone.status = "met" if milestone.dueDate and milestone.dueDate <= now else "notMet"
+                    milestone.dateModified = now
+
+            if contract.status == "active":
+                contract.status = "terminated"
+        return True
+
+
+def check_contract_statuses(request, now=None):
+    if not now:
+        now = get_now()
+    for contract in request.validated["agreement"].contracts:
+        if contract.status == "suspended":
+            for milestone in contract.milestones[::-1]:
+                if milestone.type == "ban":
+                    if milestone.dueDate < now:
+                        contract.status = "active"
+                        milestone.status = "met"
+                        milestone.dateModified = now
+                    break
+
+

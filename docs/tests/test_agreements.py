@@ -9,7 +9,7 @@ from openprocurement.tender.cfaua.tests.base import (
     BaseTenderWebTest, test_tender_data, test_lots
 )
 from openprocurement.framework.electroniccatalogue.tests.base import (
-    test_electronicCatalogue_data,
+    test_framework_electronic_catalogue_data,
     ban_milestone_data_with_documents,
     BaseElectronicCatalogueWebTest,
 )
@@ -241,7 +241,7 @@ class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTes
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
-    initial_data = test_electronicCatalogue_data
+    initial_data = test_framework_electronic_catalogue_data
     docservice = True
     docservice_url = DOCS_URL
 

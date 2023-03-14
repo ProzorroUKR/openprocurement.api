@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/07a9d2daabfe4268a5b3f6db5a7e1287/awards/9781a8bdca8d4bd0bb7eb110bb33f809?acc_token=63a33032ef0d47108bdada9cf1f0dde0 HTTP/1.0
+PATCH /api/2.5/tenders/f8573404c1ff4e8bac25fc817a2b68c0/awards/58b618d74671419ab1d4efc881a17538?acc_token=b1e5d31cae12404789b524b2c946715f HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "9781a8bdca8d4bd0bb7eb110bb33f809",
+    "id": "58b618d74671419ab1d4efc881a17538",
     "status": "active",
     "date": "2023-01-01T00:00:00+02:00",
     "value": {
@@ -26,23 +26,23 @@ Content-Type: application/json
     },
     "documents": [
       {
-        "id": "2a868c6223d140c698422b8f36e7bd78",
+        "id": "935c5060624541f3ab271b9a05fc8ec7",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "award_first_document.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2727941c3c1d4b398e0ef21c294d50f8?Signature=XVdH%2BLOTsgYF3J849jqk9w0Oivjv96KP1vF11T2pawV8wnAcIPzqxWiQWkKBo6SZdysuzHcTtpSV3ETS4xHUAw%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a150b81d16504ae88167cb5c3cec719f?Signature=VyqNcmitdo%2BX1ROzZI%2BCiQeLLKhcAI6HyxGzEY%2B8MLH1k%2FV6%2BGyLywy3C8rwBiRTWU2cJK8Csm4tIv7OkwMvCA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner"
       },
       {
-        "id": "ef94e80d879946adabfae996a0b8b0b8",
+        "id": "6f06c55889444b5a87299fac861771ff",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "award_second_document.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/874e2d950c434ca091040d1cb962a12f?Signature=tJmoLThnmmO1LrBsq4zKBdXkEU0fobXZDnRIXNNFrNR%2F1rigH3hgsbkVejHIrH3qc9dAQfnmVUAcmuUyfLbfDw%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4b2e689a0efb48e09297e8f0781145df?Signature=0K0looxslsU82Br8cYEXz%2BfTVToPT1EghT2hkvYmOjQEXndfnbeD%2BYMkV5jHBzmhrM9WTCuD%2BG5auL%2FLjydTAA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner"

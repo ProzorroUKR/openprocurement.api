@@ -1,3 +1,4 @@
+from openprocurement.tender.core.procedure.models.tender import TenderConfig
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 from openprocurement.api.utils import json_view
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_3, ACCR_4, ACCR_5
@@ -24,6 +25,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_data_documents,
     validate_accreditation_level,
     validate_tender_status_allows_update,
+    validate_config_data,
 )
 from cornice.resource import resource
 
@@ -43,15 +45,16 @@ class ReportingTenderResource(TendersResource):
         content_type="application/json",
         permission="create_tender",
         validators=(
-                validate_input_data(PostReportingTender),
-                validate_accreditation_level(
-                    levels=(ACCR_1, ACCR_3, ACCR_5),
-                    kind_central_levels=(ACCR_5,),
-                    item="tender",
-                    operation="creation",
-                    source="data"
-                ),
-                validate_data_documents(),
+            validate_input_data(PostReportingTender),
+            validate_config_data(TenderConfig, obj_name="tender"),
+            validate_accreditation_level(
+                levels=(ACCR_1, ACCR_3, ACCR_5),
+                kind_central_levels=(ACCR_5,),
+                item="tender",
+                operation="creation",
+                source="data"
+            ),
+            validate_data_documents(),
         ),
     )
     def collection_post(self):
@@ -96,6 +99,7 @@ class NegotiationTenderResource(TendersResource):
         permission="create_tender",
         validators=(
             validate_input_data(PostNegotiationTender),
+            validate_config_data(TenderConfig, obj_name="tender"),
             validate_accreditation_level(
                 levels=(ACCR_3, ACCR_5),
                 kind_central_levels=(ACCR_5,),
@@ -148,6 +152,7 @@ class NegotiationQuickTenderResource(TendersResource):
         permission="create_tender",
         validators=(
             validate_input_data(PostNegotiationQuickTender),
+            validate_config_data(TenderConfig, obj_name="tender"),
             validate_accreditation_level(
                 levels=(ACCR_3, ACCR_5),
                 kind_central_levels=(ACCR_5,),

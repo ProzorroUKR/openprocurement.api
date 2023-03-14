@@ -1,0 +1,19 @@
+GET /api/2.5/agreements/5d6633d4f393415685289b20f1c04348 HTTP/1.0
+Authorization: Bearer broker1
+Host: lb-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Access restricted for agreement object"
+    }
+  ]
+}
+

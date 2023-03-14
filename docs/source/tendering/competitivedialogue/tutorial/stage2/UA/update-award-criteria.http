@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/f5b1f7dad1d64ec09e0d406e09e7e816/documents/08f62f5bd6554b1fbf32b40e39722688?acc_token=05d1f01008be4fd19d7747fb346f66f5 HTTP/1.0
+PUT /api/2.5/tenders/32bf03368c4c49869cf9b1103c9c69f8/documents/d4941515a57c4a438436de96f737304b?acc_token=813f61b783fd4d148eb0e5f947d62dc4 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 333
 Content-Type: application/json
@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "title": "AwardCriteria-2.pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ac487d4ec7e447d99d63d250e29aa574?Signature=juegegxzWErremMFdODk%2B7V3xn6PRrvY2UYuCLQ2ejpZghDN8hPshC1TCmf2EhStOd3%2B5Ec0x6%2FiRqtdCs5ZCA%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/38ea000c35bb4535ac1b069ffa75e145?Signature=yoNUSusKWg4CqDwkubqA7gtM0BB2rUK9lrUy7%2Fw6iONMry51FU%2FGNxap0PkuX8UTt7glmJoO%2Fgorkbh6qxNeCg%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
   }
@@ -19,12 +19,12 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "08f62f5bd6554b1fbf32b40e39722688",
+    "id": "d4941515a57c4a438436de96f737304b",
     "datePublished": "2023-01-01T00:00:00+02:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "AwardCriteria-2.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ac487d4ec7e447d99d63d250e29aa574?Signature=okeD52UH%2BlwEFY48LEjZF6oYS6D%2Fx1VpT002FJnhEdLM2saeMiM4x%2BM2GQqeYWcLfpHoek24Xo4NhdBrPEuVCQ%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/38ea000c35bb4535ac1b069ffa75e145?Signature=XC43JidEhiOfuJdsBd9SdkEBZxHaZ5JqXcnSwadx3D1cnS9MfvTMd%2B9PAfHTdGUZCUIMsLZWpDChSpLS3YY1Bg%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "author": "tender_owner"

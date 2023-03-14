@@ -4,13 +4,11 @@ from unittest.mock import patch
 from datetime import timedelta
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.pricequotation.models import PriceQuotationTender
 from openprocurement.tender.pricequotation.tests.data import test_criteria_1, criteria_drop_uuids, test_short_profile
 from openprocurement.tender.pricequotation.tests.base import (
     BaseTenderWebTest,
     TenderContentWebTest,
     test_tender_data,
-    BaseApiWebTest,
 )
 
 from openprocurement.tender.pricequotation.tests.tender_blanks import (
@@ -60,6 +58,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_token_invalid,
     create_tender_with_required_unit,
     create_tender_with_earlier_non_required_unit,
+    create_tender_config_test,
 )
 
 
@@ -84,6 +83,7 @@ class TenderResourceTestMixin:
     test_tender_token_invalid = snitch(tender_token_invalid)
     test_create_tender_in_not_draft_status = snitch(create_tender_in_not_draft_status)
     test_patch_items_related_buyer_id = snitch(patch_items_related_buyer_id)
+    test_create_tender_config_test = snitch(create_tender_config_test)
 
 
 

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/118fb7835ef441e7881da132730071d0?acc_token=0f712374a39145a1be46d1c686df7376 HTTP/1.0
+PATCH /api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09?acc_token=b630da6f0eb34e9eb53e8be052b29ef3 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1162
 Content-Type: application/json
@@ -8,7 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "29438af4140f408185595f42f94c5799",
+        "id": "f250ed0f0e9b44c1ab6dfdd028054631",
         "description": "Послуги шкільних їдалень",
         "additionalClassifications": [
           {

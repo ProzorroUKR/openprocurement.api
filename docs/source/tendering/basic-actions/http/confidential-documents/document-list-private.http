@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/7a10c7f4fa484faca13613c1361ee4b3/bids/3083346e7e0a4ce0bf1114614d78e3be/documents?acc_token=10889623519e4589ba5cecab958d43b5 HTTP/1.0
+GET /api/2.5/tenders/2a5accd9090044dfba8773895b0bff51/bids/5cff484ac52046ce96d713e75a6af577/documents?acc_token=897e40cd3d56497e91e02203d74510ee HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -12,21 +12,21 @@ Content-Type: application/json
       "hash": "md5:00000000000000000000000000000000",
       "title": "private.doc",
       "format": "application/msword",
-      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7a10c7f4fa484faca13613c1361ee4b3/bids/3083346e7e0a4ce0bf1114614d78e3be/documents/5c7be8855e2847878ad538dafb05fb98?download=2b8ffb74c36644aa9b216aa7ca82eacc",
+      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a5accd9090044dfba8773895b0bff51/bids/5cff484ac52046ce96d713e75a6af577/documents/81b15b1242d24d9daa7ea82c67636d8b?download=bed8dcbd27644f418f3d0645d955859a",
       "documentOf": "tender",
       "confidentiality": "buyerOnly",
       "confidentialityRationale": "This document contains some secret data that shouldn't be public",
-      "id": "5c7be8855e2847878ad538dafb05fb98",
+      "id": "81b15b1242d24d9daa7ea82c67636d8b",
       "datePublished": "2023-01-01T00:00:00+02:00",
       "dateModified": "2023-01-01T00:00:00+02:00"
     },
     {
-      "id": "1c3e5be59f9b4d94981c8cfe05d6123e",
+      "id": "ac06ecba81dd44309d96e7324a43d22f",
       "datePublished": "2023-01-01T00:00:00+02:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "public-to-private.doc",
       "format": "application/msword",
-      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7a10c7f4fa484faca13613c1361ee4b3/bids/3083346e7e0a4ce0bf1114614d78e3be/documents/1c3e5be59f9b4d94981c8cfe05d6123e?download=47ac6dae16dd4b85b4557e53aa4e2e16",
+      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a5accd9090044dfba8773895b0bff51/bids/5cff484ac52046ce96d713e75a6af577/documents/ac06ecba81dd44309d96e7324a43d22f?download=48945373accd4d29ba34ccdf21d9804a",
       "documentOf": "tender",
       "dateModified": "2023-01-01T00:00:00+02:00",
       "confidentiality": "buyerOnly",
@@ -36,10 +36,10 @@ Content-Type: application/json
       "hash": "md5:00000000000000000000000000000000",
       "title": "public.doc",
       "format": "application/msword",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b733241fbd1c4542b551b3d5c23e04f9?Signature=yLiAUV50iyFKP6fXrHYOLIqWl4hwG9dCUkqgpB%2F0yuhmDaa4IMZzaWa8Bt%2BMdkyDBnVgwo0ZdoW1JcTz29IwDw%3D%3D&KeyID=a8968c46",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6b685322d12b4938a1485f15d7b8055c?Signature=Gqk57hUOrPwtwykDL1i7JDzVqpuQJOvTiHQ3vw9152GolAqDD10cXonoHkNGN%2Byv054UsWYfd33%2Bgze1Mo3EDg%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
       "confidentiality": "public",
-      "id": "192c94932298436da5cce9e2156d8f21",
+      "id": "6863b3ba7a15405da0e0276f446e38f2",
       "datePublished": "2023-01-01T00:00:00+02:00",
       "dateModified": "2023-01-01T00:00:00+02:00"
     }

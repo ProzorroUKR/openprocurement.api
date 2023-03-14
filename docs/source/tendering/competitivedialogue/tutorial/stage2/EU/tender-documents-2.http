@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/118fb7835ef441e7881da132730071d0/documents?acc_token=0f712374a39145a1be46d1c686df7376 HTTP/1.0
+GET /api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09/documents?acc_token=b630da6f0eb34e9eb53e8be052b29ef3 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -12,9 +12,9 @@ Content-Type: application/json
       "hash": "md5:00000000000000000000000000000000",
       "title": "Notice.pdf",
       "format": "application/pdf",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0ebab89f70e14ee79ac687594e90aa45?Signature=9aoCYzGqWd6EnH2PO5FddFgVKa0%2BzDPyB5hofn0%2FlwHTA%2BGSMyAGVFqho1BSeRayT%2Bjugg3Z26AyoNAr934UCA%3D%3D&KeyID=a8968c46",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/63ebbc56c5df46c682ae3253141537c6?Signature=Rk%2BJNloPWpOJ9faQvCwhu3o8qlqQ2BH2i5iotfJUYSqL5dRLlq%2Fl%2BP1kl6RupKwA0XnnnELX3BZQBKbqIoA9Cg%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
-      "id": "76ae4fb298fd4be1ae9b5f9ee94f447d",
+      "id": "91826d80bc774a13bbcbac2a53b38ae5",
       "datePublished": "2023-01-01T00:00:00+02:00",
       "dateModified": "2023-01-01T00:00:00+02:00",
       "author": "tender_owner"
@@ -23,9 +23,9 @@ Content-Type: application/json
       "hash": "md5:00000000000000000000000000000000",
       "title": "AwardCriteria.pdf",
       "format": "application/pdf",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0798ddc1fc8c46dd8a2d87c9f95d7a30?Signature=20AJfOxal2dtOCz4JJxLXz%2FUDNFsjbCPZT527W0cTZ1Ief9CLoyYGbXqyNcEFekRLAHQg5tVz%2Flxff%2Bf0MM4DQ%3D%3D&KeyID=a8968c46",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1d199cec1a7940a1963046a2d266b384?Signature=BNeTQEtO7DsxQz9yWgrvW5G%2FZXyVzyxYuI1Fe2e5x%2BWq4VhXI5iiASov%2FVfBfOL%2FsP9scczL6XuQ07S7Re0ZCQ%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
-      "id": "ef93c16e036d41069f317790333b4edd",
+      "id": "5594ef3336e9400ba0608fbd8c1fc3f3",
       "datePublished": "2023-01-01T00:00:00+02:00",
       "dateModified": "2023-01-01T00:00:00+02:00",
       "author": "tender_owner"

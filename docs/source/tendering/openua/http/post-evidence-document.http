@@ -1,13 +1,13 @@
-POST /api/2.5/tenders/7a10c7f4fa484faca13613c1361ee4b3/bids/3083346e7e0a4ce0bf1114614d78e3be/documents?acc_token=84b237fa308b4b3383344313bb98b47a HTTP/1.0
+POST /api/2.5/tenders/2a5accd9090044dfba8773895b0bff51/bids/5cff484ac52046ce96d713e75a6af577/documents?acc_token=7e5769dd84b844439dd9a0fce43ff6bc HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 352
+Content-Length: 358
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
     "title": "lorem.doc",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1f678fb111d144f083459f2ab38608bd?Signature=rERTkWGY6HcxGEfiZluUicdGLFpnOYKkgrYpIuKG5JKD%2FCl%2BNw7n8nMFpYiV8ZZEKAt9mjg85VmXHSwSeiadCw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8f0166f642ba4817896e6d8610fd91d0?Signature=Kb%2FzkkTIGdecQ0Pvvi%2FGxG2x4q%2BwrK9cklUhud0pR1dWWZcV58mwU8e68qCcS%2B0mCwzU19%2BM58E197KQDlFHAA%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/msword",
     "documentType": "evidence"
@@ -17,7 +17,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7a10c7f4fa484faca13613c1361ee4b3/bids/3083346e7e0a4ce0bf1114614d78e3be/documents/192c94932298436da5cce9e2156d8f21
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a5accd9090044dfba8773895b0bff51/bids/5cff484ac52046ce96d713e75a6af577/documents/6863b3ba7a15405da0e0276f446e38f2
 
 {
   "data": {
@@ -25,10 +25,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7a10c7f4fa484fac
     "hash": "md5:00000000000000000000000000000000",
     "title": "lorem.doc",
     "format": "application/msword",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1f678fb111d144f083459f2ab38608bd?Signature=X2WOYhG%2Fij6fhaSEmHty%2Bd7M1yFzS3Xzd0iTv4UkN2JWcWnraQeKuOe1DZbRLLMoGIO0Wawti5B1nRSexeeZAA%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8f0166f642ba4817896e6d8610fd91d0?Signature=PoAcgcxtH3J1qbTNn75N4x3nLKqkGBSbaF4pKCJpQ6p0ja%2B9aj0ayz7BVVEW2cQP0MapEKLjVBAT%2FxPBRmVqDA%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "confidentiality": "public",
-    "id": "192c94932298436da5cce9e2156d8f21",
+    "id": "6863b3ba7a15405da0e0276f446e38f2",
     "datePublished": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00"
   }

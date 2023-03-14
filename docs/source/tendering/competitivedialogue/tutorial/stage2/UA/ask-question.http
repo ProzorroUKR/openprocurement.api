@@ -1,6 +1,6 @@
-POST /api/2.5/tenders/f5b1f7dad1d64ec09e0d406e09e7e816/questions HTTP/1.0
+POST /api/2.5/tenders/32bf03368c4c49869cf9b1103c9c69f8/questions HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1141
+Content-Length: 1525
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -21,6 +21,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       "identifier": {
         "scheme": "UA-EDR",
+        "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
         "id": "00137226",
         "uri": "http://www.sc.gov.ua/"
       },
@@ -34,7 +35,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f5b1f7dad1d64ec09e0d406e09e7e816/questions/b312c1526e0e4b90a11a773a757a6fee
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32bf03368c4c49869cf9b1103c9c69f8/questions/fed927af8b5545a098bfd4d3fb29cc45
 
 {
   "data": {
@@ -43,6 +44,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f5b1f7dad1d64ec0
       "identifier": {
         "scheme": "UA-EDR",
         "id": "00137226",
+        "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
         "uri": "http://www.sc.gov.ua/"
       },
       "address": {
@@ -61,7 +63,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f5b1f7dad1d64ec0
     "title": "Калорійність",
     "description": "Просимо додати таблицю потрібної калорійності харчування",
     "questionOf": "tender",
-    "id": "b312c1526e0e4b90a11a773a757a6fee",
+    "id": "fed927af8b5545a098bfd4d3fb29cc45",
     "date": "2023-01-01T00:00:00+02:00"
   }
 }

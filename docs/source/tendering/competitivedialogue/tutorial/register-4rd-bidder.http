@@ -1,6 +1,6 @@
-POST /api/2.5/tenders/bc2c91a2523c470086cae2222065fc32/bids HTTP/1.0
+POST /api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1584
+Content-Length: 1576
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -33,13 +33,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "documents": [
       {
         "title": "Proposal_part1.pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/18236fa45edb456ca74c8320b4b0d2b8?Signature=9tVE6i4gw6ZVI70DEW4Y0Evhgl%2BRhLEVDHxzBX%2BAOAhVWmr4uJVXJlaSN1YbMr5VeOlsCOo8mnOq4g1pjEbXDA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/512e62ad72064144a492ddadd0c8df6f?Signature=vD6fFbmqABMk3%2FxhiY7juJ3dU02KKTi7X3kj9ddJhgYN%2FqWlEu%2FYT4UWB2nZ1DKq820r5eFGWpUwENmd3cevCw%3D%3D&KeyID=a8968c46",
         "hash": "md5:00000000000000000000000000000000",
         "format": "application/pdf"
       },
       {
         "title": "Proposal_part2.pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/aec550f71c1e47f4bb789564fdfa149c?Signature=qhTXOzPmmkUYK%2BNetKCt79%2FO0w3VCztL2P8TTtGqGGRgBKdzoFF87kb%2FpLOCYHRgKvmfGmn3n%2FSG7o%2F%2BV3rrBQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0949e250dfc14f529d528e285cbde095?Signature=zhifbYvSw2AuZYseVDtoEiwX5JeQMidVmlLnLuvC96hv5FibGGunxdDgwTHk9SWtsguhKX4q%2FkV2aITO1JpCBQ%3D%3D&KeyID=a8968c46",
         "hash": "md5:00000000000000000000000000000000",
         "format": "application/pdf",
         "confidentiality": "buyerOnly",
@@ -53,7 +53,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc2c91a2523c470086cae2222065fc32/bids/e70ebe527c8d4c05bf42eec55c58c6ac
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids/cc48b50d0f4445c7b01da298b7dccb8c
 
 {
   "data": {
@@ -85,12 +85,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc2c91a2523c4700
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/18236fa45edb456ca74c8320b4b0d2b8?Signature=2tXvP8ECxXUCuKzXtQhvKzz2gUUTv86aaWK209GAAvOjZ1wEQIGilN5iGCXZaKNvybgsfm2Vb4kphWWkaqFFCA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/512e62ad72064144a492ddadd0c8df6f?Signature=jowdtY2DvSznH4xF0PR4itAaLc1gBn4qAjnxkvLwn4e7WieDPO%2Fv4jwtUcgQhtwIfMXehOy%2FUjRzg9R22JdAAQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk",
         "isDescriptionDecision": false,
-        "id": "dc5348f72b664d03befbf5ab7a098c0d",
+        "id": "4204424841514066aa280e4ea1fc1983",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "dateModified": "2023-01-01T00:00:00+02:00"
       },
@@ -103,19 +103,19 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc2c91a2523c4700
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "language": "uk",
         "isDescriptionDecision": false,
-        "id": "7653a91b3f2b4f67b7eeef7daa0a887d",
+        "id": "bae2b712ea9141d3b5b53073b786a3cf",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "dateModified": "2023-01-01T00:00:00+02:00"
       }
     ],
     "selfQualified": true,
     "status": "draft",
-    "id": "e70ebe527c8d4c05bf42eec55c58c6ac",
+    "id": "cc48b50d0f4445c7b01da298b7dccb8c",
     "date": "2023-01-01T00:00:00+02:00"
   },
   "access": {
-    "token": "23ca7aea09d54fc7b489cdafd6bb1c51",
-    "transfer": "3aafa69bea5d42a98674ab079df949f8"
+    "token": "6bd826026f4543b9bc157cb70b2a2f55",
+    "transfer": "8465ceae28cd44d5aac2d65d7a0c1c70"
   }
 }
 

@@ -1,4 +1,4 @@
-PATCH /api/2.5/agreements/1746cfba69864f7d996e4bd000858884?acc_token=6c0d90bcb85a4aafb10ed56df23cfa38 HTTP/1.0
+PATCH /api/2.5/agreements/1746cfba69864f7d996e4bd000858884?acc_token=aab65e490788430f8cce6e18e011268f HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 34
 Content-Type: application/json
@@ -39,42 +39,42 @@ Content-Type: application/json
     ],
     "documents": [
       {
-        "id": "50a0c7299c1b405b85cce83677a54dce",
+        "id": "609409e8a6d7475f93a90e94375fb2f2",
         "hash": "md5:00000000000000000000000000000000",
         "title": "agreement_changes.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f4710cf1486d4b2c8108e3247c41b416?Signature=bfpgyQZrSDSVWMwk53MAxYhfO7hvqyRJgojCjM86wsWPADiAqvFcPutQ%2FvGIRfFz%2B44IcLFd3aK0F1tC2vCzAA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/711ea6b2fbaf40dca24dafb911e13fc8?Signature=VrEO7RUi2UqTpzKbB75Ae9qBzTyi6n4VMCF7wdNZ%2FJUTns%2BpGDcEFHcaKPlvHeEuPOsk7tczI4Lq10IHYJ%2FuDA%3D%3D&KeyID=a8968c46",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "relatedItem": "12f43718ecbf474886b7f3545a7debe5",
         "documentOf": "change"
       },
       {
-        "id": "a69bf378ea194516aacb23e20d8863dc",
+        "id": "533dbc0fa33e4847b0347a4214060ced",
         "hash": "md5:00000000000000000000000000000000",
         "title": "agreement.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3a707862232e40e2b63a767ad021874b?Signature=uns6nv2sJUcEhqNYmfT%2F8yVxfxgWH75Msgby03%2BZvTpjSf1RHY0OhyiUP%2BbJyk%2Fwe6rO%2FihvOClpFFv5hRHVBg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/37d18c5759474877a074f9fd73d9f309?Signature=QXkoGo7r0SD7Miz0uW75JY5%2BEDXR4J%2Bi7z6UGnP9MoVt0qnwHASpN7g8gs81ZBpbhNUec%2BH2FzjdXySRUaZtCQ%3D%3D&KeyID=a8968c46",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "documentOf": "agreement"
       },
       {
-        "id": "0fc90c405e6246e9a74039cb4f253fe2",
+        "id": "b8a98c5d73aa49f0a0fc11f670517f55",
         "hash": "md5:00000000000000000000000000000000",
         "title": "agreement_additional_docs.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/424584f8b0e24b54a657ba6d6edd6f3e?Signature=SxLjE3UyFjhP2029EQMhwYbXf16OCBwAmiQVy7t6Hnu35gsjGxPavIWwEneBeSlGz0NqpsoP3wMzs3dgVm5FBw%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/236e52bfd0544af3a63b07325306ef15?Signature=xb3aZmBRE7gbJkxQEN%2FABaUPvwJDHQK8opyRkU5wKogWbwz5pf%2FMc0IsWKc36HYyXYOgWW%2Bk8h8rPKTNvJMCCA%3D%3D&KeyID=a8968c46",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "documentOf": "agreement"
       },
       {
-        "id": "0fc90c405e6246e9a74039cb4f253fe2",
+        "id": "b8a98c5d73aa49f0a0fc11f670517f55",
         "hash": "md5:00000000000000000000000000000000",
         "title": "agreement_additional_docs.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7e70b30e78a340e1b625b1238865da5a?Signature=YK3AGR61a7xDhICGcQT8yJULvB74pH%2BLexZbFYv5a1ygYUEAsXuywOVlMrY6cDS%2FczFLxmU7r4dzsJ8kX87FCA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3af481ed19e248bba78454fa650169ed?Signature=%2BCzka8hVahNy3sEGewlIeMfyiNJMIH0prWk6bHX4iSOwZisARfC5%2BKJTbuIiirL2RqXRjXbb9xk44rd1HRPsCA%3D%3D&KeyID=a8968c46",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "documentOf": "agreement"

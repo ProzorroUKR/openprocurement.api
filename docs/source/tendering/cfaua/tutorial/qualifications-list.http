@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/b69c06ceeeb145a4b5cc46d3d56de4d2/awards?acc_token=bf73c010063f4fb4a07e775871e11d60 HTTP/1.0
+GET /api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/awards?acc_token=5a77c92a3fdf47b4917bc23307e42385 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "86c6429d28514328a1b5ea4e242b5566",
+      "id": "2a2002a6fa2f47f78dc4da24d7775c8e",
       "status": "pending",
       "date": "2023-01-01T00:00:00+02:00",
       "value": {
@@ -40,11 +40,11 @@ Content-Type: application/json
           "scale": "mid"
         }
       ],
-      "bid_id": "dcda7735b5384d7b803444397600baf1",
-      "lotID": "52815e9d01914c7a9bf4ba18ebb5e783"
+      "bid_id": "c3e41a3a099a41ad864be3893e0711b5",
+      "lotID": "9dea7e57fca24c0fa6c43f752611342d"
     },
     {
-      "id": "7ca77a4004fc4c4b82e1e067f24ac7a5",
+      "id": "241f656eaca34d4fb668ffdeda41eb90",
       "status": "pending",
       "date": "2023-01-01T00:00:00+02:00",
       "value": {
@@ -58,6 +58,7 @@ Content-Type: application/json
           "identifier": {
             "scheme": "UA-EDR",
             "id": "00137226",
+            "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
             "uri": "http://www.sc.gov.ua/"
           },
           "address": {
@@ -75,11 +76,11 @@ Content-Type: application/json
           "scale": "sme"
         }
       ],
-      "bid_id": "a9427978bcd440bda085ad41b2547b78",
-      "lotID": "52815e9d01914c7a9bf4ba18ebb5e783"
+      "bid_id": "8f1f5d51afcd4521ae73bc0799c5445d",
+      "lotID": "9dea7e57fca24c0fa6c43f752611342d"
     },
     {
-      "id": "969097e43d234043b910afd9a70d8ccf",
+      "id": "2611ea540eef46e5bf5550c24aecb052",
       "status": "pending",
       "date": "2023-01-01T00:00:00+02:00",
       "value": {
@@ -111,8 +112,8 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "bid_id": "6bf64eb443e54b8db51e4156558d97e0",
-      "lotID": "52815e9d01914c7a9bf4ba18ebb5e783"
+      "bid_id": "381f5658b23a448ea820b823934eeb79",
+      "lotID": "9dea7e57fca24c0fa6c43f752611342d"
     }
   ]
 }

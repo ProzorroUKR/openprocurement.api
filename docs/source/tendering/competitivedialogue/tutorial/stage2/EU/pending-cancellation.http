@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/118fb7835ef441e7881da132730071d0/cancellations/a79a8d26281f4bd8944e13511d89758a?acc_token=0f712374a39145a1be46d1c686df7376 HTTP/1.0
+PATCH /api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09/cancellations/b857da1670b74f6fa6b68654701bc76e?acc_token=b630da6f0eb34e9eb53e8be052b29ef3 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 31
 Content-Type: application/json
@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "a79a8d26281f4bd8944e13511d89758a",
+    "id": "b857da1670b74f6fa6b68654701bc76e",
     "status": "pending",
     "date": "2023-01-01T00:00:01+02:00",
     "reasonType": "unFixable",
@@ -25,23 +25,23 @@ Content-Type: application/json
     "documents": [
       {
         "description": "Changed description",
-        "id": "987a6216f6264093967129c1e7cf439c",
+        "id": "09dbc3892fed4114bacc9601829ec12b",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/118fb7835ef441e7881da132730071d0/cancellations/a79a8d26281f4bd8944e13511d89758a/documents/987a6216f6264093967129c1e7cf439c?download=603ff953206a48968f44583c2937c875",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09/cancellations/b857da1670b74f6fa6b68654701bc76e/documents/09dbc3892fed4114bacc9601829ec12b?download=010758f9c0b24caeaca8dc1b6f158166",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:01+02:00"
       },
       {
         "description": "Changed description",
-        "id": "987a6216f6264093967129c1e7cf439c",
+        "id": "09dbc3892fed4114bacc9601829ec12b",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice-2.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/118fb7835ef441e7881da132730071d0/cancellations/a79a8d26281f4bd8944e13511d89758a/documents/987a6216f6264093967129c1e7cf439c?download=fd00e687601e4940ab4eb62d816d20b0",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09/cancellations/b857da1670b74f6fa6b68654701bc76e/documents/09dbc3892fed4114bacc9601829ec12b?download=00cdcec8face42758b491edf6482eb2f",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:01+02:00"
       }

@@ -37,7 +37,7 @@ def validate_json_data(request, allow_bulk=False):
         request.errors.status = 422
         raise error_handler(request)
     request.validated["json_data"] = data
-    return json["data"]
+    return data
 
 
 def validate_object_data(request, model, partial=False, data=None, allow_bulk=False):

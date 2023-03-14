@@ -10,6 +10,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_milestones_not_required,
     create_tender_central,
     create_tender_central_invalid,
+    create_tender_config_test,
 )
 from openprocurement.tender.cfaselectionua.tests.base import (
     test_lots,
@@ -87,6 +88,7 @@ class TenderResourceTestMixin(object):
     test_tender_funders = snitch(tender_funders)
     test_patch_tender_bot = snitch(patch_tender_bot)
     test_create_tender_with_available_language = snitch(create_tender_with_available_language)
+    test_create_tender_config_test = snitch(create_tender_config_test)
 
 
 

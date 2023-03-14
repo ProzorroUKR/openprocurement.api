@@ -1,0 +1,29 @@
+GET /api/2.5/submissions?opt_fields=frameworkID,status HTTP/1.0
+Authorization: Bearer broker1
+Host: lb-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "frameworkID": "27ccdb80d4234f69b99ab9ad18ecf6e1",
+      "dateModified": "2023-01-17T00:00:00+02:00",
+      "status": "active",
+      "id": "9e93d88b8dfd41389080ad700066e320"
+    },
+    {
+      "dateModified": "2023-01-17T00:00:00+02:00",
+      "id": "ffaa523497964dd1be5e764ee48b9eac",
+      "restricted": true
+    }
+  ],
+  "next_page": {
+    "offset": 1673906400.0,
+    "path": "/api/2.5/submissions?opt_fields=frameworkID%2Cstatus&offset=1673906400.0",
+    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions?opt_fields=frameworkID%2Cstatus&offset=1673906400.0"
+  }
+}
+

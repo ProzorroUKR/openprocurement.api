@@ -1,0 +1,106 @@
+PATCH /api/2.5/frameworks/19554516edc64b80ad4a2834f4505fbe?acc_token=5f94ccea4dfb4cdebd5de69ecd449013 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 30
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "active"
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "prettyID": "UA-F-2023-01-01-000001",
+    "title": "updated in draft status",
+    "description": "Назва предмета закупівлі",
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "owner": "broker",
+    "status": "active",
+    "period": {
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-31T00:00:00+02:00"
+    },
+    "qualificationPeriod": {
+      "startDate": "2023-01-01T00:00:01+02:00",
+      "endDate": "2023-03-02T00:00:00+02:00"
+    },
+    "enquiryPeriod": {
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-01T00:00:01+02:00"
+    },
+    "frameworkType": "electronicCatalogue",
+    "procuringEntity": {
+      "name": "Повна назва юридичної організації.",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "40996564",
+        "legalName": "Назва організації(ЦЗО)"
+      },
+      "address": {
+        "countryName": "Україна",
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220"
+      },
+      "contactPoint": {
+        "name": "Назва організації(ЦЗО)",
+        "telephone": "+0440000001",
+        "email": "aa@aa.com"
+      },
+      "kind": "central"
+    },
+    "classification": {
+      "description": "Mustard seeds",
+      "scheme": "ДК021",
+      "id": "03111600-8"
+    },
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003",
+        "id": "17.21.1",
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ],
+    "documents": [
+      {
+        "id": "021bc47f454a4a3fa991e99268ca6148",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "framework.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ae2f8182de904eef92f691e3043c4698?Signature=oDn9Tb4uL9HVxmdblzzP3ua2XJCOBnQPVthbjYy%2FrwLJ7g8mgOVRPHDO5xl4ar%2BTLHvRUbJE54VlISi6fUEICA%3D%3D&KeyID=a8968c46",
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
+      },
+      {
+        "id": "d220eb62f60a4ae88103b7369be80fdb",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "framework_additional_docs.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9391730d81504cb1a89d902205585047?Signature=GckTmK4GCug67LIfPCU5zhGbAKD24V4ie%2BSNl6gGpSA6PRHJFj58oE%2F4pKEWp2r4%2FeKKYwu4Ir4lH3kk%2Bbv5CQ%3D%3D&KeyID=a8968c46",
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
+      },
+      {
+        "id": "d220eb62f60a4ae88103b7369be80fdb",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "framework_additional_docs.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f0c1e419fc8f4a92b7a4d02d6bc44504?Signature=QwHlQqaj1YoV9Hj13rib4fRT3TA85dvzgEobHEOxSJ59%2FROoBNsLtX1wv91KhTzDuNWjbiWjfvopEEu1Cj5VAA%3D%3D&KeyID=a8968c46",
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
+      }
+    ],
+    "id": "19554516edc64b80ad4a2834f4505fbe",
+    "next_check": "2023-01-28T00:00:00+02:00"
+  }
+}
+

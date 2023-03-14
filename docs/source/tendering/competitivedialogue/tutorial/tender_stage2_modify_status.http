@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/7f1206e6f8c64a7e961ce9628ab9ee3f?acc_token=b32b0e5f6e254b42a4d7624afad048f7 HTTP/1.0
+PATCH /api/2.5/tenders/c1ecbb7654494927b3713d6f2307973d?acc_token=296f1a32cea14c31822bbd19727e03f5 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 40
 Content-Type: application/json
@@ -78,7 +78,7 @@ Content-Type: application/json
     "procurementMethod": "selective",
     "items": [
       {
-        "id": "c4d04805d5b0407bb6587b11281dec24",
+        "id": "a789515915fc431d9f9cde4188c621f2",
         "description": "Послуги шкільних їдалень",
         "additionalClassifications": [
           {
@@ -116,7 +116,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "b8754e3d2a1a4b32bab42262dda6a7ad",
+        "id": "2f425a1372a445cea9f10390e9709db1",
         "description": "Послуги шкільних їдалень",
         "additionalClassifications": [
           {
@@ -182,7 +182,7 @@ Content-Type: application/json
     ],
     "status": "active.tendering",
     "next_check": "2023-01-31T00:00:00+02:00",
-    "id": "7f1206e6f8c64a7e961ce9628ab9ee3f"
+    "id": "c1ecbb7654494927b3713d6f2307973d"
   }
 }
 

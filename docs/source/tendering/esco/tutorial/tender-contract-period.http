@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/501cb77768e446f39265deb722b208a3/contracts/6d354e38b01344c8b4b96b2a3ab1e3cc?acc_token=5fe46d42add34695b80ca0158b173e47 HTTP/1.0
+PATCH /api/2.5/tenders/28db6af763c74fceaedc98e147fed6cb/contracts/f72f486dbcff450798ea757eecf3b8d4?acc_token=871fba7d0f2840d48ed2394d778a5004 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 104
 Content-Type: application/json
@@ -19,8 +19,8 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "6d354e38b01344c8b4b96b2a3ab1e3cc",
-    "awardID": "521f077fc20742f78da0d564916c217b",
+    "id": "f72f486dbcff450798ea757eecf3b8d4",
+    "awardID": "811ebc253fdc42e1bc7c8fa3504e20be",
     "contractID": "UA-2023-01-01-000001-a-1",
     "contractNumber": "contract#1",
     "status": "pending",
@@ -91,7 +91,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "04711795285e4a959ad53e60f10dded2",
+        "id": "6109d472d8f34975a00dd5709cff36a1",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "classification": {
@@ -115,7 +115,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "fee1fb171aea440c97cfb33a1a3a0608",
+        "id": "f1e2dd652ddf4a4296acc94e78be41e0",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "classification": {

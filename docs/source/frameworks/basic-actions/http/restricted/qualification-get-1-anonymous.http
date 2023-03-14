@@ -1,0 +1,18 @@
+GET /api/2.5/qualifications/9d4d0508fff44ed38a945f4e6f66d4f9 HTTP/1.0
+Host: lb-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Access restricted for qualification object"
+    }
+  ]
+}
+

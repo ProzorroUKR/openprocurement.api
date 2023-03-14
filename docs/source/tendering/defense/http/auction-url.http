@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/3d69f16d617642b88f9248c606bb0723 HTTP/1.0
+GET /api/2.5/tenders/3cf3333f00394e93bc3caaea00cbe9e2 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -14,12 +14,13 @@ Content-Type: application/json
     "tenderID": "UA-2023-01-01-000001-a",
     "questions": [
       {
-        "id": "9fa3cf28eff948acb5937f7742ca8da2",
+        "id": "5a1d41f4c6764d50a0b12798ec87c354",
         "author": {
           "name": "ДКП «Книга»",
           "identifier": {
             "scheme": "UA-EDR",
             "id": "00137226",
+            "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
             "uri": "http://www.sc.gov.ua/"
           },
           "address": {
@@ -45,34 +46,34 @@ Content-Type: application/json
     ],
     "documents": [
       {
-        "id": "7fb71bf1496c4417846debad10466f80",
+        "id": "bc849d18b3314e91a4fc0514dc7d72a9",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3d69f16d617642b88f9248c606bb0723/documents/7fb71bf1496c4417846debad10466f80?download=cb62bd21fee54c2798310d1f002f5979",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3cf3333f00394e93bc3caaea00cbe9e2/documents/bc849d18b3314e91a4fc0514dc7d72a9?download=652841daeeeb439495081421efd95a14",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner"
       },
       {
-        "id": "df1a2d8f752f43698689e65df03f49bf",
+        "id": "eb95c0398dba46658d3b07edaa947188",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3d69f16d617642b88f9248c606bb0723/documents/df1a2d8f752f43698689e65df03f49bf?download=cec65d4002a34d21b80a8a99f446457a",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3cf3333f00394e93bc3caaea00cbe9e2/documents/eb95c0398dba46658d3b07edaa947188?download=d3b3e9515e024fcfab143be97a3e7ec9",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner"
       },
       {
-        "id": "df1a2d8f752f43698689e65df03f49bf",
+        "id": "eb95c0398dba46658d3b07edaa947188",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3d69f16d617642b88f9248c606bb0723/documents/df1a2d8f752f43698689e65df03f49bf?download=d6bfd85ae5664eb288287294d4714fa0",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3cf3333f00394e93bc3caaea00cbe9e2/documents/eb95c0398dba46658d3b07edaa947188?download=69070d50771a4daca7c07e2513280022",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner"
@@ -116,7 +117,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "3ddefd0abcb646e282e7af89b364adce",
+        "id": "751b591b7605421bb8cc3f258b26afc2",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -142,7 +143,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "70a277ae70f84244a5118938e9d17de0",
+        "id": "d7ad37910a9845afa314850acc7d7c90",
         "description": "Послуги шкільних їдалень",
         "classification": {
           "description": "Послуги з харчування у школах",
@@ -206,8 +207,8 @@ Content-Type: application/json
       "startDate": "2022-12-19T00:00:00+02:00",
       "endDate": "2023-01-05T00:00:00+02:00"
     },
-    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/3d69f16d617642b88f9248c606bb0723",
-    "id": "3d69f16d617642b88f9248c606bb0723"
+    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/3cf3333f00394e93bc3caaea00cbe9e2",
+    "id": "3cf3333f00394e93bc3caaea00cbe9e2"
   }
 }
 
