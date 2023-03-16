@@ -37,7 +37,10 @@ class BidState(BaseState):
                 f"Bid value amount changed from {amount_before} to {amount_after}",
                 extra=context_unpack(
                     get_request(),
-                    {"MESSAGE_ID": "bid_amount_changed"}
+                    {"MESSAGE_ID": "bid_amount_changed"},
+                    {
+                        "BID_ID": after["id"],
+                    },
                 ),
             )
             after["date"] = get_now().isoformat()
@@ -52,7 +55,10 @@ class BidState(BaseState):
                             extra=context_unpack(
                                 get_request(),
                                 {"MESSAGE_ID": "bid_amount_changed"},
-                                {"LOT_ID": after_lot["relatedLot"]}
+                                {
+                                    "BID_ID": after["id"],
+                                    "LOT_ID": after_lot["relatedLot"],
+                                },
                             )
                         )
                         after_lot["date"] = now
