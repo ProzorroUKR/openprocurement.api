@@ -16,7 +16,7 @@ from openprocurement.api.utils import (
 )
 from openprocurement.framework.open.tests.base import (
     test_framework_open_data,
-    BaseOpenWebTest,
+    BaseFrameworkWebTest,
 )
 
 TARGET_DIR = 'docs/source/frameworks/open/tutorial/'
@@ -24,7 +24,7 @@ TARGET_DIR = 'docs/source/frameworks/open/tutorial/'
 test_framework_open_data = deepcopy(test_framework_open_data)
 
 
-class FrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
+class FrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
     AppClass = DumpsWebTestApp
     relative_to = os.path.dirname(__file__)
     initial_data = test_framework_open_data

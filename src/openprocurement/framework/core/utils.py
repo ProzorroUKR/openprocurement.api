@@ -515,7 +515,7 @@ def check_contract_statuses(request, now=None):
         if contract.status == "suspended":
             for milestone in contract.milestones[::-1]:
                 if milestone.type == "ban":
-                    if milestone.dueDate < now:
+                    if milestone.dueDate <= now:
                         contract.status = "active"
                         milestone.status = "met"
                         milestone.dateModified = now

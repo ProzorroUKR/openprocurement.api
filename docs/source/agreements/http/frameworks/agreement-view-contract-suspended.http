@@ -57,7 +57,7 @@ Content-Type: application/json
       {
         "id": "cf98ae254a2445ecbbc07a6d2f0fd216",
         "qualificationID": "731194384d994251a0f01ffedfb65d72",
-        "status": "active",
+        "status": "suspended",
         "submissionID": "42a0db3a5d9c4fe2aa5595b429d99a0f",
         "suppliers": [
           {
@@ -89,6 +89,24 @@ Content-Type: application/json
             "type": "activation",
             "status": "scheduled",
             "dueDate": "2023-05-01T00:00:00+02:00",
+            "dateModified": "2023-01-01T00:00:00+02:00"
+          },
+          {
+            "id": "50dff194ff234f078ddbdc8eee8bb975",
+            "type": "ban",
+            "status": "scheduled",
+            "dueDate": "2023-04-01T00:00:00+02:00",
+            "documents": [
+              {
+                "id": "c4f28605b3054704af458a153dc66391",
+                "hash": "md5:00000000000000000000000000000000",
+                "title": "milestone.doc",
+                "format": "application/msword",
+                "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a93994f065df4d3ca64b444542d551af?Signature=ssBl83MWeot5d8sSBJb2t%2FjtQfgSoyUUn2h20%2BrYm6aGNPkRW0PrdrMCQ4iyBjCYoSov83mdaHr4lCi5qfofBg%3D%3D&KeyID=a8968c46",
+                "datePublished": "2023-01-01T00:00:00+02:00",
+                "dateModified": "2023-01-01T00:00:00+02:00"
+              }
+            ],
             "dateModified": "2023-01-01T00:00:00+02:00"
           }
         ],
@@ -136,7 +154,7 @@ Content-Type: application/json
       }
     ],
     "id": "562e05f3122f4cd7a8032273ab2ab575",
-    "next_check": "2023-05-01T00:00:00+02:00"
+    "next_check": "2023-04-01T00:00:00+02:00"
   }
 }
 
