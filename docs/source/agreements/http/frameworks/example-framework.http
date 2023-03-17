@@ -11,22 +11,22 @@ Content-Type: application/json
     "prettyID": "UA-F-2023-01-01-000001",
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2022-12-31T23:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-17T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
     "owner": "test",
     "status": "active",
     "period": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-31T00:00:00+02:00"
+      "startDate": "2022-12-31T23:00:00+02:00",
+      "endDate": "2023-04-01T00:00:00+02:00"
     },
     "qualificationPeriod": {
-      "startDate": "2023-01-11T00:00:00+02:00",
-      "endDate": "2023-03-03T00:00:00+02:00"
+      "startDate": "2022-12-31T23:00:01+02:00",
+      "endDate": "2023-05-01T00:00:00+02:00"
     },
     "enquiryPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-11T00:00:00+02:00"
+      "startDate": "2022-12-31T23:00:00+02:00",
+      "endDate": "2022-12-31T23:00:01+02:00"
     },
     "frameworkType": "electronicCatalogue",
     "procuringEntity": {

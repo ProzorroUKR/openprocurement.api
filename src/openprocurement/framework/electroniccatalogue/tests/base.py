@@ -164,7 +164,7 @@ class BaseApiWebTest(BaseWebTest):
     initial_auth = ("Basic", ("broker", ""))
 
 
-class BaseElectronicCatalogueWebTest(BaseCoreWebTest):
+class BaseFrameworkWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_framework_electronic_catalogue_data
     initial_config = {}
@@ -182,7 +182,7 @@ class BaseElectronicCatalogueWebTest(BaseCoreWebTest):
                 "data": data,
                 "config": config,
             }
-            )
+        )
         self.framework_token = response.json["access"]["token"]
         self.framework_id = response.json["data"]["id"]
         self.assertEqual(response.json["data"]["frameworkType"], self.framework_type)
@@ -207,19 +207,19 @@ class BaseElectronicCatalogueWebTest(BaseCoreWebTest):
             self.framework_document_patch = {}
 
 
-class ElectronicCatalogueContentWebTest(BaseElectronicCatalogueWebTest):
+class FrameworkContentWebTest(BaseFrameworkWebTest):
     initial_status = None
 
     def setUp(self):
-        super(ElectronicCatalogueContentWebTest, self).setUp()
+        super(FrameworkContentWebTest, self).setUp()
         self.create_framework()
 
 
-class BaseDSElectronicCatalogueContentWebTest(ElectronicCatalogueContentWebTest):
+class BaseDSFrameworkContentWebTest(FrameworkContentWebTest):
     docservice = True
 
 
-class BaseSubmissionContentWebTest(ElectronicCatalogueContentWebTest):
+class BaseSubmissionContentWebTest(FrameworkContentWebTest):
     initial_submission_data = None
     initial_submission_config = {}
 

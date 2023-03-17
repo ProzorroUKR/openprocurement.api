@@ -4,6 +4,7 @@ from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
 
+from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderWebTest, test_tender_data, test_lots
@@ -11,7 +12,7 @@ from openprocurement.tender.cfaua.tests.base import (
 from openprocurement.framework.electroniccatalogue.tests.base import (
     test_framework_electronic_catalogue_data,
     ban_milestone_data_with_documents,
-    BaseElectronicCatalogueWebTest,
+    BaseFrameworkWebTest,
 )
 
 from tests.base.data import tenderer
@@ -91,7 +92,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         response = self.app.post_json(request_path, {'data': test_agreement_data})
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.json['data']['status'], 'active')
-        self.app.get(request_path)  # need to start couchdb indexing views, so next request gives results
 
         # Getting agreement
         self.app.authorization = None
@@ -237,7 +237,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 TARGET_EC_DIR = BASE_DIR + "frameworks/"
 
 
-class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTestMixin):
+class ElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
@@ -248,6 +248,8 @@ class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTes
     def setUp(self):
         super(ElectronicCatalogueResourceTest, self).setUp()
         self.setUpMock()
+        self.initial_data = deepcopy(self.initial_data)
+        self.initial_data["qualificationPeriod"] = {"endDate": (get_now() + timedelta(days=120)).isoformat()}
 
     def tearDown(self):
         self.tearDownMock()
@@ -256,9 +258,7 @@ class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTes
     def test_docs(self):
         self.create_framework()
         auth = self.app.authorization
-        self.set_status("active")
-
-        self.tick(delta=timedelta(days=16))
+        self.activate_framework()
 
         self.app.authorization = ('Basic', ('broker', ''))
 
@@ -316,12 +316,11 @@ class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTes
             {'data': {"status": "active"}},
         )
 
-        response = self.app.get(f"/frameworks/{self.framework_id}")
-        self.agreement_id = response.json["data"]["agreementID"]
-
         with open(TARGET_EC_DIR + 'example-framework.http', 'wb') as self.app.file_obj :
             response = self.app.get(f'/frameworks/{self.framework_id}')
             self.assertEqual(response.status, '200 OK')
+
+        self.agreement_id = response.json["data"]["agreementID"]
 
         with open(TARGET_EC_DIR + 'agreement-view.http', 'wb') as self.app.file_obj:
             response = self.app.get(f'/agreements/{self.agreement_id}')
@@ -330,11 +329,67 @@ class ElectronicCatalogueResourceTest(BaseElectronicCatalogueWebTest, MockWebTes
         contract_1_id = response.json['data']['contracts'][0]['id']
         contract_2_id = response.json['data']['contracts'][1]['id']
 
+        with open(TARGET_EC_DIR + 'milestone-list.http', 'wb') as self.app.file_obj:
+            response = self.app.get(
+                f"/agreements/{self.agreement_id}/contracts/{contract_1_id}/milestones",
+            )
+        contract_1_activation_milestone_id = response.json['data'][0]['id']
+
         ban_milestone = deepcopy(ban_milestone_data_with_documents)
         ban_milestone["documents"][0]["url"] = self.generate_docservice_url()
 
-        with open(TARGET_EC_DIR + 'post-milestone-ban.http', 'wb') as self.app.file_obj:
+        with open(TARGET_EC_DIR + 'milestone-ban-post.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
-                f"/agreements/{self.agreement_id}/contracts/{contract_1_id}/milestones?acc_token={self.framework_token}",
+                f"/agreements/{self.agreement_id}"
+                f"/contracts/{contract_1_id}"
+                f"/milestones"
+                f"?acc_token={self.framework_token}",
                 {'data': ban_milestone},
             )
+        contract_1_ban_milestone_id = response.json['data']['id']
+
+        with open(TARGET_EC_DIR + 'agreement-view-contract-suspended.http', 'wb') as self.app.file_obj:
+            response = self.app.get(f'/agreements/{self.agreement_id}')
+            self.assertEqual(response.status, '200 OK')
+
+        self.assertEqual(response.json["data"]["contracts"][0]["status"], "suspended")
+
+        self.tick(delta=timedelta(days=90))
+        self.check_agreement_chronograph()
+
+        with open(TARGET_EC_DIR + 'agreement-view-contract-active.http', 'wb') as self.app.file_obj:
+            response = self.app.get(f'/agreements/{self.agreement_id}')
+            self.assertEqual(response.status, '200 OK')
+
+        self.assertEqual(response.json["data"]["contracts"][0]["status"], "active")
+
+        with open(TARGET_EC_DIR + 'milestone-activation-patch.http', 'wb') as self.app.file_obj:
+            response = self.app.patch_json(
+                f"/agreements/{self.agreement_id}"
+                f"/contracts/{contract_1_id}"
+                f"/milestones/{contract_1_activation_milestone_id}"
+                f"?acc_token={self.framework_token}",
+                {'data': {"status": "met"}},
+            )
+
+        with open(TARGET_EC_DIR + 'agreement-view-contract-terminated.http', 'wb') as self.app.file_obj:
+            response = self.app.get(f'/agreements/{self.agreement_id}')
+            self.assertEqual(response.status, '200 OK')
+
+        self.assertEqual(response.json["data"]["contracts"][0]["status"], "terminated")
+
+        self.tick(delta=timedelta(days=90))
+        self.check_agreement_chronograph()
+
+        with open(TARGET_EC_DIR + 'agreement-view-terminated.http', 'wb') as self.app.file_obj:
+            response = self.app.get(f'/agreements/{self.agreement_id}')
+            self.assertEqual(response.status, '200 OK')
+
+
+    def check_agreement_chronograph(self):
+        with change_auth(self.app, ("Basic", ("chronograph", ""))):
+            url = "/agreements/{}".format(self.agreement_id)
+            data = {"data": {"id": self.agreement_id}}
+            response = self.app.patch_json(url, data)
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.content_type, "application/json")

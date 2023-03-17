@@ -150,7 +150,7 @@ class BaseApiWebTest(BaseWebTest):
     initial_auth = ("Basic", ("broker", ""))
 
 
-class BaseOpenWebTest(BaseCoreWebTest):
+class BaseFrameworkWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_framework_open_data
     initial_config = test_framework_open_config
@@ -191,19 +191,19 @@ class BaseOpenWebTest(BaseCoreWebTest):
             self.framework_document_patch = {}
 
 
-class OpenContentWebTest(BaseOpenWebTest):
+class FrameworkContentWebTest(BaseFrameworkWebTest):
     initial_status = None
 
     def setUp(self):
-        super(OpenContentWebTest, self).setUp()
+        super(FrameworkContentWebTest, self).setUp()
         self.create_framework()
 
 
-class BaseDSOpenContentWebTest(OpenContentWebTest):
+class BaseDSFrameworkContentWebTest(FrameworkContentWebTest):
     docservice = True
 
 
-class BaseSubmissionContentWebTest(OpenContentWebTest):
+class BaseSubmissionContentWebTest(FrameworkContentWebTest):
     initial_submission_data = None
     initial_submission_config = test_submission_config
 

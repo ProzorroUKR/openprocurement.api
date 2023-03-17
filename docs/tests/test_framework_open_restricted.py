@@ -17,7 +17,7 @@ from tests.base.test import (
 from openprocurement.api.utils import get_now
 from openprocurement.framework.open.tests.base import (
     test_framework_open_data,
-    BaseOpenWebTest,
+    BaseFrameworkWebTest,
 )
 
 TARGET_DIR = 'docs/source/frameworks/basic-actions/http/restricted/'
@@ -25,7 +25,7 @@ TARGET_DIR = 'docs/source/frameworks/basic-actions/http/restricted/'
 test_framework_open_data = deepcopy(test_framework_open_data)
 
 
-class RestrictedFrameworkOpenResourceTest(BaseOpenWebTest, MockWebTestMixin):
+class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
     AppClass = DumpsWebTestApp
     relative_to = os.path.dirname(__file__)
     initial_data = test_framework_open_data
