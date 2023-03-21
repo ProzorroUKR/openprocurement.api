@@ -1,6 +1,9 @@
-from openprocurement.api.utils import error_handler
+import logging
+from openprocurement.api.utils import error_handler, context_unpack
 from openprocurement.tender.core.procedure.state.base import BaseState
-from openprocurement.tender.core.procedure.context import get_now
+from openprocurement.tender.core.procedure.context import get_now, get_request
+
+logger = logging.getLogger(__name__)
 
 
 class BidState(BaseState):
@@ -30,6 +33,16 @@ class BidState(BaseState):
         amount_before = (before.get("value") or {}).get("amount")
         amount_after = (after.get("value") or {}).get("amount")
         if amount_before != amount_after:
+            logger.info(
+                f"Bid value amount changed from {amount_before} to {amount_after}",
+                extra=context_unpack(
+                    get_request(),
+                    {"MESSAGE_ID": "bid_amount_changed"},
+                    {
+                        "BID_ID": after["id"],
+                    },
+                ),
+            )
             after["date"] = get_now().isoformat()
 
         # the same as above, for lots
@@ -37,6 +50,17 @@ class BidState(BaseState):
             for before_lot in before.get("lotValues") or []:
                 if before_lot["relatedLot"] == after_lot["relatedLot"]:
                     if float(before_lot["value"]["amount"]) != after_lot["value"]["amount"]:
+                        logger.info(
+                            f'Bid lot value amount changed from {before_lot["value"]["amount"]} to {after_lot["value"]["amount"]}',
+                            extra=context_unpack(
+                                get_request(),
+                                {"MESSAGE_ID": "bid_amount_changed"},
+                                {
+                                    "BID_ID": after["id"],
+                                    "LOT_ID": after_lot["relatedLot"],
+                                },
+                            )
+                        )
                         after_lot["date"] = now
                     else:
                         # all data in save_tender applied by json_patch logic
