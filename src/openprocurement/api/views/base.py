@@ -37,14 +37,10 @@ def compose_offset(request, offset: float):
 
 
 class MongodbResourceListing(BaseResource):
-
     listing_name = "Items"
     offset_field = "public_modified"
-    config_filed = "config"
-    owner_fields = {"owner"}
     listing_default_fields = {"dateModified"}
     listing_allowed_fields = {"dateModified", "created", "modified"}
-    listing_safe_fields = {"dateModified"}
     default_limit = 100
     max_limit = 1000
     db_listing_method: callable
@@ -113,7 +109,7 @@ class MongodbResourceListing(BaseResource):
             prev_params["descending"] = 1
 
         data_fields = opt_fields | self.listing_default_fields
-        db_fields = data_fields | self.owner_fields | {self.config_filed}
+        db_fields = self.db_fields(data_fields)
 
         # call db method
         results = self.db_listing_method(
@@ -134,7 +130,7 @@ class MongodbResourceListing(BaseResource):
                 for r in results:
                     r.pop(self.offset_field)
         data = {
-            "data": self.filter_fields(results, data_fields),
+            "data": self.filter_results_fields(results, data_fields),
             "next_page": self.get_page(keys, params)
         }
         if self.request.params.get("descending") or self.request.params.get("offset"):
@@ -149,11 +145,25 @@ class MongodbResourceListing(BaseResource):
             "uri": self.request.route_url(self.listing_name, _query=params, **keys)
         }
 
-    def filter_fields(self, results, fields):
+    def db_fields(self, fields):
+        return fields
+
+    def filter_results_fields(self, results, fields):
+        return results
+
+class RestrictedResourceListingMixin:
+    config_field = "config"
+    owner_fields = {"owner"}
+    listing_safe_fields = {"dateModified"}
+
+    def db_fields(self, fields):
+        return fields | self.owner_fields | {self.config_field}
+
+    def filter_results_fields(self, results, fields):
         visible_results = []
         for result in results:
             visible_fields = {"id", "restricted"}
-            if result.get(self.config_filed, {}).get("restricted", False) is False:
+            if result.get(self.config_field, {}).get("restricted", False) is False:
                 # not restricted item
                 visible_fields = visible_fields | fields
             else:

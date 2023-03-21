@@ -2,7 +2,10 @@ from openprocurement.api.utils import (
     set_ownership,
     upload_objects_documents,
 )
-from openprocurement.api.views.base import MongodbResourceListing
+from openprocurement.api.views.base import (
+    MongodbResourceListing,
+    RestrictedResourceListingMixin,
+)
 from openprocurement.api.constants import FAST_CATALOGUE_FLOW_FRAMEWORK_IDS
 from openprocurement.api.utils import (
     json_view,
@@ -29,16 +32,19 @@ from openprocurement.framework.core.views.agreement import AgreementViewMixin
 from openprocurement.tender.core.procedure.validation import validate_config_data
 
 
+SUBMISSION_OWNER_FIELDS = {"owner", "framework_owner"}
+
+
 @submissionsresource(
     name="Submissions",
     path="/submissions",
     description="Create Submission",
 )
-class SubmissionResource(MongodbResourceListing):
+class SubmissionResource(RestrictedResourceListingMixin, MongodbResourceListing):
     def __init__(self, request, context):
         super().__init__(request, context)
         self.listing_name = "Submissions"
-        self.owner_fields = {"owner", "framework_owner"}
+        self.owner_fields = SUBMISSION_OWNER_FIELDS
         self.listing_default_fields = {"dateModified"}
         self.listing_allowed_fields = {
             "dateCreated",
@@ -46,11 +52,20 @@ class SubmissionResource(MongodbResourceListing):
             "id",
             "frameworkID",
             "qualificationID",
+            "submissionType",
             "status",
             "tenderers",
             "documents",
             "date",
             "datePublished",
+        }
+        self.listing_safe_fields = {
+            "dateCreated",
+            "dateModified",
+            "id",
+            "frameworkID",
+            "qualificationID",
+            "submissionType",
         }
         self.db_listing_method = request.registry.mongodb.submissions.list
 
@@ -119,7 +134,7 @@ class SubmissionResource(MongodbResourceListing):
 class CoreSubmissionResource(BaseResource, AgreementViewMixin):
     @json_view(
         validators=(
-            validate_restricted_access("submission", owner_fields={"owner", "framework_owner"})
+            validate_restricted_access("submission", owner_fields=SUBMISSION_OWNER_FIELDS)
         ),
         permission="view_submission",
     )

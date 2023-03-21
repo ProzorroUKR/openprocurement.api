@@ -14,6 +14,7 @@ from openprocurement.api.utils import (
 from openprocurement.api.views.base import (
     MongodbResourceListing,
     BaseResource,
+    RestrictedResourceListingMixin,
 )
 from openprocurement.framework.core.utils import (
     generate_agreement_id,
@@ -32,7 +33,7 @@ from openprocurement.framework.core.validation import (
 
 
 @agreementsresource(name="Agreements", path="/agreements")
-class AgreementResource(MongodbResourceListing):
+class AgreementResource(RestrictedResourceListingMixin, MongodbResourceListing):
     def __init__(self, request, context):
         super().__init__(request, context)
         self.listing_name = "Agreements"
@@ -46,6 +47,13 @@ class AgreementResource(MongodbResourceListing):
             "status",
             "tender_id",
             "next_check",
+        }
+        self.listing_safe_fields = {
+            "dateCreated",
+            "dateModified",
+            "id",
+            "agreementID",
+            "agreementType",
         }
         self.db_listing_method = request.registry.mongodb.agreements.list
 

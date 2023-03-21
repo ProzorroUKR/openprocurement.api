@@ -714,7 +714,10 @@ def create_submission_config_restricted(self):
         self.assertEqual(len(submissions), 1)
         self.assertNotIn("config", submissions[0])
         self.assertNotIn("owner", submissions[0])
-        self.assertEqual(set(submissions[0].keys()), {"id", "dateModified", "restricted"})
+        self.assertEqual(
+            set(submissions[0].keys()),
+            {"id", "dateModified", "restricted"},
+        )
 
         response = self.app.get("/frameworks/{}/submissions".format(self.framework_id))
         self.assertEqual(response.status, "200 OK")
@@ -724,7 +727,10 @@ def create_submission_config_restricted(self):
         self.assertEqual(len(submissions), 1)
         self.assertNotIn("config", submissions[0])
         self.assertNotIn("owner", submissions[0])
-        self.assertEqual(set(submissions[0].keys()), {"id", "dateModified", "restricted"})
+        self.assertEqual(
+            set(submissions[0].keys()),
+            {"id", "dateModified", "dateCreated", "frameworkID", "qualificationID", "restricted"},
+        )
 
 
 def patch_submission_draft(self):
