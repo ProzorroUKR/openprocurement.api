@@ -200,14 +200,23 @@ class CoreFrameworkResource(BaseResource):
 
     def update_agreement(self):
         framework = self.request.validated["framework"]
+        agreement_data = self.request.validated["agreement_src"]
+
+        end_date = framework.qualificationPeriod.endDate.isoformat()
 
         updated_agreement_data = {
             "period": {
-                "startDate": self.request.validated["agreement_src"]["period"]["startDate"],
-                "endDate": framework.qualificationPeriod.endDate.isoformat()
+                "startDate": agreement_data["period"]["startDate"],
+                "endDate": end_date,
             },
-            "procuringEntity": framework.procuringEntity
+            "procuringEntity": framework.procuringEntity,
+            "contracts": agreement_data["contracts"],
         }
+        for contract in updated_agreement_data["contracts"]:
+            for milestone in contract["milestones"]:
+                if milestone["type"] == "activation":
+                    milestone["dueDate"] = end_date
+
         apply_patch(
             self.request,
             src=self.request.validated["agreement_src"],
