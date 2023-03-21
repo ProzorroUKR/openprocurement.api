@@ -30,7 +30,7 @@ freezegun==1.0.0
 parameterized==0.7.4
 zope.component==4.6.2
 zope.configuration==4.4.0
-sentry-sdk==1.10.1
+sentry-sdk==1.14.0
 cornice==4.0.1
 WebOb==1.8.6
 
