@@ -1,0 +1,193 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-03-22 01:52+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.11.0\n"
+
+msgid "Tutorial"
+msgstr "Туторіал"
+
+msgid "Framework creation"
+msgstr ""
+
+msgid "Let’s create a framework:"
+msgstr ""
+
+msgid "We have `201 Created` response code, `Location` header and body with extra properties."
+msgstr ""
+
+msgid "Framework was created in `draft` status. In this status any field, except technical, can be changed using PATCH method."
+msgstr ""
+
+msgid "Uploading documentation"
+msgstr ""
+
+msgid "Procuring entity can upload files into the created framework. Uploading should follow the :ref:`upload` rules."
+msgstr ""
+
+msgid "`201 Created` response code and `Location` header confirm document creation. We can additionally query the `documents` collection API endpoint to confirm the action:"
+msgstr ""
+
+msgid "And again we can confirm that there are two documents uploaded."
+msgstr ""
+
+msgid "In case we made an error, we can reupload the document over the older version:"
+msgstr ""
+
+msgid "And we can see that it is overriding the original version:"
+msgstr ""
+
+msgid "Framework activation"
+msgstr ""
+
+msgid "The second step is moving the framework to `active` status."
+msgstr ""
+
+msgid "`qualificationPeriod.endDate` should be in between 30 and 1095 days from activation moment."
+msgstr ""
+
+msgid "There should be at least 1 document in addition to sign document."
+msgstr ""
+
+msgid "After framework activation frameworks periods was calculated:"
+msgstr ""
+
+msgid "`enquiryPeriod` - first 10 full working days after activation."
+msgstr ""
+
+msgid "`period` - period when suppliers can add submissions (except `enquiryPeriod`)."
+msgstr ""
+
+msgid "`qualificationPeriod` - last 30 full calendar days of framework when suppliers cannot add submissions but still can be qualified based on previous submissions."
+msgstr ""
+
+msgid "Let's check what framework registry contains:"
+msgstr ""
+
+msgid "We do see the internal `id` of a framework and its `dateModified` datestamp."
+msgstr ""
+
+msgid "Modifying framework"
+msgstr ""
+
+msgid "In `active` status only some fields can be changed: `telephone`, `name`, `email` for `procuringEntity.contactPoint`, `endDate` for `qualificationPeriod`, `description` and `documents`."
+msgstr ""
+
+msgid "If `qualificationPeriod.endDate` was changed all periods will be recalculated."
+msgstr ""
+
+msgid "Additionally, the `dateModified` property was updated to reflect the last modification datestamp."
+msgstr ""
+
+msgid "Checking the listing again reflects the new modification date:"
+msgstr ""
+
+msgid "Registering submission"
+msgstr ""
+
+msgid "After activating framework, users can register their submissions in period from `framework.enquiryPeriod.endDate` to `period.Date`:"
+msgstr ""
+
+msgid "Uploading Submission documentation"
+msgstr ""
+
+msgid "Documents can be uploaded/changed only for submission in `draft` status."
+msgstr ""
+
+msgid "Documents operations is same like in framework:"
+msgstr ""
+
+msgid "Deleting submission"
+msgstr ""
+
+msgid "Submission can be deleted only in `draft` status:"
+msgstr ""
+
+msgid "Updating Submission"
+msgstr ""
+
+msgid "Submission can be changed only in `draft` status:"
+msgstr ""
+
+msgid "Submission activation"
+msgstr ""
+
+msgid "Submission can be activated before `period.endDate`"
+msgstr ""
+
+msgid "After activating the submission, a qualification object is automatically created and submission `qualificationID` field is filled."
+msgstr ""
+
+msgid "Let's check what submission registry contains:"
+msgstr ""
+
+msgid "Let's check created qualification object:"
+msgstr ""
+
+msgid "All operations with qualification object can do only `framework_owner`."
+msgstr ""
+
+msgid "Uploading qualification documentation"
+msgstr ""
+
+msgid "Documents can be uploaded/changed only for qualification in `pending` status."
+msgstr ""
+
+msgid "Canceled qualification"
+msgstr ""
+
+msgid "Qualification can be cancelled only in `pending` status."
+msgstr ""
+
+msgid "After cancelling qualification, related submission changed status from `active` to `complete`."
+msgstr ""
+
+msgid "Let's check what happen with submissions after cancelling qualification:"
+msgstr ""
+
+msgid "Approve qualification"
+msgstr ""
+
+msgid "Qualification can be approved only in `pending` status."
+msgstr ""
+
+msgid "After approving qualification, if it was first active qualification system create agreement with contract otherwise system add contract to agreement."
+msgstr ""
+
+msgid "Let's check current framework"
+msgstr ""
+
+msgid "You can see that `agreementID` appeared in current framework, so let's check that agreement:"
+msgstr ""
+
+msgid "As you can see agreement now in `active` status, and already have contract, so we can see that agreement in agreement feed:"
+msgstr ""
+
+msgid "Let's check what qualification registry contains:"
+msgstr ""
+
+msgid "Let's check all qualifications for current framework:"
+msgstr ""
+
+msgid "Framework completing"
+msgstr ""
+
+msgid "Framework is completed automatically at `qualificationPeriod.endDate` moment."
+msgstr ""
+
+msgid "PATCH with new `qualificationPeriod.endDate` allow to complete framework earlier than was planned, but not earlier than 30 full calendar days from change moment."
+msgstr ""
+

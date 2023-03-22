@@ -16,7 +16,7 @@ Tutorial of agreements for cfaua:
 .. toctree::
    :maxdepth: 2
 
-   tutorial_cfaua
+   cfaua/index
 
 
 Tutorial of agreements for frameworks:
@@ -24,4 +24,4 @@ Tutorial of agreements for frameworks:
 .. toctree::
    :maxdepth: 2
 
-   tutorial_frameworks
+   frameworks/index

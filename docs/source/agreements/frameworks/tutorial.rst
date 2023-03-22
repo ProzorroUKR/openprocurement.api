@@ -9,7 +9,7 @@ Exploring basic rules
 
 Let's try exploring the `/agreements` endpoint:
 
-.. http:example:: http/frameworks/agreements-listing-0.http
+.. http:example:: http/agreements-listing-0.http
    :code:
 
 Just invoking it reveals an empty set.
@@ -29,13 +29,13 @@ Getting agreement
 
 Let's see our created framework:
 
-.. http:example:: http/frameworks/example-framework.http
+.. http:example:: http/example-framework.http
    :code:
 
 In our framework you can see the `agreementID` field where stores id of related agreement.
 When we know id of our agreement we can get it:
 
-.. http:example:: http/frameworks/agreement-view.http
+.. http:example:: http/agreement-view.http
    :code:
 
 
@@ -54,17 +54,17 @@ Contract ban
 
 For ban contract, you just need to add milestone to contract with status `ban`:
 
-.. http:example:: http/frameworks/milestone-ban-post.http
+.. http:example:: http/milestone-ban-post.http
    :code:
 
 You can see that contract status was automatically changed to `suspended`:
 
-.. http:example:: http/frameworks/agreement-view-contract-suspended.http
+.. http:example:: http/agreement-view-contract-suspended.http
    :code:
 
 After `dueDate` date of milestone, contract will be automatically set back to `active` status.
 
-.. http:example:: http/frameworks/agreement-view-contract-active.http
+.. http:example:: http/agreement-view-contract-active.http
    :code:
 
 Contract disqualify
@@ -77,12 +77,12 @@ On that date milestone will be automatically set to `met` status, and contract w
 
 When you want to manually disqualify contract, you need to manually set `activation` milestone status to `met`:
 
-.. http:example:: http/frameworks/milestone-activation-patch.http
+.. http:example:: http/milestone-activation-patch.http
    :code:
 
 Now you can see that contract status was changed to `terminated`:
 
-.. http:example:: http/frameworks/agreement-view-contract-terminated.http
+.. http:example:: http/agreement-view-contract-terminated.http
    :code:
 
 Finishing agreement
@@ -90,7 +90,7 @@ Finishing agreement
 
 Lets wait for `period.endDate` date and see what will happen:
 
-.. http:example:: http/frameworks/agreement-view-terminated.http
+.. http:example:: http/agreement-view-terminated.http
    :code:
 
 You can see that `activation` milestone was automatically set to `met` status, contract status was changed to `terminated` and agreement status was changed to `terminated`.
