@@ -483,7 +483,7 @@ def validate_restricted_access(obj_name, owner_fields=None):
         if request.authenticated_role == "Administrator":
             return
 
-        if request.authenticated_role == "bots":
+        if request.authenticated_role == "chronograph":
             return
 
         if config.get("restricted") is True:
