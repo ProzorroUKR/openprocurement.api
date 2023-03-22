@@ -1,4 +1,4 @@
-GET /api/2.5/agreements/1746cfba69864f7d996e4bd000858884/changes HTTP/1.0
+GET /api/2.5/agreements/b7536ab0fbe34a1dafa73fe7943ff79c/changes HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "12f43718ecbf474886b7f3545a7debe5",
+      "id": "021c093dc15d4e078ce3061ae63cd514",
       "status": "active",
       "date": "2023-01-01T00:00:00+02:00",
       "rationale": "Друга і третя поставка має бути розфасована",
@@ -18,7 +18,7 @@ Content-Type: application/json
       "rationaleType": "taxRate",
       "modifications": [
         {
-          "itemId": "7e815525aab3461e840b13c851f381dd",
+          "itemId": "441f9d3acd394c1ca83d852d54799ded",
           "factor": 0.1605
         }
       ]

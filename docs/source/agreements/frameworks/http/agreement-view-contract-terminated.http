@@ -1,4 +1,4 @@
-GET /api/2.5/agreements/562e05f3122f4cd7a8032273ab2ab575 HTTP/1.0
+GET /api/2.5/agreements/f4be6c80d2924d309a0277b683cb00cb HTTP/1.0
 Authorization: Bearer token
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -15,7 +15,7 @@ Content-Type: application/json
     "dateModified": "2023-04-01T01:00:00+03:00",
     "owner": "test",
     "agreementType": "electronicCatalogue",
-    "frameworkID": "f8835c57a51a4e798a0077653a921d3c",
+    "frameworkID": "9b13d67e723e43c4a2eb0ddeaaa95540",
     "period": {
       "startDate": "2023-01-01T00:00:00+02:00",
       "endDate": "2023-05-01T00:00:00+02:00"
@@ -55,10 +55,10 @@ Content-Type: application/json
     ],
     "contracts": [
       {
-        "id": "cf98ae254a2445ecbbc07a6d2f0fd216",
-        "qualificationID": "731194384d994251a0f01ffedfb65d72",
+        "id": "bf438339aced45868328896da2c22d3b",
+        "qualificationID": "377f120c58684f399b53f0d79d4db82f",
         "status": "terminated",
-        "submissionID": "42a0db3a5d9c4fe2aa5595b429d99a0f",
+        "submissionID": "7f876942aa324006bb48a511e0dd8722",
         "suppliers": [
           {
             "name": "ДКП «Школяр»",
@@ -85,24 +85,24 @@ Content-Type: application/json
         ],
         "milestones": [
           {
-            "id": "2100718fee6c4a36a461d5785176f6e2",
+            "id": "48d2f1d85c114e468139d020259678e4",
             "type": "activation",
             "status": "met",
             "dueDate": "2023-05-01T00:00:00+02:00",
             "dateModified": "2023-04-01T01:00:00+03:00"
           },
           {
-            "id": "50dff194ff234f078ddbdc8eee8bb975",
+            "id": "bbe0160189a546b8b3e5308ac6f0596f",
             "type": "ban",
             "status": "met",
             "dueDate": "2023-04-01T00:00:00+02:00",
             "documents": [
               {
-                "id": "c4f28605b3054704af458a153dc66391",
+                "id": "63c935b761bb4fc68d755828cf9a9a21",
                 "hash": "md5:00000000000000000000000000000000",
                 "title": "milestone.doc",
                 "format": "application/msword",
-                "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a93994f065df4d3ca64b444542d551af?Signature=ssBl83MWeot5d8sSBJb2t%2FjtQfgSoyUUn2h20%2BrYm6aGNPkRW0PrdrMCQ4iyBjCYoSov83mdaHr4lCi5qfofBg%3D%3D&KeyID=a8968c46",
+                "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5ce8807b1c3340f39913e264387d8f38?Signature=h3Xve9Q40jQWKAczqvya8%2F1QKyovh%2BCCuhd2EU5WKt0Z%2FreOLgIX%2B1ErKONH%2FdxtPueIkcw3d9JJN%2BfCJUG4Cw%3D%3D&KeyID=a8968c46",
                 "datePublished": "2023-01-01T00:00:00+02:00",
                 "dateModified": "2023-01-01T00:00:00+02:00"
               }
@@ -113,10 +113,10 @@ Content-Type: application/json
         "date": "2023-01-01T00:00:00+02:00"
       },
       {
-        "id": "93d25d7f3dde40e1b960e9ef57a7efa4",
-        "qualificationID": "24e9f90e1c4944c4af1d73f70f78297e",
+        "id": "1b30e6feb6ae49a982b57466293530da",
+        "qualificationID": "ff5eaa049f794abc933591cb8ab22abe",
         "status": "active",
-        "submissionID": "38fdf6cbce1d4a799b0266d148959cb4",
+        "submissionID": "3247e1e5c84345289bd21f7ed1a70475",
         "suppliers": [
           {
             "name": "ДКП «Школяр»",
@@ -143,7 +143,7 @@ Content-Type: application/json
         ],
         "milestones": [
           {
-            "id": "32f6d701d40745e4ba973ff300a4b7ed",
+            "id": "72182289f7c049e0b41d9f680ccf8715",
             "type": "activation",
             "status": "scheduled",
             "dueDate": "2023-05-01T00:00:00+02:00",
@@ -153,7 +153,7 @@ Content-Type: application/json
         "date": "2023-01-01T00:00:00+02:00"
       }
     ],
-    "id": "562e05f3122f4cd7a8032273ab2ab575",
+    "id": "f4be6c80d2924d309a0277b683cb00cb",
     "next_check": "2023-05-01T00:00:00+02:00"
   }
 }

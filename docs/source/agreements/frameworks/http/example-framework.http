@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/f8835c57a51a4e798a0077653a921d3c HTTP/1.0
+GET /api/2.5/frameworks/9b13d67e723e43c4a2eb0ddeaaa95540 HTTP/1.0
 Authorization: Bearer token
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -62,8 +62,8 @@ Content-Type: application/json
         "description": "папір і картон гофровані, паперова й картонна тара"
       }
     ],
-    "agreementID": "562e05f3122f4cd7a8032273ab2ab575",
-    "id": "f8835c57a51a4e798a0077653a921d3c",
+    "agreementID": "f4be6c80d2924d309a0277b683cb00cb",
+    "id": "9b13d67e723e43c4a2eb0ddeaaa95540",
     "next_check": "2023-01-28T00:00:00+02:00"
   }
 }

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/d3e312b04f024e00b2ea4a43dfaf661e/agreements/1746cfba69864f7d996e4bd000858884 HTTP/1.0
+GET /api/2.5/tenders/bb31a9970870484ba6415a99611d3e81/agreements/b7536ab0fbe34a1dafa73fe7943ff79c HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,10 +8,10 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "1746cfba69864f7d996e4bd000858884",
+    "id": "b7536ab0fbe34a1dafa73fe7943ff79c",
     "items": [
       {
-        "id": "7e815525aab3461e840b13c851f381dd",
+        "id": "441f9d3acd394c1ca83d852d54799ded",
         "description": "футляри до державних нагород",
         "classification": {
           "description": "Cartons",
@@ -30,7 +30,7 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 5.0,
-        "relatedLot": "27c4a15dce034406ba16156354632d9b",
+        "relatedLot": "04651361e47848abb6eda21e59c8b4a1",
         "deliveryDate": {
           "startDate": "2018-06-27T13:39:09.362837+03:00",
           "endDate": "2018-06-30T13:39:09.362837+03:00"
@@ -45,11 +45,11 @@ Content-Type: application/json
         "description_en": "Cases for state awards"
       }
     ],
-    "agreementID": "UA-2023-01-01-000001-a-8053c38b861e4d27b6375ab5eb93cc1c1",
+    "agreementID": "UA-2023-01-01-000001-a-e75ece1cddb64807825e058d729510f61",
     "date": "2023-01-01T00:00:00+02:00",
     "contracts": [
       {
-        "id": "ab9b0f04fe08458ab0ea443c5744cb1d",
+        "id": "3f790a2fc7c647a7be968a10e669e9fa",
         "suppliers": [
           {
             "contactPoint": {
@@ -75,12 +75,12 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
-        "awardID": "146d55f13a704b11b95275254e00fef4",
-        "bidID": "a4aaf72182904a549e80dc4d765040a2",
+        "awardID": "f99be86681de4f368037738d6af12903",
+        "bidID": "78290ccc2a114830a97e8f2c510bacaf",
         "date": "2023-01-01T00:00:00+02:00",
         "unitPrices": [
           {
-            "relatedItem": "7e815525aab3461e840b13c851f381dd",
+            "relatedItem": "441f9d3acd394c1ca83d852d54799ded",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -91,7 +91,7 @@ Content-Type: application/json
         "status": "active"
       },
       {
-        "id": "cee7f5c4218c4fd085672d17d4785c01",
+        "id": "142288b4ac5447c088ae5c55bed1f9fc",
         "suppliers": [
           {
             "contactPoint": {
@@ -117,12 +117,12 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
-        "awardID": "88f3ec5213a7405a92b7bd353549edb1",
-        "bidID": "2269d0f299644a87bfd73ac8a065c501",
+        "awardID": "e5e6c374e9db46c2bf634056b03768db",
+        "bidID": "be6885d5a2ec4336a11ed73370239ed6",
         "date": "2023-01-01T00:00:00+02:00",
         "unitPrices": [
           {
-            "relatedItem": "7e815525aab3461e840b13c851f381dd",
+            "relatedItem": "441f9d3acd394c1ca83d852d54799ded",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -133,7 +133,7 @@ Content-Type: application/json
         "status": "active"
       },
       {
-        "id": "ce463db3a53c494897d98b47064e3ad5",
+        "id": "bd325edc619c4f61b067e07529a08461",
         "suppliers": [
           {
             "contactPoint": {
@@ -159,12 +159,12 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
-        "awardID": "f8a353351f6449128fc5be8abba6e67f",
-        "bidID": "5aa54309d515431f8edb45ca63c1d1cd",
+        "awardID": "ea7c848eefbb4037a273456dd333ce1a",
+        "bidID": "593a5fc959d64463b40f460fe47f30cb",
         "date": "2023-01-01T00:00:00+02:00",
         "unitPrices": [
           {
-            "relatedItem": "7e815525aab3461e840b13c851f381dd",
+            "relatedItem": "441f9d3acd394c1ca83d852d54799ded",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,

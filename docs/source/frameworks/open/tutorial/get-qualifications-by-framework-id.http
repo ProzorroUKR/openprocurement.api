@@ -40,8 +40,8 @@ Content-Type: application/json
   ],
   "next_page": {
     "offset": 1673906400.0,
-    "path": "/api/2.5/frameworks/d05d8009c7ee4cd583fcc88b51af95f2/qualifications?offset=1673906400.0",
-    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/d05d8009c7ee4cd583fcc88b51af95f2/qualifications?offset=1673906400.0"
+    "path": "/api/2.5/qualifications?offset=1673906400.0",
+    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/qualifications?offset=1673906400.0"
   }
 }
 

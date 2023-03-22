@@ -79,8 +79,8 @@ Content-Type: application/json
   ],
   "next_page": {
     "offset": 1673906400.0,
-    "path": "/api/2.5/frameworks/19554516edc64b80ad4a2834f4505fbe/submissions?offset=1673906400.0",
-    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/19554516edc64b80ad4a2834f4505fbe/submissions?offset=1673906400.0"
+    "path": "/api/2.5/submissions?offset=1673906400.0",
+    "uri": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions?offset=1673906400.0"
   }
 }
 
