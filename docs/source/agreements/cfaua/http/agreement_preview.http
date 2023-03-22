@@ -1,6 +1,6 @@
 GET /api/2.5/agreements/b7536ab0fbe34a1dafa73fe7943ff79c/preview?acc_token=2308192c93e846339ff07b8a89dfaff0 HTTP/1.0
 Authorization: Bearer broker
-Host: lb-api-sandbox.prozorro.gov.ua
+Host: public-api-sandbox.prozorro.gov.ua
 
 
 HTTP/1.0 200 OK

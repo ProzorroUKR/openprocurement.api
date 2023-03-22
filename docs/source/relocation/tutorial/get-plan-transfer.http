@@ -1,6 +1,6 @@
 GET /api/2.5/transfers/27046e8f81d84006abd75a9b7f88c37e HTTP/1.0
 Authorization: Bearer broker1
-Host: lb-api-sandbox.prozorro.gov.ua
+Host: public-api-sandbox.prozorro.gov.ua
 
 
 HTTP/1.0 200 OK

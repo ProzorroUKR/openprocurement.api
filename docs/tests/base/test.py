@@ -16,16 +16,24 @@ from six import text_type
 from webtest.compat import to_bytes
 from webtest import forms
 
-from tests.base.constants import API_HOST, MOCK_DATETIME
+from tests.base.constants import (
+    API_HOST,
+    MOCK_DATETIME,
+    PUBLIC_API_HOST,
+)
 
 
 class DumpsWebTestApp(BaseTestApp):
     hostname = API_HOST
+    public_hostname = PUBLIC_API_HOST
     indent = 2
     ensure_ascii = False
 
     def do_request(self, req, status=None, expect_errors=None):
-        req.headers.environ["HTTP_HOST"] = self.hostname
+        if req.method == "GET":
+            req.headers.environ["HTTP_HOST"] = self.public_hostname
+        else:
+            req.headers.environ["HTTP_HOST"] = self.hostname
         self.write_request(req)
         resp = super(DumpsWebTestApp, self).do_request(req, status=status, expect_errors=expect_errors)
         self.write_response(resp)

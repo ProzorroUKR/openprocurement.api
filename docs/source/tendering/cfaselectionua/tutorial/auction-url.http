@@ -1,6 +1,6 @@
 GET /api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe HTTP/1.0
 Authorization: Bearer broker
-Host: lb-api-sandbox.prozorro.gov.ua
+Host: public-api-sandbox.prozorro.gov.ua
 
 
 HTTP/1.0 200 OK
@@ -530,7 +530,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/documents/20aade7d4c9948b2b97308ac6e6c942d?download=d351393c1280494ba80f9ffa0b2345f7",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/documents/20aade7d4c9948b2b97308ac6e6c942d?download=d351393c1280494ba80f9ffa0b2345f7",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner"
@@ -539,7 +539,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/documents/4fb26dfadede4a7f85699e8e626fc794?download=dd09c74752f54370b81db56456d4622c",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/documents/4fb26dfadede4a7f85699e8e626fc794?download=dd09c74752f54370b81db56456d4622c",
         "documentOf": "tender",
         "id": "4fb26dfadede4a7f85699e8e626fc794",
         "datePublished": "2023-01-01T00:00:00+02:00",
@@ -552,7 +552,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/documents/4fb26dfadede4a7f85699e8e626fc794?download=1c680c5a847e47d397d53c35cd19ac5f",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/documents/4fb26dfadede4a7f85699e8e626fc794?download=1c680c5a847e47d397d53c35cd19ac5f",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner"
