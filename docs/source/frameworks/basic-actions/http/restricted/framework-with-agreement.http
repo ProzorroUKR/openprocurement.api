@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/27ccdb80d4234f69b99ab9ad18ecf6e1 HTTP/1.0
+GET /api/2.5/frameworks/9bd2fdb5579045be9cfff9fb1a397e32 HTTP/1.0
 Host: public-api-sandbox.prozorro.gov.ua
 
 
@@ -27,7 +27,7 @@ Content-Type: application/json
       "startDate": "2023-01-01T00:00:00+02:00",
       "endDate": "2023-01-01T00:00:01+02:00"
     },
-    "frameworkType": "open",
+    "frameworkType": "dynamicPurchasingSystem",
     "procuringEntity": {
       "name": "Державне управління справами",
       "identifier": {
@@ -61,12 +61,12 @@ Content-Type: application/json
         "description": "папір і картон гофровані, паперова й картонна тара"
       }
     ],
-    "agreementID": "5d6633d4f393415685289b20f1c04348",
-    "id": "27ccdb80d4234f69b99ab9ad18ecf6e1",
+    "agreementID": "bee1ec7b25674a89918be6257ac54948",
+    "id": "9bd2fdb5579045be9cfff9fb1a397e32",
     "next_check": "2023-01-28T00:00:00+02:00"
   },
   "config": {
-    "restricted_derivatives": true
+    "restrictedDerivatives": true
   }
 }
 

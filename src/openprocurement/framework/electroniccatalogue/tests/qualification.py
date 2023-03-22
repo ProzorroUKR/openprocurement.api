@@ -8,7 +8,7 @@ from openprocurement.framework.electroniccatalogue.tests.base import (
     test_framework_electronic_catalogue_data,
     test_submission_data,
 )
-from openprocurement.framework.open.tests.qualification_blanks import (
+from openprocurement.framework.dps.tests.qualification_blanks import (
     listing,
     listing_changes,
     patch_submission_pending,

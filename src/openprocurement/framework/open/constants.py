@@ -1,1 +1,0 @@
-OPEN_TYPE = "open"

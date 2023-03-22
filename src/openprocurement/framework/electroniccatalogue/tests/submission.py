@@ -10,7 +10,7 @@ from openprocurement.framework.electroniccatalogue.tests.base import (
     test_electronicCatalogue_documents,
     test_submission_data,
 )
-from openprocurement.framework.open.tests.submission_blanks import (
+from openprocurement.framework.dps.tests.submission_blanks import (
     listing,
     listing_draft,
     listing_changes,

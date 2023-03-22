@@ -1,4 +1,4 @@
-PATCH /api/2.5/frameworks/27ccdb80d4234f69b99ab9ad18ecf6e1?acc_token=ca87280100464ac4902587819c3ac264 HTTP/1.0
+PATCH /api/2.5/frameworks/9bd2fdb5579045be9cfff9fb1a397e32?acc_token=77e8aeb431c44efa97ff595190dc86ba HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -36,7 +36,7 @@ Content-Type: application/json
       "startDate": "2023-01-01T00:00:00+02:00",
       "endDate": "2023-01-01T00:00:01+02:00"
     },
-    "frameworkType": "open",
+    "frameworkType": "dynamicPurchasingSystem",
     "procuringEntity": {
       "name": "Державне управління справами",
       "identifier": {
@@ -70,11 +70,11 @@ Content-Type: application/json
         "description": "папір і картон гофровані, паперова й картонна тара"
       }
     ],
-    "id": "27ccdb80d4234f69b99ab9ad18ecf6e1",
+    "id": "9bd2fdb5579045be9cfff9fb1a397e32",
     "next_check": "2023-01-28T00:00:00+02:00"
   },
   "config": {
-    "restricted_derivatives": true
+    "restrictedDerivatives": true
   }
 }
 

@@ -218,7 +218,7 @@ class AgreementViewMixin:
             agreement_config = {}
             if framework_config.get("test", False):
                 agreement_config["test"] = framework_config["test"]
-            if framework_config.get("restricted_derivatives", False):
+            if framework_config.get("restrictedDerivatives", False):
                 agreement_config["restricted"] = True
             model = self.request.agreement_from_data(agreement_data, create=False)
             agreement = model(agreement_data)

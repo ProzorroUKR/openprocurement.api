@@ -1,0 +1,31 @@
+GET /api/2.5/frameworks/866509257c6546a088e0363315140ee0/documents/58b60c5a9fbf4147bcc80eefcedf9d2c?acc_token=7b5fe43c1f3c4574982dcb841c9ef301 HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "id": "58b60c5a9fbf4147bcc80eefcedf9d2c",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "framework_additional_docs.doc",
+    "format": "application/msword",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8f02ae764e8c4eb389cd92c83294f1d4?Signature=msUCyNkYRv64%2BPgFgkZTmEMPEN7xNsSWRpATPCvqfx0mCokSuS%2Bo62e24xZ1OuYSFdNssVF9SfGbtiebc0niBA%3D%3D&KeyID=a8968c46",
+    "datePublished": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "previousVersions": [
+      {
+        "id": "58b60c5a9fbf4147bcc80eefcedf9d2c",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "framework_additional_docs.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a4f3e2ef5f6b4d78934f91b1111336b5?Signature=n6xcmIiAoPC7w06h8DGUxDobhsTqkD6xxBU9PyGULVBH2hhH9SZ3oRekYg6O2MG2Pn4PHf7svoq2TKdjn2FADw%3D%3D&KeyID=a8968c46",
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
+      }
+    ]
+  }
+}
+

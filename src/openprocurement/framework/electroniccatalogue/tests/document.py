@@ -9,7 +9,7 @@ from openprocurement.framework.electroniccatalogue.tests.base import (
     FrameworkContentWebTest,
     BaseDSFrameworkContentWebTest,
 )
-from openprocurement.framework.open.tests.document_blanks import (
+from openprocurement.framework.dps.tests.document_blanks import (
     get_documents_list,
     get_document_by_id,
     create_framework_document_forbidden,

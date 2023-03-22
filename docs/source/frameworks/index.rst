@@ -10,5 +10,5 @@ Contents:
 
    overview
    basic-actions/index
-   open/index
+   dps/index
    electroniccatalogue/index

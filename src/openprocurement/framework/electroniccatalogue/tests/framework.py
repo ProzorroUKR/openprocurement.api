@@ -13,7 +13,7 @@ from openprocurement.framework.electroniccatalogue.tests.framework_blanks import
     create_framework_draft_invalid_kind,
     accreditation_level,
 )
-from openprocurement.framework.open.tests.framework_blanks import (
+from openprocurement.framework.dps.tests.framework_blanks import (
     listing,
     listing_changes,
     listing_draft,

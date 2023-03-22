@@ -30,7 +30,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "scale": "sme"
       }
     ],
-    "frameworkID": "27ccdb80d4234f69b99ab9ad18ecf6e1"
+    "frameworkID": "9bd2fdb5579045be9cfff9fb1a397e32"
   },
   "config": {
     "restricted": true
@@ -40,16 +40,16 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/ffaa523497964dd1be5e764ee48b9eac
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/2a997181ec504fcdbfaf4c759a02895e
 
 {
   "data": {
-    "frameworkID": "27ccdb80d4234f69b99ab9ad18ecf6e1",
+    "frameworkID": "9bd2fdb5579045be9cfff9fb1a397e32",
     "dateModified": "2023-01-17T00:00:00+02:00",
     "date": "2023-01-17T00:00:00+02:00",
     "owner": "broker2",
     "status": "draft",
-    "submissionType": "open",
+    "submissionType": "dynamicPurchasingSystem",
     "tenderers": [
       {
         "name": "ДКП «Книга»",
@@ -74,11 +74,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/ffaa52349796
         }
       }
     ],
-    "id": "ffaa523497964dd1be5e764ee48b9eac"
+    "id": "2a997181ec504fcdbfaf4c759a02895e"
   },
   "access": {
-    "token": "66f9604b255d494d95cd7ed674060377",
-    "transfer": "2847cfeb632949baa71a588bdaea613d"
+    "token": "d6c27e24c6f24928a7a62d93b05c4358",
+    "transfer": "8d522fd75a7f453ea94689fa853f23af"
   },
   "config": {
     "restricted": true

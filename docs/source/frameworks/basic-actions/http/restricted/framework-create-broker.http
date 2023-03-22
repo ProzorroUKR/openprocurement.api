@@ -1,12 +1,12 @@
 POST /api/2.5/frameworks HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1855
+Content-Length: 1873
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "frameworkType": "open",
+    "frameworkType": "dynamicPurchasingSystem",
     "procuringEntity": {
       "contactPoint": {
         "name": "Державне управління справами",
@@ -47,14 +47,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
     }
   },
   "config": {
-    "restricted_derivatives": true
+    "restrictedDerivatives": true
   }
 }
 
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/27ccdb80d4234f69b99ab9ad18ecf6e1
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/9bd2fdb5579045be9cfff9fb1a397e32
 
 {
   "data": {
@@ -69,7 +69,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/27ccdb80d4234
     "qualificationPeriod": {
       "endDate": "2023-03-02T00:00:00+02:00"
     },
-    "frameworkType": "open",
+    "frameworkType": "dynamicPurchasingSystem",
     "procuringEntity": {
       "name": "Державне управління справами",
       "identifier": {
@@ -103,14 +103,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/27ccdb80d4234
         "description": "папір і картон гофровані, паперова й картонна тара"
       }
     ],
-    "id": "27ccdb80d4234f69b99ab9ad18ecf6e1"
+    "id": "9bd2fdb5579045be9cfff9fb1a397e32"
   },
   "access": {
-    "token": "ca87280100464ac4902587819c3ac264",
-    "transfer": "ea9b006f024c45e38496bf5f09562805"
+    "token": "77e8aeb431c44efa97ff595190dc86ba",
+    "transfer": "5d5818a5c50648bda23a4c0a93eeeb2f"
   },
   "config": {
-    "restricted_derivatives": true
+    "restrictedDerivatives": true
   }
 }
 

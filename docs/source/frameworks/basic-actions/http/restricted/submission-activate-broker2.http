@@ -1,4 +1,4 @@
-PATCH /api/2.5/submissions/ffaa523497964dd1be5e764ee48b9eac?acc_token=66f9604b255d494d95cd7ed674060377 HTTP/1.0
+PATCH /api/2.5/submissions/2a997181ec504fcdbfaf4c759a02895e?acc_token=d6c27e24c6f24928a7a62d93b05c4358 HTTP/1.0
 Authorization: Bearer broker2
 Content-Length: 30
 Content-Type: application/json
@@ -16,14 +16,14 @@ Content-Type: application/json
 
 {
   "data": {
-    "qualificationID": "db3e0288e9274b6aaa41a007b3152590",
-    "frameworkID": "27ccdb80d4234f69b99ab9ad18ecf6e1",
+    "qualificationID": "9ef8a439d3f346dd9e86bb05c4f55f8b",
+    "frameworkID": "9bd2fdb5579045be9cfff9fb1a397e32",
     "dateModified": "2023-01-17T00:00:00+02:00",
     "date": "2023-01-17T00:00:00+02:00",
     "datePublished": "2023-01-17T00:00:00+02:00",
     "owner": "broker2",
     "status": "active",
-    "submissionType": "open",
+    "submissionType": "dynamicPurchasingSystem",
     "tenderers": [
       {
         "name": "ДКП «Книга»",
@@ -48,7 +48,7 @@ Content-Type: application/json
         }
       }
     ],
-    "id": "ffaa523497964dd1be5e764ee48b9eac"
+    "id": "2a997181ec504fcdbfaf4c759a02895e"
   },
   "config": {
     "restricted": true

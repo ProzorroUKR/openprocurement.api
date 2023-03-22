@@ -1,7 +1,7 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.framework.open.tests.agreement_blanks import (
+from openprocurement.framework.dps.tests.agreement_blanks import (
     create_agreement,
     change_agreement,
     patch_contract_suppliers,
