@@ -1,6 +1,6 @@
 GET /api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/bids/381f5658b23a448ea820b823934eeb79?acc_token=3ad252bcc1b04cfea53da4697044d594 HTTP/1.0
 Authorization: Bearer broker
-Host: lb-api-sandbox.prozorro.gov.ua
+Host: public-api-sandbox.prozorro.gov.ua
 
 
 HTTP/1.0 200 OK
@@ -180,7 +180,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_top_secrets.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/bids/381f5658b23a448ea820b823934eeb79/documents/687aaee1741f4c2083ca2b2b91c8d366?download=c24f82881bbb413090880c729b494aae",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/bids/381f5658b23a448ea820b823934eeb79/documents/687aaee1741f4c2083ca2b2b91c8d366?download=c24f82881bbb413090880c729b494aae",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "confidentiality": "buyerOnly",
@@ -193,7 +193,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/bids/381f5658b23a448ea820b823934eeb79/financial_documents/f602ad0aa6414978b6d5de237a80e074?download=c32b189a6c2c4e448b7dc3df40238d0f",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/bids/381f5658b23a448ea820b823934eeb79/financial_documents/f602ad0aa6414978b6d5de237a80e074?download=c32b189a6c2c4e448b7dc3df40238d0f",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk",
@@ -205,7 +205,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc2.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/bids/381f5658b23a448ea820b823934eeb79/financial_documents/a3bbe79c38bc4029b3f60aa72b60f0f2?download=4fca42afab104d078e9e40fd0d564692",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/bids/381f5658b23a448ea820b823934eeb79/financial_documents/a3bbe79c38bc4029b3f60aa72b60f0f2?download=4fca42afab104d078e9e40fd0d564692",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk",
@@ -219,7 +219,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/bids/381f5658b23a448ea820b823934eeb79/eligibility_documents/fcc3bacbef424d2799a0a432479bb1f5?download=299285c991c744799a68059e8338a167",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/bids/381f5658b23a448ea820b823934eeb79/eligibility_documents/fcc3bacbef424d2799a0a432479bb1f5?download=299285c991c744799a68059e8338a167",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk",
@@ -233,7 +233,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "qualification_document.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/bids/381f5658b23a448ea820b823934eeb79/qualification_documents/bd4daa9ccac744848d185f6076e727ab?download=12445f37d5c44db0a6af92b7c6c3ff54",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/bids/381f5658b23a448ea820b823934eeb79/qualification_documents/bd4daa9ccac744848d185f6076e727ab?download=12445f37d5c44db0a6af92b7c6c3ff54",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk",
@@ -247,7 +247,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "qualification_document2.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/bids/381f5658b23a448ea820b823934eeb79/qualification_documents/bd4daa9ccac744848d185f6076e727ab?download=ef54f95d24d04987ace3b90bc12b4960",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/bids/381f5658b23a448ea820b823934eeb79/qualification_documents/bd4daa9ccac744848d185f6076e727ab?download=ef54f95d24d04987ace3b90bc12b4960",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "confidentiality": "public",

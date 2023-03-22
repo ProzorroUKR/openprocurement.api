@@ -1,5 +1,5 @@
 GET /api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c HTTP/1.0
-Host: lb-api-sandbox.prozorro.gov.ua
+Host: public-api-sandbox.prozorro.gov.ua
 
 
 HTTP/1.0 200 OK

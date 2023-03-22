@@ -1,5 +1,5 @@
 GET /api/2.5/frameworks/27ccdb80d4234f69b99ab9ad18ecf6e1 HTTP/1.0
-Host: lb-api-sandbox.prozorro.gov.ua
+Host: public-api-sandbox.prozorro.gov.ua
 
 
 HTTP/1.0 200 OK

@@ -1,6 +1,6 @@
 GET /api/2.5/tenders/26dac5d9cddc43f1b4178ec68bd3f601/bids/2096f1a2874b40e3bbf150c27e4824bf?acc_token=0d57c6be9b754553b15a01e3c465d471 HTTP/1.0
 Authorization: Bearer broker
-Host: lb-api-sandbox.prozorro.gov.ua
+Host: public-api-sandbox.prozorro.gov.ua
 
 
 HTTP/1.0 200 OK
@@ -173,7 +173,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_top_secrets.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1b4178ec68bd3f601/bids/2096f1a2874b40e3bbf150c27e4824bf/documents/d9682274da9c4432a9abdb83a7158eb6?download=0529d526671941f9a44290ac0e5c9891",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1b4178ec68bd3f601/bids/2096f1a2874b40e3bbf150c27e4824bf/documents/d9682274da9c4432a9abdb83a7158eb6?download=0529d526671941f9a44290ac0e5c9891",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "confidentiality": "buyerOnly",
@@ -186,7 +186,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1b4178ec68bd3f601/bids/2096f1a2874b40e3bbf150c27e4824bf/financial_documents/82ee9a2c18d74b98add3b196b7c9d4d4?download=d5ca5da8f8c44e4d8aceb3fcd04537e7",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1b4178ec68bd3f601/bids/2096f1a2874b40e3bbf150c27e4824bf/financial_documents/82ee9a2c18d74b98add3b196b7c9d4d4?download=d5ca5da8f8c44e4d8aceb3fcd04537e7",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk",
@@ -198,7 +198,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc2.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1b4178ec68bd3f601/bids/2096f1a2874b40e3bbf150c27e4824bf/financial_documents/557e8a4c6ee14c8988cc1a7ef515d755?download=8d9db5474d234818a0f392f4aa39bc72",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1b4178ec68bd3f601/bids/2096f1a2874b40e3bbf150c27e4824bf/financial_documents/557e8a4c6ee14c8988cc1a7ef515d755?download=8d9db5474d234818a0f392f4aa39bc72",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk",
@@ -212,7 +212,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1b4178ec68bd3f601/bids/2096f1a2874b40e3bbf150c27e4824bf/eligibility_documents/1058ac9d5fbe4bce95bfcfa7cddd5c45?download=b3ec728698e1471aa09e389d77c8c59e",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1b4178ec68bd3f601/bids/2096f1a2874b40e3bbf150c27e4824bf/eligibility_documents/1058ac9d5fbe4bce95bfcfa7cddd5c45?download=b3ec728698e1471aa09e389d77c8c59e",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk",
@@ -226,7 +226,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "qualification_document.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1b4178ec68bd3f601/bids/2096f1a2874b40e3bbf150c27e4824bf/qualification_documents/7c0221f902e74465ab0f3679d70bc7c1?download=f29b4b9c7be94d75889ec5de74348884",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1b4178ec68bd3f601/bids/2096f1a2874b40e3bbf150c27e4824bf/qualification_documents/7c0221f902e74465ab0f3679d70bc7c1?download=f29b4b9c7be94d75889ec5de74348884",
         "documentOf": "tender",
         "confidentiality": "public",
         "language": "uk",

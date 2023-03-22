@@ -480,11 +480,16 @@ def validate_restricted_access(obj_name, owner_fields=None):
         obj = request.validated[obj_name]
         config = request.validated["%s_config" % obj_name]
 
+        if request.authenticated_role == "Administrator":
+            return
+
+        if request.authenticated_role == "bots":
+            return
+
         if config.get("restricted") is True:
-            if request.authenticated_role != "Administrator":
-                if not any(getattr(obj, field, None) == request.authenticated_userid for field in owner_fields):
-                    raise_operation_error(
-                        request,
-                        "Access restricted for {} object".format(obj_name)
-                    )
+            if not any(getattr(obj, field, None) == request.authenticated_userid for field in owner_fields):
+                raise_operation_error(
+                    request,
+                    "Access restricted for {} object".format(obj_name)
+                )
     return validator

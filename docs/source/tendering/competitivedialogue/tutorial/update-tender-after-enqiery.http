@@ -1,6 +1,6 @@
 GET /api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd?acc_token=fb2b91f18c7d415f8cfa332577386e91 HTTP/1.0
 Authorization: Bearer broker
-Host: lb-api-sandbox.prozorro.gov.ua
+Host: public-api-sandbox.prozorro.gov.ua
 
 
 HTTP/1.0 200 OK
@@ -747,7 +747,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/documents/89d96ffbd15a49a7b0b0941421dc91d0?download=2c15ebde20e04d82861d1e3de466faf6",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/documents/89d96ffbd15a49a7b0b0941421dc91d0?download=2c15ebde20e04d82861d1e3de466faf6",
         "documentOf": "tender",
         "id": "89d96ffbd15a49a7b0b0941421dc91d0",
         "datePublished": "2023-01-01T00:00:00+02:00",
@@ -758,7 +758,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/documents/c7c453dd2b314b909a61d041eb1b05a8?download=74e6f765c6ce49cd9a82a77631e1fad1",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/documents/c7c453dd2b314b909a61d041eb1b05a8?download=74e6f765c6ce49cd9a82a77631e1fad1",
         "documentOf": "tender",
         "id": "c7c453dd2b314b909a61d041eb1b05a8",
         "datePublished": "2023-01-01T00:00:00+02:00",
@@ -771,7 +771,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/documents/c7c453dd2b314b909a61d041eb1b05a8?download=0ec2154729a94aef83c93e3881aba6dd",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/documents/c7c453dd2b314b909a61d041eb1b05a8?download=0ec2154729a94aef83c93e3881aba6dd",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner"
