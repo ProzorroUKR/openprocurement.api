@@ -1,0 +1,48 @@
+POST /api/2.5/agreements/f4be6c80d2924d309a0277b683cb00cb/contracts/bf438339aced45868328896da2c22d3b/milestones?acc_token=ed99beb8ed1b4465876f4d1f76eaf0ca HTTP/1.0
+Authorization: Bearer token
+Content-Length: 491
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "type": "ban",
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "milestone.doc",
+        "format": "application/msword",
+        "datePublished": "2020-09-08T01:00:00+03:00",
+        "id": "cd52b90af77e4f5b8cb0f210e83987b5",
+        "dateModified": "2020-09-08T01:00:00+03:00",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5ce8807b1c3340f39913e264387d8f38?Signature=FlXL02QnwffTbXUFIKSRvBgcZlgC9OsL058U%2FNaTy2TtsfjzhFxHPZV6ehKfidM1XcLdcI35gPMCrL4cNlN5Bw%3D%3D&KeyID=a8968c46"
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+
+{
+  "data": {
+    "id": "bbe0160189a546b8b3e5308ac6f0596f",
+    "type": "ban",
+    "status": "scheduled",
+    "documents": [
+      {
+        "id": "63c935b761bb4fc68d755828cf9a9a21",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "milestone.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5ce8807b1c3340f39913e264387d8f38?Signature=h3Xve9Q40jQWKAczqvya8%2F1QKyovh%2BCCuhd2EU5WKt0Z%2FreOLgIX%2B1ErKONH%2FdxtPueIkcw3d9JJN%2BfCJUG4Cw%3D%3D&KeyID=a8968c46",
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-01-01T00:00:00+02:00"
+      }
+    ],
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "dueDate": "2023-04-01T00:00:00+02:00"
+  }
+}
+

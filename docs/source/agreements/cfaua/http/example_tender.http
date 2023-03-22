@@ -1,0 +1,623 @@
+GET /api/2.5/tenders/bb31a9970870484ba6415a99611d3e81 HTTP/1.0
+Authorization: Bearer broker
+Host: lb-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "title_en": "Cases for state awards",
+    "title": "футляри до державних нагород",
+    "submissionMethod": "electronicAuction",
+    "procurementMethod": "open",
+    "awardCriteria": "lowestCost",
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "minimalStep": {
+      "amount": 15.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 100.0,
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      }
+    ],
+    "procurementMethodType": "closeFrameworkAgreementUA",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "name_en": "State administration",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName_en": "dus.gov.ua",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "telephone": "+0440000000",
+        "name": "Державне управління справами",
+        "name_en": "State administration",
+        "availableLanguage": "uk"
+      },
+      "kind": "general"
+    },
+    "mainProcurementCategory": "goods",
+    "agreementDuration": "P3Y3M3D",
+    "maxAwardsCount": 4,
+    "items": [
+      {
+        "id": "441f9d3acd394c1ca83d852d54799ded",
+        "description": "футляри до державних нагород",
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "item",
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "relatedLot": "04651361e47848abb6eda21e59c8b4a1",
+        "deliveryDate": {
+          "startDate": "2018-06-27T13:39:09.362837+03:00",
+          "endDate": "2018-06-30T13:39:09.362837+03:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "description_en": "Cases for state awards"
+      }
+    ],
+    "lots": [
+      {
+        "title": "lot title",
+        "description": "lot description",
+        "id": "04651361e47848abb6eda21e59c8b4a1",
+        "status": "active",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 15.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "date": "2023-01-01T00:00:00+02:00",
+        "auctionPeriod": {
+          "startDate": "2022-12-15T00:00:00+02:00",
+          "endDate": "2022-12-16T00:00:00+02:00"
+        }
+      }
+    ],
+    "tenderPeriod": {
+      "endDate": "2022-12-05T00:00:00+02:00",
+      "startDate": "2022-11-04T00:00:00+02:00"
+    },
+    "status": "complete",
+    "tenderID": "UA-2023-01-01-000001-a",
+    "complaintPeriod": {
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-28T00:00:00+02:00"
+    },
+    "owner": "broker",
+    "date": "2023-01-01T00:00:00+02:00",
+    "enquiryPeriod": {
+      "startDate": "2022-11-04T00:00:00+02:00",
+      "endDate": "2022-11-25T00:00:00+02:00",
+      "clarificationsUntil": "2023-01-26T00:00:00+02:00"
+    },
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "qualificationPeriod": {
+      "startDate": "2022-12-05T00:00:00+02:00",
+      "endDate": "2022-12-15T00:00:00+02:00"
+    },
+    "auctionPeriod": {
+      "startDate": "2022-12-15T00:00:00+02:00",
+      "endDate": "2022-12-16T00:00:00+02:00"
+    },
+    "awardPeriod": {
+      "startDate": "2022-12-16T00:00:00+02:00",
+      "endDate": "2022-12-26T00:00:00+02:00"
+    },
+    "contractPeriod": {
+      "startDate": "2022-12-26T00:00:00+02:00",
+      "clarificationsUntil": "2022-12-31T00:00:00+02:00",
+      "endDate": "2023-01-01T00:00:00+02:00"
+    },
+    "bids": [
+      {
+        "selfQualified": true,
+        "tenderers": [
+          {
+            "contactPoint": {
+              "name_en": "State administration",
+              "name": "Державне управління справами",
+              "telephone": "+0440000000"
+            },
+            "name_en": "State administration",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "legalName_en": "dus.gov.ua",
+              "id": "00037256",
+              "uri": "http://www.dus.gov.ua/"
+            },
+            "name": "Державне управління справами",
+            "address": {
+              "countryName": "Україна",
+              "postalCode": "01220",
+              "region": "м. Київ",
+              "streetAddress": "вул. Банкова, 11, корпус 1",
+              "locality": "м. Київ"
+            },
+            "scale": "micro"
+          }
+        ],
+        "lotValues": [
+          {
+            "status": "active",
+            "value": {
+              "currency": "UAH",
+              "amount": 469.0,
+              "valueAddedTaxIncluded": true
+            },
+            "relatedLot": "04651361e47848abb6eda21e59c8b4a1",
+            "date": "2022-11-04T00:00:01+02:00"
+          }
+        ],
+        "id": "78290ccc2a114830a97e8f2c510bacaf",
+        "date": "2022-11-04T00:00:01+02:00",
+        "status": "active"
+      },
+      {
+        "selfQualified": true,
+        "tenderers": [
+          {
+            "contactPoint": {
+              "name_en": "State administration",
+              "name": "Державне управління справами",
+              "telephone": "+0440000000"
+            },
+            "name_en": "State administration",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "legalName_en": "dus.gov.ua",
+              "id": "00037256",
+              "uri": "http://www.dus.gov.ua/"
+            },
+            "name": "Державне управління справами",
+            "address": {
+              "countryName": "Україна",
+              "postalCode": "01220",
+              "region": "м. Київ",
+              "streetAddress": "вул. Банкова, 11, корпус 1",
+              "locality": "м. Київ"
+            },
+            "scale": "micro"
+          }
+        ],
+        "lotValues": [
+          {
+            "status": "active",
+            "value": {
+              "currency": "UAH",
+              "amount": 470.0,
+              "valueAddedTaxIncluded": true
+            },
+            "relatedLot": "04651361e47848abb6eda21e59c8b4a1",
+            "date": "2022-11-04T00:00:02+02:00"
+          }
+        ],
+        "id": "be6885d5a2ec4336a11ed73370239ed6",
+        "date": "2022-11-04T00:00:02+02:00",
+        "status": "active"
+      },
+      {
+        "selfQualified": true,
+        "tenderers": [
+          {
+            "contactPoint": {
+              "name_en": "State administration",
+              "name": "Державне управління справами",
+              "telephone": "+0440000000"
+            },
+            "name_en": "State administration",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "legalName_en": "dus.gov.ua",
+              "id": "00037256",
+              "uri": "http://www.dus.gov.ua/"
+            },
+            "name": "Державне управління справами",
+            "address": {
+              "countryName": "Україна",
+              "postalCode": "01220",
+              "region": "м. Київ",
+              "streetAddress": "вул. Банкова, 11, корпус 1",
+              "locality": "м. Київ"
+            },
+            "scale": "micro"
+          }
+        ],
+        "lotValues": [
+          {
+            "status": "active",
+            "value": {
+              "currency": "UAH",
+              "amount": 471.0,
+              "valueAddedTaxIncluded": true
+            },
+            "relatedLot": "04651361e47848abb6eda21e59c8b4a1",
+            "date": "2022-11-04T00:00:03+02:00"
+          }
+        ],
+        "id": "593a5fc959d64463b40f460fe47f30cb",
+        "date": "2022-11-04T00:00:03+02:00",
+        "status": "active"
+      }
+    ],
+    "qualifications": [
+      {
+        "id": "6f9ddb0ff2914d5bbbb13f216e5c3cfb",
+        "bidID": "78290ccc2a114830a97e8f2c510bacaf",
+        "status": "active",
+        "lotID": "04651361e47848abb6eda21e59c8b4a1",
+        "date": "2022-12-05T00:00:00+02:00",
+        "qualified": true,
+        "eligible": true
+      },
+      {
+        "id": "3c1ef529e7b84db2a7f8824f830c80e9",
+        "bidID": "be6885d5a2ec4336a11ed73370239ed6",
+        "status": "active",
+        "lotID": "04651361e47848abb6eda21e59c8b4a1",
+        "date": "2022-12-05T00:00:00+02:00",
+        "qualified": true,
+        "eligible": true
+      },
+      {
+        "id": "1376deb920134d33b9a67dd23a462745",
+        "bidID": "593a5fc959d64463b40f460fe47f30cb",
+        "status": "active",
+        "lotID": "04651361e47848abb6eda21e59c8b4a1",
+        "date": "2022-12-05T00:00:00+02:00",
+        "qualified": true,
+        "eligible": true
+      }
+    ],
+    "awards": [
+      {
+        "status": "active",
+        "lotID": "04651361e47848abb6eda21e59c8b4a1",
+        "suppliers": [
+          {
+            "contactPoint": {
+              "name_en": "State administration",
+              "name": "Державне управління справами",
+              "telephone": "+0440000000"
+            },
+            "name_en": "State administration",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "legalName_en": "dus.gov.ua",
+              "id": "00037256",
+              "uri": "http://www.dus.gov.ua/"
+            },
+            "name": "Державне управління справами",
+            "address": {
+              "countryName": "Україна",
+              "postalCode": "01220",
+              "region": "м. Київ",
+              "streetAddress": "вул. Банкова, 11, корпус 1",
+              "locality": "м. Київ"
+            },
+            "scale": "micro"
+          }
+        ],
+        "bid_id": "78290ccc2a114830a97e8f2c510bacaf",
+        "value": {
+          "currency": "UAH",
+          "amount": 469,
+          "valueAddedTaxIncluded": true
+        },
+        "date": "2022-12-16T00:00:00+02:00",
+        "id": "f99be86681de4f368037738d6af12903",
+        "complaintPeriod": {
+          "startDate": "2022-12-16T00:00:00+02:00",
+          "endDate": "2022-12-26T00:00:00+02:00"
+        }
+      },
+      {
+        "status": "active",
+        "lotID": "04651361e47848abb6eda21e59c8b4a1",
+        "suppliers": [
+          {
+            "contactPoint": {
+              "name_en": "State administration",
+              "name": "Державне управління справами",
+              "telephone": "+0440000000"
+            },
+            "name_en": "State administration",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "legalName_en": "dus.gov.ua",
+              "id": "00037256",
+              "uri": "http://www.dus.gov.ua/"
+            },
+            "name": "Державне управління справами",
+            "address": {
+              "countryName": "Україна",
+              "postalCode": "01220",
+              "region": "м. Київ",
+              "streetAddress": "вул. Банкова, 11, корпус 1",
+              "locality": "м. Київ"
+            },
+            "scale": "micro"
+          }
+        ],
+        "bid_id": "be6885d5a2ec4336a11ed73370239ed6",
+        "value": {
+          "currency": "UAH",
+          "amount": 470,
+          "valueAddedTaxIncluded": true
+        },
+        "date": "2022-12-16T00:00:00+02:00",
+        "id": "e5e6c374e9db46c2bf634056b03768db",
+        "complaintPeriod": {
+          "startDate": "2022-12-16T00:00:00+02:00",
+          "endDate": "2022-12-26T00:00:00+02:00"
+        }
+      },
+      {
+        "status": "active",
+        "lotID": "04651361e47848abb6eda21e59c8b4a1",
+        "suppliers": [
+          {
+            "contactPoint": {
+              "name_en": "State administration",
+              "name": "Державне управління справами",
+              "telephone": "+0440000000"
+            },
+            "name_en": "State administration",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "legalName_en": "dus.gov.ua",
+              "id": "00037256",
+              "uri": "http://www.dus.gov.ua/"
+            },
+            "name": "Державне управління справами",
+            "address": {
+              "countryName": "Україна",
+              "postalCode": "01220",
+              "region": "м. Київ",
+              "streetAddress": "вул. Банкова, 11, корпус 1",
+              "locality": "м. Київ"
+            },
+            "scale": "micro"
+          }
+        ],
+        "bid_id": "593a5fc959d64463b40f460fe47f30cb",
+        "value": {
+          "currency": "UAH",
+          "amount": 471,
+          "valueAddedTaxIncluded": true
+        },
+        "date": "2022-12-16T00:00:00+02:00",
+        "id": "ea7c848eefbb4037a273456dd333ce1a",
+        "complaintPeriod": {
+          "startDate": "2022-12-16T00:00:00+02:00",
+          "endDate": "2022-12-26T00:00:00+02:00"
+        }
+      }
+    ],
+    "agreements": [
+      {
+        "id": "b7536ab0fbe34a1dafa73fe7943ff79c",
+        "items": [
+          {
+            "id": "441f9d3acd394c1ca83d852d54799ded",
+            "description": "футляри до державних нагород",
+            "classification": {
+              "description": "Cartons",
+              "scheme": "ДК021",
+              "id": "44617100-9"
+            },
+            "additionalClassifications": [
+              {
+                "scheme": "ДКПП",
+                "id": "17.21.1",
+                "description": "папір і картон гофровані, паперова й картонна тара"
+              }
+            ],
+            "unit": {
+              "name": "item",
+              "code": "KGM"
+            },
+            "quantity": 5.0,
+            "relatedLot": "04651361e47848abb6eda21e59c8b4a1",
+            "deliveryDate": {
+              "startDate": "2018-06-27T13:39:09.362837+03:00",
+              "endDate": "2018-06-30T13:39:09.362837+03:00"
+            },
+            "deliveryAddress": {
+              "streetAddress": "вул. Банкова 1",
+              "locality": "м. Київ",
+              "region": "м. Київ",
+              "postalCode": "79000",
+              "countryName": "Україна"
+            },
+            "description_en": "Cases for state awards"
+          }
+        ],
+        "agreementID": "UA-2023-01-01-000001-a-e75ece1cddb64807825e058d729510f61",
+        "date": "2023-01-01T00:00:00+02:00",
+        "contracts": [
+          {
+            "id": "3f790a2fc7c647a7be968a10e669e9fa",
+            "suppliers": [
+              {
+                "contactPoint": {
+                  "name_en": "State administration",
+                  "name": "Державне управління справами",
+                  "telephone": "+0440000000"
+                },
+                "name_en": "State administration",
+                "identifier": {
+                  "scheme": "UA-EDR",
+                  "legalName_en": "dus.gov.ua",
+                  "id": "00037256",
+                  "uri": "http://www.dus.gov.ua/"
+                },
+                "name": "Державне управління справами",
+                "address": {
+                  "countryName": "Україна",
+                  "postalCode": "01220",
+                  "region": "м. Київ",
+                  "streetAddress": "вул. Банкова, 11, корпус 1",
+                  "locality": "м. Київ"
+                },
+                "scale": "micro"
+              }
+            ],
+            "awardID": "f99be86681de4f368037738d6af12903",
+            "bidID": "78290ccc2a114830a97e8f2c510bacaf",
+            "date": "2023-01-01T00:00:00+02:00",
+            "unitPrices": [
+              {
+                "relatedItem": "441f9d3acd394c1ca83d852d54799ded",
+                "value": {
+                  "currency": "UAH",
+                  "valueAddedTaxIncluded": true,
+                  "amount": 93
+                }
+              }
+            ],
+            "status": "active"
+          },
+          {
+            "id": "142288b4ac5447c088ae5c55bed1f9fc",
+            "suppliers": [
+              {
+                "contactPoint": {
+                  "name_en": "State administration",
+                  "name": "Державне управління справами",
+                  "telephone": "+0440000000"
+                },
+                "name_en": "State administration",
+                "identifier": {
+                  "scheme": "UA-EDR",
+                  "legalName_en": "dus.gov.ua",
+                  "id": "00037256",
+                  "uri": "http://www.dus.gov.ua/"
+                },
+                "name": "Державне управління справами",
+                "address": {
+                  "countryName": "Україна",
+                  "postalCode": "01220",
+                  "region": "м. Київ",
+                  "streetAddress": "вул. Банкова, 11, корпус 1",
+                  "locality": "м. Київ"
+                },
+                "scale": "micro"
+              }
+            ],
+            "awardID": "e5e6c374e9db46c2bf634056b03768db",
+            "bidID": "be6885d5a2ec4336a11ed73370239ed6",
+            "date": "2023-01-01T00:00:00+02:00",
+            "unitPrices": [
+              {
+                "relatedItem": "441f9d3acd394c1ca83d852d54799ded",
+                "value": {
+                  "currency": "UAH",
+                  "valueAddedTaxIncluded": true,
+                  "amount": 93
+                }
+              }
+            ],
+            "status": "active"
+          },
+          {
+            "id": "bd325edc619c4f61b067e07529a08461",
+            "suppliers": [
+              {
+                "contactPoint": {
+                  "name_en": "State administration",
+                  "name": "Державне управління справами",
+                  "telephone": "+0440000000"
+                },
+                "name_en": "State administration",
+                "identifier": {
+                  "scheme": "UA-EDR",
+                  "legalName_en": "dus.gov.ua",
+                  "id": "00037256",
+                  "uri": "http://www.dus.gov.ua/"
+                },
+                "name": "Державне управління справами",
+                "address": {
+                  "countryName": "Україна",
+                  "postalCode": "01220",
+                  "region": "м. Київ",
+                  "streetAddress": "вул. Банкова, 11, корпус 1",
+                  "locality": "м. Київ"
+                },
+                "scale": "micro"
+              }
+            ],
+            "awardID": "ea7c848eefbb4037a273456dd333ce1a",
+            "bidID": "593a5fc959d64463b40f460fe47f30cb",
+            "date": "2023-01-01T00:00:00+02:00",
+            "unitPrices": [
+              {
+                "relatedItem": "441f9d3acd394c1ca83d852d54799ded",
+                "value": {
+                  "currency": "UAH",
+                  "valueAddedTaxIncluded": true,
+                  "amount": 93
+                }
+              }
+            ],
+            "status": "active"
+          }
+        ],
+        "status": "active"
+      }
+    ],
+    "id": "bb31a9970870484ba6415a99611d3e81"
+  }
+}
+

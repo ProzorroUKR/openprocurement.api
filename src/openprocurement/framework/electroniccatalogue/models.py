@@ -145,7 +145,6 @@ class Framework(BaseFramework):
         choices=[
             "draft",
             "active",
-            "deleted",
             "complete",
             "unsuccessful",
         ],

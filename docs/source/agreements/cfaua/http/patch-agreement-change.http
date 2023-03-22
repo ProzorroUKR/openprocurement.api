@@ -1,0 +1,27 @@
+PATCH /api/2.5/agreements/b7536ab0fbe34a1dafa73fe7943ff79c/changes/021c093dc15d4e078ce3061ae63cd514?acc_token=2308192c93e846339ff07b8a89dfaff0 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 255
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "rationale": "Друга і третя поставка має бути розфасована"
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "id": "021c093dc15d4e078ce3061ae63cd514",
+    "status": "pending",
+    "date": "2023-01-01T00:00:00+02:00",
+    "rationale": "Друга і третя поставка має бути розфасована",
+    "rationale_en": "Agreement change cause",
+    "rationaleType": "taxRate"
+  }
+}
+

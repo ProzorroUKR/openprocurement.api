@@ -9,6 +9,7 @@ from openprocurement.api.utils import (
 from openprocurement.api.views.base import (
     MongodbResourceListing,
     BaseResource,
+    RestrictedResourceListingMixin,
 )
 from openprocurement.framework.core.models import FrameworkConfig
 from openprocurement.framework.core.utils import (
@@ -23,6 +24,8 @@ from openprocurement.framework.core.validation import (
     validate_framework_data,
     validate_qualification_period_duration,
 )
+from openprocurement.framework.core.views.qualification import QualificationResource
+from openprocurement.framework.core.views.submission import SubmissionResource
 from openprocurement.tender.core.procedure.validation import validate_config_data
 
 AGREEMENT_DEPENDENT_FIELDS = ("qualificationPeriod", "procuringEntity")
@@ -99,22 +102,22 @@ class FrameworkResource(MongodbResourceListing):
     path='/frameworks/{frameworkID}/submissions',
     description="Framework Submissions",
 )
-class FrameworkSubmissionRequestResource(MongodbResourceListing):
+class FrameworkSubmissionRequestResource(SubmissionResource):
     filter_key = "frameworkID"
 
     def __init__(self, request, context):
         super().__init__(request, context)
-        self.listing_name = "FrameworkSubmissions"
-        self.owner_fields = {"owner", "framework_owner"}
         self.listing_default_fields = {
-            "dateModified", "dateCreated", "datePublished", "id", "date", "status",
-            "qualificationID", "frameworkID", "tenderers",
+            "dateModified",
+            "dateCreated",
+            "datePublished",
+            "id",
+            "date",
+            "status",
+            "qualificationID",
+            "frameworkID",
+            "tenderers",
         }
-        self.listing_allowed_fields = {
-            "dateModified", "dateCreated", "datePublished", "id", "date", "status",
-            "qualificationID", "frameworkID", "tenderers",
-        }
-        self.db_listing_method = request.registry.mongodb.submissions.list
 
 
 @frameworksresource(
@@ -122,22 +125,21 @@ class FrameworkSubmissionRequestResource(MongodbResourceListing):
     path='/frameworks/{frameworkID}/qualifications',
     description="Framework Qualifications",
 )
-class FrameworkQualificationRequestResource(MongodbResourceListing):
+class FrameworkQualificationRequestResource(QualificationResource):
     filter_key = "frameworkID"
 
     def __init__(self, request, context):
         super().__init__(request, context)
-        self.listing_name = "FrameworkQualifications"
-        self.owner_fields = {"framework_owner", "submission_owner"}
         self.listing_default_fields = {
-            "dateModified", "dateCreated", "id", "date", "status",
-            "submissionID", "frameworkID", "documents",
+            "dateModified",
+            "dateCreated",
+            "id",
+            "frameworkID",
+            "submissionID",
+            "status",
+            "documents",
+            "date",
         }
-        self.listing_allowed_fields = {
-            "dateModified", "dateCreated", "id", "date", "status",
-            "submissionID", "frameworkID", "documents",
-        }
-        self.db_listing_method = request.registry.mongodb.qualifications.list
 
 
 class CoreFrameworkResource(BaseResource):
@@ -200,14 +202,23 @@ class CoreFrameworkResource(BaseResource):
 
     def update_agreement(self):
         framework = self.request.validated["framework"]
+        agreement_data = self.request.validated["agreement_src"]
+
+        end_date = framework.qualificationPeriod.endDate.isoformat()
 
         updated_agreement_data = {
             "period": {
-                "startDate": self.request.validated["agreement_src"]["period"]["startDate"],
-                "endDate": framework.qualificationPeriod.endDate.isoformat()
+                "startDate": agreement_data["period"]["startDate"],
+                "endDate": end_date,
             },
-            "procuringEntity": framework.procuringEntity
+            "procuringEntity": framework.procuringEntity,
+            "contracts": agreement_data["contracts"],
         }
+        for contract in updated_agreement_data["contracts"]:
+            for milestone in contract["milestones"]:
+                if milestone["type"] == "activation":
+                    milestone["dueDate"] = end_date
+
         apply_patch(
             self.request,
             src=self.request.validated["agreement_src"],

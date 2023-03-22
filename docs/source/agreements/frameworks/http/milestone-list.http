@@ -1,0 +1,20 @@
+GET /api/2.5/agreements/f4be6c80d2924d309a0277b683cb00cb/contracts/bf438339aced45868328896da2c22d3b/milestones HTTP/1.0
+Authorization: Bearer token
+Host: lb-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "id": "48d2f1d85c114e468139d020259678e4",
+      "type": "activation",
+      "status": "scheduled",
+      "dueDate": "2023-05-01T00:00:00+02:00",
+      "dateModified": "2023-01-01T00:00:00+02:00"
+    }
+  ]
+}
+

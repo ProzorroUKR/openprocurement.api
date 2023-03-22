@@ -1,0 +1,159 @@
+GET /api/2.5/agreements/f4be6c80d2924d309a0277b683cb00cb HTTP/1.0
+Authorization: Bearer token
+Host: lb-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "agreementID": "UA-2023-01-01-000001",
+    "status": "terminated",
+    "date": "2023-09-28T01:00:00+03:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-09-28T01:00:00+03:00",
+    "owner": "test",
+    "agreementType": "electronicCatalogue",
+    "frameworkID": "9b13d67e723e43c4a2eb0ddeaaa95540",
+    "period": {
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-05-01T00:00:00+02:00"
+    },
+    "procuringEntity": {
+      "name": "Повна назва юридичної організації.",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "40996564",
+        "legalName": "Назва організації(ЦЗО)"
+      },
+      "address": {
+        "countryName": "Україна",
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220"
+      },
+      "contactPoint": {
+        "name": "Назва організації(ЦЗО)",
+        "telephone": "+0440000000",
+        "email": "aa@aa.com"
+      },
+      "kind": "central"
+    },
+    "classification": {
+      "description": "Mustard seeds",
+      "scheme": "ДК021",
+      "id": "03111600-8"
+    },
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003",
+        "id": "17.21.1",
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ],
+    "contracts": [
+      {
+        "id": "bf438339aced45868328896da2c22d3b",
+        "qualificationID": "377f120c58684f399b53f0d79d4db82f",
+        "status": "terminated",
+        "submissionID": "7f876942aa324006bb48a511e0dd8722",
+        "suppliers": [
+          {
+            "name": "ДКП «Школяр»",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137256",
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Островського, 33",
+              "locality": "м. Вінниця",
+              "region": "Вінницька область",
+              "postalCode": "21100",
+              "countryName": "Україна"
+            },
+            "scale": "micro",
+            "contactPoint": {
+              "name": "Сергій Олексюк",
+              "email": "soleksuk@gmail.com",
+              "telephone": "+380432216930"
+            }
+          }
+        ],
+        "milestones": [
+          {
+            "id": "48d2f1d85c114e468139d020259678e4",
+            "type": "activation",
+            "status": "met",
+            "dueDate": "2023-05-01T00:00:00+02:00",
+            "dateModified": "2023-04-01T01:00:00+03:00"
+          },
+          {
+            "id": "bbe0160189a546b8b3e5308ac6f0596f",
+            "type": "ban",
+            "status": "met",
+            "dueDate": "2023-04-01T00:00:00+02:00",
+            "documents": [
+              {
+                "id": "63c935b761bb4fc68d755828cf9a9a21",
+                "hash": "md5:00000000000000000000000000000000",
+                "title": "milestone.doc",
+                "format": "application/msword",
+                "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5ce8807b1c3340f39913e264387d8f38?Signature=h3Xve9Q40jQWKAczqvya8%2F1QKyovh%2BCCuhd2EU5WKt0Z%2FreOLgIX%2B1ErKONH%2FdxtPueIkcw3d9JJN%2BfCJUG4Cw%3D%3D&KeyID=a8968c46",
+                "datePublished": "2023-01-01T00:00:00+02:00",
+                "dateModified": "2023-01-01T00:00:00+02:00"
+              }
+            ],
+            "dateModified": "2023-04-01T01:00:00+03:00"
+          }
+        ],
+        "date": "2023-01-01T00:00:00+02:00"
+      },
+      {
+        "id": "1b30e6feb6ae49a982b57466293530da",
+        "qualificationID": "ff5eaa049f794abc933591cb8ab22abe",
+        "status": "terminated",
+        "submissionID": "3247e1e5c84345289bd21f7ed1a70475",
+        "suppliers": [
+          {
+            "name": "ДКП «Школяр»",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137257",
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Островського, 33",
+              "locality": "м. Вінниця",
+              "region": "Вінницька область",
+              "postalCode": "21100",
+              "countryName": "Україна"
+            },
+            "scale": "micro",
+            "contactPoint": {
+              "name": "Сергій Олексюк",
+              "email": "soleksuk@gmail.com",
+              "telephone": "+380432216930"
+            }
+          }
+        ],
+        "milestones": [
+          {
+            "id": "72182289f7c049e0b41d9f680ccf8715",
+            "type": "activation",
+            "status": "met",
+            "dueDate": "2023-05-01T00:00:00+02:00",
+            "dateModified": "2023-09-28T01:00:00+03:00"
+          }
+        ],
+        "date": "2023-01-01T00:00:00+02:00"
+      }
+    ],
+    "id": "f4be6c80d2924d309a0277b683cb00cb"
+  }
+}
+

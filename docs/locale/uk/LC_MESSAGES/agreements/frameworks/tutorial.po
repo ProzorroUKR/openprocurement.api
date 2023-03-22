@@ -1,0 +1,98 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-03-22 02:09+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.11.0\n"
+
+msgid "Tutorial"
+msgstr "Туторіал"
+
+msgid "Exploring basic rules"
+msgstr "Базові правила"
+
+msgid "Let's try exploring the `/agreements` endpoint:"
+msgstr "Подивимось як працює точка входу `/agreements`:"
+
+msgid "Just invoking it reveals an empty set."
+msgstr "При виклику видає пустий набір."
+
+msgid "Agreement is transferred from the tender system by an automated process."
+msgstr "Угода автоматично переноситься з модуля тендера."
+
+msgid "Creating agreement"
+msgstr "Створення реєстру"
+
+msgid "Let's say that we have conducted framework, submission and qualification and it has ``active`` status. When the framework is active and you change qualification status to active, system **automatically** created agreement(from framework) with contract(from qualification)."
+msgstr "Припустимо, що є кваліфікація, заявка та рішення по заявці в статусах ``active``. Коли заявка в стаусі `active` і ви оновлюєте рішення по заявці до `active` статусу система **автоматично** створює реєстр(з кваліфікації) з контрактом(з рішення по заявці)."
+
+msgid "Getting agreement"
+msgstr "Отримання реєстру"
+
+msgid "Let's see our created framework:"
+msgstr "Перевіримо нашу кваліфікацію:"
+
+msgid "In our framework you can see the `agreementID` field where stores id of related agreement. When we know id of our agreement we can get it:"
+msgstr "В нашій кваліфікації ви можете знайти поле `agreementID` в якому зберегіється ідентифікатор пов'язоного реєстру. Тепер ми можемо отримати на реєстр:"
+
+msgid "Modifying agreement"
+msgstr "Зміна реєстру"
+
+msgid "All operation with agreement can make `framework_owner`. Only one thing that can make `framework_owner` is create/modify contract milestones."
+msgstr "Всі операцї над реєстром може виконувати лише `framework_owner`. Лише одна річ, яку може робити `framework_owner` це додавати/змінювати майлстони до контракту."
+
+msgid "Contract - object that stores information about participant"
+msgstr "Контракт - об'єкт що зберігає інформацію про учасника."
+
+msgid "Milestone - that's contract history."
+msgstr "Майлстон - це історія контраку."
+
+msgid "Contract ban"
+msgstr "Бан контракту"
+
+#, fuzzy
+msgid "For ban contract, you just need to add milestone to contract with type `ban`:"
+msgstr "Для того щоб забанити контракт, потрібно лише створити майлстон зі статусом `ban`:"
+
+msgid "You can see that contract status was automatically changed to `suspended`:"
+msgstr ""
+
+msgid "After `dueDate` date of milestone, contract will be automatically set back to `active` status."
+msgstr ""
+
+msgid "Contract disqualify"
+msgstr ""
+
+msgid "You can see that contract was automatically created with `activation` milestone."
+msgstr ""
+
+msgid "Field `dueDate` was automatically set with `period.endDate` date. On that date milestone will be automatically set to `met` status, and contract will switched status to `terminated`."
+msgstr ""
+
+msgid "When you want to manually disqualify contract, you need to manually set `activation` milestone status to `met`:"
+msgstr ""
+
+msgid "Now you can see that contract status was changed to `terminated`:"
+msgstr ""
+
+msgid "Finishing agreement"
+msgstr ""
+
+msgid "Lets wait for `period.endDate` date and see what will happen:"
+msgstr ""
+
+msgid "You can see that `activation` milestone was automatically set to `met` status, contract status was changed to `terminated` and agreement status was changed to `terminated`."
+msgstr ""
+

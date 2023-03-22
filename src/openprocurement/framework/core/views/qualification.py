@@ -1,4 +1,7 @@
-from openprocurement.api.views.base import MongodbResourceListing
+from openprocurement.api.views.base import (
+    MongodbResourceListing,
+    RestrictedResourceListingMixin,
+)
 from openprocurement.api.utils import (
     json_view,
     context_unpack,
@@ -14,28 +17,40 @@ from openprocurement.framework.core.validation import validate_restricted_access
 from openprocurement.framework.core.views.agreement import AgreementViewMixin
 
 
+QUALIFICATION_OWNER_FIELDS = {"framework_owner", "submission_owner"}
+
+
 @qualificationsresource(
     name="Qualifications",
     path="/qualifications",
     description="",  # TODO: Add description
 )
-class QualificationResource(MongodbResourceListing):
+class QualificationResource(RestrictedResourceListingMixin, MongodbResourceListing):
     def __init__(self, request, context):
         super().__init__(request, context)
         self.listing_name = "Qualifications"
-        self.owner_fields = {"framework_owner", "submission_owner"}
+        self.owner_fields = QUALIFICATION_OWNER_FIELDS
         self.listing_default_fields = {
             "dateModified",
         }
         self.listing_allowed_fields = {
-            "dateCreated",
             "dateModified",
+            "dateCreated",
             "id",
             "frameworkID",
             "submissionID",
+            "qualificationType",
             "status",
             "documents",
             "date",
+        }
+        self.listing_safe_fields = {
+            "dateModified",
+            "dateCreated",
+            "id",
+            "frameworkID",
+            "submissionID",
+            "qualificationType",
         }
         self.db_listing_method = request.registry.mongodb.qualifications.list
 
@@ -43,7 +58,7 @@ class QualificationResource(MongodbResourceListing):
 class CoreQualificationResource(BaseResource, AgreementViewMixin):
     @json_view(
         validators=(
-            validate_restricted_access("qualification", owner_fields={"framework_owner", "submission_owner"})
+            validate_restricted_access("qualification", owner_fields=QUALIFICATION_OWNER_FIELDS)
         ),
         permission="view_qualification",
     )

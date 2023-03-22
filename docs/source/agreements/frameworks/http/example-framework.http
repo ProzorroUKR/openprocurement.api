@@ -1,0 +1,70 @@
+GET /api/2.5/frameworks/9b13d67e723e43c4a2eb0ddeaaa95540 HTTP/1.0
+Authorization: Bearer token
+Host: lb-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "prettyID": "UA-F-2023-01-01-000001",
+    "title": "Узагальнена назва закупівлі",
+    "description": "Назва предмета закупівлі",
+    "date": "2022-12-31T23:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "owner": "test",
+    "status": "active",
+    "period": {
+      "startDate": "2022-12-31T23:00:00+02:00",
+      "endDate": "2023-04-01T00:00:00+02:00"
+    },
+    "qualificationPeriod": {
+      "startDate": "2022-12-31T23:00:01+02:00",
+      "endDate": "2023-05-01T00:00:00+02:00"
+    },
+    "enquiryPeriod": {
+      "startDate": "2022-12-31T23:00:00+02:00",
+      "endDate": "2022-12-31T23:00:01+02:00"
+    },
+    "frameworkType": "electronicCatalogue",
+    "procuringEntity": {
+      "name": "Повна назва юридичної організації.",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "40996564",
+        "legalName": "Назва організації(ЦЗО)"
+      },
+      "address": {
+        "countryName": "Україна",
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220"
+      },
+      "contactPoint": {
+        "name": "Назва організації(ЦЗО)",
+        "telephone": "+0440000000",
+        "email": "aa@aa.com"
+      },
+      "kind": "central"
+    },
+    "classification": {
+      "description": "Mustard seeds",
+      "scheme": "ДК021",
+      "id": "03111600-8"
+    },
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003",
+        "id": "17.21.1",
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ],
+    "agreementID": "f4be6c80d2924d309a0277b683cb00cb",
+    "id": "9b13d67e723e43c4a2eb0ddeaaa95540",
+    "next_check": "2023-01-28T00:00:00+02:00"
+  }
+}
+

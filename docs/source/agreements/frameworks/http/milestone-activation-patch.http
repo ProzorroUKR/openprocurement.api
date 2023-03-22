@@ -1,0 +1,26 @@
+PATCH /api/2.5/agreements/f4be6c80d2924d309a0277b683cb00cb/contracts/bf438339aced45868328896da2c22d3b/milestones/48d2f1d85c114e468139d020259678e4?acc_token=ed99beb8ed1b4465876f4d1f76eaf0ca HTTP/1.0
+Authorization: Bearer token
+Content-Length: 27
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "met"
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "id": "48d2f1d85c114e468139d020259678e4",
+    "type": "activation",
+    "status": "met",
+    "dueDate": "2023-05-01T00:00:00+02:00",
+    "dateModified": "2023-04-01T01:00:00+03:00"
+  }
+}
+

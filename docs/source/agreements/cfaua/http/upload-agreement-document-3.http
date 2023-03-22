@@ -1,0 +1,31 @@
+PUT /api/2.5/agreements/b7536ab0fbe34a1dafa73fe7943ff79c/documents/3901a81c23b3459f90d05d27475f6a79?acc_token=2308192c93e846339ff07b8a89dfaff0 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 181
+Content-Type: multipart/form-data; boundary=---BOUNDARY
+Host: lb-api-sandbox.prozorro.gov.ua
+
+-----BOUNDARY
+Content-Disposition: form-data; name="file"; filename="agreement_additional_docs.doc"
+Content-Type: application/msword
+
+extended additional info
+-----BOUNDARY--
+
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "id": "3901a81c23b3459f90d05d27475f6a79",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "agreement_additional_docs.doc",
+    "format": "application/msword",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5cdb70800e824a2bb457e117deee6f7a?Signature=gPf4Arsddzk925al4WmX%2B%2BKhj%2Fq04KU%2Fs0JqayjOPtmpwEleeASlqk%2B2b2IosBs7Cbyr0nUSqbeiIon4i%2FMaAg%3D%3D&KeyID=a8968c46",
+    "datePublished": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "documentOf": "agreement"
+  }
+}
+
