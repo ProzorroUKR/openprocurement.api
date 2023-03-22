@@ -45,7 +45,9 @@ class SubmissionResource(RestrictedResourceListingMixin, MongodbResourceListing)
         super().__init__(request, context)
         self.listing_name = "Submissions"
         self.owner_fields = SUBMISSION_OWNER_FIELDS
-        self.listing_default_fields = {"dateModified"}
+        self.listing_default_fields = {
+            "dateModified",
+        }
         self.listing_allowed_fields = {
             "dateCreated",
             "dateModified",
