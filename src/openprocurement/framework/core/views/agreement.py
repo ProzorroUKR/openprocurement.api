@@ -37,7 +37,9 @@ class AgreementResource(RestrictedResourceListingMixin, MongodbResourceListing):
     def __init__(self, request, context):
         super().__init__(request, context)
         self.listing_name = "Agreements"
-        self.listing_default_fields = {"dateModified"}
+        self.listing_default_fields = {
+            "dateModified",
+        }
         self.listing_allowed_fields = {
             "dateCreated",
             "dateModified",
@@ -54,6 +56,7 @@ class AgreementResource(RestrictedResourceListingMixin, MongodbResourceListing):
             "id",
             "agreementID",
             "agreementType",
+            "next_check",
         }
         self.db_listing_method = request.registry.mongodb.agreements.list
 

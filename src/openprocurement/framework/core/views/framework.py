@@ -9,7 +9,6 @@ from openprocurement.api.utils import (
 from openprocurement.api.views.base import (
     MongodbResourceListing,
     BaseResource,
-    RestrictedResourceListingMixin,
 )
 from openprocurement.framework.core.models import FrameworkConfig
 from openprocurement.framework.core.utils import (
@@ -43,9 +42,22 @@ class FrameworkResource(MongodbResourceListing):
     def __init__(self, request, context):
         super(FrameworkResource, self).__init__(request, context)
         self.listing_name = "Frameworks"
-        self.listing_default_fields = {"dateModified"}
-        self.listing_allowed_fields = {"dateCreated", "dateModified", "id", "title", "prettyID", "enquiryPeriod",
-                           "period", "qualificationPeriod", "status", "frameworkType", "next_check"}
+        self.listing_default_fields = {
+            "dateModified",
+        }
+        self.listing_allowed_fields = {
+            "dateCreated",
+            "dateModified",
+            "id",
+            "title",
+            "prettyID",
+            "enquiryPeriod",
+            "period",
+            "qualificationPeriod",
+            "status",
+            "frameworkType",
+            "next_check",
+        }
         self.db_listing_method = request.registry.mongodb.frameworks.list
 
     @json_view(
