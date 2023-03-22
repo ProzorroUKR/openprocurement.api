@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-22 01:52+0200\n"
+"POT-Creation-Date: 2023-03-22 02:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -62,7 +62,8 @@ msgstr "Майлстон - це історія контраку."
 msgid "Contract ban"
 msgstr "Бан контракту"
 
-msgid "For ban contract, you just need to add milestone to contract with status `ban`:"
+#, fuzzy
+msgid "For ban contract, you just need to add milestone to contract with type `ban`:"
 msgstr "Для того щоб забанити контракт, потрібно лише створити майлстон зі статусом `ban`:"
 
 msgid "You can see that contract status was automatically changed to `suspended`:"

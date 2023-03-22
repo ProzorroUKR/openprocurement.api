@@ -52,7 +52,7 @@ Milestone - that's contract history.
 Contract ban
 ~~~~~~~~~~~~
 
-For ban contract, you just need to add milestone to contract with status `ban`:
+For ban contract, you just need to add milestone to contract with type `ban`:
 
 .. http:example:: http/milestone-ban-post.http
    :code:
