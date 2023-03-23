@@ -2,13 +2,9 @@
 import os
 from copy import deepcopy
 from datetime import timedelta
-from uuid import uuid4
 
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
-from openprocurement.tender.cfaua.tests.base import (
-    BaseTenderWebTest, test_tender_data, test_lots
-)
 from openprocurement.framework.electroniccatalogue.tests.base import (
     test_framework_electronic_catalogue_data,
     ban_milestone_data_with_documents,

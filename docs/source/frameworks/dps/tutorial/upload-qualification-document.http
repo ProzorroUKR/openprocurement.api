@@ -1,0 +1,31 @@
+POST /api/2.5/qualifications/e67e3cc511954bc5bdbf5e8d58e27d26/documents?acc_token=7b5fe43c1f3c4574982dcb841c9ef301 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 152
+Content-Type: multipart/form-data; boundary=---BOUNDARY
+Host: lb-api-sandbox.prozorro.gov.ua
+
+-----BOUNDARY
+Content-Disposition: form-data; name="file"; filename="qualification.doc"
+Content-Type: application/msword
+
+content
+-----BOUNDARY--
+
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/e67e3cc511954bc5bdbf5e8d58e27d26/documents/06fc6adc81e34049bc0ef77f9346a055
+
+{
+  "data": {
+    "id": "06fc6adc81e34049bc0ef77f9346a055",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "qualification.doc",
+    "format": "application/msword",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/076a25851dd849ceb3060d7936d4dc66?Signature=IDYMyuQPlPaD1h3usGKxTKYZ3PK%2BsO8qkQO2dZE4YK1Z%2BefEVvDo7FIF00YosMF0y0LA01NZchEshl1RHOXuCQ%3D%3D&KeyID=a8968c46",
+    "datePublished": "2023-01-17T00:00:00+02:00",
+    "dateModified": "2023-01-17T00:00:00+02:00"
+  }
+}
+

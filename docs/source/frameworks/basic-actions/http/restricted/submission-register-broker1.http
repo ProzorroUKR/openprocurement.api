@@ -30,7 +30,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "scale": "micro"
       }
     ],
-    "frameworkID": "27ccdb80d4234f69b99ab9ad18ecf6e1"
+    "frameworkID": "9bd2fdb5579045be9cfff9fb1a397e32"
   },
   "config": {
     "restricted": true
@@ -40,16 +40,16 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/9e93d88b8dfd41389080ad700066e320
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/d96d76a4ef4f4d3eae4b099d0404e31f
 
 {
   "data": {
-    "frameworkID": "27ccdb80d4234f69b99ab9ad18ecf6e1",
+    "frameworkID": "9bd2fdb5579045be9cfff9fb1a397e32",
     "dateModified": "2023-01-17T00:00:00+02:00",
     "date": "2023-01-17T00:00:00+02:00",
     "owner": "broker1",
     "status": "draft",
-    "submissionType": "open",
+    "submissionType": "dynamicPurchasingSystem",
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -74,11 +74,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/9e93d88b8dfd
         }
       }
     ],
-    "id": "9e93d88b8dfd41389080ad700066e320"
+    "id": "d96d76a4ef4f4d3eae4b099d0404e31f"
   },
   "access": {
-    "token": "63fdc532ff4d4806bf7836fdac1197cd",
-    "transfer": "ada859837ca44dcf95e6512a34b41a71"
+    "token": "7048bca78fdf467eafe0dd61ec2b9436",
+    "transfer": "0a0710cb5c4a4dbb84a7d89a1c3b28f6"
   },
   "config": {
     "restricted": true

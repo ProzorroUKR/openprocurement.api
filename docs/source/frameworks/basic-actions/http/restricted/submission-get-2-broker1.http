@@ -1,4 +1,4 @@
-GET /api/2.5/submissions/ffaa523497964dd1be5e764ee48b9eac HTTP/1.0
+GET /api/2.5/submissions/2a997181ec504fcdbfaf4c759a02895e HTTP/1.0
 Authorization: Bearer broker1
 Host: public-api-sandbox.prozorro.gov.ua
 

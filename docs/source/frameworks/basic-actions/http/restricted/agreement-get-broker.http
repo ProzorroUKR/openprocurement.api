@@ -1,4 +1,4 @@
-GET /api/2.5/agreements/5d6633d4f393415685289b20f1c04348 HTTP/1.0
+GET /api/2.5/agreements/bee1ec7b25674a89918be6257ac54948 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -14,8 +14,8 @@ Content-Type: application/json
     "dateCreated": "2023-01-17T00:00:00+02:00",
     "dateModified": "2023-01-17T00:00:00+02:00",
     "owner": "broker",
-    "agreementType": "open",
-    "frameworkID": "27ccdb80d4234f69b99ab9ad18ecf6e1",
+    "agreementType": "dynamicPurchasingSystem",
+    "frameworkID": "9bd2fdb5579045be9cfff9fb1a397e32",
     "period": {
       "startDate": "2023-01-17T00:00:00+02:00",
       "endDate": "2023-03-02T00:00:00+02:00"
@@ -55,10 +55,10 @@ Content-Type: application/json
     ],
     "contracts": [
       {
-        "id": "53dcd481a1ec4371b1fdf6ec095c5f29",
-        "qualificationID": "9d4d0508fff44ed38a945f4e6f66d4f9",
+        "id": "c4097bf28bf54a74a1b43bb30a89ff82",
+        "qualificationID": "cc849b4a29b54c009ad286797a9cdf35",
         "status": "active",
-        "submissionID": "9e93d88b8dfd41389080ad700066e320",
+        "submissionID": "d96d76a4ef4f4d3eae4b099d0404e31f",
         "suppliers": [
           {
             "name": "ДКП «Школяр»",
@@ -85,7 +85,7 @@ Content-Type: application/json
         ],
         "milestones": [
           {
-            "id": "9c4b4a27a2604080af30db40cc0e0607",
+            "id": "fbd402379bd84422bd390a0cee4fa0fd",
             "type": "activation",
             "status": "scheduled",
             "dueDate": "2023-03-02T00:00:00+02:00",
@@ -95,10 +95,10 @@ Content-Type: application/json
         "date": "2023-01-17T00:00:00+02:00"
       },
       {
-        "id": "d731dad5cf1e42ae9ac333e6d50c2db8",
-        "qualificationID": "db3e0288e9274b6aaa41a007b3152590",
+        "id": "14104aac4e7948538eb39b6d1fea4f5c",
+        "qualificationID": "9ef8a439d3f346dd9e86bb05c4f55f8b",
         "status": "active",
-        "submissionID": "ffaa523497964dd1be5e764ee48b9eac",
+        "submissionID": "2a997181ec504fcdbfaf4c759a02895e",
         "suppliers": [
           {
             "name": "ДКП «Книга»",
@@ -125,7 +125,7 @@ Content-Type: application/json
         ],
         "milestones": [
           {
-            "id": "7e594d6271f84d1baa0f1ed6de3e06df",
+            "id": "28cdfb5f22a14074844a5059104419cf",
             "type": "activation",
             "status": "scheduled",
             "dueDate": "2023-03-02T00:00:00+02:00",
@@ -135,7 +135,7 @@ Content-Type: application/json
         "date": "2023-01-17T00:00:00+02:00"
       }
     ],
-    "id": "5d6633d4f393415685289b20f1c04348",
+    "id": "bee1ec7b25674a89918be6257ac54948",
     "next_check": "2023-03-02T00:00:00+02:00"
   },
   "config": {

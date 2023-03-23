@@ -1,4 +1,4 @@
-GET /api/2.5/submissions/9e93d88b8dfd41389080ad700066e320 HTTP/1.0
+GET /api/2.5/submissions/d96d76a4ef4f4d3eae4b099d0404e31f HTTP/1.0
 Authorization: Bearer broker1
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,14 +8,14 @@ Content-Type: application/json
 
 {
   "data": {
-    "qualificationID": "9d4d0508fff44ed38a945f4e6f66d4f9",
-    "frameworkID": "27ccdb80d4234f69b99ab9ad18ecf6e1",
+    "qualificationID": "cc849b4a29b54c009ad286797a9cdf35",
+    "frameworkID": "9bd2fdb5579045be9cfff9fb1a397e32",
     "dateModified": "2023-01-17T00:00:00+02:00",
     "date": "2023-01-17T00:00:00+02:00",
     "datePublished": "2023-01-17T00:00:00+02:00",
     "owner": "broker1",
     "status": "active",
-    "submissionType": "open",
+    "submissionType": "dynamicPurchasingSystem",
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -40,7 +40,7 @@ Content-Type: application/json
         }
       }
     ],
-    "id": "9e93d88b8dfd41389080ad700066e320"
+    "id": "d96d76a4ef4f4d3eae4b099d0404e31f"
   },
   "config": {
     "restricted": true

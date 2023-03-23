@@ -47,7 +47,7 @@ from openprocurement.api.utils import (
 )
 from openprocurement.framework.core.context import get_framework
 from openprocurement.framework.core.utils import calculate_framework_date
-
+from openprocurement.framework.dps.constants import DPS_TYPE
 
 CONTRACT_BAN_DURATION = 90
 
@@ -58,24 +58,24 @@ class IFramework(IOPContent):
 
 class FrameworkConfig(Model):
     test = BooleanType(required=False)
-    restricted_derivatives = BooleanType(required=False)
+    restrictedDerivatives = BooleanType(required=False)
 
-    def validate_restricted_derivatives(self, data, value):
+    def validate_restrictedDerivatives(self, data, value):
         framework = get_framework()
         if not framework:
             return
-        if framework.get("frameworkType") == "open":
+        if framework.get("frameworkType") == DPS_TYPE:
             if value is None:
-                raise ValidationError("restricted_derivatives is required for this framework type")
+                raise ValidationError("restrictedDerivatives is required for this framework type")
             if framework.get("procuringEntity", {}).get("kind") == "defense":
                 if value is False:
-                    raise ValidationError("restricted_derivatives must be true for defense procuring entity")
+                    raise ValidationError("restrictedDerivatives must be true for defense procuring entity")
             else:
                 if value is True:
-                    raise ValidationError("restricted_derivatives must be false for non-defense procuring entity")
+                    raise ValidationError("restrictedDerivatives must be false for non-defense procuring entity")
         else:
             if value is not None:
-                raise ValidationError("restricted_derivatives not allowed for this framework type")
+                raise ValidationError("restrictedDerivatives not allowed for this framework type")
 
 
 def get_agreement(model):
@@ -224,7 +224,7 @@ class SubmissionConfig(Model):
         framework = get_framework()
         if not framework:
             return
-        if framework.get("frameworkType") == "open":
+        if framework.get("frameworkType") == DPS_TYPE:
             if value is None:
                 raise ValidationError("restricted is required for this framework type")
             if framework.get("procuringEntity", {}).get("kind") == "defense":
