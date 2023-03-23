@@ -20,7 +20,7 @@ def run(env):
 
     result = collection.update_many(
         {"frameworkType": "open"},
-        {"$set": {"frameworkType": "dynamicPurchaseSystem"}},
+        {"$set": {"frameworkType": "dynamicPurchasingSystem"}},
     )
 
     logger.info(f"Updated {result.modified_count} items")
