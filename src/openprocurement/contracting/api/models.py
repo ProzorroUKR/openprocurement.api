@@ -183,6 +183,7 @@ class ProcuringEntity(Organization):
         }
 
     kind = StringType(choices=PROCURING_ENTITY_KINDS)
+    contactPoint = ModelType(ContactPoint)
 
 
 class CPVClassification(BaseCPVClassification):

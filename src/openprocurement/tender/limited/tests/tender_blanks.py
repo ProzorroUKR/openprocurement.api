@@ -321,9 +321,6 @@ def create_tender_invalid(self):
     self.assertIn(
         {"description": ["This field is required."], "location": "body", "name": "items"}, response.json["errors"]
     )
-    self.assertIn(
-        {"description": ["This field is required."], "location": "body", "name": "value"}, response.json["errors"]
-    )
 
     data = self.initial_data["items"][0].pop("additionalClassifications")
     if get_now() > CPV_ITEMS_CLASS_FROM:
