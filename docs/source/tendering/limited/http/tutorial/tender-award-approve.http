@@ -19,11 +19,6 @@ Content-Type: application/json
     "id": "58b618d74671419ab1d4efc881a17538",
     "status": "active",
     "date": "2023-01-01T00:00:00+02:00",
-    "value": {
-      "amount": 475000.0,
-      "valueAddedTaxIncluded": true,
-      "currency": "UAH"
-    },
     "documents": [
       {
         "id": "935c5060624541f3ab271b9a05fc8ec7",
@@ -71,7 +66,12 @@ Content-Type: application/json
           "name": "Сергій Олексюк"
         }
       }
-    ]
+    ],
+    "value": {
+      "amount": 475000.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    }
   }
 }
 

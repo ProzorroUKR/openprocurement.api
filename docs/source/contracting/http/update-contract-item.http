@@ -217,11 +217,11 @@ Content-Type: application/json
         "postalCode": "01220",
         "countryName": "Україна"
       },
+      "kind": "general",
       "contactPoint": {
         "name": "Державне управління справами",
         "telephone": "+0440000000"
-      },
-      "kind": "general"
+      }
     },
     "changes": [
       {

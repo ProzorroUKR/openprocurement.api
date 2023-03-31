@@ -46,7 +46,7 @@ class PostReportingTender(PostBaseTender):
         min_size=1,
         validators=[validate_cpv_group, validate_items_uniq, validate_classification_id],
     )
-    value = ModelType(Value, required=True)
+    value = ModelType(Value)
     procurementMethod = StringType(choices=["limited"], default="limited")
     status = StringType(choices=["draft"], default="draft")
     milestones = ListType(ModelType(Milestone, required=True),
@@ -90,7 +90,7 @@ class ReportingTender(BaseTender):
         min_size=1,
         validators=[validate_cpv_group, validate_items_uniq, validate_classification_id],
     )
-    value = ModelType(Value, required=True)
+    value = ModelType(Value)
     procurementMethod = StringType(choices=["limited"], required=True)
     status = StringType(
         choices=[

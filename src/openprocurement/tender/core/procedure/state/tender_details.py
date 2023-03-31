@@ -103,8 +103,11 @@ class TenderDetailsMixing:
     def watch_value_meta_changes(tender):
         # tender currency and valueAddedTaxIncluded must be specified only ONCE
         # instead it's specified in many places but we need keep them the same
-        currency = tender["value"]["currency"]
-        tax_inc = tender["value"]["valueAddedTaxIncluded"]
+        value = tender.get("value")
+        if not value:
+            return
+        currency = value.get("currency")
+        tax_inc = value.get("valueAddedTaxIncluded")
 
         # items
         for item in tender["items"]:

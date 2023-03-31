@@ -11,6 +11,7 @@ from schematics.types import StringType
 
 
 class ReportingProcuringEntity(BaseProcuringEntity):
+    contactPoint = ModelType(ContactPoint)
     kind = StringType(choices=REPORTING_KINDS, required=True)
 
 
