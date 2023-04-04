@@ -4,6 +4,7 @@ from openprocurement.api.utils import (
     update_logging_context,
 )
 from openprocurement.api.views.base import MongodbResourceListing
+from openprocurement.tender.core.procedure.serializers.config import TenderConfigSerializer
 from openprocurement.tender.core.procedure.utils import (
     set_ownership,
     save_tender,
@@ -61,13 +62,15 @@ class TendersListResource(MongodbResourceListing):
 
 class TendersResource(TenderBaseResource):
     serializer_class = TenderBaseSerializer
+    serializer_config_class = TenderConfigSerializer
 
     def collection_post(self):
         update_logging_context(self.request, {"tender_id": "__new__"})
         tender = self.request.validated["data"]
-        config = self.request.validated["tender_config"]
-        self.state.config = config
+        tender_config = self.request.validated["tender_config"]
+        config = self.serializer_config_class(tender_config).data
         access = set_ownership(tender, self.request)
+        self.state.config = config
         self.state.on_post(tender)
         self.request.validated["tender"] = tender
         self.request.validated["tender_src"] = {}
@@ -88,25 +91,28 @@ class TendersResource(TenderBaseResource):
             self.request.response.headers["Location"] = self.request.route_url(
                 "{}:Tenders".format(tender["procurementMethodType"]), tender_id=tender["_id"]
             )
-            response_data = {"data": self.serializer_class(tender).data, "access": access}
-            if config:
-                response_data["config"] = config
-            return response_data
+            return {
+                "data": self.serializer_class(tender).data,
+                "config": config,
+                "access": access,
+            }
 
     @json_view(permission="view_tender")
     def get(self):
         tender = self.request.validated["tender"]
-        config = self.request.validated["tender_config"]
-        response_data = {"data": self.serializer_class(tender).data}
-        if config:
-            response_data["config"] = config
-        return response_data
+        tender_config = self.request.validated["tender_config"]
+        return {
+            "data": self.serializer_class(tender).data,
+            "config": self.serializer_config_class(tender_config).data,
+        }
 
     def patch(self):
-        config = self.request.validated["tender_config"]
+        tender_config = self.request.validated["tender_config"]
+        config = self.serializer_config_class(tender_config).data
         updated = self.request.validated["data"]
         if updated:
             before = self.request.validated["tender_src"]
+            self.state.config = config
             self.state.validate_tender_patch(before, updated)
             self.request.validated["tender"] = updated
             self.state.on_patch(self.request.validated["tender_src"], updated)
@@ -116,7 +122,7 @@ class TendersResource(TenderBaseResource):
                     extra=context_unpack(self.request, {"MESSAGE_ID": "tender_patch"})
                 )
         tender = self.request.validated["tender"]
-        response_data = {"data": self.serializer_class(tender).data}
-        if config:
-            response_data["config"] = config
-        return response_data
+        return {
+            "data": self.serializer_class(tender).data,
+            "config": config,
+        }

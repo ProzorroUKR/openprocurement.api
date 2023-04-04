@@ -297,17 +297,26 @@ class ChronographEventsMixing:
             if complaint.get("status") == "answered" and complaint.get("resolutionType"):
                 self.set_object_status(complaint, complaint["resolutionType"])
 
-        handler = self.get_change_tender_status_handler("active.auction")
-        handler(tender)
-
         self.remove_draft_bids(tender)
         self.check_bids_number(tender)
+        self.switch_to_auction_or_awarded(tender)
+
 
     def pre_qualification_stand_still_ends_handler(self, tender):
-        handler = self.get_change_tender_status_handler("active.auction")
-        handler(tender)
-
         self.check_bids_number(tender)
+        self.switch_to_auction_or_awarded(tender)
+
+    def switch_to_auction_or_awarded(self, tender):
+        LOGGER.info("HELLO switch_to_auction_or_awarded")
+        if tender.get("status") not in ("unsuccessful", "active.qualification", "active.awarded"):
+            LOGGER.info("HELLO status not in ('unsuccessful', 'active.qualification', 'active.awarded')")
+            if self.config.get("hasAuction"):
+                LOGGER.info("HELLO hasAuction = True")
+                handler = self.get_change_tender_status_handler("active.auction")
+                handler(tender)
+            else:
+                LOGGER.info("HELLO hasAuction = False")
+                self.add_next_award()
 
     def awarded_complaint_handler(self, tender):
         if tender.get("lots"):
@@ -418,20 +427,31 @@ class ChronographEventsMixing:
 
     def check_bids_number(self, tender):
         if tender.get("lots"):
+            max_bid_number = 0
             for lot in tender["lots"]:
+                if lot.get("status", "active") != "active":
+                    continue
+
                 bid_number = self.count_lot_bids_number(tender, lot["id"])
+
+                # set lot unsuccessful if not enough bids
                 if bid_number < self.min_bids_number:
                     self.remove_auction_period(lot)
-
                     if lot.get("status") == "active":  # defense procedures doesn't have lot status, for ex
                         self.set_object_status(lot, "unsuccessful")
                         self.set_lot_values_unsuccessful(tender.get("bids"), lot["id"])
 
-            active_lots = {l["id"] for l in tender["lots"] if l["status"] == "active"}
+                max_bid_number = max(max_bid_number, bid_number)
+
+            # skip auction if only one bid in each lot
+            if self.min_bids_number == 1 and max_bid_number == 1:
+                self.remove_all_auction_periods(tender)
+                self.add_next_award()
+
             # set bids unsuccessful
+            active_lots = {l["id"] for l in tender["lots"] if l["status"] == "active"}
             for bid in tender.get("bids", ""):
-                if not any(lv["relatedLot"] in active_lots
-                           for lv in bid.get("lotValues", "")):
+                if not any(lv["relatedLot"] in active_lots for lv in bid.get("lotValues", "")):
                     if bid.get("status", "active") in self.active_bid_statuses:
                         bid["status"] = "unsuccessful"
 
@@ -440,14 +460,22 @@ class ChronographEventsMixing:
                 self.get_change_tender_status_handler("unsuccessful")(tender)
         else:
             bid_number = self.count_bids_number(tender)
+
+            # set tender unsuccessful if not enough bids
             if bid_number < self.min_bids_number:
                 self.remove_auction_period(tender)
 
+                # set bids unsuccessful
                 for bid in tender.get("bids", ""):
                     if bid.get("status", "active") in self.active_bid_statuses:
                         bid["status"] = "unsuccessful"
 
                 self.get_change_tender_status_handler("unsuccessful")(tender)
+
+            # skip auction if only one bid
+            if self.min_bids_number == 1 and bid_number == 1:
+                self.remove_auction_period(tender)
+                self.add_next_award()
 
     def set_lot_values_unsuccessful(self, bids, lot_id):
         # for procedures where lotValues have "status" field (openeu, competitive_dialogue, cfaua, )

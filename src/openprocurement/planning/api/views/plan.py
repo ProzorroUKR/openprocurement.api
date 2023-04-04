@@ -160,6 +160,7 @@ class PlanTendersResource(BaseResource):
         plan = self.request.validated["plan"]
         plans = [{"id": plan.id}]
         tender = self.request.validated["tender_data"]
+        tender_config = self.request.validated["tender_config"]
 
         # create tender POST /tenders
         headers = self.request.headers
@@ -167,7 +168,10 @@ class PlanTendersResource(BaseResource):
         sub_req = Request.blank(f'/api/{VERSION}/tenders',
                                 environ={"REQUEST_METHOD": "POST"},
                                 headers=headers)
-        sub_req.body = simplejson.dumps({"data": tender}).encode()
+        sub_req.body = simplejson.dumps({
+            "data": tender,
+            "config": tender_config,
+        }).encode()
         response = self.request.invoke_subrequest(sub_req, use_tweens=True)
         if "errors" in response.json:
             self.request.response.status = response.status

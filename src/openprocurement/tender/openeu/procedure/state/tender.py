@@ -2,7 +2,7 @@ from operator import itemgetter
 
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.state.auction import PreQualificationShouldStartAfterMixing
-from openprocurement.tender.core.procedure.context import get_now, get_request
+from openprocurement.tender.core.procedure.context import get_now
 from openprocurement.tender.openeu.procedure.models.award import Award
 from openprocurement.tender.core.procedure.models.qualification import Qualification
 from openprocurement.tender.core.constants import CRITERION_LIFE_CYCLE_COST_IDS
@@ -131,11 +131,6 @@ class BaseOpenEUTenderState(PreQualificationShouldStartAfterMixing, TenderState)
         for bid in tender.get("bids", ""):
             if bid.get("status") not in ("deleted", "draft"):
                 bid["status"] = "invalid"
-
-    def pre_qualification_stand_still_ends_handler(self, tender):
-        handler = self.get_change_tender_status_handler("active.auction")
-        handler(tender)
-        self.check_bids_number(tender)
 
 
 class OpenEUTenderState(BaseOpenEUTenderState):

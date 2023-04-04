@@ -2337,7 +2337,7 @@ class BaseTender(RootModel):
             "default": blacklist("doc_id", "__parent__"),  # obj.store() use default role
             "plain": blacklist(  # is used for getting patches
                 "_attachments", "revisions", "dateModified", "dateCreated",
-                "_id", "_rev", "doc_type", "__parent__"
+                "_id", "_rev", "doc_type", "__parent__", "config"
             ),
         }
 
@@ -2376,6 +2376,7 @@ class BaseTender(RootModel):
     plans = ListType(ModelType(PlanRelation, required=True), default=list())
 
     is_masked = BooleanType()
+    config = BaseType()
 
     def link_plan(self, plan_id):
         self.plans.append(PlanRelation({"id": plan_id}))

@@ -68,6 +68,9 @@ class BaseShouldStartAfterMixing:
             return normalize_should_start_after(start_after, tender).isoformat()
 
     def calc_auction_periods(self, tender):
+        if self.config.get("hasAuction") is False:
+            return
+
         lots = tender.get("lots")
         if lots:
             for lot in lots:

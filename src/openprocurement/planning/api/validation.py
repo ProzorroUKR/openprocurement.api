@@ -237,3 +237,6 @@ def validate_tender_data(request, **kwargs):
         raise error_handler(request)
 
     request.validated["tender_data"] = data
+
+    config = request.json.get("config", {})
+    request.validated["tender_config"] = config

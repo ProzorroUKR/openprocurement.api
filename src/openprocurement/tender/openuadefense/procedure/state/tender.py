@@ -2,15 +2,15 @@ from openprocurement.api.utils import context_unpack
 from openprocurement.api.constants import NEW_DEFENSE_COMPLAINTS_FROM, NEW_DEFENSE_COMPLAINTS_TO
 from openprocurement.tender.core.procedure.context import get_request, get_now
 from openprocurement.tender.core.procedure.utils import get_first_revision_date
-from openprocurement.tender.core.procedure.state.tender import TenderState, OneBidBecomeWinnerMixin
+from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.openuadefense.procedure.awarding import DefenseTenderStateAwardingMixing
 from logging import getLogger
 
 LOGGER = getLogger(__name__)
 
 
-class OpenUADefenseTenderState(OneBidBecomeWinnerMixin, DefenseTenderStateAwardingMixing, TenderState):
-    min_bids_number = 2
+class OpenUADefenseTenderState(DefenseTenderStateAwardingMixing, TenderState):
+    min_bids_number = 1
     block_complaint_status = ("pending", "accepted", "satisfied", "stopping")
 
     def awarded_events(self, tender):
