@@ -7,8 +7,6 @@ from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
 from openprocurement.api.utils import get_now, parse_date
-
-# TenderLotEdgeCasesTest
 from openprocurement.tender.belowthreshold.tests.base import test_cancellation
 
 
@@ -652,7 +650,7 @@ def create_tender_feature_bidder(self):
 def one_lot_1bid(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
 
@@ -691,7 +689,7 @@ def one_lot_1bid(self):
 def one_lot_2bid_1unqualified(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
 
@@ -758,7 +756,7 @@ def one_lot_2bid_1unqualified(self):
 def one_lot_2bid(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
 
@@ -912,7 +910,7 @@ def one_lot_2bid(self):
 def two_lot_2bid_1lot_del(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     self.set_initial_status(response.json)
@@ -982,7 +980,7 @@ def two_lot_2bid_1lot_del(self):
 def one_lot_3bid_1del(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     self.set_initial_status(response.json)
@@ -1140,7 +1138,7 @@ def one_lot_3bid_1del(self):
 def one_lot_3bid_1un(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     self.set_initial_status(response.json)
@@ -1301,7 +1299,7 @@ def one_lot_3bid_1un(self):
 def two_lot_1can(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     self.set_initial_status(response.json)
@@ -1392,7 +1390,7 @@ def two_lot_1can(self):
 def two_lot_2bid_0com_1can(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     self.set_initial_status(response.json)
@@ -1480,7 +1478,7 @@ def two_lot_2bid_0com_1can(self):
 def two_lot_2bid_2com_2win(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     self.set_initial_status(response.json)
@@ -1668,7 +1666,7 @@ def two_lot_3bid_1win_bug(self):
     """
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     self.set_initial_status(response.json)

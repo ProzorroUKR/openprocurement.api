@@ -12,7 +12,7 @@ from openprocurement.tender.core.validation import (
     validate_cancellation_status_without_complaints
 )
 from openprocurement.tender.pricequotation.utils import cancel_tender
-from openprocurement.tender.pricequotation.constants import PMT
+from openprocurement.tender.pricequotation.constants import PQ
 
 
 # @optendersresource(

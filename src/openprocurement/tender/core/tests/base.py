@@ -90,6 +90,7 @@ class BaseWebTest(BaseApiWebTest):
 
 class BaseCoreWebTest(BaseWebTest):
     initial_data = None
+    initial_config = None
     initial_status = None
     initial_bids = None
     initial_lots = None

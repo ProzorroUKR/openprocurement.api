@@ -18,8 +18,6 @@ from openprocurement.api.models import Reference
 from openprocurement.tender.core.procedure.context import (
     get_now,
     get_tender,
-    get_bid,
-    get_json_data,
 )
 from openprocurement.tender.core.procedure.models.base import validate_object_id_uniq
 from openprocurement.tender.core.procedure.utils import (

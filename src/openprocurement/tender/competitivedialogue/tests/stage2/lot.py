@@ -192,6 +192,7 @@ class TenderStage2EULotProcessTest(BaseCompetitiveDialogEUStage2WebTest):
         auth = self.app.authorization
         self.app.authorization = ("Basic", ("competitive_dialogue", ""))
         data = deepcopy(self.initial_data)
+        config = deepcopy(self.initial_config)
         if initial_lots:
             lots = []
             for i in initial_lots:
@@ -212,7 +213,7 @@ class TenderStage2EULotProcessTest(BaseCompetitiveDialogEUStage2WebTest):
                 if feature["featureOf"] == "item":
                     feature["relatedItem"] = data["items"][0]["id"]
             data["features"] = self.features = features
-        response = self.app.post_json("/tenders", {"data": data})
+        response = self.app.post_json("/tenders", {"data": data, "config": config})
         tender = response.json["data"]
         self.tender = tender
         self.tender_token = response.json["access"]["token"]
@@ -365,6 +366,7 @@ class TenderStage2UALotProcessTest(BaseCompetitiveDialogUAStage2ContentWebTest):
         auth = self.app.authorization
         self.app.authorization = ("Basic", ("competitive_dialogue", ""))
         data = deepcopy(self.initial_data)
+        config = deepcopy(self.initial_config)
         if initial_lots:
             lots = []
             for i in initial_lots:
@@ -385,7 +387,7 @@ class TenderStage2UALotProcessTest(BaseCompetitiveDialogUAStage2ContentWebTest):
                 if feature["featureOf"] == "item":
                     feature["relatedItem"] = data["items"][0]["id"]
             data["features"] = self.features = features
-        response = self.app.post_json("/tenders", {"data": data})
+        response = self.app.post_json("/tenders", {"data": data, "config": config})
         tender = response.json["data"]
         self.tender = tender
         self.tender_token = response.json["access"]["token"]

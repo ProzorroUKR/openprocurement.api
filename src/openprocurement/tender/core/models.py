@@ -109,10 +109,6 @@ LOGGER = getLogger(__name__)
 
 DEFAULT_REQUIREMENT_STATUS = "active"
 
-AWARD_CRITERIA_LOWEST_COST = "lowestCost"
-AWARD_CRITERIA_LIFE_CYCLE_COST = "lifeCycleCost"
-AWARD_CRITERIA_RATED_CRITERIA = "ratedCriteria"
-
 view_bid_role = blacklist("owner_token", "owner", "transfer_token") + schematics_default_role
 Administrator_bid_role = whitelist("tenderers")
 

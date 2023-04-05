@@ -9,8 +9,6 @@ from datetime import timedelta
 from openprocurement.api.constants import (
     SANDBOX_MODE,
     RELEASE_2020_04_19,
-    TWO_PHASE_COMMIT_FROM,
-    GUARANTEE_ALLOWED_TENDER_TYPES,
 )
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
@@ -108,6 +106,10 @@ test_tender_data = {
 }
 if SANDBOX_MODE:
     test_tender_data["procurementMethodDetails"] = "quick, accelerator=1440"
+
+test_tender_config = {
+    "hasAuction": True,
+}
 
 test_simple_tender_data = deepcopy(test_tender_data)
 test_simple_tender_data["procurementMethodRationale"] = "simple"
@@ -326,6 +328,7 @@ class BaseApiWebTest(BaseWebTest):
 class BaseTenderWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data
+    initial_config = test_tender_config
     initial_status = "active.enquiries"
     initial_bids = None
     initial_lots = None
@@ -368,6 +371,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
     def setUp(self):
         super(BaseTenderWebTest, self).setUp()
         self.initial_data = deepcopy(self.initial_data)
+        self.initial_config = deepcopy(self.initial_config)
         if self.initial_lots:
             self.initial_lots = deepcopy(self.initial_lots)
             set_tender_lots(self.initial_data, self.initial_lots)
@@ -388,7 +392,8 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
     def create_tender(self):
         data = deepcopy(self.initial_data)
-        response = self.app.post_json("/tenders", {"data": data})
+        config = deepcopy(self.initial_config)
+        response = self.app.post_json("/tenders", {"data": data, "config": config})
         tender = response.json["data"]
         self.tender_token = response.json["access"]["token"]
         self.tender_id = tender["id"]

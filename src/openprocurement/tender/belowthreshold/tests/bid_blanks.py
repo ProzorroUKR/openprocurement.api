@@ -4,13 +4,12 @@ from copy import deepcopy
 import mock
 from datetime import timedelta
 
+from openprocurement.api.constants import GUARANTEE_ALLOWED_TENDER_TYPES
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization,
     set_bid_lotvalues,
-    test_criteria,
-    GUARANTEE_ALLOWED_TENDER_TYPES,
 )
 
 

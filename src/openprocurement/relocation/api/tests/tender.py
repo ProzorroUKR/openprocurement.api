@@ -26,6 +26,7 @@ from openprocurement.tender.limited.tests.base import (
     test_tender_data as test_tender_reporting_data,
     test_tender_negotiation_data,
     test_tender_negotiation_quick_data,
+    test_tender_config as test_tender_config_limited,
 )
 
 
@@ -41,7 +42,8 @@ class BaseTenderOwnershipChangeTest(BaseTenderWebTest):
 
     def create_tender(self):
         data = deepcopy(self.initial_data)
-        response = self.app.post_json("/tenders", {"data": data})
+        config = deepcopy(self.initial_config)
+        response = self.app.post_json("/tenders", {"data": data, "config": config})
         tender = response.json["data"]
         self.tender_token = response.json["access"]["token"]
         self.tender_transfer = response.json["access"]["transfer"]
@@ -60,7 +62,7 @@ class TenderOwnershipChangeTest(BaseTenderOwnershipChangeTest):
         self.create_tender()
 
     def create_tender(self):
-        response = self.app.post_json("/tenders", {"data": self.initial_data})
+        response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
         tender = response.json["data"]
         self.tender_token = response.json["access"]["token"]
         self.tender_transfer = response.json["access"]["transfer"]
@@ -109,7 +111,7 @@ class TenderOwnershipChangeTest(BaseTenderOwnershipChangeTest):
         self.assertNotEqual(transfer_creation_date, transfer_modification_date)
 
         # try to use already applied transfer
-        response = self.app.post_json("/tenders", {"data": self.initial_data})
+        response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
         tender = response.json["data"]
         access = response.json["access"]
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
@@ -414,8 +416,9 @@ class OpenUACompetitiveDialogueStage2TenderOwnershipChangeTest(TenderOwnershipCh
     def create_tender(self):
         data = deepcopy(self.initial_data)
         data["owner"] = self.first_owner
+        config = self.initial_config
         with change_auth(self.app, ("Basic", ("competitive_dialogue", ""))):
-            response = self.app.post_json("/tenders", {"data": data})
+            response = self.app.post_json("/tenders", {"data": data, "config": config})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
         self.assertIn("transfer", response.json["access"])
@@ -501,8 +504,9 @@ class OpenUACompetitiveDialogueStage2TenderOwnershipChangeTest(TenderOwnershipCh
         # try to use already applied transfer on new tender created by bridge
         data = deepcopy(self.initial_data)
         data["owner"] = self.first_owner
+        config = self.initial_config
         with change_auth(self.app, ("Basic", ("competitive_dialogue", ""))):
-            response = self.app.post_json("/tenders", {"data": data})
+            response = self.app.post_json("/tenders", {"data": data, "config": config})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
         self.assertIn("transfer", response.json["access"])
@@ -560,6 +564,7 @@ class OpenEUTenderOwnershipChangeTest(TenderOwnershipChangeTest):
 
 class ReportingTenderOwnershipChangeTest(TenderOwnershipChangeTest):
     initial_data = test_tender_reporting_data
+    initial_config = test_tender_config_limited
     second_owner = "broker1"
     test_owner = "broker1t"
     invalid_owner = "broker4"
@@ -567,6 +572,7 @@ class ReportingTenderOwnershipChangeTest(TenderOwnershipChangeTest):
 
 class NegotiationTenderOwnershipChangeTest(TenderOwnershipChangeTest):
     initial_data = test_tender_negotiation_data
+    initial_config = test_tender_config_limited
     second_owner = "broker3"
     test_owner = "broker3t"
     invalid_owner = "broker1"
@@ -574,6 +580,7 @@ class NegotiationTenderOwnershipChangeTest(TenderOwnershipChangeTest):
 
 class NegotiationQuickTenderOwnershipChangeTest(TenderOwnershipChangeTest):
     initial_data = test_tender_negotiation_quick_data
+    initial_config = test_tender_config_limited
     second_owner = "broker3"
     test_owner = "broker3t"
     invalid_owner = "broker1"

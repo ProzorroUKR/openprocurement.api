@@ -19,7 +19,6 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import (
 
 from openprocurement.tender.openeu.tests.lot import TenderLotEdgeCasesTestMixin
 from openprocurement.tender.openeu.tests.lot_blanks import (
-    # TenderLotProcessTest
     one_lot_1bid,
     one_lot_2bid_1unqualified,
     one_lot_2bid,
@@ -55,11 +54,9 @@ from openprocurement.tender.esco.tests.lot_blanks import (
     tender_lot_yearlyPaymentsPercentageRange,
     tender_lot_fundingKind_yppr,
     tender_lot_Administrator_change_yppr,
-    # TenderLotFeatureBidderResourceTest
     create_tender_feature_bid_invalid,
     create_tender_feature_bid,
     tender_features_invalid,
-    # TenderLotBidResourceTest
     create_tender_bid_invalid,
     patch_tender_bid,
     bids_invalidation_on_lot_change,

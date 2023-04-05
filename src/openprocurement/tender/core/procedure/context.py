@@ -1,8 +1,8 @@
-from openprocurement.api.context import get_now, set_now, set_request, get_request, get_data, get_json_data
+import threading
+from typing import Union
+from openprocurement.api.context import get_now, get_request
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_first_revision_date
-from typing import Union
-import threading
 
 # monkey.patch_all() makes this gevent._gevent_clocal.local instance
 thread_context = threading.local()

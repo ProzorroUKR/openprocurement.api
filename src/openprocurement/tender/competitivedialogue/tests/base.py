@@ -309,6 +309,7 @@ def create_tender_stage2(self, initial_lots=None, initial_data=None, features=No
     auth = self.app.authorization
     self.app.authorization = ("Basic", ("competitive_dialogue", ""))
     data = deepcopy(initial_data)
+    config = deepcopy(self.initial_config)
     if initial_lots:  # add lots
         lots = []
         for i in initial_lots:
@@ -330,7 +331,7 @@ def create_tender_stage2(self, initial_lots=None, initial_data=None, features=No
             if feature["featureOf"] == "item":
                 feature["relatedItem"] = data["items"][0]["id"]
         data["features"] = self.features = features
-    response = self.app.post_json("/tenders", {"data": data})  # create tender
+    response = self.app.post_json("/tenders", {"data": data, "config": config})  # create tender
     tender = response.json["data"]
     self.assertEqual(tender["owner"], "broker")
     status = response.json["data"]["status"]

@@ -2,13 +2,16 @@
 from datetime import timedelta
 from copy import deepcopy
 from openprocurement.api.models import get_now
-from openprocurement.api.constants import RELEASE_2020_04_19, TWO_PHASE_COMMIT_FROM
+from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import parse_date
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization, test_author, test_cancellation, test_claim
+    test_organization,
+    test_author,
+    test_cancellation,
+    test_claim,
 )
 from openprocurement.tender.openua.tests.base import test_bids
 
@@ -967,7 +970,7 @@ def create_tender_bidder_feature(self):
 
 def proc_1lot_1bid(self):
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     # add lot
@@ -1006,7 +1009,7 @@ def proc_1lot_1bid(self):
 def proc_1lot_1bid_patch(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     self.set_initial_status(response.json)
@@ -1047,7 +1050,7 @@ def proc_1lot_1bid_patch(self):
 def proc_1lot_2bid(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     # add lot
@@ -1164,7 +1167,7 @@ def proc_1lot_2bid(self):
 def proc_1lot_3bid_1un(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     # add lot
@@ -1287,7 +1290,7 @@ def proc_1lot_3bid_1un(self):
 
 def proc_2lot_1bid_0com_1can(self):
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     lots = []
@@ -1348,7 +1351,7 @@ def proc_2lot_1bid_0com_1can(self):
 def proc_2lot_2bid_1lot_del(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     lots = []
@@ -1400,7 +1403,7 @@ def proc_2lot_2bid_1lot_del(self):
 def proc_2lot_1bid_2com_1win(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     lots = []
@@ -1488,7 +1491,7 @@ def proc_2lot_1bid_2com_1win(self):
 
 def proc_2lot_1bid_0com_0win(self):
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     lots = []
@@ -1540,7 +1543,7 @@ def proc_2lot_1bid_0com_0win(self):
 
 def proc_2lot_1bid_1com_1win(self):
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     lots = []
@@ -1590,7 +1593,7 @@ def proc_2lot_1bid_1com_1win(self):
 def proc_2lot_2bid_2com_2win(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     lots = []
@@ -1754,7 +1757,7 @@ def proc_2lot_2bid_2com_2win(self):
 
 def lots_features_delete(self):
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.test_features_tender_data})
+    response = self.app.post_json("/tenders", {"data": self.test_features_tender_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
@@ -1835,7 +1838,7 @@ def lots_features_delete(self):
 
 def proc_2lot_2bid_1claim_1com_1win(self):
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     lots = []

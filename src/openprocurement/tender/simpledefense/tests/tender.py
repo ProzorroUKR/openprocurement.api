@@ -14,6 +14,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_minimalstep_validation,
     tender_lot_minimalstep_validation,
     patch_tender_minimalstep_validation,
+    patch_not_author,
 )
 
 from openprocurement.tender.openua.tests.tender import TenderUaProcessTestMixin
@@ -75,39 +76,7 @@ class TenderUAProcessTest(BaseSimpleDefWebTest, TenderUaProcessTestMixin):
     test_one_invalid_bid_tender_new = snitch(one_invalid_bid_tender_new)
     test_one_invalid_bid_tender_after_new = snitch(one_invalid_bid_tender_after_new)
     test_one_invalid_bid_tender_before_new = snitch(one_invalid_bid_tender_before_new)
-
-    def test_patch_not_author(self):
-        response = self.app.post_json("/tenders", {"data": test_tender_data})
-        self.assertEqual(response.status, "201 Created")
-        tender = response.json["data"]
-        owner_token = response.json["access"]["token"]
-
-        authorization = self.app.authorization
-        self.app.authorization = ("Basic", ("bot", "bot"))
-
-        response = self.app.post_json(
-            "/tenders/{}/documents".format(tender["id"]),
-            {"data": {
-                "title": "name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }}
-        )
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        doc_id = response.json["data"]["id"]
-        self.assertIn(doc_id, response.headers["Location"])
-
-        self.app.authorization = authorization
-        response = self.app.patch_json(
-            "/tenders/{}/documents/{}?acc_token={}".format(tender["id"], doc_id, owner_token),
-            {"data": {"description": "document description"}},
-            status=403,
-        )
-        self.assertEqual(response.status, "403 Forbidden")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["errors"][0]["description"], "Can update document only author")
+    test_patch_not_author = snitch(patch_not_author)
 
 
 def suite():

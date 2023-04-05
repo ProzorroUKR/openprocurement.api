@@ -6,8 +6,6 @@ from openprocurement.api.constants import TWO_PHASE_COMMIT_FROM
 from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.api.utils import get_now
 
-# Tender Lot Resouce Test
-
 
 def create_tender_lot_invalid(self):
     response = self.app.post_json(
@@ -279,7 +277,7 @@ def tender_minimal_step_percentage(self):
 def tender_lot_funding_kind(self):
     data = deepcopy(self.initial_data)
     data["fundingKind"] = "budget"
-    response = self.app.post_json("/tenders", {"data": data})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     tender = response.json["data"]
     tender_token = response.json["access"]["token"]
     self.assertEqual(response.status, "201 Created")
@@ -354,7 +352,7 @@ def tender_1lot_fundingKind_default(self):
     del data["fundingKind"]
     lot = deepcopy(self.test_lots_data[0])
 
-    response = self.app.post_json("/tenders", {"data": data})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     # when no fundingKind field in initial data, default value should be set
@@ -367,7 +365,7 @@ def tender_1lot_fundingKind_default(self):
     self.assertIn("fundingKind", response.json["data"])
     self.assertEqual(response.json["data"]["fundingKind"], "other")
 
-    response = self.app.post_json("/tenders", {"data": data})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["fundingKind"], "other")
@@ -380,7 +378,7 @@ def tender_1lot_fundingKind_default(self):
     self.assertEqual(response.json["data"]["fundingKind"], "other")
 
     data["fundingKind"] = "budget"
-    response = self.app.post_json("/tenders", {"data": data})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["fundingKind"], "budget")
@@ -392,7 +390,7 @@ def tender_1lot_fundingKind_default(self):
     self.assertIn("fundingKind", response.json["data"])
     self.assertEqual(response.json["data"]["fundingKind"], "budget")
 
-    response = self.app.post_json("/tenders", {"data": data})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["fundingKind"], "budget")
@@ -408,7 +406,7 @@ def tender_1lot_fundingKind_default(self):
     data["lots"].append(deepcopy(lot))
     data["lots"][0]["fundingKind"] = "budget"
     del data["fundingKind"]
-    response = self.app.post_json("/tenders", {"data": data})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertIn("fundingKind", response.json["data"])
     self.assertEqual(response.json["data"]["fundingKind"], "other")
@@ -418,7 +416,7 @@ def tender_1lot_fundingKind_default(self):
 
     del data["lots"][0]["fundingKind"]
     data["fundingKind"] = "budget"
-    response = self.app.post_json("/tenders", {"data": data})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertIn("fundingKind", response.json["data"])
     self.assertEqual(response.json["data"]["fundingKind"], "budget")
@@ -436,7 +434,7 @@ def lot_yppr_validation(self):
     data["lots"] = [deepcopy(lot), deepcopy(lot)]
     data["lots"][0]["yearlyPaymentsPercentageRange"] = 0.8  # first lot yearlyPaymentsPercentageRange = 0.8
     data["lots"][1]["yearlyPaymentsPercentageRange"] = 0.6  # second lot yearlyPaymentsPercentageRange = 0.6
-    response = self.app.post_json("/tenders", {"data": data})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.set_initial_status(response.json)
@@ -532,7 +530,7 @@ def tender_2lot_fundingKind_default(self):
     data["lots"].append(deepcopy(lot))
     del data["fundingKind"]
 
-    response = self.app.post_json("/tenders", {"data": data})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["fundingKind"], "other")
@@ -544,7 +542,7 @@ def tender_2lot_fundingKind_default(self):
 
     data["lots"][0]["fundingKind"] = "budget"
     data["lots"][1]["fundingKind"] = "budget"
-    response = self.app.post_json("/tenders", {"data": data})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["fundingKind"], "other")
@@ -557,7 +555,7 @@ def tender_2lot_fundingKind_default(self):
     data["fundingKind"] = "budget"
     del data["lots"][0]["fundingKind"]
     del data["lots"][1]["fundingKind"]
-    response = self.app.post_json("/tenders", {"data": data})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["fundingKind"], "budget")
@@ -570,7 +568,7 @@ def tender_2lot_fundingKind_default(self):
     del data["fundingKind"]
     data["lots"][0]["fundingKind"] = "other"
     data["lots"][1]["fundingKind"] = "budget"
-    response = self.app.post_json("/tenders", {"data": data})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.json["data"]["fundingKind"], "other")
     self.assertIn("lots", response.json["data"])
     self.assertIn("fundingKind", response.json["data"]["lots"][0])
@@ -590,7 +588,7 @@ def tender_lot_yearlyPaymentsPercentageRange(self):
 
     del data["lots"][0]["yearlyPaymentsPercentageRange"]
     del data["lots"][1]["yearlyPaymentsPercentageRange"]
-    response = self.app.post_json("/tenders", {"data": data})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("lots", response.json["data"])
@@ -688,7 +686,7 @@ def tender_lot_yearlyPaymentsPercentageRange(self):
 def tender_lot_fundingKind_yppr(self):
     # create no lot tender
     data = deepcopy(self.initial_data)
-    response = self.app.post_json("/tenders", {"data": data})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.8)
@@ -802,7 +800,7 @@ def tender_lot_fundingKind_yppr(self):
     lot["yearlyPaymentsPercentageRange"] = 0.6
     data["lots"] = [lot]
 
-    response = self.app.post_json("/tenders", {"data": data}, status=422)
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -821,7 +819,7 @@ def tender_lot_fundingKind_yppr(self):
 
     # change lot yearlyPaymentsPercentageRange data to valid and create 1 lot tender
     data["lots"][0]["yearlyPaymentsPercentageRange"] = 0.8
-    response = self.app.post_json("/tenders", {"data": data})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.8)
@@ -836,7 +834,7 @@ def tender_lot_fundingKind_yppr(self):
     lot["yearlyPaymentsPercentageRange"] = 0.6
     data["lots"] = [lot, deepcopy(lot)]
 
-    response = self.app.post_json("/tenders", {"data": data}, status=422)
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -854,7 +852,7 @@ def tender_lot_fundingKind_yppr(self):
     )
 
     data["lots"][0]["yearlyPaymentsPercentageRange"] = 0.8
-    response = self.app.post_json("/tenders", {"data": data}, status=422)
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -873,7 +871,7 @@ def tender_lot_fundingKind_yppr(self):
 
     # change lot yearlyPaymentsPercentageRange data to valid and create 2 lot tender
     data["lots"][1]["yearlyPaymentsPercentageRange"] = 0.8
-    response = self.app.post_json("/tenders", {"data": data})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.8)
@@ -891,7 +889,7 @@ def tender_lot_Administrator_change_yppr(self):
     data = deepcopy(self.initial_data)
     data["fundingKind"] = "budget"
     data["yearlyPaymentsPercentageRange"] = 0.4
-    response = self.app.post_json("/tenders", {"data": data})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.4)
@@ -911,7 +909,7 @@ def tender_lot_Administrator_change_yppr(self):
     lot["yearlyPaymentsPercentageRange"] = 0.8
     data["lots"] = [deepcopy(lot)]
 
-    response = self.app.post_json("/tenders", {"data": data})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.8)
@@ -938,7 +936,7 @@ def tender_lot_Administrator_change_yppr(self):
     self.app.authorization = auth
     data["lots"].append(deepcopy(lot))
 
-    response = self.app.post_json("/tenders", {"data": data})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.8)

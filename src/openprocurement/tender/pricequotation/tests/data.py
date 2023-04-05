@@ -4,7 +4,7 @@ from copy import deepcopy
 from datetime import timedelta
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import set_tender_multi_buyers
-from openprocurement.tender.pricequotation.constants import PMT
+from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.api.constants import SANDBOX_MODE, PQ_MULTI_PROFILE_FROM
 
 
@@ -284,7 +284,7 @@ test_tender_data_base = {
     "procuringEntity": test_procuringEntity,
     "value": {"amount": 22000, "currency": "UAH"},
     "tenderPeriod": {"endDate": (now + timedelta(days=14)).isoformat()},
-    "procurementMethodType": PMT,
+    "procurementMethodType": PQ,
     "procurementMethod": 'selective',
 }
 test_tender_data_before_multiprofile = deepcopy(test_tender_data_base)
@@ -295,6 +295,9 @@ test_tender_data_after_multiprofile = deepcopy(test_tender_data_base)
 test_tender_data_after_multiprofile["items"] = [test_item_after_multiprofile]
 test_tender_data_after_multiprofile["agreement"] = {"id": "0" * 32}
 
+test_tender_config = {
+    "hasAuction": False,
+}
 
 if PQ_MULTI_PROFILE_RELEASED:
     test_tender_data = test_tender_data_after_multiprofile

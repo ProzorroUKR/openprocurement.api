@@ -3,7 +3,7 @@ from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.belowthreshold.views.cancellation_document import\
     TenderCancellationDocumentResource
 
-from openprocurement.tender.pricequotation.constants import PMT
+from openprocurement.tender.pricequotation.constants import PQ
 
 
 # @optendersresource(

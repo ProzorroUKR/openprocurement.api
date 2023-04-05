@@ -10,7 +10,7 @@ from openprocurement.tender.pricequotation.procedure.models.tender import (
     Tender,
 )
 from openprocurement.tender.pricequotation.procedure.state.tender_details import TenderDetailsState
-from openprocurement.tender.pricequotation.constants import PMT, PQ_KINDS
+from openprocurement.tender.pricequotation.constants import PQ, PQ_KINDS
 from openprocurement.tender.pricequotation.procedure.validation import (
     unless_administrator_or_bots,
     validate_tender_criteria_existence,
@@ -39,11 +39,11 @@ def conditional_model(data):  # TODO: bot should use a distinct endpoint, like c
 
 
 @resource(
-    name=f"{PMT}:Tenders",
+    name=f"{PQ}:Tenders",
     collection_path="/tenders",
     path="/tenders/{tender_id}",
-    procurementMethodType=PMT,
-    description=f"{PMT} tenders",
+    procurementMethodType=PQ,
+    description=f"{PQ} tenders",
     accept="application/json",
 )
 class PriceQuotationTenderResource(TendersResource):

@@ -38,7 +38,7 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(len(response.json["data"]), 1)
 
-        response = self.app.post_json("/tenders", {"data": test_tender_data})
+        response = self.app.post_json("/tenders", {"data": test_tender_data, "config": self.initial_config})
         self.assertEqual(response.status, "201 Created")
         tender = response.json["data"]
         response = self.app.get("/tenders/{}/historical".format(tender["id"]))
@@ -98,7 +98,7 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(len(response.json["data"]), 1)
 
-        response = self.app.post_json("/tenders", {"data": test_tender_data})
+        response = self.app.post_json("/tenders", {"data": test_tender_data, "config": self.initial_config})
         self.assertEqual(response.status, "201 Created")
         tender = response.json["data"]
         self.tender_id = tender["id"]
@@ -201,7 +201,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(len(response.json["data"]), 1)
 
-        response = self.app.post_json("/tenders", {"data": test_tender_data})
+        response = self.app.post_json("/tenders", {"data": test_tender_data, "config": self.initial_config})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
 

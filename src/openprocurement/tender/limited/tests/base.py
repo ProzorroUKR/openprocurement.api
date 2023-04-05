@@ -49,6 +49,10 @@ test_tender_negotiation_quick_data_2items["items"] = [
     deepcopy(test_tender_negotiation_quick_data_2items["items"][0]),
 ]
 
+test_tender_config = {
+    "hasAuction": False,
+}
+
 test_lots = [
     {"title": "lot title", "description": "lot description", "value": deepcopy(test_tender_negotiation_data["value"])}
 ]
@@ -72,6 +76,7 @@ test_tender_negotiation_quick_data_multi_buyers = set_tender_multi_buyers(
 class BaseTenderWebTest(BaseBaseTenderWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data
+    initial_config = test_tender_config
     initial_status = "active"
     initial_bids = None
     initial_lots = None

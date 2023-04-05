@@ -1,5 +1,5 @@
 from openprocurement.api.utils import json_view
-from openprocurement.api.auth import ACCR_3, ACCR_5, ACCR_4
+from openprocurement.api.auth import ACCR_3, ACCR_5
 from openprocurement.tender.core.procedure.models.tender import TenderConfig
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 from openprocurement.tender.competitivedialogue.procedure.models.stage1.tender import (

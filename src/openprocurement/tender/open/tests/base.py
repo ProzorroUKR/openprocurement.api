@@ -10,6 +10,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_data as test_tender_data_api,
+    test_tender_config,
     test_features_tender_data,
     BaseTenderWebTest,
     test_bids as base_test_bids,

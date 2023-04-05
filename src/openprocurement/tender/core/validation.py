@@ -51,13 +51,7 @@ from openprocurement.api.utils import (
     get_first_revision_date,
     get_root,
     get_criterion_requirement,
-    get_particular_parent_by_namespace, apply_data_patch,
-)
-from openprocurement.api.models import (
-    StrictStringType,
-    StrictIntType,
-    StrictDecimalType,
-    StrictBooleanType,
+    get_particular_parent_by_namespace,
 )
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF, FIRST_STAGE_PROCUREMENT_TYPES
 from openprocurement.tender.core.constants import CRITERION_LIFE_CYCLE_COST_IDS
@@ -73,7 +67,7 @@ from openprocurement.tender.core.utils import (
 )
 from schematics.exceptions import ValidationError
 from schematics.types import DecimalType, StringType, IntType, BooleanType, DateTimeType
-from openprocurement.tender.pricequotation.constants import PMT
+from openprocurement.tender.pricequotation.constants import PQ
 
 
 def validate_tender_data(request, **kwargs):
@@ -1931,7 +1925,7 @@ def validate_tender_plan_procurement_method_type(request, **kwargs):
     tender_type = tender.get("procurementMethodType")
 
     if plan.tender.procurementMethodType not in (tender_type, "centralizedProcurement"):
-        if tender_type == PMT and plan.tender.procurementMethodType == "belowThreshold":
+        if tender_type == PQ and plan.tender.procurementMethodType == "belowThreshold":
             return
         request.errors.add(
             "body",

@@ -15,11 +15,13 @@ from openprocurement.api.utils import get_now, parse_date
 from openprocurement.tender.core.tests.base import change_auth
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization, test_author,
-    test_draft_claim, test_claim,
-    test_complaint, test_draft_complaint,
-    test_cancellation, test_criteria,
-    GUARANTEE_ALLOWED_TENDER_TYPES,
+    test_organization,
+    test_author,
+    test_draft_claim,
+    test_claim,
+    test_complaint,
+    test_draft_complaint,
+    test_cancellation,
 )
 from openprocurement.tender.openua.constants import STAND_STILL_TIME
 

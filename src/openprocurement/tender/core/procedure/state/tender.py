@@ -7,6 +7,7 @@ from openprocurement.tender.core.procedure.state.chronograph import ChronographE
 from openprocurement.tender.core.procedure.state.auction import BaseShouldStartAfterMixing
 from logging import getLogger
 
+from openprocurement.tender.pricequotation.constants import PQ
 
 LOGGER = getLogger(__name__)
 
@@ -46,12 +47,12 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, Chronog
 
     def _validate_has_auction(self, data):
         pmt = data.get("procurementMethodType")
-        if pmt in ("reporting", "negotiation", "negotiation.quick"):
-            if not self.config.get("hasAuction"):
-                raise_operation_error(
-                    self.request,
-                    "Config field hasAuction must be false for procurementMethodType {}".format(pmt)
-                )
+        no_auction_pmts = ("reporting", "negotiation", "negotiation.quick", PQ)
+        if pmt in no_auction_pmts and self.config.get("hasAuction") is not False:
+            raise_operation_error(
+                self.request,
+                "Config field hasAuction must be false for procurementMethodType {}".format(pmt)
+            )
 
 
 

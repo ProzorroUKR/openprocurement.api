@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 from gevent import monkey
-monkey.patch_all(thread=False, select=False)
+
+if __name__ == "__main__":
+    monkey.patch_all(thread=False, select=False)
 
 import os
 import argparse
@@ -27,6 +29,7 @@ def has_auction_populator(tender):
         "reporting",
         "negotiation",
         "negotiation.quick",
+        "priceQuotation",
     ):
         return False
     return True
@@ -42,7 +45,6 @@ def run(env):
         pass
 
     logger.info("Successful migration: %s", __name__)
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

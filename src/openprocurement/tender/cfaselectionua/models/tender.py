@@ -31,7 +31,6 @@ from openprocurement.tender.core.models import (
 )
 from openprocurement.tender.core.utils import calc_auction_end_time, validate_features_custom_weight
 from openprocurement.tender.core.validation import validate_minimalstep, validate_tender_period_duration
-from barbecue import vnmax
 from decimal import Decimal
 
 

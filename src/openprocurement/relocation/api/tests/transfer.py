@@ -2,7 +2,7 @@ import os
 from uuid import uuid4
 from openprocurement.relocation.api.models import Transfer
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.tender.belowthreshold.tests.base import test_tender_data
+from openprocurement.tender.belowthreshold.tests.base import test_tender_data, test_tender_config
 
 
 class TransferResourceTest(BaseWebTest):
@@ -43,7 +43,7 @@ class TransferResourceTest(BaseWebTest):
 
         orig_auth = self.app.authorization
         self.app.authorization = ("Basic", ("broker1", ""))
-        response = self.app.post_json("/tenders", {"data": test_tender_data})
+        response = self.app.post_json("/tenders", {"data": test_tender_data, "config": test_tender_config})
         self.assertEqual(response.status, "201 Created")
         tender = response.json["data"]
         self.app.authorization = orig_auth

@@ -44,6 +44,7 @@ from openprocurement.tender.core.utils import (
     validate_features_custom_weight,
 )
 from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
+from openprocurement.tender.pricequotation.constants import PQ
 
 
 def validate_minimalstep(data, value):

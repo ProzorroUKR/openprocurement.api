@@ -8,7 +8,11 @@ from uuid import uuid4
 from openprocurement.api.constants import SANDBOX_MODE, TZ
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import set_tender_criteria, set_tender_multi_buyers
+from openprocurement.tender.belowthreshold.tests.base import (
+    set_tender_criteria,
+    set_tender_multi_buyers,
+    test_tender_config,
+)
 from openprocurement.tender.cfaselectionua.constants import BOT_NAME
 from openprocurement.tender.cfaselectionua.models.tender import CFASelectionUATender
 from openprocurement.tender.core.tests.base import BaseCoreWebTest
@@ -67,7 +71,8 @@ test_agreement_features = deepcopy(test_agreement)
 test_agreement_features["features"] = test_features
 
 test_tender_data_multi_buyers = set_tender_multi_buyers(
-    test_tender_data, test_tender_data["items"][0],
+    test_tender_data,
+    test_tender_data["items"][0],
     test_organization
 )
 
@@ -79,6 +84,7 @@ class BaseApiWebTest(BaseWebTest):
 class BaseTenderWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data
+    initial_config = test_tender_config
     initial_agreement = deepcopy(test_agreement)
     initial_status = None
     initial_criteria = None
@@ -254,6 +260,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
     def create_tender(self):
         data = deepcopy(self.initial_data)
+        config = deepcopy(self.initial_config)
         if self.initial_lots:
             lots = []
             for i in self.initial_lots:
@@ -263,7 +270,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
             data["lots"] = self.initial_lots = lots
             for i, item in enumerate(data["items"]):
                 item["relatedLot"] = lots[i % len(lots)]["id"]
-        response = self.app.post_json("/tenders", {"data": data})
+        response = self.app.post_json("/tenders", {"data": data, "config": config})
         tender = response.json["data"]
         self.tender_token = response.json["access"]["token"]
         self.tender_id = tender["id"]
@@ -333,7 +340,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
         data["status"] = "draft"
         data["agreements"] = [{"id": self.agreement_id}]
 
-        response = self.app.post_json("/tenders", {"data": data})
+        response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
         self.assertEqual((response.status, response.content_type), ("201 Created", "application/json"))
         tender = response.json["data"]
         self.tender_id = tender["id"]

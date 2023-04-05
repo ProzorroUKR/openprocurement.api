@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
-from openprocurement.api.constants import TZ
 from openprocurement.api.models import Value
 from openprocurement.tender.belowthreshold.utils import (
     add_next_award,
@@ -15,18 +14,13 @@ from openprocurement.tender.cfaselectionua.constants import (
     AGREEMENT_IDENTIFIER,
     AGREEMENT_START_DATE,
 )
-from openprocurement.tender.cfaselectionua.traversal import agreement_factory
 from openprocurement.tender.core.utils import (
     calculate_tender_date,
     CancelTenderLot as BaseCancelTenderLot,
 )
-from functools import partial
-from cornice.resource import resource
-from openprocurement.api.utils import error_handler, context_unpack, get_now
+from openprocurement.api.utils import context_unpack, get_now
 
 LOGGER = getLogger("openprocurement.tender.cfaselectionua")
-
-agreement_resource = partial(resource, error_handler=error_handler, factory=agreement_factory)
 
 
 class CancelTenderLot(BaseCancelTenderLot):

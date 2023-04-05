@@ -1,6 +1,6 @@
 import unittest
 
-from openprocurement.api.tests.base import BaseWebTest, snitch
+from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.openua.tests.tender_blanks import (
     # TenderStage2UAResourceTest
@@ -37,7 +37,6 @@ from openprocurement.tender.competitivedialogue.tests.stage2.tender_blanks impor
     first_bid_tender,
     tender_milestones_not_required,
     create_tender_central,
-    create_tender_with_non_required_unit,
 )
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogApiWebTest,
@@ -49,9 +48,6 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_author,
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
-from openprocurement.tender.belowthreshold.tests.tender_blanks import (
-    create_tender_with_earlier_non_required_unit,
-)
 
 
 class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest):

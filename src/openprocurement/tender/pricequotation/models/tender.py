@@ -37,7 +37,7 @@ from openprocurement.tender.core.models import (
 from openprocurement.tender.belowthreshold.models import Unit
 from openprocurement.tender.core.validation import validate_tender_period_duration
 from openprocurement.tender.pricequotation.constants import (
-    PMT,
+    PQ,
     QUALIFICATION_DURATION,
     PQ_KINDS,
     TENDERING_DURATION,
@@ -323,7 +323,7 @@ class PriceQuotationTender(Tender):
     procurementMethod = StringType(
         choices=["selective"], default="selective"
     )
-    procurementMethodType = StringType(default=PMT)
+    procurementMethodType = StringType(default=PQ)
     profile = StringType()
     agreement = ModelType(Agreement)
     shortlistedFirms = ListType(ModelType(ShortlistedFirm), default=list())

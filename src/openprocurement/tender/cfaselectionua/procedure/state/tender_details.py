@@ -1,5 +1,5 @@
 from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
-from openprocurement.tender.core.procedure.context import get_request, get_now, get_tender
+from openprocurement.tender.core.procedure.context import get_request, get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.utils import calculate_tender_date
 from openprocurement.tender.cfaselectionua.procedure.state.tender import CFASelectionTenderState
@@ -18,7 +18,7 @@ from openprocurement.tender.cfaselectionua.constants import (
     TENDERING_DURATION,
     MINIMAL_STEP_PERCENTAGE,
 )
-from openprocurement.tender.core.utils import calculate_tender_business_date, calculate_clarif_business_date
+from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.api.utils import raise_operation_error
 from copy import deepcopy
 
@@ -245,4 +245,3 @@ def calculate_tender_features(tender):
                 tender_features.append(feature)
 
         tender["features"] = tender_features
-

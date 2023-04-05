@@ -24,8 +24,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_complaint,
     test_draft_complaint,
     test_cancellation,
-    test_criteria,
-    GUARANTEE_ALLOWED_TENDER_TYPES,
 )
 from openprocurement.tender.open.constants import STAND_STILL_TIME
 

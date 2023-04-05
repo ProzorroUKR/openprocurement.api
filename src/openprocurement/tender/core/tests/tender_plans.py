@@ -3,6 +3,7 @@ from uuid import uuid4
 
 from openprocurement.api.tests.base import singleton_app, app
 from openprocurement.planning.api.tests.base import test_plan_data
+from openprocurement.tender.belowthreshold.tests.base import test_tender_config
 from openprocurement.tender.openua.tests.base import test_tender_data
 from copy import deepcopy
 import pytest
@@ -41,7 +42,7 @@ test_tender_data["items"][0]["relatedBuyer"] = test_tender_data["buyers"][0]["id
 def tender(app):
     app.authorization = ("Basic", ("broker", "broker"))
     test_data = deepcopy(test_tender_data)
-    response = app.post_json("/tenders", dict(data=test_data))
+    response = app.post_json("/tenders", dict(data=test_data, config=test_tender_config))
     assert response.status == "201 Created"
     return response.json
 
@@ -124,7 +125,7 @@ def test_fail_not_draft(app, plan):
 
     test_data = deepcopy(test_tender_data)
     del test_data["status"]
-    response = app.post_json("/tenders", dict(data=test_data))
+    response = app.post_json("/tenders", dict(data=test_data, config=test_tender_config))
     assert response.status == "201 Created"
     app.set_initial_status(response.json, "active.tendering")
     tender = response.json
@@ -143,7 +144,7 @@ def test_fail_non_central(app, plan):
 
     test_data = deepcopy(test_tender_data)
     test_data["procuringEntity"]["kind"] = "general"
-    response = app.post_json("/tenders", dict(data=test_data))
+    response = app.post_json("/tenders", dict(data=test_data, config=test_tender_config))
     assert response.status == "201 Created"
     tender = response.json
 

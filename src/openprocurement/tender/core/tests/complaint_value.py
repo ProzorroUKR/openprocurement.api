@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.tests.base import singleton_app, app
-from openprocurement.tender.belowthreshold.tests.base import test_author, test_draft_complaint, test_lots
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_author,
+    test_draft_complaint,
+    test_lots,
+    test_tender_config,
+)
 from openprocurement.tender.openua.tests.base import test_tender_data
 from openprocurement.tender.core.utils import round_up_to_ten
 from openprocurement.tender.core.models import Complaint, Award, Claim
@@ -12,17 +17,17 @@ from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
 from copy import deepcopy
 from mock import patch, Mock
-from datetime import datetime, timedelta
+from datetime import timedelta
 import pytest
-import pytz
 
 test_tender_data = deepcopy(test_tender_data)
+test_tender_config = deepcopy(test_tender_config)
 complaint_data = deepcopy(test_draft_complaint)
 
 
-def create_tender(app, tender_data):
+def create_tender(app, tender_data, tender_config):
     app.authorization = ("Basic", ("broker", "broker"))
-    response = app.post_json("/tenders", dict(data=tender_data))
+    response = app.post_json("/tenders", dict(data=tender_data, config=tender_config))
     assert response.status == "201 Created"
     app.set_initial_status(response.json, "active.tendering")
     return response.json
@@ -33,7 +38,7 @@ def test_complaint_value_change(app):
     value should be calculated only once for a complaint
     """
     test_tender_data["value"]["amount"] = 1000  # we want minimum complaint value
-    tender = create_tender(app, test_tender_data)
+    tender = create_tender(app, test_tender_data, test_tender_config)
     with patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1)):
         response = app.post_json(
             "/tenders/{}/complaints".format(tender["data"]["id"]),
@@ -61,7 +66,7 @@ def test_complaint_value_with_lots(app):
     test_data["lots"][0]["value"]["amount"] = 500
     test_data["lots"][1]["value"]["amount"] = 99999999999999
     test_data["lots"][1]["minimalStep"]["amount"] = 2999999999999
-    tender = create_tender(app, test_data)
+    tender = create_tender(app, test_data, test_tender_config)
 
     req_data = deepcopy(complaint_data)
     # a chip complaint

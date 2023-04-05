@@ -1459,7 +1459,7 @@ def lcc_criterion_valid(self):
     data = dict(**self.initial_data)
     data["awardCriteria"] = "lifeCycleCost"
     data["status"] = "draft"
-    response = self.app.post_json("/tenders", {"data": data})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]
     self.assertEqual(tender["awardCriteria"], data["awardCriteria"])
@@ -1564,7 +1564,7 @@ def lcc_criterion_invalid(self):
     data = dict(**self.initial_data)
     data["awardCriteria"] = "lifeCycleCost"
     data["status"] = "draft"
-    response = self.app.post_json("/tenders", {"data": data})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]
     self.tender_token = response.json["access"]["token"]
@@ -1601,7 +1601,7 @@ def lcc_criterion_invalid(self):
     data["awardCriteria"] = "lifeCycleCost"
     data["status"] = "draft"
     data["lots"] = self.test_lots_data
-    response = self.app.post_json("/tenders", {"data": data})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]
     self.tender_token = response.json["access"]["token"]

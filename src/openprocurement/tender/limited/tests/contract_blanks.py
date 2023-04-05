@@ -53,7 +53,7 @@ def create_tender_contract(self):
     self.assertEqual(response.status, "403 Forbidden")
 
     # at next steps we test to create contract in 'cancelled' tender status
-    response = self.app.post_json("/tenders?acc_token={}", {"data": self.initial_data})
+    response = self.app.post_json("/tenders?acc_token={}", {"data": self.initial_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     tender_id = self.tender_id = response.json["data"]["id"]
     tender_token = self.tender_token = response.json["access"]["token"]
@@ -156,7 +156,7 @@ def patch_tender_contract(self):
     )
 
     # at next steps we test to patch contract in 'cancelled' tender status
-    response = self.app.post_json("/tenders?acc_token={}", {"data": self.initial_data})
+    response = self.app.post_json("/tenders?acc_token={}", {"data": self.initial_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     tender_id = response.json["data"]["id"]
     tender_token = response.json["access"]["token"]
@@ -425,7 +425,7 @@ def patch_tender_negotiation_contract(self):
         response.json["errors"][0]["description"], "Can't update contract in current (complete) tender status"
     )
     # at next steps we test to patch contract in 'cancelled' tender status
-    response = self.app.post_json("/tenders?acc_token={}", {"data": self.initial_data})
+    response = self.app.post_json("/tenders?acc_token={}", {"data": self.initial_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     old_tender_id = self.tender_id
     old_tender_token = self.tender_token
@@ -860,7 +860,7 @@ def create_two_contract(self):
     self.assertEqual(response.status, "403 Forbidden")
 
     # at next steps we test to create contract in 'cancelled' tender status
-    response = self.app.post_json("/tenders?acc_token={}", {"data": self.initial_data})
+    response = self.app.post_json("/tenders?acc_token={}", {"data": self.initial_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     tender_id = self.tender_id = response.json["data"]["id"]
     tender_token = self.tender_token = response.json["access"]["token"]

@@ -2,6 +2,7 @@ from openprocurement.api.tests.base import singleton_app, app
 from openprocurement.tender.belowthreshold.tests.base import (
     test_organization,
     test_tender_data as belowthreshold_tender_data,
+    test_tender_config as below_tender_config,
     test_cancellation,
     test_complaint,
 )
@@ -29,6 +30,7 @@ from openprocurement.tender.limited.tests.base import (
     test_tender_data as limited_tender_data,
     test_tender_negotiation_data,
     test_tender_negotiation_quick_data,
+    test_tender_config as limited_tender_config,
 )
 from datetime import timedelta
 from openprocurement.api.utils import raise_operation_error, get_now
@@ -38,7 +40,7 @@ import mock
 import pytest
 
 
-def post_tender(app, data):
+def post_tender(app, data, config):
     if data["procurementMethodType"] == "aboveThresholdUA.defense":
         release_simpledef_date = get_now() + timedelta(days=1)
     else:
@@ -52,7 +54,7 @@ def post_tender(app, data):
     else:
         app.authorization = ("Basic", ("broker", "broker"))
     test_data = deepcopy(data)
-    response = app.post_json("/tenders", dict(data=test_data))
+    response = app.post_json("/tenders", dict(data=test_data, config=config))
     release_simpledef_patcher.stop()
     assert response.status == "201 Created"
     return response.json["data"], response.json["access"]["token"]
@@ -66,30 +68,30 @@ cfaselection_tender_data = dict(**cfaselection_tender_data)
 cfaselection_tender_data["lots"] = cfaselection_lots
 
 procedures = (
-    belowthreshold_tender_data,
-    cfaselection_tender_data,
-    cfaua_tender_data,
-    cd_tender_data_ua,
-    cd_tender_data_eu,
-    cd_tender_stage2_data_ua,
-    cd_tender_stage2_data_eu,
-    esco_tender_data,
-    limited_tender_data,
-    test_tender_negotiation_data,
-    test_tender_negotiation_quick_data,
-    ua_tender_data,
-    eu_tender_data,
-    defense_tender_data,
-    simpledefense_tender_data,
+    (belowthreshold_tender_data, below_tender_config),
+    (cfaselection_tender_data, below_tender_config),
+    (cfaua_tender_data, below_tender_config),
+    (cd_tender_data_ua, below_tender_config),
+    (cd_tender_data_eu, below_tender_config),
+    (cd_tender_stage2_data_ua, below_tender_config),
+    (cd_tender_stage2_data_eu, below_tender_config),
+    (esco_tender_data, below_tender_config),
+    (limited_tender_data, limited_tender_config),
+    (test_tender_negotiation_data, limited_tender_config),
+    (test_tender_negotiation_quick_data, limited_tender_config),
+    (ua_tender_data, below_tender_config),
+    (eu_tender_data, below_tender_config),
+    (defense_tender_data, below_tender_config),
+    (simpledefense_tender_data, below_tender_config),
 )
 
 
-@pytest.mark.parametrize("tender_data", procedures)
-def test_post_cancellation(app, tender_data):
+@pytest.mark.parametrize("tender_data, tender_config", procedures)
+def test_post_cancellation(app, tender_data, tender_config):
     """
     posting an active cancellation should trigger the validation
     """
-    tender, tender_token = post_tender(app, tender_data)
+    tender, tender_token = post_tender(app, tender_data, tender_config)
 
     def mock_validate(request, cancellation=None):
         raise_operation_error(request, "hello")
@@ -110,12 +112,12 @@ def test_post_cancellation(app, tender_data):
                 {'description': 'hello', 'location': 'body', 'name': 'data'}]}
 
 
-@pytest.mark.parametrize("tender_data", procedures)
-def test_patch_cancellation(app, tender_data):
+@pytest.mark.parametrize("tender_data, tender_config", procedures)
+def test_patch_cancellation(app, tender_data, tender_config):
     """
     only patching to active should trigger the validation
     """
-    tender, tender_token = post_tender(app, tender_data)
+    tender, tender_token = post_tender(app, tender_data, tender_config)
 
     def mock_validate(request, cancellation=None):
         raise_operation_error(request, "hello")
@@ -155,7 +157,7 @@ def test_post_cancellation_openeu(app):
     """
     test without mocking (just in case)
     """
-    tender, tender_token = post_tender(app, eu_tender_data)
+    tender, tender_token = post_tender(app, eu_tender_data, below_tender_config)
     tender_data = app.app.registry.mongodb.tenders.get(tender["id"])
     app.tender_id = tender["id"]
 

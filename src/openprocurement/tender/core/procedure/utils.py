@@ -1,9 +1,10 @@
 from typing import Optional
 
+from openprocurement.api.context import get_json_data
 from openprocurement.api.utils import handle_store_exceptions, context_unpack
 from openprocurement.api.auth import extract_access_token
 from openprocurement.api.constants import TZ
-from openprocurement.tender.core.procedure.context import get_now, get_json_data, get_bid, get_request
+from openprocurement.tender.core.procedure.context import get_now, get_bid, get_request
 from openprocurement.tender.core.utils import QUICK
 from dateorro import calc_normalized_datetime
 from jsonpatch import make_patch, apply_patch

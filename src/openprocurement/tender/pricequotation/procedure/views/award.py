@@ -9,16 +9,16 @@ from openprocurement.tender.core.procedure.views.award import TenderAwardResourc
 from openprocurement.tender.core.procedure.models.award import PatchAward, Award
 from openprocurement.tender.pricequotation.procedure.state.award import AwardState
 from openprocurement.tender.pricequotation.procedure.validation import validate_pq_award_owner
-from openprocurement.tender.pricequotation.constants import PMT
+from openprocurement.tender.pricequotation.constants import PQ
 from cornice.resource import resource
 
 
 @resource(
-    name="{}:Tender Awards".format(PMT),
+    name="{}:Tender Awards".format(PQ),
     collection_path="/tenders/{tender_id}/awards",
     path="/tenders/{tender_id}/awards/{award_id}",
     description="Tender awards",
-    procurementMethodType=PMT,
+    procurementMethodType=PQ,
 )
 class PQTenderAwardResource(TenderAwardResource):
     state_class = AwardState

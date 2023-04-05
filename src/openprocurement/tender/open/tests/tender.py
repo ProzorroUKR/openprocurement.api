@@ -43,7 +43,6 @@ from openprocurement.tender.open.tests.tender_blanks import (
     first_bid_tender,
     lost_contract_for_active_award,
     create_tender_with_criteria_lcc,
-    create_tender_no_auction,
 )
 
 
@@ -70,7 +69,6 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderU
         self.test_lots_data = deepcopy(self.initial_lots)
 
     test_create_tender_invalid = snitch(create_tender_invalid)
-    test_create_tender_no_auction = snitch(create_tender_no_auction)
     test_create_tender_central = snitch(create_tender_central)
     test_create_tender_central_invalid = snitch(create_tender_central_invalid)
     test_create_tender_generated = snitch(create_tender_generated)
