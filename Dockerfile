@@ -1,7 +1,7 @@
 # Dockerfile is not optimized, for optimized build use werf.yml
-FROM python:3.8-slim-buster
+FROM python:3.8-alpine
 
-RUN apt-get update && apt-get install -y git gcc libssl-dev
+RUN apk add --update --no-cache git gcc libressl-dev musl-dev build-base libffi-dev
 
 WORKDIR /app
 COPY requirements.txt /app/
