@@ -13,7 +13,7 @@ class Lot(BaseLot):
 
     auctionPeriod = ModelType(LotAuctionPeriod, default={})
     value = ModelType(Value, required=True)
-    minimalStep = ModelType(Value, required=True)
+    minimalStep = ModelType(Value)
     guarantee = ModelType(Guarantee)
 
     @serializable

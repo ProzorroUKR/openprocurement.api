@@ -1,7 +1,11 @@
 from openprocurement.api.constants import RELEASE_2020_04_19, TZ
 from openprocurement.api.utils import context_unpack
 from openprocurement.tender.core.procedure.contracting import add_contracts
-from openprocurement.tender.core.procedure.context import get_now, get_request
+from openprocurement.tender.core.procedure.context import (
+    get_now,
+    get_request,
+    get_tender_config,
+)
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     get_first_revision_date,
@@ -307,15 +311,12 @@ class ChronographEventsMixing:
         self.switch_to_auction_or_awarded(tender)
 
     def switch_to_auction_or_awarded(self, tender):
-        LOGGER.info("HELLO switch_to_auction_or_awarded")
         if tender.get("status") not in ("unsuccessful", "active.qualification", "active.awarded"):
-            LOGGER.info("HELLO status not in ('unsuccessful', 'active.qualification', 'active.awarded')")
-            if self.config.get("hasAuction"):
-                LOGGER.info("HELLO hasAuction = True")
+            config = get_tender_config()
+            if config.get("hasAuction"):
                 handler = self.get_change_tender_status_handler("active.auction")
                 handler(tender)
             else:
-                LOGGER.info("HELLO hasAuction = False")
                 self.add_next_award()
 
     def awarded_complaint_handler(self, tender):
@@ -618,13 +619,16 @@ class ChronographEventsMixing:
             del obj["auctionPeriod"]
 
     def calc_tender_values(self, tender: dict) -> None:
-        if tender.get("lots"):
-            self.calc_tender_value(tender)
-            self.calc_tender_guarantee(tender)
-            self.calc_tender_minimal_step(tender)
+        self.calc_tender_value(tender)
+        self.calc_tender_guarantee(tender)
+        self.calc_tender_minimal_step(tender)
 
     @staticmethod
     def calc_tender_value(tender: dict) -> None:
+        if not tender.get("lots"):
+            return
+        if not "value" in tender:
+            return
         tender["value"] = {
             "amount": sum(i["value"]["amount"] for i in tender.get("lots", "") if i.get("value")),
             "currency": tender["value"]["currency"],
@@ -633,10 +637,12 @@ class ChronographEventsMixing:
 
     @staticmethod
     def calc_tender_guarantee(tender: dict) -> None:
-        lots_amount = [i["guarantee"]["amount"] for i in tender.get("lots", "") if i.get("guarantee")]
-        if not lots_amount:
+        if not tender.get("lots"):
             return
-        guarantee = {"amount": sum(lots_amount)}
+        amounts = [i["guarantee"]["amount"] for i in tender.get("lots", "") if i.get("guarantee")]
+        if not amounts:
+            return
+        guarantee = {"amount": sum(amounts)}
         lots_currency = [i["guarantee"]["currency"] for i in tender["lots"] if i.get("guarantee")]
         guarantee["currency"] = lots_currency[0] if lots_currency else None
         if tender.get("guarantee"):
@@ -645,8 +651,15 @@ class ChronographEventsMixing:
 
     @staticmethod
     def calc_tender_minimal_step(tender: dict) -> None:
+        if not tender.get("lots"):
+            return
+        if not "minimalStep" in tender:
+            return
+        amounts = [i["minimalStep"]["amount"] for i in tender.get("lots", "") if i.get("minimalStep")]
+        if not amounts:
+            return
         tender["minimalStep"] = {
-            "amount": min(i["minimalStep"]["amount"] for i in tender.get("lots", "") if i.get("minimalStep")),
+            "amount": min(amounts),
             "currency": tender["minimalStep"]["currency"],
             "valueAddedTaxIncluded": tender["minimalStep"]["valueAddedTaxIncluded"],
         }

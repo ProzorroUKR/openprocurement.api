@@ -2118,7 +2118,7 @@ class Lot(BaseLot):
         }
 
     value = ModelType(Value, required=True)
-    minimalStep = ModelType(Value, required=True)
+    minimalStep = ModelType(Value)
     auctionPeriod = ModelType(LotAuctionPeriod, default={})
     auctionUrl = URLType()
     guarantee = ModelType(Guarantee)

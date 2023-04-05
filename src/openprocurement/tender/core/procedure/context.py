@@ -13,6 +13,11 @@ def get_tender() -> Union[dict, None]:
     return tender
 
 
+def get_tender_config() -> Union[dict, None]:
+    tender = get_request().validated.get("tender_config")
+    return tender
+
+
 def get_award() -> Union[dict, None]:
     award = get_request().validated.get("award")
     return award

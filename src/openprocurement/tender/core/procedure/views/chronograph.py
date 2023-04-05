@@ -1,5 +1,4 @@
 from openprocurement.api.utils import json_view, context_unpack
-from openprocurement.tender.core.procedure.serializers.config import TenderConfigSerializer
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.validation import validate_input_data
 from openprocurement.tender.core.procedure.utils import save_tender, apply_data_patch
@@ -9,7 +8,6 @@ from openprocurement.tender.core.procedure.serializers.chronograph import Chrono
 
 class TenderChronographResource(TenderBaseResource):
     serializer_class = ChronographSerializer
-    serializer_config_class = TenderConfigSerializer
 
     @json_view(permission="chronograph")
     def get(self):
@@ -28,8 +26,6 @@ class TenderChronographResource(TenderBaseResource):
     )
     def patch(self):
         tender_config = self.request.validated["tender_config"]
-        config = self.serializer_config_class(tender_config).data
-        self.state.config = config
 
         # 1 we run all event handlers that should be run by now
         self.state.run_time_events(self.request.validated["tender"])
@@ -60,5 +56,5 @@ class TenderChronographResource(TenderBaseResource):
             )
         return {
             "data": self.serializer_class(self.request.validated["tender"]).data,
-            "config": config,
+            "config": self.serializer_config_class(tender_config).data,
         }

@@ -1,4 +1,8 @@
-from openprocurement.tender.core.procedure.context import get_request, get_now
+from openprocurement.tender.core.procedure.context import (
+    get_request,
+    get_now,
+    get_tender_config,
+)
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     set_mode_test_titles,
@@ -41,7 +45,8 @@ class TenderDetailsMixing:
         super().on_post(tender)
 
     def set_mode_test(self, tender):
-        if self.config.get("test"):
+        config = get_tender_config()
+        if config.get("test"):
             tender["mode"] = "test"
         if tender.get("mode") == "test":
             set_mode_test_titles(tender)

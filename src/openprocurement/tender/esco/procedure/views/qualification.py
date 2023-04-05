@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from cornice.resource import resource
 from openprocurement.tender.core.procedure.views.qualification import TenderQualificationResource
+from openprocurement.tender.esco.procedure.state.qualification import ESCOQualificationState
 
 
 @resource(
@@ -10,5 +11,6 @@ from openprocurement.tender.core.procedure.views.qualification import TenderQual
     procurementMethodType="esco",
     description="Tender ESCO Qualification",
 )
-class TenderESCOLotResource(TenderQualificationResource):
+class TenderESCOQualificationResource(TenderQualificationResource):
     """ Tender ESCO Lot Resource """
+    state_class = ESCOQualificationState

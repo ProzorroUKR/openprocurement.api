@@ -411,11 +411,6 @@ def create_tender_invalid(self):
     )
 
     self.assertIn(
-        {"description": ["This field is required."], "location": "body", "name": "minimalStep"},
-        response.json["errors"],
-    )
-
-    self.assertIn(
         {"description": ["This field is required."], "location": "body", "name": "items"}, response.json["errors"]
     )
 
@@ -519,6 +514,18 @@ def create_tender_invalid(self):
     )
     del self.initial_data["awardPeriod"]
     del self.initial_data["auctionPeriod"]
+
+    data = self.initial_data["minimalStep"]
+    del self.initial_data["minimalStep"]
+    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
+    self.initial_data["minimalStep"] = data
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertIn(
+        {"description": ["This field is required."], "location": "body", "name": "minimalStep"},
+        response.json["errors"],
+    )
 
     data = self.initial_data["minimalStep"]
     self.initial_data["minimalStep"] = {"amount": "1000.0"}

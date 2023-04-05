@@ -29,7 +29,6 @@ from schematics.types import (
     BooleanType,
 )
 from schematics.types.compound import ModelType
-from schematics.types.serializable import serializable
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.api.models import (
     Value,
@@ -44,7 +43,6 @@ from openprocurement.tender.core.utils import (
     validate_features_custom_weight,
 )
 from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
-from openprocurement.tender.pricequotation.constants import PQ
 
 
 def validate_minimalstep(data, value):
@@ -108,7 +106,7 @@ class PostTender(PostBaseTender):
     procuringEntity = ModelType(ProcuringEntity, required=True)
     value = ModelType(Value, required=True)
     guarantee = ModelType(PostGuarantee)
-    minimalStep = ModelType(Value, required=True)
+    minimalStep = ModelType(Value)
     enquiryPeriod = ModelType(EnquiryPeriod)
     tenderPeriod = ModelType(PeriodEndRequired, required=True)
     awardPeriod = ModelType(Period)
@@ -119,48 +117,6 @@ class PostTender(PostBaseTender):
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     milestones = ListType(ModelType(Milestone, required=True),
                           validators=[validate_items_uniq, validate_milestones])
-
-    @serializable(serialized_name="value", type=ModelType(Value))
-    def tender_value(self):
-        if self.lots:
-            value = Value(
-                dict(
-                    amount=sum([i.value.amount for i in self.lots]),
-                    currency=self.value.currency,
-                    valueAddedTaxIncluded=self.value.valueAddedTaxIncluded,
-                )
-            )
-            return value
-        return self.value
-
-    @serializable(serialized_name="guarantee", serialize_when_none=False, type=ModelType(Guarantee))
-    def tender_guarantee(self):
-        if self.lots:
-            lots_amount = [i.guarantee.amount for i in self.lots if i.guarantee]
-            if not lots_amount:
-                return self.guarantee
-            guarantee = {"amount": sum(lots_amount)}
-            lots_currency = [i.guarantee.currency for i in self.lots if i.guarantee]
-            guarantee["currency"] = lots_currency[0] if lots_currency else None
-            if self.guarantee:
-                guarantee["currency"] = self.guarantee.currency
-            return Guarantee(guarantee)
-        else:
-            return self.guarantee
-
-    @serializable(serialized_name="minimalStep", type=ModelType(Value))
-    def tender_minimalStep(self):
-        return (
-            Value(
-                dict(
-                    amount=min([i.minimalStep.amount for i in self.lots]),
-                    currency=self.minimalStep.currency,
-                    valueAddedTaxIncluded=self.minimalStep.valueAddedTaxIncluded,
-                )
-            )
-            if self.lots
-            else self.minimalStep
-        )
 
     def validate_lots(self, data, value):
         if value and len(set(lot.guarantee.currency for lot in value if lot.guarantee)) > 1:
@@ -225,7 +181,7 @@ class Tender(BaseTender):
     value = ModelType(Value, required=True)
     guarantee = ModelType(Guarantee)
     next_check = BaseType()
-    minimalStep = ModelType(Value, required=True)
+    minimalStep = ModelType(Value)
     enquiryPeriod = ModelType(EnquiryPeriod, required=True)
     tenderPeriod = ModelType(PeriodEndRequired, required=True)
     awardPeriod = ModelType(Period)
@@ -236,48 +192,6 @@ class Tender(BaseTender):
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     milestones = ListType(ModelType(Milestone, required=True),
                           validators=[validate_items_uniq, validate_milestones])
-
-    @serializable(serialized_name="value", type=ModelType(Value))
-    def tender_value(self):
-        if self.lots:
-            value = Value(
-                dict(
-                    amount=sum([i.value.amount for i in self.lots]),
-                    currency=self.value.currency,
-                    valueAddedTaxIncluded=self.value.valueAddedTaxIncluded,
-                )
-            )
-            return value
-        return self.value
-
-    @serializable(serialized_name="guarantee", serialize_when_none=False, type=ModelType(Guarantee))
-    def tender_guarantee(self):
-        if self.lots:
-            lots_amount = [i.guarantee.amount for i in self.lots if i.guarantee]
-            if not lots_amount:
-                return self.guarantee
-            guarantee = {"amount": sum(lots_amount)}
-            lots_currency = [i.guarantee.currency for i in self.lots if i.guarantee]
-            guarantee["currency"] = lots_currency[0] if lots_currency else None
-            if self.guarantee:
-                guarantee["currency"] = self.guarantee.currency
-            return Guarantee(guarantee)
-        else:
-            return self.guarantee
-
-    @serializable(serialized_name="minimalStep", type=ModelType(Value))
-    def tender_minimalStep(self):
-        return (
-            Value(
-                dict(
-                    amount=min([i.minimalStep.amount for i in self.lots]),
-                    currency=self.minimalStep.currency,
-                    valueAddedTaxIncluded=self.minimalStep.valueAddedTaxIncluded,
-                )
-            )
-            if self.lots
-            else self.minimalStep
-        )
 
     def validate_minimalStep(self, data, value):
         validate_minimalstep(data, value)

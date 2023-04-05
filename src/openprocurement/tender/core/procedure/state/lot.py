@@ -2,8 +2,11 @@ from pyramid.request import Request
 
 from openprocurement.api.utils import raise_operation_error, error_handler
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.context import get_tender, get_request
-from openprocurement.tender.core.procedure.utils import is_item_owner
+from openprocurement.tender.core.procedure.context import (
+    get_tender,
+    get_request,
+    get_tender_config,
+)
 
 
 class LotStateMixin:
@@ -11,6 +14,7 @@ class LotStateMixin:
     calc_tender_values: callable
     get_lot_auction_should_start_after: callable
     validate_cancellation_blocks: callable  # from TenderState
+    validate_minimal_step: callable  # from TenderState
 
     def validate_lot_post(self, lot) -> None:
         request, tender = get_request(), get_tender()
@@ -46,6 +50,7 @@ class LotStateMixin:
             raise error_handler(self.request)
 
     def lot_always(self, data: dict) -> None:
+        self.validate_minimal_step(data)
         self.update_tender_data()
 
     def pre_save_validations(self, data: dict) -> None:

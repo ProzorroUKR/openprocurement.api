@@ -51,13 +51,14 @@ class LotSerializersMixin(LotGuaranteeSerializerMixin):
     def lot_minimalStep(self) -> Value:
         tender = self.get_tender()
         tender_minimal_step = tender["minimalStep"] if tender.get("minimalStep") else dict()
-        return Value(
-            dict(
-                amount=self.minimalStep.amount,
-                currency=tender_minimal_step.get("currency"),
-                valueAddedTaxIncluded=tender_minimal_step.get("valueAddedTaxIncluded"),
+        if tender_minimal_step and self.minimalStep:
+            return Value(
+                dict(
+                    amount=self.minimalStep.amount,
+                    currency=tender_minimal_step.get("currency"),
+                    valueAddedTaxIncluded=tender_minimal_step.get("valueAddedTaxIncluded"),
+                )
             )
-        )
 
     @serializable(serialized_name="value", type=ModelType(Value))
     def lot_value(self) -> Value:
@@ -107,7 +108,7 @@ class PatchLot(PatchBaseLot):
 
 class PostLot(PostBaseLot, LotSerializersMixin):
     value = ModelType(PostValue, required=True)
-    minimalStep = ModelType(PostValue, required=True)
+    minimalStep = ModelType(PostValue)
     guarantee = ModelType(PostGuarantee)
 
     def validate_minimalStep(self, data: dict, value: Value) -> None:
@@ -119,7 +120,7 @@ class PostLot(PostBaseLot, LotSerializersMixin):
 
 class PatchTenderLot(PatchBaseLot, TenderLotMixin):
     value = ModelType(Value, required=True)
-    minimalStep = ModelType(Value, required=True)
+    minimalStep = ModelType(Value)
     guarantee = ModelType(Guarantee)
 
     def validate_minimalStep(self, data: dict, value: Value) -> None:
@@ -132,7 +133,7 @@ class PostTenderLot(PostLot, TenderLotMixin):
 
 class Lot(BaseLot, TenderLotMixin, LotSerializersMixin):
     value = ModelType(Value, required=True)
-    minimalStep = ModelType(Value, required=True)
+    minimalStep = ModelType(Value)
     guarantee = ModelType(Guarantee)
 
     auctionPeriod = ModelType(LotAuctionPeriod)

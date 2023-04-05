@@ -62,15 +62,12 @@ class TendersListResource(MongodbResourceListing):
 
 class TendersResource(TenderBaseResource):
     serializer_class = TenderBaseSerializer
-    serializer_config_class = TenderConfigSerializer
 
     def collection_post(self):
         update_logging_context(self.request, {"tender_id": "__new__"})
         tender = self.request.validated["data"]
         tender_config = self.request.validated["tender_config"]
-        config = self.serializer_config_class(tender_config).data
         access = set_ownership(tender, self.request)
-        self.state.config = config
         self.state.on_post(tender)
         self.request.validated["tender"] = tender
         self.request.validated["tender_src"] = {}
@@ -93,7 +90,7 @@ class TendersResource(TenderBaseResource):
             )
             return {
                 "data": self.serializer_class(tender).data,
-                "config": config,
+                "config": self.serializer_config_class(tender_config).data,
                 "access": access,
             }
 
@@ -108,11 +105,9 @@ class TendersResource(TenderBaseResource):
 
     def patch(self):
         tender_config = self.request.validated["tender_config"]
-        config = self.serializer_config_class(tender_config).data
         updated = self.request.validated["data"]
         if updated:
             before = self.request.validated["tender_src"]
-            self.state.config = config
             self.state.validate_tender_patch(before, updated)
             self.request.validated["tender"] = updated
             self.state.on_patch(self.request.validated["tender_src"], updated)
@@ -124,5 +119,5 @@ class TendersResource(TenderBaseResource):
         tender = self.request.validated["tender"]
         return {
             "data": self.serializer_class(tender).data,
-            "config": config,
+            "config": self.serializer_config_class(tender_config).data,
         }

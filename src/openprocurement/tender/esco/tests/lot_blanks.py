@@ -68,7 +68,6 @@ def create_tender_lot_invalid(self):
         response.json["errors"],
         [
             {"description": ["This field is required."], "location": "body", "name": "title"},
-            {"description": ["This field is required."], "location": "body", "name": "minimalStepPercentage"},
         ],
     )
 
@@ -78,6 +77,25 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"], [{"description": "Rogue field", "location": "body", "name": "invalid_field"}]
+    )
+
+
+    response = self.app.post_json(
+        request_path,
+        {
+            "data": {
+                "title": "lot title",
+                "description": "lot description",
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{"description": ["This field is required."], "location": "body", "name": "minimalStepPercentage"}],
     )
 
     items = deepcopy(self.initial_data["items"])

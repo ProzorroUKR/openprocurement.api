@@ -1,5 +1,4 @@
 from openprocurement.api.utils import json_view, context_unpack
-from openprocurement.tender.core.procedure.serializers.config import TenderConfigSerializer
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.validation import (
     validate_auction_tender_status,
@@ -11,8 +10,10 @@ from openprocurement.tender.core.procedure.context import get_now
 from openprocurement.tender.core.procedure.utils import save_tender, apply_data_patch
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.models.auction import (
-    AuctionUrls, LotAuctionUrls,
-    AuctionResults, AuctionLotResults,
+    AuctionUrls,
+    LotAuctionUrls,
+    AuctionResults,
+    AuctionLotResults,
 )
 from openprocurement.tender.core.procedure.serializers.auction import AuctionSerializer
 from openprocurement.tender.core.procedure.utils import submission_method_details_includes
@@ -21,7 +22,6 @@ from openprocurement.tender.core.utils import QUICK_NO_AUCTION, QUICK_FAST_FORWA
 
 class TenderAuctionResource(TenderBaseResource):
     serializer_class = AuctionSerializer
-    serializer_config_class = TenderConfigSerializer
     state_class = TenderState
 
     @json_view(
@@ -50,11 +50,7 @@ class TenderAuctionResource(TenderBaseResource):
         """Set urls to access auctions.
         """
         tender_config = self.request.validated["tender_config"]
-        config = self.serializer_config_class(tender_config).data
-        self.state.config = config
-
         data = self.request.validated["data"]
-
         updated = apply_data_patch(self.request.validated["tender"], data)
         if updated:
             self.state.on_patch(self.request.validated["tender"], updated)
@@ -67,7 +63,7 @@ class TenderAuctionResource(TenderBaseResource):
             )
             return {
                 "data": self.serializer_class(self.request.validated["tender"]).data,
-                "config": config,
+                "config": self.serializer_config_class(tender_config).data,
             }
 
     @json_view(
@@ -82,9 +78,6 @@ class TenderAuctionResource(TenderBaseResource):
         """Set urls for access to auction for lot.
         """
         tender_config = self.request.validated["tender_config"]
-        config = self.serializer_config_class(tender_config).data
-        self.state.config = config
-
         data = self.request.validated["data"]
         updated = apply_data_patch(self.request.validated["tender"], data)
         if updated:
@@ -97,7 +90,7 @@ class TenderAuctionResource(TenderBaseResource):
             )
             return {
                 "data": self.serializer_class(self.request.validated["tender"]).data,
-                "config": config,
+                "config": self.serializer_config_class(tender_config).data,
             }
 
     @json_view(
@@ -111,9 +104,6 @@ class TenderAuctionResource(TenderBaseResource):
         """Report auction results.
         """
         tender_config = self.request.validated["tender_config"]
-        config = self.serializer_config_class(tender_config).data
-        self.state.config = config
-
         tender = self.request.validated["tender"]
         data = self.request.validated["data"]
         updated = apply_data_patch(self.request.validated["tender"], data)
@@ -130,7 +120,7 @@ class TenderAuctionResource(TenderBaseResource):
             )
             return {
                 "data": self.serializer_class(tender).data,
-                "config": config,
+                "config": self.serializer_config_class(tender_config).data,
             }
 
     @json_view(
@@ -145,9 +135,6 @@ class TenderAuctionResource(TenderBaseResource):
         """Report auction results for lot.
         """
         tender_config = self.request.validated["tender_config"]
-        config = self.serializer_config_class(tender_config).data
-        self.state.config = config
-
         lot_id = self.request.matchdict.get("auction_lot_id")
         tender = self.request.validated["tender"]
         data = self.request.validated["data"]
@@ -175,7 +162,7 @@ class TenderAuctionResource(TenderBaseResource):
             )
             return {
                 "data": self.serializer_class(tender).data,
-                "config": config,
+                "config": self.serializer_config_class(tender_config).data,
             }
 
     def update_auction_period(self, obj):

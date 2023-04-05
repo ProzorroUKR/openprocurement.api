@@ -3,7 +3,7 @@ from schematics.validate import ValidationError
 from schematics.types import StringType, BaseType
 from schematics.types.serializable import serializable
 from schematics.types.compound import ModelType, ListType
-from openprocurement.api.models import DecimalType, Value, Model, IsoDateTimeType
+from openprocurement.api.models import DecimalType, Value, IsoDateTimeType
 from openprocurement.tender.core.procedure.context import get_now
 from openprocurement.tender.core.procedure.models.period import (
     PeriodEndRequired,
@@ -35,80 +35,15 @@ from openprocurement.tender.esco.procedure.models.item import Item
 from openprocurement.tender.esco.constants import (
     ESCO,
     TENDERING_DURATION,
-    QUESTIONS_STAND_STILL,
-    ENQUIRY_STAND_STILL_TIME,
 )
 from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
 from openprocurement.tender.core.models import validate_features_uniq
 from openprocurement.tender.core.validation import validate_tender_period_duration
 from openprocurement.tender.core.utils import (
     validate_features_custom_weight,
-    calculate_tender_business_date,
-    calculate_clarif_business_date,
 )
 from openprocurement.tender.openeu.procedure.models.organization import ProcuringEntity
 from openprocurement.tender.openua.validation import _validate_tender_period_start_date
-
-
-class ESCOSerializable(Model):
-    @serializable(serialized_name="minValue", type=ModelType(Value))
-    def tender_minValue(self):
-        return (
-            Value(
-                dict(
-                    amount=sum(i.minValue.amount for i in self.lots if i.minValue),
-                    currency=self.minValue.currency,
-                    valueAddedTaxIncluded=self.minValue.valueAddedTaxIncluded,
-                )
-            )
-            if self.lots
-            else self.minValue
-        )
-
-    @serializable(serialized_name="guarantee", serialize_when_none=False, type=ModelType(Guarantee))
-    def tender_guarantee(self):
-        if self.lots:
-            lots_amount = [i.guarantee.amount for i in self.lots if i.guarantee]
-            if not lots_amount:
-                return self.guarantee
-            guarantee = {"amount": sum(lots_amount)}
-            lots_currency = [i.guarantee.currency for i in self.lots if i.guarantee]
-            guarantee["currency"] = lots_currency[0] if lots_currency else None
-            if self.guarantee:
-                guarantee["currency"] = self.guarantee.currency
-            return Guarantee(guarantee)
-        else:
-            return self.guarantee
-
-    @serializable(serialized_name="minimalStepPercentage")
-    def tender_minimalStepPercentage(self):
-        return min([i.minimalStepPercentage for i in self.lots]) if self.lots else self.minimalStepPercentage
-
-    @serializable(serialized_name="yearlyPaymentsPercentageRange")
-    def tender_yearlyPaymentsPercentageRange(self):
-        return (
-            min([i.yearlyPaymentsPercentageRange for i in self.lots])
-            if self.lots
-            else self.yearlyPaymentsPercentageRange
-        )
-
-    # @serializable(
-    #     serialized_name="enquiryPeriod",
-    #     serialize_when_none=True,
-    #     type=ModelType(EnquiryPeriod, required=False)
-    # )
-    # def tender_enquiryPeriod(self):
-    #     enquiry_period_class = self._fields["enquiryPeriod"]
-    #     end_date = calculate_tender_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, self)
-    #     clarifications_until = calculate_clarif_business_date(end_date, ENQUIRY_STAND_STILL_TIME, self, True)
-    #     return enquiry_period_class(
-    #         dict(
-    #             startDate=self.tenderPeriod.startDate,
-    #             endDate=end_date,
-    #             invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
-    #             clarificationsUntil=clarifications_until,
-    #         )
-    #     )
 
 
 def validate_yearly_payments_percentage_range(data, value):
@@ -156,7 +91,7 @@ def validate_lots_yearly_payments_percentage_range(data, lots):
                     )
 
 
-class PostTender(ESCOSerializable, PostBaseTender):
+class PostTender(PostBaseTender):
     procurementMethod = StringType(choices=["open"], default="open")
     awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA], default=AWARD_CRITERIA_RATED_CRITERIA)
     submissionMethod = StringType(choices=["electronicAuction"], default="electronicAuction")
@@ -166,9 +101,9 @@ class PostTender(ESCOSerializable, PostBaseTender):
     procurementMethodType = StringType(choices=[ESCO], default=ESCO)
     status = StringType(choices=["draft"], default="draft")
     minValue = ModelType(Value, default={"amount": 0, "currency": "UAH", "valueAddedTaxIncluded": True})
-    minimalStepPercentage = DecimalType(required=True, min_value=Decimal("0.005"),
+    minimalStepPercentage = DecimalType(min_value=Decimal("0.005"),
                                         max_value=Decimal("0.03"), precision=-5)
-    yearlyPaymentsPercentageRange = DecimalType(required=True, default=Decimal("0.8"),
+    yearlyPaymentsPercentageRange = DecimalType(default=Decimal("0.8"),
                                                 min_value=Decimal("0"), max_value=Decimal("1"), precision=-5)
     NBUdiscountRate = DecimalType(required=True, min_value=Decimal("0"), max_value=Decimal("0.99"), precision=-5)
     fundingKind = StringType(choices=["budget", "other"], required=True, default="other")
@@ -250,7 +185,7 @@ class PatchTender(PatchBaseTender):
     enquiryPeriod = ModelType(EnquiryPeriod)
 
 
-class Tender(ESCOSerializable, BaseTender):
+class Tender(BaseTender):
     procurementMethod = StringType(choices=["open"], required=True)
     awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA], required=True)
     submissionMethod = StringType(choices=["electronicAuction"], required=True)
@@ -267,10 +202,10 @@ class Tender(ESCOSerializable, BaseTender):
         ],
         required=True
     )
-    minimalStepPercentage = DecimalType(required=True, min_value=Decimal("0.005"),
+    minimalStepPercentage = DecimalType(min_value=Decimal("0.005"),
                                         max_value=Decimal("0.03"), precision=-5)
     minValue = ModelType(Value, required=True)
-    yearlyPaymentsPercentageRange = DecimalType(required=True, min_value=Decimal("0"),
+    yearlyPaymentsPercentageRange = DecimalType(min_value=Decimal("0"),
                                                 max_value=Decimal("1"), precision=-5)
     NBUdiscountRate = DecimalType(required=True, min_value=Decimal("0"), max_value=Decimal("0.99"), precision=-5)
     fundingKind = StringType(choices=["budget", "other"], required=True)

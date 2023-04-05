@@ -10,10 +10,6 @@ from openprocurement.tender.pricequotation.models.tender import Contract
 class PriceQuotationTenderState(TenderState):
     contract_model = Contract
 
-    def always(self, data):  # disables auctionPeriod calculations
-        # super(TenderState, self).always(data)
-        self.update_next_check(data)
-
     def get_events(self, tender):
         status = tender["status"]
 

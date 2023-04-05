@@ -211,32 +211,34 @@ class Tender(BaseTender):
 
     @serializable(serialized_name="minimalStep", type=ModelType(Value, required=False))
     def tender_minimalStep(self):
-        if all(i.minimalStep for i in self.lots):
-            value_class = self._fields["minimalStep"]
-            return (
-                value_class(
-                    dict(
-                        amount=min([i.minimalStep.amount for i in self.lots]),
-                        currency=self.lots[0].minimalStep.currency,
-                        valueAddedTaxIncluded=self.lots[0].minimalStep.valueAddedTaxIncluded,
-                    )
-                )
-                if self.lots
-                else self.minimalStep
-            )
+        return self.minimalStep
+        # if all(i.minimalStep for i in self.lots):
+        #     value_class = self._fields["minimalStep"]
+        #     return (
+        #         value_class(
+        #             dict(
+        #                 amount=min([i.minimalStep.amount for i in self.lots]),
+        #                 currency=self.lots[0].minimalStep.currency,
+        #                 valueAddedTaxIncluded=self.lots[0].minimalStep.valueAddedTaxIncluded,
+        #             )
+        #         )
+        #         if self.lots
+        #         else self.minimalStep
+        #     )
 
     @serializable(serialized_name="value", type=ModelType(Value))
     def tender_value(self):
-        if all([i.value for i in self.lots]):
-            value_class = self._fields["value"]
-            return (
-                value_class(
-                    dict(
-                        amount=sum([i.value.amount for i in self.lots]),
-                        currency=self.lots[0].value.currency,
-                        valueAddedTaxIncluded=self.lots[0].value.valueAddedTaxIncluded,
-                    )
-                )
-                if self.lots
-                else self.value
-            )
+        return self.value
+        # if all([i.value for i in self.lots]):
+        #     value_class = self._fields["value"]
+        #     return (
+        #         value_class(
+        #             dict(
+        #                 amount=sum([i.value.amount for i in self.lots]),
+        #                 currency=self.lots[0].value.currency,
+        #                 valueAddedTaxIncluded=self.lots[0].value.valueAddedTaxIncluded,
+        #             )
+        #         )
+        #         if self.lots
+        #         else self.value
+        #     )

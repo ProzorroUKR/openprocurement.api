@@ -59,14 +59,12 @@ class PatchBaseLot(BasePatchBaseLot):
 
 class PostLot(PostBaseLot, LotSerializersMixin):
     minimalStepPercentage = DecimalType(
-        required=True,
         min_value=LotMinimalStepPercentageValues.MIN_VALUE,
         max_value=LotMinimalStepPercentageValues.MAX_VALUE,
         precision=LotMinimalStepPercentageValues.PRECISION,
     )
     guarantee = ModelType(PostGuarantee)
     yearlyPaymentsPercentageRange = DecimalType(
-        required=True,
         default=Decimal("0.8"),
         min_value=LotYearlyPaymentsPercentageRangeValues.MIN_VALUE,
         max_value=LotYearlyPaymentsPercentageRangeValues.MAX_VALUE,
@@ -97,7 +95,6 @@ class PatchTenderLot(PatchBaseLot, TenderLotMixin):
 class Lot(BaseLot, TenderLotMixin, LotSerializersMixin):
     minValue = ModelType(Value)
     minimalStepPercentage = DecimalType(
-        required=True,
         min_value=LotMinimalStepPercentageValues.MIN_VALUE,
         max_value=LotMinimalStepPercentageValues.MAX_VALUE,
         precision=LotMinimalStepPercentageValues.PRECISION,

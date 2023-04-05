@@ -75,7 +75,6 @@ def create_tender_lot_invalid(self):
         [
             {"description": ["This field is required."], "location": "body", "name": "title"},
             {"description": ["This field is required."], "location": "body", "name": "value"},
-            {"description": ["This field is required."], "location": "body", "name": "minimalStep"},
         ],
     )
 
@@ -100,6 +99,25 @@ def create_tender_lot_invalid(self):
                 "name": "value",
             }
         ],
+    )
+
+    response = self.app.post_json(
+        request_path,
+        {
+            "data": {
+                "title": "lot title",
+                "description": "lot description",
+                "value": {"amount": "100.0"},
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{"description": ["This field is required."], "location": "body", "name": "minimalStep"}],
     )
 
     response = self.app.post_json(

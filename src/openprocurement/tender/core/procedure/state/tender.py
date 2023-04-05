@@ -1,7 +1,11 @@
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.awarding import TenderStateAwardingMixing
 from openprocurement.tender.core.procedure.models.contract import Contract
-from openprocurement.tender.core.procedure.context import get_now, since_2020_rules
+from openprocurement.tender.core.procedure.context import (
+    get_now,
+    since_2020_rules,
+    get_tender_config,
+)
 from openprocurement.tender.core.procedure.state.base import BaseState
 from openprocurement.tender.core.procedure.state.chronograph import ChronographEventsMixing
 from openprocurement.tender.core.procedure.state.auction import BaseShouldStartAfterMixing
@@ -35,29 +39,49 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, Chronog
 
     def always(self, data):
         super().always(data)
+        self.validate_minimal_step(data)
         self.update_next_check(data)
         self.calc_auction_periods(data)
+        self.calc_tender_values(data)
 
     def on_post(self, data):
         self.validate_config(data)
         super().on_post(data)
 
     def validate_config(self, data):
-        self._validate_has_auction(data)
+        self.validate_has_auction(data)
 
-    def _validate_has_auction(self, data):
+    def validate_has_auction(self, data):
+        config = get_tender_config()
         pmt = data.get("procurementMethodType")
         no_auction_pmts = ("reporting", "negotiation", "negotiation.quick", PQ)
-        if pmt in no_auction_pmts and self.config.get("hasAuction") is not False:
+        if pmt in no_auction_pmts and config.get("hasAuction") is not False:
             raise_operation_error(
                 self.request,
                 "Config field hasAuction must be false for procurementMethodType {}".format(pmt)
             )
 
-
-
     # UTILS (move to state ?)
     # belowThreshold
+    def validate_minimal_step(self, data):
+        config = get_tender_config()
+        if config.get("hasAuction") is True and data.get("minimalStep") is None:
+            raise_operation_error(
+                self.request,
+                ["This field is required."],
+                status=422,
+                location="body",
+                name="minimalStep",
+            )
+        elif config.get("hasAuction") is False and data.get("minimalStep") is not None:
+            raise_operation_error(
+                self.request,
+                ["This field is not allowed."],
+                status=422,
+                location="body",
+                name="minimalStep",
+            )
+
     @staticmethod
     def cancellation_blocks_tender(tender, lot_id=None):
         """

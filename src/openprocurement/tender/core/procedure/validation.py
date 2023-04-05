@@ -22,6 +22,7 @@ from openprocurement.api.validation import (
     _validate_tender_first_revision_date,
     OPERATIONS,
 )
+from openprocurement.tender.core.procedure.serializers.config import TenderConfigSerializer
 from openprocurement.tender.core.validation import TYPEMAP
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF
 from openprocurement.tender.core.procedure.utils import (
@@ -195,6 +196,7 @@ def validate_config_data(input_model, obj_name=None):
     Simple way to validate config in request.validated["config"] against a provided model
     the result is put back in request.validated["config"]
     :param input_model:
+    :param obj_name:
     :return:
     """
     def validate(request, **_):
