@@ -74,7 +74,7 @@ def validate_tender_period_duration(data, period):
 class PostTender(PostBaseTender):
     procurementMethodType = StringType(choices=[PQ], default=PQ)
     procurementMethod = StringType(choices=["selective"], default="selective")
-    submissionMethod = StringType(choices=["electronicAuction"], default="electronicAuction")
+    submissionMethod = StringType(choices=["electronicAuction"])
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
     submissionMethodDetails_en = StringType()
     submissionMethodDetails_ru = StringType()
@@ -182,7 +182,7 @@ class PatchPQBotTender(Model):
 class Tender(BaseTender):
     procurementMethodType = StringType(choices=[PQ], required=True)
     procurementMethod = StringType(choices=["selective"], required=True)
-    submissionMethod = StringType(choices=["electronicAuction"], required=True)
+    submissionMethod = StringType(choices=["electronicAuction"])
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
     submissionMethodDetails_en = StringType()
     submissionMethodDetails_ru = StringType()

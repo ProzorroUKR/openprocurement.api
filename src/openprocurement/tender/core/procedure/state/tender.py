@@ -1,4 +1,8 @@
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.competitivedialogue.constants import (
+    CD_UA_TYPE,
+    CD_EU_TYPE,
+)
 from openprocurement.tender.core.procedure.awarding import TenderStateAwardingMixing
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.context import (
@@ -11,6 +15,12 @@ from openprocurement.tender.core.procedure.state.chronograph import ChronographE
 from openprocurement.tender.core.procedure.state.auction import BaseShouldStartAfterMixing
 from logging import getLogger
 
+from openprocurement.tender.esco.constants import ESCO
+from openprocurement.tender.limited.constants import (
+    REPORTING,
+    NEGOTIATION,
+    NEGOTIATION_QUICK,
+)
 from openprocurement.tender.pricequotation.constants import PQ
 
 LOGGER = getLogger(__name__)
@@ -39,14 +49,20 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, Chronog
 
     def always(self, data):
         super().always(data)
-        self.validate_minimal_step(data)
         self.update_next_check(data)
         self.calc_auction_periods(data)
         self.calc_tender_values(data)
 
     def on_post(self, data):
         self.validate_config(data)
+        self.validate_minimal_step(data)
+        self.validate_submission_method(data)
         super().on_post(data)
+
+    def on_patch(self, before, after):
+        self.validate_minimal_step(after, before=before)
+        self.validate_submission_method(after, before=before)
+        super().on_patch(before, after)
 
     def validate_config(self, data):
         self.validate_has_auction(data)
@@ -54,33 +70,62 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, Chronog
     def validate_has_auction(self, data):
         config = get_tender_config()
         pmt = data.get("procurementMethodType")
-        no_auction_pmts = ("reporting", "negotiation", "negotiation.quick", PQ)
+
+        # For this procurementMethodType it is not allowed to enable auction
+        no_auction_pmts = (REPORTING, NEGOTIATION, NEGOTIATION_QUICK, CD_UA_TYPE, CD_EU_TYPE, PQ)
         if pmt in no_auction_pmts and config.get("hasAuction") is not False:
             raise_operation_error(
                 self.request,
                 "Config field hasAuction must be false for procurementMethodType {}".format(pmt)
             )
 
+        # For this procurementMethodType it is not allowed to disable auction
+        auction_pmts = (ESCO,)
+        if pmt in no_auction_pmts and config.get("hasAuction") is not True:
+            raise_operation_error(
+                self.request,
+                "Config field hasAuction must be true for procurementMethodType {}".format(pmt)
+            )
+
     # UTILS (move to state ?)
     # belowThreshold
-    def validate_minimal_step(self, data):
+    def validate_minimal_step(self, data, before=None):
+        self._validate_auction_only_field("minimalStep", data, before=before, required=True)
+
+    def validate_submission_method(self, data, before=None):
+        self._validate_auction_only_field("submissionMethod", data, before=before, required=True, default="electronicAuction")
+        self._validate_auction_only_field("submissionMethodDetails", data, before=before, required=False)
+        self._validate_auction_only_field("submissionMethodDetails_en", data, before=before, required=False)
+        self._validate_auction_only_field("submissionMethodDetails_ru", data, before=before, required=False)
+
+    def _validate_auction_only_field(self, field, data, before=None, required=True, default=None):
         config = get_tender_config()
-        if config.get("hasAuction") is True and data.get("minimalStep") is None:
-            raise_operation_error(
-                self.request,
-                ["This field is required."],
-                status=422,
-                location="body",
-                name="minimalStep",
-            )
-        elif config.get("hasAuction") is False and data.get("minimalStep") is not None:
-            raise_operation_error(
-                self.request,
-                ["This field is not allowed."],
-                status=422,
-                location="body",
-                name="minimalStep",
-            )
+        # field is required for auctions tenders
+        if config.get("hasAuction") is True and data.get(field) is None:
+            if default is not None:
+                data[field] = default
+            elif required is True:
+                raise_operation_error(
+                    self.request,
+                    ["This field is required."],
+                    status=422,
+                    location="body",
+                    name=field,
+                )
+        # field is not allowed for non-auctions tenders
+        if config.get("hasAuction") is False and data.get(field) is not None:
+            if before is not None and before.get(field) is not None:
+                # but in case if field is already set in old tender before this rule applied
+                # we should allow to change it or remove
+                pass
+            else:
+                raise_operation_error(
+                    self.request,
+                    ["This field is not allowed."],
+                    status=422,
+                    location="body",
+                    name=field,
+                )
 
     @staticmethod
     def cancellation_blocks_tender(tender, lot_id=None):
@@ -91,8 +136,10 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, Chronog
         :param lot_id: if passed, then other lot cancellations are not considered
         :return:
         """
-        if not since_2020_rules() \
-           or tender["procurementMethodType"] in ("belowThreshold", "closeFrameworkAgreementSelectionUA"):
+        if not since_2020_rules() or tender["procurementMethodType"] in (
+            "belowThreshold",
+            "closeFrameworkAgreementSelectionUA",
+        ):
             return False
 
         related_cancellations = [

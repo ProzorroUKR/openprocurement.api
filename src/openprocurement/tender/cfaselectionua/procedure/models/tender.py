@@ -58,7 +58,7 @@ def validate_tender_period(data, period):
 
 class PostTender(PostBaseTender):
     procurementMethodType = StringType(choices=[CFA_SELECTION], default=CFA_SELECTION)
-    submissionMethod = StringType(choices=["electronicAuction"], default="electronicAuction")
+    submissionMethod = StringType(choices=["electronicAuction"])
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
     submissionMethodDetails_en = StringType()
     submissionMethodDetails_ru = StringType()
@@ -137,7 +137,7 @@ class PatchTender(PatchBaseTender):
 
 class Tender(BaseTender):
     procurementMethodType = StringType(choices=[CFA_SELECTION], required=True)
-    submissionMethod = StringType(choices=["electronicAuction"], required=True)
+    submissionMethod = StringType(choices=["electronicAuction"])
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
     submissionMethodDetails_en = StringType()
     submissionMethodDetails_ru = StringType()

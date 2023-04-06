@@ -2520,7 +2520,7 @@ class Tender(BaseTender):
     awardCriteriaDetails_en = StringType()
     awardCriteriaDetails_ru = StringType()
     submissionMethod = StringType(
-        choices=["electronicAuction", "electronicSubmission", "written", "inPerson"], default="electronicAuction"
+        choices=["electronicAuction", "electronicSubmission", "written", "inPerson"]
     )  # Specify the method by which bids must be submitted, in person, written, or electronic auction
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
     submissionMethodDetails_en = StringType()

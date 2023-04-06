@@ -94,7 +94,7 @@ def validate_lots_yearly_payments_percentage_range(data, lots):
 class PostTender(PostBaseTender):
     procurementMethod = StringType(choices=["open"], default="open")
     awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA], default=AWARD_CRITERIA_RATED_CRITERIA)
-    submissionMethod = StringType(choices=["electronicAuction"], default="electronicAuction")
+    submissionMethod = StringType(choices=["electronicAuction"])
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
     submissionMethodDetails_en = StringType()
     submissionMethodDetails_ru = StringType()
@@ -188,7 +188,7 @@ class PatchTender(PatchBaseTender):
 class Tender(BaseTender):
     procurementMethod = StringType(choices=["open"], required=True)
     awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA], required=True)
-    submissionMethod = StringType(choices=["electronicAuction"], required=True)
+    submissionMethod = StringType(choices=["electronicAuction"])
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
     submissionMethodDetails_en = StringType()
     submissionMethodDetails_ru = StringType()

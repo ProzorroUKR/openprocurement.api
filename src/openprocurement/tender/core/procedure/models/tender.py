@@ -95,7 +95,6 @@ class PostTender(PostBaseTender):
             # "written",
             # "inPerson",
         ],
-        default="electronicAuction"
     )  # Specify the method by which bids must be submitted, in person, written, or electronic auction
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
     submissionMethodDetails_en = StringType()
@@ -171,7 +170,7 @@ class PatchTender(PatchBaseTender):
 
 
 class Tender(BaseTender):
-    submissionMethod = StringType(choices=["electronicAuction"], required=True)
+    submissionMethod = StringType(choices=["electronicAuction"])
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
     submissionMethodDetails_en = StringType()
     submissionMethodDetails_ru = StringType()
