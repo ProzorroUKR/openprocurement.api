@@ -8,8 +8,20 @@ import os
 import argparse
 import logging
 
-from openprocurement.api.constants import BASE_DIR
 from pyramid.paster import bootstrap
+
+from openprocurement.api.constants import BASE_DIR
+from openprocurement.tender.competitivedialogue.constants import (
+    CD_UA_TYPE,
+    CD_EU_TYPE,
+)
+from openprocurement.tender.limited.constants import (
+    REPORTING,
+    NEGOTIATION,
+    NEGOTIATION_QUICK,
+)
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD
+from openprocurement.tender.pricequotation.constants import PQ
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger(__name__)
@@ -18,7 +30,7 @@ logger = logging.getLogger(__name__)
 def has_auction_populator(tender):
     pmt = tender.get("procurementMethodType")
 
-    if pmt == "aboveThreshold":
+    if pmt == ABOVE_THRESHOLD:
         smd = tender.get("submissionMethodDetails")
         if "quick(mode:no-auction)" in smd:
             return False
@@ -26,25 +38,45 @@ def has_auction_populator(tender):
             return True
 
     if pmt in (
-        "reporting",
-        "negotiation",
-        "negotiation.quick",
-        "priceQuotation",
+        REPORTING,
+        NEGOTIATION,
+        NEGOTIATION_QUICK,
+        CD_UA_TYPE,
+        CD_EU_TYPE,
+        PQ,
     ):
         return False
     return True
 
 def run(env):
-    logger.info("Starting migration: %s", __name__)
+    migration_name = os.path.basename(__file__).split(".")[0]
+
+    logger.info("Starting migration: %s", migration_name)
 
     collection = env["registry"].mongodb.tenders.collection
 
-    cursor = collection.find({"$snapshot": True})
-    for tender in cursor:
-        # TODO: write migration logic
-        pass
+    logger.info("Updating tenders with hasAuction field")
 
-    logger.info("Successful migration: %s", __name__)
+    log_every = 100000
+    count = 0
+
+    cursor = collection.find(
+        {"config.hasAuction": {"$exists": False}},
+        {"config": 1, "procurementMethodType": 1, "submissionMethodDetails": 1},
+    )
+    for tender in cursor:
+        if tender.get("config", {}).get("hasAuction") is None:
+            collection.update_one(
+                {"_id": tender["_id"]},
+                {"$set": {"config.hasAuction": has_auction_populator(tender)}}
+            )
+            count += 1
+            if count % log_every == 0:
+                logger.info("Updating tenders with hasAuction field: updated %s tenders", count)
+
+    logger.info("Updating tenders with hasAuction field finished: updated %s tenders", count)
+
+    logger.info("Successful migration: %s", migration_name)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
