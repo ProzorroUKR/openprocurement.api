@@ -627,8 +627,6 @@ class ChronographEventsMixing:
     def calc_tender_value(tender: dict) -> None:
         if not tender.get("lots"):
             return
-        if not "value" in tender:
-            return
         tender["value"] = {
             "amount": sum(i["value"]["amount"] for i in tender.get("lots", "") if i.get("value")),
             "currency": tender["value"]["currency"],
@@ -652,8 +650,6 @@ class ChronographEventsMixing:
     @staticmethod
     def calc_tender_minimal_step(tender: dict) -> None:
         if not tender.get("lots"):
-            return
-        if not "minimalStep" in tender:
             return
         amounts = [i["minimalStep"]["amount"] for i in tender.get("lots", "") if i.get("minimalStep")]
         if not amounts:

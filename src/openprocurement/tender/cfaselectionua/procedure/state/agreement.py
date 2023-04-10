@@ -1,5 +1,5 @@
-from openprocurement.tender.core.procedure.context import get_now, get_request, get_tender
-from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.cfaselectionua.procedure.state.tender import CFASelectionTenderState
+from openprocurement.tender.core.procedure.context import get_request, get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
 
@@ -21,5 +21,5 @@ class AgreementStateMixing:
 
 
 # example use
-class AgreementState(AgreementStateMixing, TenderState):
+class AgreementState(AgreementStateMixing, CFASelectionTenderState):
     pass

@@ -22,6 +22,7 @@ class LotStateMixin:
 
     def lot_on_post(self, data: dict) -> None:
         self.pre_save_validations(data)
+        self.validate_minimal_step(data)
         self.set_lot_data(data)
         self.lot_always(data)
 
@@ -31,6 +32,7 @@ class LotStateMixin:
 
     def lot_on_patch(self, before: dict, after: dict) -> None:
         self.pre_save_validations(after)
+        self.validate_minimal_step(after, before=before)
         self.set_lot_data(after)
         self.lot_always(after)
         if "status" in after and before["status"] != after["status"]:
@@ -50,7 +52,6 @@ class LotStateMixin:
             raise error_handler(self.request)
 
     def lot_always(self, data: dict) -> None:
-        self.validate_minimal_step(data)
         self.update_tender_data()
 
     def pre_save_validations(self, data: dict) -> None:

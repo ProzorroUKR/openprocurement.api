@@ -32,6 +32,10 @@ from openprocurement.tender.competitivedialogue.constants import (
 )
 from openprocurement.tender.openua.tests.base import test_tender_data as base_test_tender_data_ua
 
+test_tender_config = {
+    "hasAuction": False,
+}
+
 test_bids = deepcopy(test_bids)
 test_bids.append(deepcopy(test_bids[0]))  # Minimal number of bits is 3
 
@@ -183,6 +187,7 @@ class BaseCompetitiveDialogUAStage2WebTest(BaseCompetitiveDialogWebTest):
 
 class BaseCompetitiveDialogEUWebTest(BaseCompetitiveDialogWebTest):
     initial_data = test_tender_data_eu
+    initial_config = test_tender_config
     question_claim_block_status = (
         "active.pre-qualification"
     )  # status, tender cannot be switched to while it has questions/complaints related to its lot
@@ -200,6 +205,7 @@ class BaseCompetitiveDialogEUWebTest(BaseCompetitiveDialogWebTest):
 
 class BaseCompetitiveDialogUAWebTest(BaseCompetitiveDialogWebTest):
     initial_data = test_tender_data_ua
+    initial_config = test_tender_config
     # auction role actions
     forbidden_auction_actions_status = (
         "active.tendering"

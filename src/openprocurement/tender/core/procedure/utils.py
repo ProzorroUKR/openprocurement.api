@@ -1,7 +1,11 @@
 from typing import Optional
 
 from openprocurement.api.context import get_json_data
-from openprocurement.api.utils import handle_store_exceptions, context_unpack
+from openprocurement.api.utils import (
+    handle_store_exceptions,
+    context_unpack,
+    raise_operation_error,
+)
 from openprocurement.api.auth import extract_access_token
 from openprocurement.api.constants import TZ
 from openprocurement.tender.core.procedure.context import get_now, get_bid, get_request
@@ -285,3 +289,32 @@ def bid_in_invalid_status() -> Optional[bool]:
         bid = get_bid()
         status = bid["status"] if bid else "draft"
     return status in ("deleted", "invalid", "invalid.pre-qualification", "unsuccessful", "draft")
+
+
+def validate_configurable_field(
+    data, field, enabled,
+    required=True, rogue=True, default=None,
+):
+    request = get_request()
+    # field is enabled (or optional)
+    if enabled is True and data.get(field) is None:
+        if default is not None:
+            data[field] = default
+        elif required is True:
+            raise_operation_error(
+                request,
+                ["This field is required."],
+                status=422,
+                location="body",
+                name=field,
+            )
+    # field is disabled (or optional)
+    if enabled is False and data.get(field) is not None:
+        if rogue is True:
+            raise_operation_error(
+                request,
+                ["Rogue field."],
+                status=422,
+                location="body",
+                name=field,
+            )

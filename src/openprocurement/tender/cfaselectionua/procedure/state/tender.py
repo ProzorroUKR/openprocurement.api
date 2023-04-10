@@ -27,3 +27,8 @@ class CFASelectionTenderState(TenderState):
             "currency": tender["lots"][0]["minimalStep"]["currency"],
             "valueAddedTaxIncluded": tender["lots"][0]["minimalStep"]["valueAddedTaxIncluded"],
         }
+
+    def validate_minimal_step(self, data, before=None):
+        # override to skip minimalStep required validation
+        # it's not required for cfaselectionua in tender level
+        self._validate_auction_only_field("minimalStep", data, before=before, required=False)

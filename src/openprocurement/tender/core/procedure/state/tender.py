@@ -15,6 +15,7 @@ from openprocurement.tender.core.procedure.state.chronograph import ChronographE
 from openprocurement.tender.core.procedure.state.auction import BaseShouldStartAfterMixing
 from logging import getLogger
 
+from openprocurement.tender.core.procedure.utils import validate_configurable_field
 from openprocurement.tender.esco.constants import ESCO
 from openprocurement.tender.limited.constants import (
     REPORTING,
@@ -81,7 +82,7 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, Chronog
 
         # For this procurementMethodType it is not allowed to disable auction
         auction_pmts = (ESCO,)
-        if pmt in no_auction_pmts and config.get("hasAuction") is not True:
+        if pmt in auction_pmts and config.get("hasAuction") is not True:
             raise_operation_error(
                 self.request,
                 "Config field hasAuction must be true for procurementMethodType {}".format(pmt)
@@ -90,42 +91,30 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, Chronog
     # UTILS (move to state ?)
     # belowThreshold
     def validate_minimal_step(self, data, before=None):
-        self._validate_auction_only_field("minimalStep", data, before=before, required=True)
+        self._validate_auction_only_field("minimalStep", data, before=before)
 
     def validate_submission_method(self, data, before=None):
-        self._validate_auction_only_field("submissionMethod", data, before=before, required=True, default="electronicAuction")
+        self._validate_auction_only_field("submissionMethod", data, before=before, default="electronicAuction")
         self._validate_auction_only_field("submissionMethodDetails", data, before=before, required=False)
         self._validate_auction_only_field("submissionMethodDetails_en", data, before=before, required=False)
         self._validate_auction_only_field("submissionMethodDetails_ru", data, before=before, required=False)
 
-    def _validate_auction_only_field(self, field, data, before=None, required=True, default=None):
+    def _validate_auction_only_field(
+        self, field, data, before=None,
+        required=True, rogue=True, default=None,
+    ):
         config = get_tender_config()
-        # field is required for auctions tenders
-        if config.get("hasAuction") is True and data.get(field) is None:
-            if default is not None:
-                data[field] = default
-            elif required is True:
-                raise_operation_error(
-                    self.request,
-                    ["This field is required."],
-                    status=422,
-                    location="body",
-                    name=field,
-                )
-        # field is not allowed for non-auctions tenders
-        if config.get("hasAuction") is False and data.get(field) is not None:
-            if before is not None and before.get(field) is not None:
-                # but in case if field is already set in old tender before this rule applied
-                # we should allow to change it or remove
-                pass
-            else:
-                raise_operation_error(
-                    self.request,
-                    ["This field is not allowed."],
-                    status=422,
-                    location="body",
-                    name=field,
-                )
+        enabled = config.get("hasAuction") is True
+        if before is not None and before.get(field) is not None:
+            # in case if field is already set in old tender before this rule applied
+            # we should allow to change it or remove
+            rogue = False
+        validate_configurable_field(
+            data, field, enabled,
+            required=required,
+            rogue=rogue,
+            default=default,
+        )
 
     @staticmethod
     def cancellation_blocks_tender(tender, lot_id=None):
