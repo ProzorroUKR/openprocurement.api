@@ -45,7 +45,6 @@ def has_auction_populator(tender):
         NEGOTIATION_QUICK,
         CD_UA_TYPE,
         CD_EU_TYPE,
-        CFA_UA,
         PQ,
     ):
         return False
