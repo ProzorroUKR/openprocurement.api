@@ -4,7 +4,7 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.belowthreshold.tests.auction import (
     TenderAuctionResourceTestMixin,
     TenderLotAuctionResourceTestMixin,
@@ -13,9 +13,9 @@ from openprocurement.tender.belowthreshold.tests.auction import (
 
 from openprocurement.tender.esco.tests.base import (
     BaseESCOContentWebTest,
-    test_features_tender_data,
-    test_bids,
-    test_lots,
+    test_tender_esco_features_data,
+    test_tender_esco_bids,
+    test_tender_esco_lots,
 )
 
 from openprocurement.tender.esco.tests.auction_blanks import (
@@ -66,7 +66,7 @@ class TenderAuctionResourceTest(BaseESCOContentWebTest, TenderAuctionResourceTes
     # initial_data = tender_data
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
-    initial_bids = test_bids
+    initial_bids = test_tender_esco_bids
     initial_bids[1]["value"] = {
         "yearlyPaymentsPercentage": 0.9,
         "annualCostsReduction": [100] * 21,
@@ -84,10 +84,10 @@ class TenderAuctionResourceTest(BaseESCOContentWebTest, TenderAuctionResourceTes
 class TenderSameValueAuctionResourceTest(BaseESCOContentWebTest):
     docservice = True
     initial_status = "active.auction"
-    tenderer_info = deepcopy(test_bids[0]["tenderers"])
+    tenderer_info = deepcopy(test_tender_esco_bids[0]["tenderers"])
 
     def setUp(self):
-        bid_data = deepcopy(test_bids[0])
+        bid_data = deepcopy(test_tender_esco_bids[0])
         bid_data["value"] = {
             "yearlyPaymentsPercentage": 0.9,
             "annualCostsReduction": [751.5] * 21,
@@ -135,7 +135,7 @@ class TenderAuctionFieldsTest(BaseESCOContentWebTest):
     docservice = True
     # initial_data = tender_data
     initial_auth = ("Basic", ("broker", ""))
-    initial_bids = test_bids
+    initial_bids = test_tender_esco_bids
 
     def setUp(self):
         super(TenderAuctionFieldsTest, self).setUp()
@@ -147,7 +147,7 @@ class TenderAuctionFieldsTest(BaseESCOContentWebTest):
 
 class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestMixin, TenderAuctionResourceTest):
     docservice = True
-    initial_lots = 2 * test_lots
+    initial_lots = 2 * test_tender_esco_lots
 
     test_get_tender_auction = snitch(get_tender_lots_auction)
     test_post_tender_auction = snitch(post_tender_lots_auction)

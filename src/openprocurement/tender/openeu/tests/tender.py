@@ -28,7 +28,12 @@ from openprocurement.tender.openua.tests.tender_blanks import (
     tender_finance_milestones,
     create_tender_with_criteria_lcc,
 )
-from openprocurement.tender.openeu.tests.base import test_tender_data, BaseTenderWebTest, test_lots, test_bids
+from openprocurement.tender.openeu.tests.base import (
+    BaseTenderWebTest,
+    test_tender_openeu_data,
+    test_tender_openeu_lots,
+    test_tender_openeu_bids,
+)
 from openprocurement.tender.openeu.tests.tender_blanks import (
     one_bid_tender,
     unsuccessful_after_prequalification_tender,
@@ -46,15 +51,15 @@ from openprocurement.tender.openeu.models import Tender
 
 class TenderTest(BaseTenderWebTest):
     tender_model = Tender
-    initial_data = test_tender_data
+    initial_data = test_tender_openeu_data
 
 
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
-    initial_data = test_tender_data
-    test_lots_data = test_lots
-    test_bids_data = test_bids
+    initial_data = test_tender_openeu_data
+    test_lots_data = test_tender_openeu_lots
+    test_bids_data = test_tender_openeu_bids
 
     test_create_tender_invalid = snitch(create_tender_invalid)
     test_create_tender_central = snitch(create_tender_central)
@@ -82,8 +87,8 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUARes
 class TenderProcessTest(BaseTenderWebTest):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
-    initial_data = test_tender_data
-    test_bids_data = test_bids
+    initial_data = test_tender_openeu_data
+    test_bids_data = test_tender_openeu_bids
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_one_bid_tender = snitch(one_bid_tender)
@@ -96,8 +101,8 @@ class TenderProcessTest(BaseTenderWebTest):
 class TenderGuarantee(BaseTenderWebTest):
     docservice = True
     initial_status = "draft"
-    test_lots_data = test_lots
-    test_bids_data = test_bids
+    test_lots_data = test_tender_openeu_lots
+    test_bids_data = test_tender_openeu_bids
 
     test_tender_with_guarantee = snitch(tender_with_guarantee)
     test_tender_with_guarantee_multilot = snitch(tender_with_guarantee_multilot)

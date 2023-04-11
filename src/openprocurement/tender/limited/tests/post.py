@@ -2,10 +2,9 @@ from mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization,
-    test_draft_claim,
-    test_cancellation,
-    test_draft_complaint,
+    test_tender_below_organization,
+    test_tender_below_cancellation,
+    test_tender_below_draft_complaint,
 )
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest,
@@ -58,7 +57,7 @@ class TenderNegotiationAwardComplaintPostResourceTest(
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": {
-                "suppliers": [test_organization],
+                "suppliers": [test_tender_below_organization],
                 "status": "pending",
                 "qualified": True,
                 "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
@@ -78,7 +77,7 @@ class TenderNegotiationAwardComplaintPostResourceTest(
             "/tenders/{}/awards/{}/complaints".format(
                 self.tender_id, self.award_id
             ),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]
@@ -111,7 +110,7 @@ class TenderNegotiationCancellationComplaintPostResourceTest(
 
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"suppliers": [test_organization], "qualified": True,
+            {"data": {"suppliers": [test_tender_below_organization], "qualified": True,
                       "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}}
         )
         self.assertEqual(response.status, "201 Created")
@@ -126,7 +125,7 @@ class TenderNegotiationCancellationComplaintPostResourceTest(
         self.set_all_awards_complaint_period_end()
 
         # Create cancellation
-        cancellation = dict(**test_cancellation)
+        cancellation = dict(**test_tender_below_cancellation)
         cancellation.update({
             "reasonType": "noDemand"
         })
@@ -163,7 +162,7 @@ class TenderNegotiationCancellationComplaintPostResourceTest(
             "/tenders/{}/cancellations/{}/complaints".format(
                 self.tender_id, self.cancellation_id
             ),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]

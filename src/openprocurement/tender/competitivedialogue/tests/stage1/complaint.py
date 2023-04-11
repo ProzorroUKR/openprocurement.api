@@ -6,11 +6,11 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUContentWebTest,
     BaseCompetitiveDialogUAContentWebTest,
-    test_lots,
-    test_author,
+    test_tender_cd_lots,
+    test_tender_cd_author,
 )
-from openprocurement.tender.openeu.tests.base import test_bids
-from openprocurement.tender.belowthreshold.tests.base import test_draft_complaint
+from openprocurement.tender.openeu.tests.base import test_tender_openeu_bids
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_draft_complaint
 from openprocurement.tender.belowthreshold.tests.complaint import TenderComplaintResourceTestMixin
 from openprocurement.tender.openua.tests.complaint import TenderUAComplaintResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
@@ -31,13 +31,13 @@ class CompetitiveDialogEUComplaintResourceTest(
     BaseCompetitiveDialogEUContentWebTest, TenderComplaintResourceTestMixin, TenderUAComplaintResourceTestMixin
 ):
     initial_auth = ("Basic", ("broker", ""))
-    test_author = test_author  # TODO: change attribute identifier
+    test_author = test_tender_cd_author  # TODO: change attribute identifier
 
 
 class CompetitiveDialogEULotAwardComplaintResourceTest(BaseCompetitiveDialogEUContentWebTest):
-    initial_lots = test_lots
+    initial_lots = test_tender_cd_lots
     initial_auth = ("Basic", ("broker", ""))
-    test_author = test_author  # TODO: change attribute identifier
+    test_author = test_tender_cd_author  # TODO: change attribute identifier
 
     test_create_tender_complaint = snitch(create_tender_lot_complaint)
 
@@ -50,7 +50,7 @@ class CompetitiveDialogEUComplaintDocumentResourceTest(BaseCompetitiveDialogEUCo
         # Create complaint
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]
@@ -66,13 +66,13 @@ class CompetitiveDialogUAComplaintResourceTest(
     BaseCompetitiveDialogUAContentWebTest, TenderComplaintResourceTestMixin, TenderUAComplaintResourceTestMixin
 ):
     initial_auth = ("Basic", ("broker", ""))
-    test_author = test_author  # TODO: change attribute identifier
+    test_author = test_tender_cd_author  # TODO: change attribute identifier
 
 
 class CompetitiveDialogUALotAwardComplaintResourceTest(BaseCompetitiveDialogUAContentWebTest):
-    initial_lots = test_lots
+    initial_lots = test_tender_cd_lots
     initial_auth = ("Basic", ("broker", ""))
-    test_author = test_author  # TODO: change attribute identifier
+    test_author = test_tender_cd_author  # TODO: change attribute identifier
 
     test_create_tender_complaint = snitch(create_tender_lot_complaint)
 
@@ -85,7 +85,7 @@ class CompetitiveDialogUAComplaintDocumentResourceTest(BaseCompetitiveDialogUACo
         # Create complaint
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]

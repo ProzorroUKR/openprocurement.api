@@ -2,7 +2,7 @@
 
 
 # TenderStage2EU(UA)MultipleLotAuctionResourceTest
-from openprocurement.tender.belowthreshold.tests.base import test_cancellation
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_cancellation
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
 
@@ -148,7 +148,7 @@ def patch_tender_with_lots_auction(self):
     self.assertEqual(tender["lots"][0]["auctionUrl"], patch_data["lots"][0]["auctionUrl"])
 
     self.app.authorization = ("Basic", ("broker", ""))
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",

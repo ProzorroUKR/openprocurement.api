@@ -4,11 +4,13 @@ from unittest.mock import patch
 from datetime import timedelta
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.pricequotation.tests.data import test_criteria_1, criteria_drop_uuids, test_short_profile
+from openprocurement.tender.pricequotation.tests.data import test_tender_pq_criteria_1, \
+    test_tender_pq_short_profile
+from openprocurement.tender.pricequotation.tests.utils import criteria_drop_uuids
 from openprocurement.tender.pricequotation.tests.base import (
     BaseTenderWebTest,
     TenderContentWebTest,
-    test_tender_data,
+    test_tender_pq_data,
 )
 
 from openprocurement.tender.pricequotation.tests.tender_blanks import (
@@ -92,10 +94,10 @@ class TenderResourceTestMixin:
 @patch("openprocurement.tender.pricequotation.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     docservice = True
-    initial_data = test_tender_data
+    initial_data = test_tender_pq_data
     initial_auth = ("Basic", ("broker", ""))
-    test_criteria = test_short_profile['criteria']
-    test_criteria_1 = test_criteria_1
+    test_criteria = test_tender_pq_short_profile['criteria']
+    test_criteria_1 = test_tender_pq_criteria_1
 
     Test_guarantee = snitch(guarantee)
     test_create_tender_invalid = snitch(create_tender_invalid)
@@ -124,11 +126,11 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 @patch("openprocurement.tender.pricequotation.models.requirement.PQ_CRITERIA_ID_FROM", get_now() - timedelta(days=1))
 class MD5UidTenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     docservice = True
-    initial_data = test_tender_data
+    initial_data = test_tender_pq_data
     initial_auth = ("Basic", ("broker", ""))
 
-    test_criteria_1 = criteria_drop_uuids(deepcopy(test_criteria_1))
-    test_criteria = criteria_drop_uuids(deepcopy(test_short_profile['criteria']))
+    test_criteria_1 = criteria_drop_uuids(deepcopy(test_tender_pq_criteria_1))
+    test_criteria = criteria_drop_uuids(deepcopy(test_tender_pq_short_profile['criteria']))
 
 
 @patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
@@ -137,7 +139,7 @@ class MD5UidTenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 class TenderProcessTest(TenderContentWebTest):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
-    initial_data = test_tender_data
+    initial_data = test_tender_pq_data
     initial_status = 'active.tendering'
     need_tender = True
     docservice = True

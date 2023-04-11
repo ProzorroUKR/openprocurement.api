@@ -4,7 +4,7 @@ from isodate import duration_isoformat
 from uuid import uuid4
 
 from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD, MAX_AGREEMENT_PERIOD
-from openprocurement.tender.cfaua.tests.base import agreement_period
+from openprocurement.tender.cfaua.tests.base import test_tender_cfaua_agreement_period
 from openprocurement.tender.cfaua.models.submodels.agreement import Agreement
 
 
@@ -68,7 +68,7 @@ def patch_tender_agreement_datesigned(self):
 
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, agreement["id"], self.tender_token),
-        {"data": {"status": "active", "period": agreement_period}},
+        {"data": {"status": "active", "period": test_tender_cfaua_agreement_period}},
         status=422,
     )
     self.assertEqual(
@@ -102,7 +102,7 @@ def patch_tender_agreement_datesigned(self):
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),
         {"data": {"status": "active",
                   "dateSigned": tender["awardPeriod"]["endDate"],
-                  "period": agreement_period}},
+                  "period": test_tender_cfaua_agreement_period}},
         status=422,
     )
     self.assertEqual(
@@ -132,7 +132,7 @@ def patch_tender_agreement_datesigned(self):
 
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),
-        {"data": {"status": "active", "period": agreement_period}},
+        {"data": {"status": "active", "period": test_tender_cfaua_agreement_period}},
         status=422,
     )
     self.assertEqual(
@@ -156,7 +156,7 @@ def patch_tender_agreement_datesigned(self):
     # Agreement signing
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),
-        {"data": {"status": "active", "period": agreement_period}},
+        {"data": {"status": "active", "period": test_tender_cfaua_agreement_period}},
         status=422,
     )
     end_date = tender["contractPeriod"]["clarificationsUntil"]
@@ -220,7 +220,7 @@ def patch_tender_agreement_datesigned(self):
 
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),
-        {"data": {"status": "active", "period": agreement_period}},
+        {"data": {"status": "active", "period": test_tender_cfaua_agreement_period}},
     )
     contract = response.json["data"]["contracts"][0]
 
@@ -306,7 +306,7 @@ def agreement_cancellation(self):
 
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, agreement["id"], self.tender_token),
-        {"data": {"status": "active", "period": agreement_period}},
+        {"data": {"status": "active", "period": test_tender_cfaua_agreement_period}},
         status=422,
     )
     self.assertEqual(
@@ -576,7 +576,7 @@ def patch_tender_agreement(self):
 
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, agreement["id"], self.tender_token),
-        {"data": {"status": "active", "period": agreement_period}},
+        {"data": {"status": "active", "period": test_tender_cfaua_agreement_period}},
         status=422,
     )
     self.assertEqual(response.content_type, "application/json")
@@ -613,7 +613,7 @@ def patch_tender_agreement(self):
     # Sign agreement
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),
-        {"data": {"status": "active", "period": agreement_period}},
+        {"data": {"status": "active", "period": test_tender_cfaua_agreement_period}},
         status=422,
     )
     end_date = tender["contractPeriod"]["clarificationsUntil"]
@@ -640,7 +640,7 @@ def patch_tender_agreement(self):
 
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),
-        {"data": {"status": "active", "period": agreement_period}},
+        {"data": {"status": "active", "period": test_tender_cfaua_agreement_period}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "active")
@@ -1129,7 +1129,7 @@ def four_contracts_one_unsuccessful(self):
 
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),
-        {"data": {"status": "active", "period": agreement_period}},
+        {"data": {"status": "active", "period": test_tender_cfaua_agreement_period}},
     )
     self.assertEqual(response.json["data"]["status"], "active")
 

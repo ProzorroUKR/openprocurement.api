@@ -2,15 +2,17 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import TenderContentWebTest, test_lots, test_author
+from openprocurement.tender.belowthreshold.tests.base import (
+    TenderContentWebTest,
+    test_tender_below_lots,
+    test_tender_below_author,
+)
 from openprocurement.tender.belowthreshold.tests.question_blanks import (
-    # TenderQuestionResourceTest
     create_tender_question_invalid,
     create_tender_question,
     patch_tender_question,
     get_tender_question,
     get_tender_questions,
-    # TenderLotQuestionResourceTest
     lot_create_tender_question,
     lot_patch_tender_question,
     lot_patch_tender_question_lots_none,
@@ -31,8 +33,8 @@ class TenderQuestionResourceTest(TenderContentWebTest, TenderQuestionResourceTes
 
 
 class TenderLotQuestionResourceTest(TenderContentWebTest):
-    initial_lots = 2 * test_lots
-    author_data = test_author
+    initial_lots = 2 * test_tender_below_lots
+    author_data = test_tender_below_author
 
     test_lot_create_tender_question = snitch(lot_create_tender_question)
     test_lot_patch_tender_question = snitch(lot_patch_tender_question)

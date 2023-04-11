@@ -1,12 +1,18 @@
 # -*- coding: utf-8 -*-
+import pytest
+from copy import deepcopy
+from mock import patch, Mock
+from datetime import timedelta
 from openprocurement.api.tests.base import singleton_app, app
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_author,
-    test_draft_complaint,
-    test_lots,
-    test_tender_config,
+    test_tender_below_author,
+    test_tender_below_draft_complaint,
+    test_tender_below_lots,
 )
-from openprocurement.tender.openua.tests.base import test_tender_data
+from openprocurement.tender.openua.tests.base import (
+    test_tender_openua_data,
+    test_tender_openua_config,
+)
 from openprocurement.tender.core.utils import round_up_to_ten
 from openprocurement.tender.core.models import Complaint, Award, Claim
 from openprocurement.tender.core.constants import (
@@ -15,14 +21,11 @@ from openprocurement.tender.core.constants import (
 )
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
-from copy import deepcopy
-from mock import patch, Mock
-from datetime import timedelta
-import pytest
 
-test_tender_data = deepcopy(test_tender_data)
-test_tender_config = deepcopy(test_tender_config)
-complaint_data = deepcopy(test_draft_complaint)
+
+test_tender_openua_data = deepcopy(test_tender_openua_data)
+test_tender_openua_config = deepcopy(test_tender_openua_config)
+test_tender_below_draft_complaint = deepcopy(test_tender_below_draft_complaint)
 
 
 def create_tender(app, tender_data, tender_config):
@@ -37,12 +40,12 @@ def test_complaint_value_change(app):
     """
     value should be calculated only once for a complaint
     """
-    test_tender_data["value"]["amount"] = 1000  # we want minimum complaint value
-    tender = create_tender(app, test_tender_data, test_tender_config)
+    test_tender_openua_data["value"]["amount"] = 1000  # we want minimum complaint value
+    tender = create_tender(app, test_tender_openua_data, test_tender_openua_config)
     with patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1)):
         response = app.post_json(
             "/tenders/{}/complaints".format(tender["data"]["id"]),
-            {"data": complaint_data},
+            {"data": test_tender_below_draft_complaint},
         )
     response_data = response.json["data"]
     assert "value" in response_data
@@ -60,15 +63,15 @@ def test_complaint_value_with_lots(app):
     """
     Value should be based on a lot value if lots are present
     """
-    test_data = deepcopy(test_tender_data)
-    test_data["lots"] = deepcopy(test_lots)
-    test_data["lots"].append(deepcopy(test_lots[0]))
+    test_data = deepcopy(test_tender_openua_data)
+    test_data["lots"] = deepcopy(test_tender_below_lots)
+    test_data["lots"].append(deepcopy(test_tender_below_lots[0]))
     test_data["lots"][0]["value"]["amount"] = 500
     test_data["lots"][1]["value"]["amount"] = 99999999999999
     test_data["lots"][1]["minimalStep"]["amount"] = 2999999999999
-    tender = create_tender(app, test_data, test_tender_config)
+    tender = create_tender(app, test_data, test_tender_openua_config)
 
-    req_data = deepcopy(complaint_data)
+    req_data = deepcopy(test_tender_below_draft_complaint)
     # a chip complaint
     req_data["relatedLot"] = tender["data"]["lots"][0]["id"]
 
@@ -119,7 +122,7 @@ def test_award_lot_complaint_rate():
     }
     award = Award(dict(id="0" * 32, lotID=lot_id))
     award["__parent__"] = root
-    complaint = Complaint(complaint_data)
+    complaint = Complaint(test_tender_below_draft_complaint)
     complaint["__parent__"] = award
     result = complaint.serialize()
     assert "value" in result
@@ -135,7 +138,7 @@ def test_post_pending_complaint():
             "title": "complaint title",
             "status": "pending",
             "description": "complaint description",
-            "author": test_author
+            "author": test_tender_below_author
         }
     )
     root = Mock(__parent__=None)
@@ -158,7 +161,7 @@ def test_post_draft_claim():
             "title": "complaint title",
             "status": "draft",
             "description": "complaint description",
-            "author": test_author
+            "author": test_tender_below_author
         }
     )
     root = Mock(__parent__=None)
@@ -182,7 +185,7 @@ def test_post_not_uah_complaint():
             "status": "draft",
             "type": "complaint",
             "description": "complaint description",
-            "author": test_author
+            "author": test_tender_below_author
         }
     )
     root = Mock(__parent__=None)
@@ -220,7 +223,7 @@ def test_post_not_uah_complaint_esco():
             "status": "draft",
             "type": "complaint",
             "description": "complaint description",
-            "author": test_author
+            "author": test_tender_below_author
         }
     )
     root = Mock(__parent__=None)
@@ -267,7 +270,7 @@ def test_post_not_uah_complaint_esco():
 ])
 def test_complaint_non_esco_tendering_rates(test_data):
     tender_amount, expected_complaint_amount = test_data
-    complaint = Complaint(complaint_data)
+    complaint = Complaint(test_tender_below_draft_complaint)
     root = Mock(__parent__=None)
     root.request.validated = {"tender": {
         "revisions": [dict(date=(RELEASE_2020_04_19 + timedelta(days=1)).isoformat())],
@@ -293,7 +296,7 @@ def test_complaint_non_esco_tendering_rates(test_data):
 def test_non_esco_enhanced_rates(test_data):
     tender_amount, expected_complaint_amount = test_data
 
-    complaint = Complaint(complaint_data)
+    complaint = Complaint(test_tender_below_draft_complaint)
     root = Mock(__parent__=None)
     root.request.validated = {"tender": {
         "revisions": [dict(date=(RELEASE_2020_04_19 + timedelta(days=1)).isoformat())],
@@ -314,7 +317,7 @@ def test_non_esco_enhanced_rates(test_data):
 @pytest.mark.parametrize("status", ["active.tendering", "active.pre-qualification",
                                     "active.pre-qualification.stand-still"])
 def test_esco_tendering(status):
-    complaint = Complaint(complaint_data)
+    complaint = Complaint(test_tender_below_draft_complaint)
     root = Mock(__parent__=None)
     root.request.validated = {"tender": {
         "revisions": [dict(date=(RELEASE_2020_04_19 + timedelta(days=1)).isoformat())],
@@ -335,7 +338,7 @@ def test_esco_tendering(status):
 ])
 def test_esco_not_tendering_rates(test_data):
     base_amount, expected_complaint_amount = test_data
-    complaint = Complaint(complaint_data)
+    complaint = Complaint(test_tender_below_draft_complaint)
     root = Mock(__parent__=None)
     root.request.validated = {
         "tender": {
@@ -369,7 +372,7 @@ def test_esco_not_tendering_rates(test_data):
 
 def test_esco_not_tendering_with_lot():
     amount, expected_amount = 901000, 5410
-    complaint = Complaint(complaint_data)
+    complaint = Complaint(test_tender_below_draft_complaint)
 
     class MyMock(Mock):
         def get(self, key):
@@ -416,7 +419,7 @@ def test_esco_not_tendering_with_lot():
 def test_lot_esco_non_lot_complaint():
     amount = 901000
     expected_amount = round_up_to_ten(amount * 3 * COMPLAINT_ENHANCED_AMOUNT_RATE)
-    complaint = Complaint(complaint_data)
+    complaint = Complaint(test_tender_below_draft_complaint)
 
     class MyMock(Mock):
         def get(self, key):
@@ -505,7 +508,7 @@ def test_lot_esco_non_lot_complaint():
 
 def test_esco_lot_not_related_bidder():
     amount = 901000
-    complaint = Complaint(complaint_data)
+    complaint = Complaint(test_tender_below_draft_complaint)
 
     class MyMock(Mock):
         def get(self, key):
@@ -602,7 +605,7 @@ def test_esco_lot_related_but_passed_acc_token_from_different_bid():
     we should find his another bid and related lotValue anyway
     :return:
     """
-    complaint = Complaint(complaint_data)
+    complaint = Complaint(test_tender_below_draft_complaint)
     amount = 901000
 
     class MyMock(Mock):

@@ -5,8 +5,8 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.pricequotation.constants import QUALIFICATION_DURATION
 from openprocurement.tender.pricequotation.tests.data import (
-    test_organization,
-    test_requirement_response,
+    test_tender_pq_organization,
+    test_tender_pq_requirement_response,
 )
 
 
@@ -15,9 +15,9 @@ def switch_to_qualification(self):
     bid, token = self.create_bid(
         self.tender_id,
         {
-            "tenderers": [test_organization],
+            "tenderers": [test_tender_pq_organization],
             "value": {"amount": 500},
-            "requirementResponses": test_requirement_response,
+            "requirementResponses": test_tender_pq_requirement_response,
         },
     )
 

@@ -16,14 +16,13 @@ from openprocurement.tender.openua.tests.bid import (
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogUAContentWebTest,
     BaseCompetitiveDialogEUContentWebTest,
-    test_bids_stage1 as test_bids,
-    test_tenderer,
-    test_features_tender_eu_data,
-    test_lots,
+    test_tender_cd_stage1_bids,
+    test_tender_cd_tenderer,
+    test_tender_cd_lots,
+    test_tender_cdeu_features_data,
 )
 from openprocurement.tender.competitivedialogue.tests.stage1.bid_blanks import (
     patch_tender_with_bids_lots_none,
-    # CompetitiveDialogEUBidResourceTest
     create_tender_bidder,
     deleted_bid_is_not_restorable,
     create_tender_bidder_invalid,
@@ -34,10 +33,8 @@ from openprocurement.tender.competitivedialogue.tests.stage1.bid_blanks import (
     deleted_bid_do_not_locks_tender_in_state,
     get_tender_tenderers,
     bids_invalidation_on_tender_change,
-    # CompetitiveDialogEUBidFeaturesResourceTest
     features_bidder,
     features_bidder_invalid,
-    # CompetitiveDialogEUBidDocumentResourceTest
     get_tender_bidder_document,
     create_tender_bidder_document,
     patch_and_put_document_into_invalid_bid,
@@ -56,7 +53,7 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
 
     initial_status = "active.tendering"
     initial_auth = ("Basic", ("broker", ""))
-    test_bids_data = test_bids
+    test_bids_data = test_tender_cd_stage1_bids
     docservice = True
 
     # overwriting TenderBidResourceTestMixin.test_create_tender_bidder
@@ -75,18 +72,18 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
 
 
 class CompetitiveDialogEU2LotBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
-    initial_lots = 2 * test_lots
-    test_bids_data = test_bids
+    initial_lots = 2 * test_tender_cd_lots
+    test_bids_data = test_tender_cd_stage1_bids
     initial_status = "active.tendering"
 
     test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
 
 
 class CompetitiveDialogEUBidFeaturesResourceTest(BaseCompetitiveDialogEUContentWebTest):
-    initial_data = test_features_tender_eu_data
+    initial_data = test_tender_cdeu_features_data
     initial_status = "active.tendering"
     initial_auth = ("Basic", ("broker", ""))
-    test_bids_data = test_bids
+    test_bids_data = test_tender_cd_stage1_bids
 
     test_features_bidder = snitch(features_bidder)
     test_features_bidder_invalid = snitch(features_bidder_invalid)
@@ -97,24 +94,24 @@ class CompetitiveDialogEUBidFeaturesResourceTest(BaseCompetitiveDialogEUContentW
 class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "active.tendering"
-    test_bids_data = test_bids
+    test_bids_data = test_tender_cd_stage1_bids
     docservice = True
 
     def setUp(self):
         super(CompetitiveDialogEUBidDocumentResourceTest, self).setUp()
         # Create bid
-        bidder_data = deepcopy(test_bids[0])
+        bidder_data = deepcopy(test_tender_cd_stage1_bids[0])
         bidder_data["tenderers"][0]["identifier"]["id"] = "00037256"
         bid, bid_token = self.create_bid(self.tender_id, bidder_data)
         self.bid_id = bid["id"]
         self.bid_token = bid_token
         # create second bid
-        bidder_data = deepcopy(test_bids[1])
+        bidder_data = deepcopy(test_tender_cd_stage1_bids[1])
         bidder_data["tenderers"][0]["identifier"]["id"] = "00037257"
         bid2, bid2_token = self.create_bid(self.tender_id, bidder_data)
         self.bid2_id = bid2["id"]
         self.bid2_token = bid2_token
-        bidder_data = deepcopy(test_bids[1])
+        bidder_data = deepcopy(test_tender_cd_stage1_bids[1])
         bidder_data["tenderers"][0]["identifier"]["id"] = "00037258"
         bid3, bid3_token = self.create_bid(self.tender_id, bidder_data)
         self.bid3_id = bid3["id"]
@@ -133,13 +130,13 @@ class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentW
 
 class TenderUABidDocumentWithDSWebTest(TenderBidDocumentWithDSResourceTestMixin, BaseCompetitiveDialogUAContentWebTest):
     initial_status = "active.tendering"
-    test_bids_data = test_bids
+    test_bids_data = test_tender_cd_stage1_bids
 
     def setUp(self):
         super(TenderUABidDocumentWithDSWebTest, self).setUp()
         # Create bid
         bid_data = deepcopy(self.test_bids_data[0])
-        bid_data["tenderers"] = [test_tenderer]
+        bid_data["tenderers"] = [test_tender_cd_tenderer]
 
         bid, bid_token = self.create_bid(self.tender_id, bid_data)
         self.bid_id = bid["id"]
@@ -151,7 +148,7 @@ class TenderEUBidRequirementResponseResourceTest(
     CreateBidMixin,
     BaseCompetitiveDialogEUContentWebTest,
 ):
-    test_bids_data = test_bids
+    test_bids_data = test_tender_cd_stage1_bids
     initial_status = "active.tendering"
 
 
@@ -160,7 +157,7 @@ class TenderUABidRequirementResponseResourceTest(
     CreateBidMixin,
     BaseCompetitiveDialogUAContentWebTest,
 ):
-    test_bids_data = test_bids
+    test_bids_data = test_tender_cd_stage1_bids
     initial_status = "active.tendering"
 
 
@@ -169,7 +166,7 @@ class TenderEUBidRequirementResponseEvidenceResourceTest(
     CreateBidMixin,
     BaseCompetitiveDialogEUContentWebTest,
 ):
-    test_bids_data = test_bids
+    test_bids_data = test_tender_cd_stage1_bids
     initial_status = "active.tendering"
 
 
@@ -178,7 +175,7 @@ class TenderUABidRequirementResponseEvidenceResourceTest(
     CreateBidMixin,
     BaseCompetitiveDialogUAContentWebTest,
 ):
-    test_bids_data = test_bids
+    test_bids_data = test_tender_cd_stage1_bids
     initial_status = "active.tendering"
 
 

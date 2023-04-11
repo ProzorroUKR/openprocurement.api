@@ -6,11 +6,11 @@ from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
-    test_tender_data,
-    test_features_tender_data,
-    test_bids,
-    test_lots,
-    test_organization,
+    test_tender_below_data,
+    test_tender_below_features_data,
+    test_tender_below_bids,
+    test_tender_below_lots,
+    test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.auction_blanks import (
     # TenderAuctionResourceTest
@@ -42,7 +42,7 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (
 )
 
 
-auction_test_tender_data = test_tender_data.copy()
+auction_test_tender_data = test_tender_below_data.copy()
 auction_test_tender_data["submissionMethodDetails"] = "test submissionMethodDetails"
 
 
@@ -73,7 +73,7 @@ class TenderAuctionResourceTest(TenderContentWebTest, TenderAuctionResourceTestM
     docservice = True
     initial_data = auction_test_tender_data
     initial_status = "active.tendering"
-    initial_bids = deepcopy(test_bids)
+    initial_bids = deepcopy(test_tender_below_bids)
     initial_auth = ("Basic", ("broker", ""))
 
 
@@ -81,7 +81,7 @@ class TenderSameValueAuctionResourceTest(TenderContentWebTest):
     docservice = True
     initial_status = "active.auction"
     initial_bids = [
-        {"tenderers": [test_organization], "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True}}
+        {"tenderers": [test_tender_below_organization], "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True}}
         for i in range(3)
     ]
 
@@ -91,10 +91,10 @@ class TenderSameValueAuctionResourceTest(TenderContentWebTest):
 
 class TenderLotAuctionResourceTest(TenderContentWebTest, TenderLotAuctionResourceTestMixin):
     docservice = True
-    initial_lots = test_lots
+    initial_lots = test_tender_below_lots
     initial_data = auction_test_tender_data
     initial_status = "active.tendering"
-    initial_bids = deepcopy(test_bids)
+    initial_bids = deepcopy(test_tender_below_bids)
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
@@ -103,26 +103,26 @@ class TenderLotAuctionResourceTest(TenderContentWebTest, TenderLotAuctionResourc
 
 class TenderMultipleLotAuctionResourceTest(TenderContentWebTest, TenderMultipleLotAuctionResourceTestMixin):
     docservice = True
-    initial_lots = 2 * test_lots
+    initial_lots = 2 * test_tender_below_lots
     initial_data = auction_test_tender_data
     initial_status = "active.tendering"
-    initial_bids = deepcopy(test_bids)
+    initial_bids = deepcopy(test_tender_below_bids)
     initial_auth = ("Basic", ("broker", ""))
 
 
 class TenderFeaturesAuctionResourceTest(TenderContentWebTest):
     docservice = True
-    initial_data = test_features_tender_data
+    initial_data = test_tender_below_features_data
     initial_status = "active.tendering"
     initial_bids = [
         {
-            "parameters": [{"code": i["code"], "value": 0.1} for i in test_features_tender_data["features"]],
-            "tenderers": [test_organization],
+            "parameters": [{"code": i["code"], "value": 0.1} for i in test_tender_below_features_data["features"]],
+            "tenderers": [test_tender_below_organization],
             "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
         },
         {
-            "parameters": [{"code": i["code"], "value": 0.15} for i in test_features_tender_data["features"]],
-            "tenderers": [test_organization],
+            "parameters": [{"code": i["code"], "value": 0.15} for i in test_tender_below_features_data["features"]],
+            "tenderers": [test_tender_below_organization],
             "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
         },
     ]
@@ -135,7 +135,7 @@ class TenderFeaturesMultilotAuctionResourceTest(
     TenderMultipleLotAuctionResourceTestMixin, TenderFeaturesAuctionResourceTest
 ):
     docservice = True
-    initial_lots = test_lots * 2
+    initial_lots = test_tender_below_lots * 2
     test_get_tender_auction = snitch(get_tender_lots_auction_features)
     test_post_tender_auction = snitch(post_tender_lots_auction_features)
 

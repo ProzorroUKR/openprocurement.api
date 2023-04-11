@@ -19,7 +19,7 @@ from openprocurement.api.database import MongodbResourceConflict
 
 
 # PlanTest
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.utils import change_auth
 
 
 def simple_add_plan(self):

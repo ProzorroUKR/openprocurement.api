@@ -25,7 +25,7 @@ from openprocurement.tender.limited.models import ReportingTender
 from openprocurement.tender.limited.tests.base import (
     BaseTenderWebTest,
     test_lots,
-    test_tender_data,
+    test_tender_reporting_data,
     test_tender_negotiation_data,
     test_tender_negotiation_quick_data,
 )
@@ -62,20 +62,20 @@ from openprocurement.tender.openua.tests.tender_blanks import (
 
 
 class AccreditationTenderTest(BaseTenderWebTest):
-    initial_data = test_tender_data
+    initial_data = test_tender_reporting_data
 
     test_create_tender_accreditation = snitch(create_tender_accreditation)
 
 
 class TenderTest(BaseTenderWebTest):
     tender_model = ReportingTender
-    initial_data = test_tender_data
+    initial_data = test_tender_reporting_data
     test_tender_milestones_not_required = snitch(tender_milestones_not_required)
     test_tender_set_fund_organizations = snitch(tender_set_fund_organizations)
 
 
 class TenderResourceTest(BaseTenderWebTest):
-    initial_data = test_tender_data
+    initial_data = test_tender_reporting_data
     docservice = True
 
     test_empty_listing = snitch(empty_listing)

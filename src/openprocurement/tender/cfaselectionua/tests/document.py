@@ -3,7 +3,10 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.cfaselectionua.tests.base import TenderContentWebTest, test_lots
+from openprocurement.tender.cfaselectionua.tests.base import (
+    TenderContentWebTest,
+    test_tender_cfaselectionua_lots,
+)
 
 from openprocurement.tender.belowthreshold.tests.document_blanks import (
     create_tender_document_json_invalid,
@@ -13,7 +16,6 @@ from openprocurement.tender.belowthreshold.tests.document_blanks import (
 )
 
 from openprocurement.tender.cfaselectionua.tests.document_blanks import (
-    # TenderDocumentResourceTest
     not_found,
     create_document_active_tendering_status,
     create_document_active_enquiries_status,
@@ -36,7 +38,7 @@ class TenderDocumentWithDSResourceTestMixin(object):
 
 class TenderDocumentWithDSResourceTest(TenderContentWebTest, TenderDocumentWithDSResourceTestMixin):
     docservice = True
-    initial_lots = test_lots
+    initial_lots = test_tender_cfaselectionua_lots
     initial_status = "active.enquiries"
     test_create_document_active_tendering_status = snitch(create_document_active_tendering_status)
     test_create_document_active_enquiries_status = snitch(create_document_active_enquiries_status)

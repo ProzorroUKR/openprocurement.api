@@ -6,9 +6,10 @@ from datetime import timedelta
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_lots, test_criteria
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
+from openprocurement.tender.core.tests.base import test_exclusion_criteria
 
-from openprocurement.tender.open.tests.base import test_tender_data, BaseTenderUAContentWebTest
+from openprocurement.tender.open.tests.base import test_tender_open_data, BaseTenderUAContentWebTest
 from openprocurement.tender.open.tests.criterion_blanks import (
     create_tender_criteria_valid,
     create_tender_criteria_invalid,
@@ -56,7 +57,7 @@ class TenderCriteriaRGTestMixin(object):
     @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderCriteriaRGTestMixin, self).setUp()
-        criteria_data = deepcopy(test_criteria)
+        criteria_data = deepcopy(test_exclusion_criteria)
         criteria_data[0]["classification"]["id"] = "CRITERION.OTHER"
 
         response = self.app.post_json(
@@ -86,7 +87,7 @@ class TenderCriteriaRGRequirementTestMixin(object):
     @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderCriteriaRGRequirementTestMixin, self).setUp()
-        criteria_data = deepcopy(test_criteria)
+        criteria_data = deepcopy(test_exclusion_criteria)
         criteria_data[0]["classification"]["id"] = "CRITERION.OTHER"
 
         response = self.app.post_json(
@@ -119,7 +120,7 @@ class TenderCriteriaRGRequirementEvidenceTestMixin(object):
     @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderCriteriaRGRequirementEvidenceTestMixin, self).setUp()
-        criteria_data = deepcopy(test_criteria)
+        criteria_data = deepcopy(test_exclusion_criteria)
         response = self.app.post_json(
             "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": criteria_data},
@@ -134,15 +135,15 @@ class TenderCriteriaRGRequirementEvidenceTestMixin(object):
 
 
 class TenderUACriteriaTest(TenderCriteriaTestMixin, BaseTenderUAContentWebTest):
-    initial_data = test_tender_data
-    initial_lots = test_lots
+    initial_data = test_tender_open_data
+    initial_lots = test_tender_below_lots
     initial_status = "draft"
 
 
 @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
 class TenderUACriteriaLccTest(BaseTenderUAContentWebTest):
-    initial_data = test_tender_data
-    initial_lots = test_lots
+    initial_data = test_tender_open_data
+    initial_lots = test_tender_below_lots
     initial_status = "draft"
 
     def setUp(self):
@@ -155,24 +156,24 @@ class TenderUACriteriaLccTest(BaseTenderUAContentWebTest):
 
 
 class TenderUACriteriaRGTest(TenderCriteriaRGTestMixin, BaseTenderUAContentWebTest):
-    initial_data = test_tender_data
-    test_lots_data = test_lots
+    initial_data = test_tender_open_data
+    test_lots_data = test_tender_below_lots
 
 
 class TenderUACriteriaRGRequirementTest(
     TenderCriteriaRGRequirementTestMixin,
     BaseTenderUAContentWebTest
 ):
-    initial_data = test_tender_data
-    test_lots_data = test_lots
+    initial_data = test_tender_open_data
+    test_lots_data = test_tender_below_lots
 
 
 class TenderUACriteriaRGRequirementEvidenceTest(
     TenderCriteriaRGRequirementEvidenceTestMixin,
     BaseTenderUAContentWebTest,
 ):
-    initial_data = test_tender_data
-    test_lots_data = test_lots
+    initial_data = test_tender_open_data
+    test_lots_data = test_tender_below_lots
 
 
 def suite():

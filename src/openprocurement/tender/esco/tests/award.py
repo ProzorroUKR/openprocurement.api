@@ -15,8 +15,11 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     create_tender_award_document_json_bulk,
 )
 from openprocurement.tender.esco.adapters import TenderESCOConfigurator
-from openprocurement.tender.core.tests.base import change_auth
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_draft_complaint
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+    test_tender_below_draft_complaint,
+)
 from openprocurement.tender.belowthreshold.tests.award import (
     TenderLotAwardCheckResourceTestMixin,
     TenderAwardComplaintResourceTestMixin,
@@ -24,9 +27,7 @@ from openprocurement.tender.belowthreshold.tests.award import (
     TenderAwardComplaintDocumentResourceTestMixin,
     Tender2LotAwardDocumentResourceTestMixin,
 )
-
 from openprocurement.tender.openua.tests.award import TenderUAAwardComplaintResourceTestMixin
-
 from openprocurement.tender.openeu.tests.award import (
     TenderAwardResourceTestMixin,
     TenderLotAwardResourceTestMixin,
@@ -35,19 +36,18 @@ from openprocurement.tender.openeu.tests.award import (
     Tender2LotAwardComplaintResourceTestMixin,
 )
 from openprocurement.tender.openeu.tests.award_blanks import (
-    # Tender2LotAwardComplaintDocumentResourceTest
     patch_tender_award_complaint_document,
-    # TenderAwardComplaintDocumentResourceTest
     create_tender_2lot_award_complaint_document,
     put_tender_2lot_award_complaint_document,
     patch_tender_2lot_award_complaint_document,
     check_tender_award_complaint_period_dates,
 )
-
-# from openprocurement.tender.openua.tests.award_blanks import che
-
-from openprocurement.tender.esco.tests.base import BaseESCOContentWebTest, test_bids, test_lots, NBU_DISCOUNT_RATE
-
+from openprocurement.tender.esco.tests.base import (
+    BaseESCOContentWebTest,
+    test_tender_esco_bids,
+    test_tender_esco_lots,
+    NBU_DISCOUNT_RATE,
+)
 from openprocurement.tender.esco.tests.award_blanks import (
     patch_tender_award,
     patch_tender_lot_award,
@@ -55,14 +55,14 @@ from openprocurement.tender.esco.tests.award_blanks import (
 from openprocurement.tender.esco.utils import to_decimal
 
 
-award_amountPerformance = round(
+award_amount_performance = round(
     float(
         to_decimal(
             npv(
-                test_bids[0]["value"]["contractDuration"]["years"],
-                test_bids[0]["value"]["contractDuration"]["days"],
-                test_bids[0]["value"]["yearlyPaymentsPercentage"],
-                test_bids[0]["value"]["annualCostsReduction"],
+                test_tender_esco_bids[0]["value"]["contractDuration"]["years"],
+                test_tender_esco_bids[0]["value"]["contractDuration"]["days"],
+                test_tender_esco_bids[0]["value"]["yearlyPaymentsPercentage"],
+                test_tender_esco_bids[0]["value"]["annualCostsReduction"],
                 get_now(),
                 NBU_DISCOUNT_RATE,
             )
@@ -75,10 +75,10 @@ award_amount = round(
     float(
         to_decimal(
             escp(
-                test_bids[0]["value"]["contractDuration"]["years"],
-                test_bids[0]["value"]["contractDuration"]["days"],
-                test_bids[0]["value"]["yearlyPaymentsPercentage"],
-                test_bids[0]["value"]["annualCostsReduction"],
+                test_tender_esco_bids[0]["value"]["contractDuration"]["years"],
+                test_tender_esco_bids[0]["value"]["contractDuration"]["days"],
+                test_tender_esco_bids[0]["value"]["yearlyPaymentsPercentage"],
+                test_tender_esco_bids[0]["value"]["annualCostsReduction"],
                 get_now(),
             )
         )
@@ -89,10 +89,10 @@ award_amount = round(
 
 class TenderAwardResourceTest(BaseESCOContentWebTest, TenderAwardResourceTestMixin):
     initial_status = "active.tendering"
-    initial_bids = test_bids
-    initial_lots = test_lots
+    initial_bids = test_tender_esco_bids
+    initial_lots = test_tender_esco_lots
     initial_auth = ("Basic", ("broker", ""))
-    expected_award_amountPerformance = award_amountPerformance
+    expected_award_amountPerformance = award_amount_performance
     expected_award_amount = award_amount
     docservice = True
 
@@ -126,7 +126,7 @@ class TenderAwardResourceScaleTest(BaseESCOContentWebTest):
         patcher.start()
         self.addCleanup(patcher.stop)
 
-        test_bid = deepcopy(test_bids[0])
+        test_bid = deepcopy(test_tender_esco_bids[0])
         test_bid["tenderers"][0].pop("scale")
         self.initial_bids = [test_bid]
         super(TenderAwardResourceScaleTest, self).setUp()
@@ -138,8 +138,8 @@ class TenderAwardResourceScaleTest(BaseESCOContentWebTest):
 
 class TenderLotAwardCheckResourceTest(BaseESCOContentWebTest, TenderLotAwardCheckResourceTestMixin):
     initial_status = "active.tendering"
-    initial_bids = deepcopy(test_bids)
-    initial_bids.append(deepcopy(test_bids[0]))
+    initial_bids = deepcopy(test_tender_esco_bids)
+    initial_bids.append(deepcopy(test_tender_esco_bids[0]))
     initial_bids[1]["tenderers"][0]["name"] = "Не зовсім Державне управління справами"
     initial_bids[1]["tenderers"][0]["identifier"]["id"] = "88837256"
     initial_bids[2]["tenderers"][0]["name"] = "Точно не Державне управління справами"
@@ -152,7 +152,7 @@ class TenderLotAwardCheckResourceTest(BaseESCOContentWebTest, TenderLotAwardChec
     reverse = TenderESCOConfigurator.reverse_awarding_criteria
     awarding_key = TenderESCOConfigurator.awarding_criteria_key
 
-    initial_lots = test_lots
+    initial_lots = test_tender_esco_lots
     initial_auth = ("Basic", ("broker", ""))
     docservice = True
 
@@ -171,10 +171,10 @@ class TenderLotAwardCheckResourceTest(BaseESCOContentWebTest, TenderLotAwardChec
 
 class TenderLotAwardResourceTest(BaseESCOContentWebTest, TenderLotAwardResourceTestMixin):
     initial_status = "active.tendering"
-    initial_bids = test_bids
-    initial_lots = test_lots
+    initial_bids = test_tender_esco_bids
+    initial_lots = test_tender_esco_lots
     initial_auth = ("Basic", ("broker", ""))
-    expected_award_amountPerformance = award_amountPerformance
+    expected_award_amountPerformance = award_amount_performance
     expected_award_amount = award_amount
     docservice = True
 
@@ -193,8 +193,8 @@ class TenderLotAwardResourceTest(BaseESCOContentWebTest, TenderLotAwardResourceT
 
 class Tender2LotAwardResourceTest(BaseESCOContentWebTest, Tender2LotAwardResourceTestMixin):
     initial_status = "active.tendering"
-    initial_lots = 2 * test_lots
-    initial_bids = test_bids
+    initial_lots = 2 * test_tender_esco_lots
+    initial_bids = test_tender_esco_bids
     initial_auth = ("Basic", ("broker", ""))
     docservice = True
 
@@ -214,8 +214,8 @@ class TenderAwardComplaintResourceTest(
 ):
     # initial_data = tender_data
     initial_status = "active.tendering"
-    initial_bids = test_bids
-    initial_lots = 2 * test_lots
+    initial_bids = test_tender_esco_bids
+    initial_lots = 2 * test_tender_esco_lots
     initial_auth = ("Basic", ("broker", ""))
     docservice = True
 
@@ -238,8 +238,8 @@ class TenderAwardComplaintResourceTest(
 class TenderLotAwardComplaintResourceTest(BaseESCOContentWebTest, TenderLotAwardComplaintResourceTestMixin):
     # initial_data = tender_data
     initial_status = "active.tendering"
-    initial_lots = test_lots
-    initial_bids = test_bids
+    initial_lots = test_tender_esco_lots
+    initial_bids = test_tender_esco_bids
     initial_auth = ("Basic", ("broker", ""))
     docservice = True
 
@@ -255,7 +255,7 @@ class TenderLotAwardComplaintResourceTest(BaseESCOContentWebTest, TenderLotAward
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "status": "pending",
                     "bid_id": bid["id"],
                     "lotID": bid["lotValues"][0]["relatedLot"],
@@ -275,12 +275,12 @@ class TenderLotAwardComplaintResourceTest(BaseESCOContentWebTest, TenderLotAward
 class Tender2LotAwardComplaintResourceTest(
     TenderLotAwardComplaintResourceTest, Tender2LotAwardComplaintResourceTestMixin
 ):
-    initial_lots = 2 * test_lots
+    initial_lots = 2 * test_tender_esco_lots
 
 
 class TenderAwardComplaintDocumentResourceTest(BaseESCOContentWebTest, TenderAwardComplaintDocumentResourceTestMixin):
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_esco_bids
     docservice = True
 
     def setUp(self):
@@ -289,7 +289,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseESCOContentWebTest, TenderAwa
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
-            {"data": {"suppliers": [test_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+            {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
         )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -304,7 +304,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseESCOContentWebTest, TenderAwa
                 self.tender_id, self.award_id,
                 list(self.initial_bids_tokens.values())[0]
             ),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]
@@ -315,8 +315,8 @@ class TenderAwardComplaintDocumentResourceTest(BaseESCOContentWebTest, TenderAwa
 
 class Tender2LotAwardComplaintDocumentResourceTest(BaseESCOContentWebTest):
     initial_status = "active.qualification"
-    initial_bids = test_bids
-    initial_lots = 2 * test_lots
+    initial_bids = test_tender_esco_bids
+    initial_lots = 2 * test_tender_esco_lots
     docservice = True
 
     def setUp(self):
@@ -328,7 +328,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseESCOContentWebTest):
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "status": "pending",
                     "bid_id": bid["id"],
                     "lotID": bid["lotValues"][0]["relatedLot"],
@@ -347,7 +347,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseESCOContentWebTest):
                 self.tender_id, self.award_id,
                 list(self.initial_bids_tokens.values())[0]
             ),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]
@@ -360,7 +360,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseESCOContentWebTest):
 
 class TenderAwardDocumentResourceTest(BaseESCOContentWebTest, TenderAwardDocumentResourceTestMixin):
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_esco_bids
     docservice = True
 
     def setUp(self):
@@ -369,7 +369,7 @@ class TenderAwardDocumentResourceTest(BaseESCOContentWebTest, TenderAwardDocumen
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
-                {"data": {"suppliers": [test_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+                {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
             )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -377,8 +377,8 @@ class TenderAwardDocumentResourceTest(BaseESCOContentWebTest, TenderAwardDocumen
 
 class Tender2LotAwardDocumentResourceTest(BaseESCOContentWebTest, Tender2LotAwardDocumentResourceTestMixin):
     initial_status = "active.qualification"
-    initial_bids = test_bids
-    initial_lots = 2 * test_lots
+    initial_bids = test_tender_esco_bids
+    initial_lots = 2 * test_tender_esco_lots
     docservice = True
 
     def setUp(self):
@@ -390,7 +390,7 @@ class Tender2LotAwardDocumentResourceTest(BaseESCOContentWebTest, Tender2LotAwar
                 "/tenders/{}/awards".format(self.tender_id),
                 {
                     "data": {
-                        "suppliers": [test_organization],
+                        "suppliers": [test_tender_below_organization],
                         "status": "pending",
                         "bid_id": bid["id"],
                         "lotID": bid["lotValues"][0]["relatedLot"],

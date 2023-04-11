@@ -4,8 +4,8 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest,
     BaseApiWebTest,
-    test_tender_data,
-    test_lots,
+    test_tender_below_data,
+    test_tender_below_lots,
 )
 from openprocurement.tender.belowthreshold.models import Tender
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
@@ -86,14 +86,14 @@ class TenderResourceTestMixin(object):
 class TenderTest(BaseApiWebTest):
     docservice = True
     tender_model = Tender
-    initial_data = test_tender_data
+    initial_data = test_tender_below_data
 
 
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     docservice = True
-    initial_data = test_tender_data
+    initial_data = test_tender_below_data
     initial_auth = ("Basic", ("broker", ""))
-    test_lots_data = test_lots
+    test_lots_data = test_tender_below_lots
 
     test_guarantee = snitch(guarantee)
     test_create_tender_invalid = snitch(create_tender_invalid)

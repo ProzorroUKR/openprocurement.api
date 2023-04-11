@@ -3,7 +3,7 @@ from copy import deepcopy
 from mock import patch
 from datetime import timedelta
 from openprocurement.api.constants import TWO_PHASE_COMMIT_FROM
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.api.utils import get_now
 
 
@@ -1246,7 +1246,7 @@ def patch_tender_bid(self):
     bid, bid_token = self.create_bid(self.tender_id, bid_data)
     self.assertEqual(bid["lotValues"][0]["value"]["amount"], self.expected_bid_amount)
     self.assertEqual(
-        bid["lotValues"][0]["value"]["amountPerformance"], self.expected_bid_amountPerformance
+        bid["lotValues"][0]["value"]["amountPerformance"], self.expected_bid_amount_performance
     )
 
     response = self.app.patch_json(
@@ -1344,7 +1344,7 @@ def patch_tender_bid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertNotEqual(response.json["data"]["lotValues"][0]["value"]["amount"], self.expected_bid_amount)
     self.assertNotEqual(
-        response.json["data"]["lotValues"][0]["value"]["amountPerformance"], self.expected_bid_amountPerformance
+        response.json["data"]["lotValues"][0]["value"]["amountPerformance"], self.expected_bid_amount_performance
     )
 
     self.time_shift("active.pre-qualification")

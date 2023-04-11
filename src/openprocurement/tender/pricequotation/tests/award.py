@@ -5,8 +5,8 @@ from copy import deepcopy
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.pricequotation.tests.base import (
     TenderContentWebTest,
-    test_bids,
-    test_organization,
+    test_tender_pq_bids,
+    test_tender_pq_organization,
 )
 from openprocurement.tender.pricequotation.tests.award_blanks import (
     check_tender_award,
@@ -38,7 +38,7 @@ class TenderAwardResourceTestMixin(object):
 
 class TenderAwardResourceTest(TenderContentWebTest, TenderAwardResourceTestMixin):
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_pq_bids
     reverse = False
 
     test_create_tender_award = snitch(create_tender_award)
@@ -51,7 +51,7 @@ class TenderAwardResourceTest(TenderContentWebTest, TenderAwardResourceTestMixin
 
 class TenderAwardResourceScaleTest(TenderContentWebTest):
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_pq_bids
     reverse = False
 
     test_create_tender_award_no_scale = snitch(create_tender_award_no_scale)
@@ -65,7 +65,7 @@ class TenderAwardResourceScaleTest(TenderContentWebTest):
 
 class TenderAwardDocumentResourceTest(TenderContentWebTest, TenderAwardDocumentResourceTestMixin):
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_pq_bids
     docservice = True
 
     def setUp(self):

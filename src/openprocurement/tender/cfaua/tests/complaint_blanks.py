@@ -1,8 +1,12 @@
-from openprocurement.tender.belowthreshold.tests.base import test_claim, test_draft_claim, test_draft_complaint
-from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.api.utils import get_now
 from datetime import timedelta
 from mock import patch
+from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_claim,
+    test_tender_below_draft_claim,
+    test_tender_below_draft_complaint,
+)
 
 
 def create_tender_complaint(self):
@@ -11,7 +15,7 @@ def create_tender_complaint(self):
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
             {
-                "data": test_draft_complaint
+                "data": test_tender_below_draft_complaint
             },
         )
     self.assertEqual(response.status, "201 Created")
@@ -22,7 +26,7 @@ def create_tender_complaint(self):
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {
-            "data": test_claim
+            "data": test_tender_below_claim
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -76,7 +80,7 @@ def create_tender_complaint(self):
 
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
-        {"data": test_draft_claim},
+        {"data": test_tender_below_draft_claim},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -90,7 +94,7 @@ def create_tender_lot_complaint(self):
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {
-            "data": test_claim
+            "data": test_tender_below_claim
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -148,7 +152,7 @@ def create_tender_lot_complaint(self):
 
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
-        {"data": test_draft_claim},
+        {"data": test_tender_below_draft_claim},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")

@@ -3,13 +3,13 @@ import unittest
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
-    test_features_tender_data,
-    language_criteria,
-    test_organization,
-    test_lots,
-    test_bids,
-    test_simple_tender_data,
+    test_tender_below_features_data,
+    test_tender_below_organization,
+    test_tender_below_lots,
+    test_tender_below_bids,
+    test_tender_below_simple_data,
 )
+from openprocurement.tender.core.tests.base import test_language_criteria
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderBidResourceTest
     create_tender_bid_invalid,
@@ -74,8 +74,8 @@ class TenderBidResourceTest(TenderContentWebTest):
 
 
 class Tender2LotBidResourceTest(TenderContentWebTest):
-    initial_lots = 2 * test_lots
-    test_bids_data = test_bids
+    initial_lots = 2 * test_tender_below_lots
+    test_bids_data = test_tender_below_bids
     initial_status = "active.tendering"
 
     test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
@@ -83,7 +83,7 @@ class Tender2LotBidResourceTest(TenderContentWebTest):
 
 
 class TenderBidFeaturesResourceTest(TenderContentWebTest):
-    initial_data = test_features_tender_data
+    initial_data = test_tender_below_features_data
     initial_status = "active.tendering"
 
     test_features_bid = snitch(features_bid)
@@ -100,7 +100,7 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
         # Create bid
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
-            {"data": {"status": "draft", "tenderers": [test_organization], "value": {"amount": 500}}},
+            {"data": {"status": "draft", "tenderers": [test_tender_below_organization], "value": {"amount": 500}}},
         )
         bid = response.json["data"]
         self.bid_id = bid["id"]
@@ -139,7 +139,7 @@ class TenderBidRRResourceTest(TenderContentWebTest):
     docservice = True
     initial_status = "active.tendering"
     guarantee_criterion = True
-    guarantee_criterion_data = language_criteria
+    guarantee_criterion_data = test_language_criteria
 
     test_update_tender_rr_evidence_id = snitch(update_tender_rr_evidence_id)
     test_update_tender_bid_pmr_related_doc = snitch(update_tender_bid_pmr_related_doc)
@@ -161,7 +161,7 @@ class SimpleTenderBidDocumentResourceTest(TenderContentWebTest):
     docservice = True
     guarantee_criterion = False
     initial_status = "active.tendering"
-    initial_data = test_simple_tender_data
+    initial_data = test_tender_below_simple_data
     test_create_tender_bid_document_active_qualification = snitch(create_tender_bid_document_active_qualification)
 
     def setUp(self):
@@ -169,7 +169,7 @@ class SimpleTenderBidDocumentResourceTest(TenderContentWebTest):
         # Create bid
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
-            {"data": {"status": "draft", "tenderers": [test_organization], "value": {"amount": 500}}},
+            {"data": {"status": "draft", "tenderers": [test_tender_below_organization], "value": {"amount": 500}}},
         )
         bid = response.json["data"]
         self.bid_id = bid["id"]
@@ -181,7 +181,7 @@ class SimpleTenderBidDocumentResourceTest(TenderContentWebTest):
 class TenderBidBatchDocumentWithDSResourceTest(TenderContentWebTest):
     docservice = True
     initial_status = "active.tendering"
-    bid_data_wo_docs = {"tenderers": [test_organization], "value": {"amount": 500}, "documents": []}
+    bid_data_wo_docs = {"tenderers": [test_tender_below_organization], "value": {"amount": 500}, "documents": []}
 
     test_create_tender_bid_with_document_invalid = snitch(create_tender_bid_with_document_invalid)
     test_create_tender_bid_with_document = snitch(create_tender_bid_with_document)
@@ -193,7 +193,7 @@ class TenderBidRequirementResponseResourceTest(
     CreateBidMixin,
     TenderContentWebTest,
 ):
-    test_bids_data = test_bids
+    test_bids_data = test_tender_below_bids
     initial_status = "active.tendering"
 
 
@@ -202,7 +202,7 @@ class TenderBidRequirementResponseEvidenceResourceTest(
     CreateBidMixin,
     TenderContentWebTest,
 ):
-    test_bids_data = test_bids
+    test_bids_data = test_tender_below_bids
     initial_status = "active.tendering"
 
     test_bid_activate_with_cancelled_tenderer_criterion = snitch(bid_activate_with_cancelled_tenderer_criterion)

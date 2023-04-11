@@ -4,17 +4,18 @@ from datetime import timedelta
 from mock import patch
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_organization, now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+    now,
+)
 from openprocurement.api.constants import TWO_PHASE_COMMIT_FROM
-
-# TenderStage2EUBidResourceTest
 
 
 def create_tender_bidder_firm(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["value"] = {"amount": 500}
-    bid_data["tenderers"] = [test_organization]
+    bid_data["tenderers"] = [test_tender_below_organization]
     response = self.app.post_json(
         request_path,
         {"data": bid_data},
@@ -761,7 +762,7 @@ def create_tender_biddder_invalid_ua(self):
     self.assertEqual(response.json["status"], "error")
     self.assertIn("invalid literal for int() with base 10", response.json["errors"][0]["description"])
 
-    bid_data["tenderers"] = [test_organization]
+    bid_data["tenderers"] = [test_tender_below_organization]
     response = self.app.post_json(
         request_path,
         {"data": bid_data},

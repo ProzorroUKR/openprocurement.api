@@ -8,18 +8,18 @@ from mock import patch
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization,
+    test_tender_below_organization,
     now,
-    set_bid_lotvalues,
 )
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
+from openprocurement.tender.core.tests.utils import change_auth
 
-from openprocurement.tender.open.tests.base import test_bids
+from openprocurement.tender.open.tests.base import test_tender_open_bids
 
 
 def create_tender_biddder_invalid(self):
     response = self.app.post_json(
-        "/tenders/some_id/bids", {"data": {"tenderers": [test_organization], "value": {"amount": 500}}}, status=404
+        "/tenders/some_id/bids", {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}}, status=404
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -222,7 +222,7 @@ def create_tender_biddder_invalid(self):
     # )
 
     bid_data["value"] = {"amount": 500}
-    bid_data["tenderers"] = test_organization
+    bid_data["tenderers"] = test_tender_below_organization
 
     response = self.app.post_json(
         request_path,
@@ -246,7 +246,7 @@ def create_tender_bidder(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
-    self.assertEqual(bid["tenderers"][0]["name"], test_organization["name"])
+    self.assertEqual(bid["tenderers"][0]["name"], test_tender_below_organization["name"])
     self.assertIn("id", bid)
     self.assertIn(bid["id"], response.headers["Location"])
 
@@ -299,7 +299,7 @@ def create_tender_bidder_value_greater_then_lot(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
-    self.assertEqual(bid["tenderers"][0]["name"], test_organization["name"])
+    self.assertEqual(bid["tenderers"][0]["name"], test_tender_below_organization["name"])
     self.assertIn("id", bid)
     self.assertIn(bid["id"], response.headers["Location"])
 
@@ -741,7 +741,7 @@ def bid_Administrator_change(self):
 
 
 def draft1_bid(self):
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_open_bids[0])
     bid_data.update({
         "tenderers": [self.test_bids_data[0]["tenderers"][0]],
         "value": {"amount": 500},
@@ -769,7 +769,7 @@ def draft1_bid(self):
 
 
 def draft2_bids(self):
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_open_bids[0])
     bid_data["value"] = {"amount": 500}
     bid_data["status"] = "draft"
     bid_data["tenderers"] = [self.test_bids_data[0]["tenderers"][0]]
@@ -1528,7 +1528,7 @@ def patch_tender_bidder_document_json(self):
 
 
 def create_tender_bidder_document_nopending(self):
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_open_bids[0])
     bid_data.update({
         "tenderers": [self.test_bids_data[0]["tenderers"][0]],
         "value": {"amount": 500},

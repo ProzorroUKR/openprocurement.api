@@ -2,7 +2,7 @@
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_criteria
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_organization
 from openprocurement.api.constants import NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM, CPV_ITEMS_CLASS_FROM
 from openprocurement.tender.core.models import get_now
 
@@ -300,7 +300,7 @@ def create_tender_invalid(self):
             ],
         )
 
-    data = test_organization["contactPoint"]["telephone"]
+    data = test_tender_below_organization["contactPoint"]["telephone"]
     del self.initial_data["procuringEntity"]["contactPoint"]["telephone"]
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["procuringEntity"]["contactPoint"]["telephone"] = data

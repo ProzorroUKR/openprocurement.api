@@ -4,7 +4,10 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+    test_tender_below_author,
+)
 from openprocurement.tender.belowthreshold.tests.contract import (
     TenderContractResourceTestMixin,
     TenderContractDocumentResourceTestMixin,
@@ -29,33 +32,29 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
 )
 
 from openprocurement.tender.openua.tests.contract_blanks import (
-    # TenderContractResourceTest
     create_tender_contract,
     patch_tender_contract_datesigned,
 )
 
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
-    test_tender_data,
-    test_bids,
-    test_tender_data_multi_buyers,
+    test_tender_openeu_bids,
+    test_tender_openeu_multi_buyers_data,
 )
 from openprocurement.tender.openeu.tests.contract_blanks import (
-    # TenderContractResourceTest
     contract_termination,
     patch_tender_contract,
 )
 
 
 class TenderContractResourceTest(BaseTenderContentWebTest, TenderContractResourceTestMixin):
-    # initial_data = tender_data
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_openeu_bids
     initial_auth = ("Basic", ("broker", ""))
-    author_data = test_author
+    author_data = test_tender_below_author
 
     def create_award(self):
-        self.supplier_info = deepcopy(test_organization)
+        self.supplier_info = deepcopy(test_tender_below_organization)
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
@@ -99,16 +98,15 @@ class TenderContractResourceTest(BaseTenderContentWebTest, TenderContractResourc
 
 
 class TenderContractDocumentResourceTest(BaseTenderContentWebTest, TenderContractDocumentResourceTestMixin):
-    # initial_data = tender_data
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_openeu_bids
     initial_auth = ("Basic", ("broker", ""))
     docservice = True
 
     def setUp(self):
         super(TenderContractDocumentResourceTest, self).setUp()
         # Create award
-        supplier_info = deepcopy(test_organization)
+        supplier_info = deepcopy(test_tender_below_organization)
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
@@ -138,10 +136,10 @@ class TenderContractDocumentResourceTest(BaseTenderContentWebTest, TenderContrac
 
 class TenderContractMultiBuyersResourceTest(BaseTenderContentWebTest):
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_openeu_bids
     initial_auth = ("Basic", ("broker", ""))
-    author_data = test_author
-    initial_data = test_tender_data_multi_buyers
+    author_data = test_tender_below_author
+    initial_data = test_tender_openeu_multi_buyers_data
 
     def setUp(self):
         super(TenderContractMultiBuyersResourceTest, self).setUp()

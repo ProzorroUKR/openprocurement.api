@@ -5,61 +5,84 @@ from datetime import timedelta
 
 from openprocurement.api.models import get_now
 from openprocurement.tender.esco.tests.base import BaseESCOWebTest
-from openprocurement.tender.belowthreshold.tests.base import test_criteria, language_criteria
+from openprocurement.tender.core.tests.base import (
+    test_exclusion_criteria,
+    test_language_criteria,
+)
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
 
-from tests.base.test import DumpsWebTestApp, MockWebTestMixin
-from tests.base.constants import DOCS_URL, AUCTIONS_URL
+from tests.base.test import (
+    DumpsWebTestApp,
+    MockWebTestMixin,
+)
+from tests.base.constants import (
+    DOCS_URL,
+    AUCTIONS_URL,
+)
 from tests.base.data import (
-    complaint, question, subcontracting, qualified,
-    tender_esco, bid_draft, bid2, bid3_with_docs,
-    bid_document, bid_document2, lots
+    test_docs_question,
+    test_docs_subcontracting,
+    test_docs_qualified,
+    test_docs_tender_esco,
+    test_docs_bid_draft,
+    test_docs_bid2,
+    test_docs_bid3_with_docs,
+    test_docs_bid_document,
+    test_docs_bid_document2,
+    test_docs_lots,
 )
 
-test_tender_data = deepcopy(tender_esco)
-test_lots = deepcopy(lots)
-bid = deepcopy(bid_draft)
-bid2 = deepcopy(bid2)
-bid3 = deepcopy(bid3_with_docs)
-bid_document2 = deepcopy(bid_document2)
+test_tender_data = deepcopy(test_docs_tender_esco)
+test_lots = deepcopy(test_docs_lots)
+bid = deepcopy(test_docs_bid_draft)
+bid2 = deepcopy(test_docs_bid2)
+bid3 = deepcopy(test_docs_bid3_with_docs)
+bid_document = deepcopy(test_docs_bid_document)
+bid_document2 = deepcopy(test_docs_bid_document2)
 
-bid.update(subcontracting)
-bid.update(qualified)
-bid2.update(qualified)
-bid3.update(qualified)
+bid.update(test_docs_subcontracting)
+bid.update(test_docs_qualified)
+bid2.update(test_docs_qualified)
+bid3.update(test_docs_qualified)
 
-bid.update({
-    "value": {
-        "annualCostsReduction": [500] + [1000] * 20,
-        "yearlyPaymentsPercentage": 0.9,
-        "contractDuration": {
-            "years": 10,
-            "days": 74
+bid.update(
+    {
+        "value": {
+            "annualCostsReduction": [500] + [1000] * 20,
+            "yearlyPaymentsPercentage": 0.9,
+            "contractDuration": {
+                "years": 10,
+                "days": 74
+            }
         }
     }
-})
+)
 
-bid2.update({
-    "value": {
-        "annualCostsReduction": [400] + [900] * 20,
-        "yearlyPaymentsPercentage": 0.85,
-        "contractDuration": {
-            "years": 12,
-            "days": 200
+bid2.update(
+    {
+        "value": {
+            "annualCostsReduction": [400] + [900] * 20,
+            "yearlyPaymentsPercentage": 0.85,
+            "contractDuration": {
+                "years": 12,
+                "days": 200
+            }
         }
     }
-})
+)
 
-bid3.update({
-    "value": {
-        "annualCostsReduction": [200] + [800] * 20,
-        "yearlyPaymentsPercentage": 0.86,
-        "contractDuration": {
-            "years": 13,
-            "days": 40
+bid3.update(
+    {
+        "value": {
+            "annualCostsReduction": [200] + [800] * 20,
+            "yearlyPaymentsPercentage": 0.86,
+            "contractDuration": {
+                "years": 13,
+                "days": 40
+            }
         }
     }
-})
+)
 
 test_lots[0]['minimalStepPercentage'] = test_tender_data['minimalStepPercentage']
 test_lots[1]['minimalStepPercentage'] = test_tender_data['minimalStepPercentage']
@@ -112,7 +135,7 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',
-                {'data': test_tender_data})
+                {'data': test_tender_data, 'config': self.initial_config})
             self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
@@ -136,8 +159,8 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin):
         self.app.authorization = ('Basic', ('broker', ''))
 
         #### Tender activating
-        test_criteria_data = deepcopy(test_criteria)
-        test_criteria_data.extend(language_criteria)
+        test_criteria_data = deepcopy(test_exclusion_criteria)
+        test_criteria_data.extend(test_language_criteria)
 
         with open(TARGET_DIR + 'add-exclusion-criteria.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -254,7 +277,7 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'ask-question.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/questions'.format(self.tender_id),
-                {'data': question}, status=201)
+                {'data': test_docs_question}, status=201)
             question_id = response.json['data']['id']
             self.assertEqual(response.status, '201 Created')
 
@@ -288,7 +311,7 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'ask-question-after-enquiry-period.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/questions'.format(self.tender_id),
-                {'data': question}, status=403)
+                {'data': test_docs_question}, status=403)
             self.assertEqual(response.status, '403 Forbidden')
 
         response = self.app.get(f"/tenders/{self.tender_id}")
@@ -815,7 +838,7 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin):
         with open(TARGET_DIR_MULTIPLE + 'tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',
-                {'data': test_tender_data})
+                {'data': test_tender_data, 'config': self.initial_config})
             self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
@@ -823,8 +846,8 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin):
         owner_token = response.json['access']['token']
 
         #### Tender activating
-        test_criteria_data = deepcopy(test_criteria)
-        test_criteria_data.extend(language_criteria)
+        test_criteria_data = deepcopy(test_exclusion_criteria)
+        test_criteria_data.extend(test_language_criteria)
 
         with open(TARGET_DIR_MULTIPLE + 'tender-add-criteria.http', 'w') as self.app.file_obj:
             response = self.app.post_json(

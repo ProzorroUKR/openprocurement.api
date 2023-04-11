@@ -6,15 +6,18 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+    test_tender_below_author,
+)
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_document_json_bulk,
 )
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderContentWebTest,
-    test_features_tender_data,
-    test_bids,
-    test_lots,
+    test_tender_cfaua_features_data,
+    test_tender_cfaua_bids,
+    test_tender_cfaua_lots,
 )
 from openprocurement.tender.cfaua.tests.bid_blanks import (
     bids_activation_on_tender_documents,
@@ -81,9 +84,9 @@ class TenderBidResourceTest(BaseTenderLotsContentWebTest):
     docservice = True
     initial_status = "active.tendering"
     initial_auth = ("Basic", ("broker", ""))
-    initial_lots = test_lots
-    test_bids_data = deepcopy(test_bids)
-    author_data = test_author
+    initial_lots = test_tender_cfaua_lots
+    test_bids_data = deepcopy(test_tender_cfaua_bids)
+    author_data = test_tender_below_author
 
     # test_delete_tender_bidder = snitch(delete_tender_bidder)    # TODO REWRITE THIS TEST
     test_create_tender_bidder = snitch(create_tender_bidder)
@@ -99,11 +102,11 @@ class TenderBidResourceTest(BaseTenderLotsContentWebTest):
 
 
 class TenderBidFeaturesResourceTest(BaseTenderLotsContentWebTest):
-    initial_data = test_features_tender_data
+    initial_data = test_tender_cfaua_features_data
     initial_status = "active.tendering"
     initial_auth = ("Basic", ("broker", ""))
-    initial_lots = test_lots
-    test_bids_data = deepcopy(test_bids)
+    initial_lots = test_tender_cfaua_lots
+    test_bids_data = deepcopy(test_tender_cfaua_bids)
 
     test_features_bidder = snitch(features_bidder)
     test_features_bidder_invalid = snitch(features_bidder_invalid)
@@ -113,14 +116,14 @@ class TenderBidDocumentResourceTest(BaseTenderLotsContentWebTest):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "active.tendering"
-    test_bids_data = deepcopy(test_bids)
-    initial_lots = test_lots
+    test_bids_data = deepcopy(test_tender_cfaua_bids)
+    initial_lots = test_tender_cfaua_lots
 
     def setUp(self):
         super(TenderBidDocumentResourceTest, self).setUp()
         # Create bids
         for x in range(self.min_bids_number):
-            bids_data = deepcopy(test_bids)
+            bids_data = deepcopy(test_tender_cfaua_bids)
             self.convert_bids_for_tender_with_lots(bids_data, self.initial_lots)
             bid, bid_token = self.create_bid(self.tender_id, bids_data[0])
             x = "" if x == 0 else x + 1
@@ -153,8 +156,8 @@ class TenderBidBatchDocumentsWithDSResourceTest(BaseTenderLotsContentWebTest):
     docservice = True
     initial_status = "active.tendering"
 
-    test_bids_data = deepcopy(test_bids)
-    author_data = test_bids[0]["tenderers"][0]
+    test_bids_data = deepcopy(test_tender_cfaua_bids)
+    author_data = test_tender_cfaua_bids[0]["tenderers"][0]
 
     test_create_tender_bid_with_document_invalid = snitch(create_tender_bid_with_document_invalid)
     test_create_tender_bid_with_document = snitch(create_tender_bid_with_document)
@@ -180,7 +183,7 @@ class TenderBidBatchDocumentsWithDSResourceTest(BaseTenderLotsContentWebTest):
 
     def setUp(self):
         self.bid_data_wo_docs = {
-            "tenderers": [test_organization],
+            "tenderers": [test_tender_below_organization],
             "value": {"amount": 500},
             "selfQualified": True,
             "documents": [],
@@ -198,7 +201,7 @@ class CreateBidMixin(object):
         super(CreateBidMixin, self).setUp()
         # Create bids
         for x in range(self.min_bids_number):
-            bids_data = deepcopy(test_bids)
+            bids_data = deepcopy(test_tender_cfaua_bids)
             self.convert_bids_for_tender_with_lots(bids_data, self.initial_lots)
             bids_data[0]["status"] = self.base_bid_status
             bid, bid_token = self.create_bid(self.tender_id, bids_data[0])
@@ -215,7 +218,7 @@ class TenderBidRequirementResponseResourceTest(
     CreateBidMixin,
     BaseTenderLotsContentWebTest,
 ):
-    test_bids_data = test_bids
+    test_bids_data = test_tender_cfaua_bids
     initial_status = "active.tendering"
 
 
@@ -224,7 +227,7 @@ class TenderBidRequirementResponseEvidenceResourceTest(
     CreateBidMixin,
     BaseTenderLotsContentWebTest,
 ):
-    test_bids_data = test_bids
+    test_bids_data = test_tender_cfaua_bids
     initial_status = "active.tendering"
 
 

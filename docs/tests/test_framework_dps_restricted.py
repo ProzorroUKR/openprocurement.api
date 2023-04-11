@@ -5,8 +5,8 @@ from datetime import timedelta
 
 from openprocurement.api.tests.base import change_auth
 from tests.base.data import (
-    tenderer,
-    tenderer2,
+    test_docs_tenderer,
+    test_docs_tenderer2,
 )
 from tests.base.constants import DOCS_URL
 from tests.base.test import (
@@ -86,7 +86,7 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
                     '/submissions',
                     {
                         'data': {
-                            "tenderers": [tenderer],
+                            "tenderers": [test_docs_tenderer],
                             "frameworkID": self.framework_id,
                         },
                         'config': {
@@ -115,7 +115,7 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
                     '/submissions',
                     {
                         'data': {
-                            "tenderers": [tenderer2],
+                            "tenderers": [test_docs_tenderer2],
                             "frameworkID": self.framework_id,
                         },
                         'config': {

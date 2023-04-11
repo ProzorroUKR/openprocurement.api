@@ -4,7 +4,10 @@ from datetime import timedelta
 from mock import patch
 
 from openprocurement.api.utils import parse_date
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_criteria
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+)
+from openprocurement.tender.core.tests.base import test_exclusion_criteria
 from openprocurement.api.constants import (
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
     CPV_ITEMS_CLASS_FROM,
@@ -326,7 +329,7 @@ def create_tender_invalid(self):
             ],
         )
 
-    data = test_organization["contactPoint"]["telephone"]
+    data = test_tender_below_organization["contactPoint"]["telephone"]
     del initial_data["procuringEntity"]["contactPoint"]["telephone"]
     response = self.app.post_json(request_path, {"data": initial_data, "config": self.initial_config}, status=422)
     initial_data["procuringEntity"]["contactPoint"]["telephone"] = data
@@ -743,7 +746,7 @@ def patch_item_with_zero_quantity(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["items"][0]["quantity"], 5)
-    criteria = deepcopy(test_criteria)
+    criteria = deepcopy(test_exclusion_criteria)
     criteria[0]["relatesTo"] = "item"
     criteria[0]["relatedItem"] = item["id"]
     add_criteria(self, criteria=criteria)

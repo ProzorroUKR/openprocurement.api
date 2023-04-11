@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
-import dateutil
 
 from datetime import timedelta
 
@@ -10,7 +9,10 @@ import mock
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_draft_complaint
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+    test_tender_below_draft_complaint,
+)
 from openprocurement.tender.belowthreshold.tests.award import (
     TenderAwardComplaintResourceTestMixin,
     TenderAwardDocumentResourceTestMixin,
@@ -18,43 +20,32 @@ from openprocurement.tender.belowthreshold.tests.award import (
     Tender2LotAwardDocumentResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
-    # TenderLotAwardComplaintResourceTest
     get_tender_lot_award_complaint,
     get_tender_lot_award_complaints,
-    # TenderLotAwardResourceTestMixin
     patch_tender_lot_award_lots_none,
 )
 
 from openprocurement.tender.openua.tests.award import TenderUAAwardComplaintResourceTestMixin
 from openprocurement.tender.openua.tests.award_blanks import (
-    # Tender2LotAwardComplaintResourceTest
     create_tender_lots_award_complaint,
     patch_tender_lots_award_complaint,
-    # TenderLotAwardComplaintResourceTest
     create_tender_lot_award_complaint,
     patch_tender_lot_award_complaint,
-    # TenderAwardResourceTest
     create_tender_award_no_scale_invalid,
-    # TenderAwardResourceScaleTest
     create_tender_award_with_scale_not_required,
     create_tender_award_no_scale,
 )
 
 from openprocurement.tender.openeu.tests.award_blanks import (
-    # Tender2LotAwardComplaintDocumentResourceTest
     patch_tender_award_complaint_document,
-    # TenderAwardComplaintDocumentResourceTest
     create_tender_2lot_award_complaint_document,
     put_tender_2lot_award_complaint_document,
     patch_tender_2lot_award_complaint_document,
-    # Tender2LotAwardResourceTest
     create_tender_2lot_award,
     patch_tender_2lot_award,
-    # TenderLotAwardResourceTest
     create_tender_lot_award,
     patch_tender_lot_award,
     patch_tender_lot_award_unsuccessful,
-    # TenderAwardResourceTest
     create_tender_award_invalid,
     create_tender_award,
     get_tender_award,
@@ -64,7 +55,11 @@ from openprocurement.tender.openeu.tests.award_blanks import (
     check_tender_award_complaint_period_dates
 
 )
-from openprocurement.tender.openeu.tests.base import BaseTenderContentWebTest, test_bids, test_lots
+from openprocurement.tender.openeu.tests.base import (
+    BaseTenderContentWebTest,
+    test_tender_openeu_bids,
+    test_tender_openeu_lots,
+)
 
 
 class TenderAwardResourceTestMixin(object):
@@ -79,10 +74,10 @@ class TenderAwardResourceTestMixin(object):
 
 class TenderAwardResourceTest(BaseTenderContentWebTest, TenderAwardResourceTestMixin):
     initial_status = "active.tendering"
-    initial_bids = test_bids
-    initial_lots = test_lots
+    initial_bids = test_tender_openeu_bids
+    initial_lots = test_tender_openeu_lots
     initial_auth = ("Basic", ("broker", ""))
-    expected_award_amount = test_bids[0]["value"]["amount"]
+    expected_award_amount = test_tender_openeu_bids[0]["value"]["amount"]
 
     def setUp(self):
         super(TenderAwardResourceTest, self).setUp()
@@ -114,7 +109,7 @@ class TenderAwardResourceScaleTest(BaseTenderContentWebTest):
         )
         procedure_patcher.start()
         self.addCleanup(procedure_patcher.stop)
-        test_bid = deepcopy(test_bids[0])
+        test_bid = deepcopy(test_tender_openeu_bids[0])
         test_bid["tenderers"][0].pop("scale")
         self.initial_bids = [test_bid]
         super(TenderAwardResourceScaleTest, self).setUp()
@@ -134,10 +129,10 @@ class TenderLotAwardResourceTestMixin(object):
 
 class TenderLotAwardResourceTest(BaseTenderContentWebTest, TenderLotAwardResourceTestMixin):
     initial_status = "active.tendering"
-    initial_bids = test_bids
-    initial_lots = test_lots
+    initial_bids = test_tender_openeu_bids
+    initial_lots = test_tender_openeu_lots
     initial_auth = ("Basic", ("broker", ""))
-    expected_award_amount = test_bids[0]["value"]["amount"]
+    expected_award_amount = test_tender_openeu_bids[0]["value"]["amount"]
 
     def setUp(self):
         super(TenderLotAwardResourceTest, self).setUp()
@@ -159,8 +154,8 @@ class Tender2LotAwardResourceTestMixin(object):
 
 class Tender2LotAwardResourceTest(BaseTenderContentWebTest, Tender2LotAwardResourceTestMixin):
     initial_status = "active.tendering"
-    initial_lots = 2 * test_lots
-    initial_bids = test_bids
+    initial_lots = 2 * test_tender_openeu_lots
+    initial_bids = test_tender_openeu_bids
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
@@ -179,8 +174,8 @@ class TenderAwardComplaintResourceTest(
 ):
     # initial_data = tender_data
     initial_status = "active.tendering"
-    initial_bids = test_bids
-    initial_lots = 2 * test_lots
+    initial_bids = test_tender_openeu_bids
+    initial_lots = 2 * test_tender_openeu_lots
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
@@ -210,8 +205,8 @@ class TenderLotAwardComplaintResourceTestMixin(object):
 class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest, TenderLotAwardComplaintResourceTestMixin):
     # initial_data = tender_data
     initial_status = "active.tendering"
-    initial_lots = test_lots
-    initial_bids = test_bids
+    initial_lots = test_tender_openeu_lots
+    initial_bids = test_tender_openeu_bids
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
@@ -226,7 +221,7 @@ class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest, TenderLotAwa
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "status": "pending",
                     "bid_id": bid["id"],
                     "lotID": bid["lotValues"][0]["relatedLot"],
@@ -252,12 +247,12 @@ class Tender2LotAwardComplaintResourceTestMixin(object):
 class Tender2LotAwardComplaintResourceTest(
     TenderLotAwardComplaintResourceTest, Tender2LotAwardComplaintResourceTestMixin
 ):
-    initial_lots = 2 * test_lots
+    initial_lots = 2 * test_tender_openeu_lots
 
 
 class TenderAwardComplaintDocumentResourceTest(BaseTenderContentWebTest, TenderAwardComplaintDocumentResourceTestMixin):
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_openeu_bids
     docservice = True
 
     def setUp(self):
@@ -265,7 +260,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderContentWebTest, TenderA
         # Create award
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
-            {"data": {"suppliers": [test_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+            {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
         )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -276,7 +271,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderContentWebTest, TenderA
         # Create complaint for award
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]
@@ -287,8 +282,8 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderContentWebTest, TenderA
 
 class Tender2LotAwardComplaintDocumentResourceTest(BaseTenderContentWebTest):
     initial_status = "active.qualification"
-    initial_bids = test_bids
-    initial_lots = 2 * test_lots
+    initial_bids = test_tender_openeu_bids
+    initial_lots = 2 * test_tender_openeu_lots
     docservice = True
 
     def setUp(self):
@@ -299,7 +294,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseTenderContentWebTest):
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "status": "pending",
                     "bid_id": bid["id"],
                     "lotID": bid["lotValues"][0]["relatedLot"],
@@ -315,7 +310,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseTenderContentWebTest):
         # Create complaint for award
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]
@@ -328,7 +323,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseTenderContentWebTest):
 
 class TenderAwardDocumentResourceTest(BaseTenderContentWebTest, TenderAwardDocumentResourceTestMixin):
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_openeu_bids
     docservice = True
 
     def setUp(self):
@@ -336,7 +331,7 @@ class TenderAwardDocumentResourceTest(BaseTenderContentWebTest, TenderAwardDocum
         # Create award
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
-            {"data": {"suppliers": [test_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+            {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
         )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -344,8 +339,8 @@ class TenderAwardDocumentResourceTest(BaseTenderContentWebTest, TenderAwardDocum
 
 class Tender2LotAwardDocumentResourceTest(BaseTenderContentWebTest, Tender2LotAwardDocumentResourceTestMixin):
     initial_status = "active.qualification"
-    initial_bids = test_bids
-    initial_lots = 2 * test_lots
+    initial_bids = test_tender_openeu_bids
+    initial_lots = 2 * test_tender_openeu_lots
     docservice = True
 
     def setUp(self):
@@ -356,7 +351,7 @@ class Tender2LotAwardDocumentResourceTest(BaseTenderContentWebTest, Tender2LotAw
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "status": "pending",
                     "bid_id": bid["id"],
                     "lotID": bid["lotValues"][0]["relatedLot"],

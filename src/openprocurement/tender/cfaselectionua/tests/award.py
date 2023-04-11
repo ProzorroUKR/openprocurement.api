@@ -6,9 +6,9 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.cfaselectionua.adapters.configurator import TenderCfaSelectionUAConfigurator
 from openprocurement.tender.cfaselectionua.tests.base import (
     TenderContentWebTest,
-    test_bids,
-    test_lots,
-    test_organization,
+    test_tender_cfaselectionua_bids,
+    test_tender_cfaselectionua_lots,
+    test_tender_cfaselectionua_organization,
 )
 from openprocurement.tender.cfaselectionua.tests.award_blanks import (
     # TenderAwardResourceTest
@@ -71,9 +71,9 @@ class Tender2LotAwardDocumentResourceTestMixin(object):
 
 class TenderLotAwardCheckResourceTest(TenderContentWebTest, TenderLotAwardCheckResourceTestMixin):
     initial_status = "active.auction"
-    initial_lots = test_lots
-    initial_bids = deepcopy(test_bids)
-    initial_bids.append(deepcopy(test_bids[0]))
+    initial_lots = test_tender_cfaselectionua_lots
+    initial_bids = deepcopy(test_tender_cfaselectionua_bids)
+    initial_bids.append(deepcopy(test_tender_cfaselectionua_bids[0]))
     initial_bids[1]["tenderers"][0]["name"] = "Не зовсім Державне управління справами"
     # initial_bids[1]['tenderers'][0]['identifier']['id'] = u'88837256'
     initial_bids[2]["tenderers"][0]["name"] = "Точно не Державне управління справами"
@@ -103,8 +103,8 @@ class TenderLotAwardCheckResourceTest(TenderContentWebTest, TenderLotAwardCheckR
 
 class TenderLotAwardResourceTest(TenderContentWebTest):
     initial_status = "active.qualification"
-    initial_lots = test_lots
-    initial_bids = test_bids
+    initial_lots = test_tender_cfaselectionua_lots
+    initial_bids = test_tender_cfaselectionua_bids
     docservice = True
 
     test_create_tender_lot_award = snitch(create_tender_lot_award)
@@ -116,8 +116,8 @@ class TenderLotAwardResourceTest(TenderContentWebTest):
 @unittest.skipIf(skip_multi_lots, "Skip multi-lots tests")
 class Tender2LotAwardResourceTest(TenderContentWebTest):
     initial_status = "active.qualification"
-    initial_lots = 2 * test_lots
-    initial_bids = test_bids
+    initial_lots = 2 * test_tender_cfaselectionua_lots
+    initial_bids = test_tender_cfaselectionua_bids
     docservice = True
 
     test_create_tender_lots_award = snitch(create_tender_lots_award)
@@ -126,8 +126,8 @@ class Tender2LotAwardResourceTest(TenderContentWebTest):
 
 class TenderAwardDocumentResourceTest(TenderContentWebTest, TenderAwardDocumentResourceTestMixin):
     initial_status = "active.qualification"
-    initial_bids = test_bids
-    initial_lots = test_lots
+    initial_bids = test_tender_cfaselectionua_bids
+    initial_lots = test_tender_cfaselectionua_lots
     docservice = True
 
 
@@ -138,8 +138,8 @@ class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
 @unittest.skipIf(skip_multi_lots, "Skip multi-lots tests")
 class Tender2LotAwardDocumentResourceTest(TenderContentWebTest, Tender2LotAwardDocumentResourceTestMixin):
     initial_status = "active.qualification"
-    initial_bids = test_bids
-    initial_lots = 2 * test_lots
+    initial_bids = test_tender_cfaselectionua_bids
+    initial_lots = 2 * test_tender_cfaselectionua_lots
 
     def setUp(self):
         super(Tender2LotAwardDocumentResourceTest, self).setUp()
@@ -151,7 +151,7 @@ class Tender2LotAwardDocumentResourceTest(TenderContentWebTest, Tender2LotAwardD
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_cfaselectionua_organization],
                     "status": "pending",
                     "bid_id": bid["id"],
                     "lotID": bid["lotValues"][0]["relatedLot"],

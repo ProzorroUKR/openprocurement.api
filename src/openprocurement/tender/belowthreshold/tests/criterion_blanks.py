@@ -6,7 +6,7 @@ from datetime import timedelta
 import mock
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_criteria
+from openprocurement.tender.core.tests.base import test_exclusion_criteria
 
 
 def activate_tender(self):
@@ -23,7 +23,7 @@ def activate_tender(self):
 
 
 def patch_tender_criteria_invalid(self):
-    criteria_data = deepcopy(test_criteria)
+    criteria_data = deepcopy(test_exclusion_criteria)
     criteria_data[0]["classification"]["id"] = "CRITERION.OTHER"
 
     response = self.app.post_json(

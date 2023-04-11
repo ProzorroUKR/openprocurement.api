@@ -5,28 +5,30 @@ from datetime import timedelta
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_author, test_draft_complaint, test_criteria
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_author,
+    test_tender_below_draft_complaint,
+)
+from openprocurement.tender.core.tests.base import test_exclusion_criteria
 
-from openprocurement.tender.openeu.tests.base import BaseTenderContentWebTest, test_bids, test_lots
+from openprocurement.tender.openeu.tests.base import (
+    BaseTenderContentWebTest,
+    test_tender_openeu_bids,
+    test_tender_openeu_lots,
+)
 from openprocurement.tender.openeu.tests.qualification_blanks import (
-    # Tender2LotQualificationComplaintDocumentResourceTest
     create_tender_2lot_qualification_complaint_document,
     put_tender_2lot_qualification_complaint_document,
-    # TenderQualificationComplaintDocumentResourceTest
     complaint_not_found,
     create_tender_qualification_complaint_document,
     put_tender_qualification_complaint_document,
     patch_tender_qualification_complaint_document,
-    # Tender2LotQualificationClaimResourceTest
     create_tender_qualification_claim,
-    # Tender2LotQualificationComplaintResourceTest
     create_tender_2lot_qualification_complaint,
-    # TenderLotQualificationComplaintResourceTest
     create_tender_lot_qualification_complaint,
     patch_tender_lot_qualification_complaint,
     get_tender_lot_qualification_complaint,
     get_tender_lot_qualification_complaints,
-    # TenderQualificationComplaintResourceTest
     create_tender_qualification_complaint_invalid,
     create_tender_qualification_complaint,
     patch_tender_qualification_complaint,
@@ -36,7 +38,6 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
     get_tender_qualification_complaint,
     get_tender_qualification_complaints,
     change_status_to_standstill_with_complaint,
-    # TenderQualificationDocumentResourceTest
     not_found,
     tender_owner_create_qualification_document,
     create_qualification_document,
@@ -44,11 +45,9 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
     patch_qualification_document,
     create_qualification_document_after_status_change,
     put_qualification_document_after_status_change,
-    # Tender2LotQualificationResourceTest
     lot_patch_tender_qualifications,
     lot_get_tender_qualifications_collection,
     tender_qualification_cancelled,
-    # TenderQualificationResourceTest
     post_tender_qualifications,
     get_tender_qualifications_collection,
     patch_tender_qualifications,
@@ -58,15 +57,12 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
     lot_patch_tender_qualifications_lots_none,
     bot_patch_tender_qualification_complaint,
     bot_patch_tender_qualification_complaint_forbidden,
-    # TenderQualificationRequirementResponseResourceTest
     create_qualification_requirement_response,
     patch_qualification_requirement_response,
     get_qualification_requirement_response,
-    # TenderQualificationRequirementResponseEvidenceResourceTest
     create_qualification_requirement_response_evidence,
     patch_qualification_requirement_response_evidence,
     get_qualification_requirement_response_evidence,
-    # TenderQualificationDocumentWithDSResourceTest
     create_tender_qualifications_document_json_bulk,
 )
 
@@ -77,7 +73,7 @@ class TenderQualificationRequirementResponseTestMixin(object):
     test_patch_qualification_requirement_response = snitch(patch_qualification_requirement_response)
     test_get_qualification_requirement_response = snitch(get_qualification_requirement_response)
 
-    initial_criteria = test_criteria
+    initial_criteria = test_exclusion_criteria
 
     @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
     def setUp(self):
@@ -95,7 +91,7 @@ class TenderQualificationRequirementResponseEvidenceTestMixin(object):
     test_patch_qualification_requirement_response_evidence = snitch(patch_qualification_requirement_response_evidence)
     test_get_qualification_requirement_response_evidence = snitch(get_qualification_requirement_response_evidence)
 
-    initial_criteria = test_criteria
+    initial_criteria = test_exclusion_criteria
 
     @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
     def setUp(self):
@@ -145,8 +141,8 @@ class TenderQualificationRequirementResponseEvidenceTestMixin(object):
 
 class TenderQualificationBaseTestCase(BaseTenderContentWebTest):
     initial_status = "active.tendering"  # 'active.pre-qualification' status sets in setUp
-    initial_bids = test_bids
-    author_data = test_author
+    initial_bids = test_tender_openeu_bids
+    author_data = test_tender_below_author
     initial_auth = ("Basic", ("broker", ""))
     docservice = True
 
@@ -174,8 +170,8 @@ class TenderQualificationResourceTest(TenderQualificationBaseTestCase):
 
 class Tender2LotQualificationResourceTest(TenderQualificationBaseTestCase):
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
-    initial_lots = 2 * test_lots
-    initial_bids = test_bids
+    initial_lots = 2 * test_tender_openeu_lots
+    initial_bids = test_tender_openeu_bids
     initial_auth = ("Basic", ("broker", ""))
 
     test_patch_tender_qualifications = snitch(lot_patch_tender_qualifications)
@@ -186,7 +182,7 @@ class Tender2LotQualificationResourceTest(TenderQualificationBaseTestCase):
 
 class TenderQualificationDocumentResourceTest(TenderQualificationBaseTestCase):
     initial_status = "active.tendering"
-    initial_bids = test_bids
+    initial_bids = test_tender_openeu_bids
     initial_auth = ("Basic", ("broker", ""))
     docservice = True
 
@@ -214,9 +210,9 @@ class TenderQualificationDocumentWithDSResourceTest(TenderQualificationDocumentR
 
 class TenderQualificationComplaintResourceTest(TenderQualificationBaseTestCase):
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
-    initial_bids = test_bids
+    initial_bids = test_tender_openeu_bids
     initial_auth = ("Basic", ("broker", ""))
-    author_data = test_author
+    author_data = test_tender_below_author
 
     def setUp(self):
         super(TenderQualificationComplaintResourceTest, self).setUp()
@@ -256,7 +252,7 @@ class TenderQualificationComplaintResourceTest(TenderQualificationBaseTestCase):
 
 
 class TenderLotQualificationComplaintResourceTest(TenderQualificationComplaintResourceTest):
-    initial_lots = test_lots
+    initial_lots = test_tender_openeu_lots
 
     initial_auth = ("Basic", ("broker", ""))
 
@@ -267,7 +263,7 @@ class TenderLotQualificationComplaintResourceTest(TenderQualificationComplaintRe
 
 
 class Tender2LotQualificationComplaintResourceTest(TenderLotQualificationComplaintResourceTest):
-    initial_lots = 2 * test_lots
+    initial_lots = 2 * test_tender_openeu_lots
 
     initial_auth = ("Basic", ("broker", ""))
     after_qualification_switch_to = "active.auction"
@@ -347,7 +343,7 @@ class TenderQualificationComplaintDocumentResourceTest(TenderQualificationBaseTe
             "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
                 self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
             ),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]
@@ -360,7 +356,7 @@ class TenderQualificationComplaintDocumentResourceTest(TenderQualificationBaseTe
 
 
 class Tender2LotQualificationComplaintDocumentResourceTest(TenderQualificationComplaintDocumentResourceTest):
-    initial_lots = 2 * test_lots
+    initial_lots = 2 * test_tender_openeu_lots
 
     initial_auth = ("Basic", ("broker", ""))
 

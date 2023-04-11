@@ -5,34 +5,60 @@ from copy import deepcopy
 from mock import patch
 from datetime import timedelta
 from openprocurement.relocation.api.models import Transfer
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.base import (
+    test_exclusion_criteria,
+)
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.openeu.models import TENDERING_DURATION
 from openprocurement.api.models import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_tender_data, test_criteria, BaseTenderWebTest
-from openprocurement.tender.openua.tests.base import test_tender_data as test_ua_tender_data
-from openprocurement.tender.openuadefense.tests.base import test_tender_data as test_uadefense_tender_data
-from openprocurement.tender.simpledefense.tests.base import test_tender_data as test_simpledefense_tender_data
-from openprocurement.tender.openeu.tests.base import test_tender_data as test_eu_tender_data
+from openprocurement.tender.belowthreshold.tests.base import (
+    BaseTenderWebTest,
+    test_tender_below_data,
+    test_tender_below_config,
+)
+from openprocurement.tender.openua.tests.base import (
+    test_tender_openua_data,
+    test_tender_openua_config,
+)
+from openprocurement.tender.openuadefense.tests.base import (
+    test_tender_openuadefense_data,
+    test_tender_openuadefense_config,
+)
+from openprocurement.tender.simpledefense.tests.base import (
+    test_tender_simpledefense_data,
+    test_tender_simpledefense_config,
+)
+from openprocurement.tender.openeu.tests.base import (
+    test_tender_openeu_data,
+    test_tender_openeu_config,
+)
 from openprocurement.tender.competitivedialogue.tests.base import (
-    test_tender_data_eu as test_tender_data_competitive_eu,
-    test_tender_data_ua as test_tender_data_competitive_ua,
-    test_tender_stage2_data_eu,
-    test_tender_stage2_data_ua,
-    test_access_token_stage1,
+    test_tender_cdeu_data,
+    test_tender_cdua_data,
+    test_tender_cdeu_stage2_data,
+    test_tender_cdua_stage2_data,
+    test_tender_cd_access_token,
+    test_tender_cdua_config,
+    test_tender_cdeu_config,
+    test_tender_cdua_stage2_config,
+    test_tender_cdeu_stage2_config,
 )
 from openprocurement.tender.limited.tests.base import (
-    test_tender_data as test_tender_reporting_data,
+    test_tender_reporting_data,
     test_tender_negotiation_data,
     test_tender_negotiation_quick_data,
-    test_tender_config as test_tender_config_limited,
+    test_tender_reporting_config,
+    test_tender_negotiation_config,
+    test_tender_negotiation_quick_config,
 )
 
 
 class BaseTenderOwnershipChangeTest(BaseTenderWebTest):
     relative_to = os.path.dirname(__file__)
-    initial_data = test_tender_data
+    initial_data = test_tender_below_data
+    initial_config = test_tender_below_config
     first_owner = "brokerx"
     initial_auth = ("Basic", (first_owner, ""))
 
@@ -55,7 +81,7 @@ class TenderOwnershipChangeTest(BaseTenderOwnershipChangeTest):
     test_owner = "broker1t"
     invalid_owner = "broker3"
     central_owner = "broker5"
-    initial_criteria = test_criteria
+    initial_criteria = test_exclusion_criteria
 
     def setUp(self):
         super(TenderOwnershipChangeTest, self).setUp()
@@ -353,14 +379,16 @@ class TenderOwnershipChangeTest(BaseTenderOwnershipChangeTest):
 
 
 class OpenUATenderOwnershipChangeTest(TenderOwnershipChangeTest):
-    initial_data = test_ua_tender_data
+    initial_data = test_tender_openua_data
+    initial_config = test_tender_openua_config
     second_owner = "broker3"
     test_owner = "broker3t"
     invalid_owner = "broker1"
 
 
 class OpenUADefenseTenderOwnershipChangeTest(TenderOwnershipChangeTest):
-    initial_data = test_uadefense_tender_data
+    initial_data = test_tender_openuadefense_data
+    initial_config = test_tender_openuadefense_config
     second_owner = "broker3"
     test_owner = "broker3t"
     invalid_owner = "broker1"
@@ -377,7 +405,8 @@ class OpenUADefenseTenderOwnershipChangeTest(TenderOwnershipChangeTest):
 
 
 class SimpleDefenseTenderOwnershipChangeTest(TenderOwnershipChangeTest):
-    initial_data = test_simpledefense_tender_data
+    initial_data = test_tender_simpledefense_data
+    initial_config = test_tender_simpledefense_config
     second_owner = "broker3"
     test_owner = "broker3t"
     invalid_owner = "broker1"
@@ -394,21 +423,24 @@ class SimpleDefenseTenderOwnershipChangeTest(TenderOwnershipChangeTest):
 
 
 class OpenUACompetitiveTenderOwnershipChangeTest(TenderOwnershipChangeTest):
-    initial_data = test_tender_data_competitive_ua
+    initial_data = test_tender_cdua_data
+    initial_config = test_tender_cdua_config
     second_owner = "broker3"
     test_owner = "broker3t"
     invalid_owner = "broker1"
 
 
 class OpenEUCompetitiveTenderOwnershipChangeTest(TenderOwnershipChangeTest):
-    initial_data = test_tender_data_competitive_eu
+    initial_data = test_tender_cdeu_data
+    initial_config = test_tender_cdeu_config
     second_owner = "broker3"
     test_owner = "broker3t"
     invalid_owner = "broker1"
 
 
 class OpenUACompetitiveDialogueStage2TenderOwnershipChangeTest(TenderOwnershipChangeTest):
-    initial_data = test_tender_stage2_data_ua
+    initial_data = test_tender_cdua_stage2_data
+    initial_config = test_tender_cdua_stage2_config
     second_owner = "broker3"
     test_owner = "broker3t"
     invalid_owner = "broker1"
@@ -427,7 +459,7 @@ class OpenUACompetitiveDialogueStage2TenderOwnershipChangeTest(TenderOwnershipCh
         self.set_status("draft.stage2")
 
         response = self.app.patch_json(
-            "/tenders/{}/credentials?acc_token={}".format(self.tender_id, test_access_token_stage1), {"data": ""}
+            "/tenders/{}/credentials?acc_token={}".format(self.tender_id, test_tender_cd_access_token), {"data": ""}
         )
         self.tender_transfer = response.json["access"]["transfer"]
         tender_access_token = response.json["access"]["token"]
@@ -516,7 +548,7 @@ class OpenUACompetitiveDialogueStage2TenderOwnershipChangeTest(TenderOwnershipCh
         self.set_status("draft.stage2")
 
         response = self.app.patch_json(
-            "/tenders/{}/credentials?acc_token={}".format(tender["id"], test_access_token_stage1), {"data": ""}
+            "/tenders/{}/credentials?acc_token={}".format(tender["id"], test_tender_cd_access_token), {"data": ""}
         )
         access = response.json["access"]
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
@@ -549,14 +581,16 @@ class OpenUACompetitiveDialogueStage2TenderOwnershipChangeTest(TenderOwnershipCh
 class OpenEUCompetitiveDialogueStage2TenderOwnershipChangeTest(
     OpenUACompetitiveDialogueStage2TenderOwnershipChangeTest
 ):
-    initial_data = test_tender_stage2_data_eu
+    initial_data = test_tender_cdeu_stage2_data
+    initial_config = test_tender_cdeu_stage2_config
     second_owner = "broker3"
     invalid_owner = "broker1"
     test_owner = "broker3t"
 
 
 class OpenEUTenderOwnershipChangeTest(TenderOwnershipChangeTest):
-    initial_data = test_eu_tender_data
+    initial_data = test_tender_openeu_data
+    initial_config = test_tender_openeu_config
     second_owner = "broker3"
     test_owner = "broker3t"
     invalid_owner = "broker1"
@@ -564,7 +598,7 @@ class OpenEUTenderOwnershipChangeTest(TenderOwnershipChangeTest):
 
 class ReportingTenderOwnershipChangeTest(TenderOwnershipChangeTest):
     initial_data = test_tender_reporting_data
-    initial_config = test_tender_config_limited
+    initial_config = test_tender_reporting_config
     second_owner = "broker1"
     test_owner = "broker1t"
     invalid_owner = "broker4"
@@ -572,7 +606,7 @@ class ReportingTenderOwnershipChangeTest(TenderOwnershipChangeTest):
 
 class NegotiationTenderOwnershipChangeTest(TenderOwnershipChangeTest):
     initial_data = test_tender_negotiation_data
-    initial_config = test_tender_config_limited
+    initial_config = test_tender_negotiation_config
     second_owner = "broker3"
     test_owner = "broker3t"
     invalid_owner = "broker1"
@@ -580,7 +614,7 @@ class NegotiationTenderOwnershipChangeTest(TenderOwnershipChangeTest):
 
 class NegotiationQuickTenderOwnershipChangeTest(TenderOwnershipChangeTest):
     initial_data = test_tender_negotiation_quick_data
-    initial_config = test_tender_config_limited
+    initial_config = test_tender_negotiation_quick_config
     second_owner = "broker3"
     test_owner = "broker3t"
     invalid_owner = "broker1"

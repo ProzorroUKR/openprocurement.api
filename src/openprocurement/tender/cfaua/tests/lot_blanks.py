@@ -2,15 +2,17 @@
 import mock
 from copy import deepcopy
 from datetime import timedelta
-from email.header import Header
 
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_cancellation, test_claim
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_cancellation,
+    test_tender_below_claim,
+)
+from openprocurement.tender.core.tests.utils import change_auth
 
 
 def get_tender_lot(self):
@@ -1183,7 +1185,7 @@ def proc_1lot_1can(self):
     # self.assertTrue(all(["auctionPeriod" in i for i in response.json['data']['lots']]))
     # cancel lot
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -1423,7 +1425,7 @@ def question_blocking(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     # cancel lot
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -1444,7 +1446,7 @@ def question_blocking(self):
 
 def claim_blocking(self):
     self.app.authorization = ("Basic", ("broker", ""))
-    claim_data = deepcopy(test_claim)
+    claim_data = deepcopy(test_tender_below_claim)
     claim_data["relatedLot"] = self.initial_lots[0]["id"]
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
@@ -1463,7 +1465,7 @@ def claim_blocking(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     # cancel lot
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",

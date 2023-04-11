@@ -11,10 +11,12 @@ from openprocurement.framework.electroniccatalogue.tests.base import (
     BaseFrameworkWebTest,
 )
 
-from tests.base.data import tenderer
-from tests.base.test import DumpsWebTestApp, MockWebTestMixin
+from tests.base.data import test_docs_tenderer
+from tests.base.test import (
+    DumpsWebTestApp,
+    MockWebTestMixin,
+)
 from tests.base.constants import DOCS_URL
-
 
 TARGET_DIR = "docs/source/agreements/frameworks/http/"
 
@@ -46,23 +48,27 @@ class FrameworkAgreementResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
 
         response = self.app.post_json(
             '/submissions',
-            {'data': {
-                "tenderers": [tenderer],
-                "frameworkID": self.framework_id,
-            }}
+            {
+                'data': {
+                    "tenderers": [test_docs_tenderer],
+                    "frameworkID": self.framework_id,
+                }
+            }
         )
         self.submission_1_id = response.json["data"]["id"]
         self.submission_1_token = response.json["access"]["token"]
 
-        local_tenderer = deepcopy(tenderer)
+        local_tenderer = deepcopy(test_docs_tenderer)
         local_tenderer["identifier"]["id"] = "00137257"
 
         response = self.app.post_json(
             '/submissions',
-            {'data': {
-                "tenderers": [local_tenderer],
-                "frameworkID": self.framework_id,
-            }}
+            {
+                'data': {
+                    "tenderers": [local_tenderer],
+                    "frameworkID": self.framework_id,
+                }
+            }
         )
         self.submission_2_id = response.json["data"]["id"]
         self.submission_2_token = response.json["access"]["token"]
@@ -85,7 +91,6 @@ class FrameworkAgreementResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
             response = self.app.get(request_path)
             self.assertEqual(response.status, '200 OK')
 
-
         self.app.authorization = auth
 
         response = self.app.patch_json(
@@ -98,7 +103,7 @@ class FrameworkAgreementResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
             {'data': {"status": "active"}},
         )
 
-        with open(TARGET_DIR + 'example-framework.http', 'wb') as self.app.file_obj :
+        with open(TARGET_DIR + 'example-framework.http', 'wb') as self.app.file_obj:
             response = self.app.get(f'/frameworks/{self.framework_id}')
             self.assertEqual(response.status, '200 OK')
 
@@ -166,7 +171,6 @@ class FrameworkAgreementResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'agreement-view-terminated.http', 'wb') as self.app.file_obj:
             response = self.app.get(f'/agreements/{self.agreement_id}')
             self.assertEqual(response.status, '200 OK')
-
 
     def check_agreement_chronograph(self):
         with change_auth(self.app, ("Basic", ("chronograph", ""))):

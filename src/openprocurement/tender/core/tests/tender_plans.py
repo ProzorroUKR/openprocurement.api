@@ -1,31 +1,25 @@
 # -*- coding: utf-8 -*-
+import pytest
 from uuid import uuid4
-
+from copy import deepcopy
 from openprocurement.api.tests.base import singleton_app, app
 from openprocurement.planning.api.tests.base import test_plan_data
-from openprocurement.tender.belowthreshold.tests.base import test_tender_config
-from openprocurement.tender.openua.tests.base import test_tender_data
-from copy import deepcopy
-import pytest
+from openprocurement.tender.openua.tests.base import (
+    test_tender_openua_config,
+    test_tender_openua_data,
+)
 
 
-def test_get_tender_plans_404(app):
-    response = app.get("/tenders/{}/plans".format("a" * 32), status=404)
-    assert response.json == {"status": "error", "errors": [
-        {"location": "url", "name": "tender_id", "description": "Not Found"}]}
+test_tender_openua_central_data = deepcopy(test_tender_openua_data)
 
+test_plan_central_data = deepcopy(test_plan_data)
+test_plan_central_data["procuringEntity"]["identifier"] = test_tender_openua_central_data["procuringEntity"]["identifier"]
 
-test_tender_data = deepcopy(test_tender_data)
-
-test_plan_data = deepcopy(test_plan_data)
-test_plan_data["procuringEntity"]["identifier"] = test_tender_data["procuringEntity"]["identifier"]
-
-
-test_tender_data["status"] = "draft"
-test_tender_data["procuringEntity"]["kind"] = "central"
-test_tender_data["items"] = test_tender_data["items"][:1]
-test_tender_data["items"][0]["classification"]["id"] = test_plan_data["items"][0]["classification"]["id"]
-test_tender_data["buyers"] = [{
+test_tender_openua_central_data["status"] = "draft"
+test_tender_openua_central_data["procuringEntity"]["kind"] = "central"
+test_tender_openua_central_data["items"] = test_tender_openua_central_data["items"][:1]
+test_tender_openua_central_data["items"][0]["classification"]["id"] = test_plan_central_data["items"][0]["classification"]["id"]
+test_tender_openua_central_data["buyers"] = [{
     "id": uuid4().hex,
     "name": "name",
     "name_en": "name_en",
@@ -35,14 +29,20 @@ test_tender_data["buyers"] = [{
         "legalName": "ДП Державне Управління Справами"
     },
 }]
-test_tender_data["items"][0]["relatedBuyer"] = test_tender_data["buyers"][0]["id"]
+test_tender_openua_central_data["items"][0]["relatedBuyer"] = test_tender_openua_central_data["buyers"][0]["id"]
+
+
+def test_get_tender_plans_404(app):
+    response = app.get("/tenders/{}/plans".format("a" * 32), status=404)
+    assert response.json == {"status": "error", "errors": [
+        {"location": "url", "name": "tender_id", "description": "Not Found"}]}
 
 
 @pytest.fixture(scope="function")
 def tender(app):
     app.authorization = ("Basic", ("broker", "broker"))
-    test_data = deepcopy(test_tender_data)
-    response = app.post_json("/tenders", dict(data=test_data, config=test_tender_config))
+    test_data = deepcopy(test_tender_openua_central_data)
+    response = app.post_json("/tenders", dict(data=test_data, config=test_tender_openua_config))
     assert response.status == "201 Created"
     return response.json
 
@@ -50,7 +50,7 @@ def tender(app):
 @pytest.fixture(scope="function")
 def plan(app):
     app.authorization = ("Basic", ("broker", "broker"))
-    response = app.post_json("/plans", {"data": deepcopy(test_plan_data)})
+    response = app.post_json("/plans", {"data": deepcopy(test_plan_central_data)})
     return response.json
 
 
@@ -109,7 +109,7 @@ def test_post_tender_plan_success(app, tender, plan):
     assert response.json["data"]["dateModified"] > plan["data"]["dateModified"]
 
     # second plan
-    response = app.post_json("/plans", {"data": deepcopy(test_plan_data)})
+    response = app.post_json("/plans", {"data": deepcopy(test_plan_central_data)})
     another_plan = response.json
 
     response = app.post_json(
@@ -123,9 +123,9 @@ def test_post_tender_plan_success(app, tender, plan):
 def test_fail_not_draft(app, plan):
     app.authorization = ("Basic", ("broker", "broker"))
 
-    test_data = deepcopy(test_tender_data)
+    test_data = deepcopy(test_tender_openua_central_data)
     del test_data["status"]
-    response = app.post_json("/tenders", dict(data=test_data, config=test_tender_config))
+    response = app.post_json("/tenders", dict(data=test_data, config=test_tender_openua_config))
     assert response.status == "201 Created"
     app.set_initial_status(response.json, "active.tendering")
     tender = response.json
@@ -142,9 +142,9 @@ def test_fail_not_draft(app, plan):
 def test_fail_non_central(app, plan):
     app.authorization = ("Basic", ("broker", "broker"))
 
-    test_data = deepcopy(test_tender_data)
+    test_data = deepcopy(test_tender_openua_central_data)
     test_data["procuringEntity"]["kind"] = "general"
-    response = app.post_json("/tenders", dict(data=test_data, config=test_tender_config))
+    response = app.post_json("/tenders", dict(data=test_data, config=test_tender_openua_config))
     assert response.status == "201 Created"
     tender = response.json
 

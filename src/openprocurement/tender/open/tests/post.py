@@ -4,13 +4,17 @@ from datetime import timedelta
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_claim,
-    test_organization,
-    test_draft_complaint,
-    test_cancellation, test_lots,
+    test_tender_below_claim,
+    test_tender_below_organization,
+    test_tender_below_draft_complaint,
+    test_tender_below_cancellation,
+    test_tender_below_lots,
 )
-from openprocurement.tender.core.tests.base import change_auth
-from openprocurement.tender.open.tests.base import BaseTenderUAContentWebTest, test_bids
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.open.tests.base import (
+    BaseTenderUAContentWebTest,
+    test_tender_open_bids,
+)
 from openprocurement.tender.open.tests.post_blanks import (
     create_complaint_post_status_forbidden,
     create_complaint_post_claim_forbidden,
@@ -40,7 +44,7 @@ class TenderComplaintPostResourceMixin(object):
     complaint_id = None
     post_id = None
     document_id = None
-    claim_data = deepcopy(test_claim)
+    claim_data = deepcopy(test_tender_below_claim)
 
     def post_claim(self, status=201):
         url = "/tenders/{}/complaints".format(self.tender_id)
@@ -111,7 +115,7 @@ class TenderQualificationComplaintPostResourceMixin(object):
     complaint_id = None
     post_id = None
     document_id = None
-    claim_data = deepcopy(test_claim)
+    claim_data = deepcopy(test_tender_below_claim)
 
     def post_claim(self, status=201):
         url = "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
@@ -184,7 +188,7 @@ class TenderAwardComplaintPostResourceMixin(object):
     complaint_id = None
     post_id = None
     document_id = None
-    claim_data = deepcopy(test_claim)
+    claim_data = deepcopy(test_tender_below_claim)
 
     def post_claim(self, status=201):
         url = "/tenders/{}/awards/{}/complaints?acc_token={}".format(
@@ -347,7 +351,7 @@ class TenderComplaintPostResourceTest(
     TenderComplaintPostResourceMixin
 ):
     docservice = True
-    initial_lots = test_lots
+    initial_lots = test_tender_below_lots
 
     def setUp(self):
         super(TenderComplaintPostResourceTest, self).setUp()
@@ -355,7 +359,7 @@ class TenderComplaintPostResourceTest(
             "/tenders/{}/complaints".format(
                 self.tender_id
             ),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]
@@ -371,8 +375,8 @@ class TenderAwardComplaintPostResourceTest(
 ):
     docservice = True
     initial_status = "active.qualification"
-    initial_bids = test_bids
-    initial_lots = test_lots
+    initial_bids = test_tender_open_bids
+    initial_lots = test_tender_below_lots
 
     def setUp(self):
         super(TenderAwardComplaintPostResourceTest, self).setUp()
@@ -381,7 +385,7 @@ class TenderAwardComplaintPostResourceTest(
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
                 {"data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "lotID": self.initial_lots[0]["id"]
@@ -408,7 +412,7 @@ class TenderAwardComplaintPostResourceTest(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(
                 self.tender_id, self.award_id, self.initial_bids_tokens[self.initial_bids[0]["id"]]
             ),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]
@@ -425,7 +429,7 @@ class TenderCancellationComplaintPostResourceTest(
     TenderCancellationComplaintPostResourceMixin
 ):
     docservice = True
-    initial_lots = test_lots
+    initial_lots = test_tender_below_lots
 
     @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", date_after_2020_04_19)
     @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", date_after_2020_04_19)
@@ -434,7 +438,7 @@ class TenderCancellationComplaintPostResourceTest(
         super(TenderCancellationComplaintPostResourceTest, self).setUp()
 
         # Create cancellation
-        cancellation = dict(**test_cancellation)
+        cancellation = dict(**test_tender_below_cancellation)
         cancellation.update({
             "reasonType": "noDemand"
         })
@@ -471,7 +475,7 @@ class TenderCancellationComplaintPostResourceTest(
             "/tenders/{}/cancellations/{}/complaints".format(
                 self.tender_id, self.cancellation_id
             ),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]

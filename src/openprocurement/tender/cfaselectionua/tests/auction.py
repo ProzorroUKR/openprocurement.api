@@ -6,11 +6,11 @@ from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.cfaselectionua.tests.base import (
     TenderContentWebTest,
-    test_tender_data,
-    test_agreement_features,
-    test_bids,
-    test_lots,
-    test_organization,
+    test_tender_cfaselectionua_data,
+    test_tender_cfaselectionua_agreement_features,
+    test_tender_cfaselectionua_bids,
+    test_tender_cfaselectionua_lots,
+    test_tender_cfaselectionua_organization,
 )
 from openprocurement.tender.cfaselectionua.tests.auction_blanks import (
     # TenderAuctionResourceTest
@@ -45,7 +45,7 @@ from openprocurement.tender.cfaselectionua.tests.auction_blanks import (
 
 
 skip_multi_lots = True
-auction_test_tender_data = test_tender_data.copy()
+auction_test_tender_data = test_tender_cfaselectionua_data.copy()
 auction_test_tender_data["submissionMethodDetails"] = "test submissionMethodDetails"
 
 
@@ -72,10 +72,10 @@ class TenderMultipleLotAuctionResourceTestMixin(object):
 
 class TenderLotAuctionResourceTest(TenderContentWebTest, TenderLotAuctionResourceTestMixin):
     docservice = True
-    initial_lots = test_lots
+    initial_lots = test_tender_cfaselectionua_lots
     initial_data = auction_test_tender_data
     initial_status = "active.tendering"
-    initial_bids = deepcopy(test_bids)
+    initial_bids = deepcopy(test_tender_cfaselectionua_bids)
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
@@ -85,10 +85,10 @@ class TenderLotAuctionResourceTest(TenderContentWebTest, TenderLotAuctionResourc
 @unittest.skipIf(skip_multi_lots, "Skip multi-lots tests")
 class TenderMultipleLotAuctionResourceTest(TenderContentWebTest, TenderMultipleLotAuctionResourceTestMixin):
     docservice = True
-    initial_lots = 2 * test_lots
+    initial_lots = 2 * test_tender_cfaselectionua_lots
     initial_data = auction_test_tender_data
     initial_status = "active.tendering"
-    initial_bids = deepcopy(test_bids)
+    initial_bids = deepcopy(test_tender_cfaselectionua_bids)
     initial_auth = ("Basic", ("broker", ""))
 
     test_patch_tender_auction = snitch(patch_tender_lots_auction)
@@ -96,18 +96,18 @@ class TenderMultipleLotAuctionResourceTest(TenderContentWebTest, TenderMultipleL
 
 class TenderFeaturesAuctionResourceTest(TenderContentWebTest):
     docservice = True
-    initial_agreement = deepcopy(test_agreement_features)
+    initial_agreement = deepcopy(test_tender_cfaselectionua_agreement_features)
     initial_status = "active.tendering"
-    initial_lots = deepcopy(test_lots)
+    initial_lots = deepcopy(test_tender_cfaselectionua_lots)
     initial_bids = [
         {
-            "parameters": [{"code": i["code"], "value": 0.1} for i in test_agreement_features["features"]],
-            "tenderers": [test_organization],
+            "parameters": [{"code": i["code"], "value": 0.1} for i in test_tender_cfaselectionua_agreement_features["features"]],
+            "tenderers": [test_tender_cfaselectionua_organization],
             "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
         },
         {
-            "parameters": [{"code": i["code"], "value": 0.15} for i in test_agreement_features["features"]],
-            "tenderers": [test_organization],
+            "parameters": [{"code": i["code"], "value": 0.15} for i in test_tender_cfaselectionua_agreement_features["features"]],
+            "tenderers": [test_tender_cfaselectionua_organization],
             "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
         },
     ]
@@ -118,7 +118,7 @@ class TenderFeaturesAuctionResourceTest(TenderContentWebTest):
 
 class TenderFeaturesLotAuctionResourceTest(TenderLotAuctionResourceTestMixin, TenderFeaturesAuctionResourceTest):
     docservice = True
-    initial_lots = test_lots
+    initial_lots = test_tender_cfaselectionua_lots
     test_get_tender_auction = snitch(get_tender_lot_auction_features)
     test_post_tender_auction = snitch(post_tender_lot_auction_features)
 
@@ -128,7 +128,7 @@ class TenderFeaturesMultilotAuctionResourceTest(
     TenderMultipleLotAuctionResourceTestMixin, TenderFeaturesAuctionResourceTest
 ):
     docservice = True
-    initial_lots = test_lots * 2
+    initial_lots = test_tender_cfaselectionua_lots * 2
     test_get_tender_auction = snitch(get_tender_lots_auction_features)
     test_post_tender_auction = snitch(post_tender_lots_auction_features)
 

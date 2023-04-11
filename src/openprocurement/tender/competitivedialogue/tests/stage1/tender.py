@@ -20,12 +20,12 @@ from openprocurement.tender.openua.tests.tender_blanks import (
 )
 
 from openprocurement.tender.competitivedialogue.tests.base import (
-    test_tender_data_ua,
-    test_tender_data_eu,
     BaseCompetitiveDialogEUWebTest,
     BaseCompetitiveDialogUAWebTest,
-    test_lots,
-    test_bids_stage1 as test_bids,
+    test_tender_cd_lots,
+    test_tender_cd_stage1_bids,
+    test_tender_cdua_data,
+    test_tender_cdeu_data,
 )
 from openprocurement.tender.competitivedialogue.tests.stage1.tender_blanks import (
     patch_tender_eu_ua,
@@ -51,9 +51,9 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderReso
     """
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
-    initial_data = test_tender_data_eu
-    test_lots_data = test_lots
-    test_bids_data = test_bids
+    initial_data = test_tender_cdeu_data
+    test_lots_data = test_tender_cd_lots
+    test_bids_data = test_tender_cd_stage1_bids
 
     test_empty_listing = snitch(empty_listing)
     test_create_tender_invalid = snitch(create_tender_invalid_eu)
@@ -80,8 +80,8 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderReso
 
 class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest, TenderResourceTestMixin):
     docservice = True
-    initial_data = test_tender_data_ua
-    test_lots_data = test_lots
+    initial_data = test_tender_cdua_data
+    test_lots_data = test_tender_cd_lots
 
     test_empty_listing = snitch(empty_listing)
     test_create_tender_invalid = snitch(create_tender_invalid_ua)

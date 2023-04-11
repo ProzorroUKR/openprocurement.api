@@ -39,13 +39,12 @@ from openprocurement.tender.competitivedialogue.tests.stage2.tender_blanks impor
     create_tender_central,
 )
 from openprocurement.tender.competitivedialogue.tests.base import (
-    BaseCompetitiveDialogApiWebTest,
     BaseCompetitiveDialogEUStage2WebTest,
     BaseCompetitiveDialogUAStage2WebTest,
-    test_tender_stage2_data_ua,
-    test_tender_stage2_data_eu,
-    test_access_token_stage1,
-    test_author,
+    test_tender_cdua_stage2_data,
+    test_tender_cdeu_stage2_data,
+    test_tender_cd_access_token,
+    test_tender_cd_author,
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 
@@ -53,10 +52,10 @@ from openprocurement.tender.core.tests.criteria_utils import add_criteria
 class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest):
     docservice = True
     initial_auth = ("Basic", ("competitive_dialogue", ""))
-    author_data = test_author
-    initial_data = test_tender_stage2_data_eu
-    test_tender_data_eu = test_tender_stage2_data_eu  # TODO: change attribute identifier
-    test_access_token_data = test_access_token_stage1  # TODO: change attribute identifier
+    author_data = test_tender_cd_author
+    initial_data = test_tender_cdeu_stage2_data
+    test_tender_data_eu = test_tender_cdeu_stage2_data  # TODO: change attribute identifier
+    test_access_token_data = test_tender_cd_access_token  # TODO: change attribute identifier
 
     def set_tender_status(self, tender, token, status):
         auth = self.app.authorization
@@ -99,10 +98,10 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
 
 class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
     docservice = True
-    initial_data = test_tender_stage2_data_ua
-    test_tender_data_eu = test_tender_stage2_data_eu  # TODO: change attribute identifier
-    test_access_token_data = test_access_token_stage1  # TODO: change attribute identifier
-    author_data = test_author
+    initial_data = test_tender_cdua_stage2_data
+    test_tender_data_eu = test_tender_cdeu_stage2_data  # TODO: change attribute identifier
+    test_access_token_data = test_tender_cd_access_token  # TODO: change attribute identifier
+    author_data = test_tender_cd_author
 
     def set_tender_status(self, tender, token, status):
         auth = self.app.authorization
@@ -145,8 +144,8 @@ class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
 
 class TenderStage2UAProcessTest(BaseCompetitiveDialogUAStage2WebTest):
     docservice = True
-    test_tender_data_ua = test_tender_stage2_data_ua  # TODO: change attribute identifier
-    author_data = test_author  # TODO: change attribute identifier
+    test_tender_data_ua = test_tender_cdua_stage2_data  # TODO: change attribute identifier
+    author_data = test_tender_cd_author  # TODO: change attribute identifier
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_one_valid_bid_tender_ua = snitch(one_valid_bid_tender_ua)

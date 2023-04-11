@@ -4,9 +4,12 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.cfaua.tests.base import BaseTenderContentWebTest, test_bids, test_lots
+from openprocurement.tender.cfaua.tests.base import (
+    BaseTenderContentWebTest,
+    test_tender_cfaua_bids,
+    test_tender_cfaua_lots,
+)
 from openprocurement.tender.cfaua.tests.agreement_blanks import (
-    # TenderAgreementResourceTest
     agreement_cancellation,
     agreement_termination,
     create_tender_agreement_document,
@@ -42,8 +45,8 @@ class TenderAgreementDocumentResourceTestMixin(object):
 
 class TenderAgreementResourceTest(BaseTenderContentWebTest, TenderAgreementResourceTestMixin):
     initial_status = "active.awarded"
-    initial_bids = test_bids
-    initial_lots = test_lots
+    initial_bids = test_tender_cfaua_bids
+    initial_lots = test_tender_cfaua_lots
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
@@ -61,14 +64,14 @@ class TenderAgreementResourceTest(BaseTenderContentWebTest, TenderAgreementResou
     test_patch_lots_agreement_contract_unit_prices = snitch(patch_lots_agreement_contract_unit_prices)
 
 
-four_bids = deepcopy(test_bids)
+four_bids = deepcopy(test_tender_cfaua_bids)
 four_bids += [four_bids[0]]
 
 
 class TenderAgreement4ContractsResourceTest(BaseTenderContentWebTest):
     initial_status = "active.awarded"
     initial_bids = four_bids
-    initial_lots = test_lots
+    initial_lots = test_tender_cfaua_lots
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
@@ -82,8 +85,8 @@ class TenderAgreement4ContractsResourceTest(BaseTenderContentWebTest):
 class TenderAgreementDocumentResourceTest(BaseTenderContentWebTest, TenderAgreementDocumentResourceTestMixin):
     # initial_data = tender_data
     initial_status = "active.awarded"
-    initial_bids = test_bids
-    initial_lots = test_lots
+    initial_bids = test_tender_cfaua_bids
+    initial_lots = test_tender_cfaua_lots
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):

@@ -1,43 +1,66 @@
-from openprocurement.api.tests.base import singleton_app, app
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization,
-    test_tender_data as belowthreshold_tender_data,
-    test_tender_config as below_tender_config,
-    test_cancellation,
-    test_complaint,
-)
-from openprocurement.tender.openua.tests.base import test_tender_data as ua_tender_data
-from openprocurement.tender.cfaselectionua.tests.base import (
-    test_tender_data as cfaselection_tender_data,
-    test_lots as cfaselection_lots,
-)
-from openprocurement.tender.openuadefense.tests.base import test_tender_data as defense_tender_data
-from openprocurement.tender.simpledefense.tests.base import test_tender_data as simpledefense_tender_data
-from openprocurement.tender.openeu.tests.base import test_tender_data as eu_tender_data
-from openprocurement.tender.esco.tests.base import test_tender_data as esco_tender_data
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
-from openprocurement.tender.competitivedialogue.tests.base import (
-    test_tender_data_ua as cd_tender_data_ua,
-    test_tender_data_eu as cd_tender_data_eu,
-    test_tender_stage2_data_ua as cd_tender_stage2_data_ua,
-    test_tender_stage2_data_eu as cd_tender_stage2_data_eu,
-)
-from openprocurement.tender.cfaua.tests.base import (
-    test_tender_data as cfaua_tender_data,
-    test_lots as cfa_lots,
-)
-from openprocurement.tender.limited.tests.base import (
-    test_tender_data as limited_tender_data,
-    test_tender_negotiation_data,
-    test_tender_negotiation_quick_data,
-    test_tender_config as limited_tender_config,
-)
-from datetime import timedelta
-from openprocurement.api.utils import raise_operation_error, get_now
-from openprocurement.api.constants import RELEASE_2020_04_19
-from copy import deepcopy
 import mock
 import pytest
+from datetime import timedelta
+from copy import deepcopy
+from openprocurement.api.tests.base import singleton_app, app
+from openprocurement.api.utils import raise_operation_error, get_now
+from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+    test_tender_below_data,
+    test_tender_below_config,
+    test_tender_below_cancellation,
+    test_tender_below_complaint,
+)
+from openprocurement.tender.openua.tests.base import (
+    test_tender_openua_data,
+    test_tender_openua_config,
+)
+from openprocurement.tender.cfaselectionua.tests.base import (
+    test_tender_cfaselectionua_data,
+    test_tender_cfaselectionua_lots,
+    test_tender_cfaselectionua_config,
+)
+from openprocurement.tender.openuadefense.tests.base import (
+    test_tender_openuadefense_data,
+    test_tender_openuadefense_config,
+)
+from openprocurement.tender.simpledefense.tests.base import (
+    test_tender_simpledefense_data,
+    test_tender_simpledefense_config,
+)
+from openprocurement.tender.openeu.tests.base import (
+    test_tender_openeu_data,
+    test_tender_openeu_config,
+)
+from openprocurement.tender.esco.tests.base import (
+    test_tender_esco_data,
+    test_tender_esco_config,
+)
+from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
+from openprocurement.tender.competitivedialogue.tests.base import (
+    test_tender_cdua_data,
+    test_tender_cdeu_data,
+    test_tender_cdua_stage2_data,
+    test_tender_cdeu_stage2_data,
+    test_tender_cdeu_config,
+    test_tender_cdua_config,
+    test_tender_cdeu_stage2_config,
+    test_tender_cdua_stage2_config,
+)
+from openprocurement.tender.cfaua.tests.base import (
+    test_tender_cfaua_data,
+    test_tender_cfaua_lots,
+    test_tender_cfaua_config,
+)
+from openprocurement.tender.limited.tests.base import (
+    test_tender_reporting_data,
+    test_tender_negotiation_data,
+    test_tender_negotiation_quick_data,
+    test_tender_reporting_config,
+    test_tender_negotiation_config,
+    test_tender_negotiation_quick_config,
+)
 
 
 def post_tender(app, data, config):
@@ -61,28 +84,28 @@ def post_tender(app, data, config):
 
 
 # TENDER COMPLAINTS
-cfaua_tender_data = dict(**cfaua_tender_data)
-cfaua_tender_data["lots"] = cfa_lots
+test_tender_cfaua_data = dict(**test_tender_cfaua_data)
+test_tender_cfaua_data["lots"] = test_tender_cfaua_lots
 
-cfaselection_tender_data = dict(**cfaselection_tender_data)
-cfaselection_tender_data["lots"] = cfaselection_lots
+test_tender_cfaselectionua_data = dict(**test_tender_cfaselectionua_data)
+test_tender_cfaselectionua_data["lots"] = test_tender_cfaselectionua_lots
 
 procedures = (
-    (belowthreshold_tender_data, below_tender_config),
-    (cfaselection_tender_data, below_tender_config),
-    (cfaua_tender_data, below_tender_config),
-    (cd_tender_data_ua, below_tender_config),
-    (cd_tender_data_eu, below_tender_config),
-    (cd_tender_stage2_data_ua, below_tender_config),
-    (cd_tender_stage2_data_eu, below_tender_config),
-    (esco_tender_data, below_tender_config),
-    (limited_tender_data, limited_tender_config),
-    (test_tender_negotiation_data, limited_tender_config),
-    (test_tender_negotiation_quick_data, limited_tender_config),
-    (ua_tender_data, below_tender_config),
-    (eu_tender_data, below_tender_config),
-    (defense_tender_data, below_tender_config),
-    (simpledefense_tender_data, below_tender_config),
+    (test_tender_below_data, test_tender_below_config),
+    (test_tender_cfaselectionua_data, test_tender_cfaselectionua_config),
+    (test_tender_cfaua_data, test_tender_cfaua_config),
+    (test_tender_cdeu_data, test_tender_cdeu_config),
+    (test_tender_cdua_data, test_tender_cdua_config),
+    (test_tender_cdeu_stage2_data, test_tender_cdeu_stage2_config),
+    (test_tender_cdua_stage2_data, test_tender_cdua_stage2_config),
+    (test_tender_esco_data, test_tender_esco_config),
+    (test_tender_reporting_data, test_tender_reporting_config),
+    (test_tender_negotiation_data, test_tender_negotiation_config),
+    (test_tender_negotiation_quick_data, test_tender_negotiation_quick_config),
+    (test_tender_openua_data, test_tender_openua_config),
+    (test_tender_openeu_data, test_tender_openeu_config),
+    (test_tender_openuadefense_data, test_tender_openuadefense_config),
+    (test_tender_simpledefense_data, test_tender_simpledefense_config),
 )
 
 
@@ -101,7 +124,7 @@ def test_post_cancellation(app, tender_data, tender_config):
             "openprocurement.tender.core.validation.validate_absence_of_pending_accepted_satisfied_complaints",
             mock_validate
         ):
-            cancellation = dict(**test_cancellation)
+            cancellation = dict(**test_tender_below_cancellation)
             cancellation.update({"status": "active"})
             response = app.post_json(
                 "/tenders/{}/cancellations?acc_token={}".format(tender["id"], tender_token),
@@ -129,7 +152,7 @@ def test_patch_cancellation(app, tender_data, tender_config):
         if get_now() < RELEASE_2020_04_19:
             response = app.post_json(
                 "/tenders/{}/cancellations?acc_token={}".format(tender["id"], tender_token),
-                {"data": test_cancellation},
+                {"data": test_tender_below_cancellation},
             )
             assert response.status_code == 201
             cancellation = response.json["data"]
@@ -157,23 +180,23 @@ def test_post_cancellation_openeu(app):
     """
     test without mocking (just in case)
     """
-    tender, tender_token = post_tender(app, eu_tender_data, below_tender_config)
+    tender, tender_token = post_tender(app, test_tender_openeu_data, test_tender_below_config)
     tender_data = app.app.registry.mongodb.tenders.get(tender["id"])
     app.tender_id = tender["id"]
 
     # award complaint
-    complaint = deepcopy(test_complaint)
+    complaint = deepcopy(test_tender_below_complaint)
     tender_data["awards"] = [
         {
             "id": "0" * 32,
             "bid_id": "0" * 32,
-            "suppliers": [test_organization],
+            "suppliers": [test_tender_below_organization],
             "complaints": [complaint]
         }
     ]
     app.app.registry.mongodb.tenders.save(tender_data)
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({"status": "active"})
     if get_now() < RELEASE_2020_04_19:
         with mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(1)):
@@ -187,7 +210,7 @@ def test_post_cancellation_openeu(app):
              'location': 'body', 'name': 'data'}]}
 
         # qualification complaints
-        complaint = deepcopy(test_complaint)
+        complaint = deepcopy(test_tender_below_complaint)
         complaint.update(
             status="accepted",
         )
@@ -199,7 +222,7 @@ def test_post_cancellation_openeu(app):
         ]
         app.app.registry.mongodb.tenders.save(tender_data)
 
-        cancellation = dict(**test_cancellation)
+        cancellation = dict(**test_tender_below_cancellation)
         cancellation.update({"status": "active"})
         with mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(1)):
             response = app.post_json(
@@ -212,14 +235,14 @@ def test_post_cancellation_openeu(app):
              'location': 'body', 'name': 'data'}]}
 
         # tender complaint
-        complaint = deepcopy(test_complaint)
+        complaint = deepcopy(test_tender_below_complaint)
         complaint.update(
             status="satisfied",
         )
         tender_data["complaints"] = [complaint]
         app.app.registry.mongodb.tenders.save(tender_data)
 
-        cancellation = dict(**test_cancellation)
+        cancellation = dict(**test_tender_below_cancellation)
         cancellation.update({"status": "active"})
         with mock.patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(1)):
             response = app.post_json(

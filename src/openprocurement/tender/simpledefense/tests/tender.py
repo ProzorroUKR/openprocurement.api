@@ -2,7 +2,7 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_lots
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
@@ -28,8 +28,8 @@ from openprocurement.tender.openua.tests.tender_blanks import (
 
 from openprocurement.tender.simpledefense.tests.base import (
     BaseSimpleDefWebTest,
-    test_tender_data,
-    test_bids,
+    test_tender_simpledefense_data,
+    test_tender_simpledefense_bids,
 )
 from openprocurement.tender.simpledefense.tests.tender_blanks import create_tender_invalid
 from openprocurement.tender.openuadefense.tests.tender_blanks import (
@@ -45,8 +45,8 @@ from openprocurement.tender.openuadefense.tests.tender_blanks import (
 
 class TenderUAResourceTest(BaseSimpleDefWebTest, TenderResourceTestMixin):
     docservice = True
-    initial_data = test_tender_data
-    test_lots_data = test_lots
+    initial_data = test_tender_simpledefense_data
+    test_lots_data = test_tender_below_lots
 
     test_empty_listing = snitch(empty_listing)
     test_create_tender_invalid = snitch(create_tender_invalid)
@@ -68,8 +68,8 @@ class TenderUAResourceTest(BaseSimpleDefWebTest, TenderResourceTestMixin):
 
 class TenderUAProcessTest(BaseSimpleDefWebTest, TenderUaProcessTestMixin):
     docservice = True
-    initial_data = test_tender_data
-    test_bids_data = test_bids
+    initial_data = test_tender_simpledefense_data
+    test_bids_data = test_tender_simpledefense_bids
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_one_valid_bid_tender_ua = snitch(one_valid_bid_tender_ua)

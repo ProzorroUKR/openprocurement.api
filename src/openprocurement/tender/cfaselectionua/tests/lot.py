@@ -3,43 +3,29 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.cfaselectionua.tests.base import BaseTenderWebTest, TenderContentWebTest, test_lots
+from openprocurement.tender.cfaselectionua.tests.base import (
+    BaseTenderWebTest,
+    TenderContentWebTest,
+    test_tender_cfaselectionua_lots,
+)
 from openprocurement.tender.cfaselectionua.tests.lot_blanks import (
-    # Tender Lot Resouce Test
     create_tender_lot_invalid,
-    create_tender_lot,
     patch_tender_lot,
     patch_tender_lot_invalid,
     patch_tender_currency,
     patch_tender_vat,
     get_tender_lot,
     get_tender_lots,
-    delete_tender_lot,
     tender_lot_guarantee,
-    # Tender Lot Feature Resource Test
     tender_value,
     tender_features_invalid,
     tender_lot_document,
-    # Tender Lot Bid Resource Test
     create_tender_bid_invalid,
     patch_tender_bid,
-    # Tender Lot Feature Bid Resource Test
     create_tender_bid_invalid_feature,
-    create_tender_bid_feature,
-    # Tender Lot Process Test
     proc_1lot_0bid,
     proc_1lot_1bid,
     proc_1lot_2bid,
-    proc_2lot_0bid,
-    proc_2lot_2can,
-    proc_2lot_2bid_0com_1can_before_auction,
-    proc_2lot_1bid_0com_1can,
-    proc_2lot_1bid_2com_1win,
-    proc_2lot_1bid_0com_0win,
-    proc_2lot_1bid_1com_1win,
-    proc_2lot_2bid_2com_2win,
-    proc_2lot_1feature_2bid_2com_2win,
-    proc_2lot_2diff_bids_check_auction,
     patch_lot_guarantee_on_active_enquiries,
 )
 
@@ -72,8 +58,8 @@ class TenderLotProcessTestMixin(object):
 
 class TenderLotResourceTest(TenderContentWebTest, TenderLotResourceTestMixin):
     initial_status = "active.enquiries"
-    initial_lots = test_lots
-    test_lots_data = test_lots
+    initial_lots = test_tender_cfaselectionua_lots
+    test_lots_data = test_tender_cfaselectionua_lots
 
     test_get_tender_lot = snitch(get_tender_lot)
     test_get_tender_lots = snitch(get_tender_lots)
@@ -83,7 +69,7 @@ class TenderLotResourceTest(TenderContentWebTest, TenderLotResourceTestMixin):
 @unittest.skip("Skip multi-lots tests")
 class TenderLotFeatureResourceTest(TenderContentWebTest, TenderLotFeatureResourceTestMixin):
     initial_status = "active.enquiries"
-    initial_lots = 2 * test_lots
+    initial_lots = 2 * test_tender_cfaselectionua_lots
     invalid_feature_value = 0.5
     max_feature_value = 0.3
     sum_of_max_value_of_all_features = 0.3
@@ -91,7 +77,7 @@ class TenderLotFeatureResourceTest(TenderContentWebTest, TenderLotFeatureResourc
 
 class TenderLotBidResourceTest(TenderContentWebTest):
     initial_status = "active.tendering"
-    initial_lots = test_lots
+    initial_lots = test_tender_cfaselectionua_lots
 
     test_create_tender_bid_invalid = snitch(create_tender_bid_invalid)
     test_patch_tender_bid = snitch(patch_tender_bid)
@@ -100,7 +86,7 @@ class TenderLotBidResourceTest(TenderContentWebTest):
 @unittest.skip("Skip multi-lots tests")
 class TenderLotFeatureBidResourceTest(TenderContentWebTest):
     initial_status = "active.enquiries"
-    initial_lots = test_lots
+    initial_lots = test_tender_cfaselectionua_lots
 
     def setUp(self):
         super(TenderLotFeatureBidResourceTest, self).setUp()
@@ -146,8 +132,8 @@ class TenderLotFeatureBidResourceTest(TenderContentWebTest):
 
 class TenderLotProcessTest(BaseTenderWebTest, TenderLotProcessTestMixin):
     # initial_status = 'active.enquiries'
-    test_lots_data = test_lots
-    initial_lots = test_lots
+    test_lots_data = test_tender_cfaselectionua_lots
+    initial_lots = test_tender_cfaselectionua_lots
     days_till_auction_starts = 10
 
     test_proc_1lot_1bid = snitch(proc_1lot_1bid)

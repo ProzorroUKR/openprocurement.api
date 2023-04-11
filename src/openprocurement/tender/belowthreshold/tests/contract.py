@@ -5,10 +5,10 @@ from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
-    test_bids,
-    test_lots,
-    test_organization,
-    test_tender_data_multi_buyers,
+    test_tender_below_bids,
+    test_tender_below_lots,
+    test_tender_below_organization,
+    test_tender_below_multi_buyers_data,
 )
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     # TenderContractResourceTest
@@ -71,7 +71,7 @@ class TenderContractDocumentResourceTestMixin(object):
 
 class TenderContractResourceTest(TenderContentWebTest, TenderContractResourceTestMixin):
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_below_bids
 
     def create_award(self):
         auth = self.app.authorization
@@ -80,7 +80,7 @@ class TenderContractResourceTest(TenderContentWebTest, TenderContractResourceTes
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "value": self.initial_data["value"],
@@ -121,7 +121,7 @@ class TenderContractResourceTest(TenderContentWebTest, TenderContractResourceTes
 
 class TenderContractVATNotIncludedResourceTest(TenderContentWebTest, TenderContractResourceTestMixin):
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_below_bids
 
     def create_award(self):
         auth = self.app.authorization
@@ -130,7 +130,7 @@ class TenderContractVATNotIncludedResourceTest(TenderContentWebTest, TenderContr
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "items": self.initial_data["items"],
@@ -161,8 +161,8 @@ class TenderContractVATNotIncludedResourceTest(TenderContentWebTest, TenderContr
 
 class Tender2LotContractResourceTest(TenderContentWebTest):
     initial_status = "active.qualification"
-    initial_bids = test_bids
-    initial_lots = 2 * test_lots
+    initial_bids = test_tender_below_bids
+    initial_lots = 2 * test_tender_below_lots
 
     def setUp(self):
         super(Tender2LotContractResourceTest, self).setUp()
@@ -174,7 +174,7 @@ class Tender2LotContractResourceTest(TenderContentWebTest):
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "lotID": self.initial_lots[0]["id"],
@@ -195,7 +195,7 @@ class Tender2LotContractResourceTest(TenderContentWebTest):
 
 class TenderContractDocumentResourceTest(TenderContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_below_bids
     docservice = True
 
     def setUp(self):
@@ -206,7 +206,7 @@ class TenderContractDocumentResourceTest(TenderContentWebTest, TenderContractDoc
 
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
-            {"data": {"suppliers": [test_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+            {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
         )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -238,8 +238,8 @@ class TenderContractDocumentResourceTest(TenderContentWebTest, TenderContractDoc
 
 class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
     initial_status = "active.qualification"
-    initial_bids = test_bids
-    initial_lots = 2 * test_lots
+    initial_bids = test_tender_below_bids
+    initial_lots = 2 * test_tender_below_lots
     docservice = True
 
     def setUp(self):
@@ -252,7 +252,7 @@ class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "lotID": self.initial_lots[0]["id"],
@@ -289,8 +289,8 @@ class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
 
 class TenderContractMultiBuyersResourceTest(TenderContentWebTest):
     initial_status = "active.qualification"
-    initial_bids = test_bids
-    initial_data = test_tender_data_multi_buyers
+    initial_bids = test_tender_below_bids
+    initial_data = test_tender_below_multi_buyers_data
 
     def setUp(self):
         super(TenderContractMultiBuyersResourceTest, self).setUp()
@@ -308,9 +308,9 @@ class TenderContractMultiBuyersResourceTest(TenderContentWebTest):
 
 class TenderLotContractMultiBuyersResourceTest(TenderContentWebTest):
     initial_status = "active.qualification"
-    initial_data = test_tender_data_multi_buyers
-    initial_bids = test_bids
-    initial_lots = test_lots
+    initial_data = test_tender_below_multi_buyers_data
+    initial_bids = test_tender_below_bids
+    initial_lots = test_tender_below_lots
 
     def setUp(self):
         super(TenderLotContractMultiBuyersResourceTest, self).setUp()
@@ -322,7 +322,7 @@ class TenderLotContractMultiBuyersResourceTest(TenderContentWebTest):
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "lotID": self.initial_lots[0]["id"],

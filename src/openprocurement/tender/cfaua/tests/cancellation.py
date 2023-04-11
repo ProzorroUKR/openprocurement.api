@@ -9,7 +9,10 @@ from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.belowthreshold.tests.cancellation import (
     TenderCancellationResourceTestMixin,
 )
-from openprocurement.tender.belowthreshold.tests.base import test_author, test_cancellation
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_author,
+    test_tender_below_cancellation,
+)
 from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     create_tender_lot_cancellation,
     patch_tender_lot_cancellation,
@@ -52,7 +55,11 @@ from openprocurement.tender.openeu.tests.cancellation_blanks import (
     create_cancellation_in_qualification_complaint_period,
 )
 
-from openprocurement.tender.cfaua.tests.base import BaseTenderContentWebTest, test_lots, test_bids
+from openprocurement.tender.cfaua.tests.base import (
+    BaseTenderContentWebTest,
+    test_tender_cfaua_lots,
+    test_tender_cfaua_bids,
+)
 
 no_award_logic = True
 one_lot_restriction = True
@@ -73,7 +80,7 @@ class TenderCancellationResourceTest(
 
 
 class TenderLotCancellationResourceTest(BaseTenderContentWebTest):
-    initial_lots = test_lots
+    initial_lots = test_tender_cfaua_lots
     initial_auth = ("Basic", ("broker", ""))
 
     test_create_tender_cancellation = snitch(create_tender_lot_cancellation)
@@ -84,8 +91,8 @@ class TenderLotCancellationResourceTest(BaseTenderContentWebTest):
 class TenderCancellationComplaintResourceTest(
     BaseTenderContentWebTest, TenderCancellationComplaintResourceTestMixin
 ):
-    initial_lots = test_lots
-    initial_bids = test_bids
+    initial_lots = test_tender_cfaua_lots
+    initial_bids = test_tender_cfaua_bids
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "active.tendering"
 
@@ -96,7 +103,7 @@ class TenderCancellationComplaintResourceTest(
         super(TenderCancellationComplaintResourceTest, self).setUp()
         self.set_complaint_period_end()
         # Create cancellation
-        cancellation = dict(**test_cancellation)
+        cancellation = dict(**test_tender_below_cancellation)
         cancellation.update({
             "reasonType": "noDemand"
         })
@@ -123,7 +130,7 @@ class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest):
         # Create cancellation
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": test_cancellation},
+            {"data": test_tender_below_cancellation},
         )
         cancellation = response.json["data"]
         self.cancellation_id = cancellation["id"]
@@ -137,8 +144,8 @@ class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest):
 class CancellationTenderAndLotOnAllStage(BaseTenderContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "active.tendering"
-    initial_bids = test_bids
-    test_author = test_author
+    initial_bids = test_tender_cfaua_bids
+    test_author = test_tender_below_author
     # Cancellation tender
     test_cancellation_tender_active_tendering = snitch(cancellation_tender_active_tendering)
     test_cancellation_tender_active_pre_qualification = snitch(cancellation_tender_active_pre_qualification)

@@ -5,14 +5,14 @@ from datetime import timedelta
 from openprocurement.api.constants import CPV_ITEMS_CLASS_FROM, TZ
 from openprocurement.api.utils import get_now, parse_date
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization, set_tender_lots
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+)
+from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots
+from openprocurement.tender.core.tests.utils import change_auth
 
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE, FEATURES_MAX_SUM
-from openprocurement.tender.competitivedialogue.tests.base import test_bids_stage1 as test_bids
-
-
-# CompetitiveDialogTest
+from openprocurement.tender.competitivedialogue.tests.base import test_tender_cd_stage1_bids
 from openprocurement.tender.core.utils import calculate_tender_business_date
 
 
@@ -314,7 +314,6 @@ def create_tender_generated_eu(self):
             "next_check",
             "procurementMethod",
             "awardCriteria",
-            "submissionMethod",
             "title",
             "title_en",
             "date",
@@ -538,9 +537,9 @@ def multiple_bidders_tender_eu(self):
     tender_owner_token = response.json["access"]["token"]
     self.set_initial_status(response.json)
     # create bids
-    bidder_data = deepcopy(test_organization)
+    bidder_data = deepcopy(test_tender_below_organization)
     self.app.authorization = ("Basic", ("broker", ""))
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_cd_stage1_bids[0])
     bid_data["tenderers"] = [bidder_data]
     self.create_bid(tender_id, bid_data, "pending")
     bidder_data["identifier"]["id"] = "00037257"
@@ -635,8 +634,8 @@ def try_go_to_ready_stage_eu(self):
     tender_owner_token = response.json["access"]["token"]
     self.set_initial_status(response.json)
     # create bids
-    bid_data = deepcopy(test_bids[0])
-    bidder_data = deepcopy(test_organization)
+    bid_data = deepcopy(test_tender_cd_stage1_bids[0])
+    bidder_data = deepcopy(test_tender_below_organization)
     bid_data["tenderers"] = [bidder_data]
     self.app.authorization = ("Basic", ("broker", ""))
     self.create_bid(tender_id, bid_data, "pending")
@@ -1004,7 +1003,6 @@ def create_tender_generated_ua(self):
             "next_check",
             "procurementMethod",
             "awardCriteria",
-            "submissionMethod",
             "title",
             "owner",
             "date",

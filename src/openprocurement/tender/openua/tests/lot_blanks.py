@@ -8,15 +8,12 @@ from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization,
-    test_author,
-    test_cancellation,
-    test_claim,
+    test_tender_below_organization,
+    test_tender_below_author,
+    test_tender_below_cancellation,
+    test_tender_below_claim,
 )
-from openprocurement.tender.openua.tests.base import test_bids
-
-
-# TenderLotResourceTest
+from openprocurement.tender.openua.tests.base import test_tender_openua_bids
 
 
 def patch_tender_currency(self):
@@ -310,7 +307,7 @@ def question_blocking(self):
                 "description": "question description",
                 "questionOf": "lot",
                 "relatedItem": self.initial_lots[0]["id"],
-                "author": test_author,
+                "author": test_tender_below_author,
             }
         },
     )
@@ -324,7 +321,7 @@ def question_blocking(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     # cancel lot
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -348,7 +345,7 @@ def question_blocking(self):
 
 def claim_blocking(self):
     self.app.authorization = ("Basic", ("broker", ""))
-    claim_data = deepcopy(test_claim)
+    claim_data = deepcopy(test_tender_below_claim)
     claim_data["relatedLot"] = self.initial_lots[0]["id"]
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
@@ -368,7 +365,7 @@ def claim_blocking(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     # cancel lot
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -400,7 +397,7 @@ def next_check_value_with_unanswered_question(self):
                 "description": "question description",
                 "questionOf": "lot",
                 "relatedItem": self.initial_lots[0]["id"],
-                "author": test_author,
+                "author": test_tender_below_author,
             }
         },
     )
@@ -414,7 +411,7 @@ def next_check_value_with_unanswered_question(self):
     self.assertNotIn("next_check", response.json["data"])
 
     self.app.authorization = ("Basic", ("broker", ""))
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -447,7 +444,7 @@ def next_check_value_with_unanswered_question(self):
 
 def next_check_value_with_unanswered_claim(self):
     self.app.authorization = ("Basic", ("broker", ""))
-    claim = deepcopy(test_claim)
+    claim = deepcopy(test_tender_below_claim)
     claim["relatedLot"] = self.initial_lots[0]["id"]
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
@@ -465,7 +462,7 @@ def next_check_value_with_unanswered_claim(self):
     self.assertNotIn("next_check", response.json["data"])
 
     self.app.authorization = ("Basic", ("broker", ""))
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -636,8 +633,8 @@ def create_tender_bidder_invalid(self):
         [{"description": ["value should be posted for each lot of bid"], "location": "body", "name": "value"}],
     )
 
-    bid_data["tenderers"] = test_organization
-    bid_data["tenderers"] = test_organization
+    bid_data["tenderers"] = test_tender_below_organization
+    bid_data["tenderers"] = test_tender_below_organization
     del bid_data["value"]
     response = self.app.post_json(
         request_path,
@@ -676,7 +673,7 @@ def patch_tender_bidder(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bidder["id"], owner_token),
-        {"data": {"lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}], "tenderers": [test_organization]}},
+        {"data": {"lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}], "tenderers": [test_tender_below_organization]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -840,7 +837,7 @@ def create_tender_bidder_feature_invalid(self):
     )
 
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": self.lot_id}]
-    bid_data["tenderers"] = test_organization
+    bid_data["tenderers"] = test_tender_below_organization
     response = self.app.post_json(
         request_path,
         {"data": bid_data},
@@ -851,7 +848,7 @@ def create_tender_bidder_feature_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertIn("invalid literal for int() with base 10", response.json["errors"][0]["description"])
 
-    bid_data["tenderers"] = [test_organization]
+    bid_data["tenderers"] = [test_tender_below_organization]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": self.lot_id}]
     response = self.app.post_json(
         request_path,
@@ -949,7 +946,7 @@ def create_tender_bidder_feature(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     bidder = response.json["data"]
-    self.assertEqual(bidder["tenderers"][0]["name"], test_organization["name"])
+    self.assertEqual(bidder["tenderers"][0]["name"], test_tender_below_organization["name"])
     self.assertIn("id", bidder)
     self.assertIn(bidder["id"], response.headers["Location"])
 
@@ -992,7 +989,7 @@ def proc_1lot_1bid(self):
     self.assertIn("auctionPeriod", response.json["data"]["lots"][0])
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openua_bids[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"subcontractingDetails": "test", "value": {"amount": 500}, "relatedLot": lot_id}]
     self.app.post_json(
@@ -1332,7 +1329,7 @@ def proc_2lot_1bid_0com_1can(self):
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
 
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openua_bids[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in lots]
 
@@ -1379,7 +1376,7 @@ def proc_2lot_2bid_1lot_del(self):
     bids = []
     self.app.authorization = ("Basic", ("broker", ""))
 
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openua_bids[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in lots]
 
@@ -1435,7 +1432,7 @@ def proc_2lot_1bid_2com_1win(self):
     )
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openua_bids[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in lots]
 
@@ -1524,7 +1521,7 @@ def proc_2lot_1bid_0com_0win(self):
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
 
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openua_bids[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in lots]
 
@@ -1575,7 +1572,7 @@ def proc_2lot_1bid_1com_1win(self):
     )
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openua_bids[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in lots]
     self.app.post_json(
@@ -1804,7 +1801,7 @@ def lots_features_delete(self):
         },
     )
     # create bid
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openua_bids[0])
     del bid_data["value"]
     bid_data.update({
         "lotValues": [{"value": {"amount": 500}, "relatedLot": lots[1]}],
@@ -1872,7 +1869,7 @@ def proc_2lot_2bid_1claim_1com_1win(self):
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
 
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openua_bids[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in lots]
 
@@ -1935,7 +1932,7 @@ def proc_2lot_2bid_1claim_1com_1win(self):
         {"data": {"status": "active", "qualified": True, "eligible": True}},
     )
     # add complaint
-    claim = deepcopy(test_claim)
+    claim = deepcopy(test_tender_below_claim)
     claim["relatedLot"] = lot_id
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(tender_id, award_id, bid_token),
@@ -1949,7 +1946,7 @@ def proc_2lot_2bid_1claim_1com_1win(self):
     if RELEASE_2020_04_19 < get_now():
         self.set_all_awards_complaint_period_end()
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",

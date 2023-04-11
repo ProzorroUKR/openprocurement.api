@@ -6,9 +6,12 @@ from datetime import timedelta
 from openprocurement.api.utils import get_now, parse_date
 from openprocurement.api.constants import RELEASE_2020_04_19, SANDBOX_MODE
 
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_cancellation
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+    test_tender_below_cancellation,
+)
 
 
 # TenderContractResourceTest
@@ -64,7 +67,7 @@ def create_tender_contract(self):
     )
     self.assertEqual(response.status, "200 OK")
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
     })
@@ -164,7 +167,7 @@ def patch_tender_contract(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, tender_token),
-        {"data": {"suppliers": [test_organization], "status": "pending",
+        {"data": {"suppliers": [test_tender_below_organization], "status": "pending",
                   "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}},
     )
     award_id = response.json["data"]["id"]
@@ -176,7 +179,7 @@ def patch_tender_contract(self):
     response = self.app.get("/tenders/{}/contracts".format(tender_id))
     contract_id = response.json["data"][0]["id"]
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
     })
@@ -316,7 +319,7 @@ def award_id_change_is_not_allowed(self):
     # upload new award
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"suppliers": [test_organization],
+        {"data": {"suppliers": [test_tender_below_organization],
                   "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False}}},
     )
     award = response.json["data"]
@@ -435,7 +438,7 @@ def patch_tender_negotiation_contract(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, tender_token),
-        {"data": {"suppliers": [test_organization], "status": "pending",
+        {"data": {"suppliers": [test_tender_below_organization], "status": "pending",
                   "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}},
     )
     award_id = response.json["data"]["id"]
@@ -448,7 +451,7 @@ def patch_tender_negotiation_contract(self):
     contract_id = response.json["data"][0]["id"]
     self.set_all_awards_complaint_period_end()
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
     })
@@ -626,7 +629,7 @@ def lot_award_id_change_is_not_allowed(self):
     # upload new award
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"suppliers": [test_organization], "lotID": self.lot1["id"],
+        {"data": {"suppliers": [test_tender_below_organization], "lotID": self.lot1["id"],
                   "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}},
     )
     award = response.json["data"]
@@ -657,7 +660,7 @@ def activate_contract_cancelled_lot(self):
 
     # Create cancellation on lot
     self.set_all_awards_complaint_period_end()
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "cancellationOf": "lot",
         "relatedLot": lot["id"],
@@ -872,7 +875,7 @@ def create_two_contract(self):
     )
     self.assertEqual(response.status, "200 OK")
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
     })

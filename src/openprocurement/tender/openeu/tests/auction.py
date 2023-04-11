@@ -4,31 +4,35 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_lots
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+    test_tender_below_lots,
+)
 from openprocurement.tender.belowthreshold.tests.auction import (
     TenderAuctionResourceTestMixin,
     TenderMultipleLotAuctionResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.auction_blanks import (
-    # TenderSameValueAuctionResourceTest
     post_tender_auction_reversed,
     post_tender_auction_not_changed,
-    # TenderFeaturesAuctionResourceTest
     get_tender_auction_feature,
     post_tender_auction_feature,
-    # TenderFeaturesMultilotAuctionResourceTest
     get_tender_lots_auction_features,
     post_tender_lots_auction_features,
 )
 
-from openprocurement.tender.openeu.tests.base import BaseTenderContentWebTest, test_features_tender_data, test_bids
+from openprocurement.tender.openeu.tests.base import (
+    BaseTenderContentWebTest,
+    test_tender_openeu_features_data,
+    test_tender_openeu_bids,
+)
 
 
 class TenderAuctionResourceTest(BaseTenderContentWebTest, TenderAuctionResourceTestMixin):
     docservice = True
     # initial_data = tender_data
     initial_auth = ("Basic", ("broker", ""))
-    initial_bids = test_bids
+    initial_bids = test_tender_openeu_bids
 
     def setUp(self):
         super(TenderAuctionResourceTest, self).setUp()
@@ -58,9 +62,9 @@ class TenderAuctionResourceTest(BaseTenderContentWebTest, TenderAuctionResourceT
 class TenderSameValueAuctionResourceTest(BaseTenderContentWebTest):
     docservice = True
     initial_status = "active.auction"
-    tenderer_info = deepcopy(test_organization)
+    tenderer_info = deepcopy(test_tender_below_organization)
     initial_bids = [
-        test_bids[0]
+        test_tender_openeu_bids[0]
         for i in range(3)
     ]
 
@@ -103,16 +107,16 @@ class TenderSameValueAuctionResourceTest(BaseTenderContentWebTest):
 
 class TenderFeaturesAuctionResourceTest(TenderAuctionResourceTest):
     docservice = True
-    initial_data = test_features_tender_data
-    tenderer_info = deepcopy(test_organization)
+    initial_data = test_tender_openeu_features_data
+    tenderer_info = deepcopy(test_tender_below_organization)
 
     test_get_tender_auction = snitch(get_tender_auction_feature)
     test_post_tender_auction = snitch(post_tender_auction_feature)
 
     def setUp(self):
-        self.initial_bids = deepcopy(test_bids[:2])
-        self.initial_bids[0]["parameters"] = [{"code": i["code"], "value": 0.1} for i in test_features_tender_data["features"]]
-        self.initial_bids[1]["parameters"] = [{"code": i["code"], "value": 0.15} for i in test_features_tender_data["features"]]
+        self.initial_bids = deepcopy(test_tender_openeu_bids[:2])
+        self.initial_bids[0]["parameters"] = [{"code": i["code"], "value": 0.1} for i in test_tender_openeu_features_data["features"]]
+        self.initial_bids[1]["parameters"] = [{"code": i["code"], "value": 0.15} for i in test_tender_openeu_features_data["features"]]
         super(TenderFeaturesAuctionResourceTest, self).setUp()
 
 
@@ -120,7 +124,7 @@ class TenderFeaturesMultilotAuctionResourceTest(
     TenderMultipleLotAuctionResourceTestMixin, TenderFeaturesAuctionResourceTest
 ):
     docservice = True
-    initial_lots = test_lots * 2
+    initial_lots = test_tender_below_lots * 2
     test_get_tender_auction = snitch(get_tender_lots_auction_features)
     test_post_tender_auction = snitch(post_tender_lots_auction_features)
 

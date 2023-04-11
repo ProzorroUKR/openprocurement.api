@@ -8,9 +8,13 @@ from openprocurement.api.constants import (
     TZ,
 )
 from openprocurement.api.utils import get_now
-
-from openprocurement.tender.core.tests.cancellation import activate_cancellation_with_complaints_after_2020_04_19
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_cancellation
+from openprocurement.tender.core.tests.cancellation import (
+    activate_cancellation_with_complaints_after_2020_04_19,
+)
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+    test_tender_below_cancellation,
+)
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_central as create_tender_central_base,
 )
@@ -23,7 +27,7 @@ from openprocurement.tender.competitivedialogue.constants import (
     CD_EU_TYPE,
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.utils import calculate_tender_business_date
 
 
@@ -998,7 +1002,7 @@ def create_tender(self):
 
 def tender_funders(self):
     tender_data = deepcopy(self.initial_data)
-    tender_data["funders"] = [deepcopy(test_organization)]
+    tender_data["funders"] = [deepcopy(test_tender_below_organization)]
     tender_data["funders"][0]["identifier"]["id"] = "44000"
     tender_data["funders"][0]["identifier"]["scheme"] = "XM-DAC"
     del tender_data["funders"][0]["scale"]
@@ -1011,7 +1015,7 @@ def tender_funders(self):
     tender = response.json["data"]
     token = response.json["access"]["token"]
 
-    tender_data["funders"].append(deepcopy(test_organization))
+    tender_data["funders"].append(deepcopy(test_tender_below_organization))
     tender_data["funders"][1]["identifier"]["id"] = "44000"
     tender_data["funders"][1]["identifier"]["scheme"] = "XM-DAC"
     del tender_data["funders"][1]["scale"]
@@ -1553,7 +1557,7 @@ def tender_Administrator_change(self):
     if RELEASE_2020_04_19 < get_now() and set_complaint_period_end:
         set_complaint_period_end()
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
     })
@@ -1626,7 +1630,7 @@ def invalid_tender_conditions(self):
     if RELEASE_2020_04_19 < get_now() and set_complaint_period_end:
         set_complaint_period_end()
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "reason": "invalid conditions",
         "status": "active"

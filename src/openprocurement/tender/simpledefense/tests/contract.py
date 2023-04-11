@@ -3,22 +3,21 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_organization
 from openprocurement.tender.belowthreshold.tests.contract import (
     TenderContractResourceTestMixin,
     TenderContractDocumentResourceTestMixin,
 )
 
 from openprocurement.tender.openua.tests.contract_blanks import (
-    # TenderContractResourceTest
     create_tender_contract,
     patch_tender_contract,
 )
 
 from openprocurement.tender.simpledefense.tests.base import (
     BaseSimpleDefContentWebTest,
-    test_bids,
-    test_tender_data_multi_buyers,
+    test_tender_simpledefense_bids,
+    test_tender_simpledefense_multi_buyers_data,
 )
 
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
@@ -44,7 +43,7 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
 
 class TenderContractResourceTest(BaseSimpleDefContentWebTest, TenderContractResourceTestMixin):
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_simpledefense_bids
 
     def create_award(self, value_vat_included=True):
         authorization = self.app.authorization
@@ -53,7 +52,7 @@ class TenderContractResourceTest(BaseSimpleDefContentWebTest, TenderContractReso
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "value": {
@@ -93,7 +92,7 @@ class TenderContractResourceTest(BaseSimpleDefContentWebTest, TenderContractReso
 
 class TenderContractVATNotIncludedResourceTest(BaseSimpleDefContentWebTest, TenderContractResourceTestMixin):
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_simpledefense_bids
 
     def setUp(self):
         super(TenderContractVATNotIncludedResourceTest, self).setUp()
@@ -107,7 +106,7 @@ class TenderContractVATNotIncludedResourceTest(BaseSimpleDefContentWebTest, Tend
 
 class TenderContractDocumentResourceTest(BaseSimpleDefContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_simpledefense_bids
     docservice = True
 
     def setUp(self):
@@ -117,7 +116,7 @@ class TenderContractDocumentResourceTest(BaseSimpleDefContentWebTest, TenderCont
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
-            {"data": {"suppliers": [test_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+            {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
         )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -142,9 +141,9 @@ class TenderContractDocumentResourceTest(BaseSimpleDefContentWebTest, TenderCont
 
 
 class TenderContractMultiBuyersResourceTest(BaseSimpleDefContentWebTest):
-    initial_data = test_tender_data_multi_buyers
+    initial_data = test_tender_simpledefense_multi_buyers_data
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_simpledefense_bids
 
     def setUp(self):
         super(TenderContractMultiBuyersResourceTest, self).setUp()

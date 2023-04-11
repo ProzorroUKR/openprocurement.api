@@ -5,9 +5,9 @@ from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.pricequotation.tests.base import (
     TenderContentWebTest,
-    test_tender_data,
-    test_bids,
-    test_tender_data_multi_buyers,
+    test_tender_pq_data,
+    test_tender_pq_bids,
+    test_tender_pq_multi_buyers_data,
 )
 from openprocurement.tender.belowthreshold.tests.contract import (
     TenderContractResourceTestMixin,
@@ -32,7 +32,7 @@ from openprocurement.tender.pricequotation.tests.contract_blanks import (
 from copy import deepcopy
 
 
-multi_item_tender_data = deepcopy(test_tender_data)
+multi_item_tender_data = deepcopy(test_tender_pq_data)
 multi_item_tender_data["items"] *= 3
 
 
@@ -41,7 +41,7 @@ class TenderContractResourceTest(TenderContentWebTest,
                                  TenderContractResourceTestMixin):
     initial_status = "active.awarded"
     initial_data = multi_item_tender_data
-    initial_bids = test_bids
+    initial_bids = test_tender_pq_bids
 
     def get_award(self):
         self.award_id = self.award_ids[-1]
@@ -74,7 +74,7 @@ class TenderContractResourceTest(TenderContentWebTest,
 class TenderContractVATNotIncludedResourceTest(TenderContentWebTest,
                                                TenderContractResourceTestMixin):
     initial_status = "active.awarded"
-    initial_bids = test_bids
+    initial_bids = test_tender_pq_bids
 
     def setUp(self):
         super(TenderContractVATNotIncludedResourceTest, self).setUp()
@@ -89,7 +89,7 @@ class TenderContractVATNotIncludedResourceTest(TenderContentWebTest,
 class TenderContractDocumentResourceTest(TenderContentWebTest,
                                          TenderContractDocumentResourceTestMixin):
     initial_status = "active.awarded"
-    initial_bids = test_bids
+    initial_bids = test_tender_pq_bids
     docservice = True
 
     def setUp(self):
@@ -98,9 +98,9 @@ class TenderContractDocumentResourceTest(TenderContentWebTest,
 
 @patch("openprocurement.tender.pricequotation.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
 class TenderContractMultiBuyersResourceTest(TenderContentWebTest):
-    initial_data = test_tender_data_multi_buyers
+    initial_data = test_tender_pq_multi_buyers_data
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_pq_bids
 
     def setUp(self):
         super(TenderContractMultiBuyersResourceTest, self).setUp()

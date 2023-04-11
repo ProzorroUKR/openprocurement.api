@@ -62,11 +62,11 @@ def delete_nones(data: dict):
 
 def save_tender(request, modified: bool = True, insert: bool = False) -> bool:
     tender = request.validated["tender"]
+    set_tender_config(request, tender)
     patch = get_revision_changes(tender, request.validated["tender_src"])
     if patch:
         now = get_now()
         append_tender_revision(request, tender, patch, now)
-        set_tender_config(request, tender)
 
         old_date_modified = tender.get("dateModified", now.isoformat())
         with handle_store_exceptions(request):

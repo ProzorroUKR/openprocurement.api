@@ -4,9 +4,9 @@ from openprocurement.tender.openeu.constants import TENDERING_DAYS
 from openprocurement.tender.esco.tests.base import (
     BaseESCOWebTest,
     BaseESCOContentWebTest,
-    test_tender_data,
-    test_lots,
-    test_bids,
+    test_tender_esco_data,
+    test_tender_esco_lots,
+    test_tender_esco_bids,
 )
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.esco.models import TenderESCO
@@ -66,8 +66,8 @@ from openprocurement.tender.esco.tests.tender_blanks import (
 class TenderESCOTest(BaseESCOWebTest):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
-    initial_data = test_tender_data
-    test_bids_data = test_bids
+    initial_data = test_tender_esco_data
+    test_bids_data = test_tender_esco_bids
     tender_model = TenderESCO
 
     test_tender_value = snitch(tender_value)
@@ -84,11 +84,11 @@ class TestTenderEU(BaseESCOContentWebTest, TenderResourceTestMixin, TenderUAReso
     """ ESCO tender test """
     docservice = True
     initialize_initial_data = False
-    initial_data = test_tender_data
+    initial_data = test_tender_esco_data
     # for passing test from TenderUAResourceTestMixin
     initial_data["minValue"] = {"amount": 0}
-    test_lots_data = test_lots
-    test_bids_data = test_bids
+    test_lots_data = test_tender_esco_lots
+    test_bids_data = test_tender_esco_bids
     tender_period_duration = TENDERING_DAYS
 
     test_tender_fields = snitch(tender_fields)
@@ -114,8 +114,8 @@ class TestTenderEU(BaseESCOContentWebTest, TenderResourceTestMixin, TenderUAReso
 class TestTenderEUProcess(BaseESCOContentWebTest):
     docservice = True
     initialize_initial_data = False
-    initial_data = test_tender_data
-    test_bids_data = test_bids
+    initial_data = test_tender_esco_data
+    test_bids_data = test_tender_esco_bids
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_one_bid_tender = snitch(one_bid_tender)

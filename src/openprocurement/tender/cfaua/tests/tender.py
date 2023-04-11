@@ -21,11 +21,11 @@ from openprocurement.tender.openua.tests.tender_blanks import empty_listing, ten
 from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.cfaua.models.tender import CloseFrameworkAgreementUA
 from openprocurement.tender.cfaua.tests.base import (
-    test_tender_w_lot_data,
+    test_tender_cfaua_with_lots_data,
     BaseTenderWebTest,
     BaseTenderContentWebTest,
-    test_bids_w_lot_data,
-    test_lots_w_ids,
+    test_tender_cfaua_bids_with_lotvalues,
+    test_tender_cfaua_lots_with_ids,
 )
 from openprocurement.tender.cfaua.tests.tender_blanks import (
     one_bid_tender,
@@ -57,8 +57,8 @@ class CFAUATenderTest(BaseTenderWebTest):
     docservice = True
     tender_model = CloseFrameworkAgreementUA
     initial_auth = ("Basic", ("broker", ""))
-    initial_data = deepcopy(test_tender_w_lot_data)
-    initial_lots = deepcopy(test_lots_w_ids)
+    initial_data = deepcopy(test_tender_cfaua_with_lots_data)
+    initial_lots = deepcopy(test_tender_cfaua_lots_with_ids)
 
     test_agreement_duration_period = snitch(agreement_duration_period)
 
@@ -74,10 +74,10 @@ class TenderCheckStatusTest(BaseTenderContentWebTest):
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
-    initial_data = deepcopy(test_tender_w_lot_data)
-    initial_lots = deepcopy(test_lots_w_ids)
-    initial_bids = deepcopy(test_bids_w_lot_data)
-    test_lots_data = test_lots_w_ids
+    initial_data = deepcopy(test_tender_cfaua_with_lots_data)
+    initial_lots = deepcopy(test_tender_cfaua_lots_with_ids)
+    initial_bids = deepcopy(test_tender_cfaua_bids_with_lotvalues)
+    test_lots_data = test_tender_cfaua_lots_with_ids
     min_bids_number = MIN_BIDS_NUMBER
 
     test_empty_listing = snitch(empty_listing)
@@ -112,9 +112,9 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 class TenderProcessTest(BaseTenderWebTest):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
-    initial_data = deepcopy(test_tender_w_lot_data)
-    initial_lots = deepcopy(test_lots_w_ids)
-    initial_bids = deepcopy(test_bids_w_lot_data)
+    initial_data = deepcopy(test_tender_cfaua_with_lots_data)
+    initial_lots = deepcopy(test_tender_cfaua_lots_with_ids)
+    initial_bids = deepcopy(test_tender_cfaua_bids_with_lotvalues)
 
     test_extract_tender_credentials = snitch(extract_tender_credentials)
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
@@ -129,7 +129,7 @@ class TenderProcessTest(BaseTenderWebTest):
 class TenderPendingAwardsResourceTest(BaseTenderContentWebTest):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
-    initial_bids = deepcopy(test_bids_w_lot_data)
+    initial_bids = deepcopy(test_tender_cfaua_bids_with_lotvalues)
 
     def setUp(self):
         # Fix for method create_tender in tender.core and bid.value will be deleted after

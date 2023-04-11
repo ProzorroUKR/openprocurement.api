@@ -6,7 +6,7 @@ from datetime import timedelta
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_with_complaints_after_2020_04_19
-from openprocurement.tender.belowthreshold.tests.base import test_cancellation
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_cancellation
 
 
 @patch("openprocurement.tender.core.models.TWO_PHASE_COMMIT_FROM", get_now() + timedelta(days=1))
@@ -588,7 +588,7 @@ def two_lot_2can(self):
         set_complaint_period_end()
     # cancel every lot
     for lot_id in lots:
-        cancellation = dict(**test_cancellation)
+        cancellation = dict(**test_tender_below_cancellation)
         cancellation.update({
             "status": "active",
             "cancellationOf": "lot",
@@ -659,7 +659,7 @@ def two_lot_2bid_0com_1can(self):
         set_complaint_period_end()
 
     self.app.authorization = ("Basic", ("broker", ""))
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",

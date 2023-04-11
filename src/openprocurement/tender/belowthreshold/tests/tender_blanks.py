@@ -17,19 +17,23 @@ from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization,
+    test_tender_below_organization,
+    test_tender_below_cancellation,
+    test_tender_below_claim,
+    test_tender_below_draft_claim,
+)
+from openprocurement.tender.belowthreshold.tests.utils import (
     set_tender_lots,
-    test_cancellation,
-    test_claim,
-    test_draft_claim,
-    test_criteria,
     set_bid_lotvalues,
-    language_criteria,
-    tender_guarantee_criteria,
-    contract_guarantee_criteria,
 )
 
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.base import (
+    test_exclusion_criteria,
+    test_language_criteria,
+    test_contract_guarantee_criteria,
+    test_tender_guarantee_criteria,
+)
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 
@@ -1305,8 +1309,8 @@ def create_tender_central(self):
     data["procuringEntity"]["kind"] = "central"
     data["buyers"] = [{
         "id": uuid4().hex,
-        "name": test_organization["name"],
-        "identifier": test_organization["identifier"]
+        "name": test_tender_below_organization["name"],
+        "identifier": test_tender_below_organization["identifier"]
     }]
 
     for item in data["items"]:
@@ -1328,8 +1332,8 @@ def create_tender_central_invalid(self):
     data["procuringEntity"]["kind"] = "central"
     data["buyers"] = [{  # accreditation check gous after model validation now, since "mode" field from data required
         "id": uuid4().hex,
-        "name": test_organization["name"],
-        "identifier": test_organization["identifier"]
+        "name": test_tender_below_organization["name"],
+        "identifier": test_tender_below_organization["identifier"]
     }]
 
     with change_auth(self.app, ("Basic", ("broker13", ""))):
@@ -1506,7 +1510,7 @@ def create_tender_config_test(self):
 
 def tender_funders(self):
     tender_data = deepcopy(self.initial_data)
-    tender_data["funders"] = [deepcopy(test_organization)]
+    tender_data["funders"] = [deepcopy(test_tender_below_organization)]
     tender_data["funders"][0]["identifier"]["id"] = "44000"
     tender_data["funders"][0]["identifier"]["scheme"] = "XM-DAC"
     del tender_data["funders"][0]["scale"]
@@ -1519,7 +1523,7 @@ def tender_funders(self):
     tender = response.json["data"]
     token = response.json["access"]["token"]
 
-    tender_data["funders"].append(deepcopy(test_organization))
+    tender_data["funders"].append(deepcopy(test_tender_below_organization))
     tender_data["funders"][1]["identifier"]["id"] = "44000"
     tender_data["funders"][1]["identifier"]["scheme"] = "XM-DAC"
     del tender_data["funders"][1]["scale"]
@@ -2192,7 +2196,7 @@ def guarantee(self):
         if data["procurementMethodType"] in GUARANTEE_ALLOWED_TENDER_TYPES:
             self.app.post_json(
                 "/tenders/{}/criteria?acc_token={}".format(tender["id"], token),
-                {"data": test_criteria + language_criteria + tender_guarantee_criteria},
+                {"data": test_exclusion_criteria + test_language_criteria + test_tender_guarantee_criteria},
                 status=201
             )
 
@@ -2300,7 +2304,7 @@ def invalid_tender_conditions(self):
     response = self.app.post_json(
         "/tenders/{}/complaints".format(tender_id),
         {
-            "data": test_claim
+            "data": test_tender_below_claim
         },
     )
     complaint_id = response.json["data"]["id"]
@@ -2321,7 +2325,7 @@ def invalid_tender_conditions(self):
         set_complaint_period_end()
 
     # cancellation
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "reason": "invalid conditions",
         "status": "active"
@@ -2356,7 +2360,7 @@ def one_valid_bid_tender(self):
     self.assertIn("auctionPeriod", response.json["data"])
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    bid_data = {"tenderers": [test_organization], "value": {"amount": 500}}
+    bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}
     self.create_bid(self.tender_id, bid_data)
     # switch to active.qualification
     self.set_status("active.auction", {"status": "active.tendering"})
@@ -2413,7 +2417,7 @@ def one_invalid_bid_tender(self):
     self.set_status("active.tendering")
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    bid_data = {"tenderers": [test_organization], "value": {"amount": 500}}
+    bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}
     self.create_bid(self.tender_id, bid_data)
     # switch to active.qualification
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
@@ -2454,12 +2458,12 @@ def first_bid_tender(self):
     self.set_status("active.tendering")
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    bid_data = {"tenderers": [test_organization], "value": {"amount": 450}}
+    bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 450}}
     bid, bid_token = self.create_bid(self.tender_id, bid_data)
     bid_id = bid["id"]
     # create second bid
     self.app.authorization = ("Basic", ("broker", ""))
-    bid_data = {"tenderers": [test_organization], "value": {"amount": 475}}
+    bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 475}}
     self.create_bid(self.tender_id, bid_data)
     # switch to active.auction
     self.set_status("active.auction")
@@ -2511,7 +2515,7 @@ def first_bid_tender(self):
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(tender_id, award_id, bid_token),
         {
-            "data": test_claim
+            "data": test_tender_below_claim
         },
     )
     complaint_id = response.json["data"]["id"]
@@ -2519,7 +2523,7 @@ def first_bid_tender(self):
     # create first award complaint #2
     self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(tender_id, award_id, bid_token),
-        {"data": test_draft_claim},
+        {"data": test_tender_below_draft_claim},
     )
     # answering claim
     self.app.patch_json(
@@ -2636,7 +2640,7 @@ def lost_contract_for_active_award(self):
     self.set_status("active.tendering")
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    bid_data = {"tenderers": [test_organization], "value": {"amount": 500}}
+    bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}
     self.create_bid(self.tender_id, bid_data)
     # switch to active.qualification
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
@@ -3011,7 +3015,7 @@ def patch_item_with_zero_quantity(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["items"][0]["quantity"], 5)
-    criteria = deepcopy(test_criteria)
+    criteria = deepcopy(test_exclusion_criteria)
     criteria[0]["relatesTo"] = "item"
     criteria[0]["relatedItem"] = item["id"]
     add_criteria(self, criteria=criteria)
@@ -3030,8 +3034,8 @@ def patch_item_with_zero_quantity(self):
 def patch_items_related_buyer_id(self):
     # create tender with two buyers
     data = deepcopy(self.initial_data)
-    test_organization1 = deepcopy(test_organization)
-    test_organization2 = deepcopy(test_organization)
+    test_organization1 = deepcopy(test_tender_below_organization)
+    test_organization2 = deepcopy(test_tender_below_organization)
     test_organization2["name"] = "Управління міжнародних справ"
     test_organization2["identifier"]["id"] = "00055555"
 
@@ -3148,7 +3152,7 @@ def tender_with_guarantee(self):
     self.tender_token = response.json["access"]["token"]
     self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": test_criteria + language_criteria},
+        {"data": test_exclusion_criteria + test_language_criteria},
         status=201
     )
 
@@ -3179,7 +3183,7 @@ def tender_with_guarantee(self):
 
     self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": tender_guarantee_criteria},
+        {"data": test_tender_guarantee_criteria},
         status=201
     )
     self.app.patch_json(
@@ -3205,12 +3209,12 @@ def tender_with_guarantee_multilot(self):
     self.tender_token = response.json["access"]["token"]
 
     related_lot_id = response.json["data"]["lots"][0]["id"]
-    tender_lot_guarantee_criteria = deepcopy(tender_guarantee_criteria)
+    tender_lot_guarantee_criteria = deepcopy(test_tender_guarantee_criteria)
     tender_lot_guarantee_criteria[0]["relatesTo"] = "lot"
     tender_lot_guarantee_criteria[0]["relatedItem"] = related_lot_id
     self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": test_criteria + language_criteria + tender_lot_guarantee_criteria},
+        {"data": test_exclusion_criteria + test_language_criteria + tender_lot_guarantee_criteria},
         status=201
     )
 
@@ -3260,16 +3264,16 @@ def activate_bid_guarantee_multilot(self):
     self.tender_token = response.json["access"]["token"]
     lots = response.json["data"]["lots"]
 
-    tender_lot_guarantee_criteria = deepcopy(tender_guarantee_criteria)
+    tender_lot_guarantee_criteria = deepcopy(test_tender_guarantee_criteria)
     tender_lot_guarantee_criteria[0]["relatesTo"] = "lot"
     tender_lot_guarantee_criteria[0]["relatedItem"] = response.json["data"]["lots"][1]["id"]
 
-    contract_lot_guarantee_criteria = deepcopy(contract_guarantee_criteria)
+    contract_lot_guarantee_criteria = deepcopy(test_contract_guarantee_criteria)
     contract_lot_guarantee_criteria[0]["relatesTo"] = "lot"
     contract_lot_guarantee_criteria[0]["relatedItem"] = response.json["data"]["lots"][1]["id"]
     self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": test_criteria + language_criteria + tender_lot_guarantee_criteria + contract_lot_guarantee_criteria},
+        {"data": test_exclusion_criteria + test_language_criteria + tender_lot_guarantee_criteria + contract_lot_guarantee_criteria},
         status=201
     )
     self.app.patch_json(

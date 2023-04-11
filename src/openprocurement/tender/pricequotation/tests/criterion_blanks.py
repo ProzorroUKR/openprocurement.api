@@ -3,10 +3,10 @@ from copy import deepcopy
 from datetime import timedelta
 from openprocurement.api.utils import get_now
 from openprocurement.tender.pricequotation.tests.base import (
-    test_short_profile,
-    test_tender_data_before_multiprofile,
-    test_tender_data_after_multiprofile,
-    test_item_after_multiprofile,
+    test_tender_pq_short_profile,
+    test_tender_pq_data_before_multiprofile,
+    test_tender_pq_data_after_multiprofile,
+    test_tender_pq_item_after_multiprofile,
 )
 
 
@@ -17,7 +17,7 @@ def create_tender_criteria_multi_profile(self):
                         get_now() + timedelta(days=1)):
             with mock.patch("openprocurement.tender.pricequotation.procedure.models.criterion.PQ_MULTI_PROFILE_FROM",
                             get_now() + timedelta(days=1)):
-                data = deepcopy(test_tender_data_before_multiprofile)
+                data = deepcopy(test_tender_pq_data_before_multiprofile)
 
                 response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
                 self.assertEqual(response.status, "201 Created")
@@ -26,7 +26,7 @@ def create_tender_criteria_multi_profile(self):
                 token = response.json["access"]["token"]
 
                 item_id = tender["items"][0]["id"]
-                criteria = deepcopy(test_short_profile["criteria"])
+                criteria = deepcopy(test_tender_pq_short_profile["criteria"])
                 criteria[0]["relatesTo"] = "item"
                 criteria[0]["relatedItem"] = item_id
                 response = self.app.patch_json(
@@ -60,8 +60,8 @@ def create_tender_criteria_multi_profile(self):
                         get_now() - timedelta(days=1)):
             with mock.patch("openprocurement.tender.pricequotation.procedure.models.criterion.PQ_MULTI_PROFILE_FROM",
                             get_now() - timedelta(days=1)):
-                data = deepcopy(test_tender_data_after_multiprofile)
-                data["items"].append(deepcopy(test_item_after_multiprofile))
+                data = deepcopy(test_tender_pq_data_after_multiprofile)
+                data["items"].append(deepcopy(test_tender_pq_item_after_multiprofile))
                 data["items"][1]["profile"] = "655361-30230000-889652-40000777"
 
                 response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
@@ -71,7 +71,7 @@ def create_tender_criteria_multi_profile(self):
                 token = response.json["access"]["token"]
 
                 item_ids = [item["id"] for item in tender["items"]]
-                criteria = deepcopy(test_short_profile["criteria"])
+                criteria = deepcopy(test_tender_pq_short_profile["criteria"])
                 criteria[0]["relatesTo"] = "tender"
                 criteria[0]["relatedItem"] = item_ids[0]
 

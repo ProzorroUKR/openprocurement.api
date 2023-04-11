@@ -9,20 +9,24 @@ from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.competitivedialogue.models import (
-    TenderStage2UA, CompetitiveDialogEU, CompetitiveDialogUA,
+    CompetitiveDialogUA,
+    CompetitiveDialogEU,
+    TenderStage2UA,
     TenderStage2EU,
 )
 from openprocurement.tender.competitivedialogue.tests.periods import PERIODS, PERIODS_UA_STAGE_2
 from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest as BaseTenderWebTest
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization,
+    test_tender_below_organization,
+)
+from openprocurement.tender.belowthreshold.tests.utils import (
     set_bid_responses,
     set_tender_multi_buyers,
 )
 from openprocurement.tender.openeu.tests.base import (
-    test_tender_data as base_test_tender_data_eu,
-    test_features_tender_data,
-    test_bids,
+    test_tender_openeu_data,
+    test_tender_openeu_features_data,
+    test_tender_openeu_bids,
 )
 from openprocurement.tender.competitivedialogue.constants import (
     CD_EU_TYPE,
@@ -30,117 +34,133 @@ from openprocurement.tender.competitivedialogue.constants import (
     STAGE_2_EU_TYPE,
     STAGE_2_UA_TYPE,
 )
-from openprocurement.tender.openua.tests.base import test_tender_data as base_test_tender_data_ua
+from openprocurement.tender.openua.tests.base import test_tender_openua_data
 
-test_tender_config = {
-    "hasAuction": False,
-}
+test_tender_cd_bids = deepcopy(test_tender_openeu_bids)
+test_tender_cd_bids.append(deepcopy(test_tender_cd_bids[0]))  # Minimal number of bits is 3
 
-test_bids = deepcopy(test_bids)
-test_bids.append(deepcopy(test_bids[0]))  # Minimal number of bits is 3
-
-test_bids_stage1 = deepcopy(test_bids)
-for b in test_bids_stage1:
+test_tender_cd_stage1_bids = deepcopy(test_tender_cd_bids)
+for b in test_tender_cd_stage1_bids:
     for f in tuple(b.keys()):
         if f not in ("tenderers", "selfQualified", "selfEligible", "lotValues"):
             del b[f]
 
 now = datetime.now()
-test_tender_data_eu = deepcopy(base_test_tender_data_eu)
-test_tender_data_eu["procurementMethodType"] = CD_EU_TYPE
-test_tender_data_ua = deepcopy(base_test_tender_data_eu)
-del test_tender_data_ua["title_en"]
-test_tender_data_ua["procurementMethodType"] = CD_UA_TYPE
-test_tender_data_ua["tenderPeriod"]["endDate"] = (now + timedelta(days=31)).isoformat()
+
+test_tender_cdeu_data = deepcopy(test_tender_openeu_data)
+test_tender_cdeu_data["procurementMethodType"] = CD_EU_TYPE
+
+test_tender_cdua_data = deepcopy(test_tender_openeu_data)
+del test_tender_cdua_data["title_en"]
+test_tender_cdua_data["procurementMethodType"] = CD_UA_TYPE
+test_tender_cdua_data["tenderPeriod"]["endDate"] = (now + timedelta(days=31)).isoformat()
 
 
 # stage 2
-test_tender_stage2_data_eu = deepcopy(base_test_tender_data_eu)
-test_tender_stage2_data_ua = deepcopy(base_test_tender_data_ua)
-del test_tender_stage2_data_eu["tenderPeriod"]
-del test_tender_stage2_data_ua["tenderPeriod"]
-test_tender_stage2_data_eu["tenderID"] = "bla bla bla this iis stage 2 eu"
-test_tender_stage2_data_ua["tenderID"] = "bla bla bla this iis stage 2 ua"
-test_tender_stage2_data_eu["procurementMethodType"] = STAGE_2_EU_TYPE
-test_tender_stage2_data_ua["procurementMethodType"] = STAGE_2_UA_TYPE
-test_tender_stage2_data_eu["procurementMethod"] = "selective"
-test_tender_stage2_data_ua["procurementMethod"] = "selective"
-test_shortlistedFirms = [
+test_tender_cdeu_stage2_data = deepcopy(test_tender_openeu_data)
+del test_tender_cdeu_stage2_data["tenderPeriod"]
+test_tender_cdeu_stage2_data["tenderID"] = "bla bla bla this iis stage 2 eu"
+test_tender_cdeu_stage2_data["procurementMethodType"] = STAGE_2_EU_TYPE
+test_tender_cdeu_stage2_data["procurementMethod"] = "selective"
+
+test_tender_cdua_stage2_data = deepcopy(test_tender_openua_data)
+del test_tender_cdua_stage2_data["tenderPeriod"]
+test_tender_cdua_stage2_data["tenderID"] = "bla bla bla this iis stage 2 ua"
+test_tender_cdua_stage2_data["procurementMethodType"] = STAGE_2_UA_TYPE
+test_tender_cdua_stage2_data["procurementMethod"] = "selective"
+
+test_tender_cd_shortlisted_firms = [
     {
         "identifier": {
-            "scheme": test_organization["identifier"]["scheme"],
+            "scheme": test_tender_below_organization["identifier"]["scheme"],
             "id": "00037257",
-            "uri": test_organization["identifier"]["uri"],
+            "uri": test_tender_below_organization["identifier"]["uri"],
         },
         "name": "Test org name 1",
     },
     {
         "identifier": {
-            "scheme": test_organization["identifier"]["scheme"],
+            "scheme": test_tender_below_organization["identifier"]["scheme"],
             "id": "00037257",
-            "uri": test_organization["identifier"]["uri"],
+            "uri": test_tender_below_organization["identifier"]["uri"],
         },
         "name": "Test org name 2",
     },
     {
         "identifier": {
-            "scheme": test_organization["identifier"]["scheme"],
+            "scheme": test_tender_below_organization["identifier"]["scheme"],
             "id": "00037257",
-            "uri": test_organization["identifier"]["uri"],
+            "uri": test_tender_below_organization["identifier"]["uri"],
         },
         "name": "Test org name 3",
     },
 ]
-test_access_token_stage1 = uuid4().hex
-test_tender_stage2_data_eu["shortlistedFirms"] = test_shortlistedFirms
-test_tender_stage2_data_ua["shortlistedFirms"] = test_shortlistedFirms
-test_tender_stage2_data_eu["dialogue_token"] = sha512(test_access_token_stage1.encode()).hexdigest()
-test_tender_stage2_data_ua["dialogue_token"] = sha512(test_access_token_stage1.encode()).hexdigest()
-test_tender_stage2_data_ua["owner"] = "broker"
-test_tender_stage2_data_eu["owner"] = "broker"
-test_tender_stage2_data_ua["status"] = "draft"
-test_tender_stage2_data_eu["status"] = "draft"
-# test_tender_stage2_data_ua["tenderPeriod"]["endDate"] = (now + timedelta(days=31)).isoformat()
-# test_tender_stage2_data_eu["tenderPeriod"]["endDate"] = (now + timedelta(days=31)).isoformat()
-test_tender_stage2_data_ua["dialogueID"] = uuid4().hex
-test_tender_stage2_data_eu["dialogueID"] = uuid4().hex
-test_tender_stage2_data_ua["items"][0]["classification"]["scheme"] = "CPV"
-test_tender_stage2_data_eu["items"][0]["classification"]["scheme"] = "CPV"
+test_tender_cd_access_token = uuid4().hex
+test_tender_cdeu_stage2_data["shortlistedFirms"] = test_tender_cd_shortlisted_firms
+test_tender_cdua_stage2_data["shortlistedFirms"] = test_tender_cd_shortlisted_firms
+test_tender_cdeu_stage2_data["dialogue_token"] = sha512(test_tender_cd_access_token.encode()).hexdigest()
+test_tender_cdua_stage2_data["dialogue_token"] = sha512(test_tender_cd_access_token.encode()).hexdigest()
+test_tender_cdua_stage2_data["owner"] = "broker"
+test_tender_cdeu_stage2_data["owner"] = "broker"
+test_tender_cdua_stage2_data["status"] = "draft"
+test_tender_cdeu_stage2_data["status"] = "draft"
+test_tender_cdua_stage2_data["dialogueID"] = uuid4().hex
+test_tender_cdeu_stage2_data["dialogueID"] = uuid4().hex
+test_tender_cdua_stage2_data["items"][0]["classification"]["scheme"] = "CPV"
+test_tender_cdeu_stage2_data["items"][0]["classification"]["scheme"] = "CPV"
 
-test_lots = [
+test_tender_cd_lots = [
     {
         "title": "lot title",
         "description": "lot description",
-        "value": test_tender_data_eu["value"],
-        "minimalStep": test_tender_data_eu["minimalStep"],
+        "value": test_tender_cdeu_data["value"],
+        "minimalStep": test_tender_cdeu_data["minimalStep"],
     }
 ]
 
-test_features_tender_eu_data = deepcopy(test_features_tender_data)
-test_features_tender_eu_data["procurementMethodType"] = CD_EU_TYPE
+test_tender_cdeu_features_data = deepcopy(test_tender_openeu_features_data)
+test_tender_cdeu_features_data["procurementMethodType"] = CD_EU_TYPE
 
-test_tenderer = deepcopy(test_bids[0]["tenderers"][0])
-test_tenderer["identifier"]["id"] = test_shortlistedFirms[0]["identifier"]["id"]
-test_tenderer["identifier"]["scheme"] = test_shortlistedFirms[0]["identifier"]["scheme"]
+test_tender_cd_tenderer = deepcopy(test_tender_cd_bids[0]["tenderers"][0])
+test_tender_cd_tenderer["identifier"]["id"] = test_tender_cd_shortlisted_firms[0]["identifier"]["id"]
+test_tender_cd_tenderer["identifier"]["scheme"] = test_tender_cd_shortlisted_firms[0]["identifier"]["scheme"]
 
-test_author = deepcopy(test_tenderer)
-del test_author["scale"]
+test_tender_cd_author = deepcopy(test_tender_cd_tenderer)
+del test_tender_cd_author["scale"]
 
 
 if SANDBOX_MODE:
-    test_tender_data_eu["procurementMethodDetails"] = "quick, accelerator=1440"
-    test_tender_data_ua["procurementMethodDetails"] = "quick, accelerator=1440"
+    test_tender_cdeu_data["procurementMethodDetails"] = "quick, accelerator=1440"
+    test_tender_cdua_data["procurementMethodDetails"] = "quick, accelerator=1440"
 
 
-test_tender_data_stage2_eu_multi_buyers = set_tender_multi_buyers(
-    test_tender_stage2_data_eu, test_tender_stage2_data_eu["items"][0],
-    test_organization
+test_tender_cdeu_stage2_multi_buyers_data = set_tender_multi_buyers(
+    test_tender_cdeu_stage2_data,
+    test_tender_cdeu_stage2_data["items"][0],
+    test_tender_below_organization
 )
 
-test_tender_data_stage2_ua_multi_buyers = set_tender_multi_buyers(
-    test_tender_stage2_data_ua, test_tender_stage2_data_ua["items"][0],
-    test_organization
+test_tender_cdua_stage2_multi_buyers_data = set_tender_multi_buyers(
+    test_tender_cdua_stage2_data,
+    test_tender_cdua_stage2_data["items"][0],
+    test_tender_below_organization
 )
+
+test_tender_cdeu_config = {
+    "hasAuction": False,
+}
+
+test_tender_cdua_config = {
+    "hasAuction": False,
+}
+
+test_tender_cdeu_stage2_config = {
+    "hasAuction": True,
+}
+
+test_tender_cdua_stage2_config = {
+    "hasAuction": True,
+}
 
 
 class BaseCompetitiveDialogApiWebTest(BaseWebTest):
@@ -149,7 +169,6 @@ class BaseCompetitiveDialogApiWebTest(BaseWebTest):
 
 class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
     relative_to = os.path.dirname(__file__)
-    initial_data = "active.tendering"
     initial_status = None
     initial_bids = None
     initial_lots = None
@@ -170,24 +189,24 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
 
 
 class BaseCompetitiveDialogEUStage2WebTest(BaseCompetitiveDialogWebTest):
-    initial_data = test_tender_stage2_data_eu
-    test_bids_data = test_bids
+    initial_data = test_tender_cdeu_stage2_data
+    test_bids_data = test_tender_cd_bids
 
     periods = PERIODS
     tender_class = TenderStage2EU
 
 
 class BaseCompetitiveDialogUAStage2WebTest(BaseCompetitiveDialogWebTest):
-    initial_data = test_tender_stage2_data_ua
-    test_bids_data = test_bids
+    initial_data = test_tender_cdua_stage2_data
+    test_bids_data = test_tender_cd_bids
 
     periods = PERIODS_UA_STAGE_2
     tender_class = TenderStage2UA
 
 
 class BaseCompetitiveDialogEUWebTest(BaseCompetitiveDialogWebTest):
-    initial_data = test_tender_data_eu
-    initial_config = test_tender_config
+    initial_data = test_tender_cdeu_data
+    initial_config = test_tender_cdeu_config
     question_claim_block_status = (
         "active.pre-qualification"
     )  # status, tender cannot be switched to while it has questions/complaints related to its lot
@@ -204,8 +223,8 @@ class BaseCompetitiveDialogEUWebTest(BaseCompetitiveDialogWebTest):
 
 
 class BaseCompetitiveDialogUAWebTest(BaseCompetitiveDialogWebTest):
-    initial_data = test_tender_data_ua
-    initial_config = test_tender_config
+    initial_data = test_tender_cdua_data
+    initial_config = test_tender_cdua_config
     # auction role actions
     forbidden_auction_actions_status = (
         "active.tendering"
@@ -219,7 +238,6 @@ class BaseCompetitiveDialogUAWebTest(BaseCompetitiveDialogWebTest):
 
 
 class BaseCompetitiveDialogUAContentWebTest(BaseCompetitiveDialogUAWebTest):
-    initial_data = test_tender_data_ua
     initial_status = "active.tendering"
     initial_bids = None
     initial_lots = None
@@ -234,7 +252,6 @@ class BaseCompetitiveDialogUAContentWebTest(BaseCompetitiveDialogUAWebTest):
 
 
 class BaseCompetitiveDialogEUContentWebTest(BaseCompetitiveDialogEUWebTest):
-    initial_data = test_tender_data_eu
     initial_status = "active.tendering"
     initial_bids = None
     initial_lots = None
@@ -246,7 +263,8 @@ class BaseCompetitiveDialogEUContentWebTest(BaseCompetitiveDialogEUWebTest):
 
 
 class BaseCompetitiveDialogEUStage2ContentWebTest(BaseCompetitiveDialogEUWebTest):
-    initial_data = test_tender_stage2_data_eu
+    initial_data = test_tender_cdeu_stage2_data
+    initial_config = test_tender_cdeu_stage2_config
     initial_status = "active.tendering"
     initial_bids = None
     initial_lots = None
@@ -271,7 +289,8 @@ class BaseCompetitiveDialogEUStage2ContentWebTest(BaseCompetitiveDialogEUWebTest
 
 
 class BaseCompetitiveDialogUAStage2ContentWebTest(BaseCompetitiveDialogUAWebTest):
-    initial_data = test_tender_stage2_data_ua
+    initial_data = test_tender_cdua_stage2_data
+    initial_config = test_tender_cdua_stage2_config
     initial_status = "active.tendering"
     initial_bids = None
     initial_lots = None
@@ -283,7 +302,7 @@ class BaseCompetitiveDialogUAStage2ContentWebTest(BaseCompetitiveDialogUAWebTest
     def create_tenderers(self, count=1):
         tenderers = []
         for i in range(count):
-            tenderer = deepcopy(test_bids[0]["tenderers"])
+            tenderer = deepcopy(test_tender_openeu_bids[0]["tenderers"])
             identifier = self.initial_data["shortlistedFirms"][i if i < 3 else 3]["identifier"]
             tenderer[0]["identifier"]["id"] = identifier["id"]
             tenderer[0]["identifier"]["scheme"] = identifier["scheme"]

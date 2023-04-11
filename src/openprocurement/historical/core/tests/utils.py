@@ -1,10 +1,10 @@
+import os.path
+import json
 from cornice.resource import resource
 from copy import deepcopy
 from uuid import uuid4
-import os.path
-import json
-
 from openprocurement.historical.core.utils import Root, APIHistoricalResource, json_view
+
 
 here = os.path.dirname(__file__)
 with open(os.path.join(here, "data.json")) as in_json:

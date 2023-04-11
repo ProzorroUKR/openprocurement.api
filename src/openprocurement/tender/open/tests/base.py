@@ -9,24 +9,24 @@ from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_data as test_tender_data_api,
-    test_tender_config,
-    test_features_tender_data,
     BaseTenderWebTest,
-    test_bids as base_test_bids,
-    set_tender_multi_buyers,
-    test_organization,
+    test_tender_below_data,
+    test_tender_below_features_data,
+    test_tender_below_bids,
+    test_tender_below_organization,
 )
+from openprocurement.tender.belowthreshold.tests.utils import set_tender_multi_buyers
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.open.models import Tender
 from openprocurement.tender.open.tests.periods import PERIODS
 
 now = get_now()
-test_tender_data = test_tender_ua_data = test_tender_data_api.copy()
-test_tender_data["procurementMethodType"] = ABOVE_THRESHOLD
-del test_tender_data["enquiryPeriod"]
-test_tender_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
-test_tender_data["items"] = [
+
+test_tender_open_data = test_tender_below_data.copy()
+test_tender_open_data["procurementMethodType"] = ABOVE_THRESHOLD
+del test_tender_open_data["enquiryPeriod"]
+test_tender_open_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
+test_tender_open_data["items"] = [
     {
         "description": "футляри до державних нагород",
         "description_en": "Cases for state awards",
@@ -54,32 +54,25 @@ test_tender_data["items"] = [
     }
 ]
 if SANDBOX_MODE:
-    test_tender_data["procurementMethodDetails"] = "quick, accelerator=1440"
+    test_tender_open_data["procurementMethodDetails"] = "quick, accelerator=1440"
 
-test_bids = deepcopy(base_test_bids)
+test_tender_open_bids = deepcopy(test_tender_below_bids)
+for bid in test_tender_open_bids:
+    bid["selfQualified"] = True
+    if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
+        bid["selfEligible"] = True
 
-bid_update_data = {"selfQualified": True}
-if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
-    bid_update_data["selfEligible"] = True
+test_tender_open_features_data = test_tender_below_features_data.copy()
+test_tender_open_features_data["procurementMethodType"] = ABOVE_THRESHOLD
+del test_tender_open_features_data["enquiryPeriod"]
+test_tender_open_features_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
+test_tender_open_features_data["items"][0]["deliveryDate"] = test_tender_open_data["items"][0]["deliveryDate"]
+test_tender_open_features_data["items"][0]["deliveryAddress"] = test_tender_open_data["items"][0]["deliveryAddress"]
 
-for i in test_bids:
-    i.update(bid_update_data)
-
-test_features_tender_ua_data = test_features_tender_data.copy()
-test_features_tender_ua_data["procurementMethodType"] = ABOVE_THRESHOLD
-del test_features_tender_ua_data["enquiryPeriod"]
-test_features_tender_ua_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
-test_features_tender_ua_data["items"][0]["deliveryDate"] = test_tender_data["items"][0]["deliveryDate"]
-test_features_tender_ua_data["items"][0]["deliveryAddress"] = test_tender_data["items"][0]["deliveryAddress"]
-
-current_dir = os.path.dirname(os.path.abspath(__file__))
-with open(os.path.join(current_dir, "data", "lcc_criteria.json")) as json_file:
-    lcc_criteria = json.load(json_file)
-
-
-test_tender_data_multi_buyers = set_tender_multi_buyers(
-    test_tender_data, test_tender_data["items"][0],
-    test_organization
+test_tender_open_multi_buyers_data = set_tender_multi_buyers(
+    test_tender_open_data,
+    test_tender_open_data["items"][0],
+    test_tender_below_organization
 )
 
 
@@ -89,7 +82,7 @@ class BaseApiWebTest(BaseWebTest):
 
 class BaseTenderUAWebTest(BaseTenderWebTest):
     relative_to = os.path.dirname(__file__)
-    initial_data = test_tender_data
+    initial_data = test_tender_open_data
     initial_status = "active.tendering"
     initial_bids = None
     initial_lots = None
@@ -140,7 +133,7 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
 
 
 class BaseTenderUAContentWebTest(BaseTenderUAWebTest):
-    initial_data = test_tender_data
+    initial_data = test_tender_open_data
     initial_status = "active.tendering"
     initial_bids = None
     initial_lots = None

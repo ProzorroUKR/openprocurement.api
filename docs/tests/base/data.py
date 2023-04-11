@@ -1,18 +1,21 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
-from datetime import timedelta, datetime
+from datetime import (
+    timedelta,
+    datetime,
+)
 from dateutil.parser import parse
 from hashlib import sha512
 
-from openprocurement.tender.belowthreshold.tests.base import test_milestones
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_milestones
 from tests.base.constants import MOCK_DATETIME
 
-parameters = [
+test_docs_parameters = [
     {'code': 'OCDS-123454-AIR-INTAKE', 'value': 0.1},
     {'code': 'OCDS-123454-YEARS', 'value': 0.1}
 ]
 
-tenderer = {
+test_docs_tenderer = {
     "address": {
         "countryName": "Україна",
         "locality": "м. Вінниця",
@@ -35,13 +38,13 @@ tenderer = {
     "scale": "micro"
 }
 
-author = deepcopy(tenderer)
-del author['scale']
+test_docs_author = deepcopy(test_docs_tenderer)
+del test_docs_author['scale']
 
-complaint_author = deepcopy(author)
-complaint_author["identifier"]["legalName"] = "ДКП «Школяр»"
+test_docs_complaint_author = deepcopy(test_docs_author)
+test_docs_complaint_author["identifier"]["legalName"] = "ДКП «Школяр»"
 
-tenderer2 = {
+test_docs_tenderer2 = {
     "address": {
         "countryName": "Україна",
         "locality": "м. Львів",
@@ -64,10 +67,10 @@ tenderer2 = {
     "scale": "sme"
 }
 
-author2 = deepcopy(tenderer2)
-del author2['scale']
+test_docs_author2 = deepcopy(test_docs_tenderer2)
+del test_docs_author2['scale']
 
-tenderer3 = {
+test_docs_tenderer3 = {
     "address": {
         "countryName": "Україна",
         "locality": "м. Львів",
@@ -89,7 +92,7 @@ tenderer3 = {
     "scale": "mid"
 }
 
-tenderer4 = {
+test_docs_tenderer4 = {
     "address": {
         "countryName": "Україна",
         "locality": "м. Запоріжя",
@@ -111,7 +114,7 @@ tenderer4 = {
     "scale": "large"
 }
 
-bad_participant = {
+test_docs_bad_participant = {
     "address": {
         "countryName": "Україна",
         "locality": "м. Львів",
@@ -134,86 +137,86 @@ bad_participant = {
     "scale": "mid"
 }
 
-bad_author = deepcopy(bad_participant)
-del bad_author['scale']
+test_docs_bad_author = deepcopy(test_docs_bad_participant)
+del test_docs_bad_author['scale']
 
-bid_document = {
+test_docs_bid_document = {
     'title': 'Proposal_part1.pdf',
     'url': "http://broken1.ds",
     'hash': 'md5:' + '0' * 32,
     'format': 'application/pdf',
 }
 
-bid_document2 = {
+test_docs_bid_document2 = {
     'title': 'Proposal_part2.pdf',
     'url': "http://broken2.ds",
     'hash': 'md5:' + '0' * 32,
     'format': 'application/pdf',
 }
 
-bid_document3_eligibility = {
+test_docs_bid_document3_eligibility = {
     'title': 'eligibility_doc.pdf',
     'url': "http://broken3.ds",
     'hash': 'md5:' + '0' * 32,
     'format': 'application/pdf',
 }
 
-bid_document4_financialy = {
+test_docs_bid_document4_financialy = {
     'title': 'financial_doc.pdf',
     'url': "http://broken4.ds",
     'hash': 'md5:' + '0' * 32,
     'format': 'application/pdf',
 }
 
-bid_document5_qualification = {
+test_docs_bid_document5_qualification = {
     'title': 'qualification_document.pdf',
     'url': "http://broken5.ds",
     'hash': 'md5:' + '0' * 32,
     'format': 'application/pdf',
 }
 
-bid = {
-    "tenderers": [tenderer],
+test_docs_bid = {
+    "tenderers": [test_docs_tenderer],
     "value": {
         "amount": 500
     }
 }
 
-bid_draft = deepcopy(bid)
-bid_draft["status"] = "draft"
+test_docs_bid_draft = deepcopy(test_docs_bid)
+test_docs_bid_draft["status"] = "draft"
 
-bid2 = {
-    "tenderers": [tenderer2],
+test_docs_bid2 = {
+    "tenderers": [test_docs_tenderer2],
     "value": {
         "amount": 499
     }
 }
 
-bid2_with_docs = deepcopy(bid2)
-bid2_with_docs["documents"] = [bid_document, bid_document2]
+test_docs_bid2_with_docs = deepcopy(test_docs_bid2)
+test_docs_bid2_with_docs["documents"] = [test_docs_bid_document, test_docs_bid_document2]
 
-bid3 = {
-    "tenderers": [tenderer3],
+test_docs_bid3 = {
+    "tenderers": [test_docs_tenderer3],
     "value": {
         "amount": 5
     }
 }
 
-bid3_with_docs = deepcopy(bid2)
-bid3_with_docs["documents"] = [bid_document, bid_document2]
-bid3_with_docs["eligibilityDocuments"] = [bid_document3_eligibility]
-bid3_with_docs["financialDocuments"] = [bid_document4_financialy]
-bid3_with_docs["qualificationDocuments"] = [bid_document5_qualification]
+test_docs_bid3_with_docs = deepcopy(test_docs_bid2)
+test_docs_bid3_with_docs["documents"] = [test_docs_bid_document, test_docs_bid_document2]
+test_docs_bid3_with_docs["eligibilityDocuments"] = [test_docs_bid_document3_eligibility]
+test_docs_bid3_with_docs["financialDocuments"] = [test_docs_bid_document4_financialy]
+test_docs_bid3_with_docs["qualificationDocuments"] = [test_docs_bid_document5_qualification]
 
-bid4 = {
-    "tenderers": [tenderer4],
+test_docs_bid4 = {
+    "tenderers": [test_docs_tenderer4],
     "value": {
         "amount": 5
     }
 }
 
-lot_bid = {
-    "tenderers": [tenderer],
+test_docs_lot_bid = {
+    "tenderers": [test_docs_tenderer],
     "status": "draft",
     "lotValues": [{
         "value": {
@@ -224,8 +227,8 @@ lot_bid = {
 
 }
 
-lot_bid2 = {
-    "tenderers": [tenderer2],
+test_docs_lot_bid2 = {
+    "tenderers": [test_docs_tenderer2],
     "lotValues": [{
         "value": {
             "amount": 499
@@ -234,11 +237,11 @@ lot_bid2 = {
     }]
 }
 
-lot_bid2_with_docs = deepcopy(lot_bid2)
-lot_bid2_with_docs["documents"] = [bid_document, bid_document2]
+test_docs_lot_bid2_with_docs = deepcopy(test_docs_lot_bid2)
+test_docs_lot_bid2_with_docs["documents"] = [test_docs_bid_document, test_docs_bid_document2]
 
-lot_bid3 = {
-    "tenderers": [tenderer3],
+test_docs_lot_bid3 = {
+    "tenderers": [test_docs_tenderer3],
     "lotValues": [{
         "value": {
             "amount": 485
@@ -247,19 +250,19 @@ lot_bid3 = {
     }]
 }
 
-lot_bid3_with_docs = deepcopy(lot_bid3)
-lot_bid3_with_docs["documents"] = [bid_document, bid_document2]
-lot_bid3_with_docs["eligibilityDocuments"] = [bid_document3_eligibility]
-lot_bid3_with_docs["financialDocuments"] = [bid_document4_financialy]
-lot_bid3_with_docs["qualificationDocuments"] = [bid_document5_qualification]
+test_docs_lot_bid3_with_docs = deepcopy(test_docs_lot_bid3)
+test_docs_lot_bid3_with_docs["documents"] = [test_docs_bid_document, test_docs_bid_document2]
+test_docs_lot_bid3_with_docs["eligibilityDocuments"] = [test_docs_bid_document3_eligibility]
+test_docs_lot_bid3_with_docs["financialDocuments"] = [test_docs_bid_document4_financialy]
+test_docs_lot_bid3_with_docs["qualificationDocuments"] = [test_docs_bid_document5_qualification]
 
-question = {
-    "author": author2,
+test_docs_question = {
+    "author": test_docs_author2,
     "description": "Просимо додати таблицю потрібної калорійності харчування",
     "title": "Калорійність"
 }
 
-features = [
+test_docs_features = [
     {
         "code": "OCDS-123454-AIR-INTAKE",
         "featureOf": "item",
@@ -301,7 +304,7 @@ features = [
     }
 ]
 
-funder = {
+test_docs_funder = {
     "additionalIdentifiers": [],
     "address": {
         "countryName": "Швейцарська Конфедерація",
@@ -325,30 +328,30 @@ funder = {
     "name": "Глобальний фонд"
 }
 
-claim = {
+test_docs_claim = {
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "title": "Недостатньо інформації",
     "type": "claim",
-    'author': author
+    'author': test_docs_author
 }
 
-complaint = {
+test_docs_complaint = {
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "title": "Недостатньо інформації",
     "status": "draft",
     "type": "complaint",
-    'author': complaint_author,
+    'author': test_docs_complaint_author,
 }
 
-qualified = {
+test_docs_qualified = {
     'selfQualified': True
 }
 
-subcontracting = {
+test_docs_subcontracting = {
     'subcontractingDetails': "ДКП «Орфей», Україна"
 }
 
-lots = [
+test_docs_lots = [
     {
         'title': 'Лот №1',
         'description': 'Опис Лот №1',
@@ -359,7 +362,7 @@ lots = [
     }
 ]
 
-items = [
+test_docs_items = [
     {
         "id": "f" * 32,
         "description": "футляри до державних нагород",
@@ -386,7 +389,7 @@ items = [
     }
 ]
 
-items_en = [
+test_docs_items_en = [
     {
         "additionalClassifications": [
             {
@@ -454,7 +457,7 @@ items_en = [
     }
 ]
 
-items_ua = [
+test_docs_items_ua = [
     {
         "additionalClassifications": [
             {
@@ -491,7 +494,7 @@ items_ua = [
     }
 ]
 
-items_open = [
+test_docs_items_open = [
     {
         "additionalClassifications": [
             {
@@ -561,7 +564,7 @@ items_open = [
     }
 ]
 
-procuring_entity = {
+test_docs_procuring_entity = {
     "name": "Державне управління справами",
     "identifier": {
         "scheme": "UA-EDR",
@@ -582,7 +585,7 @@ procuring_entity = {
     'kind': 'general'
 }
 
-procuring_entity_en = {
+test_docs_procuring_entity_en = {
     "kind": "general",
     "address": {
         "countryName": "Україна",
@@ -608,7 +611,7 @@ procuring_entity_en = {
     "name_en": "School #10 of Vinnytsia"
 }
 
-procuring_entity_ua = {
+test_docs_procuring_entity_ua = {
     "kind": "special",
     "address": {
         "countryName": "Україна",
@@ -630,7 +633,7 @@ procuring_entity_ua = {
     "name": "ЗОСШ #10 м.Вінниці"
 }
 
-shortlisted_firms = [
+test_docs_shortlisted_firms = [
     {
         "identifier": {
             "scheme": "UA-EDR",
@@ -657,9 +660,9 @@ shortlisted_firms = [
     },
 ]
 
-award = {
+test_docs_award = {
     "status": "pending",
-    "suppliers": [tenderer],
+    "suppliers": [test_docs_tenderer],
     "value": {
         "amount": 475000,
         "currency": "UAH",
@@ -667,13 +670,13 @@ award = {
     }
 }
 
-tender_below = {
+test_docs_tender_below = {
     "title": "футляри до державних нагород",
     "mainProcurementCategory": "goods",
-    "procuringEntity": procuring_entity,
+    "procuringEntity": test_docs_procuring_entity,
     "value": {"amount": 500, "currency": "UAH"},
     "minimalStep": {"amount": 15, "currency": "UAH"},
-    "items": items,
+    "items": test_docs_items,
     "enquiryPeriod": {
         "endDate": (parse(MOCK_DATETIME) + timedelta(days=7)).isoformat()
     },
@@ -681,14 +684,14 @@ tender_below = {
         "endDate": (parse(MOCK_DATETIME) + timedelta(days=14)).isoformat()
     },
     "procurementMethodType": "belowThreshold",
-    "milestones": test_milestones,
+    "milestones": test_tender_below_milestones,
 }
 
-tender_below_maximum = {
+test_docs_tender_below_maximum = {
     "title": "футляри до державних нагород",
     "title_en": "Cases with state awards",
     "title_ru": "футляры к государственным наградам",
-    "procuringEntity": procuring_entity,
+    "procuringEntity": test_docs_procuring_entity,
     "value": {
         "amount": 500,
         "currency": "UAH"
@@ -697,7 +700,7 @@ tender_below_maximum = {
         "amount": 5,
         "currency": "UAH"
     },
-    "items": items,
+    "items": test_docs_items,
     "enquiryPeriod": {
         "endDate": (parse(MOCK_DATETIME) + timedelta(days=7)).isoformat()
     },
@@ -706,12 +709,12 @@ tender_below_maximum = {
     },
     "procurementMethodType": "belowThreshold",
     "mode": "test",
-    "features": features,
-    "milestones": test_milestones,
+    "features": test_docs_features,
+    "milestones": test_tender_below_milestones,
     "mainProcurementCategory": "services",
 }
 
-tender_cfaselectionua_maximum = {
+test_docs_tender_cfaselectionua_maximum = {
     "title": "футляри до державних нагород",
     "title_en": "Cases with state awards",
     "title_ru": "футляры к государственным наградам",
@@ -735,14 +738,14 @@ tender_cfaselectionua_maximum = {
         },
         'kind': 'general'
     },
-    "items": items,
+    "items": test_docs_items,
     "procurementMethodType": "closeFrameworkAgreementSelectionUA",
     "mode": "test",
-    "milestones": test_milestones,
+    "milestones": test_tender_below_milestones,
     "mainProcurementCategory": "services",
 }
 
-tender_stage1 = {
+test_docs_tender_stage1 = {
     "tenderPeriod": {
         "endDate": "2016-02-11T14:04:18.962451"
     },
@@ -757,13 +760,13 @@ tender_stage1 = {
         "currency": "UAH",
         "amount": 500
     },
-    "procuringEntity": procuring_entity_en,
-    "items": items_en,
-    "milestones": test_milestones,
+    "procuringEntity": test_docs_procuring_entity_en,
+    "items": test_docs_items_en,
+    "milestones": test_tender_below_milestones,
     "mainProcurementCategory": "services",
 }
 
-tender_stage2_multiple_lots = {
+test_docs_tender_stage2_multiple_lots = {
     "procurementMethod": "selective",
     "dialogue_token": sha512('secret'.encode()).hexdigest(),
     "title": "Послуги шкільних їдалень",
@@ -777,13 +780,13 @@ tender_stage2_multiple_lots = {
         "currency": "UAH",
         "amount": 500
     },
-    "shortlistedFirms": shortlisted_firms,
+    "shortlistedFirms": test_docs_shortlisted_firms,
     "owner": "broker",
-    "procuringEntity": procuring_entity_en,
-    "items": items_en
+    "procuringEntity": test_docs_procuring_entity_en,
+    "items": test_docs_items_en
 }
 
-tender_stage2EU = {
+test_docs_tender_stage2EU = {
     "title": "Послуги шкільних їдалень",
     "title_en": "Services in school canteens",
     "procurementMethod": "selective",
@@ -798,13 +801,13 @@ tender_stage2EU = {
         "amount": 500
     },
     "dialogue_token": "",
-    "shortlistedFirms": shortlisted_firms,
+    "shortlistedFirms": test_docs_shortlisted_firms,
     "owner": "broker",
-    "procuringEntity": procuring_entity_en,
-    "items": items_en
+    "procuringEntity": test_docs_procuring_entity_en,
+    "items": test_docs_items_en
 }
 
-tender_stage2UA = {
+test_docs_tender_stage2UA = {
     "title": "футляри до державних нагород",
     "minimalStep": {
         "currency": "UAH",
@@ -817,18 +820,18 @@ tender_stage2UA = {
         "amount": 500
     },
     "status": "draft",
-    "shortlistedFirms": shortlisted_firms,
+    "shortlistedFirms": test_docs_shortlisted_firms,
     "owner": "broker",
-    "procuringEntity": procuring_entity_ua,
-    "items": items_ua
+    "procuringEntity": test_docs_procuring_entity_ua,
+    "items": test_docs_items_ua
 }
 
-tender_limited = {
-    "items": items_ua,
+test_docs_tender_limited = {
+    "items": test_docs_items_ua,
     "procurementMethod": "limited",
     "procurementMethodType": "reporting",
     "status": "draft",
-    "procuringEntity": procuring_entity_ua,
+    "procuringEntity": test_docs_procuring_entity_ua,
     "value": {
         "amount": 500000,
         "currency": "UAH",
@@ -839,11 +842,11 @@ tender_limited = {
     "title_ru": "Услуги школьных столовых",
     "description_en": "Services in school canteens",
     "description_ru": "Услуги школьных столовых",
-    "milestones": test_milestones,
+    "milestones": test_tender_below_milestones,
     "mainProcurementCategory": "services",
 }
 
-tender_openeu = {
+test_docs_tender_openeu = {
     "tenderPeriod": {
         "endDate": (parse(MOCK_DATETIME) + timedelta(days=31)).isoformat()
     },
@@ -858,13 +861,13 @@ tender_openeu = {
         "currency": "UAH",
         "amount": 500
     },
-    "procuringEntity": procuring_entity_en,
-    "items": items_en,
-    "milestones": test_milestones,
+    "procuringEntity": test_docs_procuring_entity_en,
+    "items": test_docs_items_en,
+    "milestones": test_tender_below_milestones,
     "mainProcurementCategory": "services",
 }
 
-tender_openua = {
+test_docs_tender_openua = {
     "tenderPeriod": {
         "endDate": (parse(MOCK_DATETIME) + timedelta(days=31)).isoformat()
     },
@@ -878,13 +881,13 @@ tender_openua = {
         "currency": "UAH",
         "amount": 500
     },
-    "procuringEntity": procuring_entity_ua,
-    "items": items_ua,
-    "milestones": test_milestones,
+    "procuringEntity": test_docs_procuring_entity_ua,
+    "items": test_docs_items_ua,
+    "milestones": test_tender_below_milestones,
     "mainProcurementCategory": "services",
 }
 
-tender_open = {
+test_docs_tender_open = {
     "tenderPeriod": {
         "endDate": (parse(MOCK_DATETIME) + timedelta(days=15)).isoformat()
     },
@@ -898,19 +901,19 @@ tender_open = {
         "currency": "UAH",
         "amount": 500
     },
-    "procuringEntity": procuring_entity_ua,
-    "items": items_open,
-    "milestones": test_milestones,
+    "procuringEntity": test_docs_procuring_entity_ua,
+    "items": test_docs_items_open,
+    "milestones": test_tender_below_milestones,
     "mainProcurementCategory": "services",
 }
 
-items_esco = deepcopy(items_en)
-for item in items_esco:
+test_docs_items_esco = deepcopy(test_docs_items_en)
+for item in test_docs_items_esco:
     del item["unit"]
     del item["quantity"]
     del item["deliveryDate"]
 
-tender_esco = {
+test_docs_tender_esco = {
     "tenderPeriod": {
         "endDate": (parse(MOCK_DATETIME) + timedelta(days=31)).isoformat()
     },
@@ -918,16 +921,16 @@ tender_esco = {
     "title_en": "Services in school canteens",
     "procurementMethodType": "esco",
     "minimalStepPercentage": 0.006,
-    "procuringEntity": procuring_entity_en,
-    "items": items_esco,
+    "procuringEntity": test_docs_procuring_entity_en,
+    "items": test_docs_items_esco,
     "NBUdiscountRate": 0.22986,
     "fundingKind": "other",
     "yearlyPaymentsPercentageRange": 0.8,
-    "milestones": test_milestones,
+    "milestones": test_tender_below_milestones,
     "mainProcurementCategory": "services",
 }
 
-tender_defense = {
+test_docs_tender_defense = {
     "tenderPeriod": {
         "endDate": (parse(MOCK_DATETIME) + timedelta(days=26)).isoformat()
     },
@@ -941,13 +944,13 @@ tender_defense = {
         "currency": "UAH",
         "amount": 500
     },
-    "procuringEntity": procuring_entity_ua,
-    "items": items_ua,
-    "milestones": test_milestones,
+    "procuringEntity": test_docs_procuring_entity_ua,
+    "items": test_docs_items_ua,
+    "milestones": test_tender_below_milestones,
     "mainProcurementCategory": "services",
 }
 
-plan = {
+test_docs_plan_data = {
     "tender": {
         "procurementMethod": "open",
         "procurementMethodType": "belowThreshold",
@@ -1049,15 +1052,15 @@ plan = {
     },
 }
 
-test_eligible_evidence_data = {
+test_docs_eligible_evidence_data = {
     "title": "Документальне підтвердження",
     "description": "Довідка в довільній формі",
     "type": "document",
 }
 
-test_requirement_data = {
+test_docs_requirement_data = {
     "dataType": "boolean",
-    "eligibleEvidences": [test_eligible_evidence_data],
+    "eligibleEvidences": [test_docs_eligible_evidence_data],
     "expectedValue": "true",
     "title": "Фізична особа, яка є учасником процедури закупівлі, "
              "не була засуджена за злочин, учинений з корисливих мотивів "
@@ -1065,13 +1068,13 @@ test_requirement_data = {
              "судимість з якої знято або погашено у встановленому законом порядку",
 }
 
-test_requirement_group_data = {
-    "requirements": [test_requirement_data],
+test_docs_requirement_group_data = {
+    "requirements": [test_docs_requirement_data],
     "description": "Учасник фізична особа підтверджує, що"
 }
 
-test_criterion_data = {
-    "requirementGroups": [test_requirement_group_data],
+test_docs_criterion_data = {
+    "requirementGroups": [test_docs_requirement_group_data],
     "description": "Службова (посадова) особа учасника процедури закупівлі, яка підписала тендерну пропозицію "
                    "(або уповноважена на підписання договору в разі переговорної процедури закупівлі) або фізична особа, "
                    "яка є учасником процедури закупівлі, не була засуджена за злочин, "

@@ -3,7 +3,7 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_draft_complaint
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_draft_complaint
 from openprocurement.tender.belowthreshold.tests.complaint import TenderComplaintResourceTestMixin
 from openprocurement.tender.openua.tests.complaint import TenderUAComplaintResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
@@ -19,12 +19,12 @@ from openprocurement.tender.openua.tests.complaint_blanks import (
     patch_tender_complaint_document,
 )
 from openprocurement.tender.competitivedialogue.tests.base import (
-    test_lots,
-    test_bids,
-    test_shortlistedFirms,
+    test_tender_cd_lots,
+    test_tender_openeu_bids,
+    test_tender_cd_shortlisted_firms,
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,
-    test_author,
+    test_tender_cd_author,
 )
 
 
@@ -33,13 +33,13 @@ class TenderStage2EUComplaintResourceTest(
 ):
 
     initial_auth = ("Basic", ("broker", ""))
-    test_author = test_author
+    test_author = test_tender_cd_author
 
 
 class TenderStage2EULotAwardComplaintResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
-    initial_lots = test_lots
+    initial_lots = test_tender_cd_lots
     initial_auth = ("Basic", ("broker", ""))
-    test_author = test_author  # TODO: change attribute identifier
+    test_author = test_tender_cd_author  # TODO: change attribute identifier
 
     test_create_tender_complaint = snitch(create_tender_lot_complaint)
 
@@ -51,8 +51,8 @@ class TenderStage2EUComplaintDocumentResourceTest(BaseCompetitiveDialogEUStage2C
     def setUp(self):
         super(TenderStage2EUComplaintDocumentResourceTest, self).setUp()
         # Create complaint
-        claim_data = deepcopy(test_draft_complaint)
-        claim_data["author"] = test_author
+        claim_data = deepcopy(test_tender_below_draft_complaint)
+        claim_data["author"] = test_tender_cd_author
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
             {"data": claim_data},
@@ -70,14 +70,14 @@ class TenderStage2EUComplaintDocumentResourceTest(BaseCompetitiveDialogEUStage2C
 class TenderStage2UAComplaintResourceTest(
     BaseCompetitiveDialogUAStage2ContentWebTest, TenderComplaintResourceTestMixin, TenderUAComplaintResourceTestMixin
 ):
-    test_author = test_author  # TODO: change attribute identifier
+    test_author = test_tender_cd_author  # TODO: change attribute identifier
 
 
 class TenderStage2UALotAwardComplaintResourceTest(
     BaseCompetitiveDialogUAStage2ContentWebTest, TenderStage2EULotAwardComplaintResourceTest
 ):
-    initial_lots = test_lots
-    test_author = test_author  # TODO: change attribute identifier
+    initial_lots = test_tender_cd_lots
+    test_author = test_tender_cd_author  # TODO: change attribute identifier
 
 
 class TenderStage2UAComplaintDocumentResourceTest(
@@ -86,8 +86,8 @@ class TenderStage2UAComplaintDocumentResourceTest(
     def setUp(self):
         super(TenderStage2UAComplaintDocumentResourceTest, self).setUp()
         # Create complaint
-        claim_data = deepcopy(test_draft_complaint)
-        claim_data["author"] = test_author
+        claim_data = deepcopy(test_tender_below_draft_complaint)
+        claim_data["author"] = test_tender_cd_author
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
             {"data": claim_data},

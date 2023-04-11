@@ -4,23 +4,22 @@ import os
 
 from datetime import datetime, timedelta
 from openprocurement.api.constants import SANDBOX_MODE, RELEASE_ECRITERIA_ARTICLE_17
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_milestones as base_test_milestones,
-    test_organization,
-    set_tender_multi_buyers,
+    test_tender_below_milestones,
+    test_tender_below_organization,
 )
+from openprocurement.tender.belowthreshold.tests.utils import set_tender_multi_buyers
 from openprocurement.tender.openeu.models import Tender
 from openprocurement.tender.openeu.tests.periods import PERIODS
 from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest
 from openprocurement.api.utils import get_now
-from openprocurement.tender.openeu.constants import (
-    TENDERING_DAYS,
-)
+from openprocurement.tender.openeu.constants import TENDERING_DAYS
 
-test_milestones = copy.deepcopy(base_test_milestones)
 
-test_bids = [
+test_tender_openeu_milestones = copy.deepcopy(test_tender_below_milestones)
+
+test_tender_openeu_bids = [
     {
         "tenderers": [
             {
@@ -83,12 +82,13 @@ test_bids = [
     },
 ]
 
-if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
-    for i in test_bids:
-        i["selfEligible"] = True
+for bid in test_tender_openeu_bids:
+    if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
+        bid["selfEligible"] = True
 
 now = datetime.now()
-test_tender_data = {
+
+test_tender_openeu_data = {
     "title": "футляри до державних нагород",
     "title_en": "Cases for state awards",
     "mainProcurementCategory": "services",
@@ -150,16 +150,16 @@ test_tender_data = {
     ],
     "tenderPeriod": {"endDate": (now + timedelta(days=TENDERING_DAYS + 1)).isoformat()},
     "procurementMethodType": "aboveThresholdEU",
-    "milestones": test_milestones,
+    "milestones": test_tender_openeu_milestones,
 }
 if SANDBOX_MODE:
-    test_tender_data["procurementMethodDetails"] = "quick, accelerator=1440"
+    test_tender_openeu_data["procurementMethodDetails"] = "quick, accelerator=1440"
 
-test_features_tender_data = test_tender_data.copy()
-test_features_item = test_features_tender_data["items"][0].copy()
-test_features_item["id"] = "1"
-test_features_tender_data["items"] = [test_features_item]
-test_features_tender_data["features"] = [
+test_tender_openeu_features_data = test_tender_openeu_data.copy()
+test_tender_openeu_features_item = test_tender_openeu_features_data["items"][0].copy()
+test_tender_openeu_features_item["id"] = "1"
+test_tender_openeu_features_data["items"] = [test_tender_openeu_features_item]
+test_tender_openeu_features_data["features"] = [
     {
         "code": "OCDS-123454-AIR-INTAKE",
         "featureOf": "item",
@@ -183,32 +183,37 @@ test_features_tender_data["features"] = [
     },
 ]
 
-test_lots = [
+test_tender_openeu_lots = [
     {
         "title": "lot title",
         "description": "lot description",
-        "value": test_tender_data["value"],
-        "minimalStep": test_tender_data["minimalStep"],
+        "value": test_tender_openeu_data["value"],
+        "minimalStep": test_tender_openeu_data["minimalStep"],
     }
 ]
 
-test_tender_data_multi_buyers = set_tender_multi_buyers(
-    test_tender_data, test_tender_data["items"][0],
-    test_organization
+test_tender_openeu_multi_buyers_data = set_tender_multi_buyers(
+    test_tender_openeu_data,
+    test_tender_openeu_data["items"][0],
+    test_tender_below_organization
 )
 
-test_restricted_tender_data = test_features_tender_data.copy()
-test_restricted_tender_data.update({
+test_tender_openeu_restricted_data = test_tender_openeu_features_data.copy()
+test_tender_openeu_restricted_data.update({
     "preQualificationFeaturesRatingBidLimit": 5,
     "preQualificationMinBidsNumber": 4
 })
 
-test_restricted_bids = test_bids
+test_tender_openeu_restricted_bids = test_tender_openeu_bids
 
+test_tender_openeu_config = {
+    "hasAuction": True,
+}
 
 class BaseTenderWebTest(BaseTenderUAWebTest):
     relative_to = os.path.dirname(__file__)
-    initial_data = test_tender_data
+    initial_data = test_tender_openeu_data
+    initial_config = test_tender_openeu_config
     initial_status = "active.tendering"
     initial_bids = None
     initial_lots = None
@@ -333,7 +338,6 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
 
 
 class BaseTenderContentWebTest(BaseTenderWebTest):
-    initial_data = test_tender_data
     initial_status = "active.tendering"
     initial_bids = None
     initial_lots = None

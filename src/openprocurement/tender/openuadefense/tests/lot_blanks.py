@@ -10,11 +10,11 @@ from openprocurement.api.constants import (
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_with_complaints_after_2020_04_19
 
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_author,
-    test_cancellation,
-    test_claim,
-    set_bid_lotvalues,
+    test_tender_below_author,
+    test_tender_below_cancellation,
+    test_tender_below_claim,
 )
+from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 
 
 # TenderLotEdgeCasesTest
@@ -27,7 +27,7 @@ def question_blocking(self):
                 "description": "question description",
                 "questionOf": "lot",
                 "relatedItem": self.initial_lots[0]["id"],
-                "author": test_author,
+                "author": test_tender_below_author,
             }
         },
     )
@@ -42,7 +42,7 @@ def question_blocking(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -64,7 +64,7 @@ def question_blocking(self):
 
 
 def claim_blocking(self):
-    claim = deepcopy(test_claim)
+    claim = deepcopy(test_tender_below_claim)
     claim["relatedLot"] = self.initial_lots[0]["id"]
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
@@ -83,7 +83,7 @@ def claim_blocking(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     # cancel lot
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -112,7 +112,7 @@ def next_check_value_with_unanswered_question(self):
                 "description": "question description",
                 "questionOf": "lot",
                 "relatedItem": self.initial_lots[0]["id"],
-                "author": test_author,
+                "author": test_tender_below_author,
             }
         },
     )
@@ -125,7 +125,7 @@ def next_check_value_with_unanswered_question(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
     self.assertNotIn("next_check", response.json["data"])
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -156,7 +156,7 @@ def next_check_value_with_unanswered_question(self):
 
 
 def next_check_value_with_unanswered_claim(self):
-    claim = deepcopy(test_claim)
+    claim = deepcopy(test_tender_below_claim)
     claim["relatedLot"] = self.initial_lots[0]["id"]
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
@@ -175,7 +175,7 @@ def next_check_value_with_unanswered_claim(self):
     self.assertNotIn("next_check", response.json["data"])
 
     self.app.authorization = orig_auth
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -294,7 +294,7 @@ def two_lot_1bid_0com_1can(self):
     lot_id = lots[0]
     # cancel lot
     self.app.authorization = ("Basic", ("broker", ""))
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",

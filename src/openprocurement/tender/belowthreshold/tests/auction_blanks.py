@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
-from openprocurement.tender.core.tests.base import change_auth
-from openprocurement.tender.belowthreshold.tests.base import test_cancellation, test_draft_claim
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_cancellation,
+    test_tender_below_draft_claim,
+)
 
 
 def update_patch_data(self, patch_data, key=None, start=0, interval=None, with_weighted_value=False):
@@ -676,7 +679,7 @@ def post_tender_lots_auction(self):
         with change_auth(self.app, ("Basic", ("token", ""))):
             self.app.post_json(
                 f"/tenders/{self.tender_id}/complaints",
-                {"data": test_draft_claim},
+                {"data": test_tender_below_draft_claim},
             )
 
     self.set_status("active.auction")
@@ -967,7 +970,7 @@ def patch_tender_lots_auction(self):
         self.assertEqual(l["auctionUrl"], f"http://auction.prozorro.gov.ua/{l['id']}")
 
     self.app.authorization = ("Basic", ("token", ""))
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",

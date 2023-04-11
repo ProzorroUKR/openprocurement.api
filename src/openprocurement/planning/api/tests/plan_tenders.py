@@ -1,39 +1,60 @@
 # -*- coding: utf-8 -*-
+import pytest
+from copy import deepcopy
+from mock import MagicMock
 from openprocurement.planning.api.tests.base import app, singleton_app, plan, test_plan_data
 from openprocurement.planning.api.constants import PROCEDURES
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_data as below_tender_data,
-    test_tender_config as below_tender_config,
+    test_tender_below_data,
+    test_tender_below_config,
 )
-from openprocurement.tender.cfaua.tests.base import test_tender_w_lot_data as cfa_tender_data
+from openprocurement.tender.openeu.tests.base import (
+    test_tender_openeu_data,
+    test_tender_openeu_config,
+)
+from openprocurement.tender.openua.tests.base import (
+    test_tender_openua_data,
+    test_tender_openua_config,
+)
 from openprocurement.tender.competitivedialogue.tests.base import (
-    test_tender_data_eu as cd_eu_tender_data,
-    test_tender_data_ua as cd_ua_tender_data,
-    test_tender_stage2_data_ua as cd_stage2_data_ua,
-    test_tender_stage2_data_eu as cd_stage2_data_eu,
+    test_tender_cdeu_data,
+    test_tender_cdua_data,
+    test_tender_cdua_stage2_data,
+    test_tender_cdeu_stage2_data,
+    test_tender_cdeu_config,
+    test_tender_cdua_config,
 )
-from openprocurement.tender.esco.tests.base import test_tender_data as esco_tender_data
+from openprocurement.tender.esco.tests.base import (
+    test_tender_esco_data,
+    test_tender_esco_config,
+)
 from openprocurement.tender.limited.tests.base import (
-    test_tender_data as reporting_tender_data,
-    test_tender_negotiation_data as negotiation_tender_data,
-    test_tender_negotiation_quick_data as negotiation_quick_tender_data,
-    test_tender_config as limited_tender_config,
+    test_tender_reporting_data,
+    test_tender_negotiation_data,
+    test_tender_negotiation_quick_data,
+    test_tender_reporting_config,
+    test_tender_negotiation_config,
+    test_tender_negotiation_quick_config,
 )
-from openprocurement.tender.openeu.tests.base import test_tender_data as openeu_tender_data
-from openprocurement.tender.openua.tests.base import test_tender_data as openua_tender_data
-from openprocurement.tender.openuadefense.tests.base import test_tender_data as openuadefense_tender_data
-from openprocurement.tender.simpledefense.tests.base import test_tender_data as simpledefense_tender_data
-from openprocurement.tender.cfaselectionua.tests.tender import tender_data as cfa_selection_tender_data
+from openprocurement.tender.openuadefense.tests.base import (
+    test_tender_openuadefense_data,
+    test_tender_openuadefense_config,
+)
+from openprocurement.tender.simpledefense.tests.base import (
+    test_tender_simpledefense_data,
+    test_tender_simpledefense_config,
+)
+from openprocurement.tender.cfaua.tests.base import (
+    test_tender_cfaua_with_lots_data,
+    test_tender_cfaua_config,
+)
 from openprocurement.tender.pricequotation.tests.data import (
-    test_tender_data as pricequotation_tender_data,
-    test_tender_config as pricequotation_tender_config,
+    test_tender_pq_data,
+    test_tender_pq_config,
 )
-
+from openprocurement.tender.cfaselectionua.tests.tender import test_tender_cfaselectionua_data
 from openprocurement.api.constants import RELEASE_SIMPLE_DEFENSE_FROM
 from openprocurement.api.utils import get_now
-from copy import deepcopy
-import pytest
-from mock import MagicMock
 
 
 def test_get_plan_tenders_405(app, plan):
@@ -79,7 +100,7 @@ def test_plan_tenders_empty_data(app, plan):
     assert response.json["errors"][0]["name"] == "procurementMethodType"
 
 
-test_below_tender_data = deepcopy(below_tender_data)
+test_below_tender_data = deepcopy(test_tender_below_data)
 test_below_tender_data["procuringEntity"]["identifier"] = test_plan_data["procuringEntity"]["identifier"]
 test_below_tender_data["items"] = test_below_tender_data["items"][:1]
 test_below_tender_data["items"][0]["classification"] = test_plan_data["items"][0]["classification"]
@@ -160,7 +181,7 @@ def test_procurement_method_type_cpb(app):
 
     response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {
         "data": test_below_tender_data,
-        "config": below_tender_config,
+        "config": test_tender_below_config,
     })
     assert response.status == "201 Created"
     tender = response.json["data"]
@@ -181,7 +202,7 @@ def test_procurement_method_cpb_01101100(app):
 
     response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {
         "data": test_below_tender_data,
-        "config": below_tender_config,
+        "config": test_tender_below_config,
     })
     assert response.status == "201 Created"
     tender = response.json["data"]
@@ -204,7 +225,7 @@ def test_success_classification_id(app):
         "description": "Make-up preparations",
         "id": "33711200-9",
     }
-    request_tender_config = deepcopy(below_tender_config)
+    request_tender_config = deepcopy(test_tender_below_config)
     response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {
         "data": request_tender_data,
         "config": request_tender_config
@@ -258,7 +279,7 @@ def test_success_classification_id_336(app):
         "description": "Medicinal products for dermatology",
         "id": "33631000-2",
     }
-    request_tender_config = deepcopy(below_tender_config)
+    request_tender_config = deepcopy(test_tender_below_config)
     response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {
         "data": request_tender_data,
         "config": request_tender_config
@@ -286,7 +307,7 @@ def test_fail_classification_id_336(app):
         "description": "Makeup kits",
         "id": "33711420-7",
     }
-    request_tender_config = deepcopy(below_tender_config)
+    request_tender_config = deepcopy(test_tender_below_config)
     response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {
         "data": request_tender_data,
         "config": request_tender_config
@@ -346,24 +367,24 @@ def test_fail_tender_creation(app):
 
 
 test_tenders = [
-    (below_tender_data, below_tender_config),
-    (cfa_tender_data, below_tender_config),
-    (cd_eu_tender_data, below_tender_config),
-    (cd_ua_tender_data, below_tender_config),
-    (esco_tender_data, below_tender_config),
-    (reporting_tender_data, limited_tender_config),
-    (negotiation_tender_data, limited_tender_config),
-    (negotiation_quick_tender_data, limited_tender_config),
-    (openeu_tender_data, below_tender_config),
-    (openua_tender_data, below_tender_config),
-    (pricequotation_tender_data, pricequotation_tender_config),
+    (test_tender_below_data, test_tender_below_config),
+    (test_tender_cfaua_with_lots_data, test_tender_cfaua_config),
+    (test_tender_cdeu_data, test_tender_cdeu_config),
+    (test_tender_cdua_data, test_tender_cdua_config),
+    (test_tender_esco_data, test_tender_esco_config),
+    (test_tender_reporting_data, test_tender_reporting_config),
+    (test_tender_negotiation_data, test_tender_negotiation_config),
+    (test_tender_negotiation_quick_data, test_tender_negotiation_quick_config),
+    (test_tender_openeu_data, test_tender_openeu_config),
+    (test_tender_openua_data, test_tender_openua_config),
+    (test_tender_pq_data, test_tender_pq_config),
 ]
 
 
 if get_now() > RELEASE_SIMPLE_DEFENSE_FROM:
-    test_tenders.append((simpledefense_tender_data, below_tender_config))
+    test_tenders.append((test_tender_simpledefense_data, test_tender_simpledefense_config))
 else:
-    test_tenders.append((openuadefense_tender_data, below_tender_config))
+    test_tenders.append((test_tender_openuadefense_data, test_tender_openuadefense_config))
 
 
 @pytest.mark.parametrize("request_tender_data, request_tender_config", test_tenders)
@@ -415,7 +436,7 @@ def test_success_plan_tenders_creation(app, request_tender_data, request_tender_
 
 def test_validations_before_and_after_tender(app):
     app.authorization = ("Basic", ("broker", "broker"))
-    request_tender_data = deepcopy(below_tender_data)
+    request_tender_data = deepcopy(test_tender_below_data)
     request_plan_data = deepcopy(test_plan_data)
     plan = create_plan_for_tender(app, request_tender_data, request_plan_data)
 
@@ -433,7 +454,7 @@ def test_validations_before_and_after_tender(app):
     # adding tender
     request_tender_data["procuringEntity"]["identifier"]["id"] = pe_change["identifier"]["id"]
     request_tender_data["procuringEntity"]["identifier"]["scheme"] = pe_change["identifier"]["scheme"]
-    request_tender_config = deepcopy(below_tender_config)
+    request_tender_config = deepcopy(test_tender_below_config)
     response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {
         "data": request_tender_data,
         "config": request_tender_config
@@ -523,7 +544,7 @@ def test_validations_before_and_after_tender(app):
 def test_tender_creation_modified_date(app):
     app.authorization = ("Basic", ("broker", "broker"))
     request_plan_data = deepcopy(test_plan_data)
-    plan = create_plan_for_tender(app, below_tender_data, request_plan_data)
+    plan = create_plan_for_tender(app, test_tender_below_data, request_plan_data)
 
     # get feed last links
     response = app.get("/plans")
@@ -540,8 +561,8 @@ def test_tender_creation_modified_date(app):
 
     # post tender
     response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {
-        "data": below_tender_data,
-        "config": below_tender_config,
+        "data": test_tender_below_data,
+        "config": test_tender_below_config,
     })
     assert response.status == "201 Created"
 
@@ -586,7 +607,7 @@ def test_fail_cfa_second_stage_creation(app, plan):
     app.authorization = ("Basic", ("broker", "broker"))
     response = app.post_json(
         "/plans/{}/tenders".format(plan["data"]["id"]),
-        {"data": cfa_selection_tender_data},
+        {"data": test_tender_cfaselectionua_data},
         status=403,
     )
     error_data = response.json["errors"]
@@ -595,7 +616,7 @@ def test_fail_cfa_second_stage_creation(app, plan):
     assert error["name"] == "procurementMethodType"
 
 
-@pytest.mark.parametrize("request_tender_data", [cd_stage2_data_ua, cd_stage2_data_eu])
+@pytest.mark.parametrize("request_tender_data", [test_tender_cdua_stage2_data, test_tender_cdeu_stage2_data])
 def test_fail_cd_second_stage_creation(app, plan, request_tender_data):
     app.authorization = ("Basic", ("broker", "broker"))
     response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {"data": request_tender_data}, status=403)

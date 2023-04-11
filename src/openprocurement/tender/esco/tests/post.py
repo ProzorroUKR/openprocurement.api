@@ -1,13 +1,16 @@
 from mock import patch
 
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_author,
-    test_organization,
-    test_draft_complaint,
-    test_cancellation,
+    test_tender_below_author,
+    test_tender_below_organization,
+    test_tender_below_draft_complaint,
+    test_tender_below_cancellation,
 )
-from openprocurement.tender.core.tests.base import change_auth
-from openprocurement.tender.esco.tests.base import BaseESCOContentWebTest, test_bids
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.esco.tests.base import (
+    BaseESCOContentWebTest,
+    test_tender_esco_bids,
+)
 from openprocurement.tender.openua.tests.post import (
     ComplaintPostResourceMixin,
     ClaimPostResourceMixin,
@@ -33,7 +36,7 @@ class TenderComplaintPostResourceTest(
             "/tenders/{}/complaints".format(
                 self.tender_id
             ),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]
@@ -49,9 +52,9 @@ class TenderQualificationComplaintPostResourceTest(
 ):
     docservice = True
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
-    initial_bids = test_bids
+    initial_bids = test_tender_esco_bids
     initial_auth = ("Basic", ("broker", ""))
-    author_data = test_author
+    author_data = test_tender_below_author
 
     def setUp(self):
         super(TenderQualificationComplaintPostResourceTest, self).setUp()
@@ -95,7 +98,7 @@ class TenderQualificationComplaintPostResourceTest(
             "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
                 self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
             ),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         complaint = response.json["data"]
 
@@ -114,7 +117,7 @@ class TenderAwardComplaintPostResourceTest(
 ):
     docservice = True
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_esco_bids
 
     def setUp(self):
         super(TenderAwardComplaintPostResourceTest, self).setUp()
@@ -123,7 +126,7 @@ class TenderAwardComplaintPostResourceTest(
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
                 {"data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"]
                 }}
@@ -149,7 +152,7 @@ class TenderAwardComplaintPostResourceTest(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(
                 self.tender_id, self.award_id, self.initial_bids_tokens[self.initial_bids[0]["id"]]
             ),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]
@@ -174,7 +177,7 @@ class TenderCancellationComplaintPostResourceTest(
         super(TenderCancellationComplaintPostResourceTest, self).setUp()
 
         # Create cancellation
-        cancellation = dict(**test_cancellation)
+        cancellation = dict(**test_tender_below_cancellation)
         cancellation.update({
             "reasonType": "noDemand"
         })
@@ -211,7 +214,7 @@ class TenderCancellationComplaintPostResourceTest(
             "/tenders/{}/cancellations/{}/complaints".format(
                 self.tender_id, self.cancellation_id
             ),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]

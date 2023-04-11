@@ -3,7 +3,7 @@ from copy import deepcopy
 from openprocurement.relocation.api.models import Transfer
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.planning.api.tests.base import test_plan_data
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.utils import change_auth
 
 
 class BasePlanOwnershipChangeTest(BaseWebTest):

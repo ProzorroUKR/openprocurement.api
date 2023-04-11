@@ -1,16 +1,16 @@
+from copy import deepcopy
+from openprocurement.tender.core.tests.qualification_milestone import TenderQualificationMilestone24HMixin
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogUAContentWebTest,
     BaseCompetitiveDialogEUContentWebTest,
-    test_bids_stage1 as test_bids,
+    test_tender_cd_stage1_bids,
 )
-from openprocurement.tender.core.tests.qualification_milestone import TenderQualificationMilestone24HMixin
-from copy import deepcopy
 
 
 class TenderPreQualificationMixin(object):
     initial_auth = ("Basic", ("broker", ""))
-    initial_bids = test_bids
-    initial_bids_data = test_bids
+    initial_bids = test_tender_cd_stage1_bids
+    initial_bids_data = test_tender_cd_stage1_bids
 
     def setUp(self):
         super(TenderPreQualificationMixin, self).setUp()

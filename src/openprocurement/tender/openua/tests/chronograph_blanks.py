@@ -2,8 +2,12 @@
 from copy import deepcopy
 
 from openprocurement.api.utils import parse_date
-from openprocurement.tender.belowthreshold.tests.base import test_claim, test_author
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_claim,
+    test_tender_below_author,
+)
+from openprocurement.tender.core.tests.utils import change_auth
+
 
 # TenderSwitch0BidResourceTest
 
@@ -27,8 +31,8 @@ def switch_to_unsuccessful_1bid(self):
 
 
 def switch_to_complaint(self):
-    claim_data = deepcopy(test_claim)
-    claim_data["author"] = getattr(self, "author_data", test_author)
+    claim_data = deepcopy(test_tender_below_claim)
+    claim_data["author"] = getattr(self, "author_data", test_tender_below_author)
     for status in ["invalid", "resolved", "declined"]:
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),

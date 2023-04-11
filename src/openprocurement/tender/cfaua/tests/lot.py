@@ -2,14 +2,23 @@
 import unittest
 from copy import deepcopy
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_author, test_criteria, language_criteria
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_author,
+)
+from openprocurement.tender.core.tests.base import (
+    test_exclusion_criteria,
+    test_language_criteria,
+)
 from openprocurement.tender.belowthreshold.tests.lot_blanks import tender_lot_milestones
 
 
-from openprocurement.tender.cfaua.tests.base import BaseTenderContentWebTest, test_tender_data, test_lots, test_bids
+from openprocurement.tender.cfaua.tests.base import (
+    BaseTenderContentWebTest,
+    test_tender_cfaua_data,
+    test_tender_cfaua_lots,
+    test_tender_cfaua_bids,
+)
 from openprocurement.tender.openeu.tests.lot_blanks import (
-    # TenderLotProcessTest
-    create_tender_bidder_invalid,
     patch_tender_bidder,
 )
 from openprocurement.tender.cfaua.tests.lot_blanks import (
@@ -24,15 +33,12 @@ from openprocurement.tender.cfaua.tests.lot_blanks import (
     proc_1lot_1can,
     create_tender_lot,
     tender_lot_guarantee,
-    # TenderLotEdgeCasesTest
     claim_blocking,
     question_blocking,
-    # TenderLotFeatureResourceTest
     tender_value,
     tender_features_invalid,
     tender_lot_document,
     one_lot_2bid_1unqualified,
-    # TenderLotFeatureBidderResourceTest
     create_tender_feature_bidder,
     create_tender_feature_bidder_invalid,
     patch_tender_currency,
@@ -47,9 +53,9 @@ one_lot_restriction = True
 class TenderLotResourceTest(BaseTenderContentWebTest):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
-    test_lots_data = test_lots  # TODO: change attribute identifier
-    initial_data = test_tender_data
-    initial_criteria = test_criteria + language_criteria
+    test_lots_data = test_tender_cfaua_lots  # TODO: change attribute identifier
+    initial_data = test_tender_cfaua_data
+    initial_criteria = test_exclusion_criteria + test_language_criteria
 
     # test_create_tender_lot_invalid = None
     # test_delete_tender_lot = None
@@ -66,9 +72,9 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
 class TenderLotEdgeCasesTest(BaseTenderContentWebTest):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
-    initial_lots = test_lots
-    initial_bids = test_bids
-    test_author = test_author
+    initial_lots = test_tender_cfaua_lots
+    initial_bids = test_tender_cfaua_bids
+    test_author = test_tender_below_author
 
     test_question_blocking = snitch(question_blocking)
     test_claim_blocking = snitch(claim_blocking)
@@ -76,9 +82,9 @@ class TenderLotEdgeCasesTest(BaseTenderContentWebTest):
 
 class TenderLotFeatureResourceTest(BaseTenderContentWebTest):
     docservice = True
-    initial_lots = test_lots
+    initial_lots = test_tender_cfaua_lots
     initial_auth = ("Basic", ("broker", ""))
-    initial_data = test_tender_data
+    initial_data = test_tender_cfaua_data
     invalid_feature_value = 0.4
     max_feature_value = 0.3
     sum_of_max_value_of_all_features = 0.3
@@ -90,9 +96,9 @@ class TenderLotFeatureResourceTest(BaseTenderContentWebTest):
 
 class TenderLotBidderResourceTest(BaseTenderContentWebTest):
     docservice = True
-    initial_lots = test_lots
+    initial_lots = test_tender_cfaua_lots
     initial_auth = ("Basic", ("broker", ""))
-    test_bids_data = test_bids  # TODO: change attribute identifier
+    test_bids_data = test_tender_cfaua_bids  # TODO: change attribute identifier
 
     # TODO: uncomment when bid activation will be removed
     # test_create_tender_bidder_invalid = snitch(create_tender_bidder_invalid)
@@ -101,11 +107,11 @@ class TenderLotBidderResourceTest(BaseTenderContentWebTest):
 
 class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
     docservice = True
-    initial_lots = test_lots
+    initial_lots = test_tender_cfaua_lots
     initial_auth = ("Basic", ("broker", ""))
-    initial_data = test_tender_data
-    test_bids_data = test_bids  # TODO: change attribute identifier
-    initial_criteria = test_criteria + language_criteria
+    initial_data = test_tender_cfaua_data
+    test_bids_data = test_tender_cfaua_bids  # TODO: change attribute identifier
+    initial_criteria = test_exclusion_criteria + test_language_criteria
 
     def setUp(self):
         super(TenderLotFeatureBidderResourceTest, self).setUp()
@@ -165,10 +171,10 @@ class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
 class TenderLotProcessTest(BaseTenderContentWebTest):
     docservice = True
     setUp = BaseTenderContentWebTest.setUp
-    test_lots_data = test_lots  # TODO: change attribute identifier
-    initial_data = test_tender_data
-    test_bids_data = test_bids  # TODO: change attribute identifier
-    initial_criteria = test_criteria + language_criteria
+    test_lots_data = test_tender_cfaua_lots  # TODO: change attribute identifier
+    initial_data = test_tender_cfaua_data
+    test_bids_data = test_tender_cfaua_bids  # TODO: change attribute identifier
+    initial_criteria = test_exclusion_criteria + test_language_criteria
 
     days_till_auction_starts = 16
 

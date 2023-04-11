@@ -3,7 +3,7 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import test_lots, test_author
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots, test_tender_below_author
 from openprocurement.tender.belowthreshold.tests.question import TenderQuestionResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.question_blanks import (
     create_tender_question,
@@ -30,8 +30,8 @@ class TenderQuestionResourceTest(BaseTenderUAContentWebTest, TenderQuestionResou
 
 class TenderLotQuestionResourceTest(BaseTenderUAContentWebTest):
 
-    initial_lots = 2 * test_lots
-    author_data = test_author
+    initial_lots = 2 * test_tender_below_lots
+    author_data = test_tender_below_author
 
     def create_question_for(self, questionOf, relatedItem):
         response = self.app.post_json(
@@ -42,7 +42,7 @@ class TenderLotQuestionResourceTest(BaseTenderUAContentWebTest):
                     "description": "question description",
                     "questionOf": questionOf,
                     "relatedItem": relatedItem,
-                    "author": test_author,
+                    "author": test_tender_below_author,
                 }
             },
         )

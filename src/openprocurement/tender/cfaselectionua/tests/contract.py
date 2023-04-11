@@ -6,10 +6,10 @@ from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.cfaselectionua.tests.base import (
     TenderContentWebTest,
-    test_bids,
-    test_lots,
-    test_organization,
-    test_tender_data_multi_buyers,
+    test_tender_cfaselectionua_bids,
+    test_tender_cfaselectionua_lots,
+    test_tender_cfaselectionua_organization,
+    test_tender_cfaselectionua_multi_buyers_data,
 )
 from openprocurement.tender.cfaselectionua.tests.contract_blanks import (
     # TenderContractResourceTest
@@ -70,8 +70,8 @@ class TenderContractDocumentResourceTestMixin(object):
 
 class TenderContractResourceTest(TenderContentWebTest, TenderContractResourceTestMixin):
     initial_status = "active.awarded"
-    initial_bids = test_bids
-    initial_lots = test_lots
+    initial_bids = test_tender_cfaselectionua_bids
+    initial_lots = test_tender_cfaselectionua_lots
 
     test_create_tender_contract = snitch(create_tender_contract)
     test_create_tender_contract_in_complete_status = snitch(create_tender_contract_in_complete_status)
@@ -86,8 +86,8 @@ class TenderContractResourceTest(TenderContentWebTest, TenderContractResourceTes
 
 class TenderContractVATNotIncludedResourceTest(TenderContentWebTest, TenderContractResourceTestMixin):
     initial_status = "active.awarded"
-    initial_bids = test_bids
-    initial_lots = test_lots
+    initial_bids = test_tender_cfaselectionua_bids
+    initial_lots = test_tender_cfaselectionua_lots
 
     def update_vat_fields(self, items):
         for item in items:
@@ -117,8 +117,8 @@ class TenderContractVATNotIncludedResourceTest(TenderContentWebTest, TenderContr
 @unittest.skip("Skip multi-lots tests")
 class Tender2LotContractResourceTest(TenderContentWebTest):
     initial_status = "active.qualification"
-    initial_bids = test_bids
-    initial_lots = 2 * test_lots
+    initial_bids = test_tender_cfaselectionua_bids
+    initial_lots = 2 * test_tender_cfaselectionua_lots
 
     def setUp(self):
         super(Tender2LotContractResourceTest, self).setUp()
@@ -130,7 +130,7 @@ class Tender2LotContractResourceTest(TenderContentWebTest):
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_cfaselectionua_organization],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "lotID": self.initial_lots[0]["id"],
@@ -150,8 +150,8 @@ class Tender2LotContractResourceTest(TenderContentWebTest):
 
 class TenderContractDocumentResourceTest(TenderContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = "active.awarded"
-    initial_bids = test_bids
-    initial_lots = test_lots
+    initial_bids = test_tender_cfaselectionua_bids
+    initial_lots = test_tender_cfaselectionua_lots
     docservice = True
 
     test_create_tender_contract_document_by_supplier = snitch(create_tender_contract_document_by_supplier)
@@ -163,8 +163,8 @@ class TenderContractDocumentResourceTest(TenderContentWebTest, TenderContractDoc
 @unittest.skip("Skip multi-lots tests")
 class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
     initial_status = "active.qualification"
-    initial_bids = test_bids
-    initial_lots = 2 * test_lots
+    initial_bids = test_tender_cfaselectionua_bids
+    initial_lots = 2 * test_tender_cfaselectionua_lots
 
     def setUp(self):
         super(Tender2LotContractDocumentResourceTest, self).setUp()
@@ -176,7 +176,7 @@ class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_cfaselectionua_organization],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "lotID": self.initial_lots[0]["id"],
@@ -213,9 +213,9 @@ class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
 
 class TenderContractMultiBuyersResourceTest(TenderContentWebTest):
     initial_status = "active.qualification"
-    initial_bids = test_bids
-    initial_lots = test_lots
-    initial_data = test_tender_data_multi_buyers
+    initial_bids = test_tender_cfaselectionua_bids
+    initial_lots = test_tender_cfaselectionua_lots
+    initial_data = test_tender_cfaselectionua_multi_buyers_data
 
     def create_award(self):
         auth = self.app.authorization
@@ -224,7 +224,7 @@ class TenderContractMultiBuyersResourceTest(TenderContentWebTest):
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_cfaselectionua_organization],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "lotID": self.initial_lots[0]["id"],

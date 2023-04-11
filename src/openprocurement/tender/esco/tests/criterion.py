@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from openprocurement.tender.belowthreshold.tests.base import test_lots
-from openprocurement.tender.esco.tests.base import test_tender_data, BaseESCOContentWebTest
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
+from openprocurement.tender.esco.tests.base import (
+    BaseESCOContentWebTest,
+    test_tender_esco_data,
+)
 from openprocurement.tender.openua.tests.criterion import (
     TenderCriteriaTestMixin,
     TenderCriteriaRGTestMixin,
@@ -12,30 +15,30 @@ from openprocurement.tender.openua.tests.criterion import (
 
 
 class TenderCriteriaTest(TenderCriteriaTestMixin, BaseESCOContentWebTest):
-    initial_data = test_tender_data
-    test_lots_data = test_lots
+    initial_data = test_tender_esco_data
+    test_lots_data = test_tender_below_lots
     initial_status = "draft"
 
 
 class TenderCriteriaRGTest(TenderCriteriaRGTestMixin, BaseESCOContentWebTest):
-    initial_data = test_tender_data
-    test_lots_data = test_lots
+    initial_data = test_tender_esco_data
+    test_lots_data = test_tender_below_lots
 
 
 class TenderCriteriaRGRequirementTest(
     TenderCriteriaRGRequirementTestMixin,
     BaseESCOContentWebTest,
 ):
-    initial_data = test_tender_data
-    test_lots_data = test_lots
+    initial_data = test_tender_esco_data
+    test_lots_data = test_tender_below_lots
 
 
 class TenderCriteriaRGRequirementEvidenceTest(
     TenderCriteriaRGRequirementEvidenceTestMixin,
     BaseESCOContentWebTest,
 ):
-    initial_data = test_tender_data
-    test_lots_data = test_lots
+    initial_data = test_tender_esco_data
+    test_lots_data = test_tender_below_lots
 
 
 def suite():

@@ -34,19 +34,20 @@ class ESCOTenderStateMixin:
             return
         tender["yearlyPaymentsPercentageRange"] = min(i["yearlyPaymentsPercentageRange"] for i in tender["lots"])
 
-    def validate_minimal_step(self, data):
+    def validate_minimal_step(self, data, before=None):
         # TODO: adjust this validation in case of it will be allowed to disable auction in esco
         # TODO: Look at original validate_minimal_step in openprocurement.tender.core.procedure.state.tender
         config = get_tender_config()
         minimal_step_fields = ("minimalStepPercentage", "yearlyPaymentsPercentageRange")
         for field in minimal_step_fields:
-            raise_operation_error(
-                self.request,
-                ["This field is required."],
-                status=422,
-                location="body",
-                name=field,
-            )
+            if data.get(field) is None:
+                raise_operation_error(
+                    self.request,
+                    ["This field is required."],
+                    status=422,
+                    location="body",
+                    name=field,
+                )
 
 
 class ESCOTenderTenderState(ESCOTenderStateMixin, BaseOpenEUTenderState):

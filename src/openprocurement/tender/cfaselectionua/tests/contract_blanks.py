@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
-
-from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_claim, test_cancellation
 from copy import deepcopy
 from unittest.mock import patch
-
-
-# TenderContractResourceTest
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_claim,
+    test_tender_below_cancellation,
+)
 
 
 def create_tender_contract_invalid(self):
@@ -185,7 +184,7 @@ def patch_tender_contract(self):
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
         {
-            "data": test_claim
+            "data": test_tender_below_claim
         },
         status=404,
     )
@@ -719,7 +718,7 @@ def lot2_patch_tender_contract(self):
 
     self.set_status("active.awarded", start_end="end")
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -1286,7 +1285,7 @@ def lot2_create_tender_contract_document(self):
     self.assertIn(doc_id, response.headers["Location"])
     self.assertEqual("name.doc", response.json["data"]["title"])
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -1363,7 +1362,7 @@ def lot2_put_tender_contract_document(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -1436,7 +1435,7 @@ def lot2_patch_tender_contract_document(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",

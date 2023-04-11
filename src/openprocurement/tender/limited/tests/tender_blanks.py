@@ -11,7 +11,10 @@ from openprocurement.api.constants import (
     RELEASE_2020_04_19,
     NEW_NEGOTIATION_CAUSES_FROM,
 )
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_cancellation
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+    test_tender_below_cancellation,
+)
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
 from openprocurement.tender.limited.models import NegotiationTender, NegotiationQuickTender
 
@@ -146,7 +149,7 @@ def tender_award_create(self):
     award_id = "1234" * 8
     data["awards"] = [
         {
-            "suppliers": [test_organization],
+            "suppliers": [test_tender_below_organization],
             "subcontractingDetails": "Details",
             "status": "pending",
             "qualified": True,
@@ -775,7 +778,7 @@ def patch_tender(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"suppliers": [test_organization],
+        {"data": {"suppliers": [test_tender_below_organization],
                   "status": "pending",
                   "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False}}},
     )
@@ -874,7 +877,7 @@ def changing_tender_after_award(self):
     # first award
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
-        {"data": {"suppliers": [test_organization],
+        {"data": {"suppliers": [test_tender_below_organization],
                   "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
                   "status": "pending",
                   "lotID": first_lot["id"],
@@ -1013,13 +1016,13 @@ def single_award_tender(self):
     # create award
     response = self.app.post_json(
         "/tenders/{}/awards".format(tender_id),
-        {"data": {"suppliers": [test_organization], "value": {"amount": 500}}},
+        {"data": {"suppliers": [test_tender_below_organization], "value": {"amount": 500}}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
-        {"data": {"suppliers": [test_organization], "value": {"amount": 500}}},
+        {"data": {"suppliers": [test_tender_below_organization], "value": {"amount": 500}}},
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -1067,7 +1070,7 @@ def single_award_tender(self):
     # create award
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
-        {"data": {"suppliers": [test_organization], "qualified": True, "value": {"amount": 500}}},
+        {"data": {"suppliers": [test_tender_below_organization], "qualified": True, "value": {"amount": 500}}},
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -1133,14 +1136,14 @@ def multiple_awards_tender(self):
     # create award
     response = self.app.post_json(
         "/tenders/{}/awards".format(tender_id),
-        {"data": {"suppliers": [test_organization], "qualified": True, "value": {"amount": 500}}},
+        {"data": {"suppliers": [test_tender_below_organization], "qualified": True, "value": {"amount": 500}}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
 
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
-        {"data": {"suppliers": [test_organization], "qualified": True, "value": {"amount": 500}}},
+        {"data": {"suppliers": [test_tender_below_organization], "qualified": True, "value": {"amount": 500}}},
     )
     self.assertEqual(response.status, "201 Created")
     award = response.json["data"]
@@ -1153,7 +1156,7 @@ def multiple_awards_tender(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
-        {"data": {"suppliers": [test_organization], "qualified": True, "value": {"amount": 501}}},
+        {"data": {"suppliers": [test_tender_below_organization], "qualified": True, "value": {"amount": 501}}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1168,7 +1171,7 @@ def multiple_awards_tender(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
-        {"data": {"suppliers": [test_organization], "qualified": True, "value": {"amount": 505}}},
+        {"data": {"suppliers": [test_tender_below_organization], "qualified": True, "value": {"amount": 505}}},
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -1218,7 +1221,7 @@ def tender_cancellation(self):
     response = self.set_initial_status(response.json)
 
     # create cancellation
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "reason": "invalid conditions",
         "status": "active"
@@ -1246,12 +1249,12 @@ def tender_cancellation(self):
     # create award
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
-        {"data": {"suppliers": [test_organization], "qualified": True, "value": {"amount": 500}}},
+        {"data": {"suppliers": [test_tender_below_organization], "qualified": True, "value": {"amount": 500}}},
     )
     self.assertEqual(response.status, "201 Created")
 
     # create cancellation
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "reason": "invalid conditions",
         "status": "active"
@@ -1283,7 +1286,7 @@ def tender_cancellation(self):
     # create award
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
-        {"data": {"suppliers": [test_organization], "qualified": True, "value": {"amount": 500}}},
+        {"data": {"suppliers": [test_tender_below_organization], "qualified": True, "value": {"amount": 500}}},
     )
     self.assertEqual(response.status, "201 Created")
     # get awards
@@ -1307,7 +1310,7 @@ def tender_cancellation(self):
     self.set_all_awards_complaint_period_end()
 
     # create cancellation in stand still
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "reason": "invalid conditions",
         "status": "active"
@@ -1340,7 +1343,7 @@ def tender_cancellation(self):
     # create award
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
-        {"data": {"suppliers": [test_organization], "qualified": True, "value": {"amount": 500}}},
+        {"data": {"suppliers": [test_tender_below_organization], "qualified": True, "value": {"amount": 500}}},
     )
     self.assertEqual(response.status, "201 Created")
     # get awards
@@ -1382,7 +1385,7 @@ def tender_cancellation(self):
     self.set_all_awards_complaint_period_end()
 
     # create cancellation
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "reason": "invalid conditions",
         "status": "active"

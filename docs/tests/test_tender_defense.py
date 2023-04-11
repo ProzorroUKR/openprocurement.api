@@ -6,26 +6,36 @@ from datetime import timedelta
 
 from openprocurement.api.models import get_now
 from openprocurement.api.utils import parse_date
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.openuadefense.tests.tender import BaseTenderUAWebTest
-from openprocurement.tender.belowthreshold.tests.base import test_organization
-from openprocurement.tender.openua.tests.base import test_bids as base_test_bids
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_organization
+from openprocurement.tender.openua.tests.base import test_tender_openua_bids
 
-
-from tests.base.constants import DOCS_URL, AUCTIONS_URL, MOCK_DATETIME
-from tests.base.test import DumpsWebTestApp, MockWebTestMixin
+from tests.base.constants import (
+    DOCS_URL,
+    AUCTIONS_URL,
+    MOCK_DATETIME,
+)
+from tests.base.test import (
+    DumpsWebTestApp,
+    MockWebTestMixin,
+)
 from tests.base.data import (
-    question, tender_defense, subcontracting,
-    qualified, bid, bid2
+    test_docs_question,
+    test_docs_tender_defense,
+    test_docs_subcontracting,
+    test_docs_qualified,
+    test_docs_bid,
+    test_docs_bid2,
 )
 
-test_tender_defence_data = deepcopy(tender_defense)
-bid = deepcopy(bid)
-bid2 = deepcopy(bid2)
+test_tender_defence_data = deepcopy(test_docs_tender_defense)
+bid = deepcopy(test_docs_bid)
+bid2 = deepcopy(test_docs_bid2)
 
-bid.update(subcontracting)
-bid.update(qualified)
-bid2.update(qualified)
+bid.update(test_docs_subcontracting)
+bid.update(test_docs_qualified)
+bid2.update(test_docs_qualified)
 bid.update({"selfEligible": True})
 bid2.update({"selfEligible": True})
 
@@ -80,7 +90,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',
-                {'data': test_tender_defence_data})
+                {'data': test_tender_defence_data, 'config': self.initial_config})
             self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
@@ -205,7 +215,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'ask-question.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/questions'.format(self.tender_id),
-                {'data': question}, status=201)
+                {'data': test_docs_question}, status=201)
             question_id = response.json['data']['id']
             self.assertEqual(response.status, '201 Created')
 
@@ -238,7 +248,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'ask-question-after-enquiry-period.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/questions'.format(self.tender_id),
-                {'data': question}, status=403)
+                {'data': test_docs_question}, status=403)
             self.assertEqual(response.status, '403 Forbidden')
 
         response = self.app.get(f"/tenders/{self.tender_id}")
@@ -513,11 +523,11 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',
-                {'data': test_tender_defence_data})
+                {'data': test_tender_defence_data, 'config': self.initial_config})
             self.assertEqual(response.status, '201 Created')
 
 
-test_bids = deepcopy(base_test_bids)
+test_bids = deepcopy(test_tender_openua_bids)
 bid_3 = deepcopy(test_bids[0])
 bid_3["value"]["amount"] = 489
 test_bids.append(bid_3)
@@ -547,7 +557,7 @@ class TenderUADefenceNewComplaintsResourceTest(BaseTenderUAWebTest, MockWebTestM
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
                 {"data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"] if self.initial_lots else None,

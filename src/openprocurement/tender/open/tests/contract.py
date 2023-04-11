@@ -4,8 +4,8 @@ import unittest
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization,
-    test_lots,
+    test_tender_below_organization,
+    test_tender_below_lots,
 )
 from openprocurement.tender.belowthreshold.tests.contract import (
     TenderContractResourceTestMixin,
@@ -13,9 +13,9 @@ from openprocurement.tender.belowthreshold.tests.contract import (
 )
 
 from openprocurement.tender.open.tests.base import (
-    test_bids,
+    test_tender_open_bids,
     BaseTenderUAContentWebTest,
-    test_tender_data_multi_buyers,
+    test_tender_open_multi_buyers_data,
 )
 from openprocurement.tender.open.tests.contract_blanks import (
     patch_tender_contract,
@@ -45,8 +45,8 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
 
 class TenderContractResourceTest(BaseTenderUAContentWebTest, TenderContractResourceTestMixin):
     initial_status = "active.qualification"
-    initial_bids = test_bids
-    initial_lots = test_lots
+    initial_bids = test_tender_open_bids
+    initial_lots = test_tender_below_lots
 
     def create_award(self):
         authorization = self.app.authorization
@@ -55,7 +55,7 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest, TenderContractResou
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "lotID": self.initial_lots[0]["id"],
@@ -93,8 +93,8 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest, TenderContractResou
 
 class TenderContractVATNotIncludedResourceTest(BaseTenderUAContentWebTest, TenderContractResourceTestMixin):
     initial_status = "active.qualification"
-    initial_bids = test_bids
-    initial_lots = test_lots
+    initial_bids = test_tender_open_bids
+    initial_lots = test_tender_below_lots
 
     def create_award(self):
         auth = self.app.authorization
@@ -103,7 +103,7 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderUAContentWebTest, Tende
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "lotID": self.initial_lots[0]["id"],
@@ -135,8 +135,8 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderUAContentWebTest, Tende
 
 class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = "active.qualification"
-    initial_bids = test_bids
-    initial_lots = test_lots
+    initial_bids = test_tender_open_bids
+    initial_lots = test_tender_below_lots
     docservice = True
 
     def setUp(self):
@@ -147,7 +147,7 @@ class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest, TenderContr
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
             {"data": {
-                "suppliers": [test_organization],
+                "suppliers": [test_tender_below_organization],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "lotID": self.initial_lots[0]["id"],
@@ -177,9 +177,9 @@ class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest, TenderContr
 
 class TenderContractMultiBuyersResourceTest(BaseTenderUAContentWebTest):
     initial_status = "active.qualification"
-    initial_bids = test_bids
-    initial_lots = test_lots
-    initial_data = test_tender_data_multi_buyers
+    initial_bids = test_tender_open_bids
+    initial_lots = test_tender_below_lots
+    initial_data = test_tender_open_multi_buyers_data
 
     def setUp(self):
         super(TenderContractMultiBuyersResourceTest, self).setUp()

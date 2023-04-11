@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-import os
-from contextlib import contextmanager
 
+import json
+import os
+from copy import deepcopy
 from uuid import uuid4
 from urllib.parse import urlencode
 from nacl.encoding import HexEncoder
@@ -13,11 +14,32 @@ from openprocurement.api.constants import TZ
 from openprocurement.tender.core.models import QualificationMilestone
 from openprocurement.api.tests.base import BaseWebTest as BaseApiWebTest
 from openprocurement.api.utils import SESSION, apply_data_patch, get_now
-from openprocurement.tender.core.utils import (
-    calculate_tender_date,
-)
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.core.utils import calculate_tender_date
 
 now = datetime.now()
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+with open(os.path.join(current_dir, "data", "exclusion_criteria.json")) as json_file:
+    test_exclusion_criteria = json.load(json_file)
+
+test_requirement_groups = test_exclusion_criteria[0]["requirementGroups"]
+
+with open(os.path.join(current_dir, "data", "lang_criteria.json")) as json_file:
+    test_language_criteria = json.load(json_file)
+
+with open(os.path.join(current_dir, "data", "tender_guarantee_criteria.json")) as json_file:
+    test_tender_guarantee_criteria = json.load(json_file)
+
+with open(os.path.join(current_dir, "data", "contract_guarantee_criteria.json")) as json_file:
+    test_contract_guarantee_criteria = json.load(json_file)
+
+with open(os.path.join(current_dir, "data", "lcc_lot_criteria.json")) as json_file:
+    test_lcc_lot_criteria = json.load(json_file)
+
+with open(os.path.join(current_dir, "data", "lcc_tender_criteria.json")) as json_file:
+    test_lcc_tender_criteria = json.load(json_file)
 
 
 def bad_rs_request(method, url, **kwargs):
@@ -177,6 +199,8 @@ class BaseCoreWebTest(BaseWebTest):
             data = data or {"data": {"id": self.tender_id}}
             response = self.app.patch_json(url, data, status=status)
             self.assertEqual(response.content_type, "application/json")
+            self.tender_document = self.mongodb.tenders.get(self.tender_id)
+            self.tender_document_patch = {}
         return response
 
     def delete_tender(self):
@@ -213,10 +237,3 @@ class BaseCoreWebTest(BaseWebTest):
             tender["qualifications"] = [qualification]
         self.mongodb.tenders.save(tender)
 
-
-@contextmanager
-def change_auth(app, auth):
-    authorization = app.authorization
-    app.authorization = auth
-    yield app
-    app.authorization = authorization

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from contextlib import contextmanager
+
 import unittest
 from copy import deepcopy
 
@@ -364,3 +366,11 @@ def suite():
 
 if __name__ == "__main__":
     unittest.main(defaultTest="suite")
+
+
+@contextmanager
+def change_auth(app, auth):
+    authorization = app.authorization
+    app.authorization = auth
+    yield app
+    app.authorization = authorization

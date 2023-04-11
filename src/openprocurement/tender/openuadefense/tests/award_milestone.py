@@ -1,10 +1,13 @@
 from openprocurement.tender.openuadefense.tests.award import TenderAwardPendingResourceTestCase
-from openprocurement.tender.openuadefense.tests.base import test_bids, BaseTenderUAContentWebTest
-from openprocurement.tender.core.tests.base import change_auth
-from openprocurement.tender.belowthreshold.tests.base import test_lots
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.core.tests.qualification_milestone import (
     TenderAwardMilestone24HMixin,
     TenderAwardMilestoneALPMixin,
+)
+from openprocurement.tender.openuadefense.tests.base import (
+    BaseTenderUAContentWebTest,
+    test_tender_openuadefense_bids,
 )
 
 
@@ -13,8 +16,8 @@ class TenderAwardMilestoneTestCase(TenderAwardMilestone24HMixin, TenderAwardPend
 
 
 class TenderAwardMilestoneALPTestCase(TenderAwardMilestoneALPMixin, BaseTenderUAContentWebTest):
-    initial_bids = test_bids
-    initial_lots = test_lots
+    initial_bids = test_tender_openuadefense_bids
+    initial_lots = test_tender_below_lots
 
     def test_milestone(self):
         """

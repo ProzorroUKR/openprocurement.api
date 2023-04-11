@@ -1,8 +1,15 @@
 # -*- coding: utf-8 -*-
 import unittest
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_author, test_draft_complaint
-from openprocurement.tender.cfaua.tests.base import BaseTenderContentWebTest, test_bids, test_lots
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_author,
+    test_tender_below_draft_complaint,
+)
+from openprocurement.tender.cfaua.tests.base import (
+    BaseTenderContentWebTest,
+    test_tender_cfaua_bids,
+    test_tender_cfaua_lots,
+)
 from openprocurement.tender.openeu.tests.qualification import (
     TenderQualificationRequirementResponseTestMixin,
     TenderQualificationRequirementResponseEvidenceTestMixin,
@@ -23,7 +30,6 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
     get_tender_qualification_complaint,
     get_tender_qualification_complaints,
     change_status_to_standstill_with_complaint,
-    # TenderQualificationDocumentResourceTest
     not_found,
     create_qualification_document,
     put_qualification_document,
@@ -31,16 +37,13 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
     create_qualification_document_after_status_change,
     put_qualification_document_after_status_change,
     tender_owner_create_qualification_document,
-    # TenderQualificationResourceTest
     post_tender_qualifications,
     get_tender_qualifications_collection,
     patch_tender_qualifications,
     get_tender_qualifications,
     patch_tender_qualifications_after_status_change,
-    # TenderLotQualificationComplaintResourceTest
     bot_patch_tender_qualification_complaint,
     bot_patch_tender_qualification_complaint_forbidden,
-    # TenderQualificationDocumentWithDSResourceTest
     create_tender_qualifications_document_json_bulk,
 )
 from openprocurement.tender.cfaua.tests.qualification_blanks import (
@@ -55,9 +58,9 @@ one_lot_restriction = True
 class TenderQualificationBaseTestCase(BaseTenderContentWebTest):
     docservice = True
     initial_status = "active.tendering"  # 'active.pre-qualification' status sets in setUp
-    initial_bids = test_bids
+    initial_bids = test_tender_cfaua_bids
     initial_auth = ("Basic", ("broker", ""))
-    author_data = test_author
+    author_data = test_tender_below_author
 
     def setUp(self):
         super(TenderQualificationBaseTestCase, self).setUp()
@@ -110,9 +113,9 @@ class TenderQualificationComplaintResourceTest(BaseTenderContentWebTest):
     initial_status = (
         "active.pre-qualification.stand-still"
     )  # 'active.pre-qualification.stand-still' status sets in setUp
-    initial_bids = test_bids
+    initial_bids = test_tender_cfaua_bids
     initial_auth = ("Basic", ("broker", ""))
-    author_data = test_author
+    author_data = test_tender_below_author
 
     def setUp(self):
         super(TenderQualificationComplaintResourceTest, self).setUp()
@@ -135,7 +138,7 @@ class TenderQualificationComplaintResourceTest(BaseTenderContentWebTest):
 
 
 class TenderLotQualificationComplaintResourceTest(TenderQualificationComplaintResourceTest):
-    initial_lots = test_lots
+    initial_lots = test_tender_cfaua_lots
     initial_auth = ("Basic", ("broker", ""))
 
     test_create_tender_qualification_complaint = snitch(create_tender_lot_qualification_complaint)
@@ -173,7 +176,7 @@ class TenderQualificationComplaintDocumentResourceTest(TenderQualificationBaseTe
             "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
                 self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
             ),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]

@@ -12,7 +12,9 @@ from openprocurement.api.constants import (
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.api.utils import get_now, parse_date
-from openprocurement.tender.belowthreshold.tests.base import test_organization
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+)
 from openprocurement.tender.cfaua.constants import MAX_AGREEMENT_PERIOD
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.tender.core.utils import calculate_tender_business_date
@@ -1049,7 +1051,7 @@ def one_bid_tender(self):
     tender_id = self.tender_id = response.json["data"]["id"]
     self.set_initial_status(response.json)
     # create bid
-    bidder_data = deepcopy(test_organization)
+    bidder_data = deepcopy(test_tender_below_organization)
     initial_bids = deepcopy(self.initial_bids)
     initial_bids[0]["tenderers"] = bidder_data
     initial_bids[1]["status"] = "draft"
@@ -1078,7 +1080,7 @@ def unsuccessful_after_prequalification_tender(self):
     self.set_initial_status(response.json)
 
     # create bid
-    bidder_data = deepcopy(test_organization)
+    bidder_data = deepcopy(test_tender_below_organization)
     initial_bids = deepcopy(self.initial_bids)
 
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1152,7 +1154,7 @@ def one_qualificated_bid_tender(self):
     self.set_initial_status(response.json)
     self.initial_lots = response.json["data"]["lots"]
     # create bids
-    bidder_data = deepcopy(test_organization)
+    bidder_data = deepcopy(test_tender_below_organization)
     initial_bids = deepcopy(self.initial_bids)
     self.app.authorization = ("Basic", ("broker", ""))
 
@@ -1244,7 +1246,7 @@ def multiple_bidders_tender(self):
     tender_id = self.tender_id = response.json["data"]["id"]
     tender_owner_token = response.json["access"]["token"]
     # create bids
-    bidder_data = deepcopy(test_organization)
+    bidder_data = deepcopy(test_tender_below_organization)
     self.app.authorization = ("Basic", ("broker", ""))
 
     bids_data = deepcopy(self.initial_bids)
@@ -1648,7 +1650,7 @@ def _awards_to_bids_number(self, max_awards_number, bids_number, expected_awards
     self.initial_lots = response.json["data"]["lots"]
     # create bids
     initial_bids = deepcopy(self.initial_bids)
-    initial_bids[0]["tenderers"] = [test_organization]
+    initial_bids[0]["tenderers"] = [test_tender_below_organization]
     for _ in range(bids_number):
         self.create_bid(self.tender_id, initial_bids[0])
     # switch to active.pre-qualification

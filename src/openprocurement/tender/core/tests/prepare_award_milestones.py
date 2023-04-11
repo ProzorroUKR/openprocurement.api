@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.openua.models import Tender
-from openprocurement.tender.openua.tests.base import test_tender_data
+from openprocurement.tender.openua.tests.base import test_tender_openua_data
 from openprocurement.tender.core.utils import prepare_award_milestones
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.constants import ALP_MILESTONE_REASONS
@@ -10,7 +10,7 @@ from copy import deepcopy
 import pytest
 
 
-test_tender_data = deepcopy(test_tender_data)
+test_tender_data = deepcopy(test_tender_openua_data)
 
 
 @pytest.mark.parametrize("tender_status", ("active.qualification", "active.auction"))
@@ -71,8 +71,8 @@ def test_milestone_data_cases(test_data, tender_status):
         }
         for n,  amount in enumerate(tendering_amounts)
     ]}}
-    test_tender_data.update(tender_patch)
-    tender = Tender(test_tender_data)
+    test_tender_openua_data.update(tender_patch)
+    tender = Tender(test_tender_openua_data)
     tender.__parent__ = root
 
     with patch("openprocurement.tender.core.utils.RELEASE_2020_04_19", get_now() - timedelta(seconds=1)):

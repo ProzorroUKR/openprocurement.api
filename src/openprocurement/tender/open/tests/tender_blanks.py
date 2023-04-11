@@ -11,11 +11,10 @@ from openprocurement.api.constants import (
     TZ,
 )
 from openprocurement.api.utils import parse_date
-
-from openprocurement.tender.belowthreshold.tests.base import test_lots
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD
-from openprocurement.tender.open.tests.base import lcc_criteria
 from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.tests.base import test_lcc_lot_criteria
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 
 
 def empty_listing(self):
@@ -806,7 +805,7 @@ def patch_tender(self):
     # set lots
     base_value = result["value"]
     base_currency, base_tax = base_value["currency"], base_value["valueAddedTaxIncluded"]
-    for lot in test_lots:
+    for lot in test_tender_below_lots:
         response = self.app.post_json(f"/tenders/{tender['id']}/lots?acc_token={owner_token}",
                                       {"data": lot})
         self.assertEqual(response.status, "201 Created")
@@ -981,7 +980,7 @@ def invalid_bid_tender_lot(self):
     response = self.set_initial_status(response.json)
 
     lots = []
-    for lot in test_lots * 2:
+    for lot in test_tender_below_lots * 2:
         response = self.app.post_json("/tenders/{}/lots?acc_token={}".format(tender_id, owner_token), {"data": lot})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -1092,7 +1091,7 @@ def activate_bid_after_adding_lot(self):
     bid_id = bid["id"]
 
     response = self.app.post_json(
-        "/tenders/{}/lots?acc_token={}".format(self.tender_id, owner_token), {"data": test_lots[0]}
+        "/tenders/{}/lots?acc_token={}".format(self.tender_id, owner_token), {"data": test_tender_below_lots[0]}
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1492,8 +1491,8 @@ def create_tender_with_criteria_lcc(self):
         self.tender_id,
         token,
     )
-    test_lcc_criteria = deepcopy(lcc_criteria)
-    response = self.app.post_json(criteria_request_path, {"data": [test_lcc_criteria[0]]}, status=422)
+    lcc_criteria = deepcopy(test_lcc_lot_criteria)
+    response = self.app.post_json(criteria_request_path, {"data": [lcc_criteria[0]]}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -1505,7 +1504,7 @@ def create_tender_with_criteria_lcc(self):
             "description": {
                 "id": [
                     "{} is available only with lifeCycleCost awardCriteria".format(
-                        test_lcc_criteria[0]["classification"]["id"]
+                        lcc_criteria[0]["classification"]["id"]
                     )
                 ]
             }

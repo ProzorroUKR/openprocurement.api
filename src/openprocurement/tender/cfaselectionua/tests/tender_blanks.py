@@ -9,10 +9,15 @@ from openprocurement.api.constants import (
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
     CPV_ITEMS_CLASS_FROM,
 )
-from openprocurement.tender.core.tests.base import change_auth
-from openprocurement.tender.belowthreshold.tests.base import test_claim, test_cancellation
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_claim,
+    test_tender_below_cancellation,
+)
 from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.tender.core.tests.cancellation import activate_cancellation_without_complaints_after_2020_04_19
+from openprocurement.tender.core.tests.cancellation import (
+    activate_cancellation_without_complaints_after_2020_04_19,
+)
 from openprocurement.tender.cfaselectionua.constants import (
     BOT_NAME,
     ENQUIRY_PERIOD,
@@ -21,12 +26,11 @@ from openprocurement.tender.cfaselectionua.constants import (
     AGREEMENT_IDENTIFIER,
     TENDERING_DURATION,
 )
-from openprocurement.tender.cfaselectionua.tests.base import test_organization, test_features
+from openprocurement.tender.cfaselectionua.tests.base import (
+    test_tender_cfaselectionua_organization,
+    test_tender_cfaselectionua_features,
+)
 from openprocurement.tender.core.utils import calculate_tender_business_date
-from openprocurement.tender.belowthreshold.tests.tender_blanks import create_tender_with_earlier_non_required_unit
-
-
-# TenderResourceTest
 
 
 def listing(self):
@@ -631,7 +635,7 @@ def create_tender_from_terminated_agreement(self):
         "/tenders/{}/bids".format(self.tender_id),
         {
             "data": {
-                "tenderers": [test_organization],
+                "tenderers": [test_tender_cfaselectionua_organization],
                 "subcontractingDetails": "test_details",
                 "lotValues": [
                     {
@@ -959,7 +963,7 @@ def create_tender(self):
 
 def tender_funders(self):
     tender_data = deepcopy(self.initial_data)
-    tender_data["funders"] = [deepcopy(test_organization)]
+    tender_data["funders"] = [deepcopy(test_tender_cfaselectionua_organization)]
     tender_data["funders"][0]["identifier"]["id"] = "44000"
     tender_data["funders"][0]["identifier"]["scheme"] = "XM-DAC"
     del tender_data["funders"][0]["scale"]
@@ -973,7 +977,7 @@ def tender_funders(self):
     self.tender_id = tender["id"]
     token = response.json["access"]["token"]
 
-    tender_data["funders"].append(deepcopy(test_organization))
+    tender_data["funders"].append(deepcopy(test_tender_cfaselectionua_organization))
     tender_data["funders"][1]["identifier"]["id"] = "44000"
     tender_data["funders"][1]["identifier"]["scheme"] = "XM-DAC"
     del tender_data["funders"][1]["scale"]
@@ -1663,7 +1667,7 @@ def patch_tender_bot(self):
     second_item["id"] = uuid4().hex
     agreement["items"] = [agreement["items"][0], second_item]
 
-    features = deepcopy(test_features)
+    features = deepcopy(test_tender_cfaselectionua_features)
     new_item_feature = deepcopy(features[0])
     new_item_feature["code"] = uuid4().hex
     new_item_feature["relatedItem"] = second_item["id"]
@@ -1983,7 +1987,7 @@ def invalid_tender_conditions(self):
     response = self.app.post_json(
         "/tenders/{}/complaints".format(tender_id),
         {
-            "data": test_claim
+            "data": test_tender_below_claim
         },
         status=404,
     )
@@ -1991,7 +1995,7 @@ def invalid_tender_conditions(self):
     self.assertEqual(response.content_type, "text/plain")
 
     # cancellation
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "reason": "invalid conditions",
         "status": "active"
@@ -2030,7 +2034,7 @@ def one_valid_bid_tender(self):
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = {
-        "tenderers": [test_organization],
+        "tenderers": [test_tender_cfaselectionua_organization],
         "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_data["lots"][0]["id"]}],
     }
     self.create_bid(tender_id, bid_data)
@@ -2087,7 +2091,7 @@ def one_invalid_bid_tender(self):
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = {
-        "tenderers": [test_organization],
+        "tenderers": [test_tender_cfaselectionua_organization],
         "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_data["lots"][0]["id"]}],
     }
     self.create_bid(tender_id, bid_data)
@@ -2153,7 +2157,7 @@ def first_bid_tender(self):
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = {
-        "tenderers": [test_organization],
+        "tenderers": [test_tender_cfaselectionua_organization],
         "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_data["lots"][0]["id"]}],
 
     }
@@ -2314,7 +2318,7 @@ def lost_contract_for_active_award(self):
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = {
-        "tenderers": [test_organization],
+        "tenderers": [test_tender_cfaselectionua_organization],
         "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_data["lots"][0]["id"]}],
     }
     bid, bid_token = self.create_bid(tender_id, bid_data)

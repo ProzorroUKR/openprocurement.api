@@ -8,14 +8,17 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     create_tender_award_no_scale,
     create_tender_award_document_json_bulk,
 )
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author, test_draft_complaint
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+    test_tender_below_draft_complaint,
+)
 from openprocurement.tender.belowthreshold.tests.award import (
     TenderAwardDocumentResourceTestMixin,
     TenderAwardComplaintDocumentResourceTestMixin,
 )
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest,
-    test_tender_data,
+    test_tender_reporting_data,
     test_tender_negotiation_data,
     test_tender_negotiation_quick_data,
     test_lots,
@@ -23,7 +26,6 @@ from openprocurement.tender.limited.tests.base import (
     test_tender_negotiation_quick_data_2items,
 )
 from openprocurement.tender.limited.tests.award_blanks import (
-    get_award_data,
     # TenderAwardDocumentResourceTest
     create_tender_award_document_invalid,
     # TenderNegotiationAwardComplaintDocumentResourceTest
@@ -77,11 +79,13 @@ from openprocurement.tender.limited.tests.award_blanks import (
     activate_contract_with_cancelled_award,
     check_tender_award_complaint_period_dates,
 )
+from openprocurement.tender.limited.tests.utils import get_award_data
+
 
 class TenderAwardResourceTest(BaseTenderContentWebTest):
     initial_status = "active"
-    initial_data = test_tender_data
-    test_tender_data_local = test_tender_data
+    initial_data = test_tender_reporting_data
+    test_tender_data_local = test_tender_reporting_data
     initial_bids = None
     docservice = True
 
@@ -99,7 +103,7 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
 
 class TenderAwardComplaintResourceTest(BaseTenderContentWebTest):
     initial_status = "active"
-    initial_data = test_tender_data
+    initial_data = test_tender_reporting_data
     initial_bids = None
     docservice = True
 
@@ -119,7 +123,7 @@ class TenderNegotiationAwardResourceTest(TenderAwardResourceTest):
 class TenderNegotiationLotAwardResourceTest(TenderAwardResourceTest):
     initial_data = test_tender_negotiation_data
     test_tender_negotiation_data_local = test_tender_negotiation_data
-    test_tender_data_local = test_tender_data
+    test_tender_data_local = test_tender_reporting_data
     test_lots_data = test_lots  # TODO: change attribute identifier
 
     test_create_award_with_lot = snitch(create_award_with_lot)
@@ -147,7 +151,7 @@ class TenderNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
         request_path = "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token)
         response = self.app.post_json(
             request_path, {"data": {
-                "suppliers": [test_organization],
+                "suppliers": [test_tender_below_organization],
                 "qualified": True,
                 "status": "pending",
                 "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
@@ -206,7 +210,7 @@ class TenderLotNegotiationAwardComplaintResourceTest(TenderNegotiationAwardCompl
             request_path,
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "qualified": True,
                     "status": "pending",
                     "lotID": self.lot["id"],
@@ -269,7 +273,7 @@ class Tender2LotNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
             request_path,
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "qualified": True,
                     "status": "pending",
                     "lotID": self.first_lot["id"],
@@ -288,7 +292,7 @@ class Tender2LotNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
             request_path,
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "qualified": True,
                     "status": "pending",
                     "lotID": self.second_lot["id"],
@@ -356,7 +360,7 @@ class Tender2LotNegotiationAwardComplaint2ResourceTest(BaseTenderContentWebTest)
             request_path,
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "qualified": True,
                     "status": "pending",
                     "lotID": self.first_lot["id"],
@@ -375,7 +379,7 @@ class Tender2LotNegotiationAwardComplaint2ResourceTest(BaseTenderContentWebTest)
             request_path,
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "qualified": True,
                     "status": "pending",
                     "lotID": self.second_lot["id"],
@@ -417,7 +421,7 @@ class TenderNegotiationAwardComplaintDocumentResourceTest(
         # Create award
         request_path = "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token)
         response = self.app.post_json(
-            request_path, {"data": {"suppliers": [test_organization], "qualified": True, "status": "pending",
+            request_path, {"data": {"suppliers": [test_tender_below_organization], "qualified": True, "status": "pending",
                                     "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}}
         )
         self.assertEqual(response.status, "201 Created")
@@ -435,7 +439,7 @@ class TenderNegotiationAwardComplaintDocumentResourceTest(
         # Create complaint for award
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]
@@ -451,7 +455,7 @@ class TenderNegotiationQuickAwardComplaintDocumentResourceTest(TenderNegotiation
 class TenderAwardDocumentResourceTest(BaseTenderContentWebTest, TenderAwardDocumentResourceTestMixin):
     docservice = True
     initial_status = "active"
-    initial_data = test_tender_data
+    initial_data = test_tender_reporting_data
     initial_bids = None
 
     def setUp(self):
@@ -492,7 +496,7 @@ class TenderLotAwardNegotiationDocumentResourceTest(TenderAwardNegotiationDocume
         # Create award
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"suppliers": [test_organization], "qualified": True, "status": "pending", "lotID": lot["id"],
+            {"data": {"suppliers": [test_tender_below_organization], "qualified": True, "status": "pending", "lotID": lot["id"],
                       "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}},
         )
         award = response.json["data"]

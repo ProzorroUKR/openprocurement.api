@@ -9,15 +9,12 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.adapters import TenderBelowThersholdConfigurator
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
-    test_bids,
-    test_lots,
-    test_organization,
-    test_author,
-    test_draft_claim,
-    test_claim,
+    test_tender_below_bids,
+    test_tender_below_lots,
+    test_tender_below_organization,
+    test_tender_below_draft_claim,
 )
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
-    # TenderAwardResourceTest
     create_tender_award_invalid,
     create_tender_award_no_scale_invalid,
     create_tender_award,
@@ -25,41 +22,32 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     check_tender_award_complaint_period_dates,
     patch_tender_award_unsuccessful,
     get_tender_award,
-    # TenderLotAwardCheckResourceTest
     check_tender_award,
-    # TenderLotAwardResourceTest
     create_tender_lot_award,
     patch_tender_lot_award,
     patch_tender_lot_award_unsuccessful,
     patch_tender_lot_award_lots_none,
-    # Tender2LotAwardResourceTest
     create_tender_lots_award,
     patch_tender_lots_award,
-    # TenderAwardComplaintResourceTest
     create_tender_award_complaint_invalid,
     create_tender_award_complaint,
     patch_tender_award_complaint,
     review_tender_award_complaint,
     get_tender_award_complaint,
     get_tender_award_complaints,
-    # TenderLotAwardComplaintResourceTest
     create_tender_lot_award_complaint,
     patch_tender_lot_award_complaint,
     get_tender_lot_award_complaint,
     get_tender_lot_award_complaints,
-    # Tender2LotAwardComplaintResourceTest
     create_tender_lots_award_complaint,
     patch_tender_lots_award_complaint,
-    # TenderAwardComplaintDocumentResourceTest
     not_found,
     create_tender_award_complaint_document,
     put_tender_award_complaint_document,
     patch_tender_award_complaint_document,
-    # Tender2LotAwardComplaintDocumentResourceTest
     create_tender_lots_award_complaint_document,
     put_tender_lots_award_complaint_document,
     patch_tender_lots_award_complaint_document,
-    # TenderAwardDocumentResourceTest
     not_found_award_document,
     create_tender_award_document,
     create_tender_award_document_json_bulk,
@@ -67,11 +55,9 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     patch_tender_award_document,
     create_award_document_bot,
     patch_not_author,
-    # Tender2LotAwardDocumentResourceTest
     create_tender_lots_award_document,
     put_tender_lots_award_document,
     patch_tender_lots_award_document,
-    # TenderAwardResourceScaleTest
     create_tender_award_with_scale_not_required,
     create_tender_award_no_scale,
 )
@@ -118,7 +104,7 @@ class Tender2LotAwardDocumentResourceTestMixin(object):
 
 class TenderAwardResourceTest(TenderContentWebTest, TenderAwardResourceTestMixin):
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_below_bids
     docservice = True
 
     test_create_tender_award = snitch(create_tender_award)
@@ -135,7 +121,7 @@ class TenderAwardResourceScaleTest(TenderContentWebTest):
                              get_now() + timedelta(days=1))
         patcher.start()
         self.addCleanup(patcher.stop)
-        test_bid = deepcopy(test_bids[0])
+        test_bid = deepcopy(test_tender_below_bids[0])
         test_bid["tenderers"][0].pop("scale")
         self.initial_bids = [test_bid]
         super(TenderAwardResourceScaleTest, self).setUp()
@@ -147,9 +133,9 @@ class TenderAwardResourceScaleTest(TenderContentWebTest):
 
 class TenderLotAwardCheckResourceTest(TenderContentWebTest, TenderLotAwardCheckResourceTestMixin):
     initial_status = "active.auction"
-    initial_lots = test_lots
-    initial_bids = deepcopy(test_bids)
-    initial_bids.append(deepcopy(test_bids[0]))
+    initial_lots = test_tender_below_lots
+    initial_bids = deepcopy(test_tender_below_bids)
+    initial_bids.append(deepcopy(test_tender_below_bids[0]))
     initial_bids[1]["tenderers"][0]["name"] = "Не зовсім Державне управління справами"
     initial_bids[1]["tenderers"][0]["identifier"]["id"] = "88837256"
     initial_bids[2]["tenderers"][0]["name"] = "Точно не Державне управління справами"
@@ -181,8 +167,8 @@ class TenderLotAwardCheckResourceTest(TenderContentWebTest, TenderLotAwardCheckR
 
 class TenderLotAwardResourceTest(TenderContentWebTest):
     initial_status = "active.qualification"
-    initial_lots = test_lots
-    initial_bids = test_bids
+    initial_lots = test_tender_below_lots
+    initial_bids = test_tender_below_bids
     docservice = True
 
     test_create_tender_lot_award = snitch(create_tender_lot_award)
@@ -193,8 +179,8 @@ class TenderLotAwardResourceTest(TenderContentWebTest):
 
 class Tender2LotAwardResourceTest(TenderContentWebTest):
     initial_status = "active.qualification"
-    initial_lots = 2 * test_lots
-    initial_bids = test_bids
+    initial_lots = 2 * test_tender_below_lots
+    initial_bids = test_tender_below_bids
     docservice = True
 
     test_create_tender_lots_award = snitch(create_tender_lots_award)
@@ -203,7 +189,7 @@ class Tender2LotAwardResourceTest(TenderContentWebTest):
 
 class TenderAwardPendingResourceTestCase(TenderContentWebTest):
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_below_bids
     docservice = True
 
     def setUp(self):
@@ -213,7 +199,7 @@ class TenderAwardPendingResourceTestCase(TenderContentWebTest):
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
                 {"data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"] if self.initial_lots else None,
@@ -242,7 +228,7 @@ class TenderAwardComplaintResourceTest(TenderAwardActiveResourceTestCase, Tender
 
 
 class TenderLotAwardComplaintResourceTest(TenderAwardActiveResourceTestCase):
-    initial_lots = test_lots
+    initial_lots = test_tender_below_lots
 
     test_create_tender_lot_award_complaint = snitch(create_tender_lot_award_complaint)
     test_patch_tender_lot_award_complaint = snitch(patch_tender_lot_award_complaint)
@@ -251,7 +237,7 @@ class TenderLotAwardComplaintResourceTest(TenderAwardActiveResourceTestCase):
 
 
 class Tender2LotAwardComplaintResourceTest(TenderLotAwardComplaintResourceTest):
-    initial_lots = 2 * test_lots
+    initial_lots = 2 * test_tender_below_lots
 
     test_create_tender_lots_award_complaint = snitch(create_tender_lots_award_complaint)
     test_patch_tender_lots_award_complaint = snitch(patch_tender_lots_award_complaint)
@@ -268,7 +254,7 @@ class TenderAwardComplaintDocumentResourceTest(
         self.bid_token = list(self.initial_bids_tokens.values())[0]
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, self.bid_token),
-            {"data": test_draft_claim},
+            {"data": test_tender_below_draft_claim},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]
@@ -278,7 +264,7 @@ class TenderAwardComplaintDocumentResourceTest(
 
 
 class Tender2LotAwardComplaintDocumentResourceTest(TenderAwardActiveResourceTestCase):
-    initial_lots = 2 * test_lots
+    initial_lots = 2 * test_tender_below_lots
 
     def setUp(self):
         super(Tender2LotAwardComplaintDocumentResourceTest, self).setUp()
@@ -286,7 +272,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(TenderAwardActiveResourceTest
         bid_token = list(self.initial_bids_tokens.values())[0]
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
-            {"data": test_draft_claim},
+            {"data": test_tender_below_draft_claim},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]
@@ -302,7 +288,7 @@ class TenderAwardDocumentResourceTest(TenderAwardPendingResourceTestCase, Tender
 
 
 class Tender2LotAwardDocumentResourceTest(TenderAwardPendingResourceTestCase, Tender2LotAwardDocumentResourceTestMixin):
-    initial_lots = 2 * test_lots
+    initial_lots = 2 * test_tender_below_lots
 
 
 def suite():

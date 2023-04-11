@@ -7,22 +7,36 @@ from datetime import timedelta
 from openprocurement.api.models import get_now
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.openua.tests.tender import BaseTenderUAWebTest
-from openprocurement.tender.belowthreshold.tests.base import test_criteria, language_criteria
+from openprocurement.tender.core.tests.base import (
+    test_exclusion_criteria,
+    test_language_criteria,
+)
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
-from tests.base.constants import DOCS_URL, AUCTIONS_URL
-from tests.base.test import DumpsWebTestApp, MockWebTestMixin
+from tests.base.constants import (
+    DOCS_URL,
+    AUCTIONS_URL,
+)
+from tests.base.test import (
+    DumpsWebTestApp,
+    MockWebTestMixin,
+)
 from tests.base.data import (
-    question, complaint, tender_openua, bid_draft, bid2,
-    subcontracting, qualified,
+    test_docs_question,
+    test_docs_complaint,
+    test_docs_tender_openua,
+    test_docs_bid_draft,
+    test_docs_bid2,
+    test_docs_subcontracting,
+    test_docs_qualified,
 )
 
-test_tender_ua_data = deepcopy(tender_openua)
-bid = deepcopy(bid_draft)
-bid2 = deepcopy(bid2)
+test_tender_ua_data = deepcopy(test_docs_tender_openua)
+bid = deepcopy(test_docs_bid_draft)
+bid2 = deepcopy(test_docs_bid2)
 
-bid2.update(qualified)
-bid.update(subcontracting)
-bid.update(qualified)
+bid2.update(test_docs_qualified)
+bid.update(test_docs_subcontracting)
+bid.update(test_docs_qualified)
 
 TARGET_DIR = 'docs/source/tendering/openua/http/'
 
@@ -71,7 +85,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',
-                {'data': test_tender_ua_data})
+                {'data': test_tender_ua_data, 'config': self.initial_config})
             self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
@@ -89,8 +103,8 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         self.app.authorization = ('Basic', ('broker', ''))
 
         #### Tender activating
-        test_criteria_data = deepcopy(test_criteria)
-        test_criteria_data.extend(language_criteria)
+        test_criteria_data = deepcopy(test_exclusion_criteria)
+        test_criteria_data.extend(test_language_criteria)
 
         with open(TARGET_DIR + 'add-exclusion-criteria.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -205,7 +219,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'ask-question.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/questions'.format(self.tender_id),
-                {'data': question}, status=201)
+                {'data': test_docs_question}, status=201)
             question_id = response.json['data']['id']
             self.assertEqual(response.status, '201 Created')
 
@@ -237,7 +251,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'ask-question-after-enquiry-period.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/questions'.format(self.tender_id),
-                {'data': question}, status=403)
+                {'data': test_docs_question}, status=403)
             self.assertEqual(response.status, '403 Forbidden')
 
         response = self.app.get(f"/tenders/{self.tender_id}")
@@ -567,7 +581,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',
-                {'data': test_tender_ua_data})
+                {'data': test_tender_ua_data, 'config': self.initial_config})
 
             self.assertEqual(response.status, '201 Created')
 
@@ -596,7 +610,7 @@ class TenderConfidentialDocumentsTest(BaseTenderUAWebTest, MockWebTestMixin):
         # Create tender
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
-            {'data': test_tender_ua_data})
+            {'data': test_tender_ua_data, 'config': self.initial_config})
         self.assertEqual(response.status, '201 Created')
         self.tender_id = tender_id = response.json["data"]["id"]
         self.tender_token = tender_token = response.json["access"]["token"]
@@ -725,18 +739,18 @@ class ComplaintsValueResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
             "tenderPeriod": {"endDate": (get_now() + timedelta(days=16)).isoformat()}
         })
 
-        response = self.app.post_json("/tenders", {"data": self.initial_data})
+        response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
         self.set_initial_status(response.json, "active.tendering")
 
         with open(TARGET_VALUE_DIR + 'complaint-creation.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/complaints'.format(response.json["data"]["id"]),
-                {'data': complaint})
+                {'data': test_docs_complaint})
             self.assertEqual(response.status, '201 Created')
 
         self.initial_data["value"]["currency"] = self.initial_data["minimalStep"]["currency"] = "USD"
 
-        response = self.app.post_json("/tenders", {"data": self.initial_data})
+        response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
 
         with open(TARGET_VALUE_DIR + 'complaint-creation-decoding.http', 'w') as self.app.file_obj:
 
@@ -747,7 +761,7 @@ class ComplaintsValueResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
 
                 self.app.post_json(
                     '/tenders/{}/complaints'.format(response.json["data"]["id"]),
-                    {'data': complaint},
+                    {'data': test_docs_complaint},
                     status=409
                 )
 
@@ -760,7 +774,7 @@ class ComplaintsValueResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
 
                 self.app.post_json(
                     '/tenders/{}/complaints'.format(response.json["data"]["id"]),
-                    {'data': complaint},
+                    {'data': test_docs_complaint},
                     status=409
                 )
 
@@ -773,6 +787,6 @@ class ComplaintsValueResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
 
                 self.app.post_json(
                     '/tenders/{}/complaints'.format(response.json["data"]["id"]),
-                    {'data': complaint},
+                    {'data': test_docs_complaint},
                     status=422
                 )

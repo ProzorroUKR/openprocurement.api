@@ -2,13 +2,13 @@ from unittest.mock import patch
 from datetime import timedelta
 from copy import deepcopy
 
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_documents,
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
 )
-from openprocurement.tender.openeu.tests.base import test_bids
+from openprocurement.tender.openeu.tests.base import test_tender_openeu_bids
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17, TWO_PHASE_COMMIT_FROM
 from openprocurement.api.utils import get_now
 
@@ -153,7 +153,7 @@ def create_tender_biddder_invalid(self):
         ],
     )
 
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openeu_bids[0])
     bid_data["tenderers"] = self.test_bids_data[0]["tenderers"]
     del bid_data["value"]
     response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data}, status=422)
@@ -205,7 +205,7 @@ def create_tender_biddder_invalid(self):
 
 
 def create_tender_bidder(self):
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openeu_bids[0])
     bid_data.update({
         "tenderers": [self.test_bids_data[0]["tenderers"][0]],
         "value": {"amount": 500},
@@ -251,7 +251,7 @@ def create_tender_bidder(self):
 
 
 def patch_tender_bidder(self):
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openeu_bids[0])
     bid_data.update({
         "tenderers": [self.test_bids_data[0]["tenderers"][0]],
         "value": {"amount": 500},
@@ -391,7 +391,7 @@ def patch_tender_draft_bidder(self):
 
 
 def get_tender_bidder(self):
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openeu_bids[0])
     bid_data.update({
         "tenderers": [self.test_bids_data[0]["tenderers"][0]],
         "value": self.test_bids_data[0]["value"],
@@ -572,7 +572,7 @@ def get_tender_bidder(self):
 @patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
        get_now() + timedelta(days=1))
 def delete_tender_bidder(self):
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openeu_bids[0])
     bid_data.update({
         "tenderers": self.test_bids_data[0]["tenderers"],
         "value": {"amount": 500},
@@ -736,7 +736,7 @@ def delete_tender_bidder(self):
 
 
 def deleted_bid_is_not_restorable(self):
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openeu_bids[0])
     bid_data.update({
         "tenderers": self.test_bids_data[0]["tenderers"],
         "value": {"amount": 500},
@@ -776,7 +776,7 @@ def deleted_bid_do_not_locks_tender_in_state(self):
     bids = []
     bids_tokens = []
     bid_amount = 400
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openeu_bids[0])
     bid_data.update({
         "tenderers": self.test_bids_data[0]["tenderers"],
     })
@@ -846,7 +846,7 @@ def deleted_bid_do_not_locks_tender_in_state(self):
 
 
 def get_tender_tenderers(self):
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openeu_bids[0])
     bid_data.update({
         "tenderers": [self.test_bids_data[0]["tenderers"][0]],
         "value": self.test_bids_data[0]["value"],
@@ -919,7 +919,7 @@ def get_tender_tenderers(self):
 
 
 def bid_Administrator_change(self):
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openeu_bids[0])
     bid_data.update({
         "tenderers": [self.test_bids_data[0]["tenderers"][0]],
         "value": {"amount": 500}
@@ -1015,7 +1015,7 @@ def bids_invalidation_on_tender_change(self):
     valid_bid_id = bid["id"]
     valid_bid_date = bid["date"]
 
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openeu_bids[0])
     bid_data.update({
         "value": {"amount": 101}
     })
@@ -1190,7 +1190,7 @@ def features_bidder(self):
 
 
 def features_bidder_invalid(self):
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openeu_bids[0])
     bid_data["tenderers"] = self.test_bids_data[0]["tenderers"]
     response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
