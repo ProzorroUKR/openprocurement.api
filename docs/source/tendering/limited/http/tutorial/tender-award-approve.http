@@ -26,7 +26,7 @@ Content-Type: application/json
     },
     "documents": [
       {
-        "id": "935c5060624541f3ab271b9a05fc8ec7",
+        "id": "0722227979de4c81a08e7b4b5fe18699",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "award_first_document.doc",
@@ -37,7 +37,7 @@ Content-Type: application/json
         "author": "tender_owner"
       },
       {
-        "id": "6f06c55889444b5a87299fac861771ff",
+        "id": "a043727d4e1e4c9aa879acb67486ff2e",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "award_second_document.doc",

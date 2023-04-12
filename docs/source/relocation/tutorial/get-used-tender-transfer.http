@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "date": "2023-01-01T00:00:00+02:00",
-    "usedFor": "/tenders/f36bbec96e57457b8acb3b59f68e8d77",
+    "usedFor": "/tenders/8d381bc0bece4cccb42d5b415bc7fec8",
     "id": "e1f545dc62744379af62821162c43008"
   }
 }

@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 2750
+Content-Length: 2782
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -96,6 +96,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "percentage": 54.45
       }
     ]
+  },
+  "config": {
+    "hasAuction": true
   }
 }
 
@@ -109,7 +112,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f2ffdfd3a21b4081
     "mainProcurementCategory": "goods",
     "title": "футляри до державних нагород",
     "status": "draft",
-    "submissionMethod": "electronicAuction",
     "procurementMethod": "open",
     "awardCriteria": "lowestCost",
     "value": {
@@ -211,9 +213,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f2ffdfd3a21b4081
     "tenderID": "UA-2023-01-01-000001-a",
     "owner": "broker",
     "date": "2023-01-01T00:00:00+02:00",
+    "submissionMethod": "electronicAuction",
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "id": "f2ffdfd3a21b4081841738915486b18b"
+  },
+  "config": {
+    "hasAuction": true
   },
   "access": {
     "token": "b8bbe7f96c0a4205be28146aec83c55b",

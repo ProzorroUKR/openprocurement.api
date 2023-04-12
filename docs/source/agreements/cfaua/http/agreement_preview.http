@@ -22,7 +22,7 @@ Content-Type: application/json
         "rationaleType": "taxRate",
         "modifications": [
           {
-            "itemId": "441f9d3acd394c1ca83d852d54799ded",
+            "itemId": "b0a774dcb2784648b6f81791b294a6be",
             "factor": 0.1605
           }
         ]
@@ -30,11 +30,11 @@ Content-Type: application/json
     ],
     "documents": [
       {
-        "id": "385eaa623eb745268509bd99ee009fb5",
+        "id": "dc3a00e2a21e45259890216f6c0e543b",
         "hash": "md5:00000000000000000000000000000000",
         "title": "agreement_changes.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e26cc27327694835a5a1fb47aad3fd7d?Signature=en90iwB9NKdCgSqAd9VVa%2Bpj8cWDCsuw2%2BebuswbLgZTeonZok4m0GR%2FYMbW5puIOfwQqRBLP2IlAN0j85JLCg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d11ca4c1fd0b4a2f80bd5e74a6da52d2?Signature=kWWQwE4OnCp4g4ZgykRjc4TcDN87gzj7Uo6bqsdHa64HQJ9h%2FxubjfysczaJV9zLLsSE3u81A8ODWWhM3jNXAQ%3D%3D&KeyID=a8968c46",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "relatedItem": "021c093dc15d4e078ce3061ae63cd514",
@@ -72,7 +72,7 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "441f9d3acd394c1ca83d852d54799ded",
+            "relatedItem": "b0a774dcb2784648b6f81791b294a6be",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -114,7 +114,7 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "441f9d3acd394c1ca83d852d54799ded",
+            "relatedItem": "b0a774dcb2784648b6f81791b294a6be",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -156,7 +156,7 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "441f9d3acd394c1ca83d852d54799ded",
+            "relatedItem": "b0a774dcb2784648b6f81791b294a6be",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -171,7 +171,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "441f9d3acd394c1ca83d852d54799ded",
+        "id": "b0a774dcb2784648b6f81791b294a6be",
         "description": "футляри до державних нагород",
         "quantity": 5.0,
         "relatedLot": "04651361e47848abb6eda21e59c8b4a1",
@@ -229,7 +229,7 @@ Content-Type: application/json
         "availableLanguage": "uk"
       }
     },
-    "tender_id": "bb31a9970870484ba6415a99611d3e81",
+    "tender_id": "932b9b683eab4ce4a7eb7f1ecfd2164f",
     "id": "b7536ab0fbe34a1dafa73fe7943ff79c",
     "numberOfContracts": 3
   }

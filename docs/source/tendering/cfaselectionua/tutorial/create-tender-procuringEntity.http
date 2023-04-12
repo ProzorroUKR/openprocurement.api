@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 3094
+Content-Length: 3126
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -98,6 +98,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "id": "50fc7d0cb4e3423491c35387a046af42"
       }
     ]
+  },
+  "config": {
+    "hasAuction": true
   }
 }
 
@@ -114,7 +117,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/dd5002cf75a64ce6
     "title": "[ТЕСТУВАННЯ] футляри до державних нагород",
     "mode": "test",
     "procurementMethodType": "closeFrameworkAgreementSelectionUA",
-    "submissionMethod": "electronicAuction",
     "awardCriteria": "lowestCost",
     "procurementMethod": "selective",
     "procuringEntity": {
@@ -213,9 +215,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/dd5002cf75a64ce6
     "tenderID": "UA-2023-01-01-000002-a",
     "owner": "broker",
     "date": "2023-01-01T00:00:00+02:00",
+    "submissionMethod": "electronicAuction",
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "id": "dd5002cf75a64ce6bc9d60862b662d27"
+  },
+  "config": {
+    "hasAuction": true
   },
   "access": {
     "token": "65ab2952b7c34b23bea707b8c33a7022",

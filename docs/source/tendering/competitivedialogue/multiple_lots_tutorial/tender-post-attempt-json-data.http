@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 4330
+Content-Length: 4363
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -143,6 +143,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "mainProcurementCategory": "services"
+  },
+  "config": {
+    "hasAuction": false
   }
 }
 
@@ -155,7 +158,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cf488f0e7db04145
   "data": {
     "title_en": "Services in school canteens",
     "title": "Послуги шкільних їдалень",
-    "submissionMethod": "electronicAuction",
     "procurementMethod": "open",
     "value": {
       "amount": 500.0,
@@ -319,6 +321,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cf488f0e7db04145
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "id": "cf488f0e7db04145a88a15ca0429e178"
+  },
+  "config": {
+    "hasAuction": false
   },
   "access": {
     "token": "5a749d2e228f47feb54b59803addbc7a",

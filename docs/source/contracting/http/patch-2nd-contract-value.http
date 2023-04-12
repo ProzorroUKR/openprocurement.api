@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/55e45df6d0ca4d4fba2f3e8dc78abb98/contracts/d7869abbe1874db8a412cbe6eebe2320?acc_token=f8fd9d7797a7432b939129c732e580ab HTTP/1.0
+PATCH /api/2.5/tenders/bc77a76696c54e15bf3c933a54fe10c3/contracts/d7869abbe1874db8a412cbe6eebe2320?acc_token=8d3775a905d94c2184646a77323cfd0b HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 54
 Content-Type: application/json
@@ -21,7 +21,7 @@ Content-Type: application/json
   "data": {
     "id": "d7869abbe1874db8a412cbe6eebe2320",
     "buyerID": "22222222222222222222222222222222",
-    "awardID": "529be11def954633a79554f1ef1a5fc8",
+    "awardID": "223046bec74c4828bfc44cbc7bc16b91",
     "contractID": "UA-2023-01-01-000001-a-2",
     "status": "pending",
     "value": {
@@ -32,7 +32,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "eb83c6ba1a6f46f199a41d492f4f5d4d",
+        "id": "6e914978c21c4396b03bc0a3e41658e4",
         "description": "портфелі",
         "classification": {
           "description": "Cartons",
@@ -70,7 +70,7 @@ Content-Type: application/json
         "relatedBuyer": "22222222222222222222222222222222"
       },
       {
-        "id": "e446fa258f1a49b988b6a6ca6b8b3682",
+        "id": "85c354a1d9da41c7a31272a5d9f027e3",
         "description": "портфелі",
         "classification": {
           "description": "Cartons",

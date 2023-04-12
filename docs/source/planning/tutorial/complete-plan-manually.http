@@ -1,4 +1,4 @@
-PATCH /api/2.5/plans/0477cd01ee7b4b138e88d66abd748fde?acc_token=c44f5a46399141bd86d54d3f445962be HTTP/1.0
+PATCH /api/2.5/plans/4a8a8a82f7d645289bfd5c1e0ebd4130?acc_token=cfdf866a8ebc4bcfa89f1564dfb0c807 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 32
 Content-Type: application/json
@@ -17,7 +17,7 @@ Content-Type: application/json
 {
   "data": {
     "procuringEntity": {
-      "id": "0228f2d7f5d043a28b8f6a36701d1165",
+      "id": "4d2d626626ca4d51ad33d67eeed8897d",
       "name": "ДУС",
       "identifier": {
         "scheme": "UA-EDR",
@@ -70,7 +70,7 @@ Content-Type: application/json
     "planID": "UA-P-2023-01-01-000002",
     "items": [
       {
-        "id": "20d1f6b9adc2404eb805e15a57b973fa",
+        "id": "9ce130486124412f8989953b92dfca88",
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
@@ -101,7 +101,7 @@ Content-Type: application/json
         "description": "Насіння гірчиці"
       },
       {
-        "id": "e80134023c3c4a0693b79c01bfd1c1ac",
+        "id": "031c8f31728947d3b94281bc3e852877",
         "classification": {
           "description": "Sunflower seeds",
           "scheme": "ДК021",
@@ -132,7 +132,7 @@ Content-Type: application/json
         "description": "Насіння соняшнику"
       },
       {
-        "id": "4c0ecf659fb54d44821f188057181f32",
+        "id": "ab9d59e713bb452e907349ec5e8282f7",
         "classification": {
           "description": "Cotton seeds",
           "scheme": "ДК021",
@@ -165,7 +165,7 @@ Content-Type: application/json
     ],
     "buyers": [
       {
-        "id": "dae0d422470f478d8af7bd229b7c67e8",
+        "id": "0d9f9d9f96b7483ead8899aa09566a02",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -187,7 +187,7 @@ Content-Type: application/json
     "dateModified": "2023-01-01T00:00:00+02:00",
     "datePublished": "2023-01-01T00:00:00+02:00",
     "owner": "broker",
-    "id": "0477cd01ee7b4b138e88d66abd748fde"
+    "id": "4a8a8a82f7d645289bfd5c1e0ebd4130"
   }
 }
 

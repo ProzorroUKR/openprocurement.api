@@ -183,6 +183,9 @@ Content-Type: application/json
     "status": "active.tendering",
     "next_check": "2023-01-31T00:00:00+02:00",
     "id": "c1ecbb7654494927b3713d6f2307973d"
+  },
+  "config": {
+    "hasAuction": true
   }
 }
 

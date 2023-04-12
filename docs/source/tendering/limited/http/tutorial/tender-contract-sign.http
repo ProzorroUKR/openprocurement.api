@@ -72,7 +72,7 @@ Content-Type: application/json
     "date": "2023-01-01T00:00:01+02:00",
     "documents": [
       {
-        "id": "4422e0de258d445da7d889f591fac750",
+        "id": "f0e8435850454bd0871350e0613bf938",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_first_document.doc",
@@ -82,7 +82,7 @@ Content-Type: application/json
         "dateModified": "2023-01-01T00:00:00+02:00"
       },
       {
-        "id": "927568b9ad334352be8e0f2ac8c2f1cc",
+        "id": "2b286c9eeeab4ed888a708e8b46a5315",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_second_document.doc",

@@ -16,11 +16,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38da025ae53f4e0d8fa4474bb5923d12/documents/1b01c96d4c284ceebf9b115101b31fa0
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38da025ae53f4e0d8fa4474bb5923d12/documents/b78ad6cca603401b8ede5d35703cf373
 
 {
   "data": {
-    "id": "1b01c96d4c284ceebf9b115101b31fa0",
+    "id": "b78ad6cca603401b8ede5d35703cf373",
     "hash": "md5:00000000000000000000000000000000",
     "title": "contract_additional_docs.doc",
     "format": "application/pdf",

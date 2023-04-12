@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/6ce0d34cfe9a4a30add61af1394f9aab/contracts HTTP/1.0
+GET /api/2.5/tenders/3e0dfd2adc2d453f81b040ab4669c62c/contracts HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -11,7 +11,7 @@ Content-Type: application/json
     {
       "id": "61fe9c548e9243029e944fb1046b1538",
       "buyerID": "11111111111111111111111111111111",
-      "awardID": "42e1aa2e88e4429894150ac38ad3037b",
+      "awardID": "2885fb0f3e8e4eb5a7e87d885fc74e80",
       "contractID": "UA-2023-01-01-000001-a-1",
       "status": "pending",
       "value": {
@@ -22,7 +22,7 @@ Content-Type: application/json
       },
       "items": [
         {
-          "id": "c136d6b2f78e4c00a27ba354620d3be4",
+          "id": "0ad04d0ffa694aadb466632b29d2ee48",
           "description": "телевізори",
           "classification": {
             "description": "Cartons",
@@ -88,7 +88,7 @@ Content-Type: application/json
     {
       "id": "352d5e69250442fda64f82c8085fa7d6",
       "buyerID": "22222222222222222222222222222222",
-      "awardID": "42e1aa2e88e4429894150ac38ad3037b",
+      "awardID": "2885fb0f3e8e4eb5a7e87d885fc74e80",
       "contractID": "UA-2023-01-01-000001-a-2",
       "status": "pending",
       "value": {
@@ -99,7 +99,7 @@ Content-Type: application/json
       },
       "items": [
         {
-          "id": "11b0fdf2cd7f40788049023f8468a6be",
+          "id": "f01b64460c0e4f2b98c7ceb169446d72",
           "description": "портфелі",
           "classification": {
             "description": "Cartons",
@@ -137,7 +137,7 @@ Content-Type: application/json
           "relatedBuyer": "22222222222222222222222222222222"
         },
         {
-          "id": "9e0b992ccbbc42ee91cb1b5e2f7aa5c5",
+          "id": "01840f7ff4654f5e8b498e144a3d03ec",
           "description": "портфелі",
           "classification": {
             "description": "Cartons",

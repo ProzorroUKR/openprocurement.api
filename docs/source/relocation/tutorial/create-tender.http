@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 2975
+Content-Length: 4115
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -71,6 +71,40 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "locality": "м. Київ",
           "streetAddress": "вул. Банкова 1"
         }
+      },
+      {
+        "description": "футляри до державних нагород",
+        "classification": {
+          "scheme": "ДК021",
+          "id": "44617100-9",
+          "description": "Cartons"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "code": "KGM",
+          "value": {
+            "amount": 6
+          }
+        },
+        "quantity": 5,
+        "deliveryDate": {
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "countryName": "Україна",
+          "postalCode": "79000",
+          "region": "м. Київ",
+          "locality": "м. Київ",
+          "streetAddress": "вул. Банкова 1"
+        }
       }
     ],
     "enquiryPeriod": {
@@ -105,20 +139,22 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "percentage": 54.45
       }
     ]
+  },
+  "config": {
+    "hasAuction": true
   }
 }
 
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f36bbec96e57457b8acb3b59f68e8d77
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8d381bc0bece4cccb42d5b415bc7fec8
 
 {
   "data": {
     "mainProcurementCategory": "goods",
     "title": "футляри до державних нагород",
     "status": "draft",
-    "submissionMethod": "electronicAuction",
     "procurementMethod": "open",
     "awardCriteria": "lowestCost",
     "value": {
@@ -137,7 +173,44 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f36bbec96e57457b
     },
     "items": [
       {
-        "id": "ce9e446cdec144a19fd3cf237ac376e4",
+        "id": "58e7e07a6b6f4ba784c525f0dc76f195",
+        "description": "футляри до державних нагород",
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "deliveryDate": {
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        }
+      },
+      {
+        "id": "e349a32ccde84b8186a9f58cf14aae60",
         "description": "футляри до державних нагород",
         "classification": {
           "description": "Cartons",
@@ -188,7 +261,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f36bbec96e57457b
         "sequenceNumber": 0
       },
       {
-        "id": "2ee0c5b6eafd4d13b61e4bb97b65b965",
+        "id": "f62b46ce98424cd8a038a68d55904815",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -230,13 +303,17 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f36bbec96e57457b
     "tenderID": "UA-2023-01-01-000001-a",
     "owner": "broker",
     "date": "2023-01-01T00:00:00+02:00",
+    "submissionMethod": "electronicAuction",
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
-    "id": "f36bbec96e57457b8acb3b59f68e8d77"
+    "id": "8d381bc0bece4cccb42d5b415bc7fec8"
+  },
+  "config": {
+    "hasAuction": true
   },
   "access": {
-    "token": "243fbd916b264639b8d05056bd929612",
-    "transfer": "744b2a9ab4e743368de7c850ad8d3aa5"
+    "token": "38d83099eb3847f3ac1094c10d6d0a71",
+    "transfer": "4927ec57876f42529e73b0c81a89e457"
   }
 }
 

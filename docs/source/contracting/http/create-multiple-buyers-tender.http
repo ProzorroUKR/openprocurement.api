@@ -1,6 +1,6 @@
 POST /api/2.5/tenders HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 6008
+Content-Length: 6040
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -198,13 +198,16 @@ Host: lb-api-sandbox.prozorro.gov.ua
         }
       }
     ]
+  },
+  "config": {
+    "hasAuction": true
   }
 }
 
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/55e45df6d0ca4d4fba2f3e8dc78abb98
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bc77a76696c54e15bf3c933a54fe10c3
 
 {
   "data": {
@@ -233,7 +236,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/55e45df6d0ca4d4f
     ],
     "title": "футляри до державних нагород",
     "status": "draft",
-    "submissionMethod": "electronicAuction",
     "procurementMethod": "open",
     "awardCriteria": "lowestCost",
     "value": {
@@ -252,7 +254,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/55e45df6d0ca4d4f
     },
     "items": [
       {
-        "id": "c8aacb5693ad47238d0e319f315b8840",
+        "id": "6e6b230ec09a42fdaeca0f4816412fb4",
         "description": "телевізори",
         "classification": {
           "description": "Cartons",
@@ -290,7 +292,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/55e45df6d0ca4d4f
         "relatedBuyer": "11111111111111111111111111111111"
       },
       {
-        "id": "eb83c6ba1a6f46f199a41d492f4f5d4d",
+        "id": "6e914978c21c4396b03bc0a3e41658e4",
         "description": "портфелі",
         "classification": {
           "description": "Cartons",
@@ -328,7 +330,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/55e45df6d0ca4d4f
         "relatedBuyer": "22222222222222222222222222222222"
       },
       {
-        "id": "e446fa258f1a49b988b6a6ca6b8b3682",
+        "id": "85c354a1d9da41c7a31272a5d9f027e3",
         "description": "портфелі",
         "classification": {
           "description": "Cartons",
@@ -380,7 +382,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/55e45df6d0ca4d4f
         "sequenceNumber": 0
       },
       {
-        "id": "74b84eae4fa044c5964359e1ab01214c",
+        "id": "e35f63be7631427f8547da9e00d40b66",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -422,13 +424,17 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/55e45df6d0ca4d4f
     "tenderID": "UA-2023-01-01-000001-a",
     "owner": "broker",
     "date": "2023-01-01T00:00:00+02:00",
+    "submissionMethod": "electronicAuction",
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
-    "id": "55e45df6d0ca4d4fba2f3e8dc78abb98"
+    "id": "bc77a76696c54e15bf3c933a54fe10c3"
+  },
+  "config": {
+    "hasAuction": true
   },
   "access": {
-    "token": "f8fd9d7797a7432b939129c732e580ab",
-    "transfer": "563931bc5cd9402891ed60c669933487"
+    "token": "8d3775a905d94c2184646a77323cfd0b",
+    "transfer": "20364f458396448aa3d76f9196d8e4ad"
   }
 }
 

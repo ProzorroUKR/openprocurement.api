@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 3773
+Content-Length: 3805
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -121,6 +121,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "name": "Глобальний фонд"
       }
     ]
+  },
+  "config": {
+    "hasAuction": true
   }
 }
 
@@ -158,7 +161,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3301e3cc12864a8b
     ],
     "title": "футляри до державних нагород",
     "status": "draft",
-    "submissionMethod": "electronicAuction",
     "procurementMethod": "open",
     "awardCriteria": "lowestCost",
     "value": {
@@ -260,9 +262,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3301e3cc12864a8b
     "tenderID": "UA-2023-01-01-000003-a",
     "owner": "broker",
     "date": "2023-01-01T00:00:00+02:00",
+    "submissionMethod": "electronicAuction",
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "id": "3301e3cc12864a8b83e29ee8478a9bf6"
+  },
+  "config": {
+    "hasAuction": true
   },
   "access": {
     "token": "b24229b2eb974b53b8be7c3d8c13daf5",

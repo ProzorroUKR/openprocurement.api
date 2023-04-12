@@ -12,7 +12,6 @@ Content-Type: application/json
     "title": "Комп’ютерне обладнання",
     "procurementMethodType": "priceQuotation",
     "procurementMethod": "selective",
-    "submissionMethod": "electronicAuction",
     "awardCriteria": "lowestCost",
     "status": "draft",
     "agreement": {
@@ -163,6 +162,9 @@ Content-Type: application/json
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "id": "bb8949e735294cbaa864bd3bc68a1e5f"
+  },
+  "config": {
+    "hasAuction": false
   }
 }
 

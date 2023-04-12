@@ -10,7 +10,6 @@ Content-Type: application/json
   "data": {
     "title_en": "Services in school canteens",
     "title": "Послуги шкільних їдалень",
-    "submissionMethod": "electronicAuction",
     "procurementMethod": "open",
     "value": {
       "amount": 500.0,
@@ -174,6 +173,9 @@ Content-Type: application/json
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "id": "00653c26796e413c89e22e65cd6da9cd"
+  },
+  "config": {
+    "hasAuction": false
   }
 }
 
