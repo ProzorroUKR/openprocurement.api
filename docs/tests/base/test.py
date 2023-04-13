@@ -232,7 +232,7 @@ class MockWebTestMixin(object):
         self.db_now_path = mock.patch(
             'openprocurement.api.database.get_public_modified',
             lambda: get_now().timestamp()
-            )
+        )
         self.db_now_path.start()
         self.freezer = freeze_time(MOCK_DATETIME)
         self.freezer.start()
@@ -241,6 +241,7 @@ class MockWebTestMixin(object):
         self.freezer.stop()
         self.uuid_patch.stop()
         self.db_now_path.stop()
+        self.uuid_counters = None
 
     def uuid(self, version=None, **kwargs):
         stack = self.stack()
