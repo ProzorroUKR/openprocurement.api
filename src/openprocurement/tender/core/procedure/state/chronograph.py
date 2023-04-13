@@ -1,7 +1,11 @@
 from openprocurement.api.constants import RELEASE_2020_04_19, TZ
 from openprocurement.api.utils import context_unpack
 from openprocurement.tender.core.procedure.contracting import add_contracts
-from openprocurement.tender.core.procedure.context import get_now, get_request
+from openprocurement.tender.core.procedure.context import (
+    get_now,
+    get_request,
+    get_tender_config,
+)
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     get_first_revision_date,
@@ -297,17 +301,23 @@ class ChronographEventsMixing:
             if complaint.get("status") == "answered" and complaint.get("resolutionType"):
                 self.set_object_status(complaint, complaint["resolutionType"])
 
-        handler = self.get_change_tender_status_handler("active.auction")
-        handler(tender)
-
         self.remove_draft_bids(tender)
         self.check_bids_number(tender)
+        self.switch_to_auction_or_awarded(tender)
+
 
     def pre_qualification_stand_still_ends_handler(self, tender):
-        handler = self.get_change_tender_status_handler("active.auction")
-        handler(tender)
-
         self.check_bids_number(tender)
+        self.switch_to_auction_or_awarded(tender)
+
+    def switch_to_auction_or_awarded(self, tender):
+        if tender.get("status") not in ("unsuccessful", "active.qualification", "active.awarded"):
+            config = get_tender_config()
+            if config.get("hasAuction"):
+                handler = self.get_change_tender_status_handler("active.auction")
+                handler(tender)
+            else:
+                self.add_next_award()
 
     def awarded_complaint_handler(self, tender):
         if tender.get("lots"):
@@ -418,20 +428,32 @@ class ChronographEventsMixing:
 
     def check_bids_number(self, tender):
         if tender.get("lots"):
+            max_bid_number = 0
             for lot in tender["lots"]:
                 bid_number = self.count_lot_bids_number(tender, lot["id"])
+
+                # set lot unsuccessful if not enough bids
                 if bid_number < self.min_bids_number:
                     self.remove_auction_period(lot)
-
                     if lot.get("status") == "active":  # defense procedures doesn't have lot status, for ex
                         self.set_object_status(lot, "unsuccessful")
                         self.set_lot_values_unsuccessful(tender.get("bids"), lot["id"])
 
-            active_lots = {l["id"] for l in tender["lots"] if l["status"] == "active"}
+                # skip auction for lot
+                if self.min_bids_number == 1 and bid_number == 1:
+                    self.remove_auction_period(lot)
+
+                max_bid_number = max(max_bid_number, bid_number)
+
+            # bypass auction stage if only one bid in each lot
+            if self.min_bids_number == 1 and max_bid_number == 1:
+                self.remove_all_auction_periods(tender)
+                self.add_next_award()
+
             # set bids unsuccessful
+            active_lots = {l["id"] for l in tender["lots"] if l["status"] == "active"}
             for bid in tender.get("bids", ""):
-                if not any(lv["relatedLot"] in active_lots
-                           for lv in bid.get("lotValues", "")):
+                if not any(lv["relatedLot"] in active_lots for lv in bid.get("lotValues", "")):
                     if bid.get("status", "active") in self.active_bid_statuses:
                         bid["status"] = "unsuccessful"
 
@@ -440,14 +462,22 @@ class ChronographEventsMixing:
                 self.get_change_tender_status_handler("unsuccessful")(tender)
         else:
             bid_number = self.count_bids_number(tender)
+
+            # set tender unsuccessful if not enough bids
             if bid_number < self.min_bids_number:
                 self.remove_auction_period(tender)
 
+                # set bids unsuccessful
                 for bid in tender.get("bids", ""):
                     if bid.get("status", "active") in self.active_bid_statuses:
                         bid["status"] = "unsuccessful"
 
                 self.get_change_tender_status_handler("unsuccessful")(tender)
+
+            # skip auction if only one bid
+            if self.min_bids_number == 1 and bid_number == 1:
+                self.remove_auction_period(tender)
+                self.add_next_award()
 
     def set_lot_values_unsuccessful(self, bids, lot_id):
         # for procedures where lotValues have "status" field (openeu, competitive_dialogue, cfaua, )
@@ -589,13 +619,14 @@ class ChronographEventsMixing:
             del obj["auctionPeriod"]
 
     def calc_tender_values(self, tender: dict) -> None:
-        if tender.get("lots"):
-            self.calc_tender_value(tender)
-            self.calc_tender_guarantee(tender)
-            self.calc_tender_minimal_step(tender)
+        self.calc_tender_value(tender)
+        self.calc_tender_guarantee(tender)
+        self.calc_tender_minimal_step(tender)
 
     @staticmethod
     def calc_tender_value(tender: dict) -> None:
+        if not tender.get("lots"):
+            return
         tender["value"] = {
             "amount": sum(i["value"]["amount"] for i in tender.get("lots", "") if i.get("value")),
             "currency": tender["value"]["currency"],
@@ -604,10 +635,12 @@ class ChronographEventsMixing:
 
     @staticmethod
     def calc_tender_guarantee(tender: dict) -> None:
-        lots_amount = [i["guarantee"]["amount"] for i in tender.get("lots", "") if i.get("guarantee")]
-        if not lots_amount:
+        if not tender.get("lots"):
             return
-        guarantee = {"amount": sum(lots_amount)}
+        amounts = [i["guarantee"]["amount"] for i in tender.get("lots", "") if i.get("guarantee")]
+        if not amounts:
+            return
+        guarantee = {"amount": sum(amounts)}
         lots_currency = [i["guarantee"]["currency"] for i in tender["lots"] if i.get("guarantee")]
         guarantee["currency"] = lots_currency[0] if lots_currency else None
         if tender.get("guarantee"):
@@ -616,8 +649,13 @@ class ChronographEventsMixing:
 
     @staticmethod
     def calc_tender_minimal_step(tender: dict) -> None:
+        if not tender.get("lots"):
+            return
+        amounts = [i["minimalStep"]["amount"] for i in tender.get("lots", "") if i.get("minimalStep")]
+        if not amounts:
+            return
         tender["minimalStep"] = {
-            "amount": min(i["minimalStep"]["amount"] for i in tender.get("lots", "") if i.get("minimalStep")),
+            "amount": min(amounts),
             "currency": tender["minimalStep"]["currency"],
             "valueAddedTaxIncluded": tender["minimalStep"]["valueAddedTaxIncluded"],
         }

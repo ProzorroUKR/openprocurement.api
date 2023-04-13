@@ -3,7 +3,7 @@ import os
 from copy import deepcopy
 from uuid import uuid4
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.relocation.api.models import Transfer
 from openprocurement.contracting.api.models import Contract
 from openprocurement.contracting.api.tests.data import test_tender_token as test_contract_tender_token, \

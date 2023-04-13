@@ -6,12 +6,8 @@ from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
-    # TenderProcessTest
     invalid_tender_conditions,
-    # TenderResourceTest
     guarantee,
-    create_tender_with_inn,
-    create_tender_with_inn_before,
     tender_milestones_required,
     create_tender_with_inn,
     create_tender_with_inn_before,
@@ -19,23 +15,22 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_central,
     create_tender_central_invalid,
     create_tender_with_earlier_non_required_unit,
+    patch_not_author,
 )
 from openprocurement.tender.openua.tests.tender_blanks import empty_listing, tender_finance_milestones
 from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.cfaua.models.tender import CloseFrameworkAgreementUA
 from openprocurement.tender.cfaua.tests.base import (
-    test_tender_w_lot_data,
+    test_tender_cfaua_with_lots_data,
     BaseTenderWebTest,
     BaseTenderContentWebTest,
-    test_bids_w_lot_data,
-    test_lots_w_ids,
+    test_tender_cfaua_bids_with_lotvalues,
+    test_tender_cfaua_lots_with_ids,
 )
 from openprocurement.tender.cfaua.tests.tender_blanks import (
-    # TenderProcessTest
     one_bid_tender,
     unsuccessful_after_prequalification_tender,
     one_qualificated_bid_tender,
-    # TenderResourceTest
     create_tender_invalid,
     create_tender_generated,
     patch_tender,
@@ -43,7 +38,6 @@ from openprocurement.tender.cfaua.tests.tender_blanks import (
     tender_contract_period,
     invalid_bid_tender_features,
     invalid_bid_tender_lot,
-
     patch_tender_active_qualification_2_active_qualification_stand_still,
     switch_tender_to_active_awarded,
     patch_max_awards,
@@ -63,8 +57,8 @@ class CFAUATenderTest(BaseTenderWebTest):
     docservice = True
     tender_model = CloseFrameworkAgreementUA
     initial_auth = ("Basic", ("broker", ""))
-    initial_data = deepcopy(test_tender_w_lot_data)
-    initial_lots = deepcopy(test_lots_w_ids)
+    initial_data = deepcopy(test_tender_cfaua_with_lots_data)
+    initial_lots = deepcopy(test_tender_cfaua_lots_with_ids)
 
     test_agreement_duration_period = snitch(agreement_duration_period)
 
@@ -80,10 +74,10 @@ class TenderCheckStatusTest(BaseTenderContentWebTest):
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
-    initial_data = deepcopy(test_tender_w_lot_data)
-    initial_lots = deepcopy(test_lots_w_ids)
-    initial_bids = deepcopy(test_bids_w_lot_data)
-    test_lots_data = test_lots_w_ids
+    initial_data = deepcopy(test_tender_cfaua_with_lots_data)
+    initial_lots = deepcopy(test_tender_cfaua_lots_with_ids)
+    initial_bids = deepcopy(test_tender_cfaua_bids_with_lotvalues)
+    test_lots_data = test_tender_cfaua_lots_with_ids
     min_bids_number = MIN_BIDS_NUMBER
 
     test_empty_listing = snitch(empty_listing)
@@ -112,47 +106,15 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
         create_tender_with_earlier_non_required_unit
     )
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
-
-    def test_patch_not_author(self):
-        response = self.app.post_json("/tenders", {"data": test_tender_w_lot_data})
-        self.assertEqual(response.status, "201 Created")
-        tender = response.json["data"]
-        owner_token = response.json["access"]["token"]
-
-        authorization = self.app.authorization
-        self.app.authorization = ("Basic", ("bot", "bot"))
-
-        response = self.app.post_json(
-            "/tenders/{}/documents".format(tender["id"]),
-            {"data": {
-                "title": "name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }},
-        )
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        doc_id = response.json["data"]["id"]
-        self.assertIn(doc_id, response.headers["Location"])
-
-        self.app.authorization = authorization
-        response = self.app.patch_json(
-            "/tenders/{}/documents/{}?acc_token={}".format(tender["id"], doc_id, owner_token),
-            {"data": {"description": "document description"}},
-            status=403,
-        )
-        self.assertEqual(response.status, "403 Forbidden")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["errors"][0]["description"], "Can update document only author")
+    test_patch_not_author = snitch(patch_not_author)
 
 
 class TenderProcessTest(BaseTenderWebTest):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
-    initial_data = deepcopy(test_tender_w_lot_data)
-    initial_lots = deepcopy(test_lots_w_ids)
-    initial_bids = deepcopy(test_bids_w_lot_data)
+    initial_data = deepcopy(test_tender_cfaua_with_lots_data)
+    initial_lots = deepcopy(test_tender_cfaua_lots_with_ids)
+    initial_bids = deepcopy(test_tender_cfaua_bids_with_lotvalues)
 
     test_extract_tender_credentials = snitch(extract_tender_credentials)
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
@@ -167,7 +129,7 @@ class TenderProcessTest(BaseTenderWebTest):
 class TenderPendingAwardsResourceTest(BaseTenderContentWebTest):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
-    initial_bids = deepcopy(test_bids_w_lot_data)
+    initial_bids = deepcopy(test_tender_cfaua_bids_with_lotvalues)
 
     def setUp(self):
         # Fix for method create_tender in tender.core and bid.value will be deleted after

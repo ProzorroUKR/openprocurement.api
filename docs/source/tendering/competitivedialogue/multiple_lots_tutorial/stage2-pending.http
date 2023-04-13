@@ -1028,7 +1028,6 @@ Content-Type: application/json
     ],
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
-    "submissionMethod": "electronicAuction",
     "procurementMethod": "open",
     "value": {
       "amount": 900.0,
@@ -1259,6 +1258,9 @@ Content-Type: application/json
       }
     ],
     "id": "cf488f0e7db04145a88a15ca0429e178"
+  },
+  "config": {
+    "hasAuction": false
   }
 }
 

@@ -1,9 +1,12 @@
 import unittest
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import test_author, test_organization, test_lots
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_author,
+    test_tender_below_organization,
+    test_tender_below_lots,
+)
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
-    # TenderBidderBatchDocumentWithDSResourceTest
     create_tender_bid_with_documents,
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
@@ -12,30 +15,28 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
 
 from openprocurement.tender.openua.tests.bid import TenderBidResourceTestMixin, TenderBidDocumentWithDSResourceTestMixin
 from openprocurement.tender.openua.tests.bid_blanks import (
-    # TenderBidFeaturesResourceTest
     features_bidder,
-    features_bidder_invalid,
     patch_tender_with_bids_lots_none,
 )
 
 from openprocurement.tender.openuadefense.tests.base import (
     BaseTenderUAContentWebTest,
-    test_features_tender_ua_data,
-    test_bids,
+    test_tender_openuadefense_features_data,
+    test_tender_openuadefense_bids,
 )
 
 
 class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMixin):
     docservice = True
     initial_status = "active.tendering"
-    test_bids_data = test_bids  # TODO: change attribute identifier
-    author_data = test_author
+    test_bids_data = test_tender_openuadefense_bids  # TODO: change attribute identifier
+    author_data = test_tender_below_author
 
 
 class Tender2LotBidResourceTest(BaseTenderUAContentWebTest):
     docservice = True
-    test_bids_data = test_bids
-    initial_lots = 2 * test_lots
+    test_bids_data = test_tender_openuadefense_bids
+    initial_lots = 2 * test_tender_below_lots
     initial_status = "active.tendering"
 
     test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
@@ -43,9 +44,9 @@ class Tender2LotBidResourceTest(BaseTenderUAContentWebTest):
 
 class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
     docservice = True
-    initial_data = test_features_tender_ua_data
+    initial_data = test_tender_openuadefense_features_data
     initial_status = "active.tendering"
-    test_bids_data = test_bids
+    test_bids_data = test_tender_openuadefense_bids
 
     test_features_bidder = snitch(features_bidder)
     # TODO: uncomment when bid activation will be removed
@@ -54,15 +55,15 @@ class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
 
 class TenderBidDocumentWithDSResourceTest(TenderBidDocumentWithDSResourceTestMixin):
     docservice = True
-    test_bids_data = test_bids
+    test_bids_data = test_tender_openuadefense_bids
 
 
 class TenderBidderBatchDocumentsWithDSResourceTest(BaseTenderUAContentWebTest):
     docservice = True
     initial_status = "active.tendering"
-    test_bids_data = test_bids
+    test_bids_data = test_tender_openuadefense_bids
     bid_data_wo_docs = {
-        "tenderers": [test_organization],
+        "tenderers": [test_tender_below_organization],
         "value": {"amount": 500},
         "selfEligible": True,
         "selfQualified": True,

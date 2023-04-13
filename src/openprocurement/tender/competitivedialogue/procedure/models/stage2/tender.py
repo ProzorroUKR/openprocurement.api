@@ -1,7 +1,9 @@
-from schematics.types import StringType, BaseType
+from schematics.types import StringType
 from schematics.types.serializable import serializable
 from schematics.types.compound import ModelType, ListType
-from openprocurement.tender.core.procedure.context import get_now, get_tender, get_data
+
+from openprocurement.api.context import get_data
+from openprocurement.tender.core.procedure.context import get_now
 from openprocurement.tender.core.procedure.models.period import Period
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
 from openprocurement.tender.core.procedure.models.item import (

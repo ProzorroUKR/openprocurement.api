@@ -9,6 +9,7 @@ Contents:
    :maxdepth: 4
 
    basic-actions/index
+   config/index
    belowthreshold/index
    open/index
    openua/index

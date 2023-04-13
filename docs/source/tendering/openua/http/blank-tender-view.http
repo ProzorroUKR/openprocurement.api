@@ -10,7 +10,6 @@ Content-Type: application/json
   "data": {
     "mainProcurementCategory": "services",
     "title": "футляри до державних нагород",
-    "submissionMethod": "electronicAuction",
     "procurementMethod": "open",
     "value": {
       "amount": 500.0,
@@ -122,6 +121,7 @@ Content-Type: application/json
     },
     "owner": "broker",
     "date": "2023-01-01T00:00:00+02:00",
+    "submissionMethod": "electronicAuction",
     "enquiryPeriod": {
       "startDate": "2023-01-01T00:00:00+02:00",
       "endDate": "2023-01-22T00:00:00+02:00",
@@ -130,6 +130,9 @@ Content-Type: application/json
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "id": "2a5accd9090044dfba8773895b0bff51"
+  },
+  "config": {
+    "hasAuction": true
   }
 }
 

@@ -3,16 +3,16 @@ from mock import patch
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,
-    test_author,
-    test_tenderer,
+    test_tender_cd_author,
+    test_tender_cd_tenderer,
 )
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_draft_complaint,
-    test_claim,
-    test_cancellation,
+    test_tender_below_draft_complaint,
+    test_tender_below_claim,
+    test_tender_below_cancellation,
 )
 from openprocurement.tender.competitivedialogue.tests.stage2.award import test_tender_bids
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.openua.tests.post import (
     ComplaintPostResourceMixin,
     ClaimPostResourceMixin,
@@ -32,13 +32,13 @@ class TenderCompetitiveDialogUAComplaintPostResourceTest(
     TenderComplaintPostResourceMixin
 ):
     docservice = True
-    claim_data = deepcopy(test_claim)
-    claim_data["author"] = test_author
+    claim_data = deepcopy(test_tender_below_claim)
+    claim_data["author"] = test_tender_cd_author
 
     def setUp(self):
         super(TenderCompetitiveDialogUAComplaintPostResourceTest, self).setUp()
-        complaint_data = deepcopy(test_draft_complaint)
-        complaint_data["author"] = test_author
+        complaint_data = deepcopy(test_tender_below_draft_complaint)
+        complaint_data["author"] = test_tender_cd_author
         response = self.app.post_json(
             "/tenders/{}/complaints".format(
                 self.tender_id
@@ -58,13 +58,13 @@ class TenderCompetitiveDialogEUComplaintPostResourceTest(
     TenderComplaintPostResourceMixin
 ):
     docservice = True
-    claim_data = deepcopy(test_claim)
-    claim_data["author"] = test_author
+    claim_data = deepcopy(test_tender_below_claim)
+    claim_data["author"] = test_tender_cd_author
 
     def setUp(self):
         super(TenderCompetitiveDialogEUComplaintPostResourceTest, self).setUp()
-        complaint_data = deepcopy(test_draft_complaint)
-        complaint_data["author"] = test_author
+        complaint_data = deepcopy(test_tender_below_draft_complaint)
+        complaint_data["author"] = test_tender_cd_author
         response = self.app.post_json(
             "/tenders/{}/complaints".format(
                 self.tender_id
@@ -119,7 +119,7 @@ class TenderCompetitiveDialogEUStage2AwardComplaintPostResourceTest(
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
                 {"data": {
-                    "suppliers": [test_tenderer],
+                    "suppliers": [test_tender_cd_tenderer],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"]
                 }}
@@ -141,8 +141,8 @@ class TenderCompetitiveDialogEUStage2AwardComplaintPostResourceTest(
             )
 
         # Create complaint for award
-        complaint_data = deepcopy(test_draft_complaint)
-        complaint_data["author"] = test_author
+        complaint_data = deepcopy(test_tender_below_draft_complaint)
+        complaint_data["author"] = test_tender_cd_author
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(
                 self.tender_id, self.award_id, self.initial_bids_tokens[self.initial_bids[0]["id"]]
@@ -172,7 +172,7 @@ class TenderCompetitiveDialogUAStage2AwardComplaintPostResourceTest(
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
                 {"data": {
-                    "suppliers": [test_tenderer],
+                    "suppliers": [test_tender_cd_tenderer],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"]
                 }}
@@ -194,8 +194,8 @@ class TenderCompetitiveDialogUAStage2AwardComplaintPostResourceTest(
             )
 
         # Create complaint for award
-        complaint_data = deepcopy(test_draft_complaint)
-        complaint_data["author"] = test_author
+        complaint_data = deepcopy(test_tender_below_draft_complaint)
+        complaint_data["author"] = test_tender_cd_author
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(
                 self.tender_id, self.award_id, self.initial_bids_tokens[self.initial_bids[0]["id"]]
@@ -218,7 +218,7 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_tender_bids
     initial_auth = ("Basic", ("broker", ""))
-    author_data = test_author
+    author_data = test_tender_cd_author
 
     def setUp(self):
         super(TenderCompetitiveDialogEUQualificationComplaintPostResourceTest, self).setUp()
@@ -258,7 +258,7 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
         self.assertEqual(response.status, "200 OK")
 
         # Create complaint for qualification
-        complaint_data = deepcopy(test_draft_complaint)
+        complaint_data = deepcopy(test_tender_below_draft_complaint)
         complaint_data["author"] = self.author_data
         response = self.app.post_json(
             "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
@@ -292,7 +292,7 @@ class TenderCancellationComplaintPostResourceTest(
         super(TenderCancellationComplaintPostResourceTest, self).setUp()
 
         # Create cancellation
-        cancellation = dict(**test_cancellation)
+        cancellation = dict(**test_tender_below_cancellation)
         cancellation.update({
             "reasonType": "noDemand"
         })
@@ -329,7 +329,7 @@ class TenderCancellationComplaintPostResourceTest(
             "/tenders/{}/cancellations/{}/complaints".format(
                 self.tender_id, self.cancellation_id
             ),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]

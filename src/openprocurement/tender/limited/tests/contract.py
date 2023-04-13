@@ -4,7 +4,9 @@ from copy import deepcopy
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_bids
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+)
 from openprocurement.tender.belowthreshold.tests.contract import (
     TenderContractResourceTestMixin,
     TenderContractDocumentResourceTestMixin,
@@ -13,7 +15,7 @@ from openprocurement.tender.belowthreshold.tests.contract import (
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest,
     test_lots,
-    test_tender_data,
+    test_tender_reporting_data,
     test_tender_negotiation_data,
     test_tender_negotiation_quick_data,
     test_tender_data_multi_buyers,
@@ -21,20 +23,15 @@ from openprocurement.tender.limited.tests.base import (
     test_tender_negotiation_quick_data_multi_buyers,
 )
 from openprocurement.tender.limited.tests.contract_blanks import (
-    # TenderNegotiationQuickAccelerationTest
     create_tender_contract_negotiation_quick,
-    # TenderNegotiationLot2ContractResourceTest
     sign_second_contract,
     create_two_contract,
-    # TenderNegotiationLotContractResourceTest
     lot_items,
     lot_award_id_change_is_not_allowed,
     activate_contract_cancelled_lot,
-    # TenderNegotiationContractResourceTest
     patch_tender_negotiation_contract,
     tender_negotiation_contract_signature_date,
     items,
-    # TenderContractResourceTest
     create_tender_contract,
     patch_tender_contract,
     tender_contract_signature_date,
@@ -57,7 +54,7 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
 
 class TenderContractResourceTest(BaseTenderContentWebTest, TenderContractResourceTestMixin):
     initial_status = "active"
-    initial_data = test_tender_data
+    initial_data = test_tender_reporting_data
     initial_bids = None  # test_bids
 
     def create_award(self):
@@ -66,7 +63,7 @@ class TenderContractResourceTest(BaseTenderContentWebTest, TenderContractResourc
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "status": "pending",
                     "qualified": True,
                     "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
@@ -100,7 +97,7 @@ class TenderContractResourceTest(BaseTenderContentWebTest, TenderContractResourc
 
 class TenderContractVATNotIncludedResourceTest(BaseTenderContentWebTest, TenderContractResourceTestMixin):
     initial_status = "active"
-    initial_data = test_tender_data
+    initial_data = test_tender_reporting_data
     initial_bids = None
 
     def create_award(self):
@@ -108,7 +105,7 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderContentWebTest, TenderC
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "status": "pending",
                     "qualified": True,
                     "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False},
@@ -177,7 +174,7 @@ class TenderNegotiationLotContractResourceTest(TenderNegotiationContractResource
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "status": "pending",
                     "qualified": True,
                     "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
@@ -245,7 +242,7 @@ class TenderNegotiationLot2ContractResourceTest(BaseTenderContentWebTest):
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "status": "pending",
                     "qualified": True,
                     "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
@@ -266,7 +263,7 @@ class TenderNegotiationLot2ContractResourceTest(BaseTenderContentWebTest):
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "status": "pending",
                     "qualified": True,
                     "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
@@ -306,7 +303,7 @@ class TenderNegotiationQuickAccelerationTest(BaseTenderContentWebTest):
         # Create award
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"suppliers": [test_organization], "status": "pending",
+            {"data": {"suppliers": [test_tender_below_organization], "status": "pending",
                       "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True}}},
         )
         award = response.json["data"]
@@ -369,7 +366,7 @@ class TenderNegotiationQuickLotAccelerationTest(TenderNegotiationQuickAccelerati
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "status": "pending",
                     "qualified": True,
                     "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
@@ -399,7 +396,7 @@ class TenderContractDocumentResourceTest(BaseTenderContentWebTest, TenderContrac
         # Create award
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"suppliers": [test_organization], "status": "pending",
+            {"data": {"suppliers": [test_tender_below_organization], "status": "pending",
                       "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True}}},
         )
         award = response.json["data"]
@@ -462,7 +459,7 @@ class TenderContractNegotiationLotDocumentResourceTest(TenderContractDocumentRes
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
             {
                 "data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "status": "pending",
                     "qualified": True,
                     "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},

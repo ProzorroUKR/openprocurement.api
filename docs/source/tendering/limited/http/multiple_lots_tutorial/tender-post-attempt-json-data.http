@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 4045
+Content-Length: 4078
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -106,6 +106,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "causeDescription": "оригінальний тендер не вдався двічі",
     "causeDescription_en": "original tender has failed twice",
     "causeDescription_ru": "оригинальный тендер не получился дважды"
+  },
+  "config": {
+    "hasAuction": false
   }
 }
 
@@ -226,6 +229,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/54784c9d4ff74af1
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "id": "54784c9d4ff74af1986c35990954e7e6"
+  },
+  "config": {
+    "hasAuction": false
   },
   "access": {
     "token": "a9146db6eabf4db68c54b5f728d8d39a",

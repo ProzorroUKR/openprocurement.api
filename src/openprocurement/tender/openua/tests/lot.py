@@ -1,8 +1,11 @@
 import unittest
 from copy import deepcopy
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_criteria, language_criteria
-from openprocurement.tender.belowthreshold.tests.base import test_lots
+from openprocurement.tender.core.tests.base import (
+    test_exclusion_criteria,
+    test_language_criteria,
+)
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.belowthreshold.tests.lot import (
     TenderLotResourceTestMixin,
     TenderLotFeatureResourceTestMixin,
@@ -18,10 +21,10 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import (
 
 from openprocurement.tender.openua.tests.base import (
     BaseTenderUAContentWebTest,
-    test_tender_data,
-    test_features_tender_ua_data,
+    test_tender_openua_data,
+    test_tender_openua_features_data,
 )
-from openprocurement.tender.openua.tests.base import test_bids
+from openprocurement.tender.openua.tests.base import test_tender_openua_bids
 from openprocurement.tender.openua.tests.lot_blanks import (
     # TenderLotResourceTest
     patch_tender_currency,
@@ -70,9 +73,9 @@ class TenderUALotProcessTestMixin(object):
 
 
 class TenderLotResourceTest(BaseTenderUAContentWebTest, TenderLotResourceTestMixin, TenderUALotResourceTestMixin):
-    initial_data = test_tender_data
-    test_lots_data = test_lots
-    initial_criteria = test_criteria + language_criteria
+    initial_data = test_tender_openua_data
+    test_lots_data = test_tender_below_lots
+    initial_criteria = test_exclusion_criteria + test_language_criteria
 
     test_tender_lot_guarantee = snitch(tender_lot_guarantee)
     test_tender_lot_milestones = snitch(tender_lot_milestones)
@@ -81,9 +84,9 @@ class TenderLotResourceTest(BaseTenderUAContentWebTest, TenderLotResourceTestMix
 
 
 class TenderLotEdgeCasesTest(BaseTenderUAContentWebTest):
-    initial_data = test_tender_data
-    initial_lots = test_lots * 2
-    initial_bids = test_bids
+    initial_data = test_tender_openua_data
+    initial_lots = test_tender_below_lots * 2
+    initial_bids = test_tender_openua_bids
 
     test_question_blocking = snitch(question_blocking)
     test_claim_blocking = snitch(claim_blocking)
@@ -93,30 +96,30 @@ class TenderLotEdgeCasesTest(BaseTenderUAContentWebTest):
 
 class TenderLotFeatureResourceTest(BaseTenderUAContentWebTest, TenderLotFeatureResourceTestMixin):
     docservice = True
-    initial_data = test_tender_data
-    initial_lots = 2 * test_lots
-    test_bids_data = test_bids
-    initial_criteria = test_criteria + language_criteria
+    initial_data = test_tender_openua_data
+    initial_lots = 2 * test_tender_below_lots
+    test_bids_data = test_tender_openua_bids
+    initial_criteria = test_exclusion_criteria + test_language_criteria
     invalid_feature_value = 0.5
     max_feature_value = 0.3
     sum_of_max_value_of_all_features = 0.3
 
 
 class TenderLotBidderResourceTest(BaseTenderUAContentWebTest):
-    initial_data = test_tender_data
-    initial_lots = test_lots
-    test_bids_data = test_bids
-    initial_criteria = test_criteria + language_criteria
+    initial_data = test_tender_openua_data
+    initial_lots = test_tender_below_lots
+    test_bids_data = test_tender_openua_bids
+    initial_criteria = test_exclusion_criteria + test_language_criteria
 
     test_create_tender_bidder_invalid = snitch(create_tender_bidder_invalid)
     test_patch_tender_bidder = snitch(patch_tender_bidder)
 
 
 class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
-    initial_data = test_tender_data
-    initial_lots = test_lots
-    test_bids_data = test_bids
-    initial_criteria = test_criteria + language_criteria
+    initial_data = test_tender_openua_data
+    initial_lots = test_tender_below_lots
+    test_bids_data = test_tender_openua_bids
+    initial_criteria = test_exclusion_criteria + test_language_criteria
 
     def setUp(self):
         super(TenderLotFeatureBidderResourceTest, self).setUp()
@@ -163,10 +166,10 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
 
 
 class TenderLotProcessTest(BaseTenderUAContentWebTest, TenderLotProcessTestMixin, TenderUALotProcessTestMixin):
-    initial_data = test_tender_data
-    test_bids_data = test_bids
-    test_lots_data = test_lots
-    test_features_tender_data = test_features_tender_ua_data
+    initial_data = test_tender_openua_data
+    test_bids_data = test_tender_openua_bids
+    test_lots_data = test_tender_below_lots
+    test_features_tender_data = test_tender_openua_features_data
     setUp = BaseTenderUAContentWebTest.setUp
 
     days_till_auction_starts = 16

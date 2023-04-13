@@ -1,16 +1,16 @@
-from unittest.mock import patch
-from copy import deepcopy
-
 import mock
 from datetime import datetime, timedelta
-
-# TenderBidResourceTest
+from unittest.mock import patch
+from copy import deepcopy
+from esculator import npv, escp
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17, TWO_PHASE_COMMIT_FROM
-from openprocurement.tender.esco.tests.base import test_bids, NBU_DISCOUNT_RATE
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.esco.utils import to_decimal
-from openprocurement.tender.core.tests.base import change_auth
-from esculator import npv, escp
+from openprocurement.tender.esco.tests.base import (
+    NBU_DISCOUNT_RATE,
+    test_tender_esco_bids,
+)
 
 
 def create_tender_bid_invalid(self):
@@ -492,7 +492,7 @@ def create_tender_bid(self):
         bid["value"]["yearlyPaymentsPercentage"], self.test_bids_data[0]["value"]["yearlyPaymentsPercentage"]
     )
     self.assertEqual(bid["value"]["amount"], self.expected_bid_amount)
-    self.assertEqual(bid["value"]["amountPerformance"], self.expected_bid_amountPerformance)
+    self.assertEqual(bid["value"]["amountPerformance"], self.expected_bid_amount_performance)
 
     data = deepcopy(self.test_bids_data[0])
     data["selfQualified"] = False
@@ -586,10 +586,10 @@ def create_tender_bid_lot(self):
         float(
             to_decimal(
                 npv(
-                    test_bids[0]["value"]["contractDuration"]["years"],
-                    test_bids[0]["value"]["contractDuration"]["days"],
-                    test_bids[0]["value"]["yearlyPaymentsPercentage"],
-                    test_bids[0]["value"]["annualCostsReduction"],
+                    test_tender_esco_bids[0]["value"]["contractDuration"]["years"],
+                    test_tender_esco_bids[0]["value"]["contractDuration"]["days"],
+                    test_tender_esco_bids[0]["value"]["yearlyPaymentsPercentage"],
+                    test_tender_esco_bids[0]["value"]["annualCostsReduction"],
                     get_now(),
                     NBU_DISCOUNT_RATE,
                 )
@@ -720,7 +720,7 @@ def patch_tender_bid(self):
     self.assertEqual(response.json["data"]["date"], bid["date"])
     self.assertNotEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
     self.assertEqual(response.json["data"]["value"]["amount"], self.expected_bid_amount)
-    self.assertEqual(response.json["data"]["value"]["amountPerformance"], self.expected_bid_amountPerformance)
+    self.assertEqual(response.json["data"]["value"]["amountPerformance"], self.expected_bid_amount_performance)
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
@@ -732,7 +732,7 @@ def patch_tender_bid(self):
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
     self.assertNotEqual(response.json["data"]["value"]["amountPerformance"], 500)
     self.assertEqual(response.json["data"]["value"]["amount"], self.expected_bid_amount)
-    self.assertEqual(response.json["data"]["value"]["amountPerformance"], self.expected_bid_amountPerformance)
+    self.assertEqual(response.json["data"]["value"]["amountPerformance"], self.expected_bid_amount_performance)
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
@@ -744,7 +744,7 @@ def patch_tender_bid(self):
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
     # checking that annualCostsReduction change affected npv and escp
     self.assertNotEqual(response.json["data"]["value"]["amount"], self.expected_bid_amount)
-    self.assertNotEqual(response.json["data"]["value"]["amountPerformance"], self.expected_bid_amountPerformance)
+    self.assertNotEqual(response.json["data"]["value"]["amountPerformance"], self.expected_bid_amount_performance)
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
@@ -756,7 +756,7 @@ def patch_tender_bid(self):
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
     self.assertEqual(response.json["data"]["value"]["yearlyPaymentsPercentage"], 0.91111)
     self.assertNotEqual(response.json["data"]["value"]["amount"], self.expected_bid_amount)
-    self.assertNotEqual(response.json["data"]["value"]["amountPerformance"], self.expected_bid_amountPerformance)
+    self.assertNotEqual(response.json["data"]["value"]["amountPerformance"], self.expected_bid_amount_performance)
 
     response = self.app.patch_json(
         "/tenders/{}/bids/some_id?acc_token={}".format(self.tender_id, bid_token),
@@ -785,12 +785,18 @@ def patch_tender_bid(self):
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(response.json["errors"][0]["description"], "Can't update bid to ({}) status".format(status))
 
+    d1 = self.app.app.registry.mongodb.tenders.get(self.tender_id)
+
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
         {"data": {"value": {"amount": 400}}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
+
+    d2 = self.app.app.registry.mongodb.tenders.get(self.tender_id)
+    self.assertEqual(d1, d2)
+
     self.assertEqual(response.body, b"null")
 
     self.set_status("complete")
@@ -800,7 +806,7 @@ def patch_tender_bid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertNotEqual(response.json["data"]["value"]["amount"], 400)
     self.assertNotEqual(response.json["data"]["value"]["amount"], self.expected_bid_amount)
-    self.assertNotEqual(response.json["data"]["value"]["amountPerformance"], self.expected_bid_amountPerformance)
+    self.assertNotEqual(response.json["data"]["value"]["amountPerformance"], self.expected_bid_amount_performance)
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
@@ -873,7 +879,7 @@ def delete_tender_bidder(self):
     # create new bid
     bid, bid_token = self.create_bid(self.tender_id, bid_data, "pending")
     self.assertEqual(bid["value"]["amount"], self.expected_bid_amount)
-    self.assertEqual(bid["value"]["amountPerformance"], self.expected_bid_amountPerformance)
+    self.assertEqual(bid["value"]["amountPerformance"], self.expected_bid_amount_performance)
 
     # update tender. we can set value that is less than a value in bid as
     # they will be invalidated by this request
@@ -1025,7 +1031,7 @@ def bid_Administrator_change(self):
 
     self.app.authorization = ("Basic", ("administrator", ""))
 
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_esco_bids[0])
     bid_data.update({
         "tenderers": [{"identifier": {"id": "00000000"}}],
         "value": {

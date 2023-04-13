@@ -2,7 +2,7 @@ import unittest
 from copy import deepcopy
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import test_lots
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.belowthreshold.tests.lot import (
     TenderLotResourceTestMixin,
     TenderLotFeatureResourceTestMixin,
@@ -26,8 +26,8 @@ from openprocurement.tender.openua.tests.lot_blanks import (
 
 from openprocurement.tender.simpledefense.tests.base import (
     BaseSimpleDefContentWebTest,
-    test_tender_data,
-    test_bids,
+    test_tender_simpledefense_data,
+    test_tender_simpledefense_bids,
 )
 from openprocurement.tender.openuadefense.tests.lot_blanks import (
     # TenderLotEdgeCasesTest
@@ -46,15 +46,15 @@ from openprocurement.tender.openuadefense.tests.lot_blanks import (
 
 
 class TenderLotResourceTest(BaseSimpleDefContentWebTest, TenderLotResourceTestMixin, TenderUALotResourceTestMixin):
-    test_lots_data = test_lots
+    test_lots_data = test_tender_below_lots
     test_tender_lot_milestones = snitch(tender_lot_milestones)
     test_create_tender_lot_minimalstep_validation = snitch(create_tender_lot_minimalstep_validation)
     test_patch_tender_lot_minimalstep_validation = snitch(patch_tender_lot_minimalstep_validation)
 
 
 class TenderLotEdgeCasesTest(BaseSimpleDefContentWebTest):
-    initial_lots = test_lots * 2
-    initial_bids = test_bids
+    initial_lots = test_tender_below_lots * 2
+    initial_bids = test_tender_simpledefense_bids
 
     test_question_blocking = snitch(question_blocking)
     test_claim_blocking = snitch(claim_blocking)
@@ -64,8 +64,8 @@ class TenderLotEdgeCasesTest(BaseSimpleDefContentWebTest):
 
 class TenderLotFeatureResourceTest(BaseSimpleDefContentWebTest, TenderLotFeatureResourceTestMixin):
     docservice = True
-    initial_data = test_tender_data
-    initial_lots = 2 * test_lots
+    initial_data = test_tender_simpledefense_data
+    initial_lots = 2 * test_tender_below_lots
     invalid_feature_value = 0.5
     max_feature_value = 0.3
     sum_of_max_value_of_all_features = 0.3
@@ -73,8 +73,8 @@ class TenderLotFeatureResourceTest(BaseSimpleDefContentWebTest, TenderLotFeature
 
 class TenderLotBidderResourceTest(BaseSimpleDefContentWebTest):
     # initial_status = 'active.tendering'
-    initial_lots = test_lots
-    test_bids_data = test_bids
+    initial_lots = test_tender_below_lots
+    test_bids_data = test_tender_simpledefense_bids
 
     # TODO: uncomment when bid activation will be removed
     # test_create_tender_bidder_invalid = snitch(create_tender_bidder_invalid)
@@ -82,8 +82,8 @@ class TenderLotBidderResourceTest(BaseSimpleDefContentWebTest):
 
 
 class TenderLotFeatureBidderResourceTest(BaseSimpleDefContentWebTest):
-    initial_lots = test_lots
-    test_bids_data = test_bids
+    initial_lots = test_tender_below_lots
+    test_bids_data = test_tender_simpledefense_bids
 
     def setUp(self):
         super(TenderLotFeatureBidderResourceTest, self).setUp()
@@ -131,12 +131,12 @@ class TenderLotFeatureBidderResourceTest(BaseSimpleDefContentWebTest):
 
 class TenderLotProcessTest(BaseSimpleDefContentWebTest, TenderLotProcessTestMixin, TenderUALotProcessTestMixin):
     setUp = BaseSimpleDefContentWebTest.setUp
-    initial_data = test_tender_data
-    test_bids_data = test_bids
+    initial_data = test_tender_simpledefense_data
+    test_bids_data = test_tender_simpledefense_bids
 
     days_till_auction_starts = 6
 
-    test_lots_data = test_lots  # TODO: change attribute identifier
+    test_lots_data = test_tender_below_lots  # TODO: change attribute identifier
     test_1lot_1bid = snitch(one_lot_1bid)
     test_2lot_1bid_0com_1can = snitch(two_lot_1bid_0com_1can)
     test_2lot_1bid_2com_1win = snitch(two_lot_1bid_2com_1win)

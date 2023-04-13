@@ -4,7 +4,7 @@ from datetime import timedelta
 import mock
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.openua.constants import POST_SUBMIT_TIME
 

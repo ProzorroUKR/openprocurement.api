@@ -6,8 +6,8 @@ from datetime import timedelta
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_cancellation,
-    test_organization,
+    test_tender_below_cancellation,
+    test_tender_below_organization,
 )
 
 from openprocurement.tender.belowthreshold.tests.cancellation import (
@@ -37,7 +37,7 @@ from openprocurement.tender.openua.tests.cancellation_blanks import (
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest,
     test_lots,
-    test_tender_data,
+    test_tender_reporting_data,
     test_tender_negotiation_data,
     test_tender_negotiation_quick_data,
 )
@@ -75,7 +75,7 @@ class TenderCancellationResourceTest(
     TenderCancellationResourceNewReleaseTestMixin,
     BaseTenderContentWebTest,
 ):
-    initial_data = test_tender_data
+    initial_data = test_tender_reporting_data
 
     test_patch_tender_cancellation_2020_04_19 = snitch(patch_tender_cancellation_2020_04_19)
     test_patch_tender_cancellation_2020_04_19_to_pending = None
@@ -93,7 +93,7 @@ class TenderNegotiationCancellationResourceTest(
         super(TenderNegotiationCancellationResourceTest, self).setUp()
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"suppliers": [test_organization], "qualified": True,
+            {"data": {"suppliers": [test_tender_below_organization], "qualified": True,
                       "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False}}}
         )
         self.assertEqual(response.status, "201 Created")
@@ -122,7 +122,7 @@ class TenderNegotiationQuickCancellationResourceTest(
         super(TenderNegotiationCancellationResourceTest, self).setUp()
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"suppliers": [test_organization], "qualified": True,
+            {"data": {"suppliers": [test_tender_below_organization], "qualified": True,
                       "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}}
         )
         self.assertEqual(response.status, "201 Created")
@@ -144,7 +144,7 @@ class TenderCancellationDocumentResourceTest(
     BaseTenderContentWebTest,
     TenderCancellationDocumentResourceTestMixin
 ):
-    initial_data = test_tender_data
+    initial_data = test_tender_reporting_data
 
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
@@ -152,7 +152,7 @@ class TenderCancellationDocumentResourceTest(
         # Create cancellation
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": test_cancellation},
+            {"data": test_tender_below_cancellation},
         )
         cancellation = response.json["data"]
         self.cancellation_id = cancellation["id"]
@@ -174,7 +174,7 @@ class TenderNegotiationQuickCancellationComplaintResourceTest(
         super(TenderNegotiationQuickCancellationComplaintResourceTest, self).setUp()
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"suppliers": [test_organization], "qualified": True,
+            {"data": {"suppliers": [test_tender_below_organization], "qualified": True,
                       "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}}
         )
         self.assertEqual(response.status, "201 Created")
@@ -189,7 +189,7 @@ class TenderNegotiationQuickCancellationComplaintResourceTest(
         self.set_all_awards_complaint_period_end()
 
         # Create cancellation
-        cancellation = dict(**test_cancellation)
+        cancellation = dict(**test_tender_below_cancellation)
         cancellation.update({
             "reasonType": "noDemand"
         })
@@ -213,7 +213,7 @@ class TenderNegotiationCancellationComplaintResourceTest(
         super(TenderNegotiationCancellationComplaintResourceTest, self).setUp()
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"suppliers": [test_organization], "qualified": True,
+            {"data": {"suppliers": [test_tender_below_organization], "qualified": True,
                       "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}}
         )
         self.assertEqual(response.status, "201 Created")
@@ -228,7 +228,7 @@ class TenderNegotiationCancellationComplaintResourceTest(
         self.set_all_awards_complaint_period_end()
 
         # create cancellation
-        cancellation = dict(**test_cancellation)
+        cancellation = dict(**test_tender_below_cancellation)
         cancellation.update({
             "reasonType": "noDemand"
         })

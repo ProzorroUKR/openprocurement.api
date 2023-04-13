@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
-from openprocurement.tender.belowthreshold.tests.base import set_bid_lotvalues
-from openprocurement.tender.cfaselectionua.tests.base import test_organization, test_agreement, test_features
+from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
+from openprocurement.tender.cfaselectionua.tests.base import test_tender_cfaselectionua_organization
 
 
 # TenderBidResourceTest
@@ -12,7 +12,7 @@ def create_tender_bid_invalid(self):
         "/tenders/some_id/bids",
         {
             "data": {
-                "tenderers": [test_organization],
+                "tenderers": [test_tender_cfaselectionua_organization],
                 "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
             }
         },
@@ -140,7 +140,7 @@ def create_tender_bid_invalid(self):
         ],
     )
 
-    response = self.app.post_json(request_path, {"data": {"tenderers": [test_organization]}}, status=422)
+    response = self.app.post_json(request_path, {"data": {"tenderers": [test_tender_cfaselectionua_organization]}}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -153,7 +153,7 @@ def create_tender_bid_invalid(self):
         request_path,
         {
             "data": {
-                "tenderers": [test_organization],
+                "tenderers": [test_tender_cfaselectionua_organization],
                 "lotValues": [
                     {"value": {"amount": 500, "valueAddedTaxIncluded": False}, "relatedLot": self.initial_lots[0]["id"]}
                 ],
@@ -185,7 +185,7 @@ def create_tender_bid_invalid(self):
         request_path,
         {
             "data": {
-                "tenderers": [test_organization],
+                "tenderers": [test_tender_cfaselectionua_organization],
                 "lotValues": [{"value": {"amount": 500, "currency": "USD"}, "relatedLot": self.initial_lots[0]["id"]}],
             }
         },
@@ -209,7 +209,7 @@ def create_tender_bid_invalid(self):
         request_path,
         {
             "data": {
-                "tenderers": test_organization,
+                "tenderers": test_tender_cfaselectionua_organization,
                 "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
             }
         },
@@ -221,7 +221,7 @@ def create_tender_bid_invalid(self):
     self.assertIn("invalid literal for int() with base 10", response.json["errors"][0]["description"])
 
     # no identifier could be found in agreement
-    tenderer = deepcopy(test_organization)
+    tenderer = deepcopy(test_tender_cfaselectionua_organization)
     old_id = tenderer["identifier"]["id"]
     tenderer["identifier"]["id"] = "test_id"
     response = self.app.post_json(
@@ -241,7 +241,7 @@ def create_tender_bid_invalid(self):
         response.json["errors"],
         [{"description": "Bid is not a member of agreement", "location": "body", "name": "data"}],
     )
-    tenderer = deepcopy(test_organization)
+    tenderer = deepcopy(test_tender_cfaselectionua_organization)
     tenderer["identifier"]["id"] = "00037251"
     response = self.app.post_json(
         request_path,
@@ -267,7 +267,7 @@ def create_tender_bid(self):
         "/tenders/{}/bids".format(self.tender_id),
         {
             "data": {
-                "tenderers": [test_organization],
+                "tenderers": [test_tender_cfaselectionua_organization],
                 "subcontractingDetails": "test_details",
                 "lotValues": [
                     {
@@ -296,7 +296,7 @@ def create_tender_bid(self):
         "/tenders/{}/bids".format(self.tender_id),
         {
             "data": {
-                "tenderers": [test_organization],
+                "tenderers": [test_tender_cfaselectionua_organization],
                 "subcontractingDetails": "test_details",
                 "lotValues": [
                     {
@@ -313,7 +313,7 @@ def create_tender_bid(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
-    self.assertEqual(bid["tenderers"][0]["name"], test_organization["name"])
+    self.assertEqual(bid["tenderers"][0]["name"], test_tender_cfaselectionua_organization["name"])
     self.assertIn("id", bid)
     self.assertIn(bid["id"], response.headers["Location"])
     self.assertEqual(response.json["data"]["subcontractingDetails"], "test_details")
@@ -325,7 +325,7 @@ def create_tender_bid(self):
         "/tenders/{}/bids".format(self.tender_id),
         {
             "data": {
-                "tenderers": [test_organization],
+                "tenderers": [test_tender_cfaselectionua_organization],
                 "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
             }
         },
@@ -341,7 +341,7 @@ def patch_tender_bid(self):
         "/tenders/{}/bids".format(self.tender_id),
         {
             "data": {
-                "tenderers": [test_organization],
+                "tenderers": [test_tender_cfaselectionua_organization],
                 "status": "draft",
                 "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
             }
@@ -401,7 +401,7 @@ def patch_tender_bid(self):
         {
             "data": {
                 "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
-                "tenderers": [test_organization],
+                "tenderers": [test_tender_cfaselectionua_organization],
             }
         },
     )
@@ -476,7 +476,7 @@ def get_tender_bid(self):
         "/tenders/{}/bids".format(self.tender_id),
         {
             "data": {
-                "tenderers": [test_organization],
+                "tenderers": [test_tender_cfaselectionua_organization],
                 "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
             }
         },
@@ -537,7 +537,7 @@ def delete_tender_bid(self):
         "/tenders/{}/bids".format(self.tender_id),
         {
             "data": {
-                "tenderers": [test_organization],
+                "tenderers": [test_tender_cfaselectionua_organization],
                 "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
             }
         },
@@ -576,7 +576,7 @@ def get_tender_tenderers(self):
         "/tenders/{}/bids".format(self.tender_id),
         {
             "data": {
-                "tenderers": [test_organization],
+                "tenderers": [test_tender_cfaselectionua_organization],
                 "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
             }
         },
@@ -610,7 +610,7 @@ def get_tender_tenderers(self):
 
 def bid_Administrator_change(self):
     bid_data = {
-        "tenderers": [test_organization],
+        "tenderers": [test_tender_cfaselectionua_organization],
         "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
     }
     bid, bid_token = self.create_bid(self.tender_id, bid_data)
@@ -635,14 +635,14 @@ def bid_Administrator_change(self):
 
 
 def features_bid(self):
-    tenderer = deepcopy(test_organization)
+    tenderer = deepcopy(test_tender_cfaselectionua_organization)
     tenderer["identifier"]["id"] = "00037257"
 
     test_features_bids = [
         {
             "parameters": [{"code": i["code"], "value": 0.1} for i in self.initial_agreement["features"]],
             "status": "active",
-            "tenderers": [test_organization],
+            "tenderers": [test_tender_cfaselectionua_organization],
             "lotValues": [
                 {
                     "value": {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True},
@@ -682,7 +682,7 @@ def features_bid(self):
     feat_bid = {
         "parameters": [{"code": i["code"], "value": 0.1} for i in self.initial_agreement["features"][:1]],
         "status": "active",
-        "tenderers": [test_organization],
+        "tenderers": [test_tender_cfaselectionua_organization],
         "lotValues": [
             {
                 "value": {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True},
@@ -701,7 +701,7 @@ def features_bid(self):
 
 def features_bid_invalid(self):
     data = {
-        "tenderers": [test_organization],
+        "tenderers": [test_tender_cfaselectionua_organization],
         "lotValues": [
             {
                 "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
@@ -771,13 +771,13 @@ def features_bid_invalid(self):
 
 
 def patch_features_bid_invalid(self):
-    tenderer = deepcopy(test_organization)
+    tenderer = deepcopy(test_tender_cfaselectionua_organization)
     tenderer["identifier"]["id"] = "00037257"
 
     test_bid = {
         "parameters": [{"code": i["code"], "value": 0.1} for i in self.initial_agreement["features"]],
         "status": "active",
-        "tenderers": [test_organization],
+        "tenderers": [test_tender_cfaselectionua_organization],
         "lotValues": [
             {
                 "value": {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True},
@@ -1012,7 +1012,7 @@ def create_tender_bid_document_nopending(self):
         "/tenders/{}/bids".format(self.tender_id),
         {
             "data": {
-                "tenderers": [test_organization],
+                "tenderers": [test_tender_cfaselectionua_organization],
                 "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
             }
         },
@@ -1455,7 +1455,7 @@ def create_tender_bid_with_document(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
-    self.assertEqual(bid["tenderers"][0]["name"], test_organization["name"])
+    self.assertEqual(bid["tenderers"][0]["name"], test_tender_cfaselectionua_organization["name"])
     self.assertIn("id", bid)
     self.bid_id = bid["id"]
     self.bid_token = response.json["access"]["token"]
@@ -1580,7 +1580,7 @@ def create_tender_bid_with_documents(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
-    self.assertEqual(bid["tenderers"][0]["name"], test_organization["name"])
+    self.assertEqual(bid["tenderers"][0]["name"], test_tender_cfaselectionua_organization["name"])
     self.assertIn("id", bid)
     self.bid_id = bid["id"]
     self.bid_token = response.json["access"]["token"]

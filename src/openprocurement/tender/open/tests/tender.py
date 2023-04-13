@@ -3,7 +3,7 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_lots
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     guarantee,
@@ -22,8 +22,8 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
 
 from openprocurement.tender.open.tests.base import (
     BaseTenderUAWebTest,
-    test_tender_data,
-    test_bids,
+    test_tender_open_data,
+    test_tender_open_bids,
 )
 from openprocurement.tender.open.tests.tender_blanks import (
     empty_listing,
@@ -43,7 +43,6 @@ from openprocurement.tender.open.tests.tender_blanks import (
     first_bid_tender,
     lost_contract_for_active_award,
     create_tender_with_criteria_lcc,
-    create_tender_no_auction,
 )
 
 
@@ -62,15 +61,14 @@ class TenderUaProcessTestMixin(object):
 
 class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):
     docservice = True
-    initial_data = test_tender_data
-    initial_lots = test_lots
+    initial_data = test_tender_open_data
+    initial_lots = test_tender_below_lots
 
     def setUp(self):
         super(TenderUAResourceTest, self).setUp()
         self.test_lots_data = deepcopy(self.initial_lots)
 
     test_create_tender_invalid = snitch(create_tender_invalid)
-    test_create_tender_no_auction = snitch(create_tender_no_auction)
     test_create_tender_central = snitch(create_tender_central)
     test_create_tender_central_invalid = snitch(create_tender_central_invalid)
     test_create_tender_generated = snitch(create_tender_generated)
@@ -92,9 +90,9 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderU
 
 class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):
     docservice = True
-    initial_data = test_tender_data
-    initial_lots = test_lots
-    initial_bids = test_bids
+    initial_data = test_tender_open_data
+    initial_lots = test_tender_below_lots
+    initial_bids = test_tender_open_bids
 
     def setUp(self):
         super(TenderUAProcessTest, self).setUp()

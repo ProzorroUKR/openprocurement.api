@@ -4,7 +4,7 @@ from openprocurement.api.utils import get_now
 
 
 # TenderAuctionResourceTest
-from openprocurement.tender.belowthreshold.tests.base import test_cancellation
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_cancellation
 
 
 def get_tender_auction_not_found(self):
@@ -952,7 +952,7 @@ def patch_tender_lots_auction(self):
     self.assertEqual(tender["lots"][0]["auctionUrl"], patch_data["lots"][0]["auctionUrl"])
 
     self.app.authorization = ("Basic", ("token", ""))
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",

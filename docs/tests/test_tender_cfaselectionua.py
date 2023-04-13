@@ -8,23 +8,39 @@ from uuid import uuid4
 from openprocurement.api.models import get_now
 from openprocurement.tender.cfaselectionua.constants import BOT_NAME
 from openprocurement.tender.cfaselectionua.tests.base import (
-    BaseTenderWebTest, test_tender_data, test_bids, test_agreement
+    BaseTenderWebTest,
+    test_tender_cfaselectionua_data,
+    test_tender_cfaselectionua_bids,
+    test_tender_cfaselectionua_agreement,
 )
 
-from tests.base.constants import DOCS_URL, AUCTIONS_URL
-from tests.base.test import DumpsWebTestApp, MockWebTestMixin
+from tests.base.constants import (
+    DOCS_URL,
+    AUCTIONS_URL,
+)
+from tests.base.test import (
+    DumpsWebTestApp,
+    MockWebTestMixin,
+)
 from tests.base.data import (
-    parameters, lot_bid, lot_bid2_with_docs, features,
-    tender_cfaselectionua_maximum, lots,
+    test_docs_parameters,
+    test_docs_lot_bid,
+    test_docs_lot_bid2_with_docs,
+    test_docs_features,
+    test_docs_tender_cfaselectionua_maximum,
+    test_docs_lots,
 )
 
-bid = deepcopy(lot_bid)
-bid2 = deepcopy(lot_bid2_with_docs)
-test_features = deepcopy(features)
-test_agreement = deepcopy(test_agreement)
+
+test_tender_cfaselectionua_data = deepcopy(test_tender_cfaselectionua_data)
+
+bid = deepcopy(test_docs_lot_bid)
+bid2 = deepcopy(test_docs_lot_bid2_with_docs)
+test_features = deepcopy(test_docs_features)
+test_agreement = deepcopy(test_tender_cfaselectionua_agreement)
 test_agreement['contracts'][0]['suppliers'][0]['scale'] = "large"
-test_lots = deepcopy(lots)
-test_tender_maximum_data = deepcopy(tender_cfaselectionua_maximum)
+test_lots = deepcopy(test_docs_lots)
+test_tender_maximum_data = deepcopy(test_docs_tender_cfaselectionua_maximum)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TARGET_DIR = os.path.join(BASE_DIR, 'source/tendering/cfaselectionua/tutorial/')
@@ -34,8 +50,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
-    initial_data = test_tender_data
-    initial_bids = test_bids
+    initial_data = test_tender_cfaselectionua_data
+    initial_bids = test_tender_cfaselectionua_bids
     docservice = True
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
@@ -77,14 +93,14 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         test_features[0]['relatedItem'] = test_agreement['items'][0]['id']
         test_agreement['features'] = test_features
         for contract in test_agreement['contracts']:
-            contract['parameters'] = parameters
+            contract['parameters'] = test_docs_parameters
 
         lot = deepcopy(test_lots[0])
         lot['id'] = uuid4().hex
 
-        test_tender_data.update(agreements)
-        test_tender_data['lots'] = [lot]
-        for item in test_tender_data['items']:
+        test_tender_cfaselectionua_data.update(agreements)
+        test_tender_cfaselectionua_data['lots'] = [lot]
+        for item in test_tender_cfaselectionua_data['items']:
             item['relatedLot'] = lot['id']
             item['deliveryDate'] = {
                 "startDate": (get_now() + timedelta(days=2)).isoformat(),
@@ -94,7 +110,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',
-                {'data': test_tender_data})
+                {'data': test_tender_cfaselectionua_data, 'config': self.initial_config})
             self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
@@ -112,12 +128,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'create-tender-procuringEntity.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',
-                {'data': test_tender_maximum_data})
+                {'data': test_tender_maximum_data, 'config': self.initial_config})
             self.assertEqual(response.status, '201 Created')
 
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
-            {'data': test_tender_data})
+            {'data': test_tender_cfaselectionua_data, 'config': self.initial_config})
         self.assertEqual(response.status, '201 Created')
 
         self.app.authorization = ('Basic', ('broker', ''))
@@ -162,11 +178,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.get('/tenders')
             self.assertEqual(response.status, '200 OK')
 
-        req_data = test_tender_data.copy()
+        req_data = test_tender_cfaselectionua_data.copy()
         req_data["agreements"] = [{"id": agreement_id}]
         response = self.app.post_json(
             '/tenders',
-            {'data': req_data})
+            {'data': req_data, 'config': self.initial_config})
         self.assertEqual((response.status, response.content_type), ('201 Created', 'application/json'))
         self.tender_id = response.json['data']['id']
         self.tender_token = owner_token = response.json['access']['token']
@@ -314,7 +330,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.app.authorization = ('Basic', ('broker', ''))
         bids_access = {}
 
-        bid['parameters'] = parameters
+        bid['parameters'] = test_docs_parameters
         bid['lotValues'][0]['relatedLot'] = lot['id']
         with open(TARGET_DIR + 'register-bidder-invalid.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -358,7 +374,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         # Second bid registration with documents
 
-        bid2['parameters'] = parameters
+        bid2['parameters'] = test_docs_parameters
         bid2['lotValues'][0]['relatedLot'] = lot['id']
         bid2['tenderers'] = tender['agreements'][0]['contracts'][1]['suppliers']
         with open(TARGET_DIR + 'register-2nd-bidder.http', 'w') as self.app.file_obj:

@@ -6,7 +6,7 @@ from esculator import npv, escp
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import test_author
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_author
 from openprocurement.tender.belowthreshold.tests.lot import TenderLotProcessTestMixin
 from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     create_tender_lot,
@@ -19,7 +19,6 @@ from openprocurement.tender.belowthreshold.tests.lot_blanks import (
 
 from openprocurement.tender.openeu.tests.lot import TenderLotEdgeCasesTestMixin
 from openprocurement.tender.openeu.tests.lot_blanks import (
-    # TenderLotProcessTest
     one_lot_1bid,
     one_lot_2bid_1unqualified,
     one_lot_2bid,
@@ -34,9 +33,9 @@ from openprocurement.tender.openeu.tests.lot_blanks import (
 
 from openprocurement.tender.esco.tests.base import (
     BaseESCOContentWebTest,
-    test_tender_data,
-    test_lots,
-    test_bids,
+    test_tender_esco_data,
+    test_tender_esco_lots,
+    test_tender_esco_bids,
     NBU_DISCOUNT_RATE,
 )
 
@@ -55,11 +54,9 @@ from openprocurement.tender.esco.tests.lot_blanks import (
     tender_lot_yearlyPaymentsPercentageRange,
     tender_lot_fundingKind_yppr,
     tender_lot_Administrator_change_yppr,
-    # TenderLotFeatureBidderResourceTest
     create_tender_feature_bid_invalid,
     create_tender_feature_bid,
     tender_features_invalid,
-    # TenderLotBidResourceTest
     create_tender_bid_invalid,
     patch_tender_bid,
     bids_invalidation_on_lot_change,
@@ -71,10 +68,10 @@ lot_bid_amountPerformance = round(
     float(
         to_decimal(
             npv(
-                test_bids[0]["value"]["contractDuration"]["years"],
-                test_bids[0]["value"]["contractDuration"]["days"],
-                test_bids[0]["value"]["yearlyPaymentsPercentage"],
-                test_bids[0]["value"]["annualCostsReduction"],
+                test_tender_esco_bids[0]["value"]["contractDuration"]["years"],
+                test_tender_esco_bids[0]["value"]["contractDuration"]["days"],
+                test_tender_esco_bids[0]["value"]["yearlyPaymentsPercentage"],
+                test_tender_esco_bids[0]["value"]["annualCostsReduction"],
                 get_now(),
                 NBU_DISCOUNT_RATE,
             )
@@ -87,10 +84,10 @@ lot_bid_amount = round(
     float(
         to_decimal(
             escp(
-                test_bids[0]["value"]["contractDuration"]["years"],
-                test_bids[0]["value"]["contractDuration"]["days"],
-                test_bids[0]["value"]["yearlyPaymentsPercentage"],
-                test_bids[0]["value"]["annualCostsReduction"],
+                test_tender_esco_bids[0]["value"]["contractDuration"]["years"],
+                test_tender_esco_bids[0]["value"]["contractDuration"]["days"],
+                test_tender_esco_bids[0]["value"]["yearlyPaymentsPercentage"],
+                test_tender_esco_bids[0]["value"]["annualCostsReduction"],
                 get_now(),
             )
         )
@@ -104,9 +101,9 @@ lot_bid_amount = round(
 class TenderLotResourceTest(BaseESCOContentWebTest):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
-    test_lots_data = test_lots  # TODO: change attribute identifier
-    test_bids = test_bids
-    initial_data = test_tender_data
+    test_lots_data = test_tender_esco_lots  # TODO: change attribute identifier
+    test_bids = test_tender_esco_bids
+    initial_data = test_tender_esco_data
 
     test_create_tender_lot_invalid = snitch(create_tender_lot_invalid)
     test_create_tender_lot = snitch(create_tender_lot)
@@ -132,22 +129,22 @@ class TenderLotResourceTest(BaseESCOContentWebTest):
 
 class TenderLotEdgeCasesTest(BaseESCOContentWebTest, TenderLotEdgeCasesTestMixin):
     initial_auth = ("Basic", ("broker", ""))
-    initial_lots = test_lots * 2
-    initial_bids = test_bids
-    test_author = test_author
+    initial_lots = test_tender_esco_lots * 2
+    initial_bids = test_tender_esco_bids
+    test_author = test_tender_below_author
 
 
 @patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
        get_now() + timedelta(days=1))
 class TenderLotFeatureResourceTest(BaseESCOContentWebTest):
     docservice = True
-    initial_lots = 2 * test_lots
+    initial_lots = 2 * test_tender_esco_lots
     # for passing test_tender_min_value while min value = 0
     # initial_lots[0]["minValue"] = {"amount": 0}
     # initial_lots[1]["minValue"] = {"amount": 0}
     initial_auth = ("Basic", ("broker", ""))
-    initial_data = test_tender_data
-    test_lots_data = test_lots
+    initial_data = test_tender_esco_data
+    test_lots_data = test_tender_esco_lots
     invalid_feature_value = 0.4
     max_feature_value = 0.25
     sum_of_max_value_of_all_features = 0.25
@@ -161,10 +158,10 @@ class TenderLotFeatureResourceTest(BaseESCOContentWebTest):
        get_now() + timedelta(days=1))
 class TenderLotBidResourceTest(BaseESCOContentWebTest):
     docservice = True
-    initial_lots = test_lots
+    initial_lots = test_tender_esco_lots
     initial_auth = ("Basic", ("broker", ""))
-    test_bids_data = test_bids  # TODO: change attribute identifier
-    expected_bid_amountPerformance = lot_bid_amountPerformance
+    test_bids_data = test_tender_esco_bids  # TODO: change attribute identifier
+    expected_bid_amount_performance = lot_bid_amountPerformance
     expected_bid_amount = lot_bid_amount
 
     test_create_tender_bid_invalid = snitch(create_tender_bid_invalid)
@@ -176,10 +173,10 @@ class TenderLotBidResourceTest(BaseESCOContentWebTest):
        get_now() + timedelta(days=1))
 class TenderLotFeatureBidResourceTest(BaseESCOContentWebTest):
     docservice = True
-    initial_lots = test_lots
+    initial_lots = test_tender_esco_lots
     initial_auth = ("Basic", ("broker", ""))
-    initial_data = test_tender_data
-    test_bids_data = test_bids  # TODO: change attribute identifier
+    initial_data = test_tender_esco_data
+    test_bids_data = test_tender_esco_bids  # TODO: change attribute identifier
 
     def setUp(self):
         super(TenderLotFeatureBidResourceTest, self).setUp()
@@ -230,9 +227,9 @@ class TenderLotFeatureBidResourceTest(BaseESCOContentWebTest):
 class TenderLotProcessTest(BaseESCOContentWebTest, TenderLotProcessTestMixin):
     docservice = True
     setUp = BaseESCOContentWebTest.setUp
-    test_lots_data = test_lots  # TODO: change attribute identifier
-    test_bids_data = test_bids
-    initial_data = test_tender_data
+    test_lots_data = test_tender_esco_lots  # TODO: change attribute identifier
+    test_bids_data = test_tender_esco_bids
+    initial_data = test_tender_esco_data
 
     days_till_auction_starts = 16
 

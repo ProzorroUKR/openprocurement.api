@@ -3,10 +3,11 @@ import jmespath
 
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
-
-from openprocurement.tender.core.tests.base import change_auth
-from openprocurement.tender.belowthreshold.tests.base import test_complaint, test_claim
-from openprocurement.tender.cfaua.tests.base import test_cancellation
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_complaint,
+    test_tender_below_claim,
+)
 
 
 def assert_statuses(self, rules: dict):
@@ -23,7 +24,7 @@ def add_tender_complaints(self, statuses):
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
             {
-                "data": test_complaint
+                "data": test_tender_below_complaint
             },
         )
         self.assertEqual(response.status, "201 Created")
@@ -74,7 +75,7 @@ def cancellation_tender_active_tendering(self):
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {
-            "data": test_claim
+            "data": test_tender_below_claim
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -130,7 +131,7 @@ def cancellation_tender_active_pre_qualification_stand_still(self):
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {
-            "data": test_complaint
+            "data": test_tender_below_complaint
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -257,7 +258,7 @@ def cancellation_tender_active_qualification_stand_still(self):
         response = self.app.post_json(
             "/tenders/{0}/awards/{1}/complaints?acc_token={2}".format(self.tender_id, award_id, owner_token),
             {
-                "data": test_complaint
+                "data": test_tender_below_complaint
             },
         )
         self.assertEqual(response.status, "201 Created")

@@ -1,6 +1,6 @@
 POST /api/2.5/tenders HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 2806
+Content-Length: 2838
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -99,20 +99,22 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "percentage": 54.45
       }
     ]
+  },
+  "config": {
+    "hasAuction": true
   }
 }
 
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7864655c5f024503aacb155d0c378531
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/19cdc6eddc144c4fb58dca333d3fefd1
 
 {
   "data": {
     "mainProcurementCategory": "goods",
     "title": "футляри до державних нагород",
     "status": "draft",
-    "submissionMethod": "electronicAuction",
     "procurementMethod": "open",
     "awardCriteria": "lowestCost",
     "value": {
@@ -165,7 +167,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7864655c5f024503
     ],
     "milestones": [
       {
-        "id": "1011c8b37ee8479db669baf7d96ea5a4",
+        "id": "d40e5e789b2e4999bee3c87879f74730",
         "title": "signingTheContract",
         "type": "financing",
         "code": "prepayment",
@@ -177,7 +179,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7864655c5f024503
         "sequenceNumber": 0
       },
       {
-        "id": "30e0bbd083ec4f1ab9f42774458dd09c",
+        "id": "be29ce19cb374870a781d5fb3c8a54b6",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -218,13 +220,17 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7864655c5f024503
     "tenderID": "UA-2023-01-01-000001-a",
     "owner": "broker",
     "date": "2023-01-01T00:00:00+02:00",
+    "submissionMethod": "electronicAuction",
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
-    "id": "7864655c5f024503aacb155d0c378531"
+    "id": "19cdc6eddc144c4fb58dca333d3fefd1"
+  },
+  "config": {
+    "hasAuction": true
   },
   "access": {
-    "token": "571c222b369c4668b3bcc8164f8dec3a",
-    "transfer": "4bbad6d236124e7c883e4cf12a6e711b"
+    "token": "fb6950851e754b3c9a1d1db4320fe328",
+    "transfer": "b530ca1b18e94ac4ac56ec349feb15fb"
   }
 }
 

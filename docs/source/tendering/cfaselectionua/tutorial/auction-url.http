@@ -507,14 +507,14 @@ Content-Type: application/json
       "endDate": "2022-12-28T00:00:00+02:00"
     },
     "minimalStep": {
-      "amount": 2.5,
+      "amount": 3.0033300000000005,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
     "value": {
+      "amount": 600.666,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amount": 600.666
+      "valueAddedTaxIncluded": true
     },
     "next_check": "2023-01-01T00:42:00+02:00",
     "guarantee": {
@@ -562,6 +562,9 @@ Content-Type: application/json
       "startDate": "2023-01-01T00:00:00+02:00"
     },
     "id": "e23dee5896254eb4ac3364a9a854c3fe"
+  },
+  "config": {
+    "hasAuction": true
   }
 }
 

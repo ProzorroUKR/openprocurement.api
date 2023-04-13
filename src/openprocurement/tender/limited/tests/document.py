@@ -7,14 +7,14 @@ from openprocurement.tender.belowthreshold.tests.document import (
 
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest,
-    test_tender_data,
+    test_tender_reporting_data,
     test_tender_negotiation_data,
     test_tender_negotiation_quick_data,
 )
 
 
 class TenderDocumentResourceTest(BaseTenderContentWebTest, TenderDocumentWithDSResourceTestMixin):
-    initial_data = test_tender_data
+    initial_data = test_tender_reporting_data
     docservice = True
 
 

@@ -1,4 +1,5 @@
 from openprocurement.api.utils import json_view
+from openprocurement.tender.esco.procedure.state.bid import ESCOBidState
 from openprocurement.tender.openeu.procedure.views.bid import TenderBidResource
 from openprocurement.tender.core.procedure.models.bid import filter_administrator_bid_update
 from openprocurement.tender.esco.procedure.models.bid import PostBid, PatchBid, Bid
@@ -34,6 +35,7 @@ LOGGER = getLogger(__name__)
     description="Tender ESCO bids",
 )
 class ESCOTenderBidResource(TenderBidResource):
+    state_class = ESCOBidState
     serializer_class = BidSerializer
 
     @json_view(

@@ -209,6 +209,9 @@ Content-Type: application/json
     },
     "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/3cf3333f00394e93bc3caaea00cbe9e2",
     "id": "3cf3333f00394e93bc3caaea00cbe9e2"
+  },
+  "config": {
+    "hasAuction": true
   }
 }
 

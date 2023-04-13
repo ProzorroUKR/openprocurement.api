@@ -6,7 +6,7 @@ from openprocurement.tender.core.validation import (
 )
 
 from openprocurement.tender.belowthreshold.views.tender import TenderResource
-from openprocurement.tender.pricequotation.constants import PMT
+from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.tender.pricequotation.validation import validate_patch_tender_data, validate_tender_publish
 
 

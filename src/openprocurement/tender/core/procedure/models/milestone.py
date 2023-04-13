@@ -1,7 +1,7 @@
 from schematics.types import MD5Type, StringType, IntType, FloatType
 from openprocurement.api.models import IsoDateTimeType, Model
 from openprocurement.api.utils import get_first_revision_date
-from openprocurement.tender.core.procedure.context import get_tender, get_now, get_data
+from openprocurement.tender.core.procedure.context import get_tender, get_now
 from openprocurement.tender.core.utils import calculate_tender_date, calculate_complaint_business_date
 from openprocurement.tender.core.validation import is_positive_float
 from schematics.exceptions import ValidationError

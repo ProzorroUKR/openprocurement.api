@@ -1,4 +1,3 @@
-from openprocurement.api.constants import QUICK_NO_AUCTION_FORCED
 from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
 from openprocurement.tender.core.procedure.context import get_request, get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
@@ -12,7 +11,6 @@ from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
     calculate_clarif_business_date,
     check_auction_period,
-    QUICK_NO_AUCTION,
 )
 from openprocurement.api.utils import raise_operation_error
 
@@ -39,7 +37,6 @@ class TenderDetailsState(TenderDetailsMixing, OpenTenderState):
     def on_post(self, tender):
         super().on_post(tender)  # TenderDetailsMixing.on_post
         self.initialize_enquiry_period(tender)
-        self.set_no_auction_forced({}, tender)
 
     def on_patch(self, before, after):
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
@@ -89,7 +86,6 @@ class TenderDetailsState(TenderDetailsMixing, OpenTenderState):
 
         if after["status"] in ("draft", "active.tendering"):
             self.initialize_enquiry_period(after)
-        self.set_no_auction_forced(before, after)
 
     def initialize_enquiry_period(self, tender):
         tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
@@ -106,10 +102,6 @@ class TenderDetailsState(TenderDetailsMixing, OpenTenderState):
         invalidation_date = enquiry_period and enquiry_period.get("invalidationDate")
         if invalidation_date:
             tender["enquiryPeriod"]["invalidationDate"] = invalidation_date
-
-    def set_no_auction_forced(self, before, after):
-        if (QUICK_NO_AUCTION_FORCED and not before) or before.get("submissionMethodDetails") == QUICK_NO_AUCTION:
-            after["submissionMethodDetails"] = QUICK_NO_AUCTION
 
     def validate_tender_period_extension(self, tender):
         if "tenderPeriod" in tender and "endDate" in tender["tenderPeriod"]:

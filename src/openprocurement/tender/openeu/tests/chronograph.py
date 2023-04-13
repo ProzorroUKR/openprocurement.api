@@ -3,9 +3,12 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+    test_tender_below_author,
+)
 
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.tests.chronograph import (
     switch_award_complaints_draft,
     switch_tender_complaints_draft,
@@ -14,17 +17,16 @@ from openprocurement.tender.core.tests.chronograph import (
     switch_tender_after_cancellation_unsuccessful,
 )
 from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
-    # TenderSwitchUnsuccessfulResourceTest
     switch_to_unsuccessful,
 )
-
-from openprocurement.tender.openeu.tests.base import BaseTenderContentWebTest, test_bids, test_lots
+from openprocurement.tender.openeu.tests.base import (
+    BaseTenderContentWebTest,
+    test_tender_openeu_bids,
+    test_tender_openeu_lots,
+)
 from openprocurement.tender.openeu.tests.chronograph_blanks import (
-    # TenderComplaintSwitchResourceTest
     switch_to_complaint,
-    # TenderSwitchAuctionResourceTest
     switch_to_auction,
-    # TenderSwitchPreQualificationResourceTest
     pre_qual_switch_to_auction,
     pre_qual_switch_to_stand_still,
     active_tendering_to_pre_qual,
@@ -33,7 +35,6 @@ from openprocurement.tender.openeu.tests.chronograph_blanks import (
 )
 
 from openprocurement.tender.openua.tests.chronograph_blanks import (
-    # TenderAuctionPeriodResourceTest
     set_auction_period_0bid as set_auction_period,
     set_auction_period_lot_0bid as set_auction_period_lot,
 )
@@ -41,7 +42,7 @@ from openprocurement.tender.openua.tests.chronograph_blanks import (
 
 class TenderSwitchPreQualificationResourceTest(BaseTenderContentWebTest):
     initial_status = "active.pre-qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_openeu_bids
 
     test_switch_to_pre_qual = snitch(active_tendering_to_pre_qual)
     test_switch_to_auction = snitch(pre_qual_switch_to_auction)
@@ -50,7 +51,7 @@ class TenderSwitchPreQualificationResourceTest(BaseTenderContentWebTest):
 
 class TenderSwitchAuctionResourceTest(BaseTenderContentWebTest):
     initial_status = "active.pre-qualification.stand-still"
-    initial_bids = test_bids
+    initial_bids = test_tender_openeu_bids
 
     test_switch_to_auction = snitch(switch_to_auction)
 
@@ -62,12 +63,12 @@ class TenderSwitchUnsuccessfulResourceTest(BaseTenderContentWebTest):
 
 
 class TenderLotSwitchPreQualificationResourceTest(TenderSwitchPreQualificationResourceTest):
-    initial_lots = test_lots
+    initial_lots = test_tender_openeu_lots
 
 
 class TenderLotSwitchPreQualificationUnsuccessfulTest(BaseTenderContentWebTest):
-    initial_bids = test_bids
-    initial_lots = test_lots * 3
+    initial_bids = test_tender_openeu_bids
+    initial_lots = test_tender_openeu_lots * 3
     initial_status = "active.tendering"
 
     def setUp(self):
@@ -88,27 +89,27 @@ class TenderLotSwitchPreQualificationUnsuccessfulTest(BaseTenderContentWebTest):
 
 
 class TenderLotUnsuccessfulTenderingTest(BaseTenderContentWebTest):
-    initial_bids = test_bids[:1]
-    initial_lots = test_lots
+    initial_bids = test_tender_openeu_bids[:1]
+    initial_lots = test_tender_openeu_lots
     initial_status = "active.tendering"
     test_lot_active_tendering_to_unsuccessful = snitch(active_tendering_to_unsuccessful)
 
 
 class TenderUnsuccessfulTenderingTest(BaseTenderContentWebTest):
-    initial_bids = test_bids[:1]
+    initial_bids = test_tender_openeu_bids[:1]
     initial_status = "active.tendering"
     test_lot_active_tendering_to_unsuccessful = snitch(active_tendering_to_unsuccessful)
 
 
 class TenderLotSwitchAuctionResourceTest(TenderSwitchAuctionResourceTest):
     initial_status = "active.tendering"
-    initial_lots = test_lots
-    initial_bids = test_bids
+    initial_lots = test_tender_openeu_lots
+    initial_bids = test_tender_openeu_bids
 
 
 class TenderLotSwitchUnsuccessfulResourceTest(TenderSwitchUnsuccessfulResourceTest):
     initial_status = "active.tendering"
-    initial_lots = test_lots
+    initial_lots = test_tender_openeu_lots
 
 
 class TenderAuctionPeriodResourceTest(BaseTenderContentWebTest):
@@ -121,15 +122,15 @@ class TenderAuctionPeriodResourceTest(BaseTenderContentWebTest):
 
 class TenderLotAuctionPeriodResourceTest(BaseTenderContentWebTest):
     initial_status = "active.tendering"
-    initial_lots = test_lots
+    initial_lots = test_tender_openeu_lots
 
     test_set_auction_period = snitch(set_auction_period_lot)
 
 
 class TenderComplaintSwitchResourceTest(BaseTenderContentWebTest):
     initial_status = "active.tendering"
-    initial_bids = test_bids
-    author_data = test_author
+    initial_bids = test_tender_openeu_bids
+    author_data = test_tender_below_author
     docservice = True
 
     test_switch_to_complaint = snitch(switch_to_complaint)
@@ -138,12 +139,12 @@ class TenderComplaintSwitchResourceTest(BaseTenderContentWebTest):
 
 
 class TenderLotComplaintSwitchResourceTest(TenderComplaintSwitchResourceTest):
-    initial_lots = test_lots
+    initial_lots = test_tender_openeu_lots
 
 
 class TenderAwardComplaintSwitchResourceTest(BaseTenderContentWebTest):
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_openeu_bids
 
     def setUp(self):
         super(TenderAwardComplaintSwitchResourceTest, self).setUp()
@@ -151,7 +152,7 @@ class TenderAwardComplaintSwitchResourceTest(BaseTenderContentWebTest):
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
-                {"data": {"suppliers": [test_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+                {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
             )
             award = response.json["data"]
             self.award_id = award["id"]

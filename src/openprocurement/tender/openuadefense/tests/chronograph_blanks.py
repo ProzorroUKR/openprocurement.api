@@ -3,7 +3,7 @@ from datetime import timedelta
 from mock import patch
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.utils import change_auth
 
 from openprocurement.tender.openua.tests.chronograph_blanks import (
     switch_to_unsuccessful as switch_to_unsuccessful_ua,

@@ -13,9 +13,9 @@ class TenderLotState(LotInvalidationBidStateMixin, ESCOTenderTenderState):
 
     def pre_save_validations(self, data: dict) -> None:
         super().pre_save_validations(data)
-        self.validate_yearlyPaymentsPercentageRange(data)
+        self.validate_yearly_payments_percentage_range(data)
 
-    def validate_yearlyPaymentsPercentageRange(self, data: dict) -> None:
+    def validate_yearly_payments_percentage_range(self, data: dict) -> None:
         tender = get_tender()
         value = data.get("yearlyPaymentsPercentageRange")
         if tender["fundingKind"] == "other" and value != Decimal("0.8"):

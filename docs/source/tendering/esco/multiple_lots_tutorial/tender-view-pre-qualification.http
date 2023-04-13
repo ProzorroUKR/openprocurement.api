@@ -1050,6 +1050,9 @@ Content-Type: application/json
       }
     ],
     "id": "ceb28fdcf5944cd8b77800a6e86733f6"
+  },
+  "config": {
+    "hasAuction": true
   }
 }
 

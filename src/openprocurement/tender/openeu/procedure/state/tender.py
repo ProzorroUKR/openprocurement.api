@@ -1,8 +1,9 @@
 from operator import itemgetter
+from typing import Optional
 
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.state.auction import PreQualificationShouldStartAfterMixing
-from openprocurement.tender.core.procedure.context import get_now, get_request
+from openprocurement.tender.core.procedure.context import get_now
 from openprocurement.tender.openeu.procedure.models.award import Award
 from openprocurement.tender.core.procedure.models.qualification import Qualification
 from openprocurement.tender.core.constants import CRITERION_LIFE_CYCLE_COST_IDS
@@ -132,11 +133,6 @@ class BaseOpenEUTenderState(PreQualificationShouldStartAfterMixing, TenderState)
             if bid.get("status") not in ("deleted", "draft"):
                 bid["status"] = "invalid"
 
-    def pre_qualification_stand_still_ends_handler(self, tender):
-        handler = self.get_change_tender_status_handler("active.auction")
-        handler(tender)
-        self.check_bids_number(tender)
-
 
 class OpenEUTenderState(BaseOpenEUTenderState):
     def tendering_end_handler(self, tender):
@@ -146,7 +142,9 @@ class OpenEUTenderState(BaseOpenEUTenderState):
         self.calculate_bids_weighted_values(tender)
 
     def calculate_bids_weighted_values(self, tender):
-        def _calc_denominator(parameters: list, features: list = "", lot_id: str = None) -> float:
+        def _calc_denominator(parameters: list, features: list = "", lot_id: str = None) -> Optional[float]:
+            if not parameters:
+                return
             if lot_id:
                 features_codes = [
                     i["code"]
@@ -158,16 +156,23 @@ class OpenEUTenderState(BaseOpenEUTenderState):
                 params_sum = sum(param["value"] for param in parameters)
             return 1 / (1 - params_sum)
 
-        def _set_weighted_value(value_container: dict, addition: float = 0, denominator: float = 1) -> None:
+        def _set_weighted_value(
+                value_container: dict,
+                addition: Optional[float] = None,
+                denominator: Optional[float] = None
+        ) -> None:
             value_amount = float(value_container.get("value", {}).get("amount", 0))
-            weighted_value = {"amount": round((value_amount / denominator) + addition, 2)}
-            if addition:
-                weighted_value["addition"] = round(addition, 2)
-            if denominator != 1:
+            weighted_value = {}
+            if parameters:
+                value_amount = value_amount / denominator
                 weighted_value["denominator"] = denominator
+            if lcc_requirement_ids:
+                value_amount = value_amount + addition
+                weighted_value["addition"] = round(addition, 2)
 
-            if "addition" in weighted_value or "denominator" in weighted_value:
+            if weighted_value:
                 weighted_value.update({
+                    "amount": round(value_amount, 2),
                     "currency": value_container["value"]["currency"],
                     "valueAddedTaxIncluded": value_container["value"]["valueAddedTaxIncluded"],
                 })
@@ -191,7 +196,7 @@ class OpenEUTenderState(BaseOpenEUTenderState):
             if not (parameters or lcc_requirement_ids):
                 continue
 
-            addition = 0
+            addition = None
             if lcc_requirement_ids:
                 addition = sum(
                     float(req_response.get("value"))

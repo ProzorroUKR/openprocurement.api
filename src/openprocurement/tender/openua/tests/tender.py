@@ -2,7 +2,7 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_lots
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     guarantee,
@@ -20,7 +20,12 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_with_required_unit,
 )
 
-from openprocurement.tender.openua.tests.base import test_tender_data, test_bids, BaseTenderUAWebTest, BaseApiWebTest
+from openprocurement.tender.openua.tests.base import (
+    BaseTenderUAWebTest,
+    BaseApiWebTest,
+    test_tender_openua_data,
+    test_tender_openua_bids,
+)
 from openprocurement.tender.openua.tests.tender_blanks import (
     empty_listing,
     patch_draft_invalid_json,
@@ -59,13 +64,13 @@ class TenderUaProcessTestMixin(object):
 class TenderUATest(BaseApiWebTest):
     docservice = True
     tender_model = Tender
-    initial_data = test_tender_data
+    initial_data = test_tender_openua_data
 
 
 class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):
     docservice = True
-    initial_data = test_tender_data
-    test_lots_data = test_lots
+    initial_data = test_tender_openua_data
+    test_lots_data = test_tender_below_lots
 
     test_create_tender_invalid = snitch(create_tender_invalid)
     test_create_tender_central = snitch(create_tender_central)
@@ -90,8 +95,8 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderU
 
 class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):
     docservice = True
-    initial_data = test_tender_data
-    test_bids_data = test_bids
+    initial_data = test_tender_openua_data
+    test_bids_data = test_tender_openua_bids
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_one_valid_bid_tender_ua = snitch(one_valid_bid_tender_ua)

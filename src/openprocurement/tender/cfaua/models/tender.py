@@ -190,7 +190,7 @@ class CloseFrameworkAgreementUA(Tender):
         validators=[validate_cpv_group, validate_items_uniq, validate_classification_id],
     )  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    minimalStep = ModelType(Value, required=True)
+    minimalStep = ModelType(Value)
     numberOfBidders = IntType()  # The number of unique tenderers who participated in the tender
     maxAwardsCount = IntType(required=True, validators=[validate_max_awards_number])
     lots = ListType(
@@ -291,33 +291,35 @@ class CloseFrameworkAgreementUA(Tender):
 
     @serializable(serialized_name="guarantee", serialize_when_none=False, type=ModelType(Guarantee))
     def tender_guarantee(self):
-        if self.lots:
-            lots_amount = [i.guarantee.amount for i in self.lots if i.guarantee]
-            if not lots_amount:
-                return self.guarantee
-            guarantee = {"amount": sum(lots_amount)}
-            lots_currency = [i.guarantee.currency for i in self.lots if i.guarantee]
-            guarantee["currency"] = lots_currency[0] if lots_currency else None
-            if self.guarantee:
-                guarantee["currency"] = self.guarantee.currency
-            guarantee_class = self._fields["guarantee"]
-            return guarantee_class(guarantee)
-        else:
-            return self.guarantee
+        return self.guarantee
+        # if self.lots:
+        #     lots_amount = [i.guarantee.amount for i in self.lots if i.guarantee]
+        #     if not lots_amount:
+        #         return self.guarantee
+        #     guarantee = {"amount": sum(lots_amount)}
+        #     lots_currency = [i.guarantee.currency for i in self.lots if i.guarantee]
+        #     guarantee["currency"] = lots_currency[0] if lots_currency else None
+        #     if self.guarantee:
+        #         guarantee["currency"] = self.guarantee.currency
+        #     guarantee_class = self._fields["guarantee"]
+        #     return guarantee_class(guarantee)
+        # else:
+        #     return self.guarantee
 
     @serializable(serialized_name="minimalStep", serialize_when_none=False, type=ModelType(Value, required=True))
     def tender_minimalStep(self):
-        if self.lots:
-            minimalStep = self._fields["minimalStep"]
-            return minimalStep(
-                dict(
-                    amount=min([i.minimalStep.amount for i in self.lots]),
-                    currency=self.minimalStep.currency,
-                    valueAddedTaxIncluded=self.minimalStep.valueAddedTaxIncluded,
-                )
-            )
-        else:
-            return self.minimalStep
+        return self.minimalStep
+        # if self.lots:
+        #     minimalStep = self._fields["minimalStep"]
+        #     return minimalStep(
+        #         dict(
+        #             amount=min([i.minimalStep.amount for i in self.lots]),
+        #             currency=self.minimalStep.currency,
+        #             valueAddedTaxIncluded=self.minimalStep.valueAddedTaxIncluded,
+        #         )
+        #     )
+        # else:
+        #     return self.minimalStep
 
     @serializable(serialize_when_none=False)
     def next_check(self):
@@ -403,18 +405,19 @@ class CloseFrameworkAgreementUA(Tender):
 
     @serializable(serialized_name="value", type=ModelType(Value))
     def tender_value(self):
-        value_class = self._fields["value"]
-        return (
-            value_class(
-                dict(
-                    amount=sum([i.value.amount for i in self.lots]),
-                    currency=self.value.currency,
-                    valueAddedTaxIncluded=self.value.valueAddedTaxIncluded,
-                )
-            )
-            if self.lots
-            else self.value
-    )
+        return self.value
+    #     value_class = self._fields["value"]
+    #     return (
+    #         value_class(
+    #             dict(
+    #                 amount=sum([i.value.amount for i in self.lots]),
+    #                 currency=self.value.currency,
+    #                 valueAddedTaxIncluded=self.value.valueAddedTaxIncluded,
+    #             )
+    #         )
+    #         if self.lots
+    #         else self.value
+    # )
 
     def validate_auctionUrl(self, data, url):
         if url and data["lots"]:

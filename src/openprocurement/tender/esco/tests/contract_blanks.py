@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now, to_decimal
-from openprocurement.tender.core.tests.base import change_auth
-from openprocurement.tender.belowthreshold.tests.base import test_draft_complaint
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_draft_complaint
 from datetime import timedelta
 from copy import deepcopy
 
@@ -118,7 +118,7 @@ def patch_tender_contract(self):
     token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
-        {"data": test_draft_complaint},
+        {"data": test_tender_below_draft_complaint},
     )
     self.assertEqual(response.status, "201 Created")
     complaint = response.json["data"]

@@ -15,7 +15,7 @@ from openprocurement.tender.core.validation import (
 from openprocurement.tender.belowthreshold.views.contract import (
     TenderAwardContractResource,
 )
-from openprocurement.tender.pricequotation.constants import PMT
+from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.tender.pricequotation.utils import check_tender_status
 
 

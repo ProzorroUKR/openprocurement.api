@@ -5,13 +5,13 @@ from datetime import timedelta
 
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_cancellation
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_cancellation
 
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogUAContentWebTest,
     BaseCompetitiveDialogEUContentWebTest,
-    test_bids_stage1 as test_bids,
-    test_lots,
+    test_tender_cd_stage1_bids,
+    test_tender_cd_lots,
 )
 
 from openprocurement.tender.belowthreshold.tests.cancellation import (
@@ -19,10 +19,8 @@ from openprocurement.tender.belowthreshold.tests.cancellation import (
     TenderCancellationDocumentResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
-    # CompetitiveDialogLotCancellationResourceTest
     create_tender_lot_cancellation,
     patch_tender_lot_cancellation,
-    # CompetitiveDialogUALotsCancellationResourceTest
     create_tender_lots_cancellation,
     patch_tender_lots_cancellation,
 )
@@ -37,7 +35,6 @@ from openprocurement.tender.openua.tests.cancellation_blanks import (
     activate_cancellation,
     create_tender_cancellation_with_cancellation_lots
 )
-from openprocurement.api.constants import RELEASE_2020_04_19
 
 
 class CompetitiveDialogUACancellationResourceTest(
@@ -49,9 +46,9 @@ class CompetitiveDialogUACancellationResourceTest(
 
 
 class CompetitiveDialogUALotCancellationResourceTest(BaseCompetitiveDialogUAContentWebTest):
-    initial_lots = test_lots
-    initial_bids = test_bids
-    test_bids_data = test_bids
+    initial_lots = test_tender_cd_lots
+    initial_bids = test_tender_cd_stage1_bids
+    test_bids_data = test_tender_cd_stage1_bids
 
     test_create_tender_cancellation = snitch(create_tender_lot_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_lot_cancellation)
@@ -59,9 +56,9 @@ class CompetitiveDialogUALotCancellationResourceTest(BaseCompetitiveDialogUACont
 
 
 class CompetitiveDialogUALotsCancellationResourceTest(BaseCompetitiveDialogUAContentWebTest):
-    initial_lots = 2 * test_lots
-    initial_bids = test_bids
-    test_bids_data = test_bids
+    initial_lots = 2 * test_tender_cd_lots
+    initial_bids = test_tender_cd_stage1_bids
+    test_bids_data = test_tender_cd_stage1_bids
 
     test_create_tender_cancellation = snitch(create_tender_lots_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_lots_cancellation)
@@ -73,8 +70,8 @@ class CompetitiveDialogUACancellationComplaintResourceTest(
     BaseCompetitiveDialogUAContentWebTest, TenderCancellationComplaintResourceTestMixin
 ):
 
-    initial_bids = test_bids
-    test_bids_data = test_bids
+    initial_bids = test_tender_cd_stage1_bids
+    test_bids_data = test_tender_cd_stage1_bids
 
     @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     @patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
@@ -83,7 +80,7 @@ class CompetitiveDialogUACancellationComplaintResourceTest(
         super(CompetitiveDialogUACancellationComplaintResourceTest, self).setUp()
 
         # Create cancellation
-        cancellation = dict(**test_cancellation)
+        cancellation = dict(**test_tender_below_cancellation)
         cancellation.update({
             "reasonType": "noDemand"
         })
@@ -103,7 +100,7 @@ class CompetitiveDialogUACancellationDocumentResourceTest(
         # Create cancellation
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": test_cancellation},
+            {"data": test_tender_below_cancellation},
         )
         cancellation = response.json["data"]
         self.cancellation_id = cancellation["id"]
@@ -119,9 +116,9 @@ class CompetitiveDialogEUCancellationResourceTest(
 
 
 class CompetitiveDialogEULotCancellationResourceTest(BaseCompetitiveDialogEUContentWebTest):
-    initial_lots = test_lots
-    initial_bids = test_bids
-    test_bids_data = test_bids
+    initial_lots = test_tender_cd_lots
+    initial_bids = test_tender_cd_stage1_bids
+    test_bids_data = test_tender_cd_stage1_bids
 
     initial_auth = ("Basic", ("broker", ""))
 
@@ -131,9 +128,9 @@ class CompetitiveDialogEULotCancellationResourceTest(BaseCompetitiveDialogEUCont
 
 
 class CompetitiveDialogEULotsCancellationResourceTest(BaseCompetitiveDialogEUContentWebTest):
-    initial_lots = 2 * test_lots
-    initial_bids = test_bids
-    test_bids_data = test_bids
+    initial_lots = 2 * test_tender_cd_lots
+    initial_bids = test_tender_cd_stage1_bids
+    test_bids_data = test_tender_cd_stage1_bids
     initial_auth = ("Basic", ("broker", ""))
 
     test_create_tender_cancellation = snitch(create_tender_lots_cancellation)
@@ -153,7 +150,7 @@ class CompetitiveDialogEUCancellationDocumentResourceTest(
         # Create cancellation
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": test_cancellation},
+            {"data": test_tender_below_cancellation},
         )
         cancellation = response.json["data"]
         self.cancellation_id = cancellation["id"]

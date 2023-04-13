@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 4645
+Content-Length: 4677
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -39,7 +39,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     },
     "items": [
       {
-        "id": "de79b5f1dd5c4a5892c83a675595a080",
+        "id": "df827a0a87354ad59f985d4b31bbaf6c",
         "description": "футляри до державних нагород",
         "description_en": "Cases with state awards",
         "description_ru": "футляры к государственным наградам",
@@ -77,7 +77,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       {
         "code": "OCDS-123454-AIR-INTAKE",
         "featureOf": "item",
-        "relatedItem": "de79b5f1dd5c4a5892c83a675595a080",
+        "relatedItem": "df827a0a87354ad59f985d4b31bbaf6c",
         "title": "Потужність всмоктування",
         "title_en": "Air Intake",
         "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
@@ -140,6 +140,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "mainProcurementCategory": "services"
+  },
+  "config": {
+    "hasAuction": true
   }
 }
 
@@ -156,7 +159,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6f821eb52f1b4cfa
     "title": "[ТЕСТУВАННЯ] футляри до державних нагород",
     "mode": "test",
     "status": "draft",
-    "submissionMethod": "electronicAuction",
     "procurementMethod": "open",
     "awardCriteria": "lowestCost",
     "value": {
@@ -175,7 +177,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6f821eb52f1b4cfa
     },
     "items": [
       {
-        "id": "de79b5f1dd5c4a5892c83a675595a080",
+        "id": "df827a0a87354ad59f985d4b31bbaf6c",
         "description": "футляри до державних нагород",
         "description_en": "Cases with state awards",
         "description_ru": "футляры к государственным наградам",
@@ -207,7 +209,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6f821eb52f1b4cfa
       {
         "code": "OCDS-123454-AIR-INTAKE",
         "featureOf": "item",
-        "relatedItem": "de79b5f1dd5c4a5892c83a675595a080",
+        "relatedItem": "df827a0a87354ad59f985d4b31bbaf6c",
         "title": "Потужність всмоктування",
         "title_en": "Air Intake",
         "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
@@ -299,9 +301,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6f821eb52f1b4cfa
     "tenderID": "UA-2023-01-01-000002-a",
     "owner": "broker",
     "date": "2023-01-01T00:00:00+02:00",
+    "submissionMethod": "electronicAuction",
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "id": "6f821eb52f1b4cfaa98210ca6e41e89d"
+  },
+  "config": {
+    "hasAuction": true
   },
   "access": {
     "token": "5489a4b46edc47b1b63c2aa866e367ea",

@@ -9,12 +9,14 @@ import mock
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
 
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.base import (
+    test_exclusion_criteria,
+)
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_lots,
-    test_organization,
-    test_draft_complaint,
-    test_criteria,
+    test_tender_below_lots,
+    test_tender_below_organization,
+    test_tender_below_draft_complaint,
 )
 
 from openprocurement.tender.belowthreshold.tests.award import (
@@ -25,37 +27,30 @@ from openprocurement.tender.belowthreshold.tests.award import (
     Tender2LotAwardDocumentResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
-    # TenderLotAwardComplaintResourceTest
     get_tender_lot_award_complaint,
     get_tender_lot_award_complaints,
-    # Tender2LotAwardComplaintDocumentResourceTest
     create_tender_lots_award_complaint_document,
-    # TenderLotAwardResourceTest
     patch_tender_lot_award_lots_none,
-    # TenderAwardDocumentWithDSResourceTest
     create_tender_award_document_json_bulk,
 )
 
-from openprocurement.tender.openua.tests.base import test_bids, BaseTenderUAContentWebTest
+from openprocurement.tender.openua.tests.base import (
+    BaseTenderUAContentWebTest,
+    test_tender_openua_bids,
+)
 from openprocurement.tender.openua.tests.award_blanks import (
-    # TenderAwardResourceTest
     create_tender_award,
     patch_tender_award,
-    check_tender_award_complaint_period_dates,
     patch_tender_award_active,
     patch_tender_award_unsuccessful,
     create_tender_award_no_scale_invalid,
-    # TenderAwardResourceScaleTest
     create_tender_award_with_scale_not_required,
     create_tender_award_no_scale,
-    # TenderLotAwardResourceTest
     create_tender_lot_award,
     patch_tender_lot_award,
     patch_tender_lot_award_unsuccessful,
-    # Tender2LotAwardResourceTest
     create_tender_lots_award,
     patch_tender_lots_award,
-    # TenderAwardComplaintResourceTest
     create_tender_award_claim,
     create_tender_award_complaint_not_active,
     create_tender_award_complaint_after_2020_04_19,
@@ -64,26 +59,20 @@ from openprocurement.tender.openua.tests.award_blanks import (
     review_tender_award_complaint,
     review_tender_award_claim,
     review_tender_award_stopping_complaint,
-    # TenderLotAwardComplaintResourceTest
     create_tender_lot_award_complaint,
     patch_tender_lot_award_complaint,
-    # Tender2LotAwardComplaintResourceTest
     create_tender_lots_award_complaint,
     patch_tender_lots_award_complaint,
-    # TenderAwardComplaintDocumentResourceTest
     patch_tender_award_complaint_document,
-    # Tender2LotAwardComplaintDocumentResourceTest
     put_tender_lots_award_complaint_document,
     patch_tender_lots_award_complaint_document,
     tender_award_complaint_period,
     last_award_unsuccessful_next_check,
     bot_patch_tender_award_complaint,
     bot_patch_tender_award_complaint_forbidden,
-    # TenderAwardRequirementResponseResourceTest
     create_award_requirement_response,
     patch_award_requirement_response,
     get_award_requirement_response,
-    # TenderAwardRequirementResponseResourceEvidenceTest
     create_award_requirement_response_evidence,
     patch_award_requirement_response_evidence,
     get_award_requirement_response_evidence,
@@ -106,7 +95,7 @@ class TenderUAAwardComplaintResourceTestMixin(object):
 
 @mock.patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
 class TenderAwardRequirementResponseTestMixin(object):
-    initial_criteria = test_criteria
+    initial_criteria = test_exclusion_criteria
 
     test_create_award_requirement_response = snitch(create_award_requirement_response)
     test_patch_award_requirement_response = snitch(patch_award_requirement_response)
@@ -115,7 +104,7 @@ class TenderAwardRequirementResponseTestMixin(object):
 
 @mock.patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
 class TenderAwardRequirementResponseEvidenceTestMixin(object):
-    initial_criteria = test_criteria
+    initial_criteria = test_exclusion_criteria
 
     test_create_award_requirement_response_evidence = snitch(create_award_requirement_response_evidence)
     test_patch_award_requirement_response_evidence = snitch(patch_award_requirement_response_evidence)
@@ -124,7 +113,7 @@ class TenderAwardRequirementResponseEvidenceTestMixin(object):
 
 class TenderAwardResourceTest(BaseTenderUAContentWebTest, TenderAwardResourceTestMixin):
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_openua_bids
 
     test_create_tender_award = snitch(create_tender_award)
     test_patch_tender_award = snitch(patch_tender_award)
@@ -147,7 +136,7 @@ class TenderAwardResourceScaleTest(BaseTenderUAContentWebTest):
         procedure_patcher.start()
         self.addCleanup(patcher.stop)
         self.addCleanup(procedure_patcher.stop)
-        test_bid = deepcopy(test_bids[0])
+        test_bid = deepcopy(test_tender_openua_bids[0])
         test_bid["tenderers"][0].pop("scale")
         self.initial_bids = [test_bid]
         super(TenderAwardResourceScaleTest, self).setUp()
@@ -159,8 +148,8 @@ class TenderAwardResourceScaleTest(BaseTenderUAContentWebTest):
 
 class TenderLotAwardResourceTest(BaseTenderUAContentWebTest):
     initial_status = "active.qualification"
-    initial_lots = test_lots
-    initial_bids = test_bids
+    initial_lots = test_tender_below_lots
+    initial_bids = test_tender_openua_bids
 
     test_create_lot_award = snitch(create_tender_lot_award)
     test_patch_tender_lot_award = snitch(patch_tender_lot_award)
@@ -170,8 +159,8 @@ class TenderLotAwardResourceTest(BaseTenderUAContentWebTest):
 
 class Tender2LotAwardResourceTest(BaseTenderUAContentWebTest):
     initial_status = "active.qualification"
-    initial_lots = 2 * test_lots
-    initial_bids = test_bids
+    initial_lots = 2 * test_tender_below_lots
+    initial_bids = test_tender_openua_bids
 
     test_create_tender_lots_award = snitch(create_tender_lots_award)
     test_patch_tender_lots_award = snitch(patch_tender_lots_award)
@@ -179,7 +168,7 @@ class Tender2LotAwardResourceTest(BaseTenderUAContentWebTest):
 
 class TenderAwardPendingResourceTestCase(BaseTenderUAContentWebTest):
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_openua_bids
     docservice = True
 
     def setUp(self):
@@ -189,7 +178,7 @@ class TenderAwardPendingResourceTestCase(BaseTenderUAContentWebTest):
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
                 {"data": {
-                    "suppliers": [test_organization],
+                    "suppliers": [test_tender_below_organization],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"] if self.initial_lots else None,
@@ -220,7 +209,7 @@ class TenderAwardComplaintResourceTest(
 
 
 class TenderLotAwardComplaintResourceTest(TenderAwardActiveResourceTestCase):
-    initial_lots = test_lots
+    initial_lots = test_tender_below_lots
 
     test_create_tender_lot_award_complaint = snitch(create_tender_lot_award_complaint)
     test_patch_tender_lot_award_complaint = snitch(patch_tender_lot_award_complaint)
@@ -229,7 +218,7 @@ class TenderLotAwardComplaintResourceTest(TenderAwardActiveResourceTestCase):
 
 
 class Tender2LotAwardComplaintResourceTest(TenderLotAwardComplaintResourceTest):
-    initial_lots = 2 * test_lots
+    initial_lots = 2 * test_tender_below_lots
 
     test_create_tender_lots_award_complaint = snitch(create_tender_lots_award_complaint)
     test_patch_tender_lots_award_complaint = snitch(patch_tender_lots_award_complaint)
@@ -243,7 +232,7 @@ class TenderAwardComplaintResourceTestCase(TenderAwardActiveResourceTestCase):
         bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]
@@ -256,7 +245,7 @@ class TenderAwardComplaintDocumentResourceTest(TenderAwardComplaintResourceTestC
 
 
 class Tender2LotAwardComplaintDocumentResourceTest(TenderAwardComplaintResourceTestCase):
-    initial_lots = 2 * test_lots
+    initial_lots = 2 * test_tender_below_lots
     test_create_tender_lots_award_document = snitch(create_tender_lots_award_complaint_document)
     test_put_tender_lots_award_complaint_document = snitch(put_tender_lots_award_complaint_document)
     test_patch_tender_lots_award_complaint_document = snitch(patch_tender_lots_award_complaint_document)
@@ -269,7 +258,7 @@ class TenderAwardDocumentResourceTest(TenderAwardPendingResourceTestCase,
 
 class Tender2LotAwardDocumentResourceTest(TenderAwardPendingResourceTestCase,
                                           Tender2LotAwardDocumentResourceTestMixin):
-    initial_lots = 2 * test_lots
+    initial_lots = 2 * test_tender_below_lots
 
 
 class TenderAwardRequirementResponseResourceTest(

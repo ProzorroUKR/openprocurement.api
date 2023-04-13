@@ -7,12 +7,12 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,
-    test_bids,
-    test_tenderer,
-    test_tender_stage2_data_eu,
-    test_author,
-    test_tender_data_stage2_eu_multi_buyers,
-    test_tender_data_stage2_ua_multi_buyers,
+    test_tender_openeu_bids,
+    test_tender_cd_tenderer,
+    test_tender_cdeu_stage2_data,
+    test_tender_cd_author,
+    test_tender_cdeu_stage2_multi_buyers_data,
+    test_tender_cdua_stage2_multi_buyers_data,
 )
 from openprocurement.tender.belowthreshold.tests.contract import (
     TenderContractResourceTestMixin,
@@ -51,19 +51,19 @@ from openprocurement.tender.openeu.tests.contract_blanks import (
     patch_tender_contract as patch_tender_contract_eu,
 )
 
-test_tender_bids = deepcopy(test_bids[:2])
+test_tender_bids = deepcopy(test_tender_openeu_bids[:2])
 for test_bid in test_tender_bids:
-    test_bid["tenderers"] = [test_tenderer]
+    test_bid["tenderers"] = [test_tender_cd_tenderer]
 
 
 class TenderStage2EUContractResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderContractResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
     initial_auth = ("Basic", ("broker", ""))
-    author_data = test_author
+    author_data = test_tender_cd_author
 
     def create_award(self):
-        self.supplier_info = deepcopy(test_tenderer)
+        self.supplier_info = deepcopy(test_tender_cd_tenderer)
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
@@ -113,7 +113,7 @@ class TenderStage2EUContractDocumentResourceTest(
     def setUp(self):
         super(TenderStage2EUContractDocumentResourceTest, self).setUp()
         # Create award
-        supplier_info = deepcopy(test_tenderer)
+        supplier_info = deepcopy(test_tender_cd_tenderer)
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
@@ -152,7 +152,7 @@ class TenderStage2UAContractResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_tenderer],
+                    "suppliers": [test_tender_cd_tenderer],
                     "status": "pending",
                     "bid_id": self.bids[0]["id"],
                     "value": self.initial_data["value"],
@@ -200,7 +200,7 @@ class TenderContractVATNotIncludedResourceTest(BaseCompetitiveDialogUAStage2Cont
             "/tenders/{}/awards".format(self.tender_id),
             {
                 "data": {
-                    "suppliers": [test_tenderer],
+                    "suppliers": [test_tender_cd_tenderer],
                     "status": "pending",
                     "bid_id": self.bids[0]["id"],
                     "value": {
@@ -242,7 +242,7 @@ class TenderStage2UAContractDocumentResourceTest(
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
-            {"data": {"suppliers": [test_tenderer], "status": "pending", "bid_id": self.bids[0]["id"]}},
+            {"data": {"suppliers": [test_tender_cd_tenderer], "status": "pending", "bid_id": self.bids[0]["id"]}},
         )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -282,7 +282,7 @@ class TenderStage2EUContractUnitValueResourceTest(BaseCompetitiveDialogEUStage2C
 class TenderContractEUStage2MultiBuyersResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
-    initial_data = test_tender_data_stage2_eu_multi_buyers
+    initial_data = test_tender_cdeu_stage2_multi_buyers_data
 
     def setUp(self):
         super(TenderContractEUStage2MultiBuyersResourceTest, self).setUp()
@@ -301,7 +301,7 @@ class TenderContractEUStage2MultiBuyersResourceTest(BaseCompetitiveDialogEUStage
 class TenderContractUAStage2MultiBuyersResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
-    initial_data = test_tender_data_stage2_ua_multi_buyers
+    initial_data = test_tender_cdua_stage2_multi_buyers_data
 
     def setUp(self):
         super(TenderContractUAStage2MultiBuyersResourceTest, self).setUp()

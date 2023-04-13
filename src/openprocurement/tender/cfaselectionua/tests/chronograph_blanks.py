@@ -4,8 +4,8 @@ from datetime import timedelta
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.cfaselectionua.constants import BOT_NAME
-from openprocurement.tender.belowthreshold.tests.base import test_claim
-from openprocurement.tender.cfaselectionua.tests.base import test_agreement
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_claim
+from openprocurement.tender.cfaselectionua.tests.base import test_tender_cfaselectionua_agreement
 
 
 # TenderSwitchTenderingResourceTest
@@ -15,7 +15,7 @@ def switch_to_tendering(self):
     self.set_status("draft.pending")
 
     self.app.authorization = ("Basic", (BOT_NAME, ""))
-    agreement = deepcopy(test_agreement)
+    agreement = deepcopy(test_tender_cfaselectionua_agreement)
     agreement["contracts"][1]["unitPrices"][0]["value"]["amount"] = (
         agreement["contracts"][2]["unitPrices"][0]["value"]["amount"] * 2
     )
@@ -31,7 +31,7 @@ def switch_to_tendering(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
 
-def switch_to_tendering_by_tenderPeriod_startDate(self):
+def switch_to_tendering_by_tender_period_start_date(self):
     self.set_status("active.enquiries")
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -94,7 +94,7 @@ def switch_to_ignored_on_complete(self):
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {
-            "data": test_claim
+            "data": test_tender_below_claim
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -111,7 +111,7 @@ def switch_from_pending_to_ignored(self):
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {
-            "data": test_claim
+            "data": test_tender_below_claim
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -130,7 +130,7 @@ def switch_from_pending(self):
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
             {
-                "data": test_claim
+                "data": test_tender_below_claim
             },
         )
         self.assertEqual(response.status, "201 Created")
@@ -154,7 +154,7 @@ def switch_to_complaint(self):
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
             {
-                "data": test_claim
+                "data": test_tender_below_claim
             },
         )
         self.assertEqual(response.status, "201 Created")
@@ -187,7 +187,7 @@ def award_switch_to_ignored_on_complete(self):
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
         {
-            "data": test_claim
+            "data": test_tender_below_claim
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -227,7 +227,7 @@ def award_switch_from_pending_to_ignored(self):
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
         {
-            "data": test_claim
+            "data": test_tender_below_claim
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -247,7 +247,7 @@ def award_switch_from_pending(self):
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
             {
-                "data": test_claim
+                "data": test_tender_below_claim
             },
         )
         self.assertEqual(response.status, "201 Created")
@@ -280,7 +280,7 @@ def award_switch_to_complaint(self):
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
             {
-                "data": test_claim
+                "data": test_tender_below_claim
             },
         )
         self.assertEqual(response.status, "201 Created")

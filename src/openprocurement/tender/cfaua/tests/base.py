@@ -5,7 +5,11 @@ from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
 from openprocurement.api.constants import SANDBOX_MODE
-from openprocurement.tender.belowthreshold.tests.base import set_tender_lots, set_bid_lotvalues, test_cancellation
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_cancellation
+from openprocurement.tender.belowthreshold.tests.utils import (
+    set_tender_lots,
+    set_bid_lotvalues,
+)
 from openprocurement.tender.cfaua.models.tender import CloseFrameworkAgreementUA
 from openprocurement.tender.cfaua.tests.periods import PERIODS
 from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest as BaseBaseTenderWebTest
@@ -22,54 +26,62 @@ now = get_now()
 
 # Prepare test_bids_data
 with open(os.path.join(BASE_DIR, "data/test_bids.json")) as fd:
-    test_bids = json.load(fd)
-    test_bids = [deepcopy(test_bids[0]) for _ in range(MIN_BIDS_NUMBER)]
-    for num, test_bid in enumerate(test_bids):
+    test_tender_cfaua_bids = json.load(fd)
+    test_tender_cfaua_bids = [deepcopy(test_tender_cfaua_bids[0]) for _ in range(MIN_BIDS_NUMBER)]
+    for num, test_bid in enumerate(test_tender_cfaua_bids):
         if get_now() > RELEASE_ECRITERIA_ARTICLE_17:
             del test_bid["selfEligible"]
         test_bid["value"]["amount"] = test_bid["value"]["amount"] + num * 1
 
 # Prepare test_features_tender_data
 with open(os.path.join(BASE_DIR, "data/test_tender.json")) as fd:
-    test_tender_data = json.load(fd)
-    test_tender_data["tenderPeriod"]["endDate"] = (now + timedelta(days=TENDERING_DAYS + 1)).isoformat()
+    test_tender_cfaua_data = json.load(fd)
+    test_tender_cfaua_data["tenderPeriod"]["endDate"] = (now + timedelta(days=TENDERING_DAYS + 1)).isoformat()
 
 
 # Prepare features_tender
 with open(os.path.join(BASE_DIR, "data/test_features.json")) as fd:
-    test_features_tender_data = test_tender_data.copy()
-    test_features_item = test_features_tender_data["items"][0].copy()
-    test_features_item["id"] = "1"
-    test_features_tender_data["items"] = [test_features_item]
-    test_features_tender_data["features"] = json.load(fd)
-    test_features_bids = deepcopy(test_bids)
-    for x, bid in enumerate(test_features_bids):
-        bid["parameters"] = [{"code": i["code"], "value": 0.1} for i in test_features_tender_data["features"]]
+    test_tender_cfaua_features_data = test_tender_cfaua_data.copy()
+    test_tender_cfaua_features_item = test_tender_cfaua_features_data["items"][0].copy()
+    test_tender_cfaua_features_item["id"] = "1"
+    test_tender_cfaua_features_data["items"] = [test_tender_cfaua_features_item]
+    test_tender_cfaua_features_data["features"] = json.load(fd)
+    test_tender_cfaua_features_bids = deepcopy(test_tender_cfaua_bids)
+    for x, bid in enumerate(test_tender_cfaua_features_bids):
+        bid["parameters"] = [{"code": i["code"], "value": 0.1} for i in test_tender_cfaua_features_data["features"]]
 
-test_features_bids_same_amount = deepcopy(test_features_bids)
-for bid in test_features_bids_same_amount:
+test_tender_cfaua_features_bids_same_amount = deepcopy(test_tender_cfaua_features_bids)
+for bid in test_tender_cfaua_features_bids_same_amount:
     bid["value"]["amount"] = 469
 
 # Prepare features_tender
 with open(os.path.join(BASE_DIR, "data/test_lots.json")) as fd:
-    test_lots = json.load(fd)
+    test_tender_cfaua_lots = json.load(fd)
 
 
 # Prepare data for tender with lot
-test_tender_w_lot_data = deepcopy(test_tender_data)
-set_tender_lots(test_tender_w_lot_data, test_lots)
-test_lots_w_ids = deepcopy(test_tender_w_lot_data["lots"])
-test_bids_w_lot_data = deepcopy(test_bids)
-for bid in test_bids_w_lot_data:
-    set_bid_lotvalues(bid, test_lots_w_ids)
+test_tender_cfaua_with_lots_data = deepcopy(test_tender_cfaua_data)
+set_tender_lots(test_tender_cfaua_with_lots_data, test_tender_cfaua_lots)
+
+test_tender_cfaua_lots_with_ids = deepcopy(test_tender_cfaua_with_lots_data["lots"])
+test_tender_cfaua_bids_with_lotvalues = deepcopy(test_tender_cfaua_bids)
+for bid in test_tender_cfaua_bids_with_lotvalues:
+    set_bid_lotvalues(bid, test_tender_cfaua_lots_with_ids)
 
 
 start_date = get_now()
 
-agreement_period = {"startDate": start_date.isoformat(), "endDate": (start_date + timedelta(days=4 * 365)).isoformat()}
+test_tender_cfaua_agreement_period = {
+    "startDate": start_date.isoformat(),
+    "endDate": (start_date + timedelta(days=4 * 365)).isoformat(),
+}
 
 if SANDBOX_MODE:
-    test_tender_data["procurementMethodDetails"] = "quick, accelerator=1440"
+    test_tender_cfaua_data["procurementMethodDetails"] = "quick, accelerator=1440"
+
+test_tender_cfaua_config = {
+    "hasAuction": True,
+}
 
 
 class BaseTenderWebTest(BaseBaseTenderWebTest):
@@ -84,14 +96,15 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         "meta_initial_lots",
     ]
     min_bids_number = MIN_BIDS_NUMBER
-    initial_data = deepcopy(test_tender_data)
+    initial_data = deepcopy(test_tender_cfaua_data)
+    initial_config = test_tender_cfaua_config
     initial_status = "active.tendering"
     initial_bids = None
     initial_lots = None
     initial_auth = None
 
-    meta_initial_bids = deepcopy(test_bids)
-    meta_initial_lots = deepcopy(test_lots)
+    meta_initial_bids = deepcopy(test_tender_cfaua_bids)
+    meta_initial_lots = deepcopy(test_tender_cfaua_lots)
 
     periods = PERIODS
     tender_class = CloseFrameworkAgreementUA
@@ -541,7 +554,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         :param lot_id: id of lot for cancellation
         :return: None
         """
-        cancellation = dict(**test_cancellation)
+        cancellation = dict(**test_tender_below_cancellation)
         cancellation.update({
             "status": "active",
         })
@@ -571,13 +584,13 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
 
 
 class BaseTenderContentWebTest(BaseTenderWebTest):
-    initial_data = deepcopy(test_tender_data)
+    initial_data = deepcopy(test_tender_cfaua_data)
     initial_status = "active.tendering"
     initial_bids = None
-    initial_lots = deepcopy(test_lots)
+    initial_lots = deepcopy(test_tender_cfaua_lots)
 
-    meta_initial_bids = deepcopy(test_bids)
-    meta_initial_lots = deepcopy(test_lots)
+    meta_initial_bids = deepcopy(test_tender_cfaua_bids)
+    meta_initial_lots = deepcopy(test_tender_cfaua_lots)
 
     def setUp(self):
         super(BaseTenderContentWebTest, self).setUp()
@@ -589,5 +602,5 @@ class BaseTenderContentWebTest(BaseTenderWebTest):
 
 
 class BidsOverMaxAwardsMixin(object):
-    initial_bids = deepcopy(test_bids) + deepcopy(test_bids)  # double testbids
+    initial_bids = deepcopy(test_tender_cfaua_bids) + deepcopy(test_tender_cfaua_bids)  # double testbids
     min_bids_number = MIN_BIDS_NUMBER * 2

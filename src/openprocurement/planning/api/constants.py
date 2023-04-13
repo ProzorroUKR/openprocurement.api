@@ -10,7 +10,7 @@ from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.openeu.constants import ABOVE_THRESHOLD_EU
 from openprocurement.tender.openua.constants import ABOVE_THRESHOLD_UA
 from openprocurement.tender.openuadefense.constants import ABOVE_THRESHOLD_UA_DEFENSE
-from openprocurement.tender.pricequotation.constants import PMT
+from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.tender.simpledefense.constants import SIMPLE_DEFENSE
 
 PROCEDURES = {
@@ -28,7 +28,7 @@ PROCEDURES = {
         CFA_UA,
     ),
     "selective": (
-        PMT,
+        PQ,
     ),
     "limited": (
         REPORTING,

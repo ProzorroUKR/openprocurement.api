@@ -11,7 +11,6 @@ from openprocurement.tender.core.models import validate_parameters_uniq
 from openprocurement.tender.cfaua.procedure.models.unitprice import UnitPrice
 from openprocurement.tender.core.procedure.models.parameter import Parameter
 from openprocurement.tender.core.procedure.models.organization import BusinessOrganization
-from openprocurement.tender.core.procedure.context import get_request
 
 
 class PatchAgreementContract(Model):

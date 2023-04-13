@@ -2,8 +2,11 @@
 import unittest
 from copy import deepcopy
 
-from openprocurement.tender.belowthreshold.tests.base import test_lots
-from openprocurement.tender.cfaua.tests.base import test_tender_data, BaseTenderContentWebTest
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
+from openprocurement.tender.cfaua.tests.base import (
+    BaseTenderContentWebTest,
+    test_tender_cfaua_data,
+)
 from openprocurement.tender.openua.tests.criterion import (
     TenderCriteriaTestMixin,
     TenderCriteriaRGTestMixin,
@@ -11,35 +14,35 @@ from openprocurement.tender.openua.tests.criterion import (
     TenderCriteriaRGRequirementEvidenceTestMixin,
 )
 
-tender_data = deepcopy(test_tender_data)
+tender_data = deepcopy(test_tender_cfaua_data)
 tender_data["status"] = "draft"
 
 
 class TenderCriteriaTest(TenderCriteriaTestMixin, BaseTenderContentWebTest):
     initial_status = "draft"
     initial_data = tender_data
-    test_lots_data = test_lots
+    test_lots_data = test_tender_below_lots
 
 
 class TenderCriteriaRGTest(TenderCriteriaRGTestMixin, BaseTenderContentWebTest):
-    initial_data = test_tender_data
-    test_lots_data = test_lots
+    initial_data = test_tender_cfaua_data
+    test_lots_data = test_tender_below_lots
 
 
 class TenderCriteriaRGRequirementTest(
     TenderCriteriaRGRequirementTestMixin,
     BaseTenderContentWebTest
 ):
-    initial_data = test_tender_data
-    test_lots_data = test_lots
+    initial_data = test_tender_cfaua_data
+    test_lots_data = test_tender_below_lots
 
 
 class TenderCriteriaRGRequirementEvidenceTest(
     TenderCriteriaRGRequirementEvidenceTestMixin,
     BaseTenderContentWebTest,
 ):
-    initial_data = test_tender_data
-    test_lots_data = test_lots
+    initial_data = test_tender_cfaua_data
+    test_lots_data = test_tender_below_lots
 
 
 def suite():

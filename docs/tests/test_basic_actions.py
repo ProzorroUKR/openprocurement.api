@@ -3,50 +3,74 @@ import os
 
 from copy import deepcopy
 from datetime import timedelta
-from unittest import mock
-
-from freezegun import freeze_time
-from parameterized import parameterized
 
 from openprocurement.api.models import get_now
 from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
-from openprocurement.tender.core.tests.base import change_auth
-from openprocurement.tender.belowthreshold.tests.base import test_criteria, test_bids
-
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_bids,
+)
+from openprocurement.tender.core.tests.base import (
+    test_exclusion_criteria,
+)
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.api.constants import RELEASE_2020_04_19
-from tests.base.constants import DOCS_URL, AUCTIONS_URL
-from tests.base.test import DumpsWebTestApp, MockWebTestMixin
+
+from tests.base.constants import (
+    DOCS_URL,
+    AUCTIONS_URL,
+)
+from tests.base.test import (
+    DumpsWebTestApp,
+    MockWebTestMixin,
+)
 from tests.base.data import (
-    complaint, claim, lots, subcontracting,
-    bid_draft, bid2, bid3_with_docs,
-    qualified, tender_openeu, test_eligible_evidence_data,
-    test_requirement_data, test_requirement_group_data,
-    test_criterion_data, tender_below
+    test_docs_complaint,
+    test_docs_claim,
+    test_docs_lots,
+    test_docs_subcontracting,
+    test_docs_bid_draft,
+    test_docs_bid2,
+    test_docs_bid3_with_docs,
+    test_docs_qualified,
+    test_docs_tender_openeu,
+    test_docs_eligible_evidence_data,
+    test_docs_requirement_data,
+    test_docs_requirement_group_data,
+    test_docs_criterion_data,
+    test_docs_tender_below,
 )
 from tests.base.helpers import complaint_create_pending
 
+test_tender_below_data = deepcopy(test_docs_tender_below)
 
-test_tender_below_data = deepcopy(tender_below)
+test_tender_data = deepcopy(test_docs_tender_openeu)
+test_lots = deepcopy(test_docs_lots)
+bid = deepcopy(test_docs_bid_draft)
+bid2 = deepcopy(test_docs_bid2)
+bid3 = deepcopy(test_docs_bid3_with_docs)
 
-test_tender_data = deepcopy(tender_openeu)
-test_lots = deepcopy(lots)
-bid = deepcopy(bid_draft)
-bid2 = deepcopy(bid2)
-bid3 = deepcopy(bid3_with_docs)
-
-bid.update(subcontracting)
-bid.update(qualified)
-bid2.update(qualified)
-bid3.update(qualified)
+bid.update(test_docs_subcontracting)
+bid.update(test_docs_qualified)
+bid2.update(test_docs_qualified)
+bid3.update(test_docs_qualified)
 
 test_lots[0]['value'] = test_tender_data['value']
 test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
 test_lots[1]['value'] = test_tender_data['value']
 test_lots[1]['minimalStep'] = test_tender_data['minimalStep']
 
+complaint = deepcopy(test_docs_complaint)
+claim = deepcopy(test_docs_claim)
+test_eligible_evidence_data = deepcopy(test_docs_eligible_evidence_data)
+test_requirement_data = deepcopy(test_docs_requirement_data)
+test_requirement_group_data = deepcopy(test_docs_requirement_group_data)
+test_criterion_data = deepcopy(test_docs_criterion_data)
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TARGET_DIR = os.path.join(BASE_DIR, 'source/tendering/basic-actions/http/')
 OUTDATED_DIR = os.path.join(BASE_DIR, 'source/tendering/basic-actions/http-outdated/')
+
 
 
 class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
@@ -71,7 +95,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
-            {'data': test_tender_data})
+            {'data': test_tender_data, 'config': self.initial_config})
         self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
@@ -436,7 +460,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
-            {'data': test_tender_data})
+            {'data': test_tender_data, 'config': self.initial_config})
         self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
@@ -885,7 +909,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
-            {'data': test_tender_data})
+            {'data': test_tender_data, 'config': self.initial_config})
         self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
@@ -1391,7 +1415,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
-            {'data': test_tender_data})
+            {'data': test_tender_data, 'config': self.initial_config})
         self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
@@ -1646,7 +1670,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
-            {'data': tender_data})
+            {'data': tender_data, 'config': self.initial_config})
         self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
@@ -1961,7 +1985,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
-            {'data': tender_data})
+            {'data': tender_data, 'config': self.initial_config})
         self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
@@ -1969,7 +1993,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.tender_id = tender['id']
         self.set_status("active.tendering")
 
-        criteria_data = deepcopy(test_criteria[:2])
+        criteria_data = deepcopy(test_exclusion_criteria[:2])
 
         criteria_data[1]["requirementGroups"][0]["requirements"].append({
             "dataType": "boolean",
@@ -2203,7 +2227,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
-            {'data': test_tender_data})
+            {'data': test_tender_data, 'config': self.initial_config})
         self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
@@ -2211,7 +2235,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.tender_id = tender['id']
         self.set_status("active.tendering")
 
-        criteria_data = deepcopy(test_criteria[6:8])
+        criteria_data = deepcopy(test_exclusion_criteria[6:8])
 
         response = self.app.post_json(
             '/tenders/{}/criteria?acc_token={}'.format(self.tender_id, owner_token),
@@ -2440,7 +2464,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
-            {'data': test_tender_data})
+            {'data': test_tender_data, 'config': self.initial_config})
         self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
@@ -2448,7 +2472,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.tender_id = tender['id']
         self.set_status("active.tendering")
 
-        criteria_data = deepcopy(test_criteria[6:8])
+        criteria_data = deepcopy(test_exclusion_criteria[6:8])
 
         response = self.app.post_json(
             '/tenders/{}/criteria?acc_token={}'.format(self.tender_id, owner_token),
@@ -2638,7 +2662,7 @@ class TenderBelowThresholdResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_below_data
-    initial_bids = test_bids
+    initial_bids = test_tender_below_bids
     docservice = True
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
@@ -2685,7 +2709,7 @@ class TenderBelowThresholdResourceTest(BaseTenderWebTest, MockWebTestMixin):
             },
         ]
         with open(TARGET_DIR + 'milestones/tender-post-milestones.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders', {'data': data})
+            response = self.app.post_json('/tenders', {'data': data, 'config': self.initial_config})
         self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']

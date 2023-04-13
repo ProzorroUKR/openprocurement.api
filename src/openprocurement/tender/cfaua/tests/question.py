@@ -13,18 +13,22 @@ from openprocurement.tender.cfaua.tests.question_blanks import (
     lot_create_tender_cancellations_and_questions,
 )
 
-from openprocurement.tender.belowthreshold.tests.base import test_author
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_author
 from openprocurement.tender.belowthreshold.tests.question import TenderQuestionResourceTestMixin
 
-from openprocurement.tender.cfaua.tests.base import BaseTenderContentWebTest, test_bids, test_lots
+from openprocurement.tender.cfaua.tests.base import (
+    BaseTenderContentWebTest,
+    test_tender_cfaua_bids,
+    test_tender_cfaua_lots,
+)
 from openprocurement.tender.openeu.tests.question_blanks import answering_question
 
 
 class TenderQuestionResourceTest(BaseTenderContentWebTest, TenderQuestionResourceTestMixin):
 
     initial_auth = ("Basic", ("broker", ""))
-    test_bids_data = test_bids
-    author_data = test_author
+    test_bids_data = test_tender_cfaua_bids
+    author_data = test_tender_below_author
 
     test_create_tender_question = snitch(create_tender_question)
     test_patch_tender_question = snitch(patch_tender_question)
@@ -32,10 +36,10 @@ class TenderQuestionResourceTest(BaseTenderContentWebTest, TenderQuestionResourc
 
 
 class TenderLotQuestionResourceTest(BaseTenderContentWebTest):
-    initial_lots = test_lots
+    initial_lots = test_tender_cfaua_lots
     initial_auth = ("Basic", ("broker", ""))
-    test_bids_data = test_bids
-    author_data = test_author
+    test_bids_data = test_tender_cfaua_bids
+    author_data = test_tender_below_author
 
     test_create_tender_question = snitch(lot_create_tender_question)
     test_patch_tender_question = snitch(lot_patch_tender_question)

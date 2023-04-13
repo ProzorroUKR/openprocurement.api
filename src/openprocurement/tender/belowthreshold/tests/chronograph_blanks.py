@@ -1,14 +1,17 @@
 from datetime import timedelta
-from openprocurement.api.utils import get_now, parse_date
-from openprocurement.tender.belowthreshold.tests.base import test_claim, test_bids
-from openprocurement.tender.core.tests.base import change_auth
 from freezegun import freeze_time
+from openprocurement.api.utils import get_now, parse_date
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_claim,
+    test_tender_below_bids,
+)
 
 
 # TenderSwitchTenderingResourceTest
 
 
-def switch_to_tendering_by_tenderPeriod_startDate(self):
+def switch_to_tendering_by_tender_period_start_date(self):
     self.set_status("active.tendering", {"status": "active.enquiries", "tenderPeriod": {}})
     response = self.check_chronograph()
     self.assertNotEqual(response.json["data"]["status"], "active.tendering")
@@ -37,7 +40,7 @@ def switch_to_qualification_one_bid(self):
     response = self.check_chronograph(data={"data": {"auctionPeriod": {"startDate": get_now().isoformat()}}})
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
-    self.create_bid(self.tender_id, test_bids[0])
+    self.create_bid(self.tender_id, test_tender_below_bids[0])
 
     # switch to auction
     self.set_status("active.auction", {"status": "active.tendering"})
@@ -323,7 +326,7 @@ def switch_to_ignored_on_complete(self):
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {
-            "data": test_claim
+            "data": test_tender_below_claim
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -341,7 +344,7 @@ def switch_from_pending_to_ignored(self):
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {
-            "data": test_claim
+            "data": test_tender_below_claim
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -361,7 +364,7 @@ def switch_from_pending(self):
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
             {
-                "data": test_claim
+                "data": test_tender_below_claim
             },
         )
         self.assertEqual(response.status, "201 Created")
@@ -385,7 +388,7 @@ def switch_to_complaint(self):
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
             {
-                "data": test_claim
+                "data": test_tender_below_claim
             },
         )
         self.assertEqual(response.status, "201 Created")
@@ -418,7 +421,7 @@ def award_switch_to_ignored_on_complete(self):
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
         {
-            "data": test_claim
+            "data": test_tender_below_claim
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -451,7 +454,7 @@ def award_switch_from_pending_to_ignored(self):
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
         {
-            "data": test_claim
+            "data": test_tender_below_claim
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -472,7 +475,7 @@ def award_switch_from_pending(self):
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
             {
-                "data": test_claim
+                "data": test_tender_below_claim
             },
         )
         self.assertEqual(response.status, "201 Created")
@@ -497,7 +500,7 @@ def award_switch_to_complaint(self):
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
             {
-                "data": test_claim
+                "data": test_tender_below_claim
             },
         )
         self.assertEqual(response.status, "201 Created")

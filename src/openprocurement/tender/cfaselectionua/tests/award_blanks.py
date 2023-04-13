@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from openprocurement.tender.core.tests.base import change_auth
-from openprocurement.tender.belowthreshold.tests.base import test_cancellation
-from openprocurement.tender.cfaselectionua.tests.base import test_organization
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_cancellation
+from openprocurement.tender.cfaselectionua.tests.base import test_tender_cfaselectionua_organization
 
 
 # TenderAwardResourceTest
@@ -130,7 +130,7 @@ def create_tender_award_invalid(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_organization],
+                "suppliers": [test_tender_cfaselectionua_organization],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "lotID": "0" * 32,
@@ -148,7 +148,7 @@ def create_tender_award_invalid(self):
 
     response = self.app.post_json(
         "/tenders/some_id/awards",
-        {"data": {"suppliers": [test_organization], "bid_id": self.initial_bids[0]["id"]}},
+        {"data": {"suppliers": [test_tender_cfaselectionua_organization], "bid_id": self.initial_bids[0]["id"]}},
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
@@ -170,7 +170,7 @@ def create_tender_award_invalid(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards".format(self.tender_id),
-        {"data": {"suppliers": [test_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+        {"data": {"suppliers": [test_tender_cfaselectionua_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -185,12 +185,12 @@ def create_tender_award(self):
     request_path = "/tenders/{}/awards".format(self.tender_id)
     response = self.app.post_json(
         request_path,
-        {"data": {"suppliers": [test_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+        {"data": {"suppliers": [test_tender_cfaselectionua_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     award = response.json["data"]
-    self.assertEqual(award["suppliers"][0]["name"], test_organization["name"])
+    self.assertEqual(award["suppliers"][0]["name"], test_tender_cfaselectionua_organization["name"])
     self.assertIn("id", award)
     self.assertIn(award["id"], response.headers["Location"])
 
@@ -225,7 +225,7 @@ def patch_tender_award(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_organization],
+                "suppliers": [test_tender_cfaselectionua_organization],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "value": {"amount": 500},
@@ -358,7 +358,7 @@ def patch_tender_award_unsuccessful(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_organization],
+                "suppliers": [test_tender_cfaselectionua_organization],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "value": {"amount": 500},
@@ -398,7 +398,7 @@ def get_tender_award(self):
     self.app.authorization = ("Basic", ("token", ""))
     response = self.app.post_json(
         "/tenders/{}/awards".format(self.tender_id),
-        {"data": {"suppliers": [test_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+        {"data": {"suppliers": [test_tender_cfaselectionua_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -432,7 +432,7 @@ def patch_tender_award_Administrator_change(self):
     self.app.authorization = ("Basic", ("token", ""))
     response = self.app.post_json(
         "/tenders/{}/awards".format(self.tender_id),
-        {"data": {"suppliers": [test_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+        {"data": {"suppliers": [test_tender_cfaselectionua_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -448,7 +448,7 @@ def create_tender_lot_award(self):
     request_path = "/tenders/{}/awards".format(self.tender_id)
     response = self.app.post_json(
         request_path,
-        {"data": {"suppliers": [test_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+        {"data": {"suppliers": [test_tender_cfaselectionua_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -461,7 +461,7 @@ def create_tender_lot_award(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_organization],
+                "suppliers": [test_tender_cfaselectionua_organization],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "lotID": self.initial_lots[0]["id"],
@@ -471,7 +471,7 @@ def create_tender_lot_award(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     award = response.json["data"]
-    self.assertEqual(award["suppliers"][0]["name"], test_organization["name"])
+    self.assertEqual(award["suppliers"][0]["name"], test_tender_cfaselectionua_organization["name"])
     self.assertEqual(award["lotID"], self.initial_lots[0]["id"])
     self.assertIn("id", award)
     self.assertIn(award["id"], response.headers["Location"])
@@ -700,7 +700,7 @@ def create_tender_lots_award(self):
     auth = self.app.authorization
 
     request_path = "/tenders/{}/awards".format(self.tender_id)
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -717,7 +717,7 @@ def create_tender_lots_award(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_organization],
+                "suppliers": [test_tender_cfaselectionua_organization],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "lotID": self.initial_lots[0]["id"],
@@ -733,7 +733,7 @@ def create_tender_lots_award(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_organization],
+                "suppliers": [test_tender_cfaselectionua_organization],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "lotID": self.initial_lots[1]["id"],
@@ -743,7 +743,7 @@ def create_tender_lots_award(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     award = response.json["data"]
-    self.assertEqual(award["suppliers"][0]["name"], test_organization["name"])
+    self.assertEqual(award["suppliers"][0]["name"], test_tender_cfaselectionua_organization["name"])
     self.assertEqual(award["lotID"], self.initial_lots[1]["id"])
     self.assertIn("id", award)
     self.assertIn(award["id"], response.headers["Location"])
@@ -785,7 +785,7 @@ def patch_tender_lots_award(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_organization],
+                "suppliers": [test_tender_cfaselectionua_organization],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "lotID": self.initial_lots[0]["id"],
@@ -811,7 +811,7 @@ def patch_tender_lots_award(self):
     self.assertEqual(len(response.json["data"]), 2)
     new_award = response.json["data"][-1]
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -1321,7 +1321,7 @@ def create_tender_lots_award_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("name.doc", response.json["data"]["title"])
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -1438,7 +1438,7 @@ def put_tender_lots_award_document(self):
     self.assertIn("KeyID=", response.location)
     self.assertIn("Expires=", response.location)
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -1498,7 +1498,7 @@ def patch_tender_lots_award_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("document description", response.json["data"]["description"])
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -1597,7 +1597,7 @@ def check_tender_award(self):
 
 def patch_tender_lot_award_lots_none(self):
     request_path = "/tenders/{}/awards".format(self.tender_id)
-    bid = {"suppliers": [test_organization], "status": "pending", "lotID": self.initial_lots[0]["id"]}
+    bid = {"suppliers": [test_tender_cfaselectionua_organization], "status": "pending", "lotID": self.initial_lots[0]["id"]}
     if getattr(self, "initial_bids", None):
         bid["bid_id"] = self.initial_bids[0]["id"]
 

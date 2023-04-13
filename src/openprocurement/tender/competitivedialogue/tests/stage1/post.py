@@ -1,12 +1,15 @@
 from copy import deepcopy
 from mock import patch
 
-from openprocurement.tender.belowthreshold.tests.base import test_draft_complaint, test_cancellation
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_draft_complaint,
+    test_tender_below_cancellation,
+)
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogUAContentWebTest,
     BaseCompetitiveDialogEUContentWebTest,
-    test_author,
-    test_bids_stage1 as test_bids,
+    test_tender_cd_author,
+    test_tender_cd_stage1_bids,
 )
 from openprocurement.tender.openua.tests.post import (
     ComplaintPostResourceMixin,
@@ -32,7 +35,7 @@ class TenderCompetitiveDialogUAComplaintPostResourceTest(
             "/tenders/{}/complaints".format(
                 self.tender_id
             ),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]
@@ -55,7 +58,7 @@ class TenderCompetitiveDialogEUComplaintPostResourceTest(
             "/tenders/{}/complaints".format(
                 self.tender_id
             ),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]
@@ -71,14 +74,14 @@ class TenderCompetitiveDialogUAQualificationComplaintPostResourceTest(
 ):
     docservice = True
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
-    initial_bids = test_bids
+    initial_bids = test_tender_cd_stage1_bids
     initial_auth = ("Basic", ("broker", ""))
-    author_data = test_author
+    author_data = test_tender_cd_author
 
     def setUp(self):
         super(TenderCompetitiveDialogUAQualificationComplaintPostResourceTest, self).setUp()
         # Create bid
-        bid_data = deepcopy(test_bids[0])
+        bid_data = deepcopy(test_tender_cd_stage1_bids[0])
         bidder_data = bid_data["tenderers"][0]
         bidder_data["identifier"]["id"] = "00037256"
         response = self.app.post_json(
@@ -140,7 +143,7 @@ class TenderCompetitiveDialogUAQualificationComplaintPostResourceTest(
             "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
                 self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
             ),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         complaint = response.json["data"]
 
@@ -159,10 +162,10 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
 ):
     docservice = True
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
-    initial_bids = test_bids
-    initial_bid_data = test_bids
+    initial_bids = test_tender_cd_stage1_bids
+    initial_bid_data = test_tender_cd_stage1_bids
     initial_auth = ("Basic", ("broker", ""))
-    author_data = test_author
+    author_data = test_tender_cd_author
 
     def setUp(self):
         super(TenderCompetitiveDialogEUQualificationComplaintPostResourceTest, self).setUp()
@@ -229,7 +232,7 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
             "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
                 self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
             ),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         complaint = response.json["data"]
 
@@ -258,7 +261,7 @@ class TenderCancellationComplaintPostResourceTest(
         self.set_complaint_period_end()
 
         # Create cancellation
-        cancellation = dict(**test_cancellation)
+        cancellation = dict(**test_tender_below_cancellation)
         cancellation.update({
             "reasonType": "noDemand"
         })
@@ -295,7 +298,7 @@ class TenderCancellationComplaintPostResourceTest(
             "/tenders/{}/cancellations/{}/complaints".format(
                 self.tender_id, self.cancellation_id
             ),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]

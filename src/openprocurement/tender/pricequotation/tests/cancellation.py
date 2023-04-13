@@ -5,15 +5,17 @@ from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.pricequotation.tests.base import (
-    TenderContentWebTest, test_bids,
-    test_cancellation,
+    TenderContentWebTest,
+    test_tender_pq_bids,
+    test_tender_pq_cancellation,
 )
-from openprocurement.tender.belowthreshold.tests.cancellation import\
-    TenderCancellationDocumentResourceTestMixin
+from openprocurement.tender.belowthreshold.tests.cancellation import (
+    TenderCancellationDocumentResourceTestMixin,
+)
 from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     get_tender_cancellation,
     get_tender_cancellations,
-    )
+)
 from openprocurement.tender.pricequotation.tests.cancellation_blanks import (
     create_tender_cancellation,
     create_tender_cancellation_invalid,
@@ -37,7 +39,7 @@ class TenderCancellationActiveTenderingResourceTest(
     TenderCancellationResourceTestMixin,
 ):
     initial_status = "active.tendering"
-    initial_bids = test_bids
+    initial_bids = test_tender_pq_bids
     valid_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut"]
 
     @property
@@ -48,13 +50,13 @@ class TenderCancellationActiveTenderingResourceTest(
 
 class TenderCancellationActiveQualificationResourceTest(TenderCancellationActiveTenderingResourceTest):
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_pq_bids
     valid_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut"]
 
 
 class TenderCancellationActiveAwardedResourceTest(TenderCancellationActiveTenderingResourceTest):
     initial_status = "active.awarded"
-    initial_bids = test_bids
+    initial_bids = test_tender_pq_bids
     valid_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut"]
 
 
@@ -64,7 +66,7 @@ class TenderCancellationDocumentResourceTest(TenderContentWebTest, TenderCancell
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
         # Create cancellation
-        cancellation = dict(**test_cancellation)
+        cancellation = dict(**test_tender_pq_cancellation)
         cancellation.update({
             "reasonType": "noDemand"
         })

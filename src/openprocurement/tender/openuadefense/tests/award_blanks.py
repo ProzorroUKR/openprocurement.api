@@ -12,15 +12,15 @@ from openprocurement.api.constants import (
     NEW_DEFENSE_COMPLAINTS_TO,
     NO_DEFENSE_AWARD_CLAIMS_FROM,
 )
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization,
-    test_complaint,
-    test_draft_complaint,
-    test_claim,
-    test_draft_claim,
-    test_cancellation,
+    test_tender_below_organization,
+    test_tender_below_complaint,
+    test_tender_below_draft_complaint,
+    test_tender_below_claim,
+    test_tender_below_draft_claim,
+    test_tender_below_cancellation,
 )
 from openprocurement.tender.openua.tests.award_blanks import (
     create_tender_award_claim as create_tender_award_claim_ua,
@@ -54,7 +54,7 @@ def tender_award_complaint_period(
 
     response = self.app.post_json(
         "/tenders/{}/awards".format(self.tender_id),
-        {"data": {"suppliers": [test_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+        {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -104,7 +104,7 @@ def check_tender_award_complaint_period_dates_before_new(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_organization],
+                "suppliers": [test_tender_below_organization],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "value": {"amount": 500},
@@ -164,7 +164,7 @@ def check_tender_award_complaint_period_dates_new(self):
         request_path,
         {
             "data": {
-                "suppliers": [test_organization],
+                "suppliers": [test_tender_below_organization],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "value": {"amount": 500},
@@ -224,7 +224,7 @@ def patch_tender_award_active(self):
         "/tenders/{}/awards".format(self.tender_id),
         {
             "data": {
-                "suppliers": [test_organization],
+                "suppliers": [test_tender_below_organization],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "value": {"amount": 500},
@@ -263,7 +263,7 @@ def patch_tender_award_active(self):
     response = self.app.post_json(
         new_award_location[-81:] + "/complaints?acc_token={}".format(bid_token),
         {
-            "data": test_complaint
+            "data": test_tender_below_complaint
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -372,7 +372,7 @@ def patch_tender_award_unsuccessful(self):
         "/tenders/{}/awards".format(self.tender_id),
         {
             "data": {
-                "suppliers": [test_organization],
+                "suppliers": [test_tender_below_organization],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "value": {"amount": 500},
@@ -415,7 +415,7 @@ def patch_tender_award_unsuccessful(self):
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award["id"], bid_token),
         {
-            "data": test_complaint
+            "data": test_tender_below_complaint
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -530,7 +530,7 @@ def patch_tender_lot_award_unsuccessful(self):
         "/tenders/{}/awards".format(self.tender_id),
         {
             "data": {
-                "suppliers": [test_organization],
+                "suppliers": [test_tender_below_organization],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "lotID": self.initial_lots[0]["id"],
@@ -574,7 +574,7 @@ def patch_tender_lot_award_unsuccessful(self):
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award["id"], bid_token),
         {
-            "data": test_complaint
+            "data": test_tender_below_complaint
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -622,7 +622,7 @@ def patch_tender_lot_award_unsuccessful(self):
     if now < NO_DEFENSE_AWARD_CLAIMS_FROM:
         response = self.app.post_json(
             "{}/complaints".format(new_award_location[-81:]),
-            {"data": test_draft_claim},
+            {"data": test_tender_below_draft_claim},
         )
         self.assertEqual(response.status, "201 Created")
 
@@ -718,7 +718,7 @@ def create_tender_award_claim_denied(self):
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award_id, bid_token),
         {
-            "data": test_claim
+            "data": test_tender_below_claim
         },
         status=403,
     )
@@ -739,7 +739,7 @@ def get_tender_award_complaint(self):
     bid_token = list(self.initial_bids_tokens.values())[0]
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
-        {"data": test_complaint},
+        {"data": test_tender_below_complaint},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -775,7 +775,7 @@ def get_tender_award_complaints(self):
     bid_token = list(self.initial_bids_tokens.values())[0]
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
-        {"data": test_complaint},
+        {"data": test_tender_below_complaint},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -802,7 +802,7 @@ def get_tender_award_complaints(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
-        {"data": test_complaint},
+        {"data": test_tender_below_complaint},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -814,7 +814,7 @@ def get_tender_lot_award_complaint(self):
     bid_token = list(self.initial_bids_tokens.values())[0]
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
-        {"data": test_complaint},
+        {"data": test_tender_below_complaint},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -850,7 +850,7 @@ def get_tender_lot_award_complaints(self):
     bid_token = list(self.initial_bids_tokens.values())[0]
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
-        {"data": test_complaint},
+        {"data": test_tender_below_complaint},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -877,7 +877,7 @@ def get_tender_lot_award_complaints(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, bid_token),
-        {"data": test_complaint},
+        {"data": test_tender_below_complaint},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -897,7 +897,7 @@ def patch_tender_lots_award_complaint(self):
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(
             self.tender_id, self.award_id, self.initial_bids_tokens[self.initial_bids[0]["id"]]
         ),
-        {"data": test_draft_complaint},
+        {"data": test_tender_below_draft_complaint},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -937,7 +937,7 @@ def patch_tender_lots_award_complaint(self):
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(
                 self.tender_id, self.award_id, self.initial_bids_tokens[self.initial_bids[0]["id"]]
             ),
-            {"data": test_draft_claim},
+            {"data": test_tender_below_draft_claim},
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -947,7 +947,7 @@ def patch_tender_lots_award_complaint(self):
         if RELEASE_2020_04_19:
             self.set_all_awards_complaint_period_end()
 
-        cancellation = dict(**test_cancellation)
+        cancellation = dict(**test_tender_below_cancellation)
         cancellation.update({
             "status": "active",
             "cancellationOf": "lot",

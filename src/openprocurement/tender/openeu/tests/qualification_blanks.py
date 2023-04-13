@@ -7,13 +7,13 @@ from mock import patch
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_cancellation,
-    test_draft_claim,
-    test_complaint,
-    test_claim,
-    test_draft_complaint,
+    test_tender_below_cancellation,
+    test_tender_below_draft_claim,
+    test_tender_below_complaint,
+    test_tender_below_claim,
+    test_tender_below_draft_complaint,
 )
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.utils import change_auth
 
 
 # TenderQualificationResourceTest
@@ -1094,7 +1094,7 @@ def put_qualification_document_after_status_change(self):
 def create_tender_qualification_complaint_invalid(self):
     response = self.app.post_json(
         "/tenders/some_id/qualifications/some_id/complaints",
-        {"data": test_draft_claim},
+        {"data": test_tender_below_draft_claim},
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
@@ -1181,7 +1181,7 @@ def create_tender_qualification_complaint_invalid(self):
 
 
 def create_tender_qualification_complaint(self):
-    complaint_data = deepcopy(test_draft_claim)
+    complaint_data = deepcopy(test_tender_below_draft_claim)
     response = self.app.post_json(
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
@@ -1198,7 +1198,7 @@ def create_tender_qualification_complaint(self):
             self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
         ),
         {
-            "data": test_complaint
+            "data": test_tender_below_complaint
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -1229,7 +1229,7 @@ def create_tender_qualification_complaint(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
         ),
-        {"data": test_draft_claim},
+        {"data": test_tender_below_draft_claim},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1240,7 +1240,7 @@ def create_tender_qualification_complaint(self):
 
 
 def patch_tender_qualification_complaint(self):
-    complaint_data = deepcopy(test_draft_complaint)
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
     response = self.app.post_json(
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
@@ -1281,7 +1281,7 @@ def patch_tender_qualification_complaint(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
         ),
-        {"data": test_draft_claim},
+        {"data": test_tender_below_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1308,7 +1308,7 @@ def patch_tender_qualification_complaint(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["title"], "claim title")
 
-    complaint_data = deepcopy(test_draft_complaint)
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
     response = self.app.post_json(
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
@@ -1430,7 +1430,7 @@ def patch_tender_qualification_complaint(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
         ),
-        {"data": test_draft_complaint},
+        {"data": test_tender_below_draft_complaint},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1469,7 +1469,7 @@ def patch_tender_qualification_complaint(self):
 
 @patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def bot_patch_tender_qualification_complaint(self):
-    complaint_data = deepcopy(test_draft_complaint)
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
     response = self.app.post_json(
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
@@ -1498,7 +1498,7 @@ def bot_patch_tender_qualification_complaint(self):
 
 @patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 def bot_patch_tender_qualification_complaint_forbidden(self):
-    complaint_data = deepcopy(test_draft_complaint)
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
     response = self.app.post_json(
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
@@ -1534,7 +1534,7 @@ def review_tender_qualification_complaint(self):
                 self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
             ),
             {
-                "data": test_complaint
+                "data": test_tender_below_complaint
             },
         )
         self.assertEqual(response.status, "201 Created")
@@ -1634,7 +1634,7 @@ def review_tender_qualification_stopping_complaint(self):
                     self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
                 ),
                 {
-                    "data": test_complaint
+                    "data": test_tender_below_complaint
                 },
             )
             self.assertEqual(response.status, "201 Created")
@@ -1680,7 +1680,7 @@ def review_tender_award_claim(self):
                 self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
             ),
             {
-                "data": test_claim
+                "data": test_tender_below_claim
             },
         )
         self.assertEqual(response.status, "201 Created")
@@ -1722,7 +1722,7 @@ def get_tender_qualification_complaint(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
         ),
-        {"data": test_draft_claim},
+        {"data": test_tender_below_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1759,7 +1759,7 @@ def get_tender_qualification_complaints(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
         ),
-        {"data": test_draft_claim},
+        {"data": test_tender_below_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1786,7 +1786,7 @@ def get_tender_qualification_complaints(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
         ),
-        {"data": test_draft_claim},
+        {"data": test_tender_below_draft_claim},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1803,7 +1803,7 @@ def change_status_to_standstill_with_complaint(self):
             self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
         ),
         {
-            "data": test_complaint
+            "data": test_tender_below_complaint
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -1937,7 +1937,7 @@ def create_tender_lot_qualification_complaint(self):
             self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
         ),
         {
-            "data": test_complaint
+            "data": test_tender_below_complaint
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -1969,7 +1969,7 @@ def create_tender_lot_qualification_complaint(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
         ),
-        {"data": test_draft_claim},
+        {"data": test_tender_below_draft_claim},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1984,7 +1984,7 @@ def patch_tender_lot_qualification_complaint(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
         ),
-        {"data": test_draft_complaint},
+        {"data": test_tender_below_draft_complaint},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -2098,7 +2098,7 @@ def patch_tender_lot_qualification_complaint(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
         ),
-        {"data": test_draft_claim},
+        {"data": test_tender_below_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -2126,7 +2126,7 @@ def get_tender_lot_qualification_complaint(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
         ),
-        {"data": test_draft_claim},
+        {"data": test_tender_below_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -2163,7 +2163,7 @@ def get_tender_lot_qualification_complaints(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
         ),
-        {"data": test_draft_claim},
+        {"data": test_tender_below_draft_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -2190,7 +2190,7 @@ def get_tender_lot_qualification_complaints(self):
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
             self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
         ),
-        {"data": test_draft_claim},
+        {"data": test_tender_below_draft_claim},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -2207,7 +2207,7 @@ def create_tender_2lot_qualification_complaint(self):
             self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
         ),
         {
-            "data": test_complaint
+            "data": test_tender_below_complaint
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -2243,7 +2243,7 @@ def create_tender_2lot_qualification_complaint(self):
         )
         self.assertEqual(response.status, "200 OK")
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -2273,7 +2273,7 @@ def create_tender_2lot_qualification_complaint(self):
             "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
                 self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
             ),
-            {"data": test_draft_claim},
+            {"data": test_tender_below_draft_claim},
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
@@ -2290,7 +2290,7 @@ def create_tender_qualification_claim(self):
             self.tender_id, self.unsuccessful_qualification_id, self.initial_bids_tokens[self.initial_bids[0]["id"]]
         ),
         {
-            "data": test_claim
+            "data": test_tender_below_claim
         },
         status=403,
     )
@@ -2313,7 +2313,7 @@ def create_tender_qualification_claim(self):
             self.tender_id, self.unsuccessful_qualification_id, self.initial_bids_tokens[self.initial_bids[0]["id"]]
         ),
         {
-            "data": test_draft_claim
+            "data": test_tender_below_draft_claim
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -2824,7 +2824,7 @@ def create_tender_2lot_qualification_complaint_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("name.doc", response.json["data"]["title"])
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -2985,7 +2985,7 @@ def put_tender_2lot_qualification_complaint_document(self):
         )
         self.assertEqual(response.status, "200 OK")
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -3067,7 +3067,7 @@ def switch_bid_status_unsuccessul_to_active(self):
     # create complaint
     response = self.app.post_json(
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(self.tender_id, qualification_id, bid_token),
-        {"data": test_complaint},
+        {"data": test_tender_below_complaint},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")

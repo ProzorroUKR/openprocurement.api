@@ -3,10 +3,10 @@ from pyramid.events import subscriber
 from openprocurement.tender.core.events import TenderInitializeEvent
 from openprocurement.api.utils import get_now
 from openprocurement.tender.pricequotation.constants import\
-    PMT
+    PQ
 
 
-@subscriber(TenderInitializeEvent, procurementMethodType=PMT)
+@subscriber(TenderInitializeEvent, procurementMethodType=PQ)
 def tender_init_handler(event):
     """ Initialization handler for Price Quotation tenders """
     tender = event.tender

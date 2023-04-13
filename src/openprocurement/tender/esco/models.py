@@ -170,14 +170,14 @@ class Lot(BaseLot):
         Value, required=False
     )  # Not required, blocked for create/edit, since we have minimalStepPercentage in esco
     minimalStepPercentage = DecimalType(
-        required=True, min_value=Decimal("0.005"), max_value=Decimal("0.03"), precision=-5
+        min_value=Decimal("0.005"), max_value=Decimal("0.03"), precision=-5
     )
     auctionPeriod = ModelType(LotAuctionPeriod, default={})
     auctionUrl = URLType()
     guarantee = ModelType(Guarantee)
     fundingKind = StringType(choices=["budget", "other"], required=True, default="other")
     yearlyPaymentsPercentageRange = DecimalType(
-        required=True, default=Decimal("0.8"), min_value=Decimal("0"), max_value=Decimal("1"), precision=-5
+        default=Decimal("0.8"), min_value=Decimal("0"), max_value=Decimal("1"), precision=-5
     )
 
     @serializable
@@ -595,7 +595,7 @@ class Tender(BaseTender):
         Value, required=False
     )  # Not required, blocked for create/edit, since we have minimalStepPercentage in esco
     minimalStepPercentage = DecimalType(
-        required=True, min_value=Decimal("0.005"), max_value=Decimal("0.03"), precision=-5
+        min_value=Decimal("0.005"), max_value=Decimal("0.03"), precision=-5
     )
     questions = ListType(ModelType(Question, required=True), default=list())
     complaints = ListType(
@@ -634,7 +634,7 @@ class Tender(BaseTender):
     NBUdiscountRate = DecimalType(required=True, min_value=Decimal("0"), max_value=Decimal("0.99"), precision=-5)
     fundingKind = StringType(choices=["budget", "other"], required=True, default="other")
     yearlyPaymentsPercentageRange = DecimalType(
-        required=True, default=Decimal("0.8"), min_value=Decimal("0"), max_value=Decimal("1"), precision=-5
+        default=Decimal("0.8"), min_value=Decimal("0"), max_value=Decimal("1"), precision=-5
     )
     noticePublicationDate = IsoDateTimeType()
 
@@ -836,32 +836,34 @@ class Tender(BaseTender):
 
     @serializable(serialized_name="minValue", type=ModelType(Value))
     def tender_minValue(self):
-        return (
-            Value(
-                dict(
-                    amount=sum([i.minValue.amount for i in self.lots]),
-                    currency=self.minValue.currency,
-                    valueAddedTaxIncluded=self.minValue.valueAddedTaxIncluded,
-                )
-            )
-            if self.lots
-            else self.minValue
-        )
+        return self.minValue
+        # return (
+        #     Value(
+        #         dict(
+        #             amount=sum([i.minValue.amount for i in self.lots]),
+        #             currency=self.minValue.currency,
+        #             valueAddedTaxIncluded=self.minValue.valueAddedTaxIncluded,
+        #         )
+        #     )
+        #     if self.lots
+        #     else self.minValue
+        # )
 
     @serializable(serialized_name="guarantee", serialize_when_none=False, type=ModelType(Guarantee))
     def tender_guarantee(self):
-        if self.lots:
-            lots_amount = [i.guarantee.amount for i in self.lots if i.guarantee]
-            if not lots_amount:
-                return self.guarantee
-            guarantee = {"amount": sum(lots_amount)}
-            lots_currency = [i.guarantee.currency for i in self.lots if i.guarantee]
-            guarantee["currency"] = lots_currency[0] if lots_currency else None
-            if self.guarantee:
-                guarantee["currency"] = self.guarantee.currency
-            return Guarantee(guarantee)
-        else:
-            return self.guarantee
+        return self.guarantee
+        # if self.lots:
+        #     lots_amount = [i.guarantee.amount for i in self.lots if i.guarantee]
+        #     if not lots_amount:
+        #         return self.guarantee
+        #     guarantee = {"amount": sum(lots_amount)}
+        #     lots_currency = [i.guarantee.currency for i in self.lots if i.guarantee]
+        #     guarantee["currency"] = lots_currency[0] if lots_currency else None
+        #     if self.guarantee:
+        #         guarantee["currency"] = self.guarantee.currency
+        #     return Guarantee(guarantee)
+        # else:
+        #     return self.guarantee
 
     @serializable(serialized_name="minimalStep", type=ModelType(Value), serialize_when_none=False)
     def tender_minimalStep(self):
@@ -869,15 +871,17 @@ class Tender(BaseTender):
 
     @serializable(serialized_name="minimalStepPercentage")
     def tender_minimalStepPercentage(self):
-        return min([i.minimalStepPercentage for i in self.lots]) if self.lots else self.minimalStepPercentage
+        return self.minimalStepPercentage
+        # return min([i.minimalStepPercentage for i in self.lots]) if self.lots else self.minimalStepPercentage
 
     @serializable(serialized_name="yearlyPaymentsPercentageRange")
     def tender_yearlyPaymentsPercentageRange(self):
-        return (
-            min([i.yearlyPaymentsPercentageRange for i in self.lots])
-            if self.lots
-            else self.yearlyPaymentsPercentageRange
-        )
+        return self.yearlyPaymentsPercentageRange
+        # return (
+        #     min([i.yearlyPaymentsPercentageRange for i in self.lots])
+        #     if self.lots
+        #     else self.yearlyPaymentsPercentageRange
+        # )
 
     @serializable(serialized_name="noticePublicationDate", serialize_when_none=False, type=IsoDateTimeType())
     def tender_noticePublicationDate(self):

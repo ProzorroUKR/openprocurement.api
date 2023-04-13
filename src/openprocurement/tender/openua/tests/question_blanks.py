@@ -2,7 +2,7 @@
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_with_complaints_after_2020_04_19
-from openprocurement.tender.belowthreshold.tests.base import test_cancellation
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_cancellation
 
 
 # TenderLotQuestionResourceTest
@@ -16,7 +16,7 @@ def tender_has_unanswered_questions(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     self.app.authorization = ("Basic", ("broker", ""))
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
     })
@@ -42,7 +42,7 @@ def lot_has_unanswered_questions(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     self.app.authorization = ("Basic", ("broker", ""))
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -74,7 +74,7 @@ def item_has_unanswered_questions(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     self.app.authorization = ("Basic", ("broker", ""))
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",

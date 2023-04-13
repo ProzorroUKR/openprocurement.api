@@ -37,10 +37,10 @@ from openprocurement.tender.openeu.tests.chronograph_blanks import (
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,
-    test_bids,
-    test_author,
-    test_lots,
-    test_tenderer,
+    test_tender_openeu_bids,
+    test_tender_cd_author,
+    test_tender_cd_lots,
+    test_tender_cd_tenderer,
 )
 
 from openprocurement.tender.competitivedialogue.tests.stage2.chronograph_blanks import (
@@ -50,9 +50,9 @@ from openprocurement.tender.competitivedialogue.tests.stage2.chronograph_blanks 
     set_auction_period_2_lot_0_bid_ua,
 )
 
-test_tender_bids = deepcopy(test_bids[:2])
+test_tender_bids = deepcopy(test_tender_openeu_bids[:2])
 for test_bid in test_tender_bids:
-    test_bid["tenderers"] = [test_tenderer]
+    test_bid["tenderers"] = [test_tender_cd_tenderer]
 
 
 class TenderStage2EUSwitchPreQualificationResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
@@ -84,7 +84,7 @@ class TenderStage2EUAuctionPeriodResourceTest(BaseCompetitiveDialogEUStage2Conte
 class TenderStage2EUComplaintSwitchResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_status = "active.tendering"
     initial_bids = test_tender_bids
-    author_data = test_author  # TODO: change attribute identifier
+    author_data = test_tender_cd_author  # TODO: change attribute identifier
 
     test_switch_to_complaint = snitch(switch_to_complaint_eu)
 
@@ -108,14 +108,14 @@ class TenderStage2UASwitchAuctionResourceTest(
 ):
     initial_status = "active.tendering"
     initial_bids = test_tender_bids
-    author_data = test_author  # TODO: change attribute identifier
+    author_data = test_tender_cd_author  # TODO: change attribute identifier
 
     test_switch_to_auction = snitch(switch_to_auction_ua)
 
 
 class TenderStage2UALotSwitch0BidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_status = "active.tendering"
-    initial_lots = test_lots
+    initial_lots = test_tender_cd_lots
 
     test_switch_to_unsuccessful = snitch(switch_to_unsuccessful_lot_0bid)
 
@@ -124,7 +124,7 @@ class TenderStage2UALotSwitch0BidResourceTest(BaseCompetitiveDialogUAStage2Conte
 
 class TenderStage2UALotSwitch1BidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_status = "active.tendering"
-    initial_lots = test_lots
+    initial_lots = test_tender_cd_lots
     initial_bids = test_tender_bids[:1]
 
     test_switch_to_unsuccessful = snitch(switch_to_unsuccessful_lot_1_bid_ua)
@@ -134,13 +134,13 @@ class TenderStage2UALotSwitchAuctionResourceTest(
     BaseCompetitiveDialogUAStage2ContentWebTest, TenderLotSwitchAuctionResourceTestMixin
 ):
     initial_status = "active.tendering"
-    initial_lots = test_lots
+    initial_lots = test_tender_cd_lots
     initial_bids = test_tender_bids
 
 
 class TenderStage2UA2LotSwitch0BidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_status = "active.tendering"
-    initial_lots = deepcopy(2 * test_lots)
+    initial_lots = deepcopy(2 * test_tender_cd_lots)
 
     test_switch_to_unsuccessful = snitch(switch_to_unsuccessful_lot_0bid)
 
@@ -148,11 +148,11 @@ class TenderStage2UA2LotSwitch0BidResourceTest(BaseCompetitiveDialogUAStage2Cont
 
 
 class TenderStage2UA2LotSwitch1BidResourceTest(TenderStage2UALotSwitch1BidResourceTest):
-    initial_lots = deepcopy(2 * test_lots)
+    initial_lots = deepcopy(2 * test_tender_cd_lots)
 
 
 class TenderStage2UA2LotSwitchAuctionResourceTest(TenderStage2UALotSwitchAuctionResourceTest):
-    initial_lots = deepcopy(2 * test_lots)
+    initial_lots = deepcopy(2 * test_tender_cd_lots)
 
 
 def suite():

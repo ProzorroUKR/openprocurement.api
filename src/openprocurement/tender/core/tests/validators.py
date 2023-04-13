@@ -20,7 +20,10 @@ from openprocurement.tender.core.validation import (
     _validate_tender_accreditation_level_mode
 )
 from openprocurement.tender.belowthreshold.models import Tender
-from openprocurement.tender.belowthreshold.tests.base import test_tender_data, test_lots
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_data,
+    test_tender_below_lots,
+)
 
 
 @mock.patch("openprocurement.api.validation.error_handler", lambda *_: HTTPError)
@@ -342,7 +345,7 @@ class TestTenderAdditionalClassificationUAROAD(unittest.TestCase):
     }
 
     def setUp(self):
-        self.test_tender = copy.deepcopy(test_tender_data)
+        self.test_tender = copy.deepcopy(test_tender_below_data)
 
     def test_with_invalid_cpv(self):
         self.test_tender["items"][0]["additionalClassifications"].append(self.valid_ua_road)
@@ -412,7 +415,7 @@ class TestTenderAdditionalClassificationGMDN(unittest.TestCase):
     valid_gmdn = {"scheme": "GMDN", "id": "10024", "description": "Адаптометр"}
 
     def setUp(self):
-        self.test_tender = copy.deepcopy(test_tender_data)
+        self.test_tender = copy.deepcopy(test_tender_below_data)
 
     def test_with_invalid_cpv(self):
         self.test_tender["items"][0]["additionalClassifications"] = [self.valid_gmdn]
@@ -488,8 +491,8 @@ class TestTenderAdditionalClassificationGMDN(unittest.TestCase):
 class TestTenderMinimalStepLimitsValidation(unittest.TestCase):
 
     def setUp(self):
-        self.test_tender = copy.deepcopy(test_tender_data)
-        self.test_lots = copy.deepcopy(test_lots)
+        self.test_tender = copy.deepcopy(test_tender_below_data)
+        self.test_lots = copy.deepcopy(test_tender_below_lots)
 
     @mock.patch("openprocurement.tender.core.validation.MINIMAL_STEP_VALIDATION_FROM", get_now() - timedelta(days=1))
     def test_validate_tender_minimalstep(self):

@@ -4,10 +4,10 @@ import unittest
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_lots,
-    test_draft_claim,
-    test_draft_complaint,
-    test_author
+    test_tender_below_lots,
+    test_tender_below_draft_claim,
+    test_tender_below_draft_complaint,
+    test_tender_below_author
 )
 from openprocurement.tender.belowthreshold.tests.complaint import TenderComplaintResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
@@ -49,12 +49,12 @@ class TenderUAComplaintResourceTestMixin(object):
 class TenderComplaintResourceTest(
     BaseTenderUAContentWebTest, TenderComplaintResourceTestMixin, TenderUAComplaintResourceTestMixin
 ):
-    test_author = test_author
+    test_author = test_tender_below_author
 
 
 class TenderLotAwardComplaintResourceTest(BaseTenderUAContentWebTest):
-    initial_lots = test_lots
-    test_author = test_author
+    initial_lots = test_tender_below_lots
+    test_author = test_tender_below_author
 
     test_create_tender_lot_complaint = snitch(create_tender_lot_complaint)
 
@@ -65,7 +65,7 @@ class TenderComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
         # Create complaint
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]

@@ -1,16 +1,20 @@
 from copy import deepcopy
 from openprocurement.tender.pricequotation.tests.base import (
-    test_organization, test_requirement_response_valid, test_response_1,
-    test_response_2, test_response_3, test_response_4,
-    copy_criteria_req_id,
-    test_requirement_response,
+    test_tender_pq_organization,
+    test_tender_pq_requirement_response_valid,
+    test_tender_pq_requirement_response,
+    test_tender_pq_response_1,
+    test_tender_pq_response_2,
+    test_tender_pq_response_3,
+    test_tender_pq_response_4,
 )
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.pricequotation.tests.utils import copy_criteria_req_id
+from openprocurement.tender.core.tests.utils import change_auth
 
 
 def create_tender_bid_invalid(self):
     response = self.app.post_json(
-        "/tenders/some_id/bids", {"data": {"tenderers": [test_organization], "value": {"amount": 500}}}, status=404
+        "/tenders/some_id/bids", {"data": {"tenderers": [test_tender_pq_organization], "value": {"amount": 500}}}, status=404
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -86,7 +90,7 @@ def create_tender_bid_invalid(self):
     )
 
     response = self.app.post_json(request_path, {"data": {"tenderers": [{"identifier": {}}],
-                                                          "requirementResponses": test_requirement_response}},
+                                                          "requirementResponses": test_tender_pq_requirement_response}},
                                   status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -111,7 +115,7 @@ def create_tender_bid_invalid(self):
 
     response = self.app.post_json(
         request_path, {"data": {"tenderers": [{"name": "name", "identifier": {"uri": "invalid_value"}}],
-                                "requirementResponses": test_requirement_response}}, status=422
+                                "requirementResponses": test_tender_pq_requirement_response}}, status=422
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -138,8 +142,8 @@ def create_tender_bid_invalid(self):
     )
 
     response = self.app.post_json(request_path,
-                                  {"data": {"tenderers": [test_organization],
-                                            "requirementResponses": test_requirement_response}},
+                                  {"data": {"tenderers": [test_tender_pq_organization],
+                                            "requirementResponses": test_tender_pq_requirement_response}},
                                   status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -151,8 +155,8 @@ def create_tender_bid_invalid(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": {"tenderers": [test_organization], "value": {"amount": 500, "valueAddedTaxIncluded": False},
-                  "requirementResponses": test_requirement_response}},
+        {"data": {"tenderers": [test_tender_pq_organization], "value": {"amount": 500, "valueAddedTaxIncluded": False},
+                  "requirementResponses": test_tender_pq_requirement_response}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -173,8 +177,8 @@ def create_tender_bid_invalid(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": {"tenderers": [test_organization], "value": {"amount": 500, "currency": "USD"},
-                  "requirementResponses": test_requirement_response}},
+        {"data": {"tenderers": [test_tender_pq_organization], "value": {"amount": 500, "currency": "USD"},
+                  "requirementResponses": test_tender_pq_requirement_response}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -192,7 +196,7 @@ def create_tender_bid_invalid(self):
     )
 
     response = self.app.post_json(
-        request_path, {"data": {"tenderers": test_organization, "value": {"amount": 500}}}, status=422
+        request_path, {"data": {"tenderers": test_tender_pq_organization, "value": {"amount": 500}}}, status=422
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -200,7 +204,7 @@ def create_tender_bid_invalid(self):
     self.assertIn("invalid literal for int() with base 10", response.json["errors"][0]["description"])
 
     response = self.app.post_json(
-        request_path, {"data": {"tenderers": [test_organization], "value": {"amount": 500}}}, status=422
+        request_path, {"data": {"tenderers": [test_tender_pq_organization], "value": {"amount": 500}}}, status=422
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -210,12 +214,12 @@ def create_tender_bid_invalid(self):
         [{"description": ["This field is required."], "location": "body", "name": "requirementResponses"}],
     )
 
-    non_shortlist_org = deepcopy(test_organization)
+    non_shortlist_org = deepcopy(test_tender_pq_organization)
     non_shortlist_org["identifier"]["id"] = "69"
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": {"tenderers": [non_shortlist_org], "value": {"amount": 500},
-                  "requirementResponses": test_requirement_response}},
+                  "requirementResponses": test_tender_pq_requirement_response}},
         status=403,
     )
     self.assertEqual(
@@ -240,9 +244,9 @@ def create_tender_bid(self):
             "/tenders/{}/bids".format(self.tender_id),
             {
                 "data": {
-                    "tenderers": [test_organization],
+                    "tenderers": [test_tender_pq_organization],
                     "value": {"amount": 500},
-                    "requirementResponses": test_requirement_response_valid
+                    "requirementResponses": test_tender_pq_requirement_response_valid
                 }
             },
             status=403
@@ -269,16 +273,16 @@ def create_tender_bid(self):
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": {
-            "tenderers": [test_organization],
+            "tenderers": [test_tender_pq_organization],
             "value": {"amount": 500},
-            "requirementResponses": test_requirement_response,
+            "requirementResponses": test_tender_pq_requirement_response,
             "documents": None,
         }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
-    self.assertEqual(bid["tenderers"][0]["name"], test_organization["name"])
+    self.assertEqual(bid["tenderers"][0]["name"], test_tender_pq_organization["name"])
     self.assertIn("id", bid)
     self.assertIn(bid["id"], response.headers["Location"])
 
@@ -287,8 +291,8 @@ def create_tender_bid(self):
     # post second
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_organization], "value": {"amount": 501},
-                  "requirementResponses": test_requirement_response}},
+        {"data": {"tenderers": [test_tender_pq_organization], "value": {"amount": 501},
+                  "requirementResponses": test_tender_pq_requirement_response}},
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -296,8 +300,8 @@ def create_tender_bid(self):
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_organization], "value": {"amount": 500},
-                  "requirementResponses": test_requirement_response}},
+        {"data": {"tenderers": [test_tender_pq_organization], "value": {"amount": 500},
+                  "requirementResponses": test_tender_pq_requirement_response}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -308,26 +312,26 @@ def create_tender_bid(self):
 def requirement_response_validation_multiple_criterias(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender = response.json["data"]
-    rr = deepcopy(test_response_1)
+    rr = deepcopy(test_tender_pq_response_1)
     copy_criteria_req_id(tender["criteria"], rr)
 
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
         {"data": {
-            "tenderers": [test_organization],
+            "tenderers": [test_tender_pq_organization],
             "value": {"amount": 500},
             "requirementResponses": rr,
         }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    test_response = deepcopy(test_response_1)
+    test_response = deepcopy(test_tender_pq_response_1)
     copy_criteria_req_id(tender["criteria"], test_response)
     test_response[0]['value'] = 'ivalid'
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
         {"data": {
-            "tenderers": [test_organization],
+            "tenderers": [test_tender_pq_organization],
             "value": {"amount": 500},
             "requirementResponses": test_response
         }},
@@ -346,13 +350,13 @@ def requirement_response_validation_multiple_criterias(self):
         }]
     )
 
-    test_response = deepcopy(test_response_1)
+    test_response = deepcopy(test_tender_pq_response_1)
     copy_criteria_req_id(tender["criteria"], test_response)
     test_response[1]['value'] = '4'
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
         {"data": {
-            "tenderers": [test_organization],
+            "tenderers": [test_tender_pq_organization],
             "value": {"amount": 500},
             "requirementResponses": test_response
         }},
@@ -371,13 +375,13 @@ def requirement_response_validation_multiple_criterias(self):
         }]
     )
 
-    test_response = deepcopy(test_response_1)
+    test_response = deepcopy(test_tender_pq_response_1)
     copy_criteria_req_id(tender["criteria"], test_response)
     missed = test_response.pop()
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
         {"data": {
-            "tenderers": [test_organization],
+            "tenderers": [test_tender_pq_organization],
             "value": {"amount": 500},
             "requirementResponses": test_response
         }},
@@ -395,13 +399,13 @@ def requirement_response_validation_multiple_criterias(self):
         }]
     )
 
-    test_response = deepcopy(test_response_1)
+    test_response = deepcopy(test_tender_pq_response_1)
     copy_criteria_req_id(tender["criteria"], test_response)
     del test_response[2]["values"]
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
         {"data": {
-            "tenderers": [test_organization],
+            "tenderers": [test_tender_pq_organization],
             "value": {"amount": 500},
             "requirementResponses": test_response
         }},
@@ -419,13 +423,13 @@ def requirement_response_validation_multiple_criterias(self):
         }]
     )
 
-    test_response = deepcopy(test_response_1)
+    test_response = deepcopy(test_tender_pq_response_1)
     copy_criteria_req_id(tender["criteria"], test_response)
     test_response[2]["value"] = "ivalid"
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
         {"data": {
-            "tenderers": [test_organization],
+            "tenderers": [test_tender_pq_organization],
             "value": {"amount": 500},
             "requirementResponses": test_response
         }},
@@ -443,13 +447,13 @@ def requirement_response_validation_multiple_criterias(self):
         }]
     )
 
-    test_response = deepcopy(test_response_1)
+    test_response = deepcopy(test_tender_pq_response_1)
     copy_criteria_req_id(tender["criteria"], test_response)
     test_response[2]["values"] = ["Відповідь4"]
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
         {"data": {
-            "tenderers": [test_organization],
+            "tenderers": [test_tender_pq_organization],
             "value": {"amount": 500},
             "requirementResponses": test_response
         }},
@@ -468,13 +472,13 @@ def requirement_response_validation_multiple_criterias(self):
         }]
     )
 
-    test_response = deepcopy(test_response_1)
+    test_response = deepcopy(test_tender_pq_response_1)
     copy_criteria_req_id(tender["criteria"], test_response)
     test_response[2]["values"] = ["Відповідь1", "Відповідь2", "Відповідь3", "Відповідь4"]
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
         {"data": {
-            "tenderers": [test_organization],
+            "tenderers": [test_tender_pq_organization],
             "value": {"amount": 500},
             "requirementResponses": test_response
         }},
@@ -493,13 +497,13 @@ def requirement_response_validation_multiple_criterias(self):
         }]
     )
 
-    test_response = deepcopy(test_response_1)
+    test_response = deepcopy(test_tender_pq_response_1)
     copy_criteria_req_id(tender["criteria"], test_response)
     test_response[2]["values"] = ["Відповідь1", "Відповідь2", "Відповідь5"]
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
         {"data": {
-            "tenderers": [test_organization],
+            "tenderers": [test_tender_pq_organization],
             "value": {"amount": 500},
             "requirementResponses": test_response
         }},
@@ -521,13 +525,13 @@ def requirement_response_validation_multiple_criterias(self):
 
 def requirement_response_validation_multiple_groups(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
-    rr = deepcopy(test_response_2)
+    rr = deepcopy(test_tender_pq_response_2)
     copy_criteria_req_id(response.json["data"]["criteria"], rr)
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": {
-            "tenderers": [test_organization],
+            "tenderers": [test_tender_pq_organization],
             "value": {"amount": 500},
             "requirementResponses": rr,
         }},
@@ -538,13 +542,13 @@ def requirement_response_validation_multiple_groups(self):
 
 def requirement_response_validation_multiple_groups_multiple_requirements(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
-    rr = deepcopy(test_response_3)
+    rr = deepcopy(test_tender_pq_response_3)
     copy_criteria_req_id(response.json["data"]["criteria"], rr)
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": {
-            "tenderers": [test_organization],
+            "tenderers": [test_tender_pq_organization],
             "value": {"amount": 500},
             "requirementResponses": rr,
         }},
@@ -556,13 +560,13 @@ def requirement_response_validation_multiple_groups_multiple_requirements(self):
 def requirement_response_validation_one_group_multiple_requirements(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender = response.json["data"]
-    rr = deepcopy(test_response_4)
+    rr = deepcopy(test_tender_pq_response_4)
     copy_criteria_req_id(tender["criteria"], rr)
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": {
-            "tenderers": [test_organization],
+            "tenderers": [test_tender_pq_organization],
             "value": {"amount": 500},
             "requirementResponses": rr,
         }},
@@ -581,13 +585,13 @@ def requirement_response_validation_one_group_multiple_requirements(self):
         }]
     )
 
-    rr = deepcopy(test_response_4)
+    rr = deepcopy(test_tender_pq_response_4)
     copy_criteria_req_id(tender["criteria"], rr)
     rr[0]['value'] = 'Розчин'
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": {
-            "tenderers": [test_organization],
+            "tenderers": [test_tender_pq_organization],
             "value": {"amount": 500},
             "requirementResponses": rr,
         }},
@@ -599,8 +603,8 @@ def requirement_response_validation_one_group_multiple_requirements(self):
 def patch_tender_bid(self):
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_organization], "status": "draft", "value": {"amount": 500},
-                  "requirementResponses": test_requirement_response}},
+        {"data": {"tenderers": [test_tender_pq_organization], "status": "draft", "value": {"amount": 500},
+                  "requirementResponses": test_tender_pq_requirement_response}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -635,7 +639,7 @@ def patch_tender_bid(self):
     self.assertEqual(response.json["data"]["date"], bid["date"])
     self.assertNotEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
-    non_shortlist_org = deepcopy(test_organization)
+    non_shortlist_org = deepcopy(test_tender_pq_organization)
     non_shortlist_org["identifier"]["id"] = "69"
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={token}",
@@ -651,7 +655,7 @@ def patch_tender_bid(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
-        {"data": {"value": {"amount": 500}, "tenderers": [test_organization]}},
+        {"data": {"value": {"amount": 500}, "tenderers": [test_tender_pq_organization]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -720,8 +724,8 @@ def patch_tender_bid(self):
 def get_tender_bid(self):
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_organization], "value": {"amount": 500},
-                  "requirementResponses": test_requirement_response}},
+        {"data": {"tenderers": [test_tender_pq_organization], "value": {"amount": 500},
+                  "requirementResponses": test_tender_pq_requirement_response}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -775,8 +779,8 @@ def get_tender_bid(self):
 def delete_tender_bid(self):
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_organization], "value": {"amount": 500},
-                  "requirementResponses": test_requirement_response}},
+        {"data": {"tenderers": [test_tender_pq_organization], "value": {"amount": 500},
+                  "requirementResponses": test_tender_pq_requirement_response}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -812,8 +816,8 @@ def delete_tender_bid(self):
 def get_tender_tenderers(self):
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_organization], "value": {"amount": 500},
-                  "requirementResponses": test_requirement_response}},
+        {"data": {"tenderers": [test_tender_pq_organization], "value": {"amount": 500},
+                  "requirementResponses": test_tender_pq_requirement_response}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -845,9 +849,9 @@ def get_tender_tenderers(self):
 def bid_Administrator_change(self):
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_organization],
+        {"data": {"tenderers": [test_tender_pq_organization],
                   "value": {"amount": 500},
-                  "requirementResponses": test_requirement_response}},
+                  "requirementResponses": test_tender_pq_requirement_response}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -918,8 +922,8 @@ def patch_tender_bid_document(self):
 def create_tender_bid_document_nopending(self):
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_organization], "value": {"amount": 500},
-                  "requirementResponses": test_requirement_response_valid}},
+        {"data": {"tenderers": [test_tender_pq_organization], "value": {"amount": 500},
+                  "requirementResponses": test_tender_pq_requirement_response_valid}},
     )
 
     bid = response.json['data']

@@ -3,19 +3,24 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 
-from tests.base.data import tender_openua
-from tests.base.constants import DOCS_URL, AUCTIONS_URL
-from tests.base.test import DumpsWebTestApp, MockWebTestMixin
+from tests.base.data import test_docs_tender_openua
+from tests.base.constants import (
+    DOCS_URL,
+    AUCTIONS_URL,
+)
+from tests.base.test import (
+    DumpsWebTestApp,
+    MockWebTestMixin,
+)
 from openprocurement.api.utils import get_now
 from openprocurement.tender.openua.tests.tender import BaseTenderUAWebTest
-from openprocurement.tender.openua.tests.base import test_bids
-from openprocurement.tender.core.tests.base import change_auth
-from openprocurement.tender.belowthreshold.tests.base import test_organization
-
+from openprocurement.tender.openua.tests.base import test_tender_openua_bids
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_organization
 
 TARGET_DIR = 'docs/source/tendering/basic-actions/http/'
 
-test_tender_ua_data = deepcopy(tender_openua)
+test_tender_ua_data = deepcopy(test_docs_tender_openua)
 
 
 class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
@@ -27,7 +32,7 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
     auctions_url = AUCTIONS_URL
 
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_openua_bids
 
     def setUp(self):
         super(TenderAwardMilestoneResourceTest, self).setUp()
@@ -36,12 +41,14 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
-                {"data": {
-                    "suppliers": [test_organization],
-                    "status": "pending",
-                    "bid_id": self.initial_bids[0]["id"],
-                    "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"] if self.initial_lots else None,
-                }},
+                {
+                    "data": {
+                        "suppliers": [test_tender_below_organization],
+                        "status": "pending",
+                        "bid_id": self.initial_bids[0]["id"],
+                        "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"] if self.initial_lots else None,
+                    }
+                },
             )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -91,7 +98,8 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         with open(TARGET_DIR + '24hours/post-doc.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 "/tenders/{}/bids/{}/documents?acc_token={}".format(
-                    self.tender_id, bid_id, bid_token),
+                    self.tender_id, bid_id, bid_token
+                ),
                 {
                     "data": {
                         "title": "укр.doc",

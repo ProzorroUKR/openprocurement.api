@@ -7,7 +7,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.constants import RELEASE_2020_04_19
 
-from openprocurement.tender.belowthreshold.tests.base import test_lots, test_cancellation
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots, test_tender_below_cancellation
 from openprocurement.tender.belowthreshold.tests.cancellation import (
     TenderCancellationResourceTestMixin,
     TenderCancellationDocumentResourceTestMixin,
@@ -32,8 +32,10 @@ from openprocurement.tender.openua.tests.cancellation_blanks import (
     activate_cancellation,
     create_tender_cancellation_with_cancellation_lots,
 )
-
-from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest, test_bids
+from openprocurement.tender.openuadefense.tests.base import (
+    BaseTenderUAContentWebTest,
+    test_tender_openuadefense_bids,
+)
 
 
 class TenderCancellationResourceTest(
@@ -49,14 +51,14 @@ class TenderCancellationResourceTest(
 
 
 class TenderLotCancellationResourceTest(BaseTenderUAContentWebTest):
-    initial_lots = test_lots
+    initial_lots = test_tender_below_lots
 
     test_create_tender_cancellation = snitch(create_tender_lot_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_lot_cancellation)
 
 
 class TenderLotsCancellationResourceTest(BaseTenderUAContentWebTest):
-    initial_lots = 2 * test_lots
+    initial_lots = 2 * test_tender_below_lots
 
     test_create_tender_cancellation = snitch(create_tender_lots_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_lots_cancellation)
@@ -67,7 +69,7 @@ class TenderCancellationComplaintResourceTest(
     BaseTenderUAContentWebTest,
     TenderCancellationComplaintResourceTestMixin
 ):
-    initial_bids = test_bids
+    initial_bids = test_tender_openuadefense_bids
 
     @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     @patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
@@ -78,7 +80,7 @@ class TenderCancellationComplaintResourceTest(
 
         self.set_complaint_period_end()
 
-        cancellation = dict(**test_cancellation)
+        cancellation = dict(**test_tender_below_cancellation)
         cancellation.update({
             "reasonType": "noDemand"
         })
@@ -105,7 +107,7 @@ class TenderCancellationDocumentResourceTest(
         # Create cancellation
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": test_cancellation},
+            {"data": test_tender_below_cancellation},
         )
         cancellation = response.json["data"]
         self.cancellation_id = cancellation["id"]

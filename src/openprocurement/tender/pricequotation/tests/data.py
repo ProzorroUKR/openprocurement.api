@@ -3,15 +3,16 @@
 from copy import deepcopy
 from datetime import timedelta
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import set_tender_multi_buyers
-from openprocurement.tender.pricequotation.constants import PMT
+from openprocurement.tender.belowthreshold.tests.utils import set_tender_multi_buyers
+from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.api.constants import SANDBOX_MODE, PQ_MULTI_PROFILE_FROM
 
 
 now = get_now()
+
 PQ_MULTI_PROFILE_RELEASED = get_now() > PQ_MULTI_PROFILE_FROM
 
-test_agreement_data = {
+test_agreement_pq_data = {
     "_id": "2e14a78a2074952d5a2d256c3c004dda",
     "doc_type": "Agreement",
     "agreementID": "UA-2021-11-12-000001",
@@ -88,7 +89,7 @@ PERIODS = {
 }
 
 
-test_requirement_response_valid = [
+test_tender_pq_requirement_response_valid = [
     {
         "value": 23.8,
         'requirement': {
@@ -145,7 +146,7 @@ test_requirement_response_valid = [
     }
 ]
 
-test_criteria = [
+test_tender_pq_criteria = [
         {
             "description": "Діагональ екрану",
             "requirementGroups": [
@@ -185,7 +186,7 @@ test_criteria = [
             "title": "Роздільна здатність"
         },
 ]
-test_requirement_response = [
+test_tender_pq_requirement_response = [
     {
         "value": 23.8,
         'requirement': {
@@ -200,7 +201,7 @@ test_requirement_response = [
     },
 ]
 
-test_organization = {
+test_tender_pq_organization = {
     "name": "Державне управління справами",
     "identifier": {"scheme": "UA-EDR", "id": "00037256", "uri": "http://www.dus.gov.ua/"},
     "address": {
@@ -215,7 +216,7 @@ test_organization = {
 }
 
 
-test_milestones = [
+test_tender_pq_milestones = [
     {
         "id": "a" * 32,
         "title": "signingTheContract",
@@ -235,13 +236,13 @@ test_milestones = [
     },
 ]
 
-test_author = test_organization.copy()
-del test_author["scale"]
+test_tender_pq_author = test_tender_pq_organization.copy()
+del test_tender_pq_author["scale"]
 
-test_procuringEntity = test_author.copy()
-test_procuringEntity["kind"] = "general"
+test_tender_pq_procuring_entity = test_tender_pq_author.copy()
+test_tender_pq_procuring_entity["kind"] = "general"
 
-test_item_base = {
+test_tender_pq_item_base = {
     "description": "Комп’ютерне обладнання",
     "quantity": 5,
     "deliveryDate": {
@@ -262,10 +263,10 @@ test_item_base = {
     },
     "classification": {"scheme": "ДК021", "id": "44617100-9", "description": "Cartons"}
 }
-test_item_before_multiprofile = deepcopy(test_item_base)
-test_item_after_multiprofile = deepcopy(test_item_base)
-test_item_after_multiprofile["profile"] = "655360-30230000-889652-40000777"
-test_item_after_multiprofile["additionalClassifications"] = [
+test_tender_pq_item_before_multiprofile = deepcopy(test_tender_pq_item_base)
+test_tender_pq_item_after_multiprofile = deepcopy(test_tender_pq_item_base)
+test_tender_pq_item_after_multiprofile["profile"] = "655360-30230000-889652-40000777"
+test_tender_pq_item_after_multiprofile["additionalClassifications"] = [
     {
         "scheme": "INN",
         "id": "17.21.1",
@@ -274,49 +275,56 @@ test_item_after_multiprofile["additionalClassifications"] = [
 ]
 
 if PQ_MULTI_PROFILE_RELEASED:
-    test_item = test_item_after_multiprofile
+    test_tender_pq_item = test_tender_pq_item_after_multiprofile
 else:
-    test_item = test_item_before_multiprofile
+    test_tender_pq_item = test_tender_pq_item_before_multiprofile
 
-test_tender_data_base = {
+test_tender_pq_data_base = {
     "title": "Комп’ютерне обладнання",
     "mainProcurementCategory": "goods",
-    "procuringEntity": test_procuringEntity,
+    "procuringEntity": test_tender_pq_procuring_entity,
     "value": {"amount": 22000, "currency": "UAH"},
     "tenderPeriod": {"endDate": (now + timedelta(days=14)).isoformat()},
-    "procurementMethodType": PMT,
+    "procurementMethodType": PQ,
     "procurementMethod": 'selective',
 }
-test_tender_data_before_multiprofile = deepcopy(test_tender_data_base)
-test_tender_data_before_multiprofile["profile"] = "655360-30230000-889652-40000777"
-test_tender_data_before_multiprofile["items"] = [test_item_before_multiprofile]
+test_tender_pq_data_before_multiprofile = deepcopy(test_tender_pq_data_base)
+test_tender_pq_data_before_multiprofile["profile"] = "655360-30230000-889652-40000777"
+test_tender_pq_data_before_multiprofile["items"] = [test_tender_pq_item_before_multiprofile]
 
-test_tender_data_after_multiprofile = deepcopy(test_tender_data_base)
-test_tender_data_after_multiprofile["items"] = [test_item_after_multiprofile]
-test_tender_data_after_multiprofile["agreement"] = {"id": "0" * 32}
-
+test_tender_pq_data_after_multiprofile = deepcopy(test_tender_pq_data_base)
+test_tender_pq_data_after_multiprofile["items"] = [test_tender_pq_item_after_multiprofile]
+test_tender_pq_data_after_multiprofile["agreement"] = {"id": "0" * 32}
 
 if PQ_MULTI_PROFILE_RELEASED:
-    test_tender_data = test_tender_data_after_multiprofile
+    test_tender_pq_data = test_tender_pq_data_after_multiprofile
 else:
-    test_tender_data = test_tender_data_before_multiprofile
+    test_tender_pq_data = test_tender_pq_data_before_multiprofile
 
 if SANDBOX_MODE:
-    test_tender_data["procurementMethodDetails"] = "quick, accelerator=1440"
+    test_tender_pq_data["procurementMethodDetails"] = "quick, accelerator=1440"
 
-test_tender_data_multi_buyers = set_tender_multi_buyers(
-    test_tender_data, test_tender_data["items"][0],
-    test_organization
+test_tender_pq_multi_buyers_data = set_tender_multi_buyers(
+    test_tender_pq_data,
+    test_tender_pq_data["items"][0],
+    test_tender_pq_organization
 )
 
-test_bids = [
-    {"tenderers": [test_organization], "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
-     "requirementResponses": test_requirement_response},
-    {"tenderers": [test_organization], "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
-     "requirementResponses": test_requirement_response},
+test_tender_pq_bids = [
+    {
+        "tenderers": [test_tender_pq_organization],
+        "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+        "requirementResponses": test_tender_pq_requirement_response,
+    },
+    {
+        "tenderers": [test_tender_pq_organization],
+        "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
+        "requirementResponses": test_tender_pq_requirement_response,
+    },
 ]
-bid_with_docs = deepcopy(test_bids[1])
-bid_with_docs["documents"] = [
+
+test_tender_pq_bids_with_docs = deepcopy(test_tender_pq_bids[1])
+test_tender_pq_bids_with_docs["documents"] = [
     {
         'title': 'Proposal_part1.pdf',
         'url': "http://broken1.ds",
@@ -331,14 +339,18 @@ bid_with_docs["documents"] = [
     }
 ]
 
-test_cancellation = {
+test_tender_pq_config = {
+    "hasAuction": False,
+}
+
+test_tender_pq_cancellation = {
     "reason": "cancellation reason",
     "reasonType": "noDemand",
     "cancellationOf": "tender",
 }
 
 
-test_shortlisted_firms = [
+test_tender_pq_shortlisted_firms = [
     {
         "address": {
             "countryName": "Україна",
@@ -387,7 +399,7 @@ test_shortlisted_firms = [
     }
 ]
 
-test_short_profile = {
+test_tender_pq_short_profile = {
     "classification": {
         "description": "Комп’ютерне обладнанн",
         "id": "30230000-0",
@@ -598,7 +610,7 @@ test_short_profile = {
     }
 }
 
-test_criteria_1 = [
+test_tender_pq_criteria_1 = [
     {
         "description": "Форма випуску",
         "id": "400496-0001",
@@ -664,7 +676,7 @@ test_criteria_1 = [
     },
 ]
 
-test_criteria_2 = [
+test_tender_pq_criteria_2 = [
     {
         "description": "Форма випуску",
         "id": "400496-0001",
@@ -699,7 +711,7 @@ test_criteria_2 = [
 ]
 
 
-test_criteria_3 = [
+test_tender_pq_criteria_3 = [
     {
         "description": "Форма випуску",
         "id": "400496-0001",
@@ -743,7 +755,7 @@ test_criteria_3 = [
     }]
 
 
-test_criteria_4 = [
+test_tender_pq_criteria_4 = [
     {
         "description": "Форма випуску",
         "title": "Форма випуску",
@@ -785,32 +797,7 @@ test_criteria_4 = [
     }
 ]
 
-
-def criteria_drop_uuids(data: list, key: str = "id"):
-    for e in data:
-        if key in e:
-            del e[key]
-
-        for g in e.get("requirementGroups", ""):
-            if key in g:
-                del g[key]
-
-            for r in g.get("requirements", ""):
-                if key in r:
-                    del r[key]
-    return data
-
-
-def copy_criteria_req_id(criteria, responses):
-    requirements = [r for e in criteria
-                    for g in e.get("requirementGroups", "")
-                    for r in g.get("requirements", "")]
-    for r, resp in zip(requirements, responses):
-        resp["requirement"]["id"] = r["id"]
-    return responses
-
-
-test_response_1 = [
+test_tender_pq_response_1 = [
     {
         "requirement": {
             "id": "400496-0001-001-01"
@@ -832,7 +819,7 @@ test_response_1 = [
 ]
 
 
-test_response_2 = [
+test_tender_pq_response_2 = [
     {
         "requirement": {
             "id": "400496-0001-001-01"
@@ -848,7 +835,7 @@ test_response_2 = [
 ]
 
 
-test_response_3 = [
+test_tender_pq_response_3 = [
     {
         "requirement": {
             "id": "400496-0001-001-01"
@@ -870,7 +857,7 @@ test_response_3 = [
 ]
 
 
-test_response_4 = [
+test_tender_pq_response_4 = [
     {
         "requirement": {
             "id": "400496-0001-001-01"
@@ -891,6 +878,6 @@ test_response_4 = [
     }
 ]
 
-test_response_5 = [
+test_tender_pq_response_5 = [
     {}
 ]

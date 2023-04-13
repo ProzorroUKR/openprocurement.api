@@ -8,7 +8,13 @@ from uuid import uuid4
 from openprocurement.api.constants import SANDBOX_MODE, TZ
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import set_tender_criteria, set_tender_multi_buyers
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_config,
+)
+from openprocurement.tender.belowthreshold.tests.utils import (
+    set_tender_criteria,
+    set_tender_multi_buyers,
+)
 from openprocurement.tender.cfaselectionua.constants import BOT_NAME
 from openprocurement.tender.cfaselectionua.models.tender import CFASelectionUATender
 from openprocurement.tender.core.tests.base import BaseCoreWebTest
@@ -19,57 +25,61 @@ here = os.path.dirname(os.path.abspath(__file__))
 now = datetime.now(TZ)
 
 with open(os.path.join(here, "data/agreement.json")) as _in:
-    test_agreement = json.load(_in)
+    test_tender_cfaselectionua_agreement = json.load(_in)
 
 with open(os.path.join(here, "data/organization.json")) as _in:
-    test_organization = json.load(_in)
+    test_tender_cfaselectionua_organization = json.load(_in)
 
-test_author = deepcopy(test_organization)
-del test_author["scale"]
+test_tender_cfaselectionua_author = deepcopy(test_tender_cfaselectionua_organization)
+del test_tender_cfaselectionua_author["scale"]
 
 with open(os.path.join(here, "data/features.json")) as _in:
-    test_features = json.load(_in)
+    test_tender_cfaselectionua_features = json.load(_in)
 
-test_features[0]["relatedItem"] = test_agreement["items"][0]["id"]
+test_tender_cfaselectionua_features[0]["relatedItem"] = test_tender_cfaselectionua_agreement["items"][0]["id"]
 
 with open(os.path.join(here, "data/items.json")) as _in:
-    test_items = json.load(_in)
+    test_tender_cfaselectionua_items = json.load(_in)
 
 with open(os.path.join(here, "data/bids.json")) as _in:
-    test_bids = json.load(_in)
+    test_tender_cfaselectionua_bids = json.load(_in)
+for bid in test_tender_cfaselectionua_bids:
+    bid["tenderers"] = [test_tender_cfaselectionua_organization]
 
 
 with open(os.path.join(here, "data/procuringEntity.json")) as _in:
-    test_procuringEntity = json.load(_in)
+    test_tender_cfaselectionua_procuring_entity = json.load(_in)
 
-test_items[0]["id"] = test_agreement["items"][0]["id"]
-test_items[0]["deliveryDate"] = {
+test_tender_cfaselectionua_items[0]["id"] = test_tender_cfaselectionua_agreement["items"][0]["id"]
+test_tender_cfaselectionua_items[0]["deliveryDate"] = {
     "startDate": (now + timedelta(days=2)).isoformat(),
     "endDate": (now + timedelta(days=5)).isoformat(),
 }
 
 with open(os.path.join(here, "data/tender_data.json")) as _in:
-    test_tender_data = json.load(_in)
-test_tender_data["procuringEntity"] = test_procuringEntity
-test_tender_data["items"] = test_items
+    test_tender_cfaselectionua_data = json.load(_in)
+test_tender_cfaselectionua_data["procuringEntity"] = test_tender_cfaselectionua_procuring_entity
+test_tender_cfaselectionua_data["items"] = test_tender_cfaselectionua_items
 
 if SANDBOX_MODE:
-    test_tender_data["procurementMethodDetails"] = "quick, accelerator=1440"
-
-for bid in test_bids:
-    bid["tenderers"] = [test_organization]
+    test_tender_cfaselectionua_data["procurementMethodDetails"] = "quick, accelerator=1440"
 
 with open(os.path.join(here, "data/lots.json")) as _in:
-    test_lots = json.load(_in)
+    test_tender_cfaselectionua_lots = json.load(_in)
 
 
-test_agreement_features = deepcopy(test_agreement)
-test_agreement_features["features"] = test_features
+test_tender_cfaselectionua_agreement_features = deepcopy(test_tender_cfaselectionua_agreement)
+test_tender_cfaselectionua_agreement_features["features"] = test_tender_cfaselectionua_features
 
-test_tender_data_multi_buyers = set_tender_multi_buyers(
-    test_tender_data, test_tender_data["items"][0],
-    test_organization
+test_tender_cfaselectionua_multi_buyers_data = set_tender_multi_buyers(
+    test_tender_cfaselectionua_data,
+    test_tender_cfaselectionua_data["items"][0],
+    test_tender_cfaselectionua_organization
 )
+
+test_tender_cfaselectionua_config = {
+    "hasAuction": True,
+}
 
 
 class BaseApiWebTest(BaseWebTest):
@@ -78,8 +88,9 @@ class BaseApiWebTest(BaseWebTest):
 
 class BaseTenderWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
-    initial_data = test_tender_data
-    initial_agreement = deepcopy(test_agreement)
+    initial_data = test_tender_cfaselectionua_data
+    initial_config = test_tender_cfaselectionua_config
+    initial_agreement = deepcopy(test_tender_cfaselectionua_agreement)
     initial_status = None
     initial_criteria = None
     initial_bids = None
@@ -111,8 +122,8 @@ class BaseTenderWebTest(BaseCoreWebTest):
         "active.tendering"
     )  # status, in which adding document to tender auction is forbidden
 
-    meta_initial_bids = test_bids
-    meta_initial_lots = test_lots
+    meta_initial_bids = test_tender_cfaselectionua_bids
+    meta_initial_lots = test_tender_cfaselectionua_lots
 
     periods = PERIODS
     tender_class = CFASelectionUATender
@@ -254,6 +265,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
     def create_tender(self):
         data = deepcopy(self.initial_data)
+        config = deepcopy(self.initial_config)
         if self.initial_lots:
             lots = []
             for i in self.initial_lots:
@@ -263,7 +275,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
             data["lots"] = self.initial_lots = lots
             for i, item in enumerate(data["items"]):
                 item["relatedLot"] = lots[i % len(lots)]["id"]
-        response = self.app.post_json("/tenders", {"data": data})
+        response = self.app.post_json("/tenders", {"data": data, "config": config})
         tender = response.json["data"]
         self.tender_token = response.json["access"]["token"]
         self.tender_id = tender["id"]
@@ -333,7 +345,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
         data["status"] = "draft"
         data["agreements"] = [{"id": self.agreement_id}]
 
-        response = self.app.post_json("/tenders", {"data": data})
+        response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
         self.assertEqual((response.status, response.content_type), ("201 Created", "application/json"))
         tender = response.json["data"]
         self.tender_id = tender["id"]
@@ -349,7 +361,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
 
 class TenderContentWebTest(BaseTenderWebTest):
-    initial_data = test_tender_data
+    initial_data = test_tender_cfaselectionua_data
     initial_status = None
     initial_bids = None
     initial_lots = None

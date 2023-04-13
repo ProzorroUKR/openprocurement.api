@@ -1,37 +1,36 @@
 # -*- coding: utf-8 -*-
 import unittest
-from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author, test_criteria
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+    test_tender_below_author,
+)
+from openprocurement.tender.core.tests.base import test_exclusion_criteria
 
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
-    # TenderBidBatchDocumentWithDSResourceTest
     create_tender_bid_with_documents,
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
-    # Tender2LotBidResourceTest
     patch_tender_lot_values_any_order,
-    # TenderBidDocumentWithDSResourceTest
     create_tender_bid_document_json_bulk,
 )
 
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
-    test_features_tender_data,
-    test_restricted_tender_data,
-    test_bids,
-    test_lots,
+    test_tender_openeu_features_data,
+    test_tender_openeu_restricted_data,
+    test_tender_openeu_bids,
+    test_tender_openeu_lots,
 )
 from openprocurement.tender.openua.tests.bid import (
     TenderBidRequirementResponseTestMixin,
     TenderBidRequirementResponseEvidenceTestMixin,
 )
 from openprocurement.tender.openeu.tests.bid_blanks import (
-    # TenderBidDocumentWithDSResourceTest
     patch_tender_bidder_document_private_json,
     put_tender_bidder_document_private_json,
     get_tender_bidder_document_ds,
@@ -43,10 +42,8 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
     patch_and_put_document_into_invalid_bid,
     download_tender_bidder_document,
     create_tender_bidder_document_nopending,
-    # TenderBidFeaturesResourceTest
     features_bidder,
     features_bidder_invalid,
-    # TenderBidResourceTest
     create_tender_biddder_invalid,
     create_tender_bidder,
     patch_tender_bidder,
@@ -58,7 +55,6 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
     bid_Administrator_change,
     bids_invalidation_on_tender_change,
     bids_activation_on_tender_documents,
-    # TenderBidBatchDocumentsWithDSResourceTest
     create_tender_bid_with_all_documents,
     create_tender_bid_with_eligibility_document_invalid,
     create_tender_bid_with_financial_document_invalid,
@@ -121,38 +117,38 @@ class TenderBidResourceTest(BaseTenderContentWebTest, TenderBidResourceTestMixin
     docservice = True
     initial_status = "active.tendering"
     initial_auth = ("Basic", ("broker", ""))
-    test_bids_data = test_bids  # TODO: change attribute identifier
-    author_data = test_author
+    test_bids_data = test_tender_openeu_bids  # TODO: change attribute identifier
+    author_data = test_tender_below_author
 
     test_delete_tender_bidder = snitch(delete_tender_bidder)
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
 
 
 class Tender2LotBidResourceTest(BaseTenderContentWebTest):
-    test_bids_data = test_bids
-    initial_lots = 3 * test_lots
+    test_bids_data = test_tender_openeu_bids
+    initial_lots = 3 * test_tender_openeu_lots
     initial_status = "active.tendering"
-    initial_criteria = test_criteria
+    initial_criteria = test_exclusion_criteria
 
     test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
     test_patch_tender_lot_values_any_order = snitch(patch_tender_lot_values_any_order)
 
 
 class TenderBidFeaturesResourceTest(BaseTenderContentWebTest):
-    initial_data = test_features_tender_data
+    initial_data = test_tender_openeu_features_data
     initial_status = "active.tendering"
     initial_auth = ("Basic", ("broker", ""))
-    test_bids_data = test_bids  # TODO: change attribute identificator
+    test_bids_data = test_tender_openeu_bids  # TODO: change attribute identificator
 
     test_features_bidder = snitch(features_bidder)
     test_features_bidder_invalid = snitch(features_bidder_invalid)
 
 
 class RestrictedTenderBidResourceTest(BaseTenderContentWebTest):
-    initial_data = test_restricted_tender_data
+    initial_data = test_tender_openeu_restricted_data
     initial_status = "active.tendering"
     initial_auth = ("Basic", ("broker", ""))
-    test_bids_data = test_bids
+    test_bids_data = test_tender_openeu_bids
 
     test_restricted_bidder = snitch(restricted_bidder)
     test_restricted_procedure_unsuccessful = snitch(restricted_procedure_unsuccessful)
@@ -172,16 +168,16 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceWithDSTestMix
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "active.tendering"
-    test_bids_data = test_bids  # TODO: change attribute identificator
+    test_bids_data = test_tender_openeu_bids  # TODO: change attribute identificator
 
     def setUp(self):
         super(TenderBidDocumentWithDSResourceTest, self).setUp()
         # Create bid
-        bid, bid_token = self.create_bid(self.tender_id, test_bids[0], "pending")
+        bid, bid_token = self.create_bid(self.tender_id, test_tender_openeu_bids[0], "pending")
         self.bid_id = bid["id"]
         self.bid_token = bid_token
         # create second bid
-        bid2, bid2_token = self.create_bid(self.tender_id, test_bids[0], "pending")
+        bid2, bid2_token = self.create_bid(self.tender_id, test_tender_openeu_bids[0], "pending")
         self.bid2_id = bid2["id"]
         self.bid2_token = bid2_token
 
@@ -221,7 +217,7 @@ class TenderBidBatchDocumentsWithDSResourceTest(BaseTenderContentWebTest):
 
     def setUp(self):
         self.bid_data_wo_docs = {
-            "tenderers": [test_organization],
+            "tenderers": [test_tender_below_organization],
             "value": {"amount": 500},
             "selfQualified": True,
             "documents": [],
@@ -237,7 +233,7 @@ class TenderBidRequirementResponseResourceTest(
     CreateBidMixin,
     BaseTenderContentWebTest,
 ):
-    test_bids_data = test_bids
+    test_bids_data = test_tender_openeu_bids
     initial_status = "active.tendering"
 
 
@@ -246,7 +242,7 @@ class TenderBidRequirementResponseEvidenceResourceTest(
     CreateBidMixin,
     BaseTenderContentWebTest,
 ):
-    test_bids_data = test_bids
+    test_bids_data = test_tender_openeu_bids
     initial_status = "active.tendering"
     tender_auth = ("Basic", ("token", ""))
     guarantee_criterion = True

@@ -1,10 +1,11 @@
 from openprocurement.tender.core.procedure.context import get_now
-from openprocurement.tender.core.procedure.state.tender import TenderState, OneBidBecomeWinnerMixin
+from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.utils import check_auction_period
 from openprocurement.tender.open.procedure.models.award import Award
 
 
-class OpenTenderState(OneBidBecomeWinnerMixin, TenderState):
+class OpenTenderState(TenderState):
+    min_bids_number = 1
     block_complaint_status = ("pending", "accepted", "satisfied", "stopping")
     award_class = Award
 

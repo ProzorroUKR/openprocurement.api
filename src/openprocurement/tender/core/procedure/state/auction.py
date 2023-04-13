@@ -1,5 +1,8 @@
 from openprocurement.api.constants import TZ
-from openprocurement.tender.core.procedure.context import get_now
+from openprocurement.tender.core.procedure.context import (
+    get_now,
+    get_tender_config,
+)
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     normalize_should_start_after,
@@ -68,6 +71,10 @@ class BaseShouldStartAfterMixing:
             return normalize_should_start_after(start_after, tender).isoformat()
 
     def calc_auction_periods(self, tender):
+        config = get_tender_config()
+        if config.get("hasAuction") is False:
+            return
+
         lots = tender.get("lots")
         if lots:
             for lot in lots:

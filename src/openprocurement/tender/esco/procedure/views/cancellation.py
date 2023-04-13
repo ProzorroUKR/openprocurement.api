@@ -1,3 +1,4 @@
+from openprocurement.tender.esco.procedure.state.cancellation import ESCOCancellationState
 from openprocurement.tender.openeu.procedure.views.cancellation import EUCancellationResource
 from cornice.resource import resource
 
@@ -10,4 +11,4 @@ from cornice.resource import resource
     description="Tender ESCO Cancellations",
 )
 class ESCOCancellationResource(EUCancellationResource):
-    pass
+    state_class = ESCOCancellationState

@@ -1,4 +1,4 @@
-PATCH /api/2.5/plans/3747508924764c17888fc86990c3108b?acc_token=6a42dd8bc33b4faca59bd542e5b1ee39 HTTP/1.0
+PATCH /api/2.5/plans/a93d5d3f8c974702bdcd612e0e78486f?acc_token=bd67bd6df39e4e8fb05655b8db9b4ec0 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 48
 Content-Type: application/json
@@ -19,7 +19,7 @@ Content-Type: application/json
 {
   "data": {
     "procuringEntity": {
-      "id": "83d6277846a64e359fd1cef3967c4d19",
+      "id": "7e7afa9f45854968b06a08b254af126c",
       "name": "ДУС",
       "identifier": {
         "scheme": "UA-EDR",
@@ -72,7 +72,7 @@ Content-Type: application/json
     "planID": "UA-P-2023-01-01-000003",
     "items": [
       {
-        "id": "cc4868d6448a4985a712112ccb50f966",
+        "id": "49ffdd118a4245af931b03a25cca7c9b",
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
@@ -103,7 +103,7 @@ Content-Type: application/json
         "description": "Насіння гірчиці"
       },
       {
-        "id": "62ff3388403a4fbf8344d973fc93ace5",
+        "id": "4e590821a04243e0b708c1385020b3a6",
         "classification": {
           "description": "Sunflower seeds",
           "scheme": "ДК021",
@@ -134,7 +134,7 @@ Content-Type: application/json
         "description": "Насіння соняшнику"
       },
       {
-        "id": "f4ca21d3eea64bb396a6ff3cc1509e9b",
+        "id": "95f19ca51ff64639b5fec183db697afc",
         "classification": {
           "description": "Cotton seeds",
           "scheme": "ДК021",
@@ -167,7 +167,7 @@ Content-Type: application/json
     ],
     "buyers": [
       {
-        "id": "21307c81220f4b769d89701406b37933",
+        "id": "9332000f44cd45fbaef683b074ff6666",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -196,7 +196,7 @@ Content-Type: application/json
     "dateModified": "2023-01-01T00:00:00+02:00",
     "datePublished": "2023-01-01T00:00:00+02:00",
     "owner": "broker",
-    "id": "3747508924764c17888fc86990c3108b"
+    "id": "a93d5d3f8c974702bdcd612e0e78486f"
   }
 }
 

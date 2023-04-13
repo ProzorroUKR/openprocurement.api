@@ -2,7 +2,8 @@
 from datetime import timedelta
 from openprocurement.api.tests.base import singleton_app, app
 from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.utils import change_auth
+
 fake_tender_data = {
     "doc_type": "Tender",
     "_id": "Fake_tender_id",

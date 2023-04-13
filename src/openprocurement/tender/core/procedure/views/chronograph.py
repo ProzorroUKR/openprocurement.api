@@ -11,8 +11,12 @@ class TenderChronographResource(TenderBaseResource):
 
     @json_view(permission="chronograph")
     def get(self):
-        data = self.serializer_class(self.request.validated["tender"]).data
-        return {"data": data}
+        tender = self.request.validated["tender"]
+        tender_config = self.request.validated["tender_config"]
+        return {
+            "data": self.serializer_class(tender).data,
+            "config": self.serializer_config_class(tender_config).data,
+        }
 
     @json_view(
         permission="chronograph",
@@ -21,6 +25,8 @@ class TenderChronographResource(TenderBaseResource):
         )
     )
     def patch(self):
+        tender_config = self.request.validated["tender_config"]
+
         # 1 we run all event handlers that should be run by now
         self.state.run_time_events(self.request.validated["tender"])
 
@@ -48,4 +54,7 @@ class TenderChronographResource(TenderBaseResource):
                 "Updated tender by chronograph",
                 extra=context_unpack(self.request, {"MESSAGE_ID": "tender_chronograph_patch"})
             )
-        return {"data": self.serializer_class(self.request.validated["tender"]).data}
+        return {
+            "data": self.serializer_class(self.request.validated["tender"]).data,
+            "config": self.serializer_config_class(tender_config).data,
+        }

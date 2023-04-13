@@ -22,7 +22,7 @@ from openprocurement.tender.pricequotation.procedure.models.criterion import Cri
 from openprocurement.tender.pricequotation.procedure.models.requirement import validate_criteria_id_uniq
 from openprocurement.tender.pricequotation.procedure.models.item import TenderItem
 from openprocurement.tender.pricequotation.procedure.models.organization import ProcuringEntity
-from openprocurement.tender.pricequotation.constants import PMT, TENDERING_DURATION
+from openprocurement.tender.pricequotation.constants import PQ, TENDERING_DURATION
 from openprocurement.tender.pricequotation.validation import validate_profile_pattern
 from openprocurement.tender.openua.validation import _validate_tender_period_start_date
 from openprocurement.api.models import ModelType, Model, IsoDateTimeType, Value
@@ -72,9 +72,9 @@ def validate_tender_period_duration(data, period):
 
 
 class PostTender(PostBaseTender):
-    procurementMethodType = StringType(choices=[PMT], default=PMT)
+    procurementMethodType = StringType(choices=[PQ], default=PQ)
     procurementMethod = StringType(choices=["selective"], default="selective")
-    submissionMethod = StringType(choices=["electronicAuction"], default="electronicAuction")
+    submissionMethod = StringType(choices=["electronicAuction"])
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
     submissionMethodDetails_en = StringType()
     submissionMethodDetails_ru = StringType()
@@ -180,9 +180,9 @@ class PatchPQBotTender(Model):
 
 
 class Tender(BaseTender):
-    procurementMethodType = StringType(choices=[PMT], required=True)
+    procurementMethodType = StringType(choices=[PQ], required=True)
     procurementMethod = StringType(choices=["selective"], required=True)
-    submissionMethod = StringType(choices=["electronicAuction"], required=True)
+    submissionMethod = StringType(choices=["electronicAuction"])
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
     submissionMethodDetails_en = StringType()
     submissionMethodDetails_ru = StringType()

@@ -5,14 +5,14 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.cfaua.tests.chronograph_blanks import next_check_field_in_active_qualification
-
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
-
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_author,
+)
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderContentWebTest,
-    test_bids,
-    test_lots,
-    test_features_tender_data,
+    test_tender_cfaua_bids,
+    test_tender_cfaua_lots,
+    test_tender_cfaua_features_data,
 )
 from openprocurement.tender.cfaua.tests.chronograph_blanks import (
     # TenderComplaintSwitchResourceTest
@@ -34,7 +34,7 @@ from openprocurement.tender.openua.tests.chronograph_blanks import set_auction_p
 
 class TenderSwitchPreQualificationResourceTest(BaseTenderContentWebTest):
     initial_status = "active.pre-qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_cfaua_bids
 
     test_switch_to_pre_qual = snitch(active_tendering_to_pre_qual)
     test_switch_to_stand_still = snitch(pre_qual_switch_to_stand_still)
@@ -42,7 +42,7 @@ class TenderSwitchPreQualificationResourceTest(BaseTenderContentWebTest):
 
 class TenderSwitchAuctionResourceTest(BaseTenderContentWebTest):
     initial_status = "active.pre-qualification.stand-still"
-    initial_bids = test_bids
+    initial_bids = test_tender_cfaua_bids
 
     test_switch_to_auction = snitch(switch_to_auction)
 
@@ -54,18 +54,18 @@ class TenderSwitchUnsuccessfulResourceTest(BaseTenderContentWebTest):
 
 
 class TenderLotSwitchPreQualificationResourceTest(TenderSwitchPreQualificationResourceTest):
-    initial_lots = test_lots
+    initial_lots = test_tender_cfaua_lots
 
 
 class TenderLotSwitchAuctionResourceTest(TenderSwitchAuctionResourceTest):
     initial_status = "active.tendering"
-    initial_lots = test_lots
-    initial_bids = test_bids
+    initial_lots = test_tender_cfaua_lots
+    initial_bids = test_tender_cfaua_bids
 
 
 class TenderLotSwitchUnsuccessfulResourceTest(TenderSwitchUnsuccessfulResourceTest):
     initial_status = "active.tendering"
-    initial_lots = test_lots
+    initial_lots = test_tender_cfaua_lots
 
     test_switch_to_unsuccessful_from_qualification_stand_still = snitch(
         switch_to_unsuccessful_from_qualification_stand_still
@@ -80,34 +80,34 @@ class TenderAuctionPeriodResourceTest(BaseTenderContentWebTest):
 
 class TenderLotAuctionPeriodResourceTest(BaseTenderContentWebTest):
     initial_status = "active.tendering"
-    initial_lots = test_lots
+    initial_lots = test_tender_cfaua_lots
 
     test_set_auction_period = snitch(set_auction_period_lot)
 
 
 class TenderComplaintSwitchResourceTest(BaseTenderContentWebTest):
     initial_status = "active.tendering"
-    initial_bids = test_bids
-    author_data = test_author
+    initial_bids = test_tender_cfaua_bids
+    author_data = test_tender_below_author
 
     test_switch_to_complaint = snitch(switch_to_complaint)
 
 
 class TenderLotComplaintSwitchResourceTest(TenderComplaintSwitchResourceTest):
-    initial_lots = test_lots
+    initial_lots = test_tender_cfaua_lots
 
 
 class TenderSwitchStatusesForNextCheckResourceTest(BaseTenderContentWebTest):
     initial_status = "active.pre-qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_cfaua_bids
 
     test_next_check_field_in_active_qualification = snitch(next_check_field_in_active_qualification)
 
 
 class TenderSwitchQualificationStandStillResourceTest(BaseTenderContentWebTest):
-    initial_data = test_features_tender_data
+    initial_data = test_tender_cfaua_features_data
     initial_status = "active.qualification.stand-still"
-    initial_bids = deepcopy(test_bids)
+    initial_bids = deepcopy(test_tender_cfaua_bids)
 
     def setUp(self):
         for bid in self.initial_bids:
@@ -118,7 +118,7 @@ class TenderSwitchQualificationStandStillResourceTest(BaseTenderContentWebTest):
 
 
 class TenderLotSwitchQualificationStandStillResourceTest(TenderSwitchQualificationStandStillResourceTest):
-    initial_lots = test_lots
+    initial_lots = test_tender_cfaua_lots
 
 
 def suite():

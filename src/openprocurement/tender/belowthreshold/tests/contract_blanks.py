@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 import jmespath
+from unittest.mock import patch
 from datetime import timedelta
 from copy import deepcopy
 from openprocurement.api.utils import get_now
-from unittest.mock import patch
-from openprocurement.tender.belowthreshold.tests.base import test_claim, test_cancellation
-from openprocurement.tender.belowthreshold.utils import prepare_tender_item_for_contract
-from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
-
-# TenderContractResourceTest
 from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
+from openprocurement.tender.belowthreshold.utils import prepare_tender_item_for_contract
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_claim,
+    test_tender_below_cancellation,
+)
 
 def create_tender_contract_invalid(self):
     self.app.authorization = ("Basic", ("token", ""))
@@ -469,7 +470,7 @@ def patch_tender_contract(self):
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
         {
-            "data": test_claim
+            "data": test_tender_below_claim
         },
     )
     self.assertEqual(response.status, "201 Created")
@@ -1545,7 +1546,7 @@ def lot2_patch_tender_contract(self):
 
     self.set_status("complete", {"status": "active.awarded"})
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -2672,7 +2673,7 @@ def lot2_create_tender_contract_document(self):
     self.assertIn(doc_id, response.headers["Location"])
     self.assertEqual("name.doc", response.json["data"]["title"])
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -2748,7 +2749,7 @@ def lot2_create_tender_contract_document_by_supplier(self):
     self.assertIn(doc_id, response.headers["Location"])
     self.assertEqual("name.doc", response.json["data"]["title"])
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -2875,7 +2876,7 @@ def lot2_put_tender_contract_document(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -2968,7 +2969,7 @@ def lot2_put_tender_contract_document_by_supplier(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
 
     # Tender owner
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -3051,7 +3052,7 @@ def lot2_patch_tender_contract_document(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -3139,7 +3140,7 @@ def lot2_patch_tender_contract_document_by_supplier(self):
                      "Supplier can't update document in current contract status")
 
     # Tender owner
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",

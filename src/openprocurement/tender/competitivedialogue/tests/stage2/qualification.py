@@ -2,13 +2,13 @@
 import unittest
 from copy import deepcopy
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_draft_complaint
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_draft_complaint
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
-    test_bids,
-    test_lots,
-    test_author,
-    test_tenderer,
+    test_tender_openeu_bids,
+    test_tender_cd_lots,
+    test_tender_cd_author,
+    test_tender_cd_tenderer,
 )
 from openprocurement.tender.openeu.tests.qualification import (
     TenderQualificationRequirementResponseTestMixin,
@@ -63,9 +63,9 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
     create_tender_qualifications_document_json_bulk,
 )
 
-test_tender_bids = deepcopy(test_bids[:2])
+test_tender_bids = deepcopy(test_tender_openeu_bids[:2])
 for test_bid in test_tender_bids:
-    test_bid["tenderers"] = [test_tenderer]
+    test_bid["tenderers"] = [test_tender_cd_tenderer]
 
 
 class TenderQualificationBaseTestCase(BaseCompetitiveDialogEUStage2ContentWebTest):
@@ -73,7 +73,7 @@ class TenderQualificationBaseTestCase(BaseCompetitiveDialogEUStage2ContentWebTes
     initial_status = "active.tendering"  # 'active.pre-qualification' status sets in setUp
     initial_bids = test_tender_bids
     initial_auth = ("Basic", ("broker", ""))
-    author_data = test_author
+    author_data = test_tender_cd_author
     docservice = True
 
     def setUp(self):
@@ -99,7 +99,7 @@ class TenderStage2EUQualificationResourceTest(TenderQualificationBaseTestCase):
 
 
 class TenderStage2EU2LotQualificationResourceTest(TenderQualificationBaseTestCase):
-    initial_lots = deepcopy(2 * test_lots)
+    initial_lots = deepcopy(2 * test_tender_cd_lots)
 
     test_patch_tender_qualifications = snitch(lot_patch_tender_qualifications)
     test_get_tender_qualifications_collection = snitch(lot_get_tender_qualifications_collection)
@@ -172,7 +172,7 @@ class TenderStage2EUQualificationComplaintResourceTest(TenderQualificationBaseTe
 
 class TenderStage2EULotQualificationComplaintResourceTest(TenderStage2EUQualificationComplaintResourceTest):
 
-    initial_lots = test_lots
+    initial_lots = test_tender_cd_lots
     initial_auth = ("Basic", ("broker", ""))
 
     test_create_tender_qualification_complaint = snitch(create_tender_lot_qualification_complaint)
@@ -182,7 +182,7 @@ class TenderStage2EULotQualificationComplaintResourceTest(TenderStage2EUQualific
 
 
 class TenderStage2EU2LotQualificationComplaintResourceTest(TenderStage2EULotQualificationComplaintResourceTest):
-    initial_lots = deepcopy(2 * test_lots)
+    initial_lots = deepcopy(2 * test_tender_cd_lots)
     initial_auth = ("Basic", ("broker", ""))
     test_create_tender_qualification_complaint = snitch(create_tender_2lot_qualification_complaint)
 
@@ -218,7 +218,7 @@ class TenderStage2EUQualificationComplaintDocumentResourceTest(TenderQualificati
             "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
                 self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
             ),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]
@@ -233,7 +233,7 @@ class TenderStage2EUQualificationComplaintDocumentResourceTest(TenderQualificati
 class TenderStage2EU2LotQualificationComplaintDocumentResourceTest(
     TenderStage2EUQualificationComplaintDocumentResourceTest
 ):
-    initial_lots = 2 * test_lots
+    initial_lots = 2 * test_tender_cd_lots
     initial_auth = ("Basic", ("broker", ""))
     test_create_tender_qualification_complaint_document = snitch(create_tender_2lot_qualification_complaint_document)
     test_put_tender_qualification_complaint_document = snitch(put_tender_2lot_qualification_complaint_document)

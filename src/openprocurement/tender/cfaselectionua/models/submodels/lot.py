@@ -12,7 +12,7 @@ class Lot(BaseLot):
         roles = RolesFromCsv("Lot.csv", relative_to=__file__)
 
     value = ModelType(Value)
-    minimalStep = ModelType(Value, required=False)
+    minimalStep = ModelType(Value)
     auctionPeriod = ModelType(LotAuctionPeriod, default={})
 
     @serializable(serialized_name="value", type=ModelType(Value), serialize_when_none=False)

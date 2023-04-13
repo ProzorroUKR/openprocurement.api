@@ -1,20 +1,22 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_claim, test_draft_claim, test_complaint, test_author,
-    test_draft_complaint,
+    test_tender_below_claim,
+    test_tender_below_draft_claim,
+    test_tender_below_complaint,
+    test_tender_below_author,
+    test_tender_below_draft_complaint,
 )
 from mock import patch
 from copy import deepcopy
 from datetime import timedelta
-# TenderComplaintResourceTest
 
 
 def create_tender_complaint(self):
-    complaint_data = deepcopy(test_draft_complaint)
-    complaint_data["author"] = getattr(self, "test_author", test_author)
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
+    complaint_data["author"] = getattr(self, "test_author", test_tender_below_author)
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {
@@ -25,8 +27,8 @@ def create_tender_complaint(self):
     complaint = response.json["data"]
     self.assertEqual(complaint["status"], "draft")
 
-    claim_data = deepcopy(test_claim)
-    claim_data["author"] = getattr(self, "test_author", test_author)
+    claim_data = deepcopy(test_tender_below_claim)
+    claim_data["author"] = getattr(self, "test_author", test_tender_below_author)
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {
@@ -95,8 +97,8 @@ def create_tender_complaint(self):
 
 
 def patch_tender_complaint(self):
-    complaint_data = deepcopy(test_draft_complaint)
-    complaint_data["author"] = getattr(self, "test_author", test_author)
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
+    complaint_data["author"] = getattr(self, "test_author", test_tender_below_author)
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {"data": complaint_data},
@@ -127,8 +129,8 @@ def patch_tender_complaint(self):
         self.assertEqual(response.json["errors"][0]["description"],
                          "Can't update complaint from draft to cancelled status")
 
-    claim_data = deepcopy(test_draft_claim)
-    claim_data["author"] = getattr(self, "test_author", test_author)
+    claim_data = deepcopy(test_tender_below_draft_claim)
+    claim_data["author"] = getattr(self, "test_author", test_tender_below_author)
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {"data": claim_data},
@@ -208,8 +210,8 @@ def patch_tender_complaint(self):
         "Can't update complaint from answered to pending status"
     )
 
-    complaint_data = deepcopy(test_draft_complaint)
-    complaint_data["author"] = getattr(self, "test_author", test_author)
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
+    complaint_data["author"] = getattr(self, "test_author", test_tender_below_author)
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {"data": complaint_data},
@@ -315,8 +317,8 @@ def patch_tender_complaint(self):
             response.json["errors"][0]["description"], "Can't update complaint from pending to stopping status"
         )
 
-    claim_data = deepcopy(test_draft_claim)
-    claim_data["author"] = getattr(self, "test_author", test_author)
+    claim_data = deepcopy(test_tender_below_draft_claim)
+    claim_data["author"] = getattr(self, "test_author", test_tender_below_author)
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {"data": claim_data},
@@ -327,8 +329,8 @@ def patch_tender_complaint(self):
     owner_token = response.json["access"]["token"]
 
     # create complaint
-    complaint_data = deepcopy(test_draft_complaint)
-    complaint_data["author"] = getattr(self, "test_author", test_author)
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
+    complaint_data["author"] = getattr(self, "test_author", test_tender_below_author)
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {"data": complaint_data},
@@ -366,8 +368,8 @@ def patch_tender_complaint(self):
 
 @patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def bot_patch_tender_complaint(self):
-    complaint_data = deepcopy(test_draft_complaint)
-    complaint_data["author"] = getattr(self, "test_author", test_author)
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
+    complaint_data["author"] = getattr(self, "test_author", test_tender_below_author)
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {"data": complaint_data},
@@ -389,8 +391,8 @@ def bot_patch_tender_complaint(self):
 
 @patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def bot_patch_tender_complaint_mistaken(self):
-    complaint_data = deepcopy(test_draft_complaint)
-    complaint_data["author"] = getattr(self, "test_author", test_author)
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
+    complaint_data["author"] = getattr(self, "test_author", test_tender_below_author)
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {"data": complaint_data},
@@ -413,8 +415,8 @@ def bot_patch_tender_complaint_mistaken(self):
 
 @patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 def bot_patch_tender_complaint_forbidden(self):
-    complaint_data = deepcopy(test_draft_complaint)
-    complaint_data["author"] = getattr(self, "test_author", test_author)
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
+    complaint_data["author"] = getattr(self, "test_author", test_tender_below_author)
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {"data": complaint_data},
@@ -442,8 +444,8 @@ def review_tender_complaint(self):
     for status in ["invalid", "stopped", "satisfied", "declined"]:
         self.app.authorization = ("Basic", ("broker", ""))
 
-        complaint_data = deepcopy(test_complaint)
-        complaint_data["author"] = getattr(self, "test_author", test_author)
+        complaint_data = deepcopy(test_tender_below_complaint)
+        complaint_data["author"] = getattr(self, "test_author", test_tender_below_author)
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
             {
@@ -536,8 +538,8 @@ def review_tender_complaint(self):
 
 @patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def mistaken_status_tender_complaint(self):
-    complaint_data = deepcopy(test_complaint)
-    complaint_data["author"] = getattr(self, "test_author", test_author)
+    complaint_data = deepcopy(test_tender_below_complaint)
+    complaint_data["author"] = getattr(self, "test_author", test_tender_below_author)
     complaint_data["status"] = "draft"
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
@@ -619,9 +621,9 @@ def mistaken_status_tender_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"], "Forbidden")
 
-    claim_data = deepcopy(test_draft_claim)
+    claim_data = deepcopy(test_tender_below_draft_claim)
     claim_data["status"] = "claim"
-    claim_data["author"] = getattr(self, "test_author", test_author)
+    claim_data["author"] = getattr(self, "test_author", test_tender_below_author)
 
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
@@ -728,8 +730,8 @@ def review_tender_stopping_complaint(self):
         for status in ["satisfied", "stopped", "declined", "mistaken", "invalid"]:
             self.app.authorization = ("Basic", ("broker", ""))
 
-            complaint_data = deepcopy(test_complaint)
-            complaint_data["author"] = getattr(self, "test_author", test_author)
+            complaint_data = deepcopy(test_tender_below_complaint)
+            complaint_data["author"] = getattr(self, "test_author", test_tender_below_author)
             response = self.app.post_json(
                 "/tenders/{}/complaints".format(self.tender_id),
                 {
@@ -775,9 +777,9 @@ def review_tender_stopping_complaint(self):
 
 
 def create_tender_lot_complaint(self):
-    claim_data = deepcopy(test_claim)
+    claim_data = deepcopy(test_tender_below_claim)
     claim_data["relatedLot"] = self.initial_lots[0]["id"]
-    claim_data["author"] = getattr(self, "test_author", test_author)
+    claim_data["author"] = getattr(self, "test_author", test_tender_below_author)
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {

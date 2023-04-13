@@ -13,7 +13,6 @@ Content-Type: application/json
     "title": "Послуги шкільних їдалень",
     "procurementMethod": "open",
     "awardCriteria": "ratedCriteria",
-    "submissionMethod": "electronicAuction",
     "procurementMethodType": "esco",
     "status": "draft",
     "minValue": {
@@ -133,6 +132,7 @@ Content-Type: application/json
     "tenderID": "UA-2023-01-01-000001-a",
     "owner": "broker",
     "date": "2023-01-01T00:00:00+02:00",
+    "submissionMethod": "electronicAuction",
     "enquiryPeriod": {
       "startDate": "2023-01-01T00:00:00+02:00",
       "endDate": "2023-01-22T00:00:00+02:00",
@@ -145,6 +145,9 @@ Content-Type: application/json
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "id": "28db6af763c74fceaedc98e147fed6cb"
+  },
+  "config": {
+    "hasAuction": true
   }
 }
 

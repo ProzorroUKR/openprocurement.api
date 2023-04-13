@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openprocurement.tender.belowthreshold.tests.base import test_claim
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_claim
 from copy import deepcopy
 
 
@@ -60,7 +60,7 @@ def switch_to_complaint(self):
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
             {
-                "data": test_claim
+                "data": test_tender_below_claim
             },
         )
         self.assertEqual(response.status, "201 Created")

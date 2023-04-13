@@ -7,12 +7,12 @@ from openprocurement.tender.pricequotation.tests.chronograph_blanks import (
     switch_to_unsuccessful_by_chronograph,
     ensure_no_auction_period,
 )
-from openprocurement.tender.pricequotation.tests.data import test_bids
+from openprocurement.tender.pricequotation.tests.data import test_tender_pq_bids
 
 
 class TenderChronographResourceTest(TenderContentWebTest):
     initial_status = "active.tendering"
-    initial_bids = test_bids
+    initial_bids = test_tender_pq_bids
 
     test_switch_to_qualification = snitch(switch_to_qualification)
     test_switch_to_unsuccessful = snitch(switch_to_unsuccessful)

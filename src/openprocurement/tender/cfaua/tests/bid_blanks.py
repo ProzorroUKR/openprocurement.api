@@ -3,8 +3,8 @@ from copy import deepcopy
 from mock import patch
 from datetime import datetime, timedelta
 from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD
-from openprocurement.tender.cfaua.tests.base import agreement_period
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.cfaua.tests.base import test_tender_cfaua_agreement_period
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17, TWO_PHASE_COMMIT_FROM
 from openprocurement.api.utils import get_now
 
@@ -2998,7 +2998,7 @@ def get_tender_bidder_document_ds(self):
     # sign agreement
     self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, agreement_id, self.tender_token),
-        {"data": {"status": "active", "period": agreement_period}},
+        {"data": {"status": "active", "period": test_tender_cfaua_agreement_period}},
     )
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "complete")

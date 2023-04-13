@@ -1,19 +1,21 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.tests.base import change_auth
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author, test_cancellation
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+    test_tender_below_author,
+    test_tender_below_cancellation,
+)
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
 from openprocurement.tender.core.utils import get_now
 
-# TenderQuestionResourceTest
-
 
 def create_tender_question_invalid(self):
     response = self.app.post_json(
         "/tenders/some_id/questions",
-        {"data": {"title": "question title", "description": "question description", "author": test_author}},
+        {"data": {"title": "question title", "description": "question description", "author": test_tender_below_author}},
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
@@ -165,7 +167,7 @@ def create_tender_question_invalid(self):
             "data": {
                 "title": "question title",
                 "description": "question description",
-                "author": test_author,
+                "author": test_tender_below_author,
                 "questionOf": "lot",
             }
         },
@@ -185,7 +187,7 @@ def create_tender_question_invalid(self):
             "data": {
                 "title": "question title",
                 "description": "question description",
-                "author": test_author,
+                "author": test_tender_below_author,
                 "questionOf": "lot",
                 "relatedItem": "0" * 32,
             }
@@ -206,7 +208,7 @@ def create_tender_question_invalid(self):
             "data": {
                 "title": "question title",
                 "description": "question description",
-                "author": test_author,
+                "author": test_tender_below_author,
                 "questionOf": "item",
                 "relatedItem": "0" * 32,
             }
@@ -228,7 +230,7 @@ def create_tender_question_invalid(self):
                 "data": {
                     "title": "question title",
                     "description": "question description",
-                    "author": test_author,
+                    "author": test_tender_below_author,
                 },
             },
             status=403,
@@ -244,19 +246,19 @@ def create_tender_question_invalid(self):
 def create_tender_question(self):
     response = self.app.post_json(
         "/tenders/{}/questions".format(self.tender_id),
-        {"data": {"title": "question title", "description": "question description", "author": test_author}},
+        {"data": {"title": "question title", "description": "question description", "author": test_tender_below_author}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     question = response.json["data"]
-    self.assertEqual(question["author"]["name"], test_organization["name"])
+    self.assertEqual(question["author"]["name"], test_tender_below_organization["name"])
     self.assertIn("id", question)
     self.assertIn(question["id"], response.headers["Location"])
 
     self.set_enquiry_period_end()
     response = self.app.post_json(
         "/tenders/{}/questions".format(self.tender_id),
-        {"data": {"title": "question title", "description": "question description", "author": test_author}},
+        {"data": {"title": "question title", "description": "question description", "author": test_tender_below_author}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -266,7 +268,7 @@ def create_tender_question(self):
     self.set_status(self.forbidden_question_add_actions_status)
     response = self.app.post_json(
         "/tenders/{}/questions".format(self.tender_id),
-        {"data": {"title": "question title", "description": "question description", "author": test_author}},
+        {"data": {"title": "question title", "description": "question description", "author": test_tender_below_author}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -275,7 +277,7 @@ def create_tender_question(self):
 
 
 def patch_tender_question(self):
-    author = getattr(self, "author_data", test_author)
+    author = getattr(self, "author_data", test_tender_below_author)
     response = self.app.post_json(
         "/tenders/{}/questions".format(self.tender_id),
         {"data": {"title": "question title", "description": "question description", "author": author}},
@@ -357,7 +359,7 @@ def patch_tender_question(self):
 def get_tender_question(self):
     response = self.app.post_json(
         "/tenders/{}/questions".format(self.tender_id),
-        {"data": {"title": "question title", "description": "question description", "author": test_author}},
+        {"data": {"title": "question title", "description": "question description", "author": test_tender_below_author}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -395,7 +397,7 @@ def get_tender_question(self):
 def get_tender_questions(self):
     response = self.app.post_json(
         "/tenders/{}/questions".format(self.tender_id),
-        {"data": {"title": "question title", "description": "question description", "author": test_author}},
+        {"data": {"title": "question title", "description": "question description", "author": test_tender_below_author}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -434,7 +436,7 @@ def lot_create_tender_question(self):
         # For procedures: openua, openuadefense, openeu, negotiation, negotiation.quick, esco, copetitivedialogue, cfaua
         # validation after RELEASE_2020_04_19 is useless, because enquiryPeriod ended before complaintPeriod
 
-        cancellation = dict(**test_cancellation)
+        cancellation = dict(**test_tender_below_cancellation)
         cancellation.update({
             "status": "active",
             "cancellationOf": "lot",
@@ -552,7 +554,7 @@ def lot_patch_tender_question(self):
         # For procedures: openua, openuadefense, openeu, negotiation, negotiation.quick, esco, copetitivedialogue, cfaua
         # validation after RELEASE_2020_04_19 is useless, because enquiryPeriod ended before complaintPeriod
 
-        cancellation = dict(**test_cancellation)
+        cancellation = dict(**test_tender_below_cancellation)
         cancellation.update({
             "status": "active",
             "cancellationOf": "lot",

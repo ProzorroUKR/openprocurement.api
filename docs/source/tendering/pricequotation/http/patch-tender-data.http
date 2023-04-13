@@ -28,7 +28,6 @@ Content-Type: application/json
     "mainProcurementCategory": "goods",
     "procurementMethodType": "priceQuotation",
     "procurementMethod": "selective",
-    "submissionMethod": "electronicAuction",
     "awardCriteria": "lowestCost",
     "status": "draft",
     "agreement": {
@@ -174,6 +173,9 @@ Content-Type: application/json
       }
     ],
     "id": "bb8949e735294cbaa864bd3bc68a1e5f"
+  },
+  "config": {
+    "hasAuction": false
   }
 }
 

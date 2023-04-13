@@ -31,7 +31,6 @@ from openprocurement.tender.core.models import (
 )
 from openprocurement.tender.core.utils import calc_auction_end_time, validate_features_custom_weight
 from openprocurement.tender.core.validation import validate_minimalstep, validate_tender_period_duration
-from barbecue import vnmax
 from decimal import Decimal
 
 
@@ -181,7 +180,7 @@ class CFASelectionUATender(BaseTender):
     awards = ListType(ModelType(Award, required=True), default=list())
     contracts = ListType(ModelType(Contract, required=True), default=list())
     auctionPeriod = ModelType(TenderAuctionPeriod, default={})
-    minimalStep = ModelType(Value, required=False)
+    minimalStep = ModelType(Value)
     auctionUrl = URLType()
     cancellations = ListType(ModelType(Cancellation, required=True), default=list())
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
@@ -260,51 +259,54 @@ class CFASelectionUATender(BaseTender):
 
     @serializable(serialized_name="guarantee", serialize_when_none=False, type=ModelType(Guarantee))
     def tender_guarantee(self):
-        if self.lots:
-            lots_amount = [i.guarantee.amount for i in self.lots if i.guarantee]
-            if not lots_amount:
-                return self.guarantee
-            guarantee = {"amount": sum(lots_amount)}
-            lots_currency = [i.guarantee.currency for i in self.lots if i.guarantee]
-            guarantee["currency"] = lots_currency[0] if lots_currency else None
-            if self.guarantee:
-                guarantee["currency"] = self.guarantee.currency
-            guarantee_class = self._fields["guarantee"]
-            return guarantee_class(guarantee)
-        else:
-            return self.guarantee
+        return self.guarantee
+        # if self.lots:
+        #     lots_amount = [i.guarantee.amount for i in self.lots if i.guarantee]
+        #     if not lots_amount:
+        #         return self.guarantee
+        #     guarantee = {"amount": sum(lots_amount)}
+        #     lots_currency = [i.guarantee.currency for i in self.lots if i.guarantee]
+        #     guarantee["currency"] = lots_currency[0] if lots_currency else None
+        #     if self.guarantee:
+        #         guarantee["currency"] = self.guarantee.currency
+        #     guarantee_class = self._fields["guarantee"]
+        #     return guarantee_class(guarantee)
+        # else:
+        #     return self.guarantee
 
     @serializable(serialized_name="minimalStep", serialize_when_none=False, type=ModelType(Value, required=False))
     def tender_minimalStep(self):
-        if all([i.minimalStep for i in self.lots]):
-            value_class = self._fields["minimalStep"]
-            return (
-                value_class(
-                    dict(
-                        amount=min([i.minimalStep.amount for i in self.lots]),
-                        currency=self.lots[0].minimalStep.currency,
-                        valueAddedTaxIncluded=self.lots[0].minimalStep.valueAddedTaxIncluded,
-                    )
-                )
-                if self.lots
-                else self.minimalStep
-            )
+        return self.minimalStep
+        # if all([i.minimalStep for i in self.lots]):
+        #     value_class = self._fields["minimalStep"]
+        #     return (
+        #         value_class(
+        #             dict(
+        #                 amount=min([i.minimalStep.amount for i in self.lots]),
+        #                 currency=self.lots[0].minimalStep.currency,
+        #                 valueAddedTaxIncluded=self.lots[0].minimalStep.valueAddedTaxIncluded,
+        #             )
+        #         )
+        #         if self.lots
+        #         else self.minimalStep
+        #     )
 
     @serializable(serialized_name="value", serialize_when_none=False, type=ModelType(Value))
     def tender_value(self):
-        if all([i.value for i in self.lots]):
-            value_class = self._fields["value"]
-            return (
-                value_class(
-                    dict(
-                        amount=sum([i.value.amount for i in self.lots]),
-                        currency=self.lots[0].value.currency,
-                        valueAddedTaxIncluded=self.lots[0].value.valueAddedTaxIncluded,
-                    )
-                )
-                if self.lots
-                else self.value
-            )
+        return self.value
+        # if all([i.value for i in self.lots]):
+        #     value_class = self._fields["value"]
+        #     return (
+        #         value_class(
+        #             dict(
+        #                 amount=sum([i.value.amount for i in self.lots]),
+        #                 currency=self.lots[0].value.currency,
+        #                 valueAddedTaxIncluded=self.lots[0].value.valueAddedTaxIncluded,
+        #             )
+        #         )
+        #         if self.lots
+        #         else self.value
+        #     )
 
     @serializable(serialize_when_none=False)
     def next_check(self):

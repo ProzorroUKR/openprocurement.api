@@ -10,7 +10,7 @@ from openprocurement.api.validation import (
 from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.core.validation import validate_role_for_contract_document_operation
 from openprocurement.tender.belowthreshold.views.contract_document import TenderAwardContractDocumentResource
-from openprocurement.tender.pricequotation.constants import PMT
+from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.tender.pricequotation.validation import validate_contract_document_operation
 
 

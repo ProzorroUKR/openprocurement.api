@@ -4,10 +4,10 @@ from webtest import AppError
 import mock
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.pricequotation.constants import QUALIFICATION_DURATION
-from openprocurement.tender.pricequotation.tests.base import test_organization
+from openprocurement.tender.pricequotation.tests.base import test_tender_pq_organization
 
 
 def create_tender_award_invalid(self):
@@ -131,7 +131,7 @@ def create_tender_award_invalid(self):
 
     response = self.app.post_json(
         "/tenders/some_id/awards",
-        {"data": {"suppliers": [test_organization], "bid_id": self.initial_bids[0]["id"]}},
+        {"data": {"suppliers": [test_tender_pq_organization], "bid_id": self.initial_bids[0]["id"]}},
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
@@ -153,7 +153,7 @@ def create_tender_award_invalid(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards".format(self.tender_id),
-        {"data": {"suppliers": [test_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+        {"data": {"suppliers": [test_tender_pq_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -168,12 +168,12 @@ def create_tender_award(self):
         request_path = "/tenders/{}/awards".format(self.tender_id)
         response = self.app.post_json(
             request_path,
-            {"data": {"suppliers": [test_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+            {"data": {"suppliers": [test_tender_pq_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
         award = response.json["data"]
-        self.assertEqual(award["suppliers"][0]["name"], test_organization["name"])
+        self.assertEqual(award["suppliers"][0]["name"], test_tender_pq_organization["name"])
         self.assertIn("id", award)
         self.assertIn(award["id"], response.headers["Location"])
 

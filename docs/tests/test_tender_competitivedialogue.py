@@ -6,56 +6,86 @@ from copy import deepcopy
 from mock import patch
 
 from openprocurement.api.models import get_now
-from openprocurement.tender.competitivedialogue.models import TenderStage2EU, CompetitiveDialogEU
-from openprocurement.tender.belowthreshold.tests.base import test_criteria, language_criteria
+from openprocurement.tender.competitivedialogue.models import (
+    TenderStage2EU,
+    CompetitiveDialogEU,
+)
+from openprocurement.tender.core.tests.base import (
+    test_exclusion_criteria,
+    test_language_criteria,
+)
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUWebTest,
-    BaseCompetitiveDialogUAStage2WebTest
+    BaseCompetitiveDialogUAStage2WebTest,
+    test_tender_cdeu_config,
+    test_tender_cdeu_stage2_config,
+    test_tender_cdua_stage2_config,
 )
 
-from tests.base.test import DumpsWebTestApp, MockWebTestMixin
-from tests.base.constants import DOCS_URL, AUCTIONS_URL
+from tests.base.test import (
+    DumpsWebTestApp,
+    MockWebTestMixin,
+)
+from tests.base.constants import (
+    DOCS_URL,
+    AUCTIONS_URL,
+)
 from tests.base.data import (
-    bid_draft, bid2, bid3, bid4, bad_participant, question, complaint, qualified,
-    bid_document, bid_document2, lots, subcontracting,
-    bid_document3_eligibility, bid_document4_financialy,
-    bid_document5_qualification, tender_stage1, tender_stage2_multiple_lots,
-    tender_stage2EU, tender_stage2UA,
-    bad_author)
+    test_docs_bid_draft,
+    test_docs_bid2,
+    test_docs_bid3,
+    test_docs_bid4,
+    test_docs_bad_participant,
+    test_docs_question,
+    test_docs_qualified,
+    test_docs_bid_document,
+    test_docs_bid_document2,
+    test_docs_lots,
+    test_docs_subcontracting,
+    test_docs_bid_document3_eligibility,
+    test_docs_bid_document4_financialy,
+    test_docs_bid_document5_qualification,
+    test_docs_tender_stage1,
+    test_docs_tender_stage2_multiple_lots,
+    test_docs_tender_stage2EU,
+    test_docs_tender_stage2UA,
+    test_docs_bad_author,
+)
 
-test_tender_data_stage1 = deepcopy(tender_stage1)
-test_tender_data_stage2_multiple_lots = deepcopy(tender_stage2_multiple_lots)
-test_tender_data_stage2EU = deepcopy(tender_stage2EU)
-test_tender_data_stage2UA = deepcopy(tender_stage2UA)
-test_lots = deepcopy(lots)
-bid_stage2 = deepcopy(bid_draft)
-bid = deepcopy(bid_draft)
-bid_with_bad_participant = deepcopy(bid_draft)
-bid2 = deepcopy(bid2)
+test_tender_data_stage1 = deepcopy(test_docs_tender_stage1)
+test_tender_data_stage2_multiple_lots = deepcopy(test_docs_tender_stage2_multiple_lots)
+test_tender_data_stage2EU = deepcopy(test_docs_tender_stage2EU)
+test_tender_data_stage2UA = deepcopy(test_docs_tender_stage2UA)
+test_lots = deepcopy(test_docs_lots)
+bid_stage2 = deepcopy(test_docs_bid_draft)
+bid = deepcopy(test_docs_bid_draft)
+bid_with_bad_participant = deepcopy(test_docs_bid_draft)
+bid2 = deepcopy(test_docs_bid2)
 bid2_stage2 = deepcopy(bid2)
-bid3 = deepcopy(bid3)
-bid4 = deepcopy(bid4)
+bid3 = deepcopy(test_docs_bid3)
+bid4 = deepcopy(test_docs_bid4)
 bid2_with_docs = deepcopy(bid2)
 bid2_with_docs_st2 = deepcopy(bid2)
 bid4_with_docs = deepcopy(bid4)
 bid4_with_docs_st2 = deepcopy(bid4)
-bid_document2 = deepcopy(bid_document2)
+bid_document = deepcopy(test_docs_bid_document)
+bid_document2 = deepcopy(test_docs_bid_document2)
 
-bid_stage2.update(subcontracting)
-bid_stage2.update(qualified)
-bid.update(subcontracting)
-bid.update(qualified)
-bid_with_bad_participant.update(subcontracting)
-bid_with_bad_participant.update(qualified)
-bid2.update(qualified)
-bid2_stage2.update(qualified)
-bid3.update(qualified)
-bid4.update(qualified)
-bid2_with_docs.update(qualified)
-bid2_with_docs_st2.update(qualified)
-bid4_with_docs.update(qualified)
-bid4_with_docs_st2.update(qualified)
+bid_stage2.update(test_docs_subcontracting)
+bid_stage2.update(test_docs_qualified)
+bid.update(test_docs_subcontracting)
+bid.update(test_docs_qualified)
+bid_with_bad_participant.update(test_docs_subcontracting)
+bid_with_bad_participant.update(test_docs_qualified)
+bid2.update(test_docs_qualified)
+bid2_stage2.update(test_docs_qualified)
+bid3.update(test_docs_qualified)
+bid4.update(test_docs_qualified)
+bid2_with_docs.update(test_docs_qualified)
+bid2_with_docs_st2.update(test_docs_qualified)
+bid4_with_docs.update(test_docs_qualified)
+bid4_with_docs_st2.update(test_docs_qualified)
 
 del bid['value']
 del bid2['value']
@@ -63,7 +93,7 @@ del bid3['value']
 del bid4['value']
 del bid2_with_docs['value']
 del bid4_with_docs['value']
-bid_with_bad_participant['tenderers'] = [bad_participant]
+bid_with_bad_participant['tenderers'] = [test_docs_bad_participant]
 test_lots[0]['value'] = test_tender_data_stage1['value']
 test_lots[0]['minimalStep'] = test_tender_data_stage1['minimalStep']
 test_lots[1]['value'] = test_tender_data_stage1['value']
@@ -124,7 +154,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',
-                {'data': test_tender_data_stage1})
+                {'data': test_tender_data_stage1, 'config': self.initial_config})
             self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
@@ -145,8 +175,8 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
 
         #### Tender activating
 
-        test_criteria_data = deepcopy(test_criteria)
-        test_criteria_data.extend(language_criteria)
+        test_criteria_data = deepcopy(test_exclusion_criteria)
+        test_criteria_data.extend(test_language_criteria)
 
         with open(TARGET_DIR + 'add-exclusion-criteria.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -256,7 +286,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'ask-question.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/questions'.format(self.tender_id),
-                {'data': question}, status=201)
+                {'data': test_docs_question}, status=201)
             question_id = response.json['data']['id']
             self.assertEqual(response.status, '201 Created')
 
@@ -290,7 +320,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'ask-question-after-enquiry-period.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/questions'.format(self.tender_id),
-                {'data': question}, status=403)
+                {'data': test_docs_question}, status=403)
             self.assertEqual(response.status, '403 Forbidden')
 
         response = self.app.get(f"/tenders/{self.tender_id}")
@@ -560,7 +590,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
         test_tender_data_stage2EU['tenderID'] = f"UA-{get_now().date().isoformat()}-000016-a.2"
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
-            {'data': test_tender_data_stage2EU})
+            {'data': test_tender_data_stage2EU, 'config': test_tender_cdeu_stage2_config})
         self.assertEqual(response.status, '201 Created')
         new_tender_id = response.json['data']['id']
         self.new_tender_token = response.json['access']['token']
@@ -614,7 +644,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
         test_tender_data_stage2EU['tenderID'] = f"UA-{get_now().date().isoformat()}-000016-a.2"
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
-            {'data': test_tender_data_stage2EU})
+            {'data': test_tender_data_stage2EU, 'config': test_tender_cdeu_stage2_config})
         self.assertEqual(response.status, '201 Created')
         self.tender_id = response.json['data']['id']
         tender = response.json['data']
@@ -642,8 +672,9 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
                 }}})
 
         # Tender activating
-        test_criteria_data = deepcopy(test_criteria)
-        test_criteria_data.extend(language_criteria)
+
+        test_criteria_data = deepcopy(test_exclusion_criteria)
+        test_criteria_data.extend(test_language_criteria)
         response = self.app.post_json(
             '/tenders/{}/criteria?acc_token={}'.format(tender['id'], owner_token),
             {'data': test_criteria_data})
@@ -723,7 +754,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
             response = self.app.post_json(
                 '/tenders/{}/questions'.format(self.tender_id),
                 {'data': {
-                    "author": bad_author,
+                    "author": test_docs_bad_author,
                     "description": "Просимо додати таблицю потрібної калорійності харчування",
                     "title": "Калорійність"
                 }}, status=403)
@@ -732,7 +763,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'stage2/EU/ask-question.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/questions'.format(self.tender_id),
-                {'data': question}, status=201)
+                {'data': test_docs_question}, status=201)
             question_id = response.json['data']['id']
             self.assertEqual(response.status, '201 Created')
 
@@ -772,7 +803,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'stage2/EU/ask-question-after-enquiry-period.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/questions'.format(self.tender_id),
-                {'data': question}, status=403)
+                {'data': test_docs_question}, status=403)
             self.assertEqual(response.status, '403 Forbidden')
 
         with open(TARGET_DIR + 'stage2/EU/update-tender-after-enqiery-with-update-periods.http',
@@ -946,9 +977,9 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
             'confidentialityRationale': 'Only our company sells badgers with pink hair.'
         })
         bid4_with_docs_st2["documents"] = [bid_document, bid_document2]
-        bid4_with_docs_st2["eligibilityDocuments"] = [bid_document3_eligibility]
-        bid4_with_docs_st2["financialDocuments"] = [bid_document4_financialy]
-        bid4_with_docs_st2["qualificationDocuments"] = [bid_document5_qualification]
+        bid4_with_docs_st2["eligibilityDocuments"] = [test_docs_bid_document3_eligibility]
+        bid4_with_docs_st2["financialDocuments"] = [test_docs_bid_document4_financialy]
+        bid4_with_docs_st2["qualificationDocuments"] = [test_docs_bid_document5_qualification]
         for document in bid4_with_docs_st2['documents']:
             document['url'] = self.generate_docservice_url()
         for document in bid4_with_docs_st2['eligibilityDocuments']:
@@ -1268,7 +1299,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
         with open(TARGET_DIR_MULTIPLE + 'tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',
-                {'data': test_tender_data_stage1})
+                {'data': test_tender_data_stage1, 'config': self.initial_config})
             self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
@@ -1483,7 +1514,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
         test_tender_data_stage2_multiple_lots['tenderID'] = f"UA-{get_now().date().isoformat()}-000016-a.2"
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
-            {'data': test_tender_data_stage2_multiple_lots})
+            {'data': test_tender_data_stage2_multiple_lots, 'config': test_tender_cdeu_stage2_config})
         self.assertEqual(response.status, '201 Created')
         new_tender_id = response.json['data']['id']
         self.new_tender_token = response.json['access']['token']
@@ -1502,8 +1533,8 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
             self.assertEqual(response.json['data']['status'], 'complete')
             self.assertEqual(response.json['data']['stage2TenderID'], new_tender_id)
 
-        test_criteria_data = deepcopy(test_criteria)
-        test_criteria_data.extend(language_criteria)
+        test_criteria_data = deepcopy(test_exclusion_criteria)
+        test_criteria_data.extend(test_language_criteria)
 
         with open(TARGET_DIR_MULTIPLE + 'tender_stage2_add_criteria.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -1599,7 +1630,7 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTe
         test_tender_data_stage2UA['tenderID'] = f"UA-{get_now().date().isoformat()}-000016-a.2"
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
-            {'data': test_tender_data_stage2UA})
+            {'data': test_tender_data_stage2UA, 'config': test_tender_cdua_stage2_config})
         self.assertEqual(response.status, '201 Created')
         self.tender_id = response.json['data']['id']
         tender = response.json['data']
@@ -1625,8 +1656,8 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTe
                 }}})
 
         # Tender activating
-        test_criteria_data = deepcopy(test_criteria)
-        test_criteria_data.extend(language_criteria)
+        test_criteria_data = deepcopy(test_exclusion_criteria)
+        test_criteria_data.extend(test_language_criteria)
         response = self.app.post_json(
             '/tenders/{}/criteria?acc_token={}'.format(tender['id'], owner_token),
             {'data': test_criteria_data})
@@ -1704,7 +1735,7 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTe
             response = self.app.post_json(
                 '/tenders/{}/questions'.format(self.tender_id),
                 {'data': {
-                    "author": bad_author,
+                    "author": test_docs_bad_author,
                     "description": "Просимо додати таблицю потрібної калорійності харчування",
                     "title": "Калорійність"
                 }}, status=403)
@@ -1713,7 +1744,7 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTe
         with open(TARGET_DIR + 'stage2/UA/ask-question.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/questions'.format(self.tender_id),
-                {'data': question}, status=201)
+                {'data': test_docs_question}, status=201)
             question_id = response.json['data']['id']
             self.assertEqual(response.status, '201 Created')
 
@@ -1746,7 +1777,7 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTe
         with open(TARGET_DIR + 'stage2/UA/ask-question-after-enquiry-period.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/questions'.format(self.tender_id),
-                {'data': question}, status=403)
+                {'data': test_docs_question}, status=403)
             self.assertEqual(response.status, '403 Forbidden')
 
         response = self.app.get(f"/tenders/{self.tender_id}")

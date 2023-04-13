@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 import os.path
+from copy import deepcopy
 from jsonpointer import resolve_pointer
 from jsonpatch import apply_patch
-from copy import deepcopy
 
-from mock import patch
 from openprocurement.historical.core.utils import parse_hash
 from openprocurement.historical.core.constants import VERSION, PREVIOUS_HASH as PHASH, HASH
-from openprocurement.tender.belowthreshold.tests.base import BaseTenderWebTest, test_tender_data, test_organization
-
+from openprocurement.tender.belowthreshold.tests.base import (
+    BaseTenderWebTest,
+    test_tender_below_data,
+    test_tender_below_organization,
+)
 from openprocurement.historical.core.tests.tests import mock_doc
 
 
@@ -38,7 +40,7 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(len(response.json["data"]), 1)
 
-        response = self.app.post_json("/tenders", {"data": test_tender_data})
+        response = self.app.post_json("/tenders", {"data": test_tender_below_data, "config": self.initial_config})
         self.assertEqual(response.status, "201 Created")
         tender = response.json["data"]
         response = self.app.get("/tenders/{}/historical".format(tender["id"]))
@@ -98,7 +100,7 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(len(response.json["data"]), 1)
 
-        response = self.app.post_json("/tenders", {"data": test_tender_data})
+        response = self.app.post_json("/tenders", {"data": test_tender_below_data, "config": self.initial_config})
         self.assertEqual(response.status, "201 Created")
         tender = response.json["data"]
         self.tender_id = tender["id"]
@@ -201,7 +203,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(len(response.json["data"]), 1)
 
-        response = self.app.post_json("/tenders", {"data": test_tender_data})
+        response = self.app.post_json("/tenders", {"data": test_tender_below_data, "config": self.initial_config})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
 
@@ -247,7 +249,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
 
         response = self.app.post_json(
             "/tenders/{}/bids".format(tender["id"]),
-            {"data": {"value": {"amount": 499}, "tenderers": [test_organization]}},
+            {"data": {"value": {"amount": 499}, "tenderers": [test_tender_below_organization]}},
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")

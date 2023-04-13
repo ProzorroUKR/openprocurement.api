@@ -3,19 +3,20 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import test_lots, test_draft_complaint, test_author
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_lots,
+    test_tender_below_draft_complaint,
+    test_tender_below_author,
+)
 from openprocurement.tender.belowthreshold.tests.complaint import TenderComplaintResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
-    # TenderComplaintDocumentResourceTest
     not_found,
     create_tender_complaint_document,
 )
 
 from openprocurement.tender.openua.tests.complaint import TenderUAComplaintResourceTestMixin
 from openprocurement.tender.openua.tests.complaint_blanks import (
-    # TenderLotAwardComplaintResourceTest
     create_tender_lot_complaint,
-    # TenderComplaintDocumentResourceTest
     put_tender_complaint_document,
     patch_tender_complaint_document,
     mistaken_status_tender_complaint,
@@ -25,16 +26,18 @@ from openprocurement.tender.simpledefense.tests.base import BaseSimpleDefContent
 
 
 class TenderComplaintResourceTest(
-    BaseSimpleDefContentWebTest, TenderComplaintResourceTestMixin, TenderUAComplaintResourceTestMixin
+    BaseSimpleDefContentWebTest,
+    TenderComplaintResourceTestMixin,
+    TenderUAComplaintResourceTestMixin,
 ):
-    test_author = test_author
+    test_author = test_tender_below_author
     test_mistaken_status_tender_complaint = snitch(mistaken_status_tender_complaint)
 
 
 
 class TenderLotAwardComplaintResourceTest(BaseSimpleDefContentWebTest):
-    initial_lots = test_lots
-    test_author = test_author
+    initial_lots = test_tender_below_lots
+    test_author = test_tender_below_author
 
     test_create_tender_complaint = snitch(create_tender_lot_complaint)
 
@@ -45,13 +48,13 @@ class TenderComplaintDocumentResourceTest(BaseSimpleDefContentWebTest):
         # Create complaint
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         complaint = response.json["data"]
         self.complaint_id = complaint["id"]
         self.complaint_owner_token = response.json["access"]["token"]
 
-    test_author = test_author
+    test_author = test_tender_below_author
 
     test_not_found = snitch(not_found)
     test_create_tender_complaint_document = snitch(create_tender_complaint_document)

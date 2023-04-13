@@ -13,9 +13,9 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (
 
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderContentWebTest,
-    test_features_tender_data,
-    test_features_bids_same_amount,
-    test_bids,
+    test_tender_cfaua_features_data,
+    test_tender_cfaua_features_bids_same_amount,
+    test_tender_cfaua_bids,
 )
 from openprocurement.tender.cfaua.tests.auction_blanks import (
     post_tender_1lot_auction_not_changed,
@@ -28,7 +28,7 @@ from openprocurement.tender.cfaua.tests.auction_blanks import (
 
 class AuctionViewTests(BaseTenderContentWebTest):
     docservice = True
-    initial_bids = test_bids
+    initial_bids = test_tender_cfaua_bids
     initial_status = "active.pre-qualification.stand-still"
 
     test_get_tender_auction_not_found = snitch(get_tender_auction_not_found)
@@ -40,7 +40,7 @@ class AuctionViewTests(BaseTenderContentWebTest):
 
 class AuctionWithBidsOverMaxAwardsTests(BaseTenderContentWebTest):
     docservice = True
-    initial_bids = test_bids + deepcopy(test_bids)
+    initial_bids = test_tender_cfaua_bids + deepcopy(test_tender_cfaua_bids)
     initial_status = "active.pre-qualification.stand-still"
 
     test_post_tender_auction_all_awards_pending = snitch(post_tender_auction_all_awards_pending)
@@ -49,8 +49,8 @@ class AuctionWithBidsOverMaxAwardsTests(BaseTenderContentWebTest):
 class AuctionFeaturesOnActiveAuctionTests(BaseTenderContentWebTest):
     docservice = True
     initial_status = "active.auction"
-    initial_data = test_features_tender_data
-    initial_bids = test_features_bids_same_amount
+    initial_data = test_tender_cfaua_features_data
+    initial_bids = test_tender_cfaua_features_bids_same_amount
 
     test_post_tender_1lot_auction_not_changed = snitch(post_tender_1lot_auction_not_changed)
     test_post_tender_1lot_auction_reversed = snitch(post_tender_1lot_auction_reversed)

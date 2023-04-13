@@ -3,7 +3,7 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 
-from tests.base.data import tenderer
+from tests.base.data import test_docs_tenderer
 from tests.base.constants import DOCS_URL
 from tests.base.test import (
     DumpsWebTestApp,
@@ -132,7 +132,7 @@ class FrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
                 '/submissions',
                 {
                     'data': {
-                        "tenderers": [tenderer],
+                        "tenderers": [test_docs_tenderer],
                         "frameworkID": self.framework_id,
                     },
                     'config': {
@@ -178,7 +178,7 @@ class FrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
             '/submissions'.format(self.submission_id, self.submission_token),
             {
                 'data': {
-                    "tenderers": [tenderer],
+                    "tenderers": [test_docs_tenderer],
                     "frameworkID": self.framework_id,
                 },
                 'config': {
@@ -244,7 +244,7 @@ class FrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
             '/submissions'.format(self.submission_id, self.submission_token),
             {
                 'data': {
-                    "tenderers": [tenderer],
+                    "tenderers": [test_docs_tenderer],
                     "frameworkID": self.framework_id,
                 },
                 'config': {

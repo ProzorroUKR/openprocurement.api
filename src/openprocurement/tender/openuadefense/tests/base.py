@@ -10,29 +10,29 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.openuadefense.models import Tender
 from openprocurement.tender.openuadefense.tests.periods import PERIODS
 from openprocurement.tender.openua.tests.base import (
-    now,
-    test_features_tender_data,
     BaseTenderUAWebTest as BaseTenderWebTest,
+    now,
+    test_tender_below_features_data,
 )
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_procuring_entity as test_procuring_entity_api,
-    test_tender_data as test_tender_data_api,
+    test_tender_below_data,
+    test_tender_below_procuring_entity,
+    test_tender_below_bids,
 )
-from openprocurement.tender.belowthreshold.tests.base import test_bids as base_test_bids
 
 
-test_tender_data = test_tender_data_api.copy()
-test_tender_data["procurementMethodType"] = "aboveThresholdUA.defense"
-test_procuring_entity = test_procuring_entity_api.copy()
-test_procuring_entity["kind"] = "defense"
-test_contact_point = test_procuring_entity_api["contactPoint"].copy()
-test_contact_point["availableLanguage"] = "uk"
-test_procuring_entity["contactPoint"] = test_contact_point
-test_procuring_entity["additionalContactPoints"] = [test_contact_point.copy()]
-test_tender_data["procuringEntity"] = test_procuring_entity
-del test_tender_data["enquiryPeriod"]
-test_tender_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
-test_tender_data["items"] = [
+test_tender_openuadefense_data = test_tender_below_data.copy()
+test_tender_openuadefense_data["procurementMethodType"] = "aboveThresholdUA.defense"
+test_tender_openuadefense_procuring_entity = test_tender_below_procuring_entity.copy()
+test_tender_openuadefense_procuring_entity["kind"] = "defense"
+test_tender_openuadefense_contact_point = test_tender_below_procuring_entity["contactPoint"].copy()
+test_tender_openuadefense_contact_point["availableLanguage"] = "uk"
+test_tender_openuadefense_procuring_entity["contactPoint"] = test_tender_openuadefense_contact_point
+test_tender_openuadefense_procuring_entity["additionalContactPoints"] = [test_tender_openuadefense_contact_point.copy()]
+test_tender_openuadefense_data["procuringEntity"] = test_tender_openuadefense_procuring_entity
+del test_tender_openuadefense_data["enquiryPeriod"]
+test_tender_openuadefense_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
+test_tender_openuadefense_data["items"] = [
     {
         "description": "футляри до державних нагород",
         "description_en": "Cases for state awards",
@@ -60,21 +60,23 @@ test_tender_data["items"] = [
     }
 ]
 if SANDBOX_MODE:
-    test_tender_data["procurementMethodDetails"] = "quick, accelerator=1440"
-test_features_tender_ua_data = test_features_tender_data.copy()
-test_features_tender_ua_data["procurementMethodType"] = "aboveThresholdUA.defense"
-test_features_tender_ua_data["procuringEntity"] = test_procuring_entity
-del test_features_tender_ua_data["enquiryPeriod"]
-test_features_tender_ua_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
-test_features_tender_ua_data["items"][0]["deliveryDate"] = test_tender_data["items"][0]["deliveryDate"]
-test_features_tender_ua_data["items"][0]["deliveryAddress"] = test_tender_data["items"][0]["deliveryAddress"]
+    test_tender_openuadefense_data["procurementMethodDetails"] = "quick, accelerator=1440"
+test_tender_openuadefense_features_data = test_tender_below_features_data.copy()
+test_tender_openuadefense_features_data["procurementMethodType"] = "aboveThresholdUA.defense"
+test_tender_openuadefense_features_data["procuringEntity"] = test_tender_openuadefense_procuring_entity
+del test_tender_openuadefense_features_data["enquiryPeriod"]
+test_tender_openuadefense_features_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
+test_tender_openuadefense_features_data["items"][0]["deliveryDate"] = test_tender_openuadefense_data["items"][0]["deliveryDate"]
+test_tender_openuadefense_features_data["items"][0]["deliveryAddress"] = test_tender_openuadefense_data["items"][0]["deliveryAddress"]
 
-test_bids = deepcopy(base_test_bids)
+test_tender_openuadefense_bids = deepcopy(test_tender_below_bids)
+for bid in test_tender_openuadefense_bids:
+    bid["selfQualified"] = True
+    bid["selfEligible"] = True
 
-bid_update_data = {"selfQualified": True, "selfEligible": True}
-
-for i in test_bids:
-    i.update(bid_update_data)
+test_tender_openuadefense_config = {
+    "hasAuction": True,
+}
 
 
 class BaseApiWebTest(BaseWebTest):
@@ -83,7 +85,8 @@ class BaseApiWebTest(BaseWebTest):
 
 class BaseTenderUAWebTest(BaseTenderWebTest):
     relative_to = os.path.dirname(__file__)
-    initial_data = test_tender_data
+    initial_data = test_tender_openuadefense_data
+    initial_config = test_tender_openuadefense_config
     initial_status = "active.tendering"
     initial_bids = None
     initial_lots = None
@@ -113,7 +116,7 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
 
 
 class BaseTenderUAContentWebTest(BaseTenderUAWebTest):
-    initial_data = test_tender_data
+    initial_data = test_tender_openuadefense_data
     initial_status = "active.tendering"
     initial_bids = None
     initial_lots = None

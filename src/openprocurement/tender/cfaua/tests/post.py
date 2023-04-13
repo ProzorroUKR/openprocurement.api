@@ -1,11 +1,15 @@
 from mock import patch
 
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_author,
-    test_draft_complaint,
-    test_cancellation,
+    test_tender_below_author,
+    test_tender_below_draft_complaint,
+    test_tender_below_cancellation,
 )
-from openprocurement.tender.cfaua.tests.base import BaseTenderContentWebTest, test_bids, test_lots
+from openprocurement.tender.cfaua.tests.base import (
+    BaseTenderContentWebTest,
+    test_tender_cfaua_bids,
+    test_tender_cfaua_lots,
+)
 from openprocurement.tender.openua.tests.post import (
     ComplaintPostResourceMixin,
     ClaimPostResourceMixin,
@@ -31,7 +35,7 @@ class TenderComplaintPostResourceTest(
             "/tenders/{}/complaints".format(
                 self.tender_id
             ),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]
@@ -47,9 +51,9 @@ class TenderQualificationComplaintPostResourceTest(
 ):
     docservice = True
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
-    initial_bids = test_bids
+    initial_bids = test_tender_cfaua_bids
     initial_auth = ("Basic", ("broker", ""))
-    author_data = test_author
+    author_data = test_tender_below_author
 
     def setUp(self):
         super(TenderQualificationComplaintPostResourceTest, self).setUp()
@@ -93,7 +97,7 @@ class TenderQualificationComplaintPostResourceTest(
             "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
                 self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
             ),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         complaint = response.json["data"]
 
@@ -112,8 +116,8 @@ class TenderAwardComplaintResourceTest(
 ):
     docservice = True
     initial_status = "active.qualification.stand-still"
-    initial_lots = test_lots
-    initial_bids = test_bids
+    initial_lots = test_tender_cfaua_lots
+    initial_bids = test_tender_cfaua_bids
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
@@ -127,7 +131,7 @@ class TenderAwardComplaintResourceTest(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(
                 self.tender_id, self.award_id, self.initial_bids_tokens[self.initial_bids[0]["id"]]
             ),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
 
         self.complaint_id = response.json["data"]["id"]
@@ -153,7 +157,7 @@ class TenderCancellationComplaintPostResourceTest(
         super(TenderCancellationComplaintPostResourceTest, self).setUp()
 
         # Create cancellation
-        cancellation = dict(**test_cancellation)
+        cancellation = dict(**test_tender_below_cancellation)
         cancellation.update({
             "reasonType": "noDemand"
         })
@@ -190,7 +194,7 @@ class TenderCancellationComplaintPostResourceTest(
             "/tenders/{}/cancellations/{}/complaints".format(
                 self.tender_id, self.cancellation_id
             ),
-            {"data": test_draft_complaint},
+            {"data": test_tender_below_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]
         self.complaint_owner_token = response.json["access"]["token"]

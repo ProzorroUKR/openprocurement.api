@@ -13,16 +13,16 @@ from openprocurement.tender.core.procedure.validation import (
     validate_award_document_author,
 )
 from openprocurement.tender.pricequotation.procedure.validation import validate_pq_award_owner
-from openprocurement.tender.pricequotation.constants import PMT
+from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.api.utils import json_view
 from cornice.resource import resource
 
 
 @resource(
-    name="{}:Tender Award Documents".format(PMT),
+    name="{}:Tender Award Documents".format(PQ),
     collection_path="/tenders/{tender_id}/awards/{award_id}/documents",
     path="/tenders/{tender_id}/awards/{award_id}/documents/{document_id}",
-    procurementMethodType=PMT,
+    procurementMethodType=PQ,
     description="Tender award documents",
 )
 class PQTenderAwardDocumentResource(BaseAwardDocumentResource):

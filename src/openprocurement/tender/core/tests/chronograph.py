@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
 from openprocurement.api.utils import get_now, parse_date
-from openprocurement.tender.belowthreshold.tests.base import test_draft_complaint, test_cancellation
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_draft_complaint,
+    test_tender_below_cancellation,
+)
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.openeu.models import Cancellation
 from freezegun import freeze_time
@@ -16,7 +19,7 @@ def switch_tender_complaints_draft(self):
     # let's post a draft complaint
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
-        {"data": test_draft_complaint},
+        {"data": test_tender_below_draft_complaint},
     )
     self.assertEqual(response.json["data"]["status"], "draft")
 
@@ -50,7 +53,7 @@ def switch_tender_complaints_draft(self):
 def switch_tender_cancellation_complaints_draft(self):
     # first we post a cancellation
     tender = self.mongodb.tenders.get(self.tender_id)
-    cancellation = deepcopy(test_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation["status"] = "pending"
     cancellation["complaintPeriod"] = dict(
         startDate=get_now(),
@@ -64,7 +67,7 @@ def switch_tender_cancellation_complaints_draft(self):
     # let's post a draft complaint
     response = self.app.post_json(
         "/tenders/{}/cancellations/{}/complaints".format(self.tender_id, cancellation.id),
-        {"data": test_draft_complaint},
+        {"data": test_tender_below_draft_complaint},
     )
     self.assertEqual(response.json["data"]["status"], "draft")
 
@@ -125,7 +128,7 @@ def switch_qualification_complaints_draft(self):
     token = list(self.initial_bids_tokens.values())[0]
     response = self.app.post_json(
         "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(self.tender_id, qualification["id"], token),
-        {"data": test_draft_complaint},
+        {"data": test_tender_below_draft_complaint},
     )
     self.assertEqual(response.json["data"]["status"], "draft")
 
@@ -167,7 +170,7 @@ def switch_award_complaints_draft(self):
     token = list(self.initial_bids_tokens.values())[0]
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
-        {"data": test_draft_complaint},
+        {"data": test_tender_below_draft_complaint},
     )
     self.assertEqual(response.json["data"]["status"], "draft")
 
@@ -233,7 +236,7 @@ def switch_tender_after_cancellation_unsuccessful(self):
     # complaint
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/cancellations/{cancellation_id}/complaints",
-        {"data": test_draft_complaint},
+        {"data": test_tender_below_draft_complaint},
     )
     complaint_id = response.json["data"]["id"]
     with change_auth(self.app, ("Basic", ("bot", ""))):

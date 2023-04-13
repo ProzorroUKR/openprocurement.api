@@ -10,17 +10,17 @@ from openprocurement.tender.core.procedure.validation import (
     validate_tender_document_update_not_by_author_or_tender_owner,
 )
 from openprocurement.tender.pricequotation.procedure.validation import validate_document_operation_in_not_allowed_period
-from openprocurement.tender.pricequotation.constants import PMT
+from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.tender.core.procedure.views.tender_document import TenderDocumentResource
 from cornice.resource import resource
 from openprocurement.api.utils import json_view
 
 
 @resource(
-    name="{}:Tender Documents".format(PMT),
+    name="{}:Tender Documents".format(PQ),
     collection_path="/tenders/{tender_id}/documents",
     path="/tenders/{tender_id}/documents/{document_id}",
-    procurementMethodType=PMT,
+    procurementMethodType=PQ,
     description="Tender related binary files (PDFs, etc.)",
 )
 class PQTenderDocumentResource(TenderDocumentResource):

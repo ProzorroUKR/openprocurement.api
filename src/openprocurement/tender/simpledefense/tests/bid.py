@@ -4,11 +4,13 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import test_author, test_organization, test_lots
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_author,
+    test_tender_below_organization,
+    test_tender_below_lots,
+)
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
-    # TenderBidDocumentResourceTest
     not_found,
-    # TenderBidderBatchDocumentWithDSResourceTest
     create_tender_bid_with_documents,
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
@@ -18,18 +20,15 @@ from openprocurement.tender.openua.tests.bid import (
     TenderBidDocumentWithDSResourceTestMixin,
     TenderBidRequirementResponseTestMixin,
     TenderBidRequirementResponseEvidenceTestMixin,
-    # Tender2LotBidResourceTest
     patch_tender_with_bids_lots_none,
 )
 from openprocurement.tender.openua.tests.bid_blanks import (
-    # TenderBidFeaturesResourceTest
     features_bidder,
-    features_bidder_invalid,
 )
 from openprocurement.tender.simpledefense.tests.base import (
     BaseSimpleDefContentWebTest,
-    test_features_tender_ua_data,
-    test_bids,
+    test_tender_simpledefense_features_data,
+    test_tender_simpledefense_bids,
 )
 
 
@@ -38,7 +37,7 @@ class CreateBidMixin(object):
 
     def setUp(self):
         super(CreateBidMixin, self).setUp()
-        bid_data = deepcopy(test_bids[0])
+        bid_data = deepcopy(test_tender_simpledefense_bids[0])
         bid_data["status"] = self.base_bid_status
 
         # Create bid
@@ -54,22 +53,22 @@ class CreateBidMixin(object):
 class TenderBidResourceTest(BaseSimpleDefContentWebTest, TenderBidResourceTestMixin):
     docservice = True
     initial_status = "active.tendering"
-    test_bids_data = test_bids  # TODO: change attribute identifier
-    author_data = test_author
+    test_bids_data = test_tender_simpledefense_bids  # TODO: change attribute identifier
+    author_data = test_tender_below_author
 
 
 class Tender2LotBidResourceTest(BaseSimpleDefContentWebTest):
-    test_bids_data = test_bids
-    initial_lots = 2 * test_lots
+    test_bids_data = test_tender_simpledefense_bids
+    initial_lots = 2 * test_tender_below_lots
     initial_status = "active.tendering"
 
     test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
 
 
 class TenderBidFeaturesResourceTest(BaseSimpleDefContentWebTest):
-    initial_data = test_features_tender_ua_data
+    initial_data = test_tender_simpledefense_features_data
     initial_status = "active.tendering"
-    test_bids_data = test_bids
+    test_bids_data = test_tender_simpledefense_bids
 
     test_features_bidder = snitch(features_bidder)
     # TODO: uncomment when bid activation will be removed
@@ -78,8 +77,8 @@ class TenderBidFeaturesResourceTest(BaseSimpleDefContentWebTest):
 
 class TenderBidDocumentResourceTest(BaseSimpleDefContentWebTest, TenderBidDocumentWithDSResourceTestMixin):
     initial_status = "active.tendering"
-    test_bids_data = test_bids
-    author_data = test_author
+    test_bids_data = test_tender_simpledefense_bids
+    author_data = test_tender_below_author
     docservice = True
 
     def setUp(self):
@@ -176,9 +175,9 @@ class TenderBidDocumentResourceTest(BaseSimpleDefContentWebTest, TenderBidDocume
 class TenderBidderBatchDocumentsWithDSResourceTest(BaseSimpleDefContentWebTest):
     docservice = True
     initial_status = "active.tendering"
-    test_bids_data = test_bids
+    test_bids_data = test_tender_simpledefense_bids
     bid_data_wo_docs = {
-        "tenderers": [test_organization],
+        "tenderers": [test_tender_below_organization],
         "value": {"amount": 500},
         "selfEligible": True,
         "selfQualified": True,
@@ -195,7 +194,7 @@ class TenderBidRequirementResponseResourceTest(
     CreateBidMixin,
     BaseSimpleDefContentWebTest,
 ):
-    test_bids_data = test_bids
+    test_bids_data = test_tender_simpledefense_bids
     initial_status = "active.tendering"
 
 
@@ -204,7 +203,7 @@ class TenderBidRequirementResponseEvidenceResourceTest(
     CreateBidMixin,
     BaseSimpleDefContentWebTest,
 ):
-    test_bids_data = test_bids
+    test_bids_data = test_tender_simpledefense_bids
     initial_status = "active.tendering"
     guarantee_criterion = False
 

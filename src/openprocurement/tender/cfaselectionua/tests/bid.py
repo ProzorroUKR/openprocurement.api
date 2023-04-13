@@ -10,10 +10,10 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
 
 from openprocurement.tender.cfaselectionua.tests.base import (
     TenderContentWebTest,
-    test_organization,
-    test_lots,
-    test_agreement_features,
-    test_bids,
+    test_tender_cfaselectionua_organization,
+    test_tender_cfaselectionua_lots,
+    test_tender_cfaselectionua_agreement_features,
+    test_tender_cfaselectionua_bids,
 )
 from openprocurement.tender.openua.tests.bid import (
     TenderBidRequirementResponseTestMixin,
@@ -55,7 +55,7 @@ class CreateBidMixin(object):
         # Create bid
         bid_data = {
             "status": self.base_bid_status,
-            "tenderers": [test_organization],
+            "tenderers": [test_tender_cfaselectionua_organization],
             "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
         }
         bid, bid_token = self.create_bid(self.tender_id, bid_data)
@@ -65,8 +65,8 @@ class CreateBidMixin(object):
 
 class TenderBidResourceTest(TenderContentWebTest):
     initial_status = "active.tendering"
-    initial_lots = deepcopy(test_lots)
-    test_bids_data = deepcopy(test_bids)
+    initial_lots = deepcopy(test_tender_cfaselectionua_lots)
+    test_bids_data = deepcopy(test_tender_cfaselectionua_bids)
 
     test_create_tender_bid_invalid = snitch(create_tender_bid_invalid)
     test_create_tender_bid = snitch(create_tender_bid)
@@ -79,8 +79,8 @@ class TenderBidResourceTest(TenderContentWebTest):
 
 
 class TenderBidFeaturesResourceTest(TenderContentWebTest):
-    initial_agreement = deepcopy(test_agreement_features)
-    initial_lots = deepcopy(test_lots)
+    initial_agreement = deepcopy(test_tender_cfaselectionua_agreement_features)
+    initial_lots = deepcopy(test_tender_cfaselectionua_lots)
     initial_status = "active.tendering"
 
     test_features_bid = snitch(features_bid)
@@ -90,7 +90,7 @@ class TenderBidFeaturesResourceTest(TenderContentWebTest):
     def setUp(self):
         super(TenderBidFeaturesResourceTest, self).setUp()
         tender = self.mongodb.tenders.get(self.tender_id)
-        agreement = test_agreement_features
+        agreement = test_tender_cfaselectionua_agreement_features
         agreement["contracts"][0]["parameters"] = [
             {"code": "OCDS-123454-AIR-INTAKE", "value": 0.1},
             {"code": "OCDS-123454-YEARS", "value": 0.1},
@@ -107,7 +107,7 @@ class TenderBidFeaturesResourceTest(TenderContentWebTest):
 class TenderBidDocumentWithDSResourceTest(TenderContentWebTest):
     docservice = True
     initial_status = "active.tendering"
-    initial_lots = deepcopy(test_lots)
+    initial_lots = deepcopy(test_tender_cfaselectionua_lots)
 
     def setUp(self):
         super().setUp()
@@ -116,7 +116,7 @@ class TenderBidDocumentWithDSResourceTest(TenderContentWebTest):
             "/tenders/{}/bids".format(self.tender_id),
             {
                 "data": {
-                    "tenderers": [test_organization],
+                    "tenderers": [test_tender_cfaselectionua_organization],
                     "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
                 }
             },
@@ -135,9 +135,9 @@ class TenderBidDocumentWithDSResourceTest(TenderContentWebTest):
 
 class TenderBidBatchDocumentWithDSResourceTest(TenderContentWebTest):
     docservice = True
-    initial_lots = deepcopy(test_lots)
+    initial_lots = deepcopy(test_tender_cfaselectionua_lots)
     initial_status = "active.tendering"
-    bid_data_wo_docs = {"tenderers": [test_organization], "value": {"amount": 500}, "documents": []}
+    bid_data_wo_docs = {"tenderers": [test_tender_cfaselectionua_organization], "value": {"amount": 500}, "documents": []}
 
     test_create_tender_bid_with_document_invalid = snitch(create_tender_bid_with_document_invalid)
     test_create_tender_bid_with_document = snitch(create_tender_bid_with_document)
@@ -149,8 +149,8 @@ class TenderBidRequirementResponseResourceTest(
     CreateBidMixin,
     TenderContentWebTest,
 ):
-    initial_lots = deepcopy(test_lots)
-    test_bids_data = test_bids
+    initial_lots = deepcopy(test_tender_cfaselectionua_lots)
+    test_bids_data = test_tender_cfaselectionua_bids
     initial_status = "active.tendering"
 
 
@@ -159,8 +159,8 @@ class TenderBidRequirementResponseEvidenceResourceTest(
     CreateBidMixin,
     TenderContentWebTest,
 ):
-    initial_lots = deepcopy(test_lots)
-    test_bids_data = test_bids
+    initial_lots = deepcopy(test_tender_cfaselectionua_lots)
+    test_bids_data = test_tender_cfaselectionua_bids
     initial_status = "active.tendering"
     guarantee_criterion = False
 

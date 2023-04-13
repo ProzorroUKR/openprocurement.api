@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from openprocurement.tender.belowthreshold.tests.base import test_lots
-from openprocurement.tender.openeu.tests.base import test_tender_data, BaseTenderContentWebTest
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
+from openprocurement.tender.openeu.tests.base import (
+    BaseTenderContentWebTest,
+    test_tender_openeu_data,
+)
 from openprocurement.tender.openua.tests.criterion import (
     TenderCriteriaTestMixin,
     TenderCriteriaRGTestMixin,
@@ -13,30 +16,30 @@ from openprocurement.tender.openua.tests.criterion import (
 
 
 class TenderEUCriteriaTest(TenderCriteriaTestMixin, TenderCriteriaLccTestMixin, BaseTenderContentWebTest):
-    initial_data = test_tender_data
-    test_lots_data = test_lots
+    initial_data = test_tender_openeu_data
+    test_lots_data = test_tender_below_lots
     initial_status = "draft"
 
 
 class TenderEUCriteriaRGTest(TenderCriteriaRGTestMixin, BaseTenderContentWebTest):
-    initial_data = test_tender_data
-    test_lots_data = test_lots
+    initial_data = test_tender_openeu_data
+    test_lots_data = test_tender_below_lots
 
 
 class TenderEUCriteriaRGRequirementTest(
     TenderCriteriaRGRequirementTestMixin,
     BaseTenderContentWebTest
 ):
-    initial_data = test_tender_data
-    test_lots_data = test_lots
+    initial_data = test_tender_openeu_data
+    test_lots_data = test_tender_below_lots
 
 
 class TenderEUCriteriaRGRequirementEvidenceTest(
     TenderCriteriaRGRequirementEvidenceTestMixin,
     BaseTenderContentWebTest,
 ):
-    initial_data = test_tender_data
-    test_lots_data = test_lots
+    initial_data = test_tender_openeu_data
+    test_lots_data = test_tender_below_lots
 
 
 def suite():

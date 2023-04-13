@@ -1891,7 +1891,7 @@ def create_tender_bidder_invalid_confidential_document(self):
 def bids_view_j1446(self):
     # create tender
     self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     tender_owner_token = response.json["access"]["token"]
     self.set_initial_status(response.json)

@@ -67,6 +67,24 @@ class QualificationState(TenderState):
                 bid["status"] = status
                 return bid
 
+    @staticmethod
+    def pull_up_bid_status(tender, bid):
+        lots = tender.get("lots", "")
+        if lots:
+            lot_values = bid.get("lotValues")
+            if not lot_values:
+                bid["status"] = "invalid"
+
+            active_lots = {lot["id"] for lot in lots if lot["status"] in ("active", "complete")}
+            lot_values_statuses = {lv["status"] for lv in lot_values if lv["relatedLot"] in active_lots}
+            if "pending" in lot_values_statuses:
+                bid["status"] = "pending"
+
+            elif "active" in lot_values_statuses:
+                bid["status"] = "active"
+            else:
+                bid["status"] = "unsuccessful"
+
     def qualification_on_patch(self, before, qualification):
         if before["status"] != qualification["status"]:
             self.qualification_status_up(before["status"], qualification["status"], qualification)

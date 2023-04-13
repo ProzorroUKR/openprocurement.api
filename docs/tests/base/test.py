@@ -50,9 +50,11 @@ class DumpsWebTestApp(BaseTestApp):
                     except ValueError:
                         self.file_obj.write('\n' + req.body.decode("utf-8"))
                     else:
-                        self.file_obj.write('\n' + json.dumps(
-                            obj, indent=self.indent, ensure_ascii=self.ensure_ascii
-                        ))
+                        self.file_obj.write(
+                            '\n' + json.dumps(
+                                obj, indent=self.indent, ensure_ascii=self.ensure_ascii
+                            )
+                            )
                     self.file_obj.write("\n")
                 self.file_obj.write("\n")
             else:
@@ -64,9 +66,11 @@ class DumpsWebTestApp(BaseTestApp):
                     except ValueError:
                         self.file_obj.write(b'\n' + req.body)
                     else:
-                        self.file_obj.write(b'\n' + json.dumps(
-                            obj, indent=self.indent, ensure_ascii=self.ensure_ascii
-                        ).encode('utf8'))
+                        self.file_obj.write(
+                            b'\n' + json.dumps(
+                                obj, indent=self.indent, ensure_ascii=self.ensure_ascii
+                            ).encode('utf8')
+                            )
                     self.file_obj.write(b"\n")
                 self.file_obj.write(b"\n")
 
@@ -135,11 +139,13 @@ class DumpsWebTestApp(BaseTestApp):
                 fcontent = mimetypes.guess_type(filename.decode('utf8'))[0]
             fcontent = to_bytes(fcontent)
             fcontent = fcontent or b'application/octet-stream'
-            lines.extend([
-                b'--' + boundary,
-                b'Content-Disposition: form-data; ' +
-                b'name="' + key + b'"; filename="' + filename + b'"',
-                b'Content-Type: ' + fcontent, b'', value])
+            lines.extend(
+                [
+                    b'--' + boundary,
+                    b'Content-Disposition: form-data; ' +
+                    b'name="' + key + b'"; filename="' + filename + b'"',
+                    b'Content-Type: ' + fcontent, b'', value]
+            )
 
         for key, value in params:
             if isinstance(key, text_type):
@@ -160,10 +166,12 @@ class DumpsWebTestApp(BaseTestApp):
             else:
                 if isinstance(value, text_type):
                     value = value.encode('utf8')
-                lines.extend([
-                    b'--' + boundary,
-                    b'Content-Disposition: form-data; name="' + key + b'"',
-                    b'', value])
+                lines.extend(
+                    [
+                        b'--' + boundary,
+                        b'Content-Disposition: form-data; name="' + key + b'"',
+                        b'', value]
+                )
 
         for file_info in files:
             _append_file(file_info)
@@ -197,9 +205,11 @@ class DumpsWebTestApp(BaseTestApp):
                 value = str('Bearer %s' % key)
             else:
                 raise ValueError(invalid_value)
-            self.extra_environ.update({
-                'HTTP_AUTHORIZATION': value,
-            })
+            self.extra_environ.update(
+                {
+                    'HTTP_AUTHORIZATION': value,
+                }
+            )
         else:
             if 'HTTP_AUTHORIZATION' in self.extra_environ:
                 del self.extra_environ['HTTP_AUTHORIZATION']
@@ -219,8 +229,10 @@ class MockWebTestMixin(object):
     def setUpMock(self):
         self.uuid_patch = mock.patch('uuid.UUID', side_effect=self.uuid)
         self.uuid_patch.start()
-        self.db_now_path = mock.patch('openprocurement.api.database.get_public_modified',
-                                      lambda: get_now().timestamp())
+        self.db_now_path = mock.patch(
+            'openprocurement.api.database.get_public_modified',
+            lambda: get_now().timestamp()
+        )
         self.db_now_path.start()
         self.freezer = freeze_time(MOCK_DATETIME)
         self.freezer.start()
@@ -229,6 +241,7 @@ class MockWebTestMixin(object):
         self.freezer.stop()
         self.uuid_patch.stop()
         self.db_now_path.stop()
+        self.uuid_counters = None
 
     def uuid(self, version=None, **kwargs):
         stack = self.stack()
@@ -243,11 +256,14 @@ class MockWebTestMixin(object):
                 found = re.search(whitelist_item, path)
                 if found:
                     return path[found.span()[0]:]
+
         stack = traceback.extract_stack()
-        return [(trim_path(item[0]), item[2], item[3]) for item in stack if all([
-            any([re.search(pattern, item[0]) is not None for pattern in self.whitelist]),
-            all([re.search(pattern, item[0]) is None for pattern in self.blacklist])
-        ])]
+        return [(trim_path(item[0]), item[2], item[3]) for item in stack if all(
+            [
+                any([re.search(pattern, item[0]) is not None for pattern in self.whitelist]),
+                all([re.search(pattern, item[0]) is None for pattern in self.blacklist])
+            ]
+        )]
 
     def count(self, name):
         if self.uuid_counters is None:

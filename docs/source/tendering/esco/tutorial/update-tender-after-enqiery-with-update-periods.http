@@ -795,6 +795,9 @@ Content-Type: application/json
     },
     "next_check": "2023-01-09T00:00:00+02:00",
     "id": "28db6af763c74fceaedc98e147fed6cb"
+  },
+  "config": {
+    "hasAuction": true
   }
 }
 

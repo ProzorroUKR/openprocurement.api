@@ -2,7 +2,7 @@ import os
 from copy import deepcopy
 
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.relocation.api.models import Transfer
 from openprocurement.framework.cfaua.models.agreement import Agreement
 from openprocurement.framework.cfaua.tests.data import test_tender_token as test_agreement_tender_token, \

@@ -8,8 +8,11 @@ from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_with_complaints_after_2020_04_19,
 )
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_cancellation
-from openprocurement.tender.competitivedialogue.tests.base import test_bids
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+    test_tender_below_cancellation,
+)
+from openprocurement.tender.competitivedialogue.tests.base import test_tender_openeu_bids
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
 
 # TenderStage2EU(UA)LotResourceTest
@@ -1479,7 +1482,7 @@ def one_lot_3bid_1un(self):
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     bids = []
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openeu_bids[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 450}, "relatedLot": self.initial_lots[0]["id"]}]
     bid_data["requirementResponses"] = generate_responses(self)
@@ -1640,7 +1643,7 @@ def two_lot_2can(self):
 
     # cancel every lot
     for lot in self.initial_lots:
-        cancellation = dict(**test_cancellation)
+        cancellation = dict(**test_tender_below_cancellation)
         cancellation.update({
             "status": "active",
             "cancellationOf": "lot",
@@ -1664,7 +1667,7 @@ def two_lot_1can(self):
     self.create_tender(initial_lots=self.test_lots_data * 2)
 
     # cancel first lot
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -1699,7 +1702,7 @@ def two_lot_1can(self):
     self.assertEqual(response.json["errors"][0]["description"], "Can perform cancellation only in active lot status")
 
     # try to restore lot back by new pending cancellation
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -1724,7 +1727,7 @@ def two_lot_2bid_0com_1can(self):
 
     tenderers = self.create_tenderers(2)
     # create bid
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openeu_bids[0])
     del bid_data["value"]
     bid_data["tenderers"] = tenderers[0]
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": lot["id"]} for lot in self.initial_lots]
@@ -1739,7 +1742,7 @@ def two_lot_2bid_0com_1can(self):
     self.create_bid(self.tender_id, bid_data)
 
     self.app.authorization = ("Basic", ("broker", ""))
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -1946,7 +1949,7 @@ def patch_tender_bidder_ua(self):
     lot_id = self.lots[0]["id"]
     tenderers = self.create_tenderers()
 
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openeu_bids[0])
     del bid_data["value"]
     bid_data.update({
         "tenderers": tenderers[0],
@@ -1973,7 +1976,7 @@ def patch_tender_bidder_ua(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bidder["id"], owner_token),
-        {"data": {"lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}], "tenderers": [test_organization]}},
+        {"data": {"lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}], "tenderers": [test_tender_below_organization]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -2034,7 +2037,7 @@ def one_lot_2bid_ua(self):
     )
     self.assertIn("auctionPeriod", response.json["data"]["lots"][0])
     # create bid
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openeu_bids[0])
     del bid_data["value"]
     bid_data["tenderers"] = tenderers[0]
     bid_data["lotValues"] = [
@@ -2141,7 +2144,7 @@ def one_lot_3bid_1un_ua(self):
     self.assertIn("auctionPeriod", response.json["data"]["lots"][0])
     # create bids
     bids_data = {}
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openeu_bids[0])
     del bid_data["value"]
     bid_data["lotValues"] = [{"value": {"amount": 450}, "relatedLot": self.lots_id[0]}]
     for i in range(3):
@@ -2254,7 +2257,7 @@ def one_lot_1bid_patch_ua(self):
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
 
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openeu_bids[0])
     del bid_data["value"]
     bid_data.update({
         "tenderers": tenderers[0],
@@ -2312,7 +2315,7 @@ def two_lot_1bid_0com_1can_ua(self):
         },
     )
     # create bid
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openeu_bids[0])
     del bid_data["value"]
     bid_data.update({
         "tenderers": tenderers[0],
@@ -2349,7 +2352,7 @@ def two_lot_1bid_2com_1win_ua(self):
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
 
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openeu_bids[0])
     del bid_data["value"]
     bid_data.update({
         "tenderers": tenderers[0],
@@ -2419,7 +2422,7 @@ def two_lot_1bid_0com_0win_ua(self):
     )
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openeu_bids[0])
     del bid_data["value"]
     bid_data.update({
         "tenderers": tenderers[0],
@@ -2454,7 +2457,7 @@ def two_lot_1bid_1com_1win_ua(self):
     )
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openeu_bids[0])
     del bid_data["value"]
     bid_data.update({
         "tenderers": tenderers[0],
@@ -2489,7 +2492,7 @@ def two_lot_2bid_2com_2win_ua(self):
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
 
-    bid_data = deepcopy(test_bids[0])
+    bid_data = deepcopy(test_tender_openeu_bids[0])
     bid_data["requirementResponses"] = generate_responses(self)
     del bid_data["value"]
     bid_data.update({

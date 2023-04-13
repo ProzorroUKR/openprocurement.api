@@ -7,7 +7,10 @@ from esculator import npv, escp
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
 
-from openprocurement.tender.belowthreshold.tests.base import test_organization, test_author
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+    test_tender_below_author,
+)
 from openprocurement.tender.belowthreshold.tests.contract import (
     TenderContractResourceTestMixin,
     TenderContractDocumentResourceTestMixin,
@@ -24,16 +27,14 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
 )
 
 from openprocurement.tender.openua.tests.contract_blanks import (
-    # TenderContractResourceTest
     create_tender_contract,
     patch_tender_contract_datesigned,
 )
 
-from openprocurement.tender.openeu.tests.base import test_tender_data as eu_test_tender_data
+from openprocurement.tender.openeu.tests.base import test_tender_openeu_data
 from openprocurement.tender.esco.tests.base import (
     BaseESCOContentWebTest,
-    test_tender_data,
-    test_bids,
+    test_tender_esco_bids,
     NBU_DISCOUNT_RATE,
 )
 
@@ -51,12 +52,12 @@ from openprocurement.tender.esco.utils import to_decimal
 
 amount_precision = 2
 
-contract_amountPerformance = to_decimal(
+contract_amount_performance = to_decimal(
     npv(
-        test_bids[0]["value"]["contractDuration"]["years"],
-        test_bids[0]["value"]["contractDuration"]["days"],
-        test_bids[0]["value"]["yearlyPaymentsPercentage"],
-        test_bids[0]["value"]["annualCostsReduction"],
+        test_tender_esco_bids[0]["value"]["contractDuration"]["years"],
+        test_tender_esco_bids[0]["value"]["contractDuration"]["days"],
+        test_tender_esco_bids[0]["value"]["yearlyPaymentsPercentage"],
+        test_tender_esco_bids[0]["value"]["annualCostsReduction"],
         get_now(),
         NBU_DISCOUNT_RATE,
     )
@@ -64,10 +65,10 @@ contract_amountPerformance = to_decimal(
 
 contract_amount = to_decimal(
     escp(
-        test_bids[0]["value"]["contractDuration"]["years"],
-        test_bids[0]["value"]["contractDuration"]["days"],
-        test_bids[0]["value"]["yearlyPaymentsPercentage"],
-        test_bids[0]["value"]["annualCostsReduction"],
+        test_tender_esco_bids[0]["value"]["contractDuration"]["years"],
+        test_tender_esco_bids[0]["value"]["contractDuration"]["days"],
+        test_tender_esco_bids[0]["value"]["yearlyPaymentsPercentage"],
+        test_tender_esco_bids[0]["value"]["annualCostsReduction"],
         get_now(),
     )
 ).quantize(Decimal(f"1E-{amount_precision}"))
@@ -75,16 +76,16 @@ contract_amount = to_decimal(
 
 class TenderContractResourceTest(BaseESCOContentWebTest, TenderContractResourceTestMixin):
     initial_status = "active.qualification"
-    initial_bids = test_bids
-    author_data = test_author
+    initial_bids = test_tender_esco_bids
+    author_data = test_tender_below_author
     initial_auth = ("Basic", ("broker", ""))
-    expected_contract_amountPerformance = contract_amountPerformance
+    expected_contract_amountPerformance = contract_amount_performance
     expected_contract_amount = contract_amount
 
     def setUp(self):
         super(TenderContractResourceTest, self).setUp()
         # Create award
-        self.supplier_info = deepcopy(test_organization)
+        self.supplier_info = deepcopy(test_tender_below_organization)
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
@@ -94,7 +95,7 @@ class TenderContractResourceTest(BaseESCOContentWebTest, TenderContractResourceT
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "value": self.initial_bids[0]["value"],
-                    "items": eu_test_tender_data["items"],
+                    "items": test_tender_openeu_data["items"],
                 }
             },
         )
@@ -117,14 +118,14 @@ class TenderContractResourceTest(BaseESCOContentWebTest, TenderContractResourceT
 
 class TenderContractDocumentResourceTest(BaseESCOContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = "active.qualification"
-    initial_bids = test_bids
+    initial_bids = test_tender_esco_bids
     initial_auth = ("Basic", ("broker", ""))
     docservice = True
 
     def setUp(self):
         super(TenderContractDocumentResourceTest, self).setUp()
         # Create award
-        supplier_info = deepcopy(test_organization)
+        supplier_info = deepcopy(test_tender_below_organization)
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),

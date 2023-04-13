@@ -12,7 +12,7 @@ from openprocurement.tender.core.procedure.validation import (
 from openprocurement.tender.belowthreshold.procedure.views.bid import TenderBidResource
 from openprocurement.tender.core.procedure.models.bid import filter_administrator_bid_update
 from openprocurement.tender.pricequotation.procedure.models.bid import PostBid, PatchBid, Bid
-from openprocurement.tender.pricequotation.constants import PMT
+from openprocurement.tender.pricequotation.constants import PQ
 from cornice.resource import resource
 from logging import getLogger
 
@@ -20,10 +20,10 @@ LOGGER = getLogger(__name__)
 
 
 @resource(
-    name="{}:Tender Bids".format(PMT),
+    name="{}:Tender Bids".format(PQ),
     collection_path="/tenders/{tender_id}/bids",
     path="/tenders/{tender_id}/bids/{bid_id}",
-    procurementMethodType=PMT,
+    procurementMethodType=PQ,
     description="Tender bids",
 )
 class TenderBidResource(TenderBidResource):

@@ -587,7 +587,6 @@ Content-Type: application/json
     "tenderID": "UA-2023-01-01-000001-a",
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
-    "submissionMethod": "electronicAuction",
     "procurementMethod": "open",
     "value": {
       "amount": 500.0,
@@ -748,6 +747,9 @@ Content-Type: application/json
     ],
     "next_check": "2023-02-01T00:00:00+02:00",
     "id": "00653c26796e413c89e22e65cd6da9cd"
+  },
+  "config": {
+    "hasAuction": false
   }
 }
 

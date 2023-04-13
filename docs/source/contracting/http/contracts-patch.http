@@ -23,7 +23,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "awardID": "ce59dcbd1325456cbd1d1632ef5cfb09",
+    "awardID": "a3fffca44bd842a5bf8b4d5d84428fc7",
     "contractID": "UA-2023-01-01-000001-a-1",
     "period": {
       "startDate": "2023-01-01T00:00:01+02:00",
@@ -34,7 +34,7 @@ Content-Type: application/json
     "dateCreated": "2023-01-01T00:00:01+02:00",
     "items": [
       {
-        "id": "27d065dad2f843fcaa08ce47d150ff58",
+        "id": "b08960c0f87b47a78ac6347d98e8af52",
         "description": "футляри до державних нагород",
         "quantity": 5.0,
         "deliveryDate": {
@@ -71,7 +71,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "ebbe3cdc3877415898b85d6b8bd0e6d1",
+        "id": "1f7aeaf465fd44f393098f8363a5e059",
         "description": "футляри до державних нагород",
         "quantity": 5.0,
         "deliveryDate": {
@@ -108,7 +108,7 @@ Content-Type: application/json
         }
       }
     ],
-    "tender_id": "59190c68cfa14b0595a6e1395c43a06b",
+    "tender_id": "fb4ee4451adb48f981d1518851ee4007",
     "owner": "broker",
     "status": "active",
     "suppliers": [
@@ -170,7 +170,7 @@ Content-Type: application/json
     ],
     "documents": [
       {
-        "id": "1c4e25349f5a4506a469810d1e65ab7a",
+        "id": "315db81de36f44689c9f8e18745c3f3e",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_changes.doc",
         "format": "application/msword",

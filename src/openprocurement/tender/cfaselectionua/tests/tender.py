@@ -4,7 +4,11 @@ import unittest
 from copy import deepcopy
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.base import set_tender_lots, test_criteria, language_criteria
+from openprocurement.tender.core.tests.base import (
+    test_exclusion_criteria,
+    test_language_criteria,
+)
+from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_tender_lots_none,
     tender_milestones_not_required,
@@ -13,21 +17,18 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_config_test,
 )
 from openprocurement.tender.cfaselectionua.tests.base import (
-    test_lots,
-    test_tender_data,
-    test_agreement,
-    test_agreement_features,
     BaseTenderWebTest,
-    BaseApiWebTest,
+    test_tender_cfaselectionua_lots,
+    test_tender_cfaselectionua_data,
+    test_tender_cfaselectionua_agreement,
+    test_tender_cfaselectionua_agreement_features,
 )
 from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
-    # TenderResourceTest
     listing,
     get_tender,
     tender_features_invalid,
     tender_not_found,
     dateModified_tender,
-    guarantee,
     patch_not_author,
     listing_draft,
     tender_fields,
@@ -36,13 +37,11 @@ from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
     create_tender_generated,
     create_tender_draft,
     create_tender_with_value,
-    tender_features,
     patch_tender_jsonpatch,
     patch_tender,
     patch_tender_bot,
     patch_tender_to_draft_pending,
     tender_funders,
-    # TenderProcessTest
     one_valid_bid_tender,
     one_invalid_bid_tender,
     first_bid_tender,
@@ -54,15 +53,14 @@ from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
     create_tender_from_agreement_with_features_0_3,
     invalid_tender_conditions,
     lost_contract_for_active_award,
-    # TenderTest
     create_tender_with_available_language,
     edit_tender_in_active_enquiries,
 )
 
 
-tender_data = deepcopy(test_tender_data)
-set_tender_lots(tender_data, test_lots)
-test_lots = deepcopy(tender_data["lots"])
+test_tender_cfaselectionua_data = deepcopy(test_tender_cfaselectionua_data)
+set_tender_lots(test_tender_cfaselectionua_data, test_tender_cfaselectionua_lots)
+test_tender_cfaselectionua_lots = deepcopy(test_tender_cfaselectionua_data["lots"])
 
 
 class TenderResourceTestMixin(object):
@@ -94,13 +92,13 @@ class TenderResourceTestMixin(object):
 
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     docservice = True
-    initial_data = tender_data
+    initial_data = test_tender_cfaselectionua_data
     primary_tender_status = "draft"
     initial_auth = ("Basic", ("broker", ""))
-    initial_agreement = test_agreement
-    initial_agreement_with_features = test_agreement_features
-    test_lots_data = test_lots
-    initial_criteria = test_criteria + language_criteria
+    initial_agreement = test_tender_cfaselectionua_agreement
+    initial_agreement_with_features = test_tender_cfaselectionua_agreement_features
+    test_lots_data = test_tender_cfaselectionua_lots
+    initial_criteria = test_exclusion_criteria + test_language_criteria
 
     agreement_id = "11111111111111111111111111111111"
 
@@ -118,7 +116,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 
 class TenderProcessTest(BaseTenderWebTest):
     docservice = True
-    initial_data = tender_data
+    initial_data = test_tender_cfaselectionua_data
     primary_tender_status = "draft"
     initial_auth = ("Basic", ("broker", ""))
     docservice = True

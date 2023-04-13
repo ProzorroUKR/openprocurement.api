@@ -7,7 +7,7 @@ from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.contracting.api.models import Contract
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.api.tests.data import documents
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.core.tests.utils import change_auth
 
 
 def simple_add_contract(self):
@@ -343,10 +343,13 @@ def not_found(self):
     response = self.app.get("/contracts/{}".format(tender_id), status=404)
     self.assertEqual(response.status, "404 Not Found")
 
-    from openprocurement.tender.belowthreshold.tests.base import test_tender_data
+    from openprocurement.tender.belowthreshold.tests.base import (
+        test_tender_below_data,
+        test_tender_below_config,
+    )
 
     with change_auth(self.app, ("Basic", ("broker1", ""))):
-        response = self.app.post_json("/tenders", {"data": test_tender_data})
+        response = self.app.post_json("/tenders", {"data": test_tender_below_data, "config": test_tender_below_config})
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]
 

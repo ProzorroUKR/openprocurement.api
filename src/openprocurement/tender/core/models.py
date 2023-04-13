@@ -109,10 +109,6 @@ LOGGER = getLogger(__name__)
 
 DEFAULT_REQUIREMENT_STATUS = "active"
 
-AWARD_CRITERIA_LOWEST_COST = "lowestCost"
-AWARD_CRITERIA_LIFE_CYCLE_COST = "lifeCycleCost"
-AWARD_CRITERIA_RATED_CRITERIA = "ratedCriteria"
-
 view_bid_role = blacklist("owner_token", "owner", "transfer_token") + schematics_default_role
 Administrator_bid_role = whitelist("tenderers")
 
@@ -2122,7 +2118,7 @@ class Lot(BaseLot):
         }
 
     value = ModelType(Value, required=True)
-    minimalStep = ModelType(Value, required=True)
+    minimalStep = ModelType(Value)
     auctionPeriod = ModelType(LotAuctionPeriod, default={})
     auctionUrl = URLType()
     guarantee = ModelType(Guarantee)
@@ -2337,7 +2333,7 @@ class BaseTender(RootModel):
             "default": blacklist("doc_id", "__parent__"),  # obj.store() use default role
             "plain": blacklist(  # is used for getting patches
                 "_attachments", "revisions", "dateModified", "dateCreated",
-                "_id", "_rev", "doc_type", "__parent__"
+                "_id", "_rev", "doc_type", "__parent__", "config"
             ),
         }
 
@@ -2376,6 +2372,7 @@ class BaseTender(RootModel):
     plans = ListType(ModelType(PlanRelation, required=True), default=list())
 
     is_masked = BooleanType()
+    config = BaseType()
 
     def link_plan(self, plan_id):
         self.plans.append(PlanRelation({"id": plan_id}))
@@ -2523,7 +2520,7 @@ class Tender(BaseTender):
     awardCriteriaDetails_en = StringType()
     awardCriteriaDetails_ru = StringType()
     submissionMethod = StringType(
-        choices=["electronicAuction", "electronicSubmission", "written", "inPerson"], default="electronicAuction"
+        choices=["electronicAuction", "electronicSubmission", "written", "inPerson"]
     )  # Specify the method by which bids must be submitted, in person, written, or electronic auction
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
     submissionMethodDetails_en = StringType()

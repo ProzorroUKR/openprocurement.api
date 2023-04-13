@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/59190c68cfa14b0595a6e1395c43a06b HTTP/1.0
+GET /api/2.5/tenders/fb4ee4451adb48f981d1518851ee4007 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -11,7 +11,6 @@ Content-Type: application/json
     "mainProcurementCategory": "goods",
     "title": "футляри до державних нагород",
     "status": "complete",
-    "submissionMethod": "electronicAuction",
     "procurementMethod": "open",
     "awardCriteria": "lowestCost",
     "value": {
@@ -30,7 +29,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "27d065dad2f843fcaa08ce47d150ff58",
+        "id": "b08960c0f87b47a78ac6347d98e8af52",
         "description": "футляри до державних нагород",
         "classification": {
           "description": "Cartons",
@@ -67,7 +66,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "ebbe3cdc3877415898b85d6b8bd0e6d1",
+        "id": "1f7aeaf465fd44f393098f8363a5e059",
         "description": "футляри до державних нагород",
         "classification": {
           "description": "Cartons",
@@ -118,7 +117,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "a4ee7dcfe3e3411095267a0c919ff1c6",
+        "id": "e400fcadd73f410b905b1d0d286552ca",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -160,6 +159,7 @@ Content-Type: application/json
     "tenderID": "UA-2023-01-01-000001-a",
     "owner": "broker",
     "date": "2023-01-01T00:00:01+02:00",
+    "submissionMethod": "electronicAuction",
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:01+02:00",
     "bids": [
@@ -193,7 +193,7 @@ Content-Type: application/json
           }
         ],
         "status": "active",
-        "id": "da98ea4ae41f4236b7c75e6a01622d79",
+        "id": "af8537a47a084b1fae586ea82828bc5e",
         "date": "2023-01-01T00:00:00+02:00"
       }
     ],
@@ -203,7 +203,7 @@ Content-Type: application/json
     },
     "awards": [
       {
-        "id": "ce59dcbd1325456cbd1d1632ef5cfb09",
+        "id": "a3fffca44bd842a5bf8b4d5d84428fc7",
         "status": "active",
         "date": "2023-01-01T00:00:00+02:00",
         "value": {
@@ -234,7 +234,7 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
-        "bid_id": "da98ea4ae41f4236b7c75e6a01622d79",
+        "bid_id": "af8537a47a084b1fae586ea82828bc5e",
         "complaintPeriod": {
           "startDate": "2023-01-01T00:00:00+02:00",
           "endDate": "2023-01-01T00:00:00+02:00"
@@ -244,7 +244,7 @@ Content-Type: application/json
     "contracts": [
       {
         "id": "38da025ae53f4e0d8fa4474bb5923d12",
-        "awardID": "ce59dcbd1325456cbd1d1632ef5cfb09",
+        "awardID": "a3fffca44bd842a5bf8b4d5d84428fc7",
         "contractID": "UA-2023-01-01-000001-a-1",
         "status": "active",
         "value": {
@@ -255,7 +255,7 @@ Content-Type: application/json
         },
         "items": [
           {
-            "id": "27d065dad2f843fcaa08ce47d150ff58",
+            "id": "b08960c0f87b47a78ac6347d98e8af52",
             "description": "футляри до державних нагород",
             "classification": {
               "description": "Cartons",
@@ -292,7 +292,7 @@ Content-Type: application/json
             }
           },
           {
-            "id": "ebbe3cdc3877415898b85d6b8bd0e6d1",
+            "id": "1f7aeaf465fd44f393098f8363a5e059",
             "description": "футляри до державних нагород",
             "classification": {
               "description": "Cartons",
@@ -360,7 +360,10 @@ Content-Type: application/json
       "startDate": "2022-12-21T00:00:00+02:00",
       "endDate": "2022-12-22T00:00:00+02:00"
     },
-    "id": "59190c68cfa14b0595a6e1395c43a06b"
+    "id": "fb4ee4451adb48f981d1518851ee4007"
+  },
+  "config": {
+    "hasAuction": true
   }
 }
 

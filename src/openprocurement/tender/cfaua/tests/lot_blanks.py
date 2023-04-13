@@ -2,15 +2,17 @@
 import mock
 from copy import deepcopy
 from datetime import timedelta
-from email.header import Header
 
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_cancellation, test_claim
-from openprocurement.tender.core.tests.base import change_auth
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_cancellation,
+    test_tender_below_claim,
+)
+from openprocurement.tender.core.tests.utils import change_auth
 
 
 def get_tender_lot(self):
@@ -325,7 +327,7 @@ def patch_tender_vat(self):
 def two_lot_3bid_3com_3win(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     lots = []
@@ -500,7 +502,7 @@ def two_lot_3bid_3com_3win(self):
 def one_lot_2bid(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     # add lot
@@ -650,7 +652,7 @@ def one_lot_2bid(self):
 def one_lot_3bid_1del(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender = response.json["data"]
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
@@ -807,7 +809,7 @@ def one_lot_3bid_1del(self):
 def one_lot_3bid_1un(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender = response.json["data"]
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
@@ -970,7 +972,7 @@ def two_lot_3bid_1win_bug(self):
     """
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     lots = []
@@ -1183,7 +1185,7 @@ def proc_1lot_1can(self):
     # self.assertTrue(all(["auctionPeriod" in i for i in response.json['data']['lots']]))
     # cancel lot
 
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -1210,7 +1212,7 @@ def create_tender_lot(self):
 
     with mock.patch("openprocurement.tender.core.validation.MINIMAL_STEP_VALIDATION_FROM",
                     get_now() - timedelta(days=1)):
-        response = self.app.post_json("/tenders", {"data": tender_data}, status=422)
+        response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
         self.assertEqual(response.status, "422 Unprocessable Entity")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["status"], "error")
@@ -1224,7 +1226,7 @@ def create_tender_lot(self):
     tender_data = deepcopy(self.initial_data)
     tender_data["lots"] = deepcopy(self.initial_lots)
     tender_data["lots"][0]["guarantee"] = {"amount": 100500, "currency": "USD"}
-    response = self.app.post_json("/tenders", {"data": tender_data})
+    response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
@@ -1312,7 +1314,7 @@ def tender_lot_guarantee(self):
     data["lots"] = deepcopy(self.initial_lots)
     data["lots"][0]["guarantee"] = {"amount": 20, "currency": "USD"}
     data["guarantee"] = {"amount": 100, "currency": "USD"}
-    response = self.app.post_json("/tenders", {"data": data})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     tender = response.json["data"]
     tender_token = response.json["access"]["token"]
     self.assertEqual(response.status, "201 Created")
@@ -1423,7 +1425,7 @@ def question_blocking(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     # cancel lot
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",
@@ -1444,7 +1446,7 @@ def question_blocking(self):
 
 def claim_blocking(self):
     self.app.authorization = ("Basic", ("broker", ""))
-    claim_data = deepcopy(test_claim)
+    claim_data = deepcopy(test_tender_below_claim)
     claim_data["relatedLot"] = self.initial_lots[0]["id"]
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
@@ -1463,7 +1465,7 @@ def claim_blocking(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     # cancel lot
-    cancellation = dict(**test_cancellation)
+    cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({
         "status": "active",
         "cancellationOf": "lot",

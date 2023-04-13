@@ -9,7 +9,7 @@ from openprocurement.api.constants import TZ
 from openprocurement.api.context import set_now
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.belowthreshold.utils import prepare_tender_item_for_contract
-from openprocurement.tender.pricequotation.procedure.models.tender import Tender
+from openprocurement.tender.pricequotation.models import PriceQuotationTender
 from openprocurement.tender.pricequotation.tests.data import *
 from openprocurement.framework.electroniccatalogue.models import Agreement
 
@@ -20,10 +20,11 @@ class BaseApiWebTest(BaseWebTest):
 
 class BaseTenderWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
-    initial_data = test_tender_data
+    initial_data = test_tender_pq_data
+    initial_config = test_tender_pq_config
     initial_status = None
     maxDiff = None
-    initial_agreement_data = test_agreement_data
+    initial_agreement_data = test_agreement_pq_data
     agreement_id = initial_agreement_data["_id"]
 
     initial_bids = None
@@ -48,8 +49,8 @@ class BaseTenderWebTest(BaseCoreWebTest):
         "active.tendering"
     )  # status, in which adding document to tender auction is forbidden
     periods = PERIODS
-    meta_initial_bids = test_bids
-    tender_class = Tender
+    meta_initial_bids = test_tender_pq_bids
+    tender_class = PriceQuotationTender
 
     def setUp(self):
         super(BaseTenderWebTest, self).setUp()
@@ -97,7 +98,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
         if self.initial_bids and not bids:
             self.tender_document_patch["bids"] = []
             self.initial_bids_tokens = []
-            for position, bid in enumerate(test_bids):
+            for position, bid in enumerate(test_tender_pq_bids):
                 bid = deepcopy(bid)
                 token = uuid4().hex
                 bid.update(
@@ -180,15 +181,15 @@ class BaseTenderWebTest(BaseCoreWebTest):
         items = deepcopy(self.initial_data["items"])
         for item in items:
             item.update({
-                "classification": test_short_profile["classification"],
-                "unit": test_short_profile["unit"]
+                "classification": test_tender_pq_short_profile["classification"],
+                "unit": test_tender_pq_short_profile["unit"]
             })
-        value = deepcopy(test_short_profile['value'])
-        amount = sum([item["quantity"] for item in items]) * test_short_profile['value']['amount']
+        value = deepcopy(test_tender_pq_short_profile['value'])
+        amount = sum([item["quantity"] for item in items]) * test_tender_pq_short_profile['value']['amount']
         value["amount"] = amount
         # criteria = getattr(self, "test_criteria", test_short_profile['criteria'])
         self.tender_document_patch.update({
-            "shortlistedFirms": test_shortlisted_firms,
+            "shortlistedFirms": test_tender_pq_shortlisted_firms,
             # 'criteria': criteria,
             "items": items,
             'value': value
@@ -207,11 +208,12 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
     def create_tender(self):
         data = deepcopy(self.initial_data)
+        config = deepcopy(self.initial_config)
         if PQ_MULTI_PROFILE_RELEASED:
             data["agreement"] = {"id": self.agreement_id}
-        data["criteria"] = getattr(self, "test_criteria", test_criteria)
+        data["criteria"] = getattr(self, "test_criteria", test_tender_pq_criteria)
 
-        response = self.app.post_json("/tenders", {"data": data})
+        response = self.app.post_json("/tenders", {"data": data, "config": config})
         tender = response.json["data"]
         self.tender_id = tender["id"]
         status = tender["status"]
@@ -221,7 +223,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
     def create_agreement(self):
         if self.mongodb.agreements.get(self.agreement_id):
             self.delete_agreement()
-        agreement = Agreement(test_agreement_data)
+        agreement = Agreement(test_agreement_pq_data)
         agreement.dateModified = get_now().isoformat()
         set_now()
         self.mongodb.agreements.save(agreement, insert=True)
@@ -231,7 +233,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
 
 class TenderContentWebTest(BaseTenderWebTest):
-    initial_data = test_tender_data
     initial_status = None
     initial_bids = None
     need_tender = True

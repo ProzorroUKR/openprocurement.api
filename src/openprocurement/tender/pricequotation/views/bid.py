@@ -15,7 +15,7 @@ from openprocurement.tender.belowthreshold.views.bid import\
     TenderBidResource as BaseTenderBidResource
 from openprocurement.tender.belowthreshold.validation import\
     validate_update_bid_status
-from openprocurement.tender.pricequotation.constants import PMT
+from openprocurement.tender.pricequotation.constants import PQ
 
 
 # @optendersresource(

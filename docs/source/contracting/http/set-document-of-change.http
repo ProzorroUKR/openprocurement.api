@@ -1,4 +1,4 @@
-PATCH /api/2.5/contracts/38da025ae53f4e0d8fa4474bb5923d12/documents/1c4e25349f5a4506a469810d1e65ab7a?acc_token=a0e030a63cbe4390a164f7dee4f37dc9 HTTP/1.0
+PATCH /api/2.5/contracts/38da025ae53f4e0d8fa4474bb5923d12/documents/315db81de36f44689c9f8e18745c3f3e?acc_token=a0e030a63cbe4390a164f7dee4f37dc9 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 85
 Content-Type: application/json
@@ -17,7 +17,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "1c4e25349f5a4506a469810d1e65ab7a",
+    "id": "315db81de36f44689c9f8e18745c3f3e",
     "hash": "md5:00000000000000000000000000000000",
     "title": "contract_changes.doc",
     "format": "application/msword",

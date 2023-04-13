@@ -9,7 +9,7 @@ from openprocurement.tender.belowthreshold.views.tender_document import (
     TenderDocumentResource,
 )
 from openprocurement.tender.core.utils import optendersresource
-from openprocurement.tender.pricequotation.constants import PMT
+from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.tender.core.validation import (
     validate_tender_document_update_not_by_author_or_tender_owner,
 )

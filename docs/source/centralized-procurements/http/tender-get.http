@@ -229,6 +229,9 @@ Content-Type: application/json
       "endDate": "2023-01-28T00:00:00+02:00"
     },
     "id": "d1b73c4e72e244f1833086204faadff6"
+  },
+  "config": {
+    "hasAuction": true
   }
 }
 

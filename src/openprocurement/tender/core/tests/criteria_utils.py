@@ -1,5 +1,8 @@
 from webtest import TestApp
-from openprocurement.tender.belowthreshold.tests.base import test_criteria, language_criteria
+from openprocurement.tender.core.tests.base import (
+    test_exclusion_criteria,
+    test_language_criteria,
+)
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.utils import get_now
 
@@ -7,7 +10,7 @@ from openprocurement.api.utils import get_now
 TENDERS_WITHOUT_CRITERIA = ["aboveThresholdUA.defense", "simple.defense", "reporting", "negotiation", "negotiation.quick"]
 
 
-def add_criteria(self, tender_id=None, tender_token=None, criteria=test_criteria):
+def add_criteria(self, tender_id=None, tender_token=None, criteria=test_exclusion_criteria):
     app = self if isinstance(self, TestApp) else self.app
     if not tender_id:
         tender_id = self.tender_id
@@ -27,7 +30,7 @@ def add_criteria(self, tender_id=None, tender_token=None, criteria=test_criteria
 
         response = app.post_json(
             "/tenders/{}/criteria?acc_token={}".format(tender_id, tender_token),
-            {"data": language_criteria},
+            {"data": test_language_criteria},
         )
 
         assert response.status == "201 Created"

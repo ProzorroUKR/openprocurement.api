@@ -1,35 +1,42 @@
 # -*- coding: utf-8 -*-
 import os
-import json
 from copy import deepcopy
-from uuid import uuid4
 
 from datetime import timedelta
 
 from openprocurement.api.constants import (
     SANDBOX_MODE,
     RELEASE_2020_04_19,
-    TWO_PHASE_COMMIT_FROM,
-    GUARANTEE_ALLOWED_TENDER_TYPES,
 )
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.models import Tender
 from openprocurement.tender.belowthreshold.tests.periods import PERIODS
-from openprocurement.tender.core.tests.base import BaseCoreWebTest
+from openprocurement.tender.belowthreshold.tests.utils import (
+    set_tender_lots,
+    set_tender_criteria,
+    set_bid_responses,
+    set_bid_lotvalues,
+    set_tender_multi_buyers,
+)
+from openprocurement.tender.core.tests.base import (
+    BaseCoreWebTest,
+    test_contract_guarantee_criteria,
+)
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 
 now = get_now()
-test_identifier = {
+
+test_tender_below_identifier = {
     "scheme": "UA-EDR",
     "id": "00037256",
     "uri": "http://www.dus.gov.ua/",
     "legalName": "Державне управління справами",
 }
 
-test_organization = {
+test_tender_below_organization = {
     "name": "Державне управління справами",
-    "identifier": test_identifier,
+    "identifier": test_tender_below_identifier,
     "address": {
         "countryName": "Україна",
         "postalCode": "01220",
@@ -44,12 +51,13 @@ test_organization = {
     "scale": "micro",
 }
 
-test_author = test_organization.copy()
-del test_author["scale"]
+test_tender_below_author = test_tender_below_organization.copy()
+del test_tender_below_author["scale"]
 
-test_procuring_entity = test_author.copy()
-test_procuring_entity["kind"] = "general"
-test_milestones = [
+test_tender_below_procuring_entity = test_tender_below_author.copy()
+test_tender_below_procuring_entity["kind"] = "general"
+
+test_tender_below_milestones = [
     {
         "id": "a" * 32,
         "title": "signingTheContract",
@@ -69,7 +77,7 @@ test_milestones = [
     },
 ]
 
-test_item = {
+test_tender_below_item = {
     "description": "футляри до державних нагород",
     "classification": {"scheme": "ДК021", "id": "44617100-9", "description": "Cartons"},
     "additionalClassifications": [
@@ -94,29 +102,29 @@ test_item = {
     },
 }
 
-test_tender_data = {
+test_tender_below_data = {
     "title": "футляри до державних нагород",
     "mainProcurementCategory": "goods",
-    "procuringEntity": test_procuring_entity,
+    "procuringEntity": test_tender_below_procuring_entity,
     "value": {"amount": 500, "currency": "UAH"},
     "minimalStep": {"amount": 15, "currency": "UAH"},
-    "items": [deepcopy(test_item)],
+    "items": [deepcopy(test_tender_below_item)],
     "enquiryPeriod": {"endDate": (now + timedelta(days=9)).isoformat()},
     "tenderPeriod": {"endDate": (now + timedelta(days=18)).isoformat()},
     "procurementMethodType": "belowThreshold",
-    "milestones": test_milestones,
+    "milestones": test_tender_below_milestones,
 }
 if SANDBOX_MODE:
-    test_tender_data["procurementMethodDetails"] = "quick, accelerator=1440"
+    test_tender_below_data["procurementMethodDetails"] = "quick, accelerator=1440"
 
-test_simple_tender_data = deepcopy(test_tender_data)
-test_simple_tender_data["procurementMethodRationale"] = "simple"
+test_tender_below_simple_data = deepcopy(test_tender_below_data)
+test_tender_below_simple_data["procurementMethodRationale"] = "simple"
 
-test_features_tender_data = test_tender_data.copy()
-test_features_item = test_features_tender_data["items"][0].copy()
-test_features_item["id"] = "1"
-test_features_tender_data["items"] = [test_features_item]
-test_features_tender_data["features"] = [
+test_tender_below_features_data = test_tender_below_data.copy()
+test_tender_below_features_item = test_tender_below_features_data["items"][0].copy()
+test_tender_below_features_item["id"] = "1"
+test_tender_below_features_data["items"] = [test_tender_below_features_item]
+test_tender_below_features_data["features"] = [
     {
         "code": "OCDS-123454-AIR-INTAKE",
         "featureOf": "item",
@@ -139,184 +147,72 @@ test_features_tender_data["features"] = [
         ],
     },
 ]
-test_bids = [
-    {"tenderers": [test_organization], "value": {"amount": 469.0, "currency": "UAH", "valueAddedTaxIncluded": True}},
-    {"tenderers": [test_organization], "value": {"amount": 479.0, "currency": "UAH", "valueAddedTaxIncluded": True}},
+test_tender_below_bids = [
+    {
+        "tenderers": [test_tender_below_organization],
+        "value": {"amount": 469.0, "currency": "UAH", "valueAddedTaxIncluded": True},
+    },
+    {
+        "tenderers": [test_tender_below_organization],
+        "value": {"amount": 479.0, "currency": "UAH", "valueAddedTaxIncluded": True},
+    },
 ]
-test_lots = [
+test_tender_below_lots = [
     {
         "title": "lot title",
         "description": "lot description",
-        "value": test_tender_data["value"],
-        "minimalStep": test_tender_data["minimalStep"],
+        "value": test_tender_below_data["value"],
+        "minimalStep": test_tender_below_data["minimalStep"],
     }
 ]
-test_features = [
-    {
-        "code": "code_item",
-        "featureOf": "item",
-        "relatedItem": "1",
-        "title": "item feature",
-        "enum": [{"value": 0.01, "title": "good"}, {"value": 0.02, "title": "best"}],
-    },
-    {
-        "code": "code_tenderer",
-        "featureOf": "tenderer",
-        "title": "tenderer feature",
-        "enum": [{"value": 0.01, "title": "good"}, {"value": 0.02, "title": "best"}],
-    },
-]
-test_cancellation = {
+test_tender_below_cancellation = {
     "reason": "cancellation reason",
 }
 if RELEASE_2020_04_19 < get_now():
-    test_cancellation.update({
+    test_tender_below_cancellation.update({
         "reasonType": "noDemand"
     })
 
-test_draft_claim = {
+test_tender_below_draft_claim = {
     "title": "complaint title",
     "status": "draft",
     "type": "claim",
     "description": "complaint description",
-    "author": test_author
+    "author": test_tender_below_author
 }
 
-test_claim = {
+test_tender_below_claim = {
     "title": "complaint title",
     "status": "claim",
     "type": "claim",
     "description": "complaint description",
-    "author": test_author
+    "author": test_tender_below_author
 }
 
-test_complaint = {
+test_tender_below_complaint = {
     "title": "complaint title",
     "status": "pending",
     "type": "complaint",
     "description": "complaint description",
-    "author": test_author
+    "author": test_tender_below_author
 }
-test_draft_complaint = {
+
+test_tender_below_draft_complaint = {
     "title": "complaint title",
     "type": "complaint",
     "description": "complaint description",
-    "author": test_author
+    "author": test_tender_below_author
 }
 
+test_tender_below_multi_buyers_data = set_tender_multi_buyers(
+    test_tender_below_data,
+    test_tender_below_item,
+    test_tender_below_organization,
+)
 
-current_dir = os.path.dirname(os.path.abspath(__file__))
-
-with open(os.path.join(current_dir, "data", "exclusion_criteria.json")) as json_file:
-    test_criteria = json.load(json_file)
-
-test_requirement_groups = test_criteria[0]["requirementGroups"]
-
-with open(os.path.join(current_dir, "data", "lang_criteria.json")) as json_file:
-    language_criteria = json.load(json_file)
-
-with open(os.path.join(current_dir, "data", "contract_guarantee_criteria.json")) as json_file:
-    contract_guarantee_criteria = json.load(json_file)
-
-with open(os.path.join(current_dir, "data", "tender_guarantee_criteria.json")) as json_file:
-    tender_guarantee_criteria = json.load(json_file)
-
-
-def set_tender_lots(tender, lots):
-    tender["lots"] = []
-    for lot in lots:
-        lot = deepcopy(lot)
-        lot["id"] = uuid4().hex
-        tender["lots"].append(lot)
-    for i, item in enumerate(tender["items"]):
-        item["relatedLot"] = tender["lots"][i % len(tender["lots"])]["id"]
-    return tender
-
-
-def set_tender_criteria(criteria, lots, items):
-    for i, criterion in enumerate(criteria):
-        if lots and criterion["relatesTo"] == "lot":
-            criterion["relatedItem"] = lots[i % len(lots)]["id"]
-        elif items and criterion["relatesTo"] == "item":
-            criterion["relatedItem"] = items[i % len(lots)]["id"]
-    return criteria
-
-
-def set_bid_responses(criteria):
-    rrs = []
-    for criterion in criteria:
-        for req in criterion["requirementGroups"][0]["requirements"]:
-            if criterion["source"] == "tenderer":
-                rrs.append(
-                    {
-                        "title": "Requirement response",
-                        "description": "some description",
-                        "requirement": {
-                            "id": req["id"],
-                            "title": req["title"],
-                        },
-                        "value": True,
-                    },
-                )
-    return rrs
-
-
-def set_bid_lotvalues(bid, lots):
-    try:
-        value = bid.pop("value", None) or bid["lotValues"][0]["value"]
-    except KeyError:
-        bid["lotValues"] = [{"relatedLot": lot["id"]} for lot in lots]
-    else:
-        bid["lotValues"] = [{"value": value, "relatedLot": lot["id"]} for lot in lots]
-    return bid
-
-
-def set_tender_multi_buyers(_test_tender_data, _test_item, _test_organization):
-    _tender_data = deepcopy(_test_tender_data)
-
-    # create 3 items
-    test_item1 = deepcopy(_test_item)
-    test_item1["description"] = "телевізори"
-
-    test_item2 = deepcopy(_test_item)
-    test_item2["description"] = "портфелі"
-    test_item2.pop("id", None)
-
-    test_item3 = deepcopy(_test_item)
-    test_item3["description"] = "столи"
-    test_item3.pop("id", None)
-
-    _tender_data["items"] = [test_item1, test_item2, test_item2]
-
-    # create 2 buyers
-    buyer1_id = uuid4().hex
-    buyer2_id = uuid4().hex
-
-    _test_organization_1 = deepcopy(_test_organization)
-    _test_organization_2 = deepcopy(_test_organization)
-    _test_organization_2["identifier"]["id"] = "00037254"
-
-    _tender_data["buyers"] = [
-        {
-            "id": buyer1_id,
-            "name": _test_organization_1["name"],
-            "identifier": _test_organization_1["identifier"]
-        },
-        {
-            "id": buyer2_id,
-            "name": _test_organization_2["name"],
-            "identifier": _test_organization_2["identifier"]
-        },
-    ]
-    # assign items to buyers
-    _tender_data["items"][0]["relatedBuyer"] = buyer1_id
-    _tender_data["items"][1]["relatedBuyer"] = buyer2_id
-    _tender_data["items"][2]["relatedBuyer"] = buyer2_id
-
-    return _tender_data
-
-
-test_tender_data_multi_buyers = set_tender_multi_buyers(test_tender_data, test_item, test_organization)
+test_tender_below_config = {
+    "hasAuction": True,
+}
 
 
 class BaseApiWebTest(BaseWebTest):
@@ -325,7 +221,8 @@ class BaseApiWebTest(BaseWebTest):
 
 class BaseTenderWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
-    initial_data = test_tender_data
+    initial_data = test_tender_below_data
+    initial_config = test_tender_below_config
     initial_status = "active.enquiries"
     initial_bids = None
     initial_lots = None
@@ -368,6 +265,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
     def setUp(self):
         super(BaseTenderWebTest, self).setUp()
         self.initial_data = deepcopy(self.initial_data)
+        self.initial_config = deepcopy(self.initial_config)
         if self.initial_lots:
             self.initial_lots = deepcopy(self.initial_lots)
             set_tender_lots(self.initial_data, self.initial_lots)
@@ -388,7 +286,8 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
     def create_tender(self):
         data = deepcopy(self.initial_data)
-        response = self.app.post_json("/tenders", {"data": data})
+        config = deepcopy(self.initial_config)
+        response = self.app.post_json("/tenders", {"data": data, "config": config})
         tender = response.json["data"]
         self.tender_token = response.json["access"]["token"]
         self.tender_id = tender["id"]
@@ -403,7 +302,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
             self.app.post_json(
                 "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
                 {
-                    "data": getattr(self, "guarantee_criterion_data", contract_guarantee_criteria)
+                    "data": getattr(self, "guarantee_criterion_data", test_contract_guarantee_criteria)
                 },
                 status=201
             )
@@ -430,7 +329,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
 
 class TenderContentWebTest(BaseTenderWebTest):
-    initial_data = test_tender_data
+    initial_data = test_tender_below_data
     initial_status = "active.enquiries"
     initial_bids = None
     initial_lots = None

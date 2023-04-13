@@ -6,20 +6,19 @@ import mock
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_criteria,
+from openprocurement.tender.core.tests.base import (
+    test_exclusion_criteria,
     test_requirement_groups,
-    language_criteria,
+    test_language_criteria,
+    test_lcc_tender_criteria,
 )
-from openprocurement.tender.openua.tests.base import (
-    lcc_criteria,
-)
+
 
 def create_tender_criteria_valid(self):
 
     request_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
-    criteria = deepcopy(test_criteria)
-    criterion = deepcopy(test_criteria)[0]
+    criteria = deepcopy(test_exclusion_criteria)
+    criterion = deepcopy(test_exclusion_criteria)[0]
     criterion["classification"]["id"] = "CRITERION.NO.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
 
     response = self.app.post_json(request_path, {"data": criteria})
@@ -42,7 +41,7 @@ def create_tender_criteria_valid(self):
 
     response3 = self.app.patch_json(
         "/tenders/{}/criteria/{}?acc_token={}".format(self.tender_id, criterion_id, self.tender_token),
-        {"data": {"classification": {**criterion_data["classification"], "id": test_criteria[0]["classification"]["id"]}}},
+        {"data": {"classification": {**criterion_data["classification"], "id": test_exclusion_criteria[0]["classification"]["id"]}}},
         status=403
     )
     self.assertEqual(response3.status, "403 Forbidden")
@@ -67,7 +66,7 @@ def create_tender_criteria_valid(self):
         self.assertEqual(response2.status, "201 Created")
         self.assertEqual(response2.content_type, "application/json")
 
-    response2 = self.app.post_json(request_path, {"data": test_criteria}, status=403)
+    response2 = self.app.post_json(request_path, {"data": test_exclusion_criteria}, status=403)
     self.assertEqual(response2.status, "403 Forbidden")
     self.assertEqual(response2.content_type, "application/json")
     self.assertEqual(response2.json["status"], "error")
@@ -83,7 +82,7 @@ def create_tender_criteria_valid(self):
     for requirementGroup in criteria["requirementGroups"]:
         self.assertIn("requirements", requirementGroup)
 
-    lang_criterion = deepcopy(language_criteria)
+    lang_criterion = deepcopy(test_language_criteria)
     response = self.app.post_json(request_path, {"data": lang_criterion})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -107,7 +106,7 @@ def create_tender_criteria_valid(self):
 
 def create_tender_criteria_invalid(self):
 
-    invalid_criteria = deepcopy(test_criteria)
+    invalid_criteria = deepcopy(test_exclusion_criteria)
     invalid_criteria[0]["relatesTo"] = "lot"
 
     request_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
@@ -220,7 +219,7 @@ def create_tender_criteria_invalid(self):
         }],
     )
 
-    lang_criterion = deepcopy(language_criteria)
+    lang_criterion = deepcopy(test_language_criteria)
     lang_criterion[0]["requirementGroups"][0]["requirements"][0]["expectedValue"] = False
     response = self.app.post_json(request_path, {"data": lang_criterion}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -282,7 +281,7 @@ def create_tender_criteria_invalid(self):
         }],
     )
 
-    lang_criterion = deepcopy(language_criteria)
+    lang_criterion = deepcopy(test_language_criteria)
     del lang_criterion[0]["relatesTo"]
     response = self.app.post_json(request_path, {"data": lang_criterion}, status=422)
 
@@ -296,7 +295,7 @@ def create_tender_criteria_invalid(self):
 
 
 def patch_tender_criteria_valid(self):
-    criteria_data = deepcopy(test_criteria)
+    criteria_data = deepcopy(test_exclusion_criteria)
     criteria_data[0]["classification"]["id"] = "CRITERION.OTHER"
 
     response = self.app.post_json(
@@ -355,7 +354,7 @@ def patch_tender_criteria_valid(self):
 
 
 def patch_tender_criteria_invalid(self):
-    criteria_data = deepcopy(test_criteria)
+    criteria_data = deepcopy(test_exclusion_criteria)
     criteria_data[0]["classification"]["id"] = "CRITERION.OTHER"
 
     response = self.app.post_json(
@@ -463,7 +462,7 @@ def patch_tender_criteria_invalid(self):
 def get_tender_criteria(self):
     response = self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": test_criteria}
+        {"data": test_exclusion_criteria}
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -475,21 +474,21 @@ def get_tender_criteria(self):
 
     self.assertIn("requirementGroups", criteria[0])
     self.assertEqual(
-        len(test_criteria[0]["requirementGroups"]),
+        len(test_exclusion_criteria[0]["requirementGroups"]),
         len(criteria[0]["requirementGroups"])
     )
 
     for i, criterion in enumerate(criteria):
         for k, v in criterion.items():
             if k not in ["id", "requirementGroups"]:
-                self.assertEqual(test_criteria[i][k], v)
+                self.assertEqual(test_exclusion_criteria[i][k], v)
 
     response = self.app.get("/tenders/{}/criteria/{}".format(self.tender_id, criteria_id))
     criterion = response.json["data"]
 
     for k, v in criterion.items():
         if k not in ["id", "requirementGroups"]:
-            self.assertEqual(test_criteria[0][k], v)
+            self.assertEqual(test_exclusion_criteria[0][k], v)
 
 
 def activate_tender(self):
@@ -522,7 +521,7 @@ def activate_tender(self):
 
     response = self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": test_criteria[:8]},
+        {"data": test_exclusion_criteria[:8]},
     )
 
     self.assertEqual(response.status, "201 Created")
@@ -554,7 +553,7 @@ def activate_tender(self):
 
     response = self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": test_criteria[:1]},
+        {"data": test_exclusion_criteria[:1]},
         status=403,
     )
 
@@ -587,7 +586,7 @@ def activate_tender(self):
 
     response = self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": test_criteria[8:]},
+        {"data": test_exclusion_criteria[8:]},
     )
 
     self.assertEqual(response.status, "201 Created")
@@ -595,7 +594,7 @@ def activate_tender(self):
 
     response = self.app.post_json(
         "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": language_criteria},
+        {"data": test_language_criteria},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1459,7 +1458,7 @@ def lcc_criterion_valid(self):
     data = dict(**self.initial_data)
     data["awardCriteria"] = "lifeCycleCost"
     data["status"] = "draft"
-    response = self.app.post_json("/tenders", {"data": data})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]
     self.assertEqual(tender["awardCriteria"], data["awardCriteria"])
@@ -1470,9 +1469,9 @@ def lcc_criterion_valid(self):
     add_criteria(self)
 
     # post lcc criteria 1 item
-    test_lcc_criteria = deepcopy(lcc_criteria)
+    lcc_criteria = deepcopy(test_lcc_tender_criteria)
     criteria_request_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
-    response = self.app.post_json(criteria_request_path, {"data": [test_lcc_criteria[0]]}, status=201)
+    response = self.app.post_json(criteria_request_path, {"data": [lcc_criteria[0]]}, status=201)
 
     # patch tender to active.tendering
     tender_request_path = "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token)
@@ -1487,7 +1486,7 @@ def lcc_criterion_valid(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     # post lcc criteria 3 items
-    response = self.app.post_json(criteria_request_path, {"data": test_lcc_criteria[1:4]}, status=201)
+    response = self.app.post_json(criteria_request_path, {"data": lcc_criteria[1:4]}, status=201)
     criteria_id = response.json["data"][0]["id"]
     requirement_group_id = response.json["data"][0]["requirementGroups"][0]["id"]
     requirement_id = response.json["data"][0]["requirementGroups"][0]["requirements"][0]["id"]
@@ -1564,7 +1563,7 @@ def lcc_criterion_invalid(self):
     data = dict(**self.initial_data)
     data["awardCriteria"] = "lifeCycleCost"
     data["status"] = "draft"
-    response = self.app.post_json("/tenders", {"data": data})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]
     self.tender_token = response.json["access"]["token"]
@@ -1573,14 +1572,14 @@ def lcc_criterion_invalid(self):
 
     # post lcc criteria 1 item
     for restricted_relatesTo_choice in ["item", "tenderer"]:
-        test_lcc_criteria = deepcopy(lcc_criteria)
-        test_lcc_criteria[0]["relatesTo"] = restricted_relatesTo_choice
+        lcc_criteria = deepcopy(test_lcc_tender_criteria)
+        lcc_criteria[0]["relatesTo"] = restricted_relatesTo_choice
         if restricted_relatesTo_choice == "item":
-            test_lcc_criteria[0]["relatedItem"] = item_id
+            lcc_criteria[0]["relatedItem"] = item_id
 
         criteria_request_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
 
-        response = self.app.post_json(criteria_request_path, {"data": [test_lcc_criteria[0]]}, status=422)
+        response = self.app.post_json(criteria_request_path, {"data": [lcc_criteria[0]]}, status=422)
         self.assertEqual(response.status, "422 Unprocessable Entity")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["status"], "error")
@@ -1591,7 +1590,7 @@ def lcc_criterion_invalid(self):
                 "name": "relatesTo",
                 "description": [
                     "{} criteria relatesTo should be `tender` if tender has no lots"
-                        .format(test_lcc_criteria[0]["classification"]["id"])
+                        .format(lcc_criteria[0]["classification"]["id"])
                 ]
             }]
         )
@@ -1601,7 +1600,7 @@ def lcc_criterion_invalid(self):
     data["awardCriteria"] = "lifeCycleCost"
     data["status"] = "draft"
     data["lots"] = self.test_lots_data
-    response = self.app.post_json("/tenders", {"data": data})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]
     self.tender_token = response.json["access"]["token"]
@@ -1610,14 +1609,14 @@ def lcc_criterion_invalid(self):
 
     # post lcc criteria 1 item
     for restricted_relatesTo_choice in ["tender", "item", "tenderer"]:
-        test_lcc_criteria = deepcopy(lcc_criteria)
-        test_lcc_criteria[0]["relatesTo"] = restricted_relatesTo_choice
+        lcc_criteria = deepcopy(lcc_criteria)
+        lcc_criteria[0]["relatesTo"] = restricted_relatesTo_choice
         if restricted_relatesTo_choice == "item":
-            test_lcc_criteria[0]["relatedItem"] = item_id
+            lcc_criteria[0]["relatedItem"] = item_id
 
         criteria_request_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
 
-        response = self.app.post_json(criteria_request_path, {"data": [test_lcc_criteria[0]]}, status=422)
+        response = self.app.post_json(criteria_request_path, {"data": [lcc_criteria[0]]}, status=422)
         self.assertEqual(response.status, "422 Unprocessable Entity")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["status"], "error")
@@ -1629,7 +1628,7 @@ def lcc_criterion_invalid(self):
                 "description": [
                     "{} criteria relatesTo should be `lot` if tender has lots"
                         .format(
-                            test_lcc_criteria[0]["classification"]["id"],
+                            lcc_criteria[0]["classification"]["id"],
                         )
                 ]
             }]
