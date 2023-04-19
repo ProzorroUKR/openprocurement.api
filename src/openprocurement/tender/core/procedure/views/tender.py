@@ -4,7 +4,10 @@ from openprocurement.api.utils import (
     update_logging_context,
 )
 from openprocurement.api.views.base import MongodbResourceListing
-from openprocurement.tender.core.procedure.serializers.config import TenderConfigSerializer
+from openprocurement.tender.core.procedure.context import (
+    get_tender_config,
+    get_tender,
+)
 from openprocurement.tender.core.procedure.utils import (
     set_ownership,
     save_tender,
@@ -66,7 +69,7 @@ class TendersResource(TenderBaseResource):
     def collection_post(self):
         update_logging_context(self.request, {"tender_id": "__new__"})
         tender = self.request.validated["data"]
-        tender_config = self.request.validated["tender_config"]
+        self._serialize_config(self.request, get_tender_config())
         access = set_ownership(tender, self.request)
         self.state.on_post(tender)
         self.request.validated["tender"] = tender
@@ -89,22 +92,19 @@ class TendersResource(TenderBaseResource):
                 "{}:Tenders".format(tender["procurementMethodType"]), tender_id=tender["_id"]
             )
             return {
-                "data": self.serializer_class(tender).data,
-                "config": self.serializer_config_class(tender_config).data,
+                "data": self.serializer_class(get_tender()).data,
+                "config": get_tender_config(),
                 "access": access,
             }
 
     @json_view(permission="view_tender")
     def get(self):
-        tender = self.request.validated["tender"]
-        tender_config = self.request.validated["tender_config"]
         return {
-            "data": self.serializer_class(tender).data,
-            "config": self.serializer_config_class(tender_config).data,
+            "data": self.serializer_class(get_tender()).data,
+            "config": get_tender_config(),
         }
 
     def patch(self):
-        tender_config = self.request.validated["tender_config"]
         updated = self.request.validated["data"]
         if updated:
             before = self.request.validated["tender_src"]
@@ -116,8 +116,7 @@ class TendersResource(TenderBaseResource):
                     f"Updated tender {updated['_id']}",
                     extra=context_unpack(self.request, {"MESSAGE_ID": "tender_patch"})
                 )
-        tender = self.request.validated["tender"]
         return {
-            "data": self.serializer_class(tender).data,
-            "config": self.serializer_config_class(tender_config).data,
+            "data": self.serializer_class(get_tender()).data,
+            "config": get_tender_config(),
         }

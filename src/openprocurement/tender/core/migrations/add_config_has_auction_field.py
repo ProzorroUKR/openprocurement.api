@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 from gevent import monkey
 
-from openprocurement.tender.cfaua.constants import CFA_UA
-
 if __name__ == "__main__":
     monkey.patch_all(thread=False, select=False)
 
@@ -33,7 +31,7 @@ def has_auction_populator(tender):
     pmt = tender.get("procurementMethodType")
 
     if pmt == ABOVE_THRESHOLD:
-        smd = tender.get("submissionMethodDetails")
+        smd = tender.get("submissionMethodDetails") or ""
         if "quick(mode:no-auction)" in smd:
             return False
         else:

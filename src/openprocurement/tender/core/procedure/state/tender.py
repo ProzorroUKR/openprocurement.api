@@ -1,4 +1,6 @@
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
+from openprocurement.tender.cfaua.constants import CFA_UA
 from openprocurement.tender.competitivedialogue.constants import (
     CD_UA_TYPE,
     CD_EU_TYPE,
@@ -81,7 +83,7 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, Chronog
             )
 
         # For this procurementMethodType it is not allowed to disable auction
-        auction_pmts = (ESCO,)
+        auction_pmts = (ESCO, CFA_UA, CFA_SELECTION)
         if pmt in auction_pmts and config.get("hasAuction") is not True:
             raise_operation_error(
                 self.request,

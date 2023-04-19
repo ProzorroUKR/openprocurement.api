@@ -216,4 +216,4 @@ class Tender(BaseTender):
 
 class TenderConfig(Model):
     test = BooleanType(required=False)
-    hasAuction = BooleanType(required=True)
+    hasAuction = BooleanType(required=False)
