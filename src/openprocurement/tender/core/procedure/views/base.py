@@ -38,4 +38,7 @@ class TenderBaseResource(BaseResource):
                 request.validated["tender_src"] = request.tender_doc
                 request.validated["tender"] = deepcopy(request.validated["tender_src"])
                 tender_config = request.validated["tender"].pop("config", None) or {}
-                request.validated["tender_config"] = self.serializer_config_class(tender_config).data
+                self._serialize_config(request, tender_config)
+
+    def _serialize_config(self, request, config):
+        request.validated["tender_config"] = self.serializer_config_class(config).data
