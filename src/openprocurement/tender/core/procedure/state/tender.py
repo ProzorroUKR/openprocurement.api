@@ -1,3 +1,4 @@
+from openprocurement.api.constants import TENDER_CONFIG_HAS_AUCTION_OPTIONAL
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
 from openprocurement.tender.cfaua.constants import CFA_UA
@@ -72,6 +73,16 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, Chronog
 
     def validate_has_auction(self, data):
         config = get_tender_config()
+
+        if config.get("hasAuction") is None and TENDER_CONFIG_HAS_AUCTION_OPTIONAL is False:
+            raise_operation_error(
+                self.request,
+                ["This field is required."],
+                status=422,
+                location="body",
+                name="hasAuction",
+            )
+
         pmt = data.get("procurementMethodType")
 
         # For this procurementMethodType it is not allowed to enable auction
