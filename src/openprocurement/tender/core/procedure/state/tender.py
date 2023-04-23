@@ -18,7 +18,7 @@ from openprocurement.tender.core.procedure.state.chronograph import ChronographE
 from openprocurement.tender.core.procedure.state.auction import BaseShouldStartAfterMixing
 from logging import getLogger
 
-from openprocurement.tender.core.procedure.utils import validate_configurable_field
+from openprocurement.tender.core.procedure.utils import validate_field
 from openprocurement.tender.esco.constants import ESCO
 from openprocurement.tender.limited.constants import (
     REPORTING,
@@ -104,30 +104,23 @@ class TenderState(BaseShouldStartAfterMixing, TenderStateAwardingMixing, Chronog
     # UTILS (move to state ?)
     # belowThreshold
     def validate_minimal_step(self, data, before=None):
-        self._validate_auction_only_field("minimalStep", data, before=before)
+        config = get_tender_config()
+        kwargs = {
+            "before": before,
+            "enabled": config.get("hasAuction") is True,
+        }
+        validate_field(data, "minimalStep", **kwargs)
 
     def validate_submission_method(self, data, before=None):
-        self._validate_auction_only_field("submissionMethod", data, before=before, default="electronicAuction")
-        self._validate_auction_only_field("submissionMethodDetails", data, before=before, required=False)
-        self._validate_auction_only_field("submissionMethodDetails_en", data, before=before, required=False)
-        self._validate_auction_only_field("submissionMethodDetails_ru", data, before=before, required=False)
-
-    def _validate_auction_only_field(
-        self, field, data, before=None,
-        required=True, rogue=True, default=None,
-    ):
         config = get_tender_config()
-        enabled = config.get("hasAuction") is True
-        if before is not None and before.get(field) is not None:
-            # in case if field is already set in old tender before this rule applied
-            # we should allow to change it or remove
-            rogue = False
-        validate_configurable_field(
-            data, field, enabled,
-            required=required,
-            rogue=rogue,
-            default=default,
-        )
+        kwargs = {
+            "before": before,
+            "enabled": config.get("hasAuction") is True,
+        }
+        validate_field(data, "submissionMethod", default="electronicAuction", **kwargs)
+        validate_field(data, "submissionMethodDetails", required=False, **kwargs)
+        validate_field(data, "submissionMethodDetails_en", required=False, **kwargs)
+        validate_field(data, "submissionMethodDetails_ru", required=False, **kwargs)
 
     @staticmethod
     def cancellation_blocks_tender(tender, lot_id=None):
