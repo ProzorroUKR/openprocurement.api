@@ -291,6 +291,18 @@ def bid_in_invalid_status() -> Optional[bool]:
     return status in ("deleted", "invalid", "invalid.pre-qualification", "unsuccessful", "draft")
 
 
+def validate_required_field(data, field, required=True):
+    request = get_request()
+    if required is True and data.get(field) is None:
+        raise_operation_error(
+            request,
+            ["This field is required."],
+            status=422,
+            location="body",
+            name=field,
+        )
+
+
 def validate_configurable_field(
     data, field, enabled,
     required=True, rogue=True, default=None,

@@ -18,7 +18,12 @@ from openprocurement.tender.competitivedialogue.procedure.models.stage2.tender i
 from openprocurement.tender.openeu.procedure.serializers.tender import TenderEUSerializer
 from openprocurement.tender.core.procedure.serializers.tender import TenderBaseSerializer
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_2_EU_TYPE,
+    STAGE_2_UA_TYPE,
+    STAGE_2_EU_DEFAULT_CONFIG,
+    STAGE_2_UA_DEFAULT_CONFIG,
+)
 from openprocurement.tender.competitivedialogue.procedure.validation import (
     unless_cd_bridge,
     validate_cd2_allowed_patch_fields,
@@ -88,7 +93,7 @@ class TenderStage2UEResource(TendersResource):
         permission="create_tender",
         validators=(
             validate_input_data(PostEUTender),
-            validate_config_data(TenderConfig, obj_name="tender"),
+            validate_config_data(TenderConfig, obj_name="tender", default=STAGE_2_EU_DEFAULT_CONFIG),
             validate_accreditation_level(
                 levels=(ACCR_COMPETITIVE,),
                 kind_central_levels=(ACCR_COMPETITIVE, ACCR_5),
@@ -156,7 +161,7 @@ class TenderStage2UAResource(TendersResource):
         permission="create_tender",
         validators=(
             validate_input_data(PostUATender),
-            validate_config_data(TenderConfig, obj_name="tender"),
+            validate_config_data(TenderConfig, obj_name="tender", default=STAGE_2_UA_DEFAULT_CONFIG),
             validate_accreditation_level(
                 levels=(ACCR_COMPETITIVE,),
                 kind_central_levels=(ACCR_COMPETITIVE, ACCR_5),

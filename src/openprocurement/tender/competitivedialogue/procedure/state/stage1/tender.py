@@ -1,4 +1,4 @@
-from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.core.procedure.utils import validate_required_field
 from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTenderState
 
 
@@ -13,14 +13,13 @@ class Stage1TenderState(BaseOpenEUTenderState):
         self.check_bids_number(tender)
 
     def validate_minimal_step(self, data, before=None):
-        if data.get("minimalStep") is None:
-            raise_operation_error(
-                self.request,
-                ["This field is required."],
-                status=422,
-                location="body",
-                name="minimalStep",
-            )
+        validate_required_field(data, "minimalStep")
+
+    def validate_submission_method(self, data, before=None):
+        self._validate_auction_only_field("submissionMethod", data, before=before, default="electronicAuction", rogue=False)
+        self._validate_auction_only_field("submissionMethodDetails", data, before=before, required=False, rogue=False)
+        self._validate_auction_only_field("submissionMethodDetails_en", data, before=before, required=False, rogue=False)
+        self._validate_auction_only_field("submissionMethodDetails_ru", data, before=before, required=False, rogue=False)
 
     # first stage don't need auctionPeriod
     # this actually doesn't work, because non-refactored endpoints add auctionPeriod
