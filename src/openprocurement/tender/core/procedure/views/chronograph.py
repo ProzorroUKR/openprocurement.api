@@ -27,10 +27,7 @@ class TenderChronographResource(TenderBaseResource):
     def patch(self):
         tender_config = self.request.validated["tender_config"]
 
-        # 1 we run all event handlers that should be run by now
-        self.state.run_time_events(self.request.validated["tender"])
-
-        # 2 we convert [{"auctionPeriod": {"startDate": "2020.."}}, {"auctionPeriod": None}]
+        # 1 we convert [{"auctionPeriod": {"startDate": "2020.."}}, {"auctionPeriod": None}]
         #           to [{"auctionPeriod": {"startDate": "2020.."}}, {}]
         # TODO find a better way to specify partial update
         data = self.request.validated["data"]
@@ -38,17 +35,21 @@ class TenderChronographResource(TenderBaseResource):
             if "auctionPeriod" in lot and lot["auctionPeriod"] is None:
                 del lot["auctionPeriod"]
 
-        # 3 apply passed data ( auctionPeriod.startDate )
+        # 2 apply passed data ( auctionPeriod.startDate )
         updated = apply_data_patch(self.request.validated["tender"], data)
+        if updated:
+            self.request.validated["tender"] = updated
+
+        # 3 we run all event handlers that should be run by now
+        self.state.run_time_events(self.request.validated["tender"])
 
         # 4 update tender state
         if updated:
             self.state.on_patch(self.request.validated["tender_src"], updated)
-            self.request.validated["tender"] = updated
         else:
             self.state.always(self.request.validated["tender"])  # always updates next check and similar stuff
 
-        # 5
+        # 5 save
         if save_tender(self.request):
             self.LOGGER.info(
                 "Updated tender by chronograph",
