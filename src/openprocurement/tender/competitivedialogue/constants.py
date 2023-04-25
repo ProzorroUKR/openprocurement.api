@@ -10,3 +10,10 @@ STAGE2_STATUS = "draft.stage2"
 
 FEATURES_MAX_SUM = 0.99
 MINIMAL_NUMBER_OF_BIDS = 3
+
+STAGE_2_EU_DEFAULT_CONFIG = {
+    "hasAuction": True,
+}
+STAGE_2_UA_DEFAULT_CONFIG = {
+    "hasAuction": True,
+}

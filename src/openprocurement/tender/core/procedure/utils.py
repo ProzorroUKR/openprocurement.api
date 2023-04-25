@@ -291,11 +291,21 @@ def bid_in_invalid_status() -> Optional[bool]:
     return status in ("deleted", "invalid", "invalid.pre-qualification", "unsuccessful", "draft")
 
 
-def validate_configurable_field(
-    data, field, enabled,
-    required=True, rogue=True, default=None,
+def validate_field(
+    data,
+    field,
+    before=None,
+    enabled=True,
+    required=True,
+    rogue=True,
+    default=None,
 ):
     request = get_request()
+    if before is not None and before.get(field) is not None:
+        # in case if field is already set in old tender before this rule applied
+        # we should allow to change it or remove
+        rogue = False
+
     # field is enabled (or optional)
     if enabled is True and data.get(field) is None:
         if default is not None:
@@ -308,6 +318,7 @@ def validate_configurable_field(
                 location="body",
                 name=field,
             )
+
     # field is disabled (or optional)
     if enabled is False and data.get(field) is not None:
         if rogue is True:

@@ -256,3 +256,10 @@ FAST_CATALOGUE_FLOW_FRAMEWORK_IDS = get_constant(
     "FAST_CATALOGUE_FLOW_FRAMEWORK_IDS",
     parse_func=parse_str_list,
 )
+
+# Tender config hasAuction optional
+TENDER_CONFIG_HAS_AUCTION_OPTIONAL = get_constant(
+    CONSTANTS_CONFIG,
+    "TENDER_CONFIG_HAS_AUCTION_OPTIONAL",
+    parse_func=parse_bool,
+)
