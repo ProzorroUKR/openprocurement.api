@@ -48,7 +48,7 @@ def has_auction_populator(tender):
         return False
     return True
 
-def run(env):
+def run(env, args):
     migration_name = os.path.basename(__file__).split(".")[0]
 
     logger.info("Starting migration: %s", migration_name)
@@ -65,7 +65,7 @@ def run(env):
         {"config": 1, "procurementMethodType": 1, "submissionMethodDetails": 1},
         no_cursor_timeout=True,
     )
-    cursor.batch_size(1000)
+    cursor.batch_size(args.b)
     try:
         for tender in cursor:
             if tender.get("config", {}).get("hasAuction") is None:
@@ -85,8 +85,20 @@ def run(env):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-p", help="Path to service.ini file")
+    parser.add_argument(
+        "-p",
+        default=os.path.join(BASE_DIR, "etc/service.ini"),
+        help="Path to service.ini file",
+    )
+    parser.add_argument(
+        "-b",
+        type=int,
+        default=1000,
+        help=(
+            "Limits the number of documents returned in one batch. Each batch "
+            "requires a round trip to the server."
+        )
+    )
     args = parser.parse_args()
-    path_to_ini_file = args.p if args.p else os.path.join(BASE_DIR, "etc/service.ini")
-    with bootstrap(path_to_ini_file) as env:
-        run(env)
+    with bootstrap(args.p) as env:
+        run(env, args)
