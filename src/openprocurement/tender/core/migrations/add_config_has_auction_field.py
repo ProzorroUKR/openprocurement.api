@@ -63,16 +63,21 @@ def run(env):
     cursor = collection.find(
         {"config.hasAuction": {"$exists": False}},
         {"config": 1, "procurementMethodType": 1, "submissionMethodDetails": 1},
+        no_cursor_timeout=True,
     )
-    for tender in cursor:
-        if tender.get("config", {}).get("hasAuction") is None:
-            collection.update_one(
-                {"_id": tender["_id"]},
-                {"$set": {"config.hasAuction": has_auction_populator(tender)}}
-            )
-            count += 1
-            if count % log_every == 0:
-                logger.info("Updating tenders with hasAuction field: updated %s tenders", count)
+    cursor.batch_size(1000)
+    try:
+        for tender in cursor:
+            if tender.get("config", {}).get("hasAuction") is None:
+                collection.update_one(
+                    {"_id": tender["_id"]},
+                    {"$set": {"config.hasAuction": has_auction_populator(tender)}}
+                )
+                count += 1
+                if count % log_every == 0:
+                    logger.info("Updating tenders with hasAuction field: updated %s tenders", count)
+    finally:
+        cursor.close()
 
     logger.info("Updating tenders with hasAuction field finished: updated %s tenders", count)
 
