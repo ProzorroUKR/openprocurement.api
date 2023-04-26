@@ -666,12 +666,15 @@ class LotValue(Model):
             "edit": whitelist("value", "relatedLot"),
             "auction_view": whitelist(
                 "value",
+                "weightedValue",
                 "date",
                 "relatedLot",
                 "participationUrl"
             ),
             "auction_post": whitelist(
                 "value",
+                "weightedValue",
+                "serialize_weightedValue",
                 "date",
                 "relatedLot"
             ),
@@ -1305,6 +1308,7 @@ class Bid(BidDefaultStatusMixin):
                 "id",
                 "lotValues",
                 "value",
+                "weightedValue",
                 "date",
                 "parameters",
                 "participationUrl",
@@ -1312,6 +1316,8 @@ class Bid(BidDefaultStatusMixin):
             ),
             "auction_post": whitelist(
                 "value",
+                "weightedValue",
+                "serialize_weightedValue",
                 "lotValues",
                 "id",
                 "date"
@@ -2581,3 +2587,21 @@ class Tender(BaseTender):
         )
         self._acl_cancellation_complaint(acl)
         return acl
+
+
+class WeightedValueMixin(Model):
+    weightedValue = ModelType(Value)
+
+    @serializable(
+        serialized_name="weightedValue",
+        serialize_when_none=False,
+        type=ModelType(Value)
+    )
+    def serialize_weightedValue(self):
+        if self.weightedValue:
+            value = self.value or self.weightedValue
+            return Value(dict(
+                amount=self.weightedValue.amount,
+                currency=value.currency,
+                valueAddedTaxIncluded=value.valueAddedTaxIncluded,
+            ))

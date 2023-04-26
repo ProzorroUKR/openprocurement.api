@@ -28,6 +28,7 @@ class BaseOpenEUTenderState(PreQualificationShouldStartAfterMixing, TenderState)
         self.remove_draft_bids(tender)
         self.check_bids_number(tender)
         self.prepare_qualifications(tender)
+        self.calculate_bids_weighted_values(tender)
 
     def prepare_qualifications(self, tender):
         if "qualifications" not in tender:
@@ -139,78 +140,6 @@ class OpenEUTenderState(BaseOpenEUTenderState):
         if is_procedure_restricted(tender):
             self.min_bids_number = tender.get("preQualificationMinBidsNumber", 4)
         super().tendering_end_handler(tender)
-        self.calculate_bids_weighted_values(tender)
-
-    def calculate_bids_weighted_values(self, tender):
-        def _calc_denominator(parameters: list, features: list = "", lot_id: str = None) -> Optional[float]:
-            if not parameters:
-                return
-            if lot_id:
-                features_codes = [
-                    i["code"]
-                    for i in features
-                    if i.get("featureOf", "") == "lot" and i.get("relatedItem") == lot_id
-                ]
-                params_sum = sum(param["value"] for param in parameters if param["code"] in features_codes)
-            else:
-                params_sum = sum(param["value"] for param in parameters)
-            return 1 / (1 - params_sum)
-
-        def _set_weighted_value(
-                value_container: dict,
-                addition: Optional[float] = None,
-                denominator: Optional[float] = None
-        ) -> None:
-            value_amount = float(value_container.get("value", {}).get("amount", 0))
-            weighted_value = {}
-            if parameters:
-                value_amount = value_amount / denominator
-                weighted_value["denominator"] = denominator
-            if lcc_requirement_ids:
-                value_amount = value_amount + addition
-                weighted_value["addition"] = round(addition, 2)
-
-            if weighted_value:
-                weighted_value.update({
-                    "amount": round(value_amount, 2),
-                    "currency": value_container["value"]["currency"],
-                    "valueAddedTaxIncluded": value_container["value"]["valueAddedTaxIncluded"],
-                })
-                value_container["weightedValue"] = weighted_value
-
-        bids = tender.get("bids", "")
-        features = tender.get("features", "")
-
-        lcc_requirement_ids = [
-            req["id"]
-            for c in tender.get("criteria", "")
-            for rg in c.get("requirementGroups", "")
-            for req in rg.get("requirements", "")
-            if c["classification"]["id"] in CRITERION_LIFE_CYCLE_COST_IDS
-        ]
-
-        for bid in bids:
-
-            parameters = bid.get("parameters", "")
-
-            if not (parameters or lcc_requirement_ids):
-                continue
-
-            addition = None
-            if lcc_requirement_ids:
-                addition = sum(
-                    float(req_response.get("value"))
-                    for req_response in bid.get("requirementResponses", "")
-                    if req_response["requirement"]["id"] in lcc_requirement_ids
-                )
-
-            if bid.get("lotValues", ""):
-                for lot_value in bid["lotValues"]:
-                    denominator = _calc_denominator(parameters, features, lot_value["relatedLot"])
-                    _set_weighted_value(lot_value, addition=addition, denominator=denominator)
-            else:
-                denominator = _calc_denominator(parameters)
-                _set_weighted_value(bid, addition=addition, denominator=denominator)
 
     def pre_qualification_stand_still_ends_handler(self, tender):
         if is_procedure_restricted(tender):
