@@ -85,13 +85,20 @@ def run(env, args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-p", help="Path to service.ini file")
-    parser.add_argument("-b", type=int, default=1000, help=(
-        "Limits the number of documents returned in one batch. Each batch "
-        "requires a round trip to the server. It can be adjusted to optimize "
-        "performance and limit data transfer."
-    ))
+    parser.add_argument(
+        "-p",
+        default=os.path.join(BASE_DIR, "etc/service.ini"),
+        help="Path to service.ini file",
+    )
+    parser.add_argument(
+        "-b",
+        type=int,
+        default=1000,
+        help=(
+            "Limits the number of documents returned in one batch. Each batch "
+            "requires a round trip to the server."
+        )
+    )
     args = parser.parse_args()
-    path_to_ini_file = args.p if args.p else os.path.join(BASE_DIR, "etc/service.ini")
-    with bootstrap(path_to_ini_file) as env:
+    with bootstrap(args.p) as env:
         run(env, args)
