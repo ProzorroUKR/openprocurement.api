@@ -214,19 +214,19 @@ Content-Type: application/json
         "legalName_en": "dus.gov.ua",
         "uri": "http://www.dus.gov.ua/"
       },
-      "address": {
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220",
-        "countryName": "Україна"
-      },
       "kind": "general",
       "contactPoint": {
         "name": "Державне управління справами",
         "name_en": "State administration",
         "telephone": "+0440000000",
         "availableLanguage": "uk"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
       }
     },
     "tender_id": "932b9b683eab4ce4a7eb7f1ecfd2164f",

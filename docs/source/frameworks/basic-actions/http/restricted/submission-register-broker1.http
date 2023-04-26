@@ -44,12 +44,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/d96d76a4ef4f
 
 {
   "data": {
-    "frameworkID": "9bd2fdb5579045be9cfff9fb1a397e32",
-    "dateModified": "2023-01-17T00:00:00+02:00",
-    "date": "2023-01-17T00:00:00+02:00",
-    "owner": "broker1",
-    "status": "draft",
-    "submissionType": "dynamicPurchasingSystem",
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -74,6 +68,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/d96d76a4ef4f
         }
       }
     ],
+    "frameworkID": "9bd2fdb5579045be9cfff9fb1a397e32",
+    "dateModified": "2023-01-17T00:00:00+02:00",
+    "date": "2023-01-17T00:00:00+02:00",
+    "owner": "broker1",
+    "status": "draft",
+    "submissionType": "dynamicPurchasingSystem",
     "id": "d96d76a4ef4f4d3eae4b099d0404e31f"
   },
   "access": {
