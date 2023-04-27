@@ -39,6 +39,7 @@ DOCUMENT_TYPES = (
     "registerFiscal",
     "winningBid",
     "evidence",
+    "register",
 )
 
 
