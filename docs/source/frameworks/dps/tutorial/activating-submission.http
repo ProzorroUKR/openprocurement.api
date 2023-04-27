@@ -16,14 +16,6 @@ Content-Type: application/json
 
 {
   "data": {
-    "qualificationID": "e67e3cc511954bc5bdbf5e8d58e27d26",
-    "frameworkID": "866509257c6546a088e0363315140ee0",
-    "dateModified": "2023-01-17T00:00:00+02:00",
-    "date": "2023-01-17T00:00:00+02:00",
-    "datePublished": "2023-01-17T00:00:00+02:00",
-    "owner": "broker",
-    "status": "active",
-    "submissionType": "dynamicPurchasingSystem",
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -48,6 +40,14 @@ Content-Type: application/json
         }
       }
     ],
+    "qualificationID": "e67e3cc511954bc5bdbf5e8d58e27d26",
+    "frameworkID": "866509257c6546a088e0363315140ee0",
+    "dateModified": "2023-01-17T00:00:00+02:00",
+    "date": "2023-01-17T00:00:00+02:00",
+    "datePublished": "2023-01-17T00:00:00+02:00",
+    "owner": "broker",
+    "status": "active",
+    "submissionType": "dynamicPurchasingSystem",
     "id": "82ca7b9acf0c4f7585a682371d6a5b51"
   },
   "config": {

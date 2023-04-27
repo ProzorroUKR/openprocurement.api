@@ -7,7 +7,6 @@ from schematics.transforms import blacklist, whitelist
 from schematics.types import StringType, MD5Type
 from schematics.types.compound import ModelType, ListType, PolyModelType
 from schematics.types.serializable import serializable
-from zope.interface import implementer
 
 from openprocurement.api.auth import ACCR_3, ACCR_5
 from openprocurement.api.models import BusinessOrganization as BaseBusinessOrganization
@@ -26,7 +25,6 @@ from openprocurement.api.models import (
     Unit,
     CPVClassification,
     AdditionalClassification,
-    Address,
     PeriodEndRequired,
     BaseAddress,
 )
@@ -43,7 +41,6 @@ from openprocurement.framework.cfaua.validation import (
     validate_features_uniq,
 )
 from openprocurement.framework.core.models import (
-    IAgreement,
     Agreement as BaseAgreement,
     get_agreement,
 )
@@ -122,7 +119,7 @@ class Item(BaseItem):
     additionalClassifications = BaseListType(ModelType(AdditionalClassification, default=list()))
     description_en = StringType(required=True, min_length=1)
     deliveryDate = ModelType(PeriodEndRequired, required=True)
-    deliveryAddress = ModelType(Address, required=True)
+    deliveryAddress = ModelType(BaseAddress, required=True)
     unit = ModelType(UnitDeprecated)
 
 
@@ -191,6 +188,7 @@ class ProcuringEntity(Organization):
     kind = StringType(choices=PROCURING_ENTITY_KINDS)
     contactPoint = ModelType(ContactPoint, required=True)
     additionalContactPoints = BaseListType(ModelType(ContactPoint, required=True), required=False)
+    address = ModelType(BaseAddress, required=True)
 
 
 class Change(Model):

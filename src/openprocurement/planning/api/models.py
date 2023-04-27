@@ -6,7 +6,12 @@ from openprocurement.api.models import Document as BaseDocument
 from openprocurement.api.models import Model, Period, RootModel, ContactPoint
 from openprocurement.api.models import Unit, CPVClassification, Classification, Identifier, Guarantee, Address
 from openprocurement.api.models import schematics_embedded_role, schematics_default_role, IsoDateTimeType, ListType
-from openprocurement.api.utils import get_now, get_first_revision_date, to_decimal
+from openprocurement.api.utils import (
+    get_now,
+    get_first_revision_date,
+    to_decimal,
+    get_root,
+)
 from openprocurement.api.validation import validate_cpv_group, validate_items_uniq
 from openprocurement.api.interfaces import IOPContent
 from openprocurement.api.constants import (
@@ -18,6 +23,9 @@ from openprocurement.api.constants import (
     BUDGET_PERIOD_FROM,
     BUDGET_BREAKDOWN_REQUIRED_FROM,
     PLAN_ADDRESS_KIND_REQUIRED_FROM,
+    COUNTRIES,
+    UA_REGIONS,
+    VALIDATE_ADDRESS_FROM,
 )
 from openprocurement.api.auth import ACCR_1, ACCR_3, ACCR_5
 from openprocurement.planning.api.constants import (

@@ -31,7 +31,6 @@ from openprocurement.api.models import (
     RootModel,
     IsoDateTimeType,
     ListType,
-    BusinessOrganization,
     Document,
     Organization as BaseOrganization,
     ContactPoint as BaseContactPoint,
@@ -245,10 +244,62 @@ class ContactPoint(BaseContactPoint):
 
 class Organization(BaseOrganization):
     contactPoint = ModelType(ContactPoint, required=True)
-    pass
 
 
-class SubmissionBusinessOrganization(BusinessOrganization):
+class SubmissionAddress(BaseAddress):
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_region(self, data, value):
+        super().validate_region(self, data, value)
+        return value
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_postalCode(self, data, value):
+        return value
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_locality(self, data, value):
+        return value
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_streetAddress(self, data, value):
+        return value
+
+
+class SubmissionIdentifier(BaseIdentifier):
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_legalName(self, data, value):
+        return value
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_id(self, data, value):
+        return value
+
+
+class SubmissionContactPoint(BaseContactPoint):
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_name(self, data, value):
+        return value
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_email(self, data, value):
+        super().validate_email(self, data, value)
+        return value
+
+
+class SubmissionOrganization(BaseOrganization):
+    identifier = ModelType(SubmissionIdentifier, required=True)
+    address = ModelType(SubmissionAddress, required=True)
+    contactPoint = ModelType(SubmissionContactPoint, required=True)
+
+    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
+    def validate_name(self, data, value):
+        return value
+
+
+class SubmissionBusinessOrganization(SubmissionOrganization, BaseBusinessOrganization):
     pass
 
 
@@ -283,7 +334,7 @@ class Submission(RootModel):
             "embedded":  blacklist("_id", "_rev", "doc_type", "__parent__"),
         }
 
-    tenderers = ListType(ModelType(SubmissionBusinessOrganization, required=True), required=True, min_size=1,)
+    tenderers = ListType(ModelType(SubmissionBusinessOrganization, required=True), required=True, min_size=1, )
     documents = ListType(ModelType(Document, required=True), default=list())
     qualificationID = StringType()
     frameworkID = StringType(required=True)
@@ -521,72 +572,15 @@ class Address(BaseAddress):
     postalCode = StringType(required=True)
 
 
-class AddressForSubmission(BaseAddress):
-
-    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
-    def validate_region(self, data, value):
-        super().validate_region(self, data, value)
-        return value
-
-    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
-    def validate_postalCode(self, data, value):
-        return value
-
-    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
-    def validate_locality(self, data, value):
-        return value
-
-    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
-    def validate_streetAddress(self, data, value):
-        return value
-
-
-class IdentifierForSubmission(BaseIdentifier):
-
-    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
-    def validate_legalName(self, data, value):
-        return value
-
-    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
-    def validate_id(self, data, value):
-        return value
-
-
-class ContactPointForSubmission(BaseContactPoint):
-
-    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
-    def validate_name(self, data, value):
-        return value
-
-    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
-    def validate_email(self, data, value):
-        super().validate_email(self, data, value)
-        return value
-
-
-class OrganizationForSubmission(BaseOrganization):
-    identifier = ModelType(IdentifierForSubmission, required=True)
-    address = ModelType(AddressForSubmission, required=True)
-    contactPoint = ModelType(ContactPointForSubmission, required=True)
-
-    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
-    def validate_name(self, data, value):
-        return value
-
-
-class BusinessOrganizationForSubmission(OrganizationForSubmission, BaseBusinessOrganization):
+class ContractContactPoint(BaseContactPoint):
     pass
 
 
-class ContactPointForContract(BaseContactPoint):
-    pass
+class ContractOrganization(BaseOrganization):
+    contactPoint = ModelType(ContractContactPoint, required=True)
 
 
-class OrganizationForContract(BaseOrganization):
-    contactPoint = ModelType(ContactPointForContract, required=True)
-
-
-class BusinessOrganizationForContract(OrganizationForContract, BaseBusinessOrganization):
+class ContractBusinessOrganization(ContractOrganization, BaseBusinessOrganization):
     class Options:
         roles = {
             "edit": whitelist("contactPoint", "address"),
@@ -631,7 +625,7 @@ class Contract(Model):
     qualificationID = StringType()
     status = StringType(choices=["active", "suspended", "terminated"])
     submissionID = StringType()
-    suppliers = ListType(ModelType(BusinessOrganizationForContract, required=True), required=True, min_size=1, )
+    suppliers = ListType(ModelType(ContractBusinessOrganization, required=True), required=True, min_size=1, )
     milestones = ListType(ModelType(Milestone, required=True), required=True, min_size=1, )
     date = IsoDateTimeType(default=get_now)
 

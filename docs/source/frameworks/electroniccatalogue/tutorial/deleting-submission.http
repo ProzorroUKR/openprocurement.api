@@ -16,23 +16,6 @@ Content-Type: application/json
 
 {
   "data": {
-    "documents": [
-      {
-        "id": "50c1703ec3cd450fa45c6e4fe2ec63f8",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "submission_docs.doc",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4d1beea6916647c2957e61e7da9663e7?Signature=lMoye8i4aQqe2y8llAEDo1gXSGIc7EgLHJEHui4DNJsZYxhdENtropziSvTs8omT50S4ui29ddJtYmiR09L6Dg%3D%3D&KeyID=a8968c46",
-        "datePublished": "2023-01-17T00:00:00+02:00",
-        "dateModified": "2023-01-17T00:00:00+02:00"
-      }
-    ],
-    "frameworkID": "19554516edc64b80ad4a2834f4505fbe",
-    "dateModified": "2023-01-17T00:00:00+02:00",
-    "date": "2023-01-17T00:00:00+02:00",
-    "owner": "broker",
-    "status": "deleted",
-    "submissionType": "electronicCatalogue",
     "tenderers": [
       {
         "name": "НАЗВА",
@@ -57,6 +40,23 @@ Content-Type: application/json
         }
       }
     ],
+    "documents": [
+      {
+        "id": "50c1703ec3cd450fa45c6e4fe2ec63f8",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "submission_docs.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4d1beea6916647c2957e61e7da9663e7?Signature=lMoye8i4aQqe2y8llAEDo1gXSGIc7EgLHJEHui4DNJsZYxhdENtropziSvTs8omT50S4ui29ddJtYmiR09L6Dg%3D%3D&KeyID=a8968c46",
+        "datePublished": "2023-01-17T00:00:00+02:00",
+        "dateModified": "2023-01-17T00:00:00+02:00"
+      }
+    ],
+    "frameworkID": "19554516edc64b80ad4a2834f4505fbe",
+    "dateModified": "2023-01-17T00:00:00+02:00",
+    "date": "2023-01-17T00:00:00+02:00",
+    "owner": "broker",
+    "status": "deleted",
+    "submissionType": "electronicCatalogue",
     "id": "84fede82657a4f8b803500d0174ad041"
   }
 }

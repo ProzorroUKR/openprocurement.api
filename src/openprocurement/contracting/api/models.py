@@ -19,6 +19,7 @@ from openprocurement.api.models import Organization as BaseOrganization
 from openprocurement.api.models import ContactPoint as BaseContactPoint
 from openprocurement.api.models import CPVClassification as BaseCPVClassification
 from openprocurement.api.models import Item as BaseItem
+from openprocurement.api.models import Address as BaseAddress
 from openprocurement.api.models import AdditionalClassification as BaseAdditionalClassification
 from openprocurement.api.models import Model, ListType, IsoDateTimeType, Guarantee
 from openprocurement.api.validation import validate_items_uniq
@@ -159,11 +160,20 @@ class ContactPoint(BaseContactPoint):
     def validate_telephone(self, data, value):
         pass
 
+class Address(BaseAddress):
+    def validate_countryName(self, data, value):
+        pass
+
+    def validate_region(self, data, value):
+        pass
+
+
 class Organization(BaseOrganization):
     """An organization."""
 
     contactPoint = ModelType(ContactPoint, required=True)
     additionalContactPoints = ListType(ModelType(ContactPoint, required=True), required=False)
+    address = ModelType(Address, required=True)
 
 
 class BusinessOrganization(Organization):
@@ -208,6 +218,7 @@ class Item(BaseItem):
     classification = ModelType(CPVClassification, required=True)
     additionalClassifications = ListType(ModelType(AdditionalClassification, required=True), default=list())
     unit = ModelType(UnitForContracting)
+    deliveryAddress = ModelType(Address)
 
 
 class Change(Model):

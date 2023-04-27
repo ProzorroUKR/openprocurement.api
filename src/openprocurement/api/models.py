@@ -425,36 +425,18 @@ class BaseAddress(Model):
 
 
 class Address(BaseAddress):
-
     def validate_countryName(self, data, value):
         root = get_root(data['__parent__'])
-        apply_validation = get_first_revision_date(root, default=get_now()) >= VALIDATE_ADDRESS_FROM
-        if self.doc_type_allowed(root) and self.validation_allowed(root) and apply_validation:
+        if get_first_revision_date(root, default=get_now()) >= VALIDATE_ADDRESS_FROM:
             if value not in COUNTRIES:
                 raise ValidationError("field address:countryName not exist in countries catalog")
 
     def validate_region(self, data, value):
         root = get_root(data['__parent__'])
-        apply_validation = get_first_revision_date(root, default=get_now()) >= VALIDATE_ADDRESS_FROM
-        if self.doc_type_allowed(root) and self.validation_allowed(root) and apply_validation:
+        if get_first_revision_date(root, default=get_now()) >= VALIDATE_ADDRESS_FROM:
             if data["countryName"] == "Україна":
                 if value and value not in UA_REGIONS:
                     raise ValidationError("field address:region not exist in ua_regions catalog")
-
-    @staticmethod
-    def doc_type_allowed(root):
-        if root and root.get("doc_type") in ["Contract", "Agreement"]:
-            return False
-        return True
-
-    @staticmethod
-    def validation_allowed(root):
-        if hasattr(root, 'procurementMethodType') and \
-                root.procurementMethodType in ['competitiveDialogueUA.stage2',
-                                               'competitiveDialogueEU.stage2',
-                                               'closeFrameworkAgreementSelectionUA']:
-            return False
-        return True
 
 
 class Location(Model):

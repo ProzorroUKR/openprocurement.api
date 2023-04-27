@@ -26,7 +26,6 @@ from openprocurement.framework.core.models import (
     DKClassification,
     Identifier,
     Address,
-    BusinessOrganizationForSubmission,
     Contract,
 )
 from openprocurement.framework.core.utils import (
@@ -180,7 +179,6 @@ class Submission(BaseSubmission):
         default="draft",
     )
     submissionType = StringType(default=DPS_TYPE)
-    tenderers = ListType(ModelType(BusinessOrganizationForSubmission, required=True), required=True, min_size=1, )
 
 
 class Qualification(BaseQualification):
