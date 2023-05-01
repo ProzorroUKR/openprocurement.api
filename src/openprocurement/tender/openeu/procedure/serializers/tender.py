@@ -1,3 +1,4 @@
+from openprocurement.tender.core.procedure.serializers.lot import LotSerializer
 from openprocurement.tender.openeu.procedure.serializers.bid import BidSerializer
 from openprocurement.tender.core.procedure.serializers.qualification import QualificationSerializer
 from openprocurement.tender.core.procedure.serializers.base import ListSerializer
@@ -14,6 +15,7 @@ class TenderEUSerializer(TenderBaseSerializer):
         "cancellations": ListSerializer(CancellationSerializer),
         "complaints": ListSerializer(ComplaintSerializer),
         "awards": ListSerializer(AwardSerializer),
+        "lots": ListSerializer(LotSerializer),
     }
 
     def __init__(self, data: dict):
