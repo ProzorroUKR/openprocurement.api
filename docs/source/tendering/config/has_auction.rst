@@ -6,6 +6,12 @@ hasAuction
 Field `hasAuction` is a boolean field that indicates whether the tender has an auction or not.
 Tender will never switch to `active.auction` status if `hasAuction` is `false`.
 
+Possible values for `hasAuction` field depends on `procurementMethodType` field:
+
+.. csv-table::
+   :file: csv/has-auction-values.csv
+   :header-rows: 1
+
 hasAuction is `true`
 --------------------
 
