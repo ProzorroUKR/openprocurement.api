@@ -54,6 +54,7 @@ from openprocurement.tender.core.models import (
     QualificationMilestoneListMixin,
     RequirementResponse,
     BidResponsesMixin,
+    WeightedValueMixin,
 )
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
@@ -86,7 +87,6 @@ from openprocurement.tender.openua.models import (
     Tender as OpenUATender,
     Cancellation as BaseCancellation,
     Parameter,
-    WeightedValueMixin,
 )
 from openprocurement.tender.openua.constants import (
     COMPLAINT_SUBMIT_TIME,
@@ -95,7 +95,6 @@ from openprocurement.tender.openua.constants import (
 from openprocurement.tender.openeu.constants import (
     TENDERING_DURATION,
     QUESTIONS_STAND_STILL,
-    TENDERING_AUCTION,
     BID_UNSUCCESSFUL_FROM,
 )
 from openprocurement.tender.openua.validation import (

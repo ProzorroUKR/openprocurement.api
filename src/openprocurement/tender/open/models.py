@@ -19,7 +19,7 @@ from openprocurement.api.models import (
     SifterListType,
     Period,
     IsoDateTimeType,
-    Address, Value,
+    Address,
 )
 from openprocurement.api.constants import TZ, RELEASE_2020_04_19, RELEASE_METRICS_FROM
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
@@ -57,6 +57,7 @@ from openprocurement.tender.core.models import (
     Metric,
     validate_metric_ids_uniq,
     validate_observation_ids_uniq,
+    WeightedValueMixin,
 )
 from openprocurement.tender.core.utils import (
     normalize_should_start_after,
@@ -153,24 +154,6 @@ class Item(BaseItem):
 
 class Contract(BaseContract):
     items = ListType(ModelType(Item, required=True))
-
-
-class WeightedValueMixin(Model):
-    weightedValue = ModelType(Value)
-
-    @serializable(
-        serialized_name="weightedValue",
-        serialize_when_none=False,
-        type=ModelType(Value)
-    )
-    def serialize_weightedValue(self):
-        if self.weightedValue:
-            value = self.value or self.weightedValue
-            return Value(dict(
-                amount=self.weightedValue.amount,
-                currency=value.currency,
-                valueAddedTaxIncluded=value.valueAddedTaxIncluded,
-            ))
 
 
 class LotValue(BaseLotValue, WeightedValueMixin):

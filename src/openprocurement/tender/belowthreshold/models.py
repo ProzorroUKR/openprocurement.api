@@ -8,14 +8,15 @@ from schematics.transforms import whitelist
 from schematics.types import StringType, IntType, URLType, BooleanType, BaseType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
-from barbecue import vnmax
 from zope.interface import implementer
 
 from openprocurement.api.models import ListType, Period, Value, Guarantee, Model, Unit as BaseUnit
 from openprocurement.api.utils import get_now, get_first_revision_date
 from openprocurement.api.constants import (
-    TZ, RELEASE_2020_04_19, CPV_ITEMS_CLASS_FROM, UNIT_PRICE_REQUIRED_FROM,
-    MULTI_CONTRACTS_REQUIRED_FROM, UNIT_CODE_REQUIRED_FROM,
+    TZ,
+    RELEASE_2020_04_19,
+    CPV_ITEMS_CLASS_FROM,
+    MULTI_CONTRACTS_REQUIRED_FROM,
 )
 from openprocurement.api.validation import validate_items_uniq, validate_cpv_group, validate_classification_id
 from openprocurement.tender.core.constants import COMPLAINT_STAND_STILL_TIME
@@ -32,6 +33,7 @@ from openprocurement.tender.core.models import (
     Item as BaseItem,
     Award as BaseAward,
     Contract as BaseContract,
+    LotValue as BaseLotValue,
     Question,
     Cancellation as BaseCancellation,
     Feature,
@@ -46,6 +48,7 @@ from openprocurement.tender.core.models import (
     validate_unit_required,
     validate_quantity_required,
     validate_item_related_buyers,
+    WeightedValueMixin,
 )
 
 from openprocurement.tender.core.utils import (
@@ -93,8 +96,12 @@ class Cancellation(BaseCancellation):
     _after_release_status_choices = ["draft", "unsuccessful", "active"]
 
 
-class Bid(BaseBid, BidResponsesMixin):
+class LotValue(BaseLotValue, WeightedValueMixin):
     pass
+
+
+class Bid(BaseBid, BidResponsesMixin, WeightedValueMixin):
+    lotValues = ListType(ModelType(LotValue, required=True), default=list())
 
 
 class UnitValue(Value):
