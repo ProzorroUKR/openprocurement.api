@@ -1,0 +1,147 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-02 02:16+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.11.0\n"
+
+msgid "hasAuction"
+msgstr ""
+
+msgid "Field `hasAuction` is a boolean field that indicates whether the tender has an auction or not. Tender will never switch to `active.auction` status if `hasAuction` is `false`."
+msgstr "Поле `hasAuction` є булевим полем, яке вказує, чи є аукціон у тендері чи ні. Тендер ніколи не перейде у статус `active.auction`, якщо `hasAuction` дорівнює `false`."
+
+msgid "Possible values for `hasAuction` field depends on `procurementMethodType` field:"
+msgstr "Можливі значення для поля `hasAuction` залежать від поля `procurementMethodType`."
+
+msgid "procurementMethodType"
+msgstr ""
+
+msgid "values"
+msgstr ""
+
+msgid "default"
+msgstr ""
+
+msgid "aboveThreshold"
+msgstr ""
+
+msgid "true,false"
+msgstr ""
+
+msgid "true"
+msgstr ""
+
+msgid "aboveThresholdEU"
+msgstr ""
+
+msgid "aboveThresholdUA.defense"
+msgstr ""
+
+msgid "aboveThresholdUA"
+msgstr ""
+
+msgid "belowThreshold"
+msgstr ""
+
+msgid "closeFrameworkAgreementSelectionUA"
+msgstr ""
+
+msgid "closeFrameworkAgreementUA"
+msgstr ""
+
+msgid "competitiveDialogueEU"
+msgstr ""
+
+msgid "false"
+msgstr ""
+
+msgid "competitiveDialogueEU.stage2"
+msgstr ""
+
+msgid "competitiveDialogueUA"
+msgstr ""
+
+msgid "competitiveDialogueUA.stage2"
+msgstr ""
+
+msgid "esco"
+msgstr ""
+
+msgid "negotiation"
+msgstr ""
+
+msgid "negotiation.quick"
+msgstr ""
+
+msgid "priceQuotation"
+msgstr ""
+
+msgid "reporting"
+msgstr ""
+
+msgid "simple.defense"
+msgstr ""
+
+msgid "hasAuction is `true`"
+msgstr "hasAuction встановлено у `true`"
+
+msgid "Let's create a tender with `hasAuction` set to `true`:"
+msgstr "Створимо тендер з `hasAuction` встановленим у `true`"
+
+msgid "And add lot to it:"
+msgstr "І додамо лот до нього:"
+
+msgid "Let's look at completed tender:"
+msgstr "Подивимося на завершений тендер:"
+
+msgid "hasAuction is `false`"
+msgstr "hasAuction встановлено у `false`"
+
+msgid "Now let's create a tender with `hasAuction` set to `false`:"
+msgstr "Тепер створимо тендер з `hasAuction` встановленим у `false`"
+
+msgid "You can see that there is no `minimalStep` field in the request body, because tender with no auction doesn't have `minimalStep` field."
+msgstr "Ви можете побачити, що в запиті відсутнє поле `minimalStep`, оскільки тендер без аукціону не має поля `minimalStep`."
+
+msgid "The exception is competitive dialogue, where `minimalStep` is required because it will be used in second stage."
+msgstr "Виняток становить конкурентний діалог, де `minimalStep` є обов'язковим, оскільки він буде використовуватися на другому етапі."
+
+msgid "There is also no `minimalStep` field in the request body."
+msgstr "Також відсутнє поле `minimalStep` в запиті."
+
+msgid "Difference"
+msgstr "Різниця"
+
+msgid "Let's look at completed tenders diff:"
+msgstr "Подивимося на різницю завершених тендерів:"
+
+msgid "Differences for tender with `hasAuction` set to `false` comparing to `true` are:"
+msgstr "Різниця для тендеру з `hasAuction` встановленим у `false` порівняно з `true` є:"
+
+msgid "has no `submissionMethod` field"
+msgstr "немає поля `submissionMethod`"
+
+msgid "has no `minimalStep` field"
+msgstr "немає поля `minimalStep`"
+
+msgid "has no `auctionPeriod` field"
+msgstr "немає поля `auctionPeriod`"
+
+msgid "has no `auctionUrl` field"
+msgstr "немає поля `auctionUrl`"
+
+msgid "has no `participationUrl` field"
+msgstr "немає поля `participationUrl`"
