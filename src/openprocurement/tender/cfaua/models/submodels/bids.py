@@ -11,6 +11,7 @@ from openprocurement.tender.core.models import (
     EUConfidentialDocument,
     ConfidentialDocumentModelType,
     BidResponsesMixin,
+    WeightedValueMixin,
 )
 from openprocurement.tender.cfaua.constants import BID_UNSUCCESSFUL_FROM
 from openprocurement.tender.cfaua.models.submodels.lotvalue import LotValue
@@ -45,7 +46,7 @@ class BidModelType(ModelType):
             return shaped
 
 
-class Bid(BidResponsesMixin, BaseBid):
+class Bid(BidResponsesMixin, BaseBid, WeightedValueMixin):
     class Options:
         _all_documents = whitelist("documents", "eligibilityDocuments", "financialDocuments", "qualificationDocuments")
         _edit = whitelist("value", "lotValues", "parameters", "subcontractingDetails",
@@ -77,11 +78,19 @@ class Bid(BidResponsesMixin, BaseBid):
             "default": _open_view + whitelist("owner_token", "owner", "serialize_status"),
             "invalid": whitelist("id", "status"),
             "deleted": whitelist("id", "status"),
-            "auction_post": whitelist("id", "lotValues", "value", "date"),
+            "auction_post": whitelist(
+                "id",
+                "lotValues",
+                "value",
+                "date",
+                "weightedValue",
+                "serialize_weightedValue",
+            ),
             "auction_view": whitelist(
                 "id",
                 "lotValues",
                 "value",
+                "weightedValue",
                 "date",
                 "parameters",
                 "participationUrl",
