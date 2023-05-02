@@ -2,9 +2,12 @@
 import datetime
 
 import json
+import csv
 
 import os
 from copy import deepcopy
+
+import standards
 
 from openprocurement.tender.open.tests.tender import BaseTenderUAWebTest
 from openprocurement.tender.core.tests.base import (
@@ -28,6 +31,7 @@ from tests.base.data import (
 
 TARGET_DIR = 'docs/source/tendering/config/http/'
 TARGET_JSON_DIR = 'docs/source/tendering/config/json/'
+TARGET_CSV_DIR = 'docs/source/tendering/config/csv/'
 
 
 class TenderHasAuctionResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
@@ -49,6 +53,65 @@ class TenderHasAuctionResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
     def tearDown(self):
         self.tearDownMock()
         super(TenderHasAuctionResourceTest, self).tearDown()
+
+    def test_docs_has_auction_values_csv(self):
+        pmts = [
+            "aboveThreshold",
+            "aboveThresholdEU",
+            "aboveThresholdUA.defense",
+            "aboveThresholdUA",
+            "belowThreshold",
+            "closeFrameworkAgreementSelectionUA",
+            "closeFrameworkAgreementUA",
+            "competitiveDialogueEU",
+            "competitiveDialogueEU.stage2",
+            "competitiveDialogueUA",
+            "competitiveDialogueUA.stage2",
+            "esco",
+            "negotiation",
+            "negotiation.quick",
+            "priceQuotation",
+            "reporting",
+            "simple.defense",
+        ]
+
+        headers = [
+            "procurementMethodType",
+            "values",
+            "default",
+        ]
+        
+        separator = ","
+        empty = ""
+
+        rows = []
+
+        for pmt in pmts:
+            row = []
+            schema = standards.load(f"data_model/schema/TenderConfig/{pmt}.json")
+            ha_property = schema["properties"]["hasAuction"]
+
+            # procurementMethodType
+            row.append(pmt)
+
+            # possible values
+            if "enum" in ha_property:
+                ha_values_enum = ha_property.get("enum", "")
+                ha_values = separator.join(map(json.dumps, ha_values_enum))
+                row.append(ha_values)
+            else:
+                row.append(empty)
+
+            # default value
+            ha_default = ha_property.get("default", "")
+            row.append(json.dumps(ha_default))
+
+            rows.append(row)
+
+        with open(TARGET_CSV_DIR + "has-auction-values.csv", "w") as file_csv:
+            writer = csv.writer(file_csv)
+            writer.writerow(headers)
+            writer.writerows(rows)
 
     def test_docs_has_auction_true(self):
         request_path = '/tenders?opt_pretty=1'

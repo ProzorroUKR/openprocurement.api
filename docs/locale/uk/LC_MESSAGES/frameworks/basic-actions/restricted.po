@@ -21,28 +21,28 @@ msgid "Restricted access"
 msgstr "Обмежений доступ"
 
 msgid "Framework can have restricted access with next rules"
-msgstr ""
+msgstr "Фреймворк може мати обмежений доступ з наступними правилами"
 
 msgid "Object"
 msgstr ""
 
 msgid "Public API"
-msgstr ""
+msgstr "Публічний API"
 
 msgid "Private API (Procuring Entity)"
-msgstr ""
+msgstr "Приватний API (Замовник)"
 
 msgid "Private API (Supplier)"
-msgstr ""
+msgstr "Приватний API (Учасник)"
 
 msgid "framework"
 msgstr ""
 
 msgid "view"
-msgstr ""
+msgstr "перегляд"
 
 msgid "view/edit"
-msgstr ""
+msgstr "перегляд/редагування"
 
 msgid "submission"
 msgstr ""
@@ -51,218 +51,218 @@ msgid "–"
 msgstr ""
 
 msgid "view (all)"
-msgstr ""
+msgstr "перегляд (всі)"
 
 msgid "view/edit (own)"
-msgstr ""
+msgstr "перегляд/редагування (власні)"
 
 msgid "qualification"
 msgstr ""
 
 msgid "view/edit (all)"
-msgstr ""
+msgstr "перегляд/редагування (всі)"
 
 msgid "view (own)"
-msgstr ""
+msgstr "перегляд (власні)"
 
 msgid "agreement"
 msgstr ""
 
 msgid "Let's make an agreement that `Procuring Entity` and `Suppliers` will use different brokers for working with API:"
-msgstr ""
+msgstr "Домовимось, що `Замовник` та `Учасники` будуть використовувати різних брокерів для роботи з API:"
 
 msgid "Procuring Entity uses `Broker`"
-msgstr ""
+msgstr "Замовник використовує `Broker`"
 
 msgid "Supplier 1 uses `Broker 1`"
-msgstr ""
+msgstr "Учасник 1 використовує `Broker 1`"
 
 msgid "Supplier 2 uses `Broker 2`"
-msgstr ""
+msgstr "Учасник 2 використовує `Broker 2`"
 
 msgid "Create Framework with restricted access"
-msgstr ""
+msgstr "Створення фреймворку з обмеженим доступом"
 
 msgid "First create framework with restricted access by `Broker`. To do this, we need to set ``restricted_derivatives`` field to ``true`` in ``config`` section of framework creation request."
-msgstr ""
+msgstr "Спочатку створимо фреймворк з обмеженим доступом за допомогою `Broker`. Для цього нам потрібно встановити ``restricted_derivatives`` поле в ``true`` в ``config`` розділі запиту на створення фреймворку."
 
 msgid "This framework by itself is visible to everyone in public API."
-msgstr ""
+msgstr "Цей фреймворк сам по собі видно всім в публічному API."
 
 msgid "For `ProcuringEntity` with `defense` kind ``restricted_derivatives`` field will be set to ``true`` automatically."
-msgstr ""
+msgstr "Для `ProcuringEntity` з kind `defense` поле ``restricted_derivatives`` буде встановлено в ``true`` автоматично."
 
 msgid "The second step is moving the framework to `active` status:"
-msgstr ""
+msgstr "Другий крок - перехід фреймворку в статус `active`:"
 
 msgid "Create and activate Submissions with restricted access"
-msgstr ""
+msgstr "Створення та активація пропозицій з обмеженим доступом"
 
 msgid "After activating framework, users can register their submissions in period from `framework.enquiryPeriod.endDate` to `period.Date`."
-msgstr ""
+msgstr "Після активації фреймворку користувачі можуть зареєструвати свої пропозиції в період від `framework.enquiryPeriod.endDate` до `period.Date`."
 
 msgid "Let's register submission by `Broker 1`:"
-msgstr ""
+msgstr "Зареєструємо пропозицію за допомогою `Broker 1`:"
 
 msgid "You can see that ``restricted`` field was set to ``true`` in ``config`` section of submission creation response."
-msgstr ""
+msgstr "Ви можете побачити, що поле ``restricted`` було встановлено в ``true`` в розділі ``config`` відповіді на створення пропозиції."
 
 msgid "Next activate submission by `Broker 1`:"
-msgstr ""
+msgstr "Далі активуємо пропозицію за допомогою `Broker 1`:"
 
 msgid "Add another Submission by `Broker 2`:"
-msgstr ""
+msgstr "Додамо ще одну пропозицію за допомогою `Broker 2`:"
 
 msgid "And activate it:"
-msgstr ""
+msgstr "І активуємо її:"
 
 msgid "Request submissions with restricted access"
-msgstr ""
+msgstr "Запит пропозицій з обмеженим доступом"
 
 msgid "Let's check submissions by all participants:"
-msgstr ""
+msgstr "Перевіримо пропозиції всіх учасників:"
 
 msgid "Broker (Procuring Entity)"
-msgstr ""
+msgstr "Broker (Замовник)"
 
 msgid "Let's check submission feed for `Broker` that is `Procuring Entity` and has access to all submissions of framework:"
-msgstr ""
+msgstr "Перевіримо фід пропозицій для `Broker`, який є `Замовником` та має доступ до всіх пропозицій фреймворку:"
 
 msgid "Now make request by `Broker` for submission that was created by `Broker 1`:"
-msgstr ""
+msgstr "Тепер зробимо запит за допомогою `Broker` для пропозиції, створеної `Broker 1`:"
 
 msgid "Then make request by `Broker` for submission that was created by `Broker 2`:"
-msgstr ""
+msgstr "Тепер зробимо запит за допомогою `Broker` для пропозиції, створеної `Broker 2`:"
 
 msgid "Broker 1 (Supplier 1)"
-msgstr ""
+msgstr "Broker 1 (Учасник 1)"
 
 msgid "Let's check submission feed for `Broker 1` that is `Supplier 1` and has access only to own submissions:"
-msgstr ""
+msgstr "Перевіримо фід пропозицій для `Broker 1`, який є `Учасником 1` та має доступ тільки до власних пропозицій:"
 
 msgid "We can see that second submission is partially visible in feed and marked with ``restricted`` field set to ``true``."
-msgstr ""
+msgstr "Ми бачимо, що друга пропозиція частково видна в фіді і позначена полем ``restricted``, встановленим в ``true``."
 
 msgid "Now make request by `Broker 1` for submission that was created by `Broker 1`:"
-msgstr ""
+msgstr "Тепер зробимо запит за допомогою `Broker 1` для пропозиції, створеної `Broker 1`:"
 
 msgid "Then make request by `Broker 1` for submission that was created by `Broker 2`:"
-msgstr ""
+msgstr "Тепер зробимо запит за допомогою `Broker 1` для пропозиції, створеної `Broker 2`:"
 
 msgid "We can see error message that submission is restricted for `Broker 1`."
-msgstr ""
+msgstr "Ми бачимо повідомлення про помилку, що пропозиція обмежена для `Broker 1`."
 
 msgid "Broker 2 (Supplier 2)"
-msgstr ""
+msgstr "Broker 2 (Учасник 2)"
 
 msgid "Let's check submission feed for `Broker 2` that is `Supplier 2` and has access only to own submissions:"
-msgstr ""
+msgstr "Перевіримо фід пропозицій для `Broker 2`, який є `Учасником 2` та має доступ тільки до власних пропозицій:"
 
 msgid "Now make request by `Broker 2` for submission that was created by `Broker 1`:"
-msgstr ""
+msgstr "Тепер зробимо запит за допомогою `Broker 2` для пропозиції, створеної `Broker 1`:"
 
 msgid "Then make request by `Broker 2` for submission that was created by `Broker 2`:"
-msgstr ""
+msgstr "Тепер зробимо запит за допомогою `Broker 2` для пропозиції, створеної `Broker 2`:"
 
 msgid "Anonymous"
-msgstr ""
+msgstr "Анонімно"
 
 msgid "Let's check submission feed with anonymous request (or any broker that is not `Broker` or `Broker 1`):"
-msgstr ""
+msgstr "Перевіримо фід пропозицій з анонімним запитом (або будь-яким брокером, який не є `Broker` або `Broker 1`):"
 
 msgid "Now make request for submission that was created by `Broker 1`:"
-msgstr ""
+msgstr "Тепер зробимо запит для пропозиції, створеної `Broker 1`:"
 
 msgid "Then make request for submission that was created by `Broker 2`:"
-msgstr ""
+msgstr "Тепер зробимо запит для пропозиції, створеної `Broker 2`:"
 
 msgid "Request Qualifications with restricted access"
-msgstr ""
+msgstr "Запит кваліфікацій з обмеженим доступом"
 
 msgid "Let's check qualifications by all participants:"
-msgstr ""
+msgstr "Перевіримо кваліфікації всіх учасників:"
 
 msgid "Let's check qualification feed for `Broker` that is `Procuring Entity` and has access to all qualifications of framework:"
-msgstr ""
+msgstr "Перевіримо фід кваліфікацій для `Broker`, який є `Замовником` та має доступ до всіх кваліфікацій фреймворку:"
 
 msgid "Now make request by `Broker` for qualification of submission that was created by `Broker 1`:"
-msgstr ""
+msgstr "Тепер зробимо запит за допомогою `Broker` для кваліфікації пропозиції, створеної `Broker 1`:"
 
 msgid "Then make request by `Broker` for qualification of submission that was created by `Broker 2`:"
-msgstr ""
+msgstr "Тепер зробимо запит за допомогою `Broker` для кваліфікації пропозиції, створеної `Broker 2`:"
 
 msgid "Let's check qualification feed for `Broker 1` that is `Supplier 1` and has access only to qualifications of it own submissions:"
-msgstr ""
+msgstr "Перевіримо фід кваліфікацій для `Broker 1`, який є `Учасником 1` та має доступ тільки до власних кваліфікацій:"
 
 msgid "We can see that second qualification is partially visible in feed and marked with ``restricted`` field set to ``true``."
-msgstr ""
+msgstr "Ми бачимо, що друга кваліфікація частково видна в фіді і позначена полем ``restricted``, встановленим в ``true``."
 
 msgid "Now make request by `Broker 1` for qualification of submission that was created by `Broker 1`:"
-msgstr ""
+msgstr "Тепер зробимо запит за допомогою `Broker 1` для кваліфікації пропозиції, створеної `Broker 1`:"
 
 msgid "Then make request by `Broker 1` for qualification of submission that was created by `Broker 2`:"
-msgstr ""
+msgstr "Потім зробимо запит за допомогою `Broker 1` для кваліфікації пропозиції, створеної `Broker 2`:"
 
 msgid "We can see error message that qualification is restricted for `Broker 1`."
-msgstr ""
+msgstr "Ми бачимо повідомлення про помилку, що кваліфікація обмежена для `Broker 1`."
 
 msgid "Let's check qualification feed for `Broker 2` that is `Supplier 2` and has access only to qualifications of it own submissions:"
-msgstr ""
+msgstr "Перевіримо фід кваліфікацій для `Broker 2`, який є `Учасником 2` та має доступ тільки до власних кваліфікацій:"
 
 msgid "Now make request by `Broker 2` for qualification of submission that was created by `Broker 1`:"
-msgstr ""
+msgstr "Тепер зробимо запит за допомогою `Broker 2` для кваліфікації пропозиції, створеної `Broker 1`:"
 
 msgid "Then make request by `Broker 2` for qualification of submission that was created by `Broker 2`:"
-msgstr ""
+msgstr "Потім зробимо запит за допомогою `Broker 2` для кваліфікації пропозиції, створеної `Broker 2`:"
 
 msgid "Let's check qualification feed with anonymous request (or any broker that is not `Broker` or `Broker 1`):"
-msgstr ""
+msgstr "Перевіримо фід кваліфікацій з анонімним запитом (або будь-яким брокером, який не є `Broker` або `Broker 1`):"
 
 msgid "Now make request for qualification of submission that was created by `Broker 1`:"
-msgstr ""
+msgstr "Тепер зробимо запит для кваліфікації пропозиції, створеної `Broker 1`:"
 
 msgid "Then make request for qualification of submission that was created by `Broker 2`:"
-msgstr ""
+msgstr "Потім зробимо запит для кваліфікації пропозиції, створеної `Broker 2`:"
 
 msgid "Activate Qualifications with restricted access"
-msgstr ""
+msgstr "Активуція кваліфікації з обмеженим доступом"
 
 msgid "Let's activate all qualifications by `Broker`:"
-msgstr ""
+msgstr "Активуємо всі кваліфікації за допомогою `Broker`:"
 
 msgid "Let's check current framework"
-msgstr ""
+msgstr "Перевіримо поточний фреймворк"
 
 msgid "You can see that `agreementID` appeared in current framework, so let's check that agreement."
-msgstr ""
+msgstr "Ви можете побачити, що `agreementID` з'явився в поточному фреймворку, тому перевіримо цю угоду."
 
 msgid "Request Agreement with restricted access"
-msgstr ""
+msgstr "Запит угоди з обмеженим доступом"
 
 msgid "Let's check agreement by all participants:"
-msgstr ""
+msgstr "Перевіримо угоду всіма учасниками:"
 
 msgid "Let's check agreement feed for `Broker` that is `Procuring Entity` and has access to agreement of framework:"
-msgstr ""
+msgstr "Перевіримо фід угод для `Broker`, який є `Замовником` та має доступ до угоди фреймворку:"
 
 msgid "Now make request by `Broker` for agreement:"
-msgstr ""
+msgstr "Тепер зробимо запит за допомогою `Broker` для угоди:"
 
 msgid "Let's check agreement feed for `Broker 1`:"
-msgstr ""
+msgstr "Перевіримо фід угод для `Broker 1`:"
 
 msgid "Now make request by `Broker 1` for agreement:"
-msgstr ""
+msgstr "Тепер зробимо запит за допомогою `Broker 1` для угоди:"
 
 msgid "Let's check agreement feed for `Broker 2`:"
-msgstr ""
+msgstr "Перевіримо фід угод для `Broker 2`:"
 
 msgid "Now make request by `Broker 2` for agreement:"
-msgstr ""
+msgstr "Тепер зробимо запит за допомогою `Broker 2` для угоди:"
 
 msgid "Let's check agreement feed with anonymous request (or any broker that is not `Broker` or `Broker 1`):"
-msgstr ""
+msgstr "Перевіримо фід угод з анонімним запитом (або будь-яким брокером, який не є `Broker` або `Broker 1`):"
 
 msgid "Now make request for agreement:"
-msgstr ""
+msgstr "Тепер зробимо запит для угоди:"
 

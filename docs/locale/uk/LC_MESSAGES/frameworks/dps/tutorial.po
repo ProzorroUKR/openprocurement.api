@@ -1,14 +1,11 @@
-# SOME DESCRIPTIVE TITLE.
+#
 # Copyright (C)
 # This file is distributed under the same license as the openprocurement.api package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
-#
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-22 01:52+0200\n"
+"POT-Creation-Date: 2023-05-02 02:17+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,173 +18,172 @@ msgid "Tutorial"
 msgstr "Туторіал"
 
 msgid "Framework creation"
-msgstr ""
+msgstr "Створення кваліфікації"
 
 msgid "Let’s create a framework:"
-msgstr ""
+msgstr "Створимо кваліфікацію:"
 
 msgid "We have `201 Created` response code, `Location` header and body with extra properties."
-msgstr ""
+msgstr "Ми отримали код відповіді `201 Created`, заголовок `Location` і тіло з додатковими полями."
 
 msgid "Framework was created in `draft` status. In this status any field, except technical, can be changed using PATCH method."
-msgstr ""
+msgstr "Кваліфікацію було створено у статусі `draft`. У цьому статусі будь-яке поле, окрім технічних, може бути змінено."
 
 msgid "Uploading documentation"
-msgstr ""
+msgstr "Завантаження документації"
 
 msgid "Procuring entity can upload files into the created framework. Uploading should follow the :ref:`upload` rules."
-msgstr ""
+msgstr "Замовник може завантажити PDF файл у створениу кваліфікацію. Завантаження повинно відбуватись згідно правил :ref:`upload`."
 
 msgid "`201 Created` response code and `Location` header confirm document creation. We can additionally query the `documents` collection API endpoint to confirm the action:"
-msgstr ""
+msgstr "Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ було створено. Додатково можна зробити запит точки входу API колекції документів, щоб підтвердити дію:"
 
 msgid "And again we can confirm that there are two documents uploaded."
-msgstr ""
+msgstr "І знову можна перевірити, що є два завантажених документа."
 
 msgid "In case we made an error, we can reupload the document over the older version:"
-msgstr ""
+msgstr "Якщо сталась помилка, ми можемо ще раз завантажити документ поверх старої версії:"
 
 msgid "And we can see that it is overriding the original version:"
-msgstr ""
+msgstr "І ми бачимо, що вона перекриває оригінальну версію:"
 
 msgid "Framework activation"
-msgstr ""
+msgstr "Активація кваліфікації"
 
 msgid "The second step is moving the framework to `active` status."
-msgstr ""
+msgstr "Наступний крок - змінити статус кваліфікації на `active`."
 
 msgid "`qualificationPeriod.endDate` should be in between 30 and 1095 days from activation moment."
-msgstr ""
+msgstr "`qualificationPeriod.endDate` має бути у проміжку не менш ніж 30 днів і не більш ніж 1095 днів з моменту активації."
 
 msgid "There should be at least 1 document in addition to sign document."
-msgstr ""
+msgstr "Перед активацією до кваліфікації має бути додано хоча б один документ та підпис."
 
 msgid "After framework activation frameworks periods was calculated:"
-msgstr ""
+msgstr "Після активації кваліфікації будуть розраховані періоди:"
 
 msgid "`enquiryPeriod` - first 10 full working days after activation."
-msgstr ""
+msgstr "`enquiryPeriod` - перші 10 повних робочих днів з моменту активації."
 
 msgid "`period` - period when suppliers can add submissions (except `enquiryPeriod`)."
-msgstr ""
+msgstr "`period` - період, коли постачальники можуть подавати заявки (окрім періоду `enquiryPeriod`)."
 
 msgid "`qualificationPeriod` - last 30 full calendar days of framework when suppliers cannot add submissions but still can be qualified based on previous submissions."
-msgstr ""
+msgstr "`qualificationPeriod` - останні 30 повних календарних днів кваліфікації. У цей період постачальники не можуть подавати нові заявки, але ще приймаються рішення щодо попередньо поданих заявок."
 
 msgid "Let's check what framework registry contains:"
-msgstr ""
+msgstr "Перевіримо, що містить реєстр кваліфікації:"
 
 msgid "We do see the internal `id` of a framework and its `dateModified` datestamp."
-msgstr ""
+msgstr "Відображається  `id` - внутрішній ідентифікатор та мітка часу `dateModified`."
 
 msgid "Modifying framework"
-msgstr ""
+msgstr "Зміна кваліфікації"
 
 msgid "In `active` status only some fields can be changed: `telephone`, `name`, `email` for `procuringEntity.contactPoint`, `endDate` for `qualificationPeriod`, `description` and `documents`."
-msgstr ""
+msgstr "У статусі `active` можна змінювати лише деякі поля: `telephone`, `name`, `email` для `procuringEntity.contactPoint`, `endDate` для `qualificationPeriod`, `description` and `documents`."
 
 msgid "If `qualificationPeriod.endDate` was changed all periods will be recalculated."
-msgstr ""
+msgstr "Якщо було змінено поле `qualificationPeriod.endDate` - всі періоди будуть перераховані."
 
 msgid "Additionally, the `dateModified` property was updated to reflect the last modification datestamp."
-msgstr ""
+msgstr "Додатково оновлена властивість `dateModified`, щоб відображати останню дату модифікації."
 
 msgid "Checking the listing again reflects the new modification date:"
-msgstr ""
+msgstr "Ще одна перевірка списку відображає нову дату модифікації:"
 
 msgid "Registering submission"
-msgstr ""
+msgstr "Реєстрація заявки"
 
 msgid "After activating framework, users can register their submissions in period from `framework.enquiryPeriod.endDate` to `period.Date`:"
-msgstr ""
+msgstr "Після активації кваліфікації, користувачі можуть зареєструвати свої заявки в період з `framework.enquiryPeriod.endDate` до `period.Date`:"
 
 msgid "Uploading Submission documentation"
-msgstr ""
+msgstr "Завантаження документації по заявці"
 
 msgid "Documents can be uploaded/changed only for submission in `draft` status."
-msgstr ""
+msgstr "Документи можливо завантажити/оновити тільки до заявки у статусі `draft.`"
 
 msgid "Documents operations is same like in framework:"
-msgstr ""
+msgstr "Усі операції над документами такі ж як у кваліфікації:"
 
 msgid "Deleting submission"
-msgstr ""
+msgstr "Видалення заявки"
 
 msgid "Submission can be deleted only in `draft` status:"
-msgstr ""
+msgstr "Заявка може бути видалена лише у статусі `draft`:"
 
 msgid "Updating Submission"
-msgstr ""
+msgstr "Оновлення заявки"
 
 msgid "Submission can be changed only in `draft` status:"
-msgstr ""
+msgstr "Заявка може бути оновлена лише у статусі `draft`:"
 
 msgid "Submission activation"
-msgstr ""
+msgstr "Активація заявки"
 
 msgid "Submission can be activated before `period.endDate`"
-msgstr ""
+msgstr "Заявку можна активувати лише до настання `period.endDate`"
 
 msgid "After activating the submission, a qualification object is automatically created and submission `qualificationID` field is filled."
-msgstr ""
+msgstr "Після активації заявки, автоматично створюється об'єкт рішення по заявці і заповнюється поле `qualificationID` в заявці."
 
 msgid "Let's check what submission registry contains:"
-msgstr ""
+msgstr "Перевіримо, що містить реєстр заявки:"
 
 msgid "Let's check created qualification object:"
-msgstr ""
+msgstr "Перевіримо об'єкт рішення по заявці:"
 
 msgid "All operations with qualification object can do only `framework_owner`."
-msgstr ""
+msgstr "Всі операції над об'єктом рішення по заявці може виконувати лише `framework_owner` (власник кваліфікації)."
 
 msgid "Uploading qualification documentation"
-msgstr ""
+msgstr "Завантаження документації до рішення по заявці"
 
 msgid "Documents can be uploaded/changed only for qualification in `pending` status."
-msgstr ""
+msgstr "Документи можливо завантажити/оновити тільки до рішення у статусі `pending`."
 
 msgid "Canceled qualification"
-msgstr ""
+msgstr "Відміна рішення по заявці"
 
 msgid "Qualification can be cancelled only in `pending` status."
-msgstr ""
+msgstr "Рішення можливо відмінити лише у статусі `pending`:"
 
 msgid "After cancelling qualification, related submission changed status from `active` to `complete`."
-msgstr ""
+msgstr "Після відміни рішення, пов'язана завявка змінює статус з `active` на `complete`."
 
 msgid "Let's check what happen with submissions after cancelling qualification:"
-msgstr ""
+msgstr "Перевіримо що сталося з заявками після відміни рішення:"
 
 msgid "Approve qualification"
-msgstr ""
+msgstr "Підтвердження рішення по заявці"
 
 msgid "Qualification can be approved only in `pending` status."
-msgstr ""
+msgstr "Рішення можливо погодити лише у статусі `pending`:"
 
 msgid "After approving qualification, if it was first active qualification system create agreement with contract otherwise system add contract to agreement."
-msgstr ""
+msgstr "Після підтвердження рішення по заявці, якщо це було перше затверджене рішення система створює реєстр з контрактом, в іншому випадку система додає контракт до реєстру."
 
 msgid "Let's check current framework"
-msgstr ""
+msgstr "Перевіримо кваліфікацію:"
 
 msgid "You can see that `agreementID` appeared in current framework, so let's check that agreement:"
-msgstr ""
+msgstr "Ви можете побачити, що в кваліфікації з'явилось поле `agreementID`, тож давайте перевіримо реєстр:"
 
 msgid "As you can see agreement now in `active` status, and already have contract, so we can see that agreement in agreement feed:"
-msgstr ""
+msgstr "Як ви можете побачити реєстр в статусі `active` та має контракт, щож ми можемо побачити цей реєстр в потоці даних:"
 
 msgid "Let's check what qualification registry contains:"
-msgstr ""
+msgstr "Перевіримо, що містить реєстр рішення по заявці:"
 
 msgid "Let's check all qualifications for current framework:"
-msgstr ""
+msgstr "Перевіримо всі рішення по заявці до данної кваліфікації:"
 
 msgid "Framework completing"
-msgstr ""
+msgstr "Завершення кваліфікації"
 
 msgid "Framework is completed automatically at `qualificationPeriod.endDate` moment."
-msgstr ""
+msgstr "Завершення кваліфікації відбувається автоматично після настання дати `qualificationPeriod.endDate`."
 
 msgid "PATCH with new `qualificationPeriod.endDate` allow to complete framework earlier than was planned, but not earlier than 30 full calendar days from change moment."
-msgstr ""
-
+msgstr "PATCH запит з новим значенням `qualificationPeriod.endDate` дозволяє завершити фрейморк раніше запланованого часу, але не раніше 30 повних календарних днів з моменту зміни `qualificationPeriod.endDate`."
