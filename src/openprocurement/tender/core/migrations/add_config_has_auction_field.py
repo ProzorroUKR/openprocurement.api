@@ -27,10 +27,10 @@ logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger(__name__)
 
 
-def has_auction_populator(tender):
+def has_auction_populator(tender, ignore_submission_method_details=False):
     pmt = tender.get("procurementMethodType")
 
-    if pmt == ABOVE_THRESHOLD:
+    if pmt == ABOVE_THRESHOLD and not ignore_submission_method_details:
         smd = tender.get("submissionMethodDetails") or ""
         if "quick(mode:no-auction)" in smd:
             return False
