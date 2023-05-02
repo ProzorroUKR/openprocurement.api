@@ -429,7 +429,7 @@ def calculate_framework_periods(request, model):
                 framework,
                 working_days=True,
                 ceil=True
-            ),
+            )
         )
 
     data["enquiryPeriod"] = {
