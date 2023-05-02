@@ -1,4 +1,6 @@
 from schematics.types import StringType, BooleanType
+
+from openprocurement.tender.core.procedure.models.guarantee import WeightedValue
 from openprocurement.tender.core.procedure.models.req_response import PostBidResponsesMixin, PatchObjResponsesMixin
 from openprocurement.tender.core.procedure.models.bid import (
     Bid as BaseBid,
@@ -45,6 +47,8 @@ class PostBid(PostBidResponsesMixin, BasePostBid):
 class Bid(PostBidResponsesMixin, BaseBid):
     subcontractingDetails = StringType()
     lotValues = ListType(ModelType(LotValue, required=True))
+
+    weightedValue = ModelType(WeightedValue)
 
     documents = ListType(ModelType(Document, required=True))
     financialDocuments = ListType(ModelType(Document, required=True))

@@ -6,7 +6,6 @@ from openprocurement.tender.openua.procedure.models.bid import (
     PatchBid as BasePatchBid,
 )
 from openprocurement.tender.core.procedure.models.base import ListType
-from openprocurement.api.models import Value
 from openprocurement.tender.core.procedure.models.guarantee import WeightedValue
 from openprocurement.tender.openeu.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
 from openprocurement.tender.openeu.procedure.models.document import (

@@ -9,13 +9,18 @@ from openprocurement.tender.cfaua.models.submodels.complaint import (
 from openprocurement.tender.openua.models import get_complaint_type_model
 from openprocurement.tender.cfaua.models.submodels.item import Item
 from openprocurement.tender.cfaua.models.submodels.value import Value
-from openprocurement.tender.core.models import Award as BaseAward, EUDocument, QualificationMilestoneListMixin
+from openprocurement.tender.core.models import (
+    Award as BaseAward,
+    EUDocument,
+    QualificationMilestoneListMixin,
+    WeightedValueMixin,
+)
 from schematics.types import BooleanType
 from schematics.types.compound import ModelType
 from schematics.transforms import whitelist
 
 
-class Award(BaseAward, QualificationMilestoneListMixin):
+class Award(BaseAward, QualificationMilestoneListMixin, WeightedValueMixin):
     """ An award for the given procurement. There may be more than one award
         per contracting process e.g. because the contract is split amongst
         different providers, or because it is a standing offer.
@@ -27,7 +32,8 @@ class Award(BaseAward, QualificationMilestoneListMixin):
         )
         _all = _common + whitelist(
             "status", "lotID", "complaintPeriod", "bid_id", "subcontractingDetails", "date",
-            "complaints", "id", "documents", "items", "suppliers", "value", "milestones", "requirementResponses"
+            "complaints", "id", "documents", "items", "suppliers", "value", "milestones", "requirementResponses",
+            "weightedValue",
         )
         roles = {
             "Administrator": whitelist("complaintPeriod"),

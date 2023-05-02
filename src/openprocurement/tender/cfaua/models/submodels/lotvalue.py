@@ -1,6 +1,10 @@
 from openprocurement.api.models import Model
 from openprocurement.api.roles import RolesFromCsv
-from openprocurement.tender.core.models import LotValue as BaseLotValue, get_tender
+from openprocurement.tender.core.models import (
+    LotValue as BaseLotValue,
+    get_tender,
+    WeightedValueMixin,
+)
 from schematics.types import StringType
 from schematics.types.compound import ModelType
 
@@ -8,7 +12,7 @@ from openprocurement.tender.cfaua.models.submodels.value import Value
 from openprocurement.tender.core.validation import validate_lotvalue_value, validate_relatedlot
 
 
-class LotValue(BaseLotValue):
+class LotValue(BaseLotValue, WeightedValueMixin):
     class Options:
         roles = RolesFromCsv("LotValue.csv", relative_to=__file__)
 
