@@ -7,6 +7,8 @@ from openprocurement.tender.esco.procedure.models.value import ContractDuration
 from openprocurement.api.models import IsoDateTimeType
 from schematics.types import MD5Type
 
+from openprocurement.tender.openeu.procedure.models.auction import WeightedValueResult
+
 
 # auction results
 class ValueResult(Model):
@@ -18,6 +20,7 @@ class ValueResult(Model):
 class BidResult(Model):
     id = MD5Type()
     value = ModelType(ValueResult)
+    weightedValue = ModelType(WeightedValueResult)
     date = IsoDateTimeType()
 
 
@@ -29,6 +32,7 @@ class AuctionResults(BaseAuctionResults):
 class LotResult(Model):
     relatedLot = MD5Type()
     value = ModelType(ValueResult)
+    weightedValue = ModelType(WeightedValueResult)
     date = IsoDateTimeType()
 
 
