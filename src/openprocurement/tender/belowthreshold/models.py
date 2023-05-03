@@ -176,7 +176,7 @@ class Contract(BaseContract):
     items = ListType(ModelType(Item, required=True))
 
 
-class Award(BaseAward, QualificationMilestoneListMixin):
+class Award(BaseAward, QualificationMilestoneListMixin, WeightedValueMixin):
     pass
 
 
