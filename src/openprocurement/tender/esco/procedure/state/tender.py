@@ -53,3 +53,4 @@ class ESCOTenderStateMixin:
 class ESCOTenderTenderState(ESCOTenderStateMixin, BaseOpenEUTenderState):
     contract_model = Contract
     award_class = Award
+    reverse_awarding_criteria: bool = True

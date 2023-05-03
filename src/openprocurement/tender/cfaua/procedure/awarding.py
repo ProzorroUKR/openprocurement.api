@@ -9,6 +9,7 @@ from openprocurement.tender.core.procedure.awarding import (
 
 class CFAUATenderStateAwardingMixing:
     set_object_status: callable
+    reverse_awarding_criteria: bool = False
 
     def add_next_award(self, regenerate_all_awards=False, lot_id=None):
         request = get_request()
@@ -27,7 +28,12 @@ class CFAUATenderStateAwardingMixing:
                     statuses.union(lot_awards_statuses)  # this line does nothing as .union( doesn't work "inplace"! Fix?
                     continue
 
-                all_bids = prepare_bids_for_awarding(tender, tender["bids"], lot_id=lot["id"])
+                all_bids = prepare_bids_for_awarding(
+                    tender,
+                    tender["bids"],
+                    lot_id=lot["id"],
+                    reverse_awarding_criteria=self.reverse_awarding_criteria,
+                )
                 if not all_bids:
                     self.set_object_status(lot, "unsuccessful")
                     statuses.add("unsuccessful")

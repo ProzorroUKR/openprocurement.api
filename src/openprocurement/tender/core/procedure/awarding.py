@@ -24,35 +24,34 @@ import jmespath
 LOGGER = getLogger(__name__)
 
 
-def sort_bids(tender, bids, features=None):
-    configurator = get_request().content_configurator
-    if features:
-        # convert features.enum.value  to float, otherwise may fail; Failed in cfaua tests
+def sort_bids(
+    tender,
+    bids,
+    features=None,
+    reverse_awarding_criteria=False,
+):
+    if all("weightedValue" in bid for bid in bids):
+        bids = sorted(bids, key=lambda bid: (
+            [1, -1][reverse_awarding_criteria] * bid["weightedValue"]["amount"], bid['date']
+        ))
+    elif features:
+        # TODO: Deprecated, remove this "if" block
         features = deepcopy(features)
         for f in features:
             for e in f["enum"]:
+                # convert features.enum.value to float, otherwise may fail
+                # Failed in cfaua tests
                 e["value"] = float(e["value"])
         bids = chef(
             bids,
             features=features,
-            ignore=[],  # filters by id, shouldn't be a part of this lib
-            reverse=configurator.reverse_awarding_criteria,
-            awarding_criteria_key=configurator.awarding_criteria_key,
+            ignore=[],
+            reverse=reverse_awarding_criteria,
+            awarding_criteria_key="amount",
         )
     else:
-        award_criteria_path = f"value.{configurator.awarding_criteria_key}"
-        if tender.get("awardCriteria") == AWARD_CRITERIA_LIFE_CYCLE_COST:
-            def awarding_criteria_func(bid):
-                awarding_criteria = jmespath.search("weightedValue.amount", bid)
-                if not awarding_criteria:
-                    awarding_criteria = jmespath.search(award_criteria_path, bid)
-                return Decimal(awarding_criteria)
-        else:
-            def awarding_criteria_func(bid):
-                awarding_criteria = jmespath.search(award_criteria_path, bid)
-                return Decimal(awarding_criteria)
         bids = sorted(bids, key=lambda bid: (
-            [1, -1][configurator.reverse_awarding_criteria] * awarding_criteria_func(bid), bid['date']
+            [1, -1][reverse_awarding_criteria] * bid["value"]["amount"], bid['date']
         ))
     return bids
 
@@ -76,12 +75,21 @@ def filter_features(features, items, lot_ids=None):
     return features
 
 
-def prepare_bids_for_awarding(tender, bids, lot_id=None):
+def prepare_bids_for_awarding(
+    tender,
+    bids,
+    lot_id=None,
+    reverse_awarding_criteria=False,
+):
     """
     Used by add_next_award method
     :param tender:
     :param bids
     :param lot_id:
+    :param reverse_awarding_criteria: Param to configure award criteria
+        Default configuration for awarding is reversed (from lower to higher)
+        When False, awards are generated from lower to higher by value.amount
+        When True, awards are generated from higher to lower by value.amount
     :return: list of bid dict objects sorted in a way they will be selected as winners
     """
     features = filter_features(tender.get("features"), tender.get("items", []), lot_ids=[lot_id])
@@ -89,8 +97,7 @@ def prepare_bids_for_awarding(tender, bids, lot_id=None):
     active_bids = []
     for bid in bids:
         if bid["status"] == "active":
-            bid_params = [i for i in bid.get("parameters", "")
-                          if i["code"] in codes]
+            bid_params = [i for i in bid.get("parameters", "") if i["code"] in codes]
             if lot_id:
                 for lot_value in bid["lotValues"]:
                     if lot_value["relatedLot"] == lot_id and lot_value.get("status", "active") == "active":
@@ -116,7 +123,12 @@ def prepare_bids_for_awarding(tender, bids, lot_id=None):
                 if bid.get("weightedValue"):
                     active_bid["weightedValue"] = bid["weightedValue"]
                 active_bids.append(active_bid)
-    result = sort_bids(tender, active_bids, features)
+    result = sort_bids(
+        tender,
+        active_bids,
+        features=features,
+        reverse_awarding_criteria=reverse_awarding_criteria,
+    )
     return result
 
 
@@ -258,6 +270,7 @@ class TenderStateAwardingMixing:
     award_class = Award
     get_change_tender_status_handler: callable
     set_object_status: callable
+    reverse_awarding_criteria: bool = False
 
     def add_next_award(self):
         tender = get_tender()
@@ -274,13 +287,17 @@ class TenderStateAwardingMixing:
                 if lot["status"] != "active":
                     continue
 
-                lot_awards = tuple(a for a in tender.get("awards", "")
-                                   if a["lotID"] == lot["id"])
+                lot_awards = tuple(a for a in tender.get("awards", "") if a["lotID"] == lot["id"])
                 if lot_awards and lot_awards[-1]["status"] in ["pending", "active"]:
                     statuses.add(lot_awards[-1]["status"])
                     continue
 
-                all_bids = prepare_bids_for_awarding(tender, tender.get("bids", []), lot_id=lot["id"])
+                all_bids = prepare_bids_for_awarding(
+                    tender,
+                    tender.get("bids", []),
+                    lot_id=lot["id"],
+                    reverse_awarding_criteria=self.reverse_awarding_criteria
+                )
                 if all_bids:
                     bids = exclude_unsuccessful_awarded_bids(tender, all_bids, lot_id=lot["id"])
                     if bids:
@@ -309,7 +326,12 @@ class TenderStateAwardingMixing:
         else:
             awards = tender.get("awards")
             if not awards or awards[-1]["status"] not in ("pending", "active"):
-                all_bids = prepare_bids_for_awarding(tender, tender.get("bids", []), lot_id=None)
+                all_bids = prepare_bids_for_awarding(
+                    tender,
+                    tender.get("bids", []),
+                    lot_id=None,
+                    reverse_awarding_criteria=self.reverse_awarding_criteria
+                )
                 bids = exclude_unsuccessful_awarded_bids(tender, all_bids, lot_id=None)
                 if bids:
                     tender_append_award(tender, self.award_class, bids[0], all_bids)

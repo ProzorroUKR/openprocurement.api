@@ -681,9 +681,9 @@ class ChronographEventsMixing:
             return 1 / (1 - params_sum)
 
         def _set_weighted_value(
-                value_container: dict,
-                addition: Optional[float] = None,
-                denominator: Optional[float] = None
+            value_container: dict,
+            addition: Optional[float] = None,
+            denominator: Optional[float] = None
         ) -> None:
             value_amount = float(value_container.get("value", {}).get("amount", 0))
             weighted_value = {}
