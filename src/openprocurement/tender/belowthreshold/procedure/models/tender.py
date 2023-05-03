@@ -1,6 +1,6 @@
 from schematics.types import StringType
 from schematics.validate import ValidationError
-from openprocurement.tender.core.procedure.context import get_now
+from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.models.period import (
     EnquiryPeriodEndRequired,
     StartedEnquiryPeriodEndRequired,

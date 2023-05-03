@@ -1,8 +1,8 @@
 from openprocurement.api.constants import TZ
 from openprocurement.tender.core.procedure.context import (
-    get_now,
     get_tender_config,
 )
+from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     normalize_should_start_after,

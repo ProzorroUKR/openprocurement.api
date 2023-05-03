@@ -1,4 +1,5 @@
-from openprocurement.tender.core.procedure.context import get_tender, get_now
+from openprocurement.api.context import get_now
+from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.api.constants import VALIDATE_ADDRESS_FROM, COUNTRIES, UA_REGIONS
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.api.models import Model

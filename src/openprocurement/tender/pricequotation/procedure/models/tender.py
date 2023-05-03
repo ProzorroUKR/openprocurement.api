@@ -2,7 +2,8 @@ from schematics.types import StringType, MD5Type, BaseType
 from schematics.types.compound import ListType
 from schematics.validate import ValidationError
 from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
-from openprocurement.tender.core.procedure.context import get_now, get_request
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.models.period import (
     StartedPeriodEndRequired,
     PeriodEndRequired,

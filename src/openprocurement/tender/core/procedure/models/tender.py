@@ -15,7 +15,8 @@ from openprocurement.tender.core.procedure.models.lot import (
     validate_lots_uniq, validate_minimal_step_limits
 )
 
-from openprocurement.tender.core.procedure.context import get_now, get_tender
+from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.models.item import (
     Item,
     validate_related_buyer_in_items,

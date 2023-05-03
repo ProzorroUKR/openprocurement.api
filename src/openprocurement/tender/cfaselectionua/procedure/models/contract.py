@@ -5,7 +5,7 @@ from openprocurement.tender.core.procedure.models.contract import (
     Contract as BaseContract,
     ContractValue,
 )
-from openprocurement.tender.core.procedure.context import get_now
+from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.models.base import ModelType, ListType
 from openprocurement.tender.cfaselectionua.procedure.models.document import ContractDocument
 from openprocurement.tender.cfaselectionua.procedure.models.item import ContractItem

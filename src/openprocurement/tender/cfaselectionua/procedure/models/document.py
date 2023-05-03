@@ -1,5 +1,5 @@
 from openprocurement.api.models import HashType
-from openprocurement.tender.core.procedure.context import get_now
+from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.models.document import BaseDocument
 from uuid import uuid4
 from schematics.types import StringType, MD5Type

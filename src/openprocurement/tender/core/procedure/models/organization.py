@@ -1,4 +1,5 @@
-from openprocurement.tender.core.procedure.context import get_tender, get_now
+from openprocurement.api.context import get_now
+from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.models.contact import ContactPoint, PostContactPoint, PatchContactPoint
 from openprocurement.tender.core.procedure.models.address import Address, PatchAddress, PostAddress
 from openprocurement.tender.core.procedure.models.identifier import Identifier, PatchIdentifier

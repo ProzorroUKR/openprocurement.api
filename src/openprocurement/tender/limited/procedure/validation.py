@@ -1,4 +1,4 @@
-from openprocurement.tender.core.procedure.context import get_now
+from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import get_first_revision_date
 from openprocurement.tender.core.procedure.validation import (
     validate_item_operation_in_disallowed_tender_statuses,

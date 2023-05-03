@@ -53,4 +53,8 @@ class ESCOTenderStateMixin:
 class ESCOTenderTenderState(ESCOTenderStateMixin, BaseOpenEUTenderState):
     contract_model = Contract
     award_class = Award
+    awarding_criteria_key: str = "amountPerformance"
     reverse_awarding_criteria: bool = True
+
+    def calculate_bids_weighted_values(self, tender):
+        pass

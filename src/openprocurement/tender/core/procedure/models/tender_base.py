@@ -3,10 +3,11 @@ from schematics.exceptions import ValidationError
 from schematics.types import MD5Type, BaseType, BooleanType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
-from openprocurement.api.models import IsoDateTimeType, ListType, Model
 from schematics.types import StringType
+from openprocurement.api.context import get_now
+from openprocurement.api.models import IsoDateTimeType, ListType, Model
 from openprocurement.tender.core.utils import generate_tender_id
-from openprocurement.tender.core.procedure.context import get_tender, get_now, get_request
+from openprocurement.tender.core.procedure.context import get_tender, get_request
 from openprocurement.tender.core.procedure.utils import get_first_revision_date
 from openprocurement.tender.core.procedure.models.base import validate_object_id_uniq
 from openprocurement.tender.core.procedure.models.document import (

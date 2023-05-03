@@ -1,18 +1,38 @@
+from copy import deepcopy
 from typing import Optional
 
-from openprocurement.api.context import get_json_data
+from openprocurement.api.context import (
+    get_json_data,
+    get_now,
+)
 from openprocurement.api.utils import (
     handle_store_exceptions,
     context_unpack,
     raise_operation_error,
+    get_first_revision_date,
 )
 from openprocurement.api.auth import extract_access_token
-from openprocurement.api.constants import TZ
-from openprocurement.tender.core.procedure.context import get_now, get_bid, get_request
+from openprocurement.api.constants import (
+    TZ,
+    RELEASE_2020_04_19,
+)
+from openprocurement.tender.core.procedure.context import (
+    get_bid,
+    get_request,
+    get_tender,
+)
 from openprocurement.tender.core.utils import QUICK
 from dateorro import calc_normalized_datetime
-from jsonpatch import make_patch, apply_patch
-from jsonpointer import resolve_pointer
+from jsonpatch import (
+    make_patch,
+    apply_patch,
+    apply_patch as apply_json_patch,
+    JsonPatchException,
+)
+from jsonpointer import (
+    resolve_pointer,
+    JsonPointerException,
+)
 from hashlib import sha512
 from uuid import uuid4
 from logging import getLogger
@@ -329,3 +349,22 @@ def validate_field(
                 location="body",
                 name=field,
             )
+
+
+def get_bids_before_auction_results(tender):
+    request = get_request()
+    initial_doc = request.validated["tender_src"]
+    auction_revisions = (
+        revision for revision in reversed(tender.get("revisions", []))
+        if revision["author"] == "auction"
+    )
+    for revision in auction_revisions:
+        try:
+            initial_doc = apply_json_patch(initial_doc, revision["changes"])
+        except (JsonPointerException, JsonPatchException) as e:
+            LOGGER.exception(e, extra=context_unpack(request, {"MESSAGE_ID": "fail_get_tendering_bids"}))
+    return deepcopy(initial_doc["bids"])
+
+
+def since_2020_rules():  # TODO use it everywhere?
+    return get_first_revision_date(get_tender(), default=get_now()) > RELEASE_2020_04_19

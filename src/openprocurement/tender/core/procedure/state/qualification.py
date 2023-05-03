@@ -1,7 +1,7 @@
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from logging import getLogger
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.procedure.context import get_now
+from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.models.qualification import Qualification
 
 

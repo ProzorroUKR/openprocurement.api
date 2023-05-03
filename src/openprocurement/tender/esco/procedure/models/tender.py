@@ -4,7 +4,7 @@ from schematics.types import StringType, BaseType
 from schematics.types.serializable import serializable
 from schematics.types.compound import ModelType, ListType
 from openprocurement.api.models import DecimalType, Value, IsoDateTimeType
-from openprocurement.tender.core.procedure.context import get_now
+from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.models.period import (
     PeriodEndRequired,
     PeriodStartEndRequired,

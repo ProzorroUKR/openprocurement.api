@@ -1,5 +1,6 @@
 from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
-from openprocurement.tender.core.procedure.context import get_request, get_now
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.utils import calculate_tender_date
 from openprocurement.tender.cfaselectionua.procedure.state.tender import CFASelectionTenderState

@@ -1,4 +1,6 @@
-from openprocurement.tender.core.procedure.context import get_request, get_now, get_tender
+from openprocurement.tender.core.procedure.context import get_request, \
+    get_tender
+from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.openeu.procedure.state.tender import OpenEUTenderState
 from openprocurement.tender.core.utils import calculate_complaint_business_date

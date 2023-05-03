@@ -1,4 +1,5 @@
-from openprocurement.tender.core.procedure.context import get_now, get_request
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.api.context import get_now
 from openprocurement.tender.belowthreshold.utils import prepare_tender_item_for_contract
 from collections import defaultdict
 from copy import deepcopy

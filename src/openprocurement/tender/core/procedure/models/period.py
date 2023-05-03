@@ -1,11 +1,7 @@
-from openprocurement.tender.core.utils import calc_auction_end_time, normalize_should_start_after
+from openprocurement.api.context import get_now
 from openprocurement.api.models import IsoDateTimeType, Model
-from openprocurement.api.utils import get_first_revision_date
-from openprocurement.tender.core.constants import CANT_DELETE_PERIOD_START_DATE_FROM
-from openprocurement.tender.core.procedure.context import get_tender, get_now
 from schematics.validate import ValidationError
-from schematics.types.serializable import serializable
-from datetime import datetime, timedelta, time
+from openprocurement.tender.core.constants import CANT_DELETE_PERIOD_START_DATE_FROM
 
 
 class Period(Model):

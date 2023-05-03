@@ -1,8 +1,8 @@
 from openprocurement.tender.core.procedure.context import (
     get_request,
-    get_now,
     get_tender_config,
 )
+from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     set_mode_test_titles,

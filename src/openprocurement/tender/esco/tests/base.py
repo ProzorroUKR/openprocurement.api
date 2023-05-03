@@ -2,7 +2,7 @@
 import os
 from copy import deepcopy
 
-from openprocurement.tender.core.procedure.context import get_now
+from openprocurement.api.context import get_now
 from openprocurement.tender.esco.models import Tender
 from openprocurement.tender.esco.tests.utils import prepare_items
 from openprocurement.tender.openeu.tests.base import (

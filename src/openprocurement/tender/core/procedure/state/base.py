@@ -1,6 +1,6 @@
 import json
 
-from openprocurement.tender.core.procedure.context import get_now
+from openprocurement.api.context import get_now
 import logging
 
 logger = logging.getLogger(__name__)

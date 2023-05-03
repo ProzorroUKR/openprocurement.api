@@ -1,4 +1,5 @@
-from openprocurement.tender.core.procedure.context import get_now, get_tender
+from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.context import get_now
 from openprocurement.api.models import Model
 from openprocurement.api.constants import VALIDATE_TELEPHONE_FROM
 from openprocurement.api.utils import get_first_revision_date

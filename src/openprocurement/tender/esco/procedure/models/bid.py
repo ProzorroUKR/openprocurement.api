@@ -1,6 +1,7 @@
 from schematics.types import BooleanType
+from openprocurement.api.context import get_now
 from openprocurement.api.models import Model
-from openprocurement.tender.core.procedure.context import get_tender, get_now
+from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import get_first_revision_date
 from openprocurement.tender.openeu.procedure.models.bid import (
     Bid as BaseBid,

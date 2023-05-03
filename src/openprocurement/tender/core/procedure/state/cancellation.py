@@ -2,7 +2,9 @@ from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.context import get_now, get_tender, get_request, since_2020_rules
+from openprocurement.tender.core.procedure.context import get_tender, get_request
+from openprocurement.api.context import get_now
+from openprocurement.tender.core.procedure.utils import since_2020_rules
 from datetime import timedelta
 
 

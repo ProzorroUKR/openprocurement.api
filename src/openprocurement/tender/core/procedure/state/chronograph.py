@@ -8,10 +8,10 @@ from openprocurement.api.utils import context_unpack
 from openprocurement.tender.core.constants import CRITERION_LIFE_CYCLE_COST_IDS
 from openprocurement.tender.core.procedure.contracting import add_contracts
 from openprocurement.tender.core.procedure.context import (
-    get_now,
     get_request,
     get_tender_config,
 )
+from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     get_first_revision_date,
@@ -668,19 +668,13 @@ class ChronographEventsMixing:
         }
 
     def calculate_bids_weighted_values(self, tender):
-        def _calc_denominator(
-            parameters: list,
-            features_codes: List[str] = None
-        ) -> Optional[float]:
+        def calc_denominator(parameters: list) -> Optional[float]:
             if not parameters:
                 return
-            if features_codes:
-                params_sum = sum(param["value"] for param in parameters if param["code"] in features_codes)
-            else:
-                params_sum = sum(param["value"] for param in parameters)
+            params_sum = sum(param["value"] for param in parameters)
             return 1 / (1 - params_sum)
 
-        def _set_weighted_value(
+        def set_weighted_value(
             value_container: dict,
             addition: Optional[float] = None,
             denominator: Optional[float] = None
@@ -744,10 +738,11 @@ class ChronographEventsMixing:
                             ]
                         )
                     ]
-                    if not (features_codes or lcc_requirement_ids):
+                    lot_parameters = [param for param in parameters if param["code"] in features_codes]
+                    if not (lot_parameters or lcc_requirement_ids):
                         continue
-                    denominator = _calc_denominator(parameters, features_codes=features_codes)
-                    _set_weighted_value(lot_value, addition=addition, denominator=denominator)
+                    denominator = calc_denominator(parameters)
+                    set_weighted_value(lot_value, addition=addition, denominator=denominator)
             else:
-                denominator = _calc_denominator(parameters)
-                _set_weighted_value(bid, addition=addition, denominator=denominator)
+                denominator = calc_denominator(parameters)
+                set_weighted_value(bid, addition=addition, denominator=denominator)
