@@ -670,24 +670,11 @@ class ChronographEventsMixing:
     def calculate_bids_weighted_values(self, tender):
         def _calc_denominator(
             parameters: list,
-            features: list = "",
-            lot_id: str = None,
-            lot_item_ids: List[str] = None
+            features_codes: List[str] = None
         ) -> Optional[float]:
             if not parameters:
                 return
-            if lot_id:
-                features_codes = [
-                    i["code"]
-                    for i in features
-                    if any(
-                        [
-                            i.get("featureOf", "") == "tenderer",
-                            i.get("featureOf", "") == "lot" and i.get("relatedItem") == lot_id,
-                            i.get("featureOf", "") == "item" and i.get("relatedItem") in lot_item_ids,
-                        ]
-                    )
-                ]
+            if features_codes:
                 params_sum = sum(param["value"] for param in parameters if param["code"] in features_codes)
             else:
                 params_sum = sum(param["value"] for param in parameters)
@@ -744,8 +731,22 @@ class ChronographEventsMixing:
 
             if bid.get("lotValues", ""):
                 for lot_value in bid["lotValues"]:
-                    lot_item_ids = [i["id"] for i in items if i["relatedLot"] == lot_value["relatedLot"]]
-                    denominator = _calc_denominator(parameters, features, lot_value["relatedLot"], lot_item_ids)
+                    lot_id = lot_value["relatedLot"]
+                    lot_item_ids = [i["id"] for i in items if i["relatedLot"] == lot_id]
+                    features_codes = [
+                        i["code"]
+                        for i in features
+                        if any(
+                            [
+                                i.get("featureOf", "") == "tenderer",
+                                i.get("featureOf", "") == "lot" and i.get("relatedItem") == lot_id,
+                                i.get("featureOf", "") == "item" and i.get("relatedItem") in lot_item_ids,
+                            ]
+                        )
+                    ]
+                    if not (features_codes or lcc_requirement_ids):
+                        continue
+                    denominator = _calc_denominator(parameters, features_codes=features_codes)
                     _set_weighted_value(lot_value, addition=addition, denominator=denominator)
             else:
                 denominator = _calc_denominator(parameters)
