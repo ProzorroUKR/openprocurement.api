@@ -1,20 +1,25 @@
 from openprocurement.api.models import ListType
 from openprocurement.api.roles import RolesFromCsv
-from openprocurement.tender.core.models import Bid as BaseBid, BidResponsesMixin, validate_parameters_uniq
+from openprocurement.tender.core.models import (
+    Bid as BaseBid,
+    BidResponsesMixin,
+    validate_parameters_uniq,
+    WeightedValueMixin,
+)
 from openprocurement.tender.cfaselectionua.models.submodels.parameter import Parameter
 from schematics.types.compound import ModelType
 from schematics.types import StringType
 from openprocurement.tender.core.models import LotValue as BaseLotValue
 
 
-class LotValue(BaseLotValue):
+class LotValue(BaseLotValue, WeightedValueMixin):
     class Options:
         roles = RolesFromCsv("LotValue.csv", relative_to=__file__)
 
     subcontractingDetails = StringType()
 
 
-class Bid(BaseBid, BidResponsesMixin):
+class Bid(BaseBid, BidResponsesMixin, WeightedValueMixin):
     class Options:
         roles = RolesFromCsv("Bid.csv", relative_to=__file__)
 

@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.roles import RolesFromCsv
-from openprocurement.tender.core.models import BaseAward
+from openprocurement.tender.core.models import (
+    BaseAward,
+    WeightedValueMixin,
+)
 from schematics.exceptions import ValidationError
 from schematics.types import MD5Type
 from openprocurement.api.models import Model
 
 
-class Award(BaseAward):
+class Award(BaseAward, WeightedValueMixin):
     """ An award for the given procurement. There may be more than one award
         per contracting process e.g. because the contract is split amongst
         different providers, or because it is a standing offer.
