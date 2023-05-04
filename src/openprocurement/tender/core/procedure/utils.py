@@ -368,3 +368,22 @@ def get_bids_before_auction_results(tender):
 
 def since_2020_rules():  # TODO use it everywhere?
     return get_first_revision_date(get_tender(), default=get_now()) > RELEASE_2020_04_19
+
+
+def filter_features(features, items, lot_ids=None):
+    lot_ids = lot_ids or [None]
+    lot_items = [
+        i["id"]
+        for i in items
+        if i.get("relatedLot") in lot_ids
+    ]  # all items in case of non-lot tender
+    features = [
+        feature
+        for feature in (features or tuple())
+        if any((
+            feature["featureOf"] == "tenderer",
+            feature["featureOf"] == "lot" and feature["relatedItem"] in lot_ids,
+            feature["featureOf"] == "item" and feature["relatedItem"] in lot_items,
+        ))
+    ]  # all features in case of non-lot tender
+    return features

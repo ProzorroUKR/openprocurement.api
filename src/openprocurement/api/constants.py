@@ -263,3 +263,10 @@ TENDER_CONFIG_HAS_AUCTION_OPTIONAL = get_constant(
     "TENDER_CONFIG_HAS_AUCTION_OPTIONAL",
     parse_func=parse_bool,
 )
+
+# Tender weightedValue pre-calculation on switch to active.auction
+TENDER_WEIGHTED_VALUE_PRE_CALCULATION = get_constant(
+    CONSTANTS_CONFIG,
+    "TENDER_WEIGHTED_VALUE_PRE_CALCULATION",
+    parse_func=parse_bool,
+)

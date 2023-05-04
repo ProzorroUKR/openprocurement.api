@@ -47,7 +47,7 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, PreQualificationShouldSta
         self.remove_draft_bids(tender)
         self.check_bids_number(tender)
         self.prepare_qualifications(tender)
-        self.calculate_bids_weighted_values(tender)
+        self.calc_bids_weighted_values(tender)
 
     def qualification_stand_still_handler(self, tender):
         statuses = set()

@@ -1,17 +1,28 @@
 from decimal import Decimal
 from logging import getLogger
+from typing import Optional
+
+from barbecue import calculate_coeficient
 
 from openprocurement.api.context import get_now
-from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.constants import (
+    RELEASE_2020_04_19,
+    TENDER_WEIGHTED_VALUE_PRE_CALCULATION,
+)
 from openprocurement.tender.core.procedure.models.award import Award
 from openprocurement.tender.core.procedure.context import (
     get_request,
     get_tender,
     get_bids_before_auction_results_context,
 )
-from openprocurement.tender.core.procedure.utils import get_first_revision_date
-from openprocurement.tender.core.constants import ALP_MILESTONE_REASONS
-
+from openprocurement.tender.core.procedure.utils import (
+    get_first_revision_date,
+    filter_features,
+)
+from openprocurement.tender.core.constants import (
+    ALP_MILESTONE_REASONS,
+    CRITERION_LIFE_CYCLE_COST_IDS,
+)
 
 LOGGER = getLogger(__name__)
 
@@ -133,7 +144,12 @@ class TenderStateAwardingMixing:
                                 "date": lot_value["date"],
                             }
                             if lot_value.get("weightedValue"):
-                                active_bid["weightedValue"] = lot_value["weightedValue"]
+                                weighted_value = lot_value["weightedValue"]
+                            else:
+                                # Fallback for tenders with no weightedValue precalculated
+                                weighted_value = self.calc_weighted_value(tender, bid, lot_value, lot_id)
+                            if weighted_value:
+                                active_bid["weightedValue"] = weighted_value
                             active_bids.append(active_bid)
                             continue  # only one lotValue in a bid is expected
                 else:
@@ -144,7 +160,12 @@ class TenderStateAwardingMixing:
                         "date": bid["date"],
                     }
                     if bid.get("weightedValue"):
-                        active_bid["weightedValue"] = bid["weightedValue"]
+                        weighted_value = bid["weightedValue"]
+                    else:
+                        # Fallback for tenders with no weightedValue precalculated
+                        weighted_value = self.calc_weighted_value(tender, bid, bid)
+                    if weighted_value:
+                        active_bid["weightedValue"] = weighted_value
                     active_bids.append(active_bid)
         result = self.sort_bids(tender, active_bids)
         return result
@@ -262,3 +283,173 @@ class TenderStateAwardingMixing:
 
         award = award_class(award_data)
         tender["awards"].append(award.serialize())
+
+    def calc_bids_weighted_values(self, tender):
+        if not TENDER_WEIGHTED_VALUE_PRE_CALCULATION:
+            return
+
+        bids = tender.get("bids", "")
+
+        for bid in bids:
+            if bid.get("lotValues", ""):
+                for lot_value in bid["lotValues"]:
+                    weighted_value = self.calc_weighted_value(
+                        tender,
+                        bid,
+                        lot_value,
+                        lot_value["relatedLot"],
+                    )
+                    if weighted_value:
+                        lot_value["weightedValue"] = weighted_value
+            else:
+                weighted_value = self.calc_weighted_value(
+                    tender,
+                    bid,
+                    bid,
+                )
+                if weighted_value:
+                    bid["weightedValue"] = weighted_value
+
+    @classmethod
+    def calc_weighted_value(
+        cls,
+        tender: dict,
+        bid: dict,
+        value_container: dict,
+        lot_id: str = None,
+    ) -> Optional[dict]:
+        features = tender.get("features", "")
+        items = tender.get("items", "")
+        criteria = tender.get("criteria", "")
+        parameters = bid.get("parameters", "")
+        responses = bid.get("requirementResponses", "")
+
+        value_amount = float(value_container.get("value", {}).get(cls.awarding_criteria_key, 0))
+        weighted_value = {}
+
+        denominator = cls.calc_denominator(
+            parameters,
+            features,
+            items,
+            lot_id,
+        )
+        if denominator is not None:
+            if cls.reverse_awarding_criteria:
+                value_amount = value_amount * denominator
+            else:
+                value_amount = value_amount / denominator
+            weighted_value["denominator"] = denominator
+
+        addition = cls.calc_addition(
+            criteria,
+            responses,
+            lot_id,
+        )
+        if addition is not None:
+            if cls.reverse_awarding_criteria:
+                value_amount = value_amount - addition
+            else:
+                value_amount = value_amount + addition
+            weighted_value["addition"] = round(addition, 2)
+
+        if weighted_value:
+            weighted_value.update(
+                {
+                    cls.awarding_criteria_key: round(value_amount, 2),
+                    "currency": value_container["value"]["currency"],
+                    "valueAddedTaxIncluded": value_container["value"]["valueAddedTaxIncluded"],
+                }
+            )
+            return weighted_value
+
+        return None
+
+    @staticmethod
+    def calc_addition(
+        criteria: list,
+        responses: list,
+        lot_id: str = None,
+    ) -> Optional[float]:
+        """
+        Calculates addition for weighted value for: LCC
+        :param criteria:
+        :param responses:
+        :param lot_id:
+        :return:
+        """
+        if not criteria:
+            # nothing to do here
+            return None
+
+        lcc_criteria = []
+        for criterion in criteria:
+            classification = criterion.get("classification", {})
+            if classification.get("id") in CRITERION_LIFE_CYCLE_COST_IDS:
+                lcc_criteria.append(criterion)
+
+        if not lcc_criteria:
+            # no lcc features at all
+            return None
+
+        if lot_id:
+            filtered_criteria = []
+            for criterion in lcc_criteria:
+                if criterion.get("relatesTo") == "lot" and criterion.get("relatedItem") != lot_id:
+                    continue
+                filtered_criteria.append(criterion)
+        else:
+            filtered_criteria = lcc_criteria
+
+        if not filtered_criteria:
+            # no lcc features
+            # either in tender for non-lot tenders
+            # or in lot for lot tenders
+            return None
+
+        filtered_responses = []
+        for response in responses:
+            for criterion in filtered_criteria:
+                for group in criterion.get("requirementGroups", []):
+                    for requirement in group.get("requirements", []):
+                        if requirement["id"] == response["requirement"]["id"]:
+                            filtered_responses.append(response)
+
+        addition = sum(float(response.get("value")) for response in filtered_responses)
+        return addition
+
+    @classmethod
+    def calc_denominator(
+        cls,
+        parameters: list,
+        features: list = "",
+        items: list = "",
+        lot_id: str = None,
+    ) -> Optional[float]:
+        """
+        Calculates denominator for weighted value for: features
+        :param parameters:
+        :param features:
+        :param items:
+        :param lot_id:
+        :return:
+        """
+        if not features:
+            # nothing to do here
+            return None
+
+        if lot_id:
+            filtered_features = filter_features(features, items, lot_ids=[lot_id])
+        else:
+            filtered_features = features
+
+        if not filtered_features:
+            # no features
+            # either in tender for non-lot tenders
+            # or in lot for lot tenders
+            return None
+
+        filtered_features_codes = [i["code"] for i in filtered_features]
+        filtered_parameters = [param for param in parameters if param["code"] in filtered_features_codes]
+
+        denominator = float(calculate_coeficient(filtered_features, filtered_parameters))
+        return denominator

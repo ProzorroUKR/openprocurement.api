@@ -1,3 +1,4 @@
+from openprocurement.api.constants import TENDER_WEIGHTED_VALUE_PRE_CALCULATION
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.context import get_tender_config
 from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTenderState
@@ -56,5 +57,8 @@ class ESCOTenderTenderState(ESCOTenderStateMixin, BaseOpenEUTenderState):
     awarding_criteria_key: str = "amountPerformance"
     reverse_awarding_criteria: bool = True
 
-    def calculate_bids_weighted_values(self, tender):
+    def calc_bids_weighted_values(self, tender):
+        if not TENDER_WEIGHTED_VALUE_PRE_CALCULATION:
+            return
+        # TODO: implement this method
         pass

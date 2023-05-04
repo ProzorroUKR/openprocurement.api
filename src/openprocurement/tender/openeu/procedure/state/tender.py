@@ -28,7 +28,7 @@ class BaseOpenEUTenderState(PreQualificationShouldStartAfterMixing, TenderState)
         self.remove_draft_bids(tender)
         self.check_bids_number(tender)
         self.prepare_qualifications(tender)
-        self.calculate_bids_weighted_values(tender)
+        self.calc_bids_weighted_values(tender)
 
     def prepare_qualifications(self, tender):
         if "qualifications" not in tender:
