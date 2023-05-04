@@ -22,7 +22,6 @@ from openprocurement.api.validation import (
     _validate_tender_first_revision_date,
     OPERATIONS,
 )
-from openprocurement.tender.core.procedure.serializers.config import TenderConfigSerializer
 from openprocurement.tender.core.validation import TYPEMAP
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF
 from openprocurement.tender.core.procedure.utils import (
@@ -35,7 +34,8 @@ from openprocurement.tender.core.procedure.utils import (
 )
 from openprocurement.tender.core.utils import calculate_tender_business_date, find_lot
 from openprocurement.tender.core.procedure.documents import check_document_batch, check_document, update_document_url
-from openprocurement.tender.core.procedure.context import get_now, get_tender
+from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import get_criterion_requirement
 from schematics.exceptions import ValidationError
 from pyramid.httpexceptions import HTTPError

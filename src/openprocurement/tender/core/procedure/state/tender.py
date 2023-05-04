@@ -9,16 +9,18 @@ from openprocurement.tender.competitivedialogue.constants import (
 from openprocurement.tender.core.procedure.awarding import TenderStateAwardingMixing
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.context import (
-    get_now,
-    since_2020_rules,
     get_tender_config,
 )
+from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.state.base import BaseState
 from openprocurement.tender.core.procedure.state.chronograph import ChronographEventsMixing
 from openprocurement.tender.core.procedure.state.auction import BaseShouldStartAfterMixing
 from logging import getLogger
 
-from openprocurement.tender.core.procedure.utils import validate_field
+from openprocurement.tender.core.procedure.utils import (
+    validate_field,
+    since_2020_rules,
+)
 from openprocurement.tender.esco.constants import ESCO
 from openprocurement.tender.limited.constants import (
     REPORTING,

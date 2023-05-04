@@ -1,7 +1,8 @@
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.state.cancellation import CancellationStateMixing
 from openprocurement.tender.belowthreshold.procedure.state.tender import BelowThresholdTenderState
-from openprocurement.tender.core.procedure.context import get_tender, get_request, since_2020_rules
+from openprocurement.tender.core.procedure.context import get_tender, get_request
+from openprocurement.tender.core.procedure.utils import since_2020_rules
 
 
 class BelowThresholdCancellationStateMixing(CancellationStateMixing):

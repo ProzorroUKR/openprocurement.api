@@ -110,7 +110,7 @@ def create_tender_cancellation_invalid(self):
     )
 
 
-@patch("openprocurement.tender.core.procedure.context.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 def create_tender_cancellation(self):
     cancellation = dict(**test_tender_below_cancellation)
     cancellation.pop("reasonType", None)
@@ -163,7 +163,7 @@ def create_tender_cancellation(self):
     )
 
 
-@patch("openprocurement.tender.core.procedure.context.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 def create_tender_cancellation_before_19_04_2020(self):
     request_path = "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token)
     cancellation = dict(**test_tender_below_cancellation)
@@ -188,7 +188,7 @@ def create_tender_cancellation_before_19_04_2020(self):
     )
 
 
-@patch("openprocurement.tender.core.procedure.context.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 def patch_tender_cancellation(self):
 
     cancellation = dict(**test_tender_below_cancellation)
@@ -923,7 +923,7 @@ def patch_tender_cancellation_document(self):
     )
 
 
-@patch("openprocurement.tender.core.procedure.context.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def patch_tender_cancellation_2020_04_19(self):
     reasonType_choices = self.valid_reasonType_choices
 
@@ -1085,7 +1085,7 @@ def patch_tender_cancellation_2020_04_19(self):
 
 @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.core.procedure.context.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def permission_cancellation_pending(self):
     reasonType_choices = self.valid_reasonType_choices
 

@@ -1,6 +1,7 @@
 from openprocurement.api.utils import context_unpack
 from openprocurement.api.constants import NEW_DEFENSE_COMPLAINTS_FROM, NEW_DEFENSE_COMPLAINTS_TO
-from openprocurement.tender.core.procedure.context import get_request, get_now
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import get_first_revision_date
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.openuadefense.procedure.awarding import DefenseTenderStateAwardingMixing

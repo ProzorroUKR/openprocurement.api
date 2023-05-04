@@ -1,3 +1,4 @@
+from openprocurement.api.context import get_now
 from openprocurement.api.models import IsoDateTimeType, ValidationError, Value, Period, ListType
 from openprocurement.tender.core.procedure.models.base import ModelType
 from openprocurement.tender.core.procedure.models.base import BaseAward
@@ -8,7 +9,7 @@ from openprocurement.tender.core.procedure.models.req_response import (
     PatchObjResponsesMixin,
     ObjResponseMixin,
 )
-from openprocurement.tender.core.procedure.context import get_tender, get_now
+from openprocurement.tender.core.procedure.context import get_tender
 from schematics.types import StringType, MD5Type, BooleanType, BaseType
 from schematics.types.serializable import serializable
 from uuid import uuid4

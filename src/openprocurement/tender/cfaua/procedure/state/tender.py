@@ -1,4 +1,5 @@
-from openprocurement.tender.core.procedure.context import get_now, get_request
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.state.auction import PreQualificationShouldStartAfterMixing
 from openprocurement.tender.core.procedure.models.qualification import Qualification
@@ -46,7 +47,7 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, PreQualificationShouldSta
         self.remove_draft_bids(tender)
         self.check_bids_number(tender)
         self.prepare_qualifications(tender)
-        self.calculate_bids_weighted_values(tender)
+        self.calc_bids_weighted_values(tender)
 
     def qualification_stand_still_handler(self, tender):
         statuses = set()

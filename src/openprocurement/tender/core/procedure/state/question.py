@@ -1,6 +1,7 @@
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.context import get_now, get_tender, get_request
+from openprocurement.tender.core.procedure.context import get_tender, get_request
+from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.validation import validate_accreditation_level
 
 

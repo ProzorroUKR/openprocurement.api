@@ -1,14 +1,12 @@
 from openprocurement.tender.cfaua.procedure.models.award import Award
-from openprocurement.tender.core.procedure.context import get_now, get_request
-from openprocurement.tender.core.procedure.awarding import (
-    prepare_bids_for_awarding,
-    exclude_unsuccessful_awarded_bids,
-    tender_append_award,
-)
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.api.context import get_now
 
 
 class CFAUATenderStateAwardingMixing:
     set_object_status: callable
+    awarding_criteria_key: str = "amount"
+    reverse_awarding_criteria: bool = False
 
     def add_next_award(self, regenerate_all_awards=False, lot_id=None):
         request = get_request()
@@ -27,13 +25,13 @@ class CFAUATenderStateAwardingMixing:
                     statuses.union(lot_awards_statuses)  # this line does nothing as .union( doesn't work "inplace"! Fix?
                     continue
 
-                all_bids = prepare_bids_for_awarding(tender, tender["bids"], lot_id=lot["id"])
+                all_bids = self.prepare_bids_for_awarding(tender, tender["bids"], lot_id=lot["id"])
                 if not all_bids:
                     self.set_object_status(lot, "unsuccessful")
                     statuses.add("unsuccessful")
                     continue
 
-                selected_bids = exclude_unsuccessful_awarded_bids(tender, all_bids, lot_id=lot["id"])
+                selected_bids = self.exclude_unsuccessful_awarded_bids(tender, all_bids, lot_id=lot["id"])
 
                 if not regenerate_all_awards and lot["id"] == lot_id:
                     # this block seems is supposed to cause the function append only one award
@@ -54,7 +52,7 @@ class CFAUATenderStateAwardingMixing:
                 selected_bids = list([b for b in selected_bids if b["id"] not in active_award_bid_ids])
                 if selected_bids:
                     for bid in selected_bids:
-                        tender_append_award(tender, Award, bid, all_bids, lot_id=lot["id"])
+                        self.tender_append_award(tender, Award, bid, all_bids, lot_id=lot["id"])
                     statuses.add("pending")
                 else:
                     statuses.add("unsuccessful")

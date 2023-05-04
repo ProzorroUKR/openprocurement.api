@@ -3,7 +3,7 @@ from uuid import uuid4
 from decimal import Decimal
 from schematics.types import StringType, MD5Type
 from openprocurement.api.models import IsoDateTimeType, DecimalType, Model, ModelType, ListType
-from openprocurement.tender.core.procedure.context import get_now
+from openprocurement.api.context import get_now
 
 
 def validate_only_addend_or_only_factor(modifications):

@@ -1,13 +1,16 @@
+from openprocurement.api.context import get_now
 from openprocurement.api.models import IsoDateTimeType, ValidationError, Value, Period
 from openprocurement.tender.core.procedure.models.base import (
-    Model, ModelType, ListType,
+    Model,
+    ModelType,
+    ListType,
 )
 from openprocurement.tender.core.procedure.models.organization import (
     BusinessOrganization,
     ContactLessBusinessOrganization,
 )
 from openprocurement.tender.core.procedure.models.document import Document
-from openprocurement.tender.core.procedure.context import get_tender, get_now
+from openprocurement.tender.core.procedure.context import get_tender
 from schematics.types import StringType, MD5Type, BooleanType, BaseType
 from schematics.types.serializable import serializable
 from uuid import uuid4

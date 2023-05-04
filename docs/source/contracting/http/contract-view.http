@@ -7,7 +7,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "awardID": "a3fffca44bd842a5bf8b4d5d84428fc7",
+    "awardID": "12a5fec7784e45d2b5fdf474f72409eb",
     "contractID": "UA-2023-01-01-000001-a-1",
     "dateSigned": "2023-01-01T00:00:01+02:00",
     "dateModified": "2023-01-01T00:00:01+02:00",

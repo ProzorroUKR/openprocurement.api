@@ -1,11 +1,5 @@
-import threading
 from typing import Union
-from openprocurement.api.context import get_now, get_request
-from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.api.utils import get_first_revision_date
-
-# monkey.patch_all() makes this gevent._gevent_clocal.local instance
-thread_context = threading.local()
+from openprocurement.api.context import get_request
 
 
 def get_tender() -> Union[dict, None]:
@@ -50,10 +44,6 @@ def get_bids_before_auction_results_context():
     """
     if "bids_before_auction" not in get_request().validated:
         tender = get_request().validated["tender"]
-        from openprocurement.tender.core.procedure.awarding import get_bids_before_auction_results
+        from openprocurement.tender.core.procedure.utils import get_bids_before_auction_results
         get_request().validated["bids_before_auction"] = get_bids_before_auction_results(tender)
     return get_request().validated["bids_before_auction"]
-
-
-def since_2020_rules():  # TODO use it everywhere?
-    return get_first_revision_date(get_tender(), default=get_now()) > RELEASE_2020_04_19

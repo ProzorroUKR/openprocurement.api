@@ -3,7 +3,7 @@ from typing import Optional
 
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.state.auction import PreQualificationShouldStartAfterMixing
-from openprocurement.tender.core.procedure.context import get_now
+from openprocurement.api.context import get_now
 from openprocurement.tender.openeu.procedure.models.award import Award
 from openprocurement.tender.core.procedure.models.qualification import Qualification
 from openprocurement.tender.core.constants import CRITERION_LIFE_CYCLE_COST_IDS
@@ -28,7 +28,7 @@ class BaseOpenEUTenderState(PreQualificationShouldStartAfterMixing, TenderState)
         self.remove_draft_bids(tender)
         self.check_bids_number(tender)
         self.prepare_qualifications(tender)
-        self.calculate_bids_weighted_values(tender)
+        self.calc_bids_weighted_values(tender)
 
     def prepare_qualifications(self, tender):
         if "qualifications" not in tender:

@@ -1,5 +1,6 @@
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
-from openprocurement.tender.core.procedure.context import get_now, get_request, get_tender
+from openprocurement.tender.core.procedure.context import get_request, get_tender
+from openprocurement.api.context import get_now
 from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
 from openprocurement.api.utils import raise_operation_error
 

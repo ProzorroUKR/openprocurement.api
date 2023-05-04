@@ -38,6 +38,8 @@ class BaseESCOValue(Value):
     # The percentage of annual payments in favor of Bidder
     annualCostsReduction = ListType(DecimalType())  # Buyer's annual costs reduction
     contractDuration = ModelType(ContractDuration)
+    denominator = DecimalType()
+    addition = DecimalType()
 
 
 class PatchESCOValue(BaseESCOValue):

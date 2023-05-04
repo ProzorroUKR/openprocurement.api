@@ -1,6 +1,7 @@
 from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
 from openprocurement.tender.pricequotation.procedure.state.tender import PriceQuotationTenderState
-from openprocurement.tender.core.procedure.context import get_request, get_now
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.api.context import get_now
 from openprocurement.api.utils import raise_operation_error
 
 

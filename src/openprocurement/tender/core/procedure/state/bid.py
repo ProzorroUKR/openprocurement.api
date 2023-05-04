@@ -1,7 +1,8 @@
 import logging
 from openprocurement.api.utils import error_handler, context_unpack
 from openprocurement.tender.core.procedure.state.base import BaseState
-from openprocurement.tender.core.procedure.context import get_now, get_request
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.api.context import get_now
 
 logger = logging.getLogger(__name__)
 

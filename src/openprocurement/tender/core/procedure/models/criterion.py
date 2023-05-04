@@ -3,6 +3,7 @@ from schematics.exceptions import ValidationError
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from schematics.types import StringType, MD5Type, IntType
+from openprocurement.api.context import get_now
 from openprocurement.api.models import (
     Reference,
     Period,
@@ -26,7 +27,7 @@ from openprocurement.tender.core.validation import (
     validate_value_type,
     validate_requirement_values,
 )
-from openprocurement.tender.core.procedure.context import get_tender, get_now
+from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.models.identifier import LegislationIdentifier
 from openprocurement.tender.core.procedure.models.base import validate_object_id_uniq
 from logging import getLogger

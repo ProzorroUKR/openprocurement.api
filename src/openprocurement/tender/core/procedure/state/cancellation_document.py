@@ -3,7 +3,9 @@ from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixing
 from openprocurement.tender.core.procedure.state.cancellation import CancellationStateMixing
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.context import get_tender, get_request, since_2020_rules, get_cancellation
+from openprocurement.tender.core.procedure.context import get_tender, get_request, \
+    get_cancellation
+from openprocurement.tender.core.procedure.utils import since_2020_rules
 
 
 class CancellationDocumentStateMixing(BaseDocumentStateMixing, CancellationStateMixing):

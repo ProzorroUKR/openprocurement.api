@@ -10,7 +10,8 @@ from openprocurement.api.utils import get_first_revision_date
 from openprocurement.api.models import Value
 from openprocurement.tender.core.validation import validate_milestones
 from openprocurement.tender.core.models import validate_funders_unique, validate_funders_ids
-from openprocurement.tender.core.procedure.context import get_now, get_tender
+from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.models.tender import (
     PostBaseTender,
     PatchBaseTender,

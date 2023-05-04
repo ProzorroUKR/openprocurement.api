@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.models import Model, HashType
-from openprocurement.tender.core.procedure.context import get_tender, get_document, get_now
+from openprocurement.tender.core.procedure.context import get_tender, get_document
+from openprocurement.api.context import get_now
 from uuid import uuid4
 from schematics.exceptions import ValidationError
 from schematics.types import StringType, MD5Type

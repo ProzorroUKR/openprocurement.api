@@ -3,6 +3,7 @@ from schematics.types.compound import ModelType
 from schematics.exceptions import ValidationError
 from isodate import duration_isoformat
 from uuid import uuid4
+from openprocurement.api.context import get_now
 from openprocurement.api.models import (
     IsoDateTimeType,
     ListType,
@@ -11,7 +12,7 @@ from openprocurement.api.models import (
 )
 from openprocurement.tender.core.models import validate_features_uniq
 from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.tender.core.procedure.context import get_tender, get_now
+from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.models.feature import Feature, validate_related_items
 from openprocurement.tender.cfaua.procedure.models.agreement_contract import AgreementContract
 from openprocurement.tender.cfaua.procedure.models.item import Item

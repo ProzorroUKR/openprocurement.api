@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "5672df3eb3b34f0383ebaa9018badac7",
+      "id": "0667dcc5cc3d4ea58e1bf6b4a0232a64",
       "status": "pending",
       "date": "2023-01-01T00:00:00+02:00",
       "value": {
@@ -44,7 +44,7 @@ Content-Type: application/json
       "lotID": "9dea7e57fca24c0fa6c43f752611342d"
     },
     {
-      "id": "99d9718f1d774eaaa95511fffdcdfdd4",
+      "id": "12428109cc864bd782dd34d728a26be8",
       "status": "pending",
       "date": "2023-01-01T00:00:00+02:00",
       "value": {
@@ -80,7 +80,7 @@ Content-Type: application/json
       "lotID": "9dea7e57fca24c0fa6c43f752611342d"
     },
     {
-      "id": "f5df8651c42644d18e86223f7139f6d5",
+      "id": "300338c336b54b05abe4026609aec9e4",
       "status": "pending",
       "date": "2023-01-01T00:00:00+02:00",
       "value": {

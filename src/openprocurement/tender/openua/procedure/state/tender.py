@@ -1,4 +1,4 @@
-from openprocurement.tender.core.procedure.context import get_now
+from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.utils import check_auction_period
 from openprocurement.tender.openua.procedure.models.award import Award

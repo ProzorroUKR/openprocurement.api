@@ -4,7 +4,8 @@ from schematics.types.serializable import serializable
 from schematics.types import StringType, MD5Type
 
 from openprocurement.api.models import ValidationError, IsoDateTimeType, Model
-from openprocurement.tender.core.procedure.context import get_now, get_tender
+from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.models.base import ModelType
 from openprocurement.tender.core.procedure.models.organization import Organization
 

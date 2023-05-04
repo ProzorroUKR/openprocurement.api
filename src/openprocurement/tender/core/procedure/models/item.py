@@ -1,8 +1,9 @@
+from openprocurement.api.context import get_now
 from openprocurement.api.models import ValidationError, Period
 from openprocurement.tender.core.procedure.models.address import Address
 from openprocurement.tender.core.procedure.models.base import ModelType, ListType, Model
 from openprocurement.tender.core.procedure.models.unit import Unit
-from openprocurement.tender.core.procedure.context import get_tender, get_now
+from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import get_first_revision_date
 from openprocurement.tender.core.validation import validate_ua_road, validate_gmdn
 from schematics.types import (

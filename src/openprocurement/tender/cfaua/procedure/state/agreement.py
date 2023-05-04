@@ -1,4 +1,5 @@
-from openprocurement.tender.core.procedure.context import get_now, get_request, get_tender
+from openprocurement.tender.core.procedure.context import get_request, get_tender
+from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
 from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER

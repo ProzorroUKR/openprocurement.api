@@ -1,17 +1,11 @@
-from typing import (
-    Optional,
-    List,
-)
-
-from openprocurement.api.constants import RELEASE_2020_04_19, TZ
+from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import context_unpack
-from openprocurement.tender.core.constants import CRITERION_LIFE_CYCLE_COST_IDS
 from openprocurement.tender.core.procedure.contracting import add_contracts
 from openprocurement.tender.core.procedure.context import (
-    get_now,
     get_request,
     get_tender_config,
 )
+from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     get_first_revision_date,
@@ -309,7 +303,7 @@ class ChronographEventsMixing:
 
         self.remove_draft_bids(tender)
         self.check_bids_number(tender)
-        self.calculate_bids_weighted_values(tender)
+        self.calc_bids_weighted_values(tender)
         self.switch_to_auction_or_awarded(tender)
 
 
@@ -666,88 +660,3 @@ class ChronographEventsMixing:
             "currency": tender["minimalStep"]["currency"],
             "valueAddedTaxIncluded": tender["minimalStep"]["valueAddedTaxIncluded"],
         }
-
-    def calculate_bids_weighted_values(self, tender):
-        def _calc_denominator(
-            parameters: list,
-            features_codes: List[str] = None
-        ) -> Optional[float]:
-            if not parameters:
-                return
-            if features_codes:
-                params_sum = sum(param["value"] for param in parameters if param["code"] in features_codes)
-            else:
-                params_sum = sum(param["value"] for param in parameters)
-            return 1 / (1 - params_sum)
-
-        def _set_weighted_value(
-                value_container: dict,
-                addition: Optional[float] = None,
-                denominator: Optional[float] = None
-        ) -> None:
-            value_amount = float(value_container.get("value", {}).get("amount", 0))
-            weighted_value = {}
-            if parameters:
-                value_amount = value_amount / denominator
-                weighted_value["denominator"] = denominator
-            if lcc_requirement_ids:
-                value_amount = value_amount + addition
-                weighted_value["addition"] = round(addition, 2)
-
-            if weighted_value:
-                weighted_value.update({
-                    "amount": round(value_amount, 2),
-                    "currency": value_container["value"]["currency"],
-                    "valueAddedTaxIncluded": value_container["value"]["valueAddedTaxIncluded"],
-                })
-                value_container["weightedValue"] = weighted_value
-
-        bids = tender.get("bids", "")
-        features = tender.get("features", "")
-        items = tender.get("items", "")
-
-        lcc_requirement_ids = [
-            req["id"]
-            for c in tender.get("criteria", "")
-            for rg in c.get("requirementGroups", "")
-            for req in rg.get("requirements", "")
-            if c["classification"]["id"] in CRITERION_LIFE_CYCLE_COST_IDS
-        ]
-
-        for bid in bids:
-
-            parameters = bid.get("parameters", "")
-
-            if not (parameters or lcc_requirement_ids):
-                continue
-
-            addition = None
-            if lcc_requirement_ids:
-                addition = sum(
-                    float(req_response.get("value"))
-                    for req_response in bid.get("requirementResponses", "")
-                    if req_response["requirement"]["id"] in lcc_requirement_ids
-                )
-
-            if bid.get("lotValues", ""):
-                for lot_value in bid["lotValues"]:
-                    lot_id = lot_value["relatedLot"]
-                    lot_item_ids = [i["id"] for i in items if i["relatedLot"] == lot_id]
-                    features_codes = [
-                        i["code"]
-                        for i in features
-                        if any(
-                            [
-                                i.get("featureOf", "") == "tenderer",
-                                i.get("featureOf", "") == "lot" and i.get("relatedItem") == lot_id,
-                                i.get("featureOf", "") == "item" and i.get("relatedItem") in lot_item_ids,
-                            ]
-                        )
-                    ]
-                    if not (features_codes or lcc_requirement_ids):
-                        continue
-                    denominator = _calc_denominator(parameters, features_codes=features_codes)
-                    _set_weighted_value(lot_value, addition=addition, denominator=denominator)
-            else:
-                denominator = _calc_denominator(parameters)
-                _set_weighted_value(bid, addition=addition, denominator=denominator)

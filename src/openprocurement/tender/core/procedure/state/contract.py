@@ -1,10 +1,11 @@
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.context import get_tender, get_now, get_request, get_award
+from openprocurement.tender.core.procedure.context import get_tender, get_request, get_award
 from openprocurement.tender.core.procedure.utils import (
     get_contracts_values_related_to_patched_contract,
     contracts_allow_to_complete,
     dt_from_iso,
 )
+from openprocurement.api.context import get_now
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.api.utils import (
     get_first_revision_date,

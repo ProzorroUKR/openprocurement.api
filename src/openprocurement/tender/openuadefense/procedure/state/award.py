@@ -1,6 +1,7 @@
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 from openprocurement.tender.core.procedure.utils import get_first_revision_date
-from openprocurement.tender.core.procedure.context import get_now, get_request, get_tender
+from openprocurement.tender.core.procedure.context import get_request, get_tender
+from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.contracting import add_contracts
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.openuadefense.constants import STAND_STILL_TIME

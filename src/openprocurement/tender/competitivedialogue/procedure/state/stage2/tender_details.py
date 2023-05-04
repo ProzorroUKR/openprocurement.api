@@ -1,4 +1,4 @@
-from openprocurement.tender.core.procedure.context import get_now
+from openprocurement.api.context import get_now
 from openprocurement.tender.openeu.procedure.state.tender_details import TenderDetailsState
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.openeu.constants import (

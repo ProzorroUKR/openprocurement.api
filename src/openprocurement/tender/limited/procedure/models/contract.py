@@ -3,7 +3,7 @@ from openprocurement.tender.core.procedure.models.contract import (
     Contract as BaseContract,
 )
 from openprocurement.tender.core.procedure.models.organization import ContactLessBusinessOrganization
-from openprocurement.tender.core.procedure.context import get_now
+from openprocurement.api.context import get_now
 from schematics.exceptions import ValidationError
 from openprocurement.tender.core.procedure.models.base import (
     ModelType, ListType,

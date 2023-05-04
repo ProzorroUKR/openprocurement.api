@@ -1,8 +1,8 @@
-from openprocurement.api.constants import TZ
-from datetime import datetime
-from pyramid.request import Request
-from typing import Union
 import threading
+from datetime import datetime
+from typing import Union
+from pyramid.request import Request
+from openprocurement.api.constants import TZ
 
 # monkey.patch_all() makes this gevent._gevent_clocal.local instance
 thread_context = threading.local()

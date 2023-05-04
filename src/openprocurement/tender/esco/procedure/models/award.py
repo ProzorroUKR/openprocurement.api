@@ -11,6 +11,7 @@ from schematics.types import BooleanType
 
 class Award(BaseAward):
     value = ModelType(BaseESCOValue)
+    weightedValue = ModelType(BaseESCOValue)
     eligible = BooleanType()
     items = ListType(ModelType(Item, required=True))
 
@@ -22,4 +23,5 @@ class PatchAward(BasePatchAward):
 
 class PostAward(BasePostAward):
     value = ModelType(BaseESCOValue)
+    weightedValue = ModelType(BaseESCOValue)
     items = ListType(ModelType(Item, required=True))

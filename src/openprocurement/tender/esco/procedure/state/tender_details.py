@@ -4,7 +4,7 @@ from openprocurement.tender.esco.constants import (
     QUESTIONS_STAND_STILL,
     ENQUIRY_STAND_STILL_TIME,
 )
-from openprocurement.tender.core.procedure.context import get_now
+from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.esco.procedure.state.tender import ESCOTenderStateMixin
 from openprocurement.tender.openeu.procedure.state.tender_details import TenderDetailsState as BaseTenderDetailsState

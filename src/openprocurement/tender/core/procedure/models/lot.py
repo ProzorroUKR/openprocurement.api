@@ -5,6 +5,7 @@ from schematics.types.serializable import serializable
 from schematics.validate import ValidationError
 from uuid import uuid4
 from math import floor, ceil
+from openprocurement.api.context import get_now
 from openprocurement.api.models import IsoDateTimeType
 from openprocurement.api.constants import (
     MINIMAL_STEP_VALIDATION_FROM,
@@ -13,7 +14,7 @@ from openprocurement.api.constants import (
     MINIMAL_STEP_VALIDATION_UPPER_LIMIT,
 )
 from openprocurement.tender.core.utils import get_first_revision_date
-from openprocurement.tender.core.procedure.context import get_tender, get_now
+from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.models.base import Model
 from openprocurement.tender.core.procedure.models.guarantee import (
     Guarantee,
