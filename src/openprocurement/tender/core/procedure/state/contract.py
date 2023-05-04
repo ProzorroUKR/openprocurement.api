@@ -287,7 +287,7 @@ class ContractStateMixing:
             raise_operation_error(get_request(), "Can't sign contract before reviewing all complaints")
 
 
-    def validate_contract_patch(self, before: dict, after: dict):
+    def validate_contract_patch(self, request, before: dict, after: dict):
         request, tender, award = get_request(), get_tender(), get_award()
         self.validate_cancellation_blocks(request, tender, lot_id=award.get("lotID"))
 
@@ -331,9 +331,9 @@ class ContractStateMixing:
         self.validate_update_contract_status(request, tender, before, after)
         self.validate_contract_update_with_accepted_complaint(request, tender, before)  # openua
         self.validate_update_contract_value(request, before, after)
-        self.validate_update_contract_value_net_required(request, after)
-        self.validate_update_contract_value_with_award(request, after)
-        self.validate_update_contract_value_amount(request, after)
+        self.validate_update_contract_value_net_required(request, before, after)
+        self.validate_update_contract_value_with_award(request, before, after)
+        self.validate_update_contract_value_amount(request, before, after)
 
     @staticmethod
     def validate_contract_operation_not_in_allowed_status(request, tender):
@@ -417,9 +417,9 @@ class ContractStateMixing:
                 raise_operation_error(request, "Can't update currency for contract value", name="value")
 
     @staticmethod
-    def validate_update_contract_value_net_required(request, after):  # Model validation ?
+    def validate_update_contract_value_net_required(request, before, after):
         value = after.get("value")
-        if value is not None and "status" in request.validated["json_data"]:
+        if value is not None and before.get("status") != after.get("status"):
             contract_amount_net = value.get("amountNet")
             if contract_amount_net is None:
                 raise_operation_error(
@@ -430,42 +430,53 @@ class ContractStateMixing:
                 )
 
     @staticmethod
-    def validate_update_contract_value_with_award(request, after):
-        # TODO: json_data.keys magic wtf and other implementation could be easier
-        updated_value = after.get("value")
-        if updated_value and {"status", "value"} & set(request.validated["json_data"].keys()):
-            award = [award for award in request.validated["tender"].get("awards", [])
-                     if award.get("id") == request.validated["contract"].get("awardID")][0]
+    def validate_update_contract_value_with_award(request, before, after):
+        value = after.get("value")
+        if value and (
+            before.get("value") != after.get("value") or
+            before.get("status") != after.get("status")
+        ):
+
+            award = [
+                award for award in request.validated["tender"].get("awards", [])
+                if award.get("id") == request.validated["contract"].get("awardID")
+            ][0]
 
             _contracts_values = get_contracts_values_related_to_patched_contract(
                 request.validated["tender"].get("contracts"),
-                request.validated["contract"]["id"], updated_value,
+                request.validated["contract"]["id"], value,
                 request.validated["contract"].get("awardID")
             )
             amount = sum([to_decimal(value.get("amount", 0)) for value in _contracts_values])
             amount_net = sum([to_decimal(value.get("amountNet", 0)) for value in _contracts_values])
-            tax_included = updated_value.get("valueAddedTaxIncluded")
+            tax_included = value.get("valueAddedTaxIncluded")
             if tax_included:
                 if award.get("value", {}).get("valueAddedTaxIncluded"):
                     if amount > to_decimal(award.get("value", {}).get("amount")):
-                        raise_operation_error(request, "Amount should be less or equal to awarded amount", name="value")
+                        raise_operation_error(
+                            request, "Amount should be less or equal to awarded amount", name="value"
+                        )
                 else:
                     if amount_net > to_decimal(award.get("value", {}).get("amount")):
-                        raise_operation_error(request, "AmountNet should be less or equal to awarded amount",
-                                              name="value")
+                        raise_operation_error(
+                            request, "AmountNet should be less or equal to awarded amount", name="value"
+                        )
             else:
                 if amount > to_decimal(award.get("value", {}).get("amount")):
-                    raise_operation_error(request, "Amount should be less or equal to awarded amount", name="value")
+                    raise_operation_error(
+                        request, "Amount should be less or equal to awarded amount", name="value"
+                    )
 
     @staticmethod
-    def validate_update_contract_value_amount(request, after, name="value"):
-        # TODO: move to model validation ?
-        contract_value = after.get(name)
-        value = after.get("value") or after.get(name)
-        if contract_value and {"status", name} & set(request.validated["json_data"].keys()):
-            amount = to_decimal(contract_value.get("amount") or 0)
-            amount_net = to_decimal(contract_value.get("amountNet") or 0)
-            tax_included = contract_value.get("valueAddedTaxIncluded")
+    def validate_update_contract_value_amount(request, before, after):
+        value = after.get("value")
+        if value and (
+            before.get("value") != after.get("value") or
+            before.get("status") != after.get("status")
+        ):
+            amount = to_decimal(value.get("amount") or 0)
+            amount_net = to_decimal(value.get("amountNet") or 0)
+            tax_included = value.get("valueAddedTaxIncluded")
 
             if not (amount == 0 and amount_net == 0):
                 if tax_included:
@@ -475,11 +486,11 @@ class ContractStateMixing:
                             request,
                             f"Amount should be equal or greater than amountNet and differ by "
                             f"no more than {AMOUNT_NET_COEF * 100 - 100}%",
-                            name=name,
+                            name="value",
                         )
                 else:
                     if amount != amount_net:
-                        raise_operation_error(request, "Amount and amountNet should be equal", name=name)
+                        raise_operation_error(request, "Amount and amountNet should be equal", name="value")
 
 class ContractState(ContractStateMixing, TenderState):
     pass
