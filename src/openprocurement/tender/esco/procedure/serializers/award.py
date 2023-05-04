@@ -9,4 +9,5 @@ class AwardSerializer(BaseSerializer):
         "documents": ListSerializer(ConfidentialDocumentSerializer),
         "complaints": ListSerializer(ComplaintSerializer),
         "value": ValueSerializer,
+        "weightedValue": ValueSerializer,
     }
