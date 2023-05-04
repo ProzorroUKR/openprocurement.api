@@ -21,7 +21,7 @@ Content-Type: application/json
   "data": {
     "id": "14551948c12d4a82b34c57e3c4e62340",
     "buyerID": "11111111111111111111111111111111",
-    "awardID": "223046bec74c4828bfc44cbc7bc16b91",
+    "awardID": "07f046de863940b6895236a0961a723e",
     "contractID": "UA-2023-01-01-000001-a-1",
     "status": "pending",
     "value": {

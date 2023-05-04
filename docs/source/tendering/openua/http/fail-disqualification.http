@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/2a5accd9090044dfba8773895b0bff51/awards/31dc842884cc47618ca6a12e522e2f77?acc_token=897e40cd3d56497e91e02203d74510ee HTTP/1.0
+PATCH /api/2.5/tenders/2a5accd9090044dfba8773895b0bff51/awards/6661adf157bf434ca38e0c50789353f6?acc_token=897e40cd3d56497e91e02203d74510ee HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 36
 Content-Type: application/json

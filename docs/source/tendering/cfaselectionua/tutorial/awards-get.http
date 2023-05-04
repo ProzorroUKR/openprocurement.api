@@ -9,13 +9,19 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "f16a33eb7e0e4ccdae41fe85c8b6da95",
+      "id": "872d069742174ffeb597dc9412d505d3",
       "status": "pending",
       "date": "2023-01-01T00:00:00+02:00",
       "value": {
         "amount": 499.0,
         "currency": "UAH",
         "valueAddedTaxIncluded": true
+      },
+      "weightedValue": {
+        "amount": 388.11,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true,
+        "denominator": 1.286
       },
       "suppliers": [
         {

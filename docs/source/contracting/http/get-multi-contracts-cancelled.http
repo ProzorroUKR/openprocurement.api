@@ -11,7 +11,7 @@ Content-Type: application/json
     {
       "id": "61fe9c548e9243029e944fb1046b1538",
       "buyerID": "11111111111111111111111111111111",
-      "awardID": "2885fb0f3e8e4eb5a7e87d885fc74e80",
+      "awardID": "6049531c206a47da820852fe03d9726b",
       "contractID": "UA-2023-01-01-000001-a-1",
       "status": "cancelled",
       "value": {
@@ -88,7 +88,7 @@ Content-Type: application/json
     {
       "id": "352d5e69250442fda64f82c8085fa7d6",
       "buyerID": "22222222222222222222222222222222",
-      "awardID": "2885fb0f3e8e4eb5a7e87d885fc74e80",
+      "awardID": "6049531c206a47da820852fe03d9726b",
       "contractID": "UA-2023-01-01-000001-a-2",
       "status": "cancelled",
       "value": {
