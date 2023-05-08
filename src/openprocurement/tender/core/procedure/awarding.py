@@ -317,7 +317,14 @@ class TenderStateAwardingMixing:
         responses = bid.get("requirementResponses", "")
 
         value = value_container.get("value", {})
-        value_amount = float(value.get(cls.awarding_criteria_key, 0))
+
+        if not value:
+            # for example competitiveDialogueUA and competitiveDialogueEU
+            # doesn't have value in bid or in lotValues
+            return None
+
+        value_amount = float(value.get(cls.awarding_criteria_key))
+
         weighted_value = {}
 
         denominator = cls.calc_denominator(parameters, features, items, lot_id)
