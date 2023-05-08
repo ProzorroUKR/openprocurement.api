@@ -293,20 +293,12 @@ class TenderStateAwardingMixing:
         for bid in bids:
             if bid.get("lotValues", ""):
                 for lot_value in bid["lotValues"]:
-                    weighted_value = self.calc_weighted_value(
-                        tender,
-                        bid,
-                        lot_value,
-                        lot_value["relatedLot"],
-                    )
+                    lot_id = lot_value["relatedLot"]
+                    weighted_value = self.calc_weighted_value(tender, bid, lot_value, lot_id)
                     if weighted_value:
                         lot_value["weightedValue"] = weighted_value
             else:
-                weighted_value = self.calc_weighted_value(
-                    tender,
-                    bid,
-                    bid,
-                )
+                weighted_value = self.calc_weighted_value(tender, bid, bid)
                 if weighted_value:
                     bid["weightedValue"] = weighted_value
 
@@ -324,15 +316,18 @@ class TenderStateAwardingMixing:
         parameters = bid.get("parameters", "")
         responses = bid.get("requirementResponses", "")
 
-        value_amount = float(value_container.get("value", {}).get(cls.awarding_criteria_key, 0))
+        value = value_container.get("value", {})
+
+        if not value:
+            # for example competitiveDialogueUA and competitiveDialogueEU
+            # doesn't have value in bid or in lotValues
+            return None
+
+        value_amount = float(value.get(cls.awarding_criteria_key))
+
         weighted_value = {}
 
-        denominator = cls.calc_denominator(
-            parameters,
-            features,
-            items,
-            lot_id,
-        )
+        denominator = cls.calc_denominator(parameters, features, items, lot_id)
         if denominator is not None:
             if cls.reverse_awarding_criteria:
                 value_amount = value_amount * denominator
@@ -340,11 +335,7 @@ class TenderStateAwardingMixing:
                 value_amount = value_amount / denominator
             weighted_value["denominator"] = denominator
 
-        addition = cls.calc_addition(
-            criteria,
-            responses,
-            lot_id,
-        )
+        addition = cls.calc_addition(criteria, responses, lot_id)
         if addition is not None:
             if cls.reverse_awarding_criteria:
                 value_amount = value_amount - addition
@@ -353,13 +344,8 @@ class TenderStateAwardingMixing:
             weighted_value["addition"] = round(addition, 2)
 
         if weighted_value:
-            weighted_value.update(
-                {
-                    cls.awarding_criteria_key: round(value_amount, 2),
-                    "currency": value_container["value"]["currency"],
-                    "valueAddedTaxIncluded": value_container["value"]["valueAddedTaxIncluded"],
-                }
-            )
+            weighted_value[cls.awarding_criteria_key] = round(value_amount, 2)
+            weighted_value["currency"] = value_container["value"]["currency"]
             return weighted_value
 
         return None

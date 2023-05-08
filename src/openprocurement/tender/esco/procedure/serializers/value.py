@@ -7,4 +7,6 @@ class ValueSerializer(BaseSerializer):
         "yearlyPaymentsPercentage": decimal_serializer,
         "amount": decimal_serializer,
         "amountPerformance": decimal_serializer,
+        "denominator": decimal_serializer,
+        "addition": decimal_serializer,
     }

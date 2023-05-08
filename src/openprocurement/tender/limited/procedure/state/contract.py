@@ -46,9 +46,9 @@ class LimitedReportingContractState(ContractStateMixing, NegotiationTenderState)
         self.validate_update_contract_status(request, tender, before, after)
         # self.validate_contract_update_with_accepted_complaint(request, tender, before)
         self.validate_update_contract_value(request, before, after)
-        self.validate_update_contract_value_net_required(request, after)
-        self.validate_update_contract_value_with_award(request, after)
-        self.validate_update_contract_value_amount(request, after)
+        self.validate_update_contract_value_net_required(request, before, after)
+        self.validate_update_contract_value_with_award(request, before, after)
+        self.validate_update_contract_value_amount(request, before, after)
         self.validate_contract_items_count_modification(request, before, after)
 
     @staticmethod
