@@ -1,7 +1,13 @@
 from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
-from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.context import (
+    get_request,
+    get_tender_config,
+)
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.utils import dt_from_iso
+from openprocurement.tender.core.procedure.utils import (
+    dt_from_iso,
+    validate_field,
+)
 from openprocurement.tender.core.utils import calculate_tender_date
 from openprocurement.tender.cfaselectionua.procedure.state.tender import CFASelectionTenderState
 from openprocurement.tender.cfaselectionua.constants import (
@@ -181,6 +187,16 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
                     get_request(),
                     "Can't add features"
                 )
+
+    def validate_minimal_step(self, data, before=None):
+        # override to skip minimalStep required validation
+        # it's not required for cfaselectionua in tender level
+        config = get_tender_config()
+        kwargs = {
+            "before": before,
+            "enabled": config.get("hasAuction") is True,
+        }
+        validate_field(data, "minimalStep", required=False, **kwargs)
 
 
 class TenderDetailsState(CFASelectionTenderDetailsMixing, CFASelectionTenderState):

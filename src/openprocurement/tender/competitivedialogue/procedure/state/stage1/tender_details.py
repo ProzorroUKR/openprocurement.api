@@ -1,5 +1,6 @@
 from openprocurement.api.validation import raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.utils import validate_field
 from openprocurement.tender.openeu.procedure.state.tender_details import OpenEUTenderDetailsMixing
 from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender import Stage1TenderState
 
@@ -15,4 +16,13 @@ class TenderDetailsState(OpenEUTenderDetailsMixing, Stage1TenderState):
                 raise_operation_error(get_request(), "Can't update tender to (complete) status")
 
         super().on_patch(before, after)
+
+    def validate_minimal_step(self, data, before=None):
+        validate_field(data, "minimalStep", required=True)
+
+    def validate_submission_method(self, data, before=None):
+        validate_field(data, "submissionMethod", required=False)
+        validate_field(data, "submissionMethodDetails", required=False)
+        validate_field(data, "submissionMethodDetails_en", required=False)
+        validate_field(data, "submissionMethodDetails_ru", required=False)
 

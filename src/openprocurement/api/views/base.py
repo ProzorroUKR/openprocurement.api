@@ -1,9 +1,9 @@
 from datetime import datetime
+from logging import getLogger
 
 from openprocurement.api.constants import DEPRECATED_FEED_USER_AGENTS, TZ
 from openprocurement.api.context import set_request, set_now
-from openprocurement.api.utils import parse_date, json_view, LOGGER, raise_operation_error
-from logging import getLogger
+from openprocurement.api.utils import parse_date, json_view, raise_operation_error
 
 
 class BaseResource:
@@ -43,6 +43,7 @@ class MongodbResourceListing(BaseResource):
     listing_allowed_fields = {"dateModified", "created", "modified"}
     default_limit = 100
     max_limit = 1000
+
     db_listing_method: callable
     filter_key = None
 
@@ -155,6 +156,8 @@ class RestrictedResourceListingMixin:
     config_field = "config"
     owner_fields = {"owner"}
     listing_safe_fields = {"dateModified"}
+
+    request = None
 
     def db_fields(self, fields):
         return fields | self.owner_fields | {self.config_field}

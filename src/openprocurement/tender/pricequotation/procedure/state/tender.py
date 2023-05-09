@@ -10,6 +10,8 @@ from openprocurement.tender.pricequotation.models.tender import Contract
 
 class PriceQuotationTenderState(TenderState):
     contract_model = Contract
+    award_class = Award
+    generate_award_milestones = False
 
     def get_events(self, tender):
         status = tender["status"]
@@ -90,7 +92,7 @@ class PriceQuotationTenderState(TenderState):
             ], key=lambda bid: bid["value"]["amount"])
             if bids:
                 bid = bids[0]
-                award = Award(
+                award = self.award_class(
                     {
                         "bid_id": bid["id"],
                         "status": "pending",

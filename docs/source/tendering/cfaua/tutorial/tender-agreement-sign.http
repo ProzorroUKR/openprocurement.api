@@ -144,7 +144,7 @@ Content-Type: application/json
             }
           }
         ],
-        "awardID": "f9630797af9b4cbdb79b9c578cc075a4",
+        "awardID": "153edf0c78dd4fc98c3f46930956479c",
         "bidID": "c3e41a3a099a41ad864be3893e0711b5",
         "date": "2023-01-01T00:00:00+02:00"
       },
@@ -193,7 +193,7 @@ Content-Type: application/json
             }
           }
         ],
-        "awardID": "b241121a442045068527a71f6d8b822b",
+        "awardID": "f69080728fd34165b517341694df0475",
         "bidID": "8f1f5d51afcd4521ae73bc0799c5445d",
         "date": "2023-01-01T00:00:00+02:00"
       },
@@ -242,7 +242,7 @@ Content-Type: application/json
             }
           }
         ],
-        "awardID": "510e3acc4e6040c98d0d49bad88a4db8",
+        "awardID": "0de06b46cccd45c2896163bbabd6f4d3",
         "bidID": "381f5658b23a448ea820b823934eeb79",
         "date": "2023-01-01T00:00:00+02:00"
       }

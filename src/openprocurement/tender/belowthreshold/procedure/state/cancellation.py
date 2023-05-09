@@ -2,7 +2,7 @@ from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.state.cancellation import CancellationStateMixing
 from openprocurement.tender.belowthreshold.procedure.state.tender import BelowThresholdTenderState
 from openprocurement.tender.core.procedure.context import get_tender, get_request
-from openprocurement.tender.core.procedure.utils import since_2020_rules
+from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 
 
 class BelowThresholdCancellationStateMixing(CancellationStateMixing):
@@ -33,7 +33,7 @@ class BelowThresholdCancellationStateMixing(CancellationStateMixing):
     def cancellation_status_up(self, before, after, cancellation):
         request, tender = get_request(), get_tender()
         if before in ("draft", "pending") and after == "active":
-            if since_2020_rules() and (not cancellation["reason"] or not cancellation.get("documents")):
+            if tender_created_after_2020_rules() and (not cancellation["reason"] or not cancellation.get("documents")):
                 raise_operation_error(
                     request,
                     "Fields reason, cancellationOf and documents must be filled "

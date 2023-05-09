@@ -1,3 +1,6 @@
+from typing import TYPE_CHECKING
+from logging import getLogger
+
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import context_unpack
 from openprocurement.tender.core.procedure.contracting import add_contracts
@@ -11,32 +14,38 @@ from openprocurement.tender.core.procedure.utils import (
     get_first_revision_date,
 )
 from openprocurement.tender.core.utils import calc_auction_end_time
-from logging import getLogger
 
+
+def copy_class(cls, exclude_parent_class_names=None):
+    if exclude_parent_class_names is None:
+        exclude_parent_class_names = []
+    bases = cls.__bases__
+    bases = tuple(
+        base
+        for base in bases
+        if base.__name__ not in exclude_parent_class_names
+    )
+    return type(cls.__name__, bases, dict(cls.__dict__))
+
+
+if TYPE_CHECKING:
+    from openprocurement.tender.core.procedure.state.tender import (
+        BaseShouldStartAfterMixing,
+        TenderStateAwardingMixing,
+        BaseState,
+    )
+    class baseclass(BaseShouldStartAfterMixing, TenderStateAwardingMixing, BaseState):
+        pass
+else:
+    baseclass = object
 
 LOGGER = getLogger(__name__)
 
 
-class ChronographEventsMixing:
+class ChronographEventsMixing(baseclass):
     # CHRONOGRAPH
     # events that happen in tenders on a schedule basis
     # (only tenders are updated by chronograph at the moment)
-
-    # from base tender helper class
-    status_up: callable
-    set_object_status: callable
-    cancellation_blocks_tender: callable
-
-    # from a tender state class
-    active_bid_statuses: tuple
-    block_complaint_status: tuple
-    block_tender_complaint_status: tuple
-    min_bids_number: int
-
-    # from awarding mixing
-    contract_model: type(object)
-    add_next_award: callable
-
     def update_next_check(self, data):
         # next_check is field that shows tender's expectation to be triggered at a certain time
         next_check = self.get_next_check(data)
@@ -50,9 +59,13 @@ class ChronographEventsMixing:
         for date, handler in self.get_events(data):
             # print([date <= now, date, now, handler])
             if date <= now:
-                LOGGER.info(f"Applying tender auction chronograph event: {handler}",
-                            extra=context_unpack(
-                                get_request(), {"MESSAGE_ID": "auction_chronograph_event_apply"}))
+                LOGGER.info(
+                    f"Applying tender auction chronograph event: {handler}",
+                    extra=context_unpack(
+                        get_request(),
+                        {"MESSAGE_ID": "auction_chronograph_event_apply"}
+                    )
+                )
                 handler(data)
 
     def get_next_check(self, data):
@@ -203,9 +216,11 @@ class ChronographEventsMixing:
         if (
             awards and awards[-1]["status"] == "unsuccessful"
             and not any(c["status"] in self.block_complaint_status for c in tender.get("complaints", ""))
-            and not any([c["status"] in self.block_complaint_status
-                         for a in awards
-                         for c in a.get("complaints", "")])
+            and not any(
+            [c["status"] in self.block_complaint_status
+             for a in awards
+             for c in a.get("complaints", "")]
+        )
         ):
             stand_still_ends = [
                 a.get("complaintPeriod").get("endDate")
@@ -274,6 +289,7 @@ class ChronographEventsMixing:
         def handler(*_):
             self.set_object_status(complaint, "mistaken")
             complaint["rejectReason"] = "complaintPeriodEnded"
+
         return handler
 
     def add_next_contract_handler(self, award):
@@ -281,6 +297,7 @@ class ChronographEventsMixing:
             request = get_request()
             add_contracts(request, award, self.contract_model)
             self.add_next_award()
+
         return handler
 
     def get_change_tender_status_handler(self, status):
@@ -305,7 +322,6 @@ class ChronographEventsMixing:
         self.check_bids_number(tender)
         self.calc_bids_weighted_values(tender)
         self.switch_to_auction_or_awarded(tender)
-
 
     def pre_qualification_stand_still_ends_handler(self, tender):
         self.check_bids_number(tender)
@@ -336,8 +352,10 @@ class ChronographEventsMixing:
                 handler(tender)
         else:
             now = get_now().isoformat()
-            pending_complaints = any(i["status"] in self.block_complaint_status
-                                     for i in tender.get("complaints", ""))
+            pending_complaints = any(
+                i["status"] in self.block_complaint_status
+                for i in tender.get("complaints", "")
+            )
             pending_awards_complaints = any(
                 i["status"] in self.block_complaint_status
                 for a in tender.get("awards", "")
@@ -352,10 +370,10 @@ class ChronographEventsMixing:
             stand_still_time_expired = stand_still_end < now
             last_award_status = tender["awards"][-1]["status"] if tender.get("awards") else ""
             if (
-                    last_award_status == "unsuccessful"
-                    and not pending_complaints
-                    and not pending_awards_complaints
-                    and stand_still_time_expired
+                last_award_status == "unsuccessful"
+                and not pending_complaints
+                and not pending_awards_complaints
+                and stand_still_time_expired
             ):
                 handler = self.get_change_tender_status_handler("unsuccessful")
                 handler(tender)
@@ -366,16 +384,18 @@ class ChronographEventsMixing:
                 else tender.get("contracts", [])
             )
             if (
-                    contracts
-                    and any(contract["status"] == "active" for contract in contracts)
-                    and not any(contract["status"] == "pending" for contract in contracts)
+                contracts
+                and any(contract["status"] == "active" for contract in contracts)
+                and not any(contract["status"] == "pending" for contract in contracts)
             ):
                 handler = self.get_change_tender_status_handler("complete")
                 handler(tender)
 
     def auction_handler(self, _):
-        LOGGER.info("Tender auction chronograph event",
-                    extra=context_unpack(get_request(), {"MESSAGE_ID": "auction_chronograph_event"}))
+        LOGGER.info(
+            "Tender auction chronograph event",
+            extra=context_unpack(get_request(), {"MESSAGE_ID": "auction_chronograph_event"})
+        )
 
     def cancellation_compl_period_end_handler(self, cancellation):
         def handler(tender):
@@ -417,6 +437,7 @@ class ChronographEventsMixing:
                 if tender["status"] in ("active.tendering", "active.auction"):
                     tender["bids"] = []
                 self.get_change_tender_status_handler("cancelled")(tender)
+
         return handler
 
     # UTILS (move to state ?)
@@ -502,7 +523,8 @@ class ChronographEventsMixing:
         for bid in tender.get("bids", ""):
             if bid.get("status", "active") in cls.active_bid_statuses:
                 for lot_value in bid.get("lotValues", ""):
-                    if lot_value.get("status", "active") in cls.active_bid_statuses and lot_value["relatedLot"] == lot_id:
+                    if lot_value.get("status", "active") in cls.active_bid_statuses and lot_value[
+                        "relatedLot"] == lot_id:
                         count += 1
                         break  # proceed to the next bid check
         return count
@@ -513,8 +535,10 @@ class ChronographEventsMixing:
 
     # awarded
     def check_tender_lot_status(self, tender):
-        if any(i["status"] in self.block_complaint_status and i.get("relatedLot") is None
-               for i in tender.get("complaints", "")):
+        if any(
+            i["status"] in self.block_complaint_status and i.get("relatedLot") is None
+            for i in tender.get("complaints", "")
+        ):
             return
 
         now = get_now().isoformat()
@@ -545,17 +569,19 @@ class ChronographEventsMixing:
             in_stand_still = now < stand_still_end
             skip_award_complaint_period = self.check_skip_award_complaint_period()
             if (
-                    pending_complaints
-                    or pending_awards_complaints
-                    or (in_stand_still and not skip_award_complaint_period)
+                pending_complaints
+                or pending_awards_complaints
+                or (in_stand_still and not skip_award_complaint_period)
             ):
                 continue
 
             elif last_award["status"] == "unsuccessful":
                 LOGGER.info(
                     f"Switched lot {lot['id']} of tender {tender['_id']} to unsuccessful",
-                    extra=context_unpack(get_request(), {"MESSAGE_ID": "switched_lot_unsuccessful"},
-                                         {"LOT_ID": lot["id"]}),
+                    extra=context_unpack(
+                        get_request(), {"MESSAGE_ID": "switched_lot_unsuccessful"},
+                        {"LOT_ID": lot["id"]}
+                    ),
                 )
                 self.set_object_status(lot, "unsuccessful")
                 continue
@@ -571,8 +597,10 @@ class ChronographEventsMixing:
                 if any(active_contracts):
                     LOGGER.info(
                         f"Switched lot {lot['id']} of tender {tender['_id']} to complete",
-                        extra=context_unpack(get_request(), {"MESSAGE_ID": "switched_lot_complete"},
-                                             {"LOT_ID": lot['id']}),
+                        extra=context_unpack(
+                            get_request(), {"MESSAGE_ID": "switched_lot_complete"},
+                            {"LOT_ID": lot['id']}
+                        ),
                     )
                     self.set_object_status(lot, "complete")
 
@@ -586,8 +614,10 @@ class ChronographEventsMixing:
                 if not i.get("relatedLot") or i["relatedLot"] in active_lots
             )
         else:
-            result = any(i["status"] in self.block_tender_complaint_status
-                         for i in tender.get("complaints", ""))
+            result = any(
+                i["status"] in self.block_tender_complaint_status
+                for i in tender.get("complaints", "")
+            )
         return result
 
     @staticmethod
@@ -595,8 +625,10 @@ class ChronographEventsMixing:
         lots = tender.get("lots")
         if lots:
             active_lots = tuple(l["id"] for l in lots if l["status"] == "active")
-            active_items = tuple(i["id"] for i in tender.get("items", "")
-                                 if not i.get("relatedLot") or i["relatedLot"] in active_lots)
+            active_items = tuple(
+                i["id"] for i in tender.get("items", "")
+                if not i.get("relatedLot") or i["relatedLot"] in active_lots
+            )
             result = any(
                 not i.get("answer")
                 for i in tender.get("questions", "")

@@ -1,3 +1,6 @@
+from datetime import timedelta
+from typing import TYPE_CHECKING
+
 from openprocurement.tender.core.procedure.context import get_request, get_tender
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.utils import calculate_tender_business_date
@@ -5,15 +8,18 @@ from openprocurement.tender.core.procedure.contracting import add_contracts
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.api.utils import raise_operation_error
-from datetime import timedelta
 
 
-class AwardStateMixing:
-    set_object_status: callable  # from BaseState
-    add_next_award: callable  # from TenderState
-    validate_cancellation_blocks: callable  # from TenderState
-    get_change_tender_status_handler: callable  # from TenderState
-    award_stand_still_time: timedelta  # from AwardState
+if TYPE_CHECKING:
+    from openprocurement.tender.core.procedure.state.tender import TenderState
+    baseclass = TenderState
+else:
+    baseclass = object
+
+
+class AwardStateMixing(baseclass):
+    contract_model = Contract
+    award_stand_still_time: timedelta
 
     def validate_award_patch(self, before, after):
         request, tender = get_request(), get_tender()
@@ -44,7 +50,7 @@ class AwardStateMixing:
             award["complaintPeriod"]["endDate"] = calculate_tender_business_date(
                 get_now(), self.award_stand_still_time, tender, True
             ).isoformat()
-            add_contracts(get_request(), award, Contract)
+            add_contracts(get_request(), award, self.contract_model)
             self.add_next_award()
 
         elif before == "active" and after == "cancelled":

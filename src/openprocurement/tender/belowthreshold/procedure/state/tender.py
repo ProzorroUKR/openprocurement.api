@@ -6,9 +6,10 @@ from datetime import datetime
 
 
 class BelowThresholdTenderState(TenderState):
+    award_class = Award
     min_bids_number = 1
     block_complaint_status = ()
-    award_class = Award
+    generate_award_milestones = False
 
     # CHILD ITEMS EVENTS --
     def complaint_events(self, tender):

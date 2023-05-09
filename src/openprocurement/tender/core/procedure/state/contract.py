@@ -1,14 +1,21 @@
+from typing import TYPE_CHECKING
+
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.context import get_tender, get_request, get_award
+from openprocurement.tender.core.procedure.context import (
+    get_tender,
+    get_request,
+    get_award,
+)
 from openprocurement.tender.core.procedure.utils import (
     get_contracts_values_related_to_patched_contract,
     contracts_allow_to_complete,
     dt_from_iso,
+    tender_created_in,
+    tender_created_after,
 )
 from openprocurement.api.context import get_now
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.api.utils import (
-    get_first_revision_date,
     raise_operation_error,
     context_unpack,
     to_decimal,
@@ -22,31 +29,37 @@ from openprocurement.tender.core.constants import AMOUNT_NET_COEF
 from schematics.types import BaseType
 from itertools import zip_longest
 from logging import getLogger
-from decimal import Decimal, ROUND_FLOOR, ROUND_UP
+from decimal import (
+    Decimal,
+    ROUND_FLOOR,
+    ROUND_UP,
+)
 from datetime import datetime
-
 
 LOGGER = getLogger(__name__)
 
 
-class ContractStateMixing:
+if TYPE_CHECKING:
+    from openprocurement.tender.core.procedure.state.tender import TenderState
+    baseclass = TenderState
+else:
+    baseclass = object
+
+
+class ContractStateMixing(baseclass):
     allowed_statuses_from = ("pending", "pending.winner-signing")
     allowed_statuses_to = ("active", "pending", "pending.winner-signing")
 
-    set_object_status: callable  # from BaseState
-    block_complaint_status: tuple  # from TenderState
-    check_skip_award_complaint_period: callable  # from TenderState
-    validate_cancellation_blocks: callable  # from TenderState
-
     @staticmethod
     def calculate_stand_still_end(tender, lot_awards, now):
-        first_revision_date = get_first_revision_date(tender)
-        new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < first_revision_date < NEW_DEFENSE_COMPLAINTS_TO
+        new_defence_complaints = tender_created_in(NEW_DEFENSE_COMPLAINTS_FROM, NEW_DEFENSE_COMPLAINTS_TO)
         stand_still_ends = []
         for award in lot_awards:
-            if (award.get("complaintPeriod") and
-                    award.get("complaintPeriod", {}).get("endDate") and
-                    (award.get("status") != "cancelled" if new_defence_complaints else True)):
+            if (
+                award.get("complaintPeriod") and
+                award.get("complaintPeriod", {}).get("endDate") and
+                (award.get("status") != "cancelled" if new_defence_complaints else True)
+            ):
                 stand_still_ends.append(dt_from_iso(award["complaintPeriod"]["endDate"]))
         return max(stand_still_ends) if stand_still_ends else now
 
@@ -75,7 +88,7 @@ class ContractStateMixing:
         pending_complaints = False
         for complaint in tender.get("complaints", []):
             if (complaint["status"] in self.block_complaint_status and
-                    complaint.get("relatedLot") == lot_id):
+                complaint.get("relatedLot") == lot_id):
                 pending_complaints = True
                 break
 
@@ -116,9 +129,11 @@ class ContractStateMixing:
             elif last_award.get("status") == "unsuccessful":
                 LOGGER.info(
                     f"Switched lot {lot.get('id')} of tender {tender['_id']} to unsuccessful",
-                    extra=context_unpack(get_request(),
-                                         {"MESSAGE_ID": "switched_lot_unsuccessful"},
-                                         {"LOT_ID": lot.get("id")}),
+                    extra=context_unpack(
+                        get_request(),
+                        {"MESSAGE_ID": "switched_lot_unsuccessful"},
+                        {"LOT_ID": lot.get("id")}
+                    ),
                 )
                 self.set_object_status(lot, "unsuccessful")
                 continue
@@ -134,9 +149,11 @@ class ContractStateMixing:
                 if allow_complete_lot:
                     LOGGER.info(
                         f"Switched lot {lot.get('id')} of tender {tender['_id']} to complete",
-                        extra=context_unpack(get_request(),
-                                             {"MESSAGE_ID": "switched_lot_complete"},
-                                             {"LOT_ID": lot.get("id")}),
+                        extra=context_unpack(
+                            get_request(),
+                            {"MESSAGE_ID": "switched_lot_complete"},
+                            {"LOT_ID": lot.get("id")}
+                        ),
                     )
                     self.set_object_status(lot, "complete")
             self.switch_status(tender)
@@ -158,10 +175,10 @@ class ContractStateMixing:
         stand_still_time_expired = stand_still_end < now
         last_award_status = tender.get("awards", [])[-1].get("status") if tender.get("awards", []) else ""
         if (
-                not pending_complaints
-                and not pending_awards_complaints
-                and stand_still_time_expired
-                and last_award_status == "unsuccessful"
+            not pending_complaints
+            and not pending_awards_complaints
+            and stand_still_time_expired
+            and last_award_status == "unsuccessful"
         ):
             LOGGER.info(
                 f"Switched tender {tender['_id']} to unsuccessful",
@@ -179,8 +196,10 @@ class ContractStateMixing:
         now = get_now()
         if tender.get("lots"):
             for complaint in tender.get("complaints", []):
-                if (complaint.get("status", "") in self.block_complaint_status and
-                        complaint.get("relatedLot") is None):
+                if (
+                    complaint.get("status", "") in self.block_complaint_status and
+                    complaint.get("relatedLot") is None
+                ):
                     return
             self.check_lots_complaints(tender, now)
         else:
@@ -205,12 +224,13 @@ class ContractStateMixing:
         if items_unit_value_amount and contract.get("value"):
             calculated_value = sum(items_unit_value_amount)
             if calculated_value.quantize(Decimal("1E-2"), rounding=ROUND_FLOOR) > to_decimal(
-                    contract["value"].get("amount")):
+                contract["value"].get("amount")
+            ):
                 raise_operation_error(
                     get_request(), "Total amount of unit values can't be greater than contract.value.amount"
                 )
 
-        if get_first_revision_date(get_tender()) >= UNIT_PRICE_REQUIRED_FROM:
+        if tender_created_after(UNIT_PRICE_REQUIRED_FROM):
             for item in contract.get("items", []):
                 if item.get("unit") and item["unit"].get("value", None) is None:
                     raise_operation_error(
@@ -243,7 +263,7 @@ class ContractStateMixing:
                             "Updated could be only unit.value.amount in item"
                         )
 
-    def validate_contract_signing(self, before: dict,  after: dict):
+    def validate_contract_signing(self, before: dict, after: dict):
         tender = get_tender()
         if before.get("status") != "active" and after.get("status") == "active":
             award = [a for a in tender.get("awards", []) if a.get("id") == after.get("awardID")][0]
@@ -285,7 +305,6 @@ class ContractStateMixing:
         ]
         if pending_complaints or pending_awards_complaints:
             raise_operation_error(get_request(), "Can't sign contract before reviewing all complaints")
-
 
     def validate_contract_patch(self, request, before: dict, after: dict):
         request, tender, award = get_request(), get_tender(), get_award()
@@ -379,17 +398,17 @@ class ContractStateMixing:
         if (
             current_status != new_status
             and (
-                current_status not in cls.allowed_statuses_from
-                or new_status not in allowed_statuses_to
-            )
+            current_status not in cls.allowed_statuses_from
+            or new_status not in allowed_statuses_to
+        )
         ):
             raise_operation_error(request, "Can't update contract status")
 
         not_cancelled_contracts_count = sum(
             1 for contract in tender.get("contracts", [])
             if (
-                    contract.get("status") != "cancelled"
-                    and contract.get("awardID") == request.validated["contract"]["awardID"]
+                contract.get("status") != "cancelled"
+                and contract.get("awardID") == request.validated["contract"]["awardID"]
             )
         )
         if multi_contracts and new_status == "cancelled" and not_cancelled_contracts_count == 1:
@@ -491,6 +510,7 @@ class ContractStateMixing:
                 else:
                     if amount != amount_net:
                         raise_operation_error(request, "Amount and amountNet should be equal", name="value")
+
 
 class ContractState(ContractStateMixing, TenderState):
     pass

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/awards/f9630797af9b4cbdb79b9c578cc075a4?acc_token=5a77c92a3fdf47b4917bc23307e42385 HTTP/1.0
+PATCH /api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/awards/153edf0c78dd4fc98c3f46930956479c?acc_token=5a77c92a3fdf47b4917bc23307e42385 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 67
 Content-Type: application/json
@@ -18,7 +18,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "f9630797af9b4cbdb79b9c578cc075a4",
+    "id": "153edf0c78dd4fc98c3f46930956479c",
     "status": "active",
     "date": "2023-01-01T00:00:00+02:00",
     "value": {

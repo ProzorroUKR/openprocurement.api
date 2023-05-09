@@ -7,8 +7,7 @@ from jsonpointer import JsonPointerException
 from pymongo.errors import DuplicateKeyError
 from six import b
 import pytz
-from logging import getLogger
-from datetime import datetime, timezone
+from datetime import datetime
 from base64 import b64encode, b64decode
 from cornice.resource import resource, view
 from email.header import decode_header
@@ -52,8 +51,6 @@ from openprocurement.api.database import MongodbResourceConflict
 from openprocurement.api.interfaces import IOPContent
 from openprocurement.api.interfaces import IContentConfigurator
 import requests
-import decimal
-import json
 
 json_view = partial(view, renderer="simplejson")
 

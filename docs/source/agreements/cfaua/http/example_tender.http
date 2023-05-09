@@ -134,8 +134,8 @@ Content-Type: application/json
       "endDate": "2023-01-28T00:00:00+02:00"
     },
     "owner": "broker",
-    "date": "2023-01-01T00:00:00+02:00",
     "submissionMethod": "electronicAuction",
+    "date": "2023-01-01T00:00:00+02:00",
     "enquiryPeriod": {
       "startDate": "2022-11-04T00:00:00+02:00",
       "endDate": "2022-11-25T00:00:00+02:00",

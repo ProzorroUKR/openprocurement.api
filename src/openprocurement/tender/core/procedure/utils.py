@@ -366,8 +366,22 @@ def get_bids_before_auction_results(tender):
     return deepcopy(initial_doc["bids"])
 
 
-def since_2020_rules():  # TODO use it everywhere?
-    return get_first_revision_date(get_tender(), default=get_now()) > RELEASE_2020_04_19
+def tender_created_after(dt):
+    tender_created = get_first_revision_date(get_tender(), default=get_now())
+    return tender_created > dt
+
+
+def tender_created_before(dt):
+    tender_created = get_first_revision_date(get_tender(), default=get_now())
+    return tender_created < dt
+
+
+def tender_created_in(dt_from, dt_to):
+    return tender_created_after(dt_from) and tender_created_before(dt_to)
+
+
+def tender_created_after_2020_rules():  # TODO use it everywhere?
+    return tender_created_after(RELEASE_2020_04_19)
 
 
 def filter_features(features, items, lot_ids=None):

@@ -3,7 +3,7 @@ from openprocurement.api.models import IsoDateTimeType, ValidationError, ListTyp
 from openprocurement.tender.core.procedure.models.base import ModelType
 from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.context import get_tender
-from openprocurement.tender.core.procedure.utils import since_2020_rules
+from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 from schematics.types import StringType, MD5Type, BaseType
 from schematics.types.serializable import serializable
 from uuid import uuid4
@@ -26,7 +26,7 @@ class PostCancellation(Model):
 
     @serializable(serialized_name="status")
     def default_status(self):
-        if since_2020_rules():
+        if tender_created_after_2020_rules():
             return "draft"
         elif not self.status:
             return "pending"

@@ -1,10 +1,10 @@
+from logging import getLogger
 from openprocurement.tender.core.utils import context_unpack
-from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.tender.core.procedure.utils import get_first_revision_date
+from openprocurement.tender.core.procedure.context import get_request, get_tender
+from openprocurement.tender.core.procedure.utils import tender_created_in
 from openprocurement.tender.core.procedure.awarding import TenderStateAwardingMixing
 from openprocurement.tender.openuadefense.procedure.settings import BLOCK_COMPLAINT_STATUSES
 from openprocurement.api.constants import NEW_DEFENSE_COMPLAINTS_FROM, NEW_DEFENSE_COMPLAINTS_TO
-from logging import getLogger
 
 LOGGER = getLogger("openprocurement.tender.openuadefense")
 
@@ -16,20 +16,16 @@ class DefenseTenderStateAwardingMixing(TenderStateAwardingMixing):
         self.process_new_defense_complaints()
 
     def process_new_defense_complaints(self):
-        request = get_request()
-        tender = request.validated["tender"]
-        first_revision_date = get_first_revision_date(tender)
-        new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < first_revision_date < NEW_DEFENSE_COMPLAINTS_TO
-        if not new_defence_complaints:
+        if not tender_created_in(NEW_DEFENSE_COMPLAINTS_FROM, NEW_DEFENSE_COMPLAINTS_TO):
             return
 
+        tender = get_tender()
         lots = tender.get("lots")
         if lots:
             statuses = set()
             for lot in lots:
                 if lot["status"] == "active":
-                    lot_awards = [i for i in tender.get("awards", "")
-                                  if i["lotID"] == lot["id"]]
+                    lot_awards = [i for i in tender.get("awards", "") if i["lotID"] == lot["id"]]
                     statuses.add(lot_awards[-1]["status"] if lot_awards else "unsuccessful")
 
             if statuses == {"unsuccessful"}:
@@ -56,7 +52,7 @@ class DefenseTenderStateAwardingMixing(TenderStateAwardingMixing):
                             LOGGER.info(
                                 "Switched lot {} of tender {} to {}".format(lot["id"], tender["_id"], "unsuccessful"),
                                 extra=context_unpack(
-                                    request,
+                                    get_request(),
                                     {"MESSAGE_ID": "switched_lot_unsuccessful"},
                                     {"LOT_ID": lot["id"]}
                                 ),

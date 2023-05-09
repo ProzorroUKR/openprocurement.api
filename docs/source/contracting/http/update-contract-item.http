@@ -1,4 +1,4 @@
-PATCH /api/2.5/contracts/38da025ae53f4e0d8fa4474bb5923d12?acc_token=a0e030a63cbe4390a164f7dee4f37dc9 HTTP/1.0
+PATCH /api/2.5/contracts/8b5163d356be495588f69ee2530f53fd?acc_token=a0e030a63cbe4390a164f7dee4f37dc9 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 2427
 Content-Type: application/json
@@ -91,7 +91,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "awardID": "12a5fec7784e45d2b5fdf474f72409eb",
+    "awardID": "034e185d515f40a1a151c02cc3516157",
     "contractID": "UA-2023-01-01-000001-a-1",
     "period": {
       "startDate": "2023-01-01T00:00:01+02:00",
@@ -255,7 +255,7 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true,
       "amountNet": 430.0
     },
-    "id": "38da025ae53f4e0d8fa4474bb5923d12"
+    "id": "8b5163d356be495588f69ee2530f53fd"
   }
 }
 

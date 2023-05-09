@@ -3,16 +3,19 @@ from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixing
 from openprocurement.tender.core.procedure.state.cancellation import CancellationStateMixing
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.context import get_tender, get_request, \
-    get_cancellation
-from openprocurement.tender.core.procedure.utils import since_2020_rules
+from openprocurement.tender.core.procedure.context import (
+    get_tender,
+    get_request,
+    get_cancellation,
+)
+from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 
 
 class CancellationDocumentStateMixing(BaseDocumentStateMixing, CancellationStateMixing):
 
     @staticmethod
     def validate_cancellation_document_allowed(request, _, cancellation):
-        if since_2020_rules():
+        if tender_created_after_2020_rules():
             status = cancellation["status"]
             if status == "draft":
                 pass

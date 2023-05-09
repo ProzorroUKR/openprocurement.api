@@ -1,4 +1,4 @@
-GET /api/2.5/contracts/38da025ae53f4e0d8fa4474bb5923d12 HTTP/1.0
+GET /api/2.5/contracts/8b5163d356be495588f69ee2530f53fd HTTP/1.0
 Host: public-api-sandbox.prozorro.gov.ua
 
 
@@ -7,7 +7,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "awardID": "12a5fec7784e45d2b5fdf474f72409eb",
+    "awardID": "034e185d515f40a1a151c02cc3516157",
     "contractID": "UA-2023-01-01-000001-a-1",
     "dateSigned": "2023-01-01T00:00:01+02:00",
     "dateModified": "2023-01-01T00:00:01+02:00",
@@ -141,7 +141,7 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true,
       "amountNet": 490.0
     },
-    "id": "38da025ae53f4e0d8fa4474bb5923d12"
+    "id": "8b5163d356be495588f69ee2530f53fd"
   }
 }
 

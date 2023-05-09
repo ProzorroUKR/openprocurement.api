@@ -1,6 +1,7 @@
 from openprocurement.tender.core.procedure.views.chronograph import TenderChronographResource
-from openprocurement.tender.openuadefense.procedure.state.tender import OpenUADefenseTenderState
 from cornice.resource import resource
+
+from openprocurement.tender.simpledefense.procedure.state.tender import SimpleDefenseTenderState
 
 
 @resource(
@@ -10,4 +11,4 @@ from cornice.resource import resource
     description="Tender chronograph",
 )
 class SimpleDefenseChronographResource(TenderChronographResource):
-    state_class = OpenUADefenseTenderState
+    state_class = SimpleDefenseTenderState

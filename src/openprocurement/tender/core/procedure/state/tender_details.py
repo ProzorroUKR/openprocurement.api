@@ -1,3 +1,13 @@
+from datetime import timedelta
+from typing import TYPE_CHECKING
+
+from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
+from openprocurement.tender.cfaua.constants import CFA_UA
+from openprocurement.tender.competitivedialogue.constants import (
+    CD_UA_TYPE,
+    CD_EU_TYPE,
+)
+
 from openprocurement.tender.core.procedure.context import (
     get_request,
     get_tender_config,
@@ -6,17 +16,75 @@ from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     set_mode_test_titles,
+    tender_created_before,
+    validate_field,
 )
-from openprocurement.api.utils import raise_operation_error, get_first_revision_date
-from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17, TENDER_PERIOD_START_DATE_STALE_MINUTES
-from datetime import timedelta
+from openprocurement.api.utils import (
+    raise_operation_error,
+)
+from openprocurement.api.constants import (
+    RELEASE_ECRITERIA_ARTICLE_17,
+    TENDER_PERIOD_START_DATE_STALE_MINUTES,
+    TENDER_CONFIG_HAS_AUCTION_OPTIONAL,
+)
+from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.esco.constants import ESCO
+from openprocurement.tender.limited.constants import (
+    REPORTING,
+    NEGOTIATION,
+    NEGOTIATION_QUICK,
+)
+from openprocurement.tender.pricequotation.constants import PQ
+
+if TYPE_CHECKING:
+    baseclass = TenderState
+else:
+    baseclass = object
 
 
-class TenderDetailsMixing:
+class TenderConfigMixin(baseclass):
+
+    def validate_config(self, data):
+        self.validate_has_auction(data)
+
+    def validate_has_auction(self, data):
+        config = get_tender_config()
+
+        if config.get("hasAuction") is None and TENDER_CONFIG_HAS_AUCTION_OPTIONAL is False:
+            raise_operation_error(
+                self.request,
+                ["This field is required."],
+                status=422,
+                location="body",
+                name="hasAuction",
+            )
+
+        pmt = data.get("procurementMethodType")
+
+        # For this procurementMethodType it is not allowed to enable auction
+        no_auction_pmts = (REPORTING, NEGOTIATION, NEGOTIATION_QUICK, CD_UA_TYPE, CD_EU_TYPE, PQ)
+        if pmt in no_auction_pmts and config.get("hasAuction") is not False:
+            raise_operation_error(
+                self.request,
+                "Config field hasAuction must be false for procurementMethodType {}".format(pmt)
+            )
+
+        # For this procurementMethodType it is not allowed to disable auction
+        auction_pmts = (ESCO, CFA_UA, CFA_SELECTION)
+        if pmt in auction_pmts and config.get("hasAuction") is not True:
+            raise_operation_error(
+                self.request,
+                "Config field hasAuction must be true for procurementMethodType {}".format(pmt)
+            )
+
+
+class TenderDetailsMixing(TenderConfigMixin, baseclass):
+    """
+    describes business logic rules for tender owners
+    when they prepare tender for tendering stage
+    """
+
     config: dict
-
-    # from tender base class
-    validate_cancellation_blocks: callable
 
     required_exclusion_criteria = {
         "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
@@ -30,16 +98,18 @@ class TenderDetailsMixing:
         "CRITERION.EXCLUSION.NATIONAL.OTHER",
     }
 
-    """
-    describes business logic rules for tender owners
-    when they prepare tender for tendering stage
-    """
+    enquiry_period_timedelta: timedelta
+    enquiry_stand_still_timedelta: timedelta
+
     def validate_tender_patch(self, before, after):
         request = get_request()
         if before["status"] != after["status"]:
             self.validate_cancellation_blocks(request, before)
 
     def on_post(self, tender):
+        self.validate_config(tender)
+        self.validate_minimal_step(tender)
+        self.validate_submission_method(tender)
         self.watch_value_meta_changes(tender)
         self.update_date(tender)
         super().on_post(tender)
@@ -52,22 +122,10 @@ class TenderDetailsMixing:
             set_mode_test_titles(tender)
 
     def on_patch(self, before, after):
-        if before["status"] not in ("draft", "draft.stage2"):
-            if before["procuringEntity"]["kind"] != after["procuringEntity"]["kind"]:
-                raise_operation_error(
-                    get_request(),
-                    "Can't change procuringEntity.kind in a public tender",
-                    status=422,
-                    location="body",
-                    name="procuringEntity"
-                )
-        if before.get("awardCriteria") != after.get("awardCriteria"):
-            raise_operation_error(
-                get_request(),
-                "Can't change awardCriteria",
-                name="awardCriteria"
-            )
-
+        self.validate_minimal_step(after, before=before)
+        self.validate_submission_method(after, before=before)
+        self.validate_kind_change(after, before)
+        self.validate_award_criteria_change(after, before)
         self.watch_value_meta_changes(after)
         super().on_patch(before, after)
 
@@ -129,20 +187,38 @@ class TenderDetailsMixing:
                 minimal_step["currency"] = currency
                 minimal_step["valueAddedTaxIncluded"] = tax_inc
 
-    enquiry_period_timedelta: timedelta
-    enquiry_stand_still_timedelta: timedelta
+    def validate_award_criteria_change(self, after, before):
+        if before.get("awardCriteria") != after.get("awardCriteria"):
+            raise_operation_error(
+                get_request(),
+                "Can't change awardCriteria",
+                name="awardCriteria"
+            )
+
+    def validate_kind_change(self, after, before):
+        if before["status"] not in ("draft", "draft.stage2"):
+            if before["procuringEntity"].get("kind") != after["procuringEntity"].get("kind"):
+                raise_operation_error(
+                    get_request(),
+                    "Can't change procuringEntity.kind in a public tender",
+                    status=422,
+                    location="body",
+                    name="procuringEntity"
+                )
 
     @classmethod
     def validate_tender_exclusion_criteria(cls, before, after):
-        if (
-            get_first_revision_date(before, default=get_now()) < RELEASE_ECRITERIA_ARTICLE_17
-            or after.get("status") not in ("active", "active.tendering")
-        ):
+        if tender_created_before(RELEASE_ECRITERIA_ARTICLE_17):
             return
 
-        tender_criteria = {criterion["classification"]["id"]
-                           for criterion in after.get("criteria", "")
-                           if criterion.get("classification")}
+        if after.get("status") not in ("active", "active.tendering"):
+            return
+
+        tender_criteria = {
+            criterion["classification"]["id"]
+            for criterion in after.get("criteria", "")
+            if criterion.get("classification")
+        }
 
         # exclusion criteria
         if cls.required_exclusion_criteria - tender_criteria:
@@ -154,15 +230,40 @@ class TenderDetailsMixing:
 
     @staticmethod
     def validate_tender_language_criteria(before, after):
-        if (
-            get_first_revision_date(before, default=get_now()) < RELEASE_ECRITERIA_ARTICLE_17
-            or after.get("status") not in ("active", "active.tendering")
-        ):
+        if tender_created_before(RELEASE_ECRITERIA_ARTICLE_17):
             return
 
-        tender_criteria = {criterion["classification"]["id"]
-                           for criterion in after.get("criteria", "")
-                           if criterion.get("classification")}
+        if after.get("status") not in ("active", "active.tendering"):
+            return
+
+        tender_criteria = {
+            criterion["classification"]["id"]
+            for criterion in after.get("criteria", "")
+            if criterion.get("classification")
+        }
         language_criterion = "CRITERION.OTHER.BID.LANGUAGE"
         if language_criterion not in tender_criteria:
             raise_operation_error(get_request(), f"Tender must contain {language_criterion} criterion")
+
+    def validate_minimal_step(self, data, before=None):
+        config = get_tender_config()
+        kwargs = {
+            "before": before,
+            "enabled": config.get("hasAuction") is True,
+        }
+        validate_field(data, "minimalStep", **kwargs)
+
+    def validate_submission_method(self, data, before=None):
+        config = get_tender_config()
+        kwargs = {
+            "before": before,
+            "enabled": config.get("hasAuction") is True,
+        }
+        validate_field(data, "submissionMethod", default="electronicAuction", **kwargs)
+        validate_field(data, "submissionMethodDetails", required=False, **kwargs)
+        validate_field(data, "submissionMethodDetails_en", required=False, **kwargs)
+        validate_field(data, "submissionMethodDetails_ru", required=False, **kwargs)
+
+
+class TenderDetailsState(TenderDetailsMixing, TenderState):
+    pass

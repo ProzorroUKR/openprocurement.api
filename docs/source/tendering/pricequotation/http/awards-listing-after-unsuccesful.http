@@ -42,7 +42,7 @@ Content-Type: application/json
       "bid_id": "ef1bede622fc44a08d3caa36ebd1de36"
     },
     {
-      "id": "78a03de3f8734019b968f91bcbfcdff8",
+      "id": "fae353f1d7194871be04499ce8e960a4",
       "status": "pending",
       "date": "2023-01-01T00:00:01+02:00",
       "value": {
