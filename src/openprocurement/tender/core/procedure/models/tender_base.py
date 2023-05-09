@@ -4,11 +4,10 @@ from schematics.types import MD5Type, BaseType, BooleanType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from schematics.types import StringType
-from openprocurement.api.context import get_now
 from openprocurement.api.models import IsoDateTimeType, ListType, Model
 from openprocurement.tender.core.utils import generate_tender_id
-from openprocurement.tender.core.procedure.context import get_tender, get_request
-from openprocurement.tender.core.procedure.utils import get_first_revision_date
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.tender.core.procedure.models.base import validate_object_id_uniq
 from openprocurement.tender.core.procedure.models.document import (
     PostDocument,
@@ -22,7 +21,6 @@ from openprocurement.tender.core.models import (
     validate_funders_unique,
     validate_funders_ids,
 )
-from openprocurement.api.utils import get_now
 from openprocurement.api.constants import (
     MPC_REQUIRED_FROM,
     SANDBOX_MODE,
@@ -115,8 +113,7 @@ class PostBaseTender(CommonBaseTender):
 
     def validate_mainProcurementCategory(self, data, value):
         if value is None:
-            validation_date = get_first_revision_date(get_tender(), default=get_now())
-            if validation_date >= MPC_REQUIRED_FROM:
+            if tender_created_after(MPC_REQUIRED_FROM):
                 raise ValidationError(BaseType.MESSAGES["required"])
 
 
@@ -167,8 +164,7 @@ class BaseTender(PatchBaseTender):
 
     def validate_mainProcurementCategory(self, data, value):
         if value is None:
-            validation_date = get_first_revision_date(get_tender(), default=get_now())
-            if validation_date >= MPC_REQUIRED_FROM:
+            if tender_created_after(MPC_REQUIRED_FROM):
                 raise ValidationError(BaseType.MESSAGES["required"])
 
     def validate_documents(self, data, documents):

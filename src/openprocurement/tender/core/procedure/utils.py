@@ -380,7 +380,7 @@ def tender_created_in(dt_from, dt_to):
     return tender_created_after(dt_from) and tender_created_before(dt_to)
 
 
-def tender_created_after_2020_rules():  # TODO use it everywhere?
+def tender_created_after_2020_rules():
     return tender_created_after(RELEASE_2020_04_19)
 
 

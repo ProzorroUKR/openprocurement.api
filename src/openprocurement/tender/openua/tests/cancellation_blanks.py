@@ -487,11 +487,7 @@ def create_tender_cancellation_2020_04_19(self):
         self.assertEqual(response.json["data"]["status"], "active.tendering")
 
 
-# @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
-# @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
-# @patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
-# @patch("openprocurement.tender.openuadefense.views.complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def create_cancellation_with_tender_complaint(self):
     # Create tender complaint
     complaint_data = deepcopy(test_tender_below_complaint)
@@ -542,11 +538,7 @@ def create_cancellation_with_tender_complaint(self):
     self.assertEqual(response.content_type, "application/json")
 
 
-# @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
-# @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
-# @patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
-# @patch("openprocurement.tender.core.views.award_complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def create_cancellation_with_award_complaint(self):
     self.set_status("active.qualification")
 
@@ -1289,12 +1281,6 @@ def permission_cancellation_pending(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.json["errors"][0]["description"], "Forbidden because of a pending cancellation")
 
-
-# @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
-# @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
-# @patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
-# @patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
-# @patch("openprocurement.tender.core.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def activate_cancellation(self):
 

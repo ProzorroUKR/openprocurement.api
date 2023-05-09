@@ -1,10 +1,12 @@
-from openprocurement.api.context import get_now
 from openprocurement.api.models import ValidationError, Period
 from openprocurement.tender.core.procedure.models.address import Address
 from openprocurement.tender.core.procedure.models.base import ModelType, ListType, Model
 from openprocurement.tender.core.procedure.models.unit import Unit
 from openprocurement.tender.core.procedure.context import get_tender
-from openprocurement.tender.core.procedure.utils import get_first_revision_date
+from openprocurement.tender.core.procedure.utils import (
+    tender_created_after,
+    tender_created_before,
+)
 from openprocurement.tender.core.validation import validate_ua_road, validate_gmdn
 from schematics.types import (
     StringType,
@@ -61,8 +63,7 @@ class CPVClassification(Classification):
             raise ValidationError("Value must be one of ДК021 codes")
 
     def validate_scheme(self, data, scheme):
-        date = get_first_revision_date(get_tender(), default=get_now())
-        if date > CPV_BLOCK_FROM and scheme != "ДК021":
+        if tender_created_after(CPV_BLOCK_FROM) and scheme != "ДК021":
             raise ValidationError(BaseType.MESSAGES["choices"].format(["ДК021"]))
 
 
@@ -95,23 +96,19 @@ class Item(Model):
 
     def validate_unit(self, data, value):
         if not value:
-            validation_date = get_first_revision_date(get_tender(), default=get_now())
-            if validation_date >= UNIT_CODE_REQUIRED_FROM:
+            if tender_created_after(UNIT_CODE_REQUIRED_FROM):
                 raise ValidationError(BaseType.MESSAGES["required"])
 
     def validate_quantity(self, data, value):
         if value is None:
-            validation_date = get_first_revision_date(get_tender(), default=get_now())
-            if validation_date >= UNIT_PRICE_REQUIRED_FROM:
+            if tender_created_after(UNIT_PRICE_REQUIRED_FROM):
                 raise ValidationError(BaseType.MESSAGES["required"])
 
     def validate_additionalClassifications(self, data, items):
-        tender = get_tender()
-        tender_date = get_first_revision_date(tender, default=get_now())
-        tender_from_2017 = tender_date > CPV_ITEMS_CLASS_FROM
+        tender_from_2017 = tender_created_after(CPV_ITEMS_CLASS_FROM)
         classification_id = data["classification"]["id"]
         not_cpv = classification_id == "99999999-9"
-        required = tender_date < NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM and not_cpv
+        required = tender_created_before(NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM) and not_cpv
         if not items and (not tender_from_2017 or tender_from_2017 and not_cpv and required):
             raise ValidationError("This field is required.")
         elif (
@@ -146,31 +143,28 @@ class RelatedBuyerMixing:
     """
 
     def validate_items(self, data, items):
-        tender_data = get_tender() or data
-        if (
-            data.get("status", tender_data.get("status")) != "draft"
-            and data.get("buyers", tender_data.get("buyers"))
-            and get_first_revision_date(tender_data, default=get_now()) >= MULTI_CONTRACTS_REQUIRED_FROM
-        ):
-            for i in items or []:
-                if not i.relatedBuyer:
-                    raise ValidationError(BaseType.MESSAGES["required"])
+        if tender_created_after(MULTI_CONTRACTS_REQUIRED_FROM):
+            tender_data = get_tender() or data
+            if (
+                data.get("status", tender_data.get("status")) != "draft"
+                and data.get("buyers", tender_data.get("buyers"))
+            ):
+                for i in items or []:
+                    if not i.relatedBuyer:
+                        raise ValidationError(BaseType.MESSAGES["required"])
 
 
 def validate_related_buyer_in_items(data, items):
-    if (
-        data["status"] != "draft"
-        and data.get("buyers")
-        and get_first_revision_date(data, default=get_now()) >= MULTI_CONTRACTS_REQUIRED_FROM
-    ):
-        for i in items or []:
-            if not i.relatedBuyer:
-                raise ValidationError([{'relatedBuyer': ['This field is required.']}])
+    if tender_created_after(MULTI_CONTRACTS_REQUIRED_FROM):
+        if data["status"] != "draft" and data.get("buyers"):
+            for i in items or []:
+                if not i.relatedBuyer:
+                    raise ValidationError([{'relatedBuyer': ['This field is required.']}])
 
 
 def validate_classification_id(items, *args):
     for item in items:
-        if get_first_revision_date(get_tender(), default=get_now()) > CPV_336_INN_FROM:
+        if tender_created_after(CPV_336_INN_FROM):
             schemes = [x.scheme for x in item.additionalClassifications or []]
             schemes_inn_count = schemes.count(INN_SCHEME)
             if item.classification.id == CPV_PHARM_PRODUCTS and schemes_inn_count != 1:
@@ -203,13 +197,11 @@ def validate_items_uniq(items, *args):
 
 def validate_quantity_required(data, value):
     if value is None:
-        validation_date = get_first_revision_date(get_tender(), default=get_now())
-        if validation_date >= UNIT_PRICE_REQUIRED_FROM:
+        if tender_created_after(UNIT_PRICE_REQUIRED_FROM):
             raise ValidationError(BaseType.MESSAGES["required"])
 
 
 def validate_unit_required(data, value):
     if not value:
-        validation_date = get_first_revision_date(get_tender(), default=get_now())
-        if validation_date >= UNIT_CODE_REQUIRED_FROM:
+        if tender_created_after(UNIT_CODE_REQUIRED_FROM):
             raise ValidationError(BaseType.MESSAGES["required"])

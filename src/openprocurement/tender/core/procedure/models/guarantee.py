@@ -1,9 +1,7 @@
 from schematics.exceptions import ValidationError
 from schematics.types import StringType, FloatType, BooleanType
-from openprocurement.api.utils import get_now
 from openprocurement.api.models import Model, DecimalType
-from openprocurement.tender.core.procedure.context import get_tender
-from openprocurement.tender.core.procedure.utils import get_first_revision_date
+from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.api.constants import (
     VALIDATE_CURRENCY_FROM,
     CURRENCIES,
@@ -15,8 +13,7 @@ class Guarantee(Model):
     currency = StringType(required=True, max_length=3, min_length=3)  # 3-letter ISO 4217 format.
 
     def validate_currency(self, data, value):
-        is_valid_date = get_first_revision_date(get_tender(), default=get_now()) >= VALIDATE_CURRENCY_FROM
-        if is_valid_date and value not in CURRENCIES:
+        if tender_created_after(VALIDATE_CURRENCY_FROM) and value not in CURRENCIES:
             raise ValidationError(f"Currency must be only {', '.join(CURRENCIES)}.")
 
 

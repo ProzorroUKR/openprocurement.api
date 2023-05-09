@@ -8,20 +8,19 @@ from schematics.types import StringType
 from openprocurement.tender.core.constants import BID_LOTVALUES_VALIDATION_FROM
 from openprocurement.tender.core.procedure.validation import validate_bid_value
 from openprocurement.tender.core.procedure.context import get_tender
-from openprocurement.tender.core.procedure.utils import get_first_revision_date
+from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.tender.core.procedure.models.base import ListType, BaseBid
 from openprocurement.tender.core.procedure.models.organization import PatchBusinessOrganization, PostBusinessOrganization
 from openprocurement.tender.core.procedure.models.parameter import Parameter, PatchParameter
 from openprocurement.tender.core.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
 from openprocurement.tender.core.procedure.models.document import PostDocument, Document
 from openprocurement.tender.core.models import validate_parameters_uniq, Administrator_bid_role
-from openprocurement.api.utils import get_now
 from openprocurement.api.constants import TWO_PHASE_COMMIT_FROM
 
 
 def get_default_bid_status(active_status="active"):
     def default_status():
-        if get_first_revision_date(get_tender(), default=get_now()) > TWO_PHASE_COMMIT_FROM:
+        if tender_created_after(TWO_PHASE_COMMIT_FROM):
             return "draft"
         return active_status
     return default_status
@@ -37,13 +36,12 @@ class PatchBid(BaseBid):
 # --- PATCH DATA
 
 
-def validate_lot_values(values):
+def validate_lot_values(lot_values):
     tender = get_tender()
-    if tender.get("lots") and not values:
+    if tender.get("lots") and not lot_values:
         raise ValidationError("This field is required.")
-    date = get_first_revision_date(tender, default=None)
-    if date and date > BID_LOTVALUES_VALIDATION_FROM and values:
-        lots = [i["relatedLot"] for i in values]
+    if tender_created_after(BID_LOTVALUES_VALIDATION_FROM) and lot_values:
+        lots = [i["relatedLot"] for i in lot_values]
         if len(lots) != len(set(lots)):
             raise ValidationError("bids don't allow duplicated proposals")
 

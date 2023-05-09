@@ -1,5 +1,5 @@
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
-from openprocurement.tender.core.procedure.utils import get_first_revision_date
+from openprocurement.tender.core.procedure.utils import tender_created_in
 from openprocurement.tender.core.procedure.context import (
     get_request,
     get_tender,
@@ -41,11 +41,11 @@ class AwardState(AwardStateMixing, OpenUADefenseTenderState):
 
     def award_status_up(self, before, after, award):
         assert before != after, "Statuses must be different"
+
+        new_defence_complaints = tender_created_in(NEW_DEFENSE_COMPLAINTS_FROM, NEW_DEFENSE_COMPLAINTS_TO)
+
         tender = get_tender()
         now = get_now().isoformat()
-
-        first_revision_date = get_first_revision_date(tender)
-        new_defence_complaints = NEW_DEFENSE_COMPLAINTS_FROM < first_revision_date < NEW_DEFENSE_COMPLAINTS_TO
 
         if before == "pending" and after == "active":
             end_date = calculate_complaint_business_date(get_now(), STAND_STILL_TIME, tender, True).isoformat()

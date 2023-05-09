@@ -1,7 +1,6 @@
 from typing import TYPE_CHECKING
 from logging import getLogger
 
-from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import context_unpack
 from openprocurement.tender.core.procedure.contracting import add_contracts
 from openprocurement.tender.core.procedure.context import (
@@ -11,7 +10,7 @@ from openprocurement.tender.core.procedure.context import (
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
-    get_first_revision_date,
+    tender_created_after_2020_rules,
 )
 from openprocurement.tender.core.utils import calc_auction_end_time
 
@@ -125,8 +124,7 @@ class ChronographEventsMixing(baseclass):
 
     # CHILD ITEMS EVENTS --
     def cancellation_events(self, tender):
-        # only for tenders from RELEASE_2020_04_19
-        if get_first_revision_date(tender, default=get_now()) >= RELEASE_2020_04_19:
+        if tender_created_after_2020_rules():
             # no need to check procedures that don't have cancellation complaints  #
             # if tender["procurementMethodType"] not in ("belowThreshold", "closeFrameworkAgreementSelectionUA"):
             for cancellation in tender.get("cancellations", ""):
@@ -139,8 +137,7 @@ class ChronographEventsMixing(baseclass):
                             yield complaint_period["endDate"], self.cancellation_compl_period_end_handler(cancellation)
 
     def complaint_events(self, tender):
-        # only for tenders from RELEASE_2020_04_19
-        if get_first_revision_date(tender, default=get_now()) >= RELEASE_2020_04_19:
+        if tender_created_after_2020_rules():
             # all the checks below only supposed to trigger complaint draft->mistaken switches
             # if any object contains a draft complaint, it's complaint end period is added to the checks
             # periods can be in the past, then the check expected to run once and immediately fix the complaint
