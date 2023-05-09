@@ -1982,7 +1982,8 @@ def patch_tender_by_pq_bot_before_multiprofile(self):
     self.assertNotIn("shortlistedFirms", tender)
 
 
-@mock.patch("openprocurement.tender.pricequotation.models.tender.PQ_MULTI_PROFILE_FROM", get_now() - timedelta(days=1))
+@mock.patch("openprocurement.tender.pricequotation.procedure.models.tender.PQ_MULTI_PROFILE_FROM",
+            get_now() - timedelta(days=1))
 def patch_tender_by_pq_bot_after_multiprofile(self):
     response = self.app.post_json("/tenders", {
         "data": deepcopy(test_tender_pq_data_after_multiprofile),

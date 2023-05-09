@@ -124,12 +124,6 @@ class TenderStage2UEResource(TendersResource):
             validate_input_data(conditional_eu_model, none_means_remove=True),
             unless_administrator(unless_cd_bridge(validate_cd2_allowed_patch_fields)),  # TODO make models only allow these fields
             validate_patch_data_simple(EUTender, item_name="tender"),
-            # validate_accreditation_level(
-            #     levels=(ACCR_COMPETITIVE, ACCR_4),
-            #     item="tender",
-            #     operation="update",
-            # ),
-
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
         ),
         permission="edit_tender",
@@ -191,11 +185,6 @@ class TenderStage2UAResource(TendersResource):
             validate_input_data(conditional_ua_model, none_means_remove=True),
             unless_administrator(unless_cd_bridge(validate_cd2_allowed_patch_fields)),  # TODO make models only allow these fields
             validate_patch_data_simple(UATender, item_name="tender"),
-            # validate_accreditation_level(
-            #     levels=(ACCR_COMPETITIVE, ACCR_4),
-            #     item="tender",
-            #     operation="update",
-            # ),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
         ),
         permission="edit_tender",

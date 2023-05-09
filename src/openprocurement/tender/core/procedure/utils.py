@@ -59,11 +59,6 @@ def dt_from_iso(string):
     return dt
 
 
-def get_first_revision_date(document, default=None):
-    revisions = document.get("revisions") if document else None
-    return datetime.fromisoformat(revisions[0]["date"]) if revisions else default
-
-
 def set_ownership(item, request):
     if not item.get("owner"):  # ???
         item["owner"] = request.authenticated_userid

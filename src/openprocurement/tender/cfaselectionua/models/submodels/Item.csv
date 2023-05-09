@@ -1,4 +1,0 @@
-rolename,relatedLot,relatedBuyer,description,classification,description_en,additionalClassifications,unit,deliveryAddress,deliveryDate,deliveryLocation,description_ru,id,__parent__,quantity
-default,1,1,1,1,1,1,1,1,1,1,1,1,,1
-embedded,1,1,1,1,1,1,1,1,1,1,1,1,,1
-edit_active.enquiries,,1,1,,1,,,1,1,,1,1,1,1

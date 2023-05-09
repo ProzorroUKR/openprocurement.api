@@ -5,7 +5,6 @@ from openprocurement.tender.core.procedure.context import (
 )
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.contracting import add_contracts
-from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.pricequotation.procedure.state.tender import PriceQuotationTenderState
 from openprocurement.api.utils import raise_operation_error
 

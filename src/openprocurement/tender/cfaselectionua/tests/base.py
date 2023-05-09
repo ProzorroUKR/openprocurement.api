@@ -8,17 +8,15 @@ from uuid import uuid4
 from openprocurement.api.constants import SANDBOX_MODE, TZ
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_config,
-)
 from openprocurement.tender.belowthreshold.tests.utils import (
     set_tender_criteria,
     set_tender_multi_buyers,
 )
-from openprocurement.tender.cfaselectionua.constants import BOT_NAME
-from openprocurement.tender.cfaselectionua.models.tender import CFASelectionUATender
+from openprocurement.tender.cfaselectionua.constants import (
+    BOT_NAME,
+    MINIMAL_STEP_PERCENTAGE,
+)
 from openprocurement.tender.core.tests.base import BaseCoreWebTest
-from openprocurement.tender.cfaselectionua.adapters.configurator import TenderCfaSelectionUAConfigurator
 from openprocurement.tender.cfaselectionua.tests.periods import PERIODS
 
 here = os.path.dirname(os.path.abspath(__file__))
@@ -126,7 +124,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
     meta_initial_lots = test_tender_cfaselectionua_lots
 
     periods = PERIODS
-    tender_class = CFASelectionUATender
 
     def get_timedelta(self, **kw):
         delta = timedelta(**kw)
@@ -189,7 +186,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
         self.tender_document["lots"][0]["value"] = max_value
         self.tender_document["lots"][0]["minimalStep"] = deepcopy(max_value)
         self.tender_document["lots"][0]["minimalStep"]["amount"] = (
-            max_value["amount"] * TenderCfaSelectionUAConfigurator.minimal_step_percentage
+            max_value["amount"] * MINIMAL_STEP_PERCENTAGE
         )
 
     def generate_awards(self, status, start_end="start"):

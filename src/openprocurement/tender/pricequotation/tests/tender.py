@@ -91,7 +91,7 @@ class TenderResourceTestMixin:
 
 @patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
        get_now() + timedelta(days=1))
-@patch("openprocurement.tender.pricequotation.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     docservice = True
     initial_data = test_tender_pq_data
@@ -123,7 +123,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 
 @patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
        get_now() - timedelta(days=1))
-@patch("openprocurement.tender.pricequotation.models.requirement.PQ_CRITERIA_ID_FROM", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM", get_now() - timedelta(days=1))
 class MD5UidTenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     docservice = True
     initial_data = test_tender_pq_data
@@ -135,7 +135,6 @@ class MD5UidTenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 
 @patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
        get_now() + timedelta(days=1))
-@patch("openprocurement.tender.pricequotation.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
 class TenderProcessTest(TenderContentWebTest):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))

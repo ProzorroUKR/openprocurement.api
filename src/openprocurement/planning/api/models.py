@@ -38,7 +38,7 @@ from schematics.types.compound import ModelType, DictType
 from schematics.types.serializable import serializable
 from zope.interface import implementer
 
-from openprocurement.tender.pricequotation.validation import validate_profile_pattern
+from openprocurement.tender.pricequotation.procedure.validation import validate_profile_pattern
 
 PROCURING_ENTITY_KINDS = ("authority", "central", "defense", "general", "other", "social", "special")
 

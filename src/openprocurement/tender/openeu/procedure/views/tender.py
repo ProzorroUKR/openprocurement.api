@@ -68,14 +68,7 @@ class AboveThresholdEUTenderResource(TendersResource):
             ),
             validate_input_data(PatchTender, none_means_remove=True),
             validate_patch_data_simple(Tender, item_name="tender"),
-            # validate_accreditation_level(
-            #     levels=(ACCR_4,),
-            #     item="tender",
-            #     operation="update",
-            # ),
-
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
-
             validate_item_quantity,
             validate_tender_guarantee,
         ),

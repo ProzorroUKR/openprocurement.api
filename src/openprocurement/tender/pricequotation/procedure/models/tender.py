@@ -24,7 +24,7 @@ from openprocurement.tender.pricequotation.procedure.models.requirement import v
 from openprocurement.tender.pricequotation.procedure.models.item import TenderItem
 from openprocurement.tender.pricequotation.procedure.models.organization import ProcuringEntity
 from openprocurement.tender.pricequotation.constants import PQ, TENDERING_DURATION
-from openprocurement.tender.pricequotation.validation import validate_profile_pattern
+from openprocurement.tender.pricequotation.procedure.validation import validate_profile_pattern
 from openprocurement.tender.openua.validation import _validate_tender_period_start_date
 from openprocurement.api.models import ModelType, Model, IsoDateTimeType, Value
 from openprocurement.api.validation import validate_items_uniq

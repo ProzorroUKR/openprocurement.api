@@ -36,7 +36,7 @@ multi_item_tender_data = deepcopy(test_tender_pq_data)
 multi_item_tender_data["items"] *= 3
 
 
-@patch("openprocurement.tender.pricequotation.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
 class TenderContractResourceTest(TenderContentWebTest,
                                  TenderContractResourceTestMixin):
     initial_status = "active.awarded"
@@ -70,7 +70,7 @@ class TenderContractResourceTest(TenderContentWebTest,
     test_patch_contract_multi_items_unit_value = snitch(patch_contract_multi_items_unit_value)
 
 
-@patch("openprocurement.tender.pricequotation.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
 class TenderContractVATNotIncludedResourceTest(TenderContentWebTest,
                                                TenderContractResourceTestMixin):
     initial_status = "active.awarded"
@@ -85,7 +85,7 @@ class TenderContractVATNotIncludedResourceTest(TenderContentWebTest,
     )
 
 
-@patch("openprocurement.tender.pricequotation.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
 class TenderContractDocumentResourceTest(TenderContentWebTest,
                                          TenderContractDocumentResourceTestMixin):
     initial_status = "active.awarded"
@@ -96,7 +96,7 @@ class TenderContractDocumentResourceTest(TenderContentWebTest,
         super(TenderContractDocumentResourceTest, self).setUp()
 
 
-@patch("openprocurement.tender.pricequotation.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
 class TenderContractMultiBuyersResourceTest(TenderContentWebTest):
     initial_data = test_tender_pq_multi_buyers_data
     initial_status = "active.qualification"

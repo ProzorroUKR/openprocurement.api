@@ -162,10 +162,12 @@ class BaseCoreWebTest(BaseWebTest):
                 self.tender_document_patch.update({"lots": lots})
 
     def calculate_period_date(self, date, period, startend, status):
-        tender = self.tender_class(self.tender_document)
         period_date_item = self.periods[status][startend][period][date]
         return calculate_tender_date(
-            self.now, period_date_item, tender=tender, working_days=False
+            self.now,
+            period_date_item,
+            tender=self.tender_document,
+            working_days=False,
         )
 
     def time_shift(self, status, extra=None, startend="start", shift=None):

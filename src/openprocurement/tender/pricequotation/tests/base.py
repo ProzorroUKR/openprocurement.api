@@ -9,7 +9,6 @@ from openprocurement.api.constants import TZ
 from openprocurement.api.context import set_now
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.belowthreshold.utils import prepare_tender_item_for_contract
-from openprocurement.tender.pricequotation.models import PriceQuotationTender
 from openprocurement.tender.pricequotation.tests.data import *
 from openprocurement.framework.electroniccatalogue.models import Agreement
 
@@ -50,7 +49,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
     )  # status, in which adding document to tender auction is forbidden
     periods = PERIODS
     meta_initial_bids = test_tender_pq_bids
-    tender_class = PriceQuotationTender
 
     def setUp(self):
         super(BaseTenderWebTest, self).setUp()

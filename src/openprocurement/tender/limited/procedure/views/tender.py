@@ -71,11 +71,6 @@ class ReportingTenderResource(TendersResource):
             ),
             validate_input_data(PatchReportingTender, none_means_remove=True),
             validate_patch_data_simple(ReportingTender, item_name="tender"),
-            # validate_accreditation_level(
-            #     levels=(ACCR_2,),
-            #     item="tender",
-            #     operation="update",
-            # ),
         ),
         permission="edit_tender",
     )
@@ -124,11 +119,6 @@ class NegotiationTenderResource(TendersResource):
             ),
             validate_input_data(PatchNegotiationTender, none_means_remove=True),
             validate_patch_data_simple(NegotiationTender, item_name="tender"),
-            # validate_accreditation_level(
-            #     levels=(ACCR_4,),
-            #     item="tender",
-            #     operation="update",
-            # ),
         ),
         permission="edit_tender",
     )
@@ -177,11 +167,6 @@ class NegotiationQuickTenderResource(TendersResource):
             ),
             validate_input_data(PatchNegotiationQuickTender, none_means_remove=True),
             validate_patch_data_simple(NegotiationQuickTender, item_name="tender"),
-            # validate_accreditation_level(
-            #     levels=(ACCR_4,),
-            #     item="tender",
-            #     operation="update",
-            # ),
         ),
         permission="edit_tender",
     )
