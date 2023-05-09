@@ -14,7 +14,6 @@ def includeme(config):
     config.add_tender_procurementMethodType(Tender)
     config.scan("openprocurement.tender.open.views")
     config.scan("openprocurement.tender.open.procedure.views")
-    config.scan("openprocurement.tender.open.subscribers")
     config.registry.registerAdapter(
         TenderAboveThresholdConfigurator, (IAboveThresholdTender, IRequest), IContentConfigurator
     )
