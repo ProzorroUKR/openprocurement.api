@@ -4,7 +4,7 @@ from openprocurement.api.context import get_now
 from openprocurement.api.constants import PQ_MULTI_PROFILE_FROM, MULTI_CONTRACTS_REQUIRED_FROM
 from openprocurement.api.validation import ValidationError
 from openprocurement.api.utils import get_first_revision_date
-from openprocurement.tender.pricequotation.validation import validate_profile_pattern
+from openprocurement.tender.pricequotation.procedure.validation import validate_profile_pattern
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.models.unit import Unit
 from openprocurement.tender.core.procedure.models.item import (

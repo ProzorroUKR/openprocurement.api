@@ -4,7 +4,7 @@ from schematics.exceptions import ValidationError
 from openprocurement.api.models import ListType, Model
 from openprocurement.api.utils import get_now, get_first_revision_date
 from openprocurement.tender.pricequotation.procedure.models.requirement import Requirement, ValidateIdMixing
-from openprocurement.tender.pricequotation.validation import validate_requirement_groups
+from openprocurement.tender.pricequotation.procedure.validation import validate_requirement_groups
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.api.constants import PQ_MULTI_PROFILE_FROM
 

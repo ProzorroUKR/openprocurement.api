@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
+from openprocurement.api.auth import ACCR_2
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.validation import (
     validate_bid_operation_period,
     validate_bid_operation_not_in_tendering,
+    validate_accreditation_level,
 )
 from openprocurement.tender.core.procedure.views.bid import TenderBidResource
 from openprocurement.tender.core.procedure.models.bid import filter_administrator_bid_update
 from openprocurement.tender.belowthreshold.procedure.models.bid import PostBid, PatchBid, Bid
 from openprocurement.tender.core.procedure.validation import (
     unless_administrator,
-    validate_bid_accreditation_level,
     validate_item_owner,
     validate_input_data,
     validate_patch_data,
@@ -34,7 +35,11 @@ class TenderBidResource(TenderBidResource):
         content_type="application/json",
         permission="create_bid",
         validators=(
-            validate_bid_accreditation_level,
+            validate_accreditation_level(
+                levels=(ACCR_2,),
+                item="bid",
+                operation="creation",
+            ),
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,
             validate_input_data(PostBid),

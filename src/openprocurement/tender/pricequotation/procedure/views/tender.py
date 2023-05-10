@@ -84,11 +84,6 @@ class PriceQuotationTenderResource(TendersResource):
             ),
             validate_input_data(conditional_model, none_means_remove=True),
             validate_patch_data_simple(Tender, item_name="tender"),
-            # validate_accreditation_level(
-            #     levels=(ACCR_2,),
-            #     item="tender",
-            #     operation="update",
-            # ),
             validate_tender_criteria_existence,
             validate_item_quantity,
             validate_tender_guarantee,

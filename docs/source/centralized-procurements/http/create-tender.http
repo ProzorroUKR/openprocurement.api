@@ -416,8 +416,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d1b73c4e72e244f1
       "endDate": "2023-01-28T00:00:00+02:00"
     },
     "owner": "broker",
-    "date": "2023-01-01T00:00:15+02:00",
     "submissionMethod": "electronicAuction",
+    "date": "2023-01-01T00:00:15+02:00",
     "enquiryPeriod": {
       "startDate": "2023-01-01T00:00:15+02:00",
       "endDate": "2023-01-22T00:00:00+02:00",

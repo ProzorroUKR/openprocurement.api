@@ -98,8 +98,8 @@ Content-Type: application/json
     ],
     "tenderID": "UA-2023-01-01-000001-a",
     "owner": "broker",
-    "date": "2023-01-01T00:00:00+02:00",
     "submissionMethod": "electronicAuction",
+    "date": "2023-01-01T00:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "id": "bf399bcd03af45efa76f2d266f03ccf6"

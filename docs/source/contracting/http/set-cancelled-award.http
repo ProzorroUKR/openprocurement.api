@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/3e0dfd2adc2d453f81b040ab4669c62c/awards/6049531c206a47da820852fe03d9726b?acc_token=076fb5f8143749b4b6872a24b8af4176 HTTP/1.0
+PATCH /api/2.5/tenders/3e0dfd2adc2d453f81b040ab4669c62c/awards/f1fd258d422149ab94c399824028b762?acc_token=076fb5f8143749b4b6872a24b8af4176 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 33
 Content-Type: application/json
@@ -13,11 +13,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 200 OK
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3e0dfd2adc2d453f81b040ab4669c62c/awards/64f264060cb74d938961909a7609f6a3
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3e0dfd2adc2d453f81b040ab4669c62c/awards/dc8090528e40489f93a89f513fcc8049
 
 {
   "data": {
-    "id": "6049531c206a47da820852fe03d9726b",
+    "id": "f1fd258d422149ab94c399824028b762",
     "status": "cancelled",
     "date": "2023-01-01T00:00:01+02:00",
     "value": {

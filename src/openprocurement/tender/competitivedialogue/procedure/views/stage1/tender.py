@@ -106,14 +106,7 @@ class CDEUTenderResource(TendersResource):
             ),
             validate_input_data(conditional_eu_model, none_means_remove=True),
             validate_patch_data_simple(EUTender, item_name="tender"),
-            # validate_accreditation_level(
-            #     levels=(ACCR_4,),
-            #     item="tender",
-            #     operation="update",
-            # ),
-
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
-
             validate_item_quantity,
             validate_tender_guarantee,
         ),
@@ -181,14 +174,7 @@ class CDUATenderResource(TendersResource):
             ),
             validate_input_data(conditional_ua_model, none_means_remove=True),
             validate_patch_data_simple(UATender, item_name="tender"),
-            # validate_accreditation_level(
-            #     levels=(ACCR_4,),
-            #     item="tender",
-            #     operation="update",
-            # ),
-
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
-
             validate_item_quantity,
             validate_tender_guarantee,
         ),

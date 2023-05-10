@@ -5,11 +5,13 @@ from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.procedure.models.award import Award
 from openprocurement.tender.pricequotation.constants import QUALIFICATION_DURATION
-from openprocurement.tender.pricequotation.models.tender import Contract
+from openprocurement.tender.pricequotation.procedure.models.contract import Contract
 
 
 class PriceQuotationTenderState(TenderState):
     contract_model = Contract
+    award_class = Award
+    generate_award_milestones = False
 
     def get_events(self, tender):
         status = tender["status"]
@@ -90,7 +92,7 @@ class PriceQuotationTenderState(TenderState):
             ], key=lambda bid: bid["value"]["amount"])
             if bids:
                 bid = bids[0]
-                award = Award(
+                award = self.award_class(
                     {
                         "bid_id": bid["id"],
                         "status": "pending",

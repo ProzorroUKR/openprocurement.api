@@ -3,7 +3,6 @@ from iso8601 import parse_date
 from pyramid.request import Request
 
 from openprocurement.api.constants import (
-    RELEASE_2020_04_19,
     CRITERION_REQUIREMENT_STATUSES_FROM,
     RELEASE_GUARANTEE_CRITERION_FROM,
     GUARANTEE_ALLOWED_TENDER_TYPES,
@@ -28,9 +27,11 @@ from openprocurement.tender.core.procedure.utils import (
     is_item_owner,
     apply_data_patch,
     delete_nones,
-    get_first_revision_date,
     get_contracts_values_related_to_patched_contract,
     find_item_by_id,
+    tender_created_before,
+    tender_created_after_2020_rules,
+    tender_created_after,
 )
 from openprocurement.tender.core.utils import calculate_tender_business_date, find_lot
 from openprocurement.tender.core.procedure.documents import check_document_batch, check_document, update_document_url
@@ -791,18 +792,17 @@ def validate_update_award_only_for_active_lots(request, **_):
 
 
 def validate_award_with_lot_cancellation_in_pending(request, **_):
+    if not tender_created_after_2020_rules():
+        return
+
     if request.authenticated_role != "tender_owner":
         return
 
-    tender = get_tender()
     lot_id = request.validated["award"].get("lotID")
     if not lot_id:
         return
 
-    tender_created = get_first_revision_date(tender, default=get_now())
-    if tender_created < RELEASE_2020_04_19:
-        return
-
+    tender = get_tender()
     accept_lot = all(
         any(
             complaint.get("status") == "resolved"
@@ -917,9 +917,8 @@ def validate_item_quantity(request, **_):
     items = request.validated["data"].get("items", [])
     for item in items:
         if item.get("quantity") is not None and not item["quantity"]:
-            tender = get_tender()
-            tender_creation_date = get_first_revision_date(tender, default=get_now())
-            if tender_creation_date >= CRITERION_REQUIREMENT_STATUSES_FROM:
+            if tender_created_after(CRITERION_REQUIREMENT_STATUSES_FROM):
+                tender = get_tender()
                 related_criteria = any(
                     criterion.get("relatedItem") == item['id'] and requirement.get("status") == "active"
                     for criterion in tender.get("criteria", "")
@@ -934,16 +933,20 @@ def validate_item_quantity(request, **_):
 
 
 def validate_tender_guarantee(request, **_):
+    if tender_created_before(RELEASE_GUARANTEE_CRITERION_FROM):
+        return
+
     tender = request.validated["tender"]
     data = request.validated["data"]
+    new_status = data.get("status")
+    if tender["status"] == new_status:
+        return
+
+    if new_status not in ("active", "active.tendering"):
+        return
+
     tender_type = tender["procurementMethodType"]
-    tender_created = get_first_revision_date(tender, default=get_now())
-    if (
-        tender_created < RELEASE_GUARANTEE_CRITERION_FROM
-        or tender_type not in GUARANTEE_ALLOWED_TENDER_TYPES
-        or tender["status"] == data.get("status")
-        or data.get("status") not in ("active", "active.tendering")
-    ):
+    if tender_type not in GUARANTEE_ALLOWED_TENDER_TYPES:
         return
 
     if tender.get("lots"):
@@ -982,16 +985,18 @@ def validate_tender_guarantee(request, **_):
 
 
 def validate_tender_change_status_with_cancellation_lot_pending(request, **_):
+    if not tender_created_after_2020_rules():
+        return
+
     tender = request.validated["tender"]
-    tender_created = get_first_revision_date(tender, default=get_now())
+
+    if not tender.get("lots"):
+        return
+
     data = request.validated["data"]
     new_status = data.get("status", tender["status"])
 
-    if (
-        tender_created < RELEASE_2020_04_19
-        or not tender.get("lots")
-        or tender["status"] == new_status
-    ):
+    if tender["status"] == new_status:
         return
 
     accept_lot = all(
@@ -1083,14 +1088,16 @@ def get_qualification_document_role(request):
 
 
 def validate_qualification_update_with_cancellation_lot_pending(request, **kwargs):
-    tender = request.validated["tender"]
-    tender_created = get_first_revision_date(tender, default=get_now())
+    if not tender_created_after_2020_rules():
+        return
+
     qualification = request.validated["qualification"]
     lot_id = qualification.get("lotID")
 
-    if tender_created < RELEASE_2020_04_19 or not lot_id:
+    if not lot_id:
         return
 
+    tender = request.validated["tender"]
     accept_lot = all([
         any([j["status"] == "resolved" for j in i["complaints"]])
         for i in tender.get("cancellations", [])
@@ -1363,6 +1370,9 @@ def validate_tender_period_extension(request: Request, **_) -> None:
 
 def validate_operation_with_lot_cancellation_in_pending(type_name: str) -> callable:
     def validation(request: Request, **_) -> None:
+        if not tender_created_after_2020_rules():
+            return
+
         fields_names = {
             "lot": "id",
             "award": "lotID",
@@ -1372,13 +1382,12 @@ def validate_operation_with_lot_cancellation_in_pending(type_name: str) -> calla
         }
 
         tender = request.validated["tender"]
-        tender_created = get_first_revision_date(tender, default=get_now())
 
         field = fields_names.get(type_name)
         o = request.validated.get(type_name)
         lot_id = getattr(o, field, None)
 
-        if tender_created < RELEASE_2020_04_19 or not lot_id:
+        if not lot_id:
             return
 
         msg = "Can't {} {} with lot that have active cancellation"
@@ -1396,7 +1405,8 @@ def validate_operation_with_lot_cancellation_in_pending(type_name: str) -> calla
             and (
                 any([
                     i for i in tender.get("cancellations", [])
-                    if i["relatedLot"] and i["status"] == "pending" and i["relatedLot"] == lot_id])
+                    if i["relatedLot"] and i["status"] == "pending" and i["relatedLot"] == lot_id
+                ])
                 or not accept_lot
             )
         ):
@@ -1408,10 +1418,9 @@ def validate_operation_with_lot_cancellation_in_pending(type_name: str) -> calla
 
 
 def _validate_related_criterion(request: Request, relatedItem_id: str, action="cancel", relatedItem="lot") -> None:
-    tender = request.validated["tender"]
-    tender_creation_date = get_first_revision_date(tender, default=get_now())
-    if tender_creation_date < CRITERION_REQUIREMENT_STATUSES_FROM:
+    if tender_created_before(CRITERION_REQUIREMENT_STATUSES_FROM):
         return
+    tender = request.validated["tender"]
     if tender.get("criteria"):
         related_criteria = [
             criterion

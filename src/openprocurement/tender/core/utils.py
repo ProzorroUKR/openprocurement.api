@@ -224,7 +224,8 @@ def extract_tender_doc(request):
             request.errors.status = 404
             raise error_handler(request)
 
-        mask_object_data(request, doc)  # war time measures
+        # wartime measures
+        mask_object_data(request, doc)
 
         return doc
 

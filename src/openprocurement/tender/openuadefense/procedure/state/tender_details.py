@@ -14,8 +14,8 @@ class DefenseTenderDetailsState(TenderDetailsState):
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
     period_working_day = True
 
-    @staticmethod
-    def validate_tender_exclusion_criteria(before, after):
+    @classmethod
+    def validate_tender_exclusion_criteria(cls, before, after):
         pass
 
     @staticmethod

@@ -1,26 +1,22 @@
+from typing import TYPE_CHECKING
+
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.context import get_tender, get_request
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.utils import since_2020_rules
+from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 from datetime import timedelta
 
 
-class CancellationStateMixing:
-    # from BaseState
-    set_object_status: callable
+if TYPE_CHECKING:
+    baseclass = TenderState
+else:
+    baseclass = object
 
-    # from base tender state
-    always: callable
-    terminated_statuses: tuple
-    count_lot_bids_number: callable
-    min_bids_number: callable
 
-    # from awarding mixing
-    add_next_award: callable
-
+class CancellationStateMixing(baseclass):
     # additionally to terminated
     cancellation_forbidden_statuses = {"active.auction", "active.qualification.stand-still", "draft"}
 
@@ -35,7 +31,7 @@ class CancellationStateMixing:
         request, tender = get_request(), get_tender()
         self.validate_cancellation_in_allowed_tender_status(request, tender, data)
         self.validate_cancellation_of_active_lot(request, tender, data)
-        if since_2020_rules():
+        if tender_created_after_2020_rules():
             self.validate_pending_cancellation_present(request, tender, data)
             self.validate_cancellation_in_complaint_period(request, tender, data)
             self.validate_absence_of_pending_accepted_satisfied_complaints(request, tender, data)
@@ -48,7 +44,7 @@ class CancellationStateMixing:
         self.validate_cancellation_in_allowed_tender_status(request, tender, before)
         self.validate_cancellation_of_active_lot(request, tender, before)
         self.validate_cancellation_status_draft_pending(request, tender, before)
-        if since_2020_rules():
+        if tender_created_after_2020_rules():
             self.validate_pending_cancellation_present(request, tender, before)
             self.validate_cancellation_in_complaint_period(request, tender, before)
             # CS-12838
@@ -72,7 +68,7 @@ class CancellationStateMixing:
 
     def validate_possible_reason_types(self, request, tender, cancellation):
         reason_type = cancellation.get("reasonType")
-        if since_2020_rules():
+        if tender_created_after_2020_rules():
             choices = self._after_release_reason_types
             if not reason_type:
                 raise raise_operation_error(request, ["This field is required"], status=422, name="reasonType")
@@ -94,7 +90,7 @@ class CancellationStateMixing:
     def validate_cancellation_possible_statuses(self, request, tender, cancellation):
         choices = (
             self._after_release_statuses
-            if since_2020_rules()
+            if tender_created_after_2020_rules()
             else self._before_release_statuses
         )
         status = cancellation.get("status")
@@ -211,7 +207,7 @@ class CancellationStateMixing:
         elif before == "pending" and after == "unsuccessful" \
                 and any(i["status"] == "satisfied" for i in cancellation.get("complaints", "")):
             pass
-        elif after == "active" and not since_2020_rules():
+        elif after == "active" and not tender_created_after_2020_rules():
             self.cancel_tender_lot(cancellation)
         else:
             raise_operation_error(request, f"Can't switch cancellation status from {before} to {after}")
@@ -219,7 +215,7 @@ class CancellationStateMixing:
     # START Cancelling
     def cancel_tender_lot(self, cancellation):
         request, tender = get_request(), get_tender()
-        if since_2020_rules():  # TODO: does it make sense to do validation here?
+        if tender_created_after_2020_rules():  # TODO: does it make sense to do validation here?
             self.validate_absence_of_pending_accepted_satisfied_complaints(request, tender, cancellation)
         if cancellation["cancellationOf"] == "lot":
             self.cancel_lot(tender, cancellation)

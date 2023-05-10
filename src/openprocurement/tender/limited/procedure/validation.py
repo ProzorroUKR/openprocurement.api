@@ -1,10 +1,8 @@
-from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.utils import get_first_revision_date
+from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 from openprocurement.tender.core.procedure.validation import (
     validate_item_operation_in_disallowed_tender_statuses,
 )
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.validation import OPERATIONS
 
 
@@ -29,11 +27,10 @@ def validate_create_new_award(request, **kwargs):
 
 
 def validate_lot_cancellation(request, **kwargs):
-    tender = request.validated["tender"]
-    new_rules = get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19
-    if new_rules:
+    if tender_created_after_2020_rules():
         return
 
+    tender = request.validated["tender"]
     award = request.validated.get("award", request.validated["data"])
     lot_id = award.get("lotID")
     if (

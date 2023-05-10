@@ -1,12 +1,14 @@
 from decimal import Decimal
 from logging import getLogger
-from typing import Optional
+from typing import (
+    Optional,
+    TYPE_CHECKING,
+)
 
 from barbecue import calculate_coeficient
 
 from openprocurement.api.context import get_now
 from openprocurement.api.constants import (
-    RELEASE_2020_04_19,
     TENDER_WEIGHTED_VALUE_PRE_CALCULATION,
 )
 from openprocurement.tender.core.procedure.models.award import Award
@@ -16,8 +18,8 @@ from openprocurement.tender.core.procedure.context import (
     get_bids_before_auction_results_context,
 )
 from openprocurement.tender.core.procedure.utils import (
-    get_first_revision_date,
     filter_features,
+    tender_created_after_2020_rules,
 )
 from openprocurement.tender.core.constants import (
     ALP_MILESTONE_REASONS,
@@ -27,20 +29,49 @@ from openprocurement.tender.core.constants import (
 LOGGER = getLogger(__name__)
 
 
-class TenderStateAwardingMixing:
+if TYPE_CHECKING:
+    from openprocurement.tender.core.procedure.state.tender import (
+        BaseShouldStartAfterMixing,
+        ChronographEventsMixing,
+        BaseState,
+    )
+    class baseclass(
+        BaseShouldStartAfterMixing,
+        ChronographEventsMixing,
+        BaseState
+    ):
+        pass
+else:
+    baseclass = object
+
+
+
+class TenderStateAwardingMixing(baseclass):
     award_class = Award
-    get_change_tender_status_handler: callable
-    set_object_status: callable
+
+    # Bids are sorted by this key on awarding stage
+    # Most procedures use "amount" key
+    # esco procedure uses "amountPerformance" key
     awarding_criteria_key: str = "amount"
+
+    # Default configuration for awarding is reversed (from lower to higher)
+    # When False, awards are generated from lower to higher by awarding_criteria_key
+    # When True, awards are generated from higher to lower by awarding_criteria_key
+    # esco procedure uses True
     reverse_awarding_criteria: bool = False
+
+    # Pre-calculate weighted values for bids in the end of tendering period
+    tender_weighted_value_pre_calculation: bool = TENDER_WEIGHTED_VALUE_PRE_CALCULATION
+
+    # Generate award milestones
+    generate_award_milestones: bool = True
 
     def add_next_award(self):
         tender = get_tender()
-        now = get_now()
 
         tender["awardPeriod"] = award_period = tender.get("awardPeriod", {})
         if "startDate" not in award_period:
-            award_period["startDate"] = now.isoformat()
+            award_period["startDate"] = get_now().isoformat()
 
         lots = tender.get("lots")
         if lots:
@@ -58,7 +89,7 @@ class TenderStateAwardingMixing:
                 if all_bids:
                     bids = self.exclude_unsuccessful_awarded_bids(tender, all_bids, lot_id=lot["id"])
                     if bids:
-                        self.tender_append_award(tender, self.award_class, bids[0], all_bids, lot_id=lot["id"])
+                        self.tender_append_award(tender, bids[0], all_bids, lot_id=lot["id"])
                         request = get_request()
                         request.response.headers["Location"] = request.route_url(
                             "{}:Tender Awards".format(tender["procurementMethodType"]),
@@ -78,7 +109,7 @@ class TenderStateAwardingMixing:
                     self.get_change_tender_status_handler("active.qualification")(tender)
             else:
                 if tender["status"] != "active.awarded":
-                    tender["awardPeriod"]["endDate"] = now.isoformat()
+                    tender["awardPeriod"]["endDate"] = get_now().isoformat()
                     self.get_change_tender_status_handler("active.awarded")(tender)
         else:
             awards = tender.get("awards")
@@ -86,7 +117,7 @@ class TenderStateAwardingMixing:
                 all_bids = self.prepare_bids_for_awarding(tender, tender.get("bids", []), lot_id=None)
                 bids = self.exclude_unsuccessful_awarded_bids(tender, all_bids, lot_id=None)
                 if bids:
-                    self.tender_append_award(tender, self.award_class, bids[0], all_bids)
+                    self.tender_append_award(tender, bids[0], all_bids)
                     request = get_request()
                     request.response.headers["Location"] = request.route_url(
                         "{}:Tender Awards".format(tender["procurementMethodType"]),
@@ -99,7 +130,7 @@ class TenderStateAwardingMixing:
                     self.get_change_tender_status_handler("active.qualification")(tender)
             else:
                 if tender["status"] != "active.awarded":
-                    tender["awardPeriod"]["endDate"] = now.isoformat()
+                    tender["awardPeriod"]["endDate"] = get_now().isoformat()
                     self.get_change_tender_status_handler("active.awarded")(tender)
 
     def sort_bids(self, tender, bids):
@@ -114,21 +145,12 @@ class TenderStateAwardingMixing:
 
         return sorted(bids, key=awarding_criteria_func)
 
-    def prepare_bids_for_awarding(
-        self,
-        tender,
-        bids,
-        lot_id=None,
-    ):
+    def prepare_bids_for_awarding(self, tender, bids, lot_id=None):
         """
         Used by add_next_award method
         :param tender:
         :param bids
         :param lot_id:
-        :param reverse_awarding_criteria: Param to configure award criteria
-            Default configuration for awarding is reversed (from lower to higher)
-            When False, awards are generated from lower to higher by value.amount
-            When True, awards are generated from higher to lower by value.amount
         :return: list of bid dict objects sorted in a way they will be selected as winners
         """
         active_bids = []
@@ -203,19 +225,14 @@ class TenderStateAwardingMixing:
         :return:
         """
         milestones = []
-        skip_method_types = (
-            "belowThreshold",
-            "priceQuotation",
-            "esco",
-            "aboveThresholdUA.defense",
-            "simple.defense"
-        )
 
-        if (
-            tender.get("procurementMethodType", "") in skip_method_types
-            or get_first_revision_date(tender, default=get_now()) < RELEASE_2020_04_19
-        ):
-            return milestones   # skipping
+        if not self.generate_award_milestones:
+            # skipping if disabled for the procedure
+            return milestones
+
+        if not tender_created_after_2020_rules():
+            # skipping for old tenders
+            return milestones
 
         def ratio_of_two_values(v1, v2):
             return 1 - Decimal(v1) / Decimal(v2)
@@ -223,6 +240,7 @@ class TenderStateAwardingMixing:
         if len(all_bids) > 1:
             reasons = []
             amount = bid["value"]["amount"]
+
             #  1st criteria
             mean_value = self.get_mean_value_tendering_bids(
                 tender, all_bids, lot_id=lot_id, exclude_bid_id=bid["id"],
@@ -236,7 +254,9 @@ class TenderStateAwardingMixing:
                     index = n
                     break
             else:
-                raise AssertionError("Selected bid not in the full list")  # should never happen
+                # should never happen
+                raise AssertionError("Selected bid not in the full list")
+
             following_index = index + 1
             if following_index < len(all_bids):  # selected bid has the following one
                 following_bid = all_bids[following_index]
@@ -252,28 +272,28 @@ class TenderStateAwardingMixing:
                 )
         return milestones
 
-    def tender_append_award(self, tender, award_class, bid, all_bids, lot_id=None):
+    def tender_append_award(self, tender,  bid, all_bids, lot_id=None):
         """
         Replacement for Tender.append_award method
-        :param award_class:
+        :param tender:
         :param bid:
         :param all_bids:
         :param lot_id:
         :return:
         """
-        now = get_now()
         award_data = {
             "bid_id": bid["id"],
             "lotID": lot_id,
             "status": "pending",
-            "date": now,
+            "date": get_now(),
             "value": bid["value"],
             "suppliers": bid["tenderers"],
         }
         if "weightedValue" in bid:
             award_data["weightedValue"] = bid["weightedValue"]
+
         # append an "alp" milestone if it's the case
-        if hasattr(award_class, "milestones"):
+        if hasattr(self.award_class, "milestones"):
             milestones = self.prepare_award_milestones(tender, bid, all_bids, lot_id)
             if milestones:
                 award_data["milestones"] = milestones
@@ -281,11 +301,11 @@ class TenderStateAwardingMixing:
         if "awards" not in tender:
             tender["awards"] = []
 
-        award = award_class(award_data)
+        award = self.award_class(award_data)
         tender["awards"].append(award.serialize())
 
     def calc_bids_weighted_values(self, tender):
-        if not TENDER_WEIGHTED_VALUE_PRE_CALCULATION:
+        if not self.tender_weighted_value_pre_calculation:
             return
 
         bids = tender.get("bids", "")
@@ -304,18 +324,8 @@ class TenderStateAwardingMixing:
 
     @classmethod
     def calc_weighted_value(
-        cls,
-        tender: dict,
-        bid: dict,
-        value_container: dict,
-        lot_id: str = None,
+        cls, tender: dict, bid: dict, value_container: dict, lot_id: str = None
     ) -> Optional[dict]:
-        features = tender.get("features", "")
-        items = tender.get("items", "")
-        criteria = tender.get("criteria", "")
-        parameters = bid.get("parameters", "")
-        responses = bid.get("requirementResponses", "")
-
         value = value_container.get("value", {})
 
         if not value:
@@ -323,11 +333,11 @@ class TenderStateAwardingMixing:
             # doesn't have value in bid or in lotValues
             return None
 
-        value_amount = float(value.get(cls.awarding_criteria_key))
-
         weighted_value = {}
 
-        denominator = cls.calc_denominator(parameters, features, items, lot_id)
+        value_amount = float(value.get(cls.awarding_criteria_key))
+
+        denominator = cls.calc_denominator(tender, bid, lot_id)
         if denominator is not None:
             if cls.reverse_awarding_criteria:
                 value_amount = value_amount * denominator
@@ -335,7 +345,7 @@ class TenderStateAwardingMixing:
                 value_amount = value_amount / denominator
             weighted_value["denominator"] = denominator
 
-        addition = cls.calc_addition(criteria, responses, lot_id)
+        addition = cls.calc_addition(tender, bid, lot_id)
         if addition is not None:
             if cls.reverse_awarding_criteria:
                 value_amount = value_amount - addition
@@ -351,18 +361,13 @@ class TenderStateAwardingMixing:
         return None
 
     @staticmethod
-    def calc_addition(
-        criteria: list,
-        responses: list,
-        lot_id: str = None,
-    ) -> Optional[float]:
+    def calc_addition(tender: dict, bid: dict, lot_id: str = None) -> Optional[float]:
         """
         Calculates addition for weighted value for: LCC
-        :param criteria:
-        :param responses:
-        :param lot_id:
-        :return:
         """
+        criteria = tender.get("criteria", [])
+        responses = bid.get("requirementResponses", [])
+
         if not criteria:
             # nothing to do here
             return None
@@ -387,9 +392,7 @@ class TenderStateAwardingMixing:
             filtered_criteria = lcc_criteria
 
         if not filtered_criteria:
-            # no lcc features
-            # either in tender for non-lot tenders
-            # or in lot for lot tenders
+            # no lcc features for lot
             return None
 
         filtered_responses = []
@@ -404,23 +407,16 @@ class TenderStateAwardingMixing:
         return addition
 
     @classmethod
-    def calc_denominator(
-        cls,
-        parameters: list,
-        features: list = "",
-        items: list = "",
-        lot_id: str = None,
-    ) -> Optional[float]:
+    def calc_denominator(cls, tender: dict, bid: dict, lot_id: str = None) -> Optional[float]:
         """
         Calculates denominator for weighted value for: features
-        :param parameters:
-        :param features:
-        :param items:
-        :param lot_id:
-        :return:
         """
+        features = tender.get("features", [])
+        items = tender.get("items", [])
+        parameters = bid.get("parameters", [])
+
         if not features:
-            # nothing to do here
+            # no features at all
             return None
 
         if lot_id:
@@ -429,9 +425,7 @@ class TenderStateAwardingMixing:
             filtered_features = features
 
         if not filtered_features:
-            # no features
-            # either in tender for non-lot tenders
-            # or in lot for lot tenders
+            # no features for lot
             return None
 
         filtered_features_codes = [i["code"] for i in filtered_features]

@@ -33,7 +33,7 @@ class TenderCancellationResourceTestMixin(object):
     test_get_tender_cancellations = snitch(get_tender_cancellations)
 
 
-@patch("openprocurement.tender.pricequotation.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
 class TenderCancellationActiveTenderingResourceTest(
     TenderContentWebTest,
     TenderCancellationResourceTestMixin,

@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING, TypeVar
+
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
@@ -15,42 +17,45 @@ from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.openua.procedure.state.tender_details import OpenUATenderDetailsMixing
 
 
-def all_bids_are_reviewed(tender):
-    bids = tender.get("bids", "")
-    lots = tender.get("lots")
-    if lots:
-        active_lots = {lot["id"] for lot in lots if lot.get("status", "active") == "active"}
-        return all(
-            lotValue.get("status") != "pending"
-            for bid in bids
-            if bid.get("status") not in ("invalid", "deleted")
-            for lotValue in bid.get("lotValues", "")
-            if lotValue["relatedLot"] in active_lots
-
-        )
-    else:
-        return all(bid.get("status") != "pending" for bid in bids)
+if TYPE_CHECKING:
+    baseclass = CFAUATenderState
+else:
+    baseclass = object
 
 
-def all_awards_are_reviewed(tender):
-    """ checks if all tender awards are reviewed
-    """
-    return all(award["status"] != "pending" for award in tender["awards"])
-
-
-class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
+class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     enquiry_period_timedelta = - ENQUIRY_PERIOD_TIME
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
 
-    set_object_status: callable  # from BaseState
-    block_complaint_status: tuple  # from TenderState
-
     def on_post(self, tender):
-        super().on_post(tender)  # TenderDetailsMixing.on_post
+        super().on_post(tender)
         self.initialize_enquiry_period(tender)
 
     def on_patch(self, before, after):
+        def all_bids_are_reviewed(tender):
+            bids = tender.get("bids", "")
+            lots = tender.get("lots")
+            if lots:
+                active_lots = {lot["id"] for lot in lots if lot.get("status", "active") == "active"}
+                return all(
+                    lotValue.get("status") != "pending"
+                    for bid in bids
+                    if bid.get("status") not in ("invalid", "deleted")
+                    for lotValue in bid.get("lotValues", "")
+                    if lotValue["relatedLot"] in active_lots
+
+                )
+            else:
+                return all(bid.get("status") != "pending" for bid in bids)
+
+
+        def all_awards_are_reviewed(tender):
+            """
+            checks if all tender awards are reviewed
+            """
+            return all(award["status"] != "pending" for award in tender["awards"])
+
         # TODO: find a better place for this check, may be a distinct endpoint: PUT /tender/uid/status
         if before["status"] == "active.pre-qualification":
             passed_data = get_request().validated["json_data"]
@@ -205,19 +210,7 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
                     location="body",
                     name="tenderPeriod.startDate"
                 )
-        # it's serializible anyway
-        # if before.get("enquiryPeriod") != after.get("enquiryPeriod"):
-        #     raise_operation_error(
-        #         get_request(),
-        #         "Can't change enquiryPeriod",
-        #         name="enquiryPeriod"
-        #     )
 
-    # def invalidate_bids_data(self, tender):
-    #     tender["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
-    #     for bid in tender.get("bids", ""):
-    #         if bid.get("status") not in ("deleted", "draft"):
-    #             bid["status"] = "invalid"
 
     @staticmethod
     def watch_value_meta_changes(tender):

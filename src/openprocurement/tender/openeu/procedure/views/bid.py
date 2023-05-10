@@ -1,3 +1,4 @@
+from openprocurement.api.auth import ACCR_4
 from openprocurement.api.utils import json_view, context_unpack
 from openprocurement.tender.core.procedure.views.bid import TenderBidResource
 from openprocurement.tender.core.procedure.models.bid import filter_administrator_bid_update
@@ -12,7 +13,6 @@ from openprocurement.tender.openeu.procedure.validation import (
 from openprocurement.tender.openeu.procedure.serializers.bid import BidSerializer
 from openprocurement.tender.core.procedure.validation import (
     unless_administrator,
-    validate_bid_accreditation_level,
     unless_item_owner,
     validate_item_owner,
     validate_input_data,
@@ -21,6 +21,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_update_deleted_bid,
     validate_bid_operation_period,
     validate_bid_operation_not_in_tendering,
+    validate_accreditation_level,
 )
 from cornice.resource import resource
 from logging import getLogger
@@ -65,7 +66,11 @@ class TenderBidResource(TenderBidResource):
         content_type="application/json",
         permission="create_bid",
         validators=(
-            validate_bid_accreditation_level,
+            validate_accreditation_level(
+                levels=(ACCR_4,),
+                item="bid",
+                operation="creation",
+            ),
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,
             validate_input_data(PostBid),

@@ -1,8 +1,9 @@
 from schematics.types import BooleanType
-from openprocurement.api.context import get_now
 from openprocurement.api.models import Model
 from openprocurement.tender.core.procedure.context import get_tender
-from openprocurement.tender.core.procedure.utils import get_first_revision_date
+from openprocurement.tender.core.procedure.utils import (
+    tender_created_after,
+)
 from openprocurement.tender.openeu.procedure.models.bid import (
     Bid as BaseBid,
     PostBid as BasePostBid,
@@ -38,8 +39,7 @@ class ESCOMixin(Model):
                 )
 
     def validate_selfEligible(self, data, value):
-        tender = get_tender()
-        if get_first_revision_date(tender, default=get_now()) > RELEASE_ECRITERIA_ARTICLE_17:
+        if tender_created_after(RELEASE_ECRITERIA_ARTICLE_17):
             if value is not None:
                 raise ValidationError("Rogue field.")
 

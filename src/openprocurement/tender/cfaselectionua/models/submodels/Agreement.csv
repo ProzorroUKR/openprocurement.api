@@ -1,6 +1,0 @@
-rolename,agreementID,__parent__,agreementNumber,date,dateSigned,description,description_en,description_ru,items,period,status,contracts,title,title_en,title_ru,id,features,mode,changes,dateModified,documents,owner,procuringEntity,tender_id,terminationDetails,numberOfContracts,public_modified
-create,,,,,,,,,,,,,,,,1,,,,,,,,,,,
-edit,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,,1,1,1,1,1,
-embedded,1,,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-view,1,,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-default,1,,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1

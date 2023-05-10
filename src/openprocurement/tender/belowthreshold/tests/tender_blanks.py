@@ -318,7 +318,7 @@ def listing_draft(self):
 
 
 @mock.patch(
-    "openprocurement.tender.belowthreshold.models.RELEASE_2020_04_19",
+    "openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19",
     get_now() + timedelta(days=1)
 )
 def create_tender_invalid(self):
@@ -769,7 +769,7 @@ def create_tender_invalid(self):
 
 
 @mock.patch(
-    "openprocurement.tender.belowthreshold.procedure.models.tender.RELEASE_2020_04_19",
+    "openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19",
     get_now() - timedelta(days=1)
 )
 def validate_enquiryTender(self):
@@ -856,7 +856,7 @@ def validate_enquiryTender(self):
 
 
 @mock.patch(
-    "openprocurement.tender.belowthreshold.procedure.models.tender.RELEASE_2020_04_19",
+    "openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19",
     get_now() - timedelta(days=1)
 )
 def validate_tenderPeriod(self):

@@ -1,4 +1,4 @@
-from openprocurement.tender.core.procedure.utils import get_first_revision_date
+from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.tender.core.procedure.models.tender_base import BaseTender, PostBaseTender, PatchBaseTender
 from openprocurement.tender.core.procedure.models.organization import ProcuringEntity
 from openprocurement.tender.core.procedure.models.feature import Feature, validate_related_items
@@ -15,8 +15,6 @@ from openprocurement.tender.core.procedure.models.lot import (
     validate_lots_uniq, validate_minimal_step_limits
 )
 
-from openprocurement.tender.core.procedure.context import get_tender
-from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.models.item import (
     Item,
     validate_related_buyer_in_items,
@@ -30,7 +28,6 @@ from schematics.types import (
     BooleanType,
 )
 from schematics.types.compound import ModelType
-from openprocurement.api.utils import get_first_revision_date
 from openprocurement.api.models import (
     Value,
     ListType,
@@ -137,9 +134,9 @@ class PostTender(PostBaseTender):
         validate_award_period(data, period)
 
     def validate_milestones(self, data, value):
-        required = get_first_revision_date(get_tender(), default=get_now()) > MILESTONES_VALIDATION_FROM
-        if required and (value is None or len(value) < 1):
-            raise ValidationError("Tender should contain at least one milestone")
+        if tender_created_after(MILESTONES_VALIDATION_FROM):
+            if value is None or len(value) < 1:
+                raise ValidationError("Tender should contain at least one milestone")
 
         validate_milestones_lot(data, value)
 
@@ -208,9 +205,9 @@ class Tender(BaseTender):
         validate_award_period(data, period)
 
     def validate_milestones(self, data, value):
-        required = get_first_revision_date(get_tender(), default=get_now()) > MILESTONES_VALIDATION_FROM
-        if required and (value is None or len(value) < 1):
-            raise ValidationError("Tender should contain at least one milestone")
+        if tender_created_after(MILESTONES_VALIDATION_FROM):
+            if value is None or len(value) < 1:
+                raise ValidationError("Tender should contain at least one milestone")
 
         validate_milestones_lot(data, value)
 

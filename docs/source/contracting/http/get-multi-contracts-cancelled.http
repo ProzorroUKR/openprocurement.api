@@ -9,9 +9,9 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "61fe9c548e9243029e944fb1046b1538",
+      "id": "6133895c735d4468b55bc970d9bdc1fe",
       "buyerID": "11111111111111111111111111111111",
-      "awardID": "6049531c206a47da820852fe03d9726b",
+      "awardID": "f1fd258d422149ab94c399824028b762",
       "contractID": "UA-2023-01-01-000001-a-1",
       "status": "cancelled",
       "value": {
@@ -86,9 +86,9 @@ Content-Type: application/json
       "date": "2023-01-01T00:00:01+02:00"
     },
     {
-      "id": "352d5e69250442fda64f82c8085fa7d6",
+      "id": "f547c05a1da04b4b8f339fdd6d20ec59",
       "buyerID": "22222222222222222222222222222222",
-      "awardID": "6049531c206a47da820852fe03d9726b",
+      "awardID": "f1fd258d422149ab94c399824028b762",
       "contractID": "UA-2023-01-01-000001-a-2",
       "status": "cancelled",
       "value": {

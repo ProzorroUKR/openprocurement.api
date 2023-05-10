@@ -1,5 +1,8 @@
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
-from openprocurement.tender.core.procedure.context import get_request, get_tender
+from openprocurement.tender.core.procedure.context import (
+    get_request,
+    get_tender,
+)
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.contracting import add_contracts
 from openprocurement.tender.core.procedure.models.contract import Contract
@@ -10,6 +13,7 @@ from datetime import timedelta
 
 
 class ReportingAwardState(AwardStateMixing, NegotiationTenderState):
+    contract_model = Contract
 
     def award_on_patch(self, before, award):
         # start complaintPeriod
@@ -18,26 +22,31 @@ class ReportingAwardState(AwardStateMixing, NegotiationTenderState):
         elif award["status"] == "pending":
             pass  # allowing to update award in pending status
         else:
-            raise_operation_error(get_request(),
-                                  f"Can't update award in current ({before['status']}) status")
+            raise_operation_error(
+                get_request(),
+                f"Can't update award in current ({before['status']}) status"
+            )
 
     def award_status_up(self, before, after, award):
         assert before != after, "Statuses must be different"
 
         if before == "pending" and after == "active":
-            add_contracts(get_request(), award, Contract)
+            add_contracts(get_request(), award, self.contract_model)
         elif before == "pending" and after == "unsuccessful":
             pass
         elif before == "active" and after == "cancelled":
             self.set_award_contracts_cancelled(award)
         else:  # any other state transitions are forbidden
-            raise_operation_error(get_request(),
-                                  f"Can't update award in current ({before}) status")
+            raise_operation_error(
+                get_request(),
+                f"Can't update award in current ({before}) status"
+            )
         # date updated when status updated
         award["date"] = get_now().isoformat()
 
 
 class NegotiationAwardState(ReportingAwardState):
+    contract_model = Contract
     award_stand_still_time = timedelta(days=10)
 
     def award_status_up(self, before, after, award):
@@ -48,7 +57,7 @@ class NegotiationAwardState(ReportingAwardState):
                 "startDate": now.isoformat(),
                 "endDate": calculate_complaint_business_date(now, self.award_stand_still_time, get_tender()).isoformat()
             }
-            add_contracts(get_request(), award, Contract)
+            add_contracts(get_request(), award, self.contract_model)
         elif before == "pending" and after == "unsuccessful":
             award["complaintPeriod"] = {
                 "startDate": now.isoformat(),
@@ -69,8 +78,10 @@ class NegotiationAwardState(ReportingAwardState):
                     award["complaintPeriod"]["endDate"] = now.isoformat()
                 self.set_award_contracts_cancelled(award)
         else:  # any other state transitions are forbidden
-            raise_operation_error(get_request(),
-                                  f"Can't update award in current ({before}) status")
+            raise_operation_error(
+                get_request(),
+                f"Can't update award in current ({before}) status"
+            )
         # date updated when status updated
         award["date"] = get_now().isoformat()
 

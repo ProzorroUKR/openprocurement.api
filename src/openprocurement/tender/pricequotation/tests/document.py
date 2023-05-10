@@ -13,7 +13,7 @@ from openprocurement.tender.pricequotation.tests.document_blanks import (
 )
 
 
-@patch("openprocurement.tender.pricequotation.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
 class TenderDocumentWithDSResourceTest(TenderContentWebTest, TenderDocumentWithDSResourceTestMixin):
     docservice = True
 

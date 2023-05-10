@@ -1,3 +1,4 @@
+from openprocurement.api.auth import ACCR_4
 from openprocurement.tender.openeu.procedure.views.bid import TenderBidResource as BaseResourceEU
 from openprocurement.tender.openua.procedure.views.bid import TenderBidResource as BaseResourceUA
 from openprocurement.tender.competitivedialogue.constants import STAGE_2_UA_TYPE, STAGE_2_EU_TYPE
@@ -8,11 +9,11 @@ from openprocurement.tender.openeu.procedure.validation import (
     validate_post_bid_status,
 )
 from openprocurement.tender.core.procedure.validation import (
-    validate_bid_accreditation_level,
     validate_input_data,
     validate_data_documents,
     validate_bid_operation_period,
     validate_bid_operation_not_in_tendering,
+    validate_accreditation_level,
 )
 from openprocurement.api.utils import json_view
 from cornice.resource import resource
@@ -33,7 +34,11 @@ class CompetitiveDialogueStage2EUBidResource(BaseResourceEU):
         content_type="application/json",
         permission="create_bid",
         validators=(
-            validate_bid_accreditation_level,
+            validate_accreditation_level(
+                levels=(ACCR_4,),
+                item="bid",
+                operation="creation",
+            ),
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,
             validate_input_data(PostBidEU),
@@ -58,7 +63,11 @@ class CompetitiveDialogueStage2UABidResource(BaseResourceUA):
         content_type="application/json",
         permission="create_bid",
         validators=(
-            validate_bid_accreditation_level,
+            validate_accreditation_level(
+                levels=(ACCR_4,),
+                item="bid",
+                operation="creation",
+            ),
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,
             validate_input_data(PostBidUA),

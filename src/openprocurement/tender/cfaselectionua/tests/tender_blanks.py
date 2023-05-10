@@ -1336,7 +1336,9 @@ def patch_tender(self):
     tender = response.json["data"]
 
     end_date = calculate_tender_business_date(
-        parse_date(tender["tenderPeriod"]["startDate"]), timedelta(days=3), self.tender_class(tender)
+        parse_date(tender["tenderPeriod"]["startDate"]),
+        timedelta(days=3),
+        tender
     ) - self.get_timedelta(minutes=1)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, owner_token),
@@ -1635,7 +1637,7 @@ def patch_tender_bot(self):
         calculate_tender_business_date(
             parse_date(response.json["data"]["enquiryPeriod"]["startDate"]),
             ENQUIRY_PERIOD,
-            self.tender_class(tender)
+            tender
         ),
         parse_date(response.json["data"]["enquiryPeriod"]["endDate"]),
     )
@@ -2397,7 +2399,7 @@ def edit_tender_in_active_enquiries(self):
         calculate_tender_business_date(
             parse_date(response.json["data"]["enquiryPeriod"]["startDate"]),
             ENQUIRY_PERIOD,
-            self.tender_class(tender)
+            tender
         ),
         parse_date(response.json["data"]["enquiryPeriod"]["endDate"]),
     )

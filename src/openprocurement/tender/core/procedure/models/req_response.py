@@ -22,6 +22,8 @@ from openprocurement.tender.core.procedure.utils import (
     get_first_revision_date,
     get_criterion_requirement,
     bid_in_invalid_status,
+    tender_created_before,
+    tender_created_after,
 )
 from openprocurement.tender.core.procedure.models.evidence import Evidence
 from openprocurement.tender.core.procedure.validation import (
@@ -129,13 +131,14 @@ class RequirementResponse(BaseRequirementResponse):
 
 def get_requirement_obj(requirement_id: str) -> Tuple[Optional[dict], Optional[dict], Optional[dict]]:
     tender = get_tender()
-    tender_creation = get_first_revision_date(tender, default=get_now())
     for criteria in tender.get("criteria", ""):
         for group in criteria.get("requirementGroups", ""):
             for req in reversed(group.get("requirements", "")):
                 if req["id"] == requirement_id:
-                    if (tender_creation > CRITERION_REQUIREMENT_STATUSES_FROM and
-                       req.get("status", DEFAULT_REQUIREMENT_STATUS) != DEFAULT_REQUIREMENT_STATUS):
+                    if (
+                        tender_created_after(CRITERION_REQUIREMENT_STATUSES_FROM) and
+                        req.get("status", DEFAULT_REQUIREMENT_STATUS) != DEFAULT_REQUIREMENT_STATUS
+                    ):
                         continue
                     return req, group, criteria
     return None, None, None
@@ -259,10 +262,7 @@ class PatchObjResponsesMixin(Model):
 
 class ObjResponseMixin(PatchObjResponsesMixin):
     def validate_requirementResponses(self, data: dict, requirement_responses: Optional[List[dict]]) -> None:
-        tender = get_tender()
-        tender_created = get_first_revision_date(tender, default=get_now())
-
-        if tender_created < RELEASE_ECRITERIA_ARTICLE_17:
+        if tender_created_before(RELEASE_ECRITERIA_ARTICLE_17):
             if requirement_responses:
                 raise ValidationError("Rogue field.")
             return
@@ -275,6 +275,7 @@ class ObjResponseMixin(PatchObjResponsesMixin):
             if name in parent_obj_name:
                 parent_obj_name = name
                 break
+
         # Validation requirement_response data
         for response in requirement_responses or "":
             validate_req_response_requirement(response, parent_obj_name=parent_obj_name)
@@ -288,17 +289,14 @@ class PostBidResponsesMixin(ObjResponseMixin):
     """
     def validate_selfEligible(self, data: dict, value: Optional[bool]):
         tender = get_tender()
-        if get_first_revision_date(tender, default=get_now()) > RELEASE_ECRITERIA_ARTICLE_17:
+        if tender_created_after(RELEASE_ECRITERIA_ARTICLE_17):
             if value is not None:
                 raise ValidationError("Rogue field.")
         elif value is None:
             raise ValidationError("This field is required.")
 
     def validate_requirementResponses(self, data: dict, requirement_responses: Optional[List[dict]]) -> None:
-        tender = get_tender()
-        tender_created = get_first_revision_date(tender, default=get_now())
-
-        if tender_created < RELEASE_ECRITERIA_ARTICLE_17:
+        if tender_created_before(RELEASE_ECRITERIA_ARTICLE_17):
             if requirement_responses:
                 raise ValidationError("Rogue field.")
             return
@@ -312,6 +310,7 @@ class PostBidResponsesMixin(ObjResponseMixin):
             validate_req_response_related_tenderer(data, response)
             validate_req_response_evidences_relatedDocument(data, response, parent_obj_name="bid")
 
+        tender = get_tender()
         all_answered_requirements = [i.requirement.id for i in requirement_responses or ""]
         for criteria in tender.get("criteria", ""):
             if criteria["relatesTo"] == "lot":
@@ -322,7 +321,7 @@ class PostBidResponsesMixin(ObjResponseMixin):
                     continue
             if criteria["source"] != "tenderer" and not criteria["classification"]["id"].endswith("GUARANTEE"):
                 continue
-            if tender_created > CRITERION_REQUIREMENT_STATUSES_FROM:
+            if tender_created_after(CRITERION_REQUIREMENT_STATUSES_FROM):
                 active_requirements = [
                     requirement
                     for rg in criteria.get("requirementGroups", "")
@@ -336,7 +335,7 @@ class PostBidResponsesMixin(ObjResponseMixin):
             group_answered_requirement_ids = {}
             for rg in criteria.get("requirementGroups", ""):
                 req_ids = {i["id"] for i in rg.get("requirements", "")}
-                if tender_created > CRITERION_REQUIREMENT_STATUSES_FROM:
+                if tender_created_after(CRITERION_REQUIREMENT_STATUSES_FROM):
                     req_ids = {i["id"] for i in rg.get("requirements", "") if i["status"] != "cancelled"}
                 answered_reqs = {i for i in all_answered_requirements if i in req_ids}
 

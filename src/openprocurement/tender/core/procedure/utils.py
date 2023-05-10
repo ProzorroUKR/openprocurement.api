@@ -59,11 +59,6 @@ def dt_from_iso(string):
     return dt
 
 
-def get_first_revision_date(document, default=None):
-    revisions = document.get("revisions") if document else None
-    return datetime.fromisoformat(revisions[0]["date"]) if revisions else default
-
-
 def set_ownership(item, request):
     if not item.get("owner"):  # ???
         item["owner"] = request.authenticated_userid
@@ -366,8 +361,22 @@ def get_bids_before_auction_results(tender):
     return deepcopy(initial_doc["bids"])
 
 
-def since_2020_rules():  # TODO use it everywhere?
-    return get_first_revision_date(get_tender(), default=get_now()) > RELEASE_2020_04_19
+def tender_created_after(dt):
+    tender_created = get_first_revision_date(get_tender(), default=get_now())
+    return tender_created > dt
+
+
+def tender_created_before(dt):
+    tender_created = get_first_revision_date(get_tender(), default=get_now())
+    return tender_created < dt
+
+
+def tender_created_in(dt_from, dt_to):
+    return tender_created_after(dt_from) and tender_created_before(dt_to)
+
+
+def tender_created_after_2020_rules():
+    return tender_created_after(RELEASE_2020_04_19)
 
 
 def filter_features(features, items, lot_ids=None):
