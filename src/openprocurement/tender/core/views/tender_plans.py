@@ -11,12 +11,8 @@ from openprocurement.tender.core.validation import (
     validate_tender_in_draft,
 )
 from openprocurement.planning.api.validation import (
-    validate_patch_plan_data,
-    validate_plan_data,
     validate_plan_has_not_tender,
-    validate_plan_with_tender,
     validate_plan_not_terminated,
-    validate_plan_status_update,
 )
 from openprocurement.planning.api.utils import save_plan
 

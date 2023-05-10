@@ -4,7 +4,7 @@ from openprocurement.api.models import IsoDateTimeType, Model
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.utils import calculate_tender_date, calculate_complaint_business_date
-from openprocurement.tender.core.validation import is_positive_float
+from openprocurement.tender.core.procedure.validation import is_positive_float
 from schematics.exceptions import ValidationError
 from schematics.types.serializable import serializable
 from openprocurement.tender.core.procedure.models.base import ModelType, ListType

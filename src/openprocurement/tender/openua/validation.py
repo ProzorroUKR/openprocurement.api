@@ -5,50 +5,18 @@ from schematics.exceptions import ValidationError
 from openprocurement.api.constants import RELEASE_2020_04_19, WORKING_DAYS
 from openprocurement.api.validation import (
     validate_data,
-    validate_json_data,
     OPERATIONS,
     _validate_accreditation_level,
     _validate_accreditation_level_mode,
-    _validate_tender_first_revision_date,
+    validate_tender_first_revision_date,
 )
 from openprocurement.api.utils import (
-    apply_data_patch, error_handler, get_now, raise_operation_error,
+    error_handler, get_now, raise_operation_error,
     update_logging_context,
     upload_objects_documents,
 )
 from openprocurement.tender.core.utils import calculate_tender_business_date, calculate_tender_date
-from openprocurement.tender.core.validation import validate_tender_period_extension, validate_patch_tender_data_draft
 from openprocurement.tender.openua.constants import POST_SUBMIT_TIME
-
-
-def validate_patch_tender_ua_data(request, **kwargs):
-    data = validate_json_data(request)
-    if request.context.status == "draft":
-        validate_patch_tender_data_draft(request)
-    if data:
-        if "items" in data:
-            items = request.context.items
-            cpv_group_lists = [i.classification.id[:3] for i in items]
-            for item in data["items"]:
-                if "classification" in item and "id" in item["classification"]:
-                    cpv_group_lists.append(item["classification"]["id"][:3])
-            if len(set(cpv_group_lists)) != 1:
-                request.errors.add("body", "item", "Can't change classification")
-                request.errors.status = 403
-                raise error_handler(request)
-        if "enquiryPeriod" in data:
-            if apply_data_patch(request.context.enquiryPeriod.serialize(), data["enquiryPeriod"]):
-                request.errors.add("body", "item", "Can't change enquiryPeriod")
-                request.errors.status = 403
-                raise error_handler(request)
-
-    return validate_data(request, type(request.tender), True, data)
-
-
-def validate_update_tender_document(request, **kwargs):
-    status = request.validated["tender_status"]
-    if status == "active.tendering":
-        validate_tender_period_extension(request)
 
 
 def _validate_tender_period_start_date(data, period, working_days=False, calendar=WORKING_DAYS):
@@ -298,4 +266,4 @@ def validate_complaint_post_document_upload_by_author(request, **kwargs):
 
 
 def validate_complaint_post(request, **kwargs):
-    _validate_tender_first_revision_date(request, validation_date=RELEASE_2020_04_19)
+    validate_tender_first_revision_date(request, validation_date=RELEASE_2020_04_19)

@@ -12,115 +12,17 @@ from openprocurement.api.utils import (
 )
 from openprocurement.tender.core.utils import (
     save_tender,
-    apply_patch,
-    calculate_tender_business_date,
     has_unanswered_questions,
     has_unanswered_complaints,
     cancellation_block_tender,
     check_complaint_statuses_at_complaint_period_end,
 )
-from openprocurement.tender.core.validation import validate_tender_period_extension
 from openprocurement.tender.openua.utils import check_complaint_status
 from openprocurement.tender.core.utils import check_cancellation_status
-from openprocurement.tender.openeu.utils import all_bids_are_reviewed, prepare_qualifications, CancelTenderLot
-from openprocurement.tender.openeu.constants import PREQUALIFICATION_COMPLAINT_STAND_STILL as COMPLAINT_STAND_STILL
+from openprocurement.tender.openeu.utils import prepare_qualifications, CancelTenderLot
 from openprocurement.tender.competitivedialogue.constants import MINIMAL_NUMBER_OF_BIDS
-from openprocurement.tender.core.events import TenderInitializeEvent
 
 LOGGER = getLogger(__name__)
-
-
-def patch_eu(self):
-    """Tender Edit (partial)
-
-            For example here is how procuring entity can change number of items to be procured and total Value of a tender:
-
-            .. sourcecode:: http
-
-                PATCH /tenders/4879d3f8ee2443169b5fbbc9f89fa607 HTTP/1.1
-                Host: example.com
-                Accept: application/json
-
-                {
-                    "data": {
-                        "value": {
-                            "amount": 600
-                        },
-                        "itemsToBeProcured": [
-                            {
-                                "quantity": 6
-                            }
-                        ]
-                    }
-                }
-
-            And here is the response to be expected:
-
-            .. sourcecode:: http
-
-                HTTP/1.0 200 OK
-                Content-Type: application/json
-
-                {
-                    "data": {
-                        "id": "4879d3f8ee2443169b5fbbc9f89fa607",
-                        "tenderID": "UA-64e93250be76435397e8c992ed4214d1",
-                        "dateModified": "2014-10-27T08:12:34.956Z",
-                        "value": {
-                            "amount": 600
-                        },
-                        "itemsToBeProcured": [
-                            {
-                                "quantity": 6
-                            }
-                        ]
-                    }
-                }
-
-            """
-    tender = self.context
-    data = self.request.validated["data"]
-    if (
-        self.request.authenticated_role == "tender_owner"
-        and self.request.validated["tender_status"] == "active.tendering"
-    ):
-        if "tenderPeriod" in data and "endDate" in data["tenderPeriod"]:
-            self.request.validated["tender"].tenderPeriod.import_data(data["tenderPeriod"])
-            validate_tender_period_extension(self.request)
-            self.request.registry.notify(TenderInitializeEvent(self.request.validated["tender"]))
-            self.request.validated["data"]["enquiryPeriod"] = self.request.validated["tender"].enquiryPeriod.serialize()
-
-    apply_patch(self.request, save=False, src=self.request.validated["tender_src"])
-    # if self.request.authenticated_role == "chronograph":
-    #     check_status(self.request)
-    if self.request.authenticated_role == "tender_owner" and tender.status == "active.tendering":
-        tender.invalidate_bids_data()
-    elif (
-        self.request.authenticated_role == "tender_owner"
-        and self.request.validated["tender_status"] == "active.pre-qualification"
-        and tender.status == "active.pre-qualification.stand-still"
-    ):
-        if all_bids_are_reviewed(self.request):
-            tender.qualificationPeriod.endDate = calculate_tender_business_date(
-                get_now(), COMPLAINT_STAND_STILL, self.request.validated["tender"]
-            )
-            tender.check_auction_time()
-        else:
-            raise_operation_error(
-                self.request, "Can't switch to 'active.pre-qualification.stand-still' while not all bids are qualified"
-            )
-    elif (
-        self.request.authenticated_role == "tender_owner"
-        and self.request.validated["tender_status"] == "active.pre-qualification"
-        and tender.status != "active.pre-qualification.stand-still"
-    ):
-        raise_operation_error(self.request, "Can't update tender status")
-
-    save_tender(self.request)
-    self.LOGGER.info(
-        "Updated tender {}".format(tender.id), extra=context_unpack(self.request, {"MESSAGE_ID": "tender_patch"})
-    )
-    return {"data": tender.serialize(tender.status)}
 
 
 def validate_unique_bids(bids):

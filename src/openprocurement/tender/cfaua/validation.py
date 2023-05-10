@@ -8,7 +8,6 @@ from openprocurement.api.utils import get_now, raise_operation_error, update_log
 from openprocurement.api.validation import validate_data, OPERATIONS
 
 from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER, MAX_AGREEMENT_PERIOD
-from openprocurement.tender.core.validation import validate_award_document_tender_not_in_allowed_status_base
 
 
 def validate_patch_qualification_data(request, **kwargs):
@@ -303,15 +302,3 @@ def validate_max_agreement_duration_period(value):
             "Agreement duration period is greater than {}".format(duration_isoformat(MAX_AGREEMENT_PERIOD))
         )
 
-
-# awards
-def validate_update_award_in_not_allowed_status(request, **kwargs):
-    tender = request.validated["tender"]
-    if tender.status not in ["active.qualification", "active.qualification.stand-still"]:
-        raise_operation_error(request, "Can't update award in current ({}) tender status".format(tender.status))
-
-
-def validate_award_document_tender_not_in_allowed_status(request, **kwargs):
-    validate_award_document_tender_not_in_allowed_status_base(
-        request, allowed_bot_statuses=("active.awarded", "active.qualification.stand-still")
-    )

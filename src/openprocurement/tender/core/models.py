@@ -90,7 +90,6 @@ from openprocurement.tender.core.utils import (
 )
 from openprocurement.tender.core.validation import (
     validate_lotvalue_value,
-    is_positive_float,
     validate_ua_road,
     validate_gmdn,
     validate_milestones,
@@ -100,6 +99,7 @@ from openprocurement.tender.core.validation import (
     validate_requirement_values,
     validate_minimalstep_limits,
 )
+from openprocurement.tender.core.procedure.validation import is_positive_float
 from openprocurement.tender.esco.utils import get_complaint_amount as get_esco_complaint_amount
 from openprocurement.planning.api.models import BaseOrganization
 from logging import getLogger

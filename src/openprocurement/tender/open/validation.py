@@ -9,7 +9,7 @@ from openprocurement.api.validation import (
     OPERATIONS,
     _validate_accreditation_level,
     _validate_accreditation_level_mode,
-    _validate_tender_first_revision_date,
+    validate_tender_first_revision_date,
 )
 from openprocurement.api.utils import (
     error_handler,
@@ -275,7 +275,7 @@ def validate_complaint_post_document_upload_by_author(request, **kwargs):
 
 
 def validate_complaint_post(request, **kwargs):
-    _validate_tender_first_revision_date(request, validation_date=RELEASE_2020_04_19)
+    validate_tender_first_revision_date(request, validation_date=RELEASE_2020_04_19)
 
 
 def validate_lotvalue_value(tender, relatedLot, value):

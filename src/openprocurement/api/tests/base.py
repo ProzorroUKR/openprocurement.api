@@ -49,14 +49,11 @@ class BaseTestApp(webtest.TestApp):
 
     def set_initial_status(self, tender, status=None):
         from openprocurement.tender.core.tests.criteria_utils import add_criteria
-
         add_criteria(self, tender["data"]["id"], tender["access"]["token"])
-
-        with patch("openprocurement.tender.core.validation.RELEASE_GUARANTEE_CRITERION_FROM", get_now() + timedelta(days=1)):
-            response = self.patch_json(
-                f"/tenders/{tender['data']['id']}?acc_token={tender['access']['token']}",
-                {"data": {"status": status}},
-            )
+        response = self.patch_json(
+            f"/tenders/{tender['data']['id']}?acc_token={tender['access']['token']}",
+            {"data": {"status": status}},
+        )
         assert response.status == "200 OK"
         return response
 

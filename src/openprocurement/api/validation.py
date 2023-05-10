@@ -230,7 +230,7 @@ def _validate_accreditation_level_kind(request, levels, kind, name, action):
         _validate_accreditation_level(request, levels, name, action)
 
 
-def _validate_tender_first_revision_date(request, validation_date, message="Forbidden"):
+def validate_tender_first_revision_date(request, validation_date, message="Forbidden"):
     tender = request.validated["tender"]
     tender_creation_date = get_first_revision_date(tender, default=get_now())
     if tender_creation_date < validation_date:

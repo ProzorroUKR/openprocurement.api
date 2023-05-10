@@ -1,6 +1,5 @@
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.validation import validate_item_owner
-from openprocurement.tender.core.validation import validate_24h_milestone_released
+from openprocurement.tender.core.procedure.validation import validate_item_owner, validate_24h_milestone_released
 from openprocurement.tender.core.procedure.validation import validate_input_data
 from openprocurement.tender.core.procedure.models.qualification_milestone import PostQualificationMilestone
 from openprocurement.tender.core.procedure.views.qualification_milestone import (
