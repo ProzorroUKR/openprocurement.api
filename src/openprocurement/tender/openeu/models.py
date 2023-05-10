@@ -237,64 +237,11 @@ class Cancellation(BaseCancellation):
 
 
 class TenderAuctionPeriod(Period):
-    """The auction period."""
-
-    @serializable(serialize_when_none=False)
-    def shouldStartAfter(self):
-        if self.endDate:
-            return
-        tender = self.__parent__
-        if tender.lots or tender.status not in [
-            "active.pre-qualification.stand-still",
-            "active.auction",
-        ]:
-            return
-        start_after = None
-        if self.startDate and get_now() > calc_auction_end_time(tender.numberOfBids, self.startDate):
-            start_after = calc_auction_end_time(tender.numberOfBids, self.startDate)
-        elif tender.qualificationPeriod and tender.qualificationPeriod.endDate:
-            decision_dates = [
-                datetime.combine(
-                    complaint.dateDecision.date() + timedelta(days=3), time(0, tzinfo=complaint.dateDecision.tzinfo)
-                )
-                for qualification in tender.qualifications
-                for complaint in qualification.complaints
-                if complaint.dateDecision
-            ]
-            decision_dates.append(tender.qualificationPeriod.endDate)
-            start_after = max(decision_dates)
-        if start_after:
-            return normalize_should_start_after(start_after, tender).isoformat()
+    shouldStartAfter = StringType()
 
 
 class LotAuctionPeriod(Period):
-    """The auction period."""
-
-    @serializable(serialize_when_none=False)
-    def shouldStartAfter(self):
-        if self.endDate:
-            return
-        tender = get_tender(self)
-        lot = self.__parent__
-        statuses = ["active.pre-qualification.stand-still", "active.auction"]
-        if tender.status not in statuses or lot.status != "active":
-            return
-        start_after = None
-        if self.startDate and get_now() > calc_auction_end_time(lot.numberOfBids, self.startDate):
-            start_after = calc_auction_end_time(lot.numberOfBids, self.startDate)
-        elif tender.qualificationPeriod and tender.qualificationPeriod.endDate:
-            decision_dates = [
-                datetime.combine(
-                    complaint.dateDecision.date() + timedelta(days=3), time(0, tzinfo=complaint.dateDecision.tzinfo)
-                )
-                for qualification in tender.qualifications
-                for complaint in qualification.complaints
-                if complaint.dateDecision
-            ]
-            decision_dates.append(tender.qualificationPeriod.endDate)
-            start_after = max(decision_dates)
-        if start_after:
-            return normalize_should_start_after(start_after, tender).isoformat()
+    shouldStartAfter = StringType()
 
 
 class Lot(BaseLot):
