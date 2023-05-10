@@ -6,66 +6,16 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.utils import get_now, context_unpack, raise_operation_error
 from openprocurement.tender.core.utils import (
-    calculate_tender_date,
     check_skip_award_complaint_period,
     prepare_bids_for_awarding,
     exclude_unsuccessful_awarded_bids,
 )
-from openprocurement.tender.core.constants import COMPLAINT_STAND_STILL_TIME
 from openprocurement.tender.core.utils import (
     get_first_revision_date,
-    CancelTenderLot as BaseCancelTenderLot
 )
 
 LOGGER = getLogger("openprocurement.tender.belowthreshold")
 
-
-class CancelTenderLot(BaseCancelTenderLot):
-
-    @staticmethod
-    def add_next_award_method(request):
-        return add_next_award(request)
-
-
-def check_bids(request):
-    tender = request.validated["tender"]
-
-    if tender.lots:
-        [
-            setattr(i.auctionPeriod, "startDate", None)
-            for i in tender.lots
-            if i.numberOfBids < 2 and i.auctionPeriod and i.auctionPeriod.startDate
-        ]
-        [
-            setattr(i, "status", "unsuccessful")
-            for i in tender.lots
-            if i.numberOfBids == 0 and i.status == "active"
-        ]
-        if not set([i.status for i in tender.lots]).difference(set(["unsuccessful", "cancelled"])):
-            tender.status = "unsuccessful"
-        elif max([i.numberOfBids for i in tender.lots if i.status == "active"]) < 2:
-            add_next_award(request)
-    else:
-        if tender.numberOfBids < 2 and tender.auctionPeriod and tender.auctionPeriod.startDate:
-            tender.auctionPeriod.startDate = None
-        if tender.numberOfBids == 0:
-            tender.status = "unsuccessful"
-        if tender.numberOfBids == 1:
-            add_next_award(request)
-    check_ignored_claim(tender)
-
-
-def check_complaint_status(request, complaint, now=None):
-    if not now:
-        now = get_now()
-    if complaint.status == "answered":
-        date = calculate_tender_date(complaint.dateAnswered, COMPLAINT_STAND_STILL_TIME, request.tender)
-        if date < now:
-            complaint.status = complaint.resolutionType
-    elif complaint.status == "pending" and complaint.resolutionType and complaint.dateEscalated:
-        complaint.status = complaint.resolutionType
-    elif complaint.status == "pending":
-        complaint.status = "ignored"
 
 
 def check_ignored_claim(tender):
@@ -85,45 +35,6 @@ def prepare_tender_item_for_contract(item):
     if prepated_item.get("profile", None):
         prepated_item.pop("profile")
     return prepated_item
-
-
-def add_contract(request, award, contract_value, now=None, buyer_id=None):
-    tender = request.validated["tender"]
-    contract_model = type(tender).contracts.model_class
-    contract_item_model = contract_model.items.model_class
-    contract_items = []
-    for item in tender.items:
-        if not buyer_id or buyer_id == item.relatedBuyer:
-            if not hasattr(award, "lotID") or item.relatedLot == award.lotID:
-                prepared_item = prepare_tender_item_for_contract(item)
-                contract_items.append(contract_item_model(prepared_item))
-    server_id = request.registry.server_id
-    next_contract_number = len(tender.contracts) + 1
-    contract_id = "{}-{}{}".format(tender.tenderID, server_id, next_contract_number)
-    tender.contracts.append(
-        contract_model(
-            {
-                "buyerID": buyer_id,
-                "awardID": award.id,
-                "suppliers": award.suppliers,
-                "value": contract_value,
-                "date": now or get_now(),
-                "items": contract_items,
-                "contractID": contract_id,
-            }
-        )
-    )
-
-
-def generate_contract_value(tender, award, zero=False):
-    if award.value:
-        value = type(tender).contracts.model_class.value.model_class(dict(award.value.items()))
-        if zero:
-            value.amount, value.amountNet = 0, 0
-        else:
-            value.amountNet = award.value.amount
-        return value
-    return None
 
 
 def check_tender_status(request):
@@ -249,90 +160,5 @@ def contracts_allow_to_complete(contracts):
     )
 
 
-# TODO: delete, not used after refactoring
 def agreements_allow_to_complete(agreements):
     return any([a.status == "active" for a in agreements])
-
-
-def add_next_award(request):
-    """Adding next award.
-
-    :param request:
-        The pyramid request object.
-    """
-    tender = request.validated["tender"]
-    now = get_now()
-    if not tender.awardPeriod:
-        tender.awardPeriod = type(tender).awardPeriod({})
-    if not tender.awardPeriod.startDate:
-        tender.awardPeriod.startDate = now
-    if tender.lots:
-        statuses = set()
-        for lot in tender.lots:
-            if lot.status != "active":
-                continue
-            lot_awards = [i for i in tender.awards if i.lotID == lot.id]
-            if lot_awards and lot_awards[-1].status in ["pending", "active"]:
-                statuses.add(lot_awards[-1].status)
-                continue
-            all_bids = prepare_bids_for_awarding(tender, tender.bids, lot_id=lot.id)
-            if all_bids:
-                bids = exclude_unsuccessful_awarded_bids(tender, all_bids, lot_id=lot.id)
-                if bids:
-                    tender.append_award(bids[0], all_bids, lot_id=lot.id)
-                    request.response.headers["Location"] = request.route_url(
-                        "{}:Tender Awards".format(tender.procurementMethodType),
-                        tender_id=tender.id,
-                        award_id=tender.awards[-1]["id"]
-                    )
-                    statuses.add("pending")
-                else:
-                    statuses.add("unsuccessful")
-            else:
-                lot.status = "unsuccessful"
-                statuses.add("unsuccessful")
-
-        if statuses.difference(set(["unsuccessful", "active"])):
-            tender.awardPeriod.endDate = None
-            tender.status = "active.qualification"
-        else:
-            tender.awardPeriod.endDate = now
-            tender.status = "active.awarded"
-    else:
-        if not tender.awards or tender.awards[-1].status not in ["pending", "active"]:
-            all_bids = prepare_bids_for_awarding(tender, tender.bids, lot_id=None)
-            bids = exclude_unsuccessful_awarded_bids(tender, all_bids, lot_id=None)
-            if bids:
-                tender.append_award(bids[0], all_bids)
-                request.response.headers["Location"] = request.route_url(
-                    "{}:Tender Awards".format(tender.procurementMethodType),
-                    tender_id=tender.id,
-                    award_id=tender.awards[-1]["id"]
-                )
-        if tender.awards[-1].status == "pending":
-            tender.awardPeriod.endDate = None
-            tender.status = "active.qualification"
-        else:
-            tender.awardPeriod.endDate = now
-            tender.status = "active.awarded"
-
-
-def set_award_contracts_cancelled(request, award):
-    tender = request.validated["tender"]
-    for contract in tender.contracts:
-        if contract.awardID == award.id:
-            if contract.status != "active":
-                contract.status = "cancelled"
-            else:
-                raise_operation_error(
-                    request,
-                    "Can't cancel award contract in active status"
-                )
-
-
-def set_award_complaints_cancelled(request, award, now):
-    for complaint in award.complaints:
-        if complaint.status not in ["invalid", "resolved", "declined"]:
-            complaint.status = "cancelled"
-            complaint.cancellationReason = "cancelled"
-            complaint.dateCanceled = now
