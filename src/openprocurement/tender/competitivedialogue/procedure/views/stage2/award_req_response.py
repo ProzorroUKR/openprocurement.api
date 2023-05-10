@@ -22,7 +22,7 @@ class CDEUAwardReqResponseResource(BaseAwardReqResponseResource):
     collection_path="/tenders/{tender_id}/awards/{award_id}/requirement_responses",
     path="/tenders/{tender_id}/awards/{award_id}/requirement_responses/{requirement_response_id}",
     procurementMethodType=STAGE_2_UA_TYPE,
-    description="Competitive Dialogue Stage 2 EU award requirement responses",
+    description="Competitive Dialogue Stage 2 UA award requirement responses",
 )
-class CDEUAwardReqResponseResource(BaseAwardReqResponseResource):
+class CDUAAwardReqResponseResource(BaseAwardReqResponseResource):
     pass
