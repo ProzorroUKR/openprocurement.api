@@ -93,7 +93,6 @@ class TenderUAAwardComplaintResourceTestMixin(object):
     test_bot_patch_tender_award_complaint_forbidden = snitch(bot_patch_tender_award_complaint_forbidden)
 
 
-@mock.patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
 class TenderAwardRequirementResponseTestMixin(object):
     initial_criteria = test_exclusion_criteria
 
@@ -102,7 +101,6 @@ class TenderAwardRequirementResponseTestMixin(object):
     test_get_award_requirement_response = snitch(get_award_requirement_response)
 
 
-@mock.patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
 class TenderAwardRequirementResponseEvidenceTestMixin(object):
     initial_criteria = test_exclusion_criteria
 
@@ -265,7 +263,6 @@ class TenderAwardRequirementResponseResourceTest(
     TenderAwardRequirementResponseTestMixin,
     TenderAwardPendingResourceTestCase
 ):
-    @mock.patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderAwardRequirementResponseResourceTest, self).setUp()
         response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
@@ -279,7 +276,6 @@ class TenderAwardRequirementResponsEvidenceResourceTest(
     TenderAwardRequirementResponseEvidenceTestMixin,
     TenderAwardPendingResourceTestCase
 ):
-    @mock.patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderAwardRequirementResponsEvidenceResourceTest, self).setUp()
         response = self.app.get("/tenders/{}/criteria".format(self.tender_id))

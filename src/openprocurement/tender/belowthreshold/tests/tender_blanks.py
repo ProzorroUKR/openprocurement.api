@@ -2996,8 +2996,6 @@ def patch_tender_minimalstep_validation(self):
 
 @mock.patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
             get_now() + timedelta(days=1))
-@mock.patch("openprocurement.tender.core.validation.CRITERION_REQUIREMENT_STATUSES_FROM", get_now() - timedelta(days=1))
-@mock.patch("openprocurement.tender.core.models.CRITERION_REQUIREMENT_STATUSES_FROM", get_now() - timedelta(days=1))
 def patch_item_with_zero_quantity(self):
     self.create_tender()
     response = self.app.get("/tenders/{}".format(self.tender_id))

@@ -92,7 +92,6 @@ class TenderNegotiationQuickAwardComplaintPostResourceTest(TenderNegotiationAwar
 
 @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", date_after_2020_04_19)
 @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", date_after_2020_04_19)
-@patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", date_after_2020_04_19)
 class TenderNegotiationCancellationComplaintPostResourceTest(
     BaseTenderContentWebTest,
     ComplaintPostResourceMixin,
@@ -103,7 +102,6 @@ class TenderNegotiationCancellationComplaintPostResourceTest(
 
     @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", date_after_2020_04_19)
     @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", date_after_2020_04_19)
-    @patch("openprocurement.tender.core.views.cancellation.RELEASE_2020_04_19", date_after_2020_04_19)
     def setUp(self):
         super(TenderNegotiationCancellationComplaintPostResourceTest, self).setUp()
         # Create award

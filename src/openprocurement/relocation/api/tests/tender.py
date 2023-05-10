@@ -393,15 +393,6 @@ class OpenUADefenseTenderOwnershipChangeTest(TenderOwnershipChangeTest):
     test_owner = "broker3t"
     invalid_owner = "broker1"
 
-    def setUp(self):
-        self.pathcer_release_date = patch("openprocurement.tender.core.validation.RELEASE_SIMPLE_DEFENSE_FROM",
-                                          get_now() + timedelta(days=1))
-        self.pathcer_release_date.start()
-        super(OpenUADefenseTenderOwnershipChangeTest, self).setUp()
-
-    def tearDown(self):
-        super(OpenUADefenseTenderOwnershipChangeTest, self).tearDown()
-        self.pathcer_release_date.stop()
 
 
 class SimpleDefenseTenderOwnershipChangeTest(TenderOwnershipChangeTest):
@@ -410,16 +401,6 @@ class SimpleDefenseTenderOwnershipChangeTest(TenderOwnershipChangeTest):
     second_owner = "broker3"
     test_owner = "broker3t"
     invalid_owner = "broker1"
-
-    def setUp(self):
-        self.pathcer_release_date = patch("openprocurement.tender.core.validation.RELEASE_SIMPLE_DEFENSE_FROM",
-                                          get_now() - timedelta(days=1))
-        self.pathcer_release_date.start()
-        super(SimpleDefenseTenderOwnershipChangeTest, self).setUp()
-
-    def tearDown(self):
-        super(SimpleDefenseTenderOwnershipChangeTest, self).tearDown()
-        self.pathcer_release_date.stop()
 
 
 class OpenUACompetitiveTenderOwnershipChangeTest(TenderOwnershipChangeTest):

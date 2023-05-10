@@ -44,7 +44,6 @@ from openprocurement.tender.openua.tests.criterion_blanks import (
 )
 
 
-@patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
 class TenderCriteriaTestMixin(object):
     test_create_tender_criteria_valid = snitch(create_tender_criteria_valid)
     test_create_tender_criteria_invalid = snitch(create_tender_criteria_invalid)
@@ -54,13 +53,11 @@ class TenderCriteriaTestMixin(object):
     test_activate_tender = snitch(activate_tender)
 
 
-@patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
 class TenderCriteriaRGTestMixin(object):
     test_create_criteria_rg_valid = snitch(create_criteria_rg)
     test_patch_criteria_rg = snitch(patch_criteria_rg)
     test_get_criteria_rg = snitch(get_criteria_rg)
 
-    @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderCriteriaRGTestMixin, self).setUp()
         criteria_data = deepcopy(test_exclusion_criteria)
@@ -73,7 +70,6 @@ class TenderCriteriaRGTestMixin(object):
         self.criteria_id = response.json["data"][0]["id"]
 
 
-@patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
 class TenderCriteriaRGRequirementTestMixin(object):
     test_create_rg_requirement_valid = snitch(create_rg_requirement_valid)
     test_create_rg_requirement_invalid = snitch(create_rg_requirement_invalid)
@@ -90,7 +86,6 @@ class TenderCriteriaRGRequirementTestMixin(object):
     }
     allowed_put_statuses = ["active.tendering"]
 
-    @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderCriteriaRGRequirementTestMixin, self).setUp()
         criteria_data = deepcopy(test_exclusion_criteria)
@@ -107,7 +102,6 @@ class TenderCriteriaRGRequirementTestMixin(object):
         self.exclusion_rg_id = response.json["data"][1]["requirementGroups"][0]["id"]
 
 
-@patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
 class TenderCriteriaRGRequirementEvidenceTestMixin(object):
     test_create_requirement_evidence_valid = snitch(create_requirement_evidence_valid)
     test_create_requirement_evidence_invalid = snitch(create_requirement_evidence_invalid)
@@ -123,7 +117,6 @@ class TenderCriteriaRGRequirementEvidenceTestMixin(object):
         "type": "document",
     }
 
-    @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderCriteriaRGRequirementEvidenceTestMixin, self).setUp()
         criteria_data = deepcopy(test_exclusion_criteria)
@@ -140,7 +133,6 @@ class TenderCriteriaRGRequirementEvidenceTestMixin(object):
         self.exclusion_requirement_id = response.json["data"][0]["requirementGroups"][0]["requirements"][0]["id"]
 
 
-@patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
 class TenderCriteriaLccTestMixin(object):
     test_lcc_criterion_valid = snitch(lcc_criterion_valid)
     test_lcc_criterion_invalid = snitch(lcc_criterion_invalid)

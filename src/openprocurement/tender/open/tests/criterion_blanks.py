@@ -838,8 +838,6 @@ def patch_rg_requirement(self):
         self.assertEqual(updated_requirement[k], v)
 
 
-@mock.patch("openprocurement.tender.core.validation.CRITERION_REQUIREMENT_STATUSES_FROM", get_now() - timedelta(days=1))
-@mock.patch("openprocurement.tender.core.models.CRITERION_REQUIREMENT_STATUSES_FROM", get_now() - timedelta(days=1))
 def put_rg_requirement_valid(self):
     put_fields = {
         "title": "Фізична особа",
@@ -1311,7 +1309,8 @@ def delete_requirement_evidence(self):
             }]
         )
 
-    with mock.patch("openprocurement.tender.core.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
+    with mock.patch("openprocurement.tender.core.procedure.state."
+                    "criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
                     get_now() - timedelta(days=1)):
         response = self.app.delete(
             "{}/{}?acc_token={}".format(base_request_path, evidence_id, self.tender_token),

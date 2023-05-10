@@ -2351,8 +2351,6 @@ def create_tender_bid_with_documents(self):
         self.assertEqual(document["id"], response.json["data"]["id"])
 
 
-@mock.patch("openprocurement.tender.core.models.CRITERION_REQUIREMENT_STATUSES_FROM", get_now() - timedelta(days=1))
-@mock.patch("openprocurement.tender.belowthreshold.validation.CRITERION_REQUIREMENT_STATUSES_FROM", get_now() - timedelta(days=1))
 def bid_activate_with_cancelled_tenderer_criterion(self):
     self.set_status("active.enquiries")
     response = self.app.get("/tenders/{}".format(self.tender_id))

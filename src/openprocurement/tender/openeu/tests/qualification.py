@@ -67,7 +67,6 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
 )
 
 
-@patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
 class TenderQualificationRequirementResponseTestMixin(object):
     test_create_qualification_requirement_response = snitch(create_qualification_requirement_response)
     test_patch_qualification_requirement_response = snitch(patch_qualification_requirement_response)
@@ -75,7 +74,6 @@ class TenderQualificationRequirementResponseTestMixin(object):
 
     initial_criteria = test_exclusion_criteria
 
-    @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderQualificationRequirementResponseTestMixin, self).setUp()
         response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
@@ -85,7 +83,6 @@ class TenderQualificationRequirementResponseTestMixin(object):
         self.requirement_title = requirement["title"]
 
 
-@patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
 class TenderQualificationRequirementResponseEvidenceTestMixin(object):
     test_create_qualification_requirement_response_evidence = snitch(create_qualification_requirement_response_evidence)
     test_patch_qualification_requirement_response_evidence = snitch(patch_qualification_requirement_response_evidence)
@@ -93,7 +90,6 @@ class TenderQualificationRequirementResponseEvidenceTestMixin(object):
 
     initial_criteria = test_exclusion_criteria
 
-    @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderQualificationRequirementResponseEvidenceTestMixin, self).setUp()
         response = self.app.get("/tenders/{}/criteria".format(self.tender_id))

@@ -56,8 +56,11 @@ def delete_requirement_evidence(self):
 
     self.set_status("active.tendering")
 
-    with mock.patch("openprocurement.tender.belowthreshold.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
-                    get_now() - timedelta(days=1)):
+    with mock.patch(
+        "openprocurement.tender.belowthreshold.procedure.state"
+        ".criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
+        get_now() - timedelta(days=1)
+    ):
         response = self.app.delete(
             "{}/{}?acc_token={}".format(base_request_path, evidence_id, self.tender_token),
             status=403,
@@ -76,8 +79,11 @@ def delete_requirement_evidence(self):
         )
 
         self.set_status("active.auction")
-        with mock.patch("openprocurement.tender.belowthreshold.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
-                        get_now() + timedelta(days=1)):
+        with mock.patch(
+            "openprocurement.tender.belowthreshold.procedure.state"
+            ".criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
+            get_now() + timedelta(days=1)
+            ):
             response = self.app.delete(
                 "{}/{}?acc_token={}".format(base_request_path, evidence_id, self.tender_token),
                 status=403,
@@ -94,8 +100,11 @@ def delete_requirement_evidence(self):
                     'name': 'data',
                 }]
             )
-            with mock.patch("openprocurement.tender.belowthreshold.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
-                            get_now() - timedelta(days=1)):
+            with mock.patch(
+                "openprocurement.tender.belowthreshold.procedure.state"
+                ".criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
+                get_now() - timedelta(days=1)
+            ):
                 response = self.app.delete(
                     "{}/{}?acc_token={}".format(base_request_path, evidence_id, self.tender_token),
                     status=403,
