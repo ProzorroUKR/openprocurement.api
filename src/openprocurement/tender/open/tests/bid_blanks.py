@@ -2664,8 +2664,6 @@ def bid_activate(self):
     self.assertEqual(response.content_type, "application/json")
 
 
-@patch("openprocurement.tender.core.validation.CRITERION_REQUIREMENT_STATUSES_FROM", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.core.models.CRITERION_REQUIREMENT_STATUSES_FROM", get_now() - timedelta(days=1))
 def bid_activate_with_cancelled_tenderer_criterion(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     bid_pending_procedures = [
@@ -2808,8 +2806,6 @@ def patch_bid_with_responses(self):
     self.assertEqual(rrs[1]["title"], "Requirement response 3")
 
 
-@mock.patch("openprocurement.tender.core.validation.CRITERION_REQUIREMENT_STATUSES_FROM", get_now() - timedelta(days=1))
-@mock.patch("openprocurement.tender.core.models.CRITERION_REQUIREMENT_STATUSES_FROM", get_now() - timedelta(days=1))
 def bid_invalidation_after_requirement_put(self):
     next_status = "active"
     response = self.app.get("/tenders/{}/criteria".format(self.tender_id))

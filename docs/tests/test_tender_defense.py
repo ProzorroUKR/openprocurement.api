@@ -42,8 +42,6 @@ bid2.update({"selfEligible": True})
 TARGET_DIR = 'docs/source/tendering/defense/http/'
 
 
-@mock.patch("openprocurement.tender.core.validation.RELEASE_SIMPLE_DEFENSE_FROM",
-            parse_date(MOCK_DATETIME) + timedelta(days=365))
 class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
     AppClass = DumpsWebTestApp
 

@@ -2996,8 +2996,6 @@ def patch_tender_minimalstep_validation(self):
 
 @mock.patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
             get_now() + timedelta(days=1))
-@mock.patch("openprocurement.tender.core.validation.CRITERION_REQUIREMENT_STATUSES_FROM", get_now() - timedelta(days=1))
-@mock.patch("openprocurement.tender.core.models.CRITERION_REQUIREMENT_STATUSES_FROM", get_now() - timedelta(days=1))
 def patch_item_with_zero_quantity(self):
     self.create_tender()
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -3143,7 +3141,6 @@ def patch_items_related_buyer_id(self):
     self.assertEqual(len(response.json["data"]["items"]), 3)
 
 
-@mock.patch("openprocurement.tender.core.validation.RELEASE_GUARANTEE_CRITERION_FROM", get_now() - timedelta(days=1))
 def tender_with_guarantee(self):
     data = deepcopy(self.initial_data)
     data["status"] = "draft"
@@ -3191,7 +3188,6 @@ def tender_with_guarantee(self):
         status=200)
 
 
-@mock.patch("openprocurement.tender.core.validation.RELEASE_GUARANTEE_CRITERION_FROM", get_now() - timedelta(days=1))
 def tender_with_guarantee_multilot(self):
     data = deepcopy(self.initial_data)
     data["status"] = "draft"
@@ -3245,7 +3241,6 @@ def tender_with_guarantee_multilot(self):
     )
 
 
-@mock.patch("openprocurement.tender.core.validation.RELEASE_GUARANTEE_CRITERION_FROM", get_now() - timedelta(days=1))
 def activate_bid_guarantee_multilot(self):
     data = deepcopy(self.initial_data)
     data["status"] = "draft"

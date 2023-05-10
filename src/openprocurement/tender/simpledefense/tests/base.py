@@ -72,16 +72,6 @@ class BaseSimpleDefWebTest(BaseTenderWebTest):
     periods = PERIODS
     tender_class = Tender
 
-    def setUp(self):
-        self.pathcer_release_date = patch("openprocurement.tender.core.validation.RELEASE_SIMPLE_DEFENSE_FROM",
-                                          parse_date("2021-01-01T00:00:00+03:00"))
-        self.pathcer_release_date.start()
-        super(BaseSimpleDefWebTest, self).setUp()
-
-    def tearDown(self):
-        super(BaseSimpleDefWebTest, self).tearDown()
-        self.pathcer_release_date.stop()
-
     def set_enquiry_period_end(self):
         self.set_status("active.tendering", startend="enquiry_end")
 

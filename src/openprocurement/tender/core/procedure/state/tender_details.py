@@ -1,12 +1,8 @@
 from datetime import timedelta
 from typing import TYPE_CHECKING
 
-from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
-from openprocurement.tender.cfaua.constants import CFA_UA
-from openprocurement.tender.competitivedialogue.constants import (
-    CD_UA_TYPE,
-    CD_EU_TYPE,
-)
+from jsonschema.exceptions import ValidationError
+from jsonschema.validators import validate
 
 from openprocurement.tender.core.procedure.context import (
     get_request,
@@ -26,21 +22,14 @@ from openprocurement.api.constants import (
     RELEASE_ECRITERIA_ARTICLE_17,
     TENDER_PERIOD_START_DATE_STALE_MINUTES,
     TENDER_CONFIG_HAS_AUCTION_OPTIONAL,
+    TENDER_CONFIG_JSONSCHEMAS,
 )
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.esco.constants import ESCO
-from openprocurement.tender.limited.constants import (
-    REPORTING,
-    NEGOTIATION,
-    NEGOTIATION_QUICK,
-)
-from openprocurement.tender.pricequotation.constants import PQ
 
 if TYPE_CHECKING:
     baseclass = TenderState
 else:
     baseclass = object
-
 
 class TenderConfigMixin(baseclass):
 
@@ -49,32 +38,31 @@ class TenderConfigMixin(baseclass):
 
     def validate_has_auction(self, data):
         config = get_tender_config()
+        value = config.get("hasAuction")
 
-        if config.get("hasAuction") is None and TENDER_CONFIG_HAS_AUCTION_OPTIONAL is False:
+        if value is None and TENDER_CONFIG_HAS_AUCTION_OPTIONAL is False:
             raise_operation_error(
                 self.request,
-                ["This field is required."],
+                "This field is required.",
                 status=422,
                 location="body",
                 name="hasAuction",
             )
 
-        pmt = data.get("procurementMethodType")
-
-        # For this procurementMethodType it is not allowed to enable auction
-        no_auction_pmts = (REPORTING, NEGOTIATION, NEGOTIATION_QUICK, CD_UA_TYPE, CD_EU_TYPE, PQ)
-        if pmt in no_auction_pmts and config.get("hasAuction") is not False:
+        procurement_method_type = data.get("procurementMethodType")
+        config_schema = TENDER_CONFIG_JSONSCHEMAS.get(procurement_method_type)
+        if not config_schema:
+            raise NotImplementedError
+        schema = config_schema["properties"]["hasAuction"]
+        try:
+            validate(value, schema)
+        except ValidationError as e:
             raise_operation_error(
                 self.request,
-                "Config field hasAuction must be false for procurementMethodType {}".format(pmt)
-            )
-
-        # For this procurementMethodType it is not allowed to disable auction
-        auction_pmts = (ESCO, CFA_UA, CFA_SELECTION)
-        if pmt in auction_pmts and config.get("hasAuction") is not True:
-            raise_operation_error(
-                self.request,
-                "Config field hasAuction must be true for procurementMethodType {}".format(pmt)
+                e.message,
+                status=422,
+                location="body",
+                name="hasAuction",
             )
 
 

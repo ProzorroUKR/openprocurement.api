@@ -174,8 +174,11 @@ def delete_requirement_evidence(self):
 
     self.set_status("active.enquiries")
 
-    with mock.patch("openprocurement.tender.belowthreshold.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
-                    get_now() - timedelta(days=1)):
+    with mock.patch(
+        "openprocurement.tender.belowthreshold.procedure.state"
+        ".criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
+        get_now() - timedelta(days=1)
+    ):
         response = self.app.delete(
             "{}/{}?acc_token={}".format(base_request_path, evidence_id, self.tender_token),
             status=403,
@@ -259,8 +262,11 @@ def put_rg_requirement_invalid(self):
             [{'description': 'Forbidden', 'location': 'body', 'name': 'data'}],
         )
 
-    with mock.patch("openprocurement.tender.belowthreshold.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
-                    get_now() - timedelta(days=1)):
+    with mock.patch(
+        "openprocurement.tender.belowthreshold.procedure.state"
+        ".criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
+        get_now() - timedelta(days=1)
+    ):
         self.set_status("active.auction")
         response = self.app.put_json(
             put_url.format(self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),
@@ -282,8 +288,6 @@ def put_rg_requirement_invalid(self):
         )
 
 
-@mock.patch("openprocurement.tender.belowthreshold.validation.CRITERION_REQUIREMENT_STATUSES_FROM", get_now() - timedelta(days=1))
-@mock.patch("openprocurement.tender.core.models.CRITERION_REQUIREMENT_STATUSES_FROM", get_now() - timedelta(days=1))
 def put_rg_requirement_valid(self):
     put_fields = {
         "title": "Фізична особа",

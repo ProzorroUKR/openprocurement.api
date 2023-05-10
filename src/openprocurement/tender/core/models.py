@@ -90,7 +90,6 @@ from openprocurement.tender.core.utils import (
 )
 from openprocurement.tender.core.validation import (
     validate_lotvalue_value,
-    is_positive_float,
     validate_ua_road,
     validate_gmdn,
     validate_milestones,
@@ -100,6 +99,7 @@ from openprocurement.tender.core.validation import (
     validate_requirement_values,
     validate_minimalstep_limits,
 )
+from openprocurement.tender.core.procedure.validation import is_positive_float
 from openprocurement.tender.esco.utils import get_complaint_amount as get_esco_complaint_amount
 from openprocurement.planning.api.models import BaseOrganization
 from logging import getLogger
@@ -162,20 +162,7 @@ def get_requirement_obj(requirement_id=None, parent=None):
 
 
 class TenderAuctionPeriod(Period):
-    """The auction period."""
-
-    @serializable(serialize_when_none=False)
-    def shouldStartAfter(self):
-        if self.endDate:
-            return
-        tender = self.__parent__
-        if tender.lots or tender.status not in ["active.tendering", "active.auction"]:
-            return
-        if self.startDate and get_now() > calc_auction_end_time(tender.numberOfBids, self.startDate):
-            start_after = calc_auction_end_time(tender.numberOfBids, self.startDate)
-        else:
-            start_after = tender.tenderPeriod.endDate
-        return normalize_should_start_after(start_after, tender).isoformat()
+    shouldStartAfter = StringType()
 
 
 class ComplaintModelType(ModelType):
@@ -506,30 +493,7 @@ def validate_item_related_buyers(data, items):
 
 
 class LotAuctionPeriod(Period):
-    """The auction period."""
-
-    @serializable(serialize_when_none=False)
-    def shouldStartAfter(self):
-        if self.endDate:
-            return
-        tender = get_tender(self)
-        lot = self.__parent__
-        statuses = ["active.tendering", "active.auction"]
-        if tender.status not in statuses or lot.status != "active":
-            return
-        if self.startDate and get_now() > calc_auction_end_time(lot.numberOfBids, self.startDate):
-            start_after = calc_auction_end_time(lot.numberOfBids, self.startDate)
-        else:
-            decision_dates = [
-                datetime.combine(
-                    complaint.dateDecision.date() + timedelta(days=3), time(0, tzinfo=complaint.dateDecision.tzinfo)
-                )
-                for complaint in tender.complaints
-                if complaint.dateDecision
-            ]
-            decision_dates.append(tender.tenderPeriod.endDate)
-            start_after = max(decision_dates)
-        return normalize_should_start_after(start_after, tender).isoformat()
+    shouldStartAfter = StringType()
 
 
 class Item(BaseItem):

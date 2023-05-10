@@ -92,8 +92,6 @@ class TenderBidResourceTestMixin:
     test_create_tender_bid_no_scale = snitch(create_tender_bid_no_scale)
 
 
-@patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.core.models.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
 class TenderBidDocumentResourceTestMixin:
     test_create_tender_bidder_document = snitch(create_tender_bidder_document)
     test_put_tender_bidder_document = snitch(put_tender_bidder_document)
@@ -101,8 +99,6 @@ class TenderBidDocumentResourceTestMixin:
     test_create_tender_bidder_document_nopending = snitch(create_tender_bidder_document_nopending)
 
 
-@patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.core.models.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
 class TenderBidRequirementResponseTestMixin:
     test_create_bid_requirement_response = snitch(create_bid_requirement_response)
     test_patch_bid_requirement_response = snitch(patch_bid_requirement_response)
@@ -111,8 +107,6 @@ class TenderBidRequirementResponseTestMixin:
 
     initial_criteria = test_exclusion_criteria
 
-    @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
-    @patch("openprocurement.tender.core.models.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderBidRequirementResponseTestMixin, self).setUp()
         response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
@@ -125,8 +119,6 @@ class TenderBidRequirementResponseTestMixin:
         self.requirement_2_title = requirement["title"]
 
 
-@patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.core.models.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
 class TenderBidRequirementResponseEvidenceTestMixin:
     docservice = True
 
@@ -138,8 +130,6 @@ class TenderBidRequirementResponseEvidenceTestMixin:
 
     initial_criteria = test_exclusion_criteria
 
-    @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
-    @patch("openprocurement.tender.core.models.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
     def setUp(self):
         super(TenderBidRequirementResponseEvidenceTestMixin, self).setUp()
         response = self.app.get("/tenders/{}/criteria".format(self.tender_id))

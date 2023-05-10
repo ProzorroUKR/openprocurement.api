@@ -5,7 +5,7 @@ from openprocurement.api.utils import (
     get_now,
     error_handler,
 )
-from openprocurement.api.validation import _validate_tender_first_revision_date
+from openprocurement.api.validation import validate_tender_first_revision_date
 from openprocurement.api.constants import CRITERION_REQUIREMENT_STATUSES_FROM
 from openprocurement.tender.core.constants import CRITERION_LIFE_CYCLE_COST_IDS
 from openprocurement.tender.core.procedure.context import get_tender
@@ -68,7 +68,7 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
         validate_criteria_requirement_id_uniq(criteria)
 
     def _validate_put_requirement_objects(self) -> None:
-        _validate_tender_first_revision_date(self.request, validation_date=CRITERION_REQUIREMENT_STATUSES_FROM)
+        validate_tender_first_revision_date(self.request, validation_date=CRITERION_REQUIREMENT_STATUSES_FROM)
         valid_statuses = ["active.tendering"]
         base_validate_operation_ecriteria_objects(self.request, valid_statuses)
 

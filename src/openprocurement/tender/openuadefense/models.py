@@ -59,31 +59,7 @@ class IAboveThresholdUADefTender(IAboveThresholdUATender):
 
 
 class LotAuctionPeriod(Period):
-    """The auction period."""
-
-    @serializable(serialize_when_none=False)
-    def shouldStartAfter(self):
-        if self.endDate:
-            return
-        tender = get_tender(self)
-        lot = self.__parent__
-        statuses = ["active.tendering", "active.auction"]
-        if tender.status not in statuses or lot.status != "active":
-            return
-        if tender.status == "active.auction" and lot.numberOfBids < 2:
-            return
-        if self.startDate and get_now() > calc_auction_end_time(lot.numberOfBids, self.startDate):
-            return calc_auction_end_time(lot.numberOfBids, self.startDate).isoformat()
-        else:
-            decision_dates = [
-                datetime.combine(
-                    complaint.dateDecision.date() + timedelta(days=3), time(0, tzinfo=complaint.dateDecision.tzinfo)
-                )
-                for complaint in tender.complaints
-                if complaint.dateDecision
-            ]
-            decision_dates.append(tender.tenderPeriod.endDate)
-            return max(decision_dates).isoformat()
+    shouldStartAfter = StringType()
 
 
 class Lot(BaseLot):

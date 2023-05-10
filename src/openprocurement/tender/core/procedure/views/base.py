@@ -21,6 +21,7 @@ class TenderBaseResource(BaseResource):
 
             (Allow, "g:auction", "auction"),
             (Allow, "g:chronograph", "chronograph"),
+            (Allow, "g:contracting", "extract_credentials"),
         ]
         return acl
 

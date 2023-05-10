@@ -64,21 +64,12 @@ from openprocurement.tender.limited.tests.base import (
 
 
 def post_tender(app, data, config):
-    if data["procurementMethodType"] == "aboveThresholdUA.defense":
-        release_simpledef_date = get_now() + timedelta(days=1)
-    else:
-        release_simpledef_date = get_now() - timedelta(days=1)
-    release_simpledef_patcher = mock.patch("openprocurement.tender.core.validation.RELEASE_SIMPLE_DEFENSE_FROM",
-                                          release_simpledef_date)
-
-    release_simpledef_patcher.start()
     if data["procurementMethodType"] in (STAGE_2_EU_TYPE, STAGE_2_UA_TYPE):
         app.authorization = ("Basic", ("competitive_dialogue", ""))
     else:
         app.authorization = ("Basic", ("broker", "broker"))
     test_data = deepcopy(data)
     response = app.post_json("/tenders", dict(data=test_data, config=config))
-    release_simpledef_patcher.stop()
     assert response.status == "201 Created"
     return response.json["data"], response.json["access"]["token"]
 

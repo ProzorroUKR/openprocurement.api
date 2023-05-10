@@ -10,12 +10,7 @@ from openprocurement.tender.competitivedialogue.utils import (
     get_item_by_id,
 )
 from openprocurement.tender.core.validation import (
-    _validate_complaint_accreditation_level,
-    _validate_question_accreditation_level,
-    validate_tender_document_update_not_by_author_or_tender_owner,
-)
-from openprocurement.tender.openua.validation import (
-    validate_update_tender_document as validate_update_tender_document_base
+    validate_complaint_accreditation_level,
 )
 
 
@@ -54,21 +49,6 @@ def validate_patch_tender_stage2_data(request, **kwargs):
 
     return data
 
-
-def validate_update_tender_document(request, **kwargs):
-    status = request.validated["tender_status"]
-    role = request.authenticated_role
-    statuses = ["active.tendering", STAGE2_STATUS]
-    auction_statuses = ["active.auction", "active.qualification"]
-    if role != "auction" and status not in statuses or role == "auction" and status not in auction_statuses:
-        raise_operation_error(
-            request, "Can't {} document in current ({}) tender status".format(OPERATIONS.get(request.method), status)
-        )
-        validate_update_tender_document_base(request)
-    if request.method in ["PUT", "PATCH"]:
-        validate_tender_document_update_not_by_author_or_tender_owner(request)
-
-
 def validate_author(request, shortlistedFirms, obj):
     """ Compare author key and key from shortlistedFirms """
     firms_keys = prepare_shortlistedFirms(shortlistedFirms)
@@ -96,7 +76,7 @@ def validate_author(request, shortlistedFirms, obj):
 
 def validate_complaint_data_stage2(request, **kwargs):
     update_logging_context(request, {"complaint_id": "__new__"})
-    _validate_complaint_accreditation_level(request)
+    validate_complaint_accreditation_level(request)
     json_data = validate_json_data(request)
     model = type(request.tender).complaints.field.find_model(json_data)
     data = validate_data(request, model)
@@ -113,19 +93,6 @@ def validate_patch_complaint_data_stage2(request, **kwargs):
     data = validate_data(request, model, True)
     if data:
         if validate_author(request, request.tender["shortlistedFirms"], request.validated["complaint"]):
-            return data  # validate is OK
-        else:
-            return None  # we catch errors
-    return data
-
-
-def validate_post_question_data_stage2(request, **kwargs):
-    update_logging_context(request, {"question_id": "__new__"})
-    _validate_question_accreditation_level(request)
-    model = type(request.tender).questions.model_class
-    data = validate_data(request, model)
-    if data:
-        if validate_author(request, request.tender["shortlistedFirms"], request.validated["question"]):
             return data  # validate is OK
         else:
             return None  # we catch errors

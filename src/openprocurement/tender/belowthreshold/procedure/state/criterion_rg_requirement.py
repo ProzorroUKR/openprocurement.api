@@ -6,7 +6,7 @@ from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.belowthreshold.procedure.state.tender import BelowThresholdTenderState
 from openprocurement.tender.core.procedure.validation import (
     base_validate_operation_ecriteria_objects,
-    _validate_tender_first_revision_date,
+    validate_tender_first_revision_date,
 )
 
 
@@ -35,6 +35,6 @@ class BelowThresholdRequirementState(BelowThresholdRequirementStateMixin, BelowT
         self._validate_ids_uniq()
 
     def _validate_put_requirement_objects(self) -> None:
-        _validate_tender_first_revision_date(self.request, validation_date=CRITERION_REQUIREMENT_STATUSES_FROM)
+        validate_tender_first_revision_date(self.request, validation_date=CRITERION_REQUIREMENT_STATUSES_FROM)
         valid_statuses = ["active.enquiries"]
         base_validate_operation_ecriteria_objects(self.request, valid_statuses)

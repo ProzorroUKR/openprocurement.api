@@ -9,15 +9,13 @@ from openprocurement.api.utils import (
     get_first_revision_date,
 )
 from openprocurement.tender.core.validation import (
-    _validate_complaint_accreditation_level,
-    validate_cancellation_status_with_complaints,
-    validate_cancellation_status_without_complaints, validate_update_contract_status_base,
+    validate_complaint_accreditation_level,
 )
 
 
 def validate_complaint_data(request, **kwargs):
     update_logging_context(request, {"complaint_id": "__new__"})
-    _validate_complaint_accreditation_level(request)
+    validate_complaint_accreditation_level(request)
     model = type(request.context).complaints.model_class
     return validate_data(request, model)
 
@@ -174,21 +172,6 @@ def validate_absence_complete_lots_on_tender_cancel(request, **kwargs):
                 )
 
 
-def validate_cancellation_status(request, **kwargs):
-    tender = request.validated["tender"]
-    cancellation = request.validated["cancellation"]
-
-    lotID = cancellation.get("relatedLot")
-
-    if (
-        (not lotID and any(i for i in tender.awards if i.status == "active"))
-        or (lotID and any(i for i in tender.awards if i.status == "active" and i.get("lotID") == lotID))
-    ):
-        validate_cancellation_status_with_complaints(request)
-    else:
-        validate_cancellation_status_without_complaints(request)
-
-
 # contract
 def validate_contract_operation_not_in_active(request, **kwargs):
     if request.validated["tender_status"] not in ["active"]:
@@ -261,15 +244,6 @@ def validate_contract_items_count_modification(request, **kwargs):
         request.errors.status = 403
         raise error_handler(request)
 
-
-def validate_update_contract_status(request, **kwargs):
-    allowed_statuses_from = ("pending",)
-    allowed_statuses_to = ("active",)
-    validate_update_contract_status_base(
-        request,
-        allowed_statuses_from,
-        allowed_statuses_to
-    )
 
 
 # contract document

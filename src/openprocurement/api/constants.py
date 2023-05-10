@@ -95,6 +95,26 @@ SCALE_CODES = ["micro", "sme", "mid", "large", "not specified"]
 CPV_ITEMS_CLASS_FROM = datetime(2017, 1, 1, tzinfo=TZ)
 CPV_BLOCK_FROM = datetime(2017, 6, 2, tzinfo=TZ)
 
+TENDER_CONFIG_JSONSCHEMAS = {
+    "aboveThreshold": standards.load(f"data_model/schema/TenderConfig/aboveThreshold.json"),
+    "aboveThresholdEU": standards.load(f"data_model/schema/TenderConfig/aboveThresholdEU.json"),
+    "aboveThresholdUA.defense": standards.load(f"data_model/schema/TenderConfig/aboveThresholdUA.defense.json"),
+    "aboveThresholdUA": standards.load(f"data_model/schema/TenderConfig/aboveThresholdUA.json"),
+    "belowThreshold": standards.load(f"data_model/schema/TenderConfig/belowThreshold.json"),
+    "closeFrameworkAgreementSelectionUA": standards.load(f"data_model/schema/TenderConfig/closeFrameworkAgreementSelectionUA.json"),
+    "closeFrameworkAgreementUA": standards.load(f"data_model/schema/TenderConfig/closeFrameworkAgreementUA.json"),
+    "competitiveDialogueEU": standards.load(f"data_model/schema/TenderConfig/competitiveDialogueEU.json"),
+    "competitiveDialogueEU.stage2": standards.load(f"data_model/schema/TenderConfig/competitiveDialogueEU.stage2.json"),
+    "competitiveDialogueUA": standards.load(f"data_model/schema/TenderConfig/competitiveDialogueUA.json"),
+    "competitiveDialogueUA.stage2": standards.load(f"data_model/schema/TenderConfig/competitiveDialogueUA.stage2.json"),
+    "esco": standards.load(f"data_model/schema/TenderConfig/esco.json"),
+    "negotiation": standards.load(f"data_model/schema/TenderConfig/negotiation.json"),
+    "negotiation.quick": standards.load(f"data_model/schema/TenderConfig/negotiation.quick.json"),
+    "priceQuotation": standards.load(f"data_model/schema/TenderConfig/priceQuotation.json"),
+    "reporting": standards.load(f"data_model/schema/TenderConfig/reporting.json"),
+    "simple.defense": standards.load(f"data_model/schema/TenderConfig/simple.defense.json"),
+}
+
 def get_default_constants_file_path():
     return os.path.join(os.path.dirname(os.path.realpath(__file__)), "constants.ini")
 

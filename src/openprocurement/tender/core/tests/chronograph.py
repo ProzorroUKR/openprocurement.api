@@ -45,7 +45,6 @@ def switch_tender_complaints_draft(self):
     self.assertNotEqual(data.get("next_check"), tender_data["complaintPeriod"]["endDate"])
 
 
-# @patch("openprocurement.tender.core.validation.RELEASE_ECRITERIA_ARTICLE_17", get_now() - timedelta(days=1))
 @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def switch_tender_cancellation_complaints_draft(self):
     # first we post a cancellation

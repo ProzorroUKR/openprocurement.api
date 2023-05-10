@@ -6,7 +6,7 @@ from openprocurement.api.constants import (
     CRITERION_REQUIREMENT_STATUSES_FROM,
     RELEASE_GUARANTEE_CRITERION_FROM,
     GUARANTEE_ALLOWED_TENDER_TYPES,
-    RELEASE_ECRITERIA_ARTICLE_17,
+    RELEASE_ECRITERIA_ARTICLE_17, RELEASE_2020_04_19,
 )
 from openprocurement.api.utils import (
     to_decimal,
@@ -18,7 +18,7 @@ from openprocurement.api.validation import (
     validate_json_data,
     _validate_accreditation_level,
     _validate_accreditation_level_mode,
-    _validate_tender_first_revision_date,
+    validate_tender_first_revision_date,
     OPERATIONS,
 )
 from openprocurement.tender.core.validation import TYPEMAP
@@ -572,7 +572,7 @@ def validate_bid_document_operation_period(request, **_):
 
 # bids req response
 def base_validate_operation_ecriteria_objects(request, valid_statuses="", obj_name="tender"):
-    _validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
+    validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
     current_status = request.validated[obj_name]["status"]
     if current_status not in valid_statuses:
         raise_operation_error(request, "Can't {} object if {} not in {} statuses".format(
@@ -585,7 +585,7 @@ def validate_operation_ecriteria_on_tender_status(request, **_):
 
 
 def validate_operation_award_requirement_response(request, **kwargs):
-    _validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
+    validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
     valid_tender_statuses = ["active.qualification"]
     base_validate_operation_ecriteria_objects(request, valid_tender_statuses)
 
@@ -613,7 +613,7 @@ def validate_view_requirement_responses(request, **_):
 
 # qualification req response
 def validate_operation_qualification_requirement_response(request, **_):
-    _validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
+    validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
     base_validate_operation_ecriteria_objects(request, ["pending"], "qualification")
 
 
@@ -1457,8 +1457,17 @@ def validate_delete_lot_related_object(request: Request, **_) -> None:
 
 # Criteria
 def base_validate_operation_ecriteria_objects(request, valid_statuses="", obj_name="tender"):
-    _validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
+    validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
     current_status = request.validated[obj_name]["status"]
     if current_status not in valid_statuses:
         raise_operation_error(request, "Can't {} object if {} not in {} statuses".format(
             request.method.lower(), obj_name, valid_statuses))
+
+
+def validate_24h_milestone_released(request, **kwargs):
+    validate_tender_first_revision_date(request, validation_date=RELEASE_2020_04_19)
+
+
+def is_positive_float(value):
+    if value <= 0:
+        raise ValidationError("Float value should be greater than 0.")
