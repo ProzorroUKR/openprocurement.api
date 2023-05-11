@@ -2,18 +2,12 @@
 from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.transforms import whitelist, blacklist
-from schematics.types import StringType, MD5Type, BooleanType, BaseType
+from schematics.types import StringType, MD5Type, BooleanType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
-from openprocurement.api.constants import (
-    MILESTONES_VALIDATION_FROM,
-    QUICK_CAUSE_REQUIRED_FROM,
-    NEW_NEGOTIATION_CAUSES_FROM,
-    TZ,
-)
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_3, ACCR_4, ACCR_5
-from openprocurement.api.utils import get_now, get_root, get_first_revision_date
+from openprocurement.api.utils import get_now
 from openprocurement.api.models import schematics_default_role, schematics_embedded_role
 from openprocurement.api.models import ListType, Period, Model, ContactLessBusinessOrganization
 from openprocurement.api.models import Value, Organization, Identifier, Address, ContactPoint
@@ -30,7 +24,6 @@ from openprocurement.tender.core.models import (
     ITender,
     Contract as BaseContract,
     ProcuringEntity as BaseProcuringEntity,
-    validate_item_related_buyers,
     validate_funders_unique,
     validate_funders_ids,
 )
@@ -295,13 +288,6 @@ class ReportingTender(BaseTender):
         ]
         return acl
 
-    # Not required milestones
-    def validate_milestones(self, data, value):
-        pass
-
-    def validate_items(self, data, items):
-        validate_item_related_buyers(data, items)
-
 
 Item = BaseItem
 
@@ -409,25 +395,6 @@ class NegotiationTender(ReportingTender):
         "lastHope"
     ] + _basic_cause_choices
 
-    # Required milestones
-    def validate_milestones(self, data, value):
-        required = get_first_revision_date(data, default=get_now()) > MILESTONES_VALIDATION_FROM
-        if required and (value is None or len(value) < 1):
-            raise ValidationError("Tender should contain at least one milestone")
-
-    def validate_cause_choices(self, data, value):
-        apply_new_negotiation_causes = get_first_revision_date(data, default=get_now()) > NEW_NEGOTIATION_CAUSES_FROM
-        cause_choices = self._cause_choices_new \
-            if apply_new_negotiation_causes \
-            else self._cause_choices
-        if value not in cause_choices:
-            raise ValidationError(BaseType.MESSAGES['choices'].format(cause_choices))
-
-    def validate_cause(self, data, value):
-        if not value:
-            raise ValidationError(BaseType.MESSAGES["required"])
-        self._validator_functions["cause_choices"](self, data, value)
-
     def __acl__(self):
         acl = [
             (Allow, "g:brokers", "create_award_complaint"),
@@ -451,9 +418,6 @@ class NegotiationTender(ReportingTender):
         # Add checks here if needed
 
         return min(checks).isoformat() if checks else None
-
-    def validate_items(self, data, items):
-        validate_item_related_buyers(data, items)
 
 
 @implementer(INegotiationQuickTender)
@@ -480,10 +444,3 @@ class NegotiationQuickTender(NegotiationTender):
         "contractCancelled",
         "activeComplaint",
     ]
-
-    def validate_cause(self, data, value):
-        required = get_first_revision_date(data, default=get_now()) >= QUICK_CAUSE_REQUIRED_FROM
-        if required and not value:
-            raise ValidationError(BaseType.MESSAGES["required"])
-        if value:
-            NegotiationTender._validator_functions["cause_choices"](self, data, value)

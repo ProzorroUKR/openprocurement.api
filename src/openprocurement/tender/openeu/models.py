@@ -1,5 +1,4 @@
 from uuid import uuid4
-from datetime import timedelta, datetime, time
 from pyramid.security import Allow
 from zope.interface import implementer
 from schematics.types import IntType, StringType, MD5Type, BooleanType
@@ -47,7 +46,6 @@ from openprocurement.tender.core.models import (
     default_lot_role,
     get_tender,
     validate_lots_uniq,
-    normalize_should_start_after,
     validate_parameters_uniq,
     bids_validation_wrapper,
     PROCURING_ENTITY_KINDS,
@@ -57,14 +55,10 @@ from openprocurement.tender.core.models import (
     WeightedValueMixin,
 )
 from openprocurement.tender.core.utils import (
-    calculate_tender_business_date,
     calc_auction_end_time,
     has_unanswered_questions,
     has_unanswered_complaints,
     calculate_complaint_business_date,
-    calculate_clarif_business_date,
-    check_auction_period,
-    calculate_tender_date,
     extend_next_check_by_complaint_period_ends,
     cancellation_block_tender,
 )
@@ -72,7 +66,6 @@ from openprocurement.tender.belowthreshold.models import Tender as BaseTender
 from openprocurement.tender.core.validation import (
     validate_lotvalue_value,
     validate_relatedlot,
-    validate_tender_period_duration,
 )
 from openprocurement.tender.core.constants import (
     AWARD_CRITERIA_LOWEST_COST,
@@ -90,15 +83,9 @@ from openprocurement.tender.openua.models import (
 )
 from openprocurement.tender.openua.constants import (
     COMPLAINT_SUBMIT_TIME,
-    ENQUIRY_STAND_STILL_TIME,
 )
 from openprocurement.tender.openeu.constants import (
-    TENDERING_DURATION,
-    QUESTIONS_STAND_STILL,
     BID_UNSUCCESSFUL_FROM,
-)
-from openprocurement.tender.openua.validation import (
-    _validate_tender_period_start_date,
 )
 
 
@@ -714,27 +701,9 @@ class Tender(BaseTender):
         self._acl_cancellation_complaint(acl)
         return acl
 
-    def validate_awardCriteria(self, data, value):
-        if value == AWARD_CRITERIA_LIFE_CYCLE_COST:
-            if data.get("features", []):
-                raise ValidationError("Can`t add features with {} awardCriteria".format(AWARD_CRITERIA_LIFE_CYCLE_COST))
-
-    def validate_enquiryPeriod(self, data, period):
-        # for deactivate validation to enquiryPeriod from parent class
-        return
-
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
     def tender_enquiryPeriod(self):
-        end_date = calculate_tender_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, self)
-        clarifications_until = calculate_clarif_business_date(end_date, ENQUIRY_STAND_STILL_TIME, self, True)
-        return EnquiryPeriod(
-            dict(
-                startDate=self.tenderPeriod.startDate,
-                endDate=end_date,
-                invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
-                clarificationsUntil=clarifications_until,
-            )
-        )
+        return self.enquiryPeriod
 
     @serializable(type=ModelType(Period))
     def complaintPeriod(self):
@@ -854,26 +823,7 @@ class Tender(BaseTender):
 
         return min(checks).isoformat() if checks else None
 
-    def validate_tenderPeriod(self, data, period):
-        if is_new_created(data):
-            _validate_tender_period_start_date(data, period)
-        validate_tender_period_duration(data, period, TENDERING_DURATION)
-
     @serializable
     def numberOfBids(self):
         """A property that is serialized by schematics exports."""
         return len([bid for bid in self.bids if bid.status in ("active", "pending")])
-
-    def check_auction_time(self):
-        if check_auction_period(self.auctionPeriod, self):
-            self.auctionPeriod.startDate = None
-        for lot in self.lots:
-            if check_auction_period(lot.auctionPeriod, self):
-                lot.auctionPeriod.startDate = None
-
-    def invalidate_bids_data(self):
-        self.check_auction_time()
-        self.enquiryPeriod.invalidationDate = get_now()
-        for bid in self.bids:
-            if bid.status not in ["deleted", "draft"]:
-                bid.status = "invalid"

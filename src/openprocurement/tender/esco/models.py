@@ -7,10 +7,9 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist, blacklist
-from barbecue import vnmax
 from esculator import npv, escp
-from openprocurement.api.utils import get_now, is_new_created, get_root, get_first_revision_date
-from openprocurement.api.constants import TZ, CPV_ITEMS_CLASS_FROM, RELEASE_ECRITERIA_ARTICLE_17
+from openprocurement.api.utils import get_now, get_root, get_first_revision_date
+from openprocurement.api.constants import TZ, RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.validation import validate_cpv_group, validate_items_uniq
 from openprocurement.api.models import (
@@ -35,7 +34,6 @@ from openprocurement.tender.core.models import (
     Feature as BaseFeature,
     BaseLot,
     FeatureValue as BaseFeatureValue,
-    validate_item_related_buyers,
 )
 from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
 from openprocurement.tender.core.models import (
@@ -48,27 +46,21 @@ from openprocurement.tender.core.models import (
     validate_values_uniq,
     EUDocument as Document,
 )
-from openprocurement.tender.core.validation import validate_tender_period_duration
 from openprocurement.tender.core.utils import (
     calc_auction_end_time,
-    calculate_tender_business_date,
     has_unanswered_questions,
     has_unanswered_complaints,
     calculate_complaint_business_date,
-    calculate_clarif_business_date,
-    check_auction_period,
     extend_next_check_by_complaint_period_ends,
     cancellation_block_tender,
-    validate_features_custom_weight,
 )
 from openprocurement.tender.openua.models import Tender as OpenUATender
 from openprocurement.tender.openua.models import get_complaint_type_model
-from openprocurement.tender.openua.constants import COMPLAINT_SUBMIT_TIME, ENQUIRY_STAND_STILL_TIME
+from openprocurement.tender.openua.constants import COMPLAINT_SUBMIT_TIME
 from openprocurement.tender.openeu.models import (
     IAboveThresholdEUTender,
     Bid as BaseEUBid,
     LotValue as BaseLotValue,
-    ComplaintModelType,
     ComplaintPolyModelType,
     Item as BaseItem,
     TenderAuctionPeriod,
@@ -82,11 +74,7 @@ from openprocurement.tender.openeu.models import (
     Contract as BaseEUContract,
     BidModelType,
 )
-from openprocurement.tender.openeu.constants import TENDERING_DURATION, QUESTIONS_STAND_STILL
 from openprocurement.tender.esco.utils import to_decimal
-from openprocurement.tender.openua.validation import (
-    _validate_tender_period_start_date,
-)
 
 view_value_role_esco = whitelist(
     "amount",
@@ -701,16 +689,7 @@ class Tender(BaseTender):
 
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
     def tender_enquiryPeriod(self):
-        end_date = calculate_tender_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, self)
-        clarifications_until = calculate_clarif_business_date(end_date, ENQUIRY_STAND_STILL_TIME, self, True)
-        return EnquiryPeriod(
-            dict(
-                startDate=self.tenderPeriod.startDate,
-                endDate=end_date,
-                invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
-                clarificationsUntil=clarifications_until,
-            )
-        )
+        return self.enquiryPeriod
 
     @serializable(type=ModelType(Period))
     def complaintPeriod(self):
@@ -837,33 +816,10 @@ class Tender(BaseTender):
     @serializable(serialized_name="minValue", type=ModelType(Value))
     def tender_minValue(self):
         return self.minValue
-        # return (
-        #     Value(
-        #         dict(
-        #             amount=sum([i.minValue.amount for i in self.lots]),
-        #             currency=self.minValue.currency,
-        #             valueAddedTaxIncluded=self.minValue.valueAddedTaxIncluded,
-        #         )
-        #     )
-        #     if self.lots
-        #     else self.minValue
-        # )
 
     @serializable(serialized_name="guarantee", serialize_when_none=False, type=ModelType(Guarantee))
     def tender_guarantee(self):
         return self.guarantee
-        # if self.lots:
-        #     lots_amount = [i.guarantee.amount for i in self.lots if i.guarantee]
-        #     if not lots_amount:
-        #         return self.guarantee
-        #     guarantee = {"amount": sum(lots_amount)}
-        #     lots_currency = [i.guarantee.currency for i in self.lots if i.guarantee]
-        #     guarantee["currency"] = lots_currency[0] if lots_currency else None
-        #     if self.guarantee:
-        #         guarantee["currency"] = self.guarantee.currency
-        #     return Guarantee(guarantee)
-        # else:
-        #     return self.guarantee
 
     @serializable(serialized_name="minimalStep", type=ModelType(Value), serialize_when_none=False)
     def tender_minimalStep(self):
@@ -872,16 +828,10 @@ class Tender(BaseTender):
     @serializable(serialized_name="minimalStepPercentage")
     def tender_minimalStepPercentage(self):
         return self.minimalStepPercentage
-        # return min([i.minimalStepPercentage for i in self.lots]) if self.lots else self.minimalStepPercentage
 
     @serializable(serialized_name="yearlyPaymentsPercentageRange")
     def tender_yearlyPaymentsPercentageRange(self):
         return self.yearlyPaymentsPercentageRange
-        # return (
-        #     min([i.yearlyPaymentsPercentageRange for i in self.lots])
-        #     if self.lots
-        #     else self.yearlyPaymentsPercentageRange
-        # )
 
     @serializable(serialized_name="noticePublicationDate", serialize_when_none=False, type=IsoDateTimeType())
     def tender_noticePublicationDate(self):
@@ -889,84 +839,6 @@ class Tender(BaseTender):
             return self.get_root().request.now
         else:
             return self.noticePublicationDate
-
-    def validate_items(self, data, items):
-        cpv_336_group = items[0].classification.id[:3] == "336" if items else False
-        date = get_first_revision_date(data, default=get_now())
-        if (
-            not cpv_336_group and date > CPV_ITEMS_CLASS_FROM and items
-            and len(set([i.classification.id[:4] for i in items])) != 1
-        ):
-            raise ValidationError("CPV class of items should be identical")
-        else:
-            validate_cpv_group(items)
-        validate_item_related_buyers(data, items)
-
-    def validate_features(self, data, features):
-        validate_features_custom_weight(data, features, 0.25)
-
-    def validate_auctionUrl(self, data, url):
-        if url and data["lots"]:
-            raise ValidationError("url should be posted for each lot")
-
-    def validate_minimalStep(self, data, value):
-        pass
-
-    def validate_tenderPeriod(self, data, period):
-        if period:
-            if is_new_created(data):
-                _validate_tender_period_start_date(data, period)
-            validate_tender_period_duration(data, period, TENDERING_DURATION)
-
-    def validate_awardPeriod(self, data, period):
-        if (
-            period
-            and period.startDate
-            and data.get("auctionPeriod")
-            and data.get("auctionPeriod").endDate
-            and period.startDate < data.get("auctionPeriod").endDate
-        ):
-            raise ValidationError("period should begin after auctionPeriod")
-        if (
-            period
-            and period.startDate
-            and data.get("tenderPeriod")
-            and data.get("tenderPeriod").endDate
-            and period.startDate < data.get("tenderPeriod").endDate
-        ):
-            raise ValidationError("period should begin after tenderPeriod")
-
-    def validate_lots(self, data, value):
-        if len(set([lot.guarantee.currency for lot in value if lot.guarantee])) > 1:
-            raise ValidationError("lot guarantee currency should be identical to tender guarantee currency")
-        if len(set([lot.fundingKind for lot in value])) > 1:
-            raise ValidationError("lot funding kind should be identical to tender funding kind")
-
-    def validate_yearlyPaymentsPercentageRange(self, data, value):
-        if data["fundingKind"] == "other" and value != Decimal("0.8"):
-            raise ValidationError("when fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8")
-        if data["fundingKind"] == "budget" and (value > Decimal("0.8") or value < Decimal("0")):
-            raise ValidationError(
-                "when fundingKind is budget, yearlyPaymentsPercentageRange should be less or equal 0.8, and more or equal 0"
-            )
-
-    def check_auction_time(self):
-        if check_auction_period(self.auctionPeriod, self):
-            self.auctionPeriod.startDate = None
-        for lot in self.lots:
-            if check_auction_period(lot.auctionPeriod, self):
-                lot.auctionPeriod.startDate = None
-
-    def invalidate_bids_data(self):
-        self.check_auction_time()
-        self.enquiryPeriod.invalidationDate = get_now()
-        for bid in self.bids:
-            if bid.status not in ["deleted", "draft"]:
-                bid.status = "invalid"
-
-    # Not required milestones
-    def validate_milestones(self, data, value):
-        pass
 
 
 TenderESCO = Tender
