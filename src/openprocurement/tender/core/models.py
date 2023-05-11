@@ -2318,6 +2318,12 @@ class BaseTender(RootModel):
     def link_plan(self, plan_id):
         self.plans.append(PlanRelation({"id": plan_id}))
 
+    def validate_plans(self, data, value):
+        if len(set(i["id"] for i in value)) < len(value):
+            raise ValidationError("The list should not contain duplicates")
+        if len(value) > 1 and data.get("procuringEntity", {}).get("kind", "") != "central":
+            raise ValidationError("Linking more than one plan is allowed only if procuringEntity.kind is 'central'")
+
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
     revisions = BaseType(default=list)
 
