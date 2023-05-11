@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta, datetime, time
-from schematics.exceptions import ValidationError
 from schematics.types import StringType, BooleanType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
@@ -22,7 +20,6 @@ from openprocurement.tender.core.models import (
     EnquiryPeriod,
     LotWithMinimalStepLimitsValidation as BaseLot,
     validate_lots_uniq,
-    get_tender,
 )
 from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
 from openprocurement.tender.openua.models import (
@@ -39,19 +36,14 @@ from openprocurement.tender.core.utils import (
     cancellation_block_tender,
 )
 from openprocurement.tender.openuadefense.constants import (
-    TENDERING_DURATION,
-    ENQUIRY_STAND_STILL_TIME,
-    ENQUIRY_PERIOD_TIME,
     COMPLAINT_SUBMIT_TIME,
     COMPLAINT_OLD_SUBMIT_TIME,
     COMPLAINT_OLD_SUBMIT_TIME_BEFORE,
 )
 from openprocurement.tender.openuadefense.utils import (
     calculate_tender_business_date,
-    calculate_clarif_business_date,
     calculate_complaint_business_date,
 )
-from openprocurement.tender.openuadefense.validation import _validate_tender_period_duration
 
 
 class IAboveThresholdUADefTender(IAboveThresholdUATender):
@@ -110,26 +102,9 @@ class Tender(BaseTender):
 
     cancellations = ListType(ModelType(Cancellation, required=True), default=list())
 
-    def validate_awardCriteria(self, data, value):
-        # for deactivate validation of awardCriteria from parent class
-        return
-
-    def validate_tenderPeriod(self, data, period):
-        if period:
-            _validate_tender_period_duration(data, period, TENDERING_DURATION, working_days=True)
-
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
     def tender_enquiryPeriod(self):
-        end_date = calculate_tender_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, self, True)
-        clarifications_until = calculate_clarif_business_date(end_date, ENQUIRY_STAND_STILL_TIME, self, True)
-        return EnquiryPeriod(
-            dict(
-                startDate=self.tenderPeriod.startDate,
-                endDate=end_date,
-                invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
-                clarificationsUntil=clarifications_until,
-            )
-        )
+        return self.enquiryPeriod
 
     @serializable(type=ModelType(Period))
     def complaintPeriod(self):
@@ -138,10 +113,6 @@ class Tender(BaseTender):
         else:
             end_date = calculate_complaint_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self, True)
         return Period(dict(startDate=self.tenderPeriod.startDate, endDate=end_date))
-
-    def validate_criteria(self, data, value):
-        if value:
-            raise ValidationError("Rogue field")
 
     @serializable(serialize_when_none=False)
     def next_check(self):

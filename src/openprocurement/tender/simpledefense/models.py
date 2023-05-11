@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-from schematics.types import StringType, BooleanType
-from schematics.exceptions import ValidationError
+from schematics.types import StringType
 from schematics.types.compound import ModelType
 from zope.interface import implementer
 
@@ -50,12 +49,3 @@ class Tender(BaseTender):
     bids = SifterListType(
         ModelType(Bid, required=True), default=list(), filter_by="status", filter_in_values=["invalid", "deleted"]
     )
-
-    def validate_criteria(self, data, value):
-        # for deactivate validation of criteria from parent class
-        return
-
-    def validate_awardCriteria(self, data, value):
-        if value == AWARD_CRITERIA_LIFE_CYCLE_COST:
-            if data.get("features", []):
-                raise ValidationError("Can`t add features with {} awardCriteria".format(AWARD_CRITERIA_LIFE_CYCLE_COST))

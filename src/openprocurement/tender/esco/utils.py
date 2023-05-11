@@ -22,9 +22,6 @@ def to_decimal(fraction):
     return Decimal(fraction.numerator) / Decimal(fraction.denominator)
 
 
-# complaint.value helpers below
-
-
 def get_bid_identifier(bid):
     identifier = bid["tenderers"][0]["identifier"]
     return identifier["scheme"], identifier["id"]

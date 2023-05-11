@@ -1,5 +1,5 @@
 from uuid import uuid4
-from datetime import timedelta, time, datetime
+from datetime import timedelta
 from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.transforms import whitelist, blacklist, export_loop
@@ -47,7 +47,6 @@ from openprocurement.api.constants import (
     ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017,
     FUNDERS,
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
-    MPC_REQUIRED_FROM,
     MILESTONES_VALIDATION_FROM,
     RELEASE_2020_04_19,
     COMPLAINT_IDENTIFIER_REQUIRED_FROM,
@@ -76,14 +75,11 @@ from openprocurement.tender.core.constants import (
     AWARD_CRITERIA_LIFE_CYCLE_COST,
 )
 from openprocurement.tender.core.utils import (
-    normalize_should_start_after,
-    calc_auction_end_time,
     restrict_value_to_bounds,
     round_up_to_ten,
     get_contract_supplier_roles,
     get_contract_supplier_permissions,
     calculate_tender_date,
-    prepare_award_milestones,
     check_skip_award_complaint_period,
     calculate_complaint_business_date,
     filter_features,
@@ -2105,34 +2101,15 @@ class Lot(BaseLot):
 
     @serializable(serialized_name="guarantee", serialize_when_none=False, type=ModelType(Guarantee))
     def lot_guarantee(self):
-        if self.guarantee:
-            currency = self.__parent__.guarantee.currency if self.__parent__.guarantee else self.guarantee.currency
-            return Guarantee(dict(amount=self.guarantee.amount, currency=currency))
+        return self.guarantee
 
-    @serializable(serialized_name="minimalStep", type=ModelType(Value))
+    @serializable(serialized_name="minimalStep", serialize_when_none=False, type=ModelType(Value))
     def lot_minimalStep(self):
-        return Value(
-            dict(
-                amount=self.minimalStep.amount,
-                currency=self.__parent__.minimalStep.currency,
-                valueAddedTaxIncluded=self.__parent__.minimalStep.valueAddedTaxIncluded,
-            )
-        )
+        return self.minimalStep
 
-    @serializable(serialized_name="value", type=ModelType(Value))
+    @serializable(serialized_name="value", serialize_when_none=False, type=ModelType(Value))
     def lot_value(self):
-        return Value(
-            dict(
-                amount=self.value.amount,
-                currency=self.__parent__.value.currency,
-                valueAddedTaxIncluded=self.__parent__.value.valueAddedTaxIncluded,
-            )
-        )
-
-    def validate_minimalStep(self, data, value):
-        if value and value.amount and data.get("value"):
-            if data.get("value").amount < value.amount:
-                raise ValidationError("value should be less than value of lot")
+        return self.value
 
 
 class LotWithMinimalStepLimitsValidation(Lot):
@@ -2148,12 +2125,6 @@ class LotWithMinimalStepLimitsValidation(Lot):
     """
     class Options:
         namespace = "Lot"
-
-    def validate_minimalStep(self, data, value):
-        if value and value.amount and data.get("value"):
-            if data.get("value").amount < value.amount:
-                raise ValidationError("value should be less than value of lot")
-        validate_minimalstep_limits(data, value)
 
 
 class Duration(Model):
@@ -2363,11 +2334,6 @@ class BaseTender(RootModel):
         roles = dict([("{}_{}".format(self.owner, self.owner_token), "tender_owner")])
         return roles
 
-    # @serializable(serialized_name="id")
-    # def doc_id(self):
-    #     """A property that is serialized by schematics exports."""
-    #     return self._id
-
     def import_data(self, raw_data, **kw):
         """
         Converts and imports the raw data into the instance of the model
@@ -2387,24 +2353,6 @@ class BaseTender(RootModel):
 
         self._data.update(data)
         return self
-
-    def validate_procurementMethodDetails(self, *args, **kw):
-        if self.mode and self.mode == "test" and self.procurementMethodDetails and self.procurementMethodDetails != "":
-            raise ValidationError("procurementMethodDetails should be used with mode test")
-
-    def validate_mainProcurementCategory(self, data, value):
-        validation_date = get_first_revision_date(data, default=get_now())
-        if validation_date >= MPC_REQUIRED_FROM and value is None:
-            raise ValidationError(BaseType.MESSAGES["required"])
-
-    def validate_milestones(self, data, value):
-        required = get_first_revision_date(data, default=get_now()) > MILESTONES_VALIDATION_FROM
-        if required and (value is None or len(value) < 1):
-            raise ValidationError("Tender should contain at least one milestone")
-
-    def validate_buyers(self, data, value):
-        if data.get("procuringEntity", {}).get("kind", "") == "central" and not value:
-            raise ValidationError(BaseType.MESSAGES["required"])
 
     def _acl_cancellation(self, acl):
         acl.extend(
@@ -2446,28 +2394,6 @@ class BaseTender(RootModel):
             ]
 
         acl.extend(acl_cancellation_complaints)
-
-    def append_award(self, bid, all_bids, lot_id=None):
-        # TODO: is going to be replaced by .procedure.awarding.tender_append_award function
-        now = get_now()
-        award_data = {
-            "bid_id": bid["id"],
-            "lotID": lot_id,
-            "status": "pending",
-            "date": now,
-            "value": bid["value"],
-            "suppliers": bid["tenderers"],
-        }
-        if "weightedValue" in bid:
-            award_data["weightedValue"] = bid["weightedValue"]
-        # append an "alp" milestone if it's the case
-        award_class = self.__class__.awards.model_class
-        if hasattr(award_class, "milestones"):
-            award_data["milestones"] = prepare_award_milestones(self, bid, all_bids, lot_id)
-
-        award = award_class(award_data)
-        award.__parent__ = self
-        self.awards.append(award)
 
 
 def default_status(old_default_status="active.tendering", new_default_status="draft"):

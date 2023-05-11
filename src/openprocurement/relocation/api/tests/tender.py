@@ -2,8 +2,6 @@ import uuid
 
 import os
 from copy import deepcopy
-from mock import patch
-from datetime import timedelta
 from openprocurement.relocation.api.models import Transfer
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
@@ -11,13 +9,13 @@ from openprocurement.tender.core.tests.base import (
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
-from openprocurement.tender.openeu.models import TENDERING_DURATION
 from openprocurement.api.models import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest,
     test_tender_below_data,
     test_tender_below_config,
 )
+from openprocurement.tender.openeu.constants import TENDERING_DURATION
 from openprocurement.tender.openua.tests.base import (
     test_tender_openua_data,
     test_tender_openua_config,

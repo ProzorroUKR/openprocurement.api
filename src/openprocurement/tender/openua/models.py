@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from uuid import uuid4
 
-from datetime import time, timedelta, datetime
 from zope.interface import implementer
 from pyramid.security import Allow
 from schematics.exceptions import ValidationError
@@ -21,7 +20,7 @@ from openprocurement.api.models import (
     IsoDateTimeType,
     Address,
 )
-from openprocurement.api.constants import TZ, RELEASE_2020_04_19, RELEASE_METRICS_FROM
+from openprocurement.api.constants import TZ, RELEASE_2020_04_19
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.validation import (
     validate_cpv_group,
@@ -60,21 +59,16 @@ from openprocurement.tender.core.models import (
     WeightedValueMixin,
 )
 from openprocurement.tender.core.utils import (
-    normalize_should_start_after,
     has_unanswered_questions,
     has_unanswered_complaints,
     calc_auction_end_time,
-    calculate_tender_business_date,
     calculate_complaint_business_date,
-    calculate_clarif_business_date,
-    check_auction_period,
     extend_next_check_by_complaint_period_ends,
     cancellation_block_tender,
 )
 from openprocurement.tender.core.validation import (
     validate_lotvalue_value,
     validate_relatedlot,
-    validate_tender_period_duration,
 )
 from openprocurement.tender.core.constants import (
     AWARD_CRITERIA_LOWEST_COST,
@@ -85,14 +79,8 @@ from openprocurement.tender.belowthreshold.models import (
     Item as BaseItem,
 )
 from openprocurement.tender.openua.constants import (
-    ENQUIRY_STAND_STILL_TIME,
     COMPLAINT_SUBMIT_TIME,
-    TENDERING_DURATION,
-    ENQUIRY_PERIOD_TIME,
     PERIOD_END_REQUIRED_FROM,
-)
-from openprocurement.tender.openua.validation import (
-    _validate_tender_period_start_date,
 )
 
 
@@ -755,38 +743,9 @@ class Tender(BaseTender):
         self._acl_cancellation_complaint(acl)
         return acl
 
-    def validate_awardCriteria(self, data, value):
-        if value == AWARD_CRITERIA_LIFE_CYCLE_COST:
-            if data.get("features", []):
-                raise ValidationError("Can`t add features with {} awardCriteria".format(AWARD_CRITERIA_LIFE_CYCLE_COST))
-
-    def validate_enquiryPeriod(self, data, period):
-        # for deactivate validation to enquiryPeriod from parent class
-        return
-
-    def validate_tenderPeriod(self, data, period):
-        if period:
-            if is_new_created(data):
-                _validate_tender_period_start_date(data, period)
-            validate_tender_period_duration(data, period, TENDERING_DURATION)
-
-    def validate_targets(self, data, value):
-        if get_first_revision_date(data, default=get_now()) > RELEASE_METRICS_FROM:
-            if value:
-                raise ValidationError("Rogue field.")
-
     @serializable(serialized_name="enquiryPeriod", type=ModelType(EnquiryPeriod))
     def tender_enquiryPeriod(self):
-        end_date = calculate_tender_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, self)
-        clarifications_until = calculate_clarif_business_date(end_date, ENQUIRY_STAND_STILL_TIME, self, True)
-        return EnquiryPeriod(
-            dict(
-                startDate=self.tenderPeriod.startDate,
-                endDate=end_date,
-                invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
-                clarificationsUntil=clarifications_until,
-            )
-        )
+        return self.enquiryPeriod
 
     @serializable(type=ModelType(Period))
     def complaintPeriod(self):
@@ -895,17 +854,3 @@ class Tender(BaseTender):
                     checks.append(award.date)
 
         return min(checks).isoformat() if checks else None
-
-    def check_auction_time(self):
-        if check_auction_period(self.auctionPeriod, self):
-            self.auctionPeriod.startDate = None
-        for lot in self.lots:
-            if check_auction_period(lot.auctionPeriod, self):
-                lot.auctionPeriod.startDate = None
-
-    def invalidate_bids_data(self):
-        self.check_auction_time()
-        self.enquiryPeriod.invalidationDate = get_now()
-        for bid in self.bids:
-            if bid.status not in ["deleted", "draft"]:
-                bid.status = "invalid"
