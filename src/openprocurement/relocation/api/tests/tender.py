@@ -15,6 +15,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_data,
     test_tender_below_config,
 )
+from openprocurement.tender.open.tests.base import test_tender_open_data, test_tender_open_config
 from openprocurement.tender.openeu.constants import TENDERING_DURATION
 from openprocurement.tender.openua.tests.base import (
     test_tender_openua_data,
@@ -374,6 +375,14 @@ class TenderOwnershipChangeTest(BaseTenderOwnershipChangeTest):
                 }
             ],
         )
+
+
+class OpenTenderOwnershipChangeTest(TenderOwnershipChangeTest):
+    initial_data = test_tender_open_data
+    initial_config = test_tender_open_config
+    second_owner = "broker3"
+    test_owner = "broker3t"
+    invalid_owner = "broker1"
 
 
 class OpenUATenderOwnershipChangeTest(TenderOwnershipChangeTest):

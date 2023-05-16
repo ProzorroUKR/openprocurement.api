@@ -32,12 +32,12 @@ LOGGER = getLogger(__name__)
 
 if TYPE_CHECKING:
     from openprocurement.tender.core.procedure.state.tender import (
-        BaseShouldStartAfterMixing,
+        ShouldStartAfterMixing,
         ChronographEventsMixing,
         BaseState,
     )
     class baseclass(
-        BaseShouldStartAfterMixing,
+        ShouldStartAfterMixing,
         ChronographEventsMixing,
         BaseState
     ):

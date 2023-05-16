@@ -211,6 +211,7 @@ test_tender_openeu_config = {
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
     "valueCurrencyEquality": True,
+    "hasPrequalification": True,
 }
 
 class BaseTenderWebTest(BaseTenderUAWebTest):

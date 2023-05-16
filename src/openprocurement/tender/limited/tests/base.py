@@ -74,6 +74,7 @@ test_tender_reporting_config = {
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
     "valueCurrencyEquality": True,
+    "hasPrequalification": False,
 }
 
 test_tender_negotiation_config = {
@@ -81,6 +82,7 @@ test_tender_negotiation_config = {
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
     "valueCurrencyEquality": True,
+    "hasPrequalification": False,
 }
 
 test_tender_negotiation_quick_config = {
@@ -88,6 +90,7 @@ test_tender_negotiation_quick_config = {
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
     "valueCurrencyEquality": True,
+    "hasPrequalification": False,
 }
 
 

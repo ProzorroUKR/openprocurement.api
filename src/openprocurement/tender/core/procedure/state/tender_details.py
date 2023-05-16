@@ -93,6 +93,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
 
     enquiry_period_timedelta: timedelta
     enquiry_stand_still_timedelta: timedelta
+    allow_tender_period_start_date_change = False
 
     def validate_tender_patch(self, before, after):
         request = get_request()
@@ -115,6 +116,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
             set_mode_test_titles(tender)
 
     def on_patch(self, before, after):
+        self.validate_tender_period_start_date_change(before, after)
         self.validate_minimal_step(after, before=before)
         self.validate_submission_method(after, before=before)
         self.validate_kind_change(after, before)
@@ -146,6 +148,30 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                     name="tenderPeriod.startDate"
                 )
         super().status_up(before, after, data)
+
+    @staticmethod
+    def all_bids_are_reviewed(tender):
+        bids = tender.get("bids", "")
+        lots = tender.get("lots")
+        if lots:
+            active_lots = {lot["id"] for lot in lots if lot.get("status", "active") == "active"}
+            return all(
+                lotValue.get("status") != "pending"
+                for bid in bids
+                if bid.get("status") not in ("invalid", "deleted")
+                for lotValue in bid.get("lotValues", "")
+                if lotValue["relatedLot"] in active_lots
+
+            )
+        else:
+            return all(bid.get("status") != "pending" for bid in bids)
+
+    @staticmethod
+    def all_awards_are_reviewed(tender):
+        """
+        checks if all tender awards are reviewed
+        """
+        return all(award["status"] != "pending" for award in tender["awards"])
 
     @staticmethod
     def update_date(tender):
@@ -182,6 +208,25 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
             if minimal_step:
                 minimal_step["currency"] = currency
                 minimal_step["valueAddedTaxIncluded"] = tax_inc
+
+    def validate_tender_period_start_date_change(self, before, after):
+        if self.allow_tender_period_start_date_change:
+            return
+
+        if before["status"] == "draft":
+            # still can change tenderPeriod.startDate only in draft status
+            return
+
+        tender_period_start_before = before.get("tenderPeriod", {}).get("startDate")
+        tender_period_start_after = after.get("tenderPeriod", {}).get("startDate")
+        if tender_period_start_before != tender_period_start_after:
+            raise_operation_error(
+                get_request(),
+                "Can't change tenderPeriod.startDate",
+                status=422,
+                location="body",
+                name="tenderPeriod.startDate"
+            )
 
     def validate_award_criteria_change(self, after, before):
         if before.get("awardCriteria") != after.get("awardCriteria"):

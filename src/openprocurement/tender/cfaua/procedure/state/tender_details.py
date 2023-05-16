@@ -33,28 +33,6 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
         self.initialize_enquiry_period(tender)
 
     def on_patch(self, before, after):
-        def all_bids_are_reviewed(tender):
-            bids = tender.get("bids", "")
-            lots = tender.get("lots")
-            if lots:
-                active_lots = {lot["id"] for lot in lots if lot.get("status", "active") == "active"}
-                return all(
-                    lotValue.get("status") != "pending"
-                    for bid in bids
-                    if bid.get("status") not in ("invalid", "deleted")
-                    for lotValue in bid.get("lotValues", "")
-                    if lotValue["relatedLot"] in active_lots
-
-                )
-            else:
-                return all(bid.get("status") != "pending" for bid in bids)
-
-
-        def all_awards_are_reviewed(tender):
-            """
-            checks if all tender awards are reviewed
-            """
-            return all(award["status"] != "pending" for award in tender["awards"])
 
         # TODO: find a better place for this check, may be a distinct endpoint: PUT /tender/uid/status
         if before["status"] == "active.pre-qualification":
@@ -82,7 +60,7 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
                         "Can't switch to 'active.pre-qualification.stand-still' before resolve all complaints"
                     )
 
-                if all_bids_are_reviewed(after):
+                if self.all_bids_are_reviewed(after):
                     after["qualificationPeriod"]["endDate"] = calculate_complaint_business_date(
                         get_now(), PREQUALIFICATION_COMPLAINT_STAND_STILL, after
                     ).isoformat()
@@ -124,7 +102,7 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
                         "Can't switch to 'active.qualification.stand-still' before resolve all complaints"
                     )
 
-                if all_awards_are_reviewed(after):
+                if self.all_awards_are_reviewed(after):
                     after["awardPeriod"]["endDate"] = calculate_complaint_business_date(
                         get_now(), QUALIFICATION_COMPLAINT_STAND_STILL, after
                     ).isoformat()
@@ -140,6 +118,7 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
                         "Can't switch to 'active.qualification.stand-still' while not all awards are qualified",
                     )
 
+        # before status != active.qualification
         elif after["status"] == "active.qualification.stand-still":
             raise_operation_error(
                 get_request(),
@@ -200,16 +179,6 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
                 "Can't change classification",
                 name="item"
             )
-        if "draft" not in before["status"]:
-            tendering_start = before.get("tenderPeriod", {}).get("startDate")
-            if tendering_start != after.get("tenderPeriod", {}).get("startDate"):
-                raise_operation_error(
-                    get_request(),
-                    "Can't change tenderPeriod.startDate",
-                    status=422,
-                    location="body",
-                    name="tenderPeriod.startDate"
-                )
 
 
     @staticmethod

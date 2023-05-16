@@ -84,6 +84,7 @@ test_tender_cfaua_config = {
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
     "valueCurrencyEquality": True,
+    "hasPrequalification": True,
 }
 
 

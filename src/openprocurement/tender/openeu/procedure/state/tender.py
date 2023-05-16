@@ -1,60 +1,15 @@
 from operator import itemgetter
 
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.state.auction import PreQualificationShouldStartAfterMixing
 from openprocurement.api.context import get_now
 from openprocurement.tender.openeu.procedure.models.award import Award
-from openprocurement.tender.core.procedure.models.qualification import Qualification
 from openprocurement.tender.openeu.utils import is_procedure_restricted
 
 
-class BaseOpenEUTenderState(PreQualificationShouldStartAfterMixing, TenderState):
+class BaseOpenEUTenderState(TenderState):
     award_class = Award
     active_bid_statuses = ("active", "pending")
     block_complaint_status = ("pending", "accepted", "satisfied", "stopping")
-
-    def tendering_end_handler(self, tender):
-
-        for complaint in tender.get("complaints", ""):
-            if complaint.get("status") == "answered" and complaint.get("resolutionType"):
-                self.set_object_status(complaint, complaint["resolutionType"])
-
-        handler = self.get_change_tender_status_handler("active.pre-qualification")
-        handler(tender)
-        tender["qualificationPeriod"] = {"startDate": get_now().isoformat()}
-
-        self.remove_draft_bids(tender)
-        self.check_bids_number(tender)
-        self.prepare_qualifications(tender)
-        self.calc_bids_weighted_values(tender)
-
-    def prepare_qualifications(self, tender):
-        if "qualifications" not in tender:
-            tender["qualifications"] = []
-        bids = tender.get("bids", "")
-        lots = tender.get("lots")
-        if lots:
-            active_lots = tuple(lot["id"] for lot in lots if lot["status"] == "active")
-            for bid in bids:
-                if bid.get("status") not in ("invalid", "deleted"):
-                    for lotValue in bid.get("lotValues", ""):
-                        if lotValue.get("status", "pending") == "pending" and lotValue["relatedLot"] in active_lots:
-                            qualification = Qualification({
-                                "bidID": bid["id"],
-                                "status": "pending",
-                                "lotID": lotValue["relatedLot"],
-                                "date": get_now().isoformat()
-                            }).serialize()
-                            tender["qualifications"].append(qualification)
-        else:
-            for bid in bids:
-                if bid["status"] == "pending":
-                    qualification = Qualification({
-                        "bidID": bid["id"],
-                        "status": "pending",
-                        "date": get_now().isoformat()
-                    }).serialize()
-                    tender["qualifications"].append(qualification)
 
     def cancellation_compl_period_end_handler(self, cancellation):
         def handler(tender):
