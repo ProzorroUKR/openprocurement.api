@@ -227,3 +227,4 @@ class TenderConfig(Model):
                 "valueCurrencyEquality can be False only if hasAuction=False and "
                 "hasAwardingOrder=False and hasValueRestriction=False"
             )
+    hasPrequalification = BooleanType(required=False)
