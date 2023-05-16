@@ -217,3 +217,4 @@ class TenderConfig(Model):
     hasAuction = BooleanType(required=False)
     hasAwardingOrder = BooleanType()
     hasValueRestriction = BooleanType()
+    hasPrequalification = BooleanType(required=False)
