@@ -5,13 +5,13 @@ from openprocurement.tender.core.procedure.cancelling import CancellationBlockMi
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.state.base import BaseState
 from openprocurement.tender.core.procedure.state.chronograph import ChronographEventsMixing
-from openprocurement.tender.core.procedure.state.auction import BaseShouldStartAfterMixing
+from openprocurement.tender.core.procedure.state.auction import ShouldStartAfterMixing
 
 LOGGER = getLogger(__name__)
 
 
 class TenderState(
-    BaseShouldStartAfterMixing,
+    ShouldStartAfterMixing,
     CancellationBlockMixin,
     TenderStateAwardingMixing,
     ChronographEventsMixing,

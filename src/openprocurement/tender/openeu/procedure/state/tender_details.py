@@ -16,24 +16,6 @@ from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.openua.procedure.state.tender_details import OpenUATenderDetailsMixing
 
 
-def all_bids_are_reviewed():
-    tender = get_tender()
-    bids = tender.get("bids", "")
-    lots = tender.get("lots")
-    if lots:
-        active_lots = {lot["id"] for lot in lots if lot.get("status", "active") == "active"}
-        return all(
-            lotValue.get("status") != "pending"
-            for bid in bids
-            if bid.get("status") not in ("invalid", "deleted")
-            for lotValue in bid.get("lotValues", "")
-            if lotValue["relatedLot"] in active_lots
-
-        )
-    else:
-        return all(bid.get("status") != "pending" for bid in bids)
-
-
 class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing):
     tendering_period_extra = TENDERING_EXTRA_PERIOD
 
@@ -46,17 +28,6 @@ class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing):
         self.update_complaint_period(tender)
 
     def on_patch(self, before, after):
-        if "draft" not in before["status"]:
-            tendering_start = before.get("tenderPeriod", {}).get("startDate")
-            if tendering_start != after.get("tenderPeriod", {}).get("startDate"):
-                raise_operation_error(
-                    get_request(),
-                    "Can't change tenderPeriod.startDate",
-                    status=422,
-                    location="body",
-                    name="tenderPeriod.startDate"
-                )
-
         # TODO: find a better place for this check, may be a distinct endpoint: PUT /tender/uid/status
         if before["status"] == "active.pre-qualification":
             passed_data = get_request().validated["json_data"]
@@ -83,7 +54,7 @@ class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing):
                         "Can't switch to 'active.pre-qualification.stand-still' before resolve all complaints"
                     )
 
-                if all_bids_are_reviewed():
+                if self.all_bids_are_reviewed(after):
                     after["qualificationPeriod"]["endDate"] = calculate_complaint_business_date(
                         get_now(), PREQUALIFICATION_COMPLAINT_STAND_STILL, after
                     ).isoformat()
@@ -138,12 +109,6 @@ class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing):
                 "Can't change classification",
                 name="item"
             )
-
-    # def invalidate_bids_data(self, tender):
-    #     tender["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
-    #     for bid in tender.get("bids", ""):
-    #         if bid.get("status") not in ("deleted", "draft"):
-    #             bid["status"] = "invalid"
 
     @staticmethod
     def update_complaint_period(tender):

@@ -79,6 +79,7 @@ test_tender_open_config = {
     "hasAuction": True,
     "hasAwardingOrder": True,
     "hasValueRestriction": False,
+    "hasPrequalification": False,
 }
 
 

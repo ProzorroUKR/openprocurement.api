@@ -1,7 +1,6 @@
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.state.auction import PreQualificationShouldStartAfterMixing
 from openprocurement.tender.core.procedure.models.qualification import Qualification
 from openprocurement.tender.cfaua.procedure.models.agreement import Agreement
 from openprocurement.tender.cfaua.procedure.awarding import CFAUATenderStateAwardingMixing
@@ -13,7 +12,7 @@ from logging import getLogger
 LOGGER = getLogger(__name__)
 
 
-class CFAUATenderState(CFAUATenderStateAwardingMixing, PreQualificationShouldStartAfterMixing, TenderState):
+class CFAUATenderState(CFAUATenderStateAwardingMixing, TenderState):
     min_bids_number = 3
     active_bid_statuses = ("active", "pending")
     block_tender_complaint_status = ("claim", "pending", "accepted", "satisfied", "stopping")

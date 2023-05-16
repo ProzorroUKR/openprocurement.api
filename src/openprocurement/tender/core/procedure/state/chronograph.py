@@ -8,6 +8,7 @@ from openprocurement.tender.core.procedure.context import (
     get_tender_config,
 )
 from openprocurement.api.context import get_now
+from openprocurement.tender.core.procedure.models.qualification import Qualification
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     tender_created_after_2020_rules,
@@ -30,11 +31,11 @@ def copy_class(cls, exclude_parent_class_names=None):
 
 if TYPE_CHECKING:
     from openprocurement.tender.core.procedure.state.tender import (
-        BaseShouldStartAfterMixing,
+        ShouldStartAfterMixing,
         TenderStateAwardingMixing,
         BaseState,
     )
-    class baseclass(BaseShouldStartAfterMixing, TenderStateAwardingMixing, BaseState):
+    class baseclass(ShouldStartAfterMixing, TenderStateAwardingMixing, BaseState):
         pass
 else:
     baseclass = object
@@ -312,14 +313,54 @@ class ChronographEventsMixing(baseclass):
         return handler
 
     def tendering_end_handler(self, tender):
+        config = get_tender_config()
+
         for complaint in tender.get("complaints", ""):
             if complaint.get("status") == "answered" and complaint.get("resolutionType"):
                 self.set_object_status(complaint, complaint["resolutionType"])
 
-        self.remove_draft_bids(tender)
-        self.check_bids_number(tender)
-        self.calc_bids_weighted_values(tender)
-        self.switch_to_auction_or_awarded(tender)
+        if config.get("hasPrequalification"):
+            handler = self.get_change_tender_status_handler("active.pre-qualification")
+            handler(tender)
+            tender["qualificationPeriod"] = {"startDate": get_now().isoformat()}
+
+            self.remove_draft_bids(tender)
+            self.check_bids_number(tender)
+            self.prepare_qualifications(tender)
+            self.calc_bids_weighted_values(tender)
+        else:
+            self.remove_draft_bids(tender)
+            self.check_bids_number(tender)
+            self.calc_bids_weighted_values(tender)
+            self.switch_to_auction_or_awarded(tender)
+
+    def prepare_qualifications(self, tender):
+        if "qualifications" not in tender:
+            tender["qualifications"] = []
+        bids = tender.get("bids", "")
+        lots = tender.get("lots")
+        if lots:
+            active_lots = tuple(lot["id"] for lot in lots if lot["status"] == "active")
+            for bid in bids:
+                if bid.get("status") not in ("invalid", "deleted"):
+                    for lotValue in bid.get("lotValues", ""):
+                        if lotValue.get("status", "pending") == "pending" and lotValue["relatedLot"] in active_lots:
+                            qualification = Qualification({
+                                "bidID": bid["id"],
+                                "status": "pending",
+                                "lotID": lotValue["relatedLot"],
+                                "date": get_now().isoformat()
+                            }).serialize()
+                            tender["qualifications"].append(qualification)
+        else:
+            for bid in bids:
+                if bid["status"] == "pending":
+                    qualification = Qualification({
+                        "bidID": bid["id"],
+                        "status": "pending",
+                        "date": get_now().isoformat()
+                    }).serialize()
+                    tender["qualifications"].append(qualification)
 
     def pre_qualification_stand_still_ends_handler(self, tender):
         self.check_bids_number(tender)

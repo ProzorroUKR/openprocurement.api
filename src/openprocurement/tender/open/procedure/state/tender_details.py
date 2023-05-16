@@ -45,17 +45,6 @@ class TenderDetailsState(TenderDetailsMixing, OpenTenderState):
         self.validate_tender_exclusion_criteria(before, after)
         self.validate_tender_language_criteria(before, after)
 
-        if "draft" not in before["status"]:
-            tendering_start = before.get("tenderPeriod", {}).get("startDate")
-            if tendering_start != after.get("tenderPeriod", {}).get("startDate"):
-                raise_operation_error(
-                    get_request(),
-                    "Can't change tenderPeriod.startDate",
-                    status=422,
-                    location="body",
-                    name="tenderPeriod.startDate"
-                )
-
         if after["status"] != "draft":
             for item in after["items"]:
                 if not item.get("relatedLot"):

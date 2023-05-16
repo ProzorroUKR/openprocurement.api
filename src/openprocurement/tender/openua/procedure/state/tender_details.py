@@ -58,17 +58,6 @@ class TenderDetailsState(OpenUATenderDetailsMixing, OpenUATenderState):
         self.validate_tender_exclusion_criteria(before, after)
         self.validate_tender_language_criteria(before, after)
 
-        if "draft" not in before["status"]:
-            tendering_start = before.get("tenderPeriod", {}).get("startDate")
-            if tendering_start != after.get("tenderPeriod", {}).get("startDate"):
-                raise_operation_error(
-                    get_request(),
-                    "Can't change tenderPeriod.startDate",
-                    status=422,
-                    location="body",
-                    name="tenderPeriod.startDate"
-                )
-
         # validate items cpv group
         cpv_group_lists = {i["classification"]["id"][:3] for i in before.get("items")}
         for item in after.get("items", ""):

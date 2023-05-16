@@ -73,18 +73,21 @@ test_tender_reporting_config = {
     "hasAuction": False,
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
+    "hasPrequalification": False,
 }
 
 test_tender_negotiation_config = {
     "hasAuction": False,
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
+    "hasPrequalification": False,
 }
 
 test_tender_negotiation_quick_config = {
     "hasAuction": False,
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
+    "hasPrequalification": False,
 }
 
 

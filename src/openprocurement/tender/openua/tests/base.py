@@ -78,6 +78,7 @@ test_tender_openua_config = {
     "hasAuction": True,
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
+    "hasPrequalification": False,
 }
 
 

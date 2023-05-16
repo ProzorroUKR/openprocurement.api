@@ -8,6 +8,8 @@ from openprocurement.tender.core.utils import calculate_clarif_business_date
 
 
 class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
+    allow_tender_period_start_date_change = True
+
     def on_post(self, tender):
         super().on_post(tender)  # TenderDetailsMixing.on_post
         self.initialize_enquiry_period(tender)

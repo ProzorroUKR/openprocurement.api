@@ -78,6 +78,7 @@ test_tender_openuadefense_config = {
     "hasAuction": True,
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
+    "hasPrequalification": False,
 }
 
 
