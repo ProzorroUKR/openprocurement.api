@@ -112,6 +112,15 @@ class PatchTender(PatchBaseTender):
             "draft.pending",
             "draft.unsuccessful",
             "active.enquiries",
+            "active.tendering",
+            "active.pre-qualification",
+            "active.pre-qualification.stand-still",
+            "active.auction",
+            "active.qualification",
+            "active.awarded",
+            "complete",
+            "cancelled",
+            "unsuccessful",
         ]
     )
 
