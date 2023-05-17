@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.openeu.procedure.state.tender import OpenEUTenderState
@@ -12,7 +14,13 @@ from openprocurement.tender.openua.constants import (
 from openprocurement.tender.openua.procedure.state.tender_details import OpenUATenderDetailsMixing
 
 
-class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing):
+if TYPE_CHECKING:
+    baseclass = OpenEUTenderState
+else:
+    baseclass = object
+
+
+class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
     tendering_period_extra = TENDERING_EXTRA_PERIOD
 
     enquiry_period_timedelta = - ENQUIRY_PERIOD_TIME
