@@ -10,7 +10,7 @@ from openprocurement.tender.openeu.procedure.validation import (
     validate_view_bids,
     validate_bid_status_update_not_to_pending,
 )
-from openprocurement.tender.openeu.procedure.serializers.bid import BidSerializer
+from openprocurement.tender.core.procedure.serializers.bid import BidSerializer
 from openprocurement.tender.core.procedure.validation import (
     unless_administrator,
     unless_item_owner,

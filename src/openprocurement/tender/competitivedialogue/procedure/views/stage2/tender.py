@@ -15,7 +15,6 @@ from openprocurement.tender.competitivedialogue.procedure.models.stage2.tender i
     UATender,
     BotPatchTender,
 )
-from openprocurement.tender.openeu.procedure.serializers.tender import TenderEUSerializer
 from openprocurement.tender.core.procedure.serializers.tender import TenderBaseSerializer
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.competitivedialogue.constants import (
@@ -82,7 +81,7 @@ def conditional_ua_model(data):  # TODO: bot should use a distinct endpoint, lik
 )
 class TenderStage2UEResource(TendersResource):
 
-    serializer_class = TenderEUSerializer
+    serializer_class = TenderBaseSerializer
     state_class = CDEUTenderDetailsState
 
     def __acl__(self):
