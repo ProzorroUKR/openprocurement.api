@@ -1,4 +1,4 @@
-from schematics.types import StringType, BooleanType
+from schematics.types import BooleanType
 from openprocurement.tender.openua.procedure.models.bid import (
     Bid as BaseBid,
     PostBid as BasePostBid,

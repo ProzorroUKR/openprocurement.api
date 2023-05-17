@@ -1,6 +1,7 @@
 from schematics.types.compound import ModelType
 from schematics.types import MD5Type, StringType
 from openprocurement.api.models import Model, Value
+from openprocurement.tender.core.procedure.models.guarantee import WeightedValue
 from openprocurement.tender.core.procedure.validation import (
     validate_lotvalue_value,
     validate_related_lot,
@@ -9,6 +10,7 @@ from openprocurement.tender.core.procedure.context import get_tender
 
 
 class PostLotValue(Model):
+    status = StringType(choices=["pending", "active"])
     value = ModelType(Value, required=True)
     relatedLot = MD5Type(required=True)
 
@@ -20,6 +22,7 @@ class PostLotValue(Model):
 
 
 class PatchLotValue(PostLotValue):
+    status = StringType(choices=["pending", "active"])
     value = ModelType(Value)
     relatedLot = MD5Type()
 
@@ -33,4 +36,6 @@ class PatchLotValue(PostLotValue):
 
 
 class LotValue(PostLotValue):
+    weightedValue = ModelType(WeightedValue)
+    status = StringType(choices=["pending", "active", "unsuccessful"])
     date = StringType()
