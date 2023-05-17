@@ -334,17 +334,24 @@ class ChronographEventsMixing(baseclass):
             self.calc_bids_weighted_values(tender)
             self.switch_to_auction_or_awarded(tender)
 
-    def prepare_qualifications(self, tender):
+    @staticmethod
+    def prepare_qualifications(tender, bids: list = None, lot_id: str = None):
+        """ creates Qualification for each Bid
+        """
         if "qualifications" not in tender:
             tender["qualifications"] = []
-        bids = tender.get("bids", "")
+        new_qualifications = []
+        if not bids:
+            bids = tender.get("bids", "")
         lots = tender.get("lots")
         if lots:
-            active_lots = tuple(lot["id"] for lot in lots if lot["status"] == "active")
+            active_lots = [lot["id"] for lot in lots if lot.get("status") == "active"]
             for bid in bids:
-                if bid.get("status") not in ("invalid", "deleted"):
+                if bid.get("status") not in ["invalid", "deleted"]:
                     for lotValue in bid.get("lotValues", ""):
                         if lotValue.get("status", "pending") == "pending" and lotValue["relatedLot"] in active_lots:
+                            if lot_id and lotValue["relatedLot"] != lot_id:
+                                continue
                             qualification = Qualification({
                                 "bidID": bid["id"],
                                 "status": "pending",
@@ -352,6 +359,7 @@ class ChronographEventsMixing(baseclass):
                                 "date": get_now().isoformat()
                             }).serialize()
                             tender["qualifications"].append(qualification)
+                            new_qualifications.append(qualification["id"])
         else:
             for bid in bids:
                 if bid["status"] == "pending":
@@ -361,6 +369,8 @@ class ChronographEventsMixing(baseclass):
                         "date": get_now().isoformat()
                     }).serialize()
                     tender["qualifications"].append(qualification)
+                    new_qualifications.append(qualification["id"])
+        return new_qualifications
 
     def pre_qualification_stand_still_ends_handler(self, tender):
         self.check_bids_number(tender)
