@@ -8,7 +8,6 @@ from openprocurement.tender.competitivedialogue.procedure.serializers.bid import
 from openprocurement.tender.competitivedialogue.procedure.state.bid import Stage1BidState
 from openprocurement.tender.openeu.procedure.validation import (
     validate_post_bid_status,
-    validate_bid_status_update_not_to_pending,
 )
 from openprocurement.tender.core.procedure.validation import (
     unless_administrator,
@@ -70,7 +69,6 @@ class CompetitiveDialogueUABidResource(TenderBidResource):
 
             validate_input_data(PatchBid, filters=(filter_administrator_bid_update,), none_means_remove=True),
             validate_patch_data(Bid, item_name="bid"),
-            validate_bid_status_update_not_to_pending,
         ),
     )
     def patch(self):
@@ -120,7 +118,6 @@ class CompetitiveDialogueEUBidResource(TenderBidResource):
 
             validate_input_data(PatchBid, filters=(filter_administrator_bid_update,)),
             validate_patch_data(Bid, item_name="bid"),
-            validate_bid_status_update_not_to_pending,
         ),
     )
     def patch(self):
