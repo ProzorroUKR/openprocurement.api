@@ -190,6 +190,7 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
 
 class BaseCompetitiveDialogEUStage2WebTest(BaseCompetitiveDialogWebTest):
     initial_data = test_tender_cdeu_stage2_data
+    initial_config = test_tender_cdeu_stage2_config
     test_bids_data = test_tender_cd_bids
 
     periods = PERIODS
@@ -198,6 +199,7 @@ class BaseCompetitiveDialogEUStage2WebTest(BaseCompetitiveDialogWebTest):
 
 class BaseCompetitiveDialogUAStage2WebTest(BaseCompetitiveDialogWebTest):
     initial_data = test_tender_cdua_stage2_data
+    initial_config = test_tender_cdua_stage2_config
     test_bids_data = test_tender_cd_bids
 
     periods = PERIODS_UA_STAGE_2

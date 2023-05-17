@@ -75,6 +75,10 @@ test_tender_open_multi_buyers_data = set_tender_multi_buyers(
     test_tender_below_organization
 )
 
+test_tender_open_config = {
+    "hasAuction": True,
+}
+
 
 class BaseApiWebTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
@@ -83,6 +87,7 @@ class BaseApiWebTest(BaseWebTest):
 class BaseTenderUAWebTest(BaseTenderWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_open_data
+    initial_config = test_tender_open_config
     initial_status = "active.tendering"
     initial_bids = None
     initial_lots = None
