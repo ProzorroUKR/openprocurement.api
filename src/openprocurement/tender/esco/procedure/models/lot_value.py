@@ -10,7 +10,7 @@ from schematics.exceptions import ValidationError
 
 
 class PostLotValue(BasePostLotValue):
-    status = StringType(choices=["pending", "active"], default="pending")
+    status = StringType(choices=["pending", "active"])
     value = ModelType(ESCOValue, required=True)
 
     def validate_value(self, data, value):
@@ -30,7 +30,7 @@ class PostLotValue(BasePostLotValue):
 
 
 class PatchLotValue(BasePatchLotValue):
-    status = StringType(choices=["pending", "active"], default="pending")
+    status = StringType(choices=["pending", "active"])
     value = ModelType(PatchESCOValue)
 
     def validate_value(self, data, value):

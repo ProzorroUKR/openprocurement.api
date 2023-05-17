@@ -17,9 +17,9 @@ class LotValue(BaseLotValue):
 
 class PostLotValue(BasePostLotValue):
     subcontractingDetails = StringType()
-    status = StringType(choices=["pending", "active"], default="pending")
+    status = StringType(choices=["pending", "active"])
 
 
 class PatchLotValue(BasePatchLotValue):
     subcontractingDetails = StringType()
-    status = StringType(choices=["pending", "active"], default="pending")
+    status = StringType(choices=["pending", "active"])
