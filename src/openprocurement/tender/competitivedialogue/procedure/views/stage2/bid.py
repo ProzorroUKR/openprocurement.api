@@ -5,9 +5,6 @@ from openprocurement.tender.competitivedialogue.constants import STAGE_2_UA_TYPE
 from openprocurement.tender.competitivedialogue.procedure.validation import validate_firm_to_create_bid
 from openprocurement.tender.openeu.procedure.models.bid import PostBid as PostBidEU
 from openprocurement.tender.openua.procedure.models.bid import PostBid as PostBidUA
-from openprocurement.tender.openeu.procedure.validation import (
-    validate_post_bid_status,
-)
 from openprocurement.tender.core.procedure.validation import (
     validate_input_data,
     validate_data_documents,
@@ -42,7 +39,6 @@ class CompetitiveDialogueStage2EUBidResource(BaseResourceEU):
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,
             validate_input_data(PostBidEU),
-            validate_post_bid_status,
             validate_firm_to_create_bid,
             validate_data_documents(route_key="bid_id", uid_key="id"),
         ),

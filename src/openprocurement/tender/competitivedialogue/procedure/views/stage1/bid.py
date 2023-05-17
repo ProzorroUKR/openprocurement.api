@@ -6,9 +6,6 @@ from openprocurement.tender.core.procedure.models.bid import filter_administrato
 from openprocurement.tender.competitivedialogue.procedure.models.bid import PostBid, PatchBid, Bid
 from openprocurement.tender.competitivedialogue.procedure.serializers.bid import BidSerializer
 from openprocurement.tender.competitivedialogue.procedure.state.bid import Stage1BidState
-from openprocurement.tender.openeu.procedure.validation import (
-    validate_post_bid_status,
-)
 from openprocurement.tender.core.procedure.validation import (
     unless_administrator,
     validate_item_owner,
@@ -50,7 +47,6 @@ class CompetitiveDialogueUABidResource(TenderBidResource):
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,
             validate_input_data(PostBid),
-            validate_post_bid_status,
             validate_data_documents(route_key="bid_id", uid_key="id"),
         ),
     )
@@ -99,7 +95,6 @@ class CompetitiveDialogueEUBidResource(TenderBidResource):
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,
             validate_input_data(PostBid),
-            validate_post_bid_status,
             validate_data_documents(route_key="bid_id", uid_key="id"),
         ),
     )

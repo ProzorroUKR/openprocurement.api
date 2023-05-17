@@ -3,27 +3,6 @@ from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.cfaua.procedure.models.tender import LOTS_MIN_SIZE, LOTS_MAX_SIZE
 
 
-# bid
-def validate_bid_posted_status(request, **_):
-    allowed = ("draft", "pending")
-    if request.validated["data"]["status"] not in allowed:
-        raise_operation_error(
-            request,
-            f"Bid can be added only with status: {allowed}."
-        )
-
-
-def validate_view_bids_in_active_tendering(request, **_):
-    tender_status = request.validated["tender"]["status"]
-    if tender_status == "active.tendering":
-        raise_operation_error(
-            request,
-            "Can't view {} in current ({}) tender status".format(
-                "bid" if request.matchdict.get("bid_id") else "bids", tender_status
-            ),
-        )
-
-
 # bid document
 def validate_bid_document_in_tender_status(request, **_):
     tender_status = request.validated["tender"]["status"]

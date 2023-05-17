@@ -26,8 +26,20 @@ class BidState(BaseState):
                 raise error_handler(self.request)
 
     def on_post(self, data):
+        config = get_tender_config()
         now = get_now().isoformat()
         data["date"] = now
+
+        if config.get("hasPrequalification"):
+            allowed_statuses = ("draft", "pending")
+        else:
+            allowed_statuses = ("draft", "active")
+
+        status = data.get("status")
+        if status not in allowed_statuses:
+            self.request.errors.add("body", "bid", "Bid can be added only with status: {}".format(allowed_statuses))
+            self.request.errors.status = 403
+            raise error_handler(self.request)
 
         lot_values = data.get("lotValues")
         if lot_values:  # TODO: move to post model as serializible

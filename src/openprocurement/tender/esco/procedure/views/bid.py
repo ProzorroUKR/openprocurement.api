@@ -5,10 +5,6 @@ from openprocurement.tender.openeu.procedure.views.bid import TenderBidResource
 from openprocurement.tender.core.procedure.models.bid import filter_administrator_bid_update
 from openprocurement.tender.esco.procedure.models.bid import PostBid, PatchBid, Bid
 from openprocurement.tender.esco.procedure.serializers.bid import BidSerializer
-from openprocurement.tender.openeu.procedure.validation import (
-    validate_post_bid_status,
-    validate_view_bids,
-)
 from openprocurement.tender.core.procedure.validation import (
     unless_administrator,
     unless_item_owner,
@@ -20,6 +16,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_bid_operation_period,
     validate_bid_operation_not_in_tendering,
     validate_accreditation_level,
+    validate_view_bids,
 )
 from cornice.resource import resource
 from logging import getLogger
@@ -71,7 +68,6 @@ class ESCOTenderBidResource(TenderBidResource):
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,
             validate_input_data(PostBid),
-            validate_post_bid_status,
             validate_data_documents(route_key="bid_id", uid_key="id"),
         ),
     )

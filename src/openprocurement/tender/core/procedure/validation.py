@@ -531,9 +531,16 @@ def validate_related_lot(tender, related_lot):
 
 
 def validate_view_bid_document(request, **_):
+    config = get_tender_config()
+    if config.get("hasPrequalification"):
+        allowed_tender_statuses = ("active.tendering",)
+    else:
+        allowed_tender_statuses = ("active.tendering", "active.auction")
     tender_status = request.validated["tender"]["status"]
-    if tender_status in ("active.tendering", "active.auction") \
-       and not is_item_owner(request, request.validated["bid"]):
+    if (
+        tender_status in allowed_tender_statuses
+        and not is_item_owner(request, request.validated["bid"])
+    ):
         raise_operation_error(
             request,
             "Can't view bid documents in current ({}) tender status".format(tender_status),
@@ -541,8 +548,13 @@ def validate_view_bid_document(request, **_):
 
 
 def validate_view_bids(request, **_):
+    config = get_tender_config()
+    if config.get("hasPrequalification"):
+        forbidden_tender_statuses = ("active.tendering",)
+    else:
+        forbidden_tender_statuses = ("active.tendering", "active.auction")
     tender_status = request.validated["tender"]["status"]
-    if tender_status in ("active.tendering", "active.auction"):
+    if tender_status in forbidden_tender_statuses:
         raise_operation_error(
             request,
             "Can't view {} in current ({}) tender status".format(
