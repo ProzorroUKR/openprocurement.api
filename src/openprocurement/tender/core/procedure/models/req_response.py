@@ -15,11 +15,9 @@ from openprocurement.api.models import ListType
 from openprocurement.api.models import Model
 from openprocurement.api.models import Period
 from openprocurement.api.models import Reference
-from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.models.base import validate_object_id_uniq
 from openprocurement.tender.core.procedure.utils import (
-    get_first_revision_date,
     get_criterion_requirement,
     bid_in_invalid_status,
     tender_created_before,

@@ -2,11 +2,8 @@ from openprocurement.api.auth import ACCR_4
 from openprocurement.api.utils import json_view
 from openprocurement.tender.openua.procedure.views.bid import TenderBidResource
 from openprocurement.tender.core.procedure.models.bid import filter_administrator_bid_update
+from openprocurement.tender.core.procedure.state.bid import BidState
 from openprocurement.tender.cfaua.procedure.models.bid import PostBid, PatchBid, Bid
-from openprocurement.tender.cfaua.procedure.state.bid import BidState
-from openprocurement.tender.cfaua.procedure.validation import (
-    validate_bid_posted_status,
-)
 from openprocurement.tender.cfaua.procedure.serializers.bid import BidSerializer
 from openprocurement.tender.core.procedure.validation import (
     unless_item_owner,
@@ -72,7 +69,6 @@ class TenderBidResource(TenderBidResource):
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,
             validate_input_data(PostBid),
-            validate_bid_posted_status,
             validate_data_documents(route_key="bid_id", uid_key="id"),
         ),
     )

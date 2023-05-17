@@ -15,15 +15,6 @@ from openprocurement.tender.core.procedure.models.parameter import Parameter, Pa
 from openprocurement.tender.core.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
 from openprocurement.tender.core.procedure.models.document import PostDocument, Document
 from openprocurement.tender.core.models import validate_parameters_uniq, Administrator_bid_role
-from openprocurement.api.constants import TWO_PHASE_COMMIT_FROM
-
-
-def get_default_bid_status(active_status="active"):
-    def default_status():
-        if tender_created_after(TWO_PHASE_COMMIT_FROM):
-            return "draft"
-        return active_status
-    return default_status
 
 
 # PATCH DATA ---
@@ -32,7 +23,9 @@ class PatchBid(BaseBid):
     value = ModelType(Value)
     lotValues = ListType(ModelType(PatchLotValue, required=True))
     tenderers = ListType(ModelType(PatchBusinessOrganization, required=True), min_size=1, max_size=1)
-    status = StringType(choices=["active", "draft"])
+    status = StringType(
+        choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
+    )
 # --- PATCH DATA
 
 
@@ -52,7 +45,10 @@ class CommonBid(BaseBid):
     value = ModelType(Value)
     lotValues = ListType(ModelType(LotValue, required=True))
     tenderers = ListType(ModelType(PostBusinessOrganization, required=True), min_size=1, max_size=1)
-    status = StringType(choices=["active", "draft", "invalid"], required=True)
+    status = StringType(
+        choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
+        required=True,
+    )
 
     def validate_value(self, data, value):
         tender = get_tender()
@@ -94,7 +90,10 @@ class PostBid(CommonBid):
     tenderers = ListType(ModelType(PostBusinessOrganization, required=True), required=True, min_size=1, max_size=1)
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
     lotValues = ListType(ModelType(PostLotValue, required=True))
-    status = StringType(choices=["active", "draft"], default=get_default_bid_status("active"))
+    status = StringType(
+        choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
+        default="draft",
+    )
     documents = ListType(ModelType(PostDocument, required=True))
 # -- POST
 
