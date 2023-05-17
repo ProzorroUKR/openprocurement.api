@@ -95,6 +95,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
     enquiry_stand_still_timedelta: timedelta
     allow_tender_period_start_date_change = False
     pre_qualification_complaint_stand_still = timedelta(days=0)
+    tendering_period_extra_working_days = False
 
     def validate_tender_patch(self, before, after):
         request = get_request()

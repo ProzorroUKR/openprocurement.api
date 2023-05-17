@@ -1,5 +1,6 @@
+from typing import TYPE_CHECKING
+
 from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
-from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.openua.procedure.state.tender import OpenUATenderState
@@ -15,7 +16,13 @@ from openprocurement.tender.core.utils import (
 )
 
 
-class OpenUATenderDetailsMixing(TenderDetailsMixing):
+if TYPE_CHECKING:
+    baseclass = OpenUATenderState
+else:
+    baseclass = object
+
+
+class OpenUATenderDetailsMixing(TenderDetailsMixing, baseclass):
     period_working_day = False
 
     def initialize_enquiry_period(self, tender):  # openeu, openua

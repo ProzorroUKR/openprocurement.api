@@ -1929,7 +1929,7 @@ def patch_tender(self):
             "location": "body",
             "name": "status",
             "description": [
-                "Value must be one of ['draft', 'active.enquiries']."
+                "Value must be one of ['draft', 'active.enquiries', 'active.pre-qualification.stand-still']."
             ]
         }],
     )
