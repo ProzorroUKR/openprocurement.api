@@ -56,16 +56,8 @@ class TenderDetailsState(TenderDetailsMixing, OpenTenderState):
                         name="item.relatedLot"
                     )
 
-        # validate items cpv group
-        cpv_group_lists = {i["classification"]["id"][:3] for i in before.get("items")}
-        for item in after.get("items", ""):
-            cpv_group_lists.add(item["classification"]["id"][:3])
-        if len(cpv_group_lists) != 1:
-            raise_operation_error(
-                get_request(),
-                "Can't change classification",
-                name="item"
-            )
+
+        self.validate_fields_unchanged(before, after)
 
         # bid invalidation rules
         if before["status"] == "active.tendering":
@@ -97,7 +89,12 @@ class TenderDetailsState(TenderDetailsMixing, OpenTenderState):
         if "tenderPeriod" in tender and "endDate" in tender["tenderPeriod"]:
             # self.request.validated["tender"].tenderPeriod.import_data(data["tenderPeriod"])
             tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
-            if calculate_tender_business_date(get_now(), self.tendering_period_extra, tender) > tendering_end:
+            if calculate_tender_business_date(
+                get_now(),
+                self.tendering_period_extra,
+                tender=tender,
+                working_days=self.tendering_period_extra_working_days
+            ) > tendering_end:
                 raise_operation_error(
                     get_request(),
                     "tenderPeriod should be extended by {0.days} {1}".format(

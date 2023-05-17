@@ -2,7 +2,6 @@ from typing import TYPE_CHECKING, TypeVar
 
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
 from openprocurement.tender.cfaua.constants import (
@@ -12,7 +11,6 @@ from openprocurement.tender.cfaua.constants import (
     QUALIFICATION_COMPLAINT_STAND_STILL,
     PREQUALIFICATION_COMPLAINT_STAND_STILL,
 )
-from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.openua.procedure.state.tender_details import OpenUATenderDetailsMixing
 
@@ -27,6 +25,7 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     enquiry_period_timedelta = - ENQUIRY_PERIOD_TIME
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
+    tendering_period_extra_working_days = False
 
     def on_post(self, tender):
         super().on_post(tender)
@@ -129,15 +128,7 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
 
         # bid invalidation rules
         if before["status"] == "active.tendering":
-            if "tenderPeriod" in after and "endDate" in after["tenderPeriod"]:
-                # self.request.validated["tender"].tenderPeriod.import_data(data["tenderPeriod"])
-                tendering_end = dt_from_iso(after["tenderPeriod"]["endDate"])
-                if calculate_tender_business_date(get_now(), self.tendering_period_extra, after) > tendering_end:
-                    raise_operation_error(
-                        get_request(),
-                        "tenderPeriod should be extended by {0.days} days".format(self.tendering_period_extra)
-                    )
-                # self.update_date(after)  # There is a test that fails if uncomment
+            self.validate_tender_period_extension(after)
             self.invalidate_bids_data(after)
         elif after["status"] == "active.tendering":
             after["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
@@ -165,20 +156,6 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
                 name="status"
             )
         super().status_up(before, after, data)
-
-    # helper methods
-    @staticmethod
-    def validate_fields_unchanged(before, after):
-        # validate items cpv group
-        cpv_group_lists = {i["classification"]["id"][:3] for i in before.get("items")}
-        for item in after.get("items", ""):
-            cpv_group_lists.add(item["classification"]["id"][:3])
-        if len(cpv_group_lists) != 1:
-            raise_operation_error(
-                get_request(),
-                "Can't change classification",
-                name="item"
-            )
 
 
     @staticmethod
