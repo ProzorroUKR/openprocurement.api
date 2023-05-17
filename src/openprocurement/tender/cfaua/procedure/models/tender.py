@@ -41,8 +41,6 @@ from openprocurement.tender.core.procedure.models.tender import (
 from openprocurement.tender.core.utils import (
     calculate_complaint_business_date,
     validate_features_custom_weight,
-    calculate_tender_business_date,
-    calculate_clarif_business_date,
 )
 from openprocurement.tender.core.models import validate_features_uniq
 from openprocurement.tender.openua.constants import COMPLAINT_SUBMIT_TIME
@@ -176,8 +174,13 @@ class Tender(BaseTender):
             "active.tendering",
             "active.pre-qualification",
             "active.pre-qualification.stand-still",
+            "active.auction",
             "active.qualification",
             "active.qualification.stand-still",
+            "active.awarded",
+            "complete",
+            "cancelled",
+            "unsuccessful",
         ],
     )
 

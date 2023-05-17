@@ -85,6 +85,7 @@ class PatchTender(BasePatchTender):
         choices=[
             "draft",
             "active.tendering",
+            "active.pre-qualification.stand-still",
         ],
     )
     awardCriteria = StringType(
@@ -111,6 +112,14 @@ class Tender(BaseTender):
         choices=[
             "draft",
             "active.tendering",
+            "active.pre-qualification",
+            "active.pre-qualification.stand-still",
+            "active.auction",
+            "active.qualification",
+            "active.awarded",
+            "complete",
+            "cancelled",
+            "unsuccessful",
         ],
     )
     procurementMethodType = StringType(choices=[ABOVE_THRESHOLD], required=True)

@@ -43,6 +43,7 @@ class CommonBaseTender(Model):
         choices=[
             "draft",
             "active.enquiries",
+            "active.pre-qualification.stand-still",
         ]
     )
     buyers = ListType(ModelType(BaseOrganization, required=True))
@@ -136,6 +137,8 @@ class BaseTender(PatchBaseTender):
             "draft",
             "active.enquiries",
             "active.tendering",
+            "active.pre-qualification",
+            "active.pre-qualification.stand-still",
             "active.auction",
             "active.qualification",
             "active.awarded",
