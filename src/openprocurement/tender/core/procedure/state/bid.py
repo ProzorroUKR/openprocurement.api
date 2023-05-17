@@ -1,7 +1,7 @@
 import logging
 from openprocurement.api.utils import error_handler, context_unpack
 from openprocurement.tender.core.procedure.state.base import BaseState
-from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.context import get_request, get_tender_config
 from openprocurement.api.context import get_now
 
 logger = logging.getLogger(__name__)
@@ -11,12 +11,19 @@ class BidState(BaseState):
 
     def status_up(self, before, after, data):
         super().status_up(before, after, data)
-        # this logic moved here from validate_update_bid_status validator
-        # if request.authenticated_role != "Administrator":
-        if after != "active":
-            self.request.errors.add("body", "bid", "Can't update bid to ({}) status".format(after))
-            self.request.errors.status = 403
-            raise error_handler(self.request)
+        config = get_tender_config()
+
+        if self.request.authenticated_role != "Administrator":
+
+            if config.get("hasPrequalification"):
+                allowed_status = "pending"
+            else:
+                allowed_status = "active"
+
+            if after != allowed_status:
+                self.request.errors.add("body", "bid", "Can't update bid to ({}) status".format(after))
+                self.request.errors.status = 403
+                raise error_handler(self.request)
 
     def on_post(self, data):
         now = get_now().isoformat()
