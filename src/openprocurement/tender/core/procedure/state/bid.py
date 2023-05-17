@@ -27,7 +27,7 @@ class BidState(BaseState):
         super().on_post(data)
 
     def on_patch(self, before, after):
-        self.validate_status_change(after)
+        self.validate_status_change(before, after)
         self.validate_lot_values_statuses(after)
         now = get_now().isoformat()
         # if value.amount is going to be changed -> update "date"
@@ -78,7 +78,7 @@ class BidState(BaseState):
 
         super().on_patch(before, after)
 
-    def validate_status_change(self, data):
+    def validate_status_change(self, before, after):
         if self.request.authenticated_role == "Administrator":
             return
 
@@ -89,12 +89,13 @@ class BidState(BaseState):
         else:
             allowed_status = "active"
 
-        status = data.get("status")
-        if status != allowed_status:
+        status_before = before.get("status")
+        status_after = after.get("status")
+        if status_before != status_after and status_after != allowed_status:
             self.request.errors.add(
                 "body",
                 "bid",
-                "Can't update bid to ({}) status".format(status),
+                "Can't update bid to ({}) status".format(status_after),
             )
             self.request.errors.status = 403
             raise error_handler(self.request)
@@ -141,6 +142,3 @@ class BidState(BaseState):
                     )
                     self.request.errors.status = 403
                     raise error_handler(self.request)
-
-
-            # if config.get("hasPrequalification"):

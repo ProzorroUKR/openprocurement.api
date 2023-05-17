@@ -5,7 +5,7 @@ from openprocurement.tender.core.procedure.state.bid import BidState as BaseBidS
 class Stage1BidState(BaseBidState):
 
     def on_patch(self, before, after):
-        self.validate_status_change(after)
+        self.validate_status_change(before, after)
         self.validate_lot_values_statuses(after)
         # Removing logic with if value.amount is going to be changed -> update "date"
 
