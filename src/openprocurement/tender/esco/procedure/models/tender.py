@@ -222,9 +222,6 @@ class Tender(BaseTender):
     tenderPeriod = ModelType(PeriodEndRequired, required=True)
     enquiryPeriod = ModelType(EnquiryPeriod)
 
-    qualificationPeriod = BaseType()
-    qualifications = BaseType()
-    complaintPeriod = BaseType()
     auctionPeriod = ModelType(TenderAuctionPeriod)
     awardPeriod = ModelType(Period)
     next_check = BaseType()

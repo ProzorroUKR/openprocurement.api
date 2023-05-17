@@ -154,8 +154,6 @@ class Tender(BaseTender):
     preQualificationFeaturesRatingBidLimit = IntType()
     preQualificationMinBidsNumber = IntType()
 
-    qualificationPeriod = BaseType()
-    qualifications = BaseType()
     complaintPeriod = BaseType()
 
     def validate_awardCriteria(self, data, value):

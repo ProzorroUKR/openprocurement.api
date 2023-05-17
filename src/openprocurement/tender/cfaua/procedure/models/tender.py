@@ -185,8 +185,6 @@ class Tender(BaseTender):
     )
 
     auctionPeriod = ModelType(Period)
-    qualificationPeriod = ModelType(Period)
-    qualifications = BaseType()
     awards = BaseType()
 
     @serializable(type=ModelType(Period))
