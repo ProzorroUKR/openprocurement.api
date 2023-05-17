@@ -3,5 +3,5 @@ from openprocurement.tender.core.procedure.serializers.base import BaseSerialize
 
 class LotStage1Serializer(BaseSerializer):
     private_fields = {
-        "auctionPeriod",  # non-refactored code adds this
+        "auctionPeriod",  # TODO: remove after refactoring (non-refactored code adds this)
     }
