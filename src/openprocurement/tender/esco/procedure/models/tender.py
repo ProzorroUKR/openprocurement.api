@@ -224,6 +224,11 @@ class Tender(BaseTender):
 
     auctionPeriod = ModelType(TenderAuctionPeriod)
     awardPeriod = ModelType(Period)
+
+    qualificationPeriod = BaseType()
+    qualifications = BaseType()
+    complaintPeriod = BaseType()
+
     next_check = BaseType()
 
     def validate_tenderPeriod(self, data, period):

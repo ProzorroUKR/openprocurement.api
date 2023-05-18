@@ -33,9 +33,9 @@ if TYPE_CHECKING:
     from openprocurement.tender.core.procedure.state.tender import (
         ShouldStartAfterMixing,
         TenderStateAwardingMixing,
-        BaseState,
+        TenderState,
     )
-    class baseclass(ShouldStartAfterMixing, TenderStateAwardingMixing, BaseState):
+    class baseclass(ShouldStartAfterMixing, TenderStateAwardingMixing, TenderState):
         pass
 else:
     baseclass = object
@@ -182,7 +182,6 @@ class ChronographEventsMixing(baseclass):
 
     # TENDER STATUS EVENTS --
     def pre_qualification_stand_still_events(self, tender):
-
         qualification_period = tender.get("qualificationPeriod")
         if qualification_period and qualification_period.get("endDate"):
             active_lots = [lot["id"] for lot in tender["lots"] if lot["status"] == "active"] \
@@ -330,9 +329,10 @@ class ChronographEventsMixing(baseclass):
             self.calc_bids_weighted_values(tender)
         else:
             self.remove_draft_bids(tender)
+            self.activate_bids(tender)
             self.check_bids_number(tender)
             self.calc_bids_weighted_values(tender)
-            self.switch_to_auction_or_awarded(tender)
+            self.switch_to_auction_or_qualification(tender)
 
     @staticmethod
     def prepare_qualifications(tender, bids: list = None, lot_id: str = None):
@@ -374,9 +374,9 @@ class ChronographEventsMixing(baseclass):
 
     def pre_qualification_stand_still_ends_handler(self, tender):
         self.check_bids_number(tender)
-        self.switch_to_auction_or_awarded(tender)
+        self.switch_to_auction_or_qualification(tender)
 
-    def switch_to_auction_or_awarded(self, tender):
+    def switch_to_auction_or_qualification(self, tender):
         if tender.get("status") not in ("unsuccessful", "active.qualification", "active.awarded"):
             config = get_tender_config()
             if config.get("hasAuction"):
@@ -489,13 +489,22 @@ class ChronographEventsMixing(baseclass):
 
         return handler
 
-    # UTILS (move to state ?)
-    # belowThreshold
     @staticmethod
     def remove_draft_bids(tender):
         if any(bid.get("status", "active") == "draft" for bid in tender.get("bids", "")):
             LOGGER.info("Remove draft bids", extra=context_unpack(get_request(), {"MESSAGE_ID": "remove_draft_bids"}))
             tender["bids"] = [bid for bid in tender["bids"] if bid.get("status", "active") != "draft"]
+
+    @staticmethod
+    def activate_bids(tender):
+        for bid in tender["bids"]:
+            lot_values = bid.get("lotValues", "")
+            if lot_values:
+                for lot_value in lot_values:
+                    if lot_value["status"] == "pending":
+                        lot_value["status"] = "active"
+            if bid["status"] == "pending":
+                bid["status"] = "active"
 
     def check_bids_number(self, tender):
         if tender.get("lots"):

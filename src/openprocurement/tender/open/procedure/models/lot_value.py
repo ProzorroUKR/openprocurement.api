@@ -13,8 +13,7 @@ class PostLotValue(BasePostLotValue):
     subcontractingDetails = StringType()
 
     def validate_value(self, data, value):
-        tender = get_tender()
-        validate_lotvalue_value(tender, data["relatedLot"], value)
+        validate_lotvalue_value(get_tender(), data["relatedLot"], value)
 
 
 class PatchLotValue(BasePatchLotValue):
@@ -29,5 +28,4 @@ class LotValue(BaseLotValue):
     subcontractingDetails = StringType()
 
     def validate_value(self, data, value):
-        tender = get_tender()
-        validate_lotvalue_value(tender, data["relatedLot"], value)
+        validate_lotvalue_value(get_tender(), data["relatedLot"], value)

@@ -1736,7 +1736,6 @@ def first_bid_tender(self):
     tender = response.json["data"]
     tender_id = self.tender_id = tender["id"]
     owner_token = response.json["access"]["token"]
-    self.set_status("active.tendering")
     # switch to active.tendering
     self.set_status("active.tendering")
     # create bid
@@ -1757,7 +1756,8 @@ def first_bid_tender(self):
     self.app.authorization = ("Basic", ("broker", ""))
     self.create_bid(tender_id, bid_data)
     # switch to active.auction
-    self.set_status("active.auction")
+    self.set_status("active.auction", {"status": "active.tendering"})
+    response = self.check_chronograph()
 
     # get auction info
     self.app.authorization = ("Basic", ("auction", ""))

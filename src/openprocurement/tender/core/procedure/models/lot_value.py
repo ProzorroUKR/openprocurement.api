@@ -10,7 +10,7 @@ from openprocurement.tender.core.procedure.context import get_tender
 
 
 class PostLotValue(Model):
-    status = StringType(choices=["pending", "active"])
+    status = StringType(choices=["pending"], default="pending", required=True)
     value = ModelType(Value, required=True)
     relatedLot = MD5Type(required=True)
 
@@ -22,7 +22,7 @@ class PostLotValue(Model):
 
 
 class PatchLotValue(PostLotValue):
-    status = StringType(choices=["pending", "active"])
+    status = StringType(choices=["pending"])
     value = ModelType(Value)
     relatedLot = MD5Type()
 
@@ -37,5 +37,5 @@ class PatchLotValue(PostLotValue):
 
 class LotValue(PostLotValue):
     weightedValue = ModelType(WeightedValue)
-    status = StringType(choices=["pending", "active", "unsuccessful"])
+    status = StringType(choices=["pending", "active", "unsuccessful"], required=True)
     date = StringType()

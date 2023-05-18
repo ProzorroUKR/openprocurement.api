@@ -8,6 +8,7 @@ logger = logging.getLogger(__name__)
 
 
 class BidState(BaseState):
+    update_date_on_value_amount_change_enabled = True
 
     def status_up(self, before, after, data):
         super().status_up(before, after, data)
@@ -17,7 +18,6 @@ class BidState(BaseState):
         data["date"] = now
 
         self.validate_status(data)
-        self.validate_lot_values_statuses(data)
 
         lot_values = data.get("lotValues")
         if lot_values:  # TODO: move to post model as serializible
@@ -28,7 +28,12 @@ class BidState(BaseState):
 
     def on_patch(self, before, after):
         self.validate_status_change(before, after)
-        self.validate_lot_values_statuses(after)
+        self.update_date_on_value_amount_change(before, after)
+        super().on_patch(before, after)
+
+    def update_date_on_value_amount_change(self, before, after):
+        if not self.update_date_on_value_amount_change_enabled:
+            return
         now = get_now().isoformat()
         # if value.amount is going to be changed -> update "date"
         amount_before = (before.get("value") or {}).get("amount")
@@ -45,7 +50,6 @@ class BidState(BaseState):
                 ),
             )
             after["date"] = get_now().isoformat()
-
         # the same as above, for lots
         for after_lot in after.get("lotValues") or []:
             for before_lot in before.get("lotValues") or []:
@@ -76,19 +80,12 @@ class BidState(BaseState):
             else:  # lotValue has been just added
                 after_lot["date"] = get_now().isoformat()
 
-        super().on_patch(before, after)
-
     def validate_status_change(self, before, after):
         if self.request.authenticated_role == "Administrator":
             return
 
         config = get_tender_config()
-
-        if config.get("hasPrequalification"):
-            allowed_status = "pending"
-        else:
-            allowed_status = "active"
-
+        allowed_status = "pending"
         status_before = before.get("status")
         status_after = after.get("status")
         if status_before != status_after and status_after != allowed_status:
@@ -102,10 +99,7 @@ class BidState(BaseState):
 
     def validate_status(self, data):
         config = get_tender_config()
-        if config.get("hasPrequalification"):
-            allowed_statuses = ("draft", "pending")
-        else:
-            allowed_statuses = ("draft", "active")
+        allowed_statuses = ("draft", "pending")
         status = data.get("status")
         if status not in allowed_statuses:
             self.request.errors.add(
@@ -115,30 +109,3 @@ class BidState(BaseState):
             )
             self.request.errors.status = 403
             raise error_handler(self.request)
-
-    def validate_lot_values_statuses(self, data):
-        config = get_tender_config()
-        lot_values = data.get("lotValues", "")
-        for lot_value in lot_values:
-            status = lot_value.get("status")
-            if config.get("hasPrequalification"):
-                if "status" not in lot_value or lot_value["status"] is None:
-                    lot_value["status"] = "pending"
-                allowed_statuses = ("pending",)
-                if lot_value["status"] not in allowed_statuses:
-                    self.request.errors.add(
-                        "body",
-                        "bid",
-                        "Bid lot values can be added only with status: {}".format(allowed_statuses),
-                    )
-                    self.request.errors.status = 403
-                    raise error_handler(self.request)
-            else:
-                if lot_value.get("status"):
-                    self.request.errors.add(
-                        "body",
-                        "bid",
-                        "Bid lot values can't contain status when pre-qualification is disabled",
-                    )
-                    self.request.errors.status = 403
-                    raise error_handler(self.request)

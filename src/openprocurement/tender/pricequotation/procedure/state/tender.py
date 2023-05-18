@@ -12,6 +12,7 @@ class PriceQuotationTenderState(TenderState):
     contract_model = Contract
     award_class = Award
     generate_award_milestones = False
+    min_bids_number = 1
 
     def get_events(self, tender):
         status = tender["status"]
@@ -30,14 +31,6 @@ class PriceQuotationTenderState(TenderState):
                     )
                     yield check.isoformat(), self.pending_award_handler(award)
 
-    # handlers
-    def tendering_end_handler(self, tender):
-        handler = self.get_change_tender_status_handler("active.qualification")
-        handler(tender)
-
-        self.remove_draft_bids(tender)
-        self.check_bids_number(tender)
-
     def pending_award_handler(self, award):
         def handler(tender):
             self.set_object_status(award, "unsuccessful")
@@ -49,13 +42,6 @@ class PriceQuotationTenderState(TenderState):
                 if tender["status"] == "active.awarded":
                     self.check_tender_status(tender)
         return handler
-
-    # utils
-    def check_bids_number(self, tender):
-        if len(tender.get("bids", "")) == 0:
-            self.get_change_tender_status_handler("unsuccessful")(tender)
-        else:
-            self.add_next_award()
 
     def check_tender_status(self, tender):
         last_award_status = tender["awards"][-1]["status"]

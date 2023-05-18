@@ -123,11 +123,7 @@ class BaseWebTest(unittest.TestCase):
         tender = self.mongodb.tenders.get(tender_id)
 
         if not status:
-            status = "active"
-            if tender["procurementMethodType"] in ("aboveThresholdEU", "esco",
-                                                   "competitiveDialogueEU.stage2", "competitiveDialogueEU",
-                                                   "competitiveDialogueUA", "closeFrameworkAgreementUA"):
-                status = "pending"
+            status = "pending"
 
         patch_data = {"status": status}
         if "requirementResponses" not in bid["data"]:
