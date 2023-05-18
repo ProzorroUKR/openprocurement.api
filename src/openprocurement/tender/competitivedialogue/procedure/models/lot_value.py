@@ -8,7 +8,6 @@ class LotValue(Model):
     relatedLot = MD5Type()
     subcontractingDetails = StringType()
     status = StringType(choices=["pending", "active", "unsuccessful"])
-
     date = StringType()
 
 

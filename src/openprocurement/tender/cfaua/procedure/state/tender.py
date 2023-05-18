@@ -33,21 +33,6 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, TenderState):
         ):
             yield award_period_end, self.qualification_stand_still_handler
 
-    # handlers
-    def tendering_end_handler(self, tender):
-        for complaint in tender.get("complaints", ""):
-            if complaint.get("status") == "answered" and complaint.get("resolutionType"):
-                self.set_object_status(complaint, complaint["resolutionType"])
-
-        handler = self.get_change_tender_status_handler("active.pre-qualification")
-        handler(tender)
-        tender["qualificationPeriod"] = {"startDate": get_now().isoformat()}
-
-        self.remove_draft_bids(tender)
-        self.check_bids_number(tender)
-        self.prepare_qualifications(tender)
-        self.calc_bids_weighted_values(tender)
-
     def qualification_stand_still_handler(self, tender):
         statuses = set()
         for lot in tender.get("lots", ""):

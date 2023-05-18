@@ -474,19 +474,19 @@ def validate_lotvalue_value(tender, related_lot, value):
 
 
 def validate_lot_value_amount(tender_lot_value, value):
-    if float(tender_lot_value["amount"]) < value.amount:
+    if float(tender_lot_value["amount"]) < value["amount"]:
         raise ValidationError("value of bid should be less than value of lot")
 
 
-def validate_lot_value_currency(tender_lot_value, value):
-    if tender_lot_value["currency"] != value.currency:
-        raise ValidationError("currency of bid should be identical to currency of value of lot")
+def validate_lot_value_currency(tender_lot_value, value, name="value"):
+    if tender_lot_value["currency"] != value["currency"]:
+        raise ValidationError(f"currency of bid should be identical to currency of {name} of lot")
 
 
-def validate_lot_value_vat(tender_lot_value, value):
-    if tender_lot_value["valueAddedTaxIncluded"] != value.valueAddedTaxIncluded:
+def validate_lot_value_vat(tender_lot_value, value, name="value"):
+    if tender_lot_value["valueAddedTaxIncluded"] != value["valueAddedTaxIncluded"]:
         raise ValidationError(
-            "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot"
+            f"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of {name} of lot"
         )
 
 
