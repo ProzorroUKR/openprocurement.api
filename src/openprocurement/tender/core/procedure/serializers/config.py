@@ -9,7 +9,7 @@ def has_auction_serializer(obj, value):
         request = get_request()
         tender = request.validated.get("tender")
         data = request.validated.get("data")
-        ignore_submission_method_details = request.method == "POST"
+        ignore_submission_method_details = tender is None
         return has_auction_populator(
             tender or data,
             ignore_submission_method_details=ignore_submission_method_details,
