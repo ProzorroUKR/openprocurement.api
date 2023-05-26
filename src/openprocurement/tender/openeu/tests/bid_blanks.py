@@ -4076,3 +4076,41 @@ def restricted_bidder(self):
     response = self.app.get(f"/tenders/{self.tender_id}/bids/{bids_id[1][0]}?acc_token={bids_id[1][1]}")
     bid_data = response.json["data"]
     self.assertEqual(bid_data["status"], "unsuccessful")
+
+
+# TenderWithDisabledValueRestriction
+
+def post_tender_bid_with_disabled_value_restriction(self):
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/bids",
+        {"data": {
+            "selfQualified": True,
+            "tenderers": self.test_bids_data[0]["tenderers"],
+            "value": {"amount": 700}
+        }}
+    )
+    self.assertEqual(response.status, "201 Created")
+
+
+def patch_tender_bid_with_disabled_value_restriction(self):
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/bids",
+        {"data": {
+            "selfQualified": True,
+            "tenderers": self.test_bids_data[0]["tenderers"],
+            "value": {"amount": 450}
+        }}
+    )
+    self.assertEqual(response.status, "201 Created")
+    bid_id = response.json["data"]["id"]
+    token = response.json["access"]["token"]
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={token}",
+        {"data": {
+            "selfQualified": True,
+            "tenderers": self.test_bids_data[0]["tenderers"],
+            "value": {"amount": 750}
+        }}
+    )
+    self.assertEqual(response.status, "200 OK")

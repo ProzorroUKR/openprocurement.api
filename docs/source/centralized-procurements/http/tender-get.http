@@ -231,7 +231,8 @@ Content-Type: application/json
     "id": "d1b73c4e72e244f1833086204faadff6"
   },
   "config": {
-    "hasAuction": true
+    "hasAuction": true,
+    "hasValueRestriction": true
   }
 }
 

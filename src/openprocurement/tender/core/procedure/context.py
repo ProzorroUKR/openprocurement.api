@@ -8,7 +8,7 @@ def get_tender() -> Union[dict, None]:
 
 
 def get_tender_config() -> Union[dict, None]:
-    tender = get_request().validated.get("tender_config")
+    tender = get_request().validated.get("tender_config", {})
     return tender
 
 

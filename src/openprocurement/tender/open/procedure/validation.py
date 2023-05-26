@@ -96,14 +96,3 @@ def validate_contract_document_complaints(operation):
                     if complaint["status"] == "accepted":
                         raise_operation_error(request, f"Can't {operation} document with accepted complaint")
     return validate
-
-
-# bids
-
-
-def validate_lotvalue_value(tender, related_lot, value):
-    lot = find_lot(tender, related_lot)
-    if lot and value:
-        tender_lot_value = lot.get("value")
-        validate_lot_value_currency(tender_lot_value, value)
-        validate_lot_value_vat(tender_lot_value, value)

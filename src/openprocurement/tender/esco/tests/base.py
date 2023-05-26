@@ -60,6 +60,7 @@ for bid in test_tender_esco_bids:
 
 test_tender_esco_config = {
     "hasAuction": True,
+    "hasValueRestriction": True,
 }
 
 

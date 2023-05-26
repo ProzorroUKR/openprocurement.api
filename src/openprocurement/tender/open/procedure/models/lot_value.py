@@ -6,7 +6,7 @@ from openprocurement.tender.core.procedure.models.lot_value import (
     PostLotValue as BasePostLotValue,
     PatchLotValue as BasePatchLotValue,
 )
-from openprocurement.tender.open.procedure.validation import validate_lotvalue_value
+from openprocurement.tender.core.procedure.validation import validate_lotvalue_value
 
 
 class PostLotValue(BasePostLotValue):

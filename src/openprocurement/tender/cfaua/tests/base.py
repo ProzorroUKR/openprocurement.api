@@ -81,6 +81,7 @@ if SANDBOX_MODE:
 
 test_tender_cfaua_config = {
     "hasAuction": True,
+    "hasValueRestriction": True,
 }
 
 

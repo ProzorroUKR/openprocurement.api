@@ -182,7 +182,8 @@ Content-Type: application/json
     "id": "54784c9d4ff74af1986c35990954e7e6"
   },
   "config": {
-    "hasAuction": false
+    "hasAuction": false,
+    "hasValueRestriction": true
   }
 }
 

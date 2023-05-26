@@ -148,18 +148,22 @@ test_tender_cdua_stage2_multi_buyers_data = set_tender_multi_buyers(
 
 test_tender_cdeu_config = {
     "hasAuction": False,
+    "hasValueRestriction": True,
 }
 
 test_tender_cdua_config = {
     "hasAuction": False,
+    "hasValueRestriction": True,
 }
 
 test_tender_cdeu_stage2_config = {
     "hasAuction": True,
+    "hasValueRestriction": True,
 }
 
 test_tender_cdua_stage2_config = {
     "hasAuction": True,
+    "hasValueRestriction": True,
 }
 
 

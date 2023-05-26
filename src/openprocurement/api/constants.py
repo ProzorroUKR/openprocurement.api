@@ -277,12 +277,19 @@ FAST_CATALOGUE_FLOW_FRAMEWORK_IDS = get_constant(
     parse_func=parse_str_list,
 )
 
-# Tender config hasAuction optional
-TENDER_CONFIG_HAS_AUCTION_OPTIONAL = get_constant(
-    CONSTANTS_CONFIG,
-    "TENDER_CONFIG_HAS_AUCTION_OPTIONAL",
-    parse_func=parse_bool,
-)
+# Tender config optionality
+TENDER_CONFIG_OPTIONALITY = {
+    "hasAuction": get_constant(
+        CONSTANTS_CONFIG,
+        "TENDER_CONFIG_HAS_AUCTION_OPTIONAL",
+        parse_func=parse_bool,
+    ),
+    "hasValueRestriction": get_constant(
+        CONSTANTS_CONFIG,
+        "TENDER_CONFIG_VALUE_RESTRICTION_OPTIONAL",
+        parse_func=parse_bool,
+    ),
+}
 
 # Tender weightedValue pre-calculation on switch to active.auction
 TENDER_WEIGHTED_VALUE_PRE_CALCULATION = get_constant(

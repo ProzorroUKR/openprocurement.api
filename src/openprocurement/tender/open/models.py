@@ -68,6 +68,7 @@ from openprocurement.tender.core.utils import (
 )
 from openprocurement.tender.core.validation import (
     validate_relatedlot,
+    validate_lotvalue_value,
 )
 from openprocurement.tender.core.constants import (
     AWARD_CRITERIA_LOWEST_COST,
@@ -80,9 +81,6 @@ from openprocurement.tender.belowthreshold.models import (
 from openprocurement.tender.open.constants import (
     COMPLAINT_SUBMIT_TIME,
     PERIOD_END_REQUIRED_FROM, ABOVE_THRESHOLD,
-)
-from openprocurement.tender.open.validation import (
-    validate_lotvalue_value,
 )
 
 

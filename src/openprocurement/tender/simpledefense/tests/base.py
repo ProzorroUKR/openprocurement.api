@@ -52,6 +52,7 @@ test_tender_simpledefense_multi_buyers_data = set_tender_multi_buyers(
 
 test_tender_simpledefense_config = {
     "hasAuction": True,
+    "hasValueRestriction": True,
 }
 
 class BaseApiWebTest(BaseWebTest):

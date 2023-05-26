@@ -35,7 +35,7 @@ from openprocurement.tender.core.procedure.utils import (
 )
 from openprocurement.tender.core.utils import calculate_tender_business_date, find_lot
 from openprocurement.tender.core.procedure.documents import check_document_batch, check_document, update_document_url
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.tender.core.procedure.context import get_tender, get_tender_config
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import get_criterion_requirement
 from schematics.exceptions import ValidationError
@@ -466,7 +466,9 @@ def validate_lotvalue_value(tender, related_lot, value):
     lot = find_lot(tender, related_lot)
     if lot and value:
         tender_lot_value = lot.get("value")
-        validate_lot_value_amount(tender_lot_value, value)
+        config = get_tender_config()
+        if config.get("hasValueRestriction"):
+            validate_lot_value_amount(tender_lot_value, value)
         validate_lot_value_currency(tender_lot_value, value)
         validate_lot_value_vat(tender_lot_value, value)
 
@@ -496,7 +498,8 @@ def validate_bid_value(tender, value):
         tender_value = tender.get("value")
         if not value:
             raise ValidationError("This field is required.")
-        if to_decimal(tender_value["amount"]) < to_decimal(value.amount):
+        config = get_tender_config()
+        if config.get("hasValueRestriction") and to_decimal(tender_value["amount"]) < to_decimal(value.amount):
             raise ValidationError("value of bid should be less than value of tender")
         if tender_value["currency"] != value.currency:
             raise ValidationError("currency of bid should be identical to currency of value of tender")

@@ -14,6 +14,11 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_documents,
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
+    # Tender2LotBidResourceTest
+    post_tender_bid_with_exceeded_lot_values,
+    patch_tender_bid_with_exceeded_lot_values,
+    post_tender_bid_with_disabled_lot_values_restriction,
+    patch_tender_bid_with_disabled_lot_values_restriction,
 )
 from openprocurement.tender.openua.tests.bid import (
     TenderBidResourceTestMixin,
@@ -63,6 +68,8 @@ class Tender2LotBidResourceTest(BaseSimpleDefContentWebTest):
     initial_status = "active.tendering"
 
     test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
+    test_post_tender_bid_with_exceeded_lot_values = snitch(post_tender_bid_with_exceeded_lot_values)
+    test_patch_tender_bid_with_exceeded_lot_values = snitch(patch_tender_bid_with_exceeded_lot_values)
 
 
 class TenderBidFeaturesResourceTest(BaseSimpleDefContentWebTest):
@@ -208,6 +215,72 @@ class TenderBidRequirementResponseEvidenceResourceTest(
     guarantee_criterion = False
 
 
+class TenderLotsWithDisabledValueRestriction(BaseSimpleDefContentWebTest):
+    initial_status = "active.tendering"
+    test_bids_data = test_tender_simpledefense_bids
+    initial_lots = 2 * test_tender_below_lots
+
+    test_post_tender_bid_with_disabled_lot_values_restriction = snitch(
+        post_tender_bid_with_disabled_lot_values_restriction
+    )
+    test_patch_tender_bid_with_disabled_lot_values_restriction = snitch(
+        patch_tender_bid_with_disabled_lot_values_restriction
+    )
+
+    def setUp(self):
+        super(BaseSimpleDefContentWebTest, self).setUp()
+        self.create_tender(config={
+            "hasAuction": True,
+            "hasValueRestriction": False,
+        })
+
+
+class TenderWithDisabledValueRestriction(BaseSimpleDefContentWebTest):
+    initial_status = "active.tendering"
+
+    def setUp(self):
+        super(BaseSimpleDefContentWebTest, self).setUp()
+        self.create_tender(config={
+            "hasAuction": True,
+            "hasValueRestriction": False,
+        })
+
+    def test_post_tender_bid_with_disabled_value_restriction(self):
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/bids",
+            {"data": {
+                "selfEligible": True,
+                "selfQualified": True,
+                "tenderers": [test_tender_below_organization],
+                "value": {"amount": 700}}
+            }
+        )
+        self.assertEqual(response.status, "201 Created")
+
+    def test_patch_tender_bid_with_disabled_value_restriction(self):
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/bids",
+            {"data": {
+                "selfEligible": True,
+                "selfQualified": True,
+                "tenderers": [test_tender_below_organization],
+                "value": {"amount": 450}}
+            }
+        )
+        self.assertEqual(response.status, "201 Created")
+        bid_id = response.json["data"]["id"]
+        token = response.json["access"]["token"]
+
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={token}",
+            {"data": {
+                "status": "active",
+                "value": {"amount": 705}}
+            }
+        )
+        self.assertEqual(response.status, "200 OK")
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderBidDocumentResourceTest))
@@ -216,6 +289,8 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderBidResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidRequirementResponseResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidRequirementResponseEvidenceResourceTest))
+    suite.addTest(unittest.makeSuite(TenderLotsWithDisabledValueRestriction))
+    suite.addTest(unittest.makeSuite(TenderWithDisabledValueRestriction))
     return suite
 
 

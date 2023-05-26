@@ -9,6 +9,7 @@ from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
+    test_tender_below_lots,
 )
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 
@@ -202,6 +203,14 @@ def create_tender_bid_invalid(self):
 
 def create_tender_bid(self):
     dateModified = self.mongodb.tenders.get(self.tender_id).get("dateModified")
+
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/bids",
+        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 700}}}, status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.json["status"], "error")
+    self.assertIn("value of bid should be less than value of tender", response.json["errors"][0]["description"])
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -598,6 +607,50 @@ def patch_tender_lot_values_any_order(self):
     self.assertEqual(response.json["data"]["lotValues"][1].get("status"), expected_status)
     self.assertEqual(value_2["amount"], response.json["data"]["lotValues"][0]["value"]["amount"])
     self.assertEqual(value_1["amount"], response.json["data"]["lotValues"][1]["value"]["amount"])
+
+
+def post_tender_bid_with_exceeded_lot_values(self):
+    lots = self.mongodb.tenders.get(self.tender_id).get("lots")
+
+    bid = deepcopy(self.test_bids_data[0])
+    value = bid.pop("value", None)
+    value["amount"] = 700
+    bid["lotValues"] = [{"value": value, "relatedLot": lots[0]["id"]}]
+    response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.json["status"], "error")
+    self.assertIn(
+        "value of bid should be less than value of lot",
+        response.json["errors"][0]["description"][0]["value"]
+    )
+
+
+def patch_tender_bid_with_exceeded_lot_values(self):
+    lots = self.mongodb.tenders.get(self.tender_id).get("lots")
+
+    bid = deepcopy(self.test_bids_data[0])
+    value = bid.pop("value", None)
+    value["amount"] = 450
+    bid["lotValues"] = [{"value": value, "relatedLot": lots[0]["id"]}]
+    response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid})
+    self.assertEqual(response.status, "201 Created")
+    bid_id = response.json["data"]["id"]
+    token = response.json["access"]["token"]
+
+    # patch lotValue with exceeded amount
+    value["amount"] = 600
+    bid["lotValues"] = [{"value": value, "relatedLot": lots[0]["id"]}]
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={token}",
+        {"data": bid},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.json["status"], "error")
+    self.assertIn(
+        "value of bid should be less than value of lot",
+        response.json["errors"][0]["description"][0]["value"]
+    )
 
 # TenderBidFeaturesResourceTest
 
@@ -2417,3 +2470,64 @@ def bid_activate_with_cancelled_tenderer_criterion(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
+
+
+# TenderLotsWithDisabledValueRestriction
+
+def post_tender_bid_with_disabled_lot_values_restriction(self):
+    lots = self.mongodb.tenders.get(self.tender_id).get("lots")
+
+    bid = deepcopy(self.test_bids_data[0])
+    value = bid.pop("value", None)
+    value["amount"] = 700
+    bid["lotValues"] = [{"value": value, "relatedLot": lots[0]["id"]}]
+    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
+    self.assertEqual(response.status, "201 Created")
+
+
+def patch_tender_bid_with_disabled_lot_values_restriction(self):
+    lots = self.mongodb.tenders.get(self.tender_id).get("lots")
+
+    bid = deepcopy(self.test_bids_data[0])
+    value = bid.pop("value", None)
+    value["amount"] = 450
+    bid["lotValues"] = [{"value": value, "relatedLot": lots[0]["id"]}]
+    response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid})
+    self.assertEqual(response.status, "201 Created")
+    bid_id = response.json["data"]["id"]
+    token = response.json["access"]["token"]
+
+    # patch lotValue with exceeded amount
+    value["amount"] = 600
+    bid["lotValues"] = [{"value": value, "relatedLot": lots[0]["id"]}]
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={token}",
+        {"data": bid},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+
+# TenderWithDisabledValueRestriction
+
+def post_tender_bid_with_disabled_value_restriction(self):
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/bids",
+        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 700}}}
+    )
+    self.assertEqual(response.status, "201 Created")
+
+
+def patch_tender_bid_with_disabled_value_restriction(self):
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/bids",
+        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 450}}}
+    )
+    self.assertEqual(response.status, "201 Created")
+    bid_id = response.json["data"]["id"]
+    token = response.json["access"]["token"]
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={token}",
+        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 750}}}
+    )
+    self.assertEqual(response.status, "200 OK")
