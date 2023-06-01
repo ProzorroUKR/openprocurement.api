@@ -34,7 +34,7 @@ TARGET_JSON_DIR = 'docs/source/tendering/config/json/'
 TARGET_CSV_DIR = 'docs/source/tendering/config/csv/'
 
 
-class TenderHasAuctionResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
+class TenderConfigBaseResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
@@ -47,14 +47,29 @@ class TenderHasAuctionResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
     blacklist = ('/tests/.*\.py',)
 
     def setUp(self):
-        super(TenderHasAuctionResourceTest, self).setUp()
+        super(TenderConfigBaseResourceTest, self).setUp()
         self.setUpMock()
 
     def tearDown(self):
         self.tearDownMock()
-        super(TenderHasAuctionResourceTest, self).tearDown()
+        super(TenderConfigBaseResourceTest, self).tearDown()
 
-    def test_docs_has_auction_values_csv(self):
+    def add_criteria(self, tender_id, owner_token):
+        # add criteria
+        test_criteria_data = deepcopy(test_exclusion_criteria)
+        for i in range(len(test_criteria_data)):
+            classification_id = test_criteria_data[i]['classification']['id']
+            if classification_id == 'CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES':
+                del test_criteria_data[i]
+                break
+        test_criteria_data.extend(test_language_criteria)
+        response = self.app.post_json(
+            '/tenders/{}/criteria?acc_token={}'.format(tender_id, owner_token),
+            {'data': test_criteria_data}
+        )
+        self.assertEqual(response.status, '201 Created')
+
+    def write_values_csv(self, config_name, file_name):
         pmts = [
             "aboveThreshold",
             "aboveThresholdEU",
@@ -80,7 +95,7 @@ class TenderHasAuctionResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
             "values",
             "default",
         ]
-        
+
         separator = ","
         empty = ""
 
@@ -89,7 +104,7 @@ class TenderHasAuctionResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         for pmt in pmts:
             row = []
             schema = standards.load(f"data_model/schema/TenderConfig/{pmt}.json")
-            ha_property = schema["properties"]["hasAuction"]
+            ha_property = schema["properties"][config_name]
 
             # procurementMethodType
             row.append(pmt)
@@ -108,10 +123,16 @@ class TenderHasAuctionResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
 
             rows.append(row)
 
-        with open(TARGET_CSV_DIR + "has-auction-values.csv", "w") as file_csv:
+        with open(TARGET_CSV_DIR + file_name, "w") as file_csv:
             writer = csv.writer(file_csv)
             writer.writerow(headers)
             writer.writerows(rows)
+
+
+class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
+
+    def test_docs_has_auction_values_csv(self):
+        self.write_values_csv(config_name="hasAuction", file_name="has-auction-values.csv")
 
     def test_docs_has_auction_true(self):
         request_path = '/tenders?opt_pretty=1'
@@ -342,21 +363,6 @@ class TenderHasAuctionResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         with open(TARGET_JSON_DIR + 'has-auction-false-tender-complete.json', 'w') as file_json:
             file_json.write(json.dumps(response.json, indent=4, sort_keys=True))
 
-    def add_criteria(self, tender_id, owner_token):
-        # add criteria
-        test_criteria_data = deepcopy(test_exclusion_criteria)
-        for i in range(len(test_criteria_data)):
-            classification_id = test_criteria_data[i]['classification']['id']
-            if classification_id == 'CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES':
-                del test_criteria_data[i]
-                break
-        test_criteria_data.extend(test_language_criteria)
-        response = self.app.post_json(
-            '/tenders/{}/criteria?acc_token={}'.format(tender_id, owner_token),
-            {'data': test_criteria_data}
-        )
-        self.assertEqual(response.status, '201 Created')
-
     def activate_tender(self, tender_id, owner_token):
         #### Tender activating
         response = self.app.patch_json(
@@ -486,3 +492,239 @@ class TenderHasAuctionResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json["data"]["status"], 'complete')
+
+
+class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
+
+    def test_docs_has_value_restriction_values_csv(self):
+        self.write_values_csv(config_name="hasValueRestriction", file_name="has-value-restriction-values.csv")
+
+    def test_docs_lots_has_value_restriction_true(self):
+        config = deepcopy(self.initial_config)
+        config["hasValueRestriction"] = True
+
+        test_tender_data = deepcopy(test_docs_tender_open)
+        test_lots = deepcopy(test_docs_lots)
+        test_lots[0]['value'] = test_tender_data['value']
+        test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
+        test_lots[1]['value'] = test_tender_data['value']
+        test_lots[1]['minimalStep'] = test_tender_data['minimalStep']
+
+        #### Creating tender
+
+        with open(TARGET_DIR + 'has-value-restriction-true-tender-lots-post.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders?opt_pretty=1',
+                {'data': test_tender_data, 'config': config}
+            )
+            self.assertEqual(response.status, '201 Created')
+
+        tender = response.json['data']
+        tender_id = self.tender_id = tender['id']
+        owner_token = response.json['access']['token']
+
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        # add lots
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
+            {'data': test_lots[0]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot_id1 = response.json['data']['id']
+
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
+            {'data': test_lots[1]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot2 = response.json['data']
+        lot_id2 = lot2['id']
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        items[0]["relatedLot"] = lot_id1
+        items[1]["relatedLot"] = lot_id2
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+            {"data": {"items": items}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        self.add_criteria(tender_id, owner_token)
+        #### Tender activating
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+            {'data': {"status": "active.tendering"}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        #### Registering bid
+        with open(TARGET_DIR + 'has-value-restriction-true-tender-lots-add-invalid-bid.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/bids',
+                {
+                    'data': {
+                        'selfQualified': True,
+                        'status': 'draft',
+                        'tenderers': test_docs_bid["tenderers"],
+                        'lotValues': [{
+                            "subcontractingDetails": "ДКП «Орфей», Україна",
+                            "value": {"amount": 600},
+                            'relatedLot': lot_id1
+                        }, {
+                            "subcontractingDetails": "ДКП «Орфей», Україна",
+                            "value": {"amount": 500},
+                            'relatedLot': lot_id2
+                        }]
+                    }
+                },
+                status=422,
+            )
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+            self.assertEqual(
+                response.json["errors"],
+                [{
+                    "location": "body",
+                    "name": "lotValues",
+                    "description": [{"value": ["value of bid should be less than value of lot"]}]
+                }]
+            )
+
+        with open(TARGET_DIR + 'has-value-restriction-true-tender-lots-add-valid-bid.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/bids',
+                {
+                    'data': {
+                        'selfQualified': True,
+                        'status': 'draft',
+                        'tenderers': test_docs_bid["tenderers"],
+                        'lotValues': [{
+                            "subcontractingDetails": "ДКП «Орфей», Україна",
+                            "value": {"amount": 500},
+                            'relatedLot': lot_id1
+                        }, {
+                            "subcontractingDetails": "ДКП «Орфей», Україна",
+                            "value": {"amount": 500},
+                            'relatedLot': lot_id2
+                        }]
+                    }
+                }
+            )
+            self.assertEqual(response.status, "201 Created")
+            bid_token = response.json['access']['token']
+            bid_id = response.json['data']['id']
+
+        with open(TARGET_DIR + 'has-value-restriction-true-tender-lots-patch-bid.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f'/tenders/{tender_id}/bids/{bid_id}?acc_token={bid_token}',
+                {
+                    'data': {
+                        'selfQualified': True,
+                        'status': 'active',
+                        'tenderers': test_docs_bid["tenderers"],
+                        'lotValues': [{
+                            "subcontractingDetails": "ДКП «Орфей», Україна",
+                            "value": {"amount": 500},
+                            'relatedLot': lot_id1
+                        }, {
+                            "subcontractingDetails": "ДКП «Орфей», Україна",
+                            "value": {"amount": 700},
+                            'relatedLot': lot_id2
+                        }]
+                    }
+                },
+                status=422,
+            )
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+            self.assertEqual(
+                response.json["errors"],
+                [{
+                    "location": "body",
+                    "name": "lotValues",
+                    "description": [{"value": ["value of bid should be less than value of lot"]}]
+                }]
+            )
+
+    def test_docs_lots_has_value_restriction_false(self):
+        config = deepcopy(self.initial_config)
+        config["hasValueRestriction"] = False
+
+        test_tender_data = deepcopy(test_docs_tender_open)
+        test_lots = deepcopy(test_docs_lots)
+        test_lots[0]['value'] = test_tender_data['value']
+        test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
+        test_lots[1]['value'] = test_tender_data['value']
+        test_lots[1]['minimalStep'] = test_tender_data['minimalStep']
+
+        #### Creating tender
+
+        with open(TARGET_DIR + 'has-value-restriction-false-tender-lots-post.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders?opt_pretty=1',
+                {'data': test_tender_data, 'config': config}
+            )
+            self.assertEqual(response.status, '201 Created')
+
+        tender = response.json['data']
+        tender_id = self.tender_id = tender['id']
+        owner_token = response.json['access']['token']
+
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        # add lots
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
+            {'data': test_lots[0]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot_id1 = response.json['data']['id']
+
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
+            {'data': test_lots[1]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot2 = response.json['data']
+        lot_id2 = lot2['id']
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        items[0]["relatedLot"] = lot_id1
+        items[1]["relatedLot"] = lot_id2
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+            {"data": {"items": items}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        self.add_criteria(tender_id, owner_token)
+        #### Tender activating
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+            {'data': {"status": "active.tendering"}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        #### Registering bid
+        with open(TARGET_DIR + 'has-value-restriction-false-tender-lots-add-valid-bid.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/bids',
+                {
+                    'data': {
+                        'selfQualified': True,
+                        'status': 'draft',
+                        'tenderers': test_docs_bid["tenderers"],
+                        'lotValues': [{
+                            "subcontractingDetails": "ДКП «Орфей», Україна",
+                            "value": {"amount": 600},
+                            'relatedLot': lot_id1
+                        }, {
+                            "subcontractingDetails": "ДКП «Орфей», Україна",
+                            "value": {"amount": 700},
+                            'relatedLot': lot_id2
+                        }]
+                    }
+                },
+            )
+            self.assertEqual(response.status, "201 Created")
