@@ -59,6 +59,8 @@ from openprocurement.tender.core.utils import (
     validate_features_custom_weight,
 )
 
+from openprocurement.tender.core.procedure.state.utils import awarding_is_unsuccessful
+
 
 class LotAuctionPeriod(Period):
     shouldStartAfter = StringType()
@@ -342,8 +344,7 @@ class Tender(BaseTender):
                 for a in self.awards
                 if a.complaintPeriod and a.complaintPeriod.endDate
             ]
-            last_award_status = self.awards[-1].status if self.awards else ""
-            if standStillEnds and last_award_status == "unsuccessful":
+            if standStillEnds and awarding_is_unsuccessful(self.awards):
                 checks.append(max(standStillEnds))
         elif (
             self.lots
@@ -365,12 +366,11 @@ class Tender(BaseTender):
                     for a in lot_awards
                     if a.complaintPeriod and a.complaintPeriod.endDate
                 ]
-                last_award_status = lot_awards[-1].status if lot_awards else ""
                 if (
                     not pending_complaints
                     and not pending_awards_complaints
                     and standStillEnds
-                    and last_award_status == "unsuccessful"
+                    and awarding_is_unsuccessful(lot_awards)
                 ):
                     checks.append(max(standStillEnds))
         if self.status.startswith("active"):

@@ -1097,7 +1097,8 @@ Content-Type: application/json
     "id": "c3028c9ca7a940518864792509ea9232"
   },
   "config": {
-    "hasAuction": true
+    "hasAuction": true,
+    "hasAwardingOrder": true
   }
 }
 

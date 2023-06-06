@@ -11,3 +11,4 @@ Contents:
    :maxdepth: 2
 
    has_auction
+   has_awarding_order

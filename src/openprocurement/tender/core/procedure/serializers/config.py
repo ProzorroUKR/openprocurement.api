@@ -1,11 +1,12 @@
 from openprocurement.api.context import get_request
+from openprocurement.api.constants import TENDER_CONFIG_OPTIONALITY
 from openprocurement.tender.core.migrations.add_config_has_auction_field import has_auction_populator
 from openprocurement.tender.core.procedure.serializers.base import BaseSerializer
 
 
 def has_auction_serializer(obj, value):
     # TODO: remove serializer after migration
-    if value is None:
+    if value is None and TENDER_CONFIG_OPTIONALITY["hasAuction"] is True:
         request = get_request()
         tender = request.validated.get("tender")
         data = request.validated.get("data")
@@ -14,6 +15,13 @@ def has_auction_serializer(obj, value):
             tender or data,
             ignore_submission_method_details=ignore_submission_method_details,
         )
+    return value
+
+
+def has_awarding_order_serializer(obj, value):
+    # TODO: remove serializer after migration
+    if value is None and TENDER_CONFIG_OPTIONALITY["hasAwardingOrder"] is True:
+        return True
     return value
 
 
@@ -26,4 +34,5 @@ class TenderConfigSerializer(BaseSerializer):
 
     serializers = {
         "hasAuction": has_auction_serializer,
+        "hasAwardingOrder": has_awarding_order_serializer,
     }

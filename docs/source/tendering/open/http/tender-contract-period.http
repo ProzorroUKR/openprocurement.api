@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/cb76d20a62ef4e318ecb101430b63776/contracts/de62a91f7802494a98097e08d764d500?acc_token=ba20733189d94f8eb1f42516be4fddf3 HTTP/1.0
+PATCH /api/2.5/tenders/cb76d20a62ef4e318ecb101430b63776/contracts/ba3821440c55457180e70635fd681fdf?acc_token=ba20733189d94f8eb1f42516be4fddf3 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 104
 Content-Type: application/json
@@ -19,7 +19,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "de62a91f7802494a98097e08d764d500",
+    "id": "ba3821440c55457180e70635fd681fdf",
     "awardID": "025c8edf5baa4124a7bfd6454122fa3d",
     "contractID": "UA-2023-01-01-000001-a-1",
     "status": "pending",

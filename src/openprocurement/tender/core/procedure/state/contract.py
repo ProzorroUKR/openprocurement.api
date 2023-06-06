@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING
 
 from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.core.procedure.state.utils import awarding_is_unsuccessful
 from openprocurement.tender.core.procedure.context import (
     get_tender,
     get_request,
@@ -126,7 +127,7 @@ class ContractStateMixing(baseclass):
 
             if not self.check_award_lot_complaints(tender, lot["id"], lot_awards, now):
                 continue
-            elif last_award.get("status") == "unsuccessful":
+            elif awarding_is_unsuccessful(lot_awards):
                 LOGGER.info(
                     f"Switched lot {lot.get('id')} of tender {tender['_id']} to unsuccessful",
                     extra=context_unpack(
@@ -173,12 +174,12 @@ class ContractStateMixing(baseclass):
 
         stand_still_end = self.calculate_stand_still_end(tender, tender.get("awards", []), now)
         stand_still_time_expired = stand_still_end < now
-        last_award_status = tender.get("awards", [])[-1].get("status") if tender.get("awards", []) else ""
+        awards = tender.get("awards", [])
         if (
             not pending_complaints
             and not pending_awards_complaints
             and stand_still_time_expired
-            and last_award_status == "unsuccessful"
+            and awarding_is_unsuccessful(awards)
         ):
             LOGGER.info(
                 f"Switched tender {tender['_id']} to unsuccessful",

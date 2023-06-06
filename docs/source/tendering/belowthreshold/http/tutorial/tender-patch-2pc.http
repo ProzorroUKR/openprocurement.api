@@ -127,7 +127,8 @@ Content-Type: application/json
     "id": "1ed1a800796d458596de9b1262b3d1e0"
   },
   "config": {
-    "hasAuction": true
+    "hasAuction": true,
+    "hasAwardingOrder": true
   }
 }
 

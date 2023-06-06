@@ -212,6 +212,7 @@ test_tender_below_multi_buyers_data = set_tender_multi_buyers(
 
 test_tender_below_config = {
     "hasAuction": True,
+    "hasAwardingOrder": True,
 }
 
 
@@ -284,9 +285,9 @@ class BaseTenderWebTest(BaseCoreWebTest):
             )
 
 
-    def create_tender(self):
+    def create_tender(self, config=None):
         data = deepcopy(self.initial_data)
-        config = deepcopy(self.initial_config)
+        config = config if config else deepcopy(self.initial_config)
         response = self.app.post_json("/tenders", {"data": data, "config": config})
         tender = response.json["data"]
         self.tender_token = response.json["access"]["token"]
