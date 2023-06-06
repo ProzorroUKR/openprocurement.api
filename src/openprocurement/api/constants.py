@@ -70,7 +70,8 @@ FUNDERS = [
     for i in standards.load("codelists/tender/tender_funder.json")
 ]
 ORA_CODES = [i["code"] for i in standards.load("organizations/identifier_scheme.json")["data"]]
-GMDN = {k for k in read_json("data/gmdn.json").keys()}
+# extended keys gmdn contains actual and obsolete codes, since deleted codes can block un-refactored endpoints
+GMDN = set(read_json("data/gmdn_keys_extended.json"))
 GMDN_CPV_PREFIXES = read_json("data/gmdn_cpv_prefixes.json")
 UA_ROAD = read_json("data/ua_road.json")
 UA_ROAD_CPV_PREFIXES = read_json("data/ua_road_cpv_prefixes.json")
