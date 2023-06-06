@@ -808,7 +808,8 @@ Content-Type: application/json
     "id": "546d408affff46abb140a86f866faaa3"
   },
   "config": {
-    "hasAuction": true
+    "hasAuction": true,
+    "hasAwardingOrder": true
   }
 }
 

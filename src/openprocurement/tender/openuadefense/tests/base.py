@@ -76,6 +76,7 @@ for bid in test_tender_openuadefense_bids:
 
 test_tender_openuadefense_config = {
     "hasAuction": True,
+    "hasAwardingOrder": True,
 }
 
 

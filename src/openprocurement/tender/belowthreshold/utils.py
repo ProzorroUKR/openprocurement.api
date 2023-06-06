@@ -14,6 +14,9 @@ from openprocurement.tender.core.utils import (
     get_first_revision_date,
 )
 
+from openprocurement.tender.core.procedure.context import get_tender_config
+from openprocurement.tender.core.procedure.state.utils import awarding_is_unsuccessful
+
 LOGGER = getLogger("openprocurement.tender.belowthreshold")
 
 
@@ -40,6 +43,8 @@ def prepare_tender_item_for_contract(item):
 def check_tender_status(request):
     tender = request.validated["tender"]
     now = get_now()
+    config = get_tender_config()
+    awarding_order_enabled = config.get("hasAwardingOrder")
 
     if tender.lots:
         if any([i.status in tender.block_complaint_status and i.relatedLot is None for i in tender.complaints]):
@@ -51,6 +56,7 @@ def check_tender_status(request):
             if not lot_awards:
                 continue
             last_award = lot_awards[-1]
+            awards_statuses = {award["status"] for award in lot_awards}
             pending_complaints = any(
                 [i["status"] in tender.block_complaint_status and i.relatedLot == lot.id for i in tender.complaints]
             )
@@ -66,21 +72,26 @@ def check_tender_status(request):
                 or (in_stand_still and not skip_award_complaint_period)
             ):
                 continue
-            elif last_award.status == "unsuccessful":
+            elif awarding_is_unsuccessful(lot_awards):
                 LOGGER.info(
                     "Switched lot {} of tender {} to {}".format(lot.id, tender.id, "unsuccessful"),
                     extra=context_unpack(request, {"MESSAGE_ID": "switched_lot_unsuccessful"}, {"LOT_ID": lot.id}),
                 )
                 lot.status = "unsuccessful"
                 continue
-            elif last_award.status == "active":
+            elif (awarding_order_enabled and last_award["status"] == "active") or \
+                    (awarding_order_enabled is False and awards_statuses.intersection({"active"})):
                 if "agreements" in tender:
                     allow_complete_lot = agreements_allow_to_complete(tender.agreements)
                 else:
-                    contracts = [
-                        contract for contract in tender.contracts
-                        if contract.awardID == last_award.id
-                    ]
+                    if awarding_order_enabled is False:
+                        active_award_ids = {award["id"] for award in lot_awards if award["status"] == "active"}
+                        contracts = [contract["awardID"] in active_award_ids for contract in tender.contracts]
+                    else:
+                        contracts = [
+                            contract for contract in tender.contracts
+                            if contract.awardID == last_award.id
+                        ]
                     allow_complete_lot = contracts_allow_to_complete(contracts)
                 if allow_complete_lot:
                     LOGGER.info(
@@ -115,12 +126,11 @@ def check_tender_status(request):
         )
         stand_still_end = calculate_stand_still_end(tender, tender.awards, now)
         stand_still_time_expired = stand_still_end < now
-        last_award_status = tender.awards[-1].status if tender.awards else ""
         if (
             not pending_complaints
             and not pending_awards_complaints
             and stand_still_time_expired
-            and last_award_status == "unsuccessful"
+            and awarding_is_unsuccessful(tender.awards)
         ):
             LOGGER.info(
                 "Switched tender {} to {}".format(tender.id, "unsuccessful"),

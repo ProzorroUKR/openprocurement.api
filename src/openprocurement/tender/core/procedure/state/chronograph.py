@@ -13,6 +13,7 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_after_2020_rules,
 )
 from openprocurement.tender.core.utils import calc_auction_end_time
+from openprocurement.tender.core.procedure.state.utils import awarding_is_unsuccessful
 
 
 def copy_class(cls, exclude_parent_class_names=None):
@@ -211,7 +212,7 @@ class ChronographEventsMixing(baseclass):
     def awarded_events(self, tender):  # TODO: move to complaint events ?
         awards = tender.get("awards", [])
         if (
-            awards and awards[-1]["status"] == "unsuccessful"
+            awarding_is_unsuccessful(awards)
             and not any(c["status"] in self.block_complaint_status for c in tender.get("complaints", ""))
             and not any(
             [c["status"] in self.block_complaint_status
@@ -256,7 +257,7 @@ class ChronographEventsMixing(baseclass):
             for lot in lots:
                 if lot["status"] == "active":
                     lot_awards = [i for i in tender.get("awards", "") if i["lotID"] == lot["id"]]
-                    if lot_awards and lot_awards[-1]["status"] == "unsuccessful":
+                    if awarding_is_unsuccessful(lot_awards):
                         pending_complaints = any(
                             i["status"] in self.block_complaint_status
                             for i in tender.get("complaints", "")
@@ -365,9 +366,9 @@ class ChronographEventsMixing(baseclass):
             ]
             stand_still_end = max(stand_still_ends) if stand_still_ends else now
             stand_still_time_expired = stand_still_end < now
-            last_award_status = tender["awards"][-1]["status"] if tender.get("awards") else ""
+            awards = tender.get("awards", [])
             if (
-                last_award_status == "unsuccessful"
+                awarding_is_unsuccessful(awards)
                 and not pending_complaints
                 and not pending_awards_complaints
                 and stand_still_time_expired
@@ -538,6 +539,8 @@ class ChronographEventsMixing(baseclass):
         ):
             return
 
+        config = get_tender_config()
+        awarding_order_enabled = config.get("hasAwardingOrder")
         now = get_now().isoformat()
         for lot in tender["lots"]:
             if lot["status"] != "active":
@@ -548,6 +551,7 @@ class ChronographEventsMixing(baseclass):
                 continue
 
             last_award = lot_awards[-1]
+            awards_statuses = {award["status"] for award in lot_awards}
             pending_complaints = any(
                 i["status"] in self.block_complaint_status and i["relatedLot"] == lot["id"]
                 for i in tender.get("complaints", "")
@@ -572,7 +576,7 @@ class ChronographEventsMixing(baseclass):
             ):
                 continue
 
-            elif last_award["status"] == "unsuccessful":
+            elif awarding_is_unsuccessful(lot_awards):
                 LOGGER.info(
                     f"Switched lot {lot['id']} of tender {tender['_id']} to unsuccessful",
                     extra=context_unpack(
@@ -583,13 +587,23 @@ class ChronographEventsMixing(baseclass):
                 self.set_object_status(lot, "unsuccessful")
                 continue
 
-            elif last_award["status"] == "active":
-                active_contracts = (
-                    [a["status"] == "active" for a in tender.get("agreements")]
-                    if "agreements" in tender
-                    else [i["status"] == "active" and i["awardID"] == last_award["id"]
-                          for i in tender.get("contracts", "")]
-                )
+            elif (awarding_order_enabled and last_award["status"] == "active") or \
+                    (awarding_order_enabled is False and awards_statuses.intersection({"active"})):
+                if awarding_order_enabled is False:
+                    active_award_ids = {award["id"] for award in lot_awards if award["status"] == "active"}
+                    active_contracts = (
+                        [agreement["status"] == "active" for agreement in tender.get("agreements")]
+                        if "agreements" in tender
+                        else [contract["status"] == "active" and contract["awardID"] in active_award_ids
+                              for contract in tender.get("contracts", "")]
+                    )
+                else:
+                    active_contracts = (
+                        [a["status"] == "active" for a in tender.get("agreements")]
+                        if "agreements" in tender
+                        else [i["status"] == "active" and i["awardID"] == last_award["id"]
+                              for i in tender.get("contracts", "")]
+                    )
 
                 if any(active_contracts):
                     LOGGER.info(

@@ -21,7 +21,7 @@ from openprocurement.api.utils import (
 from openprocurement.api.constants import (
     RELEASE_ECRITERIA_ARTICLE_17,
     TENDER_PERIOD_START_DATE_STALE_MINUTES,
-    TENDER_CONFIG_HAS_AUCTION_OPTIONAL,
+    TENDER_CONFIG_OPTIONALITY,
     TENDER_CONFIG_JSONSCHEMAS,
 )
 from openprocurement.tender.core.procedure.state.tender import TenderState
@@ -31,39 +31,43 @@ if TYPE_CHECKING:
 else:
     baseclass = object
 
+
+
 class TenderConfigMixin(baseclass):
+    configurations = (
+        "hasAuction",
+        "hasAwardingOrder",
+    )
 
     def validate_config(self, data):
-        self.validate_has_auction(data)
-
-    def validate_has_auction(self, data):
         config = get_tender_config()
-        value = config.get("hasAuction")
+        for config_name in self.configurations:
+            value = config.get(config_name)
 
-        if value is None and TENDER_CONFIG_HAS_AUCTION_OPTIONAL is False:
-            raise_operation_error(
-                self.request,
-                "This field is required.",
-                status=422,
-                location="body",
-                name="hasAuction",
-            )
+            if value is None and TENDER_CONFIG_OPTIONALITY.get(config_name, True) is False:
+                raise_operation_error(
+                    self.request,
+                    "This field is required.",
+                    status=422,
+                    location="body",
+                    name=config_name,
+                )
 
-        procurement_method_type = data.get("procurementMethodType")
-        config_schema = TENDER_CONFIG_JSONSCHEMAS.get(procurement_method_type)
-        if not config_schema:
-            raise NotImplementedError
-        schema = config_schema["properties"]["hasAuction"]
-        try:
-            validate(value, schema)
-        except ValidationError as e:
-            raise_operation_error(
-                self.request,
-                e.message,
-                status=422,
-                location="body",
-                name="hasAuction",
-            )
+            procurement_method_type = data.get("procurementMethodType")
+            config_schema = TENDER_CONFIG_JSONSCHEMAS.get(procurement_method_type)
+            if not config_schema:
+                raise NotImplementedError
+            schema = config_schema["properties"][config_name]
+            try:
+                validate(value, schema)
+            except ValidationError as e:
+                raise_operation_error(
+                    self.request,
+                    e.message,
+                    status=422,
+                    location="body",
+                    name=config_name,
+                )
 
 
 class TenderDetailsMixing(TenderConfigMixin, baseclass):

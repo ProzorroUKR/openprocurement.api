@@ -1,6 +1,7 @@
 {
     "config": {
-        "hasAuction": true
+        "hasAuction": true,
+        "hasAwardingOrder": true
     },
     "data": {
         "awardCriteria": "lowestCost",

@@ -1,4 +1,4 @@
-PATCH /api/2.5/contracts/8b5163d356be495588f69ee2530f53fd?acc_token=a0e030a63cbe4390a164f7dee4f37dc9 HTTP/1.0
+PATCH /api/2.5/contracts/b67af9433cdc413fb8a098088d0cef85?acc_token=a0e030a63cbe4390a164f7dee4f37dc9 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 114
 Content-Type: application/json
@@ -222,7 +222,7 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true,
       "amountNet": 430.0
     },
-    "id": "8b5163d356be495588f69ee2530f53fd"
+    "id": "b67af9433cdc413fb8a098088d0cef85"
   }
 }
 

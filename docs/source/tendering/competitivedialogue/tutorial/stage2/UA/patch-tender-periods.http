@@ -142,7 +142,8 @@ Content-Type: application/json
     "id": "32bf03368c4c49869cf9b1103c9c69f8"
   },
   "config": {
-    "hasAuction": true
+    "hasAuction": true,
+    "hasAwardingOrder": true
   }
 }
 
