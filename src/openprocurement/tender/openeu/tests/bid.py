@@ -71,13 +71,6 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
     patch_tender_draft_bidder,
     restricted_bidder,
     restricted_procedure_unsuccessful,
-    post_tender_bid_with_disabled_value_restriction,
-    patch_tender_bid_with_disabled_value_restriction,
-)
-
-from openprocurement.tender.belowthreshold.tests.bid_blanks import (
-    post_tender_bid_with_disabled_lot_values_restriction,
-    patch_tender_bid_with_disabled_lot_values_restriction,
 )
 
 from openprocurement.tender.openua.tests.bid_blanks import (
@@ -260,43 +253,6 @@ class TenderBidRequirementResponseEvidenceResourceTest(
     guarantee_criterion = True
 
 
-class TenderLotsWithDisabledValueRestriction(BaseTenderContentWebTest):
-    initial_status = "active.tendering"
-    test_bids_data = test_tender_openeu_bids
-    initial_lots = 2 * test_tender_openeu_lots
-
-    test_post_tender_bid_with_disabled_lot_values_restriction = snitch(
-        post_tender_bid_with_disabled_lot_values_restriction
-    )
-    test_patch_tender_bid_with_disabled_lot_values_restriction = snitch(
-        patch_tender_bid_with_disabled_lot_values_restriction
-    )
-
-    def setUp(self):
-        super(BaseTenderContentWebTest, self).setUp()
-        self.create_tender(config={
-            "hasAuction": True,
-            "hasAwardingOrder": True,
-            "hasValueRestriction": False,
-        })
-
-
-class TenderWithDisabledValueRestriction(BaseTenderContentWebTest):
-    initial_status = "active.tendering"
-    test_bids_data = test_tender_openeu_bids
-
-    test_post_tender_bid_with_disabled_value_restriction = snitch(post_tender_bid_with_disabled_value_restriction)
-    test_patch_tender_bid_with_disabled_value_restriction = snitch(patch_tender_bid_with_disabled_value_restriction)
-
-    def setUp(self):
-        super(BaseTenderContentWebTest, self).setUp()
-        self.create_tender(config={
-            "hasAuction": True,
-            "hasAwardingOrder": True,
-            "hasValueRestriction": False,
-        })
-
-
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderBidDocumentResourceTest))
@@ -307,8 +263,6 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderBidBatchDocumentsWithDSResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidRequirementResponseResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidRequirementResponseEvidenceResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotsWithDisabledValueRestriction))
-    suite.addTest(unittest.makeSuite(TenderWithDisabledValueRestriction))
     return suite
 
 

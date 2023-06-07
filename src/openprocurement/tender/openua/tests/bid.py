@@ -26,9 +26,6 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # Tender2LotBidResourceTest
     post_tender_bid_with_exceeded_lot_values,
     patch_tender_bid_with_exceeded_lot_values,
-    # TenderLotsWithDisabledValueRestriction
-    post_tender_bid_with_disabled_lot_values_restriction,
-    patch_tender_bid_with_disabled_lot_values_restriction,
 )
 
 from openprocurement.tender.openua.tests.base import (
@@ -88,11 +85,6 @@ from openprocurement.tender.openua.tests.bid_blanks import (
     # Tender2LotBidResourceTest
     patch_tender_with_bids_lots_none,
     patch_tender_bidder_decimal_problem,
-)
-from openprocurement.tender.open.tests.bid_blanks import (
-    # TenderWithDisabledValueRestriction
-    post_tender_bid_with_disabled_value_restriction,
-    patch_tender_bid_with_disabled_value_restriction,
 )
 
 
@@ -333,42 +325,6 @@ class TenderBidRequirementResponseEvidenceResourceTest(
     test_bid_invalidation_after_requirement_put = snitch(bid_invalidation_after_requirement_put)
 
 
-class TenderLotsWithDisabledValueRestriction(BaseTenderUAContentWebTest):
-    initial_status = "active.tendering"
-    test_bids_data = test_tender_openua_bids
-    initial_lots = 2 * test_tender_below_lots
-
-    test_post_tender_bid_with_disabled_lot_values_restriction = snitch(
-        post_tender_bid_with_disabled_lot_values_restriction
-    )
-    test_patch_tender_bid_with_disabled_lot_values_restriction = snitch(
-        patch_tender_bid_with_disabled_lot_values_restriction
-    )
-
-    def setUp(self):
-        super(BaseTenderUAContentWebTest, self).setUp()
-        self.create_tender(config={
-            "hasAuction": True,
-            "hasAwardingOrder": True,
-            "hasValueRestriction": False,
-        })
-
-
-class TenderWithDisabledValueRestriction(BaseTenderUAContentWebTest):
-    initial_status = "active.tendering"
-
-    test_post_tender_bid_with_disabled_value_restriction = snitch(post_tender_bid_with_disabled_value_restriction)
-    test_patch_tender_bid_with_disabled_value_restriction = snitch(patch_tender_bid_with_disabled_value_restriction)
-
-    def setUp(self):
-        super(BaseTenderUAContentWebTest, self).setUp()
-        self.create_tender(config={
-            "hasAuction": True,
-            "hasAwardingOrder": True,
-            "hasValueRestriction": False,
-        })
-
-
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderBidDocumentResourceTest))
@@ -377,8 +333,6 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderBidResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidRequirementResponseResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidRequirementResponseEvidenceResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotsWithDisabledValueRestriction))
-    suite.addTest(unittest.makeSuite(TenderWithDisabledValueRestriction))
     return suite
 
 

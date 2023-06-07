@@ -1105,7 +1105,8 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
         config = deepcopy(self.initial_config)
         config["hasValueRestriction"] = True
 
-        test_tender_data = deepcopy(test_docs_tender_open)
+        test_tender_data = deepcopy(test_docs_tender_below)
+        test_tender_data["items"] = test_docs_items_open
         test_lots = deepcopy(test_docs_lots)
         test_lots[0]['value'] = test_tender_data['value']
         test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
@@ -1154,12 +1155,34 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '200 OK')
 
         self.add_criteria(tender_id, owner_token)
-        #### Tender activating
+
+        # Tender activating
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
-            {'data': {"status": "active.tendering"}}
+            {'data': {"status": "active.enquiries"}}
         )
         self.assertEqual(response.status, '200 OK')
+
+        # enquires
+        response = self.app.post_json(
+            '/tenders/{}/questions'.format(tender_id),
+            {"data": test_docs_question}, status=201
+        )
+        question_id = response.json['data']['id']
+        self.assertEqual(response.status, '201 Created')
+
+        response = self.app.patch_json(
+            '/tenders/{}/questions/{}?acc_token={}'.format(
+                tender_id, question_id, owner_token
+            ),
+            {
+                "data": {
+                    "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\""
+                }
+            }, status=200
+        )
+        self.assertEqual(response.status, '200 OK')
+        self.set_status('active.tendering')
 
         #### Registering bid
         with open(TARGET_DIR + 'has-value-restriction-true-tender-lots-add-invalid-bid.http', 'w') as self.app.file_obj:
@@ -1167,15 +1190,12 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
                 f'/tenders/{tender_id}/bids',
                 {
                     'data': {
-                        'selfQualified': True,
                         'status': 'draft',
                         'tenderers': test_docs_bid["tenderers"],
                         'lotValues': [{
-                            "subcontractingDetails": "ДКП «Орфей», Україна",
                             "value": {"amount": 600},
                             'relatedLot': lot_id1
                         }, {
-                            "subcontractingDetails": "ДКП «Орфей», Україна",
                             "value": {"amount": 500},
                             'relatedLot': lot_id2
                         }]
@@ -1198,15 +1218,12 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
                 f'/tenders/{tender_id}/bids',
                 {
                     'data': {
-                        'selfQualified': True,
                         'status': 'draft',
                         'tenderers': test_docs_bid["tenderers"],
                         'lotValues': [{
-                            "subcontractingDetails": "ДКП «Орфей», Україна",
                             "value": {"amount": 500},
                             'relatedLot': lot_id1
                         }, {
-                            "subcontractingDetails": "ДКП «Орфей», Україна",
                             "value": {"amount": 500},
                             'relatedLot': lot_id2
                         }]
@@ -1222,15 +1239,12 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
                 f'/tenders/{tender_id}/bids/{bid_id}?acc_token={bid_token}',
                 {
                     'data': {
-                        'selfQualified': True,
                         'status': 'active',
                         'tenderers': test_docs_bid["tenderers"],
                         'lotValues': [{
-                            "subcontractingDetails": "ДКП «Орфей», Україна",
                             "value": {"amount": 500},
                             'relatedLot': lot_id1
                         }, {
-                            "subcontractingDetails": "ДКП «Орфей», Україна",
                             "value": {"amount": 700},
                             'relatedLot': lot_id2
                         }]
@@ -1252,7 +1266,8 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
         config = deepcopy(self.initial_config)
         config["hasValueRestriction"] = False
 
-        test_tender_data = deepcopy(test_docs_tender_open)
+        test_tender_data = deepcopy(test_docs_tender_below)
+        test_tender_data["items"] = test_docs_items_open
         test_lots = deepcopy(test_docs_lots)
         test_lots[0]['value'] = test_tender_data['value']
         test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
@@ -1301,12 +1316,34 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '200 OK')
 
         self.add_criteria(tender_id, owner_token)
-        #### Tender activating
+
+        # Tender activating
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
-            {'data': {"status": "active.tendering"}}
+            {'data': {"status": "active.enquiries"}}
         )
         self.assertEqual(response.status, '200 OK')
+
+        # enquires
+        response = self.app.post_json(
+            '/tenders/{}/questions'.format(tender_id),
+            {"data": test_docs_question}, status=201
+        )
+        question_id = response.json['data']['id']
+        self.assertEqual(response.status, '201 Created')
+
+        response = self.app.patch_json(
+            '/tenders/{}/questions/{}?acc_token={}'.format(
+                tender_id, question_id, owner_token
+            ),
+            {
+                "data": {
+                    "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\""
+                }
+            }, status=200
+        )
+        self.assertEqual(response.status, '200 OK')
+        self.set_status('active.tendering')
 
         #### Registering bid
         with open(TARGET_DIR + 'has-value-restriction-false-tender-lots-add-valid-bid.http', 'w') as self.app.file_obj:
@@ -1314,15 +1351,12 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
                 f'/tenders/{tender_id}/bids',
                 {
                     'data': {
-                        'selfQualified': True,
                         'status': 'draft',
                         'tenderers': test_docs_bid["tenderers"],
                         'lotValues': [{
-                            "subcontractingDetails": "ДКП «Орфей», Україна",
                             "value": {"amount": 600},
                             'relatedLot': lot_id1
                         }, {
-                            "subcontractingDetails": "ДКП «Орфей», Україна",
                             "value": {"amount": 700},
                             'relatedLot': lot_id2
                         }]

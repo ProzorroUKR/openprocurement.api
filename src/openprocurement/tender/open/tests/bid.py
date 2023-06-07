@@ -74,12 +74,6 @@ from openprocurement.tender.open.tests.bid_blanks import (
     create_tender_bidder_value_greater_then_lot,
     post_tender_bid_with_disabled_value_restriction,
     patch_tender_bid_with_disabled_value_restriction,
-    # TenderLotsWithEnabledValueRestriction
-    post_tender_bid_with_enabled_lot_values_restriction,
-    patch_tender_bid_with_enabled_lot_values_restriction,
-    # TenderWithEnabledValueRestriction
-    post_tender_bid_with_disabled_exceeded_value,
-    patch_tender_bid_with_disabled_exceeded_value,
 )
 
 
@@ -345,42 +339,6 @@ class TenderWithDisabledValueRestriction(BaseTenderUAContentWebTest):
     test_patch_tender_bid_with_disabled_value_restriction = snitch(patch_tender_bid_with_disabled_value_restriction)
 
 
-class TenderLotsWithEnabledValueRestriction(BaseTenderUAContentWebTest):
-    initial_status = "active.tendering"
-    test_bids_data = test_tender_open_bids
-    initial_lots = 2 * test_tender_below_lots
-
-    test_post_tender_bid_with_enabled_lot_values_restriction = snitch(
-        post_tender_bid_with_enabled_lot_values_restriction
-    )
-    test_patch_tender_bid_with_enabled_lot_values_restriction = snitch(
-        patch_tender_bid_with_enabled_lot_values_restriction
-    )
-
-    def setUp(self):
-        super(BaseTenderUAContentWebTest, self).setUp()
-        self.create_tender(config={
-            "hasAuction": True,
-            "hasAwardingOrder": True,
-            "hasValueRestriction": True,
-        })
-
-
-class TenderWithEnabledValueRestriction(BaseTenderUAContentWebTest):
-    initial_status = "active.tendering"
-
-    test_post_tender_bid_with_disabled_exceeded_value = snitch(post_tender_bid_with_disabled_exceeded_value)
-    test_patch_tender_bid_with_disabled_exceeded_value = snitch(patch_tender_bid_with_disabled_exceeded_value)
-
-    def setUp(self):
-        super(BaseTenderUAContentWebTest, self).setUp()
-        self.create_tender(config={
-            "hasAuction": True,
-            "hasAwardingOrder": True,
-            "hasValueRestriction": True,
-        })
-
-
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderBidDocumentResourceTest))
@@ -390,8 +348,6 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderBidRequirementResponseResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidRequirementResponseEvidenceResourceTest))
     suite.addTest(unittest.makeSuite(TenderWithDisabledValueRestriction))
-    suite.addTest(unittest.makeSuite(TenderLotsWithEnabledValueRestriction))
-    suite.addTest(unittest.makeSuite(TenderWithEnabledValueRestriction))
     return suite
 
 
