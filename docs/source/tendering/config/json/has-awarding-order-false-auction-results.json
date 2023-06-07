@@ -1,7 +1,8 @@
 {
     "config": {
         "hasAuction": true,
-        "hasAwardingOrder": false
+        "hasAwardingOrder": false,
+        "hasValueRestriction": false
     },
     "data": {
         "auctionPeriod": {

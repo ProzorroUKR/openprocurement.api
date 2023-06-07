@@ -234,6 +234,7 @@ class TenderLotsWithDisabledValueRestriction(TenderContentWebTest):
         super(TenderContentWebTest, self).setUp()
         self.create_tender(config={
             "hasAuction": True,
+            "hasAwardingOrder": True,
             "hasValueRestriction": False,
         })
 
@@ -248,6 +249,7 @@ class TenderWithDisabledValueRestriction(TenderContentWebTest):
         super(TenderContentWebTest, self).setUp()
         self.create_tender(config={
             "hasAuction": True,
+            "hasAwardingOrder": True,
             "hasValueRestriction": False,
         })
 
