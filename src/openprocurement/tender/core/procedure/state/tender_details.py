@@ -35,6 +35,7 @@ else:
 class TenderConfigMixin(baseclass):
     configurations = (
         "hasAuction",
+        "hasAwardingOrder",
         "hasValueRestriction",
     )
 

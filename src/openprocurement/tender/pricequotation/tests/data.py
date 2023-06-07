@@ -341,6 +341,7 @@ test_tender_pq_bids_with_docs["documents"] = [
 
 test_tender_pq_config = {
     "hasAuction": False,
+    "hasAwardingOrder": True,
     "hasValueRestriction": True,
 }
 

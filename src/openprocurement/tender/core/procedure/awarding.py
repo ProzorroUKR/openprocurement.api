@@ -15,6 +15,7 @@ from openprocurement.tender.core.procedure.models.award import Award
 from openprocurement.tender.core.procedure.context import (
     get_request,
     get_tender,
+    get_tender_config,
     get_bids_before_auction_results_context,
 )
 from openprocurement.tender.core.procedure.utils import (
@@ -45,7 +46,6 @@ else:
     baseclass = object
 
 
-
 class TenderStateAwardingMixing(baseclass):
     award_class = Award
 
@@ -68,10 +68,15 @@ class TenderStateAwardingMixing(baseclass):
 
     def add_next_award(self):
         tender = get_tender()
+        config = get_tender_config()
 
         tender["awardPeriod"] = award_period = tender.get("awardPeriod", {})
         if "startDate" not in award_period:
             award_period["startDate"] = get_now().isoformat()
+
+        if config.get("hasAwardingOrder") is False:
+            self.generate_awards_without_awarding_order(tender)
+            return
 
         lots = tender.get("lots")
         if lots:
@@ -94,7 +99,7 @@ class TenderStateAwardingMixing(baseclass):
                         request.response.headers["Location"] = request.route_url(
                             "{}:Tender Awards".format(tender["procurementMethodType"]),
                             tender_id=tender["_id"],
-                            award_id=tender["awards"][-1]["id"]
+                            award_id=tender["awards"][-1]["id"],
                         )
                         statuses.add("pending")
                     else:
@@ -103,16 +108,11 @@ class TenderStateAwardingMixing(baseclass):
                     self.set_object_status(lot, "unsuccessful")
                     statuses.add("unsuccessful")
 
-            if statuses.difference({"unsuccessful", "active"}):
-                if tender["status"] != "active.qualification":
-                    tender["awardPeriod"].pop("endDate", None)
-                    self.get_change_tender_status_handler("active.qualification")(tender)
-            else:
-                if tender["status"] != "active.awarded":
-                    tender["awardPeriod"]["endDate"] = get_now().isoformat()
-                    self.get_change_tender_status_handler("active.awarded")(tender)
+            self.recalculate_period_and_change_tender_status(
+                tender, stays_at_qualification=statuses.difference({"unsuccessful", "active"})
+            )
         else:
-            awards = tender.get("awards")
+            awards = tender.get("awards", [])
             if not awards or awards[-1]["status"] not in ("pending", "active"):
                 all_bids = self.prepare_bids_for_awarding(tender, tender.get("bids", []), lot_id=None)
                 bids = self.exclude_unsuccessful_awarded_bids(tender, all_bids, lot_id=None)
@@ -122,16 +122,96 @@ class TenderStateAwardingMixing(baseclass):
                     request.response.headers["Location"] = request.route_url(
                         "{}:Tender Awards".format(tender["procurementMethodType"]),
                         tender_id=tender["_id"],
-                        award_id=tender["awards"][-1]["id"]
+                        award_id=tender["awards"][-1]["id"],
                     )
-            if tender["awards"][-1]["status"] == "pending":
-                if tender["status"] != "active.qualification":
-                    tender["awardPeriod"].pop("endDate", None)
-                    self.get_change_tender_status_handler("active.qualification")(tender)
-            else:
-                if tender["status"] != "active.awarded":
-                    tender["awardPeriod"]["endDate"] = get_now().isoformat()
-                    self.get_change_tender_status_handler("active.awarded")(tender)
+            self.recalculate_period_and_change_tender_status(
+                tender, stays_at_qualification=tender["awards"][-1]["status"] == "pending"
+            )
+
+    def generate_awards_without_awarding_order(self, tender):
+        """
+        If hasAwardingOrder set to False there is another logic in generating awards.
+        If tender doesn't have awards yet and auction is sending the results,
+        than all awards are generating all together.
+        If tender has got awards already and award status is changing to 'cancelled',
+        than new award should be generated in status 'pending' instead of cancelled award.
+        """
+        lots = tender.get("lots")
+        if lots:
+            stays_at_qualification = False
+            for lot in lots:
+                if lot["status"] != "active":
+                    continue
+                lot_awards = tuple(a for a in tender.get("awards", []) if a["lotID"] == lot["id"])
+                awards_statuses = {award["status"] for award in lot_awards}
+                all_bids = self.prepare_bids_for_awarding(tender, tender.get("bids", []), lot_id=lot["id"])
+                if all_bids:
+                    bids = self.filter_bids_for_creating_new_awards(lot_awards, all_bids)
+                    if bids:
+                        for bid in bids:
+                            self.tender_append_award(tender, bid, all_bids, lot_id=lot["id"])
+                        request = get_request()
+                        request.response.headers["Location"] = request.route_url(
+                            "{}:Tender Awards".format(tender["procurementMethodType"]),
+                            tender_id=tender["_id"],
+                            award_id=tender["awards"][-1]["id"],
+                        )
+                        awards_statuses.add("pending")
+                else:
+                    self.set_object_status(lot, "unsuccessful")
+
+                if awards_statuses.difference({"unsuccessful", "cancelled"}) and "active" not in awards_statuses:
+                    stays_at_qualification = True
+
+            self.recalculate_period_and_change_tender_status(tender, stays_at_qualification)
+        else:
+            awards = tender.get("awards", [])
+            awards_statuses = {award["status"] for award in awards}
+            if not awards or awards_statuses.intersection({"cancelled"}):
+                all_bids = self.prepare_bids_for_awarding(tender, tender.get("bids", []), lot_id=None)
+                bids = self.filter_bids_for_creating_new_awards(awards, all_bids)
+                if bids:
+                    for bid in bids:
+                        self.tender_append_award(tender, bid, all_bids)
+                    request = get_request()
+                    request.response.headers["Location"] = request.route_url(
+                        "{}:Tender Awards".format(tender["procurementMethodType"]),
+                        tender_id=tender["_id"],
+                        award_id=tender["awards"][-1]["id"],
+                    )
+                    awards_statuses.add("pending")
+
+            stays_at_qualification = (
+                awards_statuses.difference({"unsuccessful", "cancelled"}) and "active" not in awards_statuses
+            )
+            self.recalculate_period_and_change_tender_status(tender, stays_at_qualification)
+
+    def recalculate_period_and_change_tender_status(self, tender, stays_at_qualification):
+        if stays_at_qualification:
+            if tender["status"] != "active.qualification":
+                tender["awardPeriod"].pop("endDate", None)
+                self.get_change_tender_status_handler("active.qualification")(tender)
+        else:
+            if tender["status"] != "active.awarded":
+                tender["awardPeriod"]["endDate"] = get_now().isoformat()
+                self.get_change_tender_status_handler("active.awarded")(tender)
+
+    @staticmethod
+    def filter_bids_for_creating_new_awards(awards, bids):
+        """
+        Filer bids for creating new awards in case hasAwardingOrder = False.
+        Filter cancelled awards of tender or particular lot and check whether there is no award with the same
+        bid_id already generated. If not, than exclude only unsuccessful awards.
+        """
+        if awards:
+            # get bid ids of cancelled awards
+            cancelled_award_bid_ids = {award["bid_id"] for award in awards if award["status"] == "cancelled"}
+            # exclude bid ids with another awards statuses (if award has already been generated after cancelling)
+            cancelled_award_bid_ids = cancelled_award_bid_ids.difference(
+                {award["bid_id"] for award in awards if award["status"] != "cancelled"}
+            )
+            return [bid for bid in bids if bid["id"] in cancelled_award_bid_ids]
+        return bids
 
     def sort_bids(self, tender, bids):
         if all("weightedValue" in bid for bid in bids):

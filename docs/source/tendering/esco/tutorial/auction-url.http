@@ -821,7 +821,7 @@ Content-Type: application/json
   },
   "config": {
     "hasAuction": true,
-    "hasValueRestriction": true
+    "hasAwardingOrder": true
   }
 }
 

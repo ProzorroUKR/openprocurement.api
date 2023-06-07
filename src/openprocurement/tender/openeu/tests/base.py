@@ -208,6 +208,7 @@ test_tender_openeu_restricted_bids = test_tender_openeu_bids
 
 test_tender_openeu_config = {
     "hasAuction": True,
+    "hasAwardingOrder": True,
     "hasValueRestriction": True,
 }
 

@@ -1514,7 +1514,7 @@ Content-Type: application/json
     ],
     "contracts": [
       {
-        "id": "f72f486dbcff450798ea757eecf3b8d4",
+        "id": "0509131726674a14b0e8cb2424f3323b",
         "awardID": "fdea30bde1d34c4eb16d5f7aa03bf22a",
         "contractID": "UA-2023-01-01-000001-a-1",
         "contractNumber": "contract#1",
@@ -1703,7 +1703,7 @@ Content-Type: application/json
   },
   "config": {
     "hasAuction": true,
-    "hasValueRestriction": true
+    "hasAwardingOrder": true
   }
 }
 

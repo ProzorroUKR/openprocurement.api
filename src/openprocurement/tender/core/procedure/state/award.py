@@ -1,7 +1,7 @@
 from datetime import timedelta
 from typing import TYPE_CHECKING
 
-from openprocurement.tender.core.procedure.context import get_request, get_tender
+from openprocurement.tender.core.procedure.context import get_request, get_tender, get_tender_config
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.procedure.contracting import add_contracts
@@ -44,14 +44,12 @@ class AwardStateMixing(baseclass):
     def award_status_up(self, before, after, award):
         assert before != after, "Statuses must be different"
         tender = get_tender()
+        config = get_tender_config()
+        awarding_order_enabled = config.get("hasAwardingOrder")
         now = get_now().isoformat()
 
         if before == "pending" and after == "active":
-            award["complaintPeriod"]["endDate"] = calculate_tender_business_date(
-                get_now(), self.award_stand_still_time, tender, True
-            ).isoformat()
-            add_contracts(get_request(), award, self.contract_model)
-            self.add_next_award()
+            self.award_status_up_from_pending_to_active(award, tender, awarding_order_enabled, working_days=True)
 
         elif before == "active" and after == "cancelled":
             if award["complaintPeriod"]["endDate"] > now:
@@ -62,10 +60,7 @@ class AwardStateMixing(baseclass):
             self.add_next_award()
 
         elif before == "pending" and after == "unsuccessful":
-            award["complaintPeriod"]["endDate"] = calculate_tender_business_date(
-                get_now(), self.award_stand_still_time, tender, True
-            ).isoformat()
-            self.add_next_award()
+            self.award_status_up_from_pending_to_unsuccessful(award, tender, working_days=True)
 
         elif (
             before == "unsuccessful" and after == "cancelled"
@@ -79,31 +74,70 @@ class AwardStateMixing(baseclass):
 
             award["complaintPeriod"]["endDate"] = now
 
-            skip = True
-            for i in tender.get("awards"):
-                # skip all award before the context one
-                if i["id"] == award["id"]:
-                    skip = False
-                if skip:
-                    continue
-                # skip different lot awards
-                if i.get("lotID") != award.get("lotID"):
-                    continue
-                # update complaintPeriod.endDate if there is a need
-                if i.get("complaintPeriod") and (
-                    not i["complaintPeriod"].get("endDate")
-                    or i["complaintPeriod"]["endDate"] > now
-                ):
-                    i["complaintPeriod"]["endDate"] = now
-                self.set_object_status(i, "cancelled")
-                self.set_award_complaints_cancelled(i)
-                self.set_award_contracts_cancelled(i)
+            if awarding_order_enabled:
+                # If hasAwardingOrder is True, then the current award should be found through all
+                # tender awards/lot awards. Then the current award and next ones after it should be cancelled.
+                # The new 'pending' award will be generated instead of current one.
+                # And qualification will be continued starting from this new award.
+                skip = True
+                for i in tender.get("awards"):
+                    # skip all award before the context one
+                    if i["id"] == award["id"]:
+                        skip = False
+                    if skip:
+                        continue
+                    # skip different lot awards
+                    if i.get("lotID") != award.get("lotID"):
+                        continue
+                    self.cancel_award(i)
+            else:
+                self.cancel_award(award)
             self.add_next_award()
         else:  # any other state transitions are forbidden
             raise_operation_error(get_request(),
                                   f"Can't update award in current ({before}) status")
         # date updated when status updated
         award["date"] = now
+
+    def award_status_up_from_pending_to_active(self, award, tender, awarding_order_enabled, working_days=False):
+        if awarding_order_enabled is False:
+            self.check_active_awards(award, tender)
+        award["complaintPeriod"]["endDate"] = calculate_tender_business_date(
+            get_now(), self.award_stand_still_time, tender, working_days
+        ).isoformat()
+        add_contracts(get_request(), award, self.contract_model)
+        self.add_next_award()
+
+    def award_status_up_from_pending_to_unsuccessful(self, award, tender, working_days=False):
+        award["complaintPeriod"]["endDate"] = calculate_tender_business_date(
+            get_now(), self.award_stand_still_time, tender, working_days
+        ).isoformat()
+        self.add_next_award()
+
+    @staticmethod
+    def check_active_awards(current_award, tender):
+        for award in tender.get("awards", []):
+            if award["id"] != current_award["id"] and award["status"] == "active" and \
+                    award.get("lotID") == current_award.get("lotID"):
+                raise_operation_error(
+                    get_request(),
+                    f"Can't activate award as tender already has "
+                    f"active award{' for this lot' if current_award.get('lotID') else ''}",
+                    status=422,
+                    name="awards",
+                )
+
+    def cancel_award(self, award):
+        now = get_now().isoformat()
+        # update complaintPeriod.endDate if there is a need
+        if award.get("complaintPeriod") and (
+                not award["complaintPeriod"].get("endDate")
+                or award["complaintPeriod"]["endDate"] > now
+        ):
+            award["complaintPeriod"]["endDate"] = now
+        self.set_object_status(award, "cancelled")
+        self.set_award_complaints_cancelled(award)
+        self.set_award_contracts_cancelled(award)
 
     # helpers
     @classmethod

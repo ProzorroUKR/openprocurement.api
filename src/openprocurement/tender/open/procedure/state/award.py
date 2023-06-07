@@ -1,8 +1,6 @@
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
-from openprocurement.tender.core.procedure.context import get_request, get_tender
+from openprocurement.tender.core.procedure.context import get_request, get_tender, get_tender_config
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.utils import calculate_tender_business_date
-from openprocurement.tender.core.procedure.contracting import add_contracts
 from openprocurement.tender.open.constants import STAND_STILL_TIME
 from openprocurement.tender.open.procedure.state.tender import OpenTenderState
 from openprocurement.api.utils import raise_operation_error
@@ -14,21 +12,15 @@ class AwardState(AwardStateMixing, OpenTenderState):
     def award_status_up(self, before, after, award):
         assert before != after, "Statuses must be different"
         tender = get_tender()
+        config = get_tender_config()
+        awarding_order_enabled = config.get("hasAwardingOrder")
         now = get_now().isoformat()
 
-        # TODO: split into functions like award_status_from_pending_to_active ?
         if before == "pending" and after == "active":
-            award["complaintPeriod"]["endDate"] = calculate_tender_business_date(
-                get_now(), self.award_stand_still_time, tender
-            ).isoformat()
-            add_contracts(get_request(), award, self.contract_model)
-            self.add_next_award()
+            self.award_status_up_from_pending_to_active(award, tender, awarding_order_enabled)
 
         elif before == "pending" and after == "unsuccessful":
-            award["complaintPeriod"]["endDate"] = calculate_tender_business_date(
-                get_now(), self.award_stand_still_time, tender
-            ).isoformat()
-            self.add_next_award()
+            self.award_status_up_from_pending_to_unsuccessful(award, tender)
 
         elif before == "active" and after == "cancelled":
             if any(i.get("status") == "satisfied" for i in award.get("complaints", "")):

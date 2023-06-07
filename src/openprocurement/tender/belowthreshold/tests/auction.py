@@ -20,6 +20,12 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (
     post_tender_auction_weighted_value,
     patch_tender_auction,
     post_tender_auction_document,
+    # TenderAuctionResourceDisabledAwardingOrder
+    post_tender_auction_with_disabled_awarding_order,
+    post_tender_auction_with_disabled_awarding_order_cancelling_awards,
+    # TenderLotsAuctionDisabledAwardingOrderResourceTest
+    post_tender_lots_auction_with_disabled_awarding_order,
+    post_tender_lots_auction_with_disabled_awarding_order_lot_not_become_unsuccessful_with_active_award,
     # TenderSameValueAuctionResourceTest
     post_tender_auction_not_changed,
     post_tender_auction_reversed,
@@ -75,6 +81,45 @@ class TenderAuctionResourceTest(TenderContentWebTest, TenderAuctionResourceTestM
     initial_status = "active.tendering"
     initial_bids = deepcopy(test_tender_below_bids)
     initial_auth = ("Basic", ("broker", ""))
+
+
+class TenderAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
+    docservice = True
+    initial_data = auction_test_tender_data
+    initial_status = "active.tendering"
+    initial_bids = deepcopy(test_tender_below_bids)
+    initial_auth = ("Basic", ("broker", ""))
+    test_post_tender_auction_with_disabled_awarding_order = snitch(post_tender_auction_with_disabled_awarding_order)
+    test_post_tender_auction_with_disabled_awarding_order_cancelling_awards = snitch(
+        post_tender_auction_with_disabled_awarding_order_cancelling_awards
+    )
+
+    def setUp(self):
+        super(TenderContentWebTest, self).setUp()
+        self.create_tender(config={
+            "hasAuction": True,
+            "hasAwardingOrder": False,
+        })
+
+
+class TenderLotsAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
+    docservice = True
+    initial_data = auction_test_tender_data
+    initial_status = "active.tendering"
+    initial_bids = deepcopy(test_tender_below_bids)
+    initial_auth = ("Basic", ("broker", ""))
+    initial_lots = [test_tender_below_lots[0], test_tender_below_lots[0]]
+    test_post_tender_lots_auction_with_disabled_awarding_order = snitch(post_tender_lots_auction_with_disabled_awarding_order)
+    test_post_tender_lots_auction_with_disabled_awarding_order_lot_not_become_unsuccessful_with_active_award = snitch(
+        post_tender_lots_auction_with_disabled_awarding_order_lot_not_become_unsuccessful_with_active_award
+    )
+
+    def setUp(self):
+        super(TenderContentWebTest, self).setUp()
+        self.create_tender(config={
+            "hasAuction": True,
+            "hasAwardingOrder": False,
+        })
 
 
 class TenderSameValueAuctionResourceTest(TenderContentWebTest):
@@ -143,6 +188,8 @@ class TenderFeaturesMultilotAuctionResourceTest(
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderAuctionResourceTest))
+    suite.addTest(unittest.makeSuite(TenderAuctionDisabledAwardingOrderResourceTest))
+    suite.addTest(unittest.makeSuite(TenderLotsAuctionDisabledAwardingOrderResourceTest))
     suite.addTest(unittest.makeSuite(TenderSameValueAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderFeaturesAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderFeaturesMultilotAuctionResourceTest))

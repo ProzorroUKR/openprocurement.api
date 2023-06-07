@@ -1242,7 +1242,7 @@ Content-Type: application/json
   },
   "config": {
     "hasAuction": false,
-    "hasValueRestriction": true
+    "hasAwardingOrder": true
   }
 }
 

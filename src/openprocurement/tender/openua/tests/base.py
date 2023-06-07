@@ -76,6 +76,7 @@ test_tender_openua_multi_buyers_data = set_tender_multi_buyers(
 
 test_tender_openua_config = {
     "hasAuction": True,
+    "hasAwardingOrder": True,
     "hasValueRestriction": True,
 }
 
