@@ -19,7 +19,8 @@ from openprocurement.api.constants import (
     WORKING_DAYS,
     UA_ROAD_SCHEME,
     UA_ROAD_CPV_PREFIXES,
-    GMDN_SCHEME,
+    GMDN_2019_SCHEME,
+    GMDN_2023_SCHEME,
     ATC_SCHEME,
     INN_SCHEME,
     GMDN_CPV_PREFIXES,
@@ -585,23 +586,23 @@ def validate_ua_road(classification_id, additional_classifications):
 
 
 def validate_gmdn(classification_id, additional_classifications):
-    gmdn_count = sum([1 for i in additional_classifications if i["scheme"] == GMDN_SCHEME])
+    gmdn_count = sum([1 for i in additional_classifications if i["scheme"] in (GMDN_2023_SCHEME, GMDN_2019_SCHEME)])
     if is_gmdn_classification(classification_id):
         inn_anc_count = sum([1 for i in additional_classifications if i["scheme"] in [INN_SCHEME, ATC_SCHEME]])
         if 0 not in [inn_anc_count, gmdn_count]:
             raise ValidationError(
                 "Item shouldn't have additionalClassifications with both schemes {}/{} and {}".format(
-                    INN_SCHEME, ATC_SCHEME, GMDN_SCHEME
+                    INN_SCHEME, ATC_SCHEME, GMDN_2019_SCHEME
                 )
             )
         if gmdn_count > 1:
             raise ValidationError(
-                "Item shouldn't have more than 1 additionalClassification with scheme {}".format(GMDN_SCHEME)
+                "Item shouldn't have more than 1 additionalClassification with scheme {}".format(GMDN_2019_SCHEME)
             )
     elif gmdn_count != 0:
         raise ValidationError(
             "Item shouldn't have additionalClassification with scheme {} "
-            "for cpv not starts with {}".format(GMDN_SCHEME, ", ".join(GMDN_CPV_PREFIXES))
+            "for cpv not starts with {}".format(GMDN_2019_SCHEME, ", ".join(GMDN_CPV_PREFIXES))
         )
 
 

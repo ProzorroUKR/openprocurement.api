@@ -21,8 +21,10 @@ from openprocurement.api.constants import (
     CPV_BLOCK_FROM,
     UA_ROAD_SCHEME,
     UA_ROAD,
-    GMDN_SCHEME,
-    GMDN,
+    GMDN_2019_SCHEME,
+    GMDN_2023_SCHEME,
+    GMDN_2019,
+    GMDN_2023,
     UNIT_CODE_REQUIRED_FROM,
     UNIT_PRICE_REQUIRED_FROM,
     MULTI_CONTRACTS_REQUIRED_FROM,
@@ -70,9 +72,11 @@ class CPVClassification(Classification):
 class AdditionalClassification(Classification):
     def validate_id(self, data, value):
         if data["scheme"] == UA_ROAD_SCHEME and value not in UA_ROAD:
-            raise ValidationError("{} id not found in standards".format(UA_ROAD_SCHEME))
-        if data["scheme"] == GMDN_SCHEME and value not in GMDN:
-            raise ValidationError("{} id not found in standards".format(GMDN_SCHEME))
+            raise ValidationError(f"{UA_ROAD_SCHEME} id not found in standards")
+        if data["scheme"] == GMDN_2019_SCHEME and value not in GMDN_2019:
+            raise ValidationError(f"{GMDN_2019_SCHEME} id not found in standards")
+        if data["scheme"] == GMDN_2023_SCHEME and value not in GMDN_2023:
+            raise ValidationError(f"{GMDN_2023_SCHEME} id not found in standards")
 
     def validate_description(self, data, value):
         if data["scheme"] == UA_ROAD_SCHEME and UA_ROAD.get(data["id"]) != value:
