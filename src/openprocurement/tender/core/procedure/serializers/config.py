@@ -35,6 +35,13 @@ def has_value_restriction_serializer(obj, value):
     return value
 
 
+def currency_value_equality_serializer(obj, value):
+    # TODO: remove serializer after migration
+    if value is None and TENDER_CONFIG_OPTIONALITY["valueCurrencyEquality"] is True:
+        return True
+    return value
+
+
 class TenderConfigSerializer(BaseSerializer):
     def __init__(self, data: dict):
         super().__init__(data)
@@ -46,4 +53,5 @@ class TenderConfigSerializer(BaseSerializer):
         "hasAuction": has_auction_serializer,
         "hasAwardingOrder": has_awarding_order_serializer,
         "hasValueRestriction": has_value_restriction_serializer,
+        "valueCurrencyEquality": currency_value_equality_serializer,
     }

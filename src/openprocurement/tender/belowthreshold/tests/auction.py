@@ -100,6 +100,7 @@ class TenderAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
             "hasAuction": True,
             "hasAwardingOrder": False,
             "hasValueRestriction": True,
+            "valueCurrencyEquality": True,
         })
 
 
@@ -121,6 +122,7 @@ class TenderLotsAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
             "hasAuction": True,
             "hasAwardingOrder": False,
             "hasValueRestriction": True,
+            "valueCurrencyEquality": True,
         })
 
 

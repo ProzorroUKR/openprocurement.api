@@ -140,10 +140,11 @@ def validate_lotvalue_value(tender, relatedLot, value):
     if not lot:
         return
     config = get_tender_config()
-    if config.get("hasValueRestriction") and lot.value.amount < value.amount:
-        raise ValidationError("value of bid should be less than value of lot")
-    if lot.get("value").currency != value.currency:
-        raise ValidationError("currency of bid should be identical to currency of value of lot")
+    if config.get("valueCurrencyEquality"):
+        if lot.get("value").currency != value.currency:
+            raise ValidationError("currency of bid should be identical to currency of value of lot")
+        if config.get("hasValueRestriction") and lot.value.amount < value.amount:
+            raise ValidationError("value of bid should be less than value of lot")
     if lot.get("value").valueAddedTaxIncluded != value.valueAddedTaxIncluded:
         raise ValidationError(
             "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot"
@@ -155,16 +156,17 @@ def validate_bid_value(tender, value):
         if value:
             raise ValidationError("value should be posted for each lot of bid")
     else:
-        config = get_tender_config()
         if not value:
             raise ValidationError("This field is required.")
-        if config.get("hasValueRestriction") and tender.value.amount < value.amount:
-            raise ValidationError("value of bid should be less than value of tender")
-        if tender.get("value").currency != value.currency:
-            raise ValidationError("currency of bid should be identical to currency of value of tender")
+        config = get_tender_config()
+        if config.get("valueCurrencyEquality"):
+            if tender.get("value").currency != value.currency:
+                raise ValidationError("currency of bid should be identical to currency of value of tender")
+            if config.get("hasValueRestriction") and tender.value.amount < value.amount:
+                raise ValidationError("value of bid should be less than value of tender")
         if tender.get("value").valueAddedTaxIncluded != value.valueAddedTaxIncluded:
             raise ValidationError(
-                "valueAddedTaxIncluded of bid should be identical " "to valueAddedTaxIncluded of value of tender"
+                "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of tender"
             )
 
 
@@ -176,7 +178,7 @@ def validate_minimalstep(data, value):
             raise ValidationError("currency should be identical to currency of value of tender")
         if data.get("value").valueAddedTaxIncluded != value.valueAddedTaxIncluded:
             raise ValidationError(
-                "valueAddedTaxIncluded should be identical " "to valueAddedTaxIncluded of value of tender"
+                "valueAddedTaxIncluded should be identical to valueAddedTaxIncluded of value of tender"
             )
         if not data.get("lots"):
             validate_minimalstep_limits(data, value, is_tender=True)

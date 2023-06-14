@@ -1,0 +1,133 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-06-14 12:35+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.10.3\n"
+
+msgid "valueCurrencyEquality"
+msgstr ""
+
+msgid "Field `valueCurrencyEquality` is a boolean field that turns off validation `currency of bid should be identical to currency of value of tender`. It means that multi-currency is used in the procedure."
+msgstr "Поле `valueCurrencyEquality` є булевим полем, яке вимикає перевірку `currency of bid should be identical to currency of value of tender`. Це означає, що в процедурі застосовується мультивалютність."
+
+msgid "Possible values for `valueCurrencyEquality` field depends on `procurementMethodType` field:"
+msgstr "Можливі значення для поля `valueCurrencyEquality` залежать від поля `procurementMethodType`:"
+
+msgid "procurementMethodType"
+msgstr ""
+
+msgid "values"
+msgstr ""
+
+msgid "default"
+msgstr ""
+
+msgid "aboveThreshold"
+msgstr ""
+
+msgid "true"
+msgstr ""
+
+msgid "aboveThresholdEU"
+msgstr ""
+
+msgid "aboveThresholdUA.defense"
+msgstr ""
+
+msgid "aboveThresholdUA"
+msgstr ""
+
+msgid "belowThreshold"
+msgstr ""
+
+msgid "true,false"
+msgstr ""
+
+msgid "closeFrameworkAgreementSelectionUA"
+msgstr ""
+
+msgid "closeFrameworkAgreementUA"
+msgstr ""
+
+msgid "competitiveDialogueEU"
+msgstr ""
+
+msgid "competitiveDialogueEU.stage2"
+msgstr ""
+
+msgid "competitiveDialogueUA"
+msgstr ""
+
+msgid "competitiveDialogueUA.stage2"
+msgstr ""
+
+msgid "esco"
+msgstr ""
+
+msgid "negotiation"
+msgstr ""
+
+msgid "negotiation.quick"
+msgstr ""
+
+msgid "priceQuotation"
+msgstr ""
+
+msgid "reporting"
+msgstr ""
+
+msgid "simple.defense"
+msgstr ""
+
+msgid "valueCurrencyEquality is `true`"
+msgstr "valueCurrencyEquality встановлено у `true`"
+
+msgid "`valueCurrencyEquality:true` means that validation will work while registering a bid and the system will check whether the currency of the bid is identical to the currency of the expected value in the tender/lot."
+msgstr "`valueCurrencyEquality:true` означає, що буде працювати валідація при поданні пропозиції і система перевірить чи валюта тендерної пропозиції ідентична валюті очікуваної вартості в тендері/лоті."
+
+msgid "Let's create a tender with lots with `valueCurrencyEquality` set to `true`:"
+msgstr "Створимо багатолотовий тендер з `valueCurrencyEquality` встановленим у `true`:"
+
+msgid "And add bid to it with the different currency than the expected value in lot:"
+msgstr "І додамо до нього пропозицію з іншою валютою, ніж вказано в очікуваній вартості лоту:"
+
+msgid "In that case we will have error, that adding bid with the different currency is forbidden."
+msgstr "В цьому випадку ми побачимо помилку, що додавання пропозиції в іншій валюті - заборонено."
+
+msgid "Let's add bid to tender with currency identical to the currency of the expected value in the tender/lot:"
+msgstr "Додамо пропозицію до тендера з валютою ідентичною з очікуваною вартістю тендера/лота:"
+
+msgid "The participant submits an offer, where `bid:value:currency = tender:value:currency`, when trying to transfer another currency, the system issues an error. Let's try to patch bid currency to another one and we will see error, that it is forbidden with this configuration."
+msgstr "Учасник подає пропозицію, де `bid:value:currency = tender:value:currency`, при спробі передати іншу валюту система видає помилку. Спробуємо змінити валюту пропозиції на іншу і побачимо помилку, що це забронено зі встановленою конфігурацією `valueCurrencyEquality:true`."
+
+msgid "valueCurrencyEquality is `false`"
+msgstr "valueCurrencyEquality встановлено у `false`"
+
+msgid "`valueCurrencyEquality:false` means that currency validation will not work."
+msgstr "`valueCurrencyEquality:false` означає, що валідація стосовно валюти працювати не буде."
+
+msgid "Multi-currency can be applied only with `hasAuction:false` and with `hasAwardingOrder:false`."
+msgstr "Мультивалютність може бути застосована лише при `hasAuction:false` та при `hasAwardingOrder:false`."
+
+msgid "Let's create a tender with lots with `valueCurrencyEquality` set to `false`:"
+msgstr "Створимо багатолотовивй тендер з `valueCurrencyEquality` встановленим у `false`:"
+
+msgid "In that case we won't see any error, as adding bid with the different currency is allowed with configuration `valueCurrencyEquality:false`."
+msgstr "В цьому випадку ми не побачимо ніяку помилку, тому що додавання пропозиції в іншій валюті - дозволено."
+
+msgid "The customer and the participant conclude the contract in the currency in which the offer was indicated by the participant. Let's look at completed tender, awards and contracts value's currency are the same as they were at bid:"
+msgstr "Замовник та учасник укладають договір у тій валюті, в якій було вказано пропозицію учасником. Подивимося на завершений тендер, валюта вартості в аварді і договорі така ж сама як і в пропозиції:"
+

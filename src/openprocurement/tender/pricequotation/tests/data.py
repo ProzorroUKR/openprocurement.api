@@ -343,6 +343,7 @@ test_tender_pq_config = {
     "hasAuction": False,
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
+    "valueCurrencyEquality": True,
 }
 
 test_tender_pq_cancellation = {
