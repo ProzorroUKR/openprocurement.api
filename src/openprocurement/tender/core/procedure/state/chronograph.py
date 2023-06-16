@@ -497,12 +497,11 @@ class ChronographEventsMixing(baseclass):
 
     @staticmethod
     def activate_bids(tender):
-        for bid in tender["bids"]:
+        for bid in tender.get("bids", ""):
             lot_values = bid.get("lotValues", "")
             if lot_values:
                 for lot_value in lot_values:
-                    if lot_value["status"] == "pending":
-                        lot_value["status"] = "active"
+                    lot_value["status"] = "active"
             if bid["status"] == "pending":
                 bid["status"] = "active"
 

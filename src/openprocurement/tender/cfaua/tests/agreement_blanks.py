@@ -645,7 +645,7 @@ def patch_tender_agreement(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "active")
     self.assertIn("dateSigned", response.json["data"].keys())
-    response = self.get_tender("")
+    response = self.get_tender()
     # Tender complete
     self.assertEqual(response.json["data"]["status"], "complete")
 

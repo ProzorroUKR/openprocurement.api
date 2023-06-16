@@ -187,7 +187,7 @@ class TenderBidRequirementResponseEvidenceTestMixin:
 
 
 class CreateBidMixin(object):
-    base_bid_status = "active"
+    base_bid_status = "pending"
 
     def setUp(self):
         super(CreateBidMixin, self).setUp()

@@ -297,6 +297,11 @@ TENDER_CONFIG_OPTIONALITY = {
         "TENDER_CONFIG_HAS_VALUE_RESTRICTION_OPTIONAL",
         parse_func=parse_bool,
     ),
+    "hasPrequalification": get_constant(
+        CONSTANTS_CONFIG,
+        "TENDER_CONFIG_HAS_PREQUALIFICATION_OPTIONAL",
+        parse_func=parse_bool,
+    ),
 }
 
 # Tender weightedValue pre-calculation on switch to active.auction

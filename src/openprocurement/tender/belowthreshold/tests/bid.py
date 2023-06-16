@@ -134,9 +134,10 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
         )
 
         self.rr_guarantee_id = response.json["data"][0]["id"]
-        self.app.patch_json("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-                            {"data": {"status": "active"}}
-                            )
+        self.app.patch_json(
+            "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+            {"data": {"status": "pending"}}
+        )
 
     test_not_found = snitch(not_found)
     test_patch_tender_bid_document = snitch(patch_tender_bid_document)
@@ -184,8 +185,10 @@ class SimpleTenderBidDocumentResourceTest(TenderContentWebTest):
         bid = response.json["data"]
         self.bid_id = bid["id"]
         self.bid_token = response.json["access"]["token"]
-        self.app.patch_json("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-                            {"data": {"status": "active"}})
+        self.app.patch_json(
+            "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+            {"data": {"status": "pending"}}
+        )
 
 
 class TenderBidBatchDocumentWithDSResourceTest(TenderContentWebTest):

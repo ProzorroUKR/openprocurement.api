@@ -167,21 +167,3 @@ class Tender(BaseTender):
         validate_related_items(data, features)
         max_features_sum = 0.5 if is_procedure_restricted(data) else 0.3
         validate_features_custom_weight(data, features, max_features_sum)
-
-    # @serializable(
-    #     serialized_name="enquiryPeriod",
-    #     serialize_when_none=True,
-    #     type=ModelType(EnquiryPeriod, required=False)
-    # )
-    # def tender_enquiryPeriod(self):
-    #     enquiry_period_class = self._fields["enquiryPeriod"]
-    #     end_date = calculate_tender_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, self)
-    #     clarifications_until = calculate_clarif_business_date(end_date, ENQUIRY_STAND_STILL_TIME, self, True)
-    #     return enquiry_period_class(
-    #         dict(
-    #             startDate=self.tenderPeriod.startDate,
-    #             endDate=end_date,
-    #             invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
-    #             clarificationsUntil=clarifications_until,
-    #         )
-    #     )

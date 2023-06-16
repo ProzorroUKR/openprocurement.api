@@ -134,6 +134,7 @@ class TenderAwardResourceScaleTest(BaseTenderUAContentWebTest):
 
 class TenderAwardResourceComplaintPeriodTest(BaseTenderUAWebTest):
     initial_status = "active.qualification"
+    initial_bid_status = "pending"
     initial_bids = test_tender_openuadefense_bids
 
     @parameterized.expand(

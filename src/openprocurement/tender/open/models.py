@@ -136,6 +136,7 @@ class LotValue(BaseLotValue, WeightedValueMixin):
                 "date",
                 "relatedLot",
                 "participationUrl"
+                "status"
             ),
             "auction_post": whitelist(
                 "value",
@@ -234,7 +235,6 @@ class BaseUaBid(BaseBid, WeightedValueMixin):
 
     lotValues = ListType(ModelType(LotValue, required=True), default=list())
     subcontractingDetails = StringType()
-    status = StringType(choices=["draft", "active", "invalid", "deleted"])
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(choices=[True])
     parameters = ListType(ModelType(Parameter, required=True), default=list(), validators=[validate_parameters_uniq])

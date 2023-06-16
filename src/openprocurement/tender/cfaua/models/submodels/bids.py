@@ -110,9 +110,6 @@ class Bid(BidResponsesMixin, BaseBid, WeightedValueMixin):
     selfEligible = BooleanType(choices=[True])
     subcontractingDetails = StringType()
     parameters = ListType(ModelType(BidParameter, required=True), default=list(), validators=[validate_parameters_uniq])
-    status = StringType(
-        choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
-    )
     value = ModelType(Value)
 
     _old_default_status = "pending"

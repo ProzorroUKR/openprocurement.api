@@ -1,5 +1,5 @@
 from schematics.validate import ValidationError
-from schematics.types import StringType
+from schematics.types import StringType, BaseType
 from schematics.types.serializable import serializable
 from schematics.types.compound import ModelType, ListType
 from openprocurement.tender.core.procedure.models.item import (
@@ -75,24 +75,6 @@ class PostTender(BasePostTender):
         if period:
             _validate_tender_period_start_date(data, period)
             validate_tender_period_duration(data, period, TENDERING_DURATION)
-
-    # @serializable(
-    #     serialized_name="enquiryPeriod",
-    #     serialize_when_none=True,
-    #     type=ModelType(EnquiryPeriod, required=False)
-    # )
-    # def tender_enquiryPeriod(self):
-    #     enquiry_period_class = self._fields["enquiryPeriod"]
-    #     end_date = calculate_tender_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, self)
-    #     clarifications_until = calculate_clarif_business_date(end_date, ENQUIRY_STAND_STILL_TIME, self, True)
-    #     return enquiry_period_class(
-    #         dict(
-    #             startDate=self.tenderPeriod.startDate,
-    #             endDate=end_date,
-    #             invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
-    #             clarificationsUntil=clarifications_until,
-    #         )
-    #     )
 
 
 class PatchTender(BasePatchTender):
@@ -172,21 +154,3 @@ class Tender(BaseTender):
     def validate_tenderPeriod(self, data, period):
         if period:
             validate_tender_period_duration(data, period, TENDERING_DURATION)
-
-    # @serializable(
-    #     serialized_name="enquiryPeriod",
-    #     serialize_when_none=True,
-    #     type=ModelType(EnquiryPeriod, required=False)
-    # )
-    # def tender_enquiryPeriod(self):
-    #     enquiry_period_class = self._fields["enquiryPeriod"]
-    #     end_date = calculate_tender_business_date(self.tenderPeriod.endDate, -ENQUIRY_PERIOD_TIME, self)
-    #     clarifications_until = calculate_clarif_business_date(end_date, ENQUIRY_STAND_STILL_TIME, self, True)
-    #     return enquiry_period_class(
-    #         dict(
-    #             startDate=self.tenderPeriod.startDate,
-    #             endDate=end_date,
-    #             invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
-    #             clarificationsUntil=clarifications_until,
-    #         )
-    #     )

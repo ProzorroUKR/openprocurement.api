@@ -672,11 +672,11 @@ def patch_tender_bid(self):
     self.assertNotEqual(response.json["data"]["date"], bid["date"])
 
     response = self.app.patch_json(
-        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token), {"data": {"status": "active"}}
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token), {"data": {"status": "pending"}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "active")
+    self.assertEqual(response.json["data"]["status"], "pending")
     self.assertNotEqual(response.json["data"]["date"], bid["date"])
 
     response = self.app.patch_json(
@@ -932,7 +932,7 @@ def create_tender_bid_document_nopending(self):
 
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={token}",
-        {"data": {"status": "active"}},
+        {"data": {"status": "pending"}},
     )
 
     response = self.app.post_json(

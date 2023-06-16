@@ -639,7 +639,7 @@ def get_tender_lot(self):
         set(response.json["data"]), {"id", "date", "title", "description", "minimalStep", "value", "status"}
     )
 
-    self.set_status("active.qualification")
+    self.set_status("active.qualification", check_chronograph=False)
 
     response = self.app.get("/tenders/{}/lots/{}".format(self.tender_id, lot["id"]))
     self.assertEqual(response.status, "200 OK")
@@ -680,7 +680,7 @@ def get_tender_lots(self):
         {"id", "date", "title", "description", "minimalStep", "value", "status"},
     )
 
-    self.set_status("active.qualification")
+    self.set_status("active.qualification", check_chronograph=False)
 
     response = self.app.get("/tenders/{}/lots".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
@@ -1740,7 +1740,13 @@ def proc_1lot_2bid(self):
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.post_json(
         "/tenders/{}/auction/{}".format(tender_id, lot_id),
-        {"data": {"bids": [{"lotValues": b["lotValues"]} for b in auction_bids_data]}}
+        {
+            "data": {
+                "bids": [
+                    {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                    for b in auction_bids_data]
+            }
+        }
     )
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))
@@ -2269,7 +2275,7 @@ def proc_2lot_1bid_0com_0win(self):
             {"data": {"status": "unsuccessful"}},
         )
         # after stand slill period
-        self.set_status("complete", {"status": "active.awarded"})
+        self.set_status("complete", {"status": "active.awarded"}, check_chronograph=False)
         # time travel
         tender = self.mongodb.tenders.get(tender_id)
         now = get_now().isoformat()
@@ -2277,7 +2283,7 @@ def proc_2lot_1bid_0com_0win(self):
             i["complaintPeriod"] = {"startDate": now, "endDate": now}
         self.mongodb.tenders.save(tender)
     # check tender status
-    self.set_status("complete", {"status": "active.awarded"})
+    self.set_status("complete", {"status": "active.awarded"}, check_chronograph=False)
     response = self.check_chronograph()
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
@@ -2488,7 +2494,13 @@ def proc_2lot_2bid_2com_2win(self):
         self.app.authorization = ("Basic", ("auction", ""))
         response = self.app.post_json(
             "/tenders/{}/auction/{}".format(tender_id, lot_id),
-            {"data": {"bids": [{"lotValues": b["lotValues"]} for b in auction_bids_data]}}
+            {
+                "data": {
+                    "bids": [
+                        {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                        for b in auction_bids_data]
+                }
+            }
         )
     # for first lot
     lot_id = lots[0]

@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 import unittest
-from mock import patch
-from datetime import timedelta
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.base import test_exclusion_criteria
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -178,7 +175,7 @@ class TenderBidRequirementResponseEvidenceTestMixin:
 
 
 class CreateBidMixin(object):
-    base_bid_status = "active"
+    base_bid_status = "pending"
 
     def setUp(self):
         super(CreateBidMixin, self).setUp()
