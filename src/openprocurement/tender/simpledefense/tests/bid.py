@@ -128,7 +128,7 @@ class TenderBidDocumentResourceTest(BaseSimpleDefContentWebTest, TenderBidDocume
         doc_id = response.json["data"]["id"]
         self.assertIn(doc_id, response.headers["Location"])
 
-        self.set_status("active.qualification")
+        self.set_status("active.qualification", check_chronograph=False)
 
         response = self.app.patch_json(
             "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, bid_token),

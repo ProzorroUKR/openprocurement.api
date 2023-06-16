@@ -323,6 +323,8 @@ class BaseTenderWebTest(BaseCoreWebTest):
                 bid = bid.copy()
                 if self.initial_criteria:
                     bid["requirementResponses"] = rrs
+                if hasattr(self, "initial_bid_status") and self.initial_bid_status:
+                    bid["status"] = self.initial_bid_status
                 bid, bid_token = self.create_bid(self.tender_id, bid)
                 bid_id = bid["id"]
                 bids.append(bid)

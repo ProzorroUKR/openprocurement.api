@@ -234,7 +234,7 @@ def get_tender_lot(self):
         {"status", "date", "description", "title", "minimalStep", "value", "id"},
     )
 
-    self.set_status("active.qualification")
+    self.set_status("active.qualification", check_chronograph=False)
 
     response = self.app.get("/tenders/{}/lots/{}".format(self.tender_id, lot["id"]))
     self.assertEqual(response.status, "200 OK")
@@ -277,7 +277,7 @@ def get_tender_lots(self):
         {"status", "description", "date", "title", "minimalStep", "value", "id"},
     )
 
-    self.set_status("active.qualification")
+    self.set_status("active.qualification", check_chronograph=False)
 
     response = self.app.get("/tenders/{}/lots".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
@@ -665,7 +665,7 @@ def patch_tender_bidder(self):
     self.assertEqual(response.json["data"]["lotValues"][0]["value"]["amount"], 400)
     self.assertNotEqual(response.json["data"]["lotValues"][0]["date"], lot["date"])
 
-    self.set_status("complete")
+    self.set_status("complete", check_chronograph=False)
 
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bidder["id"]))
     self.assertEqual(response.status, "200 OK")
@@ -1163,7 +1163,7 @@ def proc_1lot_3bid_1un(self):
     for bid_id, bid_token in list(bids_data.items())[:-1]:
         self.app.authorization = ("Basic", ("broker", ""))
         self.app.patch_json(
-            "/tenders/{}/bids/{}?acc_token={}".format(tender_id, bid_id, bid_token), {"data": {"status": "active"}}
+            "/tenders/{}/bids/{}?acc_token={}".format(tender_id, bid_id, bid_token), {"data": {"status": "pending"}}
         )
         # bids_data[response.json['data']['id']] = response.json['access']['token']
     # switch to active.auction

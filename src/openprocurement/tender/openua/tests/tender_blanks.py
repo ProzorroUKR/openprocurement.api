@@ -929,7 +929,7 @@ def invalid_bid_tender_features(self):
     parameters[0]["code"] = "OCDS-123-POSTPONEMENT"
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(tender_id, bid_id, bid_token),
-        {"data": {"parameters": parameters, "status": "active"}},
+        {"data": {"parameters": parameters, "status": "pending"}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -947,7 +947,7 @@ def invalid_bid_tender_features(self):
     parameters[0]["value"] = 0.2
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(tender_id, bid_id, bid_token),
-        {"data": {"parameters": parameters, "status": "active"}},
+        {"data": {"parameters": parameters, "status": "pending"}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1101,7 +1101,11 @@ def activate_bid_after_adding_lot(self):
 
     self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(tender_id, bid_id, bid_token),
-        {"data": {"status": "active", "value": None, "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}]}},
+        {"data": {"status": "pending", "value": None, "lotValues": [{
+            "value": {"amount": 500},
+            "relatedLot": lot_id,
+            "status": "pending",
+        }]}},
     )
 
     response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(tender_id, bid_id, bid_token))
@@ -1110,7 +1114,6 @@ def activate_bid_after_adding_lot(self):
     # switch to active.qualification
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
     response = self.check_chronograph()
-    # get awards
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
 

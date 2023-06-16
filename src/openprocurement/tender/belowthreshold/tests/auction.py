@@ -130,7 +130,10 @@ class TenderSameValueAuctionResourceTest(TenderContentWebTest):
     docservice = True
     initial_status = "active.auction"
     initial_bids = [
-        {"tenderers": [test_tender_below_organization], "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True}}
+        {
+            "tenderers": [test_tender_below_organization],
+            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+        }
         for i in range(3)
     ]
 
