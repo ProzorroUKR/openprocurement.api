@@ -15,9 +15,11 @@ STAGE_2_EU_DEFAULT_CONFIG = {
     "hasAuction": True,
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
+    "valueCurrencyEquality": True,
 }
 STAGE_2_UA_DEFAULT_CONFIG = {
     "hasAuction": True,
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
+    "valueCurrencyEquality": True,
 }
