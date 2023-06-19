@@ -17,6 +17,9 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_document,
     patch_tender_lot_values_any_order,
     create_tender_bid_document_json_bulk,
+    # Tender2LotBidResourceTest
+    post_tender_bid_with_exceeded_lot_values,
+    patch_tender_bid_with_exceeded_lot_values,
 )
 
 from openprocurement.tender.openeu.tests.base import (
@@ -132,6 +135,8 @@ class Tender2LotBidResourceTest(BaseTenderContentWebTest):
 
     test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
     test_patch_tender_lot_values_any_order = snitch(patch_tender_lot_values_any_order)
+    test_post_tender_bid_with_exceeded_lot_values = snitch(post_tender_bid_with_exceeded_lot_values)
+    test_patch_tender_bid_with_exceeded_lot_values = snitch(patch_tender_bid_with_exceeded_lot_values)
 
 
 class TenderBidFeaturesResourceTest(BaseTenderContentWebTest):

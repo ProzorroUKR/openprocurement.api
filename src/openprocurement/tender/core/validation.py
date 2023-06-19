@@ -43,6 +43,7 @@ from openprocurement.api.utils import (
     get_root,
 )
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF, FIRST_STAGE_PROCUREMENT_TYPES
+from openprocurement.tender.core.procedure.context import get_tender_config
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
     requested_fields_changes,
@@ -138,7 +139,8 @@ def validate_lotvalue_value(tender, relatedLot, value):
     lot = next((lot for lot in tender.lots if lot and lot.id == relatedLot), None)
     if not lot:
         return
-    if lot.value.amount < value.amount:
+    config = get_tender_config()
+    if config.get("hasValueRestriction") and lot.value.amount < value.amount:
         raise ValidationError("value of bid should be less than value of lot")
     if lot.get("value").currency != value.currency:
         raise ValidationError("currency of bid should be identical to currency of value of lot")
@@ -153,9 +155,10 @@ def validate_bid_value(tender, value):
         if value:
             raise ValidationError("value should be posted for each lot of bid")
     else:
+        config = get_tender_config()
         if not value:
             raise ValidationError("This field is required.")
-        if tender.value.amount < value.amount:
+        if config.get("hasValueRestriction") and tender.value.amount < value.amount:
             raise ValidationError("value of bid should be less than value of tender")
         if tender.get("value").currency != value.currency:
             raise ValidationError("currency of bid should be identical to currency of value of tender")

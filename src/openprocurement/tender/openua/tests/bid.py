@@ -14,6 +14,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
     test_tender_below_author,
     test_tender_below_lots,
+    test_tender_below_bids,
 )
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderBidDocumentResourceTest
@@ -22,6 +23,9 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_documents,
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
+    # Tender2LotBidResourceTest
+    post_tender_bid_with_exceeded_lot_values,
+    patch_tender_bid_with_exceeded_lot_values,
 )
 
 from openprocurement.tender.openua.tests.base import (
@@ -235,6 +239,8 @@ class Tender2LotBidResourceTest(BaseTenderUAContentWebTest):
 
     test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
     test_create_bid_after_removing_lot = snitch(create_bid_after_removing_lot)
+    test_post_tender_with_exceeded_lot_values = snitch(post_tender_bid_with_exceeded_lot_values)
+    test_patch_tender_with_exceeded_lot_values = snitch(patch_tender_bid_with_exceeded_lot_values)
 
 
 class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):

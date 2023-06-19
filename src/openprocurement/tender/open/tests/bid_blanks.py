@@ -2910,3 +2910,38 @@ def patch_tender_with_bids_lots_none(self):
         [{"location": "body", "name": "items",
           "description": [{"relatedLot": ["relatedLot should be one of lots"]}]}]
     )
+
+
+def post_tender_bid_with_disabled_value_restriction(self):
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/bids",
+        {"data": {
+            "selfQualified": True,
+            "tenderers": [test_tender_below_organization],
+            "value": {"amount": 700}}
+        }
+    )
+    self.assertEqual(response.status, "201 Created")
+
+
+def patch_tender_bid_with_disabled_value_restriction(self):
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/bids",
+        {"data": {
+            "selfQualified": True,
+            "tenderers": [test_tender_below_organization],
+            "value": {"amount": 450}}
+        }
+    )
+    self.assertEqual(response.status, "201 Created")
+    bid_id = response.json["data"]["id"]
+    token = response.json["access"]["token"]
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={token}",
+        {"data": {
+            "status": "active",
+            "value": {"amount": 705}}
+        }
+    )
+    self.assertEqual(response.status, "200 OK")

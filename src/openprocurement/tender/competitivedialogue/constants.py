@@ -13,7 +13,11 @@ MINIMAL_NUMBER_OF_BIDS = 3
 
 STAGE_2_EU_DEFAULT_CONFIG = {
     "hasAuction": True,
+    "hasAwardingOrder": True,
+    "hasValueRestriction": True,
 }
 STAGE_2_UA_DEFAULT_CONFIG = {
     "hasAuction": True,
+    "hasAwardingOrder": True,
+    "hasValueRestriction": True,
 }

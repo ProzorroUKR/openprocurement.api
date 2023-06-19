@@ -1,0 +1,71 @@
+PATCH /api/2.5/tenders/62ce6859a3df45b692f7f78357d812c0/bids/7e95a6b839db44edb45dfdd6caa41a97?acc_token=bed2a0c68b0347dab30b439da99f00d8 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 1344
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "active",
+    "tenderers": [
+      {
+        "address": {
+          "countryName": "Україна",
+          "locality": "м. Вінниця",
+          "postalCode": "21100",
+          "region": "Вінницька область",
+          "streetAddress": "вул. Островського, 33"
+        },
+        "contactPoint": {
+          "email": "soleksuk@gmail.com",
+          "name": "Сергій Олексюк",
+          "telephone": "+380432216930"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "id": "00137256",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "ДКП «Школяр»",
+        "scale": "micro"
+      }
+    ],
+    "lotValues": [
+      {
+        "value": {
+          "amount": 500
+        },
+        "relatedLot": "0604e55b3dae444a8d537bb4c971a246"
+      },
+      {
+        "value": {
+          "amount": 700
+        },
+        "relatedLot": "f21c5735a39e41538e386c454149f615"
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "lotValues",
+      "description": [
+        {
+          "value": [
+            "value of bid should be less than value of lot"
+          ]
+        }
+      ]
+    }
+  ]
+}
+

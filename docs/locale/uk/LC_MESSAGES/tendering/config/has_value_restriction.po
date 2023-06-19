@@ -1,0 +1,130 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-06-07 10:48+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.10.3\n"
+
+msgid "hasValueRestriction"
+msgstr ""
+
+msgid "Field `hasValueRestriction` is a boolean field that indicates whether the bid value can exceed tender/lot initial value of the subject of procurement, specified in the announcement."
+msgstr "Поле `hasValueRestriction` є булевим полем, яке вказує, що ціна тендерної пропозиції може перевищувати очікувану вартість предмета закупівлі, зазначену в оголошенні про проведення."
+
+msgid "Possible values for `hasValueRestriction` field depends on `procurementMethodType` field:"
+msgstr "Можливі значення для поля `hasValueRestriction` залежать від поля `procurementMethodType`:"
+
+msgid "procurementMethodType"
+msgstr ""
+
+msgid "values"
+msgstr ""
+
+msgid "default"
+msgstr ""
+
+msgid "aboveThreshold"
+msgstr ""
+
+msgid "true,false"
+msgstr ""
+
+msgid "false"
+msgstr ""
+
+msgid "aboveThresholdEU"
+msgstr ""
+
+msgid "true"
+msgstr ""
+
+msgid "aboveThresholdUA.defense"
+msgstr ""
+
+msgid "aboveThresholdUA"
+msgstr ""
+
+msgid "belowThreshold"
+msgstr ""
+
+msgid "closeFrameworkAgreementSelectionUA"
+msgstr ""
+
+msgid "closeFrameworkAgreementUA"
+msgstr ""
+
+msgid "competitiveDialogueEU"
+msgstr ""
+
+msgid "competitiveDialogueEU.stage2"
+msgstr ""
+
+msgid "competitiveDialogueUA"
+msgstr ""
+
+msgid "competitiveDialogueUA.stage2"
+msgstr ""
+
+msgid "esco"
+msgstr ""
+
+msgid "negotiation"
+msgstr ""
+
+msgid "negotiation.quick"
+msgstr ""
+
+msgid "priceQuotation"
+msgstr ""
+
+msgid "reporting"
+msgstr ""
+
+msgid "simple.defense"
+msgstr ""
+
+msgid "hasValueRestriction is `true`"
+msgstr "hasValueRestriction встановлено у `true`"
+
+msgid "`hasValueRestriction:true` means that bid value can not exceed initial value of the subject of procurement."
+msgstr "`hasValueRestriction:true` означає, що ціна тендерної пропозиції не може перевищувати очікувану вартість предмета закупівлі."
+
+msgid "Let's create a tender with lots with `hasValueRestriction` set to `true`:"
+msgstr "Створимо тендер з лотами з `hasValueRestriction` встановленим у `true`:"
+
+msgid "And add bid to it with value more than initially announced in lot:"
+msgstr "І додамо пропозицію до тендера з вартістю більшою за очікувану вартість, оголошену у лоті:"
+
+msgid "In that case we will have error, that adding bid with exceeded value is forbidden."
+msgstr "В цьому випадку ми побачимо помилку, що додавання пропозиції з вартістю більшою за очікувану вартість заборонено."
+
+msgid "Let's add bid to tender with value less than initially announced in lot:"
+msgstr "Додамо пропозицію до тендера з вартістю меншою за очікувану вартість, оголошену у лоті:"
+
+msgid "Let's try to patch bid value to bigger one and we will see error, that it is forbidden with this configuration."
+msgstr "Спробуємо відредагувати вартість пропозиції на більшу за очікувану вартість, оголошену у лоті, і ми побачимо помилку, тому що це заборонено конфігурацією `hasValueRestriction:true`."
+
+msgid "hasValueRestriction is `false`"
+msgstr "hasValueRestriction встановлено у `false`"
+
+msgid "`hasValueRestriction:false` means that bid value can exceed initial value of the subject of procurement."
+msgstr "`hasValueRestriction:false` означає, що ціна тендерної пропозиції може перевищувати очікувану вартість предмета закупівлі."
+
+msgid "Let's create a tender with lots with `hasValueRestriction` set to `false`:"
+msgstr "Створимо тендер з лотами з `hasValueRestriction` встановленим у `false`:"
+
+msgid "In that case we won't see any error, as adding bid with exceeded value is allowed with configuration `hasValueRestriction:false`."
+msgstr "В цьому випадку ми не побачимо ніякої помилки, тому що додавання пропозиції з вартістю більшою за очікувану вартість дозволено конфігурацією `hasValueRestriction:false`."
+

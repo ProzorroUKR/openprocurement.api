@@ -43,6 +43,8 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_documents,
     # Tender2LotBidResourceTest
     patch_tender_with_bids_lots_none,
+    post_tender_bid_with_exceeded_lot_values,
+    patch_tender_bid_with_exceeded_lot_values,
     create_tender_bid_document_invalid_pmr,
     update_tender_bid_document_invalid_pmr,
     bid_activate_with_cancelled_tenderer_criterion,
@@ -50,6 +52,12 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     update_tender_rr_evidence_id,
     update_tender_bid_pmr_related_tenderer,
     patch_tender_lot_values_any_order,
+    # TenderLotsWithDisabledValueRestriction
+    post_tender_bid_with_disabled_lot_values_restriction,
+    patch_tender_bid_with_disabled_lot_values_restriction,
+    # TenderWithDisabledValueRestriction
+    post_tender_bid_with_disabled_value_restriction,
+    patch_tender_bid_with_disabled_value_restriction,
 )
 from openprocurement.tender.openeu.tests.bid import CreateBidMixin
 from openprocurement.tender.openeu.tests.bid import (
@@ -79,7 +87,9 @@ class Tender2LotBidResourceTest(TenderContentWebTest):
     initial_status = "active.tendering"
 
     test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
-    test_patch_tender_lot_values_any_order= snitch(patch_tender_lot_values_any_order)
+    test_patch_tender_lot_values_any_order = snitch(patch_tender_lot_values_any_order)
+    test_post_tender_bid_with_exceeded_lot_values = snitch(post_tender_bid_with_exceeded_lot_values)
+    test_patch_tender_bid_with_exceeded_lot_values = snitch(patch_tender_bid_with_exceeded_lot_values)
 
 
 class TenderBidFeaturesResourceTest(TenderContentWebTest):
@@ -208,6 +218,42 @@ class TenderBidRequirementResponseEvidenceResourceTest(
     test_bid_activate_with_cancelled_tenderer_criterion = snitch(bid_activate_with_cancelled_tenderer_criterion)
 
 
+class TenderLotsWithDisabledValueRestriction(TenderContentWebTest):
+    initial_status = "active.tendering"
+    test_bids_data = test_tender_below_bids
+    initial_lots = 2 * test_tender_below_lots
+
+    test_post_tender_bid_with_disabled_lot_values_restriction = snitch(
+        post_tender_bid_with_disabled_lot_values_restriction
+    )
+    test_patch_tender_bid_with_disabled_lot_values_restriction = snitch(
+        patch_tender_bid_with_disabled_lot_values_restriction
+    )
+
+    def setUp(self):
+        super(TenderContentWebTest, self).setUp()
+        self.create_tender(config={
+            "hasAuction": True,
+            "hasAwardingOrder": True,
+            "hasValueRestriction": False,
+        })
+
+
+class TenderWithDisabledValueRestriction(TenderContentWebTest):
+    initial_status = "active.tendering"
+
+    test_post_tender_bid_with_disabled_value_restriction = snitch(post_tender_bid_with_disabled_value_restriction)
+    test_patch_tender_bid_with_disabled_value_restriction = snitch(patch_tender_bid_with_disabled_value_restriction)
+
+    def setUp(self):
+        super(TenderContentWebTest, self).setUp()
+        self.create_tender(config={
+            "hasAuction": True,
+            "hasAwardingOrder": True,
+            "hasValueRestriction": False,
+        })
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderBidDocumentResourceTest))
@@ -216,6 +262,8 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderBidResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidRequirementResponseResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidRequirementResponseEvidenceResourceTest))
+    suite.addTest(unittest.makeSuite(TenderLotsWithDisabledValueRestriction))
+    suite.addTest(unittest.makeSuite(TenderWithDisabledValueRestriction))
     return suite
 
 
