@@ -294,7 +294,7 @@ TENDER_CONFIG_OPTIONALITY = {
     ),
     "hasValueRestriction": get_constant(
         CONSTANTS_CONFIG,
-        "TENDER_CONFIG_VALUE_RESTRICTION_OPTIONAL",
+        "TENDER_CONFIG_HAS_VALUE_RESTRICTION_OPTIONAL",
         parse_func=parse_bool,
     ),
 }
