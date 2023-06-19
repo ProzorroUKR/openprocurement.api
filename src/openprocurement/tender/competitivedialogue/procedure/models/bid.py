@@ -18,6 +18,9 @@ class PatchBid(PatchObjResponsesMixin, BaseBid):
     subcontractingDetails = StringType()
     selfQualified = BooleanType(choices=[True])
     selfEligible = BooleanType(choices=[True])
+    status = StringType(
+        choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
+    )
 
 
 class PostBid(PostBidResponsesMixin, BaseBid):
@@ -36,6 +39,10 @@ class PostBid(PostBidResponsesMixin, BaseBid):
 
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(choices=[True])
+    status = StringType(
+        choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
+        default="draft",
+    )
 
     def validate_value(self, data, value):
         tender = get_tender()
@@ -55,6 +62,9 @@ class Bid(MetaBid, PostBidResponsesMixin, BaseBid):
     subcontractingDetails = StringType()
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(choices=[True])
+    status = StringType(
+        choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
+    )
 
     def validate_value(self, data, value):
         tender = get_tender()

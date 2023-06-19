@@ -504,7 +504,8 @@ def get_tender_bidder(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"], bid)
 
-    self.set_status("active.qualification", check_chronograph=False)
+    self.set_status("active.qualification")
+    bid["status"] = "active"
 
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid["id"]))
     self.assertEqual(response.status, "200 OK")
@@ -682,7 +683,7 @@ def get_tender_tenderers(self):
         response.json["errors"][0]["description"], "Can't view bids in current (active.tendering) tender status"
     )
 
-    self.set_status("active.qualification", check_chronograph=False)
+    self.set_status("active.qualification")
 
     response = self.app.get("/tenders/{}/bids".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
@@ -1319,7 +1320,7 @@ def patch_tender_bidder_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("document description", response.json["data"]["description"])
 
-    self.set_status("active.awarded", check_chronograph=False)
+    self.set_status("active.awarded")
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token),
@@ -1395,7 +1396,7 @@ def patch_tender_bidder_document_json(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("document description", response.json["data"]["description"])
 
-    self.set_status("active.awarded", check_chronograph=False)
+    self.set_status("active.awarded")
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token),
@@ -1471,7 +1472,7 @@ def patch_tender_bidder_document_json(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("document description", response.json["data"]["description"])
 
-    self.set_status("active.awarded", check_chronograph=False)
+    self.set_status("active.awarded")
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token),
@@ -1518,7 +1519,7 @@ def create_tender_bidder_document_nopending(self):
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
 
-    self.set_status("active.qualification", check_chronograph=False)
+    self.set_status("active.qualification")
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, bid_token),
@@ -1596,7 +1597,7 @@ def create_tender_bidder_document_nopending_json(self):
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
 
-    self.set_status("active.qualification", check_chronograph=False)
+    self.set_status("active.qualification")
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, bid_token),
@@ -1750,7 +1751,7 @@ def create_tender_bidder_document_json(self):
     self.assertIn(response.json["data"]["id"], response.headers["Location"])
     self.assertEqual("name.doc", response.json["data"]["title"])
 
-    self.set_status("active.awarded", check_chronograph=False)
+    self.set_status("active.awarded")
 
     response = self.app.post_json(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
@@ -1879,7 +1880,7 @@ def put_tender_bidder_document_json(self):
     self.assertIn("KeyID=", response.location)
     self.assertIn("Expires=", response.location)
 
-    self.set_status("active.qualification", check_chronograph=False)
+    self.set_status("active.qualification")
 
     response = self.app.put_json(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token),
@@ -2501,41 +2502,6 @@ def get_bid_requirement_response_evidence(self):
     self.assertEqual(
         response.json["errors"][0]["description"],
         "Can't view bid in current (active.tendering) tender status"
-    )
-
-    response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
-    criteria = response.json["data"]
-
-    rrs = []
-    for criterion in criteria:
-        for req in criterion["requirementGroups"][0]["requirements"]:
-
-            if criterion["source"] == "tenderer":
-                rrs.append(
-                    {
-                        "title": "Requirement response",
-                        "description": "some description",
-                        "requirement": {
-                            "id": req["id"],
-                            "title": req["title"],
-                        },
-                        "value": True,
-                    }
-                )
-            elif criterion["classification"]["id"] == "CRITERION.OTHER.CONTRACT.GUARANTEE":
-                guarantee_criterion = criterion
-    rrs = rrs[1:]
-
-    response = self.app.post_json(
-        "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-        {"data": rrs},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-
-    self.app.patch_json(
-        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-        {"data": {"status": "pending"}},
     )
 
     self.set_status("active.qualification")

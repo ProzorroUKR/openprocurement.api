@@ -639,7 +639,7 @@ def get_tender_lot(self):
         set(response.json["data"]), {"id", "date", "title", "description", "minimalStep", "value", "status"}
     )
 
-    self.set_status("active.qualification", check_chronograph=False)
+    self.set_status("active.qualification")
 
     response = self.app.get("/tenders/{}/lots/{}".format(self.tender_id, lot["id"]))
     self.assertEqual(response.status, "200 OK")
@@ -680,7 +680,7 @@ def get_tender_lots(self):
         {"id", "date", "title", "description", "minimalStep", "value", "status"},
     )
 
-    self.set_status("active.qualification", check_chronograph=False)
+    self.set_status("active.qualification")
 
     response = self.app.get("/tenders/{}/lots".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
@@ -2275,7 +2275,7 @@ def proc_2lot_1bid_0com_0win(self):
             {"data": {"status": "unsuccessful"}},
         )
         # after stand slill period
-        self.set_status("complete", {"status": "active.awarded"}, check_chronograph=False)
+        self.set_status("complete", {"status": "active.awarded"})
         # time travel
         tender = self.mongodb.tenders.get(tender_id)
         now = get_now().isoformat()
@@ -2283,7 +2283,7 @@ def proc_2lot_1bid_0com_0win(self):
             i["complaintPeriod"] = {"startDate": now, "endDate": now}
         self.mongodb.tenders.save(tender)
     # check tender status
-    self.set_status("complete", {"status": "active.awarded"}, check_chronograph=False)
+    self.set_status("complete", {"status": "active.awarded"})
     response = self.check_chronograph()
     # check status
     self.app.authorization = ("Basic", ("broker", ""))

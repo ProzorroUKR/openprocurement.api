@@ -25,6 +25,8 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     enquiry_period_timedelta = - ENQUIRY_PERIOD_TIME
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
+    pre_qualification_complaint_stand_still = PREQUALIFICATION_COMPLAINT_STAND_STILL
+    qualification_complaint_stand_still = QUALIFICATION_COMPLAINT_STAND_STILL
     tendering_period_extra_working_days = False
 
     def on_post(self, tender):
@@ -32,99 +34,8 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
         self.initialize_enquiry_period(tender)
 
     def on_patch(self, before, after):
-
-        # TODO: find a better place for this check, may be a distinct endpoint: PUT /tender/uid/status
-        if before["status"] == "active.pre-qualification":
-            passed_data = get_request().validated["json_data"]
-            if passed_data != {"status": "active.pre-qualification.stand-still"}:
-                raise_operation_error(
-                    get_request(),
-                    "Can't update tender at 'active.pre-qualification' status",
-                )
-            else:  # switching to active.pre-qualification.stand-still
-                lots = after.get("lots")
-                if lots:
-                    active_lots = {lot["id"] for lot in lots if lot.get("status", "active") == "active"}
-                else:
-                    active_lots = {None}
-
-                if any(
-                    i["status"] in self.block_complaint_status
-                    for q in after["qualifications"]
-                    for i in q.get("complaints", "")
-                    if q.get("lotID") in active_lots
-                ):
-                    raise_operation_error(
-                        get_request(),
-                        "Can't switch to 'active.pre-qualification.stand-still' before resolve all complaints"
-                    )
-
-                if self.all_bids_are_reviewed(after):
-                    after["qualificationPeriod"]["endDate"] = calculate_complaint_business_date(
-                        get_now(), PREQUALIFICATION_COMPLAINT_STAND_STILL, after
-                    ).isoformat()
-                else:
-                    raise_operation_error(
-                        get_request(),
-                        "Can't switch to 'active.pre-qualification.stand-still' while not all bids are qualified",
-                    )
-
-        # before status != active.pre-qualification
-        elif after["status"] == "active.pre-qualification.stand-still":
-            raise_operation_error(
-                get_request(),
-                f"Can't switch to 'active.pre-qualification.stand-still' from {before['status']}",
-            )
-
-        if before["status"] == "active.qualification":
-            passed_data = get_request().validated["json_data"]
-            if passed_data != {"status": "active.qualification.stand-still"}:
-                raise_operation_error(
-                    get_request(),
-                    "Can't update tender at 'active.qualification' status",
-                )
-            else:  # switching to active.pre-qualification.stand-still
-                lots = after.get("lots")
-                if lots:
-                    active_lots = {lot["id"] for lot in lots if lot.get("status", "active") == "active"}
-                else:
-                    active_lots = {None}
-
-                if any(
-                    i["status"] in self.block_complaint_status
-                    for q in after["awards"]
-                    for i in q.get("complaints", "")
-                    if q.get("lotID") in active_lots
-                ):
-                    raise_operation_error(
-                        get_request(),
-                        "Can't switch to 'active.qualification.stand-still' before resolve all complaints"
-                    )
-
-                if self.all_awards_are_reviewed(after):
-                    after["awardPeriod"]["endDate"] = calculate_complaint_business_date(
-                        get_now(), QUALIFICATION_COMPLAINT_STAND_STILL, after
-                    ).isoformat()
-                    for award in after["awards"]:
-                        if award["status"] != "cancelled":
-                            award["complaintPeriod"] = {
-                                "startDate": get_now().isoformat(),
-                                "endDate": after["awardPeriod"]["endDate"],
-                            }
-                else:
-                    raise_operation_error(
-                        get_request(),
-                        "Can't switch to 'active.qualification.stand-still' while not all awards are qualified",
-                    )
-
-        # before status != active.qualification
-        elif after["status"] == "active.qualification.stand-still":
-            raise_operation_error(
-                get_request(),
-                f"Can't switch to 'active.qualification.stand-still' from {before['status']}",
-            )
-
         self.validate_fields_unchanged(before, after)
+        self.validate_qualification_status_change(before, after)
 
         # bid invalidation rules
         if before["status"] == "active.tendering":
@@ -156,6 +67,56 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
                 name="status"
             )
         super().status_up(before, after, data)
+
+
+    def validate_qualification_status_change(self, before, after):
+        if before["status"] == "active.qualification":
+            passed_data = get_request().validated["json_data"]
+            if passed_data != {"status": "active.qualification.stand-still"}:
+                raise_operation_error(
+                    get_request(),
+                    "Can't update tender at 'active.qualification' status",
+                )
+            else:  # switching to active.qualification.stand-still
+                lots = after.get("lots")
+                if lots:
+                    active_lots = {lot["id"] for lot in lots if lot.get("status", "active") == "active"}
+                else:
+                    active_lots = {None}
+
+                if any(
+                    i["status"] in self.block_complaint_status
+                    for q in after["awards"]
+                    for i in q.get("complaints", "")
+                    if q.get("lotID") in active_lots
+                ):
+                    raise_operation_error(
+                        get_request(),
+                        "Can't switch to 'active.qualification.stand-still' before resolve all complaints"
+                    )
+
+                if self.all_awards_are_reviewed(after):
+                    after["awardPeriod"]["endDate"] = calculate_complaint_business_date(
+                        get_now(), self.qualification_complaint_stand_still, after
+                    ).isoformat()
+                    for award in after["awards"]:
+                        if award["status"] != "cancelled":
+                            award["complaintPeriod"] = {
+                                "startDate": get_now().isoformat(),
+                                "endDate": after["awardPeriod"]["endDate"],
+                            }
+                else:
+                    raise_operation_error(
+                        get_request(),
+                        "Can't switch to 'active.qualification.stand-still' while not all awards are qualified",
+                    )
+
+        # before status != active.qualification
+        elif after["status"] == "active.qualification.stand-still":
+            raise_operation_error(
+                get_request(),
+                f"Can't switch to 'active.qualification.stand-still' from {before['status']}",
+            )
 
 
     @staticmethod

@@ -190,7 +190,7 @@ class Tender(BaseTender):
     milestones = ListType(ModelType(Milestone, required=True),
                           validators=[validate_items_uniq, validate_milestones])
 
-    qualificationPeriod = BaseType()
+    qualificationPeriod = ModelType(Period)
     qualifications = BaseType()
 
     def validate_minimalStep(self, data, value):

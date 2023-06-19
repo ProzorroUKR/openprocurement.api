@@ -1748,7 +1748,7 @@ def active_qualification_to_act_pre_qualification_st(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{"description": "Can't switch to 'active.pre-qualification.stand-still' from active.qualification",
+        [{"description": "Can't update tender at 'active.qualification' status",
           "location": "body", "name": "data"}],
     )
 
@@ -1764,7 +1764,7 @@ def active_pre_qualification_to_act_qualification_st(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{"description": "Can't update tender at 'active.pre-qualification' status",
+        [{"description": "Can't switch to 'active.qualification.stand-still' from active.pre-qualification",
           "location": "body", "name": "data"}],
     )
 

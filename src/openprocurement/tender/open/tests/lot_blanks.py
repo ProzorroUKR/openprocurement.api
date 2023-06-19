@@ -234,7 +234,7 @@ def get_tender_lot(self):
         {"status", "date", "description", "title", "minimalStep", "value", "id"},
     )
 
-    self.set_status("active.qualification", check_chronograph=False)
+    self.set_status("active.qualification")
 
     response = self.app.get("/tenders/{}/lots/{}".format(self.tender_id, lot["id"]))
     self.assertEqual(response.status, "200 OK")
@@ -277,7 +277,7 @@ def get_tender_lots(self):
         {"status", "description", "date", "title", "minimalStep", "value", "id"},
     )
 
-    self.set_status("active.qualification", check_chronograph=False)
+    self.set_status("active.qualification")
 
     response = self.app.get("/tenders/{}/lots".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
@@ -665,7 +665,7 @@ def patch_tender_bidder(self):
     self.assertEqual(response.json["data"]["lotValues"][0]["value"]["amount"], 400)
     self.assertNotEqual(response.json["data"]["lotValues"][0]["date"], lot["date"])
 
-    self.set_status("complete", check_chronograph=False)
+    self.set_status("complete")
 
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bidder["id"]))
     self.assertEqual(response.status, "200 OK")

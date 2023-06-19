@@ -1,4 +1,3 @@
-from openprocurement.tender.esco.procedure.state.tender_document import ESCOTenderDocumentState
 from openprocurement.tender.openua.procedure.views.tender_document import UATenderDocumentResource
 from cornice.resource import resource
 
@@ -11,4 +10,4 @@ from cornice.resource import resource
     description="Tender ESCO related binary files (PDFs, etc.)",
 )
 class ESCOTenderDocumentResource(UATenderDocumentResource):
-    state_class = ESCOTenderDocumentState
+    pass
