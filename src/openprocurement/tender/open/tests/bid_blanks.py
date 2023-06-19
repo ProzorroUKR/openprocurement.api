@@ -511,7 +511,6 @@ def get_tender_bidder(self):
     self.assertEqual(response.json["data"], bid)
 
     self.set_status("active.qualification")
-
     bid["status"] = "active"
     for lot_value in bid["lotValues"]:
         lot_value["status"] = "active"
@@ -697,7 +696,7 @@ def get_tender_tenderers(self):
         response.json["errors"][0]["description"], "Can't view bids in current (active.tendering) tender status"
     )
 
-    self.set_status("active.qualification", check_chronograph=False)
+    self.set_status("active.qualification")
 
     response = self.app.get("/tenders/{}/bids".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
@@ -1545,7 +1544,7 @@ def create_tender_bidder_document_nopending(self):
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
 
-    self.set_status("active.qualification", check_chronograph=False)
+    self.set_status("active.qualification")
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, bid_token),
@@ -1623,7 +1622,7 @@ def create_tender_bidder_document_nopending_json(self):
     doc_id = response.json["data"]["id"]
     self.assertIn(doc_id, response.headers["Location"])
 
-    self.set_status("active.qualification", check_chronograph=False)
+    self.set_status("active.qualification")
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, bid_token),

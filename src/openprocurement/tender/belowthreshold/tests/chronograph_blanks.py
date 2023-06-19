@@ -114,7 +114,7 @@ def switch_to_auction_with_non_auction_lot(self):
 
 
 def switch_to_unsuccessful(self):
-    self.set_status("active.auction", {"status": self.initial_status}, check_chronograph=False)
+    self.set_status("active.auction", {"status": self.initial_status})
 
     response = self.app.get(f"/tenders/{self.tender_id}")
     if self.initial_lots:

@@ -555,7 +555,7 @@ class MultiContractsTenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         response = self.app.patch_json(
             f'/tenders/{self.tender_id}/bids/{bid_id}?acc_token={bid_token}',
-            {'data': {'status': 'active'}}
+            {'data': {'status': 'pending'}}
         )
 
         # switch to active.qualification

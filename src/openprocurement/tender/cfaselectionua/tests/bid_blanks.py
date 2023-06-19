@@ -420,11 +420,11 @@ def patch_tender_bid(self):
     self.assertNotEqual(response.json["data"]["lotValues"][0]["date"], bid["date"])
 
     response = self.app.patch_json(
-        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token), {"data": {"status": "active"}}
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token), {"data": {"status": "pending"}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "active")
+    self.assertEqual(response.json["data"]["status"], "pending")
     self.assertNotEqual(response.json["data"]["lotValues"][0]["date"], bid["date"])
 
     response = self.app.patch_json(
@@ -641,7 +641,7 @@ def features_bid(self):
     test_features_bids = [
         {
             "parameters": [{"code": i["code"], "value": 0.1} for i in self.initial_agreement["features"]],
-            "status": "active",
+            "status": "pending",
             "tenderers": [test_tender_cfaselectionua_organization],
             "lotValues": [
                 {
@@ -668,6 +668,7 @@ def features_bid(self):
         bid.pop("date")
         bid.pop("id")
         bid["lotValues"][0].pop("date")
+        bid["lotValues"][0].pop("status")
         self.assertEqual(bid.pop("documents", []), [])
         self.assertEqual(bid, i)
 
@@ -681,7 +682,7 @@ def features_bid(self):
     self.set_status("active.tendering", extra={"features": new_tender_features, "bids": []})
     feat_bid = {
         "parameters": [{"code": i["code"], "value": 0.1} for i in self.initial_agreement["features"][:1]],
-        "status": "active",
+        "status": "pending",
         "tenderers": [test_tender_cfaselectionua_organization],
         "lotValues": [
             {
@@ -695,6 +696,7 @@ def features_bid(self):
     bid.pop("date")
     bid.pop("id")
     bid["lotValues"][0].pop("date")
+    bid["lotValues"][0].pop("status")
     self.assertEqual(bid.pop("documents", []), [])
     self.assertEqual(bid, feat_bid)
 
@@ -776,7 +778,7 @@ def patch_features_bid_invalid(self):
 
     test_bid = {
         "parameters": [{"code": i["code"], "value": 0.1} for i in self.initial_agreement["features"]],
-        "status": "active",
+        "status": "pending",
         "tenderers": [test_tender_cfaselectionua_organization],
         "lotValues": [
             {
@@ -791,6 +793,7 @@ def patch_features_bid_invalid(self):
     bid.pop("date")
     bid.pop("id")
     bid["lotValues"][0].pop("date")
+    bid["lotValues"][0].pop("status")
     self.assertEqual(bid.pop("documents", []), [])
     self.assertEqual(bid, test_bid)
 

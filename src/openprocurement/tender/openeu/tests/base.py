@@ -252,41 +252,6 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
         super(BaseTenderUAWebTest, self).setUp()
         self.app.authorization = self.initial_auth or ("Basic", ("token", ""))
 
-    def set_status(self, status, extra=None, startend="start"):
-        self.now = get_now()
-        self.tender_document = self.mongodb.tenders.get(self.tender_id)
-        old_status = self.tender_document["status"]
-        self.tender_document_patch = {"status": status}
-        self.update_periods(status, startend=startend)
-
-        def activate_bids():
-            if self.tender_document.get("bids", ""):
-                bids = self.tender_document["bids"]
-                for bid in bids:
-                    if bid["status"] == "pending":
-                        bid.update({"status": "active"})
-                self.tender_document_patch.update({"bids": bids})
-
-        data = {"status": status}
-        if status == "active.pre-qualification.stand-still":
-            activate_bids()
-        elif status == "active.auction":
-            activate_bids()
-        elif status == "active.qualification":
-            activate_bids()
-        elif status == "active.awarded":
-            activate_bids()
-
-        if extra:
-            self.tender_document_patch.update(extra)
-
-        self.save_changes()
-        if old_status == "draft" and status == "active.tendering" and startend == "start":
-            self.app.patch_json(
-                f"/tenders/{self.tender_document['_id']}?acc_token={self.tender_document['owner_token']}",
-                {"data": {}}
-            )
-        return self.get_tender("chronograph")
 
     def prepare_award(self):
         # switch to active.pre-qualification

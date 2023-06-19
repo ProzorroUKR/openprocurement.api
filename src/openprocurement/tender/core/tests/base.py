@@ -129,35 +129,38 @@ class BaseCoreWebTest(BaseWebTest):
         self.delete_tender()
         super(BaseCoreWebTest, self).tearDown()
 
-    def set_status(self, status, extra=None, startend="start", check_chronograph=True):
+    def activate_bids(self):
+        if self.tender_document.get("bids", ""):
+            bids = self.tender_document["bids"]
+            for bid in bids:
+                if bid["status"] == "pending":
+                    bid.update({"status": "active"})
+                    if "lotValues" in bid:
+                        for lot_value in bid["lotValues"]:
+                            if lot_value["status"] == "pending":
+                                lot_value.update({"status": "active"})
+            self.tender_document_patch.update({"bids": bids})
+
+    def set_status(self, status, extra=None, startend="start"):
         self.now = get_now()
         self.tender_document = self.mongodb.tenders.get(self.tender_id)
-        start_status = self.tender_document["status"]
-
-        if check_chronograph:
-            # trigger every prev status chronograph event
-            statuses = list(self.periods.keys())
-            if start_status in statuses:
-                start_index = statuses.index(start_status)
-            else:
-                start_index = 0
-            if status in statuses:
-                end_index = statuses.index(status)
-                for i in range(start_index, end_index):
-                    prev_status = statuses[i]
-                    self.tender_document_patch = {"status": prev_status}
-                    self.update_periods(status, startend="start")
-                    self.save_changes()
-                    self.check_chronograph()
-
+        old_status = self.tender_document["status"]
         self.tender_document_patch = {"status": status}
         self.update_periods(status, startend=startend)
+
+        if status == "active.pre-qualification.stand-still":
+            self.activate_bids()
+        elif status == "active.auction":
+            self.activate_bids()
+        elif status == "active.qualification":
+            self.activate_bids()
+        elif status == "active.awarded":
+            self.activate_bids()
+
         if extra:
             self.tender_document_patch.update(extra)
-        self.save_changes()
-        if check_chronograph:
-            response = self.check_chronograph()
 
+        self.save_changes()
         return self.get_tender()
 
     def update_periods(self, status, startend="start", shift=None):

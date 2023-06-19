@@ -2169,7 +2169,7 @@ def one_lot_3bid_1un_ua(self):
 
         self.app.authorization = ("Basic", ("broker", ""))
         response = self.app.patch_json(
-            "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token), {"data": {"status": "active"}}
+            "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token), {"data": {"status": "pending"}}
         )
         # bids_data[response.json['data']['id']] = response.json['access']['token']
     # switch to active.auction
@@ -2277,7 +2277,7 @@ def one_lot_1bid_patch_ua(self):
 
     response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token))
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "active")
+    self.assertEqual(response.json["data"]["status"], "pending")
 
 
 def two_lot_0bid_ua(self):

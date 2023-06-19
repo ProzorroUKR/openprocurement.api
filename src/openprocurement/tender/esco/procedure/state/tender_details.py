@@ -8,11 +8,10 @@ from openprocurement.tender.esco.constants import (
 )
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.tender.esco.procedure.state.tender import ESCOTenderStateMixin
 from openprocurement.tender.openeu.procedure.state.tender_details import TenderDetailsState as BaseTenderDetailsState
 
 
-class TenderDetailsState(ESCOTenderStateMixin, BaseTenderDetailsState):
+class TenderDetailsState(BaseTenderDetailsState):
     enquiry_period_timedelta = - QUESTIONS_STAND_STILL
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
 

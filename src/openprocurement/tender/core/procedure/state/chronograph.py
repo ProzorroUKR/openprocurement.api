@@ -722,9 +722,14 @@ class ChronographEventsMixing(baseclass):
             del obj["auctionPeriod"]
 
     def calc_tender_values(self, tender: dict) -> None:
-        self.calc_tender_value(tender)
         self.calc_tender_guarantee(tender)
-        self.calc_tender_minimal_step(tender)
+        if tender.get("procurementMethodType") == "esco":
+            self.calc_tender_min_value(tender)
+            self.calc_tender_minimal_step_percentage(tender)
+            self.calc_tender_yearly_payments_percentage_range(tender)
+        else:
+            self.calc_tender_value(tender)
+            self.calc_tender_minimal_step(tender)
 
     @staticmethod
     def calc_tender_value(tender: dict) -> None:
@@ -762,3 +767,25 @@ class ChronographEventsMixing(baseclass):
             "currency": tender["minimalStep"]["currency"],
             "valueAddedTaxIncluded": tender["minimalStep"]["valueAddedTaxIncluded"],
         }
+
+    @staticmethod
+    def calc_tender_min_value(tender: dict) -> None:
+        if not tender.get("lots"):
+            return
+        tender["minValue"] = {
+            "amount": sum(i["minValue"]["amount"] for i in tender["lots"] if i.get("minValue")),
+            "currency": tender["minValue"]["currency"],
+            "valueAddedTaxIncluded": tender["minValue"]["valueAddedTaxIncluded"]
+        }
+
+    @staticmethod
+    def calc_tender_minimal_step_percentage(tender: dict) -> None:
+        if not tender.get("lots"):
+            return
+        tender["minimalStepPercentage"] = min(i["minimalStepPercentage"] for i in tender["lots"])
+
+    @staticmethod
+    def calc_tender_yearly_payments_percentage_range(tender: dict) -> None:
+        if not tender.get("lots"):
+            return
+        tender["yearlyPaymentsPercentageRange"] = min(i["yearlyPaymentsPercentageRange"] for i in tender["lots"])

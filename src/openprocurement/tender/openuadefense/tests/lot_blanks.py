@@ -590,7 +590,7 @@ def two_lot_1bid_1com_1win(self):
         {"data": {"status": "unsuccessful"}},
     )
     # after stand still period
-    self.set_status("complete", {"status": "active.awarded"}, check_chronograph=False)
+    self.set_status("complete", {"status": "active.awarded"})
     # time travel
     tender = self.mongodb.tenders.get(tender_id)
     for i in tender.get("awards", []):

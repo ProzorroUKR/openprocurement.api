@@ -296,7 +296,7 @@ def create_tender_complaint(self):
         response.json["errors"][0]["description"], "Can't add complaint in current (active.tendering) tender status"
     )
 
-    self.set_status("active.tendering", extra={"status": "active.enquiries"}, check_chronograph=False)
+    self.set_status("active.tendering", extra={"status": "active.enquiries"})
 
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
@@ -354,7 +354,7 @@ def patch_tender_complaint(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "claim")
 
-    self.set_status("active.auction", check_chronograph=False)
+    self.set_status("active.auction")
 
     response = self.app.patch_json(
         "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], self.tender_token),
@@ -488,10 +488,7 @@ def patch_tender_complaint_without_clarifications_until(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "claim")
 
-    self.set_status(
-        "active.auction",
-        check_chronograph=False,
-    )
+    self.set_status("active.auction")
 
     tender = self.mongodb.tenders.get(self.tender_id)
     clarifications_until = tender["enquiryPeriod"].pop("clarificationsUntil")
