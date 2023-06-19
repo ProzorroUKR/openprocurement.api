@@ -1,3 +1,5 @@
+from cornice.resource import resource
+
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.views.document import BaseDocumentResource, resolve_document
 from openprocurement.tender.core.procedure.views.qualification import resolve_qualification
@@ -17,7 +19,12 @@ from openprocurement.tender.core.procedure.validation import (
 )
 from pyramid.security import Allow, Everyone
 
-
+@resource(
+    name="Tender Qualification Documents",
+    collection_path="/tenders/{tender_id}/qualifications/{qualification_id}/documents",
+    path="/tenders/{tender_id}/qualifications/{qualification_id}/documents/{document_id}",
+    description="Tender qualification documents",
+)
 class BaseQualificationDocumentResource(BaseDocumentResource):
     item_name = "qualification"
 
