@@ -71,7 +71,8 @@ FUNDERS = [
 ]
 ORA_CODES = [i["code"] for i in standards.load("organizations/identifier_scheme.json")["data"]]
 # extended keys gmdn contains actual and obsolete codes, since deleted codes can block un-refactored endpoints
-GMDN = set(read_json("data/gmdn_keys_extended.json"))
+GMDN_2019 = set(read_json("data/gmdn_2019_keys.json"))
+GMDN_2023 = set(read_json("data/gmdn_2023_keys.json"))
 GMDN_CPV_PREFIXES = read_json("data/gmdn_cpv_prefixes.json")
 UA_ROAD = read_json("data/ua_road.json")
 UA_ROAD_CPV_PREFIXES = read_json("data/ua_road_cpv_prefixes.json")
@@ -84,7 +85,8 @@ ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017 = ["ДК003", "ДК015", "ДК018", "spe
 
 INN_SCHEME = "INN"
 ATC_SCHEME = "ATC"
-GMDN_SCHEME = "GMDN"
+GMDN_2019_SCHEME = "GMDN"
+GMDN_2023_SCHEME = "GMDN-2023"
 UA_ROAD_SCHEME = "UA-ROAD"
 
 CPV_PHARM_PRODUCTS = "33600000-6"
