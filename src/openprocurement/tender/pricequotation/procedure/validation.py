@@ -7,6 +7,7 @@ from openprocurement.api.models import (
     StrictBooleanType,
 )
 from openprocurement.api.validation import OPERATIONS, raise_operation_error
+from openprocurement.tender.core.procedure.context import get_tender_config
 from openprocurement.tender.core.procedure.validation import validate_item_owner
 from schematics.exceptions import ValidationError
 from openprocurement.api.utils import raise_operation_error
@@ -15,9 +16,10 @@ from openprocurement.tender.pricequotation.constants import PROFILE_PATTERN
 
 
 def validate_bid_value(tender, value):
+    config = get_tender_config()
     if not value:
         raise ValidationError("This field is required.")
-    if tender["value"]["amount"] < value["amount"]:
+    if config.get("hasValueRestriction") and tender["value"]["amount"] < value["amount"]:
         raise ValidationError("value of bid should be less than value of tender")
     if tender["value"].get("currency") != value.get("currency"):
         raise ValidationError("currency of bid should be identical to currency of value of tender")

@@ -99,6 +99,7 @@ class TenderAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
         self.create_tender(config={
             "hasAuction": True,
             "hasAwardingOrder": False,
+            "hasValueRestriction": True,
         })
 
 
@@ -119,6 +120,7 @@ class TenderLotsAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
         self.create_tender(config={
             "hasAuction": True,
             "hasAwardingOrder": False,
+            "hasValueRestriction": True,
         })
 
 

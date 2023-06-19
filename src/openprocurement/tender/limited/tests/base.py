@@ -72,16 +72,19 @@ test_tender_negotiation_quick_data_multi_buyers = set_tender_multi_buyers(
 test_tender_reporting_config = {
     "hasAuction": False,
     "hasAwardingOrder": True,
+    "hasValueRestriction": True,
 }
 
 test_tender_negotiation_config = {
     "hasAuction": False,
     "hasAwardingOrder": True,
+    "hasValueRestriction": True,
 }
 
 test_tender_negotiation_quick_config = {
     "hasAuction": False,
     "hasAwardingOrder": True,
+    "hasValueRestriction": True,
 }
 
 

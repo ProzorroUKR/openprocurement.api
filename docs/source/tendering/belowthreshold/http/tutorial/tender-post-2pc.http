@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 2827
+Content-Length: 2856
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -100,7 +100,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
   },
   "config": {
     "hasAuction": true,
-    "hasAwardingOrder": true
+    "hasAwardingOrder": true,
+    "hasValueRestriction": true
   }
 }
 
@@ -222,7 +223,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1ed1a800796d4585
   },
   "config": {
     "hasAuction": true,
-    "hasAwardingOrder": true
+    "hasAwardingOrder": true,
+    "hasValueRestriction": true
   },
   "access": {
     "token": "95fe465081b949508c1f4e3c4cb43bfa",

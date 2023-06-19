@@ -32,11 +32,11 @@ else:
     baseclass = object
 
 
-
 class TenderConfigMixin(baseclass):
     configurations = (
         "hasAuction",
         "hasAwardingOrder",
+        "hasValueRestriction",
     )
 
     def validate_config(self, data):

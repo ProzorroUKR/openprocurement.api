@@ -12,3 +12,4 @@ Contents:
 
    has_auction
    has_awarding_order
+   has_value_restriction

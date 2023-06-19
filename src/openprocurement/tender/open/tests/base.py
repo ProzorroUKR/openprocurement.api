@@ -78,6 +78,7 @@ test_tender_open_multi_buyers_data = set_tender_multi_buyers(
 test_tender_open_config = {
     "hasAuction": True,
     "hasAwardingOrder": True,
+    "hasValueRestriction": False,
 }
 
 
