@@ -69,7 +69,7 @@ class QualificationState(TenderState):
             # generate new qualification for related bid
             ids = self.prepare_qualifications(tender, bids=[bid], lot_id=lot_id)
             self.request.response.headers["Location"] = self.request.route_url(
-                "{}:Tender Qualification".format(tender["procurementMethodType"]),
+                "Tender Qualification",
                 tender_id=tender["tenderID"],
                 qualification_id=ids[0],
             )
