@@ -711,7 +711,8 @@ Content-Type: application/json
   "config": {
     "hasAuction": true,
     "hasAwardingOrder": true,
-    "hasValueRestriction": false
+    "hasValueRestriction": false,
+    "valueCurrencyEquality": true
   }
 }
 

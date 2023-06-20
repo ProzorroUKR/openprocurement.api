@@ -248,6 +248,7 @@ class TenderLotsWithDisabledValueRestriction(TenderContentWebTest):
             "hasAuction": True,
             "hasAwardingOrder": True,
             "hasValueRestriction": False,
+            "valueCurrencyEquality": True,
         })
 
 
@@ -263,6 +264,7 @@ class TenderWithDisabledValueRestriction(TenderContentWebTest):
             "hasAuction": True,
             "hasAwardingOrder": True,
             "hasValueRestriction": False,
+            "valueCurrencyEquality": True,
         })
 
 
@@ -287,6 +289,7 @@ class TenderLotsWithDisabledValueCurrencyEquality(TenderContentWebTest):
             "hasAuction": False,
             "hasAwardingOrder": False,
             "valueCurrencyEquality": False,
+            "hasValueRestriction": False,
         })
 
 
@@ -309,6 +312,7 @@ class TenderWithDisabledValueCurrencyEquality(TenderContentWebTest):
             "hasAuction": False,
             "hasAwardingOrder": False,
             "valueCurrencyEquality": False,
+            "hasValueRestriction": False,
         })
 
 def suite():

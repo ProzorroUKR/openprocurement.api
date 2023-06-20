@@ -2,7 +2,8 @@
     "config": {
         "hasAuction": true,
         "hasAwardingOrder": true,
-        "hasValueRestriction": false
+        "hasValueRestriction": false,
+        "valueCurrencyEquality": true
     },
     "data": {
         "awardCriteria": "lowestCost",
