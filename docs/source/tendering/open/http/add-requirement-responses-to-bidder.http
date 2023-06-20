@@ -245,6 +245,7 @@ Content-Type: application/json
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "eb3a2c7480d14c948cce6d516a8fb007",
+        "status": "pending",
         "date": "2023-01-01T00:00:00+02:00",
         "subcontractingDetails": "ДКП «Орфей», Україна"
       }

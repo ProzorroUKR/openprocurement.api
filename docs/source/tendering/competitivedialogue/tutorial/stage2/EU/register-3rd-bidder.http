@@ -111,6 +111,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417c
         "scale": "large"
       }
     ],
+    "status": "draft",
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000",
@@ -180,7 +181,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417c
       }
     ],
     "selfQualified": true,
-    "status": "draft",
     "id": "cafec8a6e87645a2bf78d530d93c786c",
     "date": "2023-01-01T00:00:00+02:00"
   },

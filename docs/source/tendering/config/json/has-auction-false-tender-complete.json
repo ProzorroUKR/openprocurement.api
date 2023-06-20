@@ -2,6 +2,7 @@
     "config": {
         "hasAuction": false,
         "hasAwardingOrder": true,
+        "hasPrequalification": false,
         "hasValueRestriction": false,
         "valueCurrencyEquality": true
     },
@@ -105,6 +106,7 @@
                     {
                         "date": "2023-01-01T00:00:00+02:00",
                         "relatedLot": "0604e55b3dae444a8d537bb4c971a246",
+                        "status": "active",
                         "subcontractingDetails": "\u0414\u041a\u041f \u00ab\u041e\u0440\u0444\u0435\u0439\u00bb, \u0423\u043a\u0440\u0430\u0457\u043d\u0430",
                         "value": {
                             "amount": 500.0,
@@ -115,6 +117,7 @@
                     {
                         "date": "2023-01-01T00:00:00+02:00",
                         "relatedLot": "f21c5735a39e41538e386c454149f615",
+                        "status": "active",
                         "subcontractingDetails": "\u0414\u041a\u041f \u00ab\u041e\u0440\u0444\u0435\u0439\u00bb, \u0423\u043a\u0440\u0430\u0457\u043d\u0430",
                         "value": {
                             "amount": 500.0,
@@ -259,6 +262,7 @@
                     {
                         "date": "2023-01-01T00:00:00+02:00",
                         "relatedLot": "0604e55b3dae444a8d537bb4c971a246",
+                        "status": "active",
                         "subcontractingDetails": "\u0414\u041a\u041f \u00ab\u0423\u043a\u0440 \u041f\u0440\u0456\u043d\u0442\u00bb, \u0423\u043a\u0440\u0430\u0457\u043d\u0430",
                         "value": {
                             "amount": 500.0,
@@ -269,6 +273,7 @@
                     {
                         "date": "2023-01-01T00:00:00+02:00",
                         "relatedLot": "f21c5735a39e41538e386c454149f615",
+                        "status": "active",
                         "subcontractingDetails": "\u0414\u041a\u041f \u00ab\u0423\u043a\u0440 \u041f\u0440\u0456\u043d\u0442\u00bb, \u0423\u043a\u0440\u0430\u0457\u043d\u0430",
                         "value": {
                             "amount": 500.0,

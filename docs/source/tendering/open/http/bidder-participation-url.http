@@ -146,6 +146,7 @@ Content-Type: application/json
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "eb3a2c7480d14c948cce6d516a8fb007",
+        "status": "active",
         "date": "2023-01-01T00:00:00+02:00",
         "subcontractingDetails": "ДКП «Орфей»",
         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/cb76d20a62ef4e318ecb101430b63776_eb3a2c7480d14c948cce6d516a8fb007?key_for_bid=1fcbb7ab0a104c228baa39c0c89927fe"

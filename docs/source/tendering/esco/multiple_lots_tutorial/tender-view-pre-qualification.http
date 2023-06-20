@@ -882,8 +882,8 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
-        "id": "0382e1a830c74d9ea44f2bbe4823a623",
-        "status": "pending"
+        "status": "pending",
+        "id": "0382e1a830c74d9ea44f2bbe4823a623"
       },
       {
         "requirementResponses": [
@@ -1022,8 +1022,8 @@ Content-Type: application/json
             "scale": "sme"
           }
         ],
-        "id": "08194921af9d4f4eb7bc00b0c15c97cf",
-        "status": "pending"
+        "status": "pending",
+        "id": "08194921af9d4f4eb7bc00b0c15c97cf"
       }
     ],
     "qualificationPeriod": {
@@ -1031,7 +1031,7 @@ Content-Type: application/json
     },
     "qualifications": [
       {
-        "id": "c83d9f9a89404db89f3130aeb7638ae9",
+        "id": "39508d41259d4fa28245c0c5336ab03e",
         "bidID": "0382e1a830c74d9ea44f2bbe4823a623",
         "lotID": "47aa65f0d5b944629ab6126141681de8",
         "status": "pending",
@@ -1040,7 +1040,7 @@ Content-Type: application/json
         "eligible": false
       },
       {
-        "id": "9ff87495d1dc419784f6b472a2873383",
+        "id": "0cb20d0f41b048ac9af46b9255b3f044",
         "bidID": "08194921af9d4f4eb7bc00b0c15c97cf",
         "lotID": "47aa65f0d5b944629ab6126141681de8",
         "status": "pending",
@@ -1055,7 +1055,8 @@ Content-Type: application/json
     "hasAuction": true,
     "hasAwardingOrder": true,
     "hasValueRestriction": true,
-    "valueCurrencyEquality": true
+    "valueCurrencyEquality": true,
+    "hasPrequalification": true
   }
 }
 

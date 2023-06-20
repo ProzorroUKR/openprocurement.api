@@ -95,7 +95,7 @@ Content-Type: application/json
 }
 
 GET /api/2.5/tenders/f8573404c1ff4e8bac25fc817a2b68c0 HTTP/1.0
-Authorization: Bearer chronograph
+Authorization: Bearer token
 Host: public-api-sandbox.prozorro.gov.ua
 
 
@@ -349,7 +349,8 @@ Content-Type: application/json
     "hasAuction": false,
     "hasAwardingOrder": true,
     "hasValueRestriction": true,
-    "valueCurrencyEquality": true
+    "valueCurrencyEquality": true,
+    "hasPrequalification": false
   }
 }
 

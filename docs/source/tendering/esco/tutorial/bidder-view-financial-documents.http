@@ -144,10 +144,10 @@ Content-Type: application/json
         "scale": "micro"
       }
     ],
+    "status": "pending",
     "id": "9f572f6770254b01b919e923bbbd86ab",
     "date": "2023-01-01T00:00:00+02:00",
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "status": "pending",
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,

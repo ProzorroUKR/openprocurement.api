@@ -348,7 +348,7 @@ def validate_field(
 
 def get_bids_before_auction_results(tender):
     request = get_request()
-    initial_doc = request.validated["tender_src"]
+    initial_doc = request.validated["tender"]  # TODO: fixme
     auction_revisions = (
         revision for revision in reversed(tender.get("revisions", []))
         if revision["author"] == "auction"

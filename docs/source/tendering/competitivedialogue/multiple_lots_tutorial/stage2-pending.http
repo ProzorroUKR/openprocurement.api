@@ -1065,6 +1065,39 @@ Content-Type: application/json
         "sequenceNumber": 0
       }
     ],
+    "qualificationPeriod": {
+      "startDate": "2022-12-22T00:00:00+02:00",
+      "endDate": "2023-01-01T00:00:00+02:00"
+    },
+    "qualifications": [
+      {
+        "id": "b418dba3c56347959cf065ba33f18f61",
+        "bidID": "a95f810cd7eb47739df6fcbe23cce246",
+        "lotID": "5042b6586cbb4a679380f561ba153121",
+        "status": "active",
+        "date": "2023-01-01T00:00:00+02:00",
+        "qualified": true,
+        "eligible": true
+      },
+      {
+        "id": "daa10427e70547749ae4173a0816a5c0",
+        "bidID": "a69b2cc0c68f49bcbe9d85275643446d",
+        "lotID": "5042b6586cbb4a679380f561ba153121",
+        "status": "active",
+        "date": "2023-01-01T00:00:00+02:00",
+        "qualified": true,
+        "eligible": true
+      },
+      {
+        "id": "f8ef8e3722e747888be637abe401c6b3",
+        "bidID": "2fc425bd1234426486aec58c4200b3ca",
+        "lotID": "5042b6586cbb4a679380f561ba153121",
+        "status": "active",
+        "date": "2023-01-01T00:00:00+02:00",
+        "qualified": true,
+        "eligible": true
+      }
+    ],
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "address": {
@@ -1101,39 +1134,6 @@ Content-Type: application/json
       "startDate": "2022-11-21T00:00:00+02:00",
       "endDate": "2022-12-22T00:00:00+02:00"
     },
-    "qualificationPeriod": {
-      "startDate": "2022-12-22T00:00:00+02:00",
-      "endDate": "2023-01-01T00:00:00+02:00"
-    },
-    "qualifications": [
-      {
-        "id": "059cc22ebf5f483292bfac624ffdbf22",
-        "bidID": "a95f810cd7eb47739df6fcbe23cce246",
-        "lotID": "5042b6586cbb4a679380f561ba153121",
-        "status": "active",
-        "date": "2023-01-01T00:00:00+02:00",
-        "qualified": true,
-        "eligible": true
-      },
-      {
-        "id": "1bfafe2a37ea47cba2866949eb7a5279",
-        "bidID": "a69b2cc0c68f49bcbe9d85275643446d",
-        "lotID": "5042b6586cbb4a679380f561ba153121",
-        "status": "active",
-        "date": "2023-01-01T00:00:00+02:00",
-        "qualified": true,
-        "eligible": true
-      },
-      {
-        "id": "ea6a921665b341f5b8c5520d1134e00e",
-        "bidID": "2fc425bd1234426486aec58c4200b3ca",
-        "lotID": "5042b6586cbb4a679380f561ba153121",
-        "status": "active",
-        "date": "2023-01-01T00:00:00+02:00",
-        "qualified": true,
-        "eligible": true
-      }
-    ],
     "complaintPeriod": {
       "startDate": "2023-01-01T00:00:00+02:00",
       "endDate": "2023-01-28T00:00:00+02:00"
@@ -1263,7 +1263,8 @@ Content-Type: application/json
     "hasAuction": false,
     "hasAwardingOrder": true,
     "hasValueRestriction": true,
-    "valueCurrencyEquality": true
+    "valueCurrencyEquality": true,
+    "hasPrequalification": true
   }
 }
 

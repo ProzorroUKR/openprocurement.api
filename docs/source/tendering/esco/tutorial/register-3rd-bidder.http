@@ -136,6 +136,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/28db6af763c74fce
         "scale": "sme"
       }
     ],
+    "status": "draft",
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000",
@@ -204,7 +205,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/28db6af763c74fce
         "dateModified": "2023-01-01T00:00:00+02:00"
       }
     ],
-    "status": "draft",
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,

@@ -904,8 +904,8 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
-        "id": "3243b3e178b34c5f85fbf9e190f9f42d",
         "status": "pending",
+        "id": "3243b3e178b34c5f85fbf9e190f9f42d",
         "documents": [
           {
             "hash": "md5:00000000000000000000000000000000",
@@ -1070,8 +1070,8 @@ Content-Type: application/json
             "scale": "sme"
           }
         ],
-        "id": "20bbd5548630438fb1306b5de18c0004",
-        "status": "pending"
+        "status": "pending",
+        "id": "20bbd5548630438fb1306b5de18c0004"
       },
       {
         "requirementResponses": [
@@ -1209,6 +1209,7 @@ Content-Type: application/json
             "scale": "large"
           }
         ],
+        "status": "pending",
         "id": "cafec8a6e87645a2bf78d530d93c786c",
         "documents": [
           {
@@ -1249,8 +1250,7 @@ Content-Type: application/json
             "confidentiality": "public",
             "language": "uk"
           }
-        ],
-        "status": "pending"
+        ]
       }
     ],
     "qualificationPeriod": {
@@ -1258,7 +1258,7 @@ Content-Type: application/json
     },
     "qualifications": [
       {
-        "id": "12ac09c8ed3343eb80dd1b46e295122e",
+        "id": "15c9088adee144fd930a38eed07d4d08",
         "bidID": "3243b3e178b34c5f85fbf9e190f9f42d",
         "status": "pending",
         "date": "2023-01-01T00:00:00+02:00",
@@ -1266,7 +1266,7 @@ Content-Type: application/json
         "eligible": false
       },
       {
-        "id": "138128958cd04aad847371c4188566a5",
+        "id": "1fa22d75b2ee43b6ab6bfb8e0e49d6a6",
         "bidID": "20bbd5548630438fb1306b5de18c0004",
         "status": "pending",
         "date": "2023-01-01T00:00:00+02:00",
@@ -1274,7 +1274,7 @@ Content-Type: application/json
         "eligible": false
       },
       {
-        "id": "385f34bd6dd54976974a238c22f8e80e",
+        "id": "2c8e0f097743437984f0ff04e5634cb9",
         "bidID": "cafec8a6e87645a2bf78d530d93c786c",
         "status": "pending",
         "date": "2023-01-01T00:00:00+02:00",
@@ -1288,7 +1288,8 @@ Content-Type: application/json
     "hasAuction": true,
     "hasAwardingOrder": true,
     "hasValueRestriction": true,
-    "valueCurrencyEquality": true
+    "valueCurrencyEquality": true,
+    "hasPrequalification": true
   }
 }
 

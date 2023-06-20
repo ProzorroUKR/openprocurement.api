@@ -149,7 +149,7 @@ Content-Type: application/json
         "scale": "micro"
       }
     ],
-    "status": "active",
+    "status": "pending",
     "id": "926834ae76fa46ddbd3aaedea61b2c6c",
     "date": "2023-01-01T00:00:00+02:00",
     "selfQualified": true,

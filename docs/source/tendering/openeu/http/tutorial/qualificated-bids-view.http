@@ -145,8 +145,8 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "id": "2096f1a2874b40e3bbf150c27e4824bf",
       "status": "active",
+      "id": "2096f1a2874b40e3bbf150c27e4824bf",
       "documents": [
         {
           "hash": "md5:00000000000000000000000000000000",
@@ -326,8 +326,8 @@ Content-Type: application/json
           "scale": "sme"
         }
       ],
-      "id": "bf64c133e6e34cde85dac889a9fe274a",
-      "status": "active"
+      "status": "active",
+      "id": "bf64c133e6e34cde85dac889a9fe274a"
     },
     {
       "requirementResponses": [
@@ -466,6 +466,7 @@ Content-Type: application/json
           "scale": "sme"
         }
       ],
+      "status": "unsuccessful",
       "id": "0a7474f57f7f434aa03c3187d5861748",
       "documents": [
         {
@@ -507,8 +508,7 @@ Content-Type: application/json
           "language": "uk"
         }
       ],
-      "selfQualified": true,
-      "status": "unsuccessful"
+      "selfQualified": true
     }
   ]
 }

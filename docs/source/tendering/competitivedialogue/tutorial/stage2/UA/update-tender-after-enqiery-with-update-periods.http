@@ -707,6 +707,9 @@ Content-Type: application/json
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
+    "auctionPeriod": {
+      "shouldStartAfter": "2023-01-09T00:00:00+02:00"
+    },
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
       "startDate": "2022-12-04T00:00:00+02:00",
@@ -817,7 +820,8 @@ Content-Type: application/json
     "hasAuction": true,
     "hasAwardingOrder": true,
     "hasValueRestriction": true,
-    "valueCurrencyEquality": true
+    "valueCurrencyEquality": true,
+    "hasPrequalification": false
   }
 }
 

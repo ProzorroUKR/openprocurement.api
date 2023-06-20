@@ -723,8 +723,8 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
-        "id": "3243b3e178b34c5f85fbf9e190f9f42d",
         "status": "active",
+        "id": "3243b3e178b34c5f85fbf9e190f9f42d",
         "documents": [
           {
             "hash": "md5:00000000000000000000000000000000",
@@ -890,8 +890,8 @@ Content-Type: application/json
             "scale": "sme"
           }
         ],
-        "id": "20bbd5548630438fb1306b5de18c0004",
-        "status": "active"
+        "status": "active",
+        "id": "20bbd5548630438fb1306b5de18c0004"
       },
       {
         "requirementResponses": [
@@ -1029,6 +1029,7 @@ Content-Type: application/json
             "scale": "large"
           }
         ],
+        "status": "unsuccessful",
         "id": "cafec8a6e87645a2bf78d530d93c786c",
         "documents": [
           {
@@ -1071,8 +1072,7 @@ Content-Type: application/json
             "language": "uk"
           }
         ],
-        "selfQualified": true,
-        "status": "unsuccessful"
+        "selfQualified": true
       }
     ],
     "questions": [
@@ -1155,6 +1155,36 @@ Content-Type: application/json
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
+    "qualificationPeriod": {
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-06T00:00:00+02:00"
+    },
+    "qualifications": [
+      {
+        "id": "15c9088adee144fd930a38eed07d4d08",
+        "bidID": "3243b3e178b34c5f85fbf9e190f9f42d",
+        "status": "active",
+        "date": "2023-01-01T00:00:00+02:00",
+        "qualified": true,
+        "eligible": true
+      },
+      {
+        "id": "1fa22d75b2ee43b6ab6bfb8e0e49d6a6",
+        "bidID": "20bbd5548630438fb1306b5de18c0004",
+        "status": "active",
+        "date": "2023-01-01T00:00:00+02:00",
+        "qualified": true,
+        "eligible": true
+      },
+      {
+        "id": "2c8e0f097743437984f0ff04e5634cb9",
+        "bidID": "cafec8a6e87645a2bf78d530d93c786c",
+        "status": "unsuccessful",
+        "date": "2023-01-01T00:00:00+02:00",
+        "qualified": false,
+        "eligible": false
+      }
+    ],
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "address": {
@@ -1191,36 +1221,6 @@ Content-Type: application/json
       "startDate": "2022-12-01T00:00:00+02:00",
       "endDate": "2023-01-01T00:00:00+02:00"
     },
-    "qualificationPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-06T00:00:00+02:00"
-    },
-    "qualifications": [
-      {
-        "id": "12ac09c8ed3343eb80dd1b46e295122e",
-        "bidID": "3243b3e178b34c5f85fbf9e190f9f42d",
-        "status": "active",
-        "date": "2023-01-01T00:00:00+02:00",
-        "qualified": true,
-        "eligible": true
-      },
-      {
-        "id": "138128958cd04aad847371c4188566a5",
-        "bidID": "20bbd5548630438fb1306b5de18c0004",
-        "status": "active",
-        "date": "2023-01-01T00:00:00+02:00",
-        "qualified": true,
-        "eligible": true
-      },
-      {
-        "id": "385f34bd6dd54976974a238c22f8e80e",
-        "bidID": "cafec8a6e87645a2bf78d530d93c786c",
-        "status": "unsuccessful",
-        "date": "2023-01-01T00:00:00+02:00",
-        "qualified": false,
-        "eligible": false
-      }
-    ],
     "complaintPeriod": {
       "startDate": "2022-12-03T00:00:00+02:00",
       "endDate": "2023-01-05T00:00:00+02:00"
@@ -1304,7 +1304,8 @@ Content-Type: application/json
     "hasAuction": true,
     "hasAwardingOrder": true,
     "hasValueRestriction": true,
-    "valueCurrencyEquality": true
+    "valueCurrencyEquality": true,
+    "hasPrequalification": true
   }
 }
 

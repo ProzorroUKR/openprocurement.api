@@ -145,6 +145,7 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
+      "status": "active",
       "id": "381f5658b23a448ea820b823934eeb79",
       "documents": [
         {
@@ -186,8 +187,7 @@ Content-Type: application/json
           "confidentiality": "public",
           "language": "uk"
         }
-      ],
-      "status": "active"
+      ]
     },
     {
       "requirementResponses": [
@@ -326,8 +326,8 @@ Content-Type: application/json
           "scale": "sme"
         }
       ],
-      "id": "8f1f5d51afcd4521ae73bc0799c5445d",
-      "status": "active"
+      "status": "active",
+      "id": "8f1f5d51afcd4521ae73bc0799c5445d"
     },
     {
       "requirementResponses": [
@@ -465,6 +465,7 @@ Content-Type: application/json
           "scale": "mid"
         }
       ],
+      "status": "unsuccessful",
       "id": "88fde1bbbd544f0ca062b2919f71d2b4",
       "documents": [
         {
@@ -507,8 +508,7 @@ Content-Type: application/json
           "language": "uk"
         }
       ],
-      "selfQualified": true,
-      "status": "unsuccessful"
+      "selfQualified": true
     },
     {
       "requirementResponses": [
@@ -646,6 +646,7 @@ Content-Type: application/json
           "scale": "mid"
         }
       ],
+      "status": "active",
       "id": "c3e41a3a099a41ad864be3893e0711b5",
       "documents": [
         {
@@ -687,8 +688,7 @@ Content-Type: application/json
           "confidentiality": "public",
           "language": "uk"
         }
-      ],
-      "status": "active"
+      ]
     }
   ]
 }

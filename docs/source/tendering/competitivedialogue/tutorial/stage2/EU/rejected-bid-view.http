@@ -143,6 +143,7 @@ Content-Type: application/json
         "scale": "large"
       }
     ],
+    "status": "unsuccessful",
     "id": "cafec8a6e87645a2bf78d530d93c786c",
     "documents": [
       {
@@ -185,8 +186,7 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
-    "selfQualified": true,
-    "status": "unsuccessful"
+    "selfQualified": true
   }
 }
 

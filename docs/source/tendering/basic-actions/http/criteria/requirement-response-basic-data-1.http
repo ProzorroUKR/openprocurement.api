@@ -88,6 +88,7 @@ Content-Type: application/json
         "scale": "micro"
       }
     ],
+    "status": "draft",
     "id": "0e4c0ac9fb214aec86664334f935e806",
     "date": "2023-01-01T00:00:00+02:00",
     "subcontractingDetails": "ДКП «Орфей», Україна",
@@ -105,8 +106,7 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
-    "selfQualified": true,
-    "status": "draft"
+    "selfQualified": true
   }
 }
 

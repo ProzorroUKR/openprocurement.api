@@ -723,6 +723,7 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
+        "status": "active",
         "id": "381f5658b23a448ea820b823934eeb79",
         "documents": [
           {
@@ -764,8 +765,7 @@ Content-Type: application/json
             "confidentiality": "public",
             "language": "uk"
           }
-        ],
-        "status": "active"
+        ]
       },
       {
         "requirementResponses": [
@@ -904,8 +904,8 @@ Content-Type: application/json
             "scale": "sme"
           }
         ],
-        "id": "8f1f5d51afcd4521ae73bc0799c5445d",
-        "status": "active"
+        "status": "active",
+        "id": "8f1f5d51afcd4521ae73bc0799c5445d"
       },
       {
         "requirementResponses": [
@@ -1043,6 +1043,7 @@ Content-Type: application/json
             "scale": "mid"
           }
         ],
+        "status": "unsuccessful",
         "id": "88fde1bbbd544f0ca062b2919f71d2b4",
         "documents": [
           {
@@ -1085,8 +1086,7 @@ Content-Type: application/json
             "language": "uk"
           }
         ],
-        "selfQualified": true,
-        "status": "unsuccessful"
+        "selfQualified": true
       },
       {
         "requirementResponses": [
@@ -1224,6 +1224,7 @@ Content-Type: application/json
             "scale": "mid"
           }
         ],
+        "status": "active",
         "id": "c3e41a3a099a41ad864be3893e0711b5",
         "documents": [
           {
@@ -1265,8 +1266,7 @@ Content-Type: application/json
             "confidentiality": "public",
             "language": "uk"
           }
-        ],
-        "status": "active"
+        ]
       }
     ],
     "questions": [
@@ -1367,6 +1367,48 @@ Content-Type: application/json
           "type": "banking"
         },
         "sequenceNumber": 0
+      }
+    ],
+    "qualificationPeriod": {
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-06T00:00:00+02:00"
+    },
+    "qualifications": [
+      {
+        "id": "fbbb064fb0ca4e51bc1e7ec7665d3496",
+        "bidID": "381f5658b23a448ea820b823934eeb79",
+        "lotID": "9dea7e57fca24c0fa6c43f752611342d",
+        "status": "active",
+        "date": "2023-01-01T00:00:00+02:00",
+        "qualified": true,
+        "eligible": true
+      },
+      {
+        "id": "3a049b1a7357476e9a5d69269f9c3567",
+        "bidID": "8f1f5d51afcd4521ae73bc0799c5445d",
+        "lotID": "9dea7e57fca24c0fa6c43f752611342d",
+        "status": "active",
+        "date": "2023-01-01T00:00:00+02:00",
+        "qualified": true,
+        "eligible": true
+      },
+      {
+        "id": "32d7247464d94a83aac69196b8f8ad52",
+        "bidID": "88fde1bbbd544f0ca062b2919f71d2b4",
+        "lotID": "9dea7e57fca24c0fa6c43f752611342d",
+        "status": "unsuccessful",
+        "date": "2023-01-01T00:00:00+02:00",
+        "qualified": false,
+        "eligible": false
+      },
+      {
+        "id": "fde93f7cacc14fc99caf75c038df4222",
+        "bidID": "c3e41a3a099a41ad864be3893e0711b5",
+        "lotID": "9dea7e57fca24c0fa6c43f752611342d",
+        "status": "active",
+        "date": "2023-01-01T00:00:00+02:00",
+        "qualified": true,
+        "eligible": true
       }
     ],
     "procurementMethodType": "closeFrameworkAgreementUA",
@@ -1504,48 +1546,6 @@ Content-Type: application/json
       "endDate": "2023-01-01T00:00:00+02:00"
     },
     "status": "active.pre-qualification.stand-still",
-    "qualificationPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-06T00:00:00+02:00"
-    },
-    "qualifications": [
-      {
-        "id": "fbbb064fb0ca4e51bc1e7ec7665d3496",
-        "bidID": "381f5658b23a448ea820b823934eeb79",
-        "lotID": "9dea7e57fca24c0fa6c43f752611342d",
-        "status": "active",
-        "date": "2023-01-01T00:00:00+02:00",
-        "qualified": true,
-        "eligible": true
-      },
-      {
-        "id": "3a049b1a7357476e9a5d69269f9c3567",
-        "bidID": "8f1f5d51afcd4521ae73bc0799c5445d",
-        "lotID": "9dea7e57fca24c0fa6c43f752611342d",
-        "status": "active",
-        "date": "2023-01-01T00:00:00+02:00",
-        "qualified": true,
-        "eligible": true
-      },
-      {
-        "id": "32d7247464d94a83aac69196b8f8ad52",
-        "bidID": "88fde1bbbd544f0ca062b2919f71d2b4",
-        "lotID": "9dea7e57fca24c0fa6c43f752611342d",
-        "status": "unsuccessful",
-        "date": "2023-01-01T00:00:00+02:00",
-        "qualified": false,
-        "eligible": false
-      },
-      {
-        "id": "fde93f7cacc14fc99caf75c038df4222",
-        "bidID": "c3e41a3a099a41ad864be3893e0711b5",
-        "lotID": "9dea7e57fca24c0fa6c43f752611342d",
-        "status": "active",
-        "date": "2023-01-01T00:00:00+02:00",
-        "qualified": true,
-        "eligible": true
-      }
-    ],
     "complaintPeriod": {
       "startDate": "2022-12-01T00:00:00+02:00",
       "endDate": "2022-12-28T00:00:00+02:00"
@@ -1557,7 +1557,8 @@ Content-Type: application/json
     "hasAuction": true,
     "hasAwardingOrder": true,
     "hasValueRestriction": true,
-    "valueCurrencyEquality": true
+    "valueCurrencyEquality": true,
+    "hasPrequalification": true
   }
 }
 

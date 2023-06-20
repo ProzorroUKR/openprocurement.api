@@ -1,12 +1,12 @@
 PATCH /api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/bids/ba9c4ed2a7794a2d8234ba4ce62d909e?acc_token=66a6f8fd577143f0a72ce197fbc1ec37 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 30
+Content-Length: 31
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "status": "active"
+    "status": "pending"
   }
 }
 
@@ -38,7 +38,7 @@ Content-Type: application/json
         "scale": "large"
       }
     ],
-    "status": "active",
+    "status": "pending",
     "id": "ba9c4ed2a7794a2d8234ba4ce62d909e",
     "date": "2023-01-01T00:00:00+02:00",
     "parameters": [
@@ -59,6 +59,7 @@ Content-Type: application/json
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
+        "status": "pending",
         "date": "2023-01-01T00:00:00+02:00"
       }
     ]
