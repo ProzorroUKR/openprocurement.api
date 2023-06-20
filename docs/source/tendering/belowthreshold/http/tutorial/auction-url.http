@@ -223,7 +223,8 @@ Content-Type: application/json
   "config": {
     "hasAuction": true,
     "hasAwardingOrder": true,
-    "hasValueRestriction": true
+    "hasValueRestriction": true,
+    "hasPrequalification": false
   }
 }
 

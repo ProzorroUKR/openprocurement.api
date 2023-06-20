@@ -144,6 +144,7 @@ Content-Type: application/json
         "scale": "sme"
       }
     ],
+    "status": "unsuccessful",
     "id": "0a7474f57f7f434aa03c3187d5861748",
     "documents": [
       {
@@ -185,8 +186,7 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
-    "selfQualified": true,
-    "status": "unsuccessful"
+    "selfQualified": true
   }
 }
 

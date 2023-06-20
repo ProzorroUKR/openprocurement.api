@@ -2,6 +2,7 @@
     "config": {
         "hasAuction": true,
         "hasAwardingOrder": false,
+        "hasPrequalification": false,
         "hasValueRestriction": false
     },
     "data": {
@@ -167,6 +168,7 @@
                         "date": "2023-01-01T00:00:00+02:00",
                         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/62ce6859a3df45b692f7f78357d812c0_0604e55b3dae444a8d537bb4c971a246?key_for_bid=7e95a6b839db44edb45dfdd6caa41a97",
                         "relatedLot": "0604e55b3dae444a8d537bb4c971a246",
+                        "status": "active",
                         "value": {
                             "amount": 300.0,
                             "currency": "UAH",
@@ -177,6 +179,7 @@
                         "date": "2023-01-01T00:00:00+02:00",
                         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/62ce6859a3df45b692f7f78357d812c0_f21c5735a39e41538e386c454149f615?key_for_bid=7e95a6b839db44edb45dfdd6caa41a97",
                         "relatedLot": "f21c5735a39e41538e386c454149f615",
+                        "status": "active",
                         "value": {
                             "amount": 500.0,
                             "currency": "UAH",
@@ -320,6 +323,7 @@
                         "date": "2023-01-01T00:00:00+02:00",
                         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/62ce6859a3df45b692f7f78357d812c0_0604e55b3dae444a8d537bb4c971a246?key_for_bid=9af619241d9042d39d0123e9463e052f",
                         "relatedLot": "0604e55b3dae444a8d537bb4c971a246",
+                        "status": "active",
                         "value": {
                             "amount": 500.0,
                             "currency": "UAH",
@@ -330,6 +334,7 @@
                         "date": "2023-01-01T00:00:00+02:00",
                         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/62ce6859a3df45b692f7f78357d812c0_f21c5735a39e41538e386c454149f615?key_for_bid=9af619241d9042d39d0123e9463e052f",
                         "relatedLot": "f21c5735a39e41538e386c454149f615",
+                        "status": "active",
                         "value": {
                             "amount": 400.0,
                             "currency": "UAH",

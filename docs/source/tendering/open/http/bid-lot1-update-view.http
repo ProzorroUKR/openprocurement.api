@@ -1,6 +1,6 @@
 PATCH /api/2.5/tenders/cb76d20a62ef4e318ecb101430b63776/bids/1fcbb7ab0a104c228baa39c0c89927fe?acc_token=453f263b90e54cffbad8d3b4f4166931 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 213
+Content-Length: 214
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -15,7 +15,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "relatedLot": "eb3a2c7480d14c948cce6d516a8fb007"
       }
     ],
-    "status": "active"
+    "status": "pending"
   }
 }
 
@@ -151,7 +151,7 @@ Content-Type: application/json
         "scale": "micro"
       }
     ],
-    "status": "active",
+    "status": "pending",
     "id": "1fcbb7ab0a104c228baa39c0c89927fe",
     "date": "2023-01-01T00:00:00+02:00",
     "selfQualified": true,
@@ -163,6 +163,7 @@ Content-Type: application/json
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "eb3a2c7480d14c948cce6d516a8fb007",
+        "status": "pending",
         "date": "2023-01-01T00:00:00+02:00",
         "subcontractingDetails": "ДКП «Орфей»"
       }

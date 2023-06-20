@@ -36,6 +36,11 @@ class TenderBidDocumentResource(BaseDocumentResource):
     def collection_get(self):
         return super().collection_get()
 
-    @json_view(permission="view_tender", validators=(validate_view_bid_document,))
+    @json_view(
+        validators=(
+            validate_view_bid_document,
+        ),
+        permission="view_tender",
+    )
     def get(self):
         return super().get()

@@ -112,15 +112,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42
         "scale": "mid"
       }
     ],
+    "status": "draft",
     "lotValues": [
       {
+        "status": "pending",
         "value": {
           "amount": 485.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "9dea7e57fca24c0fa6c43f752611342d",
-        "status": "pending",
         "date": "2023-01-01T00:00:00+02:00"
       }
     ],
@@ -193,7 +194,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42
       }
     ],
     "selfQualified": true,
-    "status": "draft",
     "id": "c3e41a3a099a41ad864be3893e0711b5",
     "date": "2023-01-01T00:00:00+02:00"
   },

@@ -89,7 +89,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bb8949e735294cba
         "scale": "micro"
       }
     ],
-    "status": "draft",
     "value": {
       "amount": 469.0,
       "currency": "UAH",
@@ -121,6 +120,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bb8949e735294cba
         ]
       }
     ],
+    "status": "draft",
     "id": "ef1bede622fc44a08d3caa36ebd1de36",
     "date": "2023-01-01T00:00:01+02:00"
   },

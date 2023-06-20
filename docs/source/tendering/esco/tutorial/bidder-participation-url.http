@@ -144,6 +144,7 @@ Content-Type: application/json
         "scale": "micro"
       }
     ],
+    "status": "active",
     "id": "9f572f6770254b01b919e923bbbd86ab",
     "date": "2023-01-01T00:00:00+02:00",
     "subcontractingDetails": "ДКП «Орфей», Україна",
@@ -228,7 +229,6 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
-    "status": "active",
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,

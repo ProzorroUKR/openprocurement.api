@@ -42,7 +42,6 @@ Content-Type: application/json
         "scale": "micro"
       }
     ],
-    "status": "draft",
     "value": {
       "amount": 459.0,
       "currency": "UAH",
@@ -73,7 +72,8 @@ Content-Type: application/json
           "Відповідь2"
         ]
       }
-    ]
+    ],
+    "status": "draft"
   }
 }
 

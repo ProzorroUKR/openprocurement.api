@@ -252,6 +252,7 @@ Content-Type: application/json
         "scale": "micro"
       }
     ],
+    "status": "draft",
     "id": "381f5658b23a448ea820b823934eeb79",
     "date": "2023-01-01T00:00:00+02:00",
     "subcontractingDetails": "ДКП «Орфей», Україна",
@@ -263,12 +264,11 @@ Content-Type: application/json
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "9dea7e57fca24c0fa6c43f752611342d",
-        "date": "2023-01-01T00:00:00+02:00",
-        "status": "pending"
+        "status": "pending",
+        "date": "2023-01-01T00:00:00+02:00"
       }
     ],
-    "selfQualified": true,
-    "status": "draft"
+    "selfQualified": true
   }
 }
 

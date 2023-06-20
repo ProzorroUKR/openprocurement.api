@@ -862,19 +862,20 @@ Content-Type: application/json
   "config": {
     "hasAuction": true,
     "hasAwardingOrder": true,
-    "hasValueRestriction": true
+    "hasValueRestriction": true,
+    "hasPrequalification": false
   }
 }
 
 PATCH /api/2.5/tenders/2a5accd9090044dfba8773895b0bff51/bids/bb3b96a74c0d4a35bd1e449d19c0c251?acc_token=16a7ee8c4804467181f908c772939c24 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 14524
+Content-Length: 14525
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "status": "active",
+    "status": "pending",
     "requirementResponses": [
       {
         "title": "Requirement response",
@@ -1126,7 +1127,7 @@ Content-Type: application/json
         "scale": "sme"
       }
     ],
-    "status": "active",
+    "status": "pending",
     "id": "bb3b96a74c0d4a35bd1e449d19c0c251",
     "date": "2023-01-01T00:00:00+02:00",
     "selfQualified": true

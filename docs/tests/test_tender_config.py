@@ -403,7 +403,7 @@ class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '201 Created')
         bid1_token = response.json['access']['token']
         bid1_id = response.json['data']['id']
-        self.set_responses(tender_id, response.json, "active")
+        self.set_responses(tender_id, response.json, "pending")
 
         #### Registering bid 2
         response = self.app.post_json(
@@ -428,7 +428,7 @@ class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '201 Created')
         bid2_id = response.json['data']['id']
         bid2_token = response.json['access']['token']
-        self.set_responses(tender_id, response.json, "active")
+        self.set_responses(tender_id, response.json, "pending")
 
         return bid1_id, bid1_token, bid2_id, bid2_token
 
@@ -526,7 +526,7 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '201 Created')
         bid1_id = response.json['data']['id']
         bid1_token = response.json['access']['token']
-        self.set_responses(tender_id, response.json, "active")
+        self.set_responses(tender_id, response.json, "pending")
 
         bid_data["lotValues"][0]["value"]["amount"] = 500
         bid_data["lotValues"][1]["value"]["amount"] = 400
@@ -537,7 +537,7 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '201 Created')
         bid2_id = response.json['data']['id']
         bid2_token = response.json['access']['token']
-        self.set_responses(tender_id, response.json, "active")
+        self.set_responses(tender_id, response.json, "pending")
 
         return bid1_id, bid1_token, bid2_id, bid2_token
 
@@ -958,7 +958,7 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
             self.assertEqual(response.status, '201 Created')
             bids.append(response.json['data']['id'])
             bids_tokens.append(response.json['access']['token'])
-            self.set_responses(tender_id, response.json, "active")
+            self.set_responses(tender_id, response.json, "pending")
 
         #### Auction
         self.set_status('active.auction')

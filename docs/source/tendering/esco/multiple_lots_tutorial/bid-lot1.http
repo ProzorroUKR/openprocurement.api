@@ -105,9 +105,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ceb28fdcf5944cd8
     "selfQualified": true,
     "lotValues": [
       {
+        "status": "pending",
         "relatedLot": "47aa65f0d5b944629ab6126141681de8",
         "subcontractingDetails": "ДКП «Орфей», Україна",
-        "status": "pending",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,

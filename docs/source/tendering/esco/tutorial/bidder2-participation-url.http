@@ -144,9 +144,9 @@ Content-Type: application/json
         "scale": "sme"
       }
     ],
+    "status": "active",
     "id": "921e8a45579a41ffa2ecd164f0a5c248",
     "date": "2023-01-01T00:00:00+02:00",
-    "status": "active",
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,

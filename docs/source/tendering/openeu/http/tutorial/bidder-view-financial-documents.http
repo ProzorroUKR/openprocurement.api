@@ -149,11 +149,11 @@ Content-Type: application/json
         "scale": "micro"
       }
     ],
+    "status": "pending",
     "id": "2096f1a2874b40e3bbf150c27e4824bf",
     "date": "2023-01-01T00:00:00+02:00",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "selfQualified": true,
-    "status": "pending",
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000",

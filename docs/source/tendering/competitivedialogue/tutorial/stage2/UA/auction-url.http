@@ -657,6 +657,10 @@ Content-Type: application/json
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
+    "auctionPeriod": {
+      "shouldStartAfter": "2023-01-01T00:00:00+02:00",
+      "startDate": "2023-01-01T00:00:00+02:00"
+    },
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
       "startDate": "2022-12-16T00:00:00+02:00",
@@ -761,17 +765,14 @@ Content-Type: application/json
       "startDate": "2022-12-04T00:00:00+02:00",
       "endDate": "2023-01-05T00:00:00+02:00"
     },
-    "auctionPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "shouldStartAfter": "2023-01-01T00:00:00+02:00"
-    },
     "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/32bf03368c4c49869cf9b1103c9c69f8",
     "id": "32bf03368c4c49869cf9b1103c9c69f8"
   },
   "config": {
     "hasAuction": true,
     "hasAwardingOrder": true,
-    "hasValueRestriction": true
+    "hasValueRestriction": true,
+    "hasPrequalification": false
   }
 }
 

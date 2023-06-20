@@ -8,8 +8,8 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "9f572f6770254b01b919e923bbbd86ab",
-    "status": "invalid"
+    "status": "invalid",
+    "id": "9f572f6770254b01b919e923bbbd86ab"
   }
 }
 

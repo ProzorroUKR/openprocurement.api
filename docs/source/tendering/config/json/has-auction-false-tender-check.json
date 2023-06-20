@@ -1,6 +1,6 @@
 {
     "config": {
-        "hasAuction": false,
+        "hasAuction": true,
         "hasAwardingOrder": true,
         "hasPrequalification": false,
         "hasValueRestriction": false
@@ -8,22 +8,17 @@
     "data": {
         "awardCriteria": "lowestCost",
         "awardPeriod": {
-            "endDate": "2023-01-31T00:00:00+02:00",
             "startDate": "2023-01-31T00:00:00+02:00"
         },
         "awards": [
             {
                 "bid_id": "7e95a6b839db44edb45dfdd6caa41a97",
-                "complaintPeriod": {
-                    "endDate": "2023-01-31T00:00:00+02:00",
-                    "startDate": "2023-01-31T00:00:00+02:00"
-                },
                 "date": "2023-01-31T00:00:00+02:00",
-                "eligible": true,
+                "eligible": false,
                 "id": "1f619ca33c0c418680a6e9108c782381",
                 "lotID": "0604e55b3dae444a8d537bb4c971a246",
-                "qualified": true,
-                "status": "active",
+                "qualified": false,
+                "status": "pending",
                 "suppliers": [
                     {
                         "address": {
@@ -56,16 +51,12 @@
             },
             {
                 "bid_id": "7e95a6b839db44edb45dfdd6caa41a97",
-                "complaintPeriod": {
-                    "endDate": "2023-01-31T00:00:00+02:00",
-                    "startDate": "2023-01-31T00:00:00+02:00"
-                },
                 "date": "2023-01-31T00:00:00+02:00",
-                "eligible": true,
+                "eligible": false,
                 "id": "93e3afc7e7444428a688e88ce9655594",
                 "lotID": "f21c5735a39e41538e386c454149f615",
-                "qualified": true,
-                "status": "active",
+                "qualified": false,
+                "status": "pending",
                 "suppliers": [
                     {
                         "address": {
@@ -104,6 +95,7 @@
                 "lotValues": [
                     {
                         "date": "2023-01-01T00:00:00+02:00",
+                        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/62ce6859a3df45b692f7f78357d812c0_0604e55b3dae444a8d537bb4c971a246?key_for_bid=7e95a6b839db44edb45dfdd6caa41a97",
                         "relatedLot": "0604e55b3dae444a8d537bb4c971a246",
                         "status": "active",
                         "subcontractingDetails": "\u0414\u041a\u041f \u00ab\u041e\u0440\u0444\u0435\u0439\u00bb, \u0423\u043a\u0440\u0430\u0457\u043d\u0430",
@@ -115,6 +107,7 @@
                     },
                     {
                         "date": "2023-01-01T00:00:00+02:00",
+                        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/62ce6859a3df45b692f7f78357d812c0_f21c5735a39e41538e386c454149f615?key_for_bid=7e95a6b839db44edb45dfdd6caa41a97",
                         "relatedLot": "f21c5735a39e41538e386c454149f615",
                         "status": "active",
                         "subcontractingDetails": "\u0414\u041a\u041f \u00ab\u041e\u0440\u0444\u0435\u0439\u00bb, \u0423\u043a\u0440\u0430\u0457\u043d\u0430",
@@ -260,6 +253,7 @@
                 "lotValues": [
                     {
                         "date": "2023-01-01T00:00:00+02:00",
+                        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/62ce6859a3df45b692f7f78357d812c0_0604e55b3dae444a8d537bb4c971a246?key_for_bid=9af619241d9042d39d0123e9463e052f",
                         "relatedLot": "0604e55b3dae444a8d537bb4c971a246",
                         "status": "active",
                         "subcontractingDetails": "\u0414\u041a\u041f \u00ab\u0423\u043a\u0440 \u041f\u0440\u0456\u043d\u0442\u00bb, \u0423\u043a\u0440\u0430\u0457\u043d\u0430",
@@ -271,6 +265,7 @@
                     },
                     {
                         "date": "2023-01-01T00:00:00+02:00",
+                        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/62ce6859a3df45b692f7f78357d812c0_f21c5735a39e41538e386c454149f615?key_for_bid=9af619241d9042d39d0123e9463e052f",
                         "relatedLot": "f21c5735a39e41538e386c454149f615",
                         "status": "active",
                         "subcontractingDetails": "\u0414\u041a\u041f \u00ab\u0423\u043a\u0440 \u041f\u0440\u0456\u043d\u0442\u00bb, \u0423\u043a\u0440\u0430\u0457\u043d\u0430",
@@ -415,165 +410,6 @@
             "endDate": "2023-01-13T00:00:00+02:00",
             "startDate": "2023-01-01T00:00:00+02:00"
         },
-        "contracts": [
-            {
-                "awardID": "1f619ca33c0c418680a6e9108c782381",
-                "contractID": "UA-2023-01-01-000001-a-1",
-                "date": "2023-01-31T00:00:00+02:00",
-                "dateSigned": "2023-01-31T00:00:00+02:00",
-                "id": "42f60562c0ee4b5f923ddd5ed2179032",
-                "items": [
-                    {
-                        "additionalClassifications": [
-                            {
-                                "description": "\u041f\u043e\u0441\u043b\u0443\u0433\u0438 \u0448\u043a\u0456\u043b\u044c\u043d\u0438\u0445 \u0457\u0434\u0430\u043b\u0435\u043d\u044c",
-                                "id": "17.21.1",
-                                "scheme": "\u0414\u041a\u041f\u041f"
-                            }
-                        ],
-                        "classification": {
-                            "description": "\u041f\u043e\u0441\u043b\u0443\u0433\u0438 \u0437 \u0445\u0430\u0440\u0447\u0443\u0432\u0430\u043d\u043d\u044f \u0443 \u0448\u043a\u043e\u043b\u0430\u0445",
-                            "id": "55523100-3",
-                            "scheme": "\u0414\u041a021"
-                        },
-                        "deliveryAddress": {
-                            "countryName": "\u0423\u043a\u0440\u0430\u0457\u043d\u0430",
-                            "locality": "\u043c. \u041a\u0438\u0457\u0432",
-                            "postalCode": "79000",
-                            "region": "\u043c. \u041a\u0438\u0457\u0432",
-                            "streetAddress": "\u0432\u0443\u043b. \u0411\u0430\u043d\u043a\u043e\u0432\u0430 1"
-                        },
-                        "deliveryDate": {
-                            "endDate": "2023-02-20T00:00:00+02:00",
-                            "startDate": "2023-01-21T00:00:00+02:00"
-                        },
-                        "description": "\u041f\u043e\u0441\u043b\u0443\u0433\u0438 \u0448\u043a\u0456\u043b\u044c\u043d\u0438\u0445 \u0457\u0434\u0430\u043b\u0435\u043d\u044c",
-                        "id": "499e09944ea347a994a8f14829146ff7",
-                        "quantity": 1.0,
-                        "relatedLot": "0604e55b3dae444a8d537bb4c971a246",
-                        "unit": {
-                            "code": "KGM",
-                            "name": "\u043f\u0430\u043f\u0456\u0440",
-                            "value": {
-                                "amount": 10.0,
-                                "currency": "UAH",
-                                "valueAddedTaxIncluded": true
-                            }
-                        }
-                    }
-                ],
-                "status": "active",
-                "suppliers": [
-                    {
-                        "address": {
-                            "countryName": "\u0423\u043a\u0440\u0430\u0457\u043d\u0430",
-                            "locality": "\u043c. \u0412\u0456\u043d\u043d\u0438\u0446\u044f",
-                            "postalCode": "21100",
-                            "region": "\u0412\u0456\u043d\u043d\u0438\u0446\u044c\u043a\u0430 \u043e\u0431\u043b\u0430\u0441\u0442\u044c",
-                            "streetAddress": "\u0432\u0443\u043b. \u041e\u0441\u0442\u0440\u043e\u0432\u0441\u044c\u043a\u043e\u0433\u043e, 33"
-                        },
-                        "contactPoint": {
-                            "email": "soleksuk@gmail.com",
-                            "name": "\u0421\u0435\u0440\u0433\u0456\u0439 \u041e\u043b\u0435\u043a\u0441\u044e\u043a",
-                            "telephone": "+380432216930"
-                        },
-                        "identifier": {
-                            "id": "00137256",
-                            "legalName": "\u0414\u0435\u0440\u0436\u0430\u0432\u043d\u0435 \u043a\u043e\u043c\u0443\u043d\u0430\u043b\u044c\u043d\u0435 \u043f\u0456\u0434\u043f\u0440\u0438\u0454\u043c\u0441\u0442\u0432\u043e \u0433\u0440\u043e\u043c\u0430\u0434\u0441\u044c\u043a\u043e\u0433\u043e \u0445\u0430\u0440\u0447\u0443\u0432\u0430\u043d\u043d\u044f \u00ab\u0428\u043a\u043e\u043b\u044f\u0440\u00bb",
-                            "scheme": "UA-EDR",
-                            "uri": "http://www.sc.gov.ua/"
-                        },
-                        "name": "\u0414\u041a\u041f \u00ab\u0428\u043a\u043e\u043b\u044f\u0440\u00bb",
-                        "scale": "micro"
-                    }
-                ],
-                "value": {
-                    "amount": 500.0,
-                    "amountNet": 500.0,
-                    "currency": "UAH",
-                    "valueAddedTaxIncluded": true
-                }
-            },
-            {
-                "awardID": "93e3afc7e7444428a688e88ce9655594",
-                "contractID": "UA-2023-01-01-000001-a-2",
-                "date": "2023-01-31T00:00:00+02:00",
-                "dateSigned": "2023-01-31T00:00:00+02:00",
-                "id": "c09c2840edf9479f8f49ebdef74f2666",
-                "items": [
-                    {
-                        "additionalClassifications": [
-                            {
-                                "description": "\u041f\u043e\u0441\u043b\u0443\u0433\u0438 \u0448\u043a\u0456\u043b\u044c\u043d\u0438\u0445 \u0457\u0434\u0430\u043b\u0435\u043d\u044c",
-                                "id": "17.21.1",
-                                "scheme": "\u0414\u041a\u041f\u041f"
-                            }
-                        ],
-                        "classification": {
-                            "description": "\u041f\u043e\u0441\u043b\u0443\u0433\u0438 \u0437 \u0445\u0430\u0440\u0447\u0443\u0432\u0430\u043d\u043d\u044f \u0443 \u0448\u043a\u043e\u043b\u0430\u0445",
-                            "id": "55523100-3",
-                            "scheme": "\u0414\u041a021"
-                        },
-                        "deliveryAddress": {
-                            "countryName": "\u0423\u043a\u0440\u0430\u0457\u043d\u0430",
-                            "locality": "\u043c. \u041a\u0438\u0457\u0432",
-                            "postalCode": "79000",
-                            "region": "\u043c. \u041a\u0438\u0457\u0432",
-                            "streetAddress": "\u0432\u0443\u043b. \u0411\u0430\u043d\u043a\u043e\u0432\u0430 1"
-                        },
-                        "deliveryDate": {
-                            "endDate": "2023-02-20T00:00:00+02:00",
-                            "startDate": "2023-01-21T00:00:00+02:00"
-                        },
-                        "description": "\u041f\u043e\u0441\u043b\u0443\u0433\u0438 \u0448\u043a\u0456\u043b\u044c\u043d\u0438\u0445 \u0457\u0434\u0430\u043b\u0435\u043d\u044c",
-                        "description_en": "Services in school canteens",
-                        "id": "266d2b1e8e9c4498a20df4ad217faa41",
-                        "quantity": 1.0,
-                        "relatedLot": "f21c5735a39e41538e386c454149f615",
-                        "unit": {
-                            "code": "KGM",
-                            "name": "\u043a\u0456\u043b\u043e\u0433\u0440\u0430\u043c",
-                            "value": {
-                                "amount": 6.0,
-                                "currency": "UAH",
-                                "valueAddedTaxIncluded": true
-                            }
-                        }
-                    }
-                ],
-                "status": "active",
-                "suppliers": [
-                    {
-                        "address": {
-                            "countryName": "\u0423\u043a\u0440\u0430\u0457\u043d\u0430",
-                            "locality": "\u043c. \u0412\u0456\u043d\u043d\u0438\u0446\u044f",
-                            "postalCode": "21100",
-                            "region": "\u0412\u0456\u043d\u043d\u0438\u0446\u044c\u043a\u0430 \u043e\u0431\u043b\u0430\u0441\u0442\u044c",
-                            "streetAddress": "\u0432\u0443\u043b. \u041e\u0441\u0442\u0440\u043e\u0432\u0441\u044c\u043a\u043e\u0433\u043e, 33"
-                        },
-                        "contactPoint": {
-                            "email": "soleksuk@gmail.com",
-                            "name": "\u0421\u0435\u0440\u0433\u0456\u0439 \u041e\u043b\u0435\u043a\u0441\u044e\u043a",
-                            "telephone": "+380432216930"
-                        },
-                        "identifier": {
-                            "id": "00137256",
-                            "legalName": "\u0414\u0435\u0440\u0436\u0430\u0432\u043d\u0435 \u043a\u043e\u043c\u0443\u043d\u0430\u043b\u044c\u043d\u0435 \u043f\u0456\u0434\u043f\u0440\u0438\u0454\u043c\u0441\u0442\u0432\u043e \u0433\u0440\u043e\u043c\u0430\u0434\u0441\u044c\u043a\u043e\u0433\u043e \u0445\u0430\u0440\u0447\u0443\u0432\u0430\u043d\u043d\u044f \u00ab\u0428\u043a\u043e\u043b\u044f\u0440\u00bb",
-                            "scheme": "UA-EDR",
-                            "uri": "http://www.sc.gov.ua/"
-                        },
-                        "name": "\u0414\u041a\u041f \u00ab\u0428\u043a\u043e\u043b\u044f\u0440\u00bb",
-                        "scale": "micro"
-                    }
-                ],
-                "value": {
-                    "amount": 500.0,
-                    "amountNet": 500.0,
-                    "currency": "UAH",
-                    "valueAddedTaxIncluded": true
-                }
-            }
-        ],
         "criteria": [
             {
                 "classification": {
@@ -1147,10 +983,19 @@
         ],
         "lots": [
             {
-                "date": "2023-01-31T00:00:00+02:00",
+                "auctionPeriod": {
+                    "endDate": "2023-01-31T00:00:00+02:00"
+                },
+                "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/62ce6859a3df45b692f7f78357d812c0_0604e55b3dae444a8d537bb4c971a246",
+                "date": "2023-01-01T00:00:00+02:00",
                 "description": "\u041e\u043f\u0438\u0441 \u041b\u043e\u0442 \u21161",
                 "id": "0604e55b3dae444a8d537bb4c971a246",
-                "status": "complete",
+                "minimalStep": {
+                    "amount": 5.0,
+                    "currency": "UAH",
+                    "valueAddedTaxIncluded": true
+                },
+                "status": "active",
                 "title": "\u041b\u043e\u0442 \u21161",
                 "value": {
                     "amount": 500.0,
@@ -1159,10 +1004,19 @@
                 }
             },
             {
-                "date": "2023-01-31T00:00:00+02:00",
+                "auctionPeriod": {
+                    "endDate": "2023-01-31T00:00:00+02:00"
+                },
+                "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/62ce6859a3df45b692f7f78357d812c0_f21c5735a39e41538e386c454149f615",
+                "date": "2023-01-01T00:00:00+02:00",
                 "description": "\u041e\u043f\u0438\u0441 \u041b\u043e\u0442 \u21162",
                 "id": "f21c5735a39e41538e386c454149f615",
-                "status": "complete",
+                "minimalStep": {
+                    "amount": 5.0,
+                    "currency": "UAH",
+                    "valueAddedTaxIncluded": true
+                },
+                "status": "active",
                 "title": "\u041b\u043e\u0442 \u21162",
                 "value": {
                     "amount": 500.0,
@@ -1198,6 +1052,11 @@
                 "type": "financing"
             }
         ],
+        "minimalStep": {
+            "amount": 5.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+        },
         "owner": "broker",
         "procurementMethod": "open",
         "procurementMethodType": "aboveThreshold",
@@ -1222,7 +1081,8 @@
             "kind": "special",
             "name": "\u0417\u041e\u0421\u0428 #10 \u043c.\u0412\u0456\u043d\u043d\u0438\u0446\u0456"
         },
-        "status": "complete",
+        "status": "active.qualification",
+        "submissionMethod": "electronicAuction",
         "tenderID": "UA-2023-01-01-000001-a",
         "tenderPeriod": {
             "endDate": "2023-01-16T00:00:00+02:00",
