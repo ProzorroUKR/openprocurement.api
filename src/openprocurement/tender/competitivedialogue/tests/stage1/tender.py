@@ -33,6 +33,7 @@ from openprocurement.tender.competitivedialogue.tests.stage1.tender_blanks impor
     path_complete_tender,
     tender_features_invalid,
     create_tender_invalid_eu,
+    create_tender_invalid_config,
     create_tender_generated_eu,
     patch_tender,
     multiple_bidders_tender_eu,
@@ -57,6 +58,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderReso
 
     test_empty_listing = snitch(empty_listing)
     test_create_tender_invalid = snitch(create_tender_invalid_eu)
+    test_create_tender_invalid_config = snitch(create_tender_invalid_config)
     test_create_tender_generated = snitch(create_tender_generated_eu)
     test_path_complete_tender = snitch(path_complete_tender)
     test_tender_features_invalid = snitch(tender_features_invalid)
@@ -85,6 +87,7 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest, TenderReso
 
     test_empty_listing = snitch(empty_listing)
     test_create_tender_invalid = snitch(create_tender_invalid_ua)
+    test_create_tender_invalid_config = snitch(create_tender_invalid_config)
     test_create_tender_generated = snitch(create_tender_generated_ua)
     test_path_complete_tender = snitch(path_complete_tender)
     test_tender_features_invalid = snitch(tender_features_invalid)

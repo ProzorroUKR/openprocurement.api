@@ -646,9 +646,6 @@ class Tender(BaseTender):
         filter_in_values=["invalid", "invalid.pre-qualification", "deleted"],
     )  # A list of all the companies who entered submissions for the tender.
 
-    preQualificationFeaturesRatingBidLimit = IntType()
-    preQualificationMinBidsNumber = IntType()
-
     qualifications = ListType(ModelType(Qualification, required=True), default=list())
     qualificationPeriod = ModelType(Period)
     lots = ListType(ModelType(Lot, required=True), default=list(), validators=[validate_lots_uniq])

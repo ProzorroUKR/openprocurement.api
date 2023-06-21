@@ -81,6 +81,7 @@ test_tender_cfaselectionua_config = {
     "hasValueRestriction": True,
     "valueCurrencyEquality": True,
     "hasPrequalification": False,
+    "minBidsNumber": 1,
 }
 
 

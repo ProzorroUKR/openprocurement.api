@@ -52,6 +52,7 @@ from openprocurement.tender.esco.tests.tender_blanks import (
     tender_noticePublicationDate,
     # TestTenderEU
     create_tender_invalid,
+    create_tender_invalid_config,
     patch_tender,
     tender_fields,
     tender_with_nbu_discount_rate,
@@ -94,6 +95,7 @@ class TestTenderEU(BaseESCOContentWebTest, TenderResourceTestMixin, TenderUAReso
     test_tender_fields = snitch(tender_fields)
     test_tender_with_nbu_discount_rate = snitch(tender_with_nbu_discount_rate)
     test_create_tender_invalid = snitch(create_tender_invalid)
+    test_create_tender_invalid_config = snitch(create_tender_invalid_config)
     test_create_tender_central = snitch(create_tender_central)
     test_create_tender_central_invalid = snitch(create_tender_central_invalid)
     test_create_tender_generated = snitch(create_tender_generated)

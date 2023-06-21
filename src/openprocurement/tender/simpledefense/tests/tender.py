@@ -15,6 +15,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_lot_minimalstep_validation,
     patch_tender_minimalstep_validation,
     patch_not_author,
+    create_tender_invalid_config,
 )
 
 from openprocurement.tender.openua.tests.tender import TenderUaProcessTestMixin
@@ -50,6 +51,7 @@ class TenderUAResourceTest(BaseSimpleDefWebTest, TenderResourceTestMixin):
 
     test_empty_listing = snitch(empty_listing)
     test_create_tender_invalid = snitch(create_tender_invalid)
+    test_create_tender_invalid_config = snitch(create_tender_invalid_config)
     test_create_tender_generated = snitch(create_tender_generated)
     test_patch_tender = snitch(patch_tender)
     test_patch_tender_ua = snitch(patch_tender_ua)

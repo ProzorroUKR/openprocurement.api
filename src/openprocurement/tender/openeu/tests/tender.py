@@ -41,6 +41,7 @@ from openprocurement.tender.openeu.tests.tender_blanks import (
     multiple_bidders_tender,
     lost_contract_for_active_award,
     create_tender_invalid,
+    create_tender_invalid_config,
     create_tender_generated,
     patch_tender,
     invalid_bid_tender_features,
@@ -62,6 +63,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUARes
     test_bids_data = test_tender_openeu_bids
 
     test_create_tender_invalid = snitch(create_tender_invalid)
+    test_create_tender_invalid_config = snitch(create_tender_invalid_config)
     test_create_tender_central = snitch(create_tender_central)
     test_create_tender_central_invalid = snitch(create_tender_central_invalid)
     test_create_tender_generated = snitch(create_tender_generated)

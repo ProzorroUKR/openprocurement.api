@@ -75,6 +75,7 @@ test_tender_reporting_config = {
     "hasValueRestriction": True,
     "valueCurrencyEquality": True,
     "hasPrequalification": False,
+    "minBidsNumber": 1,
 }
 
 test_tender_negotiation_config = {
@@ -83,6 +84,7 @@ test_tender_negotiation_config = {
     "hasValueRestriction": True,
     "valueCurrencyEquality": True,
     "hasPrequalification": False,
+    "minBidsNumber": 1,
 }
 
 test_tender_negotiation_quick_config = {
@@ -91,6 +93,7 @@ test_tender_negotiation_quick_config = {
     "hasValueRestriction": True,
     "valueCurrencyEquality": True,
     "hasPrequalification": False,
+    "minBidsNumber": 1,
 }
 
 

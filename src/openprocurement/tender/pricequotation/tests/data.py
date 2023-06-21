@@ -345,6 +345,7 @@ test_tender_pq_config = {
     "hasValueRestriction": True,
     "valueCurrencyEquality": True,
     "hasPrequalification": False,
+    "minBidsNumber": 1,
 }
 
 test_tender_pq_cancellation = {

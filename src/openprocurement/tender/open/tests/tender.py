@@ -29,6 +29,7 @@ from openprocurement.tender.open.tests.tender_blanks import (
     empty_listing,
     patch_draft_invalid_json,
     create_tender_invalid,
+    create_tender_invalid_config,
     create_tender_generated,
     tender_fields,
     patch_tender,
@@ -69,6 +70,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderU
         self.test_lots_data = deepcopy(self.initial_lots)
 
     test_create_tender_invalid = snitch(create_tender_invalid)
+    test_create_tender_invalid_config = snitch(create_tender_invalid_config)
     test_create_tender_central = snitch(create_tender_central)
     test_create_tender_central_invalid = snitch(create_tender_central_invalid)
     test_create_tender_generated = snitch(create_tender_generated)

@@ -216,6 +216,7 @@ test_tender_below_config = {
     "hasValueRestriction": True,
     "valueCurrencyEquality": True,
     "hasPrequalification": False,
+    "minBidsNumber": 1,
 }
 
 

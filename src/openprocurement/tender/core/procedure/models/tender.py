@@ -26,6 +26,7 @@ from schematics.types import (
     BaseType,
     StringType,
     BooleanType,
+    IntType,
 )
 from schematics.types.compound import ModelType
 from openprocurement.api.models import (
@@ -222,6 +223,7 @@ class TenderConfig(Model):
     hasValueRestriction = BooleanType()
     valueCurrencyEquality = BooleanType()
     hasPrequalification = BooleanType()
+    minBidsNumber = IntType(min_value=0)
 
     def validate_valueCurrencyEquality(self, data, value):
         if value is False and any([

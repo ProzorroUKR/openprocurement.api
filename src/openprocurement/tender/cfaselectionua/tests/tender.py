@@ -15,6 +15,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_central,
     create_tender_central_invalid,
     create_tender_config_test,
+    create_tender_invalid_config,
 )
 from openprocurement.tender.cfaselectionua.tests.base import (
     BaseTenderWebTest,
@@ -104,6 +105,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 
     # test_guarantee = snitch(guarantee)
     test_create_tender_invalid = snitch(create_tender_invalid)
+    test_create_tender_invalid_config = snitch(create_tender_invalid_config)
     test_create_tender_generated = snitch(create_tender_generated)
     test_tender_fields = snitch(tender_fields)
     test_patch_tender_jsonpatch = snitch(patch_tender_jsonpatch)

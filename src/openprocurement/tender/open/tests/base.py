@@ -81,6 +81,7 @@ test_tender_open_config = {
     "hasValueRestriction": False,
     "valueCurrencyEquality": True,
     "hasPrequalification": False,
+    "minBidsNumber": 1,
 }
 
 

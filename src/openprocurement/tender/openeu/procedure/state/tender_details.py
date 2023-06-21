@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.tender.openeu.procedure.state.tender import OpenEUTenderState
+from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTenderState
 from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.tender.openeu.constants import PREQUALIFICATION_COMPLAINT_STAND_STILL
 from openprocurement.tender.openua.constants import (
@@ -59,5 +59,5 @@ class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
             tender["complaintPeriod"] = dict(startDate=tender["tenderPeriod"]["startDate"], endDate=end_date)
 
 
-class TenderDetailsState(OpenEUTenderDetailsMixing, OpenEUTenderState):
+class TenderDetailsState(OpenEUTenderDetailsMixing, BaseOpenEUTenderState):
     pass

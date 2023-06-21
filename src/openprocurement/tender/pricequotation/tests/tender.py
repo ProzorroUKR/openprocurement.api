@@ -26,6 +26,7 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     create_tender_draft,
     create_tender_generated,
     create_tender_invalid,
+    create_tender_invalid_config,
     create_tender_with_inn,
     create_tender_draft_with_criteria,
     create_tender_draft_with_criteria_expected_values,
@@ -101,6 +102,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 
     Test_guarantee = snitch(guarantee)
     test_create_tender_invalid = snitch(create_tender_invalid)
+    test_create_tender_invalid_config = snitch(create_tender_invalid_config)
     test_create_tender_generated = snitch(create_tender_generated)
     test_tender_fields = snitch(tender_fields)
     test_tender_items_float_quantity = snitch(tender_items_float_quantity)
