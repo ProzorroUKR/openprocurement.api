@@ -55,6 +55,7 @@ test_tender_simpledefense_config = {
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
     "valueCurrencyEquality": True,
+    "minBidsNumber": 1,
 }
 
 class BaseApiWebTest(BaseWebTest):

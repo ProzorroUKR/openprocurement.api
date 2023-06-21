@@ -69,8 +69,6 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
     create_tender_bid_with_eligibility_documents,
     create_tender_bid_with_qualification_documents,
     patch_tender_draft_bidder,
-    restricted_bidder,
-    restricted_procedure_unsuccessful,
 )
 
 from openprocurement.tender.openua.tests.bid_blanks import (
@@ -147,16 +145,6 @@ class TenderBidFeaturesResourceTest(BaseTenderContentWebTest):
 
     test_features_bidder = snitch(features_bidder)
     test_features_bidder_invalid = snitch(features_bidder_invalid)
-
-
-class RestrictedTenderBidResourceTest(BaseTenderContentWebTest):
-    initial_data = test_tender_openeu_restricted_data
-    initial_status = "active.tendering"
-    initial_auth = ("Basic", ("broker", ""))
-    test_bids_data = test_tender_openeu_bids
-
-    test_restricted_bidder = snitch(restricted_bidder)
-    test_restricted_procedure_unsuccessful = snitch(restricted_procedure_unsuccessful)
 
 
 class TenderBidDocumentResourceWithDSTestMixin:
@@ -258,7 +246,6 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderBidDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidDocumentWithDSResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidFeaturesResourceTest))
-    suite.addTest(unittest.makeSuite(RestrictedTenderBidResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidBatchDocumentsWithDSResourceTest))
     suite.addTest(unittest.makeSuite(TenderBidRequirementResponseResourceTest))

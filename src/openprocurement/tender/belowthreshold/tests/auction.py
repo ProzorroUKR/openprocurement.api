@@ -79,7 +79,7 @@ class TenderAuctionResourceTest(TenderContentWebTest, TenderAuctionResourceTestM
     docservice = True
     initial_data = auction_test_tender_data
     initial_status = "active.tendering"
-    initial_bids = deepcopy(test_tender_below_bids)
+    initial_bids = test_tender_below_bids[:1]
     initial_auth = ("Basic", ("broker", ""))
 
 
@@ -101,6 +101,7 @@ class TenderAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
             "hasAwardingOrder": False,
             "hasValueRestriction": True,
             "valueCurrencyEquality": True,
+            "minBidsNumber": 1,
         })
 
 
@@ -123,6 +124,7 @@ class TenderLotsAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
             "hasAwardingOrder": False,
             "hasValueRestriction": True,
             "valueCurrencyEquality": True,
+            "minBidsNumber": 1,
         })
 
 

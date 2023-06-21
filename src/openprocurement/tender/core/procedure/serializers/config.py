@@ -1,6 +1,7 @@
 from openprocurement.api.context import get_request
 from openprocurement.api.constants import TENDER_CONFIG_OPTIONALITY
 from openprocurement.tender.core.migrations.add_config_has_auction_field import has_auction_populator
+from openprocurement.tender.core.migrations.add_config_min_bids_number import min_bids_number_populator
 from openprocurement.tender.core.migrations.add_config_has_value_restriction import has_value_restriction_populator
 from openprocurement.tender.core.procedure.serializers.base import BaseSerializer
 
@@ -20,14 +21,12 @@ def has_auction_serializer(obj, value):
 
 
 def has_awarding_order_serializer(obj, value):
-    # TODO: remove serializer after migration
     if value is None and TENDER_CONFIG_OPTIONALITY["hasAwardingOrder"] is True:
         return True
     return value
 
 
 def has_value_restriction_serializer(obj, value):
-    # TODO: remove serializer after migration
     if value is None and TENDER_CONFIG_OPTIONALITY["hasValueRestriction"] is True:
         request = get_request()
         tender = request.validated.get("tender") or request.validated.get("data")
@@ -39,6 +38,14 @@ def currency_value_equality_serializer(obj, value):
     # TODO: remove serializer after migration
     if value is None and TENDER_CONFIG_OPTIONALITY["valueCurrencyEquality"] is True:
         return True
+    return value
+
+
+def min_bids_number_serializer(obj, value):
+    if value is None and TENDER_CONFIG_OPTIONALITY["minBidsNumber"] is True:
+        request = get_request()
+        tender = request.validated.get("tender") or request.validated.get("data")
+        return min_bids_number_populator(tender)
     return value
 
 
@@ -54,4 +61,5 @@ class TenderConfigSerializer(BaseSerializer):
         "hasAwardingOrder": has_awarding_order_serializer,
         "hasValueRestriction": has_value_restriction_serializer,
         "valueCurrencyEquality": currency_value_equality_serializer,
+        "minBidsNumber": min_bids_number_serializer,
     }

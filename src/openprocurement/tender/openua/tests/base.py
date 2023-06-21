@@ -79,6 +79,7 @@ test_tender_openua_config = {
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
     "valueCurrencyEquality": True,
+    "minBidsNumber": 2,
 }
 
 
@@ -94,6 +95,7 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
     initial_bids = None
     initial_lots = None
     initial_criteria = None
+    min_bids_number = 2
     primary_tender_status = "active.tendering"  # status, to which tender should be switched from 'draft'
     question_claim_block_status = (
         "active.auction"

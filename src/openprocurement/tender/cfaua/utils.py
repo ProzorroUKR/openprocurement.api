@@ -14,11 +14,9 @@ from openprocurement.tender.cfaua.traversal import (
     bid_eligibility_documents_factory,
     bid_qualification_documents_factory,
 )
-from openprocurement.tender.cfaua.constants import (
-    MIN_BIDS_NUMBER,
-    CLARIFICATIONS_UNTIL_PERIOD,
-)
+from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD
 
+from openprocurement.tender.core.procedure.context import get_tender_config
 
 LOGGER = getLogger(__name__)
 
@@ -59,13 +57,15 @@ def check_tender_status_on_active_qualification_stand_still(request):
     ):
         return
     statuses = set()
+    config = get_tender_config()
+    min_bids_number = config.get("minBidsNumber")
     if tender.lots:
         for lot in tender.lots:
             if lot.status != "active":  # pragma: no cover
                 statuses.add(lot.status)
                 continue
             active_lot_awards = [i for i in tender.awards if i.lotID == lot.id and i.status == "active"]
-            if len(active_lot_awards) < MIN_BIDS_NUMBER:
+            if len(active_lot_awards) < min_bids_number:
                 LOGGER.info(
                     "Switched lot {} of tender {} to {}".format(lot.id, tender.id, "unsuccessful"),
                     extra=context_unpack(request, {"MESSAGE_ID": "switched_lot_unsuccessful"}, {"LOT_ID": lot.id}),
@@ -76,7 +76,7 @@ def check_tender_status_on_active_qualification_stand_still(request):
             statuses.add(lot.status)
     else:  # pragma: no cover
         active_awards = [i for i in tender.awards if i.status == "active"]
-        if len(active_awards) <= MIN_BIDS_NUMBER:
+        if len(active_awards) <= min_bids_number:
             statuses.add("unsuccessful")
         else:
             statuses.add("active.awarded")

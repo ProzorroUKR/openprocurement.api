@@ -344,6 +344,7 @@ test_tender_pq_config = {
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
     "valueCurrencyEquality": True,
+    "minBidsNumber": 1,
 }
 
 test_tender_pq_cancellation = {

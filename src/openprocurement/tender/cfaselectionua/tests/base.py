@@ -80,6 +80,7 @@ test_tender_cfaselectionua_config = {
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
     "valueCurrencyEquality": True,
+    "minBidsNumber": 1,
 }
 
 

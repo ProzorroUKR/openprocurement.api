@@ -4,7 +4,7 @@ from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.context import get_tender, get_request
+from openprocurement.tender.core.procedure.context import get_tender, get_tender_config, get_request
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 from datetime import timedelta
@@ -230,11 +230,12 @@ class CancellationStateMixing(baseclass):
     def cancel_lot(self, tender, cancellation):
         self._cancel_lot(tender, cancellation["relatedLot"])
         self._lot_update_check_tender_status(tender)
+        config = get_tender_config()
 
         if tender["status"] == "active.auction" and all(
             "endDate" in i.get("auctionPeriod", "")
             for i in tender.get("lots", "")
-            if self.count_lot_bids_number(tender, cancellation["relatedLot"]) > self.min_bids_number
+            if self.count_lot_bids_number(tender, cancellation["relatedLot"]) > config.get("minBidsNumber")
             and i["status"] == "active"
         ):
             self.add_next_award()

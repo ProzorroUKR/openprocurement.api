@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/5d8c9b51c2d14c1196b1f7833c8ac475/qualifications/87e242f193204949928568e3f7b2d6d0?acc_token=ae43448b946e4f49a99e064e0178c255 HTTP/1.0
+PATCH /api/2.5/tenders/5d8c9b51c2d14c1196b1f7833c8ac475/qualifications/b8560249571843f0aab86e5c5effd6bf?acc_token=ae43448b946e4f49a99e064e0178c255 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1691
 Content-Type: application/json
@@ -59,7 +59,7 @@ Content-Type: application/json
         "id": "ca7ad03aaae5448aa8804158da95a259"
       }
     ],
-    "id": "87e242f193204949928568e3f7b2d6d0",
+    "id": "b8560249571843f0aab86e5c5effd6bf",
     "bidID": "1ec84994990544de87c86c6ff2c20ed5",
     "status": "pending",
     "date": "2023-01-01T00:00:00+02:00",
@@ -70,7 +70,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d8c9b51c2d14c1196b1f7833c8ac475/qualifications/87e242f193204949928568e3f7b2d6d0/documents/96dc3b1f84d54785a15c72f6793a0b44?download=778be56a0b794ee1b0b568e8e2d03004",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d8c9b51c2d14c1196b1f7833c8ac475/qualifications/b8560249571843f0aab86e5c5effd6bf/documents/96dc3b1f84d54785a15c72f6793a0b44?download=778be56a0b794ee1b0b568e8e2d03004",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "tender_owner",

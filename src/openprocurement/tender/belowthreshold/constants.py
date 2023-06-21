@@ -5,7 +5,7 @@ BELOW_THRESHOLD = "belowThreshold"
 STAND_STILL_TIME = timedelta(days=2)
 ENQUIRY_STAND_STILL_TIME = timedelta(days=1)
 
-MIN_BIDS_NUMBER = 2
+MIN_BIDS_NUMBER = 1  # being used only for tests
 STATUS4ROLE = {
     "complaint_owner": ["draft", "answered"],
     "reviewers": ["pending"],

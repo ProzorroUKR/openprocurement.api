@@ -215,6 +215,7 @@ test_tender_below_config = {
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
     "valueCurrencyEquality": True,
+    "minBidsNumber": 1,
 }
 
 

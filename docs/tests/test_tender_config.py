@@ -121,6 +121,13 @@ class TenderConfigBaseResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
                 config_values_enum = config_schema.get("enum", "")
                 config_values = separator.join(map(json.dumps, config_values_enum))
                 row.append(config_values)
+            elif "minimum" in config_schema and "maximum" in config_schema:
+                config_values_min = config_schema.get("minimum", "")
+                config_values_max = config_schema.get("maximum", "")
+                if config_values_min == config_values_max:
+                    row.append(config_values_min)
+                else:
+                    row.append(f'{config_values_min} - {config_values_max}')
             else:
                 row.append(empty)
 

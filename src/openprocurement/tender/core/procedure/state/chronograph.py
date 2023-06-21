@@ -447,26 +447,28 @@ class ChronographEventsMixing(baseclass):
             tender["bids"] = [bid for bid in tender["bids"] if bid.get("status", "active") != "draft"]
 
     def check_bids_number(self, tender):
+        config = get_tender_config()
+        min_bids_number = config.get("minBidsNumber")
         if tender.get("lots"):
             max_bid_number = 0
             for lot in tender["lots"]:
                 bid_number = self.count_lot_bids_number(tender, lot["id"])
 
                 # set lot unsuccessful if not enough bids
-                if bid_number < self.min_bids_number:
+                if bid_number < min_bids_number:
                     self.remove_auction_period(lot)
                     if lot.get("status") == "active":  # defense procedures doesn't have lot status, for ex
                         self.set_object_status(lot, "unsuccessful")
                         self.set_lot_values_unsuccessful(tender.get("bids"), lot["id"])
 
                 # skip auction for lot
-                if self.min_bids_number == 1 and bid_number == 1:
+                if min_bids_number == 1 and bid_number == 1:
                     self.remove_auction_period(lot)
 
                 max_bid_number = max(max_bid_number, bid_number)
 
             # bypass auction stage if only one bid in each lot
-            if self.min_bids_number == 1 and max_bid_number == 1:
+            if min_bids_number == 1 and max_bid_number == 1:
                 self.remove_all_auction_periods(tender)
                 self.add_next_award()
 
@@ -484,7 +486,7 @@ class ChronographEventsMixing(baseclass):
             bid_number = self.count_bids_number(tender)
 
             # set tender unsuccessful if not enough bids
-            if bid_number < self.min_bids_number:
+            if bid_number < min_bids_number:
                 self.remove_auction_period(tender)
 
                 # set bids unsuccessful
@@ -495,7 +497,7 @@ class ChronographEventsMixing(baseclass):
                 self.get_change_tender_status_handler("unsuccessful")(tender)
 
             # skip auction if only one bid
-            if self.min_bids_number == 1 and bid_number == 1:
+            if min_bids_number == 1 and bid_number == 1:
                 self.remove_auction_period(tender)
                 self.add_next_award()
 

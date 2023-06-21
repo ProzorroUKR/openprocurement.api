@@ -302,6 +302,11 @@ TENDER_CONFIG_OPTIONALITY = {
         "TENDER_CONFIG_VALUE_CURRENCY_EQUALITY",
         parse_func=parse_bool,
     ),
+    "minBidsNumber": get_constant(
+        CONSTANTS_CONFIG,
+        "TENDER_CONFIG_MIN_BIDS_NUMBER_OPTIONAL",
+        parse_func=parse_bool,
+    ),
 }
 
 # Tender weightedValue pre-calculation on switch to active.auction

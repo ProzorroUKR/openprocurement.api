@@ -1,4 +1,4 @@
-from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.context import get_request, get_tender_config
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.state.auction import PreQualificationShouldStartAfterMixing
@@ -14,7 +14,6 @@ LOGGER = getLogger(__name__)
 
 
 class CFAUATenderState(CFAUATenderStateAwardingMixing, PreQualificationShouldStartAfterMixing, TenderState):
-    min_bids_number = 3
     active_bid_statuses = ("active", "pending")
     block_tender_complaint_status = ("claim", "pending", "accepted", "satisfied", "stopping")
     block_complaint_status = ("pending", "accepted", "satisfied", "stopping")
@@ -51,10 +50,11 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, PreQualificationShouldSta
 
     def qualification_stand_still_handler(self, tender):
         statuses = set()
+        config = get_tender_config()
         for lot in tender.get("lots", ""):
             active_awards_count = sum(1 for i in tender.get("awards", "")
                                       if i["lotID"] == lot["id"] and i["status"] == "active")
-            if active_awards_count < self.min_bids_number:
+            if active_awards_count < config.get("minBidsNumber"):
                 LOGGER.info(
                     "Switched lot {} of tender {} to {}".format(lot["id"], tender["_id"], "unsuccessful"),
                     extra=context_unpack(get_request(), {"MESSAGE_ID": "switched_lot_unsuccessful"},

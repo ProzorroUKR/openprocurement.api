@@ -8,6 +8,7 @@ from openprocurement.tender.openua.tests.tender_blanks import (
 )
 
 from openprocurement.tender.competitivedialogue.tests.stage2.tender_blanks import (
+    create_tender_invalid_config,
     # CompetitiveDialogStage2EUResourceTest
     create_tender_invalid_eu,
     patch_tender_eu,
@@ -80,6 +81,7 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)
     test_create_tender_invalid = snitch(create_tender_invalid_eu)
+    test_create_tender_invalid_config = snitch(create_tender_invalid_config)
     test_create_tender = snitch(create_tender)
     test_create_tender_central = snitch(create_tender_central)
     test_get_tender = snitch(get_tender)
@@ -127,6 +129,7 @@ class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)
     test_create_tender_invalid = snitch(create_tender_invalid_ua)
+    test_create_tender_invalid_config = snitch(create_tender_invalid_config)
     test_create_tender = snitch(create_tender)
     test_create_tender_central = snitch(create_tender_central)
     test_get_tender = snitch(get_tender)

@@ -38,6 +38,7 @@ class TenderConfigMixin(baseclass):
         "hasAwardingOrder",
         "hasValueRestriction",
         "valueCurrencyEquality",
+        "minBidsNumber",
     )
 
     def validate_config(self, data):

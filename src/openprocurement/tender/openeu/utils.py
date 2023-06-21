@@ -22,7 +22,3 @@ bid_eligibility_documents_resource = partial(
 bid_qualification_documents_resource = partial(
     resource, error_handler=error_handler, factory=bid_qualification_documents_factory
 )
-
-
-def is_procedure_restricted(tender):
-    return tender.get("preQualificationFeaturesRatingBidLimit") and tender.get("preQualificationMinBidsNumber")
