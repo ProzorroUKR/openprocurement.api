@@ -1151,7 +1151,7 @@ def create_tender_bidder_document(self):
         response.json["errors"][0]["description"],
         (
             "Can't add document because award of bid is not in one of statuses ('active',)",
-            "Can't add document because award of bid is not in one of statuses ('pending', 'active')",
+            "Can't add document because award of bid is not in one of statuses ('active',)",
         )
     )
 
@@ -1258,7 +1258,7 @@ def put_tender_bidder_document(self):
         response.json["errors"][0]["description"],
         (
             "Can't add document because award of bid is not in one of statuses ('active',)",
-            "Can't add document because award of bid is not in one of statuses ('pending', 'active')",
+            "Can't add document because award of bid is not in one of statuses ('active',)",
         )
     )
 
@@ -1333,7 +1333,7 @@ def patch_tender_bidder_document(self):
         response.json["errors"][0]["description"],
         (
             "Can't add document because award of bid is not in one of statuses ('active',)",
-            "Can't add document because award of bid is not in one of statuses ('pending', 'active')",
+            "Can't add document because award of bid is not in one of statuses ('active',)",
         )
     )
 
@@ -1409,7 +1409,7 @@ def patch_tender_bidder_document_json(self):
         response.json["errors"][0]["description"],
         (
             "Can't add document because award of bid is not in one of statuses ('active',)",
-            "Can't add document because award of bid is not in one of statuses ('pending', 'active')",
+            "Can't add document because award of bid is not in one of statuses ('active',)",
         )
     )
 
@@ -1485,7 +1485,7 @@ def patch_tender_bidder_document_json(self):
         response.json["errors"][0]["description"],
         (
             "Can't update document because award of bid is not in one of statuses ('active',)",
-            "Can't update document because award of bid is not in one of statuses ('pending', 'active')",
+            "Can't update document because award of bid is not in one of statuses ('active',)",
         )
     )
 
@@ -1532,7 +1532,7 @@ def create_tender_bidder_document_nopending(self):
         response.json["errors"][0]["description"],
         (
             "Can't add document because award of bid is not in one of statuses ('active',)",
-            "Can't add document because award of bid is not in one of statuses ('pending', 'active')",
+            "Can't add document because award of bid is not in one of statuses ('active',)",
         )
     )
 
@@ -1565,7 +1565,7 @@ def create_tender_bidder_document_nopending(self):
         response.json["errors"][0]["description"],
         (
             "Can't add document because award of bid is not in one of statuses ('active',)",
-            "Can't add document because award of bid is not in one of statuses ('pending', 'active')",
+            "Can't add document because award of bid is not in one of statuses ('active',)",
         )
     )
 
@@ -1610,7 +1610,7 @@ def create_tender_bidder_document_nopending_json(self):
         response.json["errors"][0]["description"],
         (
             "Can't update document because award of bid is not in one of statuses ('active',)",
-            "Can't update document because award of bid is not in one of statuses ('pending', 'active')",
+            "Can't update document because award of bid is not in one of statuses ('active',)",
         )
     )
 
@@ -1637,7 +1637,7 @@ def create_tender_bidder_document_nopending_json(self):
         response.json["errors"][0]["description"],
         (
             "Can't add document because award of bid is not in one of statuses ('active',)",
-            "Can't add document because award of bid is not in one of statuses ('pending', 'active')",
+            "Can't add document because award of bid is not in one of statuses ('active',)",
         )
     )
 
@@ -1771,7 +1771,7 @@ def create_tender_bidder_document_json(self):
         response.json["errors"][0]["description"],
         (
             "Can't add document because award of bid is not in one of statuses ('active',)",
-            "Can't add document because award of bid is not in one of statuses ('pending', 'active')",
+            "Can't add document because award of bid is not in one of statuses ('active',)",
         )
     )
 
@@ -1898,7 +1898,7 @@ def put_tender_bidder_document_json(self):
         response.json["errors"][0]["description"],
         (
             "Can't update document because award of bid is not in one of statuses ('active',)",
-            "Can't update document because award of bid is not in one of statuses ('pending', 'active')",
+            "Can't update document because award of bid is not in one of statuses ('active',)",
         )
     )
 
@@ -2530,14 +2530,6 @@ def get_bid_requirement_response_evidence(self):
 
 def bid_activate(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
-    bid_pending_procedures = [
-        "aboveThresholdEU",
-        "esco",
-        "closeFrameworkAgreementUA",
-        "competitiveDialogueEU",
-        "competitiveDialogueUA",
-        "competitiveDialogueEU.stage2",
-    ]
     next_status = "pending"
 
     response = self.app.patch_json(
@@ -2689,14 +2681,6 @@ def bid_activate(self):
 
 def bid_activate_with_cancelled_tenderer_criterion(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
-    bid_pending_procedures = [
-        "aboveThresholdEU",
-        "esco",
-        "closeFrameworkAgreementUA",
-        "competitiveDialogueEU",
-        "competitiveDialogueUA",
-        "competitiveDialogueEU.stage2",
-    ]
     next_status = "pending"
     response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
     self.assertEqual(response.content_type, "application/json")

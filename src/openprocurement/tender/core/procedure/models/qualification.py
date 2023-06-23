@@ -5,13 +5,12 @@ from uuid import uuid4
 from openprocurement.tender.core.procedure.models.base import (
     ModelType,
     ListType,
-    BaseQualification,
 )
 from openprocurement.tender.core.procedure.models.req_response import (
     PatchObjResponsesMixin,
     ObjResponseMixin,
 )
-from openprocurement.tender.core.procedure.models.document import EUDocument
+from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.models.milestone import QualificationMilestoneListMixin
 
 
@@ -33,7 +32,7 @@ class Qualification(ObjResponseMixin, PatchQualification, QualificationMilestone
     lotID = MD5Type()
     status = StringType(choices=["pending", "active", "unsuccessful", "cancelled"], default="pending")
     date = IsoDateTimeType()
-    documents = ListType(ModelType(EUDocument, required=True))
+    documents = ListType(ModelType(Document, required=True))
     qualified = BooleanType(default=False)
     eligible = BooleanType(default=False)
     complaints = BaseType()
@@ -55,6 +54,3 @@ class Qualification(ObjResponseMixin, PatchQualification, QualificationMilestone
                 raise ValidationError("This field is required.")
             if value and value not in {lot["id"] for lot in lots if lot}:
                 raise ValidationError("lotID should be one of lots")
-
-
-

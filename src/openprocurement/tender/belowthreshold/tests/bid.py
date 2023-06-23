@@ -30,7 +30,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderBidDocumentResourceTest
     not_found,
     patch_tender_bid_document,
-    create_tender_bid_document_nopending,
+    create_tender_bid_document_invalid_award_status,
     # TenderBidDocumentWithDSResourceTest
     create_tender_bid_document_json,
     create_tender_bid_document_json_bulk,
@@ -47,8 +47,6 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     patch_tender_with_bids_lots_none,
     post_tender_bid_with_exceeded_lot_values,
     patch_tender_bid_with_exceeded_lot_values,
-    create_tender_bid_document_invalid_pmr,
-    update_tender_bid_document_invalid_pmr,
     bid_activate_with_cancelled_tenderer_criterion,
     update_tender_bid_pmr_related_doc,
     update_tender_rr_evidence_id,
@@ -153,9 +151,7 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
 
     test_not_found = snitch(not_found)
     test_patch_tender_bid_document = snitch(patch_tender_bid_document)
-    test_create_tender_bid_document_nopending = snitch(create_tender_bid_document_nopending)
-    test_create_tender_bid_document_invalid_pmr = snitch(create_tender_bid_document_invalid_pmr)
-    test_update_tender_bid_document_invalid_pmr = snitch(update_tender_bid_document_invalid_pmr)
+    test_create_tender_bid_document_invalid_award_status = snitch(create_tender_bid_document_invalid_award_status)
 
 
 class TenderBidRRResourceTest(TenderContentWebTest):

@@ -1,10 +1,9 @@
 from uuid import uuid4
 from schematics.exceptions import ValidationError
-from schematics.types import MD5Type
+from schematics.types import MD5Type, StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from openprocurement.api.models import Value, Model
-from schematics.types import StringType
 from openprocurement.tender.core.constants import BID_LOTVALUES_VALIDATION_FROM
 from openprocurement.tender.core.procedure.validation import validate_bid_value
 from openprocurement.tender.core.procedure.context import get_tender
@@ -13,7 +12,7 @@ from openprocurement.tender.core.procedure.models.base import ListType, BaseBid
 from openprocurement.tender.core.procedure.models.organization import PatchBusinessOrganization, PostBusinessOrganization
 from openprocurement.tender.core.procedure.models.parameter import Parameter, PatchParameter
 from openprocurement.tender.core.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
-from openprocurement.tender.core.procedure.models.document import PostDocument, Document
+from openprocurement.tender.core.procedure.models.bid_document import PostDocument, Document
 from openprocurement.tender.core.models import validate_parameters_uniq, Administrator_bid_role
 
 

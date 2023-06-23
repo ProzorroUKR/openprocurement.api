@@ -1,9 +1,9 @@
-from openprocurement.api.models import HashType
-from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.models.document import BaseDocument
 from uuid import uuid4
 from schematics.types import StringType, MD5Type
 from schematics.types.serializable import serializable
+from openprocurement.api.models import HashType
+from openprocurement.api.context import get_now
+from openprocurement.tender.core.procedure.models.document import BaseDocument
 
 
 class ContractPostDocument(BaseDocument):

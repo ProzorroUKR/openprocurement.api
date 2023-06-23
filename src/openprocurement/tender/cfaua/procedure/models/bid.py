@@ -1,5 +1,5 @@
 from schematics.types import StringType, BooleanType
-
+from schematics.types.compound import ModelType
 from openprocurement.tender.core.procedure.models.guarantee import WeightedValue
 from openprocurement.tender.core.procedure.models.req_response import PostBidResponsesMixin, PatchObjResponsesMixin
 from openprocurement.tender.core.procedure.models.bid import (
@@ -8,12 +8,11 @@ from openprocurement.tender.core.procedure.models.bid import (
     PatchBid as BasePatchBid,
 )
 from openprocurement.tender.core.procedure.models.base import ListType
-from openprocurement.tender.cfaua.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
-from openprocurement.tender.openeu.procedure.models.document import (
+from openprocurement.tender.core.procedure.models.bid_document import (
     PostDocument,
     Document,
 )
-from schematics.types.compound import ModelType
+from openprocurement.tender.cfaua.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
 
 
 class PatchBid(PatchObjResponsesMixin, BasePatchBid):

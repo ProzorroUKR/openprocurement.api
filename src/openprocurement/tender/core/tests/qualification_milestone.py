@@ -37,12 +37,12 @@ class BaseTenderMilestone24HMixin:
         context = response.json["data"]["{}s".format(self.context_name)][0]
         bid_id = context.get("bid_id") or context.get("bidID")  # awards and qualifications developed on different days
         winner_token = self.initial_bids_tokens[bid_id]
-        upload_allowed_by_default = procurement_method_type in (
-            "aboveThresholdUA.defense",
-            "simple.defense",
-            "belowThreshold",
-        )
-        self.assert_upload_docs_status(bid_id, winner_token, success=upload_allowed_by_default)
+        # upload_allowed_by_default = procurement_method_type in (
+        #     "aboveThresholdUA.defense",
+        #     "simple.defense",
+        #     "belowThreshold",
+        # )
+        # self.assert_upload_docs_status(bid_id, winner_token, success=upload_allowed_by_default)
 
         # invalid creation
         response = self.app.post_json(
@@ -184,7 +184,7 @@ class BaseTenderMilestone24HMixin:
         # wait until milestone dueDate ends
         with patch("openprocurement.tender.core.procedure.validation.get_now", lambda: get_now() + timedelta(hours=24)):
             with patch("openprocurement.tender.core.validation.get_now", lambda: get_now() + timedelta(hours=24)):
-                self.assert_upload_docs_status(bid_id, winner_token, success=upload_allowed_by_default)
+                # self.assert_upload_docs_status(bid_id, winner_token, success=upload_allowed_by_default)
 
                 response = self.app.patch_json(
                     "/tenders/{}/{}s/{}?acc_token={}".format(

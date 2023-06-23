@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.models import Model, HashType
-from openprocurement.tender.core.procedure.context import get_tender, get_document
+from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.api.context import get_now
 from uuid import uuid4
 from schematics.exceptions import ValidationError
@@ -102,6 +102,7 @@ class PostDocument(BaseDocument):
     format = StringType(required=True, regex="^[-\w]+/[-\.\w\+]+$")
     url = StringType(required=True)  # Link to the document or attachment.
     documentOf = StringType(required=True, choices=["tender", "item", "lot"], default="tender")
+    language = StringType(required=True, choices=["uk", "en", "ru"], default="uk")
 
     def validate_relatedItem(self, data, related_item):
         validate_relatedItem(related_item, data.get("documentOf"))
@@ -118,6 +119,7 @@ class Document(BaseDocument):
     documentOf = StringType(required=True, choices=["tender", "item", "lot"], default="tender")
     dateModified = StringType()
     author = StringType()
+    language = StringType(required=True, choices=["uk", "en", "ru"], default="uk")
 
     def validate_relatedItem(self, data, related_item):
         validate_relatedItem(related_item, data.get("documentOf"))
@@ -126,11 +128,8 @@ class Document(BaseDocument):
 class PatchDocument(BaseDocument):
     # "edit": blacklist("id", "url", "datePublished", "dateModified", "author", "hash", "download_url"),
     documentOf = StringType(choices=["tender", "item", "lot"])
+    language = StringType(choices=["uk", "en", "ru"])
 
     @serializable
     def dateModified(self):
         return get_now().isoformat()
-
-
-class EUDocument(Document):
-    language = StringType(required=True, choices=["uk", "en", "ru"], default="uk")

@@ -50,7 +50,7 @@ from openprocurement.tender.cfaua.tests.bid_blanks import (
     patch_tender_bidder_document,
     download_tender_bidder_document,
     bids_invalidation_on_tender_change,
-    create_tender_bidder_document_nopending,
+    create_tender_bidder_document_invalid_award_status,
     bid_Administrator_change,
     change_bid_document_in_qualification_st_st,
     view_bid_in_qualification_st_st,
@@ -141,7 +141,7 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
     test_put_tender_bidder_document = snitch(put_tender_bidder_document)
     test_patch_tender_bidder_document = snitch(patch_tender_bidder_document)
     test_download_tender_bidder_document = snitch(download_tender_bidder_document)
-    test_create_tender_bidder_document_nopending = snitch(create_tender_bidder_document_nopending)
+    test_create_tender_bidder_document_invalid_award_status = snitch(create_tender_bidder_document_invalid_award_status)
 
     test_create_tender_bid_document_json_bulk = snitch(create_tender_bid_document_json_bulk)
     test_patch_tender_bidder_document_private_json = snitch(patch_tender_bidder_document_private_json)

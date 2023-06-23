@@ -923,143 +923,6 @@ def not_found(self):
     )
 
 
-def update_tender_bid_document_invalid_pmr(self):
-    requirement = self.app.get(
-        "/tenders/{}".format(self.tender_id)
-    ).json["data"]["criteria"][0]["requirementGroups"][0]["requirements"][0]
-
-    self.rr_data = [{
-        "title": "Requirement response",
-        "description": "some description",
-        "requirement": {
-            "id": requirement["id"],
-            "title": requirement["title"],
-        },
-        "value": "True",
-    }]
-
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 500}, "status": "draft"}},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid = response.json["data"]
-    bid_token = response.json["access"]["token"]
-    bid_id = bid["id"]
-
-    self.app.post_json(
-        "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, bid_id, bid_token),
-        {"data": self.rr_data},
-    )
-    self.app.patch_json(
-        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token),
-        {"data": {"status": "pending"}}
-    )
-
-    document = {
-        "data": {
-            "title": "name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }
-    }
-    response = self.app.post_json(
-        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, bid_token),
-        document,
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    doc_id = response.json["data"]["id"]
-    self.assertIn(doc_id, response.headers["Location"])
-
-    # make tender procurementMethodRationale simple
-    doc = self.mongodb.tenders.get(self.tender_id)
-    doc["procurementMethodRationale"] = "simple"
-    self.mongodb.tenders.save(doc)
-
-    # make tender status active.qualification
-    self.set_status("active.qualification")
-
-    # add bid award in status pending
-    auth = self.app.authorization
-    self.app.authorization = ("Basic", ("token", ""))
-    response = self.app.post_json(
-        "/tenders/{}/awards".format(self.tender_id),
-        {
-            "data": {
-                "suppliers": [test_tender_below_organization],
-                "status": "pending",
-                "bid_id": bid_id,
-                "value": {
-                    "amount": 500,
-
-                },
-            }
-        },
-    )
-    self.app.authorization = auth
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-
-    # negative put
-    response = self.app.put_json(
-        "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, bid_token),
-        document,
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"], 
-        "Can't upload document with ('active.qualification',) tender status and procurementMethodRationale simple"
-    )
-
-    # positive put
-    doc = self.mongodb.tenders.get(self.tender_id)
-    doc["procurementMethodRationale"] = "Open"
-    self.mongodb.tenders.save(doc)
-
-    response = self.app.put_json(
-        "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, bid_token),
-        document,
-        status=200,
-    )
-    self.assertEqual(response.status, "200 OK")
-
-    # negative patch
-    doc = self.mongodb.tenders.get(self.tender_id)
-    doc["procurementMethodRationale"] = "simple"
-    self.mongodb.tenders.save(doc)
-
-    response = self.app.patch_json(
-        "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, bid_token),
-        {"data": {"description": "document description"}},
-        status=403
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Can't upload document with ('active.qualification',) tender status and procurementMethodRationale simple"
-    )
-
-    # positive patch
-    doc = self.mongodb.tenders.get(self.tender_id)
-    doc["procurementMethodRationale"] = "Open"
-    self.mongodb.tenders.save(doc)
-
-    response = self.app.patch_json(
-        "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, bid_token),
-        {"data": {"description": "document description123"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(doc_id, response.json["data"]["id"])
-    self.assertEqual("document description123", response.json["data"]["description"])
-
-
 def update_tender_bid_pmr_related_doc(self):
     criteria = self.app.get(
         "/tenders/{}".format(self.tender_id)
@@ -1346,7 +1209,7 @@ def patch_tender_bid_document(self):
     # )
 
 
-def create_tender_bid_document_nopending(self):
+def create_tender_bid_document_invalid_award_status(self):
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": {"requirementResponses": self.rr_data, "tenderers": [test_tender_below_organization], "value": {"amount": 500}}},
@@ -1388,7 +1251,7 @@ def create_tender_bid_document_nopending(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't update document because award of bid is not in one of statuses ('pending', 'active')"
+        "Can't update document because award of bid is not in one of statuses ('active',)"
     )
 
     response = self.app.put_json(
@@ -1400,7 +1263,7 @@ def create_tender_bid_document_nopending(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't update document because award of bid is not in one of statuses ('pending', 'active')"
+        "Can't update document because award of bid is not in one of statuses ('active',)"
     )
 
     response = self.app.post_json(
@@ -1412,105 +1275,9 @@ def create_tender_bid_document_nopending(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't add document because award of bid is not in one of statuses ('pending', 'active')"
+        "Can't add document because award of bid is not in one of statuses ('active',)"
     )
 
-
-def create_tender_bid_document_invalid_pmr(self):
-    requirement = self.app.get(
-        "/tenders/{}".format(self.tender_id)
-    ).json["data"]["criteria"][0]["requirementGroups"][0]["requirements"][0]
-
-    self.rr_data = [{
-        "title": "Requirement response",
-        "description": "some description",
-        "requirement": {
-            "id": requirement["id"],
-            "title": requirement["title"],
-        },
-        "value": "True",
-    }]
-    response = self.app.post_json(
-        "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 500}, "status": "draft"}},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid = response.json["data"]
-    token = response.json["access"]["token"]
-    bid_id = bid["id"]
-
-    self.app.post_json(
-        "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, bid_id, token),
-        {"data": self.rr_data},
-    )
-    self.app.patch_json(
-        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, token),
-        {"data": {"status": "pending"}}
-    )
-
-    # make tender procurementMethodRationale simple
-    doc = self.mongodb.tenders.get(self.tender_id)
-    doc["procurementMethodRationale"] = "simple"
-    self.mongodb.tenders.save(doc)
-
-    # make tender status active.qualification
-    self.set_status("active.qualification")
-
-    # add bid award in status pending
-    auth = self.app.authorization
-    self.app.authorization = ("Basic", ("token", ""))
-    response = self.app.post_json(
-        "/tenders/{}/awards".format(self.tender_id),
-        {
-            "data": {
-                "suppliers": [test_tender_below_organization],
-                "status": "pending",
-                "bid_id": bid_id,
-                "value": {
-                    "amount": 500,
-                    
-                },
-            }
-        },
-    )
-    self.app.authorization = auth
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-   
-    # negative
-    document = {
-        "data": {
-            "title": "name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }
-    }
-    response = self.app.post_json(
-        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, token),
-        document,
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"], 
-        "Can't upload document with ('active.qualification',) tender status and procurementMethodRationale simple"
-    )
-    
-    # positive
-    doc = self.mongodb.tenders.get(self.tender_id)
-    doc["procurementMethodRationale"] = "Open"
-    self.mongodb.tenders.save(doc)
-    
-    response = self.app.post_json(
-        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, token),
-        document,
-        status=201,
-    )
-    self.assertEqual(response.status, "201 Created")
-    
     
 # TenderBidDocumentWithDSResourceTest
 
@@ -1857,9 +1624,6 @@ def create_tender_bid_document_with_award_json(self):
 
 def create_tender_bid_document_active_qualification(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
-    if response.json["data"]["procurementMethodType"] not in GUARANTEE_ALLOWED_TENDER_TYPES:
-        return
-
     with change_auth(self.app, ("Basic", ("token", ""))):  # this copied from above
         self.set_status("active.qualification")
         response = self.app.post_json(
@@ -1872,30 +1636,9 @@ def create_tender_bid_document_active_qualification(self):
             status=201
         )
 
-    response = self.app.post_json(
-        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-        {"data": {
-            "title": "test.doc",
-            "url": self.generate_docservice_url(),
-            "format": "application/msword",
-            "hash": "md5:" + "0" * 32
-        }},
-        status=403
-    )
-    self.assertEqual(
-        response.json["errors"],
-        [{"location": "body", "name": "data",
-          "description": "Can't upload document with ('active.qualification',) tender status "
-                         "and procurementMethodRationale simple"}]
-    )
-
 
 def create_tender_bid_document_with_award_json_bulk(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
-    procurementMethodType = response.json["data"]["procurementMethodType"]
-    if procurementMethodType not in GUARANTEE_ALLOWED_TENDER_TYPES:
-        return
-
     response = self.app.post_json(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
         {
@@ -2489,14 +2232,6 @@ def create_tender_bid_with_documents(self):
 def bid_activate_with_cancelled_tenderer_criterion(self):
     self.set_status("active.enquiries")
     response = self.app.get("/tenders/{}".format(self.tender_id))
-    bid_pending_procedures = [
-        "aboveThresholdEU",
-        "esco",
-        "closeFrameworkAgreementUA",
-        "competitiveDialogueEU",
-        "competitiveDialogueUA",
-        "competitiveDialogueEU.stage2",
-    ]
     next_status = "pending"
     response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
     self.assertEqual(response.content_type, "application/json")
