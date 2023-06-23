@@ -11,7 +11,7 @@ from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.models.qualification import Qualification
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
-    tender_created_after_2020_rules,
+    tender_created_after_2020_rules, activate_bids,
 )
 from openprocurement.tender.core.utils import calc_auction_end_time
 from openprocurement.tender.core.procedure.state.utils import awarding_is_unsuccessful
@@ -497,13 +497,7 @@ class ChronographEventsMixing(baseclass):
 
     @staticmethod
     def activate_bids(tender):
-        for bid in tender.get("bids", ""):
-            lot_values = bid.get("lotValues", "")
-            if lot_values:
-                for lot_value in lot_values:
-                    lot_value["status"] = "active"
-            if bid["status"] == "pending":
-                bid["status"] = "active"
+        activate_bids(tender.get("bids", ""))
 
     def check_bids_number(self, tender):
         if tender.get("lots"):
