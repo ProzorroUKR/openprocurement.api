@@ -1,9 +1,9 @@
-from openprocurement.tender.openeu.procedure.models.document import (
+from schematics.types import BooleanType
+from openprocurement.tender.core.procedure.models.bid_document import (
     PostDocument as BasePostDocument,
     PatchDocument as BasePatchDocument,
     Document as BaseDocument,
 )
-from schematics.types import BooleanType
 
 
 class PostDocument(BasePostDocument):

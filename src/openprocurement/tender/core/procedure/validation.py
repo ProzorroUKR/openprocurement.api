@@ -529,9 +529,16 @@ def validate_related_lot(tender, related_lot):
 
 
 def validate_view_bid_document(request, **_):
+    config = get_tender_config()
+    if config.get("hasPrequalification"):
+        forbidden_tender_statuses = ("active.tendering",)
+    else:
+        forbidden_tender_statuses = ("active.tendering", "active.auction")
     tender_status = request.validated["tender"]["status"]
-    if tender_status in ("active.tendering", "active.auction") \
-       and not is_item_owner(request, request.validated["bid"]):
+    if (
+        tender_status in forbidden_tender_statuses
+        and not is_item_owner(request, request.validated["bid"])
+    ):
         raise_operation_error(
             request,
             "Can't view bid documents in current ({}) tender status".format(tender_status),
@@ -1485,14 +1492,7 @@ def validate_bid_document_operation_in_award_status(request, **_):
     tender = request.validated["tender"]
     bid = request.validated["bid"]
 
-    if tender["procurementMethodType"] in (
-        "belowThreshold",
-        "aboveThresholdUA.defense",
-        "closeFrameworkAgreementUA",
-    ):
-        allowed_award_statuses = ("pending", "active")
-    else:
-        allowed_award_statuses = ("active",)
+    allowed_award_statuses = ("active",)
 
     if tender["status"] in ("active.qualification", "active.awarded") and not any(
         award["status"] in allowed_award_statuses and award["bid_id"] == bid["id"]
@@ -1506,23 +1506,53 @@ def validate_bid_document_operation_in_award_status(request, **_):
         )
 
 
-def validate_bid_document_in_tender_status(request, **_):
+def validate_bid_document_in_tender_status_base(request, allowed_statuses):
     """
     active.tendering - tendering docs
+    active.qualification - multi-lot procedure may be in this status despite the active award
     active.awarded - qualification docs that should be posted into award (another temp solution)
     """
-    status = request.validated["tender"]["status"]
-    if status not in (
-        "active.tendering",
-        "active.qualification",  # multi-lot procedure may be in this status despite of the active award
-        "active.qualification.stand-still",  # for cfaua
-        "active.awarded",
-    ):
+    tender = request.validated["tender"]
+    status = tender["status"]
+    if status not in allowed_statuses:
         operation = OPERATIONS.get(request.method)
         raise_operation_error(
             request,
             "Can't {} document in current ({}) tender status".format(operation, status)
         )
+
+
+def validate_bid_document_in_tender_status(request, **_):
+    """
+    active.tendering - tendering docs
+    active.awarded - qualification docs that should be posted into award (another temp solution)
+    """
+    tender = request.validated["tender"]
+    allowed_statuses = (
+        "active.tendering",
+        "active.qualification",
+    )
+
+    if tender["procurementMethodType"] in ("closeFrameworkAgreementUA",):
+        allowed_statuses += ("active.qualification.stand-still",)
+    else:
+        allowed_statuses += ("active.awarded",)
+
+    validate_bid_document_in_tender_status_base(request, allowed_statuses)
+
+
+def validate_bid_financial_document_in_tender_status(request, **_):
+    tender = request.validated["tender"]
+    allowed_statuses = (
+        "active.tendering",
+        "active.qualification",
+        "active.awarded",
+    )
+
+    if tender["procurementMethodType"] in ("closeFrameworkAgreementUA",):
+        allowed_statuses += ("active.qualification.stand-still",)
+
+    validate_bid_document_in_tender_status_base(request, allowed_statuses)
 
 
 def validate_download_bid_document(request, **_):
@@ -1546,3 +1576,60 @@ def validate_update_bid_document_confidentiality(request, **_):
                 request,
                 "Can't update document confidentiality in current ({}) tender status".format(tender_status),
             )
+
+
+def validate_bid_document_operation_in_bid_status(request, **_):
+    bid = request.validated["bid"]
+    if bid["status"] in ("unsuccessful", "deleted"):
+        raise_operation_error(
+            request,
+            "Can't {} document at '{}' bid status".format(
+                OPERATIONS.get(request.method),
+                bid["status"]
+            )
+        )
+
+
+def validate_view_bid_documents_allowed_in_bid_status(request, **_):
+    bid_status = request.validated["bid"]["status"]
+    if bid_status in ("invalid", "deleted") and not is_item_owner(request, request.validated["bid"]):
+        raise_operation_error(
+            request,
+            f"Can't view bid documents in current ({bid_status}) bid status"
+        )
+
+
+def validate_view_financial_bid_documents_allowed_in_tender_status(request, **_):
+    tender_status = request.validated["tender"]["status"]
+    forbidden_tender_statuses = (
+        "active.tendering",
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+        "active.auction",
+    )
+    if (
+        tender_status in forbidden_tender_statuses
+        and not is_item_owner(request, request.validated["bid"])
+    ):
+        raise_operation_error(
+            request,
+            f"Can't view bid documents in current ({tender_status}) tender status",
+        )
+
+
+def validate_view_financial_bid_documents_allowed_in_bid_status(request, **_):
+    bid_status = request.validated["bid"]["status"]
+    forbidden_bid_statuses = (
+        "invalid",
+        "deleted",
+        "invalid.pre-qualification",
+        "unsuccessful",
+    )
+    if (
+        bid_status in forbidden_bid_statuses
+        and not is_item_owner(request, request.validated["bid"])
+    ):
+        raise_operation_error(
+            request,
+            f"Can't view bid documents in current ({bid_status}) bid status"
+        )

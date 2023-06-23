@@ -214,6 +214,8 @@ class ComplaintPolyModelType(PolyModelType):
 
 class Document(BaseDocument):
     documentOf = StringType(required=True, choices=["tender", "item", "lot"], default="tender")
+    confidentiality = StringType()
+    confidentialityRationale = StringType()
 
     def validate_relatedItem(self, data, relatedItem):
         if not relatedItem and data.get("documentOf") in ["item", "lot"]:

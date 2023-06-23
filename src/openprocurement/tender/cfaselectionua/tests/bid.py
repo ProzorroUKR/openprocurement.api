@@ -35,7 +35,7 @@ from openprocurement.tender.cfaselectionua.tests.bid_blanks import (
     # TenderBidDocumentResourceTest
     not_found,
     patch_tender_bid_document,
-    create_tender_bid_document_nopending,
+    create_tender_bid_document_invalid_award_status,
     # TenderBidDocumentWithDSResourceTest
     create_tender_bid_document_json,
     put_tender_bid_document_json,
@@ -130,7 +130,7 @@ class TenderBidDocumentWithDSResourceTest(TenderContentWebTest):
     test_create_tender_bid_document_json_bulk = snitch(create_tender_bid_document_json_bulk)
     test_put_tender_bid_document_json = snitch(put_tender_bid_document_json)
     test_patch_tender_bid_document = snitch(patch_tender_bid_document)
-    test_create_tender_bid_document_nopending = snitch(create_tender_bid_document_nopending)
+    test_create_tender_bid_document_invalid_award_status = snitch(create_tender_bid_document_invalid_award_status)
 
 
 class TenderBidBatchDocumentWithDSResourceTest(TenderContentWebTest):

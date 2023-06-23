@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import get_now, raise_operation_error, get_first_revision_date
-from openprocurement.api.validation import validate_data, OPERATIONS
 from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.tender.openeu.models import Qualification
 
 
 def validate_qualification_update_with_cancellation_lot_pending(request, **kwargs):
@@ -32,96 +30,6 @@ def validate_qualification_update_with_cancellation_lot_pending(request, **kwarg
         raise_operation_error(
             request,
             "Can't update qualification with pending cancellation lot",
-        )
-
-
-def validate_patch_qualification_data(request, **kwargs):
-    return validate_data(request, Qualification, True)
-
-
-# bids
-def validate_view_bids_in_active_tendering(request, **kwargs):
-    if request.validated["tender_status"] == "active.tendering":
-        raise_operation_error(
-            request,
-            "Can't view {} in current ({}) tender status".format(
-                "bid" if request.matchdict.get("bid_id") else "bids", request.validated["tender_status"]
-            ),
-        )
-
-
-# bid documents
-def validate_bid_document_operation_in_bid_status(request, **kwargs):
-    bid = request.validated["bid"]
-    if bid.status in ("unsuccessful", "deleted"):
-        raise_operation_error(
-            request,
-            "Can't {} document at '{}' bid status".format(
-                OPERATIONS.get(request.method),
-                bid.status
-            )
-        )
-
-
-def validate_view_bid_documents_allowed_in_tender_status(request, **kwargs):
-    tender_status = request.validated["tender_status"]
-    if tender_status == "active.tendering" and request.authenticated_role != "bid_owner":
-        raise_operation_error(
-            request,
-            "Can't view bid documents in current ({}) tender status".format(tender_status),
-        )
-
-
-def validate_view_financial_bid_documents_allowed_in_tender_status(request, **kwargs):
-    tender_status = request.validated["tender_status"]
-    view_forbidden_states = (
-        "active.tendering",
-        "active.pre-qualification",
-        "active.pre-qualification.stand-still",
-        "active.auction",
-    )
-    if tender_status in view_forbidden_states and request.authenticated_role != "bid_owner":
-        raise_operation_error(
-            request,
-            "Can't view bid documents in current ({}) tender status".format(tender_status),
-        )
-
-
-def validate_view_bid_documents_allowed_in_bid_status(request, **kwargs):
-    bid_status = request.validated["bid"].status
-    if bid_status in ("invalid", "deleted") and request.authenticated_role != "bid_owner":
-        raise_operation_error(
-            request,
-            "Can't view bid documents in current ({}) bid status".format(bid_status)
-        )
-
-
-def validate_view_financial_bid_documents_allowed_in_bid_status(request, **kwargs):
-    bid_status = request.validated["bid"].status
-    if bid_status in ("invalid", "deleted", "invalid.pre-qualification", "unsuccessful") \
-       and request.authenticated_role != "bid_owner":
-        raise_operation_error(
-            request,
-            "Can't view bid documents in current ({}) bid status".format(bid_status)
-        )
-
-
-# qualification
-def validate_qualification_document_operation_not_in_allowed_status(request, **kwargs):
-    if request.validated["tender_status"] != "active.pre-qualification":
-        raise_operation_error(
-            request,
-            "Can't {} document in current ({}) tender status".format(
-                OPERATIONS.get(request.method), request.validated["tender_status"]
-            ),
-        )
-
-
-def validate_qualification_document_operation_not_in_pending(request, **kwargs):
-    qualification = request.validated["qualification"]
-    if qualification.status != "pending":
-        raise_operation_error(
-            request, "Can't {} document in current qualification status".format(OPERATIONS.get(request.method))
         )
 
 

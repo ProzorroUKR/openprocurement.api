@@ -36,7 +36,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
 )
 from openprocurement.tender.pricequotation.tests.bid_blanks import (
     create_tender_bid,
-    create_tender_bid_document_nopending,
+    create_tender_bid_document_invalid_award_status,
     create_tender_bid_invalid,
     patch_tender_bid,
     get_tender_bid,

@@ -1,12 +1,12 @@
-from openprocurement.tender.openeu.procedure.views.bid_document import (
-    OpenEUTenderBidDocumentResource,
-    TenderEUBidFinancialDocumentResource,
-    TenderEUBidEligibilityDocumentResource,
-    TenderEUBidQualificationDocumentResource,
-)
-from openprocurement.tender.openua.procedure.views.bid_document import TenderUaBidDocumentResource
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_UA_TYPE, STAGE_2_EU_TYPE
 from cornice.resource import resource
+
+from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
+from openprocurement.tender.core.procedure.views.bid_document import (
+    BaseTenderBidDocumentResource,
+    BaseTenderBidEligibilityDocumentResource,
+    BaseTenderBidFinancialDocumentResource,
+    BaseTenderBidQualificationDocumentResource,
+)
 
 
 @resource(
@@ -14,31 +14,9 @@ from cornice.resource import resource
     collection_path="/tenders/{tender_id}/bids/{bid_id}/documents",
     path="/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}",
     procurementMethodType=STAGE_2_EU_TYPE,
-    description="Competitive Dialogue Stage2 EU bidder documents",
+    description="Tender bidder documents",
 )
-class CompetitiveDialogueStage2EUBidDocumentResource(OpenEUTenderBidDocumentResource):
-    pass
-
-
-@resource(
-    name="{}:Tender Bid Documents".format(STAGE_2_UA_TYPE),
-    collection_path="/tenders/{tender_id}/bids/{bid_id}/documents",
-    path="/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}",
-    procurementMethodType=STAGE_2_UA_TYPE,
-    description="Competitive Dialogue Stage2 UA bidder documents",
-)
-class CompetitiveDialogueStage2UaBidDocumentResource(TenderUaBidDocumentResource):
-    pass
-
-
-@resource(
-    name="{}:Tender Bid Financial Documents".format(STAGE_2_EU_TYPE),
-    collection_path="/tenders/{tender_id}/bids/{bid_id}/financial_documents",
-    path="/tenders/{tender_id}/bids/{bid_id}/financial_documents/{document_id}",
-    procurementMethodType=STAGE_2_EU_TYPE,
-    description="Competitive Dialogue Stage2 EU bidder financial documents",
-)
-class CompetitiveDialogueStage2EUBidFinancialDocumentResource(TenderEUBidFinancialDocumentResource):
+class TenderEUBidDocumentResource(BaseTenderBidDocumentResource):
     pass
 
 
@@ -47,9 +25,20 @@ class CompetitiveDialogueStage2EUBidFinancialDocumentResource(TenderEUBidFinanci
     collection_path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents",
     path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents/{document_id}",
     procurementMethodType=STAGE_2_EU_TYPE,
-    description="Competitive Dialogue Stage2 EU bidder eligibility documents",
+    description="Tender bidder eligibility documents",
 )
-class CompetitiveDialogueStage2EUBidEligibilityDocumentResource(TenderEUBidEligibilityDocumentResource):
+class TenderEUBidEligibilityDocumentResource(BaseTenderBidEligibilityDocumentResource):
+    pass
+
+
+@resource(
+    name="{}:Tender Bid Financial Documents".format(STAGE_2_EU_TYPE),
+    collection_path="/tenders/{tender_id}/bids/{bid_id}/financial_documents",
+    path="/tenders/{tender_id}/bids/{bid_id}/financial_documents/{document_id}",
+    procurementMethodType=STAGE_2_EU_TYPE,
+    description="Tender bidder financial documents",
+)
+class TenderEUBidFinancialDocumentResource(BaseTenderBidFinancialDocumentResource):
     pass
 
 
@@ -58,7 +47,51 @@ class CompetitiveDialogueStage2EUBidEligibilityDocumentResource(TenderEUBidEligi
     collection_path="/tenders/{tender_id}/bids/{bid_id}/qualification_documents",
     path="/tenders/{tender_id}/bids/{bid_id}/qualification_documents/{document_id}",
     procurementMethodType=STAGE_2_EU_TYPE,
-    description="Competitive Dialogue Stage2 EU bidder qualification documents",
+    description="Tender bidder qualification documents",
 )
-class CompetitiveDialogueStage2EUBidQualificationDocumentResource(TenderEUBidQualificationDocumentResource):
+class TenderEUBidQualificationDocumentResource(BaseTenderBidQualificationDocumentResource):
+    pass
+
+
+@resource(
+    name="{}:Tender Bid Documents".format(STAGE_2_UA_TYPE),
+    collection_path="/tenders/{tender_id}/bids/{bid_id}/documents",
+    path="/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}",
+    procurementMethodType=STAGE_2_UA_TYPE,
+    description="Tender bidder documents",
+)
+class TenderUABidDocumentResource(BaseTenderBidDocumentResource):
+    pass
+
+
+@resource(
+    name="{}:Tender Bid Eligibility Documents".format(STAGE_2_UA_TYPE),
+    collection_path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents",
+    path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents/{document_id}",
+    procurementMethodType=STAGE_2_UA_TYPE,
+    description="Tender bidder eligibility documents",
+)
+class TenderUABidEligibilityDocumentResource(BaseTenderBidEligibilityDocumentResource):
+    pass
+
+
+@resource(
+    name="{}:Tender Bid Financial Documents".format(STAGE_2_UA_TYPE),
+    collection_path="/tenders/{tender_id}/bids/{bid_id}/financial_documents",
+    path="/tenders/{tender_id}/bids/{bid_id}/financial_documents/{document_id}",
+    procurementMethodType=STAGE_2_UA_TYPE,
+    description="Tender bidder financial documents",
+)
+class TenderUABidFinancialDocumentResource(BaseTenderBidFinancialDocumentResource):
+    pass
+
+
+@resource(
+    name="{}:Tender Bid Qualification Documents".format(STAGE_2_UA_TYPE),
+    collection_path="/tenders/{tender_id}/bids/{bid_id}/qualification_documents",
+    path="/tenders/{tender_id}/bids/{bid_id}/qualification_documents/{document_id}",
+    procurementMethodType=STAGE_2_UA_TYPE,
+    description="Tender bidder qualification documents",
+)
+class TenderUABidQualificationDocumentResource(BaseTenderBidQualificationDocumentResource):
     pass

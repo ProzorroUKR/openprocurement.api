@@ -1,4 +1,5 @@
 from schematics.types import BooleanType
+from schematics.types.compound import ModelType
 from openprocurement.tender.openua.procedure.models.bid import (
     Bid as BaseBid,
     PostBid as BasePostBid,
@@ -6,12 +7,11 @@ from openprocurement.tender.openua.procedure.models.bid import (
 )
 from openprocurement.tender.core.procedure.models.base import ListType
 from openprocurement.tender.core.procedure.models.guarantee import WeightedValue
-from openprocurement.tender.openeu.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
-from openprocurement.tender.openeu.procedure.models.document import (
+from openprocurement.tender.core.procedure.models.bid_document import (
     PostDocument,
     Document,
 )
-from schematics.types.compound import ModelType
+from openprocurement.tender.openeu.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
 
 
 class PatchBid(BasePatchBid):

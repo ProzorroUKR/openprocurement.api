@@ -743,19 +743,6 @@ def bids_invalidation_on_tender_change(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
-    # we don't support another type of documents
-    for doc_resource in ["qualification_documents", "eligibility_documents", "financial_documents"]:
-        self.app.post_json(
-            "/tenders/{}/bids/{}/{}?acc_token={}".format(self.tender_id, bid_id, doc_resource, token),
-            {"data": {
-                "title": "name_{}.doc".format(doc_resource[:-1]),
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }},
-            status=404,
-        )
-
     # and submit valid bid
     data = deepcopy(self.test_bids_data[0])
     data["tenderers"][0]["identifier"]["id"] = "00037256"
@@ -1187,19 +1174,6 @@ def get_tender_bidder_document(self):
 
 def create_tender_bidder_document(self):
     doc_id_by_type = {}
-
-    # we don't support another type of documents
-    for doc_resource in ["qualification_documents", "eligibility_documents", "financial_documents"]:
-        self.app.post_json(
-            "/tenders/{}/bids/{}/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_resource, self.bid_token),
-            {"data": {
-                "title": "name_{}.doc".format(doc_resource[:-1]),
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }},
-            status=404,
-        )
 
     # Create documents for bid
     doc_resource = "documents"
