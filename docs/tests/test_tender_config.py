@@ -24,6 +24,7 @@ from tests.base.test import (
 )
 from tests.base.data import (
     test_docs_tender_open,
+    test_docs_tender_openua,
     test_docs_bid2,
     test_docs_lots,
     test_docs_bid,
@@ -1720,3 +1721,379 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
         with open(TARGET_DIR + 'value-currency-equality-false-tender-complete.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}'.format(self.tender_id))
             self.assertEqual(response.status, '200 OK')
+
+
+class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
+
+    def test_docs_min_bids_number_values_csv(self):
+        self.write_values_csv(config_name="minBidsNumber", file_name="min-bids-number-values.csv")
+
+    def test_docs_min_bids_number_invalid_config(self):
+        config = deepcopy(self.initial_config)
+        config["minBidsNumber"] = 0
+        config["hasValueRestriction"] = True
+
+        test_tender_data = deepcopy(test_docs_tender_openua)
+
+        with open(TARGET_DIR + 'min-bids-number-invalid-value-1.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders?opt_pretty=1',
+                {'data': test_tender_data, 'config': config},
+                status=422,
+            )
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+            self.assertEqual(
+                response.json["errors"],
+                [{
+                    "location": "body",
+                    "name": "minBidsNumber",
+                    "description": "0 is less than the minimum of 1"
+                }]
+            )
+
+        config["minBidsNumber"] = 10
+        with open(TARGET_DIR + 'min-bids-number-invalid-value-2.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders?opt_pretty=1',
+                {'data': test_tender_data, 'config': config},
+                status=422,
+            )
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+            self.assertEqual(
+                response.json["errors"],
+                [{
+                    "location": "body",
+                    "name": "minBidsNumber",
+                    "description": "10 is greater than the maximum of 9"
+                }]
+            )
+
+    def test_docs_min_bids_number_tendering_unsuccessful(self):
+        config = deepcopy(self.initial_config)
+        config["minBidsNumber"] = 2
+        config["hasValueRestriction"] = True
+
+        test_tender_data = deepcopy(test_docs_tender_openua)
+        test_lots = deepcopy(test_docs_lots)
+        test_lots[0]['value'] = test_tender_data['value']
+        test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
+
+        with open(TARGET_DIR + 'min-bids-number-tender-post-1', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders?opt_pretty=1',
+                {'data': test_tender_data, 'config': config},
+            )
+            self.assertEqual(response.status, '201 Created')
+
+        tender = response.json['data']
+        tender_id = self.tender_id = tender['id']
+        owner_token = response.json['access']['token']
+
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
+            {'data': test_lots[0]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot_id = response.json['data']['id']
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        items[0]["relatedLot"] = lot_id
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+            {"data": {"items": items}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        self.add_criteria(tender_id, owner_token)
+        self.set_status('active.tendering')
+
+        # Registering bid
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json(
+            f'/tenders/{tender_id}/bids',
+            {
+                'data': {
+                    'selfQualified': True,
+                    'status': 'draft',
+                    'tenderers': test_docs_bid["tenderers"],
+                    'lotValues': [{
+                        "subcontractingDetails": "ДКП «Орфей», Україна",
+                        "value": {"amount": 500},
+                        'relatedLot': lot_id
+                    }]
+                }
+            }
+        )
+        self.assertEqual(response.status, '201 Created')
+        self.set_responses(tender_id, response.json, "active")
+
+        self.tick(datetime.timedelta(days=30))
+        self.check_chronograph()
+        with open(TARGET_DIR + 'min-bids-number-tender-unsuccessful.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}'.format(self.tender_id))
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.json['data']['status'], 'unsuccessful')
+
+    def test_docs_min_bids_number_tendering_one_bid(self):
+        config = deepcopy(self.initial_config)
+        config["minBidsNumber"] = 1
+        config["hasValueRestriction"] = True
+
+        test_tender_data = deepcopy(test_docs_tender_openua)
+        test_lots = deepcopy(test_docs_lots)
+        test_lots[0]['value'] = test_tender_data['value']
+        test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
+
+        with open(TARGET_DIR + 'min-bids-number-tender-post-2', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders?opt_pretty=1',
+                {'data': test_tender_data, 'config': config},
+            )
+            self.assertEqual(response.status, '201 Created')
+
+        tender = response.json['data']
+        tender_id = self.tender_id = tender['id']
+        owner_token = response.json['access']['token']
+
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
+            {'data': test_lots[0]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot_id = response.json['data']['id']
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        items[0]["relatedLot"] = lot_id
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+            {"data": {"items": items}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        self.add_criteria(tender_id, owner_token)
+        self.set_status('active.tendering')
+
+        # Registering bid
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json(
+            f'/tenders/{tender_id}/bids',
+            {
+                'data': {
+                    'selfQualified': True,
+                    'status': 'draft',
+                    'tenderers': test_docs_bid["tenderers"],
+                    'lotValues': [{
+                        "subcontractingDetails": "ДКП «Орфей», Україна",
+                        "value": {"amount": 500},
+                        'relatedLot': lot_id
+                    }]
+                }
+            }
+        )
+        self.assertEqual(response.status, '201 Created')
+        self.set_responses(tender_id, response.json, "active")
+
+        self.tick(datetime.timedelta(days=30))
+        self.check_chronograph()
+        with open(TARGET_DIR + 'min-bids-number-tender-qualification-1.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}'.format(self.tender_id))
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.json['data']['status'], 'active.qualification')
+
+    def test_docs_min_bids_number_tendering_two_bids_qualification(self):
+        config = deepcopy(self.initial_config)
+        config["minBidsNumber"] = 2
+        config["hasValueRestriction"] = True
+
+        test_tender_data = deepcopy(test_docs_tender_openua)
+        test_tender_data['items'] = test_docs_items_open
+        test_lots = deepcopy(test_docs_lots)
+        test_lots[0]['value'] = test_tender_data['value']
+        test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
+        test_lots[1]['value'] = test_tender_data['value']
+        test_lots[1]['minimalStep'] = test_tender_data['minimalStep']
+
+        with open(TARGET_DIR + 'min-bids-number-tender-post-3', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders?opt_pretty=1',
+                {'data': test_tender_data, 'config': config},
+            )
+            self.assertEqual(response.status, '201 Created')
+
+        tender = response.json['data']
+        tender_id = self.tender_id = tender['id']
+        owner_token = response.json['access']['token']
+
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
+            {'data': test_lots[0]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot_id1 = response.json['data']['id']
+
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
+            {'data': test_lots[1]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot2 = response.json['data']
+        lot_id2 = lot2['id']
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        items[0]["relatedLot"] = lot_id1
+        items[1]["relatedLot"] = lot_id2
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+            {"data": {"items": items}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        self.add_criteria(tender_id, owner_token)
+        self.set_status('active.tendering')
+
+        # Registering bid1
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json(
+            f'/tenders/{tender_id}/bids',
+            {
+                'data': {
+                    'selfQualified': True,
+                    'status': 'draft',
+                    'tenderers': test_docs_bid["tenderers"],
+                    'lotValues': [{
+                        "subcontractingDetails": "ДКП «Орфей», Україна",
+                        "value": {"amount": 500},
+                        'relatedLot': lot_id1
+                    }, {
+                        "subcontractingDetails": "ДКП «Орфей», Україна",
+                        "value": {"amount": 500},
+                        'relatedLot': lot_id2
+                    }]
+                }
+            }
+        )
+        self.assertEqual(response.status, '201 Created')
+        bid1_id = response.json['data']['id']
+        self.set_responses(tender_id, response.json, "active")
+
+        # Registering bid2
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json(
+            f'/tenders/{tender_id}/bids',
+            {
+                'data': {
+                    'selfQualified': True,
+                    'status': 'draft',
+                    'tenderers': test_docs_bid["tenderers"],
+                    'lotValues': [{
+                        "subcontractingDetails": "ДКП «Орфей», Україна",
+                        "value": {"amount": 500},
+                        'relatedLot': lot_id1,
+                    }, {
+                        "subcontractingDetails": "ДКП «Орфей», Україна",
+                        "value": {"amount": 500},
+                        'relatedLot': lot_id2
+                    }]
+                }
+            }
+        )
+        self.assertEqual(response.status, '201 Created')
+        bid2_id = response.json['data']['id']
+        self.set_responses(tender_id, response.json, "active")
+
+        # Auction
+        self.tick(datetime.timedelta(days=30))
+        self.check_chronograph()
+        with open(TARGET_DIR + 'min-bids-number-tender-auction.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}'.format(self.tender_id))
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.json['data']['status'], 'active.auction')
+
+        self.app.authorization = ('Basic', ('auction', ''))
+        auction1_url = '{}/tenders/{}_{}'.format(self.auctions_url, self.tender_id, lot_id1)
+        auction2_url = '{}/tenders/{}_{}'.format(self.auctions_url, self.tender_id, lot_id2)
+        patch_data = {
+            'lots': [
+                {
+                    'id': lot_id1,
+                    'auctionUrl': auction1_url,
+                },
+                {
+                    'id': lot_id2,
+                    'auctionUrl': auction2_url,
+                },
+            ],
+            'bids': [{
+                "id": bid1_id,
+                "lotValues": [
+                    {"participationUrl": '{}?key_for_bid={}'.format(auction1_url, bid1_id)},
+                    {"participationUrl": '{}?key_for_bid={}'.format(auction2_url, bid1_id)},
+                ]
+            }, {
+                "id": bid2_id,
+                "lotValues": [
+                    {"participationUrl": '{}?key_for_bid={}'.format(auction1_url, bid2_id)},
+                    {"participationUrl": '{}?key_for_bid={}'.format(auction2_url, bid2_id)},
+                ]
+            }]
+        }
+        response = self.app.patch_json(
+            '/tenders/{}/auction/{}?acc_token={}'.format(self.tender_id, lot_id1, owner_token),
+            {'data': patch_data}
+        )
+        self.assertEqual(response.status, '200 OK')
+        response = self.app.patch_json(
+            '/tenders/{}/auction/{}?acc_token={}'.format(self.tender_id, lot_id2, owner_token),
+            {'data': patch_data}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        # Confirming qualification
+        self.app.authorization = ('Basic', ('auction', ''))
+        response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
+        auction_bids_data = response.json['data']['bids']
+        self.app.post_json(
+            '/tenders/{}/auction/{}'.format(self.tender_id, lot_id1),
+            {
+                'data': {
+                    'bids': [
+                        {
+                            "id": b["id"], "lotValues": [
+                            {"value": l["value"], "relatedLot": l["relatedLot"]}
+                            for l in b["lotValues"]
+                        ]
+                        } for b in auction_bids_data]
+                }
+            }
+        )
+        response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
+        auction_bids_data = response.json['data']['bids']
+        self.app.post_json(
+            '/tenders/{}/auction/{}'.format(self.tender_id, lot_id2),
+            {
+                'data': {
+                    'bids': [
+                        {
+                            "id": b["id"], "lotValues": [
+                            {"value": l["value"], "relatedLot": l["relatedLot"]}
+                            for l in b["lotValues"]
+                        ]
+                        } for b in auction_bids_data]
+                }
+            }
+        )
+
+        self.app.authorization = ('Basic', ('broker', ''))
+        with open(TARGET_DIR + 'min-bids-number-tender-qualification-2.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}'.format(self.tender_id))
+            self.assertEqual(response.status, '200 OK')
+            self.assertEqual(response.json['data']['status'], 'active.qualification')
