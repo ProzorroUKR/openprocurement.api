@@ -20,7 +20,7 @@ from openprocurement.tender.core.procedure.context import (
 )
 from openprocurement.tender.core.procedure.utils import (
     filter_features,
-    tender_created_after_2020_rules,
+    tender_created_after_2020_rules, activate_bids,
 )
 from openprocurement.tender.core.constants import (
     ALP_MILESTONE_REASONS,
@@ -281,6 +281,7 @@ class TenderStateAwardingMixing(baseclass):
 
     def get_mean_value_tendering_bids(self, tender, bids, lot_id, exclude_bid_id):
         before_auction_bids = get_bids_before_auction_results_context()
+        before_auction_bids = activate_bids(before_auction_bids)
         before_auction_bids = self.prepare_bids_for_awarding(
             tender, before_auction_bids, lot_id=lot_id,
         )
