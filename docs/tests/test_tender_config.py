@@ -1778,7 +1778,7 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
         test_lots[0]['value'] = test_tender_data['value']
         test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
 
-        with open(TARGET_DIR + 'min-bids-number-tender-post-1', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'min-bids-number-tender-post-1.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',
                 {'data': test_tender_data, 'config': config},
@@ -1847,7 +1847,7 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
         test_lots[0]['value'] = test_tender_data['value']
         test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
 
-        with open(TARGET_DIR + 'min-bids-number-tender-post-2', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'min-bids-number-tender-post-2.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',
                 {'data': test_tender_data, 'config': config},
@@ -1919,7 +1919,7 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
         test_lots[1]['value'] = test_tender_data['value']
         test_lots[1]['minimalStep'] = test_tender_data['minimalStep']
 
-        with open(TARGET_DIR + 'min-bids-number-tender-post-3', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'min-bids-number-tender-post-3.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',
                 {'data': test_tender_data, 'config': config},

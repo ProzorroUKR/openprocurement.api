@@ -12,7 +12,7 @@ Possible values for `minBidsNumber` field depends on `procurementMethodType` fie
    :header-rows: 1
 
 Configuration peculiarities
-============================
+----------------------------
 
 * The field value must be in the range from 1 to 9
 
@@ -43,7 +43,7 @@ Let's look at tender after `active.tendering` is finished:
 .. http:example:: http/min-bids-number-tender-unsuccessful.http
    :code:
 
-* If the value `hasAuction:true`, `minBidsNumber=1` is set and `bids=1` are submitted after the end of the bid acceptance period, the system automatically registers the participant as a potential winner, the purchase is transferred to the status `active:qualification`.
+* If the value `hasAuction:true`, `minBidsNumber=1` is set and `bids=1` are submitted after the end of the bid acceptance period, the system automatically registers the participant as a potential winner, the purchase is transferred to the status `active.qualification`.
 
 Let's create a tender `aboveThresholdUA` with configuration `minBidsNumber=1` and 1 bid:
 

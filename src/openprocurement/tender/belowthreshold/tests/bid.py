@@ -249,6 +249,7 @@ class TenderLotsWithDisabledValueRestriction(TenderContentWebTest):
             "hasAwardingOrder": True,
             "hasValueRestriction": False,
             "valueCurrencyEquality": True,
+            "minBidsNumber": 1,
         })
 
 
@@ -265,6 +266,7 @@ class TenderWithDisabledValueRestriction(TenderContentWebTest):
             "hasAwardingOrder": True,
             "hasValueRestriction": False,
             "valueCurrencyEquality": True,
+            "minBidsNumber": 1,
         })
 
 
