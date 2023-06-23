@@ -31,56 +31,6 @@ def _validate_tender_period_start_date(data, period, working_days=False, calenda
         raise ValidationError("tenderPeriod.startDate should be in greater than current date")
 
 
-# bids
-def validate_update_bid_to_draft(request, **kwargs):
-    bid_status_to = request.validated["data"].get("status", request.context.status)
-    if request.context.status != "draft" and bid_status_to == "draft":
-        request.errors.add("body", "bid", "Can't update bid to ({}) status".format(bid_status_to))
-        request.errors.status = 403
-        raise error_handler(request)
-
-
-def validate_update_bid_to_active_status(request, **kwargs):
-    bid_status_to = request.validated["data"].get("status", request.context.status)
-    if bid_status_to != request.context.status and bid_status_to != "active":
-        request.errors.add("body", "bid", "Can't update bid to ({}) status".format(bid_status_to))
-        request.errors.status = 403
-        raise error_handler(request)
-
-
-# bid documents
-def validate_download_bid_document(request, **kwargs):
-
-    if request.params.get("download"):
-        document = request.validated["document"]
-        if document.view_role() != "view":
-            raise_operation_error(request, "Document download forbidden.")
-
-
-def validate_bid_document_operation_in_award_status(request, **kwargs):
-    if request.validated["tender_status"] in ("active.qualification", "active.awarded") and not any(
-        award.status == "active"
-        for award in request.validated["tender"].awards
-        if award.bid_id == request.validated["bid_id"]
-    ):
-        raise_operation_error(
-            request,
-            "Can't {} document because award of bid is not active".format(
-                OPERATIONS.get(request.method)
-            ),
-        )
-
-
-def validate_update_bid_document_confidentiality(request, **kwargs):
-    tender_status = request.validated["tender_status"]
-    if tender_status != "active.tendering" and "confidentiality" in request.validated.get("data", {}):
-        if request.context.confidentiality != request.validated["data"]["confidentiality"]:
-            raise_operation_error(
-                request,
-                "Can't update document confidentiality in current ({}) tender status".format(tender_status),
-            )
-
-
 # complaint
 def validate_submit_claim_time(request, **kwargs):
     tender = request.validated["tender"]

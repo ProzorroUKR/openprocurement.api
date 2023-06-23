@@ -1387,7 +1387,8 @@ def create_tender_bid_document_nopending(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update document because award of bid is not in pending state"
+        response.json["errors"][0]["description"],
+        "Can't update document because award of bid is not in one of statuses ('pending', 'active')"
     )
 
     response = self.app.put_json(
@@ -1398,7 +1399,8 @@ def create_tender_bid_document_nopending(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update document because award of bid is not in pending state"
+        response.json["errors"][0]["description"],
+        "Can't update document because award of bid is not in one of statuses ('pending', 'active')"
     )
 
     response = self.app.post_json(
@@ -1409,7 +1411,8 @@ def create_tender_bid_document_nopending(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't add document because award of bid is not in pending state"
+        response.json["errors"][0]["description"],
+        "Can't add document because award of bid is not in one of statuses ('pending', 'active')"
     )
 
 
@@ -1859,7 +1862,7 @@ def create_tender_bid_document_active_qualification(self):
 
     with change_auth(self.app, ("Basic", ("token", ""))):  # this copied from above
         self.set_status("active.qualification")
-        self.app.post_json(
+        response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
             {"data": {
                 "suppliers": [test_tender_below_organization],

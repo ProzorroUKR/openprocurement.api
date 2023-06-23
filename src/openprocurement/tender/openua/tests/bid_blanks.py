@@ -1150,8 +1150,8 @@ def create_tender_bidder_document(self):
     self.assertIn(
         response.json["errors"][0]["description"],
         (
-            "Can't add document because award of bid is not active",
-            "Can't add document because award of bid is not in pending or active state",
+            "Can't add document because award of bid is not in one of statuses ('active',)",
+            "Can't add document because award of bid is not in one of statuses ('pending', 'active')",
         )
     )
 
@@ -1257,8 +1257,8 @@ def put_tender_bidder_document(self):
     self.assertIn(
         response.json["errors"][0]["description"],
         (
-            "Can't update document because award of bid is not active",
-            "Can't update document because award of bid is not in pending or active state",
+            "Can't add document because award of bid is not in one of statuses ('active',)",
+            "Can't add document because award of bid is not in one of statuses ('pending', 'active')",
         )
     )
 
@@ -1332,8 +1332,8 @@ def patch_tender_bidder_document(self):
     self.assertIn(
         response.json["errors"][0]["description"],
         (
-            "Can't update document because award of bid is not active",
-            "Can't update document because award of bid is not in pending or active state",
+            "Can't add document because award of bid is not in one of statuses ('active',)",
+            "Can't add document because award of bid is not in one of statuses ('pending', 'active')",
         )
     )
 
@@ -1408,8 +1408,8 @@ def patch_tender_bidder_document_json(self):
     self.assertIn(
         response.json["errors"][0]["description"],
         (
-            "Can't update document because award of bid is not active",
-            "Can't update document because award of bid is not in pending or active state",
+            "Can't add document because award of bid is not in one of statuses ('active',)",
+            "Can't add document because award of bid is not in one of statuses ('pending', 'active')",
         )
     )
 
@@ -1484,8 +1484,8 @@ def patch_tender_bidder_document_json(self):
     self.assertIn(
         response.json["errors"][0]["description"],
         (
-            "Can't update document because award of bid is not active",
-            "Can't update document because award of bid is not in pending or active state",
+            "Can't update document because award of bid is not in one of statuses ('active',)",
+            "Can't update document because award of bid is not in one of statuses ('pending', 'active')",
         )
     )
 
@@ -1531,8 +1531,8 @@ def create_tender_bidder_document_nopending(self):
     self.assertIn(
         response.json["errors"][0]["description"],
         (
-            "Can't update document because award of bid is not active",
-            "Can't update document because award of bid is not in pending or active state",
+            "Can't add document because award of bid is not in one of statuses ('active',)",
+            "Can't add document because award of bid is not in one of statuses ('pending', 'active')",
         )
     )
 
@@ -1546,7 +1546,7 @@ def create_tender_bidder_document_nopending(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't update document because award of bid is not active",
+        "Can't add document because award of bid is not in one of statuses ('active',)",
     )
 
     response = self.app.post_json(
@@ -1564,8 +1564,8 @@ def create_tender_bidder_document_nopending(self):
     self.assertIn(
         response.json["errors"][0]["description"],
         (
-            "Can't add document because award of bid is not active",
-            "Can't add document because award of bid is not in pending or active state",
+            "Can't add document because award of bid is not in one of statuses ('active',)",
+            "Can't add document because award of bid is not in one of statuses ('pending', 'active')",
         )
     )
 
@@ -1609,8 +1609,8 @@ def create_tender_bidder_document_nopending_json(self):
     self.assertIn(
         response.json["errors"][0]["description"],
         (
-            "Can't update document because award of bid is not active",
-            "Can't update document because award of bid is not in pending or active state",
+            "Can't update document because award of bid is not in one of statuses ('active',)",
+            "Can't update document because award of bid is not in one of statuses ('pending', 'active')",
         )
     )
 
@@ -1623,7 +1623,7 @@ def create_tender_bidder_document_nopending_json(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't update document because award of bid is not active",
+        "Can't update document because award of bid is not in one of statuses ('active',)",
     )
 
     response = self.app.post_json(
@@ -1636,8 +1636,8 @@ def create_tender_bidder_document_nopending_json(self):
     self.assertIn(
         response.json["errors"][0]["description"],
         (
-            "Can't add document because award of bid is not active",
-            "Can't add document because award of bid is not in pending or active state",
+            "Can't add document because award of bid is not in one of statuses ('active',)",
+            "Can't add document because award of bid is not in one of statuses ('pending', 'active')",
         )
     )
 
@@ -1770,8 +1770,8 @@ def create_tender_bidder_document_json(self):
     self.assertIn(
         response.json["errors"][0]["description"],
         (
-            "Can't add document because award of bid is not active",
-            "Can't add document because award of bid is not in pending or active state",
+            "Can't add document because award of bid is not in one of statuses ('active',)",
+            "Can't add document because award of bid is not in one of statuses ('pending', 'active')",
         )
     )
 
@@ -1897,8 +1897,8 @@ def put_tender_bidder_document_json(self):
     self.assertIn(
         response.json["errors"][0]["description"],
         (
-            "Can't update document because award of bid is not active",
-            "Can't update document because award of bid is not in pending or active state",
+            "Can't update document because award of bid is not in one of statuses ('active',)",
+            "Can't update document because award of bid is not in one of statuses ('pending', 'active')",
         )
     )
 

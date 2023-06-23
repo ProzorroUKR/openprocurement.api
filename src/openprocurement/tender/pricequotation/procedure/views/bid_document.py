@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-from openprocurement.tender.belowthreshold.procedure.views.bid_document import BelowThresholdTenderBidDocumentResource
+from openprocurement.tender.belowthreshold.procedure.views.bid_document import (
+    TenderBelowBidDocumentResource,
+)
 from openprocurement.tender.pricequotation.constants import PQ
 from cornice.resource import resource
 
@@ -11,5 +13,5 @@ from cornice.resource import resource
     procurementMethodType=PQ,
     description="Tender bidder documents",
 )
-class PQBidDocumentResource(BelowThresholdTenderBidDocumentResource):
+class PQBidDocumentResource(TenderBelowBidDocumentResource):
     pass
