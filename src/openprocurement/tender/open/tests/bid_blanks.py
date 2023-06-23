@@ -2975,7 +2975,7 @@ def patch_tender_bid_with_disabled_value_restriction(self):
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={token}",
         {"data": {
-            "status": "active",
+            "status": "pending",
             "value": {"amount": 705}}
         }
     )
