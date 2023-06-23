@@ -529,16 +529,9 @@ def validate_related_lot(tender, related_lot):
 
 
 def validate_view_bid_document(request, **_):
-    config = get_tender_config()
-    if config.get("hasPrequalification"):
-        allowed_tender_statuses = ("active.tendering",)
-    else:
-        allowed_tender_statuses = ("active.tendering", "active.auction")
     tender_status = request.validated["tender"]["status"]
-    if (
-        tender_status in allowed_tender_statuses
-        and not is_item_owner(request, request.validated["bid"])
-    ):
+    if tender_status in ("active.tendering", "active.auction") \
+       and not is_item_owner(request, request.validated["bid"]):
         raise_operation_error(
             request,
             "Can't view bid documents in current ({}) tender status".format(tender_status),
@@ -1486,3 +1479,70 @@ def validate_24h_milestone_released(request, **kwargs):
 def is_positive_float(value):
     if value <= 0:
         raise ValidationError("Float value should be greater than 0.")
+
+
+def validate_bid_document_operation_in_award_status(request, **_):
+    tender = request.validated["tender"]
+    bid = request.validated["bid"]
+
+    if tender["procurementMethodType"] in (
+        "belowThreshold",
+        "aboveThresholdUA.defense",
+        "closeFrameworkAgreementUA",
+    ):
+        allowed_award_statuses = ("pending", "active")
+    else:
+        allowed_award_statuses = ("active",)
+
+    if tender["status"] in ("active.qualification", "active.awarded") and not any(
+        award["status"] in allowed_award_statuses and award["bid_id"] == bid["id"]
+        for award in tender.get("awards", "")
+    ):
+        raise_operation_error(
+            request,
+            "Can't {} document because award of bid is not in one of statuses {}".format(
+                OPERATIONS.get(request.method), allowed_award_statuses
+            ),
+        )
+
+
+def validate_bid_document_in_tender_status(request, **_):
+    """
+    active.tendering - tendering docs
+    active.awarded - qualification docs that should be posted into award (another temp solution)
+    """
+    status = request.validated["tender"]["status"]
+    if status not in (
+        "active.tendering",
+        "active.qualification",  # multi-lot procedure may be in this status despite of the active award
+        "active.qualification.stand-still",  # for cfaua
+        "active.awarded",
+    ):
+        operation = OPERATIONS.get(request.method)
+        raise_operation_error(
+            request,
+            "Can't {} document in current ({}) tender status".format(operation, status)
+        )
+
+
+def validate_download_bid_document(request, **_):
+    if request.params.get("download"):
+        document = request.validated["document"]
+        if (
+            document.get("confidentiality", "") == "buyerOnly"
+            and request.authenticated_role not in ("aboveThresholdReviewers", "sas")
+            and not is_item_owner(request, request.validated["bid"])
+            and not is_item_owner(request, request.validated["tender"])
+        ):
+            raise_operation_error(request, "Document download forbidden.")
+
+
+def validate_update_bid_document_confidentiality(request, **_):
+    tender_status = request.validated["tender"]["status"]
+    if tender_status != "active.tendering" and "confidentiality" in request.validated.get("data", {}):
+        document = request.validated["document"]
+        if document.get("confidentiality", "public") != request.validated["data"]["confidentiality"]:
+            raise_operation_error(
+                request,
+                "Can't update document confidentiality in current ({}) tender status".format(tender_status),
+            )

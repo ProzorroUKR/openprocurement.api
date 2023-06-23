@@ -26,19 +26,6 @@ def validate_bid_document_operation_in_not_allowed_tender_status(request, **_):
         )
 
 
-def validate_bid_document_operation_with_not_pending_award(request, **kwargs):
-    tender = request.validated["tender"]
-    bid = request.validated["bid"]
-    if tender["status"] == "active.qualification" and not any(
-        award["bid_id"] == bid["id"] and award["status"] in ("pending", "active")
-        for award in tender.get("awards", "")
-    ):
-        raise_operation_error(
-            request,
-            f"Can't {OPERATIONS.get(request.method)} document because award of bid is not in pending state",
-        )
-
-
 def validate_upload_documents_not_allowed_for_simple_pmr(request, **kwargs):
     tender = request.validated["tender"]
     statuses = ("active.qualification",)

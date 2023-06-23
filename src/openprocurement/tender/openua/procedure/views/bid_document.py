@@ -13,11 +13,9 @@ from openprocurement.tender.core.procedure.validation import (
     validate_upload_document,
     update_doc_fields_on_put_document,
     validate_data_model,
-)
-from openprocurement.tender.openua.procedure.validation import (
-    validate_download_bid_document,
-    validate_bid_document_in_tender_status,
     validate_bid_document_operation_in_award_status,
+    validate_bid_document_in_tender_status,
+    validate_download_bid_document,
     validate_update_bid_document_confidentiality,
 )
 from cornice.resource import resource
