@@ -705,7 +705,8 @@ Content-Type: application/json
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a5accd9090044dfba8773895b0bff51/documents/81b15b1242d24d9daa7ea82c67636d8b?download=bed8dcbd27644f418f3d0645d955859a",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
-        "author": "tender_owner"
+        "author": "tender_owner",
+        "language": "uk"
       },
       {
         "id": "ac06ecba81dd44309d96e7324a43d22f",
@@ -716,7 +717,8 @@ Content-Type: application/json
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a5accd9090044dfba8773895b0bff51/documents/ac06ecba81dd44309d96e7324a43d22f?download=48945373accd4d29ba34ccdf21d9804a",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
-        "author": "tender_owner"
+        "author": "tender_owner",
+        "language": "uk"
       },
       {
         "id": "ac06ecba81dd44309d96e7324a43d22f",
@@ -727,7 +729,8 @@ Content-Type: application/json
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a5accd9090044dfba8773895b0bff51/documents/ac06ecba81dd44309d96e7324a43d22f?download=6b685322d12b4938a1485f15d7b8055c",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
-        "author": "tender_owner"
+        "author": "tender_owner",
+        "language": "uk"
       }
     ],
     "owner": "broker",

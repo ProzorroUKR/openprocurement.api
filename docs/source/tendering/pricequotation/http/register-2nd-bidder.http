@@ -114,7 +114,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bb8949e735294cba
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0ec8fd2dc59a45c4a279f23fb91b2572?Signature=ogddqQNir075wYIRhUPZ6oI5BUvzCD30E0FvQqiiXat9Qib4uMcaop9PnCuO%2BH7lRvmqEqZSraQo3AifEAl8DA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "id": "f0b8eaf0f5b54a9196bf72dd3ecd7014",
+        "language": "uk",
+        "id": "2bcc6c4335024755a2a0da1a82b73a4a",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "dateModified": "2023-01-01T00:00:01+02:00"
       },
@@ -124,7 +125,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bb8949e735294cba
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ec3cbabab3334b0f9405d0b48698fee7?Signature=qBVCZkrQZf2v6sbyohuyI5iQ37pvbp2baN2rdLaaHZkgB5P7KyYmNcfEe1tOEs5WB0P%2B1udLNbUMVs9KEFPIDQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "id": "442c386215a04057bb30d1d1b24a7648",
+        "language": "uk",
+        "id": "f0b8eaf0f5b54a9196bf72dd3ecd7014",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "dateModified": "2023-01-01T00:00:01+02:00"
       }

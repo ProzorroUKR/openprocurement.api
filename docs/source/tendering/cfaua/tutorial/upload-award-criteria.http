@@ -25,6 +25,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42
     "format": "application/pdf",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8ce7189cc6ed46b29851ba6da3f88e95?Signature=Bk0kjouFNblkDYUzSsbTvEi5jaIYOxpxCijWMMDauvRQirmdfhHgrVP%2B8fA9C8yIvC66cZ8KzyJOPAj39FDcDA%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
+    "language": "uk",
     "id": "b5e22d87eb2b47ae8b23d935a3e62e6f",
     "datePublished": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",

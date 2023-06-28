@@ -25,25 +25,27 @@ Content-Type: application/json
     "documents": [
       {
         "description": "Changed description",
-        "id": "ad1d3ec9c00d42029d425fec70ab2fb4",
+        "id": "89ac9d103b734029abf03372b8a7ba4d",
         "datePublished": "2023-01-01T00:00:03+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f2ffdfd3a21b4081841738915486b18b/cancellations/6bc04feb960e4292a050ff0378f0d41f/documents/ad1d3ec9c00d42029d425fec70ab2fb4?download=b50ddcc332dc4b8ebba9a376612d4692",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f2ffdfd3a21b4081841738915486b18b/cancellations/6bc04feb960e4292a050ff0378f0d41f/documents/89ac9d103b734029abf03372b8a7ba4d?download=b50ddcc332dc4b8ebba9a376612d4692",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:03+02:00"
+        "dateModified": "2023-01-01T00:00:03+02:00",
+        "language": "uk"
       },
       {
         "description": "Changed description",
-        "id": "ad1d3ec9c00d42029d425fec70ab2fb4",
+        "id": "89ac9d103b734029abf03372b8a7ba4d",
         "datePublished": "2023-01-01T00:00:03+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice-2.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f2ffdfd3a21b4081841738915486b18b/cancellations/6bc04feb960e4292a050ff0378f0d41f/documents/ad1d3ec9c00d42029d425fec70ab2fb4?download=1a9c4d3896294d95bd456516cafecfe4",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f2ffdfd3a21b4081841738915486b18b/cancellations/6bc04feb960e4292a050ff0378f0d41f/documents/89ac9d103b734029abf03372b8a7ba4d?download=1a9c4d3896294d95bd456516cafecfe4",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:03+02:00"
+        "dateModified": "2023-01-01T00:00:03+02:00",
+        "language": "uk"
       }
     ]
   }

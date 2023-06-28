@@ -156,8 +156,8 @@ Content-Type: application/json
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3e41aa3266f24b9980125cb78364eb93?Signature=mhxSI9BsuM3ZpxlDAJN0o%2BUlFmp5J0zw7iyAadRF73Syhi8FiNpZaR9%2B0K7PqesH1a%2BUgzzXXMWCx6yjI0DeAw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
-        "confidentiality": "public",
-        "language": "uk"
+        "language": "uk",
+        "confidentiality": "public"
       },
       {
         "id": "749ebc13cabf4d9cbf5d08a156d185cb",
@@ -168,8 +168,8 @@ Content-Type: application/json
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4ebbf9207d9d40238691d14be83d98ab?Signature=USenzreniFdmFIKZS0A8SrzWsk%2FNJAbLR%2FHbw9RRaurdjlzinVZeGruiYCn3itI8h3xPbrmhGzyd8t25uWRRDw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
-        "confidentiality": "public",
-        "language": "uk"
+        "language": "uk",
+        "confidentiality": "public"
       }
     ],
     "eligibilityDocuments": [
@@ -182,8 +182,8 @@ Content-Type: application/json
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1b4178ec68bd3f601/bids/0a7474f57f7f434aa03c3187d5861748/eligibility_documents/c2dd445ad6564c62aecdf990928c0a5f?download=f4edcff934f64be5941b4dd15202a07f",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
-        "confidentiality": "public",
-        "language": "uk"
+        "language": "uk",
+        "confidentiality": "public"
       }
     ],
     "selfQualified": true

@@ -727,38 +727,38 @@ Content-Type: application/json
             "format": "application/pdf",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d55cf7685594417eafcd6a81cf099e54?Signature=1lmwO8FdzkpNV7sfZM8iDPezssL9XWgJxVOAAHMp8fZ%2B%2BOWB2ZCmCQVfIZVSXG1uoVIBfqD8kb9feIK%2Bk6xXCg%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
-            "confidentiality": "public",
             "language": "uk",
+            "confidentiality": "public",
             "isDescriptionDecision": false,
-            "id": "26e112a793854f3abe93b3206239b1bd",
+            "id": "0b4562622e904df4917d22707a752522",
             "datePublished": "2023-01-01T00:00:00+02:00",
             "dateModified": "2023-01-01T00:00:00+02:00"
           },
           {
-            "id": "a053991ecddc46819da0b39b3aad5e0a",
+            "id": "928e0a2782234502b0aabe27a11953b7",
             "datePublished": "2023-01-01T00:00:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "DescriptiveProposal.pdf",
             "format": "application/pdf",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids/80525a9a0f714e2b9b8eb34a14ccb612/documents/a053991ecddc46819da0b39b3aad5e0a?download=8b781eec9f744181a275c6919de639dc",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids/80525a9a0f714e2b9b8eb34a14ccb612/documents/928e0a2782234502b0aabe27a11953b7?download=8b781eec9f744181a275c6919de639dc",
             "documentOf": "tender",
             "dateModified": "2023-01-01T00:00:00+02:00",
-            "confidentiality": "buyerOnly",
             "language": "uk",
+            "confidentiality": "buyerOnly",
             "isDescriptionDecision": true
           },
           {
-            "id": "8d7b9c1ac5ce4929a31c6147cc74ce45",
+            "id": "ac08241a7f654a029d0a8b6d70ede58d",
             "datePublished": "2023-01-01T00:00:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_top_secrets.pdf",
             "format": "application/pdf",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids/80525a9a0f714e2b9b8eb34a14ccb612/documents/8d7b9c1ac5ce4929a31c6147cc74ce45?download=21c9ff3dd5e646208c8dd44b5853a9c0",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids/80525a9a0f714e2b9b8eb34a14ccb612/documents/ac08241a7f654a029d0a8b6d70ede58d?download=21c9ff3dd5e646208c8dd44b5853a9c0",
             "documentOf": "tender",
             "dateModified": "2023-01-01T00:00:00+02:00",
+            "language": "uk",
             "confidentiality": "buyerOnly",
             "confidentialityRationale": "Only our company sells badgers with pink hair.",
-            "language": "uk",
             "isDescriptionDecision": false
           }
         ]
@@ -1193,8 +1193,8 @@ Content-Type: application/json
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/512e62ad72064144a492ddadd0c8df6f?Signature=jowdtY2DvSznH4xF0PR4itAaLc1gBn4qAjnxkvLwn4e7WieDPO%2Fv4jwtUcgQhtwIfMXehOy%2FUjRzg9R22JdAAQ%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-01-01T00:00:00+02:00",
-            "confidentiality": "public",
             "language": "uk",
+            "confidentiality": "public",
             "isDescriptionDecision": false
           },
           {
@@ -1206,9 +1206,9 @@ Content-Type: application/json
             "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids/cc48b50d0f4445c7b01da298b7dccb8c/documents/bae2b712ea9141d3b5b53073b786a3cf?download=0949e250dfc14f529d528e285cbde095",
             "documentOf": "tender",
             "dateModified": "2023-01-01T00:00:00+02:00",
+            "language": "uk",
             "confidentiality": "buyerOnly",
             "confidentialityRationale": "Only our company sells badgers with pink hair.",
-            "language": "uk",
             "isDescriptionDecision": false
           }
         ],
@@ -1258,7 +1258,8 @@ Content-Type: application/json
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/documents/89d96ffbd15a49a7b0b0941421dc91d0?download=2c15ebde20e04d82861d1e3de466faf6",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
-        "author": "tender_owner"
+        "author": "tender_owner",
+        "language": "uk"
       },
       {
         "id": "c7c453dd2b314b909a61d041eb1b05a8",
@@ -1269,7 +1270,8 @@ Content-Type: application/json
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/documents/c7c453dd2b314b909a61d041eb1b05a8?download=74e6f765c6ce49cd9a82a77631e1fad1",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
-        "author": "tender_owner"
+        "author": "tender_owner",
+        "language": "uk"
       },
       {
         "id": "c7c453dd2b314b909a61d041eb1b05a8",
@@ -1280,7 +1282,8 @@ Content-Type: application/json
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/documents/c7c453dd2b314b909a61d041eb1b05a8?download=0ec2154729a94aef83c93e3881aba6dd",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
-        "author": "tender_owner"
+        "author": "tender_owner",
+        "language": "uk"
       }
     ],
     "owner": "broker",
