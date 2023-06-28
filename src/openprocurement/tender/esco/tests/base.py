@@ -62,6 +62,7 @@ test_tender_esco_config = {
     "hasAuction": True,
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
+    "valueCurrencyEquality": True,
 }
 
 

@@ -1,10 +1,6 @@
-from schematics.exceptions import ValidationError
-
 from openprocurement.tender.core.procedure.utils import is_item_owner
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
-from openprocurement.tender.core.procedure.validation import validate_lot_value_currency, validate_lot_value_vat
-from openprocurement.tender.core.utils import find_lot
 
 
 def validate_download_bid_document(request, **_):

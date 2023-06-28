@@ -96,7 +96,7 @@ msgid "hasAwardingOrder is `true`"
 msgstr "hasAwardingOrder встановлено у `true`"
 
 msgid "Let's create a tender with `hasAwardingOrder` set to `true`:"
-msgstr "Створимо тендер з `hasAwardingOrder` встановленим у `true`"
+msgstr "Створимо тендер з `hasAwardingOrder` встановленим у `true`:"
 
 msgid "You can specify any kind of awardCriteria during creation tender with `hasAwardingOrder` set to `true`:"
 msgstr "Ви можете зазначити тип awardCriteria під час створення тендеру з `hasAwardingOrder` встановленим у `true`:"

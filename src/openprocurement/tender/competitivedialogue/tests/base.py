@@ -150,24 +150,28 @@ test_tender_cdeu_config = {
     "hasAuction": False,
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
+    "valueCurrencyEquality": True,
 }
 
 test_tender_cdua_config = {
     "hasAuction": False,
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
+    "valueCurrencyEquality": True,
 }
 
 test_tender_cdeu_stage2_config = {
     "hasAuction": True,
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
+    "valueCurrencyEquality": True,
 }
 
 test_tender_cdua_stage2_config = {
     "hasAuction": True,
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
+    "valueCurrencyEquality": True,
 }
 
 

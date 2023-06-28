@@ -456,7 +456,15 @@ def create_tender_invalid(self):
     data = deepcopy(self.initial_data)
     response = self.app.post_json(
         request_path,
-        {"data": data, "config": {"hasAuction": True, "hasAwardingOrder": True, "hasValueRestriction": False}},
+        {
+            "data": data,
+            "config": {
+                "hasAuction": True,
+                "hasAwardingOrder": True,
+                "hasValueRestriction": False,
+                "valueCurrencyEquality": True
+            }
+        },
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")

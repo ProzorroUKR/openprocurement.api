@@ -1498,7 +1498,8 @@ Content-Type: application/json
   "config": {
     "hasAuction": false,
     "hasAwardingOrder": true,
-    "hasValueRestriction": true
+    "hasValueRestriction": true,
+    "valueCurrencyEquality": true
   }
 }
 

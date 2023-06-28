@@ -1,4 +1,5 @@
 import unittest
+from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -8,6 +9,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_lots,
     test_tender_below_bids,
     test_tender_below_simple_data,
+    test_tender_below_data,
 )
 from openprocurement.tender.core.tests.base import test_language_criteria
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
@@ -58,6 +60,14 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderWithDisabledValueRestriction
     post_tender_bid_with_disabled_value_restriction,
     patch_tender_bid_with_disabled_value_restriction,
+    post_tender_bid_with_another_currency,
+    patch_tender_bid_with_another_currency,
+    # TenderLotsWithDisabledValueCurrencyEquality
+    post_tender_bid_with_disabled_lot_values_currency_equality,
+    patch_tender_bid_with_disabled_lot_values_currency_equality,
+    # TenderWithDisabledValueCurrencyEquality
+    post_tender_bid_with_disabled_value_currency_equality,
+    patch_tender_bid_with_disabled_value_currency_equality,
 )
 from openprocurement.tender.openeu.tests.bid import CreateBidMixin
 from openprocurement.tender.openeu.tests.bid import (
@@ -90,6 +100,8 @@ class Tender2LotBidResourceTest(TenderContentWebTest):
     test_patch_tender_lot_values_any_order = snitch(patch_tender_lot_values_any_order)
     test_post_tender_bid_with_exceeded_lot_values = snitch(post_tender_bid_with_exceeded_lot_values)
     test_patch_tender_bid_with_exceeded_lot_values = snitch(patch_tender_bid_with_exceeded_lot_values)
+    test_post_tender_bid_with_another_currency = snitch(post_tender_bid_with_another_currency)
+    test_patch_tender_bid_with_another_currency = snitch(patch_tender_bid_with_another_currency)
 
 
 class TenderBidFeaturesResourceTest(TenderContentWebTest):
@@ -236,6 +248,7 @@ class TenderLotsWithDisabledValueRestriction(TenderContentWebTest):
             "hasAuction": True,
             "hasAwardingOrder": True,
             "hasValueRestriction": False,
+            "valueCurrencyEquality": True,
         })
 
 
@@ -251,8 +264,56 @@ class TenderWithDisabledValueRestriction(TenderContentWebTest):
             "hasAuction": True,
             "hasAwardingOrder": True,
             "hasValueRestriction": False,
+            "valueCurrencyEquality": True,
         })
 
+
+class TenderLotsWithDisabledValueCurrencyEquality(TenderContentWebTest):
+    initial_status = "active.tendering"
+    test_bids_data = test_tender_below_bids
+    initial_lots = 2 * test_tender_below_lots
+    test_tender_below_data_no_auction = deepcopy(test_tender_below_data)
+    del test_tender_below_data_no_auction["minimalStep"]
+    initial_data = test_tender_below_data_no_auction
+
+    test_post_tender_bid_with_disabled_lot_values_currency_equality = snitch(
+        post_tender_bid_with_disabled_lot_values_currency_equality
+    )
+    test_patch_tender_bid_with_disabled_lot_values_currency_equality = snitch(
+        patch_tender_bid_with_disabled_lot_values_currency_equality
+    )
+
+    def setUp(self):
+        super(TenderContentWebTest, self).setUp()
+        self.create_tender(config={
+            "hasAuction": False,
+            "hasAwardingOrder": False,
+            "valueCurrencyEquality": False,
+            "hasValueRestriction": False,
+        })
+
+
+class TenderWithDisabledValueCurrencyEquality(TenderContentWebTest):
+    initial_status = "active.tendering"
+    test_tender_below_data_no_auction = deepcopy(test_tender_below_data)
+    del test_tender_below_data_no_auction["minimalStep"]
+    initial_data = test_tender_below_data_no_auction
+
+    test_post_tender_bid_with_disabled_value_currency_equality = snitch(
+        post_tender_bid_with_disabled_value_currency_equality
+    )
+    test_patch_tender_bid_with_disabled_value_currency_equality = snitch(
+        patch_tender_bid_with_disabled_value_currency_equality
+    )
+
+    def setUp(self):
+        super(TenderContentWebTest, self).setUp()
+        self.create_tender(config={
+            "hasAuction": False,
+            "hasAwardingOrder": False,
+            "valueCurrencyEquality": False,
+            "hasValueRestriction": False,
+        })
 
 def suite():
     suite = unittest.TestSuite()
@@ -264,6 +325,8 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderBidRequirementResponseEvidenceResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotsWithDisabledValueRestriction))
     suite.addTest(unittest.makeSuite(TenderWithDisabledValueRestriction))
+    suite.addTest(unittest.makeSuite(TenderLotsWithDisabledValueCurrencyEquality))
+    suite.addTest(unittest.makeSuite(TenderWithDisabledValueCurrencyEquality))
     return suite
 
 

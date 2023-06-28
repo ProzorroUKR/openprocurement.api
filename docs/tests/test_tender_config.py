@@ -111,22 +111,22 @@ class TenderConfigBaseResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         for pmt in pmts:
             row = []
             schema = standards.load(f"data_model/schema/TenderConfig/{pmt}.json")
-            ha_property = schema["properties"][config_name]
+            config_schema = schema["properties"][config_name]
 
             # procurementMethodType
             row.append(pmt)
 
             # possible values
-            if "enum" in ha_property:
-                ha_values_enum = ha_property.get("enum", "")
-                ha_values = separator.join(map(json.dumps, ha_values_enum))
-                row.append(ha_values)
+            if "enum" in config_schema:
+                config_values_enum = config_schema.get("enum", "")
+                config_values = separator.join(map(json.dumps, config_values_enum))
+                row.append(config_values)
             else:
                 row.append(empty)
 
             # default value
-            ha_default = ha_property.get("default", "")
-            row.append(json.dumps(ha_default))
+            config_default = config_schema.get("default", "")
+            row.append(json.dumps(config_default))
 
             rows.append(row)
 
@@ -1364,3 +1364,351 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
                 },
             )
             self.assertEqual(response.status, "201 Created")
+
+
+class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
+
+    def test_docs_value_currency_equality_values_csv(self):
+        self.write_values_csv(config_name="valueCurrencyEquality", file_name="value-currency-equality-values.csv")
+
+    def test_docs_lots_value_currency_equality_true(self):
+        config = deepcopy(self.initial_config)
+        config["valueCurrencyEquality"] = True
+
+        test_tender_data = deepcopy(test_docs_tender_below)
+        test_tender_data["items"] = test_docs_items_open
+        test_lots = deepcopy(test_docs_lots)
+        test_lots[0]['value'] = test_tender_data['value']
+        test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
+        test_lots[1]['value'] = test_tender_data['value']
+        test_lots[1]['minimalStep'] = test_tender_data['minimalStep']
+
+        # Creating tender
+
+        with open(TARGET_DIR + 'value-currency-equality-true-tender-lots-post.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders?opt_pretty=1',
+                {'data': test_tender_data, 'config': config}
+            )
+            self.assertEqual(response.status, '201 Created')
+
+        tender = response.json['data']
+        tender_id = self.tender_id = tender['id']
+        owner_token = response.json['access']['token']
+
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        # add lots
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
+            {'data': test_lots[0]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot_id1 = response.json['data']['id']
+
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
+            {'data': test_lots[1]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot2 = response.json['data']
+        lot_id2 = lot2['id']
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        items[0]["relatedLot"] = lot_id1
+        items[1]["relatedLot"] = lot_id2
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+            {"data": {"items": items}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        self.add_criteria(tender_id, owner_token)
+
+        # Tender activating
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+            {'data': {"status": "active.enquiries"}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        # enquires
+        response = self.app.post_json(
+            '/tenders/{}/questions'.format(tender_id),
+            {"data": test_docs_question}, status=201
+        )
+        question_id = response.json['data']['id']
+        self.assertEqual(response.status, '201 Created')
+
+        response = self.app.patch_json(
+            '/tenders/{}/questions/{}?acc_token={}'.format(
+                tender_id, question_id, owner_token
+            ),
+            {
+                "data": {
+                    "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\""
+                }
+            }, status=200
+        )
+        self.assertEqual(response.status, '200 OK')
+        self.set_status('active.tendering')
+
+        # Registering bid
+
+        with open(TARGET_DIR + 'value-currency-equality-true-tender-lots-add-invalid-bid.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/bids',
+                {
+                    'data': {
+                        'status': 'draft',
+                        'tenderers': test_docs_bid["tenderers"],
+                        'lotValues': [{
+                            "value": {"amount": 600, "currency": "USD"},
+                            'relatedLot': lot_id1
+                        }, {
+                            "value": {"amount": 500, "currency": "UAH"},
+                            'relatedLot': lot_id2
+                        }]
+                    }
+                },
+                status=422,
+            )
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+            self.assertEqual(
+                response.json["errors"],
+                [{
+                    "location": "body",
+                    "name": "lotValues",
+                    "description": [{"value": ["currency of bid should be identical to currency of value of lot"]}]
+                }]
+            )
+
+        with open(TARGET_DIR + 'value-currency-equality-true-tender-lots-add-valid-bid.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/bids',
+                {
+                    'data': {
+                        'status': 'draft',
+                        'tenderers': test_docs_bid["tenderers"],
+                        'lotValues': [{
+                            "value": {"amount": 500, "currency": "UAH"},
+                            'relatedLot': lot_id1
+                        }, {
+                            "value": {"amount": 500, "currency": "UAH"},
+                            'relatedLot': lot_id2
+                        }]
+                    }
+                }
+            )
+            self.assertEqual(response.status, "201 Created")
+            bid_token = response.json['access']['token']
+            bid_id = response.json['data']['id']
+
+        with open(TARGET_DIR + 'value-currency-equality-true-tender-lots-patch-bid.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f'/tenders/{tender_id}/bids/{bid_id}?acc_token={bid_token}',
+                {
+                    'data': {
+                        'status': 'active',
+                        'tenderers': test_docs_bid["tenderers"],
+                        'lotValues': [{
+                            "value": {"amount": 500, "currency": "UAH"},
+                            'relatedLot': lot_id1
+                        }, {
+                            "value": {"amount": 700, "currency": "USD"},
+                            'relatedLot': lot_id2
+                        }]
+                    }
+                },
+                status=422,
+            )
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+            self.assertEqual(
+                response.json["errors"],
+                [{
+                    "location": "body",
+                    "name": "lotValues",
+                    "description": [{"value": ["currency of bid should be identical to currency of value of lot"]}]
+                }]
+            )
+
+    def test_docs_lots_value_currency_equality_false(self):
+        config = deepcopy(self.initial_config)
+        config.update({
+            "valueCurrencyEquality": False,
+            "hasAuction": False,
+            "hasAwardingOrder": False,
+        })
+
+        test_tender_data = deepcopy(test_docs_tender_below)
+        test_tender_data["items"] = test_docs_items_open
+        del test_tender_data["minimalStep"]
+        test_lots = deepcopy(test_docs_lots)
+        test_lots[0]['value'] = test_tender_data['value']
+        test_lots[1]['value'] = test_tender_data['value']
+
+        # Creating tender
+
+        with open(TARGET_DIR + 'value-currency-equality-false-tender-lots-post.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders?opt_pretty=1',
+                {'data': test_tender_data, 'config': config}
+            )
+            self.assertEqual(response.status, '201 Created')
+
+        tender = response.json['data']
+        tender_id = self.tender_id = tender['id']
+        owner_token = response.json['access']['token']
+
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        # add lots
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
+            {'data': test_lots[0]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot_id1 = response.json['data']['id']
+
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
+            {'data': test_lots[1]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot2 = response.json['data']
+        lot_id2 = lot2['id']
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        items[0]["relatedLot"] = lot_id1
+        items[1]["relatedLot"] = lot_id2
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+            {"data": {"items": items}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        self.add_criteria(tender_id, owner_token)
+
+        # Tender activating
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+            {'data': {"status": "active.enquiries"}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        # enquires
+        response = self.app.post_json(
+            '/tenders/{}/questions'.format(tender_id),
+            {"data": test_docs_question}, status=201
+        )
+        question_id = response.json['data']['id']
+        self.assertEqual(response.status, '201 Created')
+
+        response = self.app.patch_json(
+            '/tenders/{}/questions/{}?acc_token={}'.format(
+                tender_id, question_id, owner_token
+            ),
+            {
+                "data": {
+                    "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\""
+                }
+            }, status=200
+        )
+        self.assertEqual(response.status, '200 OK')
+        self.set_status('active.tendering')
+
+        # Registering bid
+        with open(TARGET_DIR + 'value-currency-equality-false-tender-lots-add-valid-bid.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/bids',
+                {
+                    'data': {
+                        'status': 'draft',
+                        'tenderers': test_docs_bid["tenderers"],
+                        'lotValues': [{
+                            "value": {"amount": 600, "currency": "USD"},
+                            'relatedLot': lot_id1
+                        }, {
+                            "value": {"amount": 700, "currency": "EUR"},
+                            'relatedLot': lot_id2
+                        }]
+                    }
+                },
+            )
+            self.assertEqual(response.status, "201 Created")
+            self.set_responses(tender_id, response.json, "active")
+
+        # Auction
+        self.tick(datetime.timedelta(days=30))
+        self.check_chronograph()
+
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        # Get pending award
+        response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token))
+        award = response.json["data"][0]
+        award_id = award["id"]
+        award2 = response.json["data"][1]
+        award2_id = award2["id"]
+
+        # Activate award
+        self.app.patch_json(
+            '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+            {
+                "data": {
+                    "status": "active",
+                    "qualified": True,
+                }
+            }
+        )
+        self.app.patch_json(
+            '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award2_id, owner_token),
+            {
+                "data": {
+                    "status": "active",
+                    "qualified": True,
+                }
+            }
+        )
+
+        # Bypass complaintPeriod
+        tender = self.mongodb.tenders.get(self.tender_id)
+        for i in tender.get('awards', []):
+            if "complaintPeriod" in i:
+                i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+        self.mongodb.tenders.save(tender)
+
+        # Activating contract
+        response = self.app.get(
+            '/tenders/{}/contracts?acc_token={}'.format(
+                self.tender_id, owner_token
+            )
+        )
+        self.contract_id = response.json['data'][0]['id']
+        self.contract2_id = response.json['data'][1]['id']
+
+        response = self.app.patch_json(
+            '/tenders/{}/contracts/{}?acc_token={}'.format(
+                self.tender_id, self.contract_id, owner_token
+            ),
+            {'data': {'status': 'active'}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.patch_json(
+            '/tenders/{}/contracts/{}?acc_token={}'.format(
+                self.tender_id, self.contract2_id, owner_token
+            ),
+            {'data': {'status': 'active'}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json["data"]["status"], 'complete')
+
+        with open(TARGET_DIR + 'value-currency-equality-false-tender-complete.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}'.format(self.tender_id))
+            self.assertEqual(response.status, '200 OK')
