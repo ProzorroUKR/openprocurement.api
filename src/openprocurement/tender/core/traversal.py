@@ -2,6 +2,7 @@
 
 from pyramid.security import ALL_PERMISSIONS, Allow, Deny, Everyone
 from openprocurement.api.traversal import get_item
+from openprocurement.api.context import set_request
 
 
 class Root(object):
@@ -34,6 +35,7 @@ class Root(object):
 
 
 def handle_root(request):
+    set_request(request)
     request.validated["tender_src"] = {}
     root = Root(request)
     if not request.matchdict or not request.matchdict.get("tender_id"):
@@ -43,6 +45,7 @@ def handle_root(request):
     tender.__parent__ = root
     request.validated["tender"] = request.validated["db_doc"] = tender
     request.validated["tender_status"] = tender.status
+    request.validated["tender_config"] = request.validated["tender"].get("config", {})
     if request.method != "GET":
         request.validated["tender_src"] = tender.serialize("plain")
 
