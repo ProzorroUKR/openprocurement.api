@@ -14,7 +14,8 @@ Content-Type: application/json
       "format": "application/msword",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b51f286a456744a5aa311917ee24504a?Signature=YHcahWxxAcYSGa9HFfWHlPRBYSaTYUUi1lPh0gSVQiBwIX0MWoVsCpKb7%2BIM5t113k1MQNMMMe8%2F0aPDtaXACQ%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
-      "id": "e0c899684be64458ae87f665ad3cd6f2",
+      "language": "uk",
+      "id": "442c386215a04057bb30d1d1b24a7648",
       "datePublished": "2023-01-01T00:00:03+02:00",
       "dateModified": "2023-01-01T00:00:03+02:00"
     },
@@ -24,7 +25,8 @@ Content-Type: application/json
       "format": "application/msword",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/04b19e98abbc481f944b5a4e1376e930?Signature=wonP7nxBLzgfRnPAAi4UlfqIzubU3uA9sSG4fWwckC9AK2Bh3G1LX7aeiqEq%2FuX5hCnBCY2b%2FIAjawi66cfiDA%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
-      "id": "f4f16dbe822f4c7b801159c98ef5021a",
+      "language": "uk",
+      "id": "e0c899684be64458ae87f665ad3cd6f2",
       "datePublished": "2023-01-01T00:00:03+02:00",
       "dateModified": "2023-01-01T00:00:03+02:00"
     }

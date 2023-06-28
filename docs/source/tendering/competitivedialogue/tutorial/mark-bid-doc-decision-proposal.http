@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids/80525a9a0f714e2b9b8eb34a14ccb612/documents/a053991ecddc46819da0b39b3aad5e0a?acc_token=19e654e86b0e481d96eac5c38f8d74aa HTTP/1.0
+PATCH /api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids/80525a9a0f714e2b9b8eb34a14ccb612/documents/928e0a2782234502b0aabe27a11953b7?acc_token=19e654e86b0e481d96eac5c38f8d74aa HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 41
 Content-Type: application/json
@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "a053991ecddc46819da0b39b3aad5e0a",
+    "id": "928e0a2782234502b0aabe27a11953b7",
     "datePublished": "2023-01-01T00:00:00+02:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "DescriptiveProposal.pdf",
@@ -24,8 +24,8 @@ Content-Type: application/json
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8b781eec9f744181a275c6919de639dc?Signature=IILh4Y63cTxfiu1HvljkhIZl8XtvbMh1vZQWC27xuUK3IU3HuRTUA4dpBHaRniidh38b%2F0z2Q49ReRqizXqRAw%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "dateModified": "2023-01-01T00:00:00+02:00",
-    "confidentiality": "public",
     "language": "uk",
+    "confidentiality": "public",
     "isDescriptionDecision": true
   }
 }

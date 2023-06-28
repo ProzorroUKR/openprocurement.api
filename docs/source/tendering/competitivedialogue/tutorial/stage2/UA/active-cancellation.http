@@ -24,7 +24,8 @@ Content-Type: application/json
         "format": "application/pdf",
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32bf03368c4c49869cf9b1103c9c69f8/cancellations/3b82f9b14de340008c4507515129839e/documents/5f7431892e134749807e7487cf87a5ae?download=7c2f9e6b683c4d8f8fd7ac4129503971",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:03+02:00"
+        "dateModified": "2023-01-01T00:00:03+02:00",
+        "language": "uk"
       },
       {
         "description": "Changed description",
@@ -35,7 +36,8 @@ Content-Type: application/json
         "format": "application/msword",
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32bf03368c4c49869cf9b1103c9c69f8/cancellations/3b82f9b14de340008c4507515129839e/documents/5f7431892e134749807e7487cf87a5ae?download=6c9a362ef4c148d68375abd250d9af99",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:03+02:00"
+        "dateModified": "2023-01-01T00:00:03+02:00",
+        "language": "uk"
       }
     ],
     "complaintPeriod": {
