@@ -14,7 +14,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_with_earlier_non_required_unit,
     create_tender_with_required_unit,
     patch_not_author,
-    create_tender_invalid_config,
 )
 
 from openprocurement.tender.openua.tests.tender import TenderUaProcessTestMixin
@@ -24,6 +23,8 @@ from openprocurement.tender.openua.tests.tender_blanks import (
     tender_with_main_procurement_category,
     tender_finance_milestones,
 )
+
+from openprocurement.tender.cfaselectionua.tests.tender_blanks import create_tender_invalid_config
 
 from openprocurement.tender.openuadefense.tests.base import (
     BaseTenderUAWebTest,

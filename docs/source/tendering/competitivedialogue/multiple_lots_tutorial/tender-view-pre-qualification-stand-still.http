@@ -1244,7 +1244,8 @@ Content-Type: application/json
     "hasAuction": false,
     "hasAwardingOrder": true,
     "hasValueRestriction": true,
-    "valueCurrencyEquality": true
+    "valueCurrencyEquality": true,
+    "minBidsNumber": 3
   }
 }
 

@@ -1090,7 +1090,7 @@ Content-Type: application/json
     },
     "qualifications": [
       {
-        "id": "038b16c778fe495e9233b02ab77813f4",
+        "id": "5f8ff0e12045445c99e89b94fa0f38fb",
         "bidID": "2096f1a2874b40e3bbf150c27e4824bf",
         "status": "active",
         "date": "2023-01-01T00:00:00+02:00",
@@ -1098,7 +1098,7 @@ Content-Type: application/json
         "eligible": true
       },
       {
-        "id": "8fe02537e833466aa83e2687a4575103",
+        "id": "51d9f596e65f4479bd68f19616a1fb4d",
         "bidID": "bf64c133e6e34cde85dac889a9fe274a",
         "status": "active",
         "date": "2023-01-01T00:00:00+02:00",
@@ -1106,7 +1106,7 @@ Content-Type: application/json
         "eligible": true
       },
       {
-        "id": "9a7f28b103b245658100a5c3955c590b",
+        "id": "689c04df55364827a7fb8767521e81a1",
         "bidID": "0a7474f57f7f434aa03c3187d5861748",
         "status": "unsuccessful",
         "date": "2023-01-01T00:00:00+02:00",
@@ -1130,7 +1130,8 @@ Content-Type: application/json
     "hasAuction": true,
     "hasAwardingOrder": true,
     "hasValueRestriction": true,
-    "valueCurrencyEquality": true
+    "valueCurrencyEquality": true,
+    "minBidsNumber": 2
   }
 }
 

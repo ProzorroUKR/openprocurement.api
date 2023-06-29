@@ -15,9 +15,9 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_lot_minimalstep_validation,
     patch_tender_minimalstep_validation,
     patch_not_author,
-    create_tender_invalid_config,
 )
 
+from openprocurement.tender.cfaselectionua.tests.tender_blanks import create_tender_invalid_config
 from openprocurement.tender.openua.tests.tender import TenderUaProcessTestMixin
 from openprocurement.tender.openua.tests.tender_blanks import (
     empty_listing,

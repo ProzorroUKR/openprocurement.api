@@ -1063,7 +1063,7 @@ Content-Type: application/json
     },
     "qualifications": [
       {
-        "id": "394d6ec6a2fc44629967b6ab67871875",
+        "id": "3b9bb8b7441c4911a9201e69704e1a30",
         "bidID": "6ef1334f528a47d0a18eeae9a8a980ac",
         "lotID": "01598eb9c6d3489494777dc7d4fffb7b",
         "status": "pending",
@@ -1072,7 +1072,7 @@ Content-Type: application/json
         "eligible": false
       },
       {
-        "id": "99799c68c8034697a3c2854018afe4d5",
+        "id": "7ec549038e5942568a11ea8328058a6a",
         "bidID": "bd30b0698c984e7096a4df6c2e0ea581",
         "lotID": "01598eb9c6d3489494777dc7d4fffb7b",
         "status": "pending",
@@ -1087,7 +1087,8 @@ Content-Type: application/json
     "hasAuction": true,
     "hasAwardingOrder": true,
     "hasValueRestriction": true,
-    "valueCurrencyEquality": true
+    "valueCurrencyEquality": true,
+    "minBidsNumber": 2
   }
 }
 

@@ -3,6 +3,7 @@
         "hasAuction": true,
         "hasAwardingOrder": false,
         "hasValueRestriction": false,
+        "minBidsNumber": 1,
         "valueCurrencyEquality": true
     },
     "data": {

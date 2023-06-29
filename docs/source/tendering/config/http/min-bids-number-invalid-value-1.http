@@ -1,81 +1,76 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 3250
+Content-Length: 2888
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "tenderPeriod": {
-      "endDate": "2023-02-01T00:00:00+02:00"
-    },
     "title": "футляри до державних нагород",
-    "minimalStep": {
-      "currency": "UAH",
-      "amount": 5
-    },
-    "procurementMethodType": "aboveThresholdUA",
-    "value": {
-      "currency": "UAH",
-      "amount": 500
-    },
+    "mainProcurementCategory": "goods",
     "procuringEntity": {
-      "kind": "special",
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
       "address": {
         "countryName": "Україна",
-        "locality": "м. Вінниця",
-        "postalCode": "21027",
-        "region": "Вінницька область",
-        "streetAddress": "вул. Стахурського. 22"
+        "postalCode": "01220",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова, 11, корпус 1"
       },
       "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
-        "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/"
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
       },
-      "identifier": {
-        "id": "21725150",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
-        "scheme": "UA-EDR"
-      },
-      "name": "ЗОСШ #10 м.Вінниці"
+      "kind": "general"
+    },
+    "value": {
+      "amount": 500,
+      "currency": "UAH"
+    },
+    "minimalStep": {
+      "amount": 15,
+      "currency": "UAH"
     },
     "items": [
       {
+        "id": "df827a0a87354ad59f985d4b31bbaf6c",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
+        "classification": {
+          "scheme": "ДК021",
+          "id": "44617100-9",
+          "description": "Cartons"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
             "id": "17.21.1",
-            "description": "Послуги шкільних їдалень"
+            "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "description": "Послуги шкільних їдалень",
-        "deliveryDate": {
-          "startDate": "2023-01-21T00:00:00+02:00",
-          "endDate": "2023-02-20T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "countryName": "Україна",
-          "postalCode": "79000",
-          "region": "м. Київ",
-          "locality": "м. Київ",
-          "streetAddress": "вул. Банкова 1"
-        },
-        "classification": {
-          "description": "Послуги з харчування у школах",
-          "id": "55523100-3",
-          "scheme": "ДК021"
-        },
         "unit": {
+          "name": "кілограм",
           "code": "KGM",
-          "name": "папір",
           "value": {
-            "amount": 10
+            "amount": 6
           }
         },
-        "quantity": 1
+        "quantity": 5
       }
     ],
+    "enquiryPeriod": {
+      "endDate": "2023-01-08T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "endDate": "2023-01-15T00:00:00+02:00"
+    },
+    "procurementMethodType": "belowThreshold",
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -100,13 +95,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "sequenceNumber": 0,
         "percentage": 54.45
       }
-    ],
-    "mainProcurementCategory": "services"
+    ]
   },
   "config": {
     "hasAuction": true,
     "hasAwardingOrder": true,
     "hasValueRestriction": true,
+    "valueCurrencyEquality": true,
     "minBidsNumber": 0
   }
 }

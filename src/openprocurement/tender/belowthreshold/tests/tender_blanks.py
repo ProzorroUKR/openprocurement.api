@@ -845,6 +845,7 @@ def create_tender_invalid_config(self):
                 "hasAuction": True,
                 "hasValueRestriction": True,
                 "hasAwardingOrder": True,
+                "valueCurrencyEquality": True,
                 "minBidsNumber": 0
             }
         },
@@ -864,7 +865,8 @@ def create_tender_invalid_config(self):
                 "hasAuction": True,
                 "hasValueRestriction": True,
                 "hasAwardingOrder": True,
-                "minBidsNumber": 2
+                "valueCurrencyEquality": True,
+                "minBidsNumber": 10
             }
         },
         status=422,
@@ -873,7 +875,7 @@ def create_tender_invalid_config(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": "2 is greater than the maximum of 1", "location": "body", "name": "minBidsNumber"}],
+        [{"description": "10 is greater than the maximum of 9", "location": "body", "name": "minBidsNumber"}],
     )
 
 
