@@ -220,7 +220,10 @@ class TenderConfig(Model):
     valueCurrencyEquality = BooleanType()
 
     def validate_valueCurrencyEquality(self, data, value):
-        if value is False and (data.get("hasAuction") or data.get("hasAwardingOrder")):
+        if value is False and any(
+                [data.get("hasAuction"), data.get("hasAwardingOrder"), data.get("hasValueRestriction")]
+        ):
             raise ValidationError(
-                "valueCurrencyEquality can be False only if hasAuction=False and hasAwardingOrder=False"
+                "valueCurrencyEquality can be False only if hasAuction=False and "
+                "hasAwardingOrder=False and hasValueRestriction=False"
             )

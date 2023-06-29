@@ -1539,6 +1539,7 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
             "valueCurrencyEquality": False,
             "hasAuction": False,
             "hasAwardingOrder": False,
+            "hasValueRestriction": False,
         })
 
         test_tender_data = deepcopy(test_docs_tender_below)
