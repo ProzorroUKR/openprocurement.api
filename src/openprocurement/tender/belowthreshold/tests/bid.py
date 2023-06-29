@@ -249,7 +249,7 @@ class TenderLotsWithDisabledValueRestriction(TenderContentWebTest):
             "hasAwardingOrder": True,
             "hasValueRestriction": False,
             "valueCurrencyEquality": True,
-            "minBidsNumber": 1,
+            "minBidsNumber": 2,
         })
         self.create_tender(config=config)
 
@@ -268,7 +268,7 @@ class TenderWithDisabledValueRestriction(TenderContentWebTest):
             "hasAwardingOrder": True,
             "hasValueRestriction": False,
             "valueCurrencyEquality": True,
-            "minBidsNumber": 1,
+            "minBidsNumber": 2,
         })
         self.create_tender(config=config)
 
@@ -296,6 +296,7 @@ class TenderLotsWithDisabledValueCurrencyEquality(TenderContentWebTest):
             "hasAwardingOrder": False,
             "valueCurrencyEquality": False,
             "hasValueRestriction": False,
+            "minBidsNumber": 1,
         })
         self.create_tender(config=config)
 
@@ -321,6 +322,7 @@ class TenderWithDisabledValueCurrencyEquality(TenderContentWebTest):
             "hasAwardingOrder": False,
             "valueCurrencyEquality": False,
             "hasValueRestriction": False,
+            "minBidsNumber": 1,
         })
         self.create_tender(config=config)
 

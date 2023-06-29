@@ -8,148 +8,6 @@ Content-Type: application/json
 
 {
   "data": {
-    "date": "2023-01-31T00:00:00+02:00",
-    "dateModified": "2023-01-31T00:00:00+02:00",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "tenderID": "UA-2023-01-01-000001-a",
-    "owner": "broker",
-    "title": "футляри до державних нагород",
-    "mainProcurementCategory": "services",
-    "submissionMethod": "electronicAuction",
-    "procurementMethod": "open",
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "minimalStep": {
-      "amount": 5.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "lots": [
-      {
-        "title": "Лот №1",
-        "description": "Опис Лот №1",
-        "status": "active",
-        "id": "0604e55b3dae444a8d537bb4c971a246",
-        "date": "2023-01-01T00:00:00+02:00",
-        "value": {
-          "amount": 500.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        },
-        "minimalStep": {
-          "amount": 5.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        }
-      }
-    ],
-    "milestones": [
-      {
-        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "title": "signingTheContract",
-        "type": "financing",
-        "code": "prepayment",
-        "percentage": 45.55,
-        "duration": {
-          "days": 2,
-          "type": "banking"
-        },
-        "sequenceNumber": 0
-      },
-      {
-        "id": "623e988a580b442fbd8c809445299ce5",
-        "title": "deliveryOfGoods",
-        "type": "financing",
-        "code": "postpayment",
-        "percentage": 54.45,
-        "duration": {
-          "days": 900,
-          "type": "calendar"
-        },
-        "sequenceNumber": 0
-      }
-    ],
-    "procuringEntity": {
-      "name": "ЗОСШ #10 м.Вінниці",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "21725150",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
-      },
-      "address": {
-        "streetAddress": "вул. Стахурського. 22",
-        "locality": "м. Вінниця",
-        "region": "Вінницька область",
-        "postalCode": "21027",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/",
-        "name": "Куца Світлана Валентинівна"
-      },
-      "kind": "special"
-    },
-    "status": "active.qualification",
-    "procurementMethodType": "aboveThresholdUA",
-    "awardCriteria": "lowestCost",
-    "enquiryPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-06T00:00:00+02:00",
-      "clarificationsUntil": "2023-01-26T00:00:00+02:00",
-      "invalidationDate": "2023-01-01T00:00:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-09T00:00:00+02:00"
-    },
-    "items": [
-      {
-        "id": "499e09944ea347a994a8f14829146ff7",
-        "description": "Послуги шкільних їдалень",
-        "classification": {
-          "description": "Послуги з харчування у школах",
-          "scheme": "ДК021",
-          "id": "55523100-3"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "Послуги шкільних їдалень"
-          }
-        ],
-        "unit": {
-          "name": "папір",
-          "value": {
-            "amount": 10.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
-        "quantity": 1.0,
-        "relatedLot": "0604e55b3dae444a8d537bb4c971a246",
-        "deliveryDate": {
-          "startDate": "2023-01-21T00:00:00+02:00",
-          "endDate": "2023-02-20T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        }
-      }
-    ],
-    "complaintPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-28T00:00:00+02:00"
-    },
     "criteria": [
       {
         "title": "Вчинення злочинів, учинених з корисливих мотивів",
@@ -632,6 +490,165 @@ Content-Type: application/json
         ]
       }
     ],
+    "date": "2023-01-31T00:00:00+02:00",
+    "dateModified": "2023-01-31T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "tenderID": "UA-2023-01-01-000001-a",
+    "status": "active.qualification",
+    "owner": "broker",
+    "title": "футляри до державних нагород",
+    "mainProcurementCategory": "goods",
+    "submissionMethod": "electronicAuction",
+    "procurementMethod": "open",
+    "awardCriteria": "lowestCost",
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "minimalStep": {
+      "amount": 15.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "tenderPeriod": {
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-09T00:00:00+02:00"
+    },
+    "items": [
+      {
+        "id": "df827a0a87354ad59f985d4b31bbaf6c",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "relatedLot": "0604e55b3dae444a8d537bb4c971a246"
+      }
+    ],
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "0604e55b3dae444a8d537bb4c971a246",
+        "date": "2023-01-01T00:00:00+02:00",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 15.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        }
+      }
+    ],
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      },
+      {
+        "id": "623e988a580b442fbd8c809445299ce5",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 0
+      }
+    ],
+    "procurementMethodType": "belowThreshold",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "telephone": "+0440000000",
+        "name": "Державне управління справами"
+      },
+      "kind": "general"
+    },
+    "enquiryPeriod": {
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "clarificationsUntil": "2023-01-09T00:00:00+02:00",
+      "endDate": "2023-01-06T00:00:00+02:00"
+    },
+    "questions": [
+      {
+        "id": "e73ecec32b2648b399efc847e49e00d1",
+        "author": {
+          "name": "ДКП «Книга»",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00137226",
+            "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
+            "uri": "http://www.sc.gov.ua/"
+          },
+          "address": {
+            "streetAddress": "вул. Островського, 34",
+            "locality": "м. Львів",
+            "region": "Львівська область",
+            "postalCode": "79013",
+            "countryName": "Україна"
+          },
+          "contactPoint": {
+            "email": "aagt@gmail.com",
+            "telephone": "+380322916930",
+            "name": "Андрій Олексюк"
+          }
+        },
+        "title": "Калорійність",
+        "description": "Просимо додати таблицю потрібної калорійності харчування",
+        "date": "2023-01-01T00:00:00+02:00",
+        "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"",
+        "questionOf": "tender",
+        "dateAnswered": "2023-01-01T00:00:00+02:00"
+      }
+    ],
     "bids": [
       {
         "requirementResponses": [
@@ -736,6 +753,17 @@ Content-Type: application/json
             "id": "bced20f27a6e43c89389f119e1e5907d"
           }
         ],
+        "lotValues": [
+          {
+            "value": {
+              "amount": 300.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            },
+            "relatedLot": "0604e55b3dae444a8d537bb4c971a246",
+            "date": "2023-01-01T00:00:00+02:00"
+          }
+        ],
         "tenderers": [
           {
             "name": "ДКП «Школяр»",
@@ -762,20 +790,7 @@ Content-Type: application/json
         ],
         "status": "active",
         "id": "7e95a6b839db44edb45dfdd6caa41a97",
-        "date": "2023-01-01T00:00:00+02:00",
-        "selfQualified": true,
-        "lotValues": [
-          {
-            "value": {
-              "amount": 500.0,
-              "currency": "UAH",
-              "valueAddedTaxIncluded": true
-            },
-            "relatedLot": "0604e55b3dae444a8d537bb4c971a246",
-            "date": "2023-01-01T00:00:00+02:00",
-            "subcontractingDetails": "ДКП «Орфей», Україна"
-          }
-        ]
+        "date": "2023-01-01T00:00:00+02:00"
       }
     ],
     "awardPeriod": {
@@ -787,7 +802,7 @@ Content-Type: application/json
         "status": "pending",
         "date": "2023-01-31T00:00:00+02:00",
         "value": {
-          "amount": 500.0,
+          "amount": 300.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
@@ -816,9 +831,7 @@ Content-Type: application/json
           }
         ],
         "bid_id": "7e95a6b839db44edb45dfdd6caa41a97",
-        "lotID": "0604e55b3dae444a8d537bb4c971a246",
-        "qualified": false,
-        "eligible": false
+        "lotID": "0604e55b3dae444a8d537bb4c971a246"
       }
     ],
     "id": "62ce6859a3df45b692f7f78357d812c0"
@@ -827,6 +840,7 @@ Content-Type: application/json
     "hasAuction": true,
     "hasAwardingOrder": true,
     "hasValueRestriction": true,
+    "valueCurrencyEquality": true,
     "minBidsNumber": 1
   }
 }

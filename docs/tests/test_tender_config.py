@@ -1728,12 +1728,59 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
     def test_docs_min_bids_number_values_csv(self):
         self.write_values_csv(config_name="minBidsNumber", file_name="min-bids-number-values.csv")
 
+    def activate_tender(self, tender_id, owner_token):
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+            {'data': {"status": "active.enquiries"}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        # enquires
+        response = self.app.post_json(
+            '/tenders/{}/questions'.format(tender_id),
+            {"data": test_docs_question}, status=201
+        )
+        question_id = response.json['data']['id']
+        self.assertEqual(response.status, '201 Created')
+
+        response = self.app.patch_json(
+            '/tenders/{}/questions/{}?acc_token={}'.format(
+                tender_id, question_id, owner_token
+            ),
+            {
+                "data": {
+                    "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\""
+                }
+            }, status=200
+        )
+        self.assertEqual(response.status, '200 OK')
+        self.set_status('active.tendering')
+
+    def register_bid(self, tender_id, lot_ids, initial_amount=300):
+        bid_data = {
+            'status': 'draft',
+            'tenderers': test_docs_bid["tenderers"],
+            'lotValues': []
+        }
+        for idx, lot_id in enumerate(lot_ids):
+            bid_data["lotValues"].append({
+                "value": {"amount": idx * 100 + initial_amount},
+                'relatedLot': lot_id
+            })
+        response = self.app.post_json(
+            '/tenders/{}/bids'.format(self.tender_id),
+            {'data': bid_data}
+        )
+        self.assertEqual(response.status, '201 Created')
+        self.set_responses(tender_id, response.json, "active")
+        return response.json['data']['id']
+
     def test_docs_min_bids_number_invalid_config(self):
         config = deepcopy(self.initial_config)
         config["minBidsNumber"] = 0
         config["hasValueRestriction"] = True
 
-        test_tender_data = deepcopy(test_docs_tender_openua)
+        test_tender_data = deepcopy(test_docs_tender_below)
 
         with open(TARGET_DIR + 'min-bids-number-invalid-value-1.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -1773,7 +1820,7 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
         config["minBidsNumber"] = 2
         config["hasValueRestriction"] = True
 
-        test_tender_data = deepcopy(test_docs_tender_openua)
+        test_tender_data = deepcopy(test_docs_tender_below)
         test_lots = deepcopy(test_docs_lots)
         test_lots[0]['value'] = test_tender_data['value']
         test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
@@ -1808,27 +1855,9 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '200 OK')
 
         self.add_criteria(tender_id, owner_token)
-        self.set_status('active.tendering')
+        self.activate_tender(tender_id, owner_token)
 
-        # Registering bid
-        self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.post_json(
-            f'/tenders/{tender_id}/bids',
-            {
-                'data': {
-                    'selfQualified': True,
-                    'status': 'draft',
-                    'tenderers': test_docs_bid["tenderers"],
-                    'lotValues': [{
-                        "subcontractingDetails": "ДКП «Орфей», Україна",
-                        "value": {"amount": 500},
-                        'relatedLot': lot_id
-                    }]
-                }
-            }
-        )
-        self.assertEqual(response.status, '201 Created')
-        self.set_responses(tender_id, response.json, "active")
+        bid_id = self.register_bid(tender_id, [lot_id])
 
         self.tick(datetime.timedelta(days=30))
         self.check_chronograph()
@@ -1842,7 +1871,7 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
         config["minBidsNumber"] = 1
         config["hasValueRestriction"] = True
 
-        test_tender_data = deepcopy(test_docs_tender_openua)
+        test_tender_data = deepcopy(test_docs_tender_below)
         test_lots = deepcopy(test_docs_lots)
         test_lots[0]['value'] = test_tender_data['value']
         test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
@@ -1877,27 +1906,9 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '200 OK')
 
         self.add_criteria(tender_id, owner_token)
-        self.set_status('active.tendering')
+        self.activate_tender(tender_id, owner_token)
 
-        # Registering bid
-        self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.post_json(
-            f'/tenders/{tender_id}/bids',
-            {
-                'data': {
-                    'selfQualified': True,
-                    'status': 'draft',
-                    'tenderers': test_docs_bid["tenderers"],
-                    'lotValues': [{
-                        "subcontractingDetails": "ДКП «Орфей», Україна",
-                        "value": {"amount": 500},
-                        'relatedLot': lot_id
-                    }]
-                }
-            }
-        )
-        self.assertEqual(response.status, '201 Created')
-        self.set_responses(tender_id, response.json, "active")
+        bid_id = self.register_bid(tender_id, [lot_id])
 
         self.tick(datetime.timedelta(days=30))
         self.check_chronograph()
@@ -1909,9 +1920,8 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
     def test_docs_min_bids_number_tendering_two_bids_qualification(self):
         config = deepcopy(self.initial_config)
         config["minBidsNumber"] = 2
-        config["hasValueRestriction"] = True
 
-        test_tender_data = deepcopy(test_docs_tender_openua)
+        test_tender_data = deepcopy(test_docs_tender_below)
         test_tender_data['items'] = test_docs_items_open
         test_lots = deepcopy(test_docs_lots)
         test_lots[0]['value'] = test_tender_data['value']
@@ -1958,66 +1968,13 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '200 OK')
 
         self.add_criteria(tender_id, owner_token)
-        self.set_status('active.tendering')
+        self.activate_tender(tender_id, owner_token)
 
-        # Registering bid1
-        self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.post_json(
-            f'/tenders/{tender_id}/bids',
-            {
-                'data': {
-                    'selfQualified': True,
-                    'status': 'draft',
-                    'tenderers': test_docs_bid["tenderers"],
-                    'lotValues': [{
-                        "subcontractingDetails": "ДКП «Орфей», Україна",
-                        "value": {"amount": 500},
-                        'relatedLot': lot_id1
-                    }, {
-                        "subcontractingDetails": "ДКП «Орфей», Україна",
-                        "value": {"amount": 500},
-                        'relatedLot': lot_id2
-                    }]
-                }
-            }
-        )
-        self.assertEqual(response.status, '201 Created')
-        bid1_id = response.json['data']['id']
-        self.set_responses(tender_id, response.json, "active")
-
-        # Registering bid2
-        self.app.authorization = ('Basic', ('broker', ''))
-        response = self.app.post_json(
-            f'/tenders/{tender_id}/bids',
-            {
-                'data': {
-                    'selfQualified': True,
-                    'status': 'draft',
-                    'tenderers': test_docs_bid["tenderers"],
-                    'lotValues': [{
-                        "subcontractingDetails": "ДКП «Орфей», Україна",
-                        "value": {"amount": 500},
-                        'relatedLot': lot_id1,
-                    }, {
-                        "subcontractingDetails": "ДКП «Орфей», Україна",
-                        "value": {"amount": 500},
-                        'relatedLot': lot_id2
-                    }]
-                }
-            }
-        )
-        self.assertEqual(response.status, '201 Created')
-        bid2_id = response.json['data']['id']
-        self.set_responses(tender_id, response.json, "active")
+        bid1_id = self.register_bid(tender_id, [lot_id1, lot_id2])
+        bid2_id = self.register_bid(tender_id, [lot_id1, lot_id2], initial_amount=400)
 
         # Auction
-        self.tick(datetime.timedelta(days=30))
-        self.check_chronograph()
-        with open(TARGET_DIR + 'min-bids-number-tender-auction.http', 'w') as self.app.file_obj:
-            response = self.app.get('/tenders/{}'.format(self.tender_id))
-            self.assertEqual(response.status, '200 OK')
-            self.assertEqual(response.json['data']['status'], 'active.auction')
-
+        self.set_status('active.auction')
         self.app.authorization = ('Basic', ('auction', ''))
         auction1_url = '{}/tenders/{}_{}'.format(self.auctions_url, self.tender_id, lot_id1)
         auction2_url = '{}/tenders/{}_{}'.format(self.auctions_url, self.tender_id, lot_id2)

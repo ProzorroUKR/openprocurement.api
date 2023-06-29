@@ -491,7 +491,8 @@ def create_tender_invalid_config(self):
                 "hasAuction": True,
                 "hasValueRestriction": True,
                 "hasAwardingOrder": True,
-                "minBidsNumber": 0
+                "valueCurrencyEquality": True,
+                "minBidsNumber": 1
             }
         },
         status=422,
@@ -500,7 +501,7 @@ def create_tender_invalid_config(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": "0 is less than the minimum of 1", "location": "body", "name": "minBidsNumber"}],
+        [{"description": "1 is less than the minimum of 2", "location": "body", "name": "minBidsNumber"}],
     )
     response = self.app.post_json(
         request_path,
@@ -510,7 +511,8 @@ def create_tender_invalid_config(self):
                 "hasAuction": True,
                 "hasValueRestriction": True,
                 "hasAwardingOrder": True,
-                "minBidsNumber": 10
+                "valueCurrencyEquality": True,
+                "minBidsNumber": 3
             }
         },
         status=422,
@@ -519,7 +521,7 @@ def create_tender_invalid_config(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": "10 is greater than the maximum of 9", "location": "body", "name": "minBidsNumber"}],
+        [{"description": "3 is greater than the maximum of 2", "location": "body", "name": "minBidsNumber"}],
     )
 
 

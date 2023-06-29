@@ -1,44 +1,40 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 4445
+Content-Length: 4155
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "tenderPeriod": {
-      "endDate": "2023-02-01T00:00:00+02:00"
-    },
     "title": "футляри до державних нагород",
-    "minimalStep": {
-      "currency": "UAH",
-      "amount": 5
-    },
-    "procurementMethodType": "aboveThresholdUA",
-    "value": {
-      "currency": "UAH",
-      "amount": 500
-    },
+    "mainProcurementCategory": "goods",
     "procuringEntity": {
-      "kind": "special",
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
       "address": {
         "countryName": "Україна",
-        "locality": "м. Вінниця",
-        "postalCode": "21027",
-        "region": "Вінницька область",
-        "streetAddress": "вул. Стахурського. 22"
+        "postalCode": "01220",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова, 11, корпус 1"
       },
       "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
-        "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/"
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
       },
-      "identifier": {
-        "id": "21725150",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
-        "scheme": "UA-EDR"
-      },
-      "name": "ЗОСШ #10 м.Вінниці"
+      "kind": "general"
+    },
+    "value": {
+      "amount": 500,
+      "currency": "UAH"
+    },
+    "minimalStep": {
+      "amount": 15,
+      "currency": "UAH"
     },
     "items": [
       {
@@ -111,6 +107,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "quantity": 1
       }
     ],
+    "enquiryPeriod": {
+      "endDate": "2023-01-08T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "endDate": "2023-01-15T00:00:00+02:00"
+    },
+    "procurementMethodType": "belowThreshold",
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -135,13 +138,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "sequenceNumber": 0,
         "percentage": 54.45
       }
-    ],
-    "mainProcurementCategory": "services"
+    ]
   },
   "config": {
     "hasAuction": true,
     "hasAwardingOrder": true,
-    "hasValueRestriction": true,
+    "hasValueRestriction": false,
+    "valueCurrencyEquality": true,
     "minBidsNumber": 2
   }
 }
@@ -153,72 +156,24 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/62ce6859a3df45b6
 
 {
   "data": {
-    "mainProcurementCategory": "services",
+    "mainProcurementCategory": "goods",
     "title": "футляри до державних нагород",
+    "status": "draft",
     "procurementMethod": "open",
+    "awardCriteria": "lowestCost",
     "value": {
       "amount": 500.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
     "minimalStep": {
-      "amount": 5.0,
+      "amount": 15.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "milestones": [
-      {
-        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "title": "signingTheContract",
-        "type": "financing",
-        "code": "prepayment",
-        "percentage": 45.55,
-        "duration": {
-          "days": 2,
-          "type": "banking"
-        },
-        "sequenceNumber": 0
-      },
-      {
-        "id": "623e988a580b442fbd8c809445299ce5",
-        "title": "deliveryOfGoods",
-        "type": "financing",
-        "code": "postpayment",
-        "percentage": 54.45,
-        "duration": {
-          "days": 900,
-          "type": "calendar"
-        },
-        "sequenceNumber": 0
-      }
-    ],
-    "procuringEntity": {
-      "name": "ЗОСШ #10 м.Вінниці",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "21725150",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
-      },
-      "address": {
-        "streetAddress": "вул. Стахурського. 22",
-        "locality": "м. Вінниця",
-        "region": "Вінницька область",
-        "postalCode": "21027",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/",
-        "name": "Куца Світлана Валентинівна"
-      },
-      "kind": "special"
-    },
-    "status": "draft",
-    "procurementMethodType": "aboveThresholdUA",
-    "awardCriteria": "lowestCost",
     "tenderPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-02-01T00:00:00+02:00"
+      "startDate": "2023-01-08T00:00:00+02:00",
+      "endDate": "2023-01-15T00:00:00+02:00"
     },
     "items": [
       {
@@ -297,19 +252,62 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/62ce6859a3df45b6
         }
       }
     ],
-    "tenderID": "UA-2023-01-01-000001-a",
-    "complaintPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-28T00:00:00+02:00"
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      },
+      {
+        "id": "623e988a580b442fbd8c809445299ce5",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 0
+      }
+    ],
+    "procurementMethodType": "belowThreshold",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "telephone": "+0440000000",
+        "name": "Державне управління справами"
+      },
+      "kind": "general"
     },
+    "enquiryPeriod": {
+      "endDate": "2023-01-08T00:00:00+02:00",
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "clarificationsUntil": "2023-01-09T00:00:00+02:00"
+    },
+    "tenderID": "UA-2023-01-01-000001-a",
     "owner": "broker",
     "submissionMethod": "electronicAuction",
     "date": "2023-01-01T00:00:00+02:00",
-    "enquiryPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-22T00:00:00+02:00",
-      "clarificationsUntil": "2023-01-26T00:00:00+02:00"
-    },
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "id": "62ce6859a3df45b692f7f78357d812c0"
@@ -317,7 +315,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/62ce6859a3df45b6
   "config": {
     "hasAuction": true,
     "hasAwardingOrder": true,
-    "hasValueRestriction": true,
+    "hasValueRestriction": false,
+    "valueCurrencyEquality": true,
     "minBidsNumber": 2
   },
   "access": {

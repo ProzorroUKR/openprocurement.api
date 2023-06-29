@@ -539,6 +539,7 @@ def create_tender_invalid_config(self):
                 "hasAuction": False,
                 "hasValueRestriction": True,
                 "hasAwardingOrder": True,
+                "valueCurrencyEquality": True,
                 "minBidsNumber": 0
             }
         },
@@ -558,6 +559,7 @@ def create_tender_invalid_config(self):
                 "hasAuction": False,
                 "hasValueRestriction": True,
                 "hasAwardingOrder": True,
+                "valueCurrencyEquality": True,
                 "minBidsNumber": 2
             }
         },

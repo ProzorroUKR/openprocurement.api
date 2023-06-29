@@ -93,6 +93,7 @@ def get_tender_auction(self):
     self.assertNotIn("procuringEntity", auction)
     self.assertNotIn("tenderers", auction["bids"][0])
     self.assertEqual(auction["bids"][0]["value"]["amount"], self.initial_bids[0]["value"]["amount"])
+    self.assertEqual(auction["bids"][1]["value"]["amount"], self.initial_bids[1]["value"]["amount"])
     # self.assertEqual(self.initial_data["auctionPeriod"]['startDate'], auction["auctionPeriod"]['startDate'])
 
     response = self.app.get("/tenders/{}/auction?opt_jsonp=callback".format(self.tender_id))
@@ -149,16 +150,15 @@ def post_tender_auction(self):
         ]
     }
 
-    if self.min_bids_number > 1:
-        response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=422)
-        self.assertEqual(response.status, "422 Unprocessable Entity")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(
-            response.json["errors"][0]["description"],
-            ["Number of auction results did not match the number of tender bids"]
-        )
+    response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        ["Number of auction results did not match the number of tender bids"]
+    )
 
-        patch_data["bids"].append({"id": self.initial_bids[0]["id"]})
+    update_patch_data(self, patch_data, key="value", start=-2, interval=-1)
 
     patch_data["bids"][-1]["id"] = "some_id"
 
@@ -263,19 +263,19 @@ def patch_tender_auction(self):
         ],
     }
 
-    if self.min_bids_number > 1:
-        response = self.app.patch_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=422)
-        self.assertEqual(response.status, "422 Unprocessable Entity")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(
-            response.json["errors"][0]["description"], ["Number of bids did not match the number of tender bids"]
-        )
+    response = self.app.patch_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"], ["Number of bids did not match the number of tender bids"]
+    )
 
+    for x in list(range(self.min_bids_number))[-2::-1]:
         patch_data["bids"].append(
             {
-                "id": self.initial_bids[0]["id"],
+                "id": self.initial_bids[x]["id"],
                 "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/{}?key_for_bid={}".format(
-                    self.tender_id, self.initial_bids[0]["id"]
+                    self.tender_id, self.initial_bids[x]["id"]
                 ),
             }
         )
@@ -1660,7 +1660,7 @@ def post_tender_auction_feature(self):
     patch_data = {
         "bids": [
             {
-                "id": "some_id",
+                "id": self.initial_bids[-1]["id"],
                 "value": {"amount": 459, "currency": "UAH", "valueAddedTaxIncluded": True},
             }
         ]
@@ -1669,12 +1669,20 @@ def post_tender_auction_feature(self):
     response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"], ["Number of auction results did not match the number of tender bids"]
+    )
+
+    update_patch_data(self, patch_data, key="value", start=-2, interval=-1)
+
+    patch_data["bids"][-1]["id"] = "some_id"
+
+    response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"], {"id": ["Hash value is wrong length."]})
 
-    patch_data["bids"].append(
-        {"value": {"amount": 2222}, "id": self.initial_bids[-1]["id"],},
-    )
-    patch_data["bids"][0]["id"] = "00000000000000000000000000000000"
+    patch_data["bids"][-1]["id"] = "00000000000000000000000000000000"
     response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -1691,6 +1699,7 @@ def post_tender_auction_feature(self):
     self.assertIn("features", tender)
     self.assertIn("parameters", tender["bids"][0])
     self.assertEqual(tender["bids"][0]["value"]["amount"], patch_data["bids"][0]["value"]["amount"])
+    self.assertEqual(tender["bids"][1]["value"]["amount"], patch_data["bids"][1]["value"]["amount"])
 
     self.assertEqual("active.qualification", tender["status"])
     self.assertIn("tenderers", tender["bids"][0])

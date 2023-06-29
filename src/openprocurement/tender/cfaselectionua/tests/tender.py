@@ -15,7 +15,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_central,
     create_tender_central_invalid,
     create_tender_config_test,
-    create_tender_invalid_config,
 )
 from openprocurement.tender.cfaselectionua.tests.base import (
     BaseTenderWebTest,
@@ -56,6 +55,7 @@ from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
     lost_contract_for_active_award,
     create_tender_with_available_language,
     edit_tender_in_active_enquiries,
+    create_tender_invalid_config,
 )
 
 

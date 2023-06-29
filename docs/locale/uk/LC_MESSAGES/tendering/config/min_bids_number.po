@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-23 10:46+0200\n"
+"POT-Creation-Date: 2023-06-29 11:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -55,10 +55,10 @@ msgstr ""
 msgid "aboveThresholdUA"
 msgstr ""
 
-msgid "1 - 9"
+msgid "belowThreshold"
 msgstr ""
 
-msgid "belowThreshold"
+msgid "1 - 9"
 msgstr ""
 
 msgid "closeFrameworkAgreementSelectionUA"
@@ -106,11 +106,11 @@ msgstr "Особливості конфігурації"
 msgid "The field value must be in the range from 1 to 9"
 msgstr "Значення поля має бути в діапазоні від 1 до 9"
 
-msgid "Let's create a tender `aboveThresholdUA` with configuration `minBidsNumber=0` and we will see error:"
-msgstr "Створимо тендер `aboveThresholdUA` з конфігурацією `minBidsNumber=0` і побачимо помилку:"
+msgid "Let's create a tender `belowThreshold` with configuration `minBidsNumber=0` and we will see error:"
+msgstr "Створимо тендер `belowThreshold` з конфігурацією `minBidsNumber=0` і побачимо помилку:"
 
-msgid "Let's create a tender `aboveThresholdUA` with configuration `minBidsNumber=10` and we will see error:"
-msgstr "Створимо тендер `aboveThresholdUA` з конфігурацією `minBidsNumber=10` і побачимо помилку:"
+msgid "Let's create a tender `belowThreshold` with configuration `minBidsNumber=10` and we will see error:"
+msgstr "Створимо тендер `belowThreshold` з конфігурацією `minBidsNumber=10` і побачимо помилку:"
 
 msgid "The value is indicated at the tender level. If the procedure contains >1 lots, then this value is applied equally to each lot:"
 msgstr "Значення вказується на рівні тендеру. Якщо процедура містить >1 lots, то це значення застосовується однаково до кожного лоту:"
@@ -121,8 +121,8 @@ msgstr "Вказуємо `minBidsNumber` на рівні тендеру `minBids
 msgid "If at the end of the bid acceptance period, fewer bids than specified in the `minBidsNumber` field are submitted, the procedure automatically switches to the status `unsuccessful`, and the purchase is displayed as `Bidding canceled` on the site and on the official portal."
 msgstr "Якщо по закінченню періоду прийому пропозицій подано менше пропозицій, ніж вказано в полі `minBidsNumber`, то процедура автоматично переходить до статусу `unsuccessful`, а на майданчику та на офіційному порталі закупівля відображається, як `Торги відмінено`."
 
-msgid "Let's create a tender `aboveThresholdUA` with configuration `minBidsNumber=2` and 1 bid:"
-msgstr "Створимо тендер `aboveThresholdUA` з конфігурацією `minBidsNumber=2` і одним бідом:"
+msgid "Let's create a tender `belowThreshold` with configuration `minBidsNumber=2` and 1 bid:"
+msgstr "Створимо тендер `belowThreshold` з конфігурацією `minBidsNumber=2` і одним бідом:"
 
 msgid "Let's look at tender after `active.tendering` is finished:"
 msgstr "Подивимося на тендер після закінчення `active.tendering` періоду:"
@@ -130,8 +130,8 @@ msgstr "Подивимося на тендер після закінчення `
 msgid "If the value `hasAuction:true`, `minBidsNumber=1` is set and `bids=1` are submitted after the end of the bid acceptance period, the system automatically registers the participant as a potential winner, the purchase is transferred to the status `active.qualification`."
 msgstr "Якщо встановлено значення `hasAuction:true`, `minBidsNumber=1` та після завершення періоду прийому пропозицій подано `bids=1`, то система автоматично реєструє учасника як потенційного переможця, закупівля переводиться до статусу «Кваліфікація» `active.qualification`."
 
-msgid "Let's create a tender `aboveThresholdUA` with configuration `minBidsNumber=1` and 1 bid:"
-msgstr "Створимо тендер `aboveThresholdUA` з конфігурацією `minBidsNumber=1` і одним бідом:"
+msgid "Let's create a tender `belowThreshold` with configuration `minBidsNumber=1` and 1 bid:"
+msgstr "Створимо тендер `belowThreshold` з конфігурацією `minBidsNumber=1` і одним бідом:"
 
 msgid "Let's look at tender after `active.tendering` is finished, `auction` will be skipped and `active.qualification` period is started:"
 msgstr "Подивимося на тендер після закінчення `active.tendering` періоду, аукціон буде пропущений і одразу розпочнеться `active.qualification` період:"
@@ -139,8 +139,8 @@ msgstr "Подивимося на тендер після закінчення `
 msgid "If the `hasAuction:true` value is set, >=2 bids are submitted and the number of bids passes the minBidsNumber field check, the system activates the single `Auction` module."
 msgstr "Якщо встановлено значення `hasAuction:true`, пропозицій подано >=2 та кількість пропозицій проходить перевірку по полю minBidsNumber, то система активує єдиний модуль «Аукціон»."
 
-msgid "Let's create a tender `aboveThresholdUA` with configuration `minBidsNumber=2` and 2 bids:"
-msgstr "Створимо тендер `aboveThresholdUA` з конфігурацією `minBidsNumber=2` і двома бідами:"
+msgid "Let's create a tender `belowThreshold` with configuration `minBidsNumber=2` and 2 bids:"
+msgstr "Створимо тендер `belowThreshold` з конфігурацією `minBidsNumber=2` і двома бідами:"
 
 msgid "Let's look at tender after `active.tendering` is finished, `auction` will be started:"
 msgstr "Подивимося на тендер після закінчення `active.tendering` періоду, розпочнеться аукціон:"
