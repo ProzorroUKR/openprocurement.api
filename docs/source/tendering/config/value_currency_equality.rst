@@ -46,7 +46,7 @@ valueCurrencyEquality is `false`
 `valueCurrencyEquality:false` means that currency validation will not work.
 
 .. note::
-    Multi-currency can be applied only with `hasAuction:false` and with `hasAwardingOrder:false`.
+    Multi-currency can be applied only with `hasAuction:false` and with `hasAwardingOrder:false` and with `hasValueRestriction:false`.
 
 Let's create a tender with lots with `valueCurrencyEquality` set to `false`:
 

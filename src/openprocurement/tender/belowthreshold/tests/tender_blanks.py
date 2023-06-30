@@ -778,13 +778,14 @@ def create_tender_invalid(self):
     self.assertEqual(
         response.json["errors"],
         [{
-            "description": ["valueCurrencyEquality can be False only if hasAuction=False and hasAwardingOrder=False"],
+            "description": [
+                "valueCurrencyEquality can be False only if hasAuction=False and hasAwardingOrder=False "
+                "and hasValueRestriction=False"
+            ],
             "location": "body",
             "name": "valueCurrencyEquality"
         }],
     )
-
-    data = deepcopy(self.initial_data)
     response = self.app.post_json(
         request_path,
         {"data": data, "config": {"hasAuction": False, "hasAwardingOrder": True, "valueCurrencyEquality": False}},
@@ -796,7 +797,37 @@ def create_tender_invalid(self):
     self.assertEqual(
         response.json["errors"],
         [{
-            "description": ["valueCurrencyEquality can be False only if hasAuction=False and hasAwardingOrder=False"],
+            "description": [
+                "valueCurrencyEquality can be False only if hasAuction=False and hasAwardingOrder=False "
+                "and hasValueRestriction=False"
+            ],
+            "location": "body",
+            "name": "valueCurrencyEquality"
+        }],
+    )
+    response = self.app.post_json(
+        request_path,
+        {
+            "data": data,
+            "config": {
+                "hasAuction": True,
+                "hasAwardingOrder": True,
+                "hasValueRestriction": False,
+                "valueCurrencyEquality": False
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "description": [
+                "valueCurrencyEquality can be False only if hasAuction=False and hasAwardingOrder=False "
+                "and hasValueRestriction=False"
+            ],
             "location": "body",
             "name": "valueCurrencyEquality"
         }],
