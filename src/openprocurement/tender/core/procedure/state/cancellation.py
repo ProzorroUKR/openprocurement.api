@@ -4,7 +4,7 @@ from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.context import get_tender, get_request
+from openprocurement.tender.core.procedure.context import get_tender, get_request, get_tender_config
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 from datetime import timedelta
@@ -223,14 +223,50 @@ class CancellationStateMixing(baseclass):
             self.cancel_tender(tender)
 
     def cancel_tender(self, tender):
-        if tender["status"] in ("active.tendering", "active.auction"):
+        config = get_tender_config()
+
+        if config.get("hasPrequalification"):
+            remove_bid_statuses = ("active.tendering",)
+        else:
+            remove_bid_statuses = ("active.tendering", "active.auction")
+
+        invalidate_bid_statuses = (
+            "active.pre-qualification",
+            "active.pre-qualification.stand-still",
+            "active.auction",
+        )
+
+        if tender["status"] in remove_bid_statuses:
             tender.pop("bids", None)
+        elif tender["status"] in invalidate_bid_statuses:
+            for bid in tender.get("bids", ""):
+                if bid["status"] in ("pending", "active"):
+                    bid["status"] = "invalid.pre-qualification"
+
         self.set_object_status(tender, "cancelled")
 
     def cancel_lot(self, tender, cancellation):
         self._cancel_lot(tender, cancellation["relatedLot"])
-        self._lot_update_check_tender_status(tender)
+        cancelled_lots, cancelled_features = self._get_cancelled_lot_objects(tender)
+        # invalidate lot bids
+        if tender["status"] in (
+            "active.tendering",
+            "active.pre-qualification",
+            "active.pre-qualification.stand-still",
+            "active.auction",
+        ):
+            for bid in tender.get("bids", ""):
+                bid["parameters"] = [i for i in bid.get("parameters", "") if i["code"] not in cancelled_features]
+                if not bid["parameters"]:
+                    del bid["parameters"]
 
+                bid["lotValues"] = [i for i in bid.get("lotValues", "") if i["relatedLot"] not in cancelled_lots]
+                if not bid["lotValues"] and bid["status"] in ("pending", "active"):
+                    del bid["lotValues"]
+                    bid["status"] = "invalid" if tender["status"] == "active.tendering" else "invalid.pre-qualification"
+        # need to switch tender status ?
+        self._lot_update_check_tender_status(tender)
+        # need to add next award ?
         if tender["status"] == "active.auction" and all(
             "endDate" in i.get("auctionPeriod", "")
             for i in tender.get("lots", "")
@@ -238,6 +274,18 @@ class CancellationStateMixing(baseclass):
             and i["status"] == "active"
         ):
             self.add_next_award()
+
+    @staticmethod
+    def _get_cancelled_lot_objects(tender):
+        cancelled_lots = {i["id"] for i in tender.get("lots", "") if i["status"] == "cancelled"}
+        cancelled_items = {i["id"] for i in tender.get("items", "") if i.get("relatedLot") in cancelled_lots}
+        cancelled_features = {
+            i["code"]
+            for i in tender.get("features", "")
+            if i.get("featureOf") == "lot" and i.get("relatedItem") in cancelled_lots
+            or i.get("featureOf") == "item" and i.get("relatedItem") in cancelled_items
+        }
+        return cancelled_lots, cancelled_features
 
     def _lot_update_check_tender_status(self, tender):
         lot_statuses = {lot["status"] for lot in tender.get("lots", "")}
