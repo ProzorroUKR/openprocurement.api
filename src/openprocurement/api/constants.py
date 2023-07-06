@@ -50,35 +50,20 @@ DEPRECATED_FEED_USER_AGENTS = parse_str_list(os.environ.get("DEPRECATED_FEED_USE
 
 TENDER_PERIOD_START_DATE_STALE_MINUTES = int(os.environ.get("TENDER_PERIOD_START_DATE_STALE_MINUTES", 10))
 
-
-def read_json(name):
-    import os.path
-    from json import loads
-
-    curr_dir = os.path.dirname(os.path.realpath(__file__))
-    file_path = os.path.join(curr_dir, name)
-    with open(file_path) as lang_file:
-        data = lang_file.read()
-    return loads(data)
-
-
-CPV_CODES = read_json("data/cpv.json")
+CPV_CODES = list(standards.load("classifiers/cpv_en.json"))
 CPV_CODES.append("99999999-9")
-DK_CODES = read_json("data/dk021.json")
+DK_CODES = list(standards.load("classifiers/dk021_uk.json"))
 FUNDERS = [
     (i["identifier"]["scheme"], i["identifier"]["id"])
     for i in standards.load("codelists/tender/tender_funder.json")
 ]
 ORA_CODES = [i["code"] for i in standards.load("organizations/identifier_scheme.json")["data"]]
 # extended keys gmdn contains actual and obsolete codes, since deleted codes can block un-refactored endpoints
-GMDN_2019 = set(read_json("data/gmdn_2019_keys.json"))
-GMDN_2023 = set(read_json("data/gmdn_2023_keys.json"))
-GMDN_CPV_PREFIXES = read_json("data/gmdn_cpv_prefixes.json")
-UA_ROAD = read_json("data/ua_road.json")
-UA_ROAD_CPV_PREFIXES = read_json("data/ua_road_cpv_prefixes.json")
-
-ATC_CODES = read_json("data/atc.json")
-INN_CODES = read_json("data/inn.json")
+GMDN_2019 = set(standards.load("classifiers/gmdn.json"))
+GMDN_2023 = set(standards.load("classifiers/gmdn_2023.json"))
+GMDN_CPV_PREFIXES = standards.load("classifiers/gmdn_cpv_prefixes.json")
+UA_ROAD = standards.load("classifiers/ua_road.json")
+UA_ROAD_CPV_PREFIXES = standards.load("classifiers/ua_road_cpv_prefixes.json")
 
 ADDITIONAL_CLASSIFICATIONS_SCHEMES = ["ДКПП", "NONE", "ДК003", "ДК015", "ДК018"]
 ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017 = ["ДК003", "ДК015", "ДК018", "specialNorms"]
@@ -204,7 +189,7 @@ COUNTRIES_MAP = standards.load("classifiers/countries.json")
 
 # Address validation
 COUNTRIES = {c["name_uk"] for c in COUNTRIES_MAP.values()}
-UA_REGIONS = read_json("data/ua_regions.json")
+UA_REGIONS = standards.load("classifiers/ua_regions.json")
 VALIDATE_ADDRESS_FROM = get_constant(CONSTANTS_CONFIG, "VALIDATE_ADDRESS_FROM")
 
 # address and kind fields required for procuringEntity and buyers objects in plan
