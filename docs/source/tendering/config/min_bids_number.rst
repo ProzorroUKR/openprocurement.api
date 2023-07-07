@@ -31,7 +31,7 @@ Let's create a tender `belowThreshold` with configuration `minBidsNumber=10` and
 .. note::
     Specify `minBidsNumber` at tender level `minBidsNumber=2` then `lot1=2; lot2=2; lotX=2`
 
-* If at the end of the bid acceptance period, fewer bids than specified in the `minBidsNumber` field are submitted, the procedure automatically switches to the status `unsuccessful`, and the purchase is displayed as `Bidding canceled` on the site and on the official portal.
+* If at the end of the bid acceptance period, fewer bids than specified in the `minBidsNumber` field are submitted, the procedure automatically switches to the status `unsuccessful`, and the purchase is displayed as `The auction did not take place` on the site and on the official portal.
 
 Let's create a tender `belowThreshold` with configuration `minBidsNumber=2` and 1 bid:
 
