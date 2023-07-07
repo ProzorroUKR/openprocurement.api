@@ -499,6 +499,15 @@ class ChronographEventsMixing(baseclass):
     def activate_bids(tender):
         activate_bids(tender.get("bids", ""))
 
+    @staticmethod
+    def allowed_switch_to_awarding(tender):
+        config = get_tender_config()
+        if config.get("hasPrequalification") is False:
+            allowed_status = "active.tendering"
+        else:
+            allowed_status = "active.pre-qualification.stand-still"
+        return tender["status"] == allowed_status
+
     def check_bids_number(self, tender):
         if tender.get("lots"):
             max_bid_number = 0
@@ -519,7 +528,7 @@ class ChronographEventsMixing(baseclass):
                 max_bid_number = max(max_bid_number, bid_number)
 
             # bypass auction stage if only one bid in each lot
-            if self.min_bids_number == 1 and max_bid_number == 1:
+            if self.min_bids_number == 1 and max_bid_number == 1 and self.allowed_switch_to_awarding(tender):
                 self.remove_all_auction_periods(tender)
                 self.add_next_award()
 
@@ -548,7 +557,7 @@ class ChronographEventsMixing(baseclass):
                 self.get_change_tender_status_handler("unsuccessful")(tender)
 
             # skip auction if only one bid
-            if self.min_bids_number == 1 and bid_number == 1:
+            if self.min_bids_number == 1 and bid_number == 1 and self.allowed_switch_to_awarding(tender):
                 self.remove_auction_period(tender)
                 self.add_next_award()
 
