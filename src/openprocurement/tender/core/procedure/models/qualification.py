@@ -33,18 +33,26 @@ class Qualification(ObjResponseMixin, PatchQualification, QualificationMilestone
     status = StringType(choices=["pending", "active", "unsuccessful", "cancelled"], default="pending")
     date = IsoDateTimeType()
     documents = ListType(ModelType(Document, required=True))
-    qualified = BooleanType(default=False)
-    eligible = BooleanType(default=False)
+    qualified = BooleanType(default=False)  # відсутність підстав для відмови в участі
+    eligible = BooleanType(default=False)  # підтвердити відповідність кваліфікаційним критеріям (17 стаття)
     complaints = BaseType()
 
     def validate_qualified(self, data, qualified):
-        tender_status = data.get("status")
-        if tender_status == "active" and not qualified:
+        tender = get_tender()
+        if tender["procurementMethodType"] == "belowThreshold":
+            # TODO: find a way to skip validation not based on procurementMethodType
+            return
+        status = data.get("status")
+        if status == "active" and not qualified:
             raise ValidationError("This field is required.")
 
     def validate_eligible(self, data, eligible):
-        tender_status = data.get("status")
-        if tender_status == "active" and not eligible:
+        tender = get_tender()
+        if tender["procurementMethodType"] == "belowThreshold":
+            # TODO: find a way to skip validation not based on procurementMethodType
+            return
+        status = data.get("status")
+        if status == "active" and not eligible:
             raise ValidationError("This field is required.")
 
     def validate_lotID(self, data, value):
