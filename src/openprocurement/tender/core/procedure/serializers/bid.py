@@ -8,6 +8,9 @@ from openprocurement.tender.core.procedure.utils import is_item_owner
 class BidSerializer(BaseSerializer):
     serializers = {
         "documents": ListSerializer(ConfidentialDocumentSerializer),
+        "eligibilityDocuments": ListSerializer(ConfidentialDocumentSerializer),
+        "financialDocuments": ListSerializer(ConfidentialDocumentSerializer),
+        "qualificationDocuments": ListSerializer(ConfidentialDocumentSerializer),
     }
     private_fields = {
         "owner",
