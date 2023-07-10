@@ -144,12 +144,14 @@ Content-Type: application/json
         "scale": "micro"
       }
     ],
+    "status": "pending",
     "id": "0382e1a830c74d9ea44f2bbe4823a623",
     "date": "2023-01-01T00:00:00+02:00",
-    "status": "pending",
     "lotValues": [
       {
         "relatedLot": "47aa65f0d5b944629ab6126141681de8",
+        "status": "pending",
+        "date": "2023-01-01T00:00:00+02:00",
         "subcontractingDetails": "ДКП «Орфей», Україна",
         "value": {
           "currency": "UAH",
@@ -184,9 +186,7 @@ Content-Type: application/json
             "years": 7,
             "days": 0
           }
-        },
-        "date": "2023-01-01T00:00:00+02:00",
-        "status": "pending"
+        }
       }
     ],
     "selfQualified": true

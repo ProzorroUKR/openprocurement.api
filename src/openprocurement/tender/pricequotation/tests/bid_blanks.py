@@ -672,11 +672,11 @@ def patch_tender_bid(self):
     self.assertNotEqual(response.json["data"]["date"], bid["date"])
 
     response = self.app.patch_json(
-        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token), {"data": {"status": "active"}}
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token), {"data": {"status": "pending"}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "active")
+    self.assertEqual(response.json["data"]["status"], "pending")
     self.assertNotEqual(response.json["data"]["date"], bid["date"])
 
     response = self.app.patch_json(
@@ -910,16 +910,14 @@ def patch_tender_bid_document(self):
     response = self.app.patch_json(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token),
         {"data": {"description": "document description"}},
-        status=403,
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update document in current (active.awarded) tender status"
-    )
+    self.assertEqual(doc_id, response.json["data"]["id"])
+    self.assertEqual("document description", response.json["data"]["description"])
 
 
-def create_tender_bid_document_nopending(self):
+def create_tender_bid_document_invalid_award_status(self):
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": {"tenderers": [test_tender_pq_organization], "value": {"amount": 500},
@@ -932,7 +930,7 @@ def create_tender_bid_document_nopending(self):
 
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={token}",
-        {"data": {"status": "active"}},
+        {"data": {"status": "pending"}},
     )
 
     response = self.app.post_json(

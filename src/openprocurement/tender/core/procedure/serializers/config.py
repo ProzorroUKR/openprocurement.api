@@ -2,6 +2,7 @@ from openprocurement.api.context import get_request
 from openprocurement.api.constants import TENDER_CONFIG_OPTIONALITY
 from openprocurement.tender.core.migrations.add_config_has_auction_field import has_auction_populator
 from openprocurement.tender.core.migrations.add_config_has_value_restriction import has_value_restriction_populator
+from openprocurement.tender.core.migrations.add_config_has_prequalification_field import has_prequalification_populator
 from openprocurement.tender.core.procedure.serializers.base import BaseSerializer
 
 
@@ -42,6 +43,16 @@ def currency_value_equality_serializer(obj, value):
     return value
 
 
+def has_prequalification_serializer(obj, value):
+    # TODO: remove serializer after migration
+    if value is None and TENDER_CONFIG_OPTIONALITY["hasPrequalification"] is True:
+        request = get_request()
+        tender = request.validated.get("tender")
+        data = request.validated.get("data")
+        return has_prequalification_populator(tender or data)
+    return value
+
+
 class TenderConfigSerializer(BaseSerializer):
     def __init__(self, data: dict):
         super().__init__(data)
@@ -54,4 +65,5 @@ class TenderConfigSerializer(BaseSerializer):
         "hasAwardingOrder": has_awarding_order_serializer,
         "hasValueRestriction": has_value_restriction_serializer,
         "valueCurrencyEquality": currency_value_equality_serializer,
+        "hasPrequalification": has_prequalification_serializer,
     }

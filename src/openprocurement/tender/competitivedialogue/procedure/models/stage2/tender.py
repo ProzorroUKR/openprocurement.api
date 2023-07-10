@@ -129,6 +129,12 @@ class EUTender(BaseTender):
             "active.tendering",
             "active.pre-qualification",
             "active.pre-qualification.stand-still",
+            "active.auction",
+            "active.qualification",
+            "active.awarded",
+            "complete",
+            "cancelled",
+            "unsuccessful",
         ],
     )
 
@@ -222,7 +228,11 @@ class PatchUATender(UABasePatchTender):
         validators=[validate_cpv_group, validate_items_uniq],
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    status = StringType(choices=["draft", "active.tendering"])
+    status = StringType(choices=[
+        "draft",
+        "active.tendering",
+        "active.pre-qualification.stand-still",
+    ])
 
 
 class UATender(UABaseTender):
@@ -238,6 +248,14 @@ class UATender(UABaseTender):
         choices=[
             "draft",
             "active.tendering",
+            "active.pre-qualification",
+            "active.pre-qualification.stand-still",
+            "active.auction",
+            "active.qualification",
+            "active.awarded",
+            "complete",
+            "cancelled",
+            "unsuccessful",
             "draft.stage2",
         ],
     )

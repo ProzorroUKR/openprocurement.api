@@ -1,12 +1,12 @@
 PATCH /api/2.5/tenders/f2ffdfd3a21b4081841738915486b18b/bids/8d8c35d315ec458aa2bf51fdcef0717b?acc_token=79216c37bfd34cdbbe3d8690f78639cb HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 30
+Content-Length: 31
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "status": "active"
+    "status": "pending"
   }
 }
 
@@ -45,7 +45,7 @@ Content-Type: application/json
         "scale": "micro"
       }
     ],
-    "status": "active",
+    "status": "pending",
     "id": "8d8c35d315ec458aa2bf51fdcef0717b",
     "date": "2023-01-01T00:00:01+02:00"
   }

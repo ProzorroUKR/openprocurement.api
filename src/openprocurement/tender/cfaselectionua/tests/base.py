@@ -80,6 +80,7 @@ test_tender_cfaselectionua_config = {
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
     "valueCurrencyEquality": True,
+    "hasPrequalification": False,
 }
 
 
@@ -309,17 +310,20 @@ class BaseTenderWebTest(BaseCoreWebTest):
             self.generate_tender_lot_value(status)
         elif status == "active.auction":
             self.update_periods(status, start_end)
+            self.activate_bids()
             self.patch_agreements_by_bot(status, start_end)
             self.generate_bids(status, start_end)
             self.generate_tender_lot_value(status)
         elif status == "active.qualification":
             self.update_periods(status, start_end)
+            self.activate_bids()
             self.patch_agreements_by_bot(status, start_end)
             self.generate_bids(status, start_end)
             self.generate_tender_lot_value(status)
             self.generate_awards(status, start_end)
         elif status == "active.awarded":
             self.update_periods(status, start_end)
+            self.activate_bids()
             self.patch_agreements_by_bot(status, start_end)
             self.generate_bids(status, start_end)
             self.generate_tender_lot_value(status)
@@ -327,6 +331,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
             self.activate_awards_and_generate_contract(status, start_end)
         elif status == "complete":
             self.update_periods(status, start_end)
+            self.activate_bids()
             self.patch_agreements_by_bot(status, start_end)
             self.generate_bids(status, start_end)
             self.generate_tender_lot_value(status)

@@ -1137,7 +1137,34 @@ def create_tender_2lot_award_complaint_document(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't add document in current (unsuccessful) tender status"
+        response.json["errors"][0]["description"], "Can add document only in active lot status"
+    )
+
+    cancellation = dict(**test_tender_below_cancellation)
+    cancellation.update({
+        "status": "active",
+        "cancellationOf": "lot",
+        "relatedLot": self.initial_lots[1]["id"],
+    })
+    response = self.app.post_json(
+        "/tenders/{}/cancellations".format(self.tender_id),
+        {"data": cancellation},
+    )
+    self.assertEqual(response.status, "201 Created")
+    cancellation_id = response.json["data"]["id"]
+
+    if RELEASE_2020_04_19 < get_now():
+        activate_cancellation_after_2020_04_19(self, cancellation_id)
+
+    response = self.app.post(
+        "/tenders/{}/awards/{}/complaints/{}/documents".format(self.tender_id, self.award_id, self.complaint_id),
+        upload_files=[("file", "name.doc", b"content")],
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"], "Can't add document in current (cancelled) tender status"
     )
 
 
@@ -1317,7 +1344,7 @@ def put_tender_2lot_award_complaint_document(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update document in current (unsuccessful) tender status"
+        response.json["errors"][0]["description"], "Can update document only in active lot status"
     )
 
 
@@ -1435,5 +1462,5 @@ def patch_tender_2lot_award_complaint_document(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update document in current (unsuccessful) tender status"
+        response.json["errors"][0]["description"], "Can update document only in active lot status"
     )

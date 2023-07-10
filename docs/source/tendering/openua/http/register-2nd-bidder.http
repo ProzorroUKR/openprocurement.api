@@ -705,7 +705,8 @@ Content-Type: application/json
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a5accd9090044dfba8773895b0bff51/documents/81b15b1242d24d9daa7ea82c67636d8b?download=bed8dcbd27644f418f3d0645d955859a",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
-        "author": "tender_owner"
+        "author": "tender_owner",
+        "language": "uk"
       },
       {
         "id": "ac06ecba81dd44309d96e7324a43d22f",
@@ -716,7 +717,8 @@ Content-Type: application/json
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a5accd9090044dfba8773895b0bff51/documents/ac06ecba81dd44309d96e7324a43d22f?download=48945373accd4d29ba34ccdf21d9804a",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
-        "author": "tender_owner"
+        "author": "tender_owner",
+        "language": "uk"
       },
       {
         "id": "ac06ecba81dd44309d96e7324a43d22f",
@@ -727,7 +729,8 @@ Content-Type: application/json
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a5accd9090044dfba8773895b0bff51/documents/ac06ecba81dd44309d96e7324a43d22f?download=6b685322d12b4938a1485f15d7b8055c",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
-        "author": "tender_owner"
+        "author": "tender_owner",
+        "language": "uk"
       }
     ],
     "owner": "broker",
@@ -863,19 +866,20 @@ Content-Type: application/json
     "hasAuction": true,
     "hasAwardingOrder": true,
     "hasValueRestriction": true,
-    "valueCurrencyEquality": true
+    "valueCurrencyEquality": true,
+    "hasPrequalification": false
   }
 }
 
 PATCH /api/2.5/tenders/2a5accd9090044dfba8773895b0bff51/bids/bb3b96a74c0d4a35bd1e449d19c0c251?acc_token=16a7ee8c4804467181f908c772939c24 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 14524
+Content-Length: 14525
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "status": "active",
+    "status": "pending",
     "requirementResponses": [
       {
         "title": "Requirement response",
@@ -1127,7 +1131,7 @@ Content-Type: application/json
         "scale": "sme"
       }
     ],
-    "status": "active",
+    "status": "pending",
     "id": "bb3b96a74c0d4a35bd1e449d19c0c251",
     "date": "2023-01-01T00:00:00+02:00",
     "selfQualified": true

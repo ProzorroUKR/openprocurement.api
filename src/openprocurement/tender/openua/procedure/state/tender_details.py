@@ -1,5 +1,6 @@
+from typing import TYPE_CHECKING
+
 from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
-from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.openua.procedure.state.tender import OpenUATenderState
@@ -10,12 +11,18 @@ from openprocurement.tender.openua.constants import (
 )
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
-    check_auction_period, calculate_clarif_business_date,
+    check_auction_period,
+    calculate_clarif_business_date,
 )
-from openprocurement.api.utils import raise_operation_error
 
 
-class OpenUATenderDetailsMixing(TenderDetailsMixing):
+if TYPE_CHECKING:
+    baseclass = OpenUATenderState
+else:
+    baseclass = object
+
+
+class OpenUATenderDetailsMixing(TenderDetailsMixing, baseclass):
     period_working_day = False
 
     def initialize_enquiry_period(self, tender):  # openeu, openua
@@ -58,27 +65,7 @@ class TenderDetailsState(OpenUATenderDetailsMixing, OpenUATenderState):
         self.validate_tender_exclusion_criteria(before, after)
         self.validate_tender_language_criteria(before, after)
 
-        if "draft" not in before["status"]:
-            tendering_start = before.get("tenderPeriod", {}).get("startDate")
-            if tendering_start != after.get("tenderPeriod", {}).get("startDate"):
-                raise_operation_error(
-                    get_request(),
-                    "Can't change tenderPeriod.startDate",
-                    status=422,
-                    location="body",
-                    name="tenderPeriod.startDate"
-                )
-
-        # validate items cpv group
-        cpv_group_lists = {i["classification"]["id"][:3] for i in before.get("items")}
-        for item in after.get("items", ""):
-            cpv_group_lists.add(item["classification"]["id"][:3])
-        if len(cpv_group_lists) != 1:
-            raise_operation_error(
-                get_request(),
-                "Can't change classification",
-                name="item"
-            )
+        self.validate_fields_unchanged(before, after)
 
         # bid invalidation rules
         if before["status"] == "active.tendering":
@@ -89,19 +76,6 @@ class TenderDetailsState(OpenUATenderDetailsMixing, OpenUATenderState):
 
         if after["status"] in ("draft", "active.tendering"):
             self.initialize_enquiry_period(after)
-
-    def validate_tender_period_extension(self, tender):
-        if "tenderPeriod" in tender and "endDate" in tender["tenderPeriod"]:
-            # self.request.validated["tender"].tenderPeriod.import_data(data["tenderPeriod"])
-            tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
-            if calculate_tender_business_date(get_now(), self.tendering_period_extra, tender) > tendering_end:
-                raise_operation_error(
-                    get_request(),
-                    "tenderPeriod should be extended by {0.days} {1}".format(
-                        self.tendering_period_extra,
-                        "working days" if self.tendering_period_extra_working_days else "days",
-                    )
-                )
 
     @staticmethod
     def check_auction_time(tender):

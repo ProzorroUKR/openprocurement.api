@@ -96,12 +96,14 @@ class TenderAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
 
     def setUp(self):
         super(TenderContentWebTest, self).setUp()
-        self.create_tender(config={
+        config = deepcopy(self.initial_config)
+        config.update({
             "hasAuction": True,
             "hasAwardingOrder": False,
             "hasValueRestriction": True,
             "valueCurrencyEquality": True,
         })
+        self.create_tender(config=config)
 
 
 class TenderLotsAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
@@ -118,19 +120,24 @@ class TenderLotsAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
 
     def setUp(self):
         super(TenderContentWebTest, self).setUp()
-        self.create_tender(config={
+        config = deepcopy(self.initial_config)
+        config.update({
             "hasAuction": True,
             "hasAwardingOrder": False,
             "hasValueRestriction": True,
             "valueCurrencyEquality": True,
         })
+        self.create_tender(config=config)
 
 
 class TenderSameValueAuctionResourceTest(TenderContentWebTest):
     docservice = True
     initial_status = "active.auction"
     initial_bids = [
-        {"tenderers": [test_tender_below_organization], "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True}}
+        {
+            "tenderers": [test_tender_below_organization],
+            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+        }
         for i in range(3)
     ]
 

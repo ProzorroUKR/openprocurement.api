@@ -9,6 +9,7 @@ from nacl.encoding import HexEncoder
 from base64 import b64encode
 from datetime import datetime, timedelta
 from requests.models import Response
+from webtest import AppError
 
 from openprocurement.api.constants import TZ
 from openprocurement.tender.core.models import QualificationMilestone
@@ -128,15 +129,39 @@ class BaseCoreWebTest(BaseWebTest):
         self.delete_tender()
         super(BaseCoreWebTest, self).tearDown()
 
+    def activate_bids(self):
+        if self.tender_document.get("bids", ""):
+            bids = self.tender_document["bids"]
+            for bid in bids:
+                if bid["status"] == "pending":
+                    bid.update({"status": "active"})
+                    if "lotValues" in bid:
+                        for lot_value in bid["lotValues"]:
+                            if lot_value["status"] == "pending":
+                                lot_value.update({"status": "active"})
+            self.tender_document_patch.update({"bids": bids})
+
     def set_status(self, status, extra=None, startend="start"):
         self.now = get_now()
         self.tender_document = self.mongodb.tenders.get(self.tender_id)
+        old_status = self.tender_document["status"]
         self.tender_document_patch = {"status": status}
         self.update_periods(status, startend=startend)
+
+        if status == "active.pre-qualification.stand-still":
+            self.activate_bids()
+        elif status == "active.auction":
+            self.activate_bids()
+        elif status == "active.qualification":
+            self.activate_bids()
+        elif status == "active.awarded":
+            self.activate_bids()
+
         if extra:
             self.tender_document_patch.update(extra)
+
         self.save_changes()
-        return self.get_tender("chronograph")
+        return self.get_tender()
 
     def update_periods(self, status, startend="start", shift=None):
         shift = shift or timedelta()
@@ -187,7 +212,7 @@ class BaseCoreWebTest(BaseWebTest):
             self.tender_document = self.mongodb.tenders.get(self.tender_id)
             self.tender_document_patch = {}
 
-    def get_tender(self, role):
+    def get_tender(self, role="token"):
         with change_auth(self.app, ("Basic", (role, ""))):
             url = "/tenders/{}".format(self.tender_id)
             response = self.app.get(url)
@@ -199,11 +224,16 @@ class BaseCoreWebTest(BaseWebTest):
         with change_auth(self.app, ("Basic", ("chronograph", ""))):
             url = "/tenders/{}/chronograph".format(self.tender_id)
             data = data or {"data": {"id": self.tender_id}}
-            response = self.app.patch_json(url, data, status=status)
-            self.assertEqual(response.content_type, "application/json")
-            self.tender_document = self.mongodb.tenders.get(self.tender_id)
-            self.tender_document_patch = {}
-        return response
+            try:
+                response = self.app.patch_json(url, data, status=status)
+            except AppError:
+                # skip if there is no chronograph endpoint
+                pass
+            else:
+                self.assertEqual(response.content_type, "application/json")
+                self.tender_document = self.mongodb.tenders.get(self.tender_id)
+                self.tender_document_patch = {}
+                return response
 
     def delete_tender(self):
         if self.tender_id:

@@ -15,7 +15,6 @@ from openprocurement.tender.competitivedialogue.procedure.models.stage2.tender i
     UATender,
     BotPatchTender,
 )
-from openprocurement.tender.openeu.procedure.serializers.tender import TenderEUSerializer
 from openprocurement.tender.core.procedure.serializers.tender import TenderBaseSerializer
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.competitivedialogue.constants import (
@@ -82,7 +81,7 @@ def conditional_ua_model(data):  # TODO: bot should use a distinct endpoint, lik
 )
 class TenderStage2UEResource(TendersResource):
 
-    serializer_class = TenderEUSerializer
+    serializer_class = TenderBaseSerializer
     state_class = CDEUTenderDetailsState
 
     def __acl__(self):
@@ -118,7 +117,7 @@ class TenderStage2UEResource(TendersResource):
                     "draft",
                     "draft.stage2",
                     "active.tendering",
-                    "active.pre-qualification",
+                    "active.pre-qualification",  # state class only allows status change (pre-qualification.stand-still)
                 )
             ),
             validate_input_data(conditional_eu_model, none_means_remove=True),
@@ -180,6 +179,7 @@ class TenderStage2UAResource(TendersResource):
                     "draft",
                     "draft.stage2",
                     "active.tendering",
+                    "active.pre-qualification",  # state class only allows status change (pre-qualification.stand-still)
                 )
             ),
             validate_input_data(conditional_ua_model, none_means_remove=True),

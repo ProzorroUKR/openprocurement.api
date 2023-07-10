@@ -396,3 +396,14 @@ def filter_features(features, items, lot_ids=None):
         ))
     ]  # all features in case of non-lot tender
     return features
+
+
+def activate_bids(bids):
+    for bid in bids:
+        lot_values = bid.get("lotValues", "")
+        if lot_values:
+            for lot_value in lot_values:
+                lot_value["status"] = "active"
+        if bid["status"] == "pending":
+            bid["status"] = "active"
+    return bids

@@ -8,6 +8,7 @@ from openprocurement.api.models import get_now
 from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_bids,
+    test_tender_below_config,
 )
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
@@ -70,7 +71,6 @@ test_criterion_data = deepcopy(test_docs_criterion_data)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TARGET_DIR = os.path.join(BASE_DIR, 'source/tendering/basic-actions/http/')
 OUTDATED_DIR = os.path.join(BASE_DIR, 'source/tendering/basic-actions/http-outdated/')
-
 
 
 class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
@@ -2084,7 +2084,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.patch_json(
                 '/tenders/{}/bids/{}?acc_token={}'.format(
                     self.tender_id, bid_id, bid_token),
-                {'data': {'status': 'active'}},
+                {'data': {'status': 'pending'}},
                 status=422
             )
             self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -2101,7 +2101,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.patch_json(
                 '/tenders/{}/bids/{}?acc_token={}'.format(
                     self.tender_id, bid_id, bid_token),
-                {'data': {'status': 'active'}},
+                {'data': {'status': 'pending'}},
                 status=422
             )
             self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -2118,7 +2118,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.patch_json(
                 '/tenders/{}/bids/{}?acc_token={}'.format(
                     self.tender_id, bid_id, bid_token),
-                {'data': {'status': 'active'}},
+                {'data': {'status': 'pending'}},
                 status=422
             )
             self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -2662,6 +2662,7 @@ class TenderBelowThresholdResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_below_data
+    initial_config = test_tender_below_config
     initial_bids = test_tender_below_bids
     docservice = True
     docservice_url = DOCS_URL

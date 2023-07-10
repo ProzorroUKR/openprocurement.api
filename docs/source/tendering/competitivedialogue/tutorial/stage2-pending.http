@@ -727,38 +727,38 @@ Content-Type: application/json
             "format": "application/pdf",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d55cf7685594417eafcd6a81cf099e54?Signature=1lmwO8FdzkpNV7sfZM8iDPezssL9XWgJxVOAAHMp8fZ%2B%2BOWB2ZCmCQVfIZVSXG1uoVIBfqD8kb9feIK%2Bk6xXCg%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
-            "confidentiality": "public",
             "language": "uk",
+            "confidentiality": "public",
             "isDescriptionDecision": false,
-            "id": "26e112a793854f3abe93b3206239b1bd",
+            "id": "0b4562622e904df4917d22707a752522",
             "datePublished": "2023-01-01T00:00:00+02:00",
             "dateModified": "2023-01-01T00:00:00+02:00"
           },
           {
-            "id": "a053991ecddc46819da0b39b3aad5e0a",
+            "id": "928e0a2782234502b0aabe27a11953b7",
             "datePublished": "2023-01-01T00:00:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "DescriptiveProposal.pdf",
             "format": "application/pdf",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids/80525a9a0f714e2b9b8eb34a14ccb612/documents/a053991ecddc46819da0b39b3aad5e0a?download=8b781eec9f744181a275c6919de639dc",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids/80525a9a0f714e2b9b8eb34a14ccb612/documents/928e0a2782234502b0aabe27a11953b7?download=8b781eec9f744181a275c6919de639dc",
             "documentOf": "tender",
             "dateModified": "2023-01-01T00:00:00+02:00",
-            "confidentiality": "buyerOnly",
             "language": "uk",
+            "confidentiality": "buyerOnly",
             "isDescriptionDecision": true
           },
           {
-            "id": "8d7b9c1ac5ce4929a31c6147cc74ce45",
+            "id": "ac08241a7f654a029d0a8b6d70ede58d",
             "datePublished": "2023-01-01T00:00:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_top_secrets.pdf",
             "format": "application/pdf",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids/80525a9a0f714e2b9b8eb34a14ccb612/documents/8d7b9c1ac5ce4929a31c6147cc74ce45?download=21c9ff3dd5e646208c8dd44b5853a9c0",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids/80525a9a0f714e2b9b8eb34a14ccb612/documents/ac08241a7f654a029d0a8b6d70ede58d?download=21c9ff3dd5e646208c8dd44b5853a9c0",
             "documentOf": "tender",
             "dateModified": "2023-01-01T00:00:00+02:00",
+            "language": "uk",
             "confidentiality": "buyerOnly",
             "confidentialityRationale": "Only our company sells badgers with pink hair.",
-            "language": "uk",
             "isDescriptionDecision": false
           }
         ]
@@ -1193,8 +1193,8 @@ Content-Type: application/json
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/512e62ad72064144a492ddadd0c8df6f?Signature=jowdtY2DvSznH4xF0PR4itAaLc1gBn4qAjnxkvLwn4e7WieDPO%2Fv4jwtUcgQhtwIfMXehOy%2FUjRzg9R22JdAAQ%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-01-01T00:00:00+02:00",
-            "confidentiality": "public",
             "language": "uk",
+            "confidentiality": "public",
             "isDescriptionDecision": false
           },
           {
@@ -1206,9 +1206,9 @@ Content-Type: application/json
             "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids/cc48b50d0f4445c7b01da298b7dccb8c/documents/bae2b712ea9141d3b5b53073b786a3cf?download=0949e250dfc14f529d528e285cbde095",
             "documentOf": "tender",
             "dateModified": "2023-01-01T00:00:00+02:00",
+            "language": "uk",
             "confidentiality": "buyerOnly",
             "confidentialityRationale": "Only our company sells badgers with pink hair.",
-            "language": "uk",
             "isDescriptionDecision": false
           }
         ],
@@ -1258,7 +1258,8 @@ Content-Type: application/json
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/documents/89d96ffbd15a49a7b0b0941421dc91d0?download=2c15ebde20e04d82861d1e3de466faf6",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
-        "author": "tender_owner"
+        "author": "tender_owner",
+        "language": "uk"
       },
       {
         "id": "c7c453dd2b314b909a61d041eb1b05a8",
@@ -1269,7 +1270,8 @@ Content-Type: application/json
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/documents/c7c453dd2b314b909a61d041eb1b05a8?download=74e6f765c6ce49cd9a82a77631e1fad1",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
-        "author": "tender_owner"
+        "author": "tender_owner",
+        "language": "uk"
       },
       {
         "id": "c7c453dd2b314b909a61d041eb1b05a8",
@@ -1280,7 +1282,8 @@ Content-Type: application/json
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/documents/c7c453dd2b314b909a61d041eb1b05a8?download=0ec2154729a94aef83c93e3881aba6dd",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
-        "author": "tender_owner"
+        "author": "tender_owner",
+        "language": "uk"
       }
     ],
     "owner": "broker",
@@ -1326,6 +1329,44 @@ Content-Type: application/json
         "sequenceNumber": 0
       }
     ],
+    "qualificationPeriod": {
+      "startDate": "2022-12-22T00:00:00+02:00",
+      "endDate": "2023-01-01T00:00:00+02:00"
+    },
+    "qualifications": [
+      {
+        "id": "0d7e80c30a2f4dff97d7bdab27d73f2e",
+        "bidID": "80525a9a0f714e2b9b8eb34a14ccb612",
+        "status": "active",
+        "date": "2023-01-01T00:00:00+02:00",
+        "qualified": true,
+        "eligible": true
+      },
+      {
+        "id": "c0cc3798dda1419e88ea3720c42e72ac",
+        "bidID": "fa890d2c806e47e1873c2ded975eaebf",
+        "status": "active",
+        "date": "2023-01-01T00:00:00+02:00",
+        "qualified": true,
+        "eligible": true
+      },
+      {
+        "id": "4bd508dc776d43a1916fbbe4c71d026b",
+        "bidID": "4ca517fcb8d84a9a8f56e79897ac1bb1",
+        "status": "unsuccessful",
+        "date": "2023-01-01T00:00:00+02:00",
+        "qualified": false,
+        "eligible": false
+      },
+      {
+        "id": "d14a672229e34e6c8799ae19a962f624",
+        "bidID": "cc48b50d0f4445c7b01da298b7dccb8c",
+        "status": "active",
+        "date": "2023-01-01T00:00:00+02:00",
+        "qualified": true,
+        "eligible": true
+      }
+    ],
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "address": {
@@ -1362,44 +1403,6 @@ Content-Type: application/json
       "startDate": "2022-11-21T00:00:00+02:00",
       "endDate": "2022-12-22T00:00:00+02:00"
     },
-    "qualificationPeriod": {
-      "startDate": "2022-12-22T00:00:00+02:00",
-      "endDate": "2023-01-01T00:00:00+02:00"
-    },
-    "qualifications": [
-      {
-        "id": "a57b43d208414c1e9412944d55f4e34c",
-        "bidID": "80525a9a0f714e2b9b8eb34a14ccb612",
-        "status": "active",
-        "date": "2023-01-01T00:00:00+02:00",
-        "qualified": true,
-        "eligible": true
-      },
-      {
-        "id": "0475e7c3de214c65b6f571bed246e9b1",
-        "bidID": "fa890d2c806e47e1873c2ded975eaebf",
-        "status": "active",
-        "date": "2023-01-01T00:00:00+02:00",
-        "qualified": true,
-        "eligible": true
-      },
-      {
-        "id": "2a9ebd8f7d624bcd930ffac320e50558",
-        "bidID": "4ca517fcb8d84a9a8f56e79897ac1bb1",
-        "status": "unsuccessful",
-        "date": "2023-01-01T00:00:00+02:00",
-        "qualified": false,
-        "eligible": false
-      },
-      {
-        "id": "45923c4f65274d0eada5386957c88bd1",
-        "bidID": "cc48b50d0f4445c7b01da298b7dccb8c",
-        "status": "active",
-        "date": "2023-01-01T00:00:00+02:00",
-        "qualified": true,
-        "eligible": true
-      }
-    ],
     "complaintPeriod": {
       "startDate": "2022-12-03T00:00:00+02:00",
       "endDate": "2023-01-05T00:00:00+02:00"
@@ -1491,7 +1494,8 @@ Content-Type: application/json
     "hasAuction": false,
     "hasAwardingOrder": true,
     "hasValueRestriction": true,
-    "valueCurrencyEquality": true
+    "valueCurrencyEquality": true,
+    "hasPrequalification": true
   }
 }
 

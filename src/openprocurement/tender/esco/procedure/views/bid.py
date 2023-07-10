@@ -1,15 +1,10 @@
 from openprocurement.api.auth import ACCR_4
 from openprocurement.api.utils import json_view
-from openprocurement.tender.esco.procedure.state.bid import ESCOBidState
+from openprocurement.tender.core.procedure.state.bid import BidState
 from openprocurement.tender.openeu.procedure.views.bid import TenderBidResource
 from openprocurement.tender.core.procedure.models.bid import filter_administrator_bid_update
 from openprocurement.tender.esco.procedure.models.bid import PostBid, PatchBid, Bid
 from openprocurement.tender.esco.procedure.serializers.bid import BidSerializer
-from openprocurement.tender.openeu.procedure.validation import (
-    validate_post_bid_status,
-    validate_view_bids,
-    validate_bid_status_update_not_to_pending,
-)
 from openprocurement.tender.core.procedure.validation import (
     unless_administrator,
     unless_item_owner,
@@ -21,6 +16,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_bid_operation_period,
     validate_bid_operation_not_in_tendering,
     validate_accreditation_level,
+    validate_view_bids,
 )
 from cornice.resource import resource
 from logging import getLogger
@@ -36,7 +32,7 @@ LOGGER = getLogger(__name__)
     description="Tender ESCO bids",
 )
 class ESCOTenderBidResource(TenderBidResource):
-    state_class = ESCOBidState
+    state_class = BidState
     serializer_class = BidSerializer
 
     @json_view(
@@ -72,7 +68,6 @@ class ESCOTenderBidResource(TenderBidResource):
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,
             validate_input_data(PostBid),
-            validate_post_bid_status,
             validate_data_documents(route_key="bid_id", uid_key="id"),
         ),
     )
@@ -90,9 +85,6 @@ class ESCOTenderBidResource(TenderBidResource):
             validate_patch_data(Bid, item_name="bid"),
 
             validate_bid_operation_not_in_tendering,
-            # I believe it should be before validate_patch_data
-            # but also i want the tests to pass without changing them
-            validate_bid_status_update_not_to_pending,
             validate_bid_operation_period,
         ),
     )

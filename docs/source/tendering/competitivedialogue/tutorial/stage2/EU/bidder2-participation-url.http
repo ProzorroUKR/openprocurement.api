@@ -149,10 +149,10 @@ Content-Type: application/json
         "scale": "sme"
       }
     ],
+    "status": "active",
     "id": "20bbd5548630438fb1306b5de18c0004",
     "date": "2023-01-01T00:00:00+02:00",
     "selfQualified": true,
-    "status": "active",
     "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/0ffcd2893dee417cb36ace18bfbd7a09?key_for_bid=20bbd5548630438fb1306b5de18c0004"
   }
 }

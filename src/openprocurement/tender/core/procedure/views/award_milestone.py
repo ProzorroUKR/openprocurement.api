@@ -3,13 +3,13 @@ from openprocurement.tender.core.procedure.validation import validate_item_owner
 from openprocurement.tender.core.procedure.validation import validate_input_data
 from openprocurement.tender.core.procedure.models.qualification_milestone import PostQualificationMilestone
 from openprocurement.tender.core.procedure.views.qualification_milestone import (
-    BaseQualificationMilestoneResource,
+    BaseMilestoneResource,
     resolve_milestone,
 )
 from openprocurement.tender.core.procedure.views.award import resolve_award
 
 
-class BaseAwardMilestoneResource(BaseQualificationMilestoneResource):
+class BaseAwardMilestoneResource(BaseMilestoneResource):
 
     context_name = "award"
 
@@ -29,3 +29,17 @@ class BaseAwardMilestoneResource(BaseQualificationMilestoneResource):
     )
     def collection_post(self):
         return super(BaseAwardMilestoneResource, self).collection_post()
+
+    def set_location(self, tender, milestone):
+        parent_obj = self.request.validated[self.context_name]
+        self.request.response.headers["Location"] = self.request.route_url(
+            "{}:Tender {} Milestones".format(
+                tender["procurementMethodType"],
+                self.context_name.capitalize()
+            ),
+            **{
+                "tender_id": tender["_id"],
+                "{}_id".format(self.context_name): parent_obj["id"],
+                "milestone_id": milestone["id"]
+            }
+        )

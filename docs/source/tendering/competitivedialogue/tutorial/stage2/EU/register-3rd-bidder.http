@@ -111,6 +111,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417c
         "scale": "large"
       }
     ],
+    "status": "draft",
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000",
@@ -118,8 +119,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417c
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/328d5b2129754795ab3332190744419e?Signature=%2BfJgYx%2F65LEAbnv6PrgVoI4evhRTul5iYRAJSEP%2B7DPnXuKdz5mV2PgArkfwjW07wnaef2b4jut7%2FQmJSwsbAQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "confidentiality": "public",
         "language": "uk",
+        "confidentiality": "public",
         "id": "36c88d2c6b274c65883820cffe552a2b",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "dateModified": "2023-01-01T00:00:00+02:00"
@@ -129,9 +130,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417c
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
         "documentOf": "tender",
+        "language": "uk",
         "confidentiality": "buyerOnly",
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
-        "language": "uk",
         "id": "7f10a54685ee4f44a0fed9c27346e262",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "dateModified": "2023-01-01T00:00:00+02:00"
@@ -142,10 +143,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417c
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09/bids/cafec8a6e87645a2bf78d530d93c786c/financial_documents/78cf3356c934447ea324191c33e582d9?download=3717e8740203445a99d0ba3d4a388920",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3717e8740203445a99d0ba3d4a388920?Signature=5XzSldetRi01hhDNbF3ofKcnB%2Fc1jFGE86GGgt2DyF2TfktCNcIZqt61IsSLouGAIO88F6wM4pPf5wjajYz5Cw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "confidentiality": "public",
         "language": "uk",
+        "confidentiality": "public",
         "id": "78cf3356c934447ea324191c33e582d9",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "dateModified": "2023-01-01T00:00:00+02:00"
@@ -156,10 +157,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417c
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09/bids/cafec8a6e87645a2bf78d530d93c786c/eligibility_documents/b1164ca7ed164020add2f8d1130d2b56?download=7ac6b69cc8b348fe881ef329f6e3a668",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7ac6b69cc8b348fe881ef329f6e3a668?Signature=nQOxpa2%2FmiCN108r4oO41TPcTWSk793in64eiJcAISpSe5bxBf%2BYlL2ewyvkzEekTNcM5YUIZwyg8r%2Fa%2FDCFAg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "confidentiality": "public",
         "language": "uk",
+        "confidentiality": "public",
         "id": "b1164ca7ed164020add2f8d1130d2b56",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "dateModified": "2023-01-01T00:00:00+02:00"
@@ -170,17 +171,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417c
         "hash": "md5:00000000000000000000000000000000",
         "title": "qualification_document.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09/bids/cafec8a6e87645a2bf78d530d93c786c/qualification_documents/9d6f0ed833f044ab9741a0899e73e8ca?download=e7a65edca6534628ab1450eb548cf02a",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e7a65edca6534628ab1450eb548cf02a?Signature=id0UYGt9ByuxscHlNT85NVUGK8jqVIQwpgwwcyyzaOdWQ6%2BhjxCfiqJMLlUtkGArXop3vMHqBYoVSpc3nhRkAw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "confidentiality": "public",
         "language": "uk",
+        "confidentiality": "public",
         "id": "9d6f0ed833f044ab9741a0899e73e8ca",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "dateModified": "2023-01-01T00:00:00+02:00"
       }
     ],
     "selfQualified": true,
-    "status": "draft",
     "id": "cafec8a6e87645a2bf78d530d93c786c",
     "date": "2023-01-01T00:00:00+02:00"
   },

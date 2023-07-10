@@ -3,7 +3,6 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from openprocurement.tender.core.procedure.context import get_tender, get_request
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.models.bid import get_default_bid_status
 from openprocurement.tender.core.procedure.models.document import PostDocument, Document
 from openprocurement.tender.core.procedure.models.base import ListType
 from openprocurement.tender.core.procedure.models.organization import (
@@ -118,7 +117,9 @@ class MatchResponseValue:
 class PatchBid(Model):
     value = ModelType(Value)
     tenderers = ListType(ModelType(PatchBusinessOrganization, required=True), min_size=1, max_size=1)
-    status = StringType(choices=["active", "draft"])
+    status = StringType(
+        choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
+    )
 
     def validate_value(self, data, value):
         if value is not None:
@@ -149,13 +150,16 @@ class PostBid(PatchBid):
         min_size=1,
         max_size=1
     )
-    status = StringType(choices=["active", "draft"], default=get_default_bid_status("active"))
     value = ModelType(Value)
     documents = ListType(ModelType(PostDocument, required=True))
     requirementResponses = ListType(
         ModelType(RequirementResponse),
         required=True,
         min_size=1,
+    )
+    status = StringType(
+        choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
+        default="draft",
     )
 
     def validate_value(self, data, value):
@@ -182,12 +186,15 @@ class Bid(Model):
         min_size=1,
         max_size=1
     )
-    status = StringType(choices=["active", "draft"], required=True)
     value = ModelType(Value)
     requirementResponses = ListType(
         ModelType(RequirementResponse),
         required=True,
         min_size=1,
+    )
+    status = StringType(
+        choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
+        required=True,
     )
 
     def validate_requirementResponses(self, data, value):

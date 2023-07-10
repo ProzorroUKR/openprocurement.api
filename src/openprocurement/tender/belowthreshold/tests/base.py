@@ -215,6 +215,7 @@ test_tender_below_config = {
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
     "valueCurrencyEquality": True,
+    "hasPrequalification": False,
 }
 
 
@@ -322,6 +323,8 @@ class BaseTenderWebTest(BaseCoreWebTest):
                 bid = bid.copy()
                 if self.initial_criteria:
                     bid["requirementResponses"] = rrs
+                if hasattr(self, "initial_bid_status") and self.initial_bid_status:
+                    bid["status"] = self.initial_bid_status
                 bid, bid_token = self.create_bid(self.tender_id, bid)
                 bid_id = bid["id"]
                 bids.append(bid)
@@ -333,6 +336,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
 class TenderContentWebTest(BaseTenderWebTest):
     initial_data = test_tender_below_data
+    initial_config = test_tender_below_config
     initial_status = "active.enquiries"
     initial_bids = None
     initial_lots = None

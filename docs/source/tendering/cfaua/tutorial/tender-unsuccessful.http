@@ -619,7 +619,8 @@ Content-Type: application/json
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/documents/3c191f48521d44848234d85b4629fec8?download=08e82c82a90b450b92200767d85104a3",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
-        "author": "tender_owner"
+        "author": "tender_owner",
+        "language": "uk"
       },
       {
         "id": "b5e22d87eb2b47ae8b23d935a3e62e6f",
@@ -630,7 +631,8 @@ Content-Type: application/json
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/documents/b5e22d87eb2b47ae8b23d935a3e62e6f?download=8ce7189cc6ed46b29851ba6da3f88e95",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
-        "author": "tender_owner"
+        "author": "tender_owner",
+        "language": "uk"
       },
       {
         "id": "b5e22d87eb2b47ae8b23d935a3e62e6f",
@@ -641,7 +643,8 @@ Content-Type: application/json
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/documents/b5e22d87eb2b47ae8b23d935a3e62e6f?download=95b375878e764f2684727173a91fb0f9",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
-        "author": "tender_owner"
+        "author": "tender_owner",
+        "language": "uk"
       }
     ],
     "owner": "broker",
@@ -675,6 +678,48 @@ Content-Type: application/json
           "type": "banking"
         },
         "sequenceNumber": 0
+      }
+    ],
+    "qualificationPeriod": {
+      "startDate": "2022-12-11T00:00:00+02:00",
+      "endDate": "2022-12-21T00:00:00+02:00"
+    },
+    "qualifications": [
+      {
+        "id": "fbbb064fb0ca4e51bc1e7ec7665d3496",
+        "bidID": "381f5658b23a448ea820b823934eeb79",
+        "lotID": "9dea7e57fca24c0fa6c43f752611342d",
+        "status": "active",
+        "date": "2023-01-01T00:00:00+02:00",
+        "qualified": true,
+        "eligible": true
+      },
+      {
+        "id": "3a049b1a7357476e9a5d69269f9c3567",
+        "bidID": "8f1f5d51afcd4521ae73bc0799c5445d",
+        "lotID": "9dea7e57fca24c0fa6c43f752611342d",
+        "status": "active",
+        "date": "2023-01-01T00:00:00+02:00",
+        "qualified": true,
+        "eligible": true
+      },
+      {
+        "id": "32d7247464d94a83aac69196b8f8ad52",
+        "bidID": "88fde1bbbd544f0ca062b2919f71d2b4",
+        "lotID": "9dea7e57fca24c0fa6c43f752611342d",
+        "status": "unsuccessful",
+        "date": "2023-01-01T00:00:00+02:00",
+        "qualified": false,
+        "eligible": false
+      },
+      {
+        "id": "fde93f7cacc14fc99caf75c038df4222",
+        "bidID": "c3e41a3a099a41ad864be3893e0711b5",
+        "lotID": "9dea7e57fca24c0fa6c43f752611342d",
+        "status": "active",
+        "date": "2023-01-01T00:00:00+02:00",
+        "qualified": true,
+        "eligible": true
       }
     ],
     "procurementMethodType": "closeFrameworkAgreementUA",
@@ -814,48 +859,6 @@ Content-Type: application/json
       "endDate": "2022-12-11T00:00:00+02:00"
     },
     "status": "unsuccessful",
-    "qualificationPeriod": {
-      "startDate": "2022-12-11T00:00:00+02:00",
-      "endDate": "2022-12-21T00:00:00+02:00"
-    },
-    "qualifications": [
-      {
-        "id": "fbbb064fb0ca4e51bc1e7ec7665d3496",
-        "bidID": "381f5658b23a448ea820b823934eeb79",
-        "lotID": "9dea7e57fca24c0fa6c43f752611342d",
-        "status": "active",
-        "date": "2023-01-01T00:00:00+02:00",
-        "qualified": true,
-        "eligible": true
-      },
-      {
-        "id": "3a049b1a7357476e9a5d69269f9c3567",
-        "bidID": "8f1f5d51afcd4521ae73bc0799c5445d",
-        "lotID": "9dea7e57fca24c0fa6c43f752611342d",
-        "status": "active",
-        "date": "2023-01-01T00:00:00+02:00",
-        "qualified": true,
-        "eligible": true
-      },
-      {
-        "id": "32d7247464d94a83aac69196b8f8ad52",
-        "bidID": "88fde1bbbd544f0ca062b2919f71d2b4",
-        "lotID": "9dea7e57fca24c0fa6c43f752611342d",
-        "status": "unsuccessful",
-        "date": "2023-01-01T00:00:00+02:00",
-        "qualified": false,
-        "eligible": false
-      },
-      {
-        "id": "fde93f7cacc14fc99caf75c038df4222",
-        "bidID": "c3e41a3a099a41ad864be3893e0711b5",
-        "lotID": "9dea7e57fca24c0fa6c43f752611342d",
-        "status": "active",
-        "date": "2023-01-01T00:00:00+02:00",
-        "qualified": true,
-        "eligible": true
-      }
-    ],
     "complaintPeriod": {
       "startDate": "2022-12-01T00:00:00+02:00",
       "endDate": "2022-12-28T00:00:00+02:00"
@@ -1388,22 +1391,23 @@ Content-Type: application/json
             "format": "application/msdoc",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/40137a4b174840698ca8b3aaf28eeb5b?Signature=tCeyLe%2B3DjDDTG4vsAwydgsKxHNLxjB5dIhwG%2FonMKXaabEh2Q1Wv7BJgorwI%2BNr4GLZ2vQ3JJCzhznoFUT%2BAw%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
-            "id": "0e8e8bc364544bf2bf27439ac4d31e8f",
+            "language": "uk",
+            "id": "fe7b1d38c11843aab53393373b44d14f",
             "datePublished": "2023-01-01T00:00:00+02:00",
             "dateModified": "2023-01-01T00:00:00+02:00"
           },
           {
             "title_en": "Title of Document",
             "description_en": "Description of Document",
-            "language": "en",
-            "id": "41e70dcfc9174bd1945f556c221f8641",
+            "id": "eea07cf31cc44c5bb16c415d8c75c70d",
             "datePublished": "2023-01-01T00:00:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "agreement_second_document.doc",
             "format": "application/msdoc",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6b86c18d8ffe4836af041e14fe4337dd?Signature=OQ27UsW1yVx2dUOATRGqk5APhXGCyM3%2FBTwM%2BM72JoCkTDNlGuxjmz1DaQymNzGtEBCd6ZLr02Avrgpw5O4NCg%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
-            "dateModified": "2023-01-01T00:00:00+02:00"
+            "dateModified": "2023-01-01T00:00:00+02:00",
+            "language": "en"
           }
         ]
       }
@@ -1414,7 +1418,8 @@ Content-Type: application/json
     "hasAuction": true,
     "hasAwardingOrder": true,
     "hasValueRestriction": true,
-    "valueCurrencyEquality": true
+    "valueCurrencyEquality": true,
+    "hasPrequalification": true
   }
 }
 

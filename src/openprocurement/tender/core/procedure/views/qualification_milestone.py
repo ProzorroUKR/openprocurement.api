@@ -1,3 +1,5 @@
+from cornice.resource import resource
+
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.core.procedure.utils import get_items
 from openprocurement.tender.core.procedure.validation import validate_item_owner, validate_24h_milestone_released
@@ -18,7 +20,7 @@ def resolve_milestone(request, context_name: str = "qualification"):
         request.validated["milestone"] = milestones[0]
 
 
-class BaseQualificationMilestoneResource(TenderBaseResource):
+class BaseMilestoneResource(TenderBaseResource):
     serializer_class = QualificationMilestoneSerializer
     state_class = QualificationMilestoneState
 
@@ -67,19 +69,33 @@ class BaseQualificationMilestoneResource(TenderBaseResource):
                 ),
             )
             self.request.response.status = 201
-            self.request.response.headers["Location"] = self.request.route_url(
-                "{}:Tender {} Milestones".format(tender["procurementMethodType"], self.context_name.capitalize()),
-                **{
-                    "tender_id": tender["_id"],
-                    "{}_id".format(self.context_name): parent_obj["id"],
-                    "milestone_id": milestone["id"]
-                }
-            )
+            self.set_location(tender, milestone)
             return {"data": self.serializer_class(milestone).data}
 
+    def set_location(self, tender, milestone):
+        pass
 
-class QualificationMilestoneResource(BaseQualificationMilestoneResource):
+
+
+@resource(
+    name="Tender Qualification Milestones",
+    collection_path="/tenders/{tender_id}/qualifications/{qualification_id}/milestones",
+    path="/tenders/{tender_id}/qualifications/{qualification_id}/milestones/{milestone_id}",
+    description="Tender qualification milestones",
+)
+class QualificationMilestoneResource(BaseMilestoneResource):
     def __init__(self, request, context=None):
         super().__init__(request, context)  # resolve tender
         resolve_qualification(request)
         resolve_milestone(request, context_name="qualification")
+
+    def set_location(self, tender, milestone):
+        parent_obj = self.request.validated[self.context_name]
+        self.request.response.headers["Location"] = self.request.route_url(
+            "Tender {} Milestones".format(self.context_name.capitalize()),
+            **{
+                "tender_id": tender["_id"],
+                "{}_id".format(self.context_name): parent_obj["id"],
+                "milestone_id": milestone["id"]
+            }
+        )

@@ -33,7 +33,7 @@ from openprocurement.tender.core.tests.utils import change_auth
 
 class TenderSwitchTenderingResourceTest(TenderContentWebTest):
     initial_status = "active.enquires"
-    test_switch_to_tendering_by_tenderPeriod_startDate = snitch(switch_to_tendering_by_tender_period_start_date)
+    test_switch_to_tendering_by_tender_period_start_date = snitch(switch_to_tendering_by_tender_period_start_date)
 
 
 class TenderSwitchQualificationResourceTest(TenderContentWebTest):

@@ -507,7 +507,7 @@ def create_tender_bidder_document_nopending_eu(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't update document because award of bid is not active",
+        "Can't update document because award of bid is not in one of statuses ('active',)",
     )
 
     response = self.app.put_json(
@@ -524,7 +524,7 @@ def create_tender_bidder_document_nopending_eu(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't update document because award of bid is not active",
+        "Can't update document because award of bid is not in one of statuses ('active',)",
     )
 
     response = self.app.post_json(
@@ -541,7 +541,7 @@ def create_tender_bidder_document_nopending_eu(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can't add document because award of bid is not active",
+        "Can't add document because award of bid is not in one of statuses ('active',)",
     )
 
 
@@ -834,7 +834,7 @@ def bids_invalidation_on_tender_change_ua(self):
     for bid_id, token in bids_access.items():
         response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, token))
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json["data"]["status"], "active")
+        self.assertEqual(response.json["data"]["status"], "pending")
 
     # update tender. we can set value that is less than a value in bids as
     # they will be invalidated by this request
@@ -945,7 +945,7 @@ def bids_activation_on_tender_documents_ua(self):
     for bid_id, token in bids_access.items():
         response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, token))
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json["data"]["status"], "active")
+        self.assertEqual(response.json["data"]["status"], "pending")
 
     response = self.app.post_json(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
@@ -997,10 +997,10 @@ def features_bidder_ua(self):
     test_features_bids[0]["parameters"] = [{"code": i["code"], "value": 0.05} for i in data["features"]]
     test_features_bids[1]["parameters"] = [{"code": i["code"], "value": 0.05} for i in data["features"]]
     test_features_bids[1]["tenderers"] = [self.test_bids_data[0]["tenderers"][0]]
-    test_features_bids[1]["status"] = "active"
+    test_features_bids[1]["status"] = "pending"
     for i in test_features_bids:
         bid, bid_token = self.create_bid(self.tender_id, i)
-        i["status"] = "active"
+        i["status"] = "pending"
         bid.pop("date")
         bid.pop("id")
         self.assertEqual(bid, i)

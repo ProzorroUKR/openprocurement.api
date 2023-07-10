@@ -1,3 +1,5 @@
+from cornice.resource import resource
+
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.state.qualification import QualificationState
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
@@ -29,7 +31,12 @@ def resolve_qualification(request):
         qualification = get_items(request, request.validated["tender"], "qualifications", qualification_id)
         request.validated["qualification"] = qualification[0]
 
-
+@resource(
+    name="Tender Qualification",
+    collection_path="/tenders/{tender_id}/qualifications",
+    path="/tenders/{tender_id}/qualifications/{qualification_id}",
+    description="Tender Qualification",
+)
 class TenderQualificationResource(TenderBaseResource):
     # model_class = Qualification
     serializer_class = QualificationSerializer

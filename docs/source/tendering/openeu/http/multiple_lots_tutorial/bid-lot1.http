@@ -75,8 +75,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c3028c9ca7a94051
         "scale": "micro"
       }
     ],
+    "status": "draft",
     "lotValues": [
       {
+        "status": "pending",
         "value": {
           "amount": 500.0,
           "currency": "UAH",
@@ -84,12 +86,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c3028c9ca7a94051
         },
         "relatedLot": "01598eb9c6d3489494777dc7d4fffb7b",
         "subcontractingDetails": "ДКП «Орфей», Україна",
-        "status": "pending",
         "date": "2023-01-01T00:00:00+02:00"
       }
     ],
     "selfQualified": true,
-    "status": "draft",
     "id": "6ef1334f528a47d0a18eeae9a8a980ac",
     "date": "2023-01-01T00:00:00+02:00"
   },

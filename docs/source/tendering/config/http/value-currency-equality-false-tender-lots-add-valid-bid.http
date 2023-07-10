@@ -83,6 +83,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/62ce6859a3df45b6
     ],
     "lotValues": [
       {
+        "status": "pending",
         "value": {
           "amount": 600.0,
           "currency": "USD",
@@ -92,6 +93,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/62ce6859a3df45b6
         "date": "2023-01-01T00:00:00+02:00"
       },
       {
+        "status": "pending",
         "value": {
           "amount": 700.0,
           "currency": "EUR",
@@ -818,19 +820,20 @@ Content-Type: application/json
     "hasAuction": false,
     "hasAwardingOrder": false,
     "hasValueRestriction": false,
-    "valueCurrencyEquality": false
+    "valueCurrencyEquality": false,
+    "hasPrequalification": false
   }
 }
 
 PATCH /api/2.5/tenders/62ce6859a3df45b692f7f78357d812c0/bids/7e95a6b839db44edb45dfdd6caa41a97?acc_token=bed2a0c68b0347dab30b439da99f00d8 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 13970
+Content-Length: 13971
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "status": "active",
+    "status": "pending",
     "requirementResponses": [
       {
         "title": "Requirement response",
@@ -1042,6 +1045,7 @@ Content-Type: application/json
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "0604e55b3dae444a8d537bb4c971a246",
+        "status": "pending",
         "date": "2023-01-01T00:00:00+02:00"
       },
       {
@@ -1051,6 +1055,7 @@ Content-Type: application/json
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "f21c5735a39e41538e386c454149f615",
+        "status": "pending",
         "date": "2023-01-01T00:00:00+02:00"
       }
     ],
@@ -1078,7 +1083,7 @@ Content-Type: application/json
         "scale": "micro"
       }
     ],
-    "status": "active",
+    "status": "pending",
     "id": "7e95a6b839db44edb45dfdd6caa41a97",
     "date": "2023-01-01T00:00:00+02:00"
   }

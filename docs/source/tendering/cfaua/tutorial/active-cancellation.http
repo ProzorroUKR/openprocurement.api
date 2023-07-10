@@ -17,25 +17,27 @@ Content-Type: application/json
     "documents": [
       {
         "description": "Changed description",
-        "id": "def739286f794115be191833fe0053bc",
+        "id": "4c9e18fa51c2454a8cff11fdbf104aec",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/cancellations/620431f4ebb64752b937f73d2b27de0d/documents/def739286f794115be191833fe0053bc?download=3356ac4c4d7743ccb05d09a29b402e22",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/cancellations/620431f4ebb64752b937f73d2b27de0d/documents/4c9e18fa51c2454a8cff11fdbf104aec?download=3356ac4c4d7743ccb05d09a29b402e22",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:01+02:00"
+        "dateModified": "2023-01-01T00:00:01+02:00",
+        "language": "uk"
       },
       {
         "description": "Changed description",
-        "id": "def739286f794115be191833fe0053bc",
+        "id": "4c9e18fa51c2454a8cff11fdbf104aec",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice-2.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/cancellations/620431f4ebb64752b937f73d2b27de0d/documents/def739286f794115be191833fe0053bc?download=2847bc51f8fc4ed596355aa18be53ff8",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/cancellations/620431f4ebb64752b937f73d2b27de0d/documents/4c9e18fa51c2454a8cff11fdbf104aec?download=2847bc51f8fc4ed596355aa18be53ff8",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:01+02:00"
+        "dateModified": "2023-01-01T00:00:01+02:00",
+        "language": "uk"
       }
     ],
     "complaintPeriod": {

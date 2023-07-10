@@ -6,13 +6,13 @@ from openprocurement.tender.core.procedure.models.lot_value import (
 )
 
 
-class LotValue(BaseLotValue):
-    subcontractingDetails = StringType()
-
-
 class PostLotValue(BasePostLotValue):
     subcontractingDetails = StringType()
 
 
 class PatchLotValue(BasePatchLotValue):
+    subcontractingDetails = StringType()
+
+
+class LotValue(BaseLotValue):
     subcontractingDetails = StringType()

@@ -475,19 +475,19 @@ def validate_lotvalue_value(tender, related_lot, value):
 
 
 def validate_lot_value_amount(tender_lot_value, value):
-    if float(tender_lot_value["amount"]) < value.amount:
+    if float(tender_lot_value["amount"]) < value["amount"]:
         raise ValidationError("value of bid should be less than value of lot")
 
 
-def validate_lot_value_currency(tender_lot_value, value):
-    if tender_lot_value["currency"] != value.currency:
-        raise ValidationError("currency of bid should be identical to currency of value of lot")
+def validate_lot_value_currency(tender_lot_value, value, name="value"):
+    if tender_lot_value["currency"] != value["currency"]:
+        raise ValidationError(f"currency of bid should be identical to currency of {name} of lot")
 
 
-def validate_lot_value_vat(tender_lot_value, value):
-    if tender_lot_value["valueAddedTaxIncluded"] != value.valueAddedTaxIncluded:
+def validate_lot_value_vat(tender_lot_value, value, name="value"):
+    if tender_lot_value["valueAddedTaxIncluded"] != value["valueAddedTaxIncluded"]:
         raise ValidationError(
-            "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot"
+            f"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of {name} of lot"
         )
 
 
@@ -531,9 +531,16 @@ def validate_related_lot(tender, related_lot):
 
 
 def validate_view_bid_document(request, **_):
+    config = get_tender_config()
+    if config.get("hasPrequalification"):
+        forbidden_tender_statuses = ("active.tendering",)
+    else:
+        forbidden_tender_statuses = ("active.tendering", "active.auction")
     tender_status = request.validated["tender"]["status"]
-    if tender_status in ("active.tendering", "active.auction") \
-       and not is_item_owner(request, request.validated["bid"]):
+    if (
+        tender_status in forbidden_tender_statuses
+        and not is_item_owner(request, request.validated["bid"])
+    ):
         raise_operation_error(
             request,
             "Can't view bid documents in current ({}) tender status".format(tender_status),
@@ -541,8 +548,13 @@ def validate_view_bid_document(request, **_):
 
 
 def validate_view_bids(request, **_):
+    config = get_tender_config()
+    if config.get("hasPrequalification"):
+        forbidden_tender_statuses = ("active.tendering",)
+    else:
+        forbidden_tender_statuses = ("active.tendering", "active.auction")
     tender_status = request.validated["tender"]["status"]
-    if tender_status in ("active.tendering", "active.auction"):
+    if tender_status in forbidden_tender_statuses:
         raise_operation_error(
             request,
             "Can't view {} in current ({}) tender status".format(
@@ -1476,3 +1488,150 @@ def validate_24h_milestone_released(request, **kwargs):
 def is_positive_float(value):
     if value <= 0:
         raise ValidationError("Float value should be greater than 0.")
+
+
+def validate_bid_document_operation_in_award_status(request, **_):
+    tender = request.validated["tender"]
+    bid = request.validated["bid"]
+
+    allowed_award_statuses = ("active",)
+
+    if tender["status"] in ("active.qualification", "active.awarded") and not any(
+        award["status"] in allowed_award_statuses and award["bid_id"] == bid["id"]
+        for award in tender.get("awards", "")
+    ):
+        raise_operation_error(
+            request,
+            "Can't {} document because award of bid is not in one of statuses {}".format(
+                OPERATIONS.get(request.method), allowed_award_statuses
+            ),
+        )
+
+
+def validate_bid_document_in_tender_status_base(request, allowed_statuses):
+    """
+    active.tendering - tendering docs
+    active.qualification - multi-lot procedure may be in this status despite the active award
+    active.awarded - qualification docs that should be posted into award (another temp solution)
+    """
+    tender = request.validated["tender"]
+    status = tender["status"]
+    if status not in allowed_statuses:
+        operation = OPERATIONS.get(request.method)
+        raise_operation_error(
+            request,
+            "Can't {} document in current ({}) tender status".format(operation, status)
+        )
+
+
+def validate_bid_document_in_tender_status(request, **_):
+    """
+    active.tendering - tendering docs
+    active.awarded - qualification docs that should be posted into award (another temp solution)
+    """
+    tender = request.validated["tender"]
+    allowed_statuses = (
+        "active.tendering",
+        "active.qualification",
+    )
+
+    if tender["procurementMethodType"] in ("closeFrameworkAgreementUA",):
+        allowed_statuses += ("active.qualification.stand-still",)
+    else:
+        allowed_statuses += ("active.awarded",)
+
+    validate_bid_document_in_tender_status_base(request, allowed_statuses)
+
+
+def validate_bid_financial_document_in_tender_status(request, **_):
+    tender = request.validated["tender"]
+    allowed_statuses = (
+        "active.tendering",
+        "active.qualification",
+        "active.awarded",
+    )
+
+    if tender["procurementMethodType"] in ("closeFrameworkAgreementUA",):
+        allowed_statuses += ("active.qualification.stand-still",)
+
+    validate_bid_document_in_tender_status_base(request, allowed_statuses)
+
+
+def validate_download_bid_document(request, **_):
+    if request.params.get("download"):
+        document = request.validated["document"]
+        if (
+            document.get("confidentiality", "") == "buyerOnly"
+            and request.authenticated_role not in ("aboveThresholdReviewers", "sas")
+            and not is_item_owner(request, request.validated["bid"])
+            and not is_item_owner(request, request.validated["tender"])
+        ):
+            raise_operation_error(request, "Document download forbidden.")
+
+
+def validate_update_bid_document_confidentiality(request, **_):
+    tender_status = request.validated["tender"]["status"]
+    if tender_status != "active.tendering" and "confidentiality" in request.validated.get("data", {}):
+        document = request.validated["document"]
+        if document.get("confidentiality", "public") != request.validated["data"]["confidentiality"]:
+            raise_operation_error(
+                request,
+                "Can't update document confidentiality in current ({}) tender status".format(tender_status),
+            )
+
+
+def validate_bid_document_operation_in_bid_status(request, **_):
+    bid = request.validated["bid"]
+    if bid["status"] in ("unsuccessful", "deleted"):
+        raise_operation_error(
+            request,
+            "Can't {} document at '{}' bid status".format(
+                OPERATIONS.get(request.method),
+                bid["status"]
+            )
+        )
+
+
+def validate_view_bid_documents_allowed_in_bid_status(request, **_):
+    bid_status = request.validated["bid"]["status"]
+    if bid_status in ("invalid", "deleted") and not is_item_owner(request, request.validated["bid"]):
+        raise_operation_error(
+            request,
+            f"Can't view bid documents in current ({bid_status}) bid status"
+        )
+
+
+def validate_view_financial_bid_documents_allowed_in_tender_status(request, **_):
+    tender_status = request.validated["tender"]["status"]
+    forbidden_tender_statuses = (
+        "active.tendering",
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+        "active.auction",
+    )
+    if (
+        tender_status in forbidden_tender_statuses
+        and not is_item_owner(request, request.validated["bid"])
+    ):
+        raise_operation_error(
+            request,
+            f"Can't view bid documents in current ({tender_status}) tender status",
+        )
+
+
+def validate_view_financial_bid_documents_allowed_in_bid_status(request, **_):
+    bid_status = request.validated["bid"]["status"]
+    forbidden_bid_statuses = (
+        "invalid",
+        "deleted",
+        "invalid.pre-qualification",
+        "unsuccessful",
+    )
+    if (
+        bid_status in forbidden_bid_statuses
+        and not is_item_owner(request, request.validated["bid"])
+    ):
+        raise_operation_error(
+            request,
+            f"Can't view bid documents in current ({bid_status}) bid status"
+        )

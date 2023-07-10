@@ -173,7 +173,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
             self.activate_awards()
             self.generate_contract()
         self.save_changes()
-        return self.get_tender("chronograph")
+        return self.get_tender()
 
     def patch_tender_bot(self):
         items = deepcopy(self.initial_data["items"])

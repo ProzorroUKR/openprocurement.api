@@ -1,6 +1,6 @@
 PATCH /api/2.5/tenders/cb76d20a62ef4e318ecb101430b63776/bids/1fcbb7ab0a104c228baa39c0c89927fe?acc_token=453f263b90e54cffbad8d3b4f4166931 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 213
+Content-Length: 214
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -15,7 +15,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "relatedLot": "eb3a2c7480d14c948cce6d516a8fb007"
       }
     ],
-    "status": "active"
+    "status": "pending"
   }
 }
 
@@ -151,7 +151,7 @@ Content-Type: application/json
         "scale": "micro"
       }
     ],
-    "status": "active",
+    "status": "pending",
     "id": "1fcbb7ab0a104c228baa39c0c89927fe",
     "date": "2023-01-01T00:00:00+02:00",
     "selfQualified": true,
@@ -163,13 +163,14 @@ Content-Type: application/json
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "eb3a2c7480d14c948cce6d516a8fb007",
+        "status": "pending",
         "date": "2023-01-01T00:00:00+02:00",
         "subcontractingDetails": "ДКП «Орфей»"
       }
     ],
     "documents": [
       {
-        "id": "4cba1f325b5b4f89a32dde45456b9ebf",
+        "id": "dea532e1e9a7425a8f661d6515b3a748",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.pdf",
@@ -177,6 +178,7 @@ Content-Type: application/json
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/007f2443c3a84c95a8b906812a7f4c76?Signature=bAmJSt86l1KvrgQG02em7Sf%2BHXyKm2PCX4EBMumdLI%2FwYlUvcPiOUWrJLH5TMUsx2POF8%2FSsxWSt2CD2MGD9Bw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
+        "language": "uk",
         "confidentiality": "public"
       }
     ]

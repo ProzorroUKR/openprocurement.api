@@ -1,4 +1,6 @@
-from schematics.types import BooleanType
+from schematics.types import BooleanType, StringType
+from schematics.types.compound import ModelType
+from openprocurement.tender.openua.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
 from openprocurement.tender.core.procedure.models.bid import (
     PostBid as BasePostBid,
     PatchBid as BasePatchBid,
@@ -9,13 +11,11 @@ from openprocurement.tender.core.models import (
     validate_parameters_uniq,
 )
 from openprocurement.tender.core.procedure.models.parameter import Parameter, PatchParameter
-from openprocurement.tender.openua.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
-from openprocurement.tender.openua.procedure.models.document import PostDocument, Document
+from openprocurement.tender.core.procedure.models.bid_document import PostDocument, Document
 from openprocurement.tender.core.procedure.models.base import ListType
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.validation import validate_bid_value
-from schematics.types.compound import ModelType
-from schematics.types import StringType
+
 
 
 class PostBid(BasePostBid):
@@ -25,6 +25,9 @@ class PostBid(BasePostBid):
     lotValues = ListType(ModelType(PostLotValue, required=True))
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
     documents = ListType(ConfidentialDocumentModelType(PostDocument, required=True))
+    financialDocuments = ListType(ModelType(PostDocument, required=True))
+    eligibilityDocuments = ListType(ModelType(PostDocument, required=True))
+    qualificationDocuments = ListType(ModelType(PostDocument, required=True))
 
     def validate_value(self, data, value):
         tender = get_tender()
@@ -46,6 +49,9 @@ class Bid(BaseBid):
     lotValues = ListType(ModelType(LotValue, required=True))
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
     documents = ListType(ConfidentialDocumentModelType(Document, required=True))
+    financialDocuments = ListType(ModelType(PostDocument, required=True))
+    eligibilityDocuments = ListType(ModelType(PostDocument, required=True))
+    qualificationDocuments = ListType(ModelType(PostDocument, required=True))
 
     def validate_value(self, data, value):
         tender = get_tender()

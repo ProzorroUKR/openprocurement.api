@@ -810,6 +810,7 @@ Content-Type: application/json
               "valueAddedTaxIncluded": true
             },
             "relatedLot": "0604e55b3dae444a8d537bb4c971a246",
+            "status": "active",
             "date": "2023-01-01T00:00:00+02:00"
           },
           {
@@ -819,6 +820,7 @@ Content-Type: application/json
               "valueAddedTaxIncluded": true
             },
             "relatedLot": "f21c5735a39e41538e386c454149f615",
+            "status": "active",
             "date": "2023-01-01T00:00:00+02:00"
           }
         ],
@@ -1104,7 +1106,8 @@ Content-Type: application/json
     "hasAuction": false,
     "hasAwardingOrder": false,
     "hasValueRestriction": false,
-    "valueCurrencyEquality": false
+    "valueCurrencyEquality": false,
+    "hasPrequalification": false
   }
 }
 

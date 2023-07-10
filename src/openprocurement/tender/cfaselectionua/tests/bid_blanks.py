@@ -420,11 +420,11 @@ def patch_tender_bid(self):
     self.assertNotEqual(response.json["data"]["lotValues"][0]["date"], bid["date"])
 
     response = self.app.patch_json(
-        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token), {"data": {"status": "active"}}
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token), {"data": {"status": "pending"}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "active")
+    self.assertEqual(response.json["data"]["status"], "pending")
     self.assertNotEqual(response.json["data"]["lotValues"][0]["date"], bid["date"])
 
     response = self.app.patch_json(
@@ -641,7 +641,7 @@ def features_bid(self):
     test_features_bids = [
         {
             "parameters": [{"code": i["code"], "value": 0.1} for i in self.initial_agreement["features"]],
-            "status": "active",
+            "status": "pending",
             "tenderers": [test_tender_cfaselectionua_organization],
             "lotValues": [
                 {
@@ -668,6 +668,7 @@ def features_bid(self):
         bid.pop("date")
         bid.pop("id")
         bid["lotValues"][0].pop("date")
+        bid["lotValues"][0].pop("status")
         self.assertEqual(bid.pop("documents", []), [])
         self.assertEqual(bid, i)
 
@@ -681,7 +682,7 @@ def features_bid(self):
     self.set_status("active.tendering", extra={"features": new_tender_features, "bids": []})
     feat_bid = {
         "parameters": [{"code": i["code"], "value": 0.1} for i in self.initial_agreement["features"][:1]],
-        "status": "active",
+        "status": "pending",
         "tenderers": [test_tender_cfaselectionua_organization],
         "lotValues": [
             {
@@ -695,6 +696,7 @@ def features_bid(self):
     bid.pop("date")
     bid.pop("id")
     bid["lotValues"][0].pop("date")
+    bid["lotValues"][0].pop("status")
     self.assertEqual(bid.pop("documents", []), [])
     self.assertEqual(bid, feat_bid)
 
@@ -776,7 +778,7 @@ def patch_features_bid_invalid(self):
 
     test_bid = {
         "parameters": [{"code": i["code"], "value": 0.1} for i in self.initial_agreement["features"]],
-        "status": "active",
+        "status": "pending",
         "tenderers": [test_tender_cfaselectionua_organization],
         "lotValues": [
             {
@@ -791,6 +793,7 @@ def patch_features_bid_invalid(self):
     bid.pop("date")
     bid.pop("id")
     bid["lotValues"][0].pop("date")
+    bid["lotValues"][0].pop("status")
     self.assertEqual(bid.pop("documents", []), [])
     self.assertEqual(bid, test_bid)
 
@@ -998,16 +1001,21 @@ def patch_tender_bid_document(self):
     response = self.app.patch_json(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token),
         {"data": {"description": "document description"}},
-        status=403,
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update document in current (active.awarded) tender status"
+    self.assertEqual(doc_id, response.json["data"]["id"])
+
+    response = self.app.get(
+        "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_id, self.bid_token)
     )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(doc_id, response.json["data"]["id"])
+    self.assertEqual("document description", response.json["data"]["description"])
 
 
-def create_tender_bid_document_nopending(self):
+def create_tender_bid_document_invalid_award_status(self):
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {
@@ -1021,14 +1029,22 @@ def create_tender_bid_document_nopending(self):
     token = response.json["access"]["token"]
     bid_id = bid["id"]
 
-    response = self.app.post_json(
-        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, token),
-        {"data": {
+    self.app.patch_json(
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, token),
+        {"data": {"status": "pending"}}
+    )
+
+    document = {
+        "data": {
             "title": "name.doc",
             "url": self.generate_docservice_url(),
             "hash": "md5:" + "0" * 32,
             "format": "application/msword",
-        }},
+        }
+    }
+    response = self.app.post_json(
+        "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, token),
+        document,
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1045,39 +1061,32 @@ def create_tender_bid_document_nopending(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update document because award of bid is not in pending state"
+        response.json["errors"][0]["description"],
+        "Can't update document because award of bid is not in one of statuses ('active',)"
     )
 
     response = self.app.put_json(
         "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, token),
-        {"data": {
-            "title": "name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
+        document,
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update document because award of bid is not in pending state"
+        response.json["errors"][0]["description"],
+        "Can't update document because award of bid is not in one of statuses ('active',)"
     )
 
     response = self.app.post_json(
         "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, token),
-        {"data": {
-            "title": "name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
+        document,
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't add document because award of bid is not in pending state"
+        response.json["errors"][0]["description"],
+        "Can't add document because award of bid is not in one of statuses ('active',)"
     )
 
 
@@ -1203,13 +1212,11 @@ def create_tender_bid_document_json(self):
                 "format": "application/msword",
             }
         },
-        status=403,
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't add document in current (active.awarded) tender status"
-    )
+    self.assertIn(response.json["data"]["id"], response.headers["Location"])
+    self.assertEqual("name.doc", response.json["data"]["title"])
 
     response = self.app.get("/tenders/{}/bids/{}/documents/{}".format(self.tender_id, self.bid_id, doc_id))
     self.assertEqual(response.status, "200 OK")
@@ -1323,13 +1330,23 @@ def put_tender_bid_document_json(self):
                 "format": "application/msword",
             }
         },
-        status=403,
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update document in current (active.awarded) tender status"
+    self.assertEqual("test description", response.json["data"]["description"])
+    self.assertEqual(doc_id, response.json["data"]["id"])
+    key = self.get_doc_id_from_url(response.json["data"]["url"])
+
+    response = self.app.get(
+        "/tenders/{}/bids/{}/documents/{}?download={}&acc_token={}".format(
+            self.tender_id, self.bid_id, doc_id, key, self.bid_token
+        )
     )
+    self.assertEqual(response.status, "302 Moved Temporarily")
+    self.assertIn("http://localhost/get/", response.location)
+    self.assertIn("Signature=", response.location)
+    self.assertIn("KeyID=", response.location)
+    self.assertIn("Expires=", response.location)
 
 
 # TenderBidBatchDocumentWithDSResourceTest

@@ -6,13 +6,13 @@ from openprocurement.tender.core.procedure.validation import validate_bid_value
 from openprocurement.tender.core.procedure.models.base import ListType
 from openprocurement.tender.core.procedure.models.parameter import Parameter, PatchParameter
 from openprocurement.tender.core.procedure.models.req_response import PostBidResponsesMixin, PatchObjResponsesMixin
-from openprocurement.tender.open.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
-from openprocurement.tender.open.procedure.models.document import PostDocument, Document
+from openprocurement.tender.core.procedure.models.bid_document import PostDocument, Document
 from openprocurement.tender.core.procedure.models.bid import (
     Bid as BaseBid,
     PostBid as BasePostBid,
     PatchBid as BasePatchBid,
 )
+from openprocurement.tender.open.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
 
 
 class PatchBid(BasePatchBid, PatchObjResponsesMixin):

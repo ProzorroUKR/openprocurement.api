@@ -723,8 +723,8 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
-        "id": "6ef1334f528a47d0a18eeae9a8a980ac",
-        "status": "active"
+        "status": "active",
+        "id": "6ef1334f528a47d0a18eeae9a8a980ac"
       },
       {
         "requirementResponses": [
@@ -863,8 +863,8 @@ Content-Type: application/json
             "scale": "sme"
           }
         ],
-        "id": "bd30b0698c984e7096a4df6c2e0ea581",
-        "status": "active"
+        "status": "active",
+        "id": "bd30b0698c984e7096a4df6c2e0ea581"
       }
     ],
     "owner": "broker",
@@ -945,6 +945,30 @@ Content-Type: application/json
           "type": "calendar"
         },
         "sequenceNumber": 0
+      }
+    ],
+    "qualificationPeriod": {
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-06T00:00:00+02:00"
+    },
+    "qualifications": [
+      {
+        "id": "f1f5fb302ecc48309ae13080c4f5f2a3",
+        "bidID": "6ef1334f528a47d0a18eeae9a8a980ac",
+        "lotID": "01598eb9c6d3489494777dc7d4fffb7b",
+        "status": "active",
+        "date": "2023-01-01T00:00:00+02:00",
+        "qualified": true,
+        "eligible": true
+      },
+      {
+        "id": "cb6b92270e544de89c027fad4188dace",
+        "bidID": "bd30b0698c984e7096a4df6c2e0ea581",
+        "lotID": "01598eb9c6d3489494777dc7d4fffb7b",
+        "status": "active",
+        "date": "2023-01-01T00:00:00+02:00",
+        "qualified": true,
+        "eligible": true
       }
     ],
     "procurementMethodType": "aboveThresholdEU",
@@ -1065,30 +1089,6 @@ Content-Type: application/json
         "description_en": "Services in school canteens"
       }
     ],
-    "qualificationPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-06T00:00:00+02:00"
-    },
-    "qualifications": [
-      {
-        "id": "394d6ec6a2fc44629967b6ab67871875",
-        "bidID": "6ef1334f528a47d0a18eeae9a8a980ac",
-        "lotID": "01598eb9c6d3489494777dc7d4fffb7b",
-        "status": "active",
-        "date": "2023-01-01T00:00:00+02:00",
-        "qualified": true,
-        "eligible": true
-      },
-      {
-        "id": "99799c68c8034697a3c2854018afe4d5",
-        "bidID": "bd30b0698c984e7096a4df6c2e0ea581",
-        "lotID": "01598eb9c6d3489494777dc7d4fffb7b",
-        "status": "active",
-        "date": "2023-01-01T00:00:00+02:00",
-        "qualified": true,
-        "eligible": true
-      }
-    ],
     "complaintPeriod": {
       "startDate": "2023-01-01T00:00:00+02:00",
       "endDate": "2023-01-28T00:00:00+02:00"
@@ -1100,7 +1100,8 @@ Content-Type: application/json
     "hasAuction": true,
     "hasAwardingOrder": true,
     "hasValueRestriction": true,
-    "valueCurrencyEquality": true
+    "valueCurrencyEquality": true,
+    "hasPrequalification": true
   }
 }
 

@@ -319,7 +319,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
             response = self.app.patch_json(
                 '/tenders/{}/bids/{}?acc_token={}'.format(
                     self.tender_id, bid1_id, bids_access[bid1_id]),
-                {'data': {"status": "active"}})
+                {'data': {"status": "pending"}})
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'register-2nd-bidder.http', 'w') as self.app.file_obj:

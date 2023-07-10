@@ -161,6 +161,7 @@ Content-Type: application/json
         "scale": "micro"
       }
     ],
+    "status": "pending",
     "id": "6ef1334f528a47d0a18eeae9a8a980ac",
     "date": "2023-01-01T00:00:00+02:00",
     "lotValues": [
@@ -171,13 +172,12 @@ Content-Type: application/json
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "01598eb9c6d3489494777dc7d4fffb7b",
+        "status": "pending",
         "date": "2023-01-01T00:00:00+02:00",
-        "subcontractingDetails": "ДКП «Орфей»",
-        "status": "pending"
+        "subcontractingDetails": "ДКП «Орфей»"
       }
     ],
-    "selfQualified": true,
-    "status": "pending"
+    "selfQualified": true
   }
 }
 

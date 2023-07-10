@@ -85,6 +85,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cb76d20a62ef4e31
     "selfQualified": true,
     "lotValues": [
       {
+        "status": "pending",
         "value": {
           "amount": 500.0,
           "currency": "UAH",
@@ -94,6 +95,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cb76d20a62ef4e31
         "date": "2023-01-01T00:00:00+02:00"
       },
       {
+        "status": "pending",
         "value": {
           "amount": 500.0,
           "currency": "UAH",

@@ -145,8 +145,8 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "id": "2096f1a2874b40e3bbf150c27e4824bf",
       "status": "active",
+      "id": "2096f1a2874b40e3bbf150c27e4824bf",
       "documents": [
         {
           "hash": "md5:00000000000000000000000000000000",
@@ -154,24 +154,24 @@ Content-Type: application/json
           "format": "application/pdf",
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cbc72109233241b9aea96edfc20e8da1?Signature=mT5THG0rO0Mi%2BZoKAZKhRqN79D1tpTJXq4r4zPrxySqL7sIWcHk0Jeo8IbGaf0RMJfdDLjZ%2FKUTa93hfvotdAA%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
-          "confidentiality": "public",
           "language": "uk",
-          "id": "40a2374c20b648a2a8dd7c5cb3e87c90",
+          "confidentiality": "public",
+          "id": "6445cc6ce08c497d8d68b4a048fda100",
           "datePublished": "2023-01-01T00:00:00+02:00",
           "dateModified": "2023-01-01T00:00:00+02:00"
         },
         {
-          "id": "d9682274da9c4432a9abdb83a7158eb6",
+          "id": "24d4842c57d14041b8a66acadbdc91bb",
           "datePublished": "2023-01-01T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_top_secrets.pdf",
           "format": "application/pdf",
-          "url": "/tenders/26dac5d9cddc43f1b4178ec68bd3f601/bids/2096f1a2874b40e3bbf150c27e4824bf/documents/d9682274da9c4432a9abdb83a7158eb6?download=0529d526671941f9a44290ac0e5c9891",
+          "url": "/tenders/26dac5d9cddc43f1b4178ec68bd3f601/bids/2096f1a2874b40e3bbf150c27e4824bf/documents/24d4842c57d14041b8a66acadbdc91bb?download=0529d526671941f9a44290ac0e5c9891",
           "documentOf": "tender",
           "dateModified": "2023-01-01T00:00:00+02:00",
+          "language": "uk",
           "confidentiality": "buyerOnly",
-          "confidentialityRationale": "Only our company sells badgers with pink hair.",
-          "language": "uk"
+          "confidentialityRationale": "Only our company sells badgers with pink hair."
         }
       ],
       "eligibilityDocuments": [
@@ -179,11 +179,11 @@ Content-Type: application/json
           "hash": "md5:00000000000000000000000000000000",
           "title": "eligibility_doc.pdf",
           "format": "application/pdf",
-          "url": "/tenders/26dac5d9cddc43f1b4178ec68bd3f601/bids/2096f1a2874b40e3bbf150c27e4824bf/eligibility_documents/1058ac9d5fbe4bce95bfcfa7cddd5c45?download=b3ec728698e1471aa09e389d77c8c59e",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b3ec728698e1471aa09e389d77c8c59e?Signature=D0Zy%2FXOL5XTaIpKsv10eyigjjpJ1DGCvEy0%2FHHe0%2F6QWXzvtIaAuRl1WqCDa%2FsfULvUfsqTB79QBi0GrVQhZDA%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
-          "confidentiality": "public",
           "language": "uk",
-          "id": "1058ac9d5fbe4bce95bfcfa7cddd5c45",
+          "confidentiality": "public",
+          "id": "093a11c4b8554add927a5123991ff5d1",
           "datePublished": "2023-01-01T00:00:00+02:00",
           "dateModified": "2023-01-01T00:00:00+02:00"
         }
@@ -326,8 +326,8 @@ Content-Type: application/json
           "scale": "sme"
         }
       ],
-      "id": "bf64c133e6e34cde85dac889a9fe274a",
-      "status": "active"
+      "status": "active",
+      "id": "bf64c133e6e34cde85dac889a9fe274a"
     },
     {
       "requirementResponses": [
@@ -466,6 +466,7 @@ Content-Type: application/json
           "scale": "sme"
         }
       ],
+      "status": "unsuccessful",
       "id": "0a7474f57f7f434aa03c3187d5861748",
       "documents": [
         {
@@ -477,8 +478,8 @@ Content-Type: application/json
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3e41aa3266f24b9980125cb78364eb93?Signature=mhxSI9BsuM3ZpxlDAJN0o%2BUlFmp5J0zw7iyAadRF73Syhi8FiNpZaR9%2B0K7PqesH1a%2BUgzzXXMWCx6yjI0DeAw%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
           "dateModified": "2023-01-01T00:00:00+02:00",
-          "confidentiality": "public",
-          "language": "uk"
+          "language": "uk",
+          "confidentiality": "public"
         },
         {
           "id": "749ebc13cabf4d9cbf5d08a156d185cb",
@@ -489,8 +490,8 @@ Content-Type: application/json
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4ebbf9207d9d40238691d14be83d98ab?Signature=USenzreniFdmFIKZS0A8SrzWsk%2FNJAbLR%2FHbw9RRaurdjlzinVZeGruiYCn3itI8h3xPbrmhGzyd8t25uWRRDw%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
           "dateModified": "2023-01-01T00:00:00+02:00",
-          "confidentiality": "public",
-          "language": "uk"
+          "language": "uk",
+          "confidentiality": "public"
         }
       ],
       "eligibilityDocuments": [
@@ -500,15 +501,14 @@ Content-Type: application/json
           "hash": "md5:00000000000000000000000000000000",
           "title": "eligibility_doc.pdf",
           "format": "application/pdf",
-          "url": "/tenders/26dac5d9cddc43f1b4178ec68bd3f601/bids/0a7474f57f7f434aa03c3187d5861748/eligibility_documents/c2dd445ad6564c62aecdf990928c0a5f?download=f4edcff934f64be5941b4dd15202a07f",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f4edcff934f64be5941b4dd15202a07f?Signature=hvXycTPfnORnYBe%2FLRrhQnYouVrHiVZM71uSXxB7UVyCDv2HaofKnRx8OK7NL%2FwApqwF0TkXqNbILgJ7D%2F5NAg%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
           "dateModified": "2023-01-01T00:00:00+02:00",
-          "confidentiality": "public",
-          "language": "uk"
+          "language": "uk",
+          "confidentiality": "public"
         }
       ],
-      "selfQualified": true,
-      "status": "unsuccessful"
+      "selfQualified": true
     }
   ]
 }

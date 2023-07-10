@@ -27,7 +27,8 @@ Content-Type: application/json
     "format": "application/msword",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6c9a362ef4c148d68375abd250d9af99?Signature=GXdtMBW2pfwny47p1NMegM5pbSlQzDVW8k1suodA%2FymHRmFK1qNwllcr2099uY%2BYhRTryN7mB6SlYbzleBhpCQ%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
-    "dateModified": "2023-01-01T00:00:03+02:00"
+    "dateModified": "2023-01-01T00:00:03+02:00",
+    "language": "uk"
   }
 }
 

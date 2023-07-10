@@ -604,7 +604,7 @@ def two_lot_1bid_1com_1win(self):
     self.assertEqual([i["status"] for i in response.json["data"]["lots"]], ["complete", "unsuccessful"])
     self.assertEqual(response.json["data"]["status"], "complete")
 
-
+# 2023-06-16T04:27:46.617458
 def two_lot_2bid_on_first_and_1_on_second_awarding(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender

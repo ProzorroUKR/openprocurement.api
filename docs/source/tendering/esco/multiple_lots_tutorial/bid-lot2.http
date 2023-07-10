@@ -137,8 +137,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ceb28fdcf5944cd8
     "selfQualified": true,
     "lotValues": [
       {
-        "relatedLot": "47aa65f0d5b944629ab6126141681de8",
         "status": "pending",
+        "relatedLot": "47aa65f0d5b944629ab6126141681de8",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
@@ -176,9 +176,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ceb28fdcf5944cd8
         "date": "2023-01-01T00:00:00+02:00"
       },
       {
+        "status": "pending",
         "relatedLot": "42032ff885e34954a4dd831b4a0e4059",
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
-        "status": "pending",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,

@@ -12,12 +12,20 @@ from openprocurement.tender.belowthreshold.tests.base import (
 
 
 def switch_to_tendering_by_tender_period_start_date(self):
-    self.set_status("active.tendering", {"status": "active.enquiries", "tenderPeriod": {}})
+    self.set_status("active.enquiries")
+
     response = self.check_chronograph()
-    self.assertNotEqual(response.json["data"]["status"], "active.tendering")
-    self.set_status("active.tendering", {"enquiryPeriod": {}})
+    self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
+    self.assertEqual(response.json["data"]["status"], "active.enquiries")  # not changed
+
+    self.set_status(
+        "active.tendering",
+        extra={"status": "active.enquiries"},
+    )
+
     response = self.check_chronograph()
-    self.assertEqual(response.json["data"]["status"], "active.tendering")
+    self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
+    self.assertEqual(response.json["data"]["status"], "active.tendering")  # now changed
 
 
 # TenderSwitchQualificationResourceTest

@@ -214,6 +214,8 @@ class ComplaintPolyModelType(PolyModelType):
 
 class Document(BaseDocument):
     documentOf = StringType(required=True, choices=["tender", "item", "lot"], default="tender")
+    confidentiality = StringType()
+    confidentialityRationale = StringType()
 
     def validate_relatedItem(self, data, relatedItem):
         if not relatedItem and data.get("documentOf") in ["item", "lot"]:
@@ -630,6 +632,7 @@ class LotValue(Model):
                 "date",
                 "relatedLot",
                 "participationUrl"
+                "status"
             ),
             "auction_post": whitelist(
                 "value",
@@ -645,6 +648,7 @@ class LotValue(Model):
     relatedLot = MD5Type(required=True)
     participationUrl = URLType()
     date = IsoDateTimeType(default=get_now)
+    status = StringType(choices=["pending", "active", "unsuccessful"], default="pending")
 
     def validate_value(self, data, value):
         parent = data["__parent__"]
@@ -1301,7 +1305,9 @@ class Bid(BidDefaultStatusMixin):
     lotValues = ListType(ModelType(LotValue, required=True), default=list())
     date = IsoDateTimeType(default=get_now)
     id = MD5Type(required=True, default=lambda: uuid4().hex)
-    status = StringType(choices=["active", "draft"])
+    status = StringType(
+        choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
+    )
     value = ModelType(Value)
     documents = ListType(ModelType(Document, required=True), default=list())
     participationUrl = URLType()

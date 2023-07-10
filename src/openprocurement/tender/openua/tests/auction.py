@@ -78,6 +78,7 @@ class TenderFeaturesMultilotAuctionResourceTest(
 ):
     docservice = True
     initial_lots = test_tender_below_lots * 2
+
     test_get_tender_auction = snitch(get_tender_lots_auction_features)
     test_post_tender_auction = snitch(post_tender_lots_auction_features)
 

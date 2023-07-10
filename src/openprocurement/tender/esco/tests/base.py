@@ -63,6 +63,7 @@ test_tender_esco_config = {
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
     "valueCurrencyEquality": True,
+    "hasPrequalification": True,
 }
 
 

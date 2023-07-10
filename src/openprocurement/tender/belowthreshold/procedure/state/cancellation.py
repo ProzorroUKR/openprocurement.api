@@ -40,7 +40,7 @@ class BelowThresholdCancellationStateMixing(CancellationStateMixing):
                     "for switch cancellation to active status",
                     status=422,
                 )
-            self.cancel_tender_lot(cancellation)
+            self.cancel(cancellation)
         elif before == "draft" and after == "unsuccessful":
             pass
         else:

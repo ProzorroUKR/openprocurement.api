@@ -21,7 +21,7 @@ from openprocurement.tender.cfaselectionua.tests.chronograph_blanks import (
 class TenderSwitchTenderingPeriodStartDateResourceTest(TenderContentWebTest):
     initial_lots = test_tender_cfaselectionua_lots
     initial_status = "active.enquiries"
-    test_switch_to_tendering_by_tenderPeriod_startDate = snitch(switch_to_tendering_by_tender_period_start_date)
+    test_switch_to_tendering_by_tender_period_start_date = snitch(switch_to_tendering_by_tender_period_start_date)
 
 
 class TenderSwitchTenderingResourceTest(TenderContentWebTest):

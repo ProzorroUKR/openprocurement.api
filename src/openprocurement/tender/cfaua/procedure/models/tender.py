@@ -41,8 +41,6 @@ from openprocurement.tender.core.procedure.models.tender import (
 from openprocurement.tender.core.utils import (
     calculate_complaint_business_date,
     validate_features_custom_weight,
-    calculate_tender_business_date,
-    calculate_clarif_business_date,
 )
 from openprocurement.tender.core.models import validate_features_uniq
 from openprocurement.tender.openua.constants import COMPLAINT_SUBMIT_TIME
@@ -101,24 +99,6 @@ class PostTender(BasePostTender):
     def validate_features(self, data, features):
         validate_features(data, features)
 
-    # @serializable(
-    #     serialized_name="enquiryPeriod",
-    #     serialize_when_none=True,
-    #     type=ModelType(EnquiryPeriod, required=False)
-    # )
-    # def tender_enquiryPeriod(self):
-    #     enquiry_period_class = self._fields["enquiryPeriod"]
-    #     end_date = calculate_tender_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, self)
-    #     clarifications_until = calculate_clarif_business_date(end_date, ENQUIRY_STAND_STILL_TIME, self, True)
-    #     return enquiry_period_class(
-    #         dict(
-    #             startDate=self.tenderPeriod.startDate,
-    #             endDate=end_date,
-    #             invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
-    #             clarificationsUntil=clarifications_until,
-    #         )
-    #     )
-
 
 class PatchTender(BasePatchTender):
     procurementMethodType = StringType(choices=[CFA_UA])
@@ -176,14 +156,17 @@ class Tender(BaseTender):
             "active.tendering",
             "active.pre-qualification",
             "active.pre-qualification.stand-still",
+            "active.auction",
             "active.qualification",
             "active.qualification.stand-still",
+            "active.awarded",
+            "complete",
+            "cancelled",
+            "unsuccessful",
         ],
     )
 
     auctionPeriod = ModelType(Period)
-    qualificationPeriod = ModelType(Period)
-    qualifications = BaseType()
     awards = BaseType()
 
     @serializable(type=ModelType(Period))
@@ -196,21 +179,3 @@ class Tender(BaseTender):
 
     def validate_features(self, data, features):
         validate_features(data, features)
-
-    # @serializable(
-    #     serialized_name="enquiryPeriod",
-    #     serialize_when_none=True,
-    #     type=ModelType(EnquiryPeriod, required=False)
-    # )
-    # def tender_enquiryPeriod(self):
-    #     enquiry_period_class = self._fields["enquiryPeriod"]
-    #     end_date = calculate_tender_business_date(self.tenderPeriod.endDate, -QUESTIONS_STAND_STILL, self)
-    #     clarifications_until = calculate_clarif_business_date(end_date, ENQUIRY_STAND_STILL_TIME, self, True)
-    #     return enquiry_period_class(
-    #         dict(
-    #             startDate=self.tenderPeriod.startDate,
-    #             endDate=end_date,
-    #             invalidationDate=self.enquiryPeriod and self.enquiryPeriod.invalidationDate,
-    #             clarificationsUntil=clarifications_until,
-    #         )
-    #     )

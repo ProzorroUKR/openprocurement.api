@@ -4,7 +4,7 @@ from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.context import get_tender, get_request
+from openprocurement.tender.core.procedure.context import get_tender, get_request, get_tender_config
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 from datetime import timedelta
@@ -178,7 +178,7 @@ class CancellationStateMixing(baseclass):
 
     def cancellation_on_post(self, data):
         if data["status"] == "active":
-            self.cancel_tender_lot(data)
+            self.cancel(data)
         self.always(get_tender())
 
     def cancellation_on_patch(self, before, after):
@@ -208,51 +208,9 @@ class CancellationStateMixing(baseclass):
                 and any(i["status"] == "satisfied" for i in cancellation.get("complaints", "")):
             pass
         elif after == "active" and not tender_created_after_2020_rules():
-            self.cancel_tender_lot(cancellation)
+            self.cancel(cancellation)
         else:
             raise_operation_error(request, f"Can't switch cancellation status from {before} to {after}")
-
-    # START Cancelling
-    def cancel_tender_lot(self, cancellation):
-        request, tender = get_request(), get_tender()
-        if tender_created_after_2020_rules():  # TODO: does it make sense to do validation here?
-            self.validate_absence_of_pending_accepted_satisfied_complaints(request, tender, cancellation)
-        if cancellation["cancellationOf"] == "lot":
-            self.cancel_lot(tender, cancellation)
-        else:
-            self.cancel_tender(tender)
-
-    def cancel_tender(self, tender):
-        if tender["status"] in ("active.tendering", "active.auction"):
-            tender.pop("bids", None)
-        self.set_object_status(tender, "cancelled")
-
-    def cancel_lot(self, tender, cancellation):
-        self._cancel_lot(tender, cancellation["relatedLot"])
-        self._lot_update_check_tender_status(tender)
-
-        if tender["status"] == "active.auction" and all(
-            "endDate" in i.get("auctionPeriod", "")
-            for i in tender.get("lots", "")
-            if self.count_lot_bids_number(tender, cancellation["relatedLot"]) > self.min_bids_number
-            and i["status"] == "active"
-        ):
-            self.add_next_award()
-
-    def _lot_update_check_tender_status(self, tender):
-        lot_statuses = {lot["status"] for lot in tender.get("lots", "")}
-        if lot_statuses == {"cancelled"}:
-            self.cancel_tender(tender)
-        elif not lot_statuses.difference({"unsuccessful", "cancelled"}):
-            self.set_object_status(tender, "unsuccessful")
-        elif not lot_statuses.difference({"complete", "unsuccessful", "cancelled"}):
-            self.set_object_status(tender, "complete")
-
-    def _cancel_lot(self, tender, lot_id):
-        for lot in tender.get("lots", ""):
-            if lot["id"] == lot_id:
-                self.set_object_status(lot, "cancelled")
-    # END Cancelling
 
 
 class CancellationState(CancellationStateMixing, TenderState):

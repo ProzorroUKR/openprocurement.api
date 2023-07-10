@@ -20,7 +20,6 @@ Content-Type: application/json
   "data": {
     "title_en": "Title of Document",
     "description_en": "Description of Document",
-    "language": "en",
     "id": "e307750bde5f4a20b334825d7a3724db",
     "datePublished": "2023-01-01T00:00:01+02:00",
     "hash": "md5:00000000000000000000000000000000",
@@ -28,7 +27,8 @@ Content-Type: application/json
     "format": "application/msword",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f321efcfae4848f6b58a41b9ec4c53a8?Signature=S8%2FH0%2Faqa8F7Tu8U2Sfr0BKeLtQgz8C34l%2FdTKyTPiDZxEqfUe88bHbwLevqLgbcFOAJh2fkn3FGUKE9yheWAw%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
-    "dateModified": "2023-01-01T00:00:01+02:00"
+    "dateModified": "2023-01-01T00:00:01+02:00",
+    "language": "en"
   }
 }
 

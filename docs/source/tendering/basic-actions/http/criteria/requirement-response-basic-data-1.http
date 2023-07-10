@@ -18,7 +18,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "82f8566f236e42329fd7ea1aacc38cd1",
+              "id": "412b2323014741b7a6c50a0ca94e98e8",
               "title": "name.doc"
             },
             "type": "document"
@@ -49,7 +49,7 @@ Content-Type: application/json
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "82f8566f236e42329fd7ea1aacc38cd1",
+              "id": "412b2323014741b7a6c50a0ca94e98e8",
               "title": "name.doc"
             },
             "id": "7affe1d416f646599cc2610c48c58fc6"
@@ -88,12 +88,13 @@ Content-Type: application/json
         "scale": "micro"
       }
     ],
+    "status": "draft",
     "id": "0e4c0ac9fb214aec86664334f935e806",
     "date": "2023-01-01T00:00:00+02:00",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "documents": [
       {
-        "id": "82f8566f236e42329fd7ea1aacc38cd1",
+        "id": "412b2323014741b7a6c50a0ca94e98e8",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
@@ -101,12 +102,11 @@ Content-Type: application/json
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/101a4c542c25418797557f7601d4dc8d?Signature=K26ZyzFLAGitE5vmaETTasDXeOkxZQmoSREf3jTyHtKdUX%2FHnAMvZTD0cCXy6qihSzuWZT0YiRp1bjQCRVj%2FDQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
-        "confidentiality": "public",
-        "language": "uk"
+        "language": "uk",
+        "confidentiality": "public"
       }
     ],
-    "selfQualified": true,
-    "status": "draft"
+    "selfQualified": true
   }
 }
 

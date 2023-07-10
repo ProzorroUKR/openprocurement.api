@@ -389,7 +389,7 @@ class TenderResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
                 '/tenders/{}/bids/{}?acc_token={}'.format(
                     self.tender_id, bid1_id, bid1_token
                 ),
-                {'data': {"status": "active"}}
+                {'data': {"status": "pending"}}
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -448,7 +448,7 @@ class TenderResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '201 Created')
             bid2_id = response.json['data']['id']
             bid2_token = response.json['access']['token']
-        self.set_responses(tender_id, response.json, "active")
+        self.set_responses(tender_id, response.json, "pending")
 
         #### Bids invalidation
         with open(TARGET_DIR + 'tender-invalid-all-bids.http', 'w') as self.app.file_obj:
@@ -473,7 +473,7 @@ class TenderResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
                             "value": {"amount": 500},
                             'relatedLot': lot_id1
                         }],
-                        'status': 'active'
+                        'status': 'pending'
                     }
                 }
             )
@@ -490,7 +490,7 @@ class TenderResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
                         }, {
                             'relatedLot': lot_id2,
                         }],
-                        'status': 'active'
+                        'status': 'pending'
                     }
                 }
             )

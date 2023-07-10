@@ -612,7 +612,10 @@ def listing(self):
 
     for i in range(3):
         offset = get_now().timestamp()
-        response = self.app.post_json("/tenders", {"data": self.test_tender_data_eu, "config": self.initial_config})
+        response = self.app.post_json("/tenders", {
+            "data": self.test_tender_data_eu,
+            "config": self.test_tender_config_eu,
+        })
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
         tenders.append(response.json["data"])
@@ -695,10 +698,13 @@ def listing(self):
     self.assertNotIn("descending=1", response.json["prev_page"]["uri"])
     self.assertEqual(len(response.json["data"]), 0)
 
-    test_tender_stage2_data_ua2 = self.test_tender_data_eu.copy()
-    test_tender_stage2_data_ua2["mode"] = "test"
+    test_tender_data_2 = self.test_tender_data_eu.copy()
+    test_tender_data_2["mode"] = "test"
     self.app.authorization = ("Basic", ("competitive_dialogue", ""))
-    response = self.app.post_json("/tenders", {"data": test_tender_stage2_data_ua2, "config": self.initial_config})
+    response = self.app.post_json("/tenders", {
+        "data": test_tender_data_2,
+        "config": self.test_tender_config_eu,
+    })
     self.set_tender_status(response.json["data"], response.json["access"]["token"], "draft.stage2")
     self.set_tender_status(response.json["data"], response.json["access"]["token"], "active.tendering")
     self.assertEqual(response.status, "201 Created")
@@ -725,13 +731,19 @@ def listing_draft(self):
     data.update({"status": "draft"})
 
     for i in range(3):
-        response = self.app.post_json("/tenders", {"data": self.test_tender_data_eu, "config": self.initial_config})
+        response = self.app.post_json("/tenders", {
+            "data": self.test_tender_data_eu,
+            "config": self.test_tender_config_eu,
+        })
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
         self.set_tender_status(response.json["data"], response.json["access"]["token"], "draft.stage2")
         response = self.set_tender_status(response.json["data"], response.json["access"]["token"], "active.tendering")
         tenders.append(response.json["data"])
-        response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+        response = self.app.post_json("/tenders", {
+            "data": data,
+            "config": self.test_tender_config_eu,
+        })
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
 
@@ -1736,7 +1748,6 @@ def first_bid_tender(self):
     tender = response.json["data"]
     tender_id = self.tender_id = tender["id"]
     owner_token = response.json["access"]["token"]
-    self.set_status("active.tendering")
     # switch to active.tendering
     self.set_status("active.tendering")
     # create bid
@@ -1757,7 +1768,8 @@ def first_bid_tender(self):
     self.app.authorization = ("Basic", ("broker", ""))
     self.create_bid(tender_id, bid_data)
     # switch to active.auction
-    self.set_status("active.auction")
+    self.set_status("active.auction", {"status": "active.tendering"})
+    response = self.check_chronograph()
 
     # get auction info
     self.app.authorization = ("Basic", ("auction", ""))

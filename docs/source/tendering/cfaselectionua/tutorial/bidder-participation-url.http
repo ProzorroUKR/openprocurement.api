@@ -51,6 +51,7 @@ Content-Type: application/json
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
+        "status": "active",
         "date": "2023-01-01T00:00:00+02:00",
         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/e23dee5896254eb4ac3364a9a854c3fe_50fc7d0cb4e3423491c35387a046af42?key_for_bid=ba9c4ed2a7794a2d8234ba4ce62d909e"
       }
@@ -62,7 +63,9 @@ Content-Type: application/json
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e5d937aec73f4c07aec4e91e7de7d0c0?Signature=i1QFE0pwj%2BuQT99%2FY4GX2uZghCioK2WSMSpY6%2BMlXr1TETaF6FoXkWJE5ceSIenvOO9CMxJTx4kTn5aoga4JAw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "id": "ccbc49d9afb64e48bc47326d43f3df4f",
+        "language": "uk",
+        "confidentiality": "public",
+        "id": "62f0b2930d8141f6a477f9df9c073e16",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "dateModified": "2023-01-01T00:00:00+02:00"
       }

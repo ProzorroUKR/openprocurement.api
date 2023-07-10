@@ -25,6 +25,7 @@ from openprocurement.api.constants import (
     TENDER_CONFIG_JSONSCHEMAS,
 )
 from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.core.utils import calculate_tender_business_date, calculate_complaint_business_date
 
 if TYPE_CHECKING:
     baseclass = TenderState
@@ -38,6 +39,7 @@ class TenderConfigMixin(baseclass):
         "hasAwardingOrder",
         "hasValueRestriction",
         "valueCurrencyEquality",
+        "hasPrequalification",
     )
 
     def validate_config(self, data):
@@ -93,6 +95,9 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
 
     enquiry_period_timedelta: timedelta
     enquiry_stand_still_timedelta: timedelta
+    allow_tender_period_start_date_change = False
+    pre_qualification_complaint_stand_still = timedelta(days=0)
+    tendering_period_extra_working_days = False
 
     def validate_tender_patch(self, before, after):
         request = get_request()
@@ -115,6 +120,8 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
             set_mode_test_titles(tender)
 
     def on_patch(self, before, after):
+        self.validate_pre_qualification_status_change(before, after)
+        self.validate_tender_period_start_date_change(before, after)
         self.validate_minimal_step(after, before=before)
         self.validate_submission_method(after, before=before)
         self.validate_kind_change(after, before)
@@ -146,6 +153,74 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                     name="tenderPeriod.startDate"
                 )
         super().status_up(before, after, data)
+
+    def validate_pre_qualification_status_change(self, before, after):
+        # TODO: find a better place for this check, may be a distinct endpoint: PUT /tender/uid/status
+        if before["status"] == "active.pre-qualification":
+            passed_data = get_request().validated["json_data"]
+            if passed_data != {"status": "active.pre-qualification.stand-still"}:
+                raise_operation_error(
+                    get_request(),
+                    "Can't update tender at 'active.pre-qualification' status",
+                )
+            else:  # switching to active.pre-qualification.stand-still
+                lots = after.get("lots")
+                if lots:
+                    active_lots = {lot["id"] for lot in lots if lot.get("status", "active") == "active"}
+                else:
+                    active_lots = {None}
+
+                if any(
+                    i["status"] in self.block_complaint_status
+                    for q in after["qualifications"]
+                    for i in q.get("complaints", "")
+                    if q.get("lotID") in active_lots
+                ):
+                    raise_operation_error(
+                        get_request(),
+                        "Can't switch to 'active.pre-qualification.stand-still' before resolve all complaints"
+                    )
+
+                if self.all_bids_are_reviewed(after):
+                    after["qualificationPeriod"]["endDate"] = calculate_complaint_business_date(
+                        get_now(), self.pre_qualification_complaint_stand_still, after
+                    ).isoformat()
+                else:
+                    raise_operation_error(
+                        get_request(),
+                        "Can't switch to 'active.pre-qualification.stand-still' while not all bids are qualified",
+                    )
+
+        # before status != active.pre-qualification
+        elif after["status"] == "active.pre-qualification.stand-still":
+            raise_operation_error(
+                get_request(),
+                f"Can't switch to 'active.pre-qualification.stand-still' from {before['status']}",
+            )
+
+    @staticmethod
+    def all_bids_are_reviewed(tender):
+        bids = tender.get("bids", "")
+        lots = tender.get("lots")
+        if lots:
+            active_lots = {lot["id"] for lot in lots if lot.get("status", "active") == "active"}
+            return all(
+                lotValue.get("status") != "pending"
+                for bid in bids
+                if bid.get("status") not in ("invalid", "deleted")
+                for lotValue in bid.get("lotValues", "")
+                if lotValue["relatedLot"] in active_lots
+
+            )
+        else:
+            return all(bid.get("status") != "pending" for bid in bids)
+
+    @staticmethod
+    def all_awards_are_reviewed(tender):
+        """
+        checks if all tender awards are reviewed
+        """
+        return all(award["status"] != "pending" for award in tender["awards"])
 
     @staticmethod
     def update_date(tender):
@@ -182,6 +257,25 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
             if minimal_step:
                 minimal_step["currency"] = currency
                 minimal_step["valueAddedTaxIncluded"] = tax_inc
+
+    def validate_tender_period_start_date_change(self, before, after):
+        if self.allow_tender_period_start_date_change:
+            return
+
+        if before["status"] == "draft":
+            # still can change tenderPeriod.startDate only in draft status
+            return
+
+        tender_period_start_before = before.get("tenderPeriod", {}).get("startDate")
+        tender_period_start_after = after.get("tenderPeriod", {}).get("startDate")
+        if tender_period_start_before != tender_period_start_after:
+            raise_operation_error(
+                get_request(),
+                "Can't change tenderPeriod.startDate",
+                status=422,
+                location="body",
+                name="tenderPeriod.startDate"
+            )
 
     def validate_award_criteria_change(self, after, before):
         if before.get("awardCriteria") != after.get("awardCriteria"):
@@ -259,6 +353,32 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
         validate_field(data, "submissionMethodDetails", required=False, **kwargs)
         validate_field(data, "submissionMethodDetails_en", required=False, **kwargs)
         validate_field(data, "submissionMethodDetails_ru", required=False, **kwargs)
+
+    @staticmethod
+    def validate_fields_unchanged(before, after):
+        # validate items cpv group
+        cpv_group_lists = {i["classification"]["id"][:3] for i in before.get("items")}
+        for item in after.get("items", ""):
+            cpv_group_lists.add(item["classification"]["id"][:3])
+        if len(cpv_group_lists) != 1:
+            raise_operation_error(
+                get_request(),
+                "Can't change classification",
+                name="item"
+            )
+
+    def validate_tender_period_extension(self, tender):
+        if "tenderPeriod" in tender and "endDate" in tender["tenderPeriod"]:
+            # self.request.validated["tender"].tenderPeriod.import_data(data["tenderPeriod"])
+            tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
+            if calculate_tender_business_date(get_now(), self.tendering_period_extra, tender) > tendering_end:
+                raise_operation_error(
+                    get_request(),
+                    "tenderPeriod should be extended by {0.days} {1}".format(
+                        self.tendering_period_extra,
+                        "working days" if self.tendering_period_extra_working_days else "days",
+                    )
+                )
 
 
 class TenderDetailsState(TenderDetailsMixing, TenderState):

@@ -5,13 +5,13 @@ from openprocurement.tender.core.procedure.cancelling import CancellationBlockMi
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.state.base import BaseState
 from openprocurement.tender.core.procedure.state.chronograph import ChronographEventsMixing
-from openprocurement.tender.core.procedure.state.auction import BaseShouldStartAfterMixing
+from openprocurement.tender.core.procedure.state.auction import ShouldStartAfterMixing
 
 LOGGER = getLogger(__name__)
 
 
 class TenderState(
-    BaseShouldStartAfterMixing,
+    ShouldStartAfterMixing,
     CancellationBlockMixin,
     TenderStateAwardingMixing,
     ChronographEventsMixing,
@@ -19,7 +19,7 @@ class TenderState(
 ):
     contract_model = Contract
     min_bids_number = 2
-    active_bid_statuses = ("active",)  # are you intrigued ?
+    active_bid_statuses = ("active", "pending")
     block_complaint_status = ("answered", "pending")
     block_tender_complaint_status = ("claim", "pending", "accepted", "satisfied", "stopping")  # tender can't proceed to "active.auction" until has a tender.complaints in one of statuses
     unsuccessful_statuses = ("cancelled", "unsuccessful")

@@ -58,7 +58,11 @@ class AboveThresholdUATenderResource(TendersResource):
                 validate_item_owner("tender")
             ),
             unless_administrator(
-                validate_tender_status_allows_update("draft", "active.tendering")
+                validate_tender_status_allows_update(
+                    "draft",
+                    "active.tendering",
+                    "active.pre-qualification",  # state class only allows status change (pre-qualification.stand-still)
+                )
             ),
             validate_input_data(PatchTender, none_means_remove=True),
             validate_patch_data_simple(Tender, item_name="tender"),

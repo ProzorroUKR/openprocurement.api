@@ -160,12 +160,14 @@ Content-Type: application/json
         "scale": "sme"
       }
     ],
+    "status": "pending",
     "id": "08194921af9d4f4eb7bc00b0c15c97cf",
     "date": "2023-01-01T00:00:00+02:00",
-    "status": "pending",
     "lotValues": [
       {
         "relatedLot": "47aa65f0d5b944629ab6126141681de8",
+        "status": "pending",
+        "date": "2023-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
@@ -199,9 +201,7 @@ Content-Type: application/json
             "years": 7,
             "days": 0
           }
-        },
-        "date": "2023-01-01T00:00:00+02:00",
-        "status": "pending"
+        }
       }
     ],
     "selfQualified": true

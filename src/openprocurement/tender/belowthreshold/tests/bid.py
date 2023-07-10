@@ -30,7 +30,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     # TenderBidDocumentResourceTest
     not_found,
     patch_tender_bid_document,
-    create_tender_bid_document_nopending,
+    create_tender_bid_document_invalid_award_status,
     # TenderBidDocumentWithDSResourceTest
     create_tender_bid_document_json,
     create_tender_bid_document_json_bulk,
@@ -47,8 +47,6 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     patch_tender_with_bids_lots_none,
     post_tender_bid_with_exceeded_lot_values,
     patch_tender_bid_with_exceeded_lot_values,
-    create_tender_bid_document_invalid_pmr,
-    update_tender_bid_document_invalid_pmr,
     bid_activate_with_cancelled_tenderer_criterion,
     update_tender_bid_pmr_related_doc,
     update_tender_rr_evidence_id,
@@ -146,15 +144,14 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
         )
 
         self.rr_guarantee_id = response.json["data"][0]["id"]
-        self.app.patch_json("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-                            {"data": {"status": "active"}}
-                            )
+        self.app.patch_json(
+            "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+            {"data": {"status": "pending"}}
+        )
 
     test_not_found = snitch(not_found)
     test_patch_tender_bid_document = snitch(patch_tender_bid_document)
-    test_create_tender_bid_document_nopending = snitch(create_tender_bid_document_nopending)
-    test_create_tender_bid_document_invalid_pmr = snitch(create_tender_bid_document_invalid_pmr)
-    test_update_tender_bid_document_invalid_pmr = snitch(update_tender_bid_document_invalid_pmr)
+    test_create_tender_bid_document_invalid_award_status = snitch(create_tender_bid_document_invalid_award_status)
 
 
 class TenderBidRRResourceTest(TenderContentWebTest):
@@ -196,8 +193,10 @@ class SimpleTenderBidDocumentResourceTest(TenderContentWebTest):
         bid = response.json["data"]
         self.bid_id = bid["id"]
         self.bid_token = response.json["access"]["token"]
-        self.app.patch_json("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-                            {"data": {"status": "active"}})
+        self.app.patch_json(
+            "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+            {"data": {"status": "pending"}}
+        )
 
 
 class TenderBidBatchDocumentWithDSResourceTest(TenderContentWebTest):
@@ -244,12 +243,14 @@ class TenderLotsWithDisabledValueRestriction(TenderContentWebTest):
 
     def setUp(self):
         super(TenderContentWebTest, self).setUp()
-        self.create_tender(config={
+        config = deepcopy(self.initial_config)
+        config.update({
             "hasAuction": True,
             "hasAwardingOrder": True,
             "hasValueRestriction": False,
             "valueCurrencyEquality": True,
         })
+        self.create_tender(config=config)
 
 
 class TenderWithDisabledValueRestriction(TenderContentWebTest):
@@ -260,12 +261,14 @@ class TenderWithDisabledValueRestriction(TenderContentWebTest):
 
     def setUp(self):
         super(TenderContentWebTest, self).setUp()
-        self.create_tender(config={
+        config = deepcopy(self.initial_config)
+        config.update({
             "hasAuction": True,
             "hasAwardingOrder": True,
             "hasValueRestriction": False,
             "valueCurrencyEquality": True,
         })
+        self.create_tender(config=config)
 
 
 class TenderLotsWithDisabledValueCurrencyEquality(TenderContentWebTest):
@@ -285,12 +288,14 @@ class TenderLotsWithDisabledValueCurrencyEquality(TenderContentWebTest):
 
     def setUp(self):
         super(TenderContentWebTest, self).setUp()
-        self.create_tender(config={
+        config = deepcopy(self.initial_config)
+        config.update({
             "hasAuction": False,
             "hasAwardingOrder": False,
             "valueCurrencyEquality": False,
             "hasValueRestriction": False,
         })
+        self.create_tender(config=config)
 
 
 class TenderWithDisabledValueCurrencyEquality(TenderContentWebTest):
@@ -308,12 +313,14 @@ class TenderWithDisabledValueCurrencyEquality(TenderContentWebTest):
 
     def setUp(self):
         super(TenderContentWebTest, self).setUp()
-        self.create_tender(config={
+        config = deepcopy(self.initial_config)
+        config.update({
             "hasAuction": False,
             "hasAwardingOrder": False,
             "valueCurrencyEquality": False,
             "hasValueRestriction": False,
         })
+        self.create_tender(config=config)
 
 def suite():
     suite = unittest.TestSuite()

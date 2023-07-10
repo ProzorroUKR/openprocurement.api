@@ -144,10 +144,11 @@ Content-Type: application/json
         "scale": "sme"
       }
     ],
+    "status": "unsuccessful",
     "id": "e56918aa665d46ae9a9061708a7a83a0",
     "documents": [
       {
-        "id": "4ff8f1b97e3f4c808690e1c00427199a",
+        "id": "bf27e9a051da4dbf95ca6d326ca32c69",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
@@ -155,38 +156,37 @@ Content-Type: application/json
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f81e2b85d5a042bb8c1b3c523318cd3e?Signature=uiNtquKo2jbbYA4L5zjsSi3JhYhamYzu0iWMz5Wr5TuvFQUZe3wP6fe2%2B17xwNF7ZD2D0e%2Fy2HlHnqNAasaXDw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
-        "confidentiality": "public",
-        "language": "uk"
+        "language": "uk",
+        "confidentiality": "public"
       },
       {
-        "id": "b22bc9fa2afa4b62a0e5e99a300f93bf",
+        "id": "97fcb9dc7c0f47358c58e2b4020326af",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/28db6af763c74fceaedc98e147fed6cb/bids/e56918aa665d46ae9a9061708a7a83a0/documents/b22bc9fa2afa4b62a0e5e99a300f93bf?download=78c7dc59da6a46d8ac24150e98d5678c",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/28db6af763c74fceaedc98e147fed6cb/bids/e56918aa665d46ae9a9061708a7a83a0/documents/97fcb9dc7c0f47358c58e2b4020326af?download=78c7dc59da6a46d8ac24150e98d5678c",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
+        "language": "uk",
         "confidentiality": "buyerOnly",
-        "confidentialityRationale": "Only our company sells badgers with pink hair.",
-        "language": "uk"
+        "confidentialityRationale": "Only our company sells badgers with pink hair."
       }
     ],
     "eligibilityDocuments": [
       {
-        "id": "0de8e16617f0418f97771e3eb5e5523a",
+        "id": "1028a697039d475481111b3aac70c63b",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/28db6af763c74fceaedc98e147fed6cb/bids/e56918aa665d46ae9a9061708a7a83a0/eligibility_documents/0de8e16617f0418f97771e3eb5e5523a?download=dc8dbe727ce64eb894c3ce3465b3eece",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/28db6af763c74fceaedc98e147fed6cb/bids/e56918aa665d46ae9a9061708a7a83a0/eligibility_documents/1028a697039d475481111b3aac70c63b?download=dc8dbe727ce64eb894c3ce3465b3eece",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
-        "confidentiality": "public",
-        "language": "uk"
+        "language": "uk",
+        "confidentiality": "public"
       }
     ],
-    "status": "unsuccessful",
     "selfQualified": true
   }
 }

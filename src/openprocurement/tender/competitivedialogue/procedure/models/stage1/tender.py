@@ -76,9 +76,14 @@ class EUTender(BaseTender):
             "active.tendering",
             "active.pre-qualification",
             "active.pre-qualification.stand-still",
-            # "active.stage2.pending",
-            "active.stage2.waiting",
+            "active.auction",
+            "active.qualification",
+            "active.awarded",
             "complete",
+            "cancelled",
+            "unsuccessful",
+            "active.stage2.pending",
+            "active.stage2.waiting",
         ],
         required=True
     )

@@ -192,8 +192,16 @@ class Tender(BaseTender):
         choices=[
             "draft",
             "draft.publishing",
-            "active.tendering",
             "draft.unsuccessful",
+            "active.tendering",
+            "active.pre-qualification",
+            "active.pre-qualification.stand-still",
+            "active.auction",
+            "active.qualification",
+            "active.awarded",
+            "complete",
+            "cancelled",
+            "unsuccessful",
         ],
         required=True
     )

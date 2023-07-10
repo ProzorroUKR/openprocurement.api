@@ -1,10 +1,9 @@
 from uuid import uuid4
 from schematics.exceptions import ValidationError
-from schematics.types import MD5Type
+from schematics.types import MD5Type, StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from openprocurement.api.models import Value, Model
-from schematics.types import StringType
 from openprocurement.tender.core.constants import BID_LOTVALUES_VALIDATION_FROM
 from openprocurement.tender.core.procedure.validation import validate_bid_value
 from openprocurement.tender.core.procedure.context import get_tender
@@ -13,17 +12,8 @@ from openprocurement.tender.core.procedure.models.base import ListType, BaseBid
 from openprocurement.tender.core.procedure.models.organization import PatchBusinessOrganization, PostBusinessOrganization
 from openprocurement.tender.core.procedure.models.parameter import Parameter, PatchParameter
 from openprocurement.tender.core.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
-from openprocurement.tender.core.procedure.models.document import PostDocument, Document
+from openprocurement.tender.core.procedure.models.bid_document import PostDocument, Document
 from openprocurement.tender.core.models import validate_parameters_uniq, Administrator_bid_role
-from openprocurement.api.constants import TWO_PHASE_COMMIT_FROM
-
-
-def get_default_bid_status(active_status="active"):
-    def default_status():
-        if tender_created_after(TWO_PHASE_COMMIT_FROM):
-            return "draft"
-        return active_status
-    return default_status
 
 
 # PATCH DATA ---
@@ -32,7 +22,9 @@ class PatchBid(BaseBid):
     value = ModelType(Value)
     lotValues = ListType(ModelType(PatchLotValue, required=True))
     tenderers = ListType(ModelType(PatchBusinessOrganization, required=True), min_size=1, max_size=1)
-    status = StringType(choices=["active", "draft"])
+    status = StringType(
+        choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
+    )
 # --- PATCH DATA
 
 
@@ -52,7 +44,10 @@ class CommonBid(BaseBid):
     value = ModelType(Value)
     lotValues = ListType(ModelType(LotValue, required=True))
     tenderers = ListType(ModelType(PostBusinessOrganization, required=True), min_size=1, max_size=1)
-    status = StringType(choices=["active", "draft", "invalid"], required=True)
+    status = StringType(
+        choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
+        required=True,
+    )
 
     def validate_value(self, data, value):
         tender = get_tender()
@@ -94,8 +89,14 @@ class PostBid(CommonBid):
     tenderers = ListType(ModelType(PostBusinessOrganization, required=True), required=True, min_size=1, max_size=1)
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
     lotValues = ListType(ModelType(PostLotValue, required=True))
-    status = StringType(choices=["active", "draft"], default=get_default_bid_status("active"))
+    status = StringType(
+        choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
+        default="draft",
+    )
     documents = ListType(ModelType(PostDocument, required=True))
+    financialDocuments = ListType(ModelType(PostDocument, required=True))
+    eligibilityDocuments = ListType(ModelType(PostDocument, required=True))
+    qualificationDocuments = ListType(ModelType(PostDocument, required=True))
 # -- POST
 
 
@@ -110,6 +111,9 @@ class MetaBid(Model):
 # model to validate a bid after patch
 class Bid(MetaBid, CommonBid):
     documents = ListType(ModelType(Document, required=True))
+    financialDocuments = ListType(ModelType(PostDocument, required=True))
+    eligibilityDocuments = ListType(ModelType(PostDocument, required=True))
+    qualificationDocuments = ListType(ModelType(PostDocument, required=True))
 
 
 def filter_administrator_bid_update(request, data):

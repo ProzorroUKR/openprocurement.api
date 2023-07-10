@@ -139,7 +139,7 @@ class TenderBidDocumentResourceTest(BaseSimpleDefContentWebTest, TenderBidDocume
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
             response.json["errors"][0]["description"],
-            "Can't update document because award of bid is not in pending or active state",
+            "Can't update document because award of bid is not in one of statuses ('active',)",
         )
 
         response = self.app.put_json(
@@ -156,7 +156,7 @@ class TenderBidDocumentResourceTest(BaseSimpleDefContentWebTest, TenderBidDocume
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
             response.json["errors"][0]["description"],
-            "Can't update document because award of bid is not in pending or active state",
+            "Can't update document because award of bid is not in one of statuses ('active',)",
         )
 
         response = self.app.post_json(
@@ -173,7 +173,7 @@ class TenderBidDocumentResourceTest(BaseSimpleDefContentWebTest, TenderBidDocume
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
             response.json["errors"][0]["description"],
-            "Can't add document because award of bid is not in pending or active state",
+            "Can't add document because award of bid is not in one of statuses ('active',)",
         )
 
 

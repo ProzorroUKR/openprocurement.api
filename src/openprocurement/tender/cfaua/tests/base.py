@@ -84,6 +84,7 @@ test_tender_cfaua_config = {
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
     "valueCurrencyEquality": True,
+    "hasPrequalification": True,
 }
 
 
@@ -406,7 +407,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
             self.tender_document = self.mongodb.tenders.get(self.tender_id)
             self.tender_document_patch = {}
 
-    def get_tender(self, role):
+    def get_tender(self, role="token"):
         authorization = self.app.authorization
         self.app.authorization = ("Basic", (role, ""))
         response = self.app.get("/tenders/{}".format(self.tender_id))

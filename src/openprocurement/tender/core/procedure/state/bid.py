@@ -1,34 +1,39 @@
 import logging
 from openprocurement.api.utils import error_handler, context_unpack
 from openprocurement.tender.core.procedure.state.base import BaseState
-from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.context import get_request, get_tender_config
 from openprocurement.api.context import get_now
 
 logger = logging.getLogger(__name__)
 
 
 class BidState(BaseState):
+    update_date_on_value_amount_change_enabled = True
 
     def status_up(self, before, after, data):
         super().status_up(before, after, data)
-        # this logic moved here from validate_update_bid_status validator
-        # if request.authenticated_role != "Administrator":
-        if after != "active":
-            self.request.errors.add("body", "bid", "Can't update bid to ({}) status".format(after))
-            self.request.errors.status = 403
-            raise error_handler(self.request)
 
     def on_post(self, data):
         now = get_now().isoformat()
         data["date"] = now
 
+        self.validate_status(data)
+
         lot_values = data.get("lotValues")
         if lot_values:  # TODO: move to post model as serializible
             for lot_value in lot_values:
                 lot_value["date"] = now
+
         super().on_post(data)
 
     def on_patch(self, before, after):
+        self.validate_status_change(before, after)
+        self.update_date_on_value_amount_change(before, after)
+        super().on_patch(before, after)
+
+    def update_date_on_value_amount_change(self, before, after):
+        if not self.update_date_on_value_amount_change_enabled:
+            return
         now = get_now().isoformat()
         # if value.amount is going to be changed -> update "date"
         amount_before = (before.get("value") or {}).get("amount")
@@ -45,7 +50,6 @@ class BidState(BaseState):
                 ),
             )
             after["date"] = get_now().isoformat()
-
         # the same as above, for lots
         for after_lot in after.get("lotValues") or []:
             for before_lot in before.get("lotValues") or []:
@@ -76,4 +80,32 @@ class BidState(BaseState):
             else:  # lotValue has been just added
                 after_lot["date"] = get_now().isoformat()
 
-        super().on_patch(before, after)
+    def validate_status_change(self, before, after):
+        if self.request.authenticated_role == "Administrator":
+            return
+
+        config = get_tender_config()
+        allowed_status = "pending"
+        status_before = before.get("status")
+        status_after = after.get("status")
+        if status_before != status_after and status_after != allowed_status:
+            self.request.errors.add(
+                "body",
+                "bid",
+                "Can't update bid to ({}) status".format(status_after),
+            )
+            self.request.errors.status = 403
+            raise error_handler(self.request)
+
+    def validate_status(self, data):
+        config = get_tender_config()
+        allowed_statuses = ("draft", "pending")
+        status = data.get("status")
+        if status not in allowed_statuses:
+            self.request.errors.add(
+                "body",
+                "bid",
+                "Bid can be added only with status: {}".format(allowed_statuses),
+            )
+            self.request.errors.status = 403
+            raise error_handler(self.request)

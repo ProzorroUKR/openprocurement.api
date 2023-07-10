@@ -190,6 +190,9 @@ class Tender(BaseTender):
     milestones = ListType(ModelType(Milestone, required=True),
                           validators=[validate_items_uniq, validate_milestones])
 
+    qualificationPeriod = ModelType(Period)
+    qualifications = BaseType()
+
     def validate_minimalStep(self, data, value):
         validate_minimalstep(data, value)
 
@@ -213,17 +216,22 @@ class Tender(BaseTender):
 
 
 class TenderConfig(Model):
-    test = BooleanType(required=False)
-    hasAuction = BooleanType(required=False)
+    test = BooleanType()
+    hasAuction = BooleanType()
     hasAwardingOrder = BooleanType()
     hasValueRestriction = BooleanType()
     valueCurrencyEquality = BooleanType()
+    hasPrequalification = BooleanType()
 
     def validate_valueCurrencyEquality(self, data, value):
-        if value is False and any(
-                [data.get("hasAuction"), data.get("hasAwardingOrder"), data.get("hasValueRestriction")]
-        ):
+        if value is False and any([
+            data.get("hasAuction"),
+            data.get("hasAwardingOrder"),
+            data.get("hasValueRestriction"),
+        ]):
             raise ValidationError(
-                "valueCurrencyEquality can be False only if hasAuction=False and "
-                "hasAwardingOrder=False and hasValueRestriction=False"
+                "valueCurrencyEquality can be False only if "
+                "hasAuction=False and "
+                "hasAwardingOrder=False and "
+                "hasValueRestriction=False"
             )

@@ -1740,7 +1740,13 @@ def proc_1lot_2bid(self):
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.post_json(
         "/tenders/{}/auction/{}".format(tender_id, lot_id),
-        {"data": {"bids": [{"lotValues": b["lotValues"]} for b in auction_bids_data]}}
+        {
+            "data": {
+                "bids": [
+                    {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                    for b in auction_bids_data]
+            }
+        }
     )
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))
@@ -2488,7 +2494,13 @@ def proc_2lot_2bid_2com_2win(self):
         self.app.authorization = ("Basic", ("auction", ""))
         response = self.app.post_json(
             "/tenders/{}/auction/{}".format(tender_id, lot_id),
-            {"data": {"bids": [{"lotValues": b["lotValues"]} for b in auction_bids_data]}}
+            {
+                "data": {
+                    "bids": [
+                        {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                        for b in auction_bids_data]
+                }
+            }
         )
     # for first lot
     lot_id = lots[0]
