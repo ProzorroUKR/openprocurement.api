@@ -94,6 +94,9 @@ class PostBid(CommonBid):
         default="draft",
     )
     documents = ListType(ModelType(PostDocument, required=True))
+    financialDocuments = ListType(ModelType(PostDocument, required=True))
+    eligibilityDocuments = ListType(ModelType(PostDocument, required=True))
+    qualificationDocuments = ListType(ModelType(PostDocument, required=True))
 # -- POST
 
 
@@ -108,6 +111,9 @@ class MetaBid(Model):
 # model to validate a bid after patch
 class Bid(MetaBid, CommonBid):
     documents = ListType(ModelType(Document, required=True))
+    financialDocuments = ListType(ModelType(PostDocument, required=True))
+    eligibilityDocuments = ListType(ModelType(PostDocument, required=True))
+    qualificationDocuments = ListType(ModelType(PostDocument, required=True))
 
 
 def filter_administrator_bid_update(request, data):
