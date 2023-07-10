@@ -5,7 +5,7 @@ from openprocurement.api.utils import context_unpack
 from openprocurement.tender.core.procedure.contracting import add_contracts
 from openprocurement.tender.core.procedure.context import (
     get_request,
-    get_tender_config,
+    get_tender_config, get_tender,
 )
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.models.qualification import Qualification
@@ -448,52 +448,124 @@ class ChronographEventsMixing(baseclass):
 
     def cancellation_compl_period_end_handler(self, cancellation):
         def handler(tender):
-            # this should block cancellation creation, I believe
-            # from openprocurement.tender.core.validation import (
-            #     validate_absence_of_pending_accepted_satisfied_complaints,
-            # )
-            # # TODO: chronograph expects 422 errors ?
-            # validate_absence_of_pending_accepted_satisfied_complaints(get_request(), cancellation)
-
             self.set_object_status(cancellation, "active")
-            if cancellation.get("relatedLot"):
-                related_lot = cancellation["relatedLot"]
-                for lot in tender["lots"]:
-                    if lot["id"] == related_lot:
-                        self.set_object_status(lot, "cancelled")
-
-                lot_statuses = {lot["status"] for lot in tender["lots"]}
-                if lot_statuses == {"cancelled"}:
-                    if tender["status"] in ("active.tendering", "active.auction"):
-                        tender["bids"] = []
-                    self.get_change_tender_status_handler("cancelled")(tender)
-
-                elif not lot_statuses.difference({"unsuccessful", "cancelled"}):
-                    self.get_change_tender_status_handler("unsuccessful")(tender)
-                elif not lot_statuses.difference({"complete", "unsuccessful", "cancelled"}):
-                    self.get_change_tender_status_handler("complete")(tender)
-
-                # TODO: seems cancellation can block awarding process, refactoring ?
-                # should awarding be also an event
-                # that can be called 1) by auction 2) by chronograph (this case)
-                # if tender["status"] == "active.auction" and all(
-                #         i.get("auctionPeriod", {}).get("endDate")
-                #         for i in tender["lots"]
-                #         if self.count_lot_bids_number(tender, i["id"]) > 1 and i["status"] == "active"
-                # ):
-                #     self.add_next_award(get_request())
-            else:
-                if tender["status"] in ("active.tendering", "active.auction"):
-                    tender["bids"] = []
-                self.get_change_tender_status_handler("cancelled")(tender)
-
+            self.cancel(cancellation)
         return handler
+
+    def cancel(self, cancellation):
+        request, tender = get_request(), get_tender()
+
+        # this should block cancellation creation, I believe
+        # TODO: does it make sense to do validation here?
+        # TODO: chronograph expects 422 errors ?
+        # if tender_created_after_2020_rules():
+            # self.validate_absence_of_pending_accepted_satisfied_complaints(request, tender, cancellation)
+
+        if cancellation["cancellationOf"] == "lot":
+            self.cancel_lot(tender, cancellation)
+        else:
+            self.cancel_tender(tender)
+
+    def cancel_tender(self, tender):
+        config = get_tender_config()
+
+        if config.get("hasPrequalification"):
+            remove_bid_statuses = ("active.tendering",)
+        else:
+            remove_bid_statuses = ("active.tendering", "active.auction")
+
+        invalidate_bid_statuses = (
+            "active.pre-qualification",
+            "active.pre-qualification.stand-still",
+            "active.auction",
+        )
+
+        if tender["status"] in remove_bid_statuses:
+            tender.pop("bids", None)
+        elif tender["status"] in invalidate_bid_statuses:
+            for bid in tender.get("bids", ""):
+                if bid["status"] in ("pending", "active"):
+                    bid["status"] = "invalid.pre-qualification"
+                    # which doesn't delete data, but they are hidden by serialization functionality
+        self.get_change_tender_status_handler("cancelled")(tender)
+
+        # set cancelled agreement status (cfaua)
+        for agreement in tender.get("agreements", ""):
+            if agreement["status"] in ("pending", "active"):
+                self.set_object_status(agreement, "cancelled")
+
+    def cancel_lot(self, tender, cancellation):
+        # set cancelled lot status
+        for lot in tender.get("lots", ""):
+            if lot["id"] == cancellation["relatedLot"]:
+                self.set_object_status(lot, "cancelled")
+        # find cancelled lot objects
+        cancelled_lots_ids = {
+            i["id"] for i in tender.get("lots", "")
+            if i["status"] == "cancelled"
+        }
+        cancelled_items_ids = {
+            i["id"] for i in tender.get("items", "")
+            if i.get("relatedLot") in cancelled_lots_ids
+        }
+        cancelled_lots_feature_codes = {
+            i["code"]
+            for i in tender.get("features", "")
+            if i.get("featureOf") == "lot" and i.get("relatedItem") in cancelled_lots_ids
+            or i.get("featureOf") == "item" and i.get("relatedItem") in cancelled_items_ids
+        }
+        # set cancelled agreement status (cfaua)
+        if tender["status"] == "active.awarded" and tender.get("agreements"):
+            for agreement in tender.get("agreements", ""):
+                if agreement["items"][0]["relatedLot"] in cancelled_lots_ids:
+                    self.set_object_status(agreement, "cancelled")
+        # invalidate lot bids
+        if tender["status"] in (
+            "active.tendering",
+            "active.pre-qualification",
+            "active.pre-qualification.stand-still",
+            "active.auction",
+        ):
+            for bid in tender.get("bids", ""):
+                bid["parameters"] = [
+                    i for i in bid.get("parameters", "")
+                    if i["code"] not in cancelled_lots_feature_codes
+                ]
+                if not bid["parameters"]:
+                    del bid["parameters"]
+
+                bid["lotValues"] = [
+                    i for i in bid.get("lotValues", "")
+                    if i["relatedLot"] not in cancelled_lots_ids
+                ]
+                if not bid["lotValues"] and bid["status"] in ("pending", "active"):
+                    del bid["lotValues"]
+                    if tender["status"] == "active.tendering":
+                        bid["status"] = "invalid"
+                    else:
+                        bid["status"] = "invalid.pre-qualification"
+        # need to switch tender status ?
+        lot_statuses = {lot["status"] for lot in tender["lots"]}
+        if lot_statuses == {"cancelled"}:
+            self.get_change_tender_status_handler("cancelled")(tender)
+        elif not lot_statuses.difference({"unsuccessful", "cancelled"}):
+            self.get_change_tender_status_handler("unsuccessful")(tender)
+        elif not lot_statuses.difference({"complete", "unsuccessful", "cancelled"}):
+            self.get_change_tender_status_handler("complete")(tender)
+        # need to add next award ?
+        if tender["status"] == "active.auction" and all(
+            i.get("auctionPeriod", {}).get("endDate")
+            for i in tender.get("lots", "")
+            if self.count_lot_bids_number(tender, cancellation["relatedLot"]) > self.min_bids_number
+            and i["status"] == "active"
+        ):
+            self.add_next_award()
 
     @staticmethod
     def remove_draft_bids(tender):
-        if any(bid.get("status", "active") == "draft" for bid in tender.get("bids", "")):
+        if any(bid.get("status", "pending") == "draft" for bid in tender.get("bids", "")):
             LOGGER.info("Remove draft bids", extra=context_unpack(get_request(), {"MESSAGE_ID": "remove_draft_bids"}))
-            tender["bids"] = [bid for bid in tender["bids"] if bid.get("status", "active") != "draft"]
+            tender["bids"] = [bid for bid in tender["bids"] if bid.get("status", "pending") != "draft"]
 
     @staticmethod
     def activate_bids(tender):
