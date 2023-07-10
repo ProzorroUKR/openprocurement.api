@@ -1,7 +1,6 @@
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.models.qualification import Qualification
 from openprocurement.tender.cfaua.procedure.models.agreement import Agreement
 from openprocurement.tender.cfaua.procedure.awarding import CFAUATenderStateAwardingMixing
 from openprocurement.tender.core.utils import calculate_tender_business_date
@@ -41,8 +40,11 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, TenderState):
             if active_awards_count < self.min_bids_number:
                 LOGGER.info(
                     "Switched lot {} of tender {} to {}".format(lot["id"], tender["_id"], "unsuccessful"),
-                    extra=context_unpack(get_request(), {"MESSAGE_ID": "switched_lot_unsuccessful"},
-                                         {"LOT_ID": lot["id"]}),
+                    extra=context_unpack(
+                        get_request(),
+                        {"MESSAGE_ID": "switched_lot_unsuccessful"},
+                        {"LOT_ID": lot["id"]},
+                    ),
                 )
                 self.set_object_status(lot, "unsuccessful")
             statuses.add(lot["status"])
@@ -106,23 +108,6 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, TenderState):
                 tender["agreements"].append(
                     agreement.serialize()
                 )
-
-    @staticmethod
-    def prepare_qualifications(tender):
-        if "qualifications" not in tender:
-            tender["qualifications"] = []
-        active_lots = tuple(lot["id"] for lot in tender.get("lots", "") if lot["status"] == "active")
-        for bid in tender.get("bids", ""):
-            if bid["status"] not in ("invalid", "deleted"):
-                for lotValue in bid.get("lotValues", ""):
-                    if lotValue.get("status", "pending") == "pending" and lotValue["relatedLot"] in active_lots:
-                        qualification = Qualification({
-                            "bidID": bid["id"],
-                            "status": "pending",
-                            "lotID": lotValue["relatedLot"],
-                            "date": get_now().isoformat()
-                        }).serialize()
-                        tender["qualifications"].append(qualification)
 
     def invalidate_bids_data(self, tender):
         tender["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
