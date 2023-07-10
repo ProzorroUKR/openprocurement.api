@@ -336,6 +336,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
 class TenderContentWebTest(BaseTenderWebTest):
     initial_data = test_tender_below_data
+    initial_config = test_tender_below_config
     initial_status = "active.enquiries"
     initial_bids = None
     initial_lots = None

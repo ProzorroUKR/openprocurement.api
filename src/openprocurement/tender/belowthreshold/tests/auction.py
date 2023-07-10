@@ -96,12 +96,14 @@ class TenderAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
 
     def setUp(self):
         super(TenderContentWebTest, self).setUp()
-        self.create_tender(config={
+        config = deepcopy(self.initial_config)
+        config.update({
             "hasAuction": True,
             "hasAwardingOrder": False,
             "hasValueRestriction": True,
             "valueCurrencyEquality": True,
         })
+        self.create_tender(config=config)
 
 
 class TenderLotsAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
@@ -118,12 +120,14 @@ class TenderLotsAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
 
     def setUp(self):
         super(TenderContentWebTest, self).setUp()
-        self.create_tender(config={
+        config = deepcopy(self.initial_config)
+        config.update({
             "hasAuction": True,
             "hasAwardingOrder": False,
             "hasValueRestriction": True,
             "valueCurrencyEquality": True,
         })
+        self.create_tender(config=config)
 
 
 class TenderSameValueAuctionResourceTest(TenderContentWebTest):

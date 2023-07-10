@@ -171,7 +171,7 @@ def test_post_cancellation_openeu(app):
     """
     test without mocking (just in case)
     """
-    tender, tender_token = post_tender(app, test_tender_openeu_data, test_tender_below_config)
+    tender, tender_token = post_tender(app, test_tender_openeu_data, test_tender_openeu_config)
     tender_data = app.app.registry.mongodb.tenders.get(tender["id"])
     app.tender_id = tender["id"]
 

@@ -8,6 +8,7 @@ from openprocurement.api.models import get_now
 from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_bids,
+    test_tender_below_config,
 )
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
@@ -71,27 +72,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TARGET_DIR = os.path.join(BASE_DIR, 'source/tendering/basic-actions/http/')
 OUTDATED_DIR = os.path.join(BASE_DIR, 'source/tendering/basic-actions/http-outdated/')
 
-# docs/tests/test_agreements_cfaua.py::CFAUAAgreementResourceTest::test_docs PASSED                                                                                                                                                            [  1%]
-# docs/tests/test_agreements_frameworks.py::FrameworkAgreementResourceTest::test_docs PASSED                                                                                                                                                   [  3%]
-# docs/tests/test_basic_actions.py::TenderOpenEUResourceTest::test_award_complaints PASSED                                                                                                                                                     [  5%]
-# docs/tests/test_basic_actions.py::TenderOpenEUResourceTest::test_award_requirement_response PASSED                                                                                                                                           [  6%]
-# docs/tests/test_basic_actions.py::TenderOpenEUResourceTest::test_bid_requirement_response PASSED                                                                                                                                             [  8%]
-# docs/tests/test_basic_actions.py::TenderOpenEUResourceTest::test_cancellation_complaints PASSED                                                                                                                                              [ 10%]
-# docs/tests/test_basic_actions.py::TenderOpenEUResourceTest::test_complaints PASSED                                                                                                                                                           [ 11%]
-# docs/tests/test_basic_actions.py::TenderOpenEUResourceTest::test_qualification_complaints PASSED                                                                                                                                             [ 13%]
-# docs/tests/test_basic_actions.py::TenderOpenEUResourceTest::test_qualification_requirement_response PASSED                                                                                                                                   [ 15%]
-# docs/tests/test_basic_actions.py::TenderOpenEUResourceTest::test_tender_criteria_article_17 PASSED                                                                                                                                           [ 16%]
-# docs/tests/test_basic_actions.py::TenderBelowThresholdResourceTest::test_docs_milestones PASSED                                                                                                                                              [ 18%]
-# docs/tests/test_centralized_procurements.py::PlanResourceTest::test_docs PASSED                                                                                                                                                              [ 20%]
-# docs/tests/test_contracting.py::TenderResourceTest::test_docs PASSED                                                                                                                                                                         [ 22%]
-# docs/tests/test_contracting.py::MultiContractsTenderResourceTest::test_docs PASSED                                                                                                                                                           [ 23%]
-# docs/tests/test_contracting.py::MultiContractsTenderResourceTest::test_docs_contracts_cancelled PASSED                                                                                                                                       [ 25%]
-# docs/tests/test_framework_dps.py::FrameworkOpenResourceTest::test_docs PASSED                                                                                                                                                                [ 27%]
-# docs/tests/test_framework_dps_restricted.py::RestrictedFrameworkOpenResourceTest::test_docs PASSED                                                                                                                                           [ 28%]
-# docs/tests/test_framework_electroniccatalogue.py::FrameworkElectronicCatalogueResourceTest::test_docs PASSED                                                                                                                                 [ 30%]
-# docs/tests/test_planning.py::PlanResourceTest::test_docs FAILED                                                                                                                                                                              [ 32%]
-# docs/tests/test_relocation.py::TransferDocsTest::test_agreements_docs FAILED                                                                                                                                                                 [ 33%]
-# docs/tests/test_relocation.py::TransferDocsTest::test_contracts_docs FAILED
 
 class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
     AppClass = DumpsWebTestApp
@@ -2682,6 +2662,7 @@ class TenderBelowThresholdResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_below_data
+    initial_config = test_tender_below_config
     initial_bids = test_tender_below_bids
     docservice = True
     docservice_url = DOCS_URL

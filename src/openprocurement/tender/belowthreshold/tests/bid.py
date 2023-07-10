@@ -243,12 +243,14 @@ class TenderLotsWithDisabledValueRestriction(TenderContentWebTest):
 
     def setUp(self):
         super(TenderContentWebTest, self).setUp()
-        self.create_tender(config={
+        config = deepcopy(self.initial_config)
+        config.update({
             "hasAuction": True,
             "hasAwardingOrder": True,
             "hasValueRestriction": False,
             "valueCurrencyEquality": True,
         })
+        self.create_tender(config=config)
 
 
 class TenderWithDisabledValueRestriction(TenderContentWebTest):
@@ -259,12 +261,14 @@ class TenderWithDisabledValueRestriction(TenderContentWebTest):
 
     def setUp(self):
         super(TenderContentWebTest, self).setUp()
-        self.create_tender(config={
+        config = deepcopy(self.initial_config)
+        config.update({
             "hasAuction": True,
             "hasAwardingOrder": True,
             "hasValueRestriction": False,
             "valueCurrencyEquality": True,
         })
+        self.create_tender(config=config)
 
 
 class TenderLotsWithDisabledValueCurrencyEquality(TenderContentWebTest):
@@ -284,12 +288,14 @@ class TenderLotsWithDisabledValueCurrencyEquality(TenderContentWebTest):
 
     def setUp(self):
         super(TenderContentWebTest, self).setUp()
-        self.create_tender(config={
+        config = deepcopy(self.initial_config)
+        config.update({
             "hasAuction": False,
             "hasAwardingOrder": False,
             "valueCurrencyEquality": False,
             "hasValueRestriction": False,
         })
+        self.create_tender(config=config)
 
 
 class TenderWithDisabledValueCurrencyEquality(TenderContentWebTest):
@@ -307,12 +313,14 @@ class TenderWithDisabledValueCurrencyEquality(TenderContentWebTest):
 
     def setUp(self):
         super(TenderContentWebTest, self).setUp()
-        self.create_tender(config={
+        config = deepcopy(self.initial_config)
+        config.update({
             "hasAuction": False,
             "hasAwardingOrder": False,
             "valueCurrencyEquality": False,
             "hasValueRestriction": False,
         })
+        self.create_tender(config=config)
 
 def suite():
     suite = unittest.TestSuite()
