@@ -244,13 +244,7 @@ class TenderLotsWithDisabledValueRestriction(TenderContentWebTest):
     def setUp(self):
         super(TenderContentWebTest, self).setUp()
         config = deepcopy(self.initial_config)
-        config.update({
-            "hasAuction": True,
-            "hasAwardingOrder": True,
-            "hasValueRestriction": False,
-            "valueCurrencyEquality": True,
-            "minBidsNumber": 2,
-        })
+        config.update({"hasValueRestriction": False})
         self.create_tender(config=config)
 
 
@@ -263,13 +257,7 @@ class TenderWithDisabledValueRestriction(TenderContentWebTest):
     def setUp(self):
         super(TenderContentWebTest, self).setUp()
         config = deepcopy(self.initial_config)
-        config.update({
-            "hasAuction": True,
-            "hasAwardingOrder": True,
-            "hasValueRestriction": False,
-            "valueCurrencyEquality": True,
-            "minBidsNumber": 2,
-        })
+        config.update({"hasValueRestriction": False})
         self.create_tender(config=config)
 
 
@@ -294,9 +282,8 @@ class TenderLotsWithDisabledValueCurrencyEquality(TenderContentWebTest):
         config.update({
             "hasAuction": False,
             "hasAwardingOrder": False,
-            "valueCurrencyEquality": False,
             "hasValueRestriction": False,
-            "minBidsNumber": 1,
+            "valueCurrencyEquality": False
         })
         self.create_tender(config=config)
 
@@ -320,9 +307,8 @@ class TenderWithDisabledValueCurrencyEquality(TenderContentWebTest):
         config.update({
             "hasAuction": False,
             "hasAwardingOrder": False,
-            "valueCurrencyEquality": False,
             "hasValueRestriction": False,
-            "minBidsNumber": 1,
+            "valueCurrencyEquality": False
         })
         self.create_tender(config=config)
 

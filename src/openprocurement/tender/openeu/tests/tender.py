@@ -27,6 +27,7 @@ from openprocurement.tender.openua.tests.tender_blanks import (
     tender_with_main_procurement_category,
     tender_finance_milestones,
     create_tender_with_criteria_lcc,
+    create_tender_invalid_config,
 )
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderWebTest,
@@ -41,7 +42,6 @@ from openprocurement.tender.openeu.tests.tender_blanks import (
     multiple_bidders_tender,
     lost_contract_for_active_award,
     create_tender_invalid,
-    create_tender_invalid_config,
     create_tender_generated,
     patch_tender,
     invalid_bid_tender_features,

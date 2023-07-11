@@ -465,17 +465,13 @@ def create_tender_invalid(self):
 
 def create_tender_invalid_config(self):
     request_path = "/tenders"
+    config = deepcopy(self.initial_config)
+    config.update({"minBidsNumber": 0})
     response = self.app.post_json(
         request_path,
         {
             "data": self.initial_data,
-            "config": {
-                "hasAuction": False,
-                "hasValueRestriction": True,
-                "hasAwardingOrder": True,
-                "valueCurrencyEquality": True,
-                "minBidsNumber": 0
-            }
+            "config": config,
         },
         status=422,
     )
@@ -485,17 +481,12 @@ def create_tender_invalid_config(self):
         response.json["errors"],
         [{"description": "0 is less than the minimum of 1", "location": "body", "name": "minBidsNumber"}],
     )
+    config.update({"minBidsNumber": 2})
     response = self.app.post_json(
         request_path,
         {
             "data": self.initial_data,
-            "config": {
-                "hasAuction": False,
-                "hasValueRestriction": True,
-                "hasAwardingOrder": True,
-                "valueCurrencyEquality": True,
-                "minBidsNumber": 2
-            }
+            "config": config,
         },
         status=422,
     )

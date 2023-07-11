@@ -26,7 +26,6 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     create_tender_draft,
     create_tender_generated,
     create_tender_invalid,
-    create_tender_invalid_config,
     create_tender_with_inn,
     create_tender_draft_with_criteria,
     create_tender_draft_with_criteria_expected_values,
@@ -63,6 +62,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_with_earlier_non_required_unit,
     create_tender_config_test,
 )
+from openprocurement.tender.open.tests.tender_blanks import create_tender_invalid_config
 
 
 class TenderResourceTestMixin:

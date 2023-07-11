@@ -17,7 +17,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_not_author,
 )
 
-from openprocurement.tender.cfaselectionua.tests.tender_blanks import create_tender_invalid_config
+from openprocurement.tender.open.tests.tender_blanks import create_tender_invalid_config
 from openprocurement.tender.openua.tests.tender import TenderUaProcessTestMixin
 from openprocurement.tender.openua.tests.tender_blanks import (
     empty_listing,
