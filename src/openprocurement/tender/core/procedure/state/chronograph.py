@@ -495,6 +495,7 @@ class ChronographEventsMixing(baseclass):
                 self.set_object_status(agreement, "cancelled")
 
     def cancel_lot(self, tender, cancellation):
+        config = get_tender_config()
         # set cancelled lot status
         for lot in tender.get("lots", ""):
             if lot["id"] == cancellation["relatedLot"]:
@@ -556,7 +557,7 @@ class ChronographEventsMixing(baseclass):
         if tender["status"] == "active.auction" and all(
             i.get("auctionPeriod", {}).get("endDate")
             for i in tender.get("lots", "")
-            if self.count_lot_bids_number(tender, cancellation["relatedLot"]) > self.min_bids_number
+            if self.count_lot_bids_number(tender, cancellation["relatedLot"]) > config.get("minBidsNumber")
             and i["status"] == "active"
         ):
             self.add_next_award()

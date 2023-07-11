@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/5f16f024cad74253882085d3438eb6e0/qualifications/2d5e7c64e05241cc89625b320a18ab31/complaints HTTP/1.0
+GET /api/2.5/tenders/5f16f024cad74253882085d3438eb6e0/qualifications/9bb4cca9c17343c191da1750c233fdf6/complaints HTTP/1.0
 Host: public-api-sandbox.prozorro.gov.ua
 
 

@@ -717,7 +717,8 @@ Content-Type: application/json
     "hasAwardingOrder": true,
     "hasValueRestriction": false,
     "valueCurrencyEquality": true,
-    "hasPrequalification": false
+    "hasPrequalification": false,
+    "minBidsNumber": 1
   }
 }
 

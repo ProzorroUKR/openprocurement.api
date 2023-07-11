@@ -1772,7 +1772,7 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
             {'data': bid_data}
         )
         self.assertEqual(response.status, '201 Created')
-        self.set_responses(tender_id, response.json, "active")
+        self.set_responses(tender_id, response.json, "pending")
         return response.json['data']['id']
 
     def test_docs_min_bids_number_invalid_config(self):

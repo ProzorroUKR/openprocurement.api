@@ -3,7 +3,6 @@ from operator import itemgetter
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.api.context import get_now
 from openprocurement.tender.openeu.procedure.models.award import Award
-from openprocurement.tender.openeu.utils import is_procedure_restricted
 
 
 class BaseOpenEUTenderState(TenderState):

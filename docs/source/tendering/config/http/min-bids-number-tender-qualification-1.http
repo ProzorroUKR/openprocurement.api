@@ -761,6 +761,7 @@ Content-Type: application/json
               "valueAddedTaxIncluded": true
             },
             "relatedLot": "0604e55b3dae444a8d537bb4c971a246",
+            "status": "active",
             "date": "2023-01-01T00:00:00+02:00"
           }
         ],
@@ -841,6 +842,7 @@ Content-Type: application/json
     "hasAwardingOrder": true,
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
+    "hasPrequalification": false,
     "minBidsNumber": 1
   }
 }
