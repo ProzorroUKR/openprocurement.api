@@ -4,6 +4,7 @@
         "hasAwardingOrder": false,
         "hasPrequalification": false,
         "hasValueRestriction": false,
+        "minBidsNumber": 1,
         "valueCurrencyEquality": true
     },
     "data": {

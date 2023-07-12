@@ -21,6 +21,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
     test_tender_below_claim,
     test_tender_below_draft_claim,
+    test_tender_below_data,
 )
 from openprocurement.tender.belowthreshold.tests.utils import (
     set_tender_lots,
@@ -831,6 +832,41 @@ def create_tender_invalid(self):
             "location": "body",
             "name": "valueCurrencyEquality"
         }],
+    )
+
+
+def create_tender_invalid_config(self):
+    request_path = "/tenders"
+    config = deepcopy(self.initial_config)
+    config.update({"minBidsNumber": 0})
+    response = self.app.post_json(
+        request_path,
+        {
+            "data": self.initial_data,
+            "config": config,
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{"description": "0 is less than the minimum of 1", "location": "body", "name": "minBidsNumber"}],
+    )
+    config.update({"minBidsNumber": 10})
+    response = self.app.post_json(
+        request_path,
+        {
+            "data": self.initial_data,
+            "config": config,
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{"description": "10 is greater than the maximum of 9", "location": "body", "name": "minBidsNumber"}],
     )
 
 

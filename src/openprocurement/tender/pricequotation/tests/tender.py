@@ -62,6 +62,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_with_earlier_non_required_unit,
     create_tender_config_test,
 )
+from openprocurement.tender.open.tests.tender_blanks import create_tender_invalid_config
 
 
 class TenderResourceTestMixin:
@@ -101,6 +102,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 
     Test_guarantee = snitch(guarantee)
     test_create_tender_invalid = snitch(create_tender_invalid)
+    test_create_tender_invalid_config = snitch(create_tender_invalid_config)
     test_create_tender_generated = snitch(create_tender_generated)
     test_tender_fields = snitch(tender_fields)
     test_tender_items_float_quantity = snitch(tender_items_float_quantity)

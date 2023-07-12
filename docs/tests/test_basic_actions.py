@@ -7,6 +7,7 @@ from datetime import timedelta
 from openprocurement.api.models import get_now
 from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
 from openprocurement.tender.belowthreshold.tests.base import (
+    BaseTenderWebTest as BelowThresholdBaseTenderWebTest,
     test_tender_below_bids,
     test_tender_below_config,
 )
@@ -2657,7 +2658,8 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     self.tender_id, qualification_id, rr_id, owner_token))
             self.assertEqual(response.status, '200 OK')
 
-class TenderBelowThresholdResourceTest(BaseTenderWebTest, MockWebTestMixin):
+
+class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebTestMixin):
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)

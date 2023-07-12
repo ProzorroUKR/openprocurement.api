@@ -85,6 +85,7 @@ test_tender_cfaua_config = {
     "hasValueRestriction": True,
     "valueCurrencyEquality": True,
     "hasPrequalification": True,
+    "minBidsNumber": 3,
 }
 
 

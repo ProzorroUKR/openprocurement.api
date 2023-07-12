@@ -152,6 +152,7 @@ test_tender_cdeu_config = {
     "hasValueRestriction": True,
     "valueCurrencyEquality": True,
     "hasPrequalification": True,
+    "minBidsNumber": 3,
 }
 
 test_tender_cdua_config = {
@@ -160,6 +161,7 @@ test_tender_cdua_config = {
     "hasValueRestriction": True,
     "valueCurrencyEquality": True,
     "hasPrequalification": True,
+    "minBidsNumber": 3,
 }
 
 test_tender_cdeu_stage2_config = {
@@ -168,6 +170,7 @@ test_tender_cdeu_stage2_config = {
     "hasValueRestriction": True,
     "valueCurrencyEquality": True,
     "hasPrequalification": True,
+    "minBidsNumber": 2,
 }
 
 test_tender_cdua_stage2_config = {
@@ -176,6 +179,7 @@ test_tender_cdua_stage2_config = {
     "hasValueRestriction": True,
     "valueCurrencyEquality": True,
     "hasPrequalification": False,
+    "minBidsNumber": 2,
 }
 
 

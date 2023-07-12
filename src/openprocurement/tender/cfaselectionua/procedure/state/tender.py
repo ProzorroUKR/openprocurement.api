@@ -2,7 +2,6 @@ from openprocurement.tender.core.procedure.state.tender import TenderState
 
 
 class CFASelectionTenderState(TenderState):
-    min_bids_number = 1
 
     def lots_qualification_events(self, tender):
         yield from ()  # no qualification events

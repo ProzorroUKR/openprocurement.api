@@ -199,10 +199,6 @@ test_tender_openeu_multi_buyers_data = set_tender_multi_buyers(
 )
 
 test_tender_openeu_restricted_data = test_tender_openeu_features_data.copy()
-test_tender_openeu_restricted_data.update({
-    "preQualificationFeaturesRatingBidLimit": 5,
-    "preQualificationMinBidsNumber": 4
-})
 
 test_tender_openeu_restricted_bids = test_tender_openeu_bids
 
@@ -212,6 +208,7 @@ test_tender_openeu_config = {
     "hasValueRestriction": True,
     "valueCurrencyEquality": True,
     "hasPrequalification": True,
+    "minBidsNumber": 2,
 }
 
 class BaseTenderWebTest(BaseTenderUAWebTest):

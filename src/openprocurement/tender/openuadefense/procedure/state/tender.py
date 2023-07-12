@@ -17,7 +17,6 @@ LOGGER = getLogger(__name__)
 
 
 class OpenUADefenseTenderState(DefenseTenderStateAwardingMixing, TenderState):
-    min_bids_number = 1
     block_complaint_status = ("pending", "accepted", "satisfied", "stopping")
     generate_award_milestones = False
 

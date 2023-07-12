@@ -1,0 +1,18 @@
+procurementMethodType,values,default
+aboveThreshold,1,1
+aboveThresholdEU,2,2
+aboveThresholdUA.defense,1,1
+aboveThresholdUA,2,2
+belowThreshold,1 - 9,1
+closeFrameworkAgreementSelectionUA,1,1
+closeFrameworkAgreementUA,3,3
+competitiveDialogueEU,3,3
+competitiveDialogueEU.stage2,2,2
+competitiveDialogueUA,3,3
+competitiveDialogueUA.stage2,2,2
+esco,2,2
+negotiation,1,1
+negotiation.quick,1,1
+priceQuotation,1,1
+reporting,1,1
+simple.defense,1,1

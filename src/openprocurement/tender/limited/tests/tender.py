@@ -44,6 +44,7 @@ from openprocurement.tender.limited.tests.tender_blanks import (
     tender_award_create,
     listing_changes,
     create_tender_invalid,
+    create_tender_invalid_config,
     field_relatedLot,
     create_tender_generated,
     create_tender,
@@ -84,6 +85,7 @@ class TenderResourceTest(BaseTenderWebTest):
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)
     test_create_tender_invalid = snitch(create_tender_invalid)
+    test_create_tender_invalid_config = snitch(create_tender_invalid_config)
     test_field_relatedLot = snitch(field_relatedLot)
     test_create_tender_generated = snitch(create_tender_generated)
     test_create_tender_draft = snitch(create_tender_draft)

@@ -453,17 +453,18 @@ def create_tender_invalid(self):
             }
         ],
     )
+
+
+def create_tender_invalid_config(self):
+    request_path = "/tenders"
     data = deepcopy(self.initial_data)
+    config = deepcopy(self.initial_config)
+    config.update({"hasValueRestriction": False})
     response = self.app.post_json(
         request_path,
         {
             "data": data,
-            "config": {
-                "hasAuction": True,
-                "hasAwardingOrder": True,
-                "hasValueRestriction": False,
-                "valueCurrencyEquality": True
-            }
+            "config": config,
         },
         status=422,
     )
@@ -474,11 +475,13 @@ def create_tender_invalid(self):
         response.json["errors"],
         [{"description": "False is not one of [True]", "location": "body", "name": "hasValueRestriction"}],
     )
-
-    data = deepcopy(self.initial_data)
+    config.update({"hasAwardingOrder": False, "hasValueRestriction": True})
     response = self.app.post_json(
         request_path,
-        {"data": data, "config": {"hasAuction": True, "hasValueRestriction": True, "hasAwardingOrder": False}},
+        {
+            "data": data,
+            "config": config,
+        },
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -487,6 +490,37 @@ def create_tender_invalid(self):
     self.assertEqual(
         response.json["errors"],
         [{"description": "False is not one of [True]", "location": "body", "name": "hasAwardingOrder"}],
+    )
+
+    config.update({"hasAwardingOrder": True, "minBidsNumber": 2})
+    response = self.app.post_json(
+        request_path,
+        {
+            "data": data,
+            "config": config,
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{"description": "2 is less than the minimum of 3", "location": "body", "name": "minBidsNumber"}],
+    )
+    config.update({"minBidsNumber": 4})
+    response = self.app.post_json(
+        request_path,
+        {
+            "data": data,
+            "config": config,
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{"description": "4 is greater than the maximum of 3", "location": "body", "name": "minBidsNumber"}],
     )
 
 

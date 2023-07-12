@@ -1,6 +1,6 @@
 from openprocurement.tender.core.procedure.state.criterion_rg_requirement import RequirementStateMixin
-from openprocurement.tender.openeu.procedure.state.tender import OpenEUTenderState
+from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTenderState
 
 
-class OpenEURequirementState(RequirementStateMixin, OpenEUTenderState):
+class OpenEURequirementState(RequirementStateMixin, BaseOpenEUTenderState):
     pass

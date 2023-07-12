@@ -24,6 +24,8 @@ from openprocurement.tender.openua.tests.tender_blanks import (
     tender_finance_milestones,
 )
 
+from openprocurement.tender.open.tests.tender_blanks import create_tender_invalid_config
+
 from openprocurement.tender.openuadefense.tests.base import (
     BaseTenderUAWebTest,
     test_tender_openuadefense_data,
@@ -48,6 +50,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin):
 
     test_empty_listing = snitch(empty_listing)
     test_create_tender_invalid = snitch(create_tender_invalid)
+    test_create_tender_invalid_config = snitch(create_tender_invalid_config)
     test_create_tender_generated = snitch(create_tender_generated)
     test_patch_tender = snitch(patch_tender)
     test_patch_tender_ua = snitch(patch_tender_ua)

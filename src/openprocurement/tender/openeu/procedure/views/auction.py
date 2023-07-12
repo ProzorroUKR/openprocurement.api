@@ -1,7 +1,7 @@
 from cornice.resource import resource
 
 from openprocurement.tender.core.procedure.views.auction import TenderAuctionResource
-from openprocurement.tender.openeu.procedure.state.tender import OpenEUTenderState
+from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTenderState
 from openprocurement.api.utils import json_view, context_unpack
 from openprocurement.tender.openeu.procedure.models.auction import AuctionLotResults, AuctionResults
 from openprocurement.tender.core.procedure.validation import (
@@ -20,7 +20,7 @@ from openprocurement.tender.core.procedure.validation import (
     description="Tender EU auction data",
 )
 class EUTenderAuctionResource(TenderAuctionResource):
-    state_class = OpenEUTenderState
+    state_class = BaseOpenEUTenderState
 
     @json_view(
         permission="auction",

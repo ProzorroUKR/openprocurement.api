@@ -27,6 +27,7 @@ from openprocurement.tender.openua.tests.tender_blanks import (
     tender_with_main_procurement_category,
     tender_finance_milestones,
     create_tender_with_criteria_lcc,
+    create_tender_invalid_config,
 )
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderWebTest,
@@ -62,6 +63,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUARes
     test_bids_data = test_tender_openeu_bids
 
     test_create_tender_invalid = snitch(create_tender_invalid)
+    test_create_tender_invalid_config = snitch(create_tender_invalid_config)
     test_create_tender_central = snitch(create_tender_central)
     test_create_tender_central_invalid = snitch(create_tender_central_invalid)
     test_create_tender_generated = snitch(create_tender_generated)

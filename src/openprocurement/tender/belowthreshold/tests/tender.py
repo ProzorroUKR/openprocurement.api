@@ -57,6 +57,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_items_related_buyer_id,
     patch_enquiry_tender_periods,
     create_tender_config_test,
+    create_tender_invalid_config,
 )
 
 
@@ -97,6 +98,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 
     test_guarantee = snitch(guarantee)
     test_create_tender_invalid = snitch(create_tender_invalid)
+    test_create_tender_invalid_config = snitch(create_tender_invalid_config)
     test_validate_enquiryTender = snitch(validate_enquiryTender)
     test_validate_periodTender = snitch(validate_tenderPeriod)
     test_create_tender_generated = snitch(create_tender_generated)

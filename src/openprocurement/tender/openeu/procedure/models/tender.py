@@ -21,7 +21,6 @@ from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST, AW
 from openprocurement.tender.openeu.constants import ABOVE_THRESHOLD_EU, TENDERING_DURATION
 from openprocurement.tender.openua.validation import _validate_tender_period_start_date
 from openprocurement.tender.core.validation import validate_tender_period_duration
-from openprocurement.tender.openeu.utils import is_procedure_restricted
 from openprocurement.tender.core.utils import validate_features_custom_weight
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
 from openprocurement.api.validation import validate_items_uniq
@@ -46,9 +45,6 @@ class PostTender(BasePostTender):
         min_size=1,
         validators=[validate_cpv_group, validate_items_uniq, validate_classification_id],
     )
-
-    preQualificationFeaturesRatingBidLimit = IntType()
-    preQualificationMinBidsNumber = IntType()
     # targets = ListType(
     #     ModelType(PostMetric),
     #     validators=[validate_metric_ids_uniq, validate_observation_ids_uniq],
@@ -65,7 +61,7 @@ class PostTender(BasePostTender):
 
     def validate_features(self, data, features):
         validate_related_items(data, features)
-        max_features_sum = 0.5 if is_procedure_restricted(data) else 0.3
+        max_features_sum = 0.3
         validate_features_custom_weight(data, features, max_features_sum)
 
 
@@ -133,9 +129,6 @@ class Tender(BaseTender):
     #     validators=[validate_metric_ids_uniq, validate_observation_ids_uniq],
     # )
 
-    preQualificationFeaturesRatingBidLimit = IntType()
-    preQualificationMinBidsNumber = IntType()
-
     complaintPeriod = BaseType()
 
     def validate_awardCriteria(self, data, value):
@@ -147,5 +140,5 @@ class Tender(BaseTender):
 
     def validate_features(self, data, features):
         validate_related_items(data, features)
-        max_features_sum = 0.5 if is_procedure_restricted(data) else 0.3
+        max_features_sum = 0.3
         validate_features_custom_weight(data, features, max_features_sum)

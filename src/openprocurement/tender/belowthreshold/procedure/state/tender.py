@@ -7,7 +7,6 @@ from datetime import datetime
 
 class BelowThresholdTenderState(TenderState):
     award_class = Award
-    min_bids_number = 1
     block_complaint_status = ()
     generate_award_milestones = False
 
