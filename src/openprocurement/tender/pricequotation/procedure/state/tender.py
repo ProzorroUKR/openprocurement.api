@@ -12,7 +12,6 @@ class PriceQuotationTenderState(TenderState):
     contract_model = Contract
     award_class = Award
     generate_award_milestones = False
-    min_bids_number = 1
 
     def get_events(self, tender):
         status = tender["status"]
