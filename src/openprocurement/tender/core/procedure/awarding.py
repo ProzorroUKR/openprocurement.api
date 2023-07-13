@@ -26,6 +26,7 @@ from openprocurement.tender.core.constants import (
     ALP_MILESTONE_REASONS,
     CRITERION_LIFE_CYCLE_COST_IDS,
 )
+from openprocurement.tender.pricequotation.constants import PQ
 
 LOGGER = getLogger(__name__)
 
@@ -124,6 +125,9 @@ class TenderStateAwardingMixing(baseclass):
                         tender_id=tender["_id"],
                         award_id=tender["awards"][-1]["id"],
                     )
+                elif tender.get("procurementMethodType") == PQ:
+                    self.get_change_tender_status_handler("unsuccessful")(tender)
+                    return
             self.recalculate_period_and_change_tender_status(
                 tender, stays_at_qualification=tender["awards"][-1]["status"] == "pending"
             )

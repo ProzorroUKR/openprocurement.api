@@ -6,9 +6,8 @@ from openprocurement.api.models import (
     StrictDecimalType,
     StrictBooleanType,
 )
-from openprocurement.api.validation import OPERATIONS, raise_operation_error
+from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.procedure.context import get_tender_config
-from openprocurement.tender.core.procedure.validation import validate_item_owner
 from schematics.exceptions import ValidationError
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.validation import validate_value_factory
@@ -28,22 +27,6 @@ def validate_bid_value(tender, value):
         raise ValidationError(
             "valueAddedTaxIncluded of bid should be identical " "to valueAddedTaxIncluded of value of tender"
         )
-
-
-# awards
-def validate_pq_award_owner(request, **kwargs):
-    tender = request.validated["tender"]
-    award = request.validated["award"]
-    has_prev_awards = any(
-        a['status'] != 'pending'
-        for a in tender.get("awards", [])
-        if a["bid_id"] == award["bid_id"] and a["id"] != award["id"]
-    )
-    if has_prev_awards or award["status"] != 'pending':
-        owner_validation = validate_item_owner("tender")
-    else:
-        owner_validation = validate_item_owner("bid")
-    return owner_validation(request, **kwargs)
 
 
 # tender documents

@@ -149,6 +149,13 @@ class BaseTenderWebTest(BaseCoreWebTest):
                     self.tender_document_patch.update({"contracts": [contract]})
             self.save_changes()
 
+    def activate_bids(self):
+        if bids := self.tender_document.get("bids", ""):
+            for bid in bids:
+                if bid["status"] in ("draft", "pending"):
+                    bid.update({"status": "active"})
+            self.tender_document_patch.update({"bids": bids})
+
     def set_status(self, status, startend="start", extra=None):
         self.now = get_now()
         self.tender_document = self.mongodb.tenders.get(self.tender_id)
@@ -159,16 +166,19 @@ class BaseTenderWebTest(BaseCoreWebTest):
         elif status == "active.qualification":
             self.update_periods(status, startend)
             self.generate_bids(status, startend)
+            self.activate_bids()
             self.generate_awards(status, startend)
         elif status == "active.awarded":
             self.update_periods(status, startend)
             self.generate_bids(status, startend)
+            self.activate_bids()
             self.generate_awards(status, startend)
             self.activate_awards()
             self.generate_contract()
         elif status == "complete":
             self.update_periods(status, startend)
             self.generate_bids(status, startend)
+            self.activate_bids()
             self.generate_awards(status, startend)
             self.activate_awards()
             self.generate_contract()
@@ -197,12 +207,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
     @property
     def tender_token(self):
         data = self.mongodb.tenders.get(self.tender_id)
-        award = data['awards'][-1] if data.get('awards') else None
-        if award and award['status'] == 'pending':
-            bid = [b for b in data['bids'] if b['id'] == award['bid_id']][0]
-            return bid['owner_token']
-        else:
-            return data['owner_token']
+        return data['owner_token']
 
     def create_tender(self):
         data = deepcopy(self.initial_data)

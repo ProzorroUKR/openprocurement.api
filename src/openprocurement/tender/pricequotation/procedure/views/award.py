@@ -4,11 +4,10 @@ from openprocurement.tender.core.procedure.validation import (
     validate_input_data,
     validate_patch_data,
     validate_update_award_in_not_allowed_status,
-)
+    validate_item_owner)
 from openprocurement.tender.core.procedure.views.award import TenderAwardResource
 from openprocurement.tender.core.procedure.models.award import PatchAward, Award
 from openprocurement.tender.pricequotation.procedure.state.award import AwardState
-from openprocurement.tender.pricequotation.procedure.validation import validate_pq_award_owner
 from openprocurement.tender.pricequotation.constants import PQ
 from cornice.resource import resource
 
@@ -28,7 +27,7 @@ class PQTenderAwardResource(TenderAwardResource):
         permission="edit_award",  # brokers
         validators=(
             unless_admins(
-                validate_pq_award_owner,
+                validate_item_owner("tender"),
             ),
             validate_input_data(PatchAward),
             validate_patch_data(Award, item_name="award"),

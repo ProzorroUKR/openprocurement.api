@@ -750,6 +750,7 @@ def get_tender_bid(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     bid_data = response.json["data"]
+    bid["status"] = "active"
     self.assertEqual(bid_data, bid)
 
     response = self.app.get("/tenders/{}/bids/some_id".format(self.tender_id), status=404)
@@ -835,6 +836,7 @@ def get_tender_tenderers(self):
     response = self.app.get("/tenders/{}/bids".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
+    bid["status"] = "active"
     self.assertEqual(response.json["data"][0], bid)
 
     response = self.app.get("/tenders/some_id/bids", status=404)
