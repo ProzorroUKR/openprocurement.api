@@ -15,3 +15,4 @@ Contents:
    has_value_restriction
    value_currency_equality
    min_bids_number
+   has_prequalification

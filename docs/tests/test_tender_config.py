@@ -2054,3 +2054,9 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
             response = self.app.get('/tenders/{}'.format(self.tender_id))
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.json['data']['status'], 'active.qualification')
+
+
+class TenderHasPrequalificationResourceTest(TenderConfigBaseResourceTest):
+
+    def test_docs_has_prequalification_values_csv(self):
+        self.write_values_csv(config_name="hasPrequalification", file_name="has-prequalification-values.csv")

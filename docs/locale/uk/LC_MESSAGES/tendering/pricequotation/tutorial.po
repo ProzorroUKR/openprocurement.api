@@ -100,8 +100,8 @@ msgstr "Учасник може зареєструвати пропозицію 
 msgid "User receives `access`: `token` with which operations as a `Supplier` role are accessible."
 msgstr "Користувач отримує `access`: `token` з яким доступні операції ролі Постачальника."
 
-msgid "And activate a bid:"
-msgstr "Та активувати пропозицію:"
+msgid "and approve to pending status:"
+msgstr "і підтвердити її, перевівши у ``pending`` статус:"
 
 msgid "Modifying bid"
 msgstr "Модифікація пропозиції"

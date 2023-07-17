@@ -163,8 +163,8 @@ msgstr "Коли приходить ``Tender.tenderingPeriod.startDate``, Зак
 msgid "Bidder can register a bid in `draft` status:"
 msgstr "Учасник може зареєструвати пропозицію у статусі `draft` (чернетка):"
 
-msgid "And activate a bid:"
-msgstr "Та активувати пропозицію:"
+msgid "and approve to pending status:"
+msgstr "і підтвердити її, перевівши у ``pending`` статус:"
 
 msgid "And upload proposal document:"
 msgstr "І завантажити документ пропозиції:"

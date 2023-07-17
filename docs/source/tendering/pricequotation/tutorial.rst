@@ -113,7 +113,7 @@ Bidder can register a bid with ``draft`` status:
     User receives `access`: `token` with which operations as a `Supplier` role are accessible.
 
 
-And activate a bid:
+and approve to pending status:
 
 .. http:example:: http/activate-bidder.http
    :code:

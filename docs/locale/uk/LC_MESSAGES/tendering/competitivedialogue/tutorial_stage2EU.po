@@ -91,7 +91,7 @@ msgid "Get error, now participant from first stage try"
 msgstr "Отримали помилку, теперь учасник який був допущений на першому етапі"
 
 msgid "and approve to pending status:"
-msgstr "та підтвердити ставку, змінивши її статус на ``pending``:"
+msgstr "і підтвердити її, перевівши у ``pending`` статус:"
 
 msgid "Proposal Uploading"
 msgstr "Завантаження пропозиції"
