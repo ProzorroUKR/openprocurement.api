@@ -1,9 +1,10 @@
 from schematics.types import StringType, MD5Type
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
+
 from openprocurement.tender.core.procedure.context import get_tender, get_request
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.models.document import PostDocument, Document
+from openprocurement.tender.core.procedure.models.bid_document import PostDocument, Document
 from openprocurement.tender.core.procedure.models.base import ListType
 from openprocurement.tender.core.procedure.models.organization import (
     PatchBusinessOrganization,
@@ -179,6 +180,9 @@ class Bid(Model):
     owner_token = StringType()
     transfer_token = StringType()
     documents = ListType(ModelType(Document, required=True))
+    financialDocuments = ListType(ModelType(Document, required=True))
+    eligibilityDocuments = ListType(ModelType(Document, required=True))
+    qualificationDocuments = ListType(ModelType(Document, required=True))
 
     tenderers = ListType(
         ModelType(PostBusinessOrganization, required=True),

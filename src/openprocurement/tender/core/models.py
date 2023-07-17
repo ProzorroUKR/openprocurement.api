@@ -1258,6 +1258,9 @@ class Bid(BidDefaultStatusMixin):
                 "parameters",
                 "lotValues",
                 "documents",
+                "financialDocuments",
+                "eligibilityDocuments",
+                "qualificationDocuments",
                 "requirementResponses",
             ),
             "edit": whitelist(
@@ -1309,7 +1312,10 @@ class Bid(BidDefaultStatusMixin):
         choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
     )
     value = ModelType(Value)
-    documents = ListType(ModelType(Document, required=True), default=list())
+    documents = ListType(ConfidentialDocumentModelType(EUConfidentialDocument, required=True), default=list())
+    financialDocuments = ListType(ConfidentialDocumentModelType(EUConfidentialDocument, required=True), default=list())
+    eligibilityDocuments = ListType(ConfidentialDocumentModelType(EUConfidentialDocument, required=True), default=list())
+    qualificationDocuments = ListType(ConfidentialDocumentModelType(EUConfidentialDocument, required=True), default=list())
     participationUrl = URLType()
     owner_token = StringType()
     transfer_token = StringType()
