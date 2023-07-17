@@ -35,4 +35,3 @@ class Document(BaseDocument):
 
     def validate_confidentialityRationale(self, data, val):
         validate_confidentiality_rationale(data, val)
-

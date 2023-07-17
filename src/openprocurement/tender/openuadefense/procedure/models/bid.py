@@ -48,7 +48,7 @@ class Bid(BaseBid):
     subcontractingDetails = StringType()
     lotValues = ListType(ModelType(LotValue, required=True))
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
-    documents = ListType(ConfidentialDocumentModelType(Document, required=True))
+    documents = ListType(ModelType(Document, required=True))
     financialDocuments = ListType(ModelType(PostDocument, required=True))
     eligibilityDocuments = ListType(ModelType(PostDocument, required=True))
     qualificationDocuments = ListType(ModelType(PostDocument, required=True))
