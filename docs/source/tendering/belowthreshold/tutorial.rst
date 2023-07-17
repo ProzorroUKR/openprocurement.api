@@ -225,7 +225,7 @@ Bidder can register a bid in `draft` status:
 .. http:example:: http/tutorial/register-bidder.http
    :code:
 
-And activate a bid:
+and approve to pending status:
 
 .. http:example:: http/tutorial/activate-bidder.http
    :code:

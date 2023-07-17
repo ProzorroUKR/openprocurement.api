@@ -216,7 +216,7 @@ And append responses for criteria requirements:
 .. http:example:: tutorial/add-requirement-responses-to-bidder.http
    :code:
 
-And activate a bid:
+and approve to pending status:
 
 .. http:example:: tutorial/activate-bidder.http
    :code:

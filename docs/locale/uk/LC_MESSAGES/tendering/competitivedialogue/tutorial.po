@@ -145,7 +145,7 @@ msgid "And append responses for criteria requirements:"
 msgstr "Та додамо відповіді на вимоги критеріїв:"
 
 msgid "and approve to pending status:"
-msgstr "та підтвердити ставку, змінивши її статус на ``pending``:"
+msgstr "і підтвердити її, перевівши у ``pending`` статус:"
 
 msgid "Proposal Uploading"
 msgstr "Завантаження пропозиції"

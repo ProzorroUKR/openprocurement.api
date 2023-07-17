@@ -152,8 +152,8 @@ msgstr "Учасник може зареєструвати пропозицію 
 msgid "And append responses for criteria requirements:"
 msgstr "Та додамо відповіді на вимоги критеріїв:"
 
-msgid "And activate a bid:"
-msgstr "Та активувати пропозицію:"
+msgid "and approve to pending status:"
+msgstr "і підтвердити її, перевівши у ``pending`` статус:"
 
 msgid "Then bidder should upload proposal document(s):"
 msgstr "Потім учасник повинен завантажити документ(и) пропозиції:"

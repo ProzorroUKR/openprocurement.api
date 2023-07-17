@@ -152,8 +152,8 @@ msgstr "Учасник може зареєструвати заявку зі с�
 msgid "And append responses for criteria requirements:"
 msgstr "Та додамо відповіді на вимоги критеріїв:"
 
-msgid "And activate a bid:"
-msgstr "Та активувати заявку:"
+msgid "and approve to pending status:"
+msgstr "і підтвердити її, перевівши у ``pending`` статус:"
 
 msgid "Bidder can also submit bid with non-price criteria - :ref:`parameter` (`https://prozorro-api-docs.readthedocs.io/uk/frameworkagreement/basic-actions/meat.html?highlight=features#bidding-in-meat`)."
 msgstr "Також учасник може подати ставку з неціновими критеріями - :ref:`parameter` (`https://prozorro-api-docs.readthedocs.io/uk/frameworkagreement/basic-actions/meat.html?highlight=features#bidding-in-meat`)."

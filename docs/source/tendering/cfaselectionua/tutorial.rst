@@ -209,7 +209,7 @@ You cannot submit a bid greater than ``agreement.contract.value``. Also Bidder c
 .. http:example:: tutorial/register-bidder.http
    :code:
 
-And activate a bid:
+and approve to pending status:
 
 .. http:example:: tutorial/activate-bidder.http
    :code:

@@ -177,8 +177,8 @@ msgstr "Учасник може зареєструвати пропозицію 
 msgid "You cannot submit a bid greater than ``agreement.contract.value``. Also Bidder can't submit a bid if he is not party of this Framework Agreement (:ref:`Agreement`)."
 msgstr "Неможливо подати ставку зі значенням вищим, ніж ``agreement.contract.value``. Також, постачальник не може подати ставку, якщо він не є учасником цієї Рамкової угоди (:ref:`Agreement`)."
 
-msgid "And activate a bid:"
-msgstr "Та активувати пропозицію:"
+msgid "and approve to pending status:"
+msgstr "і підтвердити її, перевівши у ``pending`` статус:"
 
 msgid "Bidder should only upload digital signature on this stage of procedure."
 msgstr "Учасник має завантажувати тільки ЕЦП на цьому етапі процедури."

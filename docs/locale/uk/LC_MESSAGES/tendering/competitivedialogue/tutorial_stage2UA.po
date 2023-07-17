@@ -84,8 +84,8 @@ msgstr "Як і з запитаннями тільки допущені учас
 msgid "Bidder can register a bid with draft status:"
 msgstr "Учасник може зареєструвати цінову пропозицію:"
 
-msgid "And activate a bid:"
-msgstr "та активуемо його:"
+msgid "and approve to pending status:"
+msgstr "і підтвердити її, перевівши у ``pending`` статус:"
 
 msgid "Proposal Uploading"
 msgstr "Завантаження пропозиції"

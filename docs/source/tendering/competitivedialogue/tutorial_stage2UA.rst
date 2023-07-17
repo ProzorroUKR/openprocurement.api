@@ -129,7 +129,7 @@ Bidder can register a bid with draft status:
 .. http:example:: tutorial/stage2/UA/register-bidder.http
    :code:
 
-And activate a bid:
+and approve to pending status:
 
 .. http:example:: tutorial/stage2/UA/activate-bidder.http
    :code:
