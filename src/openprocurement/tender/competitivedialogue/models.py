@@ -141,6 +141,9 @@ class Bid(BidEU):
         }
 
     documents = ListType(ConfidentialDocumentModelType(Document, required=True), default=list())
+    financialDocuments = ListType(ConfidentialDocumentModelType(Document, required=True), default=list())
+    eligibilityDocuments = ListType(ConfidentialDocumentModelType(Document, required=True), default=list())
+    qualificationDocuments = ListType(ConfidentialDocumentModelType(Document, required=True), default=list())
     value = None
     weightedValue = None
     lotValues = ListType(ModelType(LotValue, required=True), default=list())
