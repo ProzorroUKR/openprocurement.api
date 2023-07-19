@@ -1,11 +1,10 @@
-# Dockerfile is not optimized, for optimized build use werf.yml
-FROM python:3.8-alpine
+FROM python:3.8-alpine3.18
 
-RUN apk add --update --no-cache git gcc libressl-dev musl-dev build-base libffi-dev
+RUN apk --no-cache add gcc build-base git openssl-dev libffi-dev
 
 WORKDIR /app
-COPY requirements.txt /app/
-RUN pip install --upgrade pip setuptools wheel && pip install --no-cache-dir -r requirements.txt
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . /app
 RUN pip install -e .
