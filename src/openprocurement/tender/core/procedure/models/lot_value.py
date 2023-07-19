@@ -22,7 +22,7 @@ class PostLotValue(Model):
 
 
 class PatchLotValue(PostLotValue):
-    status = StringType(choices=["pending"])
+    status = StringType(choices=["pending"], default="pending")
     value = ModelType(Value)
     relatedLot = MD5Type()
 
