@@ -263,8 +263,9 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
         if self.allow_tender_period_start_date_change:
             return
 
-        if before["status"] == "draft":
-            # still can change tenderPeriod.startDate only in draft status
+        if "draft" in before["status"]:
+            # draft, draft.stage2
+            # still can change tenderPeriod.startDate
             return
 
         tender_period_start_before = before.get("tenderPeriod", {}).get("startDate")
