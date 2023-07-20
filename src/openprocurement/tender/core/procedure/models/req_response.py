@@ -172,7 +172,7 @@ def validate_req_response_requirement(
         "tenderer": ("bid",),
         "winner": ("bid",),
     }
-    source = criterion.get('source', "tenderer")
+    source = criterion.get("source", "tenderer")
     available_parents = source_map.get(source)
     if available_parents and parent_obj_name.lower() not in available_parents:
         raise ValidationError([{
@@ -317,7 +317,7 @@ class PostBidResponsesMixin(ObjResponseMixin):
                         break
                 else:
                     continue
-            if criteria["source"] != "tenderer" and not criteria["classification"]["id"].endswith("GUARANTEE"):
+            if criteria.get("source", "tenderer") != "tenderer" and not criteria["classification"]["id"].endswith("GUARANTEE"):
                 continue
             if tender_created_after(CRITERION_REQUIREMENT_STATUSES_FROM):
                 active_requirements = [
