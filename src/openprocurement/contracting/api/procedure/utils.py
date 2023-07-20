@@ -26,13 +26,16 @@ from openprocurement.tender.core.procedure.utils import append_revision, get_rev
 LOGGER = getLogger("openprocurement.contracting.api.procedure")
 
 
-def save_contract(request, insert=False):
-    contract = request.validated["contract"]
+def save_contract(request, insert=False, contract=None, contract_src=None):
+    if contract is None:
+        contract = request.validated["contract"]
+    if contract_src is None:
+        contract_src = request.validated["contract_src"]
 
     if contract.get("mode", "") == "test":
         set_mode_test_titles(contract)
 
-    patch = get_revision_changes(contract, request.validated["contract_src"])
+    patch = get_revision_changes(contract, contract_src)
     if patch:
         now = get_now()
         append_revision(request, contract, patch)

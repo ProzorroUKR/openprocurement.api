@@ -1,6 +1,10 @@
-from openprocurement.tender.core.procedure.context import get_request
+from hashlib import sha512
+
+from openprocurement.tender.core.procedure.context import get_request, get_tender
 from openprocurement.api.context import get_now
 from openprocurement.tender.belowthreshold.utils import prepare_tender_item_for_contract
+from openprocurement.contracting.econtracting.procedure.models.contract import PostContract
+from openprocurement.contracting.api.procedure.utils import save_contract
 from collections import defaultdict
 from copy import deepcopy
 
@@ -19,19 +23,24 @@ def add_contracts(request, award, contract_model):
     multi_contracts = tender.get("buyers") and all(item.get("relatedBuyer") for item in tender.get("items", ""))
     value = generate_contract_value(award, multi_contracts=multi_contracts)
 
+    contracts_added = []
     # prepare contract for every buyer
     if multi_contracts:
         for buyer_id, items in items_by_buyer.items():
-            add_contract_to_tender(
+            contract = add_contract_to_tender(
                 contract_model, tender, items, value, buyer_id, award,
             )
+            contracts_added.append(contract)
     else:  # ignoring "buyer_id", even if not None
         contract_items = []
         for _, items in items_by_buyer.items():
             contract_items.extend(items)
-        add_contract_to_tender(
+        contract = add_contract_to_tender(
             contract_model, tender, contract_items, value, None, award,
         )
+        contracts_added.append(contract)
+
+    return contracts_added
 
 
 def generate_contract_value(award, multi_contracts=False):
@@ -62,6 +71,24 @@ def add_contract_to_tender(contract_model, tender, contract_items, contract_valu
             "contractID": f"{tender['tenderID']}-{server_id}{contract_number}",
         }
     )
+    contract_data = contract.serialize()
     tender["contracts"].append(
         contract.serialize()
     )
+    return contract_data
+
+
+def save_contracts_to_contracting(contracts):
+    tender = get_tender()
+    request = get_request()
+    for contract in deepcopy(contracts):
+        del contract["date"]
+        extend_contract_data = {
+            "buyer": tender["buyer"] if tender.get("buyer") else tender["procuringEntity"],
+            "tender_id": tender["_id"],
+            "owner": tender["owner"],
+            "tender_token": sha512(tender["owner_token"].encode("utf-8")).hexdigest(),
+        }
+        contract.update(extend_contract_data)
+        contract_data = PostContract(contract).serialize()
+        save_contract(request, contract=contract_data, contract_src={}, insert=True)

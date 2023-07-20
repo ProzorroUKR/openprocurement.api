@@ -26,6 +26,7 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     patch_tender_multi_contracts_cancelled_validate_amount,
 )
 from openprocurement.tender.pricequotation.tests.contract_blanks import (
+    auto_create_contract_in_contracting,
     patch_tender_contract,
     patch_tender_contract_value_vat_not_included,
 )
@@ -58,6 +59,7 @@ class TenderContractResourceTest(TenderContentWebTest,
         self.get_award()
 
     test_create_tender_contract = snitch(create_tender_contract)
+    test_auto_create_contract_in_contracting = snitch(auto_create_contract_in_contracting)
     test_create_tender_contract_in_complete_status = snitch(
         create_tender_contract_in_complete_status
     )

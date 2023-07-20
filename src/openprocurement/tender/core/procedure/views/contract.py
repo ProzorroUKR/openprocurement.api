@@ -74,6 +74,7 @@ class TenderContractResource(TenderBaseResource):
         self.state.contract_on_post(contract)
 
         if save_tender(self.request):
+            self.state.contract_on_save(contract)
             self.LOGGER.info(
                 "Created tender contract {}".format(contract["id"]),
                 extra=context_unpack(

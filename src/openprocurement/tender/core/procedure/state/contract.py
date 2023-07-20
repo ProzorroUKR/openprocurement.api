@@ -218,7 +218,10 @@ class ContractStateMixing(baseclass):
         else:
             self.check_award_complaints(tender, now)
 
-    def contract_on_post(self, request):
+    def contract_on_post(self, data):
+        pass
+
+    def contract_on_save(self, data):
         pass
 
     def validate_activate_contract(self, contract):
