@@ -32,17 +32,6 @@ class PatchAgreement(Model):
     dateSigned = IsoDateTimeType()
     agreementNumber = StringType()
 
-    def validate_period(self, data, value):
-        if data.get("status") == "active":
-            if not value:
-                raise ValidationError("Period is required for agreement signing.")
-            if not value.startDate or not value.endDate:
-                raise ValidationError("startDate and endDate are required in agreement.period.")
-
-            calculated_end_date = value.startDate + MAX_AGREEMENT_PERIOD
-            if value.endDate > calculated_end_date:
-                raise ValidationError(f"Agreement period can't be greater than {duration_isoformat(MAX_AGREEMENT_PERIOD)}.")
-
 
 class Agreement(Model):
     title = StringType()
@@ -85,3 +74,14 @@ class Agreement(Model):
                 )
             if value > get_now():
                 raise ValidationError("Agreement signature date can't be in the future")
+
+    def validate_period(self, data, value):
+        if data.get("status") == "active":
+            if not value:
+                raise ValidationError("Period is required for agreement signing.")
+            if not value.startDate or not value.endDate:
+                raise ValidationError("startDate and endDate are required in agreement.period.")
+
+            calculated_end_date = value.startDate + MAX_AGREEMENT_PERIOD
+            if value.endDate > calculated_end_date:
+                raise ValidationError(f"Agreement period can't be greater than {duration_isoformat(MAX_AGREEMENT_PERIOD)}.")
