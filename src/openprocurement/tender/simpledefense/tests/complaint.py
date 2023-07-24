@@ -13,8 +13,14 @@ from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
     not_found,
     create_tender_complaint_document,
 )
+from openprocurement.tender.open.tests.complaint import (
+    ComplaintObjectionMixin,
+    TenderCancellationComplaintObjectionMixin,
+    TenderAwardComplaintObjectionMixin,
+    TenderComplaintObjectionMixin,
+)
 
-from openprocurement.tender.openua.tests.complaint import TenderUAComplaintResourceTestMixin
+from openprocurement.tender.openua.tests.complaint import TenderUAComplaintResourceTestMixin, CreateAwardComplaintMixin
 from openprocurement.tender.openua.tests.complaint_blanks import (
     create_tender_lot_complaint,
     put_tender_complaint_document,
@@ -22,7 +28,7 @@ from openprocurement.tender.openua.tests.complaint_blanks import (
     mistaken_status_tender_complaint,
 )
 
-from openprocurement.tender.simpledefense.tests.base import BaseSimpleDefContentWebTest
+from openprocurement.tender.simpledefense.tests.base import BaseSimpleDefContentWebTest, test_tender_simpledefense_bids
 
 
 class TenderComplaintResourceTest(
@@ -32,7 +38,6 @@ class TenderComplaintResourceTest(
 ):
     test_author = test_tender_below_author
     test_mistaken_status_tender_complaint = snitch(mistaken_status_tender_complaint)
-
 
 
 class TenderLotAwardComplaintResourceTest(BaseSimpleDefContentWebTest):
@@ -62,10 +67,49 @@ class TenderComplaintDocumentResourceTest(BaseSimpleDefContentWebTest):
     test_patch_tender_complaint_document = snitch(patch_tender_complaint_document)
 
 
+class TenderComplaintObjectionResourceTest(
+    BaseSimpleDefContentWebTest,
+    TenderComplaintObjectionMixin,
+    ComplaintObjectionMixin,
+):
+    docservice = True
+
+
+class TenderAwardComplaintObjectionResourceTest(
+    BaseSimpleDefContentWebTest,
+    CreateAwardComplaintMixin,
+    TenderAwardComplaintObjectionMixin,
+    ComplaintObjectionMixin,
+):
+    docservice = True
+    initial_status = "active.qualification"
+    initial_bids = test_tender_simpledefense_bids
+
+    def setUp(self):
+        super(TenderAwardComplaintObjectionResourceTest, self).setUp()
+        self.create_award()
+
+
+class TenderCancellationComplaintObjectionResourceTest(
+    BaseSimpleDefContentWebTest,
+    TenderCancellationComplaintObjectionMixin,
+    ComplaintObjectionMixin,
+):
+    docservice = True
+
+    def setUp(self):
+        super(TenderCancellationComplaintObjectionResourceTest, self).setUp()
+        self.set_complaint_period_end()
+        self.create_cancellation()
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderComplaintDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderComplaintResourceTest))
+    suite.addTest(unittest.makeSuite(TenderComplaintObjectionResourceTest))
+    suite.addTest(unittest.makeSuite(TenderAwardComplaintObjectionResourceTest))
+    suite.addTest(unittest.makeSuite(TenderCancellationComplaintObjectionResourceTest))
     return suite
 
 

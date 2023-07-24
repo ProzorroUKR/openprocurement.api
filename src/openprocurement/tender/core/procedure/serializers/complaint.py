@@ -1,4 +1,5 @@
 from openprocurement.tender.core.procedure.serializers.base import BaseSerializer, ListSerializer
+from openprocurement.tender.core.procedure.serializers.complaint_objection import ComplaintObjectionSerializer
 from openprocurement.tender.core.procedure.serializers.document import ConfidentialDocumentSerializer
 from openprocurement.tender.core.procedure.serializers.complaint_post import ComplaintPostSerializer
 
@@ -7,6 +8,7 @@ class ComplaintSerializer(BaseSerializer):
     serializers = {
         "documents": ListSerializer(ConfidentialDocumentSerializer),
         "posts": ListSerializer(ComplaintPostSerializer),
+        "objections": ListSerializer(ComplaintObjectionSerializer),
     }
     private_fields = {
         "owner",
@@ -19,6 +21,7 @@ class TenderComplaintSerializer(BaseSerializer):
     serializers = {
         "documents": ListSerializer(ConfidentialDocumentSerializer),
         "posts": ListSerializer(ComplaintPostSerializer),
+        "objections": ListSerializer(ComplaintObjectionSerializer),
     }
 
     @property

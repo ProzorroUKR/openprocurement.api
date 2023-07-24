@@ -7,7 +7,8 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_lots,
     test_tender_below_draft_claim,
     test_tender_below_draft_complaint,
-    test_tender_below_author
+    test_tender_below_author,
+    test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.complaint import TenderComplaintResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
@@ -15,8 +16,15 @@ from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
     not_found,
     create_tender_complaint_document,
 )
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.open.tests.complaint import (
+    ComplaintObjectionMixin,
+    TenderCancellationComplaintObjectionMixin,
+    TenderAwardComplaintObjectionMixin,
+    TenderComplaintObjectionMixin,
+)
 
-from openprocurement.tender.openua.tests.base import BaseTenderUAContentWebTest
+from openprocurement.tender.openua.tests.base import BaseTenderUAContentWebTest, test_tender_openua_bids
 from openprocurement.tender.openua.tests.complaint_blanks import (
     # TenderComplaintResourceTest
     create_tender_complaint,
@@ -77,10 +85,80 @@ class TenderComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
     test_patch_tender_complaint_document = snitch(patch_tender_complaint_document)
 
 
+class CreateAwardComplaintMixin:
+    app = None
+    tender_id = None
+    initial_bids = None
+    initial_bids_tokens = None
+
+    def create_award(self):
+        # Create award
+        with change_auth(self.app, ("Basic", ("token", ""))):
+            response = self.app.post_json(
+                f"/tenders/{self.tender_id}/awards",
+                {"data": {
+                    "suppliers": [test_tender_below_organization],
+                    "status": "pending",
+                    "bid_id": self.initial_bids[0]["id"]
+                }}
+            )
+
+        award = response.json["data"]
+        self.award_id = award["id"]
+
+        with change_auth(self.app, ("Basic", ("token", ""))):
+            self.app.patch_json(
+                f"/tenders/{self.tender_id}/awards/{self.award_id}",
+                {"data": {
+                    "status": "active",
+                    "qualified": True,
+                    "eligible": True
+                }}
+            )
+
+
+class TenderComplaintObjectionResourceTest(
+    BaseTenderUAContentWebTest,
+    TenderComplaintObjectionMixin,
+    ComplaintObjectionMixin,
+):
+    docservice = True
+
+
+class TenderAwardComplaintObjectionResourceTest(
+    BaseTenderUAContentWebTest,
+    CreateAwardComplaintMixin,
+    TenderAwardComplaintObjectionMixin,
+    ComplaintObjectionMixin,
+):
+    docservice = True
+    initial_status = "active.qualification"
+    initial_bids = test_tender_openua_bids
+
+    def setUp(self):
+        super(TenderAwardComplaintObjectionResourceTest, self).setUp()
+        self.create_award()
+
+
+class TenderCancellationComplaintObjectionResourceTest(
+    BaseTenderUAContentWebTest,
+    TenderCancellationComplaintObjectionMixin,
+    ComplaintObjectionMixin,
+):
+    docservice = True
+
+    def setUp(self):
+        super(TenderCancellationComplaintObjectionResourceTest, self).setUp()
+        self.create_cancellation()
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderComplaintDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderComplaintResourceTest))
+    suite.addTest(unittest.makeSuite(TenderComplaintObjectionResourceTest))
+    suite.addTest(unittest.makeSuite(TenderAwardComplaintObjectionResourceTest))
+    suite.addTest(unittest.makeSuite(TenderCancellationComplaintObjectionResourceTest))
     return suite
 
 

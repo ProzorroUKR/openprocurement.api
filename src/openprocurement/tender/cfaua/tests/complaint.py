@@ -12,6 +12,12 @@ from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
     not_found,
     create_tender_complaint_document,
 )
+from openprocurement.tender.open.tests.complaint import (
+    ComplaintObjectionMixin,
+    TenderComplaintObjectionMixin,
+    TenderCancellationComplaintObjectionMixin,
+    TenderAwardComplaintObjectionMixin,
+)
 
 from openprocurement.tender.openua.tests.complaint import TenderUAComplaintResourceTestMixin
 from openprocurement.tender.openua.tests.complaint_blanks import (
@@ -21,7 +27,11 @@ from openprocurement.tender.openua.tests.complaint_blanks import (
 from openprocurement.tender.openeu.tests.complaint_blanks import (
     put_tender_complaint_document,
 )
-from openprocurement.tender.cfaua.tests.base import BaseTenderContentWebTest, test_tender_cfaua_lots
+from openprocurement.tender.cfaua.tests.base import (
+    BaseTenderContentWebTest,
+    test_tender_cfaua_lots,
+    test_tender_cfaua_bids,
+)
 
 from openprocurement.tender.cfaua.tests.complaint_blanks import (
     create_tender_complaint,
@@ -68,10 +78,56 @@ class TenderComplaintDocumentResourceTest(BaseTenderContentWebTest):
     test_patch_tender_complaint_document = snitch(patch_tender_complaint_document)
 
 
+class TenderComplaintObjectionTest(
+    BaseTenderContentWebTest,
+    TenderComplaintObjectionMixin,
+    ComplaintObjectionMixin,
+):
+    docservice = True
+    initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
+    initial_bids = test_tender_cfaua_bids
+    initial_auth = ("Basic", ("broker", ""))
+    author_data = test_tender_below_author
+
+
+class TenderCancellationComplaintObjectionTest(
+    BaseTenderContentWebTest,
+    TenderCancellationComplaintObjectionMixin,
+    ComplaintObjectionMixin,
+):
+    docservice = True
+
+    def setUp(self):
+        super(TenderCancellationComplaintObjectionTest, self).setUp()
+        self.set_complaint_period_end()
+        self.create_cancellation()
+
+
+class TenderAwardComplaintObjectionTest(
+    BaseTenderContentWebTest,
+    TenderAwardComplaintObjectionMixin,
+    ComplaintObjectionMixin,
+):
+    docservice = True
+    initial_status = "active.qualification.stand-still"
+    initial_lots = test_tender_cfaua_lots
+    initial_bids = test_tender_cfaua_bids
+    initial_auth = ("Basic", ("broker", ""))
+
+    def setUp(self):
+        super(TenderAwardComplaintObjectionTest, self).setUp()
+        response = self.app.get(f"/tenders/{self.tender_id}/awards")
+        self.awards_ids = [award["id"] for award in response.json["data"]]
+        self.award_id = self.awards_ids[0]
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderComplaintDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderComplaintResourceTest))
+    suite.addTest(unittest.makeSuite(TenderComplaintObjectionTest))
+    suite.addTest(unittest.makeSuite(TenderCancellationComplaintObjectionTest))
+    suite.addTest(unittest.makeSuite(TenderAwardComplaintObjectionTest))
     return suite
 
 

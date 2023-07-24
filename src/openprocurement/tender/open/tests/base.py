@@ -83,6 +83,43 @@ test_tender_open_config = {
 }
 
 
+test_tender_open_complaint_objection_argument = {
+    "relatedJustification": "test",
+    "description": "test argument",
+    "evidences": [{
+        "type": "external",
+        "title": "test",
+        "description": "test",
+        "documents": [
+            {
+                "title": "test.doc",
+                "format": "application/msword",
+                "url": "/test/doc/mls"
+            }
+        ]
+    }]
+}
+
+test_tender_open_complaint_objection = {
+    "title": "My objection",
+    "description": "Test objection",
+    "relatesTo": "award",
+    "relatedItem": "tenders/fc390e460c41460b9bde484d6caefc62/awards/fc390e460c41460b9bde484d6caefc61",
+    "classification": {
+        "scheme": "test",
+        "id": "3",
+        "description": "test classification"
+    },
+    "requestedRemedies": [
+        {
+            "description": "test",
+            "type": "setAsideAward"
+        }
+    ],
+    "arguments": [test_tender_open_complaint_objection_argument]
+}
+
+
 class BaseApiWebTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
 
