@@ -2,7 +2,6 @@ from enum import Enum
 from uuid import uuid4
 
 from schematics.types import StringType, MD5Type
-from schematics.types.serializable import serializable
 
 from openprocurement.api.models import Model
 
@@ -19,9 +18,6 @@ class RequestedRemedyType(Enum):
 
 
 class RequestedRemedy(Model):
-    @serializable
-    def id(self):
-        return uuid4().hex
-
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
     type = StringType(choices=[choice.value for choice in RequestedRemedyType], required=True)
     description = StringType(required=True)

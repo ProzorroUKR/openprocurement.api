@@ -31,6 +31,7 @@ from openprocurement.tender.open.tests.complaint_blanks import (
     put_tender_complaint_document,
     create_tender_lot_complaint,
     create_complaint_objection_validation,
+    patch_complaint_objection,
 )
 
 
@@ -83,6 +84,7 @@ class TenderComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
 
 class ComplaintObjectionMixin:
     test_create_complaint_objection_validation = snitch(create_complaint_objection_validation)
+    test_patch_complaint_objection = snitch(patch_complaint_objection)
 
 
 class TenderComplaintObjectionMixin:
@@ -94,6 +96,10 @@ class TenderComplaintObjectionMixin:
         url = f"/tenders/{self.tender_id}/complaints"
         return self.app.post_json(url, {"data": complaint_data}, status=status)
 
+    def patch_complaint(self, complaint_id, complaint_data, complaint_token, status=200):
+        url = f"/tenders/{self.tender_id}/complaints/{complaint_id}?acc_token={complaint_token}"
+        return self.app.patch_json(url, {"data": complaint_data}, status=status)
+
 
 class TenderCancellationComplaintObjectionMixin:
     app = None
@@ -104,6 +110,11 @@ class TenderCancellationComplaintObjectionMixin:
     def create_complaint(self, complaint_data, status=201):
         url = f"/tenders/{self.tender_id}/cancellations/{self.cancellation_id}/complaints"
         return self.app.post_json(url, {"data": complaint_data}, status=status)
+
+    def patch_complaint(self, complaint_id, complaint_data, complaint_token, status=200):
+        url = f"/tenders/{self.tender_id}/cancellations/{self.cancellation_id}/complaints/{complaint_id}?" \
+              f"acc_token={complaint_token}"
+        return self.app.patch_json(url, {"data": complaint_data}, status=status)
 
     def create_cancellation(self):
         # Create cancellation
@@ -179,6 +190,11 @@ class TenderQualificationComplaintObjectionMixin:
               f"complaints?acc_token={list(self.initial_bids_tokens.values())[0]}"
         return self.app.post_json(url, {"data": complaint_data}, status=status)
 
+    def patch_complaint(self, complaint_id, complaint_data, complaint_token, status=200):
+        url = f"/tenders/{self.tender_id}/qualifications/{self.qualification_id}/complaints/{complaint_id}?" \
+              f"acc_token={complaint_token}"
+        return self.app.patch_json(url, {"data": complaint_data}, status=status)
+
 
 class TenderAwardComplaintObjectionMixin:
     app = None
@@ -216,6 +232,11 @@ class TenderAwardComplaintObjectionMixin:
         url = f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints" \
               f"?acc_token={list(self.initial_bids_tokens.values())[0]}"
         return self.app.post_json(url, {"data": complaint_data}, status=status)
+
+    def patch_complaint(self, complaint_id, complaint_data, complaint_token, status=200):
+        url = f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints/{complaint_id}?" \
+              f"acc_token={complaint_token}"
+        return self.app.patch_json(url, {"data": complaint_data}, status=status)
 
 
 class TenderComplaintObjectionTest(

@@ -103,6 +103,7 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
 
         def empty_handler(_):
             pass
+
         if auth_role == "bots":
             if new_rules and status == "draft" and new_status in ("pending", "mistaken"):
                 if new_status == "mistaken":

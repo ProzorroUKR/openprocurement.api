@@ -1183,3 +1183,31 @@ def create_complaint_objection_validation(self):
         response.json["errors"][0]["description"][0]["arguments"][0]["evidences"],
         [{"type": ["Value must be one of ['external', 'internal']."]}],
     )
+
+
+def patch_complaint_objection(self):
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
+    complaint_data["objections"] = [test_tender_open_complaint_objection]
+    response = self.create_complaint(complaint_data)
+    self.assertEqual(response.status, "201 Created")
+    complaint_id = response.json["data"]["id"]
+    complaint_token = response.json["access"]["token"]
+    objection_id = response.json["data"]["objections"][0]["id"]
+    objection_data = deepcopy(test_tender_open_complaint_objection)
+    objection_data["id"] = objection_id
+    objection_data["description"] = "Updated one"
+    complaint_data = {"objections": [objection_data]}
+    response = self.patch_complaint(complaint_id, complaint_data, complaint_token)
+    self.assertEqual(response.status, "200 OK")
+    objection = response.json["data"]["objections"][0]
+    self.assertEqual(objection["id"], objection_id)
+    self.assertEqual(objection["description"], "Updated one")
+
+    del objection_data["id"]
+    objection_data["description"] = "New one"
+    complaint_data = {"objections": [objection_data]}
+    response = self.patch_complaint(complaint_id, complaint_data, complaint_token)
+    self.assertEqual(response.status, "200 OK")
+    objection = response.json["data"]["objections"][0]
+    self.assertNotEqual(objection["id"], objection_id)
+    self.assertEqual(objection["description"], "New one")

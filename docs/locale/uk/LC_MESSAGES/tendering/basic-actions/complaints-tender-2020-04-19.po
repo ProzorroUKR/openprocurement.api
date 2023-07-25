@@ -44,6 +44,24 @@ msgstr "Цей крок не обов'язковий.Завантажте док
 msgid "Submit tender conditions complaint:"
 msgstr "Подайте скаргу на умови закупівлі:"
 
+msgid "Complaint Objections"
+msgstr "Заперечення до скарги"
+
+msgid "When creating a complaint, the User can add one or more Objections raised by the Complainant as part of the complaint:"
+msgstr "При створенні скарги Користувач може додати одне або декілька Заперечень, що висуваються Скаржником в рамках скарги (objections):"
+
+msgid "Objections can be added or edited while complaint is in the status `draft`."
+msgstr "Заперечення можуть бути додані або відредаговані, коли скарга знаходиться в статусі `draft`."
+
+msgid "For each Objection, the Complainant must indicate one or more arguments. In other case there error will be raised:"
+msgstr "Для кожного Заперечення Скаржник обов'язково вказує одне або декілька Обгрунтуваннь (arguments). В іншому випадку буде помилка:"
+
+msgid "For each Arguments, the Complainant can indicate one or more evidences. Evidences can be empty:"
+msgstr "Для кожного Обгрунтування Скаржник може вказати один або декілька Доказів (evidences). Докази можуть бути пустими:"
+
+msgid "For each Objection, the Complainant must specify one or more requestedRemedies. In other case there error will be raised:"
+msgstr "Для кожного Заперечення Скаржник обов'язково вказує одну або декілька Вимог (requestedRemedies). В іншому випадку буде помилка:"
+
 msgid "Complaint Posts"
 msgstr "Запит до скарги"
 

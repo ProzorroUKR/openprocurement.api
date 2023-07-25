@@ -17,6 +17,11 @@ areas that were not covered by it.
    change
    complaint
    claim
+   complaint-objection
+   complaint-objection-argument
+   complaint-objection-argument-evidence
+   complaint-objection-classification
+   complaint-objection-requested-remedy
    complaintpost
    confidentialdocument
    contract

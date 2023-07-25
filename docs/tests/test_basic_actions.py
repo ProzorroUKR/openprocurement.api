@@ -5,6 +5,7 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.models import get_now
+from openprocurement.tender.open.tests.base import test_tender_open_complaint_objection
 from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
 from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest as BelowThresholdBaseTenderWebTest,
@@ -444,6 +445,56 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.app.authorization = None
             response = self.app.get('/tenders/{}/complaints/{}'.format(self.tender_id, complaint1_id))
             self.assertEqual(response.status, '200 OK')
+
+    def test_complaints_objections(self):
+        response = self.app.post_json(
+            '/tenders?opt_pretty=1',
+            {'data': test_tender_data, 'config': self.initial_config})
+        self.assertEqual(response.status, '201 Created')
+
+        tender = response.json['data']
+        self.tender_id = tender['id']
+        self.set_status("active.tendering")
+
+        objection = deepcopy(test_tender_open_complaint_objection)
+        complaint_data = deepcopy(complaint)
+        complaint_data["objections"] = [objection]
+        with open(TARGET_DIR + 'complaints/complaint-objections-submission.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/complaints'.format(self.tender_id),
+                {'data': complaint_data})
+            self.assertEqual(response.status, '201 Created')
+
+        objection["arguments"] = []
+        complaint_data["objections"] = [objection]
+        with open(TARGET_DIR + 'complaints/complaint-objections-invalid-arguments.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/complaints'.format(self.tender_id),
+                {'data': complaint_data},
+                status=422,
+            )
+            self.assertEqual(response.status, '422 Unprocessable Entity')
+
+        objection = deepcopy(test_tender_open_complaint_objection)
+        objection["arguments"][0]["evidences"] = []
+        complaint_data["objections"] = [objection]
+        with open(TARGET_DIR + 'complaints/complaint-objections-empty-evidences.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/complaints'.format(self.tender_id),
+                {'data': complaint_data},
+            )
+            self.assertEqual(response.status, '201 Created')
+
+        objection = deepcopy(test_tender_open_complaint_objection)
+        objection["requestedRemedies"] = []
+        complaint_data["objections"] = [objection]
+        with open(TARGET_DIR + 'complaints/complaint-objections-invalid-requested-remedies.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/complaints'.format(self.tender_id),
+                {'data': complaint_data},
+                status=422,
+            )
+            self.assertEqual(response.status, '422 Unprocessable Entity')
 
     def test_qualification_complaints(self):
         self.app.authorization = ('Basic', ('broker', ''))

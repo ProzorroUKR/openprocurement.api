@@ -22,7 +22,7 @@ class TenderNegotiationAwardComplaintObjectionResourceTest(
     docservice = True
     initial_data = test_tender_negotiation_data
 
-    def create_complaint(self, complaint_data, status):
+    def create_complaint(self, complaint_data, status=201):
         url = f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints?acc_token={self.tender_token}"
         return self.app.post_json(url, {"data": complaint_data}, status=status)
 

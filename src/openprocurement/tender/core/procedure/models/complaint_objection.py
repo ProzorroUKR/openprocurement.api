@@ -5,7 +5,6 @@ from uuid import uuid4
 from schematics.exceptions import ValidationError
 from schematics.types import BaseType, StringType, URLType, MD5Type
 from schematics.types.compound import ListType, ModelType
-from schematics.types.serializable import serializable
 
 from openprocurement.api.models import Model
 from openprocurement.tender.core.procedure.models.complaint_objection_argument import Argument
@@ -85,14 +84,10 @@ class Classification(Model):
     scheme = StringType(required=True)
     id = StringType(required=True)
     description = StringType(required=True)
-    uri = URLType()
 
 
 class Objection(Model):
-    @serializable
-    def id(self):
-        return uuid4().hex
-
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
     title = StringType(required=True)
     description = StringType(required=True)
     relatesTo = StringType(choices=[choice.value for choice in ObjectionRelatesTo], required=True)
