@@ -8,6 +8,7 @@ from openprocurement.tender.core.procedure.models.period import (
     Period,
     TenderAuctionPeriod,
     EnquiryPeriod,
+    QualificationPeriod,
 )
 from openprocurement.tender.core.procedure.models.guarantee import Guarantee, PostGuarantee
 from openprocurement.tender.core.procedure.models.lot import (
@@ -187,7 +188,7 @@ class Tender(BaseTender):
     milestones = ListType(ModelType(Milestone, required=True),
                           validators=[validate_items_uniq, validate_milestones])
 
-    qualificationPeriod = ModelType(Period)
+    qualificationPeriod = ModelType(QualificationPeriod)
     qualifications = BaseType()
 
     def validate_minimalStep(self, data, value):

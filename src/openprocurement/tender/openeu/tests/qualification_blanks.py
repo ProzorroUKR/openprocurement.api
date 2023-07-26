@@ -4,8 +4,8 @@ from copy import deepcopy
 from datetime import timedelta
 
 from mock import patch
-from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.api.utils import get_now
+from openprocurement.api.constants import RELEASE_2020_04_19, SANDBOX_MODE
+from openprocurement.api.utils import get_now, parse_date
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
     test_tender_below_draft_claim,
@@ -235,6 +235,34 @@ def patch_tender_qualifications_after_status_change(self):
         ],
     )
 
+
+def check_reporting_date_publication(self):
+    response = self.app.get(f"/tenders/{self.tender_id}/qualifications?acc_token={self.tender_token}")
+    self.assertEqual(response.content_type, "application/json")
+    qualifications = response.json["data"]
+    self.assertEqual(len(qualifications), 2)
+    for qualification in qualifications:
+        status = "active"
+        response = self.app.patch_json(
+            "/tenders/{}/qualifications/{}?acc_token={}".format(self.tender_id, qualification["id"], self.tender_token),
+            {"data": {"status": status, "qualified": True, "eligible": True}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json["data"]["status"], status)
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+        {"data": {"status": "active.pre-qualification.stand-still"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    qualification_period = response.json["data"]["qualificationPeriod"]
+    self.assertIn("reportingDatePublication", qualification_period)
+    reporting_date = parse_date(qualification_period["reportingDatePublication"])
+    end_date = parse_date(qualification_period["endDate"])
+    delta = end_date - reporting_date
+    if SANDBOX_MODE:
+        self.assertEqual((delta * 1440).days, 5)  # accelerator = 1440
+    else:
+        self.assertEqual(delta.days, 5)
 
 # Tender2LotQualificationResourceTest
 
