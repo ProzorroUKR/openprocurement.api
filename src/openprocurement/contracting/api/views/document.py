@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.views.document import BaseDocumentResource
-from openprocurement.contracting.api.utils import save_contract, contractingresource, apply_patch
+from openprocurement.contracting.core.utils import save_contract, contractingresource, apply_patch
 from openprocurement.api.utils import (
     context_unpack,
     json_view,
@@ -15,7 +15,7 @@ from openprocurement.contracting.api.validation import (
     validate_contract_document_operation_not_in_allowed_contract_status,
     validate_file_transaction_upload,
 )
-from openprocurement.contracting.api.utils import get_transaction_by_id, upload_file_to_transaction
+from openprocurement.contracting.core.utils import get_transaction_by_id, upload_file_to_transaction
 
 
 class CoreDocumentResource(BaseDocumentResource):

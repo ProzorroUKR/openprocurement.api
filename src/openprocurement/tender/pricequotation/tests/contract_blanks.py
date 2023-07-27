@@ -36,7 +36,6 @@ def auto_create_contract_in_contracting(self):
     self.assertIn("id", contract)
     self.assertIn("value", contract)
     self.assertIn("suppliers", contract)
-    self.assertIn("period", contract)
     self.assertIn("contractNumber", contract)
     self.assertIn(contract["id"], response.headers["Location"])
     self.assertEqual(contract["items"], contract_items)
@@ -49,7 +48,6 @@ def auto_create_contract_in_contracting(self):
         "awardID",
         "contractID",
         "contractNumber",
-        "period",
         "dateCreated",
         "dateModified",
         "items",

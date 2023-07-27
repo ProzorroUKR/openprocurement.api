@@ -9,7 +9,7 @@ from openprocurement.api.models import (
     BankAccount,
 )
 
-from openprocurement.contracting.api.procedure.models.document import TransactionDocument
+from openprocurement.contracting.core.procedure.models.document import TransactionDocument
 
 
 class OrganizationReference(Model):

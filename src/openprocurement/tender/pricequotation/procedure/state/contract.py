@@ -8,7 +8,7 @@ from openprocurement.tender.pricequotation.procedure.state.tender import PriceQu
 from openprocurement.api.utils import context_unpack, get_now
 from openprocurement.tender.core.procedure.context import get_tender
 
-from openprocurement.contracting.api.procedure.utils import save_contract
+from openprocurement.contracting.core.procedure.utils import save_contract
 
 LOGGER = getLogger(__name__)
 

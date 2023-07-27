@@ -1,7 +1,9 @@
-from openprocurement.api.views.base import BaseResource
-from openprocurement.contracting.api.procedure.state.contract import ContractState
 from copy import deepcopy
+
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
+
+from openprocurement.api.views.base import BaseResource
+from openprocurement.contracting.core.procedure.state.contract import ContractState
 
 
 class ContractBaseResource(BaseResource):

@@ -1,7 +1,7 @@
 from openprocurement.api.utils import json_view
 
 from openprocurement.tender.core.procedure.serializers.document import DocumentSerializer
-from openprocurement.contracting.api.procedure.models.document import Document, PostDocument, PatchDocument
+from openprocurement.contracting.core.procedure.models.document import Document, PostDocument, PatchDocument
 from openprocurement.tender.core.procedure.documents import get_file
 from openprocurement.tender.core.procedure.views.document import DocumentResourceMixin
 from openprocurement.tender.core.procedure.validation import (
@@ -13,10 +13,10 @@ from openprocurement.tender.core.procedure.validation import (
     validate_upload_document,
     validate_data_model,
 )
-from openprocurement.contracting.api.procedure.utils import save_contract
-from openprocurement.contracting.api.procedure.state.document import BaseDocumentState
-from openprocurement.contracting.api.procedure.views.base import ContractBaseResource
-from openprocurement.contracting.api.procedure.validation import (
+from openprocurement.contracting.core.procedure.utils import save_contract
+from openprocurement.contracting.core.procedure.state.document import BaseDocumentState
+from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
+from openprocurement.contracting.core.procedure.validation import (
     validate_contract_document_operation_not_in_allowed_contract_status,
     validate_add_document_to_active_change,
 )
@@ -57,7 +57,6 @@ class BaseDocumentResource(DocumentResourceMixin, ContractBaseResource):
         validators=(
             unless_admins(validate_item_owner("contract")),
             validate_input_data(PostDocument),
-
             update_doc_fields_on_put_document,
             validate_upload_document,
             validate_data_model(Document),

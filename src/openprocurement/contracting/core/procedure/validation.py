@@ -14,8 +14,8 @@ from openprocurement.tender.core.procedure.validation import (
     validate_update_contract_value_amount,
     validate_update_contract_value_net_required,
 )
-from openprocurement.contracting.api.utils import get_transaction_by_id
-from openprocurement.contracting.api.procedure.utils import is_tender_owner
+from openprocurement.contracting.core.utils import get_transaction_by_id
+from openprocurement.contracting.core.procedure.utils import is_tender_owner, is_contract_owner, is_bid_owner
 
 
 def _validate_contract_accreditation_level(request, model):
@@ -25,7 +25,7 @@ def _validate_contract_accreditation_level(request, model):
 # changes
 def validate_contract_change_add_not_in_allowed_contract_status(request, **kwargs):
     contract = request.validated["contract"]
-    if contract["status"] != "active":
+    if contract["status"] not in ["pending", "active"]:
         raise_operation_error(
             request, f"Can't add contract change in current ({contract['status']}) contract status"
         )
@@ -46,7 +46,7 @@ def validate_contract_change_update_not_in_allowed_change_status(request, **kwar
 # contract
 def validate_contract_update_not_in_allowed_status(request, **_):
     contract = request.validated["contract"]
-    if contract["status"] != "active":
+    if contract["status"] not in ["pending", "active"]:
         raise_operation_error(request, f"Can't update contract in current ({contract['status']}) status")
 
 
@@ -58,7 +58,7 @@ def validate_terminate_contract_without_amountPaid(request, **_):
 
 def validate_credentials_generate(request, **_):
     contract = request.validated["contract"]
-    if contract["status"] != "active":
+    if contract["status"] not in ["pending", "active"]:
         raise_operation_error(
             request, f"Can't generate credentials in current ({contract['status']}) contract status"
         )
@@ -66,7 +66,7 @@ def validate_credentials_generate(request, **_):
 
 # contract document
 def validate_contract_document_operation_not_in_allowed_contract_status(request, **_):
-    if request.validated["contract"]["status"] != "active":
+    if request.validated["contract"]["status"] not in ["pending", "active"]:
         raise_operation_error(
             request,
             f"Can't {OPERATIONS.get(request.method)} document in current "
@@ -177,6 +177,21 @@ def validate_update_contract_paid_net_required(request, **kwargs):
 def validate_tender_owner(request, **_):
     contract = request.validated["contract"]
     if not is_tender_owner(request, contract):
+        raise_operation_error(
+            request,
+            "Forbidden",
+            location="url",
+            name="permission"
+        )
+
+
+def validate_contract_participant(request, **_):
+    contract = request.validated["contract"]
+
+    if (
+        not is_contract_owner(request, contract)
+        and not is_bid_owner(request, contract)
+    ):
         raise_operation_error(
             request,
             "Forbidden",

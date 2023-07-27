@@ -423,6 +423,7 @@ def move_award_contract_to_contracting(self):
         "items",
         "tender_id",
         "owner",
+        "bid_owner",
         "status",
         "suppliers",
         "value",

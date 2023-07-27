@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
-from uuid import uuid4
 
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.contracting.api.tests.data import (

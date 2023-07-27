@@ -1,12 +1,16 @@
 from hashlib import sha512
 
-from openprocurement.tender.core.procedure.context import get_request, get_tender
+from openprocurement.tender.core.procedure.context import get_request, get_tender, get_award
 from openprocurement.api.context import get_now
+from openprocurement.api.utils import context_unpack
 from openprocurement.tender.belowthreshold.utils import prepare_tender_item_for_contract
-from openprocurement.contracting.econtracting.procedure.models.contract import PostContract
-from openprocurement.contracting.api.procedure.utils import save_contract
+from openprocurement.contracting.econtract.procedure.models.contract import PostContract
+from openprocurement.contracting.core.procedure.utils import save_contract
 from collections import defaultdict
 from copy import deepcopy
+from logging import getLogger
+
+LOGGER = getLogger(__name__)
 
 
 def add_contracts(request, award, contract_model):
@@ -81,13 +85,22 @@ def add_contract_to_tender(contract_model, tender, contract_items, contract_valu
 def save_contracts_to_contracting(contracts):
     tender = get_tender()
     request = get_request()
+    award = get_award()
     for contract in deepcopy(contracts):
         del contract["date"]
+        bids = tuple(i for i in tender.get("bids", "") if i["id"] == award.get("bid_id", ""))
+        if not bids:
+            LOGGER.exception(f"Bid {award['bid_id']} not found",
+                             extra=context_unpack(request, {"MESSAGE_ID": "fail_find_tender_bid"}))
+            return
+        bid = bids[0]
         extend_contract_data = {
             "buyer": tender["buyer"] if tender.get("buyer") else tender["procuringEntity"],
             "tender_id": tender["_id"],
             "owner": tender["owner"],
             "tender_token": sha512(tender["owner_token"].encode("utf-8")).hexdigest(),
+            "bid_owner": bid["owner"],
+            "bid_token": bid["owner_token"],
         }
         contract.update(extend_contract_data)
         contract_data = PostContract(contract).serialize()

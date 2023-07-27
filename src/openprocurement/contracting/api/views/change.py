@@ -6,7 +6,7 @@ from openprocurement.api.utils import (
     raise_operation_error,
 )
 
-from openprocurement.contracting.api.utils import (
+from openprocurement.contracting.core.utils import (
     contractingresource,
     apply_patch,
     save_contract,

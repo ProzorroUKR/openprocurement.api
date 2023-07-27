@@ -33,7 +33,7 @@ entry_points = {
         "api = openprocurement.api.includeme:includeme",
         "tender.core = openprocurement.tender.core.includeme:includeme",
         "planning.api = openprocurement.planning.api.includeme:includeme",
-        "contracting.api = openprocurement.contracting.api.includeme:includeme",
+        "contracting.core = openprocurement.contracting.core.includeme:includeme",
         "historical.core = openprocurement.historical.core.includeme:includeme",
         "relocation.api = openprocurement.relocation.api.includeme:includeme",
         "framework.core = openprocurement.framework.core.includeme:includeme",
@@ -62,6 +62,10 @@ entry_points = {
         "framework.dps = openprocurement.framework.dps.includeme:includeme",
         "framework.cfaua = openprocurement.framework.cfaua.includeme:includeme",
     ],
+    "openprocurement.contracting.core.plugins": [
+        "contracting.api = openprocurement.contracting.api.includeme:includeme",
+        "contracting.econtract = openprocurement.contracting.econtract.includeme:includeme",
+    ],
     "openprocurement.api.migrations": [
         "tenders = openprocurement.api.migration:migrate_data",
         "contracts = openprocurement.contracting.api.migration:migrate_data",
@@ -69,7 +73,7 @@ entry_points = {
     ],
     "console_scripts": [
         "bootstrap_api_security = openprocurement.api.database:bootstrap_api_security"
-    ]
+    ],
 }
 
 setup(
