@@ -147,20 +147,6 @@ Content-Type: application/json
     "status": "active",
     "id": "381f5658b23a448ea820b823934eeb79",
     "date": "2023-01-01T00:00:00+02:00",
-    "subcontractingDetails": "ДКП «Орфей», Україна",
-    "lotValues": [
-      {
-        "value": {
-          "amount": 500.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        },
-        "relatedLot": "9dea7e57fca24c0fa6c43f752611342d",
-        "status": "active",
-        "date": "2023-01-01T00:00:00+02:00",
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/5a06577d0adb4c42907931f3b9b03b2c_9dea7e57fca24c0fa6c43f752611342d?key_for_bid=381f5658b23a448ea820b823934eeb79"
-      }
-    ],
     "documents": [
       {
         "id": "40ec45cd71154d63b94499dfcbee95bc",
@@ -252,6 +238,20 @@ Content-Type: application/json
         "dateModified": "2023-01-01T00:00:00+02:00",
         "language": "uk",
         "confidentiality": "public"
+      }
+    ],
+    "subcontractingDetails": "ДКП «Орфей», Україна",
+    "lotValues": [
+      {
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "9dea7e57fca24c0fa6c43f752611342d",
+        "status": "active",
+        "date": "2023-01-01T00:00:00+02:00",
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/5a06577d0adb4c42907931f3b9b03b2c_9dea7e57fca24c0fa6c43f752611342d?key_for_bid=381f5658b23a448ea820b823934eeb79"
       }
     ],
     "selfQualified": true

@@ -40,9 +40,6 @@ Content-Type: application/json
     "status": "active",
     "id": "5896e44a93ff466397bbaaaf13853ea3",
     "date": "2023-01-01T00:00:01+02:00",
-    "selfEligible": true,
-    "selfQualified": true,
-    "subcontractingDetails": "ДКП «Орфей», Україна",
     "documents": [
       {
         "id": "6aa2685d238744aaa8d8253ab4f5664b",
@@ -57,6 +54,9 @@ Content-Type: application/json
         "confidentiality": "public"
       }
     ],
+    "selfEligible": true,
+    "selfQualified": true,
+    "subcontractingDetails": "ДКП «Орфей», Україна",
     "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/3cf3333f00394e93bc3caaea00cbe9e2?key_for_bid=5896e44a93ff466397bbaaaf13853ea3"
   }
 }

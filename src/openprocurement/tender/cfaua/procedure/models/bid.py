@@ -8,10 +8,6 @@ from openprocurement.tender.core.procedure.models.bid import (
     PatchBid as BasePatchBid,
 )
 from openprocurement.tender.core.procedure.models.base import ListType
-from openprocurement.tender.core.procedure.models.bid_document import (
-    PostDocument,
-    Document,
-)
 from openprocurement.tender.cfaua.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
 
 
@@ -25,12 +21,6 @@ class PatchBid(PatchObjResponsesMixin, BasePatchBid):
 class PostBid(PostBidResponsesMixin, BasePostBid):
     subcontractingDetails = StringType()
     lotValues = ListType(ModelType(PostLotValue, required=True))
-
-    documents = ListType(ModelType(PostDocument, required=True))
-    financialDocuments = ListType(ModelType(PostDocument, required=True))
-    eligibilityDocuments = ListType(ModelType(PostDocument, required=True))
-    qualificationDocuments = ListType(ModelType(PostDocument, required=True))
-
     selfQualified = BooleanType(required=True, choices=[True])
     selfEligible = BooleanType(choices=[True])
 
@@ -38,12 +28,5 @@ class PostBid(PostBidResponsesMixin, BasePostBid):
 class Bid(PostBidResponsesMixin, BaseBid):
     subcontractingDetails = StringType()
     lotValues = ListType(ModelType(LotValue, required=True))
-
     weightedValue = ModelType(WeightedValue)
-
-    documents = ListType(ModelType(Document, required=True))
-    financialDocuments = ListType(ModelType(Document, required=True))
-    eligibilityDocuments = ListType(ModelType(Document, required=True))
-    qualificationDocuments = ListType(ModelType(Document, required=True))
-
     selfQualified = BooleanType(required=True, choices=[True])
