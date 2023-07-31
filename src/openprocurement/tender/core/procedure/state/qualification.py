@@ -70,6 +70,6 @@ class QualificationState(TenderState):
             ids = self.prepare_qualifications(tender, bids=[bid], lot_id=lot_id)
             self.request.response.headers["Location"] = self.request.route_url(
                 "Tender Qualification",
-                tender_id=tender["tenderID"],
+                tender_id=tender["_id"],
                 qualification_id=ids[0],
             )
