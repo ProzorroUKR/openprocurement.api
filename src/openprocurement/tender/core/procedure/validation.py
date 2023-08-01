@@ -33,7 +33,7 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_after_2020_rules,
     tender_created_after,
 )
-from openprocurement.tender.core.utils import calculate_tender_business_date, find_lot
+from openprocurement.tender.core.utils import calculate_tender_business_date, find_lot, requested_fields_changes
 from openprocurement.tender.core.procedure.documents import check_document_batch, check_document, update_document_url
 from openprocurement.tender.core.procedure.context import get_tender, get_tender_config
 from openprocurement.api.context import get_now
@@ -1164,9 +1164,8 @@ def validate_contract_operation_not_in_allowed_status(request, **_):
 
 def validate_update_contract_value_net_required(request, name="value", **_):
     data = request.validated["data"]
-    value = data.get("value")
-
-    if value is not None and "status" in request.validated["json_data"]:
+    value = data.get(name)
+    if value is not None and requested_fields_changes(request, (name, "status")):
         contract_amount_net = value.get("amountNet")
         if contract_amount_net is None:
             raise_operation_error(request, {"amountNet": BaseType.MESSAGES["required"]}, status=422, name=name)
@@ -1201,26 +1200,18 @@ def validate_update_contract_value_with_award(request, **_):
                 raise_operation_error(request, "Amount should be less or equal to awarded amount", name="value")
 
 
-def validate_update_contract_value_amount(request, name="value", allow_equal=False, **_):
+def validate_update_contract_value_amount(request, name="value", **_):
     data = request.validated["data"]
     contract_value = data.get(name)
-    value = data.get("value") or data.get(name)
     if contract_value and {"status", name} & set(request.validated["json_data"].keys()):
         amount = to_decimal(contract_value.get("amount") or 0)
         amount_net = to_decimal(contract_value.get("amountNet") or 0)
-        tax_included = value.get("valueAddedTaxIncluded")
+        tax_included = contract_value.get("valueAddedTaxIncluded")
 
         if not (amount == 0 and amount_net == 0):
             if tax_included:
                 amount_max = (amount_net * AMOUNT_NET_COEF).quantize(Decimal("1E-2"), rounding=ROUND_UP)
-                if (amount <= amount_net or amount > amount_max) and not allow_equal:
-                    raise_operation_error(
-                        request,
-                        "Amount should be greater than amountNet and differ by "
-                        "no more than {}%".format(AMOUNT_NET_COEF * 100 - 100),
-                        name=name,
-                    )
-                elif (amount < amount_net or amount > amount_max) and allow_equal:
+                if amount < amount_net or amount > amount_max:
                     raise_operation_error(
                         request,
                         f"Amount should be equal or greater than amountNet and differ by "

@@ -1,4 +1,4 @@
-POST /api/2.5/contracts/b67af9433cdc413fb8a098088d0cef85/documents?acc_token=a0e030a63cbe4390a164f7dee4f37dc9 HTTP/1.0
+POST /api/2.5/contracts/b67af9433cdc413fb8a098088d0cef85/documents?acc_token=e2cad9981b614b92a8262ec3ab0b7755 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 339
 Content-Type: application/json
@@ -16,18 +16,18 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/b67af9433cdc413fb8a098088d0cef85/documents/315db81de36f44689c9f8e18745c3f3e
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/b67af9433cdc413fb8a098088d0cef85/documents/34379d8b0c6a4ef4a38489cd7e46af9b
 
 {
   "data": {
-    "id": "315db81de36f44689c9f8e18745c3f3e",
     "hash": "md5:00000000000000000000000000000000",
     "title": "contract_changes.doc",
     "format": "application/msword",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f63818a2a95e4f2ab5e07260dfe16911?Signature=AIUP5kGnx%2BOdbPRF%2B0t6WebywkPEF8BHamAxW9BXr224HyI%2BSXYFxn6QzmhVRFlpv08gR6kyoyAjzLIo6xcVAA%3D%3D&KeyID=a8968c46",
+    "documentOf": "contract",
+    "id": "34379d8b0c6a4ef4a38489cd7e46af9b",
     "datePublished": "2023-01-01T00:00:01+02:00",
-    "dateModified": "2023-01-01T00:00:01+02:00",
-    "documentOf": "contract"
+    "dateModified": "2023-01-01T00:00:01+02:00"
   }
 }
 

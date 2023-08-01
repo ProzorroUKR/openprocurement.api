@@ -30,12 +30,12 @@ class CoreDocumentResource(BaseDocumentResource):
         return apply_patch(request, **kwargs)
 
 
-@contractingresource(
-    name="Contract Documents",
-    collection_path="/contracts/{contract_id}/documents",
-    path="/contracts/{contract_id}/documents/{document_id}",
-    description="Contract related binary files (PDFs, etc.)",
-)
+# @contractingresource(
+#     name="Contract Documents",
+#     collection_path="/contracts/{contract_id}/documents",
+#     path="/contracts/{contract_id}/documents/{document_id}",
+#     description="Contract related binary files (PDFs, etc.)",
+# )
 class ContractsDocumentResource(CoreDocumentResource):
     @json_view(permission="view_contract")
     def collection_get(self):
@@ -77,11 +77,11 @@ class ContractsDocumentResource(CoreDocumentResource):
         return super(ContractsDocumentResource, self).patch()
 
 
-@contractingresource(
-    name="Contract Transaction Documents",
-    path="/contracts/{contract_id}/transactions/{transaction_id}/documents",
-    description="Contract transaction related binary files (PDFs, etc.)",
-)
+# @contractingresource(
+#     name="Contract Transaction Documents",
+#     path="/contracts/{contract_id}/transactions/{transaction_id}/documents",
+#     description="Contract transaction related binary files (PDFs, etc.)",
+# )
 class ContractTransactionDocumentResource(BaseDocumentResource):
     @json_view(
         content_type="application/json",

@@ -78,8 +78,8 @@ def check_document(request, document):
 
 
 # downloading files
-def get_file(request):
-    db_doc_id = request.validated["tender"]["_id"]
+def get_file(request, item_name="tender"):
+    db_doc_id = request.validated[item_name]["_id"]
     key = request.params.get("download")
     if not any(key in i["url"] for i in request.validated["documents"]):
         request.errors.add("url", "download", "Not Found")

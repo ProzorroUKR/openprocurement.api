@@ -134,6 +134,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         test_contract_data['tender_token'] = response.json['data']['tender_token']
         test_contract_data['tender_id'] = tender_id
         test_contract_data['procuringEntity'] = tender['procuringEntity']
+        del test_contract_data['date']
         del test_contract_data['status']
 
         response = self.app.post_json(

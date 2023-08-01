@@ -1,4 +1,4 @@
-POST /api/2.5/contracts/b67af9433cdc413fb8a098088d0cef85/changes?acc_token=a0e030a63cbe4390a164f7dee4f37dc9 HTTP/1.0
+POST /api/2.5/contracts/b67af9433cdc413fb8a098088d0cef85/changes?acc_token=e2cad9981b614b92a8262ec3ab0b7755 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 267
 Content-Type: application/json
@@ -21,15 +21,15 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "9b42f245308547cc9d4f760dda1dc15c",
-    "status": "pending",
-    "date": "2023-01-01T00:00:01+02:00",
     "rationale": "Опис причини змін контракту",
     "rationale_en": "Contract change cause",
     "rationaleTypes": [
       "volumeCuts",
       "priceReduction"
-    ]
+    ],
+    "id": "d1ce56999c404806932bd89a9966a020",
+    "status": "pending",
+    "date": "2023-01-01T00:00:01+02:00"
   }
 }
 

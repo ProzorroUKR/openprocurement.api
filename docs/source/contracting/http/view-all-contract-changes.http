@@ -9,16 +9,16 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "9b42f245308547cc9d4f760dda1dc15c",
-      "status": "active",
-      "date": "2023-01-01T00:00:01+02:00",
       "rationale": "Друга і третя поставка має бути розфасована",
       "rationale_en": "Contract change cause",
       "rationaleTypes": [
         "volumeCuts",
         "priceReduction"
       ],
-      "dateSigned": "2023-01-01T00:00:01+02:00"
+      "dateSigned": "2023-01-01T00:00:01+02:00",
+      "id": "d1ce56999c404806932bd89a9966a020",
+      "status": "active",
+      "date": "2023-01-01T00:00:01+02:00"
     }
   ]
 }
