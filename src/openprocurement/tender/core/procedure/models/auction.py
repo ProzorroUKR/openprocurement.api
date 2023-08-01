@@ -265,3 +265,7 @@ class AuctionLotResults(Model):
         if passed_ids != bid_ids:
             raise ValidationError("Auction bids should be identical to the tender bids")
         return bids
+
+
+class AuctionPeriodStartDate(Model):
+    startDate = IsoDateTimeType()

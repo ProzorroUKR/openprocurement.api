@@ -44,7 +44,7 @@ from copy import deepcopy
 from schematics.types import BaseType
 from decimal import Decimal, ROUND_UP
 import logging
-
+from datetime import timedelta
 
 LOGGER = logging.getLogger(__name__)
 OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "delete"}
@@ -1634,4 +1634,42 @@ def validate_view_financial_bid_documents_allowed_in_bid_status(request, **_):
         raise_operation_error(
             request,
             f"Can't view bid documents in current ({bid_status}) bid status"
+        )
+
+
+def validate_tender_status_for_put_action_period(request, **_):
+    tender_status = request.validated["tender"]["status"]
+    if tender_status not in ("active.auction", "active.pre-qualification", "active.tendering"):
+        raise_operation_error(request, f"Can't update auctionPeriod in current ({tender_status}) tender status")
+
+
+def validate_auction_period_start_date(request, **kwargs):
+    tender = request.validated["tender"]
+    data = request.validated["data"]
+    start_date = data.get("startDate", {})
+    if start_date:
+        if (get_now() + timedelta(seconds=3600)).isoformat() > start_date:
+            raise_operation_error(
+                request,
+                'startDate should be no earlier than an hour later',
+            )
+        if tender.get("auctionPeriod", {}).get("shouldStartAfter"):
+            if start_date < tender["auctionPeriod"]["shouldStartAfter"]:
+                raise_operation_error(
+                    request,
+                    'startDate should be after shouldStartAfter',
+                )
+
+
+def validate_lot_status_active(request, **_):
+    tender = request.validated["tender"]
+    lot_id = request.matchdict.get("lot_id")
+    if not any(
+        lot["status"] == "active"
+        for lot in tender.get("lots", "")
+        if lot["id"] == lot_id
+    ):
+        raise_operation_error(
+            request,
+            "Can update auction urls only in active lot status",
         )
