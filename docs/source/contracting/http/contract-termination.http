@@ -1,4 +1,4 @@
-PATCH /api/2.5/contracts/b67af9433cdc413fb8a098088d0cef85?acc_token=a0e030a63cbe4390a164f7dee4f37dc9 HTTP/1.0
+PATCH /api/2.5/contracts/b67af9433cdc413fb8a098088d0cef85?acc_token=e2cad9981b614b92a8262ec3ab0b7755 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 114
 Content-Type: application/json
@@ -155,59 +155,59 @@ Content-Type: application/json
     },
     "changes": [
       {
-        "id": "9b42f245308547cc9d4f760dda1dc15c",
-        "status": "active",
-        "date": "2023-01-01T00:00:01+02:00",
         "rationale": "Друга і третя поставка має бути розфасована",
         "rationale_en": "Contract change cause",
         "rationaleTypes": [
           "volumeCuts",
           "priceReduction"
         ],
-        "dateSigned": "2023-01-01T00:00:01+02:00"
+        "dateSigned": "2023-01-01T00:00:01+02:00",
+        "id": "d1ce56999c404806932bd89a9966a020",
+        "status": "active",
+        "date": "2022-12-31T22:00:01"
       }
     ],
     "documents": [
       {
-        "id": "315db81de36f44689c9f8e18745c3f3e",
+        "relatedItem": "d1ce56999c404806932bd89a9966a020",
+        "id": "34379d8b0c6a4ef4a38489cd7e46af9b",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_changes.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f63818a2a95e4f2ab5e07260dfe16911?Signature=AIUP5kGnx%2BOdbPRF%2B0t6WebywkPEF8BHamAxW9BXr224HyI%2BSXYFxn6QzmhVRFlpv08gR6kyoyAjzLIo6xcVAA%3D%3D&KeyID=a8968c46",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/b67af9433cdc413fb8a098088d0cef85/documents/34379d8b0c6a4ef4a38489cd7e46af9b?download=f63818a2a95e4f2ab5e07260dfe16911",
+        "documentOf": "change",
         "datePublished": "2023-01-01T00:00:01+02:00",
-        "dateModified": "2023-01-01T00:00:01+02:00",
-        "relatedItem": "9b42f245308547cc9d4f760dda1dc15c",
-        "documentOf": "change"
+        "dateModified": "2023-01-01T00:00:01+02:00"
       },
       {
-        "id": "ef8e65b43bc146bca9f86b3574442c2d",
+        "id": "5e141b7f2d9e4d909279131289c9e25f",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract.doc",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6b559700bb5245049bdee88a6b887e04?Signature=V%2FKGkbsShKDpTJYKPSWbL3h72mRJO%2F6uOi8x6DX1AJxypK7%2FopQidX%2BYz%2BddFJG4BR1KqDCgwBsNe4Xz0kwgBA%3D%3D&KeyID=a8968c46",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/b67af9433cdc413fb8a098088d0cef85/documents/5e141b7f2d9e4d909279131289c9e25f?download=6b559700bb5245049bdee88a6b887e04",
+        "documentOf": "contract",
         "datePublished": "2023-01-01T00:00:01+02:00",
-        "dateModified": "2023-01-01T00:00:01+02:00",
-        "documentOf": "contract"
+        "dateModified": "2023-01-01T00:00:01+02:00"
       },
       {
-        "id": "b78ad6cca603401b8ede5d35703cf373",
+        "id": "c17142bb61854a6f8ca8caeef4c91799",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_additional_docs.doc",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bdd3fb01fd5543dcb7c49a037c335baf?Signature=UWVFw1k3kphG%2BaNjhh5PLf5%2B3QJiv%2FRICggmV01tLe47AT5l0xsRv%2Bn4pmBQNBQ%2BelTVOkDPRsg%2BjZlc4UQUBw%3D%3D&KeyID=a8968c46",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/b67af9433cdc413fb8a098088d0cef85/documents/c17142bb61854a6f8ca8caeef4c91799?download=bdd3fb01fd5543dcb7c49a037c335baf",
+        "documentOf": "contract",
         "datePublished": "2023-01-01T00:00:01+02:00",
-        "dateModified": "2023-01-01T00:00:01+02:00",
-        "documentOf": "contract"
+        "dateModified": "2023-01-01T00:00:01+02:00"
       },
       {
-        "id": "b78ad6cca603401b8ede5d35703cf373",
+        "id": "c17142bb61854a6f8ca8caeef4c91799",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_additional_docs.doc",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3dc187c0d95d4d9aaf3954aed82eb6fe?Signature=hZosigHskiVw%2BVRXxgwRiq8GV8IEJk0s9GHzLWchLg4iuHpeBb2bUIvJRORVEc8CWfGyK9MN0r4fWsF2fnU1Dw%3D%3D&KeyID=a8968c46",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/b67af9433cdc413fb8a098088d0cef85/documents/c17142bb61854a6f8ca8caeef4c91799?download=3dc187c0d95d4d9aaf3954aed82eb6fe",
+        "documentOf": "contract",
         "datePublished": "2023-01-01T00:00:01+02:00",
-        "dateModified": "2023-01-01T00:00:01+02:00",
-        "documentOf": "contract"
+        "dateModified": "2023-01-01T00:00:01+02:00"
       }
     ],
     "amountPaid": {

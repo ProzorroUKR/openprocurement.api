@@ -29,7 +29,7 @@ contractingresource = partial(resource, error_handler=error_handler, factory=fac
 LOGGER = getLogger("openprocurement.contracting.api")
 
 
-def extract_contract(request):
+def extract_contract_doc(request):
     db = request.registry.mongodb.contracts
     contract_id = request.matchdict["contract_id"]
     doc = db.get(contract_id)
@@ -40,7 +40,13 @@ def extract_contract(request):
 
     mask_object_data(request, doc)  # war time measures
 
-    return request.contract_from_data(doc)
+    return doc
+
+
+def extract_contract(request):
+    doc = request.contract_doc
+    if doc:
+        return request.contract_from_data(doc)
 
 
 def contract_from_data(request, data, raise_error=True, create=True):
@@ -68,7 +74,7 @@ def save_contract(request, insert=False):
         old_date_modified = contract.dateModified
         with handle_store_exceptions(request):
             request.registry.mongodb.contracts.save(
-                contract,
+                contract.to_primitive(),
                 insert=insert,
                 modified=True,
             )

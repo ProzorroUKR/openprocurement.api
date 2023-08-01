@@ -18,8 +18,8 @@ def get_award() -> Union[dict, None]:
 
 
 def get_contract() -> Union[dict, None]:
-    tender = get_request().validated.get("contract")
-    return tender
+    contract = get_request().validated.get("contract")
+    return contract
 
 
 def get_cancellation() -> Union[dict, None]:

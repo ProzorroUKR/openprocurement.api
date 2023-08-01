@@ -1,3 +1,5 @@
+from typing import Type
+
 from openprocurement.api.utils import json_view
 from openprocurement.api.utils import (
     context_unpack,
@@ -5,8 +7,10 @@ from openprocurement.api.utils import (
 )
 from openprocurement.tender.core.procedure.documents import get_file, check_document, update_document_url
 from openprocurement.tender.core.procedure.serializers.document import DocumentSerializer
+from openprocurement.tender.core.procedure.serializers.base import BaseSerializer
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.models.document import Document, PostDocument, PatchDocument
+from openprocurement.tender.core.procedure.state.base import BaseState
 from openprocurement.tender.core.procedure.state.document import BaseDocumentState
 from openprocurement.tender.core.procedure.validation import (
     validate_input_data,
@@ -35,12 +39,11 @@ def resolve_document(request, item_name, container):
         request.validated["documents"] = request.validated[item_name].get(container, tuple())
 
 
-class BaseDocumentResource(TenderBaseResource):
-    state_class = BaseDocumentState
-    serializer_class = DocumentSerializer
-    model_class = Document
-    container = "documents"
-    item_name = "tender"
+class DocumentResourceMixin:
+    state_class: Type[BaseState]
+    serializer_class: Type[BaseSerializer] = DocumentSerializer
+    container: str = "documents"
+    item_name: str
 
     def set_doc_author(self, doc):   # TODO: move to state class?
         pass
@@ -48,7 +51,12 @@ class BaseDocumentResource(TenderBaseResource):
     def get_modified(self):
         return True
 
-    @json_view(permission="view_tender")
+    def get_file(self):
+        return get_file(self.request)
+
+    def save(self, **kwargs):
+        return save_tender(self.request, modified=self.get_modified(), **kwargs)
+
     def collection_get(self):
         collection_data = self.request.validated["documents"]
         if not self.request.params.get("all", ""):
@@ -59,13 +67,6 @@ class BaseDocumentResource(TenderBaseResource):
             )
         return {"data": [self.serializer_class(i).data for i in collection_data]}
 
-    @json_view(
-        validators=(
-            validate_item_owner("tender"),
-            validate_input_data(PostDocument, allow_bulk=True),
-        ),
-        permission="edit_tender",
-    )
     def collection_post(self):
         documents = self.request.validated["data"]
         if not isinstance(documents, list):
@@ -91,9 +92,8 @@ class BaseDocumentResource(TenderBaseResource):
         if self.container not in item:
             item[self.container] = []
         item[self.container].extend(documents)
-
-        # saving tender
-        if save_tender(self.request, modified=self.get_modified()):
+        # saving item
+        if self.save():
             for document in documents:
                 self.LOGGER.info(
                     f"Created {self.item_name} document {document['id']}",
@@ -115,10 +115,9 @@ class BaseDocumentResource(TenderBaseResource):
             )
             return {"data": self.serializer_class(document).data}
 
-    @json_view(permission="view_tender")
     def get(self):
         if self.request.params.get("download"):
-            return get_file(self.request)
+            return self.get_file()
         document = self.request.validated["document"]
         document["previousVersions"] = [
             DocumentSerializer(i).data
@@ -126,6 +125,65 @@ class BaseDocumentResource(TenderBaseResource):
             if i["url"] != document["url"]
         ]
         return {"data": self.serializer_class(document).data}
+
+    def put(self):
+        document = self.request.validated["data"]
+
+        self.state.document_on_post(document)
+
+        item = self.request.validated[self.item_name]
+        item[self.container].append(document)
+
+        if self.save():
+            self.LOGGER.info(
+                f"Updated {self.item_name} document {document['id']}",
+                extra=context_unpack(self.request, {"MESSAGE_ID": f"{self.item_name}_document_put"}),
+            )
+            return {"data": self.serializer_class(document).data}
+
+    def patch(self):
+        document = self.request.validated["document"]
+        updated_document = self.request.validated["data"]
+        if updated_document:
+            self.state.document_on_patch(document, updated_document)
+
+            set_item(self.request.validated[self.item_name], self.container, document["id"], updated_document)
+
+            if self.save():
+                update_file_content_type(self.request)
+                self.LOGGER.info(
+                    f"Updated {self.item_name} document {document['id']}",
+                    extra=context_unpack(self.request, {"MESSAGE_ID": f"{self.item_name}_document_patch"}),
+                )
+                return {"data": self.serializer_class(updated_document).data}
+
+
+class BaseDocumentResource(DocumentResourceMixin, TenderBaseResource):
+    state_class = BaseDocumentState
+    serializer_class = DocumentSerializer
+    container = "documents"
+    item_name = "tender"
+
+    def save(self, **kwargs):
+        return save_tender(self.request, modified=self.get_modified(), **kwargs)
+
+    @json_view(permission="view_tender")
+    def collection_get(self):
+        return super().collection_get()
+
+    @json_view(
+        validators=(
+            validate_item_owner("tender"),
+            validate_input_data(PostDocument, allow_bulk=True),
+        ),
+        permission="edit_tender",
+    )
+    def collection_post(self):
+        return super().collection_post()
+
+    @json_view(permission="view_tender")
+    def get(self):
+        return super().get()
 
     @json_view(
         validators=(
@@ -139,19 +197,7 @@ class BaseDocumentResource(TenderBaseResource):
         permission="edit_tender",
     )
     def put(self):
-        document = self.request.validated["data"]
-
-        self.state.document_on_post(document)
-
-        item = self.request.validated[self.item_name]
-        item[self.container].append(document)
-
-        if save_tender(self.request, modified=self.get_modified()):
-            self.LOGGER.info(
-                f"Updated {self.item_name} document {document['id']}",
-                extra=context_unpack(self.request, {"MESSAGE_ID": f"{self.item_name}_document_put"}),
-            )
-            return {"data": self.serializer_class(document).data}
+        return super().put()
 
     @json_view(
         content_type="application/json",
@@ -163,17 +209,4 @@ class BaseDocumentResource(TenderBaseResource):
         permission="edit_tender",
     )
     def patch(self):
-        document = self.request.validated["document"]
-        updated_document = self.request.validated["data"]
-        if updated_document:
-            self.state.document_on_patch(document, updated_document)
-
-            set_item(self.request.validated[self.item_name], self.container, document["id"], updated_document)
-
-            if save_tender(self.request, modified=self.get_modified()):
-                update_file_content_type(self.request)
-                self.LOGGER.info(
-                    f"Updated {self.item_name} document {document['id']}",
-                    extra=context_unpack(self.request, {"MESSAGE_ID": f"{self.item_name}_document_patch"}),
-                )
-                return {"data": self.serializer_class(updated_document).data}
+        return super().patch()

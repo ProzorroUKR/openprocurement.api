@@ -17,13 +17,13 @@ def no_items_contract_change(self):
     tender_token = data["tender_token"]
 
     response = self.app.patch_json(
-        "/contracts/{}/credentials?acc_token={}".format(contract["id"], tender_token), {"data": ""}
+        f"/contracts/{contract['id']}/credentials?acc_token={tender_token}", {"data": ""}
     )
     self.assertEqual(response.status, "200 OK")
     token = response.json["access"]["token"]
 
     response = self.app.post_json(
-        "/contracts/{}/changes?acc_token={}".format(contract["id"], token),
+        f"/contracts/{contract['id']}/changes?acc_token={token}",
         {"data": {"rationale": "причина зміни укр", "rationaleTypes": ["qualityImprovement"]}},
     )
     self.assertEqual(response.status, "201 Created")
@@ -31,19 +31,19 @@ def no_items_contract_change(self):
     self.assertEqual(change["status"], "pending")
 
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(contract["id"], change["id"], token),
+        f"/contracts/{contract['id']}/changes/{change['id']}?acc_token={token}",
         {"data": {"status": "active", "dateSigned": get_now().isoformat()}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "active")
 
     response = self.app.patch_json(
-        "/contracts/{}?acc_token={}".format(contract["id"], token),
-        {"data": {"value": {"amountNet": contract["value"]["amount"] - 1}}},
+        f"/contracts/{contract['id']}?acc_token={token}",
+        {"data": {"value": {**contract["value"], "amountNet": contract["value"]["amount"] - 1}}},
     )
 
     response = self.app.patch_json(
-        "/contracts/{}?acc_token={}".format(contract["id"], token),
+        f"/contracts/{contract['id']}?acc_token={token}",
         {
             "data": {
                 "status": "terminated",
@@ -54,7 +54,7 @@ def no_items_contract_change(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "terminated")
 
-    response = self.app.get("/contracts/{}".format(contract["id"]))
+    response = self.app.get(f"/contracts/{contract['id']}")
     self.assertNotIn("items", response.json["data"])
 
 
@@ -67,11 +67,11 @@ def not_found(self):
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}]
     )
 
-    response = self.app.get("/contracts/{}/changes".format(self.contract["id"]))
+    response = self.app.get(f"/contracts/{self.contract['id']}/changes")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 0)
 
-    response = self.app.get("/contracts/{}/changes/some_id".format(self.contract["id"]), status=404)
+    response = self.app.get(f"/contracts/{self.contract['id']}/changes/some_id", status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -80,7 +80,7 @@ def not_found(self):
     )
 
     response = self.app.patch_json(
-        "/contracts/{}/changes/some_id".format(self.contract["id"]), {"data": {}}, status=404
+        f"/contracts/{self.contract['id']}/changes/some_id", {"data": {}}, status=404
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -92,7 +92,7 @@ def not_found(self):
 
 def get_change(self):
     response = self.app.post_json(
-        "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {
             "data": {
                 "rationale": "Принцеси не какають.",
@@ -109,17 +109,17 @@ def get_change(self):
     self.assertEqual(change["status"], "pending")
     self.assertIn("date", change)
 
-    response = self.app.get("/contracts/{}/changes".format(self.contract["id"]))
+    response = self.app.get(f"/contracts/{self.contract['id']}/changes")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 1)
 
-    response = self.app.get("/contracts/{}/changes/{}".format(self.contract["id"], change["id"]))
+    response = self.app.get(f"/contracts/{self.contract['id']}/changes/{change['id']}")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     change_data = response.json["data"]
     self.assertEqual(change_data, change)
 
-    response = self.app.get("/contracts/{}".format(self.contract["id"]))
+    response = self.app.get(f"/contracts/{self.contract['id']}")
     self.assertEqual(response.status, "200 OK")
     self.assertIn("changes", response.json["data"])
     self.assertEqual(len(response.json["data"]["changes"]), 1)
@@ -129,7 +129,7 @@ def get_change(self):
     )
 
     self.app.authorization = None
-    response = self.app.get("/contracts/{}/changes".format(self.contract["id"]))
+    response = self.app.get(f"/contracts/{self.contract['id']}/changes")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 1)
     self.assertEqual(
@@ -140,7 +140,7 @@ def get_change(self):
 
 def create_change_invalid(self):
     response = self.app.post(
-        "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token), "data", status=415
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}", "data", status=415
     )
     self.assertEqual(response.status, "415 Unsupported Media Type")
     self.assertEqual(
@@ -155,7 +155,7 @@ def create_change_invalid(self):
     )
 
     response = self.app.post_json(
-        "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token), {"data": {}}, status=422
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}", {"data": {}}, status=422
     )
     self.assertEqual(
         response.json["errors"],
@@ -166,7 +166,7 @@ def create_change_invalid(self):
     )
 
     response = self.app.post_json(
-        "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {"data": {"rationale": "", "rationaleTypes": ["volumeCuts"]}},
         status=422,
     )
@@ -176,7 +176,7 @@ def create_change_invalid(self):
     )
 
     response = self.app.post_json(
-        "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {"data": {"rationale_ua": ""}},
         status=422,
     )
@@ -185,7 +185,7 @@ def create_change_invalid(self):
     )
     self.app.authorization = None
     response = self.app.post_json(
-        "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {"data": {"rationale_ua": "aaa"}},
         status=403,
     )
@@ -193,30 +193,34 @@ def create_change_invalid(self):
 
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(
-        "/contracts/{}/changes".format(self.contract["id"]), {"data": {"rationale_ua": "aaa"}}, status=403
+        f"/contracts/{self.contract['id']}/changes", {"data": {"rationale_ua": "aaa"}}, status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
 
     response = self.app.patch_json(
-        "/contracts/{}?acc_token={}".format(self.contract["id"], self.contract_token),
-        {"data": {"value": {"amountNet": self.contract["value"]["amount"] - 1}}},
+        f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
+        {"data": {"value": {**self.contract["value"], "amountNet": self.contract["value"]["amount"] - 1}}},
     )
 
     response = self.app.patch_json(
-        "/contracts/{}?acc_token={}".format(self.contract["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
         {"data": {"changes": [{"rationale": "penguin", "rationaleTypes": ["volumeCuts"]}]}},
+        status=422
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.body, b"null")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "changes", "description": "Rogue field"}]
+    )
 
-    response = self.app.get("/contracts/{}?acc_token={}".format(self.contract["id"], self.contract_token))
+    response = self.app.get(f"/contracts/{self.contract['id']}?acc_token={self.contract_token}")
     self.assertEqual(response.status, "200 OK")
     self.assertNotIn("changes", response.json["data"])
 
 
 def create_change(self):
     response = self.app.post_json(
-        "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {
             "data": {
                 "rationale": "причина зміни укр",
@@ -231,12 +235,12 @@ def create_change(self):
     self.assertEqual(change["status"], "pending")
     self.assertIn("date", change)
 
-    response = self.app.get("/contracts/{}/changes".format(self.contract["id"]))
+    response = self.app.get(f"/contracts/{self.contract['id']}/changes")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 1)
 
     response = self.app.post_json(
-        "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {"data": {"rationale": "трататата", "rationaleTypes": ["priceReduction"]}},
         status=403,
     )
@@ -253,14 +257,14 @@ def create_change(self):
     )
 
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
         {"data": {"status": "active", "dateSigned": get_now().isoformat()}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "active")
 
     response = self.app.post_json(
-        "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {"data": {"rationale": "трататата", "rationaleTypes": ["non-existing-rationale"]}},
         status=422,
     )
@@ -283,21 +287,21 @@ def create_change(self):
     )
 
     response = self.app.post_json(
-        "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {"data": {"rationale": "трататата", "rationaleTypes": ["priceReduction"]}},
     )
     self.assertEqual(response.status, "201 Created")
     change2 = response.json["data"]
     self.assertEqual(change2["status"], "pending")
 
-    response = self.app.get("/contracts/{}/changes".format(self.contract["id"]))
+    response = self.app.get(f"/contracts/{self.contract['id']}/changes")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 2)
 
 
 def patch_change(self):
     response = self.app.post_json(
-        "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {
             "data": {
                 "rationale": "причина зміни укр",
@@ -316,14 +320,14 @@ def patch_change(self):
 
     now = get_now().isoformat()
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change["id"], self.contract_token),
-        {"data": {"date": now}},
+        f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
+        {"data": {}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.body, b"null")
 
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
         {"data": {"rationale_ru": "шота на руськом"}},
     )
     self.assertEqual(response.status, "200 OK")
@@ -332,7 +336,7 @@ def patch_change(self):
     self.assertEqual(first_patch_date, creation_date)
 
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
         {"data": {"rationale_en": "another cause desctiption"}},
     )
     self.assertEqual(response.status, "200 OK")
@@ -341,28 +345,28 @@ def patch_change(self):
     self.assertEqual(first_patch_date, second_patch_date)
 
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
         {"data": {"rationaleTypes": ["fiscalYearExtension", "priceReduction"]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["rationaleTypes"], ["fiscalYearExtension", "priceReduction"])
 
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
         {"data": {"rationaleTypes": ["fiscalYearExtension", "volumeCuts", "taxRate"]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["rationaleTypes"], ["fiscalYearExtension", "volumeCuts", "taxRate"])
 
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
         {"data": {"rationaleTypes": "fiscalYearExtension"}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["rationaleTypes"], ["fiscalYearExtension"])
 
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
         {"data": {"rationaleTypes": "fiscalYearExtension, volumeCuts"}},
         status=422,
     )
@@ -385,7 +389,7 @@ def patch_change(self):
     )
 
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
         {"data": {"rationaleTypes": []}},
         status=422,
     )
@@ -396,15 +400,23 @@ def patch_change(self):
     )
 
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
         {"data": {"id": "1234" * 8}},
+        status=422
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.body, b"null")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "id",
+            "description": "Rogue field"
+        }],
+    )
 
     self.app.authorization = None
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
         {"data": {"rationale_en": "la-la-la"}},
         status=403,
     )
@@ -412,14 +424,14 @@ def patch_change(self):
 
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}".format(self.contract["id"], change["id"]),
+        f"/contracts/{self.contract['id']}/changes/{change['id']}",
         {"data": {"rationale_en": "la-la-la"}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
 
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
         {"data": {"status": "active", "dateSigned": get_now().isoformat()}},
     )
     self.assertEqual(response.status, "200 OK")
@@ -428,7 +440,7 @@ def patch_change(self):
     self.assertNotEqual(response.json["data"]["date"], second_patch_date)
 
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
         {"data": {"status": "pending"}},
         status=403,
     )
@@ -437,7 +449,7 @@ def patch_change(self):
 
 def change_date_signed(self):
     response = self.app.post_json(
-        "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {
             "data": {
                 "rationale": "причина зміни укр",
@@ -455,7 +467,7 @@ def change_date_signed(self):
 
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
         {"data": {"status": "active"}},
         status=403,
     )
@@ -472,7 +484,7 @@ def change_date_signed(self):
     )
 
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
         {"data": {"dateSigned": "12-14-11"}},
         status=422,
     )
@@ -484,7 +496,7 @@ def change_date_signed(self):
     valid_date1_raw = get_now()
     valid_date1 = valid_date1_raw.isoformat()
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
         {"data": {"dateSigned": valid_date1}},
     )
     self.assertEqual(response.status, "200 OK")
@@ -492,20 +504,20 @@ def change_date_signed(self):
 
     one_day_in_past = (get_now() - timedelta(days=1)).isoformat()
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
         {"data": {"dateSigned": one_day_in_past}},
         status=403,
     )
     self.assertIn("can't be earlier than contract dateSigned", response.json["errors"][0]["description"])
 
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
         {"data": {"status": "active"}},
     )
     self.assertEqual(response.status, "200 OK")
 
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
         {"data": {"dateSigned": get_now().isoformat()}},
         status=403,
     )
@@ -520,12 +532,12 @@ def change_date_signed(self):
         ],
     )
 
-    response = self.app.get("/contracts/{}/changes/{}".format(self.contract["id"], change["id"]))
+    response = self.app.get(f"/contracts/{self.contract['id']}/changes/{change['id']}")
     change1 = response.json["data"]
     self.assertEqual(change1["dateSigned"], valid_date1)
 
     response = self.app.post_json(
-        "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {
             "data": {
                 "rationale": "iнша причина зміни укр",
@@ -542,7 +554,7 @@ def change_date_signed(self):
 
     one_day_in_future = (get_now() + timedelta(days=1)).isoformat()
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change2["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change2['id']}?acc_token={self.contract_token}",
         {"data": {"dateSigned": one_day_in_future}},
         status=422,
     )
@@ -559,20 +571,19 @@ def change_date_signed(self):
 
     smaller_than_last_change = (valid_date1_raw - timedelta(seconds=1)).isoformat()
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change2["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change2['id']}?acc_token={self.contract_token}",
         {"data": {"dateSigned": smaller_than_last_change}},
         status=403,
     )
     self.assertEqual(
-        "Change dateSigned ({}) can't be earlier than last active change dateSigned ({})".format(
-            smaller_than_last_change, valid_date1
-        ),
+        f"Change dateSigned ({smaller_than_last_change}) can't "
+        f"be earlier than last active change dateSigned ({valid_date1})",
         response.json["errors"][0]["description"],
     )
 
     date = get_now().isoformat()
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change2["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change2['id']}?acc_token={self.contract_token}",
         {"data": {"dateSigned": date}},
     )
     self.assertEqual(response.status, "200 OK")
@@ -582,21 +593,21 @@ def change_date_signed(self):
     valid_date2_raw = get_now()
     valid_date2 = valid_date2_raw.isoformat()
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change2["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change2['id']}?acc_token={self.contract_token}",
         {"data": {"dateSigned": valid_date2}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["dateSigned"], valid_date2)
 
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change2["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change2['id']}?acc_token={self.contract_token}",
         {"data": {"status": "active"}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["dateSigned"], valid_date2)
 
     response = self.app.post_json(
-        "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {
             "data": {
                 "rationale": "третя причина зміни укр",
@@ -612,38 +623,37 @@ def change_date_signed(self):
 
     smaller_than_last_change = (valid_date2_raw - timedelta(seconds=1)).isoformat()
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change3["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change3['id']}?acc_token={self.contract_token}",
         {"data": {"dateSigned": smaller_than_last_change}},
         status=403,
     )
     self.assertEqual(
-        "Change dateSigned ({}) can't be earlier than last active change dateSigned ({})".format(
-            smaller_than_last_change, valid_date2
-        ),
+        f"Change dateSigned ({smaller_than_last_change}) can't "
+        f"be earlier than last active change dateSigned ({valid_date2})",
         response.json["errors"][0]["description"],
     )
 
     date = get_now().isoformat()
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change3["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change3['id']}?acc_token={self.contract_token}",
         {"data": {"dateSigned": date}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["dateSigned"], date)
 
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change3["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change3['id']}?acc_token={self.contract_token}",
         {"data": {"status": "active"}},
     )
     self.assertEqual(response.status, "200 OK")
 
     response = self.app.patch_json(
-        "/contracts/{}?acc_token={}".format(self.contract["id"], self.contract_token),
-        {"data": {"value": {"amountNet": self.contract["value"]["amount"] - 1}}},
+        f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
+        {"data": {"value": {**self.contract["value"], "amountNet": self.contract["value"]["amount"] - 1}}},
     )
 
     response = self.app.patch_json(
-        "/contracts/{}?acc_token={}".format(self.contract["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
         {"data": {"status": "terminated", "amountPaid": {"amount": 15, "amountNet": 14}}},
     )
     self.assertEqual(response.status, "200 OK")
@@ -654,7 +664,7 @@ def date_signed_on_change_creation(self):
     one_day_in_past = (get_now() - timedelta(days=1)).isoformat()
 
     response = self.app.post_json(
-        "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {
             "data": {
                 "rationale": "причина зміни укр",
@@ -670,7 +680,7 @@ def date_signed_on_change_creation(self):
 
     one_day_in_future = (get_now() + timedelta(days=1)).isoformat()
     response = self.app.post_json(
-        "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {
             "data": {
                 "rationale": "причина зміни укр",
@@ -695,7 +705,7 @@ def date_signed_on_change_creation(self):
 
     date = get_now().isoformat()
     response = self.app.post_json(
-        "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {
             "data": {
                 "rationale": "причина зміни укр",
@@ -712,7 +722,7 @@ def date_signed_on_change_creation(self):
     self.assertEqual(change["dateSigned"], date)
 
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
         {"data": {"status": "active"}},
     )
     self.assertEqual(response.status, "200 OK")
@@ -723,16 +733,15 @@ def change_date_signed_very_old_contracts_data(self):
     contract = self.mongodb.contracts.get(self.contract["id"])
     contract["dateSigned"] = None
 
-    contract = Contract(contract)
     self.mongodb.contracts.save(contract)
 
-    response = self.app.get("/contracts/{}?acc_token={}".format(self.contract["id"], self.contract_token))
+    response = self.app.get(f"/contracts/{self.contract['id']}?acc_token={self.contract_token}")
     self.assertEqual(response.status, "200 OK")
     self.assertNotIn("dateSigned", response.json["data"])
 
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(
-        "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {
             "data": {
                 "rationale": "причина зміни укр",
@@ -748,7 +757,7 @@ def change_date_signed_very_old_contracts_data(self):
     self.assertEqual(change["status"], "pending")
 
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
         {"data": {"status": "active"}},
         status=403,
     )
@@ -766,14 +775,14 @@ def change_date_signed_very_old_contracts_data(self):
 
     one_day_in_past = (get_now() - timedelta(days=1)).isoformat()
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
         {"data": {"status": "active", "dateSigned": one_day_in_past}},
     )
     self.assertEqual(response.json["data"]["status"], "active")
     self.assertEqual(response.json["data"]["dateSigned"], one_day_in_past)
 
     response = self.app.post_json(
-        "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {
             "data": {
                 "rationale": "iнша причина зміни укр",
@@ -790,20 +799,19 @@ def change_date_signed_very_old_contracts_data(self):
 
     two_days_in_past = (get_now() - timedelta(days=2)).isoformat()
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change2["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change2['id']}?acc_token={self.contract_token}",
         {"data": {"dateSigned": two_days_in_past}},
         status=403,
     )
     self.assertEqual(
-        "Change dateSigned ({}) can't be earlier than last active change dateSigned ({})".format(
-            two_days_in_past, one_day_in_past
-        ),
+        f"Change dateSigned ({two_days_in_past}) can't "
+        f"be earlier than last active change dateSigned ({one_day_in_past})",
         response.json["errors"][0]["description"],
     )
 
     valid_date = get_now().isoformat()
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change2["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change2['id']}?acc_token={self.contract_token}",
         {"data": {"status": "active", "dateSigned": valid_date}},
     )
     self.assertEqual(response.json["data"]["status"], "active")
@@ -813,16 +821,16 @@ def change_date_signed_very_old_contracts_data(self):
     contract = self.mongodb.contracts.get(self.contract["id"])
     last_change = contract["changes"][-1]
     last_change["dateSigned"] = None
-    self.mongodb.contracts.save(Contract(contract))
+    self.mongodb.contracts.save(contract)
 
     response = self.app.get(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], last_change["id"], self.contract_token)
+        f"/contracts/{self.contract['id']}/changes/{last_change['id']}?acc_token={self.contract_token}"
     )
     self.assertEqual(response.status, "200 OK")
     self.assertNotIn("dateSigned", response.json["data"])
 
     response = self.app.post_json(
-        "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {
             "data": {
                 "rationale": "третя причина зміни укр",
@@ -837,20 +845,19 @@ def change_date_signed_very_old_contracts_data(self):
     self.assertEqual(change["status"], "pending")
 
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change3["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change3['id']}?acc_token={self.contract_token}",
         {"data": {"dateSigned": two_days_in_past}},
         status=403,
     )
     self.assertEqual(
-        "Change dateSigned ({}) can't be earlier than last active change dateSigned ({})".format(
-            two_days_in_past, last_change["date"]
-        ),
+        f"Change dateSigned ({two_days_in_past}) can't "
+        f"be earlier than last active change dateSigned ({last_change['date'].isoformat()})",
         response.json["errors"][0]["description"],
     )
 
     valid_date2 = get_now().isoformat()
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change3["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change3['id']}?acc_token={self.contract_token}",
         {"data": {"status": "active", "dateSigned": valid_date2}},
     )
     self.assertEqual(response.json["data"]["status"], "active")
@@ -861,16 +868,16 @@ def date_signed_on_change_creation_for_very_old_contracts_data(self):
     # prepare old contract data
     contract = self.mongodb.contracts.get(self.contract["id"])
     contract["dateSigned"] = None
-    self.mongodb.contracts.save(Contract(contract))
+    self.mongodb.contracts.save(contract)
 
-    response = self.app.get("/contracts/{}?acc_token={}".format(self.contract["id"], self.contract_token))
+    response = self.app.get(f"/contracts/{self.contract['id']}?acc_token={self.contract_token}")
     self.assertEqual(response.status, "200 OK")
     self.assertNotIn("dateSigned", response.json["data"])
 
     self.app.authorization = ("Basic", ("broker", ""))
     one_day_in_past = (get_now() - timedelta(days=1)).isoformat()
     response = self.app.post_json(
-        "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {
             "data": {
                 "rationale": "причина зміни укр",
@@ -884,7 +891,7 @@ def date_signed_on_change_creation_for_very_old_contracts_data(self):
     self.assertEqual(response.json["data"]["dateSigned"], one_day_in_past)
     change = response.json["data"]
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
         {"data": {"status": "active"}},
     )
     self.assertEqual(response.json["data"]["status"], "active")
@@ -893,16 +900,16 @@ def date_signed_on_change_creation_for_very_old_contracts_data(self):
     contract = self.mongodb.contracts.get(self.contract["id"])
     last_change = contract["changes"][-1]
     last_change["dateSigned"] = None
-    self.mongodb.contracts.save(Contract(contract))
+    self.mongodb.contracts.save(contract)
 
     response = self.app.get(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], last_change["id"], self.contract_token)
+        f"/contracts/{self.contract['id']}/changes/{last_change['id']}?acc_token={self.contract_token}"
     )
     self.assertEqual(response.status, "200 OK")
     self.assertNotIn("dateSigned", response.json["data"])
 
     response = self.app.post_json(
-        "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {
             "data": {
                 "rationale": "третя причина зміни укр",
@@ -915,15 +922,14 @@ def date_signed_on_change_creation_for_very_old_contracts_data(self):
         status=403,
     )
     self.assertEqual(
-        "Change dateSigned ({}) can't be earlier than last active change dateSigned ({})".format(
-            one_day_in_past, last_change["date"]
-        ),
+        f"Change dateSigned ({one_day_in_past}) can't "
+        f"be earlier than last active change dateSigned ({last_change['date'].isoformat()})",
         response.json["errors"][0]["description"],
     )
 
     valid_date = get_now().isoformat()
     response = self.app.post_json(
-        "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {
             "data": {
                 "rationale": "третя причина зміни укр",

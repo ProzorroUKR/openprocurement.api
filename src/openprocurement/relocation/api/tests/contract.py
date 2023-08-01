@@ -23,13 +23,15 @@ class BaseContractOwnershipChangeTest(BaseWebTest):
 
     def create_contract(self):
         data = deepcopy(self.initial_data)
-        data["owner"] = self.first_owner
+        data['id'] = uuid4().hex
+        data['owner'] = self.first_owner
         with change_auth(self.app, ("Basic", ("contracting", ""))):
             response = self.app.post_json("/contracts", {"data": data})
         self.contract = response.json["data"]
         self.contract_id = self.contract["id"]
         response = self.app.patch_json(
-            "/contracts/{}/credentials?acc_token={}".format(self.contract_id, self.tender_token), {"data": ""}
+            f"/contracts/{self.contract_id}/credentials?acc_token={self.tender_token}",
+            {"data": ""}
         )
         self.assertEqual(response.status, "200 OK")
         self.contract_token = response.json["access"]["token"]
@@ -89,10 +91,10 @@ class ContractOwnershipChangeTest(BaseContractOwnershipChangeTest):
         data = deepcopy(self.initial_data)
         data["owner"] = self.first_owner
         data["id"] = uuid4().hex
+        data["tender_token"] = self.tender_token
         with change_auth(self.app, ("Basic", ("contracting", ""))):
             response = self.app.post_json("/contracts", {"data": data})
         contract = response.json["data"]
-
         response = self.app.patch_json(
             "/contracts/{}/credentials?acc_token={}".format(contract["id"], self.tender_token), {"data": ""}
         )
@@ -326,7 +328,7 @@ class ContractOwnerOwnershipChangeTest(BaseContractOwnershipChangeTest):
 
         contract_doc = self.mongodb.contracts.get(self.contract_id)
         contract_doc["owner"] = "deleted_broker"
-        self.mongodb.contracts.save(Contract(contract_doc))
+        self.mongodb.contracts.save(contract_doc)
 
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
             response = self.app.post_json(

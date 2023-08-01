@@ -26,7 +26,7 @@ from openprocurement.contracting.api.validation import (
 from openprocurement.tender.core.validation import validate_update_contract_value_net_required
 
 
-@contractingresource(name="Contracts", path="/contracts", description="Contracts")
+# @contractingresource(name="Contracts", path="/contracts", description="Contracts")
 class ContractsResource(MongodbResourceListing):
 
     def __init__(self, request, context):
@@ -60,7 +60,7 @@ class ContractsResource(MongodbResourceListing):
             return {"data": contract.serialize("view"), "access": {"token": contract.owner_token}}
 
 
-@contractingresource(name="Contract", path="/contracts/{contract_id}", description="Contract")
+# @contractingresource(name="Contract", path="/contracts/{contract_id}", description="Contract")
 class ContractResource(ContractsResource):
     @json_view(permission="view_contract")
     def get(self):
@@ -113,9 +113,9 @@ class ContractResource(ContractsResource):
                     item["unit"]["value"]["currency"] = currency
 
 
-@contractingresource(
-    name="Contract credentials", path="/contracts/{contract_id}/credentials", description="Contract credentials"
-)
+# @contractingresource(
+#     name="Contract credentials", path="/contracts/{contract_id}/credentials", description="Contract credentials"
+# )
 class ContractCredentialsResource(BaseResource):
 
     @json_view(permission="generate_credentials", validators=(validate_credentials_generate,))
@@ -131,11 +131,11 @@ class ContractCredentialsResource(BaseResource):
             return {"data": contract.serialize("view"), "access": access}
 
 
-@contractingresource(
-    name="Contract transactions",
-    path="/contracts/{contract_id}/transactions/{transaction_id}",
-    description="Contract transactions",
-)
+# @contractingresource(
+#     name="Contract transactions",
+#     path="/contracts/{contract_id}/transactions/{transaction_id}",
+#     description="Contract transactions",
+# )
 class ContractTransactionsResource(BaseResource):
 
     @json_view(

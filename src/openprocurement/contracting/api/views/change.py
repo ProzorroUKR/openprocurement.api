@@ -21,12 +21,12 @@ from openprocurement.contracting.api.validation import (
 )
 
 
-@contractingresource(
-    name="Contract changes",
-    collection_path="/contracts/{contract_id}/changes",
-    path="/contracts/{contract_id}/changes/{change_id}",
-    description="Contracts Changes",
-)
+# @contractingresource(
+#     name="Contract changes",
+#     collection_path="/contracts/{contract_id}/changes",
+#     path="/contracts/{contract_id}/changes/{change_id}",
+#     description="Contracts Changes",
+# )
 class ContractsChangesResource(BaseResource):
     """ Contract changes resource """
 

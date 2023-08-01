@@ -156,11 +156,11 @@ def set_mode_test_titles(item):
 
 # GETTING/SETTING sub documents ---
 
-def get_items(request, parent, key, uid):
+def get_items(request, parent, key, uid, raise_404=True):
     items = tuple(i for i in parent.get(key, "") if i["id"] == uid)
     if items:
         return items
-    else:
+    elif raise_404:
         from openprocurement.api.utils import error_handler
         obj_name = "document" if "Document" in key else key.rstrip('s')
         request.errors.add("url", f"{obj_name}_id", "Not Found")

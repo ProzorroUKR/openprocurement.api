@@ -20,18 +20,15 @@ def not_found(self):
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}]
     )
 
-    response = self.app.post(
-        "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
-        status=404,
-        upload_files=[("invalid_name", "name.doc", b"content")],
-    )
-    self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
-
     response = self.app.put(
-        "/contracts/some_id/documents/some_id", status=404, upload_files=[("file", "name.doc", b"content2")]
+        "/contracts/some_id/documents/some_id",
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "1" * 32,
+            "format": "application/msword",
+        }},
+        status=404
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -41,7 +38,13 @@ def not_found(self):
     )
 
     response = self.app.put(
-        "/contracts/{}/documents/some_id".format(self.contract_id),
+        f"/contracts/{self.contract_id}/documents/some_id",
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "1" * 32,
+            "format": "application/msword",
+        }},
         status=404,
         upload_files=[("file", "name.doc", b"content2")],
     )
@@ -60,7 +63,7 @@ def not_found(self):
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}]
     )
 
-    response = self.app.get("/contracts/{}/documents/some_id".format(self.contract_id), status=404)
+    response = self.app.get(f"/contracts/{self.contract_id}/documents/some_id", status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -75,9 +78,14 @@ def create_contract_document(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json, {"data": []})
 
-    response = self.app.post(
-        "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
-        upload_files=[("file", "укр.doc", b"content")],
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -90,11 +98,6 @@ def create_contract_document(self):
     self.assertIn("KeyID=", response.json["data"]["url"])
     self.assertNotIn("Expires=", response.json["data"]["url"])
     key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-    contract = self.mongodb.contracts.get(self.contract_id)
-    self.assertIn(key, contract["documents"][-1]["url"])
-    self.assertIn("Signature=", contract["documents"][-1]["url"])
-    self.assertIn("KeyID=", contract["documents"][-1]["url"])
-    self.assertNotIn("Expires=", contract["documents"][-1]["url"])
 
     response = self.app.get("/contracts/{}/documents".format(self.contract_id))
     self.assertEqual(response.status, "200 OK")
@@ -102,7 +105,7 @@ def create_contract_document(self):
     self.assertEqual(doc_id, response.json["data"][0]["id"])
     self.assertEqual("укр.doc", response.json["data"][0]["title"])
 
-    response = self.app.get("/contracts/{}/documents/{}?download=some_id".format(self.contract_id, doc_id), status=404)
+    response = self.app.get(f"/contracts/{self.contract_id}/documents/{doc_id}?download=some_id", status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -110,22 +113,27 @@ def create_contract_document(self):
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "download"}]
     )
 
-    response = self.app.get("/contracts/{}/documents/{}?download={}".format(self.contract_id, doc_id, key))
+    response = self.app.get(f"/contracts/{self.contract_id}/documents/{doc_id}?download={key}")
     self.assertEqual(response.status, "302 Moved Temporarily")
     self.assertIn("http://localhost/get/", response.location)
     self.assertIn("Signature=", response.location)
     self.assertIn("KeyID=", response.location)
-    self.assertNotIn("Expires=", response.location)
+    self.assertIn("Expires=", response.location)
 
-    response = self.app.get("/contracts/{}/documents/{}".format(self.contract_id, doc_id))
+    response = self.app.get(f"/contracts/{self.contract_id}/documents/{doc_id}")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("укр.doc", response.json["data"]["title"])
 
-    response = self.app.post(
-        "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
-        upload_files=[("file", "укр.doc", b"content")],
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -135,15 +143,20 @@ def create_contract_document(self):
     self.assertNotIn("acc_token", response.headers["Location"])
 
     response = self.app.patch_json(
-        "/contracts/{}?acc_token={}".format(self.contract_id, self.contract_token),
+        f"/contracts/{self.contract_id}?acc_token={self.contract_token}",
         {"data": {"status": "terminated", "amountPaid": {"amount": 12, "amountNet": 11}}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "terminated")
 
-    response = self.app.post(
-        "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
-        upload_files=[("file", "укр.doc", b"contentX")],
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "1" * 32,
+            "format": "application/msword",
+        }},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -160,9 +173,14 @@ def create_contract_document(self):
 
 
 def put_contract_document(self):
-    response = self.app.post(
-        "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
-        upload_files=[("file", "укр.doc", b"content")],
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -171,9 +189,14 @@ def put_contract_document(self):
     dateModified = response.json["data"]["dateModified"]
     self.assertIn(doc_id, response.headers["Location"])
 
-    response = self.app.put(
-        "/contracts/{}/documents/{}?acc_token={}".format(self.contract_id, doc_id, self.contract_token),
-        upload_files=[("file", "name name.doc", b"content2")],
+    response = self.app.put_json(
+        f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.contract_token}",
+        {"data": {
+            "title": "name name.doc",
+            "url": self.generate_docservice_url("1"*32),
+            "hash": "md5:" + "1" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -184,14 +207,14 @@ def put_contract_document(self):
     self.assertNotIn("Expires=", response.json["data"]["url"])
     key = response.json["data"]["url"].split("/")[-1].split("?")[0]
 
-    response = self.app.get("/contracts/{}/documents/{}?download={}".format(self.contract_id, doc_id, key))
+    response = self.app.get(f"/contracts/{self.contract_id}/documents/{doc_id}?download={key}")
     self.assertEqual(response.status, "302 Moved Temporarily")
     self.assertIn("http://localhost/get/", response.location)
     self.assertIn("Signature=", response.location)
     self.assertIn("KeyID=", response.location)
-    self.assertNotIn("Expires=", response.location)
+    self.assertIn("Expires=", response.location)
 
-    response = self.app.get("/contracts/{}/documents/{}".format(self.contract_id, doc_id))
+    response = self.app.get(f"/contracts/{self.contract_id}/documents/{doc_id}")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
@@ -200,15 +223,20 @@ def put_contract_document(self):
     self.assertTrue(dateModified < dateModified2)
     self.assertEqual(dateModified, response.json["data"]["previousVersions"][0]["dateModified"])
 
-    response = self.app.get("/contracts/{}/documents?all=true".format(self.contract_id))
+    response = self.app.get(f"/contracts/{self.contract_id}/documents?all=true")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(dateModified, response.json["data"][0]["dateModified"])
     self.assertEqual(dateModified2, response.json["data"][1]["dateModified"])
 
-    response = self.app.post(
-        "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
-        upload_files=[("file", "name.doc", b"content")],
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -222,19 +250,14 @@ def put_contract_document(self):
     self.assertEqual(dateModified2, response.json["data"][0]["dateModified"])
     self.assertEqual(dateModified, response.json["data"][1]["dateModified"])
 
-    response = self.app.put(
-        "/contracts/{}/documents/{}?acc_token={}".format(self.contract_id, doc_id, self.contract_token),
-        status=404,
-        upload_files=[("invalid_name", "name.doc", b"content")],
-    )
-    self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
-
-    response = self.app.put(
-        "/contracts/{}/documents/{}?acc_token={}".format(self.contract_id, doc_id, self.contract_token),
-        "content3",
+    response = self.app.put_json(
+        f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.contract_token}",
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url("2"*32),
+            "hash": "md5:" + "2" * 32,
+            "format": "application/msword",
+        }},
         content_type="application/msword",
     )
     self.assertEqual(response.status, "200 OK")
@@ -245,12 +268,12 @@ def put_contract_document(self):
     self.assertNotIn("Expires=", response.json["data"]["url"])
     key = response.json["data"]["url"].split("/")[-1].split("?")[0]
 
-    response = self.app.get("/contracts/{}/documents/{}?download={}".format(self.contract_id, doc_id, key))
+    response = self.app.get(f"/contracts/{self.contract_id}/documents/{doc_id}?download={key}")
     self.assertEqual(response.status, "302 Moved Temporarily")
     self.assertIn("http://localhost/get/", response.location)
     self.assertIn("Signature=", response.location)
     self.assertIn("KeyID=", response.location)
-    self.assertNotIn("Expires=", response.location)
+    self.assertIn("Expires=", response.location)
 
     response = self.app.patch_json(
         "/contracts/{}?acc_token={}".format(self.contract_id, self.contract_token),
@@ -259,9 +282,14 @@ def put_contract_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "terminated")
 
-    response = self.app.put(
-        "/contracts/{}/documents/{}?acc_token={}".format(self.contract_id, doc_id, self.contract_token),
-        "contentX",
+    response = self.app.put_json(
+        f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.contract_token}",
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url("3"*32),
+            "hash": "md5:" + "3" * 32,
+            "format": "application/msword",
+        }},
         content_type="application/msword",
         status=403,
     )
@@ -280,13 +308,18 @@ def put_contract_document(self):
 
 def patch_contract_document(self):
     response = self.app.patch_json(
-        "/contracts/{}?acc_token={}".format(self.contract_id, self.contract_token), {"data": {"status": "active"}}
+        f"/contracts/{self.contract_id}?acc_token={self.contract_token}", {"data": {"status": "active"}}
     )
     self.assertEqual(response.status, "200 OK")
 
-    response = self.app.post(
-        "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
-        upload_files=[("file", str(Header("укр.doc", "utf-8")), b"content")],
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -297,7 +330,7 @@ def patch_contract_document(self):
     self.assertNotIn("documentType", response.json["data"])
 
     response = self.app.patch_json(
-        "/contracts/{}/documents/{}?acc_token={}".format(self.contract_id, doc_id, self.contract_token),
+        f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.contract_token}",
         {"data": {"description": "document description", "documentType": "notice"}},
     )
     self.assertEqual(response.status, "200 OK")
@@ -307,7 +340,7 @@ def patch_contract_document(self):
     self.assertEqual(response.json["data"]["documentType"], "notice")
 
     response = self.app.patch_json(
-        "/contracts/{}/documents/{}?acc_token={}".format(self.contract_id, doc_id, self.contract_token),
+        f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.contract_token}",
         {"data": {"documentType": None}},
     )
     self.assertEqual(response.status, "200 OK")
@@ -322,14 +355,14 @@ def patch_contract_document(self):
     self.assertEqual("document description", response.json["data"]["description"])
 
     response = self.app.patch_json(
-        "/contracts/{}?acc_token={}".format(self.contract_id, self.contract_token),
+        f"/contracts/{self.contract_id}?acc_token={self.contract_token}",
         {"data": {"status": "terminated", "amountPaid": {"amount": 100, "amountNet": 90}}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "terminated")
 
     response = self.app.patch_json(
-        "/contracts/{}/documents/{}?acc_token={}".format(self.contract_id, doc_id, self.contract_token),
+        f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.contract_token}",
         {"data": {"description": "document description X"}},
         status=403,
     )
@@ -348,13 +381,18 @@ def patch_contract_document(self):
 
 def contract_change_document(self):
     response = self.app.patch_json(
-        "/contracts/{}?acc_token={}".format(self.contract_id, self.contract_token), {"data": {"status": "active"}}
+        f"/contracts/{self.contract_id}?acc_token={self.contract_token}", {"data": {"status": "active"}}
     )
     self.assertEqual(response.status, "200 OK")
 
-    response = self.app.post(
-        "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
-        upload_files=[("file", str(Header("укр.doc", "utf-8")), b"content")],
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }}
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -365,7 +403,7 @@ def contract_change_document(self):
     self.assertNotIn("documentType", response.json["data"])
 
     response = self.app.patch_json(
-        "/contracts/{}/documents/{}?acc_token={}".format(self.contract_id, doc_id, self.contract_token),
+        f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.contract_token}",
         {"data": {"documentOf": "change", "relatedItem": "1234" * 8}},
         status=422,
     )
@@ -376,7 +414,7 @@ def contract_change_document(self):
     )
 
     response = self.app.post_json(
-        "/contracts/{}/changes?acc_token={}".format(self.contract["id"], self.contract_token),
+        f"/contracts/{self.contract_id}/changes?acc_token={self.contract_token}",
         {
             "data": {
                 "rationale": "причина зміни укр",
@@ -390,7 +428,7 @@ def contract_change_document(self):
     change = response.json["data"]
 
     response = self.app.patch_json(
-        "/contracts/{}/documents/{}?acc_token={}".format(self.contract_id, doc_id, self.contract_token),
+        f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.contract_token}",
         {"data": {"documentOf": "change", "relatedItem": change["id"]}},
     )
     self.assertEqual(response.status, "200 OK")
@@ -399,29 +437,39 @@ def contract_change_document(self):
     self.assertEqual(response.json["data"]["documentOf"], "change")
     self.assertEqual(response.json["data"]["relatedItem"], change["id"])
 
-    response = self.app.put(
-        "/contracts/{}/documents/{}?acc_token={}".format(self.contract_id, doc_id, self.contract_token),
-        upload_files=[("file", str(Header("укр2.doc", "utf-8")), b"content2")],
+    response = self.app.put_json(
+        f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.contract_token}",
+        {"data": {
+            "title": "укр2.doc",
+            "url": self.generate_docservice_url("1"*32),
+            "hash": "md5:" + "1" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
 
     response = self.app.patch_json(
-        "/contracts/{}/changes/{}?acc_token={}".format(self.contract["id"], change["id"], self.contract_token),
+        f"/contracts/{self.contract_id}/changes/{change['id']}?acc_token={self.contract_token}",
         {"data": {"status": "active", "dateSigned": get_now().isoformat()}},
     )
     self.assertEqual(response.status, "200 OK")
 
-    response = self.app.post(
-        "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
-        upload_files=[("file", str(Header("укр2.doc", "utf-8")), b"content2")],
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
+        {"data": {
+            "title": "укр2.doc",
+            "url": self.generate_docservice_url("2"*32),
+            "hash": "md5:" + "2" * 32,
+            "format": "application/msword",
+        }}
     )
     self.assertEqual(response.status, "201 Created")
     doc_id = response.json["data"]["id"]
 
     response = self.app.patch_json(
-        "/contracts/{}/documents/{}?acc_token={}".format(self.contract_id, doc_id, self.contract_token),
+        f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.contract_token}",
         {"data": {"documentOf": "change", "relatedItem": change["id"]}},
         status=403,
     )
@@ -434,8 +482,12 @@ def contract_change_document(self):
 
 def create_contract_document_json_invalid(self):
     response = self.app.post_json(
-        "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
-        {"data": {"title": "укр.doc", "url": self.generate_docservice_url(), "format": "application/msword"}},
+        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "format": "application/msword"
+        }},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -443,7 +495,7 @@ def create_contract_document_json_invalid(self):
     self.assertEqual(response.json["errors"][0]["description"], "This field is required.")
 
     response = self.app.post_json(
-        "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
+        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
         {
             "data": {
                 "title": "укр.doc",
@@ -459,7 +511,7 @@ def create_contract_document_json_invalid(self):
     self.assertEqual(response.json["errors"][0]["description"], "Can add document only from document service.")
 
     response = self.app.post_json(
-        "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
+        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
         {
             "data": {
                 "title": "укр.doc",
@@ -475,7 +527,7 @@ def create_contract_document_json_invalid(self):
     self.assertEqual(response.json["errors"][0]["description"], "Can add document only from document service.")
 
     response = self.app.post_json(
-        "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
+        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
         {
             "data": {
                 "title": "укр.doc",
@@ -491,7 +543,7 @@ def create_contract_document_json_invalid(self):
     self.assertEqual(response.json["errors"][0]["description"], "Can add document only from document service.")
 
     response = self.app.post_json(
-        "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
+        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
         {
             "data": {
                 "title": "укр.doc",
@@ -507,7 +559,7 @@ def create_contract_document_json_invalid(self):
     self.assertEqual(response.json["errors"][0]["description"], "Document url expired.")
 
     response = self.app.post_json(
-        "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
+        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
         {
             "data": {
                 "title": "укр.doc",
@@ -523,7 +575,7 @@ def create_contract_document_json_invalid(self):
     self.assertEqual(response.json["errors"][0]["description"], "Document url signature invalid.")
 
     response = self.app.post_json(
-        "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
+        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
         {
             "data": {
                 "title": "укр.doc",
@@ -541,7 +593,7 @@ def create_contract_document_json_invalid(self):
 
 def create_contract_document_json(self):
     response = self.app.post_json(
-        "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
+        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
         {
             "data": {
                 "title": "укр.doc",
@@ -562,17 +614,17 @@ def create_contract_document_json(self):
     key = response.json["data"]["url"].split("/")[-1].split("?")[0]
     contract = self.mongodb.contracts.get(self.contract_id)
     self.assertIn(key, contract["documents"][-1]["url"])
-    self.assertIn("Signature=", contract["documents"][-1]["url"])
-    self.assertIn("KeyID=", contract["documents"][-1]["url"])
+    self.assertNotIn("Signature=", contract["documents"][-1]["url"])
+    self.assertNotIn("KeyID=", contract["documents"][-1]["url"])
     self.assertNotIn("Expires=", contract["documents"][-1]["url"])
 
-    response = self.app.get("/contracts/{}/documents".format(self.contract_id))
+    response = self.app.get(f"/contracts/{self.contract_id}/documents")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"][0]["id"])
     self.assertEqual("укр.doc", response.json["data"][0]["title"])
 
-    response = self.app.get("/contracts/{}/documents/{}?download=some_id".format(self.contract_id, doc_id), status=404)
+    response = self.app.get(f"/contracts/{self.contract_id}/documents/{doc_id}?download=some_id", status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -580,21 +632,21 @@ def create_contract_document_json(self):
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "download"}]
     )
 
-    response = self.app.get("/contracts/{}/documents/{}?download={}".format(self.contract_id, doc_id, key))
+    response = self.app.get(f"/contracts/{self.contract_id}/documents/{doc_id}?download={key}")
     self.assertEqual(response.status, "302 Moved Temporarily")
     self.assertIn("http://localhost/get/", response.location)
     self.assertIn("Signature=", response.location)
     self.assertIn("KeyID=", response.location)
-    self.assertNotIn("Expires=", response.location)
+    self.assertIn("Expires=", response.location)
 
-    response = self.app.get("/contracts/{}/documents/{}".format(self.contract_id, doc_id))
+    response = self.app.get(f"/contracts/{self.contract_id}/documents/{doc_id}")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("укр.doc", response.json["data"]["title"])
 
     response = self.app.post_json(
-        "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
+        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
         {
             "data": {
                 "title": "укр.doc",
@@ -614,7 +666,7 @@ def create_contract_document_json(self):
 
 def put_contract_document_json(self):
     response = self.app.post_json(
-        "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
+        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
         {
             "data": {
                 "title": "name name.doc",
@@ -632,7 +684,7 @@ def put_contract_document_json(self):
     self.assertIn(doc_id, response.headers["Location"])
 
     response = self.app.put_json(
-        "/contracts/{}/documents/{}?acc_token={}".format(self.contract_id, doc_id, self.contract_token),
+        f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.contract_token}",
         {
             "data": {
                 "title": "name.doc",
@@ -651,18 +703,18 @@ def put_contract_document_json(self):
     key = response.json["data"]["url"].split("/")[-1].split("?")[0]
     contract = self.mongodb.contracts.get(self.contract_id)
     self.assertIn(key, contract["documents"][-1]["url"])
-    self.assertIn("Signature=", contract["documents"][-1]["url"])
-    self.assertIn("KeyID=", contract["documents"][-1]["url"])
+    self.assertNotIn("Signature=", contract["documents"][-1]["url"])
+    self.assertNotIn("KeyID=", contract["documents"][-1]["url"])
     self.assertNotIn("Expires=", contract["documents"][-1]["url"])
 
-    response = self.app.get("/contracts/{}/documents/{}?download={}".format(self.contract_id, doc_id, key))
+    response = self.app.get(f"/contracts/{self.contract_id}/documents/{doc_id}?download={key}")
     self.assertEqual(response.status, "302 Moved Temporarily")
     self.assertIn("http://localhost/get/", response.location)
     self.assertIn("Signature=", response.location)
     self.assertIn("KeyID=", response.location)
-    self.assertNotIn("Expires=", response.location)
+    self.assertIn("Expires=", response.location)
 
-    response = self.app.get("/contracts/{}/documents/{}".format(self.contract_id, doc_id))
+    response = self.app.get(f"/contracts/{self.contract_id}/documents/{doc_id}")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
@@ -671,14 +723,14 @@ def put_contract_document_json(self):
     self.assertTrue(dateModified < dateModified2)
     self.assertEqual(dateModified, response.json["data"]["previousVersions"][0]["dateModified"])
 
-    response = self.app.get("/contracts/{}/documents?all=true".format(self.contract_id))
+    response = self.app.get(f"/contracts/{self.contract_id}/documents?all=true")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(dateModified, response.json["data"][0]["dateModified"])
     self.assertEqual(dateModified2, response.json["data"][1]["dateModified"])
 
     response = self.app.post_json(
-        "/contracts/{}/documents?acc_token={}".format(self.contract_id, self.contract_token),
+        f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
         {
             "data": {
                 "title": "name.doc",
@@ -694,14 +746,14 @@ def put_contract_document_json(self):
     dateModified = response.json["data"]["dateModified"]
     self.assertIn(doc_id, response.headers["Location"])
 
-    response = self.app.get("/contracts/{}/documents".format(self.contract_id))
+    response = self.app.get(f"/contracts/{self.contract_id}/documents")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(dateModified2, response.json["data"][0]["dateModified"])
     self.assertEqual(dateModified, response.json["data"][1]["dateModified"])
 
     response = self.app.put_json(
-        "/contracts/{}/documents/{}?acc_token={}".format(self.contract_id, doc_id, self.contract_token),
+        f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.contract_token}",
         {
             "data": {
                 "title": "name.doc",
@@ -720,23 +772,23 @@ def put_contract_document_json(self):
     key = response.json["data"]["url"].split("/")[-1].split("?")[0]
     contract = self.mongodb.contracts.get(self.contract_id)
     self.assertIn(key, contract["documents"][-1]["url"])
-    self.assertIn("Signature=", contract["documents"][-1]["url"])
-    self.assertIn("KeyID=", contract["documents"][-1]["url"])
+    self.assertNotIn("Signature=", contract["documents"][-1]["url"])
+    self.assertNotIn("KeyID=", contract["documents"][-1]["url"])
     self.assertNotIn("Expires=", contract["documents"][-1]["url"])
 
-    response = self.app.get("/contracts/{}/documents/{}?download={}".format(self.contract_id, doc_id, key))
+    response = self.app.get(f"/contracts/{self.contract_id}/documents/{doc_id}?download={key}")
     self.assertEqual(response.status, "302 Moved Temporarily")
     self.assertIn("http://localhost/get/", response.location)
     self.assertIn("Signature=", response.location)
     self.assertIn("KeyID=", response.location)
-    self.assertNotIn("Expires=", response.location)
+    self.assertIn("Expires=", response.location)
 
 
 def create_contract_transaction_document_json(self):
 
     transaction_id = 123456
     response = self.app.put_json(
-        "/contracts/{}/transactions/{}?acc_token={}".format(self.contract_id, transaction_id, self.contract_token),
+        f"/contracts/{self.contract_id}/transactions/{transaction_id}?acc_token={self.contract_token}",
         {
             "data": {
                 "date": "2020-05-20T18:47:47.136678+02:00",
@@ -766,9 +818,7 @@ def create_contract_transaction_document_json(self):
     self.assertEqual(response.status, "200 OK")
 
     response = self.app.post_json(
-        "/contracts/{}/transactions/{}/documents?acc_token={}".format(
-            self.contract_id, transaction_id, self.contract_token
-        ),
+        f"/contracts/{self.contract_id}/transactions/{transaction_id}/documents?acc_token={self.contract_token}",
         {
             "data": {
                 "title": "name name.doc",
@@ -783,15 +833,13 @@ def create_contract_transaction_document_json(self):
     self.assertEqual("name name.doc", response.json["data"]["title"])
     doc_id = response.json["data"]["id"]
 
-    response = self.app.get("/contracts/{}/transactions/{}".format(self.contract['id'], transaction_id))
+    response = self.app.get(f"/contracts/{self.contract['id']}/transactions/{transaction_id}")
     documents = response.json['data']['documents']
 
     self.assertEqual(doc_id, documents[0]['id'])
 
     response = self.app.post_json(
-        "/contracts/{}/transactions/{}/documents?acc_token={}".format(
-            self.contract_id, transaction_id, self.contract_token
-        ),
+        f"/contracts/{self.contract_id}/transactions/{transaction_id}/documents?acc_token={self.contract_token}",
         {
             "dt": {}
         },
@@ -805,9 +853,7 @@ def create_contract_transaction_document_json(self):
     )
 
     response = self.app.post_json(
-        "/contracts/{}/transactions/{}/documents?acc_token={}".format(
-            self.contract_id, transaction_id, self.contract_token
-        ),
+        f"/contracts/{self.contract_id}/transactions/{transaction_id}/documents?acc_token={self.contract_token}",
         {
             "data": {
                 "title": "name name2.doc",
@@ -822,16 +868,14 @@ def create_contract_transaction_document_json(self):
     self.assertEqual("name name2.doc", response.json["data"]["title"])
     doc_id2 = response.json["data"]["id"]
 
-    response = self.app.get("/contracts/{}/transactions/{}".format(self.contract['id'], transaction_id))
+    response = self.app.get(f"/contracts/{self.contract['id']}/transactions/{transaction_id}")
     documents = response.json['data']['documents']
     self.assertEqual(len(documents), 2)
     self.assertEqual(doc_id2, documents[1]['id'])
 
     invalid_transaction_id = 678123
     response = self.app.post_json(
-        "/contracts/{}/transactions/{}/documents?acc_token={}".format(
-            self.contract_id, invalid_transaction_id, self.contract_token
-        ),
+        f"/contracts/{self.contract_id}/transactions/{invalid_transaction_id}/documents?acc_token={self.contract_token}",
         {
             "data": {
                 "title": "name name2.doc",
@@ -846,9 +890,10 @@ def create_contract_transaction_document_json(self):
     self.assertEqual(
         response.json["errors"],
         [
-            {'description': "Can't add document contract to nonexistent transaction",
-             'location': 'body', 'name': 'data'
-             }
+            {
+                'description': "Not Found",
+                'location': 'url', 'name': 'transaction_id',
+            }
         ]
     )
 
