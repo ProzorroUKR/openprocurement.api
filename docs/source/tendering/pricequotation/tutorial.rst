@@ -149,26 +149,7 @@ After the tender period end date, system automatically creates `award` in `pendi
 .. http:example:: http/awards-listing.http
    :code:
 
-The Supplier-winner can decline `award` by transferring it to status: `unsuccessful`.
-
-.. http:example:: http/award-unsuccesful.http
-   :code:
-
-`Award` will be granted to the next bid with most economically advantageous price, for the following cases:
-
- 1. Supplier-winner didn't accept `award` within two working days.
- 2. Supplier-winner declined `award`.
-
-.. note::
-
-    In the case of `award` being transferred to `unsuccessful` status for the last bid or if cancelled by Procuring Entity procedure will inherit termination status: **`unsuccessful`**.
-
-Let's check the listing of `awards`:
-
-.. http:example:: http/awards-listing-after-unsuccesful.http
-   :code:
-
-The Supplier-winner can accept `award` by transferring it to status: `active`. The system is waiting for acceptance from the supplier-winner within `two working days`.
+Procuring Entity can accept `award` by transferring it to status: `active`.
 
 .. http:example:: http/award-active.http
    :code:
@@ -178,9 +159,46 @@ Let's check the listing of `awards`:
 .. http:example:: http/awards-listing-after-activation.http
    :code:
 
-Procuring Entity can cancel `award` after acceptance by changing `award` status to `cancelled` in case if supplier-winner declines to sign contract.
-After canceling `award` system creates `second` `award` for the same bid in status: `pending` with access for Procuring Entity only. 
-Procuring Entity can change `second` `award` status to `unsuccessful` with ability to upload supplementary documents.
+Procuring Entity can cancel `award` after acceptance by changing `award` status to `cancelled`:
+
+.. http:example:: http/award-cancelled.http
+   :code:
+
+After canceling `award` system creates `second` `award` for the same bid in status: `pending`:
+
+.. http:example:: http/awards-listing-after-cancellation.http
+   :code:
+
+If the offer of the Participant with the lowest price meets the requirements, Procuring Entity uploads a document that recognizes the offer as the Winner `(awards:status:active)`.
+If it does not meet the requirements, Procuring Entity downloads a protocol confirming its decision to reject the Participant and rejects such an offer `(awards:status:unsuccessful)`.
+The system leads to the evaluation of the next one with most economically advantageous price `(awards:status:pending)`.
+
+Let's decline `award` by transferring it to status: `unsuccessful`.
+
+.. http:example:: http/award-unsuccesful.http
+   :code:
+
+In that case `Award` will be granted to the next bid with most economically advantageous price.
+
+Let's check the listing of `awards`:
+
+.. http:example:: http/awards-listing-after-unsuccesful.http
+   :code:
+
+Procuring Entity can accept second bidder `award` by transferring it to status: `active`.
+
+.. http:example:: http/award-active-2.http
+   :code:
+
+Let's check the listing of `awards`:
+
+.. http:example:: http/awards-listing-after-activation-2.http
+   :code:
+
+.. note::
+
+    In the case of `award` being transferred to `unsuccessful` status for the last bid procedure will inherit termination status: **`unsuccessful`**.
+
 
 .. index:: Setting Contract
 

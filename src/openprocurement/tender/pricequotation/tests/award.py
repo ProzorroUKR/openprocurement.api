@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import unittest
-from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.pricequotation.tests.base import (
@@ -11,7 +10,6 @@ from openprocurement.tender.pricequotation.tests.base import (
 from openprocurement.tender.pricequotation.tests.award_blanks import (
     check_tender_award,
     create_tender_award_invalid,
-    check_tender_award_disqualification,
     create_tender_award,
     patch_tender_award,
     tender_award_transitions,
@@ -19,16 +17,14 @@ from openprocurement.tender.pricequotation.tests.award_blanks import (
 )
 from openprocurement.tender.belowthreshold.tests.award import (
     TenderAwardDocumentResourceTestMixin,
-    TenderAwardResourceTestMixin
 )
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
     get_tender_award,
     create_tender_award_with_scale_not_required,
     create_tender_award_no_scale,
     create_tender_award_no_scale_invalid,
-    create_tender_award_no_scale_invalid,
-    create_tender_award_document_json_bulk,
 )
+
 
 class TenderAwardResourceTestMixin(object):
     test_create_tender_award_invalid = snitch(create_tender_award_invalid)
@@ -45,7 +41,6 @@ class TenderAwardResourceTest(TenderContentWebTest, TenderAwardResourceTestMixin
     test_patch_tender_award = snitch(patch_tender_award)
     test_tender_award_transitions = snitch(tender_award_transitions)
     test_check_tender_award = snitch(check_tender_award)
-    test_check_tender_award_disqualification = snitch(check_tender_award_disqualification)
     test_check_tender_award_cancellation = snitch(check_tender_award_cancellation)
 
 

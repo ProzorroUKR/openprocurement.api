@@ -12,7 +12,6 @@ from openprocurement.tender.core.procedure.validation import (
     validate_award_document_lot_not_in_allowed_status,
     validate_award_document_author,
 )
-from openprocurement.tender.pricequotation.procedure.validation import validate_pq_award_owner
 from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.api.utils import json_view
 from cornice.resource import resource
@@ -29,9 +28,7 @@ class PQTenderAwardDocumentResource(BaseAwardDocumentResource):
 
     @json_view(
         validators=(
-            unless_bots(
-                validate_pq_award_owner,
-            ),
+            unless_bots(validate_item_owner("tender")),
             validate_input_data(PostDocument, allow_bulk=True),
             validate_award_document_tender_not_in_allowed_status_base,
             validate_award_document_lot_not_in_allowed_status,
@@ -43,7 +40,7 @@ class PQTenderAwardDocumentResource(BaseAwardDocumentResource):
 
     @json_view(
         validators=(
-            validate_pq_award_owner,
+            validate_item_owner("tender"),
             validate_input_data(PostDocument),
             validate_award_document_tender_not_in_allowed_status_base,
             validate_award_document_lot_not_in_allowed_status,
@@ -61,7 +58,7 @@ class PQTenderAwardDocumentResource(BaseAwardDocumentResource):
     @json_view(
         content_type="application/json",
         validators=(
-            validate_pq_award_owner,
+            validate_item_owner("tender"),
             validate_input_data(PatchDocument, none_means_remove=True),
             validate_patch_data(Document, item_name="document"),
             validate_award_document_tender_not_in_allowed_status_base,

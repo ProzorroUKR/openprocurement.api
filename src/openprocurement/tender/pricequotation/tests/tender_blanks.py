@@ -2174,7 +2174,7 @@ def one_valid_bid_tender(self):
     award_date = [i["date"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as active
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, token),
+        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
         {"data": {"status": "active"}}
     )
     self.assertNotEqual(response.json["data"]["date"], award_date)
@@ -2223,7 +2223,7 @@ def one_invalid_bid_tender(self):
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as unsuccessful
     self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, token),
+        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
         {"data": {"status": "unsuccessful"}},
     )
     # check status
@@ -2269,7 +2269,7 @@ def first_bid_tender(self):
     self.assertEqual(award['value']['amount'], 300)
     # set award as unsuccessful
     self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, bid_token2),
+        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
         {"data": {"status": "unsuccessful"}},
     )
     # get awards
@@ -2289,7 +2289,7 @@ def first_bid_tender(self):
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as active
     self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, bid_token1),
+        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
         {"data": {"status": "active"}}
     )
     # get contract id
@@ -2374,7 +2374,7 @@ def lost_contract_for_active_award(self):
     owner_token = self.tender_token
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    bid, token = self.create_bid(
+    self.create_bid(
         self.tender_id,
         {
             "tenderers": [test_tender_pq_organization],
@@ -2394,7 +2394,7 @@ def lost_contract_for_active_award(self):
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as active
     self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, token), {"data": {"status": "active"}}
+        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token), {"data": {"status": "active"}}
     )
     # lost contract
     tender = self.mongodb.tenders.get(tender_id)

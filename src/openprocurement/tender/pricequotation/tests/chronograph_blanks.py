@@ -42,45 +42,6 @@ def switch_to_unsuccessful(self):
         )
 
 
-def switch_to_unsuccessful_by_chronograph(self):
-    self.set_status("active.qualification", 'end')
-
-    tender = self.mongodb.tenders.get(self.tender_id)
-    two_days_before = calculate_tender_business_date(
-        get_now(), -QUALIFICATION_DURATION,
-        tender, working_days=True
-    ).isoformat()
-    tender['awards'][0]['date'] = two_days_before
-    self.mongodb.tenders.save(tender)
-
-    response = self.check_chronograph()
-    self.assertEqual(response.json["data"]["status"], "active.qualification")
-    self.assertEqual(len(response.json["data"]["awards"]), 2)
-    self.assertEqual(response.json["data"]["awards"][0]["status"], "unsuccessful")
-    self.assertEqual(response.json["data"]["awards"][1]["status"], "pending")
-
-    award = self.app.get("/tenders/{}/awards".format(self.tender_id)).json["data"][-1]
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
-        {"data": {"status": "active"}})
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
-        {"data": {"status": "cancelled"}})
-    response = self.app.get("/tenders/{}/awards".format(self.tender_id))
-    self.assertEqual(len(response.json["data"]), 3)
-
-    tender = self.mongodb.tenders.get(self.tender_id)
-    tender['awards'][-1]['date'] = two_days_before
-    self.mongodb.tenders.save(tender)
-
-    response = self.check_chronograph()
-    self.assertEqual(response.json["data"]["status"], "unsuccessful")
-    self.assertEqual(len(response.json["data"]["awards"]), 3)
-    self.assertEqual(response.json["data"]["awards"][0]["status"], "unsuccessful")
-    self.assertEqual(response.json["data"]["awards"][1]["status"], "cancelled")
-    self.assertEqual(response.json["data"]["awards"][2]["status"], "unsuccessful")
-
-
 def ensure_no_auction_period(self):
     self.check_chronograph()
     response = self.app.get(f"/tenders/{self.tender_id}")
