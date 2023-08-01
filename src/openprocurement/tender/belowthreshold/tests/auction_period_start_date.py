@@ -10,7 +10,8 @@ from openprocurement.tender.belowthreshold.tests.auction_period_start_date_blank
     tender_lot_put_auction_period_in_active_auction,
 )
 from openprocurement.tender.belowthreshold.tests.base import (
-    TenderContentWebTest, test_lots
+    TenderContentWebTest,
+    test_tender_below_lots,
 )
 
 
@@ -26,7 +27,7 @@ class TenderAuctionPeriodStartDateResourceTest(TenderContentWebTest):
 
 
 class TenderLotAuctionPeriodStartDateResourceTest(TenderContentWebTest):
-    initial_lots = test_lots
+    initial_lots = test_tender_below_lots
     days_till_auction_starts = 10
     test_tender_lot_put_auction_period_for_not_allowed_tender_status = snitch(
         tender_lot_put_auction_period_for_not_allowed_tender_status)
