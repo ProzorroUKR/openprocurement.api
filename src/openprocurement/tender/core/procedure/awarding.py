@@ -238,7 +238,10 @@ class TenderStateAwardingMixing(baseclass):
             if bid["status"] == "active":
                 if lot_id:
                     for lot_value in bid["lotValues"]:
-                        if lot_value["relatedLot"] == lot_id and lot_value.get("status", "active") == "active":
+                        if (
+                            lot_value["relatedLot"] == lot_id
+                            and lot_value.get("status", "active") in self.active_bid_statuses
+                        ):
                             active_bid = {
                                 "id": bid["id"],
                                 "value": lot_value["value"],

@@ -658,8 +658,10 @@ class ChronographEventsMixing(baseclass):
         for bid in tender.get("bids", ""):
             if bid.get("status", "active") in cls.active_bid_statuses:
                 for lot_value in bid.get("lotValues", ""):
-                    if lot_value.get("status", "active") in cls.active_bid_statuses and lot_value[
-                        "relatedLot"] == lot_id:
+                    if (
+                        lot_value.get("status", "active") in cls.active_bid_statuses
+                        and lot_value["relatedLot"] == lot_id
+                    ):
                         count += 1
                         break  # proceed to the next bid check
         return count
