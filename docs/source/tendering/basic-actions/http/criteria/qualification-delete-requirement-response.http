@@ -1,6 +1,7 @@
-GET /api/2.5/tenders/5d8c9b51c2d14c1196b1f7833c8ac475/qualifications/07996f89c0ff478686c6b72ddaf73c80/requirement_responses/a99c0528a18b4d1a82128c1302cf01e0?acc_token=ae43448b946e4f49a99e064e0178c255 HTTP/1.0
+DELETE /api/2.5/tenders/5d8c9b51c2d14c1196b1f7833c8ac475/qualifications/07996f89c0ff478686c6b72ddaf73c80/requirement_responses/a99c0528a18b4d1a82128c1302cf01e0?acc_token=ae43448b946e4f49a99e064e0178c255 HTTP/1.0
 Authorization: Bearer broker
-Host: public-api-sandbox.prozorro.gov.ua
+Content-Length: 0
+Host: lb-api-sandbox.prozorro.gov.ua
 
 
 HTTP/1.0 200 OK

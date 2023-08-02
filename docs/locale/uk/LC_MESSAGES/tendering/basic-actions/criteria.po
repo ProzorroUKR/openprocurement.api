@@ -24,16 +24,16 @@ msgid "Criteria data :ref:`schema<criterion>`"
 msgstr "Схема даних :ref:`критеріїв<criterion>`"
 
 msgid "Criteria is part of tender documentation, so all operation with criteria make tender owner."
-msgstr "Критерії це частина тенедрної документації, тому всі дії над критеріями може виконувати лише власник тендеру."
+msgstr "Критерії - це частина тендерної документації, тому всі дії над критеріями може виконувати лише власник тендеру."
 
 msgid "Create Tender Criteria"
 msgstr "Створення критеріїв закупівлі"
 
 msgid "Criteria exist in procedures: belowThreshold, aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA, closeFrameworkAgreementSelectionUA"
-msgstr "Критіерії існуть в даних процедурах:  belowThreshold, aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA, closeFrameworkAgreementSelectionUA"
+msgstr "Критерії існують в наступних процедурах:  belowThreshold, aboveThresholdUA, aboveThresholdEU, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA, closeFrameworkAgreementSelectionUA."
 
 msgid "Criteria can be related to tenderer, lot, item and tender. You cannot cancel lot or item if there is at least one related criterion with requirement in `active` status. To cancel lot or set item quantity to 0 you should set `cancelled` status to all active requirements in related criterion."
-msgstr "Критерії можуть бути пов'язані з tenderer, lot, item та tender. Ви не можете відмінити lot або item якщо існує хоча б один пов'язаний критерії з вимогою в статусі `active`. Щоб скасувати lot чи вказати кількість item рівною 0, необхідно перевести у статус `cancelled` всі активні вимоги пов'язаного критерію."
+msgstr "Критерії можуть бути пов'язані з tenderer, lot, item та tender. Ви не можете відмінити item, якщо існує хоча б один пов'язаний критерій з вимогою в статусі `active`. Щоб вказати кількість item рівною 0, необхідно перевести у статус `cancelled` всі активні вимоги пов'язаного критерію."
 
 msgid "You can create few criteria in one request with complete set of data."
 msgstr "Можна створити одразу декілька критеріїв за один запит з повним набором даних."
@@ -51,10 +51,10 @@ msgid "Requirement group :ref:`schema<RequirementGroup>`"
 msgstr "Схема даних :ref:`групи вимог<RequirementGroup>`"
 
 msgid "Requirement group that's object that contain requirements, and sets the rules for how to respond to requirements."
-msgstr "Група вимог це об'єкт який містить вимоги, та встановулює правила як, та на які вимоги надавати відповідь."
+msgstr "Група вимог - це об'єкт який містить вимоги та встановлює правила: як та на які вимоги надавати відповідь."
 
 msgid "Inside requirement groups you must gave response to all requirements(that's mean gave response to requirement group). If criterion have more than one requirement groups you must gave response only to one requirement group. If you try to gave responses to few requirement groups system will be returned error."
-msgstr "В рамках групи вимог потрібно надати відповідь на всі вимоги(це означає відповісти на групу вимог). Якщо критеріон має більше однієї групи вимог, потрібно надати відповідь лише на одну групу, у випадку, якщо відповідь буде надана більше ніж на одну групу система поверне помилку."
+msgstr "В рамках групи вимог потрібно надати відповідь на всі вимоги(це означає відповісти на групу вимог). Якщо критеріон має більше однієї групи вимог, потрібно надати відповідь лише на одну групу. Якщо відповідь буде надана більше ніж на одну групу система поверне помилку."
 
 msgid ":ref:`There you can see how it works on practice. <bid_activation_with_requirement_responses>`"
 msgstr ":ref:`Тут ви можете побачити як це працює. <bid_activation_with_requirement_responses>`"
@@ -66,7 +66,7 @@ msgid "Update Criteria Requirement Group"
 msgstr "Оновлення групи вимог"
 
 msgid "Get Criteria Requirement Group"
-msgstr "Отпимання інформації по групам вимог"
+msgstr "Отримання інформації по групам вимог"
 
 msgid "Requirement basic operation"
 msgstr "Базові операції над вимогами"
@@ -84,7 +84,7 @@ msgid "You can use PATCH method to update requirements for tenders in draft stat
 msgstr "Ви можете використати PATCH метод для оновлення вимоги для тендеру в статусі чернетки."
 
 msgid "To update requirement in non-draft status of tender you should use PUT method. New version with status `active` will be created. Status of old version of requirement will be changed to `cancelled`."
-msgstr "Для оновлення вимоги у `active.enquries` та `active.tendering` статусах тендера необхідно використовувати метод PUT. Нова версія вимоги зі статусом `active` буде створена. Статус старої версії вимоги автоматично зміниться на `cancelled`."
+msgstr "Для оновлення вимоги у `active.enquiries` та `active.tendering` статусах тендера необхідно використовувати метод PUT. Нова версія вимоги зі статусом `active` буде створена. Статус старої версії вимоги автоматично зміниться на `cancelled`."
 
 msgid "Delete Requirement"
 msgstr "Видалення вимоги"
@@ -111,25 +111,25 @@ msgid "To add evidence(s) in non-draft status of tender you should use PUT metho
 msgstr "Щоби додати прийнятний доказ(и) до тендеру у статусі `active.enquiries` або `active.tendering`, необхідно використати метод PUT на рівні вимоги з вказанням розширеного списку eligibleEvidences. Нову версію вимоги зі статусом `active` та розширеним списком eligibleEvidences буде створено."
 
 msgid "Update Eligible Evidence"
-msgstr "Оновлення інформації прияйнятного доказу"
+msgstr "Оновлення інформації прийнятного доказу"
 
 msgid "You can use PATCH method to update evidence for tenders in draft statuses."
 msgstr "Щоби оновити прийнятний доказ до тендеру у статусі чернетки, можна скористатись методом PATCH."
 
 msgid "To update evidence(s) in non-draft status of tender you should use PUT method on Requirement level with updated evidence(s) in eligibleEvidences array. New version or Requirement with status `active` and with changed eligibleEvidences array will be created."
-msgstr "Щоби оновити прийнятний доказ(и) до тендеру у статусі `active.enquiries` або `active.tendering`, необхідно використати метод PUT на рівні вимоги з вказанням змінених вимог у списку eligibleEvidences. Нову версію вимоги зі статусом `active` та оновленими вимогами у списком eligibleEvidences буде створено."
+msgstr "Щоб оновити прийнятний доказ(и) до тендеру у статусі `active.enquiries` або `active.tendering`, необхідно використати метод PUT на рівні вимоги з вказанням змінених вимог у списку eligibleEvidences. Нову версію вимоги зі статусом `active` та оновленими вимогами у списку eligibleEvidences буде створено."
 
 msgid "Delete Eligible Evidence"
 msgstr "Видалення прийнятного доказу"
 
 msgid "You can use DELETE method to delete evidence for tenders in draft statuses."
-msgstr "Ви можете використати DELETE метод щоб видалити вимогу до тендера у статусі чернетки."
+msgstr "Ви можете використати DELETE метод, щоб видалити доказ для тендера у статусі чернетки."
 
 msgid "For tenders in non-draft statuses evidence(s) can be deleted from Requirement only by using PUT method on Requirement level. Use eligibleEvidences array without some evidence(s) to delete them from Requirement. To delete all evidences from Requirement use empty array for eligibleEvidences field."
-msgstr "Щоби видалити вимоги до тендеру у статусі `active.enquiries` або `active.tendering` необхідно використати метод PUT на рівні вимоги. Використовуйте список eligibleEvidences без деяких доказів щоби видалити їх з вимоги. Щоб видалити всі прийнятні докази з вимоги використовуйте пустий список для поля eligibleEvidences."
+msgstr "Для видалення доказу в тендері у статусі `active.enquiries` або `active.tendering` необхідно використати метод PUT на рівні вимоги. Використовуйте список eligibleEvidences без деяких доказів, щоб видалити їх з вимоги. Щоб видалити всі прийнятні докази з вимоги використовуйте пустий список для поля eligibleEvidences."
 
 msgid "For tenders in draft statuses there is possibility to create, update and delete eligibleEvidences, make PATCH request to requirement and send new list of `eligibleEvidences`:"
-msgstr "Для тендерів у статусі чернетки існує інша можливість для створення, оновлення та видалення доказів через PATCH запит на вимогу де потрібно передати новий списко `eligibleEvidences`:"
+msgstr "Для тендерів у статусі чернетки існує інша можливість для створення, оновлення та видалення доказів через PATCH запит на вимогу, де потрібно передати новий список `eligibleEvidences`:"
 
 msgid "Retrieve Eligible Evidence"
 msgstr "Отримання інформації по прийнятних доказах"
@@ -144,16 +144,16 @@ msgid "`Standard data, you could get here <https://github.com/ProzorroUKR/standa
 msgstr "`Стандарт можна отримати тут <https://github.com/ProzorroUKR/standards/blob/master/criteria/article_17.json>`__"
 
 msgid "You can't update tender to status `active.tendering` without 9 EXCLUSION and 1 OTHER.BID.LANGUAGE criteria:"
-msgstr "Неможливо перевести тендер у статус `active.tendering` без 9-ти вийнятнхових та одного мовного критеріїв:"
+msgstr "Неможливо перевести тендер у статус `active.tendering` без 9-ти вийняткових та одного мовного критеріїв:"
 
 msgid "EXCLUSION criteria and all criteria objects are unchangeable:"
-msgstr "Вийняткові критерії та всі дочірні об'єкти є незміннми:"
+msgstr "Вийняткові критерії та всі дочірні об'єкти є незмінними:"
 
 msgid "For tenders in draft statuses you can patch exclusion requirement, but you can send only `eligibleEvidences`"
-msgstr "Для тендерів в статусі чернетки вийняткові вимоги можливо редагувати, але тілки передаючи поле `eligibleEvidences`"
+msgstr "Для тендерів в статусі чернетки вимоги вийняткових критеріїв можливо редагувати, але тільки передаючи поле `eligibleEvidences:`"
 
 msgid "For tenders in non-draft statuses you can PUT exclusion requirement, but you can change only `status` and `eligibleEvidences`"
-msgstr "Для статусів `active.enquiries` та `active.tendering` вийняткові вимоги можливо редагувати методом PUT, але змінювати можна лише поля `status` та `eligibleEvidences`"
+msgstr "Для статусів `active.enquiries` та `active.tendering` вимоги вийняткових критеріїв можливо редагувати методом PUT, але змінювати можна лише поля `status` та `eligibleEvidences`"
 
 #, fuzzy
 msgid "Language criterion workflow"

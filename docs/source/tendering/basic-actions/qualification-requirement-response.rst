@@ -55,11 +55,6 @@ Delete Requirement Response
 .. http:example:: http/criteria/qualification-delete-requirement-response.http
    :code:
 
-You can delete requirement responses in one request with qualification patch, not send this requirement response data.
-
-.. http:example:: http/criteria/qualification-update-requirement-response.http
-   :code:
-
 
 Evidence basic operation
 ------------------------

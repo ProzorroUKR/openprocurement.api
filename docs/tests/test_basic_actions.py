@@ -2218,7 +2218,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'criteria/delete-requirement-response.http', 'wb') as self.app.file_obj:
-            response = self.app.get(
+            response = self.app.delete(
                 '/tenders/{}/bids/{}/requirement_responses/{}?acc_token={}'.format(
                     self.tender_id, bid_id, rr_id, bid_token))
             self.assertEqual(response.status, '200 OK')
@@ -2405,7 +2405,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.patch_json(
                 '/tenders/{}/awards/{}/requirement_responses/{}?acc_token={}'.format(
                     self.tender_id, award_id, rr_id, owner_token),
-                {'data': {'title': 'Updated title'}},
+                {'data': {"title": "Updated title"}},
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -2455,10 +2455,11 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'criteria/award-delete-requirement-response.http', 'wb') as self.app.file_obj:
-            response = self.app.get(
+            response = self.app.delete(
                 '/tenders/{}/awards/{}/requirement_responses/{}?acc_token={}'.format(
                     self.tender_id, award_id, rr_id, owner_token))
             self.assertEqual(response.status, '200 OK')
+
 
     def test_qualification_requirement_response(self):
         self.app.authorization = ('Basic', ('broker', ''))
@@ -2601,7 +2602,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.patch_json(
                 '/tenders/{}/qualifications/{}/requirement_responses/{}?acc_token={}'.format(
                     self.tender_id, qualification_id, rr_id, owner_token),
-                {'data': {'title': 'Updated title'}},
+                {'data': {"title": "Updated title"}},
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -2653,10 +2654,11 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'criteria/qualification-delete-requirement-response.http', 'wb') as self.app.file_obj:
-            response = self.app.get(
+            response = self.app.delete(
                 '/tenders/{}/qualifications/{}/requirement_responses/{}?acc_token={}'.format(
                     self.tender_id, qualification_id, rr_id, owner_token))
             self.assertEqual(response.status, '200 OK')
+
 
 
 class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebTestMixin):
