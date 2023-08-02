@@ -21,7 +21,7 @@ msgid "Electronic Tender Documentation"
 msgstr "Електронна Тендерна Документація"
 
 msgid "Criteria workflow"
-msgstr "Схема роботи Критерій"
+msgstr "Схема роботи критеріїв"
 
 msgid "Tutorial"
 msgstr "Туторіал"

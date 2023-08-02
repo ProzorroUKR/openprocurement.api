@@ -55,11 +55,6 @@ Delete Requirement Response
 .. http:example:: http/criteria/award-delete-requirement-response.http
    :code:
 
-You can delete requirement responses in one request with award patch, not send this requirement response data.
-
-.. http:example:: http/criteria/award-update-requirement-response.http
-   :code:
-
 
 Evidence basic operation
 ------------------------
