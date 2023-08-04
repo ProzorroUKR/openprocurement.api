@@ -43,6 +43,8 @@ class FrameworkAgreementResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
         self.create_framework()
         auth = self.app.authorization
         self.activate_framework()
+        # Speed up time
+        self.tick(delta=timedelta(days=15))  # 10 working days of enquiryPeriod
 
         self.app.authorization = ('Basic', ('broker', ''))
 
@@ -141,7 +143,7 @@ class FrameworkAgreementResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
 
         self.assertEqual(response.json["data"]["contracts"][0]["status"], "suspended")
 
-        self.tick(delta=timedelta(days=90))
+        self.tick(delta=timedelta(days=75))
         self.check_agreement_chronograph()
 
         with open(TARGET_DIR + 'agreement-view-contract-active.http', 'wb') as self.app.file_obj:

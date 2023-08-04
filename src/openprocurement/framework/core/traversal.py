@@ -33,6 +33,10 @@ class Root(object):
         (Allow, "g:chronograph", "edit_agreement"),
         (Allow, "g:Administrator", "edit_agreement"),
         (Allow, "g:admins", ALL_PERMISSIONS),
+        # Question permissions
+        (Allow, "g:brokers", "create_question"),
+        (Allow, "g:brokers", "edit_question"),
+        (Allow, "g:admins", ALL_PERMISSIONS),
     ]
 
     def __init__(self, request):
@@ -41,6 +45,10 @@ class Root(object):
 
 def resolve_document(request, obj, document_type=None):
     return get_item(obj, "{}_document".format(document_type) if document_type else "document", request)
+
+
+def resolve_question(request, obj):
+    return get_item(obj, "question", request)
 
 
 def base_factory(request, obj_name):
@@ -65,6 +73,8 @@ def base_factory(request, obj_name):
     request.validated["id"] = request.matchdict[obj_name_id]
     if request.matchdict.get("document_id"):
         return resolve_document(request, obj)
+    if request.matchdict.get("question_id"):
+        return resolve_question(request, obj)
 
     return obj
 

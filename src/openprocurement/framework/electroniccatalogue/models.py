@@ -111,6 +111,7 @@ class Framework(BaseFramework):
                 "description_ru",
                 "documents",
                 "frameworkDetails"
+                "questions",
             ),
             "draft": _status_view_role,
             "active": _status_view_role,
@@ -127,6 +128,7 @@ class Framework(BaseFramework):
                 "status",
                 "owner",
                 "next_check",
+                "questions",
             ),
             "chronograph": whitelist("next_check"),
             "chronograph_view": _status_view_role,

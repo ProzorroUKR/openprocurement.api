@@ -14,18 +14,49 @@ Content-Type: application/json
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-17T00:00:00+02:00",
     "owner": "broker",
+    "questions": [
+      {
+        "id": "c0b3b9bc304945b59cccc96f522283aa",
+        "author": {
+          "name": "ДКП «Книга»",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00137226",
+            "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
+            "uri": "http://www.sc.gov.ua/"
+          },
+          "address": {
+            "streetAddress": "вул. Островського, 34",
+            "locality": "м. Львів",
+            "region": "Львівська область",
+            "postalCode": "79013",
+            "countryName": "Україна"
+          },
+          "contactPoint": {
+            "name": "Андрій Олексюк",
+            "email": "aagt@gmail.com",
+            "telephone": "+380322916930"
+          }
+        },
+        "title": "Калорійність",
+        "description": "Просимо додати таблицю потрібної калорійності харчування",
+        "date": "2023-01-01T00:00:00+02:00",
+        "answer": "Таблицю додано в файлі",
+        "dateAnswered": "2023-01-01T00:00:00+02:00"
+      }
+    ],
     "status": "active",
     "period": {
       "startDate": "2023-01-01T00:00:00+02:00",
       "endDate": "2023-01-31T00:00:00+02:00"
     },
     "qualificationPeriod": {
-      "startDate": "2023-01-01T00:00:01+02:00",
+      "startDate": "2023-01-14T00:00:00+02:00",
       "endDate": "2023-03-02T00:00:00+02:00"
     },
     "enquiryPeriod": {
       "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-01T00:00:01+02:00"
+      "endDate": "2023-01-14T00:00:00+02:00"
     },
     "frameworkType": "dynamicPurchasingSystem",
     "procuringEntity": {

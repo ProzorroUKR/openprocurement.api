@@ -16,10 +16,7 @@ from jsonpointer import resolve_pointer
 from pyramid.compat import decode_path_info
 from pyramid.exceptions import URLDecodeError
 
-from openprocurement.api.constants import (
-    WORKING_DAYS,
-    FRAMEWORK_ENQUIRY_PERIOD_OFF_FROM,
-)
+from openprocurement.api.constants import WORKING_DAYS
 from openprocurement.api.utils import (
     error_handler,
     update_logging_context,
@@ -417,20 +414,17 @@ def calculate_framework_periods(request, model):
     data = request.validated["data"]
 
     enquiryPeriod_startDate = framework.enquiryPeriod and framework.enquiryPeriod.startDate or get_now()
-    if get_first_revision_date(framework, default=get_now()) >= FRAMEWORK_ENQUIRY_PERIOD_OFF_FROM:
-        enquiryPeriod_endDate = enquiryPeriod_startDate + timedelta(seconds=1)
-    else:
-        enquiryPeriod_endDate = (
-            framework.enquiryPeriod
-            and framework.enquiryPeriod.endDate
-            or calculate_framework_date(
-                enquiryPeriod_startDate,
-                timedelta(days=ENQUIRY_PERIOD_DURATION),
-                framework,
-                working_days=True,
-                ceil=True
-            )
+    enquiryPeriod_endDate = (
+        framework.enquiryPeriod
+        and framework.enquiryPeriod.endDate
+        or calculate_framework_date(
+            enquiryPeriod_startDate,
+            timedelta(days=ENQUIRY_PERIOD_DURATION),
+            framework,
+            working_days=True,
+            ceil=True
         )
+    )
 
     data["enquiryPeriod"] = {
         "startDate": enquiryPeriod_startDate,

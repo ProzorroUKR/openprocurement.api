@@ -17,6 +17,7 @@ from tests.base.test import (
 from openprocurement.api.utils import get_now
 from openprocurement.framework.dps.tests.base import (
     test_framework_dps_data,
+    test_question_data,
     BaseFrameworkWebTest,
 )
 
@@ -74,8 +75,54 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
                 )
                 self.assertEqual(response.status, '200 OK')
 
+        # Questions
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        with open(TARGET_DIR + 'ask-question.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f"/frameworks/{framework['id']}/questions",
+                {'data': test_question_data}
+            )
+            self.assertEqual(response.status, '201 Created')
+            question = response.json["data"]
+
+        with open(TARGET_DIR + 'answer-question.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f"/frameworks/{framework['id']}/questions/{question['id']}?acc_token={owner_token}",
+                {'data': {"answer": "Таблицю додано в файлі"}}
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'answer-question-invalid.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f"/frameworks/{framework['id']}/questions/{question['id']}",
+                {'data': {"answer": "Таблицю додано в файлі"}},
+                status=403,
+            )
+            self.assertEqual(response.status, '403 Forbidden')
+
+        with open(TARGET_DIR + 'list-questions.http', 'w') as self.app.file_obj:
+            response = self.app.get(f"/frameworks/{framework['id']}/questions")
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'get-answer.http', 'w') as self.app.file_obj:
+            response = self.app.get(f"/frameworks/{framework['id']}/questions/{question['id']}")
+            self.assertEqual(response.status, '200 OK')
+
         # Speed up time
         self.tick(delta=timedelta(days=16))
+
+        with open(TARGET_DIR + 'ask-question-invalid.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f"/frameworks/{framework['id']}/questions",
+                {'data': test_question_data},
+                status=403,
+            )
+            self.assertEqual(response.status, '403 Forbidden')
+            self.assertIn(
+                "Question can be add only during the enquiry period",
+                response.json["errors"][0]["description"],
+            )
 
         # Submissions
 

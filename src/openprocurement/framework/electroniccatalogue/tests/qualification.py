@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
+from datetime import timedelta
+from freezegun import freeze_time
 
+from openprocurement.api.context import get_now
 from openprocurement.api.tests.base import snitch
+from openprocurement.framework.core.utils import calculate_framework_date, ENQUIRY_PERIOD_DURATION
 from openprocurement.framework.electroniccatalogue.tests.base import (
     SubmissionContentWebTest,
     test_framework_electronic_catalogue_data,
@@ -35,10 +39,14 @@ from openprocurement.framework.dps.tests.qualification_blanks import (
 class QualificationContentWebTest(SubmissionContentWebTest):
     def setUp(self):
         super(QualificationContentWebTest, self).setUp()
-        response = self.app.patch_json(
-            "/submissions/{}?acc_token={}".format(self.submission_id, self.submission_token),
-            {"data": {"status": "active"}},
+        enquiry_end_date = calculate_framework_date(
+            get_now(), timedelta(days=ENQUIRY_PERIOD_DURATION), working_days=True, ceil=True
         )
+        with freeze_time(enquiry_end_date.isoformat()):
+            response = self.app.patch_json(
+                "/submissions/{}?acc_token={}".format(self.submission_id, self.submission_token),
+                {"data": {"status": "active"}},
+            )
 
         self.qualification_id = response.json["data"]["qualificationID"]
 

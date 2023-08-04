@@ -13,6 +13,7 @@ from openprocurement.api.utils import (
     apply_data_patch,
 )
 from openprocurement.framework.core.tests.base import BaseCoreWebTest
+from openprocurement.framework.core.utils import ENQUIRY_PERIOD_DURATION, calculate_framework_date
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.dps.models import (
     Framework,
@@ -143,6 +144,32 @@ ban_milestone_data_with_documents = {
             "dateModified": "2020-09-08T01:00:00+03:00"
         }
     ]
+}
+
+test_question_data = {
+    "description": "Просимо додати таблицю потрібної калорійності харчування",
+    "title": "Калорійність",
+    "author": {
+        "address": {
+            "countryName": "Україна",
+            "locality": "м. Львів",
+            "postalCode": "79013",
+            "region": "Львівська область",
+            "streetAddress": "вул. Островського, 34"
+        },
+        "contactPoint": {
+            "email": "aagt@gmail.com",
+            "name": "Андрій Олексюк",
+            "telephone": "+380322916930"
+        },
+        "identifier": {
+            "scheme": "UA-EDR",
+            "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
+            "id": "00137226",
+            "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "ДКП «Книга»"
+    }
 }
 
 
@@ -281,9 +308,21 @@ class BaseSubmissionContentWebTest(FrameworkContentWebTest):
 
 
 class SubmissionContentWebTest(BaseSubmissionContentWebTest):
+    freezer = None
+
     def setUp(self):
         super(SubmissionContentWebTest, self).setUp()
+        enquiry_end_date = calculate_framework_date(
+            get_now(), timedelta(days=ENQUIRY_PERIOD_DURATION), working_days=True, ceil=True
+        )
+        self.freezer = freeze_time(enquiry_end_date.isoformat())
+        self.freezer.start()
         self.create_submission()
+
+    def tearDown(self):
+        if self.freezer:
+            self.freezer.stop()
+        super(SubmissionContentWebTest, self).tearDown()
 
 
 class BaseAgreementContentWebTest(SubmissionContentWebTest):

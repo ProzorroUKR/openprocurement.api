@@ -5,10 +5,7 @@ from uuid import uuid4
 import mock
 from freezegun import freeze_time
 
-from openprocurement.api.constants import (
-    ROUTE_PREFIX,
-    FRAMEWORK_ENQUIRY_PERIOD_OFF_FROM,
-)
+from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.context import set_now
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
@@ -52,7 +49,6 @@ def listing(self):
     frameworks = []
 
     for i in range(3):
-        offset = get_now().timestamp()
         response = self.app.post_json(
             "/frameworks", {
                 "data": self.initial_data,
@@ -82,16 +78,17 @@ def listing(self):
         [i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in frameworks])
     )
 
-    response = self.app.get("/frameworks?offset={}".format(offset))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(len(response.json["data"]), 1)
-
     response = self.app.get("/frameworks?limit=2")
     self.assertEqual(response.status, "200 OK")
     self.assertNotIn("prev_page", response.json)
     self.assertEqual(len(response.json["data"]), 2)
+    next_page = response.json["next_page"]
 
-    response = self.app.get(response.json["next_page"]["path"].replace(ROUTE_PREFIX, ""))
+    response = self.app.get("/frameworks?offset={}".format(next_page["offset"]))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(len(response.json["data"]), 1)
+
+    response = self.app.get(next_page["path"].replace(ROUTE_PREFIX, ""))
     self.assertEqual(response.status, "200 OK")
     self.assertIn("descending=1", response.json["prev_page"]["uri"])
     self.assertEqual(len(response.json["data"]), 1)
@@ -878,8 +875,6 @@ def patch_framework_draft_to_active_invalid(self):
     enquiry_end_date = calculate_framework_date(
         get_now(), timedelta(days=ENQUIRY_PERIOD_DURATION), data, working_days=True, ceil=True
     )
-    if get_now() > FRAMEWORK_ENQUIRY_PERIOD_OFF_FROM:
-        enquiry_end_date = get_now()
     data["qualificationPeriod"]["endDate"] = (enquiry_end_date + timedelta(days=29)).isoformat()
     response = self.app.post_json(
         "/frameworks", {
@@ -911,7 +906,7 @@ def patch_framework_draft_to_active_invalid(self):
     )
 
     data = deepcopy(self.initial_data)
-    data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=1096)).isoformat()
+    data["qualificationPeriod"]["endDate"] = (enquiry_end_date + timedelta(days=1096)).isoformat()
     response = self.app.post_json(
         "/frameworks", {
             "data": data,
