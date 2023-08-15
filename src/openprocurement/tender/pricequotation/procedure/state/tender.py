@@ -16,3 +16,11 @@ class PriceQuotationTenderState(TenderState):
                 yield tender["tenderPeriod"]["endDate"], self.tendering_end_handler
 
         yield from self.contract_events(tender)
+
+    def add_next_contract_handler(self, award):
+        def handler(*_):
+            request = get_request()
+            pq_add_contracts(request, award)
+            self.add_next_award()
+
+        return handler

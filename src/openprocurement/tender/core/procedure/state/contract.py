@@ -221,9 +221,6 @@ class ContractStateMixing(baseclass):
     def contract_on_post(self, data):
         pass
 
-    def contract_on_save(self, data):
-        pass
-
     def validate_activate_contract(self, contract):
         items_unit_value_amount = []
         for item in contract.get("items", []):

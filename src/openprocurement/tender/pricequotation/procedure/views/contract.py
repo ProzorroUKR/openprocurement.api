@@ -1,4 +1,5 @@
 from openprocurement.api.utils import json_view
+from openprocurement.api.constants import PQ_NEW_CONTRACTING_FROM
 from openprocurement.tender.core.procedure.views.contract import TenderContractResource
 from openprocurement.tender.core.procedure.validation import (
     unless_admins,
@@ -6,6 +7,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_patch_data_simple,
     validate_contract_supplier,
     validate_contract_input_data,
+    validate_forbid_action_after_date,
 )
 from openprocurement.tender.pricequotation.procedure.state.contract import PQContractState
 from openprocurement.tender.pricequotation.procedure.models.contract import (
@@ -34,6 +36,7 @@ class PQContractResource(TenderContractResource):
         content_type="application/json",
         permission="create_contract",
         validators=(
+            validate_forbid_action_after_date("contract", PQ_NEW_CONTRACTING_FROM),
             validate_input_data(PostContract),
         ),
     )
@@ -44,6 +47,7 @@ class PQContractResource(TenderContractResource):
         content_type="application/json",
         permission="edit_contract",
         validators=(
+            validate_forbid_action_after_date("contract", PQ_NEW_CONTRACTING_FROM),
             unless_admins(validate_contract_supplier()),
             validate_contract_input_data(model=PatchContract, supplier_model=PatchContractSupplier),
             validate_patch_data_simple(Contract, item_name="contract"),

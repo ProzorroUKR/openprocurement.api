@@ -11,6 +11,7 @@ from openprocurement.api.constants import (
     SANDBOX_MODE,
     CPV_ITEMS_CLASS_FROM,
     PQ_MULTI_PROFILE_FROM,
+    PQ_NEW_CONTRACTING_FROM,
 )
 from openprocurement.tender.pricequotation.tests.base import (
     test_tender_pq_organization,
@@ -2175,20 +2176,24 @@ def one_valid_bid_tender(self):
     response = self.app.get("/tenders/{}".format(tender_id))
     contract = response.json["data"]["contracts"][-1]
     contract_id = contract["id"]
-    contract_value = deepcopy(contract["value"])
-    # after stand slill period
-    self.set_status("active.awarded", 'end')
-    # sign contract
-    self.app.authorization = ("Basic", ("broker", ""))
-    contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
-    # check status
-    self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.get("/tenders/{}".format(tender_id))
-    self.assertEqual(response.json["data"]["status"], "complete")
+
+    if get_now() < PQ_NEW_CONTRACTING_FROM:
+        contract_value = deepcopy(contract["value"])
+        # after stand slill period
+        self.set_status("active.awarded", 'end')
+        # sign contract
+        self.app.authorization = ("Basic", ("broker", ""))
+        contract_value["valueAddedTaxIncluded"] = False
+        self.app.patch_json(
+            "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
+            {"data": {"status": "active", "value": contract_value}},
+        )
+        # check status
+        self.app.authorization = ("Basic", ("broker", ""))
+        response = self.app.get("/tenders/{}".format(tender_id))
+        self.assertEqual(response.json["data"]["status"], "complete")
+    else:
+        self.assertEqual(set(contract.keys()), {"id", "status", "awardID", "date"})
 
 
 def one_invalid_bid_tender(self):
@@ -2288,30 +2293,32 @@ def first_bid_tender(self):
     response = self.app.get("/tenders/{}".format(tender_id))
     contract = response.json["data"]["contracts"][-1]
     contract_id = contract["id"]
-    contract_value = deepcopy(contract["value"])
-    # create tender contract document for test
-    response = self.app.post_json(
-        "/tenders/{}/contracts/{}/documents?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {
-            "title": "name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
-        status=201,
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    doc_id = response.json["data"]["id"]
-    self.assertIn(doc_id, response.headers["Location"])
 
-    # sign contract
-    self.app.authorization = ("Basic", ("broker", ""))
-    contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
+    if get_now() < PQ_NEW_CONTRACTING_FROM:
+        contract_value = deepcopy(contract["value"])
+        # create tender contract document for test
+        response = self.app.post_json(
+            "/tenders/{}/contracts/{}/documents?acc_token={}".format(tender_id, contract_id, owner_token),
+            {"data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
+            status=201,
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        doc_id = response.json["data"]["id"]
+        self.assertIn(doc_id, response.headers["Location"])
+
+        # sign contract
+        self.app.authorization = ("Basic", ("broker", ""))
+        contract_value["valueAddedTaxIncluded"] = False
+        self.app.patch_json(
+            "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
+            {"data": {"status": "active", "value": contract_value}},
+        )
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))

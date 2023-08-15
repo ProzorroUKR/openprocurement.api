@@ -13,6 +13,7 @@ from openprocurement.api.utils import (
     raise_operation_error,
     handle_data_exceptions,
     error_handler,
+    get_first_revision_date,
 )
 from openprocurement.api.validation import (
     validate_json_data,
@@ -1664,3 +1665,15 @@ def validate_lot_status_active(request, **_):
             request,
             "Can update auction urls only in active lot status",
         )
+
+
+def validate_forbid_action_after_date(obj_name, forbid_date):
+    def validation(request, **_):
+        tender = get_tender()
+        tender_creation_date = get_first_revision_date(tender, default=get_now())
+        if tender_creation_date > forbid_date:
+            raise_operation_error(
+                request,
+                f"{OPERATIONS.get(request.method)} is forbidden for {obj_name}"
+            )
+    return validation

@@ -1,5 +1,6 @@
 from openprocurement.tender.core.procedure.views.contract_document import TenderContractDocumentResource
 from openprocurement.api.utils import json_view
+from openprocurement.api.constants import PQ_NEW_CONTRACTING_FROM
 from openprocurement.tender.core.procedure.models.document import PostDocument, PatchDocument, Document
 from openprocurement.tender.core.procedure.validation import (
     unless_admins,
@@ -12,6 +13,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_upload_document,
     validate_data_model,
     validate_role_for_contract_document_operation,
+    validate_forbid_action_after_date,
 )
 from openprocurement.tender.pricequotation.procedure.validation import validate_contract_document_status
 from cornice.resource import resource
@@ -27,6 +29,7 @@ from cornice.resource import resource
 class PQContractDocumentResource(TenderContractDocumentResource):
     @json_view(
         validators=(
+                validate_forbid_action_after_date("contract", PQ_NEW_CONTRACTING_FROM),
                 unless_bots(unless_admins(validate_contract_supplier())),
                 validate_input_data(PostDocument, allow_bulk=True),
                 validate_role_for_contract_document_operation,

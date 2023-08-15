@@ -1,7 +1,7 @@
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.contracting import add_contracts, save_contracts_to_contracting
+from openprocurement.tender.core.procedure.contracting import add_contracts, pq_add_contracts, save_contracts_to_contracting
 from openprocurement.tender.pricequotation.procedure.state.tender import PriceQuotationTenderState
 from openprocurement.api.utils import raise_operation_error
 
@@ -23,7 +23,7 @@ class AwardState(AwardStateMixing, PriceQuotationTenderState):
         assert before != after, "Statuses must be different"
 
         if before == "pending" and after == "active":
-            contracts = add_contracts(get_request(), award, self.contract_model)
+            contracts = pq_add_contracts(get_request(), award)
             self.add_next_award()
             save_contracts_to_contracting(contracts)
 
