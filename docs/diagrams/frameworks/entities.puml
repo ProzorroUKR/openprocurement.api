@@ -1,0 +1,71 @@
+@startuml
+
+
+
+actor "Buyer via Broker" as Buyer
+actor "Supplier via Broker" as Supplier
+
+cloud CDB {
+    component Framework [
+        Framework (Кваліфікація)
+        - procurement item details
+    ]
+    Buyer -[#red]-> Framework: creates/updates
+
+    component Submission [
+        Submission (Заявка)
+        - supplier details
+        - if new_status == "active":
+            self.create_qualification()
+    ]
+    Submission -[#blue]-> Framework: frameworkID
+    Supplier -[#red]-> Submission: creates/updates
+
+    component Qualification [
+        Qualification (Рішення по заявці)
+        - успішна/неуспішна
+        - if new_status == "active":
+            self.get_or_create_agreement()
+            self.create_agreement_contract()
+    ]
+    Qualification -[#blue]-> Submission: submissionID
+    Qualification -[#blue]-> Framework: frameworkID
+    Submission -[#blue]-> Qualification: qualificationID
+
+    Submission -[#red]-> Qualification: creates
+    Buyer -[#red]-> Qualification: updates status+documents
+
+
+    component Agreement [
+        Agreement (Реєстр)
+        - перелік контрактів
+        - status active/terminated
+    ]
+    Agreement -[#blue]-> Framework: frameworkID
+    Framework --left[#blue]-> Agreement: agreementID
+    Qualification -[#red]-> Agreement: creates
+
+    Buyer -[#red]-> Agreement: updates status
+
+    component Contract [
+        Contract (Контракт)
+    ]
+    Contract -[#blue]-> Qualification: qualificationID
+    Contract -[#blue]-> Submission: submissionID
+
+    Buyer -[#red]-> Contract: updates suppliers
+
+    Qualification -[#red]-> Contract: creates
+    Contract -[#blue]-> Agreement: stored in a list \n\
+`contracts`
+
+    actor Chronograph
+    Chronograph -up[#red]-> Framework: sets status\n\
+unsuccessful/complete\n\
+at qualificationPeriod.endDate
+
+}
+
+
+
+@enduml

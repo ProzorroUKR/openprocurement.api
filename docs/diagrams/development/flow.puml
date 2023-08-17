@@ -1,0 +1,94 @@
+@startuml
+
+
+cloud RequirementsGathering {
+    actor "Product Owner" as PO
+    component ProductGoal [
+        Product Goal
+        - product goal
+        - product details
+    ]
+    PO --> ProductGoal: works on
+
+    component Requirements [
+        Requirements
+        - high lvl description
+        - bpmn diagrams
+        - user stories
+        - use cases
+        - etc
+    ]
+    PO --> Requirements: reads/feedback
+
+    actor "Business Analyst" as BA
+
+
+    BA --> Requirements: works on
+}
+
+
+cloud SoftwareDesign {
+    actor "Software Architect" as SA
+    SA --> Requirements:  reads/feedback
+
+    component SoftwareDesignDocuments [
+        Software Design Documents
+        - API endpoints docs
+        - API data structures
+        - sequence diagrams
+    ]
+    SA --> SoftwareDesignDocuments: works on
+}
+
+
+cloud SoftwareDevelopment {
+    actor Developer
+
+    component Software [
+        Software
+        - source code
+        - deployment details
+        - docs
+    ]
+
+    Developer --> SoftwareDesignDocuments: reads/feedback
+    Developer --> Software: works on
+
+
+    component DEVEnvironment [
+        DEV Environment
+    ]
+    Developer --> DEVEnvironment: deploys
+}
+
+cloud QA {
+    actor QAEngineer
+
+    component TestResults [
+        TestResults
+        - test scenarios
+        - test reports
+    ]
+
+    QAEngineer --> DEVEnvironment: use/feedback
+    QAEngineer --> TestResults: works on
+}
+
+cloud Infra {
+    actor InfrastructureEngineer
+
+    component Infrastructure [
+        Infrastructure
+        - deployment code
+        - environments
+        - artifacts
+    ]
+
+    InfrastructureEngineer -up-> Software: use/feedback
+    InfrastructureEngineer --> Infrastructure: works on
+
+}
+
+
+
+@enduml
