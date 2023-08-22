@@ -21,6 +21,7 @@ logger = logging.getLogger(__name__)
 
 # date of 2.6.202 release
 DATE = datetime(year=2023, month=6, day=6)
+BLOCK_COMPLAINT_STATUS = ("answered", "pending")
 
 
 def tender_switch_status(tender):
@@ -31,6 +32,34 @@ def tender_switch_status(tender):
         tender["status"] = "unsuccessful"
     if not statuses - {"complete", "unsuccessful", "cancelled"}:
         tender["status"] = "complete"
+
+
+def tender_has_complaints(tender):
+    for complaint in tender.get("complaints", []):
+        if (
+            complaint.get("status", "") in BLOCK_COMPLAINT_STATUS and
+            complaint.get("relatedLot") is None
+        ):
+            return True
+    return False
+
+
+def check_award_lot_complaints(tender: dict, lot_id: str, lot_awards: list) -> bool:
+    pending_complaints = False
+    for complaint in tender.get("complaints", []):
+        if complaint["status"] in BLOCK_COMPLAINT_STATUS and complaint.get("relatedLot") == lot_id:
+            pending_complaints = True
+            break
+
+    pending_awards_complaints = False
+    for award in lot_awards:
+        for complaint in award.get("complaints", []):
+            if complaint.get("status") in BLOCK_COMPLAINT_STATUS:
+                pending_awards_complaints = True
+                break
+    if pending_complaints or pending_awards_complaints:
+        return False
+    return True
 
 
 def run(env, args):
@@ -52,14 +81,18 @@ def run(env, args):
             "config.hasAwardingOrder": False,
             "status": "active.awarded",
             "lots": {"$exists": True},
+            "contracts.status": "active",
         },
-        {"lots": 1, "contracts": 1, "awards": 1, "status": 1, "agreements": 1},
+        {"lots": 1, "contracts": 1, "awards": 1, "status": 1, "agreements": 1, "complaints": 1},
         no_cursor_timeout=True,
     )
     cursor.batch_size(args.b)
     try:
         for tender in cursor:
+            if tender_has_complaints(tender):
+                continue
             lots = tender.get("lots", [])
+            updated = False
             for lot in lots:
                 if lot.get("status") == "active":
                     lot_awards = []
@@ -69,6 +102,10 @@ def run(env, args):
                     if not lot_awards:
                         continue
                     awards_statuses = {award["status"] for award in lot_awards}
+                    if not check_award_lot_complaints(tender, lot["id"], lot_awards):
+                        continue
+                    elif not awards_statuses.intersection({"active", "pending"}):
+                        continue
                     if awards_statuses.intersection({"active"}):
                         if "agreements" in tender:
                             allow_complete_lot = any([a["status"] == "active" for a in tender.get("agreements", [])])
@@ -81,23 +118,25 @@ def run(env, args):
                             allow_complete_lot = contracts_allow_to_complete(contracts)
                         if allow_complete_lot:
                             lot["status"] = "complete"
-                    tender_switch_status(tender)
-            collection.find_one_and_update(
-                {"_id": tender["_id"]},
-                [
-                    {
-                        "$set": {
-                            "lots": lots,
-                            "status": tender["status"],
-                            "date": get_now().isoformat(),
-                            "public_modified": {"$divide": [{"$toLong": "$$NOW"}, 1000]},
+                            tender_switch_status(tender)
+                            updated = True
+            if updated:
+                collection.find_one_and_update(
+                    {"_id": tender["_id"]},
+                    [
+                        {
+                            "$set": {
+                                "lots": lots,
+                                "status": tender["status"],
+                                "date": get_now().isoformat(),
+                                "public_modified": {"$divide": [{"$toLong": "$$NOW"}, 1000]},
+                            }
                         }
-                    }
-                ]
-            )
-            count += 1
-            if count % log_every == 0:
-                logger.info(f"Updating completed tenders with disabled hasAwardingOrder: updated {count} tenders")
+                    ]
+                )
+                count += 1
+                if count % log_every == 0:
+                    logger.info(f"Updating completed tenders with disabled hasAwardingOrder: updated {count} tenders")
     finally:
         cursor.close()
 
