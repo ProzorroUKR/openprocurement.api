@@ -55,8 +55,6 @@ docs/_build/
 # PyBuilder
 target/
 
-# Buildout
-bin/
 
 cover/
 output.html

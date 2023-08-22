@@ -1,8 +1,8 @@
-from unittest.mock import patch
-
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from datetime import timedelta, datetime
 from copy import deepcopy
+from jsonschema import validate
+import requests
 
 from openprocurement.api.models import get_now
 from openprocurement.api.constants import (
@@ -1607,3 +1607,15 @@ def create_tender_with_criteria_lcc(self):
             ]
         }]
     )
+
+
+def get_ocds_schema(self):
+    self.create_tender()
+
+    # get response in OCDS schema format
+    resp = self.app.get(f"/tenders/{self.tender_id}?opt_schema=ocds-1.1")
+
+    # validate the response is validated
+    response = requests.get("https://standard.open-contracting.org/schema/1__1__5/release-package-schema.json")
+    schema = response.json()
+    validate(instance=resp.json, schema=schema)
