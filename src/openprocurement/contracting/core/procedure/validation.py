@@ -185,6 +185,28 @@ def validate_tender_owner(request, **_):
         )
 
 
+def validate_contract_owner(request, **_):
+    contract = request.validated["contract"]
+    if not is_contract_owner(request, contract):
+        raise_operation_error(
+            request,
+            "Forbidden",
+            location="url",
+            name="permission"
+        )
+
+
+def validate_contract_supplier(request, **_):
+    contract = request.validated["contract"]
+    if not is_bid_owner(request, contract):
+        raise_operation_error(
+            request,
+            "Forbidden",
+            location="url",
+            name="permission"
+        )
+
+
 def validate_contract_participant(request, **_):
     contract = request.validated["contract"]
 

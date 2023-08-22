@@ -3,6 +3,7 @@ from cornice.resource import resource
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.api.views.base import MongodbResourceListing
 from openprocurement.api.auth import ACCR_3, ACCR_5
+from openprocurement.api.context import get_db_session
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.validation import (
     validate_credentials_generate,
@@ -85,13 +86,14 @@ class ContractResource(ContractBaseResource):
         updated = self.request.validated["data"]
         if updated:
             self.request.validated["contract"] = updated
-            self.state.on_patch(self.request.validated["contract_src"], updated)
-            if save_contract(self.request):
-                self.LOGGER.info(
-                    f"Updated contract {updated['_id']}",
-                    extra=context_unpack(self.request, {"MESSAGE_ID": "contract_patch"}),
-                )
-        return {"data": self.serializer_class(self.request.validated["contract"]).data}
+            with get_db_session().start_transaction():
+                self.state.on_patch(self.request.validated["contract_src"], updated)
+                if save_contract(self.request):
+                    self.LOGGER.info(
+                        f"Updated contract {updated['_id']}",
+                        extra=context_unpack(self.request, {"MESSAGE_ID": "contract_patch"}),
+                    )
+                    return {"data": self.serializer_class(self.request.validated["contract"]).data}
 
 
 @resource(

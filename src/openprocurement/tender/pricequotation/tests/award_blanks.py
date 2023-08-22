@@ -390,9 +390,9 @@ def move_award_contract_to_contracting(self):
     self.assertEqual(len(response.json["data"]), 2)
     new_award = response.json["data"][-1]
 
-    token = self.initial_bids_tokens[1]
+    bid_token = self.initial_bids_tokens[1]
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], token),
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], bid_token),
         {"data": {"title": "title", "description": "description"}},
     )
     self.assertEqual(response.status, "200 OK")
@@ -401,7 +401,7 @@ def move_award_contract_to_contracting(self):
     self.assertEqual(response.json["data"]["description"], "description")
 
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], token),
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], bid_token),
         {"data": {"status": "active"}},
     )
     self.assertEqual(response.status, "200 OK")
@@ -430,6 +430,52 @@ def move_award_contract_to_contracting(self):
         "buyer",
     }
     self.assertEqual(contract_fields, set(response.json["data"].keys()))
+
+    response = self.app.put_json(
+        f"/contracts/{contract_id}/buyer/signer_info?acc_token={self.tender_token}",
+        {
+            "data": {
+                "name": "Test Testovich",
+                "telephone": "+380950000000",
+                "email": "example@email.com",
+                "iban": "1" * 15,
+                "signerDocument": "документ який дозволяє",
+                "organizationStatus": "статус",
+            }
+        }
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.put_json(
+        f"/contracts/{contract_id}/suppliers/signer_info?acc_token={bid_token}",
+        {
+            "data": {
+                "name": "Test Testovich",
+                "telephone": "+380950000000",
+                "email": "example@email.com",
+                "iban": "1" * 15,
+                "signerDocument": "документ який дозволяє",
+                "organizationStatus": "статус",
+            }
+        }
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.patch_json(
+        f"/contracts/{contract_id}?acc_token={self.tender_token}",
+        {"data": {"status": "active"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "active")
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["contracts"][0]["status"], "active")
+    self.assertEqual(response.json["data"]["status"], "complete")
 
 
 def tender_award_transitions(self):

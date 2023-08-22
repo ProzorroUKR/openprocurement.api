@@ -4,20 +4,27 @@ from openprocurement.contracting.econtract.tests.data import signer_info
 
 
 def patch_contract_document(self):
-    response = self.app.patch_json(
-        f"/contracts/{self.contract_id}?acc_token={self.initial_data['bid_token']}",
-        {"data": {"suppliers": [{**self.contract["suppliers"][0], "signerInfo": signer_info}]}}
+
+    response = self.app.put_json(
+        f"/contracts/{self.contract_id}/suppliers/signer_info?acc_token={self.initial_data['bid_token']}",
+        {"data": signer_info},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertIn("signerInfo", response.json["data"]["suppliers"][0])
+
+    response = self.app.put_json(
+        f"/contracts/{self.contract_id}/buyer/signer_info?acc_token={self.contract_token}",
+        {"data": signer_info},
+    )
+    self.assertEqual(response.status, "200 OK")
 
     response = self.app.patch_json(
         f"/contracts/{self.contract_id}?acc_token={self.contract_token}",
-        {"data": {"status": "active", "buyer": {**self.contract["buyer"], "signerInfo": signer_info}}}
+        {"data": {"status": "active"}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertIn(response.json["data"]["status"], "active")
     self.assertIn("signerInfo", response.json["data"]["buyer"])
+    self.assertIn("signerInfo", response.json["data"]["suppliers"][0])
 
     response = self.app.post_json(
         f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
@@ -87,20 +94,26 @@ def patch_contract_document(self):
 
 
 def contract_change_document(self):
-    response = self.app.patch_json(
-        f"/contracts/{self.contract_id}?acc_token={self.initial_data['bid_token']}",
-        {"data": {"suppliers": [{**self.contract["suppliers"][0], "signerInfo": signer_info}]}}
+    response = self.app.put_json(
+        f"/contracts/{self.contract_id}/suppliers/signer_info?acc_token={self.initial_data['bid_token']}",
+        {"data": signer_info},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertIn("signerInfo", response.json["data"]["suppliers"][0])
+
+    response = self.app.put_json(
+        f"/contracts/{self.contract_id}/buyer/signer_info?acc_token={self.contract_token}",
+        {"data": signer_info},
+    )
+    self.assertEqual(response.status, "200 OK")
 
     response = self.app.patch_json(
         f"/contracts/{self.contract_id}?acc_token={self.contract_token}",
-        {"data": {"status": "active", "buyer": {**self.contract["buyer"], "signerInfo": signer_info}}}
+        {"data": {"status": "active"}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertIn(response.json["data"]["status"], "active")
     self.assertIn("signerInfo", response.json["data"]["buyer"])
+    self.assertIn("signerInfo", response.json["data"]["suppliers"][0])
 
     response = self.app.post_json(
         f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",

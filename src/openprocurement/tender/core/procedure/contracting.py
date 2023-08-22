@@ -135,13 +135,14 @@ def pq_add_contract_to_tender(tender, contract_items, contract_value, buyer_id, 
     }
 
     contract_data = {
-        "buyerID": buyer_id,
         # "awardID": award["id"],
         "suppliers": award["suppliers"],
         "value": contract_value,
         "items": contract_items,
         "contractID": f"{tender['tenderID']}-{server_id}{contract_number}",
     }
+    if buyer_id:
+        contract_data["buyerID"] = buyer_id
     contract_data.update(base_contract_data)
 
     if get_first_revision_date(tender, default=get_now()) > PQ_NEW_CONTRACTING_FROM:

@@ -75,10 +75,14 @@ def delete_nones(data: dict):
             del data[k]
 
 
-def save_tender(request, modified: bool = True, insert: bool = False) -> bool:
-    tender = request.validated["tender"]
+def save_tender(request, modified: bool = True, insert: bool = False, tender: dict = None, tender_src: dict = None) -> bool:
+    if tender is None:
+        tender = request.validated["tender"]
+    if tender_src is None:
+        tender_src = request.validated["tender_src"]
+
     set_tender_config(request, tender)
-    patch = get_revision_changes(tender, request.validated["tender_src"])
+    patch = get_revision_changes(tender, tender_src)
     if patch:
         now = get_now()
         append_tender_revision(request, tender, patch, now)

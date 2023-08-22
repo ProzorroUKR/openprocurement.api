@@ -62,7 +62,7 @@ signer_info = {
     "email": "example@email.com",
     "iban": "1" * 15,
     "signerDocument": "документ який дозволяє",
-    "organization_status": "статус",
+    "organizationStatus": "статус",
 }
 
 test_contract_data_wo_value_amount_net = deepcopy(test_contract_data)

@@ -970,12 +970,14 @@ def patch_tender_contract(self):
         f"/contracts/{self.contract['id']}?acc_token={token}",
         {"data": {"value": {**self.contract["value"], "amountNet": self.contract["value"]["amount"] - 1}}},
     )
+    self.assertEqual(response.status, "200 OK")
+    # self.assertEqual(response.json["data"]["title"], "New Title!!!")
 
     response = self.app.patch_json(
-        f"/contracts/{self.contract['id']}?acc_token={token}", {"data": {"title": "New Title"}}
+        f"/contracts/{self.contract['id']}?acc_token={token}", {"data": {"title": "New Title!!!"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["title"], "New Title")
+    self.assertEqual(response.json["data"]["title"], "New Title!!!")
 
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={token}",

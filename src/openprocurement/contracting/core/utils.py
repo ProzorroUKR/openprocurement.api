@@ -193,3 +193,14 @@ def register_contract_type(config, model):
     """
     contract_type = "econtract" if hasattr(model, "buyer") else "general"
     config.registry.contract_types[contract_type] = model
+
+
+def get_tender_by_id(request, tender_id: str):
+    tender = request.registry.mongodb.tenders.get(tender_id)
+    if tender is None:
+        LOGGER.error(
+            f"Tender {tender_id} not found",
+            extra=context_unpack(request, {"MESSAGE_ID": "get_tender_by_id"})
+        )
+
+    return tender

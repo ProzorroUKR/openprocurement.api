@@ -23,7 +23,7 @@ class SignerInfo(Model):
     telephone = StringType(required=True)
     iban = StringType(min_length=15, max_length=33)
     signerDocument = StringType(required=True)
-    organization_status = StringType(required=True)
+    organizationStatus = StringType(required=True)
 
 
 class Buyer(Organization):
@@ -56,24 +56,20 @@ class PostContract(BasePostContract):
 
 
 class PatchContract(BasePatchContract):
-    status = StringType(choices=["pending",  "terminated", "active", "cancelled"])
-    dateSigned = IsoDateTimeType()
-    buyer = ModelType(Buyer)
-
-
-class PatchSupplierContract(Model):
-    suppliers = ListType(ModelType(BusinessOrganization, required=True), min_size=1, max_size=1)
+    contractNumber = StringType()
+    status = StringType(choices=["pending", "pending.winner-signing",  "terminated", "active", "cancelled"])
 
 
 class AdministratorPatchContract(Model):
-    status = StringType(choices=["pending", "terminated", "active", "cancelled"])
+    contractNumber = StringType()
+    status = StringType(choices=["pending", "pending.winner-signing", "terminated", "active", "cancelled"])
     suppliers = ListType(ModelType(BusinessOrganization, required=True), min_size=1, max_size=1)
     buyer = ModelType(Buyer)
     mode = StringType(choices=["test"])
 
 
 class Contract(BaseContract):
-    status = StringType(choices=["pending", "terminated", "active", "cancelled"])
+    status = StringType(choices=["pending", "pending.winner-signing", "terminated", "active", "cancelled"])
     buyer = ModelType(
         Buyer, required=True
     )

@@ -32,6 +32,7 @@ class PQContractState(ContractStateMixing, PriceQuotationTenderState):
         ):
             self.set_object_status(tender, "complete")
 
-    def contract_on_patch(self, before: dict, after: dict):
+    def validate_contract_patch(self, request, before: dict, after: dict):
         self.validate_contract_items(before, after)
-        super().contract_on_patch(before, after)
+        super().validate_contract_patch(request, before, after)
+
