@@ -19,20 +19,33 @@ them may conflict in their impact on the response.
 
   `options: { pretty: true }` 
 
-  Provides the response in "pretty" output.  In case of JSON this means
-  doing proper line breaking and indentation to make it readable.  This will
-  take extra time and increase the response size so it is advisable to use
-  this only during debugging.
+  | Provides the response in "pretty" output.  In case of JSON this means
+    doing proper line breaking and indentation to make it readable.  This will
+    take extra time and increase the response size so it is advisable to use
+    this only during debugging.
+  |
+
 :jsonp:
   `?opt_jsonp=myCallback`
 
-  Returns the output in JSON-P format instead of plain JSON. This allows
-  requests to come from within browsers and work around the "same origin
-  policy." The function named as the value of the `opt_jsonp` parameter will
-  be called with a single argument, a JavaScript object representing the
-  response.
+  | Returns the output in JSON-P format instead of plain JSON. This allows
+    requests to come from within browsers and work around the "same origin
+    policy." The function named as the value of the `opt_jsonp` parameter will
+    be called with a single argument, a JavaScript object representing the
+    response.
+  |
 
 :fields:
   `?opt_fields=comma,separated,field,list`
 
-  List of extra fields to include in response.
+  | List of extra fields to include in response.
+  |
+
+:schema:
+  `?opt_schema=ocds`
+
+  Returns the output as an `OCDS 1.1 schema <https://standard.open-contracting.org/schema/1__1__5/release-package-schema.json>`_ compatible structure
+  See `their official site <https://standard.open-contracting.org/latest/en/schema/release_package/>`_.
+
+  .. warning::
+    The response may contain less data than the default response.

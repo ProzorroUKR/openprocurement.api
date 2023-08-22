@@ -26,9 +26,19 @@ https://prozorro-api-docs.readthedocs.io/en/latest/
 
 ```
 virtualenv -p python3.8 venv
+```
+
+OR
+```commandline
+python3 -m venv  venv
+```
+
+AND
+```
 source venv/bin/activate
 pip install -r docs/source/requirements.txt
 ```
+
 
 2. Add "mongo" to be resolved to localhost in /etc/hosts
 

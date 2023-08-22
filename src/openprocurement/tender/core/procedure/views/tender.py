@@ -12,6 +12,7 @@ from openprocurement.tender.core.procedure.utils import (
     set_ownership,
     save_tender,
 )
+from openprocurement.tender.core.procedure.schema.ocds import ocds_format_tender
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.serializers.tender import TenderBaseSerializer
 from pyramid.security import (
@@ -99,8 +100,23 @@ class TendersResource(TenderBaseResource):
 
     @json_view(permission="view_tender")
     def get(self):
+        data = self.serializer_class(get_tender()).data
+        # convert to different schemas, for ex. OCDS-1.1
+        # https://standard.open-contracting.org/latest/en/schema/release_package/
+        schema = self.request.params.get("opt_schema", "")
+        if "ocds" in schema.lower():
+            if "plans" in data:
+                plan_id = data['plans'][0]['id']
+                plan = self.request.registry.mongodb.plans.get(plan_id)
+            else:
+                plan = None
+            data = ocds_format_tender(
+                tender=data,
+                tender_url=self.request.url,
+                plan=plan
+            )
         return {
-            "data": self.serializer_class(get_tender()).data,
+            "data": data,
             "config": get_tender_config(),
         }
 
