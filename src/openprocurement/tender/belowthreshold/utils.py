@@ -86,7 +86,10 @@ def check_tender_status(request):
                 else:
                     if awarding_order_enabled is False:
                         active_award_ids = {award["id"] for award in lot_awards if award["status"] == "active"}
-                        contracts = [contract["awardID"] in active_award_ids for contract in tender.contracts]
+                        contracts = [
+                            contract for contract in tender.contracts
+                            if contract.get("awardID") in active_award_ids
+                        ]
                     else:
                         contracts = [
                             contract for contract in tender.contracts
