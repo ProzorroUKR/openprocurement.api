@@ -81,13 +81,14 @@ def run(env, args):
             "config.hasAwardingOrder": False,
             "status": "active.awarded",
             "lots": {"$exists": True},
-            "contracts.status": "active",
+            "contracts.status": {"$ne": "pending"},
         },
-        {"lots": 1, "contracts": 1, "awards": 1, "status": 1, "agreements": 1, "complaints": 1},
+        {"lots": 1, "contracts": 1, "awards": 1, "status": 1, "agreements": 1, "complaints": 1, "_rev": 1},
         no_cursor_timeout=True,
     )
     cursor.batch_size(args.b)
     try:
+        modified_tenders = []
         for tender in cursor:
             if tender_has_complaints(tender):
                 continue
@@ -122,7 +123,7 @@ def run(env, args):
                             updated = True
             if updated:
                 collection.find_one_and_update(
-                    {"_id": tender["_id"]},
+                    {"_id": tender["_id"], "_rev": tender["_rev"]},
                     [
                         {
                             "$set": {
@@ -134,12 +135,14 @@ def run(env, args):
                         }
                     ]
                 )
+                modified_tenders.append(tender["_id"])
                 count += 1
                 if count % log_every == 0:
                     logger.info(f"Updating completed tenders with disabled hasAwardingOrder: updated {count} tenders")
     finally:
         cursor.close()
 
+    logger.info(f"Modified tenders: {modified_tenders}")
     logger.info(f"Updating completed tenders with disabled hasAwardingOrder finished: updated {count} tenders")
 
     logger.info(f"Successful migration: {migration_name}")
