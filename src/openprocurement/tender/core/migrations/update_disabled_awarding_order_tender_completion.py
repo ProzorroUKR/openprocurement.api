@@ -2,7 +2,6 @@ from datetime import datetime
 
 from gevent import monkey
 
-from openprocurement.api.utils import get_now
 from openprocurement.tender.core.procedure.utils import contracts_allow_to_complete
 
 if __name__ == "__main__":
@@ -94,6 +93,7 @@ def run(env, args):
                 continue
             lots = tender.get("lots", [])
             updated = False
+            contract_dates = []
             for lot in lots:
                 if lot.get("status") == "active":
                     lot_awards = []
@@ -108,20 +108,24 @@ def run(env, args):
                     elif not awards_statuses.intersection({"active", "pending"}):
                         continue
                     if awards_statuses.intersection({"active"}):
-                        if "agreements" in tender:
-                            allow_complete_lot = any([a["status"] == "active" for a in tender.get("agreements", [])])
-                        else:
-                            active_award_ids = {award["id"] for award in lot_awards if award["status"] == "active"}
-                            contracts = [
-                                contract for contract in tender.get("contracts", [])
-                                if contract.get("awardID") in active_award_ids
-                            ]
-                            allow_complete_lot = contracts_allow_to_complete(contracts)
+                        active_award_ids = {award["id"] for award in lot_awards if award["status"] == "active"}
+                        contracts = [
+                            contract for contract in tender.get("contracts", [])
+                            if contract.get("awardID") in active_award_ids
+                        ]
+                        allow_complete_lot = contracts_allow_to_complete(contracts)
                         if allow_complete_lot:
+                            active_contract_date = [
+                                datetime.fromisoformat(contract["date"]) for contract in contracts
+                                if contract["status"] == "active"
+                            ][0]
                             lot["status"] = "complete"
+                            lot["date"] = active_contract_date.isoformat()
                             tender_switch_status(tender)
                             updated = True
+                            contract_dates.append(active_contract_date)
             if updated:
+                last_contract_date = max(contract_dates)
                 collection.find_one_and_update(
                     {"_id": tender["_id"], "_rev": tender["_rev"]},
                     [
@@ -129,7 +133,7 @@ def run(env, args):
                             "$set": {
                                 "lots": lots,
                                 "status": tender["status"],
-                                "date": get_now().isoformat(),
+                                "date": last_contract_date.isoformat(),
                                 "public_modified": {"$divide": [{"$toLong": "$$NOW"}, 1000]},
                             }
                         }
