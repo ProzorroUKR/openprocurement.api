@@ -8,16 +8,16 @@ Content-Type: application/json
 
 {
   "data": {
-    "agreementID": "UA-2023-01-17-000001",
+    "agreementID": "UA-2023-01-20-000001",
     "status": "active",
-    "date": "2023-01-17T00:00:00+02:00",
-    "dateCreated": "2023-01-17T00:00:00+02:00",
-    "dateModified": "2023-01-17T00:00:00+02:00",
+    "date": "2023-01-20T00:00:00+02:00",
+    "dateCreated": "2023-01-20T00:00:00+02:00",
+    "dateModified": "2023-01-20T00:00:00+02:00",
     "owner": "broker",
     "agreementType": "dynamicPurchasingSystem",
     "frameworkID": "9bd2fdb5579045be9cfff9fb1a397e32",
     "period": {
-      "startDate": "2023-01-17T00:00:00+02:00",
+      "startDate": "2023-01-20T00:00:00+02:00",
       "endDate": "2023-03-02T00:00:00+02:00"
     },
     "procuringEntity": {
@@ -89,10 +89,10 @@ Content-Type: application/json
             "type": "activation",
             "status": "scheduled",
             "dueDate": "2023-03-02T00:00:00+02:00",
-            "dateModified": "2023-01-17T00:00:00+02:00"
+            "dateModified": "2023-01-20T00:00:00+02:00"
           }
         ],
-        "date": "2023-01-17T00:00:00+02:00"
+        "date": "2023-01-20T00:00:00+02:00"
       },
       {
         "id": "14104aac4e7948538eb39b6d1fea4f5c",
@@ -129,10 +129,10 @@ Content-Type: application/json
             "type": "activation",
             "status": "scheduled",
             "dueDate": "2023-03-02T00:00:00+02:00",
-            "dateModified": "2023-01-17T00:00:00+02:00"
+            "dateModified": "2023-01-20T00:00:00+02:00"
           }
         ],
-        "date": "2023-01-17T00:00:00+02:00"
+        "date": "2023-01-20T00:00:00+02:00"
       }
     ],
     "id": "bee1ec7b25674a89918be6257ac54948",

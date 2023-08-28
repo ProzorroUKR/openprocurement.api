@@ -1,7 +1,9 @@
 from datetime import timedelta
+from freezegun import freeze_time
 
 from openprocurement.api.context import get_now
 from openprocurement.framework.dps.tests.base import test_question_data
+from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 
 def create_question_invalid(self):
@@ -269,14 +271,35 @@ def patch_framework_question(self):
         }
     )
 
-    response = self.app.patch_json(
-        f"{request_path}?acc_token={self.framework_token}",
-        {"data": {"answer": "answer"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["answer"], "answer")
-    self.assertIn("dateAnswered", response.json["data"])
+    response = self.app.get(f"/frameworks/{self.framework_id}")
+    framework = response.json["data"]
+    with freeze_time((dt_from_iso(framework["enquiryPeriod"]["endDate"]) + timedelta(days=1)).isoformat()):
+
+        response = self.app.patch_json(
+            f"{request_path}?acc_token={self.framework_token}",
+            {"data": {"answer": "answer"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["answer"], "answer")
+        self.assertIn("dateAnswered", response.json["data"])
+
+    with freeze_time((dt_from_iso(framework["enquiryPeriod"]["clarificationsUntil"]) + timedelta(minutes=1)).isoformat()):
+        response = self.app.patch_json(
+            f"{request_path}?acc_token={self.framework_token}",
+            {"data": {"answer": "answer"}},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"][0],
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Allowed to update question only before enquiryPeriod.clarificationsUntil"
+            }
+        )
 
     response = self.app.patch_json(
         f"/frameworks/{self.framework_id}/questions/some_id", {"data": {"answer": "answer"}}, status=404

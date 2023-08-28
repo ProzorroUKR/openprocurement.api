@@ -42,6 +42,7 @@ from openprocurement.framework.core.traversal import (
 LOGGER = getLogger("openprocurement.framework.core")
 ENQUIRY_PERIOD_DURATION = 10
 SUBMISSION_STAND_STILL_DURATION = 30
+ENQUIRY_STAND_STILL_TIME = 3
 DAYS_TO_UNSUCCESSFUL_STATUS = 20
 MILESTONE_CONTRACT_STATUSES = {
     "ban": "suspended",
@@ -425,10 +426,16 @@ def calculate_framework_periods(request, model):
             ceil=True
         )
     )
+    clarifications_until = calculate_framework_date(
+        enquiryPeriod_endDate,
+        timedelta(days=ENQUIRY_STAND_STILL_TIME),
+        working_days=True,
+    )
 
     data["enquiryPeriod"] = {
         "startDate": enquiryPeriod_startDate,
         "endDate": enquiryPeriod_endDate,
+        "clarificationsUntil": clarifications_until,
     }
 
     qualification_endDate = model(data["qualificationPeriod"]).endDate

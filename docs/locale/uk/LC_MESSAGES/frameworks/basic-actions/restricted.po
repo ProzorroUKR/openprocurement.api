@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-04 11:42+0200\n"
+"POT-Creation-Date: 2023-08-28 15:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -106,6 +106,9 @@ msgstr "Під час `enquiryPeriod` зацікавлені сторони мо
 
 msgid "Procuring entity can answer them:"
 msgstr "Замовник може на них відповісти:"
+
+msgid "It is allowed to answer the question during the whole `enquiryPeriod` and between `enquiryPeriod.endDate` and `enquiryPeriod.clarificationUntil`. In case procuring entity is answering question after `enquiryPeriod.clarificationUntil`, the error will be raised:"
+msgstr "Надавати замовникам відповіді на questions дозволено протягом всього `enquiryPeriod`, а також до `enquiryPeriod.clarificationsUntil`. У випадку, якщо замовник надасть відповідь після закінчення `enquiryPeriod.clarificationUntil`, буде помилка:"
 
 msgid "Only procuring entity has permission to answer the questions:"
 msgstr "Тільки замовник має право відповідати на питання:"

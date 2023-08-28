@@ -39,6 +39,7 @@ from openprocurement.api.models import (
     Address as BaseAddress,
     BusinessOrganization as BaseBusinessOrganization,
     Model,
+    PeriodEndRequired,
 )
 from openprocurement.api.utils import (
     get_now,
@@ -661,3 +662,7 @@ class Contract(Model):
     def validate_suppliers(self, data, suppliers):
         if len(suppliers) != 1:
             raise ValidationError("Contract must have only one supplier")
+
+
+class EnquiryPeriod(PeriodEndRequired):
+    clarificationsUntil = IsoDateTimeType()

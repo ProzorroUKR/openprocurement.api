@@ -549,3 +549,14 @@ def validate_framework_question_operation_not_in_enquiry_period(request, **kwarg
             f"Question can be {operation} only during the enquiry period: "
             f"from ({enquiry_period['startDate']}) to ({enquiry_period['endDate']}).",
         )
+
+
+def validate_question_clarifications_until(request, **kwargs):
+    now = get_now()
+    framework = request.validated["framework"]
+    if clarifications_until := framework.get("enquiryPeriod", {}).get("clarificationsUntil"):
+        if now > clarifications_until:
+            raise_operation_error(
+                request,
+                "Allowed to update question only before enquiryPeriod.clarificationsUntil",
+            )

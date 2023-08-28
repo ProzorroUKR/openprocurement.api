@@ -12,6 +12,7 @@ from openprocurement.framework.core.validation import (
     validate_patch_question_data,
     validate_framework_question_operation_not_in_allowed_status,
     validate_framework_question_operation_not_in_enquiry_period,
+    validate_question_clarifications_until,
 )
 
 
@@ -70,8 +71,8 @@ class CoreQuestionResource(BaseResource):
         validators=(
             validate_item_owner("framework"),
             validate_patch_question_data,
+            validate_question_clarifications_until,
             validate_framework_question_operation_not_in_allowed_status,
-            validate_framework_question_operation_not_in_enquiry_period,
         ),
         permission="edit_question",
     )

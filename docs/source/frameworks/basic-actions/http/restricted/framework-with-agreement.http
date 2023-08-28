@@ -12,7 +12,7 @@ Content-Type: application/json
     "description": "Назва предмета закупівлі",
     "date": "2023-01-01T00:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-17T00:00:00+02:00",
+    "dateModified": "2023-01-20T00:00:00+02:00",
     "owner": "broker",
     "questions": [
       {
@@ -56,7 +56,8 @@ Content-Type: application/json
     },
     "enquiryPeriod": {
       "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-14T00:00:00+02:00"
+      "endDate": "2023-01-14T00:00:00+02:00",
+      "clarificationsUntil": "2023-01-19T00:00:00+02:00"
     },
     "frameworkType": "dynamicPurchasingSystem",
     "procuringEntity": {

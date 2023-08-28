@@ -110,7 +110,7 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
             self.assertEqual(response.status, '200 OK')
 
         # Speed up time
-        self.tick(delta=timedelta(days=16))
+        self.tick(delta=timedelta(days=14))
 
         with open(TARGET_DIR + 'ask-question-invalid.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -121,6 +121,20 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
             self.assertEqual(response.status, '403 Forbidden')
             self.assertIn(
                 "Question can be add only during the enquiry period",
+                response.json["errors"][0]["description"],
+            )
+
+        self.tick_delta = None
+        self.tick(delta=timedelta(days=5))  # after enquiryPeriod.clarificationsUntil pass
+        with open(TARGET_DIR + 'answer-question-after-clarifications-until.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f"/frameworks/{framework['id']}/questions/{question['id']}?acc_token={owner_token}",
+                {'data': {"answer": "Таблицю додано в файлі"}},
+                status=403,
+            )
+            self.assertEqual(response.status, '403 Forbidden')
+            self.assertIn(
+                "Allowed to update question only before enquiryPeriod.clarificationsUntil",
                 response.json["errors"][0]["description"],
             )
 

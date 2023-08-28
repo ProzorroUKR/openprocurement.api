@@ -55,6 +55,12 @@ Procuring entity can answer them:
 .. http:example:: http/restricted/answer-question.http
    :code:
 
+It is allowed to answer the question during the whole `enquiryPeriod` and between `enquiryPeriod.endDate` and `enquiryPeriod.clarificationUntil`.
+In case procuring entity is answering question after `enquiryPeriod.clarificationUntil`, the error will be raised:
+
+.. http:example:: http/restricted/answer-question-after-clarifications-until.http
+   :code:
+
 Only procuring entity has permission to answer the questions:
 
 .. http:example:: http/restricted/answer-question-invalid.http
