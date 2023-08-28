@@ -22,16 +22,13 @@ class EContractState(ContractState):
         super().always(data)
 
     # def get_tender_state(self, contract):
-    #     tender = get_tender_by_id(self.request, tender_id=contract["tender_id"])
-    #     self.request.validated["tender"] = tender
-    #     self.request.validated["tender_src"] = deepcopy(tender)
+    #     tender = self.request.validated["tender"]
     #     awards = get_items(self.request, tender, "awards", contract["awardID"])
     #     self.request.validated["award"] = awards[0]
     #     return TENDER_CONTRACT_STATE_MAP.get(tender["procurementMethodType"])(self.request)
 
     def on_patch(self, before, after) -> None:
-        tender = get_tender_by_id(self.request, tender_id=after["tender_id"])
-        self.request.validated["tender"] = tender
+        tender = self.request.validated["tender"]
         self.request.validated["tender_src"] = deepcopy(tender)
         after["id"] = after["_id"]
         # tender_state = self.get_tender_state(after)
@@ -54,8 +51,8 @@ class EContractState(ContractState):
         self.validate_contract_items(before, after)
         # self.validate_update_contract_only_for_active_lots(request, tender, before)
         # self.validate_update_contract_status_by_supplier(request, before, after)
-        self.validate_update_contract_status(request, tender, before, after)
-        self.validate_contract_update_with_accepted_complaint(request, tender, before)  # openua
+        # self.validate_update_contract_status(request, tender, before, after)
+        self.validate_contract_update_with_accepted_complaint(request, tender, before)
         self.validate_update_contract_value(request, before, after)
         self.validate_update_contract_value_net_required(request, before, after)
         self.validate_update_contract_value_with_award(request, before, after)

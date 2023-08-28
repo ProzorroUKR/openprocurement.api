@@ -4,6 +4,7 @@ from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 
 from openprocurement.api.views.base import BaseResource
 from openprocurement.contracting.core.procedure.state.contract import ContractState
+from openprocurement.contracting.core.utils import get_tender_by_id
 
 
 class ContractBaseResource(BaseResource):
@@ -41,4 +42,6 @@ class ContractBaseResource(BaseResource):
             match_dict = request.matchdict
             if match_dict and match_dict.get("contract_id"):
                 request.validated["contract_src"] = request.contract_doc
-                request.validated["contract"] = deepcopy(request.validated["contract_src"])
+                contract = request.validated["contract"] = deepcopy(request.validated["contract_src"])
+                if "buyer" in contract:
+                    request.validated["tender"] = get_tender_by_id(request, contract["tender_id"])

@@ -195,9 +195,13 @@ def register_contract_type(config, model):
     config.registry.contract_types[contract_type] = model
 
 
-def get_tender_by_id(request, tender_id: str):
+def get_tender_by_id(request, tender_id: str, raise_error=True):
     tender = request.registry.mongodb.tenders.get(tender_id)
-    if tender is None:
+    if tender is None and raise_error:
+        request.errors.add("url", "tender_id", "Not Found")
+        request.errors.status = 404
+        raise error_handler(request)
+    else:
         LOGGER.error(
             f"Tender {tender_id} not found",
             extra=context_unpack(request, {"MESSAGE_ID": "get_tender_by_id"})

@@ -40,8 +40,8 @@ def extract_contract_id(request):
     parts = path.split("/")
     if len(parts) < 5 or parts[3] != "contracts":
         return
-    tender_id = parts[4]
-    return tender_id
+    contract_id = parts[4]
+    return contract_id
 
 
 def extract_contract_doc(request):
