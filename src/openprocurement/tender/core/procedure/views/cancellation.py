@@ -15,6 +15,8 @@ from openprocurement.tender.core.procedure.state.cancellation import Cancellatio
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 from logging import getLogger
 
+from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
+
 LOGGER = getLogger(__name__)
 
 
@@ -73,9 +75,11 @@ class BaseCancellationResource(TenderBaseResource):
                                      {"cancellation_id": cancellation["id"]}),
             )
             self.request.response.status = 201
+            route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
             self.request.response.headers["Location"] = self.request.route_url(
-                "{}:Tender Cancellations".format(tender["procurementMethodType"]),
-                tender_id=tender["_id"], cancellation_id=cancellation["id"]
+                "{}:Tender Cancellations".format(route_prefix),
+                tender_id=tender["_id"],
+                cancellation_id=cancellation["id"],
             )
             return {"data": self.serializer_class(cancellation).data}
 

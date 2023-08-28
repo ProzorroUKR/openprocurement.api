@@ -23,6 +23,8 @@ from pyramid.security import (
 from cornice.resource import resource
 import logging
 
+from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
+
 LOGGER = logging.getLogger(__name__)
 
 
@@ -103,8 +105,10 @@ class TendersResource(TenderBaseResource):
                 ),
             )
             self.request.response.status = 201
+            route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
             self.request.response.headers["Location"] = self.request.route_url(
-                "{}:Tenders".format(tender["procurementMethodType"]), tender_id=tender["_id"]
+                "{}:Tenders".format(route_prefix),
+                tender_id=tender["_id"],
             )
             return {
                 "data": self.serializer_class(get_tender()).data,

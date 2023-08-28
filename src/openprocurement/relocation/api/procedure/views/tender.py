@@ -2,6 +2,7 @@
 from cornice.resource import resource
 
 from openprocurement.api.utils import json_view, context_unpack
+from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 from openprocurement.relocation.api.procedure.serializers.tender import TransferredTenderSerializer
 from openprocurement.relocation.api.procedure.utils import update_ownership, save_transfer
 from openprocurement.relocation.api.procedure.validation import (
@@ -40,7 +41,7 @@ class TenderResource(TenderBaseResource):
     def post(self):
         tender = self.request.validated["tender"]
         data = self.request.validated["ownership_data"]
-        route_name = f"{tender['procurementMethodType']}:Tenders"
+        route_name = "{}:Tenders".format(ProcurementMethodTypePredicate.route_prefix(self.request))
         location = get_transfer_location(self.request, route_name, tender_id=tender["_id"])
         transfer = extract_transfer_doc(self.request, transfer_id=data["id"])
 

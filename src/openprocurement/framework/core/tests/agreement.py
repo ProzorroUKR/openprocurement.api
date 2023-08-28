@@ -5,7 +5,7 @@ import unittest
 from copy import deepcopy
 from mock import MagicMock, patch
 from openprocurement.api.constants import VERSION
-from openprocurement.framework.core.utils import IsAgreement
+from openprocurement.framework.core.utils import AgreementTypePredicate
 from openprocurement.framework.core.tests.base import BaseAgreementTest
 from openprocurement.framework.core.traversal import agreement_factory
 from openprocurement.framework.core.utils import (
@@ -255,7 +255,7 @@ class ResourcesAgreementTest(BaseAgreementTest):
         config = MagicMock()
         request = MagicMock()
         context = MagicMock()
-        obj = IsAgreement(val="cfa-ua_test", config=config)
+        obj = AgreementTypePredicate(val="cfa-ua_test", config=config)
         agreement_type = obj.text()
         self.assertEqual(agreement_type, "agreementType = cfa-ua_test")
         res_call = obj.__call__(context=context, request=request)

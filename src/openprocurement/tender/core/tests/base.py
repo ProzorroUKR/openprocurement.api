@@ -256,6 +256,7 @@ class BaseCoreWebTest(BaseWebTest):
         }
         if tender["procurementMethodType"] in (
             "aboveThreshold",
+            "dynamicPurchasingSystem",
             "aboveThresholdUA",
             "aboveThresholdUA.defense",
             "simple.defense",

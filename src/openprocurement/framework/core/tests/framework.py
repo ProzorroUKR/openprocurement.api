@@ -9,7 +9,7 @@ from schematics.types.serializable import serializable
 
 from openprocurement.framework.core.models import Framework as BaseFramework
 from openprocurement.framework.core.tests.base import BaseFrameworkTest, test_framework_data
-from openprocurement.framework.core.utils import isFramework
+from openprocurement.framework.core.utils import FrameworkTypePredicate
 from openprocurement.framework.core.views.framework import FrameworkResource
 
 
@@ -114,7 +114,7 @@ class ResourcesFrameworkTest(BaseFrameworkTest):
         config = MagicMock()
         request = MagicMock()
         context = MagicMock()
-        obj = isFramework(val="electronicCatalogue_test", config=config)
+        obj = FrameworkTypePredicate(val="electronicCatalogue_test", config=config)
         framework_type = obj.text()
         self.assertEqual(framework_type, "frameworkType = electronicCatalogue_test")
         res_call = obj.__call__(context=context, request=request)

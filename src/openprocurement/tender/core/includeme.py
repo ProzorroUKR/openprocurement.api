@@ -1,8 +1,8 @@
 from logging import getLogger
 from pkg_resources import iter_entry_points
 from openprocurement.tender.core.utils import (
-    isTender,
-    isComplaint,
+    ProcurementMethodTypePredicate,
+    ComplaintTypePredicate,
 )
 from openprocurement.tender.core.procedure.utils import extract_complaint_type, extract_tender_doc
 from openprocurement.api.database import COLLECTION_CLASSES
@@ -20,8 +20,8 @@ def includeme(config):
 
     # tender procurementMethodType plugins support
     config.registry.tender_procurementMethodTypes = {}
-    config.add_route_predicate("procurementMethodType", isTender)
-    config.add_route_predicate("complaintType", isComplaint)
+    config.add_route_predicate("procurementMethodType", ProcurementMethodTypePredicate)
+    config.add_route_predicate("complaintType", ComplaintTypePredicate)
     config.scan("openprocurement.tender.core.procedure.views")
     config.scan("openprocurement.tender.core.subscribers")
 

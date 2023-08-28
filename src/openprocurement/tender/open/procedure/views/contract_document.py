@@ -14,16 +14,16 @@ from openprocurement.tender.core.procedure.validation import (
     validate_role_for_contract_document_operation,
     validate_contract_document_status,
 )
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD_GROUP_NAME, ABOVE_THRESHOLD_GROUP
 from openprocurement.tender.open.procedure.validation import validate_contract_document_complaints
 from cornice.resource import resource
 
 
 @resource(
-    name=f"{ABOVE_THRESHOLD}:Tender Contract Documents",
+    name=f"{ABOVE_THRESHOLD_GROUP_NAME}:Tender Contract Documents",
     collection_path="/tenders/{tender_id}/contracts/{contract_id}/documents",
     path="/tenders/{tender_id}/contracts/{contract_id}/documents/{document_id}",
-    procurementMethodType=ABOVE_THRESHOLD,
+    procurementMethodType=ABOVE_THRESHOLD_GROUP,
     description="Tender contract documents",
 )
 class OpenUAContractDocumentResource(TenderContractDocumentResource):
