@@ -138,16 +138,7 @@ Cancelling Tender Award Complaint
 Cancelling draft complaint by Complainant
 -----------------------------------------
 
-.. http:example:: http/complaints/award-complaint-mistaken-2020-04-19.http
-   :code:
-
-Cancelling accepted complaint by Complainant
---------------------------------------------
-
-.. http:example:: http-outdated/complaints/award-complaint-accepted-stopping.http
-   :code:
-
-.. http:example:: http-outdated/complaints/award-complaint-stopping-stopped.http
+.. http:example:: http/complaints/award-complaint-mistaken.http
    :code:
 
 Cancelling accepted complaint by Reviewer

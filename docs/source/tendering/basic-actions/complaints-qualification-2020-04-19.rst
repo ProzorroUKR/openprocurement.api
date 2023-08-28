@@ -119,16 +119,7 @@ Cancelling Tender Qualification Complaint
 Cancelling draft complaint by Complainant
 -----------------------------------------
 
-.. http:example:: http/complaints/qualification-complaint-mistaken-2020-04-19.http
-   :code:
-
-Cancelling accepted complaint by Complainant
---------------------------------------------
-
-.. http:example:: http-outdated/complaints/qualification-complaint-accepted-stopping.http
-   :code:
-
-.. http:example:: http-outdated/complaints/qualification-complaint-stopping-stopped.http
+.. http:example:: http/complaints/qualification-complaint-mistaken.http
    :code:
 
 Cancelling accepted complaint by Reviewer

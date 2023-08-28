@@ -6,6 +6,7 @@ from openprocurement.tender.core.procedure.context import (
     get_tender,
     get_request,
     get_award,
+    get_tender_config,
 )
 from openprocurement.tender.core.procedure.utils import (
     get_contracts_values_related_to_patched_contract,
@@ -114,6 +115,8 @@ class ContractStateMixing(baseclass):
         return "agreements" in tender
 
     def check_lots_complaints(self, tender: dict, now: datetime) -> None:
+        config = get_tender_config()
+        awarding_order_enabled = config.get("hasAwardingOrder")
         for lot in tender.get("lots", []):
             if lot.get("status") != "active":
                 continue
@@ -124,6 +127,7 @@ class ContractStateMixing(baseclass):
             if not lot_awards:
                 continue
             last_award = lot_awards[-1]
+            awards_statuses = {award["status"] for award in lot_awards}
 
             if not self.check_award_lot_complaints(tender, lot["id"], lot_awards, now):
                 continue
@@ -138,14 +142,22 @@ class ContractStateMixing(baseclass):
                 )
                 self.set_object_status(lot, "unsuccessful")
                 continue
-            elif last_award.get("status") == "active":
+            elif (awarding_order_enabled and last_award["status"] == "active") or \
+                    (awarding_order_enabled is False and awards_statuses.intersection({"active"})):
                 if self.check_agreements(tender):
                     allow_complete_lot = any([a["status"] == "active" for a in tender.get("agreements", [])])
                 else:
-                    contracts = [
-                        contract for contract in tender.get("contracts", [])
-                        if contract.get("awardID") == last_award.get("id")
-                    ]
+                    if awarding_order_enabled is False:
+                        active_award_ids = {award["id"] for award in lot_awards if award["status"] == "active"}
+                        contracts = [
+                            contract for contract in tender.get("contracts", [])
+                            if contract.get("awardID") in active_award_ids
+                        ]
+                    else:
+                        contracts = [
+                            contract for contract in tender.get("contracts", [])
+                            if contract.get("awardID") == last_award.get("id")
+                        ]
                     allow_complete_lot = contracts_allow_to_complete(contracts)
                 if allow_complete_lot:
                     LOGGER.info(

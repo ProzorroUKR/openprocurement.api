@@ -61,10 +61,10 @@ class MatchResponseValue:
         min_value = requirement.get('minValue')
         max_value = requirement.get('maxValue')
 
-        if min_value and value < datatype.to_native(min_value):
+        if min_value is not None and value < datatype.to_native(min_value):
             raise ValidationError(f"Value {value} is lower then minimal required {min_value} "
                                   f"in requirement {requirement['id']}")
-        if max_value and value > datatype.to_native(max_value):
+        if max_value is not None and value > datatype.to_native(max_value):
             raise ValidationError(f"Value {value} is higher then required {max_value} "
                                   f"in requirement {requirement['id']}")
 
@@ -75,11 +75,11 @@ class MatchResponseValue:
         expected_values = requirement.get("expectedValues", [])
         expected_values = {datatype.to_native(i) for i in expected_values}
 
-        if expected_min_items and expected_min_items > len(values):
+        if expected_min_items is not None and expected_min_items > len(values):
             raise ValidationError(f"Count of items lower then minimal required {expected_min_items} "
                                   f"in requirement {requirement['id']}")
 
-        if expected_max_items and expected_max_items < len(values):
+        if expected_max_items is not None and expected_max_items < len(values):
             raise ValidationError(f"Count of items higher then maximum required {expected_max_items} "
                                   f"in requirement {requirement['id']}")
 

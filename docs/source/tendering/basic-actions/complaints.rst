@@ -198,12 +198,9 @@ After Release 2020-04-19
         satisfied -> resolved;
         edge[style=dashed];
         draft -> {pending,mistaken};
-        pending -> stopping;
-        accepted -> stopping;
         edge[style=bold];
         accepted -> {declined,satisfied,stopped};
         pending -> {accepted,invalid};
-        stopping -> {stopped,invalid,declined,satisfied};
     }
 
 Tutorials

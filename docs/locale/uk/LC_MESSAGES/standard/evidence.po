@@ -63,13 +63,13 @@ msgid "`document`"
 msgstr ""
 
 msgid "An internal document stored in Prozorro system"
-msgstr "Внутрішній документ, що зберігається в системі Prozorro"
+msgstr "Документ, що зберігається в системі Prozorro"
 
 msgid "`statement`"
 msgstr ""
 
 msgid "A machine-readable confirmation by a requested Party"
-msgstr "Машиночитане підтвердження запитуваною cтороною"
+msgstr "Машиночитане підтвердження"
 
 msgid "relatedDocument"
 msgstr ""

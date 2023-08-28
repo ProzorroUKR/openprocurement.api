@@ -19,6 +19,7 @@ ROUTE_PREFIX = "/api/{}".format(VERSION)
 SESSION = Session()
 SCHEMA_VERSION = 24
 SCHEMA_DOC = "openprocurement_schema"
+OCID_PREFIX = os.environ.get("OCID_PREFIX", "ocds-ukr001")
 
 TZ = timezone(os.environ["TZ"] if "TZ" in os.environ else "Europe/Kiev")
 SANDBOX_MODE = os.environ.get("SANDBOX_MODE", False)

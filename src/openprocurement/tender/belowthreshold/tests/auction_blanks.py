@@ -896,6 +896,42 @@ def post_tender_lots_auction_with_disabled_awarding_order_lot_not_become_unsucce
     self.assertEqual(tender["lots"][0]["status"], "active")
     self.assertEqual(tender["lots"][1]["status"], "active")
 
+    contracts_response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
+    contracts = contracts_response.json["data"]
+    self.assertEqual(len(contracts), 2)
+
+    # prepare contract for activating
+    doc = self.mongodb.tenders.get(self.tender_id)
+    for i in doc.get("awards", []):
+        if 'complaintPeriod' in i:
+            i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+    self.mongodb.tenders.save(doc)
+
+    # in case any contract become active and there are no pending contracts -> tender should have complete status
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contracts[0]["id"], self.tender_token),
+        {"data": {"status": "active"}}
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertNotEqual(response.json["data"]["status"], "complete")  # because second contract still in pending
+
+    response = self.app.patch_json(
+        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contracts[1]["id"], self.tender_token),
+        {"data": {"status": "active"}}
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "complete")
+
+    lots = response.json["data"]["lots"]
+    for lot in lots:
+        self.assertEqual(lot["status"], "complete")
+
 
 # TenderSameValueAuctionResourceTest
 
