@@ -12,13 +12,13 @@ from openprocurement.framework.core.utils import (
     register_framework_frameworkType,
     register_submission_submissionType,
     register_qualification_qualificationType,
-    isFramework,
-    isSubmission,
-    isQualification,
+    FrameworkTypePredicate,
+    SubmissionTypePredicate,
+    QualificationTypePredicate,
     framework_from_data,
     submission_from_data,
     qualification_from_data,
-    IsAgreement,
+    AgreementTypePredicate,
     agreement_from_data,
     register_agreement_agreementType,
 )
@@ -44,10 +44,10 @@ def includeme(config):
     config.registry.submission_submissionTypes = {}
     config.registry.qualification_qualificationTypes = {}
     config.registry.agreement_agreementTypes = {}
-    config.add_route_predicate("frameworkType", isFramework)
-    config.add_route_predicate("submissionType", isSubmission)
-    config.add_route_predicate("qualificationType", isQualification)
-    config.add_route_predicate("agreementType", IsAgreement)
+    config.add_route_predicate("frameworkType", FrameworkTypePredicate)
+    config.add_route_predicate("submissionType", SubmissionTypePredicate)
+    config.add_route_predicate("qualificationType", QualificationTypePredicate)
+    config.add_route_predicate("agreementType", AgreementTypePredicate)
     config.add_request_method(framework_from_data)
     config.add_request_method(submission_from_data)
     config.add_request_method(qualification_from_data)

@@ -56,7 +56,7 @@ agreementsresource = partial(resource, error_handler=error_handler, factory=agre
 contractresource = partial(resource, error_handler=error_handler, factory=contract_factory)
 
 
-class isFramework(object):
+class FrameworkTypePredicate(object):
     """Framework Route predicate. """
 
     def __init__(self, val, config):
@@ -73,7 +73,7 @@ class isFramework(object):
         return False
 
 
-class isSubmission(object):
+class SubmissionTypePredicate(object):
     """Submission Route predicate. """
 
     def __init__(self, val, config):
@@ -91,7 +91,7 @@ class isSubmission(object):
         return False
 
 
-class isQualification(object):
+class QualificationTypePredicate(object):
     """Qualification Route predicate. """
 
     def __init__(self, val, config):
@@ -108,7 +108,7 @@ class isQualification(object):
         return False
 
 
-class IsAgreement(object):
+class AgreementTypePredicate(object):
     """ Agreement route predicate. """
 
     def __init__(self, val, config):

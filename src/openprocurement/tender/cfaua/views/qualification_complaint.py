@@ -15,7 +15,12 @@ from openprocurement.tender.core.validation import (
     validate_update_complaint_not_in_allowed_complaint_status,
     validate_update_complaint_not_in_allowed_claim_status,
 )
-from openprocurement.tender.core.utils import apply_patch, save_tender, calculate_total_complaints
+from openprocurement.tender.core.utils import (
+    apply_patch,
+    save_tender,
+    calculate_total_complaints,
+    ProcurementMethodTypePredicate,
+)
 from openprocurement.tender.cfaua.views.award_complaint import TenderEUAwardComplaintResource, TenderEUAwardClaimResource
 from openprocurement.tender.core.views.award_complaint import get_bid_id
 from openprocurement.tender.core.views.complaint import (
@@ -99,8 +104,9 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
                 ),
             )
             self.request.response.status = 201
+            route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
             self.request.response.headers["Location"] = self.request.route_url(
-                "{}:Tender Qualification Complaints".format(tender.procurementMethodType),
+                "{}:Tender Qualification Complaints".format(route_prefix),
                 tender_id=tender.id,
                 qualification_id=self.request.validated["qualification_id"],
                 complaint_id=complaint["id"],
@@ -341,8 +347,9 @@ class TenderEUQualificationClaimResource(TenderEUAwardClaimResource):
                 ),
             )
             self.request.response.status = 201
+            route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
             self.request.response.headers["Location"] = self.request.route_url(
-                "{}:Tender Qualification Claims".format(tender.procurementMethodType),
+                "{}:Tender Qualification Claims".format(route_prefix),
                 tender_id=tender.id,
                 qualification_id=self.request.validated["qualification_id"],
                 complaint_id=complaint["id"],

@@ -12,6 +12,8 @@ from openprocurement.tender.core.procedure.state.bid import BidState
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 from logging import getLogger
 
+from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
+
 LOGGER = getLogger(__name__)
 
 
@@ -63,8 +65,11 @@ class TenderBidResource(TenderBaseResource):
                 extra=context_unpack(self.request, {"MESSAGE_ID": "tender_bid_create"}, {"bid_id": bid["id"]}),
             )
             self.request.response.status = 201
+            route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
             self.request.response.headers["Location"] = self.request.route_url(
-                "{}:Tender Bids".format(tender["procurementMethodType"]), tender_id=tender["_id"], bid_id=bid["id"]
+                "{}:Tender Bids".format(route_prefix),
+                tender_id=tender["_id"],
+                bid_id=bid["id"],
             )
             return {"data": self.serializer_class(bid).data, "access": access}
 

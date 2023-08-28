@@ -21,7 +21,11 @@ from openprocurement.tender.core.validation import (
 from openprocurement.tender.belowthreshold.utils import check_tender_status
 from openprocurement.tender.core.views.complaint import ComplaintAdminPatchMixin, ComplaintBotPatchMixin
 from openprocurement.tender.core.utils import (
-    save_tender, apply_patch, calculate_total_complaints, calculate_tender_business_date
+    save_tender,
+    apply_patch,
+    calculate_total_complaints,
+    calculate_tender_business_date,
+    ProcurementMethodTypePredicate,
 )
 from openprocurement.api.views.base import BaseResource
 
@@ -64,8 +68,9 @@ class TenderCancellationComplaintResource(ComplaintBotPatchMixin, ComplaintAdmin
                 ),
             )
             self.request.response.status = 201
+            route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
             self.request.response.headers["Location"] = self.request.route_url(
-                "{}:Tender Cancellation Complaints".format(tender.procurementMethodType),
+                "{}:Tender Cancellation Complaints".format(route_prefix),
                 tender_id=tender.id,
                 cancellation_id=self.request.validated["cancellation_id"],
                 complaint_id=complaint["id"],

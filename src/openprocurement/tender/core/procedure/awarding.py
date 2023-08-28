@@ -26,6 +26,7 @@ from openprocurement.tender.core.constants import (
     ALP_MILESTONE_REASONS,
     CRITERION_LIFE_CYCLE_COST_IDS,
 )
+from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 from openprocurement.tender.pricequotation.constants import PQ
 
 LOGGER = getLogger(__name__)
@@ -97,8 +98,9 @@ class TenderStateAwardingMixing(baseclass):
                     if bids:
                         self.tender_append_award(tender, bids[0], all_bids, lot_id=lot["id"])
                         request = get_request()
+                        route_prefix = ProcurementMethodTypePredicate.route_prefix(request)
                         request.response.headers["Location"] = request.route_url(
-                            "{}:Tender Awards".format(tender["procurementMethodType"]),
+                            "{}:Tender Awards".format(route_prefix),
                             tender_id=tender["_id"],
                             award_id=tender["awards"][-1]["id"],
                         )
@@ -120,8 +122,9 @@ class TenderStateAwardingMixing(baseclass):
                 if bids:
                     self.tender_append_award(tender, bids[0], all_bids)
                     request = get_request()
+                    route_prefix = ProcurementMethodTypePredicate.route_prefix(request)
                     request.response.headers["Location"] = request.route_url(
-                        "{}:Tender Awards".format(tender["procurementMethodType"]),
+                        "{}:Tender Awards".format(route_prefix),
                         tender_id=tender["_id"],
                         award_id=tender["awards"][-1]["id"],
                     )
@@ -155,8 +158,9 @@ class TenderStateAwardingMixing(baseclass):
                         for bid in bids:
                             self.tender_append_award(tender, bid, all_bids, lot_id=lot["id"])
                         request = get_request()
+                        route_prefix = ProcurementMethodTypePredicate.route_prefix(request)
                         request.response.headers["Location"] = request.route_url(
-                            "{}:Tender Awards".format(tender["procurementMethodType"]),
+                            "{}:Tender Awards".format(route_prefix),
                             tender_id=tender["_id"],
                             award_id=tender["awards"][-1]["id"],
                         )
@@ -178,8 +182,9 @@ class TenderStateAwardingMixing(baseclass):
                     for bid in bids:
                         self.tender_append_award(tender, bid, all_bids)
                     request = get_request()
+                    route_prefix = ProcurementMethodTypePredicate.route_prefix(request)
                     request.response.headers["Location"] = request.route_url(
-                        "{}:Tender Awards".format(tender["procurementMethodType"]),
+                        "{}:Tender Awards".format(route_prefix),
                         tender_id=tender["_id"],
                         award_id=tender["awards"][-1]["id"],
                     )

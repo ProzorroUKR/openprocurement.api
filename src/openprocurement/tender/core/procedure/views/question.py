@@ -20,6 +20,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_patch_data_simple,
     validate_operation_with_lot_cancellation_in_pending, validate_accreditation_level,
 )
+from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
 
 def resolve_question(request):
@@ -95,10 +96,11 @@ class TenderQuestionResource(TenderBaseResource):
                 ),
             )
             self.request.response.status = 201
+            route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
             self.request.response.headers["Location"] = self.request.route_url(
-                "{}:Tender Questions".format(tender["procurementMethodType"]),
+                "{}:Tender Questions".format(route_prefix),
                 tender_id=tender["_id"],
-                question_id=question["id"]
+                question_id=question["id"],
             )
             return {"data": self.serializer_class(question).data}
 

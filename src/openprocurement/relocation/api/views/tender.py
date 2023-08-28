@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import json_view, context_unpack
 from openprocurement.api.views.base import BaseResource
-from openprocurement.tender.core.utils import save_tender, optendersresource
+from openprocurement.tender.core.utils import save_tender, optendersresource, ProcurementMethodTypePredicate
 from openprocurement.relocation.api.utils import (
     extract_transfer,
     update_ownership,
@@ -33,7 +33,7 @@ class TenderResource(BaseResource):
         tender = self.request.validated["tender"]
         data = self.request.validated["ownership_data"]
 
-        route_name = "{}:Tenders".format(tender.procurementMethodType)
+        route_name = "{}:Tenders".format(ProcurementMethodTypePredicate.route_prefix(self.request))
         location = get_transfer_location(self.request, route_name, tender_id=tender.id)
         transfer = extract_transfer(self.request, transfer_id=data["id"])
 

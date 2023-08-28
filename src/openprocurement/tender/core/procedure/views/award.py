@@ -16,6 +16,8 @@ from openprocurement.tender.core.procedure.models.award import PostAward
 from pyramid.security import Allow, Everyone
 from logging import getLogger
 
+from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
+
 LOGGER = getLogger(__name__)
 
 
@@ -77,10 +79,11 @@ class TenderAwardResource(TenderBaseResource):
                                      {"award_id": award["id"]}),
             )
             self.request.response.status = 201
+            route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
             self.request.response.headers["Location"] = self.request.route_url(
-                "{}:Tender Awards".format(tender["procurementMethodType"]),
+                "{}:Tender Awards".format(route_prefix),
                 tender_id=tender["_id"],
-                award_id=award["id"]
+                award_id=award["id"],
             )
             return {"data": self.serializer_class(award).data}
 

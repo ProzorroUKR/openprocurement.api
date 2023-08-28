@@ -11,18 +11,18 @@ from openprocurement.tender.core.procedure.validation import (
     validate_update_award_status_before_milestone_due_date,
 )
 from openprocurement.tender.core.procedure.views.award import TenderAwardResource
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD_GROUP_NAME, ABOVE_THRESHOLD_GROUP
 from openprocurement.tender.open.procedure.models.award import PatchAward, Award
 from openprocurement.tender.open.procedure.state.award import AwardState
 from cornice.resource import resource
 
 
 @resource(
-    name=f"{ABOVE_THRESHOLD}:Tender Awards",
+    name=f"{ABOVE_THRESHOLD_GROUP_NAME}:Tender Awards",
     collection_path="/tenders/{tender_id}/awards",
     path="/tenders/{tender_id}/awards/{award_id}",
     description="Tender awards",
-    procurementMethodType=ABOVE_THRESHOLD,
+    procurementMethodType=ABOVE_THRESHOLD_GROUP,
 )
 class UATenderAwardResource(TenderAwardResource):
     state_class = AwardState

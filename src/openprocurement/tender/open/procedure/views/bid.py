@@ -7,7 +7,7 @@ from openprocurement.tender.core.procedure.validation import (
 )
 from openprocurement.tender.core.procedure.views.bid import TenderBidResource
 from openprocurement.tender.core.procedure.models.bid import filter_administrator_bid_update
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD_GROUP_NAME, ABOVE_THRESHOLD_GROUP
 from openprocurement.tender.open.procedure.models.bid import PostBid, PatchBid, Bid
 from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.validation import (
@@ -25,10 +25,10 @@ LOGGER = getLogger(__name__)
 
 
 @resource(
-    name=f"{ABOVE_THRESHOLD}:Tender Bids",
+    name=f"{ABOVE_THRESHOLD_GROUP_NAME}:Tender Bids",
     collection_path="/tenders/{tender_id}/bids",
     path="/tenders/{tender_id}/bids/{bid_id}",
-    procurementMethodType=ABOVE_THRESHOLD,
+    procurementMethodType=ABOVE_THRESHOLD_GROUP,
     description="Tender bids",
 )
 class TenderBidResource(TenderBidResource):

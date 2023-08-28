@@ -4,14 +4,14 @@ from openprocurement.tender.core.procedure.views.complaint import (
     TenderComplaintResource,
 )
 from openprocurement.tender.core.procedure.views.claim import TenderClaimResource
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD_GROUP_NAME, ABOVE_THRESHOLD_GROUP
 
 
 @resource(
-    name=f"{ABOVE_THRESHOLD}:Tender Complaints Get",
+    name=f"{ABOVE_THRESHOLD_GROUP_NAME}:Tender Complaints Get",
     collection_path="/tenders/{tender_id}/complaints",
     path="/tenders/{tender_id}/complaints/{complaint_id}",
-    procurementMethodType=ABOVE_THRESHOLD,
+    procurementMethodType=ABOVE_THRESHOLD_GROUP,
     request_method=["GET"],
     description="Tender complaints get",
 )
@@ -20,10 +20,10 @@ class OpenTenderClaimAndComplaintGetResource(BaseTenderComplaintGetResource):
 
 
 @resource(
-    name=f"{ABOVE_THRESHOLD}:Tender Claims",
+    name=f"{ABOVE_THRESHOLD_GROUP_NAME}:Tender Claims",
     collection_path="/tenders/{tender_id}/complaints",
     path="/tenders/{tender_id}/complaints/{complaint_id}",
-    procurementMethodType=ABOVE_THRESHOLD,
+    procurementMethodType=ABOVE_THRESHOLD_GROUP,
     request_method=["POST", "PATCH"],
     complaintType="claim",
     description="Tender claims",
@@ -33,10 +33,10 @@ class OpenTenderClaimResource(TenderClaimResource):
 
 
 @resource(
-    name=f"{ABOVE_THRESHOLD}:Tender Complaints",
+    name=f"{ABOVE_THRESHOLD_GROUP_NAME}:Tender Complaints",
     collection_path="/tenders/{tender_id}/complaints",
     path="/tenders/{tender_id}/complaints/{complaint_id}",
-    procurementMethodType=ABOVE_THRESHOLD,
+    procurementMethodType=ABOVE_THRESHOLD_GROUP,
     request_method=["POST", "PATCH"],
     complaintType="complaint",
     description="Tender complaints",

@@ -26,7 +26,13 @@ from openprocurement.tender.core.validation import (
     validate_add_complaint_with_lot_cancellation_in_pending
 )
 from openprocurement.tender.belowthreshold.utils import check_tender_status
-from openprocurement.tender.core.utils import save_tender, apply_patch, calculate_total_complaints, optendersresource
+from openprocurement.tender.core.utils import (
+    save_tender,
+    apply_patch,
+    calculate_total_complaints,
+    optendersresource,
+    ProcurementMethodTypePredicate,
+)
 
 
 def get_bid_id(request):
@@ -122,8 +128,9 @@ class BaseTenderAwardComplaintResource(BaseTenderComplaintResource):
                 ),
             )
             self.request.response.status = 201
+            route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
             self.request.response.headers["Location"] = self.request.route_url(
-                "{}:Tender Award Complaints".format(tender.procurementMethodType),
+                "{}:Tender Award Complaints".format(route_prefix),
                 tender_id=tender.id,
                 award_id=self.request.validated["award_id"],
                 complaint_id=complaint["id"],
@@ -355,8 +362,9 @@ class BaseTenderAwardClaimResource(BaseTenderClaimResource):
                 ),
             )
             self.request.response.status = 201
+            route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
             self.request.response.headers["Location"] = self.request.route_url(
-                "{}:Tender Award Claims".format(tender.procurementMethodType),
+                "{}:Tender Award Claims".format(route_prefix),
                 tender_id=tender.id,
                 award_id=self.request.validated["award_id"],
                 complaint_id=complaint["id"],

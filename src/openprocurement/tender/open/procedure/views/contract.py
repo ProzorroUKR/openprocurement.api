@@ -14,7 +14,7 @@ from openprocurement.tender.open.procedure.models.contract import (
     PatchContract,
     PatchContractSupplier,
 )
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD_GROUP_NAME, ABOVE_THRESHOLD_GROUP
 from cornice.resource import resource
 from logging import getLogger
 
@@ -22,10 +22,10 @@ LOGGER = getLogger(__name__)
 
 
 @resource(
-    name=f"{ABOVE_THRESHOLD}:Tender Contracts",
+    name=f"{ABOVE_THRESHOLD_GROUP_NAME}:Tender Contracts",
     collection_path="/tenders/{tender_id}/contracts",
     path="/tenders/{tender_id}/contracts/{contract_id}",
-    procurementMethodType=ABOVE_THRESHOLD,
+    procurementMethodType=ABOVE_THRESHOLD_GROUP,
     description="Tender contracts",
 )
 class UAContractResource(TenderContractResource):

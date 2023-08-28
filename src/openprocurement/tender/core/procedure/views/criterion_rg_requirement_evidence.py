@@ -27,7 +27,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_input_data,
     validate_patch_data_simple,
 )
-
+from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
 LOGGER = getLogger(__name__)
 
@@ -98,8 +98,9 @@ class BaseEligibleEvidenceResource(TenderBaseResource):
             tender = self.request.validated["tender"]
             match_dict = self.request.matchdict
             self.request.response.status = 201
+            route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
             self.request.response.headers["Location"] = self.request.route_url(
-                f"{tender['procurementMethodType']}:Requirement Eligible Evidence",
+                f"{route_prefix}:Requirement Eligible Evidence",
                 tender_id=match_dict.get("tender_id"),
                 criterion_id=match_dict.get("criterion_id"),
                 requirement_group_id=match_dict.get("requirement_group_id"),

@@ -11,7 +11,7 @@ from schematics.types import StringType
 from pyramid.exceptions import URLDecodeError
 from openprocurement.tender.core.utils import (
     SubscribersPicker,
-    isTender,
+    ProcurementMethodTypePredicate,
     generate_tender_id,
     tender_from_data,
     extract_tender_id,
@@ -287,7 +287,7 @@ class TestUtils(TestUtilsBase):
 class TestIsTender(TestUtilsBase):
     def test_is_tender(self):
         tender = Tender(self.tender_data)
-        is_tender = isTender("bellowThreshold", None)
+        is_tender = ProcurementMethodTypePredicate("bellowThreshold", None)
         self.assertEqual(is_tender.phash(), "procurementMethodType = bellowThreshold")
         request = MagicMock()
         request.tender_doc = None
@@ -297,7 +297,7 @@ class TestIsTender(TestUtilsBase):
         request.tender_doc = {"procurementMethodType": "bellowThreshold"}
         self.assertEqual(True, is_tender(None, request))
 
-        is_tender = isTender("esco.EU", None)
+        is_tender = ProcurementMethodTypePredicate("esco.EU", None)
         self.assertEqual(is_tender.phash(), "procurementMethodType = esco.EU")
         self.assertEqual(False, is_tender(None, request))
         self.assertEqual(tender.procurementMethodType, "bellowThreshold")

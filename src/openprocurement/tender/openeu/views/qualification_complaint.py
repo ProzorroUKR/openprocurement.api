@@ -11,11 +11,11 @@ from openprocurement.tender.core.validation import (
     validate_add_complaint_with_lot_cancellation_in_pending,
 )
 from openprocurement.tender.core.utils import (
-    apply_patch, 
+    apply_patch,
     save_tender,
     get_first_revision_date,
     get_now,
-    calculate_total_complaints,
+    calculate_total_complaints, ProcurementMethodTypePredicate,
 )
 
 from openprocurement.tender.core.views.complaint import (
@@ -108,8 +108,9 @@ class TenderEUQualificationComplaintResource(TenderEUAwardComplaintResource):
                 ),
             )
             self.request.response.status = 201
+            route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
             self.request.response.headers["Location"] = self.request.route_url(
-                "{}:Tender Qualification Complaints".format(tender.procurementMethodType),
+                "{}:Tender Qualification Complaints".format(route_prefix),
                 tender_id=tender.id,
                 qualification_id=self.request.validated["qualification_id"],
                 complaint_id=complaint["id"],
@@ -344,8 +345,9 @@ class TenderEUQualificationClaimResource(TenderEUAwardClaimResource):
                 ),
             )
             self.request.response.status = 201
+            route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
             self.request.response.headers["Location"] = self.request.route_url(
-                "{}:Tender Qualification Claims".format(tender.procurementMethodType),
+                "{}:Tender Qualification Claims".format(route_prefix),
                 tender_id=tender.id,
                 qualification_id=self.request.validated["qualification_id"],
                 complaint_id=complaint["id"],

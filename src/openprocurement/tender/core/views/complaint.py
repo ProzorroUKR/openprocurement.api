@@ -22,7 +22,12 @@ from openprocurement.tender.core.validation import (
     validate_operation_with_lot_cancellation_in_pending,
 )
 from openprocurement.tender.belowthreshold.utils import check_tender_status
-from openprocurement.tender.core.utils import save_tender, apply_patch, calculate_total_complaints
+from openprocurement.tender.core.utils import (
+    save_tender,
+    apply_patch,
+    calculate_total_complaints,
+    ProcurementMethodTypePredicate,
+)
 
 
 class ComplaintAdminPatchMixin(object):
@@ -123,8 +128,9 @@ class BaseTenderComplaintResource(ComplaintBotPatchMixin, ComplaintAdminPatchMix
                 ),
             )
             self.request.response.status = 201
+            route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
             self.request.response.headers["Location"] = self.request.route_url(
-                "{}:Tender Complaints".format(tender.procurementMethodType),
+                "{}:Tender Complaints".format(route_prefix),
                 tender_id=tender.id,
                 complaint_id=complaint.id,
             )
@@ -350,8 +356,9 @@ class BaseTenderClaimResource(ComplaintAdminPatchMixin, BaseResource):
                 ),
             )
             self.request.response.status = 201
+            route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
             self.request.response.headers["Location"] = self.request.route_url(
-                "{}:Tender Claims".format(tender.procurementMethodType),
+                "{}:Tender Claims".format(route_prefix),
                 tender_id=tender.id,
                 complaint_id=complaint.id,
             )
