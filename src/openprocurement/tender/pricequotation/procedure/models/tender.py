@@ -56,8 +56,6 @@ def validate_profile(data, value):
     multi_profile_released = get_first_revision_date(data, default=get_now()) > PQ_MULTI_PROFILE_FROM
     if multi_profile_released and value:
         raise ValidationError("Rogue field.")
-    if value:
-        validate_profile_pattern(value)
 
 
 def validate_tender_period_duration(data, period):

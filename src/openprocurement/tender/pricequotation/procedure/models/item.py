@@ -4,7 +4,6 @@ from openprocurement.api.context import get_now
 from openprocurement.api.constants import PQ_MULTI_PROFILE_FROM, MULTI_CONTRACTS_REQUIRED_FROM
 from openprocurement.api.validation import ValidationError
 from openprocurement.api.utils import get_first_revision_date
-from openprocurement.tender.pricequotation.procedure.validation import validate_profile_pattern
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.models.unit import Unit
 from openprocurement.tender.core.procedure.models.item import (
@@ -25,8 +24,6 @@ class TenderItem(BaseItem):
         multi_profile_released = get_first_revision_date(get_tender(), default=get_now()) > PQ_MULTI_PROFILE_FROM
         if multi_profile_released and not value:
             raise ValidationError(BaseType.MESSAGES["required"])
-        if value:
-            validate_profile_pattern(value)
 
     def validate_relatedBuyer(self, data, related_buyer):
         if not related_buyer:

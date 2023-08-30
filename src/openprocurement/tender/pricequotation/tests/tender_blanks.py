@@ -1952,16 +1952,13 @@ def patch_tender_by_pq_bot_before_multiprofile(self):
     self.assertEqual(len(tender["items"]), 1)
     self.assertNotIn("shortlistedFirms", tender)
 
-    data = {"data": {"status": "draft.publishing", "profile": "a1b2c3-a1b2c3e4-f1g2i3-h1g2k3l4"}}
-    response = self.app.patch_json("/tenders/{}?acc_token={}".format(tender_id, owner_token), data, status=422)
-    self.assertEqual(
-        response.json["errors"],
-        [{"location": "body", "name": "profile", "description": ["The profile value doesn't match id pattern"]}]
-    )
-
-    # set not existed profile id
-    data["data"]["profile"] = "123456-12345678-123456-12345678"
-    data["data"]["criteria"] = self.test_criteria_1
+    data = {
+        "data": {
+            "status": "draft.publishing",
+            "profile": "123456-12345678-123456-12345678",
+            "criteria": self.test_criteria_1,
+        }
+    }
     response = self.app.patch_json("/tenders/{}?acc_token={}".format(tender_id, owner_token), data)
     self.assertEqual(response.status, "200 OK")
     tender = response.json["data"]
@@ -2081,11 +2078,6 @@ def patch_tender_by_pq_bot_after_multiprofile(self):
     items = deepcopy(tender["items"])
     items[0]["profile"] = "a1b2c3-a1b2c3e4-f1g2i3-h1g2k3l4"
     data = {"data": {"status": "draft.publishing", "items": items}}
-    response = self.app.patch_json("/tenders/{}?acc_token={}".format(tender_id, owner_token), data, status=422)
-    self.assertEqual(
-        response.json["errors"],
-        [{"location": "body", "name": "items", "description": [{"profile": ["The profile value doesn't match id pattern"]}]}]
-    )
 
     # set not existed profile id
     data["data"]["items"][0]["profile"] = "123456-12345678-123456-12345678"
