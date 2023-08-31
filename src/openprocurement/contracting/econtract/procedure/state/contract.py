@@ -6,6 +6,7 @@ from openprocurement.contracting.core.utils import get_tender_by_id
 from openprocurement.api.utils import raise_operation_error, context_unpack
 from openprocurement.tender.core.procedure.utils import get_items, save_tender
 from openprocurement.tender.pricequotation.procedure.state.contract import PQContractState
+from openprocurement.api.constants import ECONTRACT_SIGNER_INFO_REQUIRED
 
 LOGGER = getLogger(__name__)
 
@@ -65,6 +66,9 @@ class EContractState(ContractState):
         self.synchronize_contracts_data(data)
 
     def validate_required_signed_info(self, data):
+        if not ECONTRACT_SIGNER_INFO_REQUIRED:
+            return
+
         supplier_signer_info = all(i.get("signerInfo") for i in data.get("suppliers", ""))
         if not data.get("buyer", {}).get("signerInfo") or not supplier_signer_info:
             raise_operation_error(
