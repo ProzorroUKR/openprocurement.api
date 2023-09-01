@@ -1,9 +1,15 @@
+from copy import deepcopy
+
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.contracting import add_contracts, pq_add_contracts, save_contracts_to_contracting
+from openprocurement.tender.core.procedure.contracting import (
+    pq_add_contracts,
+    save_contracts_to_contracting,
+    update_econtracts_statuses,
+)
 from openprocurement.tender.pricequotation.procedure.state.tender import PriceQuotationTenderState
-from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.utils import raise_operation_error, get_contract_by_id
 
 
 class AwardState(AwardStateMixing, PriceQuotationTenderState):
@@ -31,7 +37,8 @@ class AwardState(AwardStateMixing, PriceQuotationTenderState):
             self.add_next_award()
 
         elif before == "active" and after == "cancelled":
-            self.set_award_contracts_cancelled(award)
+            cancelled_contracts_ids = self.set_award_contracts_cancelled(award)
+            update_econtracts_statuses(cancelled_contracts_ids, after)
             self.add_next_award()
         else:  # any other state transitions are forbidden
             raise_operation_error(

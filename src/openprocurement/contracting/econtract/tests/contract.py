@@ -21,6 +21,8 @@ from openprocurement.contracting.econtract.tests.contract_blanks import (
     create_contract_w_documents,
     contract_administrator_change,
     contract_status_change,
+    contract_cancelled,
+    cancel_tender_award,
     contract_wo_items_status_change,
     contract_activate,
     put_transaction_to_contract,
@@ -73,6 +75,8 @@ class ContractResourceTest(BaseEContractTest):
 class ContractResource4BrokersTest(BaseEContractWebTest):
     test_contract_token_invalid = snitch(contract_token_invalid)
     test_contract_status_change = snitch(contract_status_change)
+    test_contract_cancelled = snitch(contract_cancelled)
+    test_cancel_tender_award = snitch(cancel_tender_award)
     test_contract_items_change = snitch(contract_items_change)
     test_contract_activate = snitch(contract_activate)
     test_patch_tender_contract = snitch(patch_tender_contract)

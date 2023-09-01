@@ -95,6 +95,8 @@ def validate_relatedItem(related_item: str, document_of: str) -> None:
         raise ValidationError("This field is required.")
 
     contract = get_contract()
+    if not contract:
+        return
 
     if document_of == "change" and not any(i and related_item == i["id"] for i in contract.get("changes", "")):
         raise ValidationError("relatedItem should be one of changes")

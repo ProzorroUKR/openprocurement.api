@@ -3,7 +3,7 @@ from uuid import uuid4
 
 from openprocurement.tender.core.procedure.context import get_request, get_tender, get_award
 from openprocurement.api.context import get_now
-from openprocurement.api.utils import context_unpack, get_first_revision_date
+from openprocurement.api.utils import context_unpack, get_first_revision_date, get_contract_by_id
 from openprocurement.api.constants import PQ_NEW_CONTRACTING_FROM
 from openprocurement.tender.belowthreshold.utils import prepare_tender_item_for_contract
 from openprocurement.contracting.econtract.procedure.models.contract import PostContract
@@ -195,3 +195,19 @@ def save_contracts_to_contracting(contracts):
         contract.update(additional_contract_data)
         contract_data = PostContract(contract).serialize()
         save_contract(request, contract=contract_data, contract_src={}, insert=True)
+
+
+def update_econtracts_statuses(contracts_ids, status):
+    tender = get_tender()
+    request = get_request()
+
+    if get_first_revision_date(tender, default=get_now()) < PQ_NEW_CONTRACTING_FROM:
+        return
+
+    for i in contracts_ids:
+        econtract = get_contract_by_id(request, i, raise_error=False)
+        if econtract:
+            econtract_src = deepcopy(econtract)
+            econtract["status"] = status
+            econtract["date"] = get_now().isoformat()
+            save_contract(request, contract=econtract, contract_src=econtract_src)

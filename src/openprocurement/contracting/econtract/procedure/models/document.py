@@ -39,6 +39,9 @@ def validate_relatedItem(related_item: str, document_of: str) -> None:
     else:
         parent_obj = get_contract()
 
+    if not parent_obj:
+        return
+
     container = document_of + "s"
 
     if not is_obj_exist(parent_obj, related_item, container):

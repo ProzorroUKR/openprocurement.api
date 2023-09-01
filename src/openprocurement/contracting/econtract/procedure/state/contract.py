@@ -29,8 +29,6 @@ class EContractState(ContractState):
     #     return TENDER_CONTRACT_STATE_MAP.get(tender["procurementMethodType"])(self.request)
 
     def on_patch(self, before, after) -> None:
-        tender = self.request.validated["tender"]
-        self.request.validated["tender_src"] = deepcopy(tender)
         after["id"] = after["_id"]
         # tender_state = self.get_tender_state(after)
         self.validate_contract_patch(self.request, before, after)
@@ -63,7 +61,8 @@ class EContractState(ContractState):
         super().status_up(before, after, data)
         if before != "active" and after == "active":
             self.validate_required_signed_info(data)
-        self.synchronize_contracts_data(data)
+        if before != after and after in ["active", "cancelled"]:
+            self.synchronize_contracts_data(data)
 
     def validate_required_signed_info(self, data):
         if not ECONTRACT_SIGNER_INFO_REQUIRED:

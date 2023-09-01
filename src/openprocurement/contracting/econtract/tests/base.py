@@ -82,6 +82,7 @@ class BaseEContractWebTest(BaseEContractTest):
             )
             self.tender_document_patch["bids"].append(bid)
             self.initial_bids_tokens.append(token)
+        self.bid_token = self.initial_bids_tokens[0]
         self.save_tender_changes()
 
     def generate_contract(self):
@@ -113,7 +114,7 @@ class BaseEContractWebTest(BaseEContractTest):
                     "suppliers": award["suppliers"],
                     "items": prepared_items,
                     "owner": self.tender_document["owner"],
-                    "owner_token": self.tender_document["owner_token"],
+                    "tender_token": self.tender_document["owner_token"],
                     "bid_owner": "broker",
                     "bid_token": self.initial_bids_tokens[0]
                 })

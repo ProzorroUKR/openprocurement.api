@@ -3,8 +3,8 @@ from copy import deepcopy
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 
 from openprocurement.api.views.base import BaseResource
+from openprocurement.api.utils import get_tender_by_id
 from openprocurement.contracting.core.procedure.state.contract import ContractState
-from openprocurement.contracting.core.utils import get_tender_by_id
 
 
 class ContractBaseResource(BaseResource):
@@ -45,3 +45,4 @@ class ContractBaseResource(BaseResource):
                 contract = request.validated["contract"] = deepcopy(request.validated["contract_src"])
                 if "buyer" in contract:
                     request.validated["tender"] = get_tender_by_id(request, contract["tender_id"])
+                    self.request.validated["tender_src"] = deepcopy(request.validated["tender"])

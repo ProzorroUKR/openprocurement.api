@@ -715,6 +715,8 @@ def contract_status_change(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "pending")
 
+    # pending > active allowed
+
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={tender_token}",
         {"data": {"status": "active"}},
@@ -722,21 +724,64 @@ def contract_status_change(self):
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
 
-    response = self.app.patch_json(
-        f"/contracts/{self.contract['id']}/credentials?acc_token={tender_token}", {"data": ""}
-    )
-    self.assertEqual(response.status, "200 OK")
-    token = response.json["access"]["token"]
+    # response = self.app.patch_json(
+    #     f"/contracts/{self.contract['id']}/credentials?acc_token={tender_token}", {"data": ""}
+    # )
+    # self.assertEqual(response.status, "200 OK")
+    # token = response.json["access"]["token"]
 
     response = self.app.patch_json(
-        f"/contracts/{self.contract['id']}?acc_token={token}",
+        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
         {"data": {
             "value": {**self.contract["value"], "amountNet": self.contract["value"]["amount"] - 1}}
         },
     )
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.put_json(
+        f"/contracts/{self.contract_id}/buyer/signer_info?acc_token={self.tender_token}",
+        {"data": signer_info}
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.put_json(
+        f"/contracts/{self.contract_id}/suppliers/signer_info?acc_token={self.bid_token}",
+        {"data": signer_info}
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.get(f"/tenders/{self.tender_id}/contracts/{self.contract['id']}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "pending")
+    self.assertEqual(response.json["data"]["status"], self.contract["status"])
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
+        {"data": {"status": "active"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "active")
+
+    response = self.app.get(f"/tenders/{self.tender_id}/contracts/{self.contract['id']}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "active")
+
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "complete")
+
+    # active > cancelled not allowed
+    # response = self.app.patch_json(
+    #     f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
+    #     {"data": {"status": "cancelled"}},
+    # )
+    # self.assertEqual(response.status, "422 Unprocessable Entity")
+    # self.assertEqual(response.json["errors"], [])
+
     # active > terminated allowed
     response = self.app.patch_json(
-        f"/contracts/{self.contract['id']}?acc_token={token}", {"data": {"status": "terminated"}}, status=403
+        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}", {"data": {"status": "terminated"}},
+        status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
@@ -751,7 +796,7 @@ def contract_status_change(self):
     )
 
     response = self.app.patch_json(
-        f"/contracts/{self.contract['id']}?acc_token={token}",
+        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
         {
             "data": {
                 "status": "terminated",
@@ -762,11 +807,67 @@ def contract_status_change(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "terminated")
 
+    response = self.app.get(f"/tenders/{self.tender_id}/contracts/{self.contract['id']}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "active")
+
     # terminated > active not allowed
     response = self.app.patch_json(
-        f"/contracts/{self.contract['id']}?acc_token={token}", {"data": {"status": "active"}}, status=403
+        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}", {"data": {"status": "active"}}, status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
+
+
+def contract_cancelled(self):
+    tender_token = self.initial_data["tender_token"]
+
+    response = self.app.get(f"/contracts/{self.contract['id']}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "pending")
+
+    # pending > cancelled allowed
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={tender_token}",
+        {"data": {"status": "cancelled"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "cancelled")
+
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "active.awarded")
+
+    response = self.app.get(f"/tenders/{self.tender_id}/awards/{self.contract['awardID']}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "active")
+
+    response = self.app.get(f"/tenders/{self.tender_id}/contracts/{self.contract['id']}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "cancelled")
+
+
+def cancel_tender_award(self):
+    response = self.app.get(f"/contracts/{self.contract['id']}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "pending")
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/awards/{self.contract['awardID']}?acc_token={self.tender_token}",
+        {"data": {"status": "cancelled"}}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "cancelled")
+
+    response = self.app.get(f"/tenders/{self.tender_id}/contracts/{self.contract['id']}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "cancelled")
+
+    response = self.app.get(f"/contracts/{self.contract['id']}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "cancelled")
 
 
 def contract_administrator_change(self):
