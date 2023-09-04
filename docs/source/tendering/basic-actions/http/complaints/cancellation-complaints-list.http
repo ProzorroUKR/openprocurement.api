@@ -8,33 +8,37 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "f1dcc4a59bc54974bcab49c81f5df20e",
+      "id": "c1ae0eb958ca45f8835465e2539cc626",
       "complaintID": "UA-2023-01-01-000001-a.1",
       "date": "2023-01-01T00:00:00+02:00",
+      "status": "resolved",
       "documents": [
         {
-          "id": "81d032fcca0f4f60bbdb3c79db0c5c8a",
+          "id": "d270401d5f394a88b83c35fd8343c134",
+          "datePublished": "2023-01-01T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Complaint_Attachment.pdf",
           "format": "application/pdf",
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/aa98df708233490483f06801174bea5a?Signature=WTozQKCjSit%2BDI6jh5evsVb9Q6f6VMcnSq9NWRdKc4qW%2B%2BTDZxDcQUOOXRSM1EJKOyLG7EO33%2Bp1NIO80KEFCg%3D%3D&KeyID=a8968c46",
-          "datePublished": "2023-01-01T00:00:00+02:00",
+          "documentOf": "tender",
           "dateModified": "2023-01-01T00:00:00+02:00",
           "author": "complaint_owner",
-          "documentOf": "tender"
+          "language": "uk"
         },
         {
-          "id": "f0243faf50904385b312fbee20b65011",
+          "id": "3af89dacbd9d4f86aa59672c0dd0ae56",
+          "datePublished": "2023-01-01T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "ComplaintResolution.pdf",
           "format": "application/pdf",
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f53bd08e9faf49038561b358c152af4a?Signature=jhQCBa2Y6Zd8wDcYgNFAS2FOELaTDVWfqYy0xmOMmcSZo3AE1X0YgCvot8yLeHluBC2rqWFHHhY1GnLtnhupCA%3D%3D&KeyID=a8968c46",
-          "datePublished": "2023-01-01T00:00:00+02:00",
+          "documentOf": "tender",
           "dateModified": "2023-01-01T00:00:00+02:00",
           "author": "aboveThresholdReviewers",
-          "documentOf": "tender"
+          "language": "uk"
         }
       ],
+      "type": "complaint",
       "author": {
         "name": "ДКП «Школяр»",
         "address": {
@@ -45,38 +49,38 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
         },
         "identifier": {
           "scheme": "UA-EDR",
+          "uri": "http://www.sc.gov.ua/",
           "id": "00137256",
-          "legalName": "ДКП «Школяр»",
-          "uri": "http://www.sc.gov.ua/"
+          "legalName": "ДКП «Школяр»"
         }
       },
       "title": "Недостатньо інформації",
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
       "dateSubmitted": "2023-01-01T00:00:00+02:00",
       "tendererAction": "Умови виправлено",
-      "tendererActionDate": "2023-01-01T00:00:00+02:00",
       "dateDecision": "2023-01-01T00:00:00+02:00",
-      "value": {
-        "amount": 2000.0,
-        "currency": "UAH"
-      },
       "acceptance": true,
       "dateAccepted": "2023-01-01T00:00:00+02:00",
       "reviewDate": "2023-01-01T00:00:00+02:00",
       "reviewPlace": "some",
-      "status": "resolved",
-      "type": "complaint"
+      "value": {
+        "amount": 2000.0,
+        "currency": "UAH"
+      },
+      "tendererActionDate": "2023-01-01T00:00:00+02:00"
     },
     {
-      "id": "6f53515f8d52438f931d03bebd50095c",
+      "id": "428a76b2f0d84d11b9a66de1c77544ef",
       "complaintID": "UA-2023-01-01-000001-a.2",
       "date": "2023-01-01T00:00:00+02:00",
+      "status": "declined",
+      "type": "complaint",
       "author": {
         "name": "ДКП «Школяр»",
         "address": {
@@ -87,36 +91,36 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
         },
         "identifier": {
           "scheme": "UA-EDR",
+          "uri": "http://www.sc.gov.ua/",
           "id": "00137256",
-          "legalName": "ДКП «Школяр»",
-          "uri": "http://www.sc.gov.ua/"
+          "legalName": "ДКП «Школяр»"
         }
       },
       "title": "Недостатньо інформації",
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
       "dateSubmitted": "2023-01-01T00:00:00+02:00",
-      "dateDecision": "2023-01-01T00:00:00+02:00",
-      "value": {
-        "amount": 2000.0,
-        "currency": "UAH"
-      },
       "acceptance": true,
       "dateAccepted": "2023-01-01T00:00:00+02:00",
       "reviewDate": "2023-01-01T00:00:00+02:00",
       "reviewPlace": "some",
-      "status": "declined",
-      "type": "complaint"
+      "value": {
+        "amount": 2000.0,
+        "currency": "UAH"
+      },
+      "dateDecision": "2023-01-01T00:00:00+02:00"
     },
     {
-      "id": "8f59281225164cccb8acb5bcead2e794",
+      "id": "24e5acd0f7eb4b70b71adffe2f24be24",
       "complaintID": "UA-2023-01-01-000001-a.3",
       "date": "2023-01-01T00:00:00+02:00",
+      "status": "invalid",
+      "type": "complaint",
       "author": {
         "name": "ДКП «Школяр»",
         "address": {
@@ -127,35 +131,35 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
         },
         "identifier": {
           "scheme": "UA-EDR",
+          "uri": "http://www.sc.gov.ua/",
           "id": "00137256",
-          "legalName": "ДКП «Школяр»",
-          "uri": "http://www.sc.gov.ua/"
+          "legalName": "ДКП «Школяр»"
         }
       },
       "title": "Недостатньо інформації",
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
       "dateSubmitted": "2023-01-01T00:00:00+02:00",
-      "dateDecision": "2023-01-01T00:00:00+02:00",
+      "rejectReasonDescription": "reject reason description",
       "value": {
         "amount": 2000.0,
         "currency": "UAH"
       },
       "rejectReason": "tenderCancelled",
-      "acceptance": false,
-      "rejectReasonDescription": "reject reason description",
-      "status": "invalid",
-      "type": "complaint"
+      "dateDecision": "2023-01-01T00:00:00+02:00",
+      "acceptance": false
     },
     {
-      "id": "7e88865254bb471fae1853ef28c346f8",
+      "id": "91e9a0cc233e40e18ca6d45f7420da84",
       "complaintID": "UA-2023-01-01-000001-a.4",
       "date": "2023-01-01T00:00:00+02:00",
+      "status": "stopped",
+      "type": "complaint",
       "author": {
         "name": "ДКП «Школяр»",
         "address": {
@@ -166,39 +170,39 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
         },
         "identifier": {
           "scheme": "UA-EDR",
+          "uri": "http://www.sc.gov.ua/",
           "id": "00137256",
-          "legalName": "ДКП «Школяр»",
-          "uri": "http://www.sc.gov.ua/"
+          "legalName": "ДКП «Школяр»"
         }
       },
       "title": "Недостатньо інформації",
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
       "dateSubmitted": "2023-01-01T00:00:00+02:00",
       "decision": "Тендер скасовується замовником",
-      "dateDecision": "2023-01-01T00:00:00+02:00",
-      "dateCanceled": "2023-01-01T00:00:00+02:00",
+      "acceptance": true,
+      "dateAccepted": "2023-01-01T00:00:00+02:00",
+      "reviewDate": "2023-01-01T00:00:00+02:00",
+      "reviewPlace": "some",
       "value": {
         "amount": 2000.0,
         "currency": "UAH"
       },
       "rejectReason": "tenderCancelled",
-      "acceptance": true,
-      "dateAccepted": "2023-01-01T00:00:00+02:00",
-      "reviewDate": "2023-01-01T00:00:00+02:00",
-      "reviewPlace": "some",
-      "status": "stopped",
-      "type": "complaint"
+      "dateDecision": "2023-01-01T00:00:00+02:00",
+      "dateCanceled": "2023-01-01T00:00:00+02:00"
     },
     {
-      "id": "d3a527617b374eae87270a89c32ed9f1",
+      "id": "6ae8ed0a37ef42eeb0669177bcebd3e9",
       "complaintID": "UA-2023-01-01-000001-a.5",
       "date": "2023-01-01T00:00:00+02:00",
+      "status": "stopped",
+      "type": "complaint",
       "author": {
         "name": "ДКП «Школяр»",
         "address": {
@@ -209,34 +213,32 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
+          "telephone": "+380432216930",
+          "name": "Сергій Олексюк"
         },
         "identifier": {
           "scheme": "UA-EDR",
+          "uri": "http://www.sc.gov.ua/",
           "id": "00137256",
-          "legalName": "ДКП «Школяр»",
-          "uri": "http://www.sc.gov.ua/"
+          "legalName": "ДКП «Школяр»"
         }
       },
       "title": "Недостатньо інформації",
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
       "dateSubmitted": "2023-01-01T00:00:00+02:00",
       "decision": "Тендер скасовується замовником",
-      "dateDecision": "2023-01-01T00:00:00+02:00",
-      "dateCanceled": "2023-01-01T00:00:00+02:00",
+      "acceptance": true,
+      "dateAccepted": "2023-01-01T00:00:00+02:00",
+      "reviewDate": "2023-01-01T00:00:00+02:00",
+      "reviewPlace": "some",
       "value": {
         "amount": 2000.0,
         "currency": "UAH"
       },
       "rejectReason": "tenderCancelled",
-      "acceptance": true,
-      "dateAccepted": "2023-01-01T00:00:00+02:00",
-      "reviewDate": "2023-01-01T00:00:00+02:00",
-      "reviewPlace": "some",
-      "status": "stopped",
-      "type": "complaint"
+      "dateDecision": "2023-01-01T00:00:00+02:00",
+      "dateCanceled": "2023-01-01T00:00:00+02:00"
     }
   ]
 }

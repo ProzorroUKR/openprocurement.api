@@ -14,7 +14,6 @@ def includeme(config):
     LOGGER.info("Init tender.cfaua plugin.")
 
     config.add_tender_procurementMethodType(CloseFrameworkAgreementUA)
-    config.scan("openprocurement.tender.cfaua.views")
     config.scan("openprocurement.tender.cfaua.procedure.views")
     config.registry.registerAdapter(
         CloseFrameworkAgreementUAConfigurator, (ICloseFrameworkAgreementUA, IRequest), IContentConfigurator

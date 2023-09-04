@@ -113,6 +113,10 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
         self.update_date(tender)
         super().on_post(tender)
 
+        # set author for documents passed with tender data
+        for doc in tender.get("documents", ""):
+            doc["author"] = "tender_owner"
+
     def set_mode_test(self, tender):
         config = get_tender_config()
         if config.get("test"):

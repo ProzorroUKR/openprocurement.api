@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/06a89d3522bf4ba5902cacc12c9a8788/complaints/3daf4f8aee84436ab84afd74b98b19f8?acc_token=60bfa189296d44669b3481182e9ab863 HTTP/1.0
+PATCH /api/2.5/tenders/06a89d3522bf4ba5902cacc12c9a8788/complaints/f0c38fcaca5943158f084a8e0f922608?acc_token=24cfab9113e849ebbf7c63d98f1be730 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 29
 Content-Type: application/json
@@ -16,28 +16,28 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "3daf4f8aee84436ab84afd74b98b19f8",
+    "id": "f0c38fcaca5943158f084a8e0f922608",
     "complaintID": "UA-2023-01-01-000001-a.1",
     "date": "2023-01-01T00:00:00+02:00",
-    "type": "claim",
-    "title": "Недостатньо інформації",
-    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-    "dateSubmitted": "2023-01-01T00:00:00+02:00",
-    "status": "claim",
     "documents": [
       {
-        "id": "5e8761bf649d4606b0825f4d5fc7e4c5",
+        "id": "3edca6a6810b47ff891b4c2a528bb4cd",
+        "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Complaint_Attachment.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9b269fcfd987408f9618d155948b8df6?Signature=PO5oOxGJEHeFtDgp4ZLH8oPAq6XhGq1ms%2B3c4g%2B2t0kGqZ7oGiiHwapUfmkoZ2U%2FhFkIwpZ6E1musRSgLxtTBQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2023-01-01T00:00:00+02:00",
+        "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "complaint_owner",
-        "documentOf": "tender",
         "language": "uk"
       }
-    ]
+    ],
+    "title": "Недостатньо інформації",
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
+    "status": "claim",
+    "type": "claim",
+    "dateSubmitted": "2023-01-01T00:00:00+02:00"
   }
 }
 

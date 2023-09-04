@@ -652,7 +652,6 @@ def patch_tender_award_complaint_document(self):
     self.assertIn(doc_id, response.headers["Location"])
 
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        self.app.authorization = ("Basic", ("reviewer", ""))
         response = self.app.patch_json(
             "/tenders/{}/awards/{}/complaints/{}/documents/{}".format(
                 self.tender_id, self.award_id, self.complaint_id, doc_id
@@ -703,12 +702,16 @@ def patch_tender_award_complaint_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending")
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/awards/{}/complaints/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.award_id, self.complaint_id, doc_id, self.complaint_owner_token
         ),
-        b"content2",
-        content_type="application/msword",
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -723,7 +726,7 @@ def patch_tender_award_complaint_document(self):
     self.assertIn("http://localhost/get/", response.location)
     self.assertIn("Signature=", response.location)
     self.assertIn("KeyID=", response.location)
-    self.assertNotIn("Expires=", response.location)
+    self.assertIn("Expires=", response.location)
 
     self.set_status("complete")
 
@@ -928,12 +931,16 @@ def put_tender_2lot_award_complaint_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("name.doc", response.json["data"]["title"])
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/awards/{}/complaints/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.award_id, self.complaint_id, doc_id, self.complaint_owner_token
         ),
-        "content3",
-        content_type="application/msword",
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -969,12 +976,16 @@ def put_tender_2lot_award_complaint_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending")
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/awards/{}/complaints/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.award_id, self.complaint_id, doc_id, self.complaint_owner_token
         ),
-        "content4",
-        content_type="application/msword",
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1430,9 +1441,8 @@ def patch_tender_award_complaint(self):
 def review_tender_award_claim(self):
     self.set_status("active.qualification.stand-still")
     for status in ["invalid", "resolved", "declined"]:
-        self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
-            "/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id),
+            f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints?acc_token={self.bid_token}",
             {
                 "data": test_tender_below_claim
             },
@@ -1442,7 +1452,6 @@ def review_tender_award_claim(self):
         complaint = response.json["data"]
         complaint_token = response.json["access"]["token"]
 
-        self.app.authorization = ("Basic", ("broker", ""))
         response = self.app.patch_json(
             "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
                 self.tender_id, self.award_id, complaint["id"], self.tender_token
@@ -1459,7 +1468,6 @@ def review_tender_award_claim(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["data"]["resolutionType"], status)
 
-        self.app.authorization = ("Basic", ("token", ""))
         response = self.app.patch_json(
             "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
                 self.tender_id, self.award_id, complaint["id"], complaint_token
@@ -2148,7 +2156,7 @@ def award_complaint_document_in_active_qualification(self):
     self.assertIn("http://localhost/get/", response.location)
     self.assertIn("Signature=", response.location)
     self.assertIn("KeyID=", response.location)
-    self.assertNotIn("Expires=", response.location)
+    self.assertIn("Expires=", response.location)
 
     response = self.app.get(
         "/tenders/{}/awards/{}/complaints/{}/documents/{}".format(

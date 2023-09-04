@@ -2,6 +2,7 @@ from openprocurement.tender.core.procedure.serializers.base import BaseSerialize
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.utils import is_item_owner
 from openprocurement.api.utils import generate_docservice_url
+from openprocurement.api.constants import ROUTE_PREFIX
 from urllib.parse import urlparse, parse_qs
 from string import hexdigits
 
@@ -46,10 +47,17 @@ class DocumentSerializer(BaseSerializer):
     }
 
 
+def url_to_absolute(url):
+    if url.startswith("/"):
+        request = get_request()
+        result = f"{request.scheme}://{request.host}{ROUTE_PREFIX}{url}"
+        return result
+
+
 def confidential_url_serialize(serializer, url):
     # disabling download_url_serialize. TODO: Can be done for all the documents ?
     if serializer.get_raw("confidentiality") == "buyerOnly":
-        return url
+        return url_to_absolute(url)
     return download_url_serialize(serializer, url)
 
 

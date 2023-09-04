@@ -16,27 +16,27 @@ from openprocurement.tender.belowthreshold.validation import (
 )
 
 
-@optendersresource(
-    name="belowThreshold:Tender Complaints Get",
-    collection_path="/tenders/{tender_id}/complaints",
-    path="/tenders/{tender_id}/complaints/{complaint_id}",
-    procurementMethodType="belowThreshold",
-    request_method=["GET"],
-    description="Tender complaints get",
-)
+# @optendersresource(
+#     name="belowThreshold:Tender Complaints Get",
+#     collection_path="/tenders/{tender_id}/complaints",
+#     path="/tenders/{tender_id}/complaints/{complaint_id}",
+#     procurementMethodType="belowThreshold",
+#     request_method=["GET"],
+#     description="Tender complaints get",
+# )
 class TenderComplaintGetResource(BaseComplaintGetResource):
     """ """
 
 
-@optendersresource(
-    name="belowThreshold:Tender Claims",
-    collection_path="/tenders/{tender_id}/complaints",
-    path="/tenders/{tender_id}/complaints/{complaint_id}",
-    procurementMethodType="belowThreshold",
-    request_method=["POST", "PATCH"],
-    complaintType="claim",
-    description="Tender claims",
-)
+# @optendersresource(
+#     name="belowThreshold:Tender Claims",
+#     collection_path="/tenders/{tender_id}/complaints",
+#     path="/tenders/{tender_id}/complaints/{complaint_id}",
+#     procurementMethodType="belowThreshold",
+#     request_method=["POST", "PATCH"],
+#     complaintType="claim",
+#     description="Tender claims",
+# )
 class TenderClaimResource(BaseTenderClaimResource):
 
     patch_check_tender_excluded_statuses = (

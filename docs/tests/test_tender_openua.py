@@ -751,14 +751,15 @@ class ComplaintsValueResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         self.initial_data["value"]["currency"] = self.initial_data["minimalStep"]["currency"] = "USD"
 
         response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
+        self.set_initial_status(response.json, "active.tendering")
 
         with open(TARGET_VALUE_DIR + 'complaint-creation-decoding.http', 'w') as self.app.file_obj:
 
             def mock_get_uah_amount_from_value(r, *_):
                 raise raise_operation_error(r, "Failure of decoding data from bank.gov.ua", status=409)
 
-            with patch("openprocurement.tender.core.models.get_uah_amount_from_value", mock_get_uah_amount_from_value):
-
+            with patch("openprocurement.tender.core.procedure.state.complaint.get_uah_amount_from_value",
+                       mock_get_uah_amount_from_value):
                 self.app.post_json(
                     '/tenders/{}/complaints'.format(response.json["data"]["id"]),
                     {'data': test_docs_complaint},
@@ -770,8 +771,8 @@ class ComplaintsValueResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
             def mock_get_uah_amount_from_value(r, *_):
                 raise raise_operation_error(r, "Error while getting data from bank.gov.ua: Connection closed",
                                             status=409)
-            with patch("openprocurement.tender.core.models.get_uah_amount_from_value", mock_get_uah_amount_from_value):
-
+            with patch("openprocurement.tender.core.procedure.state.complaint.get_uah_amount_from_value",
+                       mock_get_uah_amount_from_value):
                 self.app.post_json(
                     '/tenders/{}/complaints'.format(response.json["data"]["id"]),
                     {'data': test_docs_complaint},
@@ -783,8 +784,8 @@ class ComplaintsValueResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
             def mock_get_uah_amount_from_value(r, *_):
                 raise raise_operation_error(r, "Couldn't find currency RUR on bank.gov.ua", status=422)
 
-            with patch("openprocurement.tender.core.models.get_uah_amount_from_value", mock_get_uah_amount_from_value):
-
+            with patch("openprocurement.tender.core.procedure.state.complaint.get_uah_amount_from_value",
+                       mock_get_uah_amount_from_value):
                 self.app.post_json(
                     '/tenders/{}/complaints'.format(response.json["data"]["id"]),
                     {'data': test_docs_complaint},

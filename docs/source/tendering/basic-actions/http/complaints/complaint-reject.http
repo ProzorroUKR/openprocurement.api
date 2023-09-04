@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/06a89d3522bf4ba5902cacc12c9a8788/complaints/e6971ae37f0e43cfa248ebf25ba96dd1 HTTP/1.0
+PATCH /api/2.5/tenders/06a89d3522bf4ba5902cacc12c9a8788/complaints/30b3bbc21cf54b0e96ed5ffdfbca8871 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 64
 Content-Type: application/json
@@ -17,9 +17,10 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "e6971ae37f0e43cfa248ebf25ba96dd1",
+    "id": "30b3bbc21cf54b0e96ed5ffdfbca8871",
     "complaintID": "UA-2023-01-01-000001-a.8",
     "date": "2023-01-01T00:00:00+02:00",
+    "status": "invalid",
     "type": "complaint",
     "author": {
       "name": "ДКП «Школяр»",
@@ -31,27 +32,26 @@ Content-Type: application/json
         "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Сергій Олексюк",
         "email": "soleksuk@gmail.com",
-        "telephone": "+380432216930"
+        "telephone": "+380432216930",
+        "name": "Сергій Олексюк"
       },
       "identifier": {
         "scheme": "UA-EDR",
+        "uri": "http://www.sc.gov.ua/",
         "id": "00137256",
-        "legalName": "ДКП «Школяр»",
-        "uri": "http://www.sc.gov.ua/"
+        "legalName": "ДКП «Школяр»"
       }
     },
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "dateSubmitted": "2023-01-01T00:00:00+02:00",
-    "dateDecision": "2023-01-01T00:00:00+02:00",
     "value": {
       "amount": 2000.0,
       "currency": "UAH"
     },
     "rejectReason": "alreadyExists",
-    "status": "invalid",
+    "dateDecision": "2023-01-01T00:00:00+02:00",
     "acceptance": false
   }
 }

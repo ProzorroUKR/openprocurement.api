@@ -1,4 +1,5 @@
 from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.api.utils import raise_operation_error
 
 
 class BaseDocumentStateMixing:
@@ -16,4 +17,13 @@ class BaseDocumentStateMixing:
 
 
 class BaseDocumentState(BaseDocumentStateMixing, TenderState):
-    pass
+
+    def validate_document_author(self, document):
+        if self.request.authenticated_role != document["author"]:
+            raise_operation_error(
+                self.request,
+                "Can update document only author",
+                location="url",
+                name="role",
+            )
+

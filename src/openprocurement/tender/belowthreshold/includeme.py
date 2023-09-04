@@ -12,7 +12,6 @@ def includeme(config):
     LOGGER.info("Init tender.belowthreshold plugin.")
 
     config.add_tender_procurementMethodType(Tender)
-    config.scan("openprocurement.tender.belowthreshold.views")
     config.scan("openprocurement.tender.belowthreshold.procedure.views")
     config.registry.registerAdapter(
         TenderBelowThersholdConfigurator, (IBelowThresholdTender, IRequest), IContentConfigurator

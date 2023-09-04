@@ -13,4 +13,7 @@ class BidSerializer(BaseBidSerializer):
     serializers = {
         "parameters": parameter_values_to_float,
         "documents": ListSerializer(ConfidentialDocumentSerializer),
+        "eligibilityDocuments": ListSerializer(ConfidentialDocumentSerializer),
+        "qualificationDocuments": ListSerializer(ConfidentialDocumentSerializer),
+        "financialDocuments": ListSerializer(ConfidentialDocumentSerializer),
     }

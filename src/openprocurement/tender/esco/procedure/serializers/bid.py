@@ -11,5 +11,8 @@ class BidSerializer(BaseBidSerializer):
         "value": ValueSerializer,
         "lotValues": ListSerializer(LotValueSerializer),
         "documents": ListSerializer(ConfidentialDocumentSerializer),
+        "eligibilityDocuments": ListSerializer(ConfidentialDocumentSerializer),
+        "qualificationDocuments": ListSerializer(ConfidentialDocumentSerializer),
+        "financialDocuments": ListSerializer(ConfidentialDocumentSerializer),
         "parameters": ListSerializer(ParameterSerializer),
     }

@@ -36,6 +36,14 @@ def get_document() -> dict:
     return get_request().validated.get("document")
 
 
+def get_complaint() -> dict:
+    return get_request().validated.get("complaint")
+
+
+def get_post() -> dict:
+    return get_request().validated.get("post")
+
+
 def get_bids_before_auction_results_context():
     """
     get_bids_before_auction_results

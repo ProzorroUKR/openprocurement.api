@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/06a89d3522bf4ba5902cacc12c9a8788/complaints/e4a2dfd3cee1428fb5f0fa24088dd607/posts?acc_token=605190fb1ba54376930ba4ff77df75ef HTTP/1.0
+POST /api/2.5/tenders/06a89d3522bf4ba5902cacc12c9a8788/complaints/552d75b02d07493ca397b349f8f42363/posts?acc_token=2f43c28f37f94e7e93a18c7f91d206d7 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 664
 Content-Type: application/json
@@ -9,7 +9,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "title": "Уточнення по вимозі",
     "description": "Додано документ",
     "recipient": "aboveThresholdReviewers",
-    "relatedPost": "e0b525f8d02e4ec3a11260cd25a36d9f",
+    "relatedPost": "a8a90cc6d7714aeb897378b5a3eee3c7",
     "documents": [
       {
         "title": "post_document_complaint.pdf",
@@ -24,30 +24,31 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/06a89d3522bf4ba5902cacc12c9a8788/complaints/e4a2dfd3cee1428fb5f0fa24088dd607/posts/dfb846d549954306a964199fd2f4b864
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/06a89d3522bf4ba5902cacc12c9a8788/complaints/552d75b02d07493ca397b349f8f42363/posts/be37b2f2f72e40a28ec979674842463e
 
 {
   "data": {
-    "id": "dfb846d549954306a964199fd2f4b864",
     "title": "Уточнення по вимозі",
     "description": "Додано документ",
     "documents": [
       {
-        "id": "8074cd483906496381762a58c7c34d9c",
         "hash": "md5:00000000000000000000000000000000",
         "title": "post_document_complaint.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/afe325decc3a47b9a6152c78f5b19667?Signature=I%2BSDHWQGH9hP4eLNQgKNS44%2BMe0IXre%2Bnt3gT5QwhGxNPi75C71dT2jK2gPUnWL3uO1nEAoloRQgnZTOueVuDQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "language": "uk",
+        "id": "4838b359060a4959a8c3f632af8351c1",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "dateModified": "2023-01-01T00:00:00+02:00",
-        "author": "complaint_owner",
-        "documentOf": "tender"
+        "author": "complaint_owner"
       }
     ],
-    "author": "complaint_owner",
     "recipient": "aboveThresholdReviewers",
+    "relatedPost": "a8a90cc6d7714aeb897378b5a3eee3c7",
+    "id": "be37b2f2f72e40a28ec979674842463e",
     "datePublished": "2023-01-01T00:00:00+02:00",
-    "relatedPost": "e0b525f8d02e4ec3a11260cd25a36d9f"
+    "author": "complaint_owner"
   }
 }
 

@@ -128,6 +128,7 @@ class TenderLotAuctionPeriodResourceTest(BaseTenderContentWebTest):
 
 
 class TenderComplaintSwitchResourceTest(BaseTenderContentWebTest):
+    initial_auth = ("Basic", ("broker", ""))
     initial_status = "active.tendering"
     initial_bids = test_tender_openeu_bids
     author_data = test_tender_below_author

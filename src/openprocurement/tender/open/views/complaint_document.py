@@ -15,13 +15,13 @@ from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.open.validation import validate_complaint_document_operation_not_in_allowed_status
 
 
-@optendersresource(
-    name=f"{ABOVE_THRESHOLD}:Tender Complaint Documents",
-    collection_path="/tenders/{tender_id}/complaints/{complaint_id}/documents",
-    path="/tenders/{tender_id}/complaints/{complaint_id}/documents/{document_id}",
-    procurementMethodType=ABOVE_THRESHOLD,
-    description="Tender complaint documents",
-)
+# @optendersresource(
+#     name=f"{ABOVE_THRESHOLD}:Tender Complaint Documents",
+#     collection_path="/tenders/{tender_id}/complaints/{complaint_id}/documents",
+#     path="/tenders/{tender_id}/complaints/{complaint_id}/documents/{document_id}",
+#     procurementMethodType=ABOVE_THRESHOLD,
+#     description="Tender complaint documents",
+# )
 class TenderUaComplaintDocumentResource(TenderComplaintDocumentResource):
     @json_view(
         validators=(

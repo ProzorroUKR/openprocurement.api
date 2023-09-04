@@ -281,15 +281,15 @@ def extract_complaint_type(request):
     # extract complaint type from tender for PATCH request
     complaint_resource_names = ["award", "qualification"]
     for complaint_resource_name in complaint_resource_names:
-        complaint_resource = _extract_resource(request, matchdict, request.tender, complaint_resource_name)
+        complaint_resource = _extract_resource(request, matchdict, request.tender_doc, complaint_resource_name)
         if complaint_resource:
             break
 
     if not complaint_resource:
-        complaint_resource = request.tender
+        complaint_resource = request.tender_doc
 
     complaint = _extract_resource(request, matchdict, complaint_resource, "complaint")
-    return complaint.type
+    return complaint.get("type")
 
 
 class isTender(object):

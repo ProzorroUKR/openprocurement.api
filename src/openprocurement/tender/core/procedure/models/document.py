@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from openprocurement.api.models import Model, HashType
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.api.context import get_now

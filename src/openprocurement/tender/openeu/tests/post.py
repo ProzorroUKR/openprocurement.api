@@ -29,6 +29,7 @@ class TenderComplaintPostResourceTest(
     TenderComplaintPostResourceMixin
 ):
     docservice = True
+    initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
         super(TenderComplaintPostResourceTest, self).setUp()
@@ -118,6 +119,7 @@ class TenderAwardComplaintPostResourceTest(
     docservice = True
     initial_status = "active.qualification"
     initial_bids = test_tender_openeu_bids
+    initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
         super(TenderAwardComplaintPostResourceTest, self).setUp()
@@ -160,17 +162,16 @@ class TenderAwardComplaintPostResourceTest(
         self.assertEqual(response.content_type, "application/json")
 
 
-@patch("openprocurement.tender.core.models.RELEASE_2020_04_19", date_after_2020_04_19)
-@patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", date_after_2020_04_19)
+@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", date_after_2020_04_19)
 class TenderCancellationComplaintPostResourceTest(
     BaseTenderContentWebTest,
     ComplaintPostResourceMixin,
     TenderCancellationComplaintPostResourceMixin
 ):
     docservice = True
+    initial_auth = ("Basic", ("broker", ""))
 
-    @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", date_after_2020_04_19)
-    @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", date_after_2020_04_19)
+    @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", date_after_2020_04_19)
     def setUp(self):
         super(TenderCancellationComplaintPostResourceTest, self).setUp()
         self.set_complaint_period_end()
@@ -208,7 +209,6 @@ class TenderCancellationComplaintPostResourceTest(
         )
 
         # Create complaint for cancellation
-
         response = self.app.post_json(
             "/tenders/{}/cancellations/{}/complaints".format(
                 self.tender_id, self.cancellation_id

@@ -404,20 +404,20 @@ class TenderStage2EUAwardComplaintDocumentResourceTest(
     def setUp(self):
         super(TenderStage2EUAwardComplaintDocumentResourceTest, self).setUp()
         # Create award
-        self.app.authorization = ("Basic", ("token", ""))
-        response = self.app.post_json(
-            "/tenders/{}/awards".format(self.tender_id),
-            {"data": {"suppliers": [test_tender_cd_tenderer], "status": "pending", "bid_id": self.bids[0]["id"]}},
-        )
+        with change_auth(self.app, ("Basic", ("token", ""))):
+            response = self.app.post_json(
+                "/tenders/{}/awards".format(self.tender_id),
+                {"data": {"suppliers": [test_tender_cd_tenderer], "status": "pending", "bid_id": self.bids[0]["id"]}},
+            )
         award = response.json["data"]
         self.award_id = award["id"]
         self.app.patch_json(
-            "/tenders/{}/awards/{}".format(self.tender_id, self.award_id),
+            f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
             {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
         # Create complaint for award
         response = self.app.post_json(
-            "/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id),
+            f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints?acc_token={list(self.initial_bids_tokens.values())[0]}",
             {"data": test_tender_below_draft_complaint},
         )
         complaint = response.json["data"]
@@ -437,40 +437,40 @@ class TenderStage2EU2LotAwardComplaintDocumentResourceTest(BaseCompetitiveDialog
         super(TenderStage2EU2LotAwardComplaintDocumentResourceTest, self).setUp()
         # Create award
         bid = self.bids[0]
-        self.app.authorization = ("Basic", ("token", ""))
-        self.app.post_json(
-            "/tenders/{}/awards".format(self.tender_id),
-            {
-                "data": {
-                    "suppliers": [test_tender_cd_tenderer],
-                    "status": "pending",
-                    "bid_id": bid["id"],
-                    "lotID": bid["lotValues"][1]["relatedLot"],
-                }
-            },
-        )
-        response = self.app.post_json(
-            "/tenders/{}/awards".format(self.tender_id),
-            {
-                "data": {
-                    "suppliers": [test_tender_cd_tenderer],
-                    "status": "pending",
-                    "bid_id": bid["id"],
-                    "lotID": bid["lotValues"][0]["relatedLot"],
-                }
-            },
-        )
+        with change_auth(self.app, ("Basic", ("token", ""))):
+            self.app.post_json(
+                "/tenders/{}/awards".format(self.tender_id),
+                {
+                    "data": {
+                        "suppliers": [test_tender_cd_tenderer],
+                        "status": "pending",
+                        "bid_id": bid["id"],
+                        "lotID": bid["lotValues"][1]["relatedLot"],
+                    }
+                },
+            )
+            response = self.app.post_json(
+                "/tenders/{}/awards".format(self.tender_id),
+                {
+                    "data": {
+                        "suppliers": [test_tender_cd_tenderer],
+                        "status": "pending",
+                        "bid_id": bid["id"],
+                        "lotID": bid["lotValues"][0]["relatedLot"],
+                    }
+                },
+            )
         award = response.json["data"]
         self.award_id = award["id"]
         self.app.patch_json(
-            "/tenders/{}/awards/{}".format(self.tender_id, self.award_id),
+            f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
             {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
         # Create complaint for award
         claim_data = deepcopy(test_tender_below_draft_complaint)
         claim_data["author"] = test_tender_cd_author
         response = self.app.post_json(
-            "/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id),
+            f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints?acc_token={list(self.initial_bids_tokens.values())[0]}",
             {"data": claim_data},
         )
         complaint = response.json["data"]

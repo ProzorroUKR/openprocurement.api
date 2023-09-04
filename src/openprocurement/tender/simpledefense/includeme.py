@@ -12,7 +12,6 @@ def includeme(config):
     LOGGER.info("Init tender.simpledefense plugin.")
 
     config.add_tender_procurementMethodType(Tender)
-    config.scan("openprocurement.tender.simpledefense.views")
     config.scan("openprocurement.tender.simpledefense.procedure.views")
     config.registry.registerAdapter(
         TenderSimpleDefConfigurator, (ISimpleDefTender, IRequest), IContentConfigurator

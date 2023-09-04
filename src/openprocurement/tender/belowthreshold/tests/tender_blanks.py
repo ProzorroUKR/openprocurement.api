@@ -2358,10 +2358,44 @@ def guarantee(self):
 
 
 def patch_not_author(self):
-    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
+    data = dict(self.initial_data)
+    data["documents"] = [{  # pass documents with the tender post request
+        "title": "name.doc",
+        "url": self.generate_docservice_url(),
+        "hash": "md5:" + "0" * 32,
+        "format": "application/msword",
+    }]
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]
     owner_token = response.json["access"]["token"]
+
+    document = tender["documents"][0]
+    self.assertEqual(document["author"], "tender_owner")  # TODO: add author here
+
+    response = self.app.patch_json(
+        "/tenders/{}/documents/{}?acc_token={}".format(tender["id"], document["id"], owner_token),
+        {"data": {"description": "document description"}},
+    )
+    self.assertEqual("document description", response.json["data"]["description"])
+
+    with change_auth(self.app, ("Basic", ("bot", "bot"))):
+        self.app.patch_json(
+            "/tenders/{}/documents/{}".format(tender["id"], document["id"]),
+            {"data": {"description": "bot description"}},
+            status=403
+        )
+
+    response = self.app.post_json(
+        "/tenders/{}/documents?acc_token={}".format(tender["id"], owner_token),
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
+    )
+    self.assertEqual(response.json["data"]["author"], "tender_owner")
 
     with change_auth(self.app, ("Basic", ("bot", "bot"))):
         response = self.app.post_json(
@@ -2373,10 +2407,10 @@ def patch_not_author(self):
                 "format": "application/msword",
             }},
         )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    doc_id = response.json["data"]["id"]
-    self.assertIn(doc_id, response.headers["Location"])
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.json["data"]["author"], "bots")
+        doc_id = response.json["data"]["id"]
+        self.assertIn(doc_id, response.headers["Location"])
 
     response = self.app.patch_json(
         "/tenders/{}/documents/{}?acc_token={}".format(tender["id"], doc_id, owner_token),

@@ -12,12 +12,13 @@ Content-Type: application/json
 
 {
   "data": {
-    "title": "Послуги шкільних їдалень",
+    "title_en": "Services in school canteens",
     "date": "2023-01-01T00:00:00+02:00",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
     "tenderID": "UA-2023-01-01-000016-a.2",
     "owner": "broker",
+    "title": "Послуги шкільних їдалень",
     "submissionMethod": "electronicAuction",
     "value": {
       "amount": 500.0,
@@ -29,21 +30,8 @@ Content-Type: application/json
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "title_en": "Services in school canteens",
-    "enquiryPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-21T00:00:00+02:00",
-      "clarificationsUntil": "2023-01-26T00:00:00+02:00"
-    },
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
-      "name_en": "School #10 of Vinnytsia",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "21725150",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
-        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
-      },
       "address": {
         "streetAddress": "вул. Стахурського. 22",
         "locality": "м. Вінниця",
@@ -51,48 +39,37 @@ Content-Type: application/json
         "postalCode": "21027",
         "countryName": "Україна"
       },
+      "name_en": "School #10 of Vinnytsia",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "21725150",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
+      },
       "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/",
+        "name": "Куца Світлана Валентинівна",
         "name_en": "Kutsa Svitlana V.",
         "availableLanguage": "uk"
       },
       "kind": "general"
     },
     "awardCriteria": "lowestCost",
-    "procurementMethodType": "competitiveDialogueEU.stage2",
-    "shortlistedFirms": [
-      {
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00137256",
-          "uri": "http://www.sc.gov.ua/"
-        },
-        "name": "ДКП «Школяр»"
-      },
-      {
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00137226",
-          "uri": "http://www.sc.gov.ua/"
-        },
-        "name": "ДКП «Книга»"
-      },
-      {
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00137228",
-          "uri": "http://www.sc.gov.ua/"
-        },
-        "name": "«Кенгуру»"
-      }
-    ],
+    "enquiryPeriod": {
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-21T00:00:00+02:00",
+      "clarificationsUntil": "2023-01-26T00:00:00+02:00"
+    },
     "tenderPeriod": {
       "startDate": "2023-01-01T00:00:00+02:00",
       "endDate": "2023-01-31T00:00:00+02:00"
     },
-    "status": "draft.stage2",
+    "complaintPeriod": {
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-27T00:00:00+02:00"
+    },
+    "procurementMethodType": "competitiveDialogueEU.stage2",
     "procurementMethod": "selective",
     "items": [
       {
@@ -120,12 +97,12 @@ Content-Type: application/json
         "description_en": "Services in school canteens",
         "unit": {
           "name": "кілограм",
-          "code": "KGM",
           "value": {
             "amount": 6.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
-          }
+          },
+          "code": "KGM"
         },
         "classification": {
           "description": "Test",
@@ -158,12 +135,12 @@ Content-Type: application/json
         "description_en": "Services in school canteens",
         "unit": {
           "name": "упаковка",
-          "code": "PK",
           "value": {
             "amount": 6.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
-          }
+          },
+          "code": "PK"
         },
         "classification": {
           "description": "Test",
@@ -172,16 +149,38 @@ Content-Type: application/json
         }
       }
     ],
-    "id": "c1ecbb7654494927b3713d6f2307973d",
-    "numberOfBids": 0,
-    "complaintPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-27T00:00:00+02:00"
-    }
+    "shortlistedFirms": [
+      {
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "ДКП «Школяр»"
+      },
+      {
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137226",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "ДКП «Книга»"
+      },
+      {
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137228",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "«Кенгуру»"
+      }
+    ],
+    "status": "draft.stage2",
+    "id": "c1ecbb7654494927b3713d6f2307973d"
   },
   "access": {
-    "token": "76ace771e84941c0ac52b23c11add222",
-    "transfer": "91d1a5c469d54151b1c3279b46b75163"
+    "token": "6f3d19be55fd449a8e7234d9b129ed8a",
+    "transfer": "384262c32cbf442283ce21d9d944f681"
   }
 }
 

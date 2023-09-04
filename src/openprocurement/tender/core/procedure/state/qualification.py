@@ -45,6 +45,8 @@ class QualificationState(TenderState):
                 bid["status"] = "unsuccessful"
 
     def qualification_on_patch(self, before, qualification):
+        tender = get_tender()
+        self.validate_cancellation_blocks(self.request, tender, lot_id=qualification.get("lotID"))
         if before["status"] != qualification["status"]:
             self.qualification_status_up(before["status"], qualification["status"], qualification)
         elif before["status"] != "pending":

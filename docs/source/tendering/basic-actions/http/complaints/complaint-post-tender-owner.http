@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/06a89d3522bf4ba5902cacc12c9a8788/complaints/e4a2dfd3cee1428fb5f0fa24088dd607/posts?acc_token=23621912519546c78d258ca0457ca3a8 HTTP/1.0
+POST /api/2.5/tenders/06a89d3522bf4ba5902cacc12c9a8788/complaints/552d75b02d07493ca397b349f8f42363/posts?acc_token=23621912519546c78d258ca0457ca3a8 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 665
 Content-Type: application/json
@@ -9,7 +9,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "title": "Уточнення по вимозі",
     "description": "Додано документ",
     "recipient": "aboveThresholdReviewers",
-    "relatedPost": "a3008639034f4107b73c591b25a0e506",
+    "relatedPost": "c35f6ca22e1140a3a7053f6e03fe1b2a",
     "documents": [
       {
         "title": "post_document_tender.pdf",
@@ -24,30 +24,31 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/06a89d3522bf4ba5902cacc12c9a8788/complaints/e4a2dfd3cee1428fb5f0fa24088dd607/posts/32f6802b72924b1c959fcf304ea2b195
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/06a89d3522bf4ba5902cacc12c9a8788/complaints/552d75b02d07493ca397b349f8f42363/posts/9e2104a733724b6cae41606d8439bfa4
 
 {
   "data": {
-    "id": "32f6802b72924b1c959fcf304ea2b195",
     "title": "Уточнення по вимозі",
     "description": "Додано документ",
     "documents": [
       {
-        "id": "2eb3487c425c407bb4618cbc2abc5a04",
         "hash": "md5:00000000000000000000000000000000",
         "title": "post_document_tender.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fb21efa9fd8045898374f46f1c113bb8?Signature=rAJ4kmPK6sfn%2B8U1gNPjmeoKfkCNeQxFFuqKCWJlsHdpM%2FeLxycGLqbD5WWhkT2hX7ubAu%2FEqSbot5gvusfRAg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "language": "uk",
+        "id": "dff69f14b23e45c7b457fd680b9cab25",
         "datePublished": "2023-01-01T00:00:00+02:00",
         "dateModified": "2023-01-01T00:00:00+02:00",
-        "author": "tender_owner",
-        "documentOf": "tender"
+        "author": "tender_owner"
       }
     ],
-    "author": "tender_owner",
     "recipient": "aboveThresholdReviewers",
+    "relatedPost": "c35f6ca22e1140a3a7053f6e03fe1b2a",
+    "id": "9e2104a733724b6cae41606d8439bfa4",
     "datePublished": "2023-01-01T00:00:00+02:00",
-    "relatedPost": "a3008639034f4107b73c591b25a0e506"
+    "author": "tender_owner"
   }
 }
 

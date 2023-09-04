@@ -17,13 +17,13 @@ from openprocurement.tender.open.validation import (
 from openprocurement.api.views.base import BaseResource
 
 
-@optendersresource(
-    name=f"{ABOVE_THRESHOLD}:Tender Complaint Posts",
-    collection_path="/tenders/{tender_id}/complaints/{complaint_id}/posts",
-    path="/tenders/{tender_id}/complaints/{complaint_id}/posts/{post_id}",
-    procurementMethodType=ABOVE_THRESHOLD,
-    description="Tender complaint posts",
-)
+# @optendersresource(
+#     name=f"{ABOVE_THRESHOLD}:Tender Complaint Posts",
+#     collection_path="/tenders/{tender_id}/complaints/{complaint_id}/posts",
+#     path="/tenders/{tender_id}/complaints/{complaint_id}/posts/{post_id}",
+#     procurementMethodType=ABOVE_THRESHOLD,
+#     description="Tender complaint posts",
+# )
 class TenderComplaintPostResource(BaseResource):
     @json_view(
         content_type="application/json",

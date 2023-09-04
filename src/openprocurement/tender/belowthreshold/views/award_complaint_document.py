@@ -22,13 +22,13 @@ from openprocurement.tender.belowthreshold.validation import validate_role_and_s
 from openprocurement.tender.core.views.document import CoreDocumentResource
 
 
-@optendersresource(
-    name="belowThreshold:Tender Award Complaint Documents",
-    collection_path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents",
-    path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents/{document_id}",
-    procurementMethodType="belowThreshold",
-    description="Tender award complaint documents",
-)
+# @optendersresource(
+#     name="belowThreshold:Tender Award Complaint Documents",
+#     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents",
+#     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents/{document_id}",
+#     procurementMethodType="belowThreshold",
+#     description="Tender award complaint documents",
+# )
 class TenderAwardComplaintDocumentResource(CoreDocumentResource):
     container = "documents"
     context_name = "tender_award_complaint"

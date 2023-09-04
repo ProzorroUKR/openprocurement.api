@@ -20,27 +20,27 @@ from openprocurement.tender.belowthreshold.validation import (
 )
 
 
-@optendersresource(
-    name="belowThreshold:Tender Award Complaints Get",
-    collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
-    path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
-    procurementMethodType="belowThreshold",
-    request_method=["GET"],
-    description="Tender award complaints get",
-)
+# @optendersresource(
+#     name="belowThreshold:Tender Award Complaints Get",
+#     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
+#     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
+#     procurementMethodType="belowThreshold",
+#     request_method=["GET"],
+#     description="Tender award complaints get",
+# )
 class TenderAwardComplaintGetResource(BaseComplaintGetResource):
     """ """
 
 
-@optendersresource(
-    name="belowThreshold:Tender Award Claims",
-    collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
-    path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
-    procurementMethodType="belowThreshold",
-    request_method=["POST", "PATCH"],
-    complaintType="claim",
-    description="Tender award claims",
-)
+# @optendersresource(
+#     name="belowThreshold:Tender Award Claims",
+#     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
+#     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
+#     procurementMethodType="belowThreshold",
+#     request_method=["POST", "PATCH"],
+#     complaintType="claim",
+#     description="Tender award claims",
+# )
 class TenderAwardClaimResource(BaseTenderAwardClaimResource):
     patch_check_tender_excluded_statuses = ("draft", "claim", "answered")
 

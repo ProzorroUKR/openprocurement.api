@@ -15,6 +15,10 @@ from mock import patch
 
 @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def switch_tender_complaints_draft(self):
+    # get tender and check next_check
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender_data = response.json["data"]
+
     # let's post a draft complaint
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
@@ -25,7 +29,14 @@ def switch_tender_complaints_draft(self):
     # get tender and check next_check
     response = self.app.get("/tenders/{}".format(self.tender_id))
     tender_data = response.json["data"]
-    self.assertEqual(parse_date(response.json["data"].get("next_check")), parse_date(tender_data["complaintPeriod"]["endDate"]))
+    # assertEqual changed to assertLessEqual
+    # Even though "next_check" should be "complaintPeriod.endDate",
+    # in this test tender "tenderPeriod.endDate" is less than "complaintPeriod.endDate"
+    # that is not the case in a real tender.
+    # The test only worked
+    # because complaintPeriod.endDate had been recalculated (serializable) during complaint post!
+    self.assertLessEqual(parse_date(response.json["data"].get("next_check")),
+                         parse_date(tender_data["complaintPeriod"]["endDate"]))
 
     # and once the date passed
     tender = self.mongodb.tenders.get(self.tender_id)

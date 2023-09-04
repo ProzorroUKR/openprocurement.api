@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/0f776099eb8344b4a149200a8657a9df/awards/91ac65b9beb54606b75e117055a42ea4/complaints/c4977860749648c98c3c5eb180f8b1fc/documents?acc_token=68cdf872f5994c55b65313d49deee3fa HTTP/1.0
+POST /api/2.5/tenders/0f776099eb8344b4a149200a8657a9df/awards/91ac65b9beb54606b75e117055a42ea4/complaints/5ee03229cced4dd987e148caddae4b97/documents?acc_token=1909c10e700948dd99d240f173c6e5f0 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 332
 Content-Type: application/json
@@ -16,20 +16,20 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0f776099eb8344b4a149200a8657a9df/awards/91ac65b9beb54606b75e117055a42ea4/complaints/c4977860749648c98c3c5eb180f8b1fc/documents/645505840531412998ad5f5082639ad7
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0f776099eb8344b4a149200a8657a9df/awards/91ac65b9beb54606b75e117055a42ea4/complaints/5ee03229cced4dd987e148caddae4b97/documents/57233638d6a9452d87f9a13f48e4152e
 
 {
   "data": {
-    "id": "645505840531412998ad5f5082639ad7",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Complaint_Attachment.pdf",
     "format": "application/pdf",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c4131fd62e1246fe984547bddecceb84?Signature=9QRUeKsj3r1nMsnB9SGcga8ybnoDsYvuADXSmHrtt%2BVG2vv05KN0XKKy4idM%2BSoounPI1UIjiIohfBWiQNdtAQ%3D%3D&KeyID=a8968c46",
+    "documentOf": "tender",
+    "language": "uk",
+    "id": "57233638d6a9452d87f9a13f48e4152e",
     "datePublished": "2023-01-01T00:00:03+02:00",
     "dateModified": "2023-01-01T00:00:03+02:00",
-    "author": "complaint_owner",
-    "documentOf": "tender",
-    "language": "uk"
+    "author": "complaint_owner"
   }
 }
 

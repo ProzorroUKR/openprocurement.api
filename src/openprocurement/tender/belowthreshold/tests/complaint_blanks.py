@@ -169,7 +169,7 @@ def create_tender_complaint_invalid(self):
 
     claim_data = deepcopy(test_tender_below_draft_claim)
     del claim_data["type"]
-    with patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1)):
+    with patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1)):
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
             {
@@ -199,19 +199,19 @@ def create_tender_complaint_invalid(self):
 
 
 def create_tender_complaint(self):
-    with patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1)):
+    claim_data = deepcopy(test_tender_below_claim)
+    with patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1)):
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
             {
-                "data": test_tender_below_claim
+                "data": claim_data
             },
         )
 
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
 
-    with patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() + timedelta(days=1)):
-        claim_data = deepcopy(test_tender_below_claim)
+    with patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() + timedelta(days=1)):
         del claim_data["type"]
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
@@ -338,7 +338,10 @@ def patch_tender_complaint(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Forbidden")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Can't update complaint from draft to cancelled status"
+    )
 
     response = self.app.patch_json(
         "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], owner_token),
@@ -370,7 +373,7 @@ def patch_tender_complaint(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Can update claim only before enquiryPeriod.clarificationsUntil"
+                "description": "Can update complaint only before enquiryPeriod.clarificationsUntil"
             }
         ],
     )
@@ -758,9 +761,14 @@ def not_found(self):
 
 
 def create_tender_complaint_document(self):
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/complaints/{}/documents?acc_token={}".format(self.tender_id, self.complaint_id, self.tender_token),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -769,11 +777,16 @@ def create_tender_complaint_document(self):
         response.json["errors"][0]["description"], "Can't add document in current (draft) complaint status"
     )
 
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/complaints/{}/documents?acc_token={}".format(
             self.tender_id, self.complaint_id, self.complaint_owner_token
         ),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -821,11 +834,16 @@ def create_tender_complaint_document(self):
 
     self.set_status("complete")
 
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/complaints/{}/documents?acc_token={}".format(
             self.tender_id, self.complaint_id, self.complaint_owner_token
         ),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")

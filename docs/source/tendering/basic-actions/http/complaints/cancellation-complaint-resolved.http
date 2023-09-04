@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/9056b6881e5c4accadfcaa96d4409069/cancellations/fcbd87c46f7d49e3a21f70b1a0b85f6a/complaints/f1dcc4a59bc54974bcab49c81f5df20e?acc_token=76388b8e86da4d1d966590f0f6294d82 HTTP/1.0
+PATCH /api/2.5/tenders/9056b6881e5c4accadfcaa96d4409069/cancellations/fcbd87c46f7d49e3a21f70b1a0b85f6a/complaints/c1ae0eb958ca45f8835465e2539cc626?acc_token=76388b8e86da4d1d966590f0f6294d82 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 145
 Content-Type: application/json
@@ -17,33 +17,37 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "f1dcc4a59bc54974bcab49c81f5df20e",
+    "id": "c1ae0eb958ca45f8835465e2539cc626",
     "complaintID": "UA-2023-01-01-000001-a.1",
     "date": "2023-01-01T00:00:00+02:00",
+    "status": "resolved",
     "documents": [
       {
-        "id": "81d032fcca0f4f60bbdb3c79db0c5c8a",
+        "id": "d270401d5f394a88b83c35fd8343c134",
+        "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Complaint_Attachment.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/aa98df708233490483f06801174bea5a?Signature=WTozQKCjSit%2BDI6jh5evsVb9Q6f6VMcnSq9NWRdKc4qW%2B%2BTDZxDcQUOOXRSM1EJKOyLG7EO33%2Bp1NIO80KEFCg%3D%3D&KeyID=a8968c46",
-        "datePublished": "2023-01-01T00:00:00+02:00",
+        "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "complaint_owner",
-        "documentOf": "tender"
+        "language": "uk"
       },
       {
-        "id": "f0243faf50904385b312fbee20b65011",
+        "id": "3af89dacbd9d4f86aa59672c0dd0ae56",
+        "datePublished": "2023-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "ComplaintResolution.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f53bd08e9faf49038561b358c152af4a?Signature=jhQCBa2Y6Zd8wDcYgNFAS2FOELaTDVWfqYy0xmOMmcSZo3AE1X0YgCvot8yLeHluBC2rqWFHHhY1GnLtnhupCA%3D%3D&KeyID=a8968c46",
-        "datePublished": "2023-01-01T00:00:00+02:00",
+        "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "author": "aboveThresholdReviewers",
-        "documentOf": "tender"
+        "language": "uk"
       }
     ],
+    "type": "complaint",
     "author": {
       "name": "ДКП «Школяр»",
       "address": {
@@ -54,33 +58,31 @@ Content-Type: application/json
         "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Сергій Олексюк",
         "email": "soleksuk@gmail.com",
-        "telephone": "+380432216930"
+        "telephone": "+380432216930",
+        "name": "Сергій Олексюк"
       },
       "identifier": {
         "scheme": "UA-EDR",
+        "uri": "http://www.sc.gov.ua/",
         "id": "00137256",
-        "legalName": "ДКП «Школяр»",
-        "uri": "http://www.sc.gov.ua/"
+        "legalName": "ДКП «Школяр»"
       }
     },
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "dateSubmitted": "2023-01-01T00:00:00+02:00",
     "tendererAction": "Умови виправлено",
-    "tendererActionDate": "2023-01-01T00:00:00+02:00",
     "dateDecision": "2023-01-01T00:00:00+02:00",
-    "value": {
-      "amount": 2000.0,
-      "currency": "UAH"
-    },
     "acceptance": true,
     "dateAccepted": "2023-01-01T00:00:00+02:00",
     "reviewDate": "2023-01-01T00:00:00+02:00",
     "reviewPlace": "some",
-    "status": "resolved",
-    "type": "complaint"
+    "value": {
+      "amount": 2000.0,
+      "currency": "UAH"
+    },
+    "tendererActionDate": "2023-01-01T00:00:00+02:00"
   }
 }
 
