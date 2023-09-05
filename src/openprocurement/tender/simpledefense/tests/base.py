@@ -54,6 +54,7 @@ test_tender_simpledefense_config = {
     "valueCurrencyEquality": True,
     "hasPrequalification": False,
     "minBidsNumber": 1,
+    "preSelection": False,
 }
 
 class BaseApiWebTest(BaseWebTest):

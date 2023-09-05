@@ -4,6 +4,7 @@ from openprocurement.tender.core.migrations.add_config_has_auction_field import 
 from openprocurement.tender.core.migrations.add_config_min_bids_number import min_bids_number_populator
 from openprocurement.tender.core.migrations.add_config_has_value_restriction import has_value_restriction_populator
 from openprocurement.tender.core.migrations.add_config_has_prequalification_field import has_prequalification_populator
+from openprocurement.tender.core.migrations.add_config_pre_selection import pre_selection_populator
 from openprocurement.tender.core.procedure.serializers.base import BaseSerializer
 
 
@@ -60,6 +61,14 @@ def min_bids_number_serializer(obj, value):
     return value
 
 
+def pre_selection_serializer(obj, value):
+    if value is None and TENDER_CONFIG_OPTIONALITY["preSelection"] is True:
+        request = get_request()
+        tender = request.validated.get("tender") or request.validated.get("data")
+        return pre_selection_populator(tender)
+    return value
+
+
 class TenderConfigSerializer(BaseSerializer):
     def __init__(self, data: dict):
         super().__init__(data)
@@ -74,4 +83,5 @@ class TenderConfigSerializer(BaseSerializer):
         "valueCurrencyEquality": currency_value_equality_serializer,
         "hasPrequalification": has_prequalification_serializer,
         "minBidsNumber": min_bids_number_serializer,
+        "preSelection": pre_selection_serializer,
     }

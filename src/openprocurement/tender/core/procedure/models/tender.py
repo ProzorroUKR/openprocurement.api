@@ -221,6 +221,7 @@ class TenderConfig(Model):
     valueCurrencyEquality = BooleanType()
     hasPrequalification = BooleanType()
     minBidsNumber = IntType(min_value=0)
+    preSelection = BooleanType()
 
     def validate_valueCurrencyEquality(self, data, value):
         if value is False and any([

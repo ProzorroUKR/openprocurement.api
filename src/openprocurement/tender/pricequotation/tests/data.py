@@ -348,6 +348,7 @@ test_tender_pq_config = {
     "valueCurrencyEquality": True,
     "hasPrequalification": False,
     "minBidsNumber": 1,
+    "preSelection": True,
 }
 
 test_tender_pq_cancellation = {

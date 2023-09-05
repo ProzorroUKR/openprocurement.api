@@ -76,6 +76,7 @@ test_tender_reporting_config = {
     "valueCurrencyEquality": True,
     "hasPrequalification": False,
     "minBidsNumber": 1,
+    "preSelection": False,
 }
 
 test_tender_negotiation_config = {
@@ -85,6 +86,7 @@ test_tender_negotiation_config = {
     "valueCurrencyEquality": True,
     "hasPrequalification": False,
     "minBidsNumber": 1,
+    "preSelection": False,
 }
 
 test_tender_negotiation_quick_config = {
@@ -94,6 +96,7 @@ test_tender_negotiation_quick_config = {
     "valueCurrencyEquality": True,
     "hasPrequalification": False,
     "minBidsNumber": 1,
+    "preSelection": False,
 }
 
 
