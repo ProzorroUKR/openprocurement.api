@@ -82,6 +82,7 @@ test_tender_open_config = {
     "valueCurrencyEquality": True,
     "hasPrequalification": False,
     "minBidsNumber": 1,
+    "preSelection": False,
 }
 
 

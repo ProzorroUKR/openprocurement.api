@@ -300,6 +300,11 @@ TENDER_CONFIG_OPTIONALITY = {
         "TENDER_CONFIG_MIN_BIDS_NUMBER_OPTIONAL",
         parse_func=parse_bool,
     ),
+    "preSelection": get_constant(
+        CONSTANTS_CONFIG,
+        "TENDER_CONFIG_PRE_SELECTION_OPTIONAL",
+        parse_func=parse_bool,
+    ),
 }
 
 # Tender weightedValue pre-calculation on switch to active.auction
