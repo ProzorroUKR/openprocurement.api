@@ -59,13 +59,6 @@ class EContractResource(ContractResource):
             validate_input_data(conditional_contract_model, none_means_remove=True),
             validate_patch_data_simple(Contract, item_name="contract"),
             unless_admins(unless_administrator(validate_contract_update_not_in_allowed_status)),
-            validate_update_contract_value_net_required,
-            validate_update_contract_paid_net_required,
-            validate_update_contracting_value_readonly,
-            validate_update_contracting_value_identical,
-            validate_update_contracting_value_amount,
-            validate_update_contracting_paid_amount,
-            validate_terminate_contract_without_amountPaid,
         ),
     )
     def patch(self):

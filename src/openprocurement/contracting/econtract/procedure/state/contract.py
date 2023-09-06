@@ -1,7 +1,7 @@
 from logging import getLogger
 from copy import deepcopy
 
-from openprocurement.contracting.core.procedure.state.contract import ContractState
+from openprocurement.contracting.core.procedure.state.contract import BaseContractState
 from openprocurement.contracting.core.utils import get_tender_by_id
 from openprocurement.api.utils import raise_operation_error, context_unpack
 from openprocurement.tender.core.procedure.utils import get_items, save_tender
@@ -16,26 +16,17 @@ TENDER_CONTRACT_STATE_MAP = {
 }
 
 
-class EContractState(ContractState):
+class EContractState(BaseContractState):
     terminated_statuses = ("terminated", "cancelled")
 
     def always(self, data) -> None:
         super().always(data)
 
-    # def get_tender_state(self, contract):
-    #     tender = self.request.validated["tender"]
-    #     awards = get_items(self.request, tender, "awards", contract["awardID"])
-    #     self.request.validated["award"] = awards[0]
-    #     return TENDER_CONTRACT_STATE_MAP.get(tender["procurementMethodType"])(self.request)
-
     def on_patch(self, before, after) -> None:
         after["id"] = after["_id"]
-        # tender_state = self.get_tender_state(after)
         self.validate_contract_patch(self.request, before, after)
         super().on_patch(before, after)
         self.contract_on_patch(before, after)
-        # tender_state.validate_contract_patch(self.request, before, after)
-        # tender_state.contract_on_patch(before, after)
 
         if before["status"] != after["status"]:
             if save_tender(self.request):
@@ -45,17 +36,15 @@ class EContractState(ContractState):
                 )
 
     def validate_contract_patch(self, request, before: dict, after: dict):
+        # TODO: should be extended for other procedures, look to procedures contract states
+        super().validate_contract_patch(request, before, after)
         tender = request.validated["tender"]
 
-        self.validate_contract_items(before, after)
         # self.validate_update_contract_only_for_active_lots(request, tender, before)
         # self.validate_update_contract_status_by_supplier(request, before, after)
         # self.validate_update_contract_status(request, tender, before, after)
         self.validate_contract_update_with_accepted_complaint(request, tender, before)
-        self.validate_update_contract_value(request, before, after)
-        self.validate_update_contract_value_net_required(request, before, after)
         self.validate_update_contract_value_with_award(request, before, after)
-        self.validate_update_contract_value_amount(request, before, after)
 
     def status_up(self, before, after, data):
         super().status_up(before, after, data)

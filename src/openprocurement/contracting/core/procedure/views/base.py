@@ -4,12 +4,12 @@ from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 
 from openprocurement.api.views.base import BaseResource
 from openprocurement.api.utils import get_tender_by_id
-from openprocurement.contracting.core.procedure.state.contract import ContractState
+from openprocurement.contracting.core.procedure.state.contract import BaseContractState
 
 
 class ContractBaseResource(BaseResource):
 
-    state_class = ContractState
+    state_class = BaseContractState
 
     def __acl__(self):
         acl = [

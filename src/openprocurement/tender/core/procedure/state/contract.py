@@ -411,9 +411,9 @@ class ContractStateMixing(baseclass):
         if (
             current_status != new_status
             and (
-            current_status not in cls.allowed_statuses_from
-            or new_status not in allowed_statuses_to
-        )
+                current_status not in cls.allowed_statuses_from
+                or new_status not in allowed_statuses_to
+            )
         ):
             raise_operation_error(request, "Can't update contract status")
 
@@ -449,16 +449,19 @@ class ContractStateMixing(baseclass):
                 raise_operation_error(request, "Can't update currency for contract value", name="value")
 
     @staticmethod
-    def validate_update_contract_value_net_required(request, before, after):
-        value = after.get("value")
-        if value is not None and before.get("status") != after.get("status"):
+    def validate_update_contract_value_net_required(request, before, after, name="value"):
+        value = after.get(name)
+        if value and (
+                before.get(name) != after.get(name) or
+                before.get("status") != after.get("status")
+        ):
             contract_amount_net = value.get("amountNet")
             if contract_amount_net is None:
                 raise_operation_error(
                     request,
                     {"amountNet": BaseType.MESSAGES["required"]},
                     status=422,
-                    name="value"
+                    name=name
                 )
 
     @staticmethod
@@ -500,10 +503,10 @@ class ContractStateMixing(baseclass):
                     )
 
     @staticmethod
-    def validate_update_contract_value_amount(request, before, after):
-        value = after.get("value")
+    def validate_update_contract_value_amount(request, before, after, name="value"):
+        value = after.get(name)
         if value and (
-            before.get("value") != after.get("value") or
+            before.get(name) != after.get(name) or
             before.get("status") != after.get("status")
         ):
             amount = to_decimal(value.get("amount") or 0)
@@ -513,7 +516,7 @@ class ContractStateMixing(baseclass):
             if not (amount == 0 and amount_net == 0):
                 if tax_included:
                     amount_max = (amount_net * AMOUNT_NET_COEF).quantize(Decimal("1E-2"), rounding=ROUND_UP)
-                    if (amount < amount_net or amount > amount_max):
+                    if amount < amount_net or amount > amount_max:
                         raise_operation_error(
                             request,
                             f"Amount should be equal or greater than amountNet and differ by "

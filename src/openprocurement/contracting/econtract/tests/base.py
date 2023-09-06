@@ -101,6 +101,12 @@ class BaseEContractWebTest(BaseEContractTest):
                     "status": "pending",
                 }
 
+                suppliers = deepcopy(award["suppliers"])
+                for i in suppliers:
+                    for attr in ("contactPoint", "scale", "kind"):
+                        if attr in i:
+                            del i[attr]
+
                 contract = self.initial_data
                 contract.update(tender_contract_data)
                 contract.update({
@@ -111,7 +117,7 @@ class BaseEContractWebTest(BaseEContractTest):
                         "valueAddedTaxIncluded": award["value"]["valueAddedTaxIncluded"],
                     },
                     "tender_id": self.tender_id,
-                    "suppliers": award["suppliers"],
+                    "suppliers": suppliers,
                     "items": prepared_items,
                     "owner": self.tender_document["owner"],
                     "tender_token": self.tender_document["owner_token"],

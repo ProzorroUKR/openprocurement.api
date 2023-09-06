@@ -2,13 +2,14 @@ from schematics.types import StringType, EmailType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.models import Model, ListType, IsoDateTimeType
-from openprocurement.api.constants import SCALE_CODES
-from openprocurement.tender.core.models import PROCURING_ENTITY_KINDS
+from openprocurement.api.models import (
+    Model,
+    ListType,
+    Identifier,
+)
 
 from openprocurement.contracting.core.procedure.models.contract_base import (
-    Organization,
-    BusinessOrganization as BaseBusinessOrganization,
+    Address,
     ContactPoint,
     AmountPaid,
     BasePostContract,
@@ -26,15 +27,15 @@ class SignerInfo(Model):
     organizationStatus = StringType(required=True)
 
 
-class Buyer(Organization):
+class Buyer(Model):
     """An organization."""
-    scale = StringType(choices=SCALE_CODES)
-    kind = StringType(choices=PROCURING_ENTITY_KINDS)
-    contactPoint = ModelType(ContactPoint)
-    signerInfo = ModelType(SignerInfo)
-
-
-class BusinessOrganization(BaseBusinessOrganization):
+    name = StringType(required=True)
+    name_en = StringType()
+    name_ru = StringType()
+    identifier = ModelType(Identifier, required=True)
+    additionalIdentifiers = ListType(ModelType(Identifier))
+    additionalContactPoints = ListType(ModelType(ContactPoint, required=True), required=False)
+    address = ModelType(Address, required=True)
     signerInfo = ModelType(SignerInfo)
 
 
@@ -63,7 +64,7 @@ class PatchContract(BasePatchContract):
 class AdministratorPatchContract(Model):
     contractNumber = StringType()
     status = StringType(choices=["pending", "pending.winner-signing", "terminated", "active", "cancelled"])
-    suppliers = ListType(ModelType(BusinessOrganization, required=True), min_size=1, max_size=1)
+    suppliers = ListType(ModelType(Buyer, required=True), min_size=1, max_size=1)
     buyer = ModelType(Buyer)
     mode = StringType(choices=["test"])
 
@@ -73,7 +74,7 @@ class Contract(BaseContract):
     buyer = ModelType(
         Buyer, required=True
     )
-    suppliers = ListType(ModelType(BusinessOrganization, required=True), min_size=1, max_size=1)
+    suppliers = ListType(ModelType(Buyer, required=True), min_size=1, max_size=1)
 
     bid_owner = StringType(required=True)
     bid_token = StringType(required=True)

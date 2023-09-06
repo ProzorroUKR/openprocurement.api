@@ -7,10 +7,13 @@ from openprocurement.contracting.api.tests.data import test_contract_data as bas
 test_tender_token = uuid4().hex
 test_contract_data = deepcopy(base_test_contract_data)
 
+test_buyer = test_contract_data.pop("procuringEntity")
+del test_buyer["contactPoint"]
+
 test_contract_data.update({
     "bid_owner": "broker",
     "bid_token": uuid4().hex,
-    "buyer": test_contract_data.pop("procuringEntity"),
+    "buyer": test_buyer,
     "id": uuid4().hex
 })
 

@@ -153,6 +153,13 @@ def pq_add_contract_to_tender(tender, contract_items, contract_value, buyer_id, 
     return contract_data
 
 
+def delete_buyers_attr(objs):
+    for obj in objs:
+        for attr in ("kind", "scale", "contactPoint", "id"):
+            if attr in obj:
+                del obj[attr]
+
+
 def get_additional_contract_data(request, contract, tender, award):
     if "date" in contract:
         del contract["date"]
@@ -170,10 +177,15 @@ def get_additional_contract_data(request, contract, tender, award):
         for i in tender.get("buyers", ""):
             if contract["buyerID"] == i["id"] and "id" in i:
                 buyer = deepcopy(i)
-                del buyer["id"]
+                break
+    else:
+        buyer = deepcopy(tender["procuringEntity"])
+
+    delete_buyers_attr([buyer])
+    delete_buyers_attr(contract["suppliers"])
 
     return {
-        "buyer": buyer or tender["procuringEntity"],
+        "buyer": buyer,
         "tender_id": tender["_id"],
         "owner": tender["owner"],
         "tender_token": sha512(tender["owner_token"].encode("utf-8")).hexdigest(),
