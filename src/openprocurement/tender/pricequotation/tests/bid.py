@@ -47,7 +47,9 @@ from openprocurement.tender.pricequotation.tests.bid_blanks import (
     requirement_response_validation_multiple_criterias,
     requirement_response_validation_multiple_groups,
     requirement_response_validation_multiple_groups_multiple_requirements,
-    requirement_response_validation_one_group_multiple_requirements
+    requirement_response_validation_one_group_multiple_requirements,
+    deleted_bid_is_not_restorable,
+    deleted_bid_do_not_locks_tender_in_state,
 )
 
 
@@ -61,6 +63,8 @@ class TenderBidResourceTest(TenderContentWebTest):
     test_patch_tender_bid = snitch(patch_tender_bid)
     test_get_tender_bid = snitch(get_tender_bid)
     test_delete_tender_bid = snitch(delete_tender_bid)
+    test_deleted_bid_is_not_restorable = snitch(deleted_bid_is_not_restorable)
+    test_deleted_bid_do_not_locks_tender_in_state = snitch(deleted_bid_do_not_locks_tender_in_state)
     test_get_tender_tenderers = snitch(get_tender_tenderers)
     test_bid_Administrator_change = snitch(bid_Administrator_change)
 
