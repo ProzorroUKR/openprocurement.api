@@ -6,6 +6,7 @@ from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.contracting.econtract.tests.data import (
     test_contract_data,
     test_contract_data_two_items,
+    test_signer_info,
 )
 from openprocurement.contracting.econtract.tests.utils import create_contract
 from openprocurement.contracting.api.tests.base import BaseContractTest
@@ -22,15 +23,10 @@ class BaseApiWebTest(BaseWebTest):
 class BaseEContractTest(BaseContractTest):
     relative_to = os.path.dirname(__file__)
 
-
-class BaseEContractWebTest(BaseEContractTest):
-    relative_to = os.path.dirname(__file__)
-    initial_data = test_contract_data
     initial_tender_data = test_tender_pq_data
     initial_tender_config = test_tender_pq_config
     initial_agreement_data = test_agreement_pq_data
     agreement_id = initial_agreement_data["_id"]
-    initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
         super().setUp()
@@ -38,12 +34,14 @@ class BaseEContractWebTest(BaseEContractTest):
             self.create_agreement()
             self.initial_tender_data["agreement"] = {"id": self.agreement_id}
         self.create_tender()
+        if hasattr(self, "initial_data"):
+            self.initial_data = self.initial_data.copy()
+            self.initial_data["tender_id"] = self.tender_id
 
     def tearDown(self):
         if PQ_MULTI_PROFILE_RELEASED:
             self.delete_agreement()
         self.delete_tender()
-        self.delete_contract()
         super().tearDown()
 
     def generate_awards(self, status, startend):
@@ -85,7 +83,119 @@ class BaseEContractWebTest(BaseEContractTest):
         self.bid_token = self.initial_bids_tokens[0]
         self.save_tender_changes()
 
-    def generate_contract(self):
+    def generate_tender_data(self, startend="start", extra=None):
+        self.now = get_now()
+        status = "active.awarded"
+        self.tender_document = self.mongodb.tenders.get(self.tender_id)
+        self.tender_document_patch = {"status": status}
+        self.patch_tender_bot()
+        # self.update_periods(status, startend)
+        self.generate_bids(status, startend)
+        self.generate_awards(status, startend)
+        self.save_tender_changes()
+
+    def patch_tender_bot(self):
+        items = deepcopy(self.initial_tender_data["items"])
+        for item in items:
+            item.update({
+                "classification": test_tender_pq_short_profile["classification"],
+                "unit": test_tender_pq_short_profile["unit"]
+            })
+        value = deepcopy(test_tender_pq_short_profile['value'])
+        amount = sum([item["quantity"] for item in items]) * test_tender_pq_short_profile['value']['amount']
+        value["amount"] = amount
+        # criteria = getattr(self, "test_criteria", test_short_profile['criteria'])
+        self.tender_document_patch.update({
+            "shortlistedFirms": test_tender_pq_shortlisted_firms,
+            # 'criteria': criteria,
+            "items": items,
+            "value": value
+        })
+
+    def save_tender_changes(self):
+        if self.tender_document_patch:
+            patch = apply_data_patch(self.tender_document, self.tender_document_patch)
+            self.tender_document.update(patch)
+            self.mongodb.tenders.save(self.tender_document)
+            self.tender_document = self.mongodb.tenders.get(self.tender_id)
+            self.tender_document_patch = {}
+
+    def create_tender(self):
+        auth = self.app.authorization
+        self.app.authorization = ("Basic", ("broker", ""))
+        data = self.initial_tender_data
+        config = self.initial_tender_config
+        if PQ_MULTI_PROFILE_RELEASED:
+            data["agreement"] = {"id": self.agreement_id}
+        data["criteria"] = getattr(self, "test_criteria", test_tender_pq_criteria)
+
+        response = self.app.post_json("/tenders", {"data": data, "config": config})
+        tender = response.json["data"]
+        self.tender_id = tender["id"]
+        self.tender_token = response.json["access"]["token"]
+        self.generate_tender_data()
+        self.app.authorization = auth
+
+    def create_agreement(self):
+        if self.mongodb.agreements.get(self.agreement_id):
+            self.delete_agreement()
+        agreement = Agreement(self.initial_agreement_data)
+        agreement.dateModified = get_now().isoformat()
+        set_now()
+        self.mongodb.agreements.save(agreement, insert=True)
+
+    def delete_agreement(self):
+        self.mongodb.agreements.delete(self.agreement_id)
+
+    def delete_tender(self):
+        self.mongodb.tenders.delete(self.tender_id)
+
+
+class BaseEContractWebTest(BaseEContractTest):
+    relative_to = os.path.dirname(__file__)
+    initial_data = test_contract_data
+    initial_status = "pending"
+    initial_auth = ("Basic", ("broker", ""))
+
+    def setUp(self):
+        super().setUp()
+        if PQ_MULTI_PROFILE_RELEASED:
+            self.create_agreement()
+            self.initial_tender_data["agreement"] = {"id": self.agreement_id}
+        self.create_contract()
+
+    def tearDown(self):
+        if PQ_MULTI_PROFILE_RELEASED:
+            self.delete_agreement()
+        self.delete_tender()
+        self.delete_contract()
+        super().tearDown()
+
+    def save_contract_changes(self):
+        if self.contract_document_patch:
+            patch = apply_data_patch(self.contract_document, self.contract_document_patch)
+            self.contract_document.update(patch)
+            self.mongodb.contracts.save(self.contract_document)
+            self.contract_document = self.mongodb.tenders.get(self.contract_id)
+            self.contract_document_patch = {}
+
+    def set_status(self, status):
+        self.now = get_now()
+        self.contract_document = self.mongodb.contracts.get(self.contract_id)
+        self.contract_document_patch = {"status": status}
+        if status in ("active", "terminated"):
+
+            self.contract_document_patch["suppliers"] = [{**self.contract_document["suppliers"][0], "signerInfo": test_signer_info}]
+            self.contract_document_patch["buyer"] = {**self.contract_document["buyer"], "signerInfo": test_signer_info}
+            self.tender_document = self.mongodb.tenders.get(self.tender_id)
+            contracts = deepcopy(self.tender_document["contracts"])
+            contract = [i for i in self.tender_document["contracts"] if self.contract_id == i["id"]][0]
+            contract["status"] = "active"
+            self.tender_document_patch = {"status": "complete", "contracts": contracts}
+            self.save_tender_changes()
+        self.save_contract_changes()
+
+    def create_contract(self):
         awards = self.tender_document.get("awards", [])
 
         for award in reversed(awards):
@@ -118,83 +228,20 @@ class BaseEContractWebTest(BaseEContractTest):
                     },
                     "tender_id": self.tender_id,
                     "suppliers": suppliers,
-                    "items": prepared_items,
                     "owner": self.tender_document["owner"],
                     "tender_token": self.tender_document["owner_token"],
                     "bid_owner": "broker",
                     "bid_token": self.initial_bids_tokens[0]
                 })
                 contract.update(tender_contract_data)
+                if "items" in self.initial_data:
+                    contract["items"] = prepared_items
                 self.contract_id = contract["id"]
                 self.tender_document_patch.update({"contracts": [tender_contract_data]})
                 self.contract = create_contract(self, contract)
                 self.save_tender_changes()
+                self.set_status(self.initial_status)
                 break
-
-    def generate_tender_data(self, startend="start", extra=None):
-        self.now = get_now()
-        status = "active.awarded"
-        self.tender_document = self.mongodb.tenders.get(self.tender_id)
-        self.tender_document_patch = {"status": status}
-        self.patch_tender_bot()
-        # self.update_periods(status, startend)
-        self.generate_bids(status, startend)
-        self.generate_awards(status, startend)
-        self.generate_contract()
-        self.save_tender_changes()
-
-    def patch_tender_bot(self):
-        items = deepcopy(self.initial_data["items"])
-        for item in items:
-            item.update({
-                "classification": test_tender_pq_short_profile["classification"],
-                "unit": test_tender_pq_short_profile["unit"]
-            })
-        value = deepcopy(test_tender_pq_short_profile['value'])
-        amount = sum([item["quantity"] for item in items]) * test_tender_pq_short_profile['value']['amount']
-        value["amount"] = amount
-        # criteria = getattr(self, "test_criteria", test_short_profile['criteria'])
-        self.tender_document_patch.update({
-            "shortlistedFirms": test_tender_pq_shortlisted_firms,
-            # 'criteria': criteria,
-            "items": items,
-            "value": value
-        })
-
-    def save_tender_changes(self):
-        if self.tender_document_patch:
-            patch = apply_data_patch(self.tender_document, self.tender_document_patch)
-            self.tender_document.update(patch)
-            self.mongodb.tenders.save(self.tender_document)
-            self.tender_document = self.mongodb.tenders.get(self.tender_id)
-            self.tender_document_patch = {}
-
-    def create_tender(self):
-        data = self.initial_tender_data
-        config = self.initial_tender_config
-        if PQ_MULTI_PROFILE_RELEASED:
-            data["agreement"] = {"id": self.agreement_id}
-        data["criteria"] = getattr(self, "test_criteria", test_tender_pq_criteria)
-
-        response = self.app.post_json("/tenders", {"data": data, "config": config})
-        tender = response.json["data"]
-        self.tender_id = tender["id"]
-        self.tender_token = response.json["access"]["token"]
-        self.generate_tender_data()
-
-    def create_agreement(self):
-        if self.mongodb.agreements.get(self.agreement_id):
-            self.delete_agreement()
-        agreement = Agreement(self.initial_agreement_data)
-        agreement.dateModified = get_now().isoformat()
-        set_now()
-        self.mongodb.agreements.save(agreement, insert=True)
-
-    def delete_agreement(self):
-        self.mongodb.agreements.delete(self.agreement_id)
-
-    def delete_tender(self):
-        self.mongodb.tenders.delete(self.tender_id)
 
     def delete_contract(self):
         if self.contract_id:

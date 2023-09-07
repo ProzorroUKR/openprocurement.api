@@ -275,6 +275,7 @@ def put_contract_document(self):
     self.assertIn("KeyID=", response.location)
     self.assertIn("Expires=", response.location)
 
+    import pdb; pdb.set_trace()
     response = self.app.patch_json(
         "/contracts/{}?acc_token={}".format(self.contract_id, self.contract_token),
         {"data": {"status": "terminated", "amountPaid": {"amount": 100, "amountNet": 90}}},

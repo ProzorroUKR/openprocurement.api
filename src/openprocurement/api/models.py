@@ -639,8 +639,8 @@ class ContactPoint(Model):
             pass
         else:
             apply_validation = get_first_revision_date(root, default=get_now()) >= VALIDATE_TELEPHONE_FROM
-            if value and re.match("^(\+)?[0-9]{2,}(,( )?(\+)?[0-9]{2,})*$", value) is None and apply_validation:
-                raise ValidationError(u"wrong telephone format (could be missed +)")
+            if apply_validation:
+                validate_telephone(value)
 
 
 class Organization(Model):
@@ -716,3 +716,9 @@ class BankAccount(Model):
 class Reference(Model):
     id = StringType(required=True)
     title = StringType()
+
+
+# Validations
+def validate_telephone(value):
+    if value and re.match("^(\+)?[0-9]{2,}(,( )?(\+)?[0-9]{2,})*$", value) is None:
+        raise ValidationError(u"wrong telephone format (could be missed +)")

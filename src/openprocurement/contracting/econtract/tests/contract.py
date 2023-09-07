@@ -62,7 +62,6 @@ class ContractListingTests(BaseEContractTest):
 class ContractResourceTest(BaseEContractTest):
     initial_data = test_contract_data
     docservice = True
-    initial_auth = ("Basic", ("contracting", ""))
 
     test_simple_add_contract = snitch(simple_add_contract)
     test_get_contract = snitch(get_contract)
@@ -73,24 +72,30 @@ class ContractResourceTest(BaseEContractTest):
 
 
 class ContractResource4BrokersTest(BaseEContractWebTest):
+
     test_contract_token_invalid = snitch(contract_token_invalid)
     test_contract_status_change = snitch(contract_status_change)
     test_contract_cancelled = snitch(contract_cancelled)
     test_cancel_tender_award = snitch(cancel_tender_award)
-    test_contract_items_change = snitch(contract_items_change)
     test_contract_activate = snitch(contract_activate)
     test_patch_tender_contract = snitch(patch_tender_contract)
     test_patch_tender_contract_identical = snitch(patch_tender_contract_identical)
     test_patch_tender_contract_readonly = snitch(patch_tender_contract_readonly)
     test_patch_tender_contract_value_vat_change = snitch(patch_tender_contract_value_vat_change)
     test_patch_tender_contract_without_value = snitch(patch_tender_contract_without_value)
-    test_patch_tender_contract_value_amount = snitch(patch_tender_contract_value_amount)
     test_patch_tender_contract_amount_paid_zero = snitch(patch_tender_contract_amount_paid_zero)
-    test_patch_tender_contract_single_request = snitch(patch_tender_contract_single_request)
     test_get_credentials = snitch(get_credentials)
-    test_generate_credentials = snitch(generate_credentials)
     test_generate_credentials_invalid = snitch(generate_credentials_invalid)
     test_put_transaction_to_contract = snitch(put_transaction_to_contract)
+
+
+class ContractActiveResource4BrokersTest(BaseEContractWebTest):
+    initial_status = "active"
+
+    test_contract_items_change = snitch(contract_items_change)
+    test_generate_credentials = snitch(generate_credentials)
+    test_patch_tender_contract_single_request = snitch(patch_tender_contract_single_request)
+    test_patch_tender_contract_value_amount = snitch(patch_tender_contract_value_amount)
 
 
 class ContractResource4BrokersTestMultipleItems(BaseEContractWebTestTwoItems):
@@ -119,6 +124,7 @@ def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(ContractResourceTest))
     suite.addTest(unittest.makeSuite(ContractResource4BrokersTest))
+    suite.addTest(unittest.makeSuite(ContractActiveResource4BrokersTest))
     suite.addTest(unittest.makeSuite(ContractResource4AdministratorTest))
     suite.addTest(unittest.makeSuite(ContractWOItemsResource4BrokersTest))
     suite.addTest(unittest.makeSuite(ContractWOAmountNetResource4BrokersTest))

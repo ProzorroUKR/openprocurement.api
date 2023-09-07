@@ -42,7 +42,7 @@ class EContractState(BaseContractState):
 
         # self.validate_update_contract_only_for_active_lots(request, tender, before)
         # self.validate_update_contract_status_by_supplier(request, before, after)
-        # self.validate_update_contract_status(request, tender, before, after)
+        self.validate_update_contract_status(request, tender, before, after)
         self.validate_contract_update_with_accepted_complaint(request, tender, before)
         self.validate_update_contract_value_with_award(request, before, after)
 
@@ -64,6 +64,46 @@ class EContractState(BaseContractState):
                 f"signerInfo field for buyer and suppliers "
                 f"is required for contract in `{data.get('status')}` status",
                 status=422
+            )
+
+    @classmethod
+    def validate_update_contract_status(cls, request, tender, before, after):
+
+        status_map = {
+            "pending": ("pending.winner-signing", "active"),
+            "pending.winner-signing": ("pending", "active"),
+            "active": ("terminated",),
+        }
+        current_status = before["status"]
+        new_status = after["status"]
+
+        # Allow change contract status to cancelled for multi buyers tenders
+        multi_contracts = len(tender.get("buyers", [])) > 1
+        if multi_contracts:
+            status_map["pending"] += ("cancelled", )
+            status_map["pending.winner-signing"] += ("cancelled",)
+
+        allowed_statuses_to = status_map.get(before["status"], list())
+
+        # Validate status change
+        if (
+            current_status != new_status
+            and new_status not in allowed_statuses_to
+        ):
+            raise_operation_error(request, "Can't update contract status")
+
+        not_cancelled_contracts_count = sum(
+            1 for contract in tender.get("contracts", [])
+            if (
+                    contract.get("status") != "cancelled"
+                    and contract.get("awardID") == request.validated["contract"]["awardID"]
+            )
+        )
+        if multi_contracts and new_status == "cancelled" and not_cancelled_contracts_count == 1:
+            raise_operation_error(
+                request,
+                f"Can't update contract status from {current_status} to {new_status} "
+                f"for last not cancelled contract. Cancel award instead."
             )
 
     def synchronize_contracts_data(self, data):

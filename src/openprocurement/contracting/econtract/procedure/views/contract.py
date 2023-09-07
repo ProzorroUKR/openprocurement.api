@@ -3,14 +3,7 @@ from cornice.resource import resource
 from openprocurement.api.utils import json_view
 from openprocurement.api.context import get_request
 from openprocurement.contracting.core.procedure.validation import (
-    validate_update_contract_value_net_required,
-    validate_update_contract_paid_net_required,
-    validate_update_contracting_value_readonly,
-    validate_update_contracting_value_identical,
-    validate_update_contracting_value_amount,
-    validate_update_contracting_paid_amount,
     validate_contract_update_not_in_allowed_status,
-    validate_terminate_contract_without_amountPaid,
     validate_contract_owner,
 )
 from openprocurement.tender.core.procedure.validation import (

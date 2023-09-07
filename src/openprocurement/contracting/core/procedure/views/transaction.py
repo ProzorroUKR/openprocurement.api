@@ -1,11 +1,12 @@
 from openprocurement.api.utils import json_view
 from openprocurement.contracting.core.procedure.utils import save_contract
-from openprocurement.tender.core.procedure.validation import unless_bots, unless_admins, validate_item_owner
+from openprocurement.tender.core.procedure.validation import unless_bots, unless_admins
 from openprocurement.tender.core.procedure.validation import validate_input_data
 from openprocurement.tender.core.procedure.utils import get_items
 from openprocurement.contracting.core.procedure.models.transaction import PutTransaction
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
 from openprocurement.contracting.core.procedure.serializers.contract import ContractBaseSerializer
+from openprocurement.contracting.core.procedure.validation import validate_contract_owner
 from openprocurement.tender.core.procedure.serializers.base import BaseSerializer
 from openprocurement.contracting.api.procedure.state.contract_transaction import TransactionState
 
@@ -34,7 +35,7 @@ class ContractTransactionsResource(ContractBaseResource):
         content_type="application/json",
         permission="edit_contract_transactions",
         validators=(
-            unless_bots(unless_admins(validate_item_owner("contract"))),
+            unless_bots(unless_admins(validate_contract_owner)),
             validate_input_data(PutTransaction),
         )
     )

@@ -2,9 +2,9 @@ from cornice.resource import resource
 
 from openprocurement.api.utils import json_view, context_unpack
 from openprocurement.contracting.core.procedure.validation import (
-    validate_contract_update_not_in_allowed_status,
     validate_contract_owner,
     validate_contract_supplier,
+    validate_signer_info_update_in_not_allowed_status,
 )
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.tender.core.procedure.validation import (
@@ -59,7 +59,7 @@ class EContractBuyerSignerInfoResource(BaseSignerInfoResource):
         validators=(
             unless_admins(unless_administrator(validate_contract_owner)),
             validate_input_data(SignerInfo),
-            unless_admins(unless_administrator(validate_contract_update_not_in_allowed_status)),
+            unless_admins(unless_administrator(validate_signer_info_update_in_not_allowed_status)),
         ),
     )
     def put(self):
@@ -82,7 +82,7 @@ class EContractSuppliersSignerInfoResource(BaseSignerInfoResource):
         validators=(
             unless_admins(unless_administrator(validate_contract_supplier)),
             validate_input_data(SignerInfo),
-            unless_admins(unless_administrator(validate_contract_update_not_in_allowed_status)),
+            unless_admins(unless_administrator(validate_signer_info_update_in_not_allowed_status)),
         ),
     )
     def put(self):

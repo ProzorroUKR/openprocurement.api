@@ -1,19 +1,19 @@
 from openprocurement.api.utils import get_now
 
-from openprocurement.contracting.econtract.tests.data import signer_info
+from openprocurement.contracting.econtract.tests.data import test_signer_info
 
 
 def patch_contract_document(self):
 
     response = self.app.put_json(
         f"/contracts/{self.contract_id}/suppliers/signer_info?acc_token={self.initial_data['bid_token']}",
-        {"data": signer_info},
+        {"data": test_signer_info},
     )
     self.assertEqual(response.status, "200 OK")
 
     response = self.app.put_json(
         f"/contracts/{self.contract_id}/buyer/signer_info?acc_token={self.contract_token}",
-        {"data": signer_info},
+        {"data": test_signer_info},
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -96,13 +96,13 @@ def patch_contract_document(self):
 def contract_change_document(self):
     response = self.app.put_json(
         f"/contracts/{self.contract_id}/suppliers/signer_info?acc_token={self.initial_data['bid_token']}",
-        {"data": signer_info},
+        {"data": test_signer_info},
     )
     self.assertEqual(response.status, "200 OK")
 
     response = self.app.put_json(
         f"/contracts/{self.contract_id}/buyer/signer_info?acc_token={self.contract_token}",
-        {"data": signer_info},
+        {"data": test_signer_info},
     )
     self.assertEqual(response.status, "200 OK")
 

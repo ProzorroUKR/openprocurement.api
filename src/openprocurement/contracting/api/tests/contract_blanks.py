@@ -1490,12 +1490,6 @@ def patch_tender_contract_value_vat_change(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.json["errors"][0]["description"], "Amount and amountNet should be equal")
 
-    response = self.app.patch_json(
-        f"/contracts/{self.contract['id']}?acc_token={token}",
-        {"data": {"status": "terminated"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-
 
 def patch_tender_contract_identical(self):
     tender_token = self.initial_data["tender_token"]
@@ -1648,7 +1642,6 @@ def patch_tender_contract_wo_amount_net(self):
     )
     self.assertEqual(response.status, "200 OK")
     token = response.json["access"]["token"]
-
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={token}",
         {"data": {"value": {**self.contract["value"], "amount": 235}}},

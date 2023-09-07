@@ -6,6 +6,7 @@ from openprocurement.api.models import (
     Model,
     ListType,
     Identifier,
+    validate_telephone,
 )
 
 from openprocurement.contracting.core.procedure.models.contract_base import (
@@ -22,9 +23,12 @@ class SignerInfo(Model):
     name = StringType(required=True)
     email = EmailType(required=True)
     telephone = StringType(required=True)
-    iban = StringType(min_length=15, max_length=33)
+    iban = StringType(min_length=15, max_length=33, required=True)
     signerDocument = StringType(required=True)
     organizationStatus = StringType(required=True)
+
+    def validate_telephone(self, data, value):
+        validate_telephone(value)
 
 
 class Buyer(Model):

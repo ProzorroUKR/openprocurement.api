@@ -59,7 +59,7 @@ test_contract_data_two_items["items"].append({
     "quantity": 5,
 })
 
-signer_info = {
+test_signer_info = {
     "name": "Test Testovich",
     "telephone": "+380950000000",
     "email": "example@email.com",
