@@ -1,5 +1,5 @@
 from copy import deepcopy
-from datetime import datetime
+from freezegun import freeze_time
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.constants import (
@@ -7,6 +7,8 @@ from openprocurement.api.constants import (
     TZ,
 )
 from datetime import timedelta
+
+from openprocurement.framework.core.utils import calculate_framework_date, ENQUIRY_PERIOD_DURATION
 
 
 def listing(self):
@@ -22,7 +24,6 @@ def listing(self):
 
     for i in tenderer_ids:
         data["tenderers"][0]["identifier"]["id"] = i
-        offset = get_now().timestamp()
         response = self.app.post_json("/submissions", {
             "data": data,
             "config": self.initial_submission_config,
@@ -60,16 +61,18 @@ def listing(self):
         [i["dateModified"] for i in response.json["data"]],
         sorted([i["dateModified"] for i in qualifications])
     )
-    response = self.app.get("/qualifications?offset={}".format(offset))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(len(response.json["data"]), 1)
 
     response = self.app.get("/qualifications?limit=2")
     self.assertEqual(response.status, "200 OK")
     self.assertNotIn("prev_page", response.json)
     self.assertEqual(len(response.json["data"]), 2)
+    next_page = response.json["next_page"]
 
-    response = self.app.get(response.json["next_page"]["path"].replace(ROUTE_PREFIX, ""))
+    response = self.app.get("/qualifications?offset={}".format(next_page["offset"]))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(len(response.json["data"]), 1)
+
+    response = self.app.get(next_page["path"].replace(ROUTE_PREFIX, ""))
     self.assertEqual(response.status, "200 OK")
     self.assertIn("descending=1", response.json["prev_page"]["uri"])
     self.assertEqual(len(response.json["data"]), 1)
@@ -309,8 +312,12 @@ def patch_submission_pending_config_test(self):
     self.assertTrue(response.json["config"]["test"])
 
     # Create and activate submission
-    self.create_submission()
-    response = self.activate_submission()
+    enquiry_end_date = calculate_framework_date(
+        get_now(), timedelta(days=ENQUIRY_PERIOD_DURATION), working_days=True, ceil=True
+    )
+    with freeze_time(enquiry_end_date.isoformat()):
+        self.create_submission()
+        response = self.activate_submission()
 
     qualification_id = response.json["data"]["qualificationID"]
 
@@ -353,7 +360,10 @@ def patch_submission_pending_config_restricted(self):
         self.assertEqual(framework["procuringEntity"]["kind"], "defense")
 
     # Create and activate submission
-    with change_auth(self.app, ("Basic", ("broker2", ""))):
+    enquiry_end_date = calculate_framework_date(
+        get_now(), timedelta(days=ENQUIRY_PERIOD_DURATION), working_days=True, ceil=True
+    )
+    with change_auth(self.app, ("Basic", ("broker2", ""))), freeze_time(enquiry_end_date.isoformat()):
         # Change authorization so framework and submission have different owners
 
         config = deepcopy(self.initial_submission_config)
@@ -794,13 +804,14 @@ def date_qualification(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["date"], date)
 
-    response = self.app.patch_json(
-        "/qualifications/{}?acc_token={}".format(qualification_id, self.framework_token),
-        {"data": {"status": "unsuccessful"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertNotEqual(response.json["data"]["date"], date)
+    with freeze_time((get_now() + timedelta(days=1)).isoformat()):
+        response = self.app.patch_json(
+            "/qualifications/{}?acc_token={}".format(qualification_id, self.framework_token),
+            {"data": {"status": "unsuccessful"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertNotEqual(response.json["data"]["date"], date)
 
 
 def dateModified_qualification(self):
@@ -821,11 +832,12 @@ def dateModified_qualification(self):
     qualification = response.json["data"]
     dateModified = qualification["dateModified"]
 
-    response = self.app.post(
-        "/qualifications/{}/documents?acc_token={}".format(qualification_id, self.framework_token),
-        upload_files=[("file", "name  name.doc", b"content")]
-    )
-    self.assertEqual(response.status, "201 Created")
+    with freeze_time((get_now() + timedelta(days=1)).isoformat()):
+        response = self.app.post(
+            "/qualifications/{}/documents?acc_token={}".format(qualification_id, self.framework_token),
+            upload_files=[("file", "name  name.doc", b"content")]
+        )
+        self.assertEqual(response.status, "201 Created")
 
     response = self.app.get("/qualifications/{}".format(qualification_id))
     self.assertEqual(response.status, "200 OK")
@@ -1124,10 +1136,11 @@ def put_qualification_document(self):
     dateModified = response.json["data"]["dateModified"]
     self.assertIn(doc_id, response.headers["Location"])
 
-    response = self.app.put(
-        "/qualifications/{}/documents/{}?acc_token={}".format(self.qualification_id, doc_id, self.framework_token),
-        upload_files=[("file", "name name.doc", b"content2")],
-    )
+    with freeze_time((get_now() + timedelta(days=1)).isoformat()):
+        response = self.app.put(
+            "/qualifications/{}/documents/{}?acc_token={}".format(self.qualification_id, doc_id, self.framework_token),
+            upload_files=[("file", "name name.doc", b"content2")],
+        )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
@@ -1156,10 +1169,11 @@ def put_qualification_document(self):
     self.assertEqual(dateModified, response.json["data"][0]["dateModified"])
     self.assertEqual(dateModified2, response.json["data"][1]["dateModified"])
 
-    response = self.app.post(
-        "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
-        upload_files=[("file", "name.doc", b"content")],
-    )
+    with freeze_time((get_now() + timedelta(days=2)).isoformat()):
+        response = self.app.post(
+            "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
+            upload_files=[("file", "name.doc", b"content")],
+        )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     doc_id = response.json["data"]["id"]

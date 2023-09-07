@@ -1,5 +1,6 @@
 from datetime import timedelta
 
+from openprocurement.api.auth import extract_access_token
 from openprocurement.api.constants import FAST_CATALOGUE_FLOW_FRAMEWORK_IDS
 from openprocurement.api.utils import (
     update_logging_context,
@@ -14,6 +15,7 @@ from openprocurement.api.validation import (
     _validate_accreditation_level,
     _validate_accreditation_level_kind,
 )
+from openprocurement.framework.core.models import Question, PatchQuestion
 from openprocurement.framework.core.utils import (
     get_framework_by_id,
     get_submission_by_id,
@@ -474,6 +476,7 @@ def validate_patch_milestone_status(request, **kwargs):
             f"Can't switch milestone status from `{curr_status}` to `{new_status}`"
         )
 
+
 def validate_restricted_access(obj_name, owner_fields=None):
     owner_fields = owner_fields or {"owner"}
     def validator(request, **kwargs):
@@ -493,3 +496,67 @@ def validate_restricted_access(obj_name, owner_fields=None):
                     "Access restricted for {} object".format(obj_name)
                 )
     return validator
+
+
+def validate_item_owner(item_name):
+    def validator(request, **_):
+        item = request.validated[item_name]
+        acc_token = extract_access_token(request)
+        if request.authenticated_userid != item["owner"] or acc_token != item["owner_token"]:
+            raise_operation_error(
+                request,
+                "Forbidden",
+                location="url",
+                name="permission"
+            )
+    return validator
+
+
+def validate_post_question_data(request, **kwargs):
+    data = validate_json_data(request)
+    return validate_data(request, Question, data=data)
+
+
+def validate_patch_question_data(request, **kwargs):
+    data = validate_json_data(request)
+    return validate_data(request, PatchQuestion, data=data)
+
+
+def validate_framework_question_operation_not_in_allowed_status(request, **kwargs):
+    if request.validated["framework"].status != "active":
+        raise_operation_error(
+            request,
+            f"Can't {OPERATIONS.get(request.method)} question in current "
+            f"({request.validated['framework'].status}) framework status"
+        )
+
+
+def validate_framework_question_operation_not_in_enquiry_period(request, **kwargs):
+    framework = request.validated["framework"]
+    enquiry_period = framework.get("enquiryPeriod")
+    operation = OPERATIONS.get(request.method)
+    now = get_now()
+
+    if (
+            not enquiry_period
+            or "startDate" not in enquiry_period
+            or "endDate" not in enquiry_period
+            or now < enquiry_period["startDate"]
+            or now > enquiry_period["endDate"]
+    ):
+        raise_operation_error(
+            request,
+            f"Question can be {operation} only during the enquiry period: "
+            f"from ({enquiry_period['startDate']}) to ({enquiry_period['endDate']}).",
+        )
+
+
+def validate_question_clarifications_until(request, **kwargs):
+    now = get_now()
+    framework = request.validated["framework"]
+    if clarifications_until := framework.get("enquiryPeriod", {}).get("clarificationsUntil"):
+        if now > clarifications_until:
+            raise_operation_error(
+                request,
+                "Allowed to update question only before enquiryPeriod.clarificationsUntil",
+            )

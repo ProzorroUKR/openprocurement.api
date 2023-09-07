@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-22 01:52+0200\n"
+"POT-Creation-Date: 2023-08-28 15:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.11.0\n"
+"Generated-By: Babel 2.10.1\n"
 
 msgid "Restricted access"
 msgstr "Обмежений доступ"
@@ -94,6 +94,42 @@ msgstr "Для `ProcuringEntity` з kind `defense` поле ``restricted_derivat
 
 msgid "The second step is moving the framework to `active` status:"
 msgstr "Другий крок - перехід фреймворку в статус `active`:"
+
+msgid "Enquiries"
+msgstr "Уточнення"
+
+msgid "The participant has the opportunity to contact the administrator through the electronic procurement system regarding the review of the requirements for the participant, specified in the announcement of qualification for the electronic catalog within ten working days from the day of its publication."
+msgstr "У учасника є можливість звернутися до адміністратора (ЦЗО) через електронну систему закупівель щодо перегляду вимог до учасника, зазначених в оголошенні про проведення кваліфікації до електронного каталогу, протягом десяти робочих днів з дня його оприлюднення."
+
+msgid "During enquiry period, interested parties can ask questions:"
+msgstr "Під час `enquiryPeriod` зацікавлені сторони можуть задавати питання:"
+
+msgid "Procuring entity can answer them:"
+msgstr "Замовник може на них відповісти:"
+
+msgid "It is allowed to answer the question during the whole `enquiryPeriod` and between `enquiryPeriod.endDate` and `enquiryPeriod.clarificationUntil`. In case procuring entity is answering question after `enquiryPeriod.clarificationUntil`, the error will be raised:"
+msgstr "Надавати замовникам відповіді на questions дозволено протягом всього `enquiryPeriod`, а також до `enquiryPeriod.clarificationsUntil`. У випадку, якщо замовник надасть відповідь після закінчення `enquiryPeriod.clarificationUntil`, буде помилка:"
+
+msgid "Only procuring entity has permission to answer the questions:"
+msgstr "Тільки замовник має право відповідати на питання:"
+
+msgid "To retrieve the questions list:"
+msgstr "Можна отримати список запитань:"
+
+msgid "To retrieve the individual answer:"
+msgstr "та окрему відповідь:"
+
+msgid "The presence of a question does not block the transition of the qualification announcement to the next status."
+msgstr "Наявність звернення не блокує перехід оголошення про кваліфікацію у наступний статус."
+
+msgid "The presence or absence of an answer to the question does not block the transition of the qualification announcement to the next status."
+msgstr "Наявність або відсутність відповіді на звернення не блокує перехід оголошення про кваліфікацію у наступний статус."
+
+msgid "The period during which the participant can apply to the administrator through the electronic procurement system to review the requirements for the participant: the date of publication of the announcement + 10 working days."
+msgstr "Період, протягом якого Учасник може звернутися до адміністратора (ЦЗО) через електронну систему закупівель щодо перегляду вимог до учасника: дата оприлюднення оголошення + 10 робочих днів."
+
+msgid "It is forbidden to ask or answer question outside the enquiry period:"
+msgstr "Не можна створювати або редагувати звернення за межами `enquiryPeriod`:"
 
 msgid "Create and activate Submissions with restricted access"
 msgstr "Створення та активація пропозицій з обмеженим доступом"

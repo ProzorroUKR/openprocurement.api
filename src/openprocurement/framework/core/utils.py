@@ -16,10 +16,7 @@ from jsonpointer import resolve_pointer
 from pyramid.compat import decode_path_info
 from pyramid.exceptions import URLDecodeError
 
-from openprocurement.api.constants import (
-    WORKING_DAYS,
-    FRAMEWORK_ENQUIRY_PERIOD_OFF_FROM,
-)
+from openprocurement.api.constants import WORKING_DAYS
 from openprocurement.api.utils import (
     error_handler,
     update_logging_context,
@@ -45,6 +42,7 @@ from openprocurement.framework.core.traversal import (
 LOGGER = getLogger("openprocurement.framework.core")
 ENQUIRY_PERIOD_DURATION = 10
 SUBMISSION_STAND_STILL_DURATION = 30
+ENQUIRY_STAND_STILL_TIME = 3
 DAYS_TO_UNSUCCESSFUL_STATUS = 20
 MILESTONE_CONTRACT_STATUSES = {
     "ban": "suspended",
@@ -417,24 +415,27 @@ def calculate_framework_periods(request, model):
     data = request.validated["data"]
 
     enquiryPeriod_startDate = framework.enquiryPeriod and framework.enquiryPeriod.startDate or get_now()
-    if get_first_revision_date(framework, default=get_now()) >= FRAMEWORK_ENQUIRY_PERIOD_OFF_FROM:
-        enquiryPeriod_endDate = enquiryPeriod_startDate + timedelta(seconds=1)
-    else:
-        enquiryPeriod_endDate = (
-            framework.enquiryPeriod
-            and framework.enquiryPeriod.endDate
-            or calculate_framework_date(
-                enquiryPeriod_startDate,
-                timedelta(days=ENQUIRY_PERIOD_DURATION),
-                framework,
-                working_days=True,
-                ceil=True
-            )
+    enquiryPeriod_endDate = (
+        framework.enquiryPeriod
+        and framework.enquiryPeriod.endDate
+        or calculate_framework_date(
+            enquiryPeriod_startDate,
+            timedelta(days=ENQUIRY_PERIOD_DURATION),
+            framework,
+            working_days=True,
+            ceil=True
         )
+    )
+    clarifications_until = calculate_framework_date(
+        enquiryPeriod_endDate,
+        timedelta(days=ENQUIRY_STAND_STILL_TIME),
+        working_days=True,
+    )
 
     data["enquiryPeriod"] = {
         "startDate": enquiryPeriod_startDate,
         "endDate": enquiryPeriod_endDate,
+        "clarificationsUntil": clarifications_until,
     }
 
     qualification_endDate = model(data["qualificationPeriod"]).endDate

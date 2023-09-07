@@ -13,7 +13,7 @@ Content-Type: application/json
     "description": "Назва предмета закупівлі",
     "date": "2022-12-31T23:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-16T00:00:00+02:00",
     "owner": "test",
     "status": "active",
     "period": {
@@ -21,12 +21,13 @@ Content-Type: application/json
       "endDate": "2023-04-01T00:00:00+02:00"
     },
     "qualificationPeriod": {
-      "startDate": "2022-12-31T23:00:01+02:00",
+      "startDate": "2023-01-14T00:00:00+02:00",
       "endDate": "2023-05-01T00:00:00+02:00"
     },
     "enquiryPeriod": {
       "startDate": "2022-12-31T23:00:00+02:00",
-      "endDate": "2022-12-31T23:00:01+02:00"
+      "endDate": "2023-01-14T00:00:00+02:00",
+      "clarificationsUntil": "2023-01-19T00:00:00+02:00"
     },
     "frameworkType": "electronicCatalogue",
     "procuringEntity": {

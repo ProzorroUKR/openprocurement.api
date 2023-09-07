@@ -37,12 +37,12 @@ Content-Type: application/json
         "title": "milestone.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5ce8807b1c3340f39913e264387d8f38?Signature=h3Xve9Q40jQWKAczqvya8%2F1QKyovh%2BCCuhd2EU5WKt0Z%2FreOLgIX%2B1ErKONH%2FdxtPueIkcw3d9JJN%2BfCJUG4Cw%3D%3D&KeyID=a8968c46",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
+        "datePublished": "2023-01-16T00:00:00+02:00",
+        "dateModified": "2023-01-16T00:00:00+02:00"
       }
     ],
-    "dateModified": "2023-01-01T00:00:00+02:00",
-    "dueDate": "2023-04-01T00:00:00+02:00"
+    "dateModified": "2023-01-16T00:00:00+02:00",
+    "dueDate": "2023-04-16T00:00:00+02:00"
   }
 }
 

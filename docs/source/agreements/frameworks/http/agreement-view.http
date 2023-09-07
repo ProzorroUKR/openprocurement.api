@@ -8,16 +8,16 @@ Content-Type: application/json
 
 {
   "data": {
-    "agreementID": "UA-2023-01-01-000001",
+    "agreementID": "UA-2023-01-16-000001",
     "status": "active",
-    "date": "2023-01-01T00:00:00+02:00",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
+    "date": "2023-01-16T00:00:00+02:00",
+    "dateCreated": "2023-01-16T00:00:00+02:00",
+    "dateModified": "2023-01-16T00:00:00+02:00",
     "owner": "test",
     "agreementType": "electronicCatalogue",
     "frameworkID": "9b13d67e723e43c4a2eb0ddeaaa95540",
     "period": {
-      "startDate": "2023-01-01T00:00:00+02:00",
+      "startDate": "2023-01-16T00:00:00+02:00",
       "endDate": "2023-05-01T00:00:00+02:00"
     },
     "procuringEntity": {
@@ -89,10 +89,10 @@ Content-Type: application/json
             "type": "activation",
             "status": "scheduled",
             "dueDate": "2023-05-01T00:00:00+02:00",
-            "dateModified": "2023-01-01T00:00:00+02:00"
+            "dateModified": "2023-01-16T00:00:00+02:00"
           }
         ],
-        "date": "2023-01-01T00:00:00+02:00"
+        "date": "2023-01-16T00:00:00+02:00"
       },
       {
         "id": "1b30e6feb6ae49a982b57466293530da",
@@ -129,10 +129,10 @@ Content-Type: application/json
             "type": "activation",
             "status": "scheduled",
             "dueDate": "2023-05-01T00:00:00+02:00",
-            "dateModified": "2023-01-01T00:00:00+02:00"
+            "dateModified": "2023-01-16T00:00:00+02:00"
           }
         ],
-        "date": "2023-01-01T00:00:00+02:00"
+        "date": "2023-01-16T00:00:00+02:00"
       }
     ],
     "id": "f4be6c80d2924d309a0277b683cb00cb",

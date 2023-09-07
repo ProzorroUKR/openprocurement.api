@@ -16,7 +16,11 @@ from openprocurement.framework.dps.tests.base import (
     ban_milestone_data,
     ban_milestone_data_with_documents,
 )
-from openprocurement.framework.core.utils import MILESTONE_CONTRACT_STATUSES
+from openprocurement.framework.core.utils import (
+    MILESTONE_CONTRACT_STATUSES,
+    calculate_framework_date,
+    ENQUIRY_PERIOD_DURATION,
+)
 
 
 def create_agreement(self):
@@ -85,8 +89,12 @@ def create_agreement_config_test(self):
     self.assertTrue(response.json["config"]["test"])
 
     # Create and activate submission
-    self.create_submission()
-    response = self.activate_submission()
+    enquiry_end_date = calculate_framework_date(
+        get_now(), timedelta(days=ENQUIRY_PERIOD_DURATION), working_days=True, ceil=True
+    )
+    with freeze_time(enquiry_end_date.isoformat()):
+        self.create_submission()
+        response = self.activate_submission()
 
     qualification_id = response.json["data"]["qualificationID"]
 
@@ -145,7 +153,10 @@ def create_agreement_config_restricted(self):
         self.assertEqual(framework["procuringEntity"]["kind"], "defense")
 
     # Create and activate submission
-    with change_auth(self.app, ("Basic", ("broker2", ""))):
+    enquiry_end_date = calculate_framework_date(
+        get_now(), timedelta(days=ENQUIRY_PERIOD_DURATION), working_days=True, ceil=True
+    )
+    with change_auth(self.app, ("Basic", ("broker2", ""))), freeze_time(enquiry_end_date.isoformat()):
         # Change authorization so framework and submission have different owners
 
         config = deepcopy(self.initial_submission_config)
@@ -660,7 +671,7 @@ def patch_several_contracts_active_status(self):
         contract_statuses = [contract["status"] for contract in response.json["data"]["contracts"]]
         self.assertEqual(contract_statuses, ["active", "active", "suspended"])
 
-    with freeze_time((next_check + timedelta(hours=70)).isoformat()):
+    with freeze_time((next_check + timedelta(hours=72, minutes=1)).isoformat()):  # after agreement period.endDate
         self.check_chronograph()
         response = self.app.get(f"/agreements/{self.agreement_id}")
         self.assertEqual(response.status, "200 OK")
@@ -984,14 +995,15 @@ def put_milestone_document(self):
     doc_id = response.json["data"]["id"]
     dateModified = response.json["data"]["dateModified"]
     self.assertIn(doc_id, response.headers["Location"])
-    response = self.app.put(
-        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
-        f"/documents/{doc_id}?acc_token={self.framework_token}",
-        upload_files=[("file", "name name.doc", b"content2")],
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(doc_id, response.json["data"]["id"])
+    with freeze_time((get_now() + timedelta(days=1)).isoformat()):
+        response = self.app.put(
+            f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+            f"/documents/{doc_id}?acc_token={self.framework_token}",
+            upload_files=[("file", "name name.doc", b"content2")],
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(doc_id, response.json["data"]["id"])
 
     self.assertIn("Signature=", response.json["data"]["url"])
     self.assertIn("KeyID=", response.json["data"]["url"])
@@ -1025,11 +1037,12 @@ def put_milestone_document(self):
     self.assertEqual(dateModified, response.json["data"][1]["dateModified"])
     self.assertEqual(dateModified2, response.json["data"][2]["dateModified"])
 
-    response = self.app.post(
-        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
-        f"/documents?acc_token={self.framework_token}",
-        upload_files=[("file", "name.doc", b"content")],
-    )
+    with freeze_time((get_now() + timedelta(days=2)).isoformat()):
+        response = self.app.post(
+            f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+            f"/documents?acc_token={self.framework_token}",
+            upload_files=[("file", "name.doc", b"content")],
+        )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     doc_id = response.json["data"]["id"]

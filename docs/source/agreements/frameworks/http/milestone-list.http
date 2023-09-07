@@ -13,7 +13,7 @@ Content-Type: application/json
       "type": "activation",
       "status": "scheduled",
       "dueDate": "2023-05-01T00:00:00+02:00",
-      "dateModified": "2023-01-01T00:00:00+02:00"
+      "dateModified": "2023-01-16T00:00:00+02:00"
     }
   ]
 }

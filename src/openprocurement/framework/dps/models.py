@@ -27,6 +27,7 @@ from openprocurement.framework.core.models import (
     Identifier,
     Address,
     Contract,
+    EnquiryPeriod,
 )
 from openprocurement.framework.core.utils import (
     get_framework_unsuccessful_status_check_date,
@@ -98,7 +99,8 @@ class Framework(BaseFramework):
                 "description_en",
                 "description_ru",
                 "documents",
-                "frameworkDetails"
+                "frameworkDetails",
+                "questions",
             ),
             "draft": _status_view_role,
             "active": _status_view_role,
@@ -115,6 +117,7 @@ class Framework(BaseFramework):
                 "status",
                 "owner",
                 "next_check",
+                "questions",
             ),
             "chronograph": whitelist("next_check"),
             "chronograph_view": _status_view_role,
@@ -139,7 +142,7 @@ class Framework(BaseFramework):
     )
     period = ModelType(BasePeriodEndRequired)
     qualificationPeriod = ModelType(BasePeriodEndRequired, required=True)
-    enquiryPeriod = ModelType(BasePeriodEndRequired)
+    enquiryPeriod = ModelType(EnquiryPeriod)
     frameworkType = StringType(default=DPS_TYPE)
     procuringEntity = ModelType(ProcuringEntity, required=True)
     classification = ModelType(DKClassification, required=True)

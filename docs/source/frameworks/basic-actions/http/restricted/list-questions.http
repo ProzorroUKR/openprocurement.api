@@ -1,25 +1,17 @@
-PATCH /api/2.5/submissions/2a997181ec504fcdbfaf4c759a02895e?acc_token=d6c27e24c6f24928a7a62d93b05c4358 HTTP/1.0
-Authorization: Bearer broker2
-Content-Length: 30
-Content-Type: application/json
-Host: lb-api-sandbox.prozorro.gov.ua
-
-{
-  "data": {
-    "status": "active"
-  }
-}
+GET /api/2.5/frameworks/9bd2fdb5579045be9cfff9fb1a397e32/questions HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
 
 
 HTTP/1.0 200 OK
 Content-Type: application/json
 
 {
-  "data": {
-    "tenderers": [
-      {
+  "data": [
+    {
+      "id": "c0b3b9bc304945b59cccc96f522283aa",
+      "author": {
         "name": "ДКП «Книга»",
-        "scale": "sme",
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137226",
@@ -38,20 +30,13 @@ Content-Type: application/json
           "email": "aagt@gmail.com",
           "telephone": "+380322916930"
         }
-      }
-    ],
-    "qualificationID": "9ef8a439d3f346dd9e86bb05c4f55f8b",
-    "frameworkID": "9bd2fdb5579045be9cfff9fb1a397e32",
-    "dateModified": "2023-01-20T00:00:00+02:00",
-    "date": "2023-01-20T00:00:00+02:00",
-    "datePublished": "2023-01-20T00:00:00+02:00",
-    "owner": "broker2",
-    "status": "active",
-    "submissionType": "dynamicPurchasingSystem",
-    "id": "2a997181ec504fcdbfaf4c759a02895e"
-  },
-  "config": {
-    "restricted": true
-  }
+      },
+      "title": "Калорійність",
+      "description": "Просимо додати таблицю потрібної калорійності харчування",
+      "date": "2023-01-01T00:00:00+02:00",
+      "answer": "Таблицю додано в файлі",
+      "dateAnswered": "2023-01-01T00:00:00+02:00"
+    }
+  ]
 }
 

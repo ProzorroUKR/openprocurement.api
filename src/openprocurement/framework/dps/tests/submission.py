@@ -4,7 +4,6 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.framework.dps.tests.base import (
-    BaseSubmissionContentWebTest,
     SubmissionContentWebTest,
     test_framework_dps_data,
     test_dps_documents,
@@ -44,7 +43,7 @@ from openprocurement.framework.dps.tests.submission_blanks import (
 )
 
 
-class SubmissionResourceTest(BaseSubmissionContentWebTest):
+class SubmissionResourceTest(SubmissionContentWebTest):
     test_listing = snitch(listing)
     test_listing_draft = snitch(listing_draft)
     test_listing_changes = snitch(listing_changes)

@@ -10,8 +10,8 @@ Content-Type: application/json
   "data": {
     "submissionID": "2a997181ec504fcdbfaf4c759a02895e",
     "frameworkID": "9bd2fdb5579045be9cfff9fb1a397e32",
-    "date": "2023-01-17T00:00:00+02:00",
-    "dateModified": "2023-01-17T00:00:00+02:00",
+    "date": "2023-01-20T00:00:00+02:00",
+    "dateModified": "2023-01-20T00:00:00+02:00",
     "status": "pending",
     "qualificationType": "dynamicPurchasingSystem",
     "id": "9ef8a439d3f346dd9e86bb05c4f55f8b"

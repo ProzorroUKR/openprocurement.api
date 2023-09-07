@@ -2,10 +2,12 @@
 import mock
 from copy import deepcopy
 from datetime import timedelta
+from freezegun import freeze_time
 
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.tests.base import change_auth
+from openprocurement.framework.core.utils import calculate_framework_date, ENQUIRY_PERIOD_DURATION
 
 
 def listing(self):
@@ -21,7 +23,6 @@ def listing(self):
 
     for i in tenderer_ids:
         data["tenderers"][0]["identifier"]["id"] = i
-        offset = get_now().timestamp()
         response = self.app.post_json(
             "/submissions", {
                 "data": data,
@@ -52,19 +53,17 @@ def listing(self):
         [i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in submissions])
     )
 
-    while True:
-        response = self.app.get("/submissions?offset={}".format(offset))
-        self.assertEqual(response.status, "200 OK")
-        if len(response.json["data"]) == 1:
-            break
-    self.assertEqual(len(response.json["data"]), 1)
-
     response = self.app.get("/submissions?limit=2")
     self.assertEqual(response.status, "200 OK")
     self.assertNotIn("prev_page", response.json)
     self.assertEqual(len(response.json["data"]), 2)
+    next_page = response.json["next_page"]
 
-    response = self.app.get(response.json["next_page"]["path"].replace(ROUTE_PREFIX, ""))
+    response = self.app.get("/submissions?offset={}".format(next_page["offset"]))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(len(response.json["data"]), 1)
+
+    response = self.app.get(next_page["path"].replace(ROUTE_PREFIX, ""))
     self.assertEqual(response.status, "200 OK")
     self.assertIn("descending=1", response.json["prev_page"]["uri"])
     self.assertEqual(len(response.json["data"]), 1)
@@ -498,16 +497,18 @@ def create_submission_config_test(self):
     expected_config = deepcopy(self.initial_submission_config)
     expected_config["test"] = True
 
-    response = self.create_submission()
+    enquiry_end_date = calculate_framework_date(
+        get_now(), timedelta(days=ENQUIRY_PERIOD_DURATION), working_days=True, ceil=True
+    )
+    with freeze_time(enquiry_end_date.isoformat()):
+        response = self.create_submission()
 
-    token = response.json["access"]["token"]
+        submission = response.json["data"]
+        self.assertNotIn("config", submission)
+        self.assertEqual(submission["mode"], "test")
+        self.assertEqual(response.json["config"], expected_config)
 
-    submission = response.json["data"]
-    self.assertNotIn("config", submission)
-    self.assertEqual(submission["mode"], "test")
-    self.assertEqual(response.json["config"], expected_config)
-
-    response = self.activate_submission()
+        response = self.activate_submission()
 
     submission = response.json["data"]
     self.assertNotIn("config", submission)
@@ -542,7 +543,10 @@ def create_submission_config_restricted(self):
         self.assertEqual(framework["procuringEntity"]["kind"], "defense")
 
     # Create and activate submission
-    with change_auth(self.app, ("Basic", ("broker2", ""))):
+    enquiry_end_date = calculate_framework_date(
+        get_now(), timedelta(days=ENQUIRY_PERIOD_DURATION), working_days=True, ceil=True
+    )
+    with change_auth(self.app, ("Basic", ("broker2", ""))), freeze_time(enquiry_end_date.isoformat()):
         # Change authorization so framework and submission have different owners
 
         expected_config = {
@@ -1249,12 +1253,13 @@ def date_submission(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["date"], date)
 
-    response = self.app.patch_json(
-        "/submissions/{}?acc_token={}".format(submission["id"], token), {"data": {"status": "deleted"}}
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertNotEqual(response.json["data"]["date"], date)
+    with freeze_time((get_now() + timedelta(days=1)).isoformat()):
+        response = self.app.patch_json(
+            "/submissions/{}?acc_token={}".format(submission["id"], token), {"data": {"status": "deleted"}}
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertNotEqual(response.json["data"]["date"], date)
 
 
 def dateModified_submission(self):
@@ -1279,15 +1284,16 @@ def dateModified_submission(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["dateModified"], dateModified)
 
-    response = self.app.patch_json(
-        "/submissions/{}?acc_token={}".format(submission["id"], token),
-        {"data": {"tenderers": [{"name": "Draft_change"}]}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertNotEqual(response.json["data"]["dateModified"], dateModified)
-    submission = response.json["data"]
-    dateModified = submission["dateModified"]
+    with freeze_time((get_now() + timedelta(days=1)).isoformat()):
+        response = self.app.patch_json(
+            "/submissions/{}?acc_token={}".format(submission["id"], token),
+            {"data": {"tenderers": [{"name": "Draft_change"}]}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertNotEqual(response.json["data"]["dateModified"], dateModified)
+        submission = response.json["data"]
+        dateModified = submission["dateModified"]
 
     response = self.app.get("/submissions/{}".format(submission["id"]))
     self.assertEqual(response.status, "200 OK")
@@ -1591,54 +1597,55 @@ def put_submission_document(self):
     dateModified = response.json["data"]["dateModified"]
     self.assertIn(doc_id, response.headers["Location"])
 
-    response = self.app.put(
-        "/submissions/{}/documents/{}?acc_token={}".format(self.submission_id, doc_id, self.submission_token),
-        upload_files=[("file", "name name.doc", b"content2")],
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(doc_id, response.json["data"]["id"])
+    with freeze_time((get_now() + timedelta(days=1)).isoformat()):
+        response = self.app.put(
+            "/submissions/{}/documents/{}?acc_token={}".format(self.submission_id, doc_id, self.submission_token),
+            upload_files=[("file", "name name.doc", b"content2")],
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(doc_id, response.json["data"]["id"])
 
-    self.assertIn("Signature=", response.json["data"]["url"])
-    self.assertIn("KeyID=", response.json["data"]["url"])
-    self.assertNotIn("Expires=", response.json["data"]["url"])
-    key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-    submission = self.mongodb.submissions.get(self.submission_id)
-    self.assertIn(key, submission["documents"][-1]["url"])
-    self.assertIn("Signature=", submission["documents"][-1]["url"])
-    self.assertIn("KeyID=", submission["documents"][-1]["url"])
-    self.assertNotIn("Expires=", submission["documents"][-1]["url"])
+        self.assertIn("Signature=", response.json["data"]["url"])
+        self.assertIn("KeyID=", response.json["data"]["url"])
+        self.assertNotIn("Expires=", response.json["data"]["url"])
+        key = response.json["data"]["url"].split("/")[-1].split("?")[0]
+        submission = self.mongodb.submissions.get(self.submission_id)
+        self.assertIn(key, submission["documents"][-1]["url"])
+        self.assertIn("Signature=", submission["documents"][-1]["url"])
+        self.assertIn("KeyID=", submission["documents"][-1]["url"])
+        self.assertNotIn("Expires=", submission["documents"][-1]["url"])
 
-    response = self.app.get("/submissions/{}/documents/{}".format(self.submission_id, doc_id))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(doc_id, response.json["data"]["id"])
-    self.assertEqual("name name.doc", response.json["data"]["title"])
-    dateModified2 = response.json["data"]["dateModified"]
-    self.assertTrue(dateModified < dateModified2)
-    self.assertEqual(dateModified, response.json["data"]["previousVersions"][0]["dateModified"])
+        response = self.app.get("/submissions/{}/documents/{}".format(self.submission_id, doc_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(doc_id, response.json["data"]["id"])
+        self.assertEqual("name name.doc", response.json["data"]["title"])
+        dateModified2 = response.json["data"]["dateModified"]
+        self.assertTrue(dateModified < dateModified2)
+        self.assertEqual(dateModified, response.json["data"]["previousVersions"][0]["dateModified"])
 
-    response = self.app.get("/submissions/{}/documents?all=true".format(self.submission_id))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(dateModified, response.json["data"][0]["dateModified"])
-    self.assertEqual(dateModified2, response.json["data"][1]["dateModified"])
+        response = self.app.get("/submissions/{}/documents?all=true".format(self.submission_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(dateModified, response.json["data"][0]["dateModified"])
+        self.assertEqual(dateModified2, response.json["data"][1]["dateModified"])
 
-    response = self.app.post(
-        "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
-        upload_files=[("file", "name.doc", b"content")],
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    doc_id = response.json["data"]["id"]
-    dateModified = response.json["data"]["dateModified"]
-    self.assertIn(doc_id, response.headers["Location"])
+        response = self.app.post(
+            "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
+            upload_files=[("file", "name.doc", b"content")],
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        doc_id = response.json["data"]["id"]
+        dateModified = response.json["data"]["dateModified"]
+        self.assertIn(doc_id, response.headers["Location"])
 
-    response = self.app.get("/submissions/{}/documents".format(self.submission_id))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(dateModified2, response.json["data"][0]["dateModified"])
-    self.assertEqual(dateModified, response.json["data"][1]["dateModified"])
+        response = self.app.get("/submissions/{}/documents".format(self.submission_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(dateModified2, response.json["data"][0]["dateModified"])
+        self.assertEqual(dateModified, response.json["data"][1]["dateModified"])
     response = self.app.put(
         "/submissions/{}/documents/{}?acc_token={}".format(self.submission_id, doc_id, self.submission_token),
         status=404,
