@@ -25,4 +25,4 @@ class Argument(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     description = StringType(required=True)
     relatedJustification = StringType(required=True)
-    evidences = ListType(ModelType(Evidence))
+    evidences = ListType(ModelType(Evidence), serialize_when_none=True)

@@ -1110,6 +1110,17 @@ def create_complaint_objection_validation(self):
         ["Invalid relatedItem pattern"],
     )
 
+    for relates_to in ("award", "lot", "cancellation"):
+        invalid_objection_data["relatesTo"] = relates_to
+        invalid_objection_data["relatedItem"] = f"/tenders/{self.tender_id}/{relates_to}s/{self.tender_id}"
+        complaint_data["objections"] = [invalid_objection_data]
+        response = self.create_complaint(complaint_data, status=422)
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(
+            response.json["errors"][0]["description"][0]["relatedItem"],
+            [f"Invalid {relates_to}s path"],
+        )
+
     invalid_objection_data = deepcopy(test_tender_open_complaint_objection)
     invalid_objection_data["classification"] = {}
     complaint_data["objections"] = [invalid_objection_data]
@@ -1188,7 +1199,7 @@ def create_complaint_objection_validation(self):
 def patch_complaint_objection(self):
     complaint_data = deepcopy(test_tender_below_draft_complaint)
     complaint_data["objections"] = [test_tender_open_complaint_objection]
-    response = self.create_complaint(complaint_data)
+    response = self.create_complaint(complaint_data, with_valid_relates_to=True)
     self.assertEqual(response.status, "201 Created")
     complaint_id = response.json["data"]["id"]
     complaint_token = response.json["access"]["token"]
@@ -1196,12 +1207,14 @@ def patch_complaint_objection(self):
     objection_data = deepcopy(test_tender_open_complaint_objection)
     objection_data["id"] = objection_id
     objection_data["description"] = "Updated one"
+    objection_data["arguments"][0]["evidences"] = []
     complaint_data = {"objections": [objection_data]}
     response = self.patch_complaint(complaint_id, complaint_data, complaint_token)
     self.assertEqual(response.status, "200 OK")
     objection = response.json["data"]["objections"][0]
     self.assertEqual(objection["id"], objection_id)
     self.assertEqual(objection["description"], "Updated one")
+    self.assertNotIn("evidences", objection["arguments"][0])
 
     del objection_data["id"]
     objection_data["description"] = "New one"

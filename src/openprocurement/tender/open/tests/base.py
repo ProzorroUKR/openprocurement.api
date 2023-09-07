@@ -103,8 +103,8 @@ test_tender_open_complaint_objection_argument = {
 test_tender_open_complaint_objection = {
     "title": "My objection",
     "description": "Test objection",
-    "relatesTo": "award",
-    "relatedItem": "tenders/fc390e460c41460b9bde484d6caefc62/awards/fc390e460c41460b9bde484d6caefc61",
+    "relatesTo": "tender",
+    "relatedItem": "/tenders/fc390e460c41460b9bde484d6caefc62",
     "classification": {
         "scheme": "test",
         "id": "3",

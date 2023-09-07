@@ -456,6 +456,8 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.tender_id = tender['id']
         self.set_status("active.tendering")
 
+        test_tender_open_complaint_objection["relatesTo"] = "tender"
+        test_tender_open_complaint_objection["relatedItem"] = f"/tenders/{self.tender_id}"
         objection = deepcopy(test_tender_open_complaint_objection)
         complaint_data = deepcopy(complaint)
         complaint_data["objections"] = [objection]
