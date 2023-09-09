@@ -1,4 +1,5 @@
-from openprocurement.api.constants import OCID_PREFIX
+from openprocurement.api.constants import OCID_PREFIX, ROUTE_PREFIX
+from openprocurement.api.context import get_request
 
 tender_status_choices = (
     "planning",
@@ -26,6 +27,13 @@ def identifier_str(i):
     return f"{i['scheme']} {i['id']}"
 
 
+def absolute_url(url):
+    if url.startswith("/"):
+        request = get_request()
+        url = f"{request.application_url}{ROUTE_PREFIX}{url}"
+    return url
+
+
 def convert_documents(documents, lot_id=None):
     latest_versions = {}
     for d in documents:
@@ -41,7 +49,7 @@ def convert_documents(documents, lot_id=None):
                 "id": d["id"],
                 "title": d["title"],
                 "title_en": d.get("title_en"),
-                "url": d["url"],
+                "url": absolute_url(d["url"]),
                 "datePublished": d["datePublished"],
                 "dateModified": d["dateModified"],
                 "format": d["format"],
@@ -81,14 +89,14 @@ def convert_value(v):
 def convert_items(items, lot_id=None):
     r = [
         {
-            "id": i["id"],
+            "id": i.get("id", str(n)),
             "description": i["description"],
             "classification": i["classification"],
             "additionalClassifications": i.get("additionalClassifications"),
             "unit": {"name": i["unit"]["name"]} if "unit" in i else None,
             "quantity": i.get("quantity"),
         }
-        for i in items
+        for n, i in enumerate(items)
         if lot_id is None or i.get("relatedLot") == lot_id
     ]
     return r
