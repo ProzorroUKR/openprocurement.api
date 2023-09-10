@@ -5,6 +5,9 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from schematics.types import StringType
 from openprocurement.api.models import IsoDateTimeType, ListType, Model
+from openprocurement.tender.core.constants import (
+    PROCUREMENT_METHODS,
+)
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.utils import tender_created_after, generate_tender_id
 from openprocurement.tender.core.procedure.models.base import validate_object_id_uniq
@@ -73,6 +76,8 @@ class CommonBaseTender(Model):
     plans = ListType(ModelType(PlanRelation, required=True))
     is_masked = BooleanType()
 
+    procurementMethod = StringType(choices=PROCUREMENT_METHODS)
+
     if SANDBOX_MODE:
         procurementMethodDetails = StringType()
 
@@ -102,6 +107,7 @@ class PostBaseTender(CommonBaseTender):
 
     title = StringType(required=True)
     mode = StringType(choices=["test"])
+
     if SANDBOX_MODE:
         procurementMethodDetails = StringType()
 
@@ -111,7 +117,7 @@ class PostBaseTender(CommonBaseTender):
         if data.get("procuringEntity", {}).get("kind", "") == "central" and not value:
             raise ValidationError(BaseType.MESSAGES["required"])
 
-    def validate_procurementMethodDetails(self, *args, **kw):
+    def validate_procurementMethodDetails(self, data, value):
         if self.mode and self.mode == "test" and self.procurementMethodDetails and self.procurementMethodDetails != "":
             raise ValidationError("procurementMethodDetails should be used with mode test")
 
@@ -157,6 +163,8 @@ class BaseTender(PatchBaseTender):
     mode = StringType(choices=["test"])
     mainProcurementCategory = StringType(choices=["goods", "services", "works"])
     buyers = ListType(ModelType(BaseOrganization, required=True))
+
+    procurementMethod = StringType(choices=PROCUREMENT_METHODS, required=True)
 
     if SANDBOX_MODE:
         procurementMethodDetails = StringType()

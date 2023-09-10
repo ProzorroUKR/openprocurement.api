@@ -453,7 +453,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertIn(
         {
-            "description": ["Value must be one of ['open']."],
+            "description": ["Value must be one of ['open', 'selective', 'limited']."],
             "location": "body",
             "name": "procurementMethod",
         },
@@ -468,6 +468,23 @@ def create_tender_invalid(self):
     )
     self.assertIn(
         {"description": ["This field is required."], "location": "body", "name": "items"}, response.json["errors"]
+    )
+
+    data = deepcopy(self.initial_data)
+    data["procurementMethod"] = "limited"
+    response = self.app.post_json(
+        request_path, {"data": data, "config": self.initial_config}, status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertIn(
+        {
+            "description": "procurementMethod should be open",
+            "location": "body",
+            "name": "procurementMethod",
+        },
+        response.json["errors"],
     )
 
     response = self.app.post_json(

@@ -7,6 +7,8 @@ from unittest.mock import patch, MagicMock
 from copy import deepcopy
 import json
 
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_config
+
 
 @patch("openprocurement.api.mask.MASK_OBJECT_DATA", True)
 @patch("openprocurement.api.mask.MASK_IDENTIFIER_IDS", [
@@ -53,6 +55,7 @@ def test_mask_tender_by_is_masked(app):
     set_now()
     with open(f"src/openprocurement/tender/core/tests/data/tender_to_mask.json") as f:
         initial_data = json.load(f)
+    initial_data["config"] = test_tender_below_config
     app.app.registry.mongodb.tenders.save(initial_data, insert=True)
 
     id = initial_data['_id']

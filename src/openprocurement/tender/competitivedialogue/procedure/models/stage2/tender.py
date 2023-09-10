@@ -51,7 +51,6 @@ class BotPatchTender(Model):  # TODO: move to a distinct endpoint
 # === EU
 class PostEUTender(BasePostTender):
     procurementMethodType = StringType(choices=[STAGE_2_EU_TYPE], default=STAGE_2_EU_TYPE)
-    procurementMethod = StringType(choices=["selective"], default="selective")
 
     owner = StringType(required=True)
     tenderID = StringType()  # in tests it's not passed
@@ -93,7 +92,6 @@ class PostEUTender(BasePostTender):
 
 class PatchEUTender(BasePatchTender):
     procurementMethodType = StringType(choices=[STAGE_2_EU_TYPE])
-    procurementMethod = StringType(choices=["selective"])
 
     items = ListType(
         ModelType(EUItem, required=True),
@@ -110,7 +108,6 @@ class PatchEUTender(BasePatchTender):
 
 class EUTender(BaseTender):
     procurementMethodType = StringType(choices=[STAGE_2_EU_TYPE], required=True)
-    procurementMethod = StringType(choices=["selective"], default="selective", required=True)
 
     dialogue_token = StringType(required=True)
     dialogueID = StringType()
@@ -170,7 +167,6 @@ def get_tendering_end():
 
 class PostUATender(UABasePostTender):
     procurementMethodType = StringType(choices=[STAGE_2_UA_TYPE], default=STAGE_2_UA_TYPE)
-    procurementMethod = StringType(choices=["selective"], default="selective", required=True)
     procuringEntity = ModelType(UAProcuringEntity, required=True)
 
     owner = StringType(required=True)
@@ -220,7 +216,6 @@ class PostUATender(UABasePostTender):
 
 class PatchUATender(UABasePatchTender):
     procurementMethodType = StringType(choices=[STAGE_2_UA_TYPE])
-    procurementMethod = StringType(choices=["selective"])
     procuringEntity = ModelType(UAProcuringEntity)
 
     items = ListType(
@@ -238,7 +233,6 @@ class PatchUATender(UABasePatchTender):
 
 class UATender(UABaseTender):
     procurementMethodType = StringType(choices=[STAGE_2_UA_TYPE], required=True)
-    procurementMethod = StringType(choices=["selective"], default="selective", required=True)
     procuringEntity = ModelType(UAProcuringEntity, required=True)
 
     dialogue_token = StringType(required=True)
