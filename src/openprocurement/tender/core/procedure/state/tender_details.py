@@ -4,6 +4,13 @@ from typing import TYPE_CHECKING
 from jsonschema.exceptions import ValidationError
 from jsonschema.validators import validate
 
+from openprocurement.tender.core.constants import (
+    PROCUREMENT_METHOD_SELECTIVE,
+    LIMITED_PROCUREMENT_METHOD_TYPES,
+    PROCUREMENT_METHOD_LIMITED,
+    PROCUREMENT_METHOD_OPEN,
+    SELECTIVE_PROCUREMENT_METHOD_TYPES,
+)
 from openprocurement.tender.core.procedure.context import (
     get_request,
     get_tender_config,
@@ -108,6 +115,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
 
     def on_post(self, tender):
         self.validate_config(tender)
+        self.validate_procurement_method(tender)
         self.validate_minimal_step(tender)
         self.validate_submission_method(tender)
         self.watch_value_meta_changes(tender)
@@ -126,6 +134,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
             set_mode_test_titles(tender)
 
     def on_patch(self, before, after):
+        self.validate_procurement_method(after, before=before)
         self.validate_pre_qualification_status_change(before, after)
         self.validate_tender_period_start_date_change(before, after)
         self.validate_minimal_step(after, before=before)
@@ -360,6 +369,31 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
         validate_field(data, "submissionMethodDetails", required=False, **kwargs)
         validate_field(data, "submissionMethodDetails_en", required=False, **kwargs)
         validate_field(data, "submissionMethodDetails_ru", required=False, **kwargs)
+
+    @staticmethod
+    def default_procurement_method(data):
+        config = get_tender_config()
+        if config["preSelection"] is True:
+            return PROCUREMENT_METHOD_SELECTIVE
+        if data["procurementMethodType"] in SELECTIVE_PROCUREMENT_METHOD_TYPES:
+            return PROCUREMENT_METHOD_SELECTIVE
+        if data["procurementMethodType"] in LIMITED_PROCUREMENT_METHOD_TYPES:
+            return PROCUREMENT_METHOD_LIMITED
+        return PROCUREMENT_METHOD_OPEN
+
+    def validate_procurement_method(self, data, before=None):
+        default_procurement_method = self.default_procurement_method(data)
+        if before is None and data.get("procurementMethod") is None:
+            # default on post only
+            data["procurementMethod"] = default_procurement_method
+        if data.get("procurementMethod") != default_procurement_method:
+            raise_operation_error(
+                self.request,
+                "procurementMethod should be {}".format(default_procurement_method),
+                status=422,
+                location="body",
+                name="procurementMethod",
+            )
 
     @staticmethod
     def validate_fields_unchanged(before, after):

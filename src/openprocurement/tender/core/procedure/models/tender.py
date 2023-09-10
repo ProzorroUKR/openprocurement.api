@@ -98,7 +98,6 @@ class PostTender(PostBaseTender):
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
     submissionMethodDetails_en = StringType()
     submissionMethodDetails_ru = StringType()
-    procurementMethod = StringType(choices=["open", "selective", "limited"], default="open")
     awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST], default=AWARD_CRITERIA_LOWEST_COST)
 
     procuringEntity = ModelType(ProcuringEntity, required=True)
@@ -147,7 +146,6 @@ class PatchTender(PatchBaseTender):
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
     submissionMethodDetails_en = StringType()
     submissionMethodDetails_ru = StringType()
-    procurementMethod = StringType(choices=["open"])
     awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST])
     procuringEntity = ModelType(ProcuringEntity)
     value = ModelType(Value)
@@ -173,7 +171,6 @@ class Tender(BaseTender):
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
     submissionMethodDetails_en = StringType()
     submissionMethodDetails_ru = StringType()
-    procurementMethod = StringType(choices=["open"], required=True)
     awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST], required=True)
     procuringEntity = ModelType(ProcuringEntity, required=True)
     value = ModelType(Value, required=True)

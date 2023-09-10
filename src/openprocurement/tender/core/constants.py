@@ -4,7 +4,12 @@ from datetime import datetime, timedelta
 from openprocurement.api.constants import TZ
 from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
 from openprocurement.tender.cfaua.constants import CFA_UA
-from openprocurement.tender.competitivedialogue.constants import CD_UA_TYPE, CD_EU_TYPE
+from openprocurement.tender.competitivedialogue.constants import (
+    CD_UA_TYPE,
+    CD_EU_TYPE,
+    STAGE_2_UA_TYPE,
+    STAGE_2_EU_TYPE,
+)
 from openprocurement.tender.esco.constants import ESCO
 from openprocurement.tender.limited.constants import REPORTING, NEGOTIATION, NEGOTIATION_QUICK
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
@@ -13,6 +18,27 @@ from openprocurement.tender.openua.constants import ABOVE_THRESHOLD_UA
 from openprocurement.tender.openuadefense.constants import ABOVE_THRESHOLD_UA_DEFENSE
 from openprocurement.tender.pricequotation.constants import PQ as PRICEQUOTATION
 from openprocurement.tender.simpledefense.constants import SIMPLE_DEFENSE
+
+PROCUREMENT_METHOD_SELECTIVE = "selective"
+PROCUREMENT_METHOD_OPEN = "open"
+PROCUREMENT_METHOD_LIMITED = "limited"
+
+PROCUREMENT_METHODS = [
+    PROCUREMENT_METHOD_OPEN,
+    PROCUREMENT_METHOD_SELECTIVE,
+    PROCUREMENT_METHOD_LIMITED,
+]
+
+LIMITED_PROCUREMENT_METHOD_TYPES = [
+    REPORTING,
+    NEGOTIATION,
+    NEGOTIATION_QUICK,
+]
+
+SELECTIVE_PROCUREMENT_METHOD_TYPES = [
+    STAGE_2_UA_TYPE,
+    STAGE_2_EU_TYPE,
+]
 
 BIDDER_TIME = timedelta(minutes=6)
 SERVICE_TIME = timedelta(minutes=9)

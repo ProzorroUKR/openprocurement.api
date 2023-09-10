@@ -48,7 +48,6 @@ class PostReportingTender(PostBaseTender):
         validators=[validate_cpv_group, validate_items_uniq, validate_classification_id],
     )
     value = ModelType(Value)
-    procurementMethod = StringType(choices=["limited"], default="limited")
     status = StringType(choices=["draft"], default="draft")
     milestones = ListType(ModelType(Milestone, required=True),
                           validators=[validate_items_uniq, validate_milestones])
@@ -71,7 +70,6 @@ class PatchReportingTender(PatchBaseTender):
         validators=[validate_cpv_group, validate_items_uniq, validate_classification_id],
     )
     value = ModelType(Value)
-    procurementMethod = StringType(choices=["limited"])
     status = StringType(choices=["draft", "active"])
     milestones = ListType(ModelType(Milestone, required=True),
                           validators=[validate_items_uniq, validate_milestones])
@@ -92,7 +90,6 @@ class ReportingTender(BaseTender):
         validators=[validate_cpv_group, validate_items_uniq, validate_classification_id],
     )
     value = ModelType(Value)
-    procurementMethod = StringType(choices=["limited"], required=True)
     status = StringType(
         choices=[
             "draft",
@@ -150,7 +147,6 @@ def validate_cause(value):
 
 class PostNegotiationTender(PostBaseTender):
     procurementMethodType = StringType(choices=[NEGOTIATION], default=NEGOTIATION)
-    procurementMethod = StringType(choices=["limited"], default="limited")
     procuringEntity = ModelType(NegotiationProcuringEntity, required=True)
     status = StringType(choices=["draft"], default="draft")
     value = ModelType(Value, required=True)
@@ -186,7 +182,6 @@ class PostNegotiationTender(PostBaseTender):
 
 class PatchNegotiationTender(PatchBaseTender):
     procurementMethodType = StringType(choices=[NEGOTIATION])
-    procurementMethod = StringType(choices=["limited"])
     procuringEntity = ModelType(NegotiationProcuringEntity)
     status = StringType(choices=["draft", "active"])
     value = ModelType(Value)
@@ -207,7 +202,6 @@ class PatchNegotiationTender(PatchBaseTender):
 
 class NegotiationTender(BaseTender):
     procurementMethodType = StringType(choices=[NEGOTIATION], required=True)
-    procurementMethod = StringType(choices=["limited"], required=True)
     procuringEntity = ModelType(NegotiationProcuringEntity, required=True)
     status = StringType(
         choices=[
