@@ -27,27 +27,6 @@ class ContractDocumentResourceTest(BaseEContractContentWebTest):
     test_patch_contract_document = snitch(patch_contract_document)
     test_contract_change_document = snitch(contract_change_document)
 
-    def setUp(self):
-        super().setUp()
-        response = self.app.put_json(
-            f"/contracts/{self.contract_id}/buyer/signer_info?acc_token={self.tender_token}",
-            {"data": test_signer_info},
-        )
-        self.assertEqual(response.status, "200 OK")
-
-        response = self.app.put_json(
-            f"/contracts/{self.contract_id}/suppliers/signer_info?acc_token={self.bid_token}",
-            {"data": test_signer_info},
-        )
-        self.assertEqual(response.status, "200 OK")
-
-        response = self.app.patch_json(
-            f"/contracts/{self.contract_id}?acc_token={self.tender_token}",
-            {"data": {"status": "active"}},
-        )
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json["data"]["status"], "active")
-
 
 class ContractDocumentWithDSResourceTest(ContractDocumentResourceTest):
 

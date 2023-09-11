@@ -1644,7 +1644,7 @@ def patch_tender_contract_wo_amount_net(self):
     token = response.json["access"]["token"]
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={token}",
-        {"data": {"value": {**self.contract["value"], "amount": 235}}},
+        {"data": {"value": {**self.contract["value"], "amount": self.contract["value"]["amount"] - 1}}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")

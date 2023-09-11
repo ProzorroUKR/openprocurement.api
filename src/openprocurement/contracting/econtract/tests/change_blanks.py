@@ -2,6 +2,7 @@ from datetime import timedelta
 from copy import deepcopy
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.econtract.tests.utils import create_contract
+from openprocurement.contracting.econtract.tests.data import test_signer_info
 
 
 def no_items_contract_change(self):
@@ -11,13 +12,29 @@ def no_items_contract_change(self):
     contract = create_contract(self, data)
     self.assertEqual(contract["status"], "pending")
     self.assertNotIn("items", contract)
-    tender_token = data["tender_token"]
+    token = data["tender_token"]
+    supplier_token = data["bid_token"]
 
-    response = self.app.patch_json(
-        f"/contracts/{contract['id']}/credentials?acc_token={tender_token}", {"data": ""}
+    # activate contract
+
+    response = self.app.put_json(
+        f"/contracts/{contract['id']}/buyer/signer_info?acc_token={token}",
+        {"data": test_signer_info},
+
     )
     self.assertEqual(response.status, "200 OK")
-    token = response.json["access"]["token"]
+
+    response = self.app.put_json(
+        f"/contracts/{contract['id']}/suppliers/signer_info?acc_token={supplier_token}",
+        {"data": test_signer_info},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.patch_json(
+        f"/contracts/{contract['id']}?acc_token={token}",
+        {"data": {"status": "active"}},
+    )
+    self.assertEqual(response.status, "200 OK")
 
     response = self.app.post_json(
         f"/contracts/{contract['id']}/changes?acc_token={token}",
@@ -55,14 +72,8 @@ def no_items_contract_change(self):
     self.assertNotIn("items", response.json["data"])
 
 
-
 def change_date_signed(self):
-    response = self.app.patch_json(
-        f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
-        {"data": {"dateSigned": get_now().isoformat()}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
+    self.set_status("active")
 
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
@@ -275,16 +286,13 @@ def change_date_signed(self):
     self.assertEqual(response.status, "200 OK")
 
 
-
 def date_signed_on_change_creation(self):
+
     # test create change with date signed
+    self.set_status("active")
+
     now = get_now()
     one_day_in_past = (now - timedelta(days=1)).isoformat()
-
-    response = self.app.patch_json(
-        f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
-        {"data": {"dateSigned": now.isoformat()}},
-    )
 
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
@@ -326,7 +334,7 @@ def date_signed_on_change_creation(self):
         ],
     )
 
-    date = now.isoformat()
+    date = get_now().isoformat()
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {

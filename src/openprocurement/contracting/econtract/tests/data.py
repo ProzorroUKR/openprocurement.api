@@ -10,6 +10,9 @@ test_contract_data = deepcopy(base_test_contract_data)
 test_buyer = test_contract_data.pop("procuringEntity")
 del test_buyer["contactPoint"]
 
+for i in test_contract_data.get("suppliers", ""):
+    del i["contactPoint"]
+
 test_contract_data.update({
     "bid_owner": "broker",
     "bid_token": uuid4().hex,

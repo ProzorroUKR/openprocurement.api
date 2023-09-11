@@ -73,6 +73,9 @@ def not_found(self):
 
 
 def create_contract_document(self):
+    if self.contract["status"] != "active":
+        self.set_status("active")
+
     response = self.app.get("/contracts/{}/documents".format(self.contract_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -173,6 +176,9 @@ def create_contract_document(self):
 
 
 def put_contract_document(self):
+    if self.contract["status"] != "active":
+        self.set_status("active")
+
     response = self.app.post_json(
         f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
         {"data": {
@@ -275,7 +281,6 @@ def put_contract_document(self):
     self.assertIn("KeyID=", response.location)
     self.assertIn("Expires=", response.location)
 
-    import pdb; pdb.set_trace()
     response = self.app.patch_json(
         "/contracts/{}?acc_token={}".format(self.contract_id, self.contract_token),
         {"data": {"status": "terminated", "amountPaid": {"amount": 100, "amountNet": 90}}},
