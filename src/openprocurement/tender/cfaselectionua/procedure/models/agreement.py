@@ -23,10 +23,6 @@ from openprocurement.tender.cfaselectionua.procedure.models.change import (
 )
 
 
-class AgreementUUID(Model):
-    id = MD5Type(required=True)
-
-
 class PatchAgreement(Model):
     id = MD5Type()
     agreementID = StringType()

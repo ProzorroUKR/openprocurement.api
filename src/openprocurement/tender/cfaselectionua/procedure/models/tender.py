@@ -22,7 +22,8 @@ from openprocurement.tender.cfaselectionua.procedure.models.lot import (
 from openprocurement.tender.cfaselectionua.procedure.models.feature import Feature
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
 from openprocurement.tender.cfaselectionua.procedure.models.organization import ProcuringEntity
-from openprocurement.tender.cfaselectionua.procedure.models.agreement import Agreement, AgreementUUID
+from openprocurement.tender.cfaselectionua.procedure.models.agreement import Agreement
+from openprocurement.tender.core.procedure.models.agreement import AgreementUUID
 from openprocurement.tender.cfaselectionua.procedure.models.item import Item
 from openprocurement.tender.core.procedure.models.tender import (
     validate_items_related_lot,

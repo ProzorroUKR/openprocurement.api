@@ -14,6 +14,10 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_2,)
 
+    def validate_agreement(self, tender):
+        # skip main agreement validation logic
+        pass
+
     def status_up(self, before, after, data):
         super().status_up(before, after, data)
 
