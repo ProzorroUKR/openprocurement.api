@@ -1878,7 +1878,7 @@ def patch_tender_award_complaint(self):
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["errors"][0]["description"],
-                         "Can't update draft complaint to cancelled status")
+                         "Can't update complaint from draft to cancelled status")
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints".format(self.tender_id, self.award_id),
@@ -2037,7 +2037,7 @@ def patch_tender_award_complaint(self):
     )
 
 
-@patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def bot_patch_tender_award_complaint(self):
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
@@ -2070,7 +2070,7 @@ def bot_patch_tender_award_complaint(self):
         self.assertEqual(response.json["data"]["status"], "pending")
 
 
-@patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 def bot_patch_tender_award_complaint_forbidden(self):
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
@@ -3630,12 +3630,16 @@ def put_tender_award_complaint_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("name.doc", response.json["data"]["title"])
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/awards/{}/complaints/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.award_id, self.complaint_id, doc_id, self.complaint_owner_token
         ),
-        "content3",
-        content_type="application/msword",
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -3740,12 +3744,16 @@ def patch_tender_award_complaint_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending")
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/awards/{}/complaints/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.award_id, self.complaint_id, doc_id, self.complaint_owner_token
         ),
-        "contentX",
-        content_type="application/msword",
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -3761,7 +3769,7 @@ def patch_tender_award_complaint_document(self):
     self.assertIn("http://localhost/get/", response.location)
     self.assertIn("Signature=", response.location)
     self.assertIn("KeyID=", response.location)
-    self.assertNotIn("Expires=", response.location)
+    self.assertIn("Expires=", response.location)
 
     self.set_status("complete")
 

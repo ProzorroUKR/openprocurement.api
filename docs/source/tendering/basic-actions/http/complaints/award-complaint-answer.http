@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/0f776099eb8344b4a149200a8657a9df/awards/91ac65b9beb54606b75e117055a42ea4/complaints/1869e9a9a712468b99538698ce2078b5?acc_token=596d2a1c0b3f4932bf4d825bfc8c24f2 HTTP/1.0
+PATCH /api/2.5/tenders/0f776099eb8344b4a149200a8657a9df/awards/91ac65b9beb54606b75e117055a42ea4/complaints/14237aa0cc354ccd869a51f7dad6971d?acc_token=596d2a1c0b3f4932bf4d825bfc8c24f2 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 387
 Content-Type: application/json
@@ -18,10 +18,9 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "1869e9a9a712468b99538698ce2078b5",
+    "id": "14237aa0cc354ccd869a51f7dad6971d",
     "complaintID": "UA-2023-01-01-000001-a.6",
     "date": "2023-01-01T00:00:03+02:00",
-    "type": "claim",
     "author": {
       "name": "ДКП «Школяр»",
       "identifier": {
@@ -38,18 +37,19 @@ Content-Type: application/json
         "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Сергій Олексюк",
         "email": "soleksuk@gmail.com",
-        "telephone": "+380432216930"
+        "telephone": "+380432216930",
+        "name": "Сергій Олексюк"
       }
     },
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-    "dateSubmitted": "2023-01-01T00:00:03+02:00",
+    "status": "answered",
     "resolution": "Умови виправлено, вибір переможня буде розгянуто повторно",
     "resolutionType": "resolved",
-    "dateAnswered": "2023-01-01T00:00:03+02:00",
-    "status": "answered"
+    "dateSubmitted": "2023-01-01T00:00:03+02:00",
+    "type": "claim",
+    "dateAnswered": "2023-01-01T00:00:03+02:00"
   }
 }
 

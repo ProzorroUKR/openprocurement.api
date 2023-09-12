@@ -37,13 +37,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0f776099eb8344b4a149200a8657a9df/awards/91ac65b9beb54606b75e117055a42ea4/complaints/1869e9a9a712468b99538698ce2078b5
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0f776099eb8344b4a149200a8657a9df/awards/91ac65b9beb54606b75e117055a42ea4/complaints/14237aa0cc354ccd869a51f7dad6971d
 
 {
   "data": {
-    "id": "1869e9a9a712468b99538698ce2078b5",
-    "complaintID": "UA-2023-01-01-000001-a.6",
-    "date": "2023-01-01T00:00:03+02:00",
+    "status": "claim",
     "type": "claim",
     "author": {
       "name": "ДКП «Школяр»",
@@ -61,19 +59,21 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0f776099eb8344b4
         "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Сергій Олексюк",
         "email": "soleksuk@gmail.com",
-        "telephone": "+380432216930"
+        "telephone": "+380432216930",
+        "name": "Сергій Олексюк"
       }
     },
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-    "dateSubmitted": "2023-01-01T00:00:03+02:00",
-    "status": "claim"
+    "id": "14237aa0cc354ccd869a51f7dad6971d",
+    "date": "2023-01-01T00:00:03+02:00",
+    "complaintID": "UA-2023-01-01-000001-a.6",
+    "dateSubmitted": "2023-01-01T00:00:03+02:00"
   },
   "access": {
-    "token": "158ac51114c74865b37c358fc28844f1",
-    "transfer": "77d4018fae1d4a90900f9d62b497d209"
+    "token": "ccd10471d1494d8095cf20829ac32a72",
+    "transfer": "16958dbbf9c24da3b67a5833a367b160"
   }
 }
 

@@ -12,13 +12,13 @@ from openprocurement.tender.open.validation import (
 from openprocurement.tender.open.views.complaint_post import TenderComplaintPostResource
 
 
-@optendersresource(
-    name=f"{ABOVE_THRESHOLD}:Tender Award Complaint Posts",
-    collection_path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/posts",
-    path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/posts/{post_id}",
-    procurementMethodType=ABOVE_THRESHOLD,
-    description="Tender award complaint posts",
-)
+# @optendersresource(
+#     name=f"{ABOVE_THRESHOLD}:Tender Award Complaint Posts",
+#     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/posts",
+#     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/posts/{post_id}",
+#     procurementMethodType=ABOVE_THRESHOLD,
+#     description="Tender award complaint posts",
+# )
 class TenderAwardComplaintPostResource(TenderComplaintPostResource):
     def generate_location_url(self):
         return self.request.route_url(

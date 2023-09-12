@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/5f16f024cad74253882085d3438eb6e0/qualifications/9bb4cca9c17343c191da1750c233fdf6/complaints/312dcefe4a16497dbae89c3c2ef92df2?acc_token=f75c2ee30f6e45b4b9ff97b7b4b6b4bc HTTP/1.0
+PATCH /api/2.5/tenders/5f16f024cad74253882085d3438eb6e0/qualifications/9bb4cca9c17343c191da1750c233fdf6/complaints/168da9b477814a32bf8c9a87dff8bb13?acc_token=18c04a480c4147eeac79f3402246ef86 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 32
 Content-Type: application/json
@@ -16,9 +16,10 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "312dcefe4a16497dbae89c3c2ef92df2",
+    "id": "168da9b477814a32bf8c9a87dff8bb13",
     "complaintID": "UA-2023-01-01-000001-a.10",
     "date": "2023-01-01T00:00:01+02:00",
+    "status": "mistaken",
     "type": "complaint",
     "author": {
       "name": "ДКП «Школяр»",
@@ -30,15 +31,15 @@ Content-Type: application/json
         "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Сергій Олексюк",
         "email": "soleksuk@gmail.com",
-        "telephone": "+380432216930"
+        "telephone": "+380432216930",
+        "name": "Сергій Олексюк"
       },
       "identifier": {
         "scheme": "UA-EDR",
+        "uri": "http://www.sc.gov.ua/",
         "id": "00137256",
-        "legalName": "ДКП «Школяр»",
-        "uri": "http://www.sc.gov.ua/"
+        "legalName": "ДКП «Школяр»"
       }
     },
     "title": "Недостатньо інформації",
@@ -47,8 +48,7 @@ Content-Type: application/json
       "amount": 3000.0,
       "currency": "UAH"
     },
-    "rejectReason": "cancelledByComplainant",
-    "status": "mistaken"
+    "rejectReason": "cancelledByComplainant"
   }
 }
 

@@ -14,22 +14,33 @@ from openprocurement.tender.core.tests.utils import change_auth
 
 
 def create_tender_award_complaint_document(self):
-    response = self.app.post(
-        "/tenders/{}/awards/{}/complaints/{}/documents".format(self.tender_id, self.award_id, self.complaint_id),
-        upload_files=[("file", "name.doc", b"content")],
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/complaints/{}/documents".format(
+            self.tender_id, self.award_id, self.complaint_id,
+        ),
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=403,
     )
-    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't add document in current (draft) complaint status"
+        response.json["errors"][0]["description"], "Forbidden"
     )
 
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints/{}/documents?acc_token={}".format(
             self.tender_id, self.award_id, self.complaint_id, self.complaint_owner_token
         ),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -78,7 +89,7 @@ def create_tender_award_complaint_document(self):
     self.assertIn("http://localhost/get/", response.location)
     self.assertIn("Signature=", response.location)
     self.assertIn("KeyID=", response.location)
-    self.assertNotIn("Expires=", response.location)
+    self.assertIn("Expires=", response.location)
 
     response = self.app.get(
         "/tenders/{}/awards/{}/complaints/{}/documents/{}".format(
@@ -108,9 +119,14 @@ def create_tender_award_complaint_document(self):
     if RELEASE_2020_04_19 < get_now():
         activate_cancellation_after_2020_04_19(self, cancellation_id)
 
-    response = self.app.post(
-        "/tenders/{}/awards/{}/complaints/{}/documents".format(self.tender_id, self.award_id, self.complaint_id),
-        upload_files=[("file", "name.doc", b"content")],
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints/{self.complaint_id}/documents?acc_token={self.tender_token}",
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -119,11 +135,16 @@ def create_tender_award_complaint_document(self):
 
 
 def put_tender_award_complaint_document(self):
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints/{}/documents?acc_token={}".format(
             self.tender_id, self.award_id, self.complaint_id, self.complaint_owner_token
         ),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -131,8 +152,8 @@ def put_tender_award_complaint_document(self):
     self.assertIn(doc_id, response.headers["Location"])
 
     response = self.app.put_json(
-        "/tenders/{}/awards/{}/complaints/{}/documents/{}".format(
-            self.tender_id, self.award_id, self.complaint_id, doc_id
+        "/tenders/{}/awards/{}/complaints/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.award_id, self.complaint_id, doc_id, self.tender_token,
         ),
         {"data": {
             "title": "name.doc",
@@ -171,7 +192,7 @@ def put_tender_award_complaint_document(self):
     self.assertIn("http://localhost/get/", response.location)
     self.assertIn("Signature=", response.location)
     self.assertIn("KeyID=", response.location)
-    self.assertNotIn("Expires=", response.location)
+    self.assertIn("Expires=", response.location)
 
     response = self.app.get(
         "/tenders/{}/awards/{}/complaints/{}/documents/{}".format(
@@ -183,12 +204,16 @@ def put_tender_award_complaint_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("name.doc", response.json["data"]["title"])
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/awards/{}/complaints/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.award_id, self.complaint_id, doc_id, self.complaint_owner_token
         ),
-        "content3",
-        content_type="application/msword",
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -204,14 +229,18 @@ def put_tender_award_complaint_document(self):
     self.assertIn("http://localhost/get/", response.location)
     self.assertIn("Signature=", response.location)
     self.assertIn("KeyID=", response.location)
-    self.assertNotIn("Expires=", response.location)
+    self.assertIn("Expires=", response.location)
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/awards/{}/complaints/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.award_id, self.complaint_id, doc_id, self.complaint_owner_token
         ),
-        "content4",
-        content_type="application/msword",
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -226,7 +255,7 @@ def put_tender_award_complaint_document(self):
     self.assertIn("http://localhost/get/", response.location)
     self.assertIn("Signature=", response.location)
     self.assertIn("KeyID=", response.location)
-    self.assertNotIn("Expires=", response.location)
+    self.assertIn("Expires=", response.location)
 
     if RELEASE_2020_04_19 < get_now():
         self.set_all_awards_complaint_period_end()
@@ -238,7 +267,7 @@ def put_tender_award_complaint_document(self):
         "relatedLot": self.lots[0]["id"],
     })
     response = self.app.post_json(
-        "/tenders/{}/cancellations".format(self.tender_id),
+        f"/tenders/{self.tender_id}/cancellations?acc_token={self.tender_token}",
         {"data": cancellation},
     )
     self.assertEqual(response.status, "201 Created")
@@ -264,11 +293,16 @@ def put_tender_award_complaint_document(self):
 
 
 def patch_tender_award_complaint_document(self):
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints/{}/documents?acc_token={}".format(
             self.tender_id, self.award_id, self.complaint_id, self.complaint_owner_token
         ),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -576,11 +610,16 @@ def get_tender_award(self):
 
 
 def patch_tender_award_complaint_document(self):
-    response = self.app.post(
+    response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints/{}/documents?acc_token={}".format(
             self.tender_id, self.award_id, self.complaint_id, self.complaint_owner_token
         ),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -636,12 +675,16 @@ def patch_tender_award_complaint_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending")
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/tenders/{}/awards/{}/complaints/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.award_id, self.complaint_id, doc_id, self.complaint_owner_token
         ),
-        "content2",
-        content_type="application/msword",
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -656,7 +699,7 @@ def patch_tender_award_complaint_document(self):
     self.assertIn("http://localhost/get/", response.location)
     self.assertIn("Signature=", response.location)
     self.assertIn("KeyID=", response.location)
-    self.assertNotIn("Expires=", response.location)
+    self.assertIn("Expires=", response.location)
 
     self.set_status("complete")
 

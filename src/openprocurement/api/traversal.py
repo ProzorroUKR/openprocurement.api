@@ -18,7 +18,7 @@ class Root(object):
 
 
 def get_child_items(parent, item_field, item_id):
-    return [i for i in getattr(parent, item_field, []) if i.id == item_id]
+    return [i for i in parent.get(item_field, []) if i.get("id") == item_id]
 
 
 def get_item(parent, key, request, where_search=None):

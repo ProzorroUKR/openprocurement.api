@@ -12,8 +12,8 @@ def includeme(config):
     LOGGER.info("Init tender.openua plugin.")
 
     config.add_tender_procurementMethodType(Tender)
-    config.scan("openprocurement.tender.openua.views")
     config.scan("openprocurement.tender.openua.procedure.views")
+    # config.scan("openprocurement.tender.openua.views")
     config.registry.registerAdapter(
         TenderAboveThresholdUAConfigurator, (IAboveThresholdUATender, IRequest), IContentConfigurator
     )

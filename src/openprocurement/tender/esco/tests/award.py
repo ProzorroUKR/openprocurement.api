@@ -322,19 +322,19 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseESCOContentWebTest):
     def setUp(self):
         super(Tender2LotAwardComplaintDocumentResourceTest, self).setUp()
         # Create award
-        self.app.authorization = ("Basic", ("token", ""))
         bid = self.initial_bids[0]
-        response = self.app.post_json(
-            "/tenders/{}/awards".format(self.tender_id),
-            {
-                "data": {
-                    "suppliers": [test_tender_below_organization],
-                    "status": "pending",
-                    "bid_id": bid["id"],
-                    "lotID": bid["lotValues"][0]["relatedLot"],
-                }
-            },
-        )
+        with change_auth(self.app, ("Basic", ("token", ""))):
+            response = self.app.post_json(
+                "/tenders/{}/awards".format(self.tender_id),
+                {
+                    "data": {
+                        "suppliers": [test_tender_below_organization],
+                        "status": "pending",
+                        "bid_id": bid["id"],
+                        "lotID": bid["lotValues"][0]["relatedLot"],
+                    }
+                },
+            )
         award = response.json["data"]
         self.award_id = award["id"]
         self.app.patch_json(

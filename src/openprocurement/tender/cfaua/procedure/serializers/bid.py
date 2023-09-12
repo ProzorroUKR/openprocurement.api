@@ -23,6 +23,9 @@ def lot_value_serializer(s, values):
 class BidSerializer(BaseBidSerializer):
     serializers = {
         "documents": ListSerializer(ConfidentialDocumentSerializer),
+        "eligibilityDocuments": ListSerializer(ConfidentialDocumentSerializer),
+        "qualificationDocuments": ListSerializer(ConfidentialDocumentSerializer),
+        "financialDocuments": ListSerializer(ConfidentialDocumentSerializer),
         "value": value_amount_to_float,
         "lotValues": lot_value_serializer,
     }

@@ -12,7 +12,7 @@ def includeme(config):
     LOGGER.info("Init tender.open plugin.")
 
     config.add_tender_procurementMethodType(Tender)
-    config.scan("openprocurement.tender.open.views")
+    # config.scan("openprocurement.tender.open.views")
     config.scan("openprocurement.tender.open.procedure.views")
     config.registry.registerAdapter(
         TenderAboveThresholdConfigurator, (IAboveThresholdTender, IRequest), IContentConfigurator

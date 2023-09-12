@@ -319,10 +319,6 @@ class ContractStateMixing(baseclass):
         if pending_complaints or pending_awards_complaints:
             raise_operation_error(get_request(), "Can't sign contract before reviewing all complaints")
 
-    def validate_contract_patch(self, request, before: dict, after: dict):
-        request, tender, award = get_request(), get_tender(), get_award()
-        self.validate_cancellation_blocks(request, tender, lot_id=award.get("lotID"))
-
     def contract_on_patch(self, before: dict, after: dict):
         if before["status"] != after["status"]:
             self.contract_status_up(before["status"], after["status"], after)
@@ -356,7 +352,8 @@ class ContractStateMixing(baseclass):
         self.validate_contract_operation_not_in_allowed_status(request, tender)
 
     def validate_contract_patch(self, request, before, after):
-        tender = get_tender()
+        request, tender, award = get_request(), get_tender(), get_award()
+        self.validate_cancellation_blocks(request, tender, lot_id=award.get("lotID"))
         self.validate_contract_operation_not_in_allowed_status(request, tender)
         self.validate_update_contract_only_for_active_lots(request, tender, before)
         self.validate_update_contract_status_by_supplier(request, before, after)

@@ -27,7 +27,7 @@ class DBSessionCookieMiddleware:
                     session.advance_cluster_time(values["cluster_time"])
                     session.advance_operation_time(values["operation_time"])
                 except Exception as exc:
-                    warning = f"Error on {self.cookie_name} cookie parsing: {exc}"
+                    warning = f"Error on {self.cookie_name} cookie parsing: {exc} with {values}"
                     LOGGER.debug(warning)
 
             set_db_session(session)
@@ -38,7 +38,7 @@ class DBSessionCookieMiddleware:
 
         if warning:
             # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Warning
-            response.headers["Warning"] = f"199 - \"{warning}\""
+            response.headers["X-Warning"] = f"199 - \"{warning}\""
 
         session_data = {
             "operation_time": session.operation_time,

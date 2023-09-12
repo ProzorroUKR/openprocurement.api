@@ -12,7 +12,7 @@ RELEASE_2020_04_19_TEST_ENABLED = get_now() - timedelta(days=1)
 RELEASE_2020_04_19_TEST_DISABLED = get_now() + timedelta(days=1)
 
 
-@mock.patch("openprocurement.tender.open.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_DISABLED)
+@mock.patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_DISABLED)
 def create_complaint_post_release_forbidden(self):
     # try in draft
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
@@ -29,7 +29,7 @@ def create_complaint_post_release_forbidden(self):
     )
 
 
-@mock.patch("openprocurement.tender.open.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
+@mock.patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_complaint_post_status_forbidden(self):
     # try in draft
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
@@ -46,8 +46,7 @@ def create_complaint_post_status_forbidden(self):
     )
 
 
-@mock.patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
-@mock.patch("openprocurement.tender.open.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
+@mock.patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_complaint_post_review_date_forbidden(self):
     # make complaint status pending
     with change_auth(self.app, ("Basic", ("bot", ""))):
@@ -81,7 +80,7 @@ def create_complaint_post_review_date_forbidden(self):
     )
 
 
-@mock.patch("openprocurement.tender.open.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
+@mock.patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_complaint_post_claim_forbidden(self):
     # make complaint type claim
     response = self.post_claim()
@@ -103,8 +102,7 @@ def create_complaint_post_claim_forbidden(self):
     )
 
 
-@mock.patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
-@mock.patch("openprocurement.tender.open.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
+@mock.patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_complaint_post_complaint_owner(self):
     # make complaint status pending
     with change_auth(self.app, ("Basic", ("bot", ""))):
@@ -137,8 +135,7 @@ def create_complaint_post_complaint_owner(self):
     self.assertEqual(response.json["data"]["author"], "complaint_owner")
 
 
-@mock.patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
-@mock.patch("openprocurement.tender.open.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
+@mock.patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_complaint_post_tender_owner(self):
     # make complaint status pending
     with change_auth(self.app, ("Basic", ("bot", ""))):
@@ -171,8 +168,7 @@ def create_complaint_post_tender_owner(self):
     self.assertEqual(response.json["data"]["author"], "tender_owner")
 
 
-@mock.patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
-@mock.patch("openprocurement.tender.open.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
+@mock.patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_complaint_post_validate_recipient(self):
     # make complaint status pending
     with change_auth(self.app, ("Basic", ("bot", ""))):
@@ -218,8 +214,7 @@ def create_complaint_post_validate_recipient(self):
     self.assertIn("Value must be one of ['aboveThresholdReviewers'].", str(response.json["errors"]))
 
 
-@mock.patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
-@mock.patch("openprocurement.tender.open.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
+@mock.patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_complaint_post_validate_related_post(self):
     # make complaint status pending
     with change_auth(self.app, ("Basic", ("bot", ""))):
@@ -312,8 +307,7 @@ def create_complaint_post_validate_related_post(self):
     self.assertIn("relatedPost must be unique.", str(response.json["errors"]))
 
 
-@mock.patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
-@mock.patch("openprocurement.tender.open.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
+@mock.patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def patch_complaint_post(self):
     # make complaint status pending
     with change_auth(self.app, ("Basic", ("bot", ""))):
@@ -343,8 +337,7 @@ def patch_complaint_post(self):
     self.assertEqual(response.content_type, "text/plain")
 
 
-@mock.patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
-@mock.patch("openprocurement.tender.open.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
+@mock.patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def get_complaint_post(self):
     # make complaint status pending
     with change_auth(self.app, ("Basic", ("bot", ""))):
@@ -390,8 +383,7 @@ def get_complaint_post(self):
     )
 
 
-@mock.patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
-@mock.patch("openprocurement.tender.open.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
+@mock.patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def get_complaint_posts(self):
     # make complaint status pending
     with change_auth(self.app, ("Basic", ("bot", ""))):
@@ -409,8 +401,6 @@ def get_complaint_posts(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
-    post = response.json["data"]
-
     response = self.get_posts()
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -420,8 +410,7 @@ def get_complaint_posts(self):
     )
 
 
-@mock.patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
-@mock.patch("openprocurement.tender.open.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
+@mock.patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def get_tender_complaint_post_document_json(self):
     # make complaint status pending
     with change_auth(self.app, ("Basic", ("bot", ""))):
@@ -554,8 +543,7 @@ def get_tender_complaint_post_document_json(self):
     self.assertEqual(dateModified2, documents[-1]["dateModified"])
 
 
-@mock.patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
-@mock.patch("openprocurement.tender.open.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
+@mock.patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_tender_complaint_post_document_json(self):
     # make complaint status pending
     with change_auth(self.app, ("Basic", ("bot", ""))):
@@ -668,8 +656,7 @@ def create_tender_complaint_post_document_json(self):
     self.assertEqual(response.content_type, "application/json")
 
 
-@mock.patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
-@mock.patch("openprocurement.tender.open.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
+@mock.patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_tender_complaint_post_by_complaint_owner_document_json(self):
     # make complaint status pending
     with change_auth(self.app, ("Basic", ("bot", ""))):
@@ -717,8 +704,7 @@ def create_tender_complaint_post_by_complaint_owner_document_json(self):
     self.assertEqual(response.content_type, "application/json")
 
 
-@mock.patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
-@mock.patch("openprocurement.tender.open.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
+@mock.patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_tender_complaint_post_by_tender_owner_document_json(self):
     # make complaint status pending
     with change_auth(self.app, ("Basic", ("bot", ""))):
@@ -766,8 +752,7 @@ def create_tender_complaint_post_by_tender_owner_document_json(self):
     self.assertEqual(response.content_type, "application/json")
 
 
-@mock.patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
-@mock.patch("openprocurement.tender.open.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
+@mock.patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def put_tender_complaint_document_json(self):
     # make complaint status pending
     with change_auth(self.app, ("Basic", ("bot", ""))):

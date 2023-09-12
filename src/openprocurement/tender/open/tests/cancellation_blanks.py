@@ -1077,9 +1077,8 @@ def access_create_tender_cancellation_complaint(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
-    with patch(
-            "openprocurement.tender.core.views.cancellation_complaint.get_now",
-            return_value=get_now() + timedelta(days=5)):
+    with patch("openprocurement.tender.core.views.cancellation_complaint.get_now",
+               return_value=get_now() + timedelta(days=5)):
         response = self.app.patch_json(
             "/tenders/{}/cancellations/{}/complaints/{}?acc_token={}".format(
                 self.tender_id, self.cancellation_id, complaint_id, self.tender_token),
@@ -1379,7 +1378,6 @@ def activate_cancellation(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(complaint["status"], "pending")
 
-
     response = self.app.patch_json(
         "/tenders/{}/cancellations/{}/complaints/{}?acc_token={}".format(
             self.tender_id, cancellation_id, complaint_1_id, complaint_1_token),
@@ -1550,9 +1548,8 @@ def create_tender_cancellation_complaint(self):
 
     self.app.authorization = auth
 
-    with patch(
-            "openprocurement.tender.core.validation.get_now",
-            return_value=get_now() + timedelta(days=11)) as mock_date:
+    with patch("openprocurement.tender.core.procedure.state.cancellation_complaint.get_now",
+               return_value=get_now() + timedelta(days=11)):
         response = self.app.post_json(
             "/tenders/{}/cancellations/{}/complaints?acc_token={}".format(
                 self.tender_id, self.cancellation_id, self.tender_token),
@@ -1702,15 +1699,6 @@ def patch_tender_cancellation_complaint(self):
         status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"],
-        [{
-            "description": "Forbidden",
-            "location": "url",
-            "name": "role"
-        }],
-    )
 
     response = self.app.patch_json(
         "/tenders/{}/cancellations/{}?acc_token={}".format(

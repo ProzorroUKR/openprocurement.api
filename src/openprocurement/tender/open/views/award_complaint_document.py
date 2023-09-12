@@ -16,13 +16,13 @@ from openprocurement.tender.core.utils import optendersresource
 from openprocurement.tender.open.constants import STATUS4ROLE, ABOVE_THRESHOLD
 
 
-@optendersresource(
-    name=f"{ABOVE_THRESHOLD}:Tender Award Complaint Documents",
-    collection_path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents",
-    path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents/{document_id}",
-    procurementMethodType=ABOVE_THRESHOLD,
-    description="Tender award complaint documents",
-)
+# @optendersresource(
+#     name=f"{ABOVE_THRESHOLD}:Tender Award Complaint Documents",
+#     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents",
+#     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents/{document_id}",
+#     procurementMethodType=ABOVE_THRESHOLD,
+#     description="Tender award complaint documents",
+# )
 class TenderAwardComplaintDocumentResource(BaseTenderAwardComplaintDocumentResource):
     def validate_complaint_document(self, operation):
         """ TODO move validators

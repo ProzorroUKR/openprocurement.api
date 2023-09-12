@@ -182,9 +182,9 @@ def set_item(parent, key, uid, value):
 
 
 # ACL ---
-def is_item_owner(request, item):
+def is_item_owner(request, item, token_field_name="owner_token"):
     acc_token = extract_access_token(request)
-    return request.authenticated_userid == item["owner"] and acc_token == item["owner_token"]
+    return request.authenticated_userid == item["owner"] and acc_token == item[token_field_name]
 # --- ACL
 
 

@@ -180,7 +180,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/28db6af763c74fceaedc98e147fed6cb/bids/e56918aa665d46ae9a9061708a7a83a0/eligibility_documents/1028a697039d475481111b3aac70c63b?download=dc8dbe727ce64eb894c3ce3465b3eece",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/dc8dbe727ce64eb894c3ce3465b3eece?Signature=zAV3Ven1lra4h8Fuq6Df3nR7AGSz%2FVzZmw9K%2FmlVNDLRoUlj1gNML%2FYsMjnfn6G60TfMig6K0Cjm4%2F0Uv34AAA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "language": "uk",

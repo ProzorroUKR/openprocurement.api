@@ -1,5 +1,5 @@
 from iso8601 import parse_date
-
+from hashlib import sha512
 from pyramid.request import Request
 
 from openprocurement.api.constants import (
@@ -21,6 +21,7 @@ from openprocurement.api.validation import (
     validate_tender_first_revision_date,
     OPERATIONS,
 )
+from openprocurement.api.auth import extract_access_token
 from openprocurement.tender.core.validation import TYPEMAP
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF
 from openprocurement.tender.core.procedure.utils import (
@@ -270,10 +271,31 @@ def validate_data_documents(route_key="tender_id", uid_key="_id"):
     return validate
 
 
-def validate_item_owner(item_name):
+def validate_item_owner(item_name, token_field_name="owner_token"):
     def validator(request, **_):
         item = request.validated[item_name]
-        if not is_item_owner(request, item):
+        if not is_item_owner(request, item, token_field_name=token_field_name):
+            raise_operation_error(
+                request,
+                "Forbidden",
+                location="url",
+                name="permission"
+            )
+        else:
+            if item_name == "claim":
+                request.authenticated_role = "complaint_owner"  # we have complaint_owner is documents.author
+            else:
+                request.authenticated_role = f"{item_name}_owner"
+    return validator
+
+
+def validate_any_bid_owner(statuses=("active", "unsuccessful")):
+    def validator(request, **_):
+        tender = request.validated["tender"]
+        for bid in tender.get("bids", ""):
+            if bid["status"] in statuses and is_item_owner(request, bid):
+                return
+        else:
             raise_operation_error(
                 request,
                 "Forbidden",
@@ -281,6 +303,19 @@ def validate_item_owner(item_name):
                 name="permission"
             )
     return validator
+
+
+def validate_dialogue_owner(request, **_):
+    item = request.validated["tender"]
+    acc_token = extract_access_token(request)
+    acc_token_hex = sha512(acc_token.encode("utf-8")).hexdigest()
+    if request.authenticated_userid != item["owner"] or acc_token_hex != item["dialogue_token"]:
+        raise_operation_error(
+            request,
+            "Forbidden",
+            location="url",
+            name="permission"
+        )
 
 
 def validate_contract_supplier():
@@ -345,6 +380,14 @@ def unless_bots_or_auction(*validations):
     return decorated
 
 
+def unless_reviewers(*validations):
+    def decorated(request, **_):
+        if request.authenticated_role != "aboveThresholdReviewers":
+            for validation in validations:
+                validation(request)
+    return decorated
+
+
 def validate_any(*validations):
     """
     use case:
@@ -367,8 +410,8 @@ def validate_any(*validations):
         for validation in validations:
             try:
                 validation(request)
-            except HTTPError as e:
-                pass
+            except HTTPError as err:
+                e = err
             else:  # on success
                 request.errors = errors_on_start
                 break
@@ -815,7 +858,11 @@ def validate_award_with_lot_cancellation_in_pending(request, **_):
     if request.authenticated_role != "tender_owner":
         return
 
-    lot_id = request.validated["award"].get("lotID")
+    if request.method == "POST":
+        award = request.validated["data"]
+    else:
+        award = request.validated["award"]
+    lot_id = award.get("lotID")
     if not lot_id:
         return
 
@@ -1124,9 +1171,10 @@ def validate_qualification_update_with_cancellation_lot_pending(request, **kwarg
     if (
         request.authenticated_role == "tender_owner"
         and (
-            any([
-                i for i in tender["cancellations"]
-                if i["elatedLot"] and i["status"] == "pending" and i["relatedLot"] == lot_id])
+            any(
+                i["status"] == "pending" and i.get("relatedLot") and i["relatedLot"] == lot_id
+                for i in tender.get("cancellations", "")
+            )
             or not accept_lot
         )
     ):
@@ -1664,3 +1712,16 @@ def validate_lot_status_active(request, **_):
             request,
             "Can update auction urls only in active lot status",
         )
+
+
+# Complaints & claims
+def validate_input_data_from_resolved_model():
+    def validated(request, **_):
+        state = request.root.state
+        method = request.method.lower()
+        model = getattr(state, f"get_{method}_data_model")()
+        request.validated[f"{method}_data_model"] = model
+        validate = validate_input_data(model)
+        return validate(request, **_)
+    return validated
+

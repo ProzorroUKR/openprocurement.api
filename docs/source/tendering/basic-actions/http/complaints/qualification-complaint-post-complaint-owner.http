@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/5f16f024cad74253882085d3438eb6e0/qualifications/9bb4cca9c17343c191da1750c233fdf6/complaints/ddd80ba1cebc4038985a862ca218297e/posts?acc_token=66a005817e094efcaf989ed949a6dcee HTTP/1.0
+POST /api/2.5/tenders/5f16f024cad74253882085d3438eb6e0/qualifications/9bb4cca9c17343c191da1750c233fdf6/complaints/3af6fd49c3fb48cea8734c145f480cae/posts?acc_token=e29388e2500147f4bfb5546a876f202d HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 674
 Content-Type: application/json
@@ -9,7 +9,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "title": "Уточнення по вимозі",
     "description": "Додано документ",
     "recipient": "aboveThresholdReviewers",
-    "relatedPost": "7979a224d40941eabed980551ec7cf41",
+    "relatedPost": "fbc58d62e0dd482fa23730816da4fbaa",
     "documents": [
       {
         "title": "post_document_complaint.pdf",
@@ -24,30 +24,31 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5f16f024cad74253882085d3438eb6e0/qualifications/9bb4cca9c17343c191da1750c233fdf6/complaints/ddd80ba1cebc4038985a862ca218297e/posts/1cd8789e14ac494e88ac455a7d5f3d49
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5f16f024cad74253882085d3438eb6e0/qualifications/9bb4cca9c17343c191da1750c233fdf6/complaints/3af6fd49c3fb48cea8734c145f480cae/posts/564e61bb1e9e4c31a6772e4d385fae1f
 
 {
   "data": {
-    "id": "1cd8789e14ac494e88ac455a7d5f3d49",
     "title": "Уточнення по вимозі",
     "description": "Додано документ",
     "documents": [
       {
-        "id": "9d3a748754f24764a1e18dea3dd6d8aa",
         "hash": "md5:00000000000000000000000000000000",
         "title": "post_document_complaint.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f3ade0fbc9f34687b3fb8649c13e1b75?Signature=%2BmS22rGZQy0KAc%2BkNTebwrpSCb5AnZRirVGHNVCUzppse9XMrUsZgzR5gOsCclTRkluh3Q%2F7UI56Jlk8S9ueAA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "language": "uk",
+        "id": "f74c6fb0064840a18a08ab7cd1d4b38e",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "dateModified": "2023-01-01T00:00:01+02:00",
-        "author": "complaint_owner",
-        "documentOf": "tender"
+        "author": "complaint_owner"
       }
     ],
-    "author": "complaint_owner",
     "recipient": "aboveThresholdReviewers",
+    "relatedPost": "fbc58d62e0dd482fa23730816da4fbaa",
+    "id": "564e61bb1e9e4c31a6772e4d385fae1f",
     "datePublished": "2023-01-01T00:00:01+02:00",
-    "relatedPost": "7979a224d40941eabed980551ec7cf41"
+    "author": "complaint_owner"
   }
 }
 

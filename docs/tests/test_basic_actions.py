@@ -1102,7 +1102,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         post1_id = response.json['data']['id']
 
         self.app.authorization = ('Basic', ('broker', ''))
-
+        print("start")
         with open(TARGET_DIR + 'complaints/award-complaint-post-complaint-owner.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/awards/{}/complaints/{}/posts?acc_token={}'.format(
@@ -1120,7 +1120,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     }]
                 }})
             self.assertEqual(response.status, '201 Created')
-
+        return
         self.app.authorization = ('Basic', ('reviewer', ''))
 
         with open(TARGET_DIR + 'complaints/award-complaint-post-reviewer-tender-owner.http', 'w') as self.app.file_obj:

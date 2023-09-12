@@ -22,7 +22,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cb76d20a62ef4e318ecb101430b63776/cancellations/ed1f4d6471da48e480fd5e6d917a26ee/documents/49f9b8af78c54011888604b5a1de0b8e?download=a867f686670d458ea1da3a4c4d782eb7",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a867f686670d458ea1da3a4c4d782eb7?Signature=V6U31s8YfBaTiezVN4XA1%2Fm4RZ3GDunX%2FVdZUKPTG2zlK0RKWmT0tvFg2Pc4TfNzfA%2Ba%2Fbi0ayaOfsrYSqjMCw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:01+02:00",
         "language": "uk"
@@ -34,7 +34,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice-2.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cb76d20a62ef4e318ecb101430b63776/cancellations/ed1f4d6471da48e480fd5e6d917a26ee/documents/49f9b8af78c54011888604b5a1de0b8e?download=e59577c636164dbf8959b734712395b5",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e59577c636164dbf8959b734712395b5?Signature=h3vBtEq%2Boxot43UgR1lIzK8SCJsKm7IhTBTjqax3%2Bg3j2tZB%2B7mLyReABdibvJR8ojfLwtH8DwfiQk9EH%2BArAw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:01+02:00",
         "language": "uk"

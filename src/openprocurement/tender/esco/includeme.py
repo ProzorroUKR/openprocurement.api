@@ -12,6 +12,5 @@ def includeme(config):
     LOGGER.info("Init tender.esco plugin.")
 
     config.add_tender_procurementMethodType(Tender)
-    config.scan("openprocurement.tender.esco.views")
     config.scan("openprocurement.tender.esco.procedure.views")
     config.registry.registerAdapter(TenderESCOConfigurator, (IESCOTender, IRequest), IContentConfigurator)

@@ -22,13 +22,13 @@ from openprocurement.tender.open.validation import (
 )
 
 
-@optendersresource(
-    name=f"{ABOVE_THRESHOLD}:Tender Complaint Post Documents",
-    collection_path="/tenders/{tender_id}/complaints/{complaint_id}/posts/{post_id}/documents",
-    path="/tenders/{tender_id}/complaints/{complaint_id}/posts/{post_id}/documents/{document_id}",
-    procurementMethodType=ABOVE_THRESHOLD,
-    description="Tender complaint post documents",
-)
+# @optendersresource(
+#     name=f"{ABOVE_THRESHOLD}:Tender Complaint Post Documents",
+#     collection_path="/tenders/{tender_id}/complaints/{complaint_id}/posts/{post_id}/documents",
+#     path="/tenders/{tender_id}/complaints/{complaint_id}/posts/{post_id}/documents/{document_id}",
+#     procurementMethodType=ABOVE_THRESHOLD,
+#     description="Tender complaint post documents",
+# )
 class TenderComplaintPostDocumentResource(CoreDocumentResource):
     context_name = "tender_complaint_post"
 
