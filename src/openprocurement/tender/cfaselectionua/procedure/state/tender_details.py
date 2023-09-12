@@ -8,29 +8,30 @@ from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     validate_field,
 )
-from openprocurement.tender.core.utils import calculate_tender_date
 from openprocurement.tender.cfaselectionua.procedure.state.tender import CFASelectionTenderState
 from openprocurement.tender.cfaselectionua.constants import (
-    AGREEMENT_NOT_FOUND,
-    AGREEMENT_STATUS,
-    AGREEMENT_ITEMS,
-    AGREEMENT_EXPIRED,
-    AGREEMENT_CHANGE,
-    AGREEMENT_CONTRACTS,
-    AGREEMENT_IDENTIFIER,
-    AGREEMENT_START_DATE,
     MIN_PERIOD_UNTIL_AGREEMENT_END,
     MIN_ACTIVE_CONTRACTS,
     ENQUIRY_PERIOD,
     TENDERING_DURATION,
     MINIMAL_STEP_PERCENTAGE,
 )
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.constants import (
+    AGREEMENT_NOT_FOUND_MESSAGE,
+    AGREEMENT_STATUS_MESSAGE,
+    AGREEMENT_ITEMS_MESSAGE,
+    AGREEMENT_EXPIRED_MESSAGE,
+    AGREEMENT_START_DATE_MESSAGE, AGREEMENT_CHANGE_MESSAGE, AGREEMENT_CONTRACTS_MESSAGE, AGREEMENT_IDENTIFIER_MESSAGE,
+)
+from openprocurement.tender.core.utils import calculate_tender_business_date, calculate_tender_date
 from openprocurement.api.utils import raise_operation_error
 from copy import deepcopy
 
 
 class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
+
+    agreement_min_active_contracts = MIN_ACTIVE_CONTRACTS
+    agreement_min_period_until_end = MIN_PERIOD_UNTIL_AGREEMENT_END
 
     def on_post(self, tender):
         super().on_post(tender)
@@ -39,7 +40,8 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
     def on_patch(self, before, after):
         if get_request().authenticated_role == "agreement_selection":
             if after["status"] == "active.enquiries":
-                reason = self.find_unsuccessful_reason(after)
+                agreement = after["agreements"][0]
+                reason = self.find_agreement_unsuccessful_reason(after, agreement)
                 if reason:
                     after["unsuccessfulReason"] = [reason]
                     self.get_change_tender_status_handler("draft.unsuccessful")(after)
@@ -55,7 +57,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
 
                     calculate_tender_features(after)
             elif after["status"] == "draft.unsuccessful":
-                after["unsuccessfulReason"] = [AGREEMENT_NOT_FOUND]
+                after["unsuccessfulReason"] = [AGREEMENT_NOT_FOUND_MESSAGE]
                 self.get_change_tender_status_handler("draft.unsuccessful")(after)
             elif before["status"] != "draft.pending" or after["status"] != "draft.pending":
                 raise_operation_error(
@@ -129,55 +131,64 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
     def watch_value_meta_changes(tender):
         pass  # TODO: shouldn't it work here
 
-    @staticmethod
-    def find_unsuccessful_reason(tender):
-        agreement = tender["agreements"][0]
-        if agreement.get("status") != "active":
-            return AGREEMENT_STATUS
+    def validate_agreement(self, tender):
+        # skip main agreement validation logic
+        pass
 
-        # ---
-        agreement_items_ids = {calculate_item_identification_tuple(agreement_item)
-                               for agreement_item in agreement.get("items", "")}
-        tender_items_ids = {calculate_item_identification_tuple(tender_item)
-                            for tender_item in tender.get("items", "items")}
-        if not tender_items_ids.issubset(agreement_items_ids):
-            return AGREEMENT_ITEMS
+    @classmethod
+    def find_agreement_unsuccessful_reason(cls, tender, agreement):
+        if cls.is_agreement_not_active(agreement):
+            return AGREEMENT_STATUS_MESSAGE
 
+        if cls.are_tender_items_is_not_subset_of_agreement_items(tender, agreement):
+            return AGREEMENT_ITEMS_MESSAGE
+
+        if cls.is_agreement_expired(tender, agreement):
+            return AGREEMENT_EXPIRED_MESSAGE.format(cls.agreement_min_period_until_end.days)
+
+        elif cls.is_agreement_start_date_later(tender, agreement):
+            return AGREEMENT_START_DATE_MESSAGE
+
+        if cls.is_agreement_has_pending_changes(agreement):
+            return AGREEMENT_CHANGE_MESSAGE
+
+        if cls.has_insufficient_active_contracts(tender):
+            return AGREEMENT_CONTRACTS_MESSAGE.format(cls.agreement_min_active_contracts)
+
+        if cls.has_mismatched_procuring_entities(tender, agreement):
+            return AGREEMENT_IDENTIFIER_MESSAGE
+
+    @classmethod
+    def are_tender_items_is_not_subset_of_agreement_items(cls, tender, agreement):
+        agreement_items_ids = {
+            cls.calculate_item_identification_tuple(agreement_item)
+            for agreement_item in agreement.get("items", "")
+        }
+        tender_items_ids = {
+            cls.calculate_item_identification_tuple(tender_item)
+            for tender_item in tender.get("items", "items")
+        }
+        return not tender_items_ids.issubset(agreement_items_ids)
+
+    @classmethod
+    def is_agreement_expired(cls, tender, agreement):
         agreement_expire_date = calculate_tender_date(
             dt_from_iso(agreement["period"]["endDate"]),
-            - MIN_PERIOD_UNTIL_AGREEMENT_END,
+            - cls.agreement_min_period_until_end,
             tender
         )
+        return get_now() > agreement_expire_date
 
-        if get_now() > agreement_expire_date:
-            return AGREEMENT_EXPIRED
+    @classmethod
+    def is_agreement_start_date_later(cls, tender, agreement):
+        return agreement["period"]["startDate"] > tender["date"]
 
-        elif agreement["period"]["startDate"] > tender["date"]:
-            return AGREEMENT_START_DATE
-
-        # ---
+    @classmethod
+    def is_agreement_has_pending_changes(cls, agreement):
         for change in agreement.get("changes", ""):
             if change["status"] == "pending":
-                return AGREEMENT_CHANGE
-
-        # --
-        for agr in tender["agreements"]:
-            active_contracts_count = sum(
-                c["status"] == "active" for c in agr.get("contracts", "")
-            )
-
-            if active_contracts_count < MIN_ACTIVE_CONTRACTS:
-                return AGREEMENT_CONTRACTS
-
-        # --
-        if agreement.get("procuringEntity"):
-            agreement_identifier = agreement["procuringEntity"]["identifier"]
-            tender_identifier = tender["procuringEntity"]["identifier"]
-            if (
-                tender_identifier["id"] != agreement_identifier["id"]
-                or tender_identifier["scheme"] != agreement_identifier["scheme"]
-            ):
-                return AGREEMENT_IDENTIFIER
+                return True
+        return False
 
     @staticmethod
     def check_owner_forbidden_fields(tender):
@@ -201,17 +212,6 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
 
 class TenderDetailsState(CFASelectionTenderDetailsMixing, CFASelectionTenderState):
     pass
-
-
-def calculate_item_identification_tuple(item):
-    result = (
-        item["id"],
-        item["classification"]["id"],
-        item["classification"]["scheme"],
-        item["unit"]["code"] if item.get("unit") else None,
-        tuple((c["id"], c["scheme"]) for c in item.get("additionalClassifications", ""))
-    )
-    return result
 
 
 def calculate_agreement_contracts_value_amount(tender):

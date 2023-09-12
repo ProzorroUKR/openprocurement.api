@@ -7,6 +7,10 @@ from openprocurement.api.utils import raise_operation_error
 
 class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
 
+    def validate_agreement(self, tender):
+        # skip main agreement validation logic
+        pass
+
     def status_up(self, before, after, data):
         super().status_up(before, after, data)
 

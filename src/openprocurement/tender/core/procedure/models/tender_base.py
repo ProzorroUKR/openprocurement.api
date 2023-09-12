@@ -8,6 +8,7 @@ from openprocurement.api.models import IsoDateTimeType, ListType, Model
 from openprocurement.tender.core.constants import (
     PROCUREMENT_METHODS,
 )
+from openprocurement.tender.core.procedure.models.agreement import AgreementUUID
 from openprocurement.tender.core.utils import generate_tender_id
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.utils import tender_created_after
@@ -109,6 +110,7 @@ class PostBaseTender(CommonBaseTender):
         procurementMethodDetails = StringType()
 
     status = StringType(choices=["draft"], default="draft")
+    agreements = ListType(ModelType(AgreementUUID, required=True), min_size=1, max_size=1)
 
     def validate_buyers(self, data, value):
         if data.get("procuringEntity", {}).get("kind", "") == "central" and not value:
@@ -160,6 +162,7 @@ class BaseTender(PatchBaseTender):
     mode = StringType(choices=["test"])
     mainProcurementCategory = StringType(choices=["goods", "services", "works"])
     buyers = ListType(ModelType(BaseOrganization, required=True))
+    agreements = ListType(ModelType(AgreementUUID, required=True), min_size=1, max_size=1)
 
     procurementMethod = StringType(choices=PROCUREMENT_METHODS, required=True)
 

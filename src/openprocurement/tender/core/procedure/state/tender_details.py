@@ -4,12 +4,14 @@ from typing import TYPE_CHECKING
 from jsonschema.exceptions import ValidationError
 from jsonschema.validators import validate
 
+from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
 from openprocurement.tender.core.constants import (
     PROCUREMENT_METHOD_SELECTIVE,
     LIMITED_PROCUREMENT_METHOD_TYPES,
     PROCUREMENT_METHOD_LIMITED,
     PROCUREMENT_METHOD_OPEN,
     SELECTIVE_PROCUREMENT_METHOD_TYPES,
+    AGREEMENT_NOT_FOUND_MESSAGE,
 )
 from openprocurement.tender.core.procedure.context import (
     get_request,
@@ -32,7 +34,21 @@ from openprocurement.api.constants import (
     TENDER_CONFIG_JSONSCHEMAS,
 )
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.utils import calculate_tender_business_date, calculate_complaint_business_date
+from openprocurement.tender.core.utils import (
+    calculate_tender_business_date,
+    calculate_complaint_business_date,
+    calculate_tender_date,
+)
+from openprocurement.tender.pricequotation.constants import PQ
+from openprocurement.tender.core.constants import (
+    AGREEMENT_STATUS_MESSAGE,
+    AGREEMENT_ITEMS_MESSAGE,
+    AGREEMENT_START_DATE_MESSAGE,
+    AGREEMENT_EXPIRED_MESSAGE,
+    AGREEMENT_CHANGE_MESSAGE,
+    AGREEMENT_CONTRACTS_MESSAGE,
+    AGREEMENT_IDENTIFIER_MESSAGE,
+)
 
 if TYPE_CHECKING:
     baseclass = TenderState
@@ -107,6 +123,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
     allow_tender_period_start_date_change = False
     pre_qualification_complaint_stand_still = timedelta(days=0)
     tendering_period_extra_working_days = False
+    agreement_min_active_contracts = 3
 
     def validate_tender_patch(self, before, after):
         request = get_request()
@@ -125,6 +142,38 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
         # set author for documents passed with tender data
         for doc in tender.get("documents", ""):
             doc["author"] = "tender_owner"
+
+    def validate_agreement(self, tender):
+        def raise_agreements_error(message):
+            raise_operation_error(
+                self.request,
+                message,
+                status=422,
+                location="body",
+                name="agreements",
+            )
+
+        config = get_tender_config()
+        if config["preSelection"] is True:
+            agreements = tender.get("agreements")
+            if not agreements:
+                raise_agreements_error("This field is required.")
+
+            if len(agreements) != 1:
+                raise_agreements_error("Exactly one agreement is expected.")
+
+            agreement = get_request().registry.mongodb.agreements.get(agreements[0]["id"])
+            if not agreement:
+                raise_agreements_error(AGREEMENT_NOT_FOUND_MESSAGE)
+
+            if self.is_agreement_not_active(agreement):
+                raise_agreements_error(AGREEMENT_STATUS_MESSAGE)
+
+            if self.has_insufficient_active_contracts(tender):
+                raise_agreements_error(AGREEMENT_CONTRACTS_MESSAGE)
+
+            if self.has_mismatched_procuring_entities(tender, agreement):
+                raise_agreements_error(AGREEMENT_IDENTIFIER_MESSAGE)
 
     def set_mode_test(self, tender):
         config = get_tender_config()
@@ -157,6 +206,8 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                 location="body",
                 name="status"
             )
+        if after != "draft" and before == "draft":
+            self.validate_agreement(after)
         elif after == "active.tendering" and before != "active.tendering":
             tendering_start = data["tenderPeriod"]["startDate"]
             if dt_from_iso(tendering_start) <= get_now() - timedelta(minutes=TENDER_PERIOD_START_DATE_STALE_MINUTES):
@@ -420,6 +471,41 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                         "working days" if self.tendering_period_extra_working_days else "days",
                     )
                 )
+
+    @staticmethod
+    def calculate_item_identification_tuple(item):
+        result = (
+            item["id"],
+            item["classification"]["id"],
+            item["classification"]["scheme"],
+            item["unit"]["code"] if item.get("unit") else None,
+            tuple((c["id"], c["scheme"]) for c in item.get("additionalClassifications", ""))
+        )
+        return result
+
+    @classmethod
+    def is_agreement_not_active(cls, agreement):
+        return agreement.get("status") != "active"
+
+    @classmethod
+    def has_insufficient_active_contracts(cls, tender):
+        for agr in tender["agreements"]:
+            active_contracts_count = sum(
+                c["status"] == "active" for c in agr.get("contracts", "")
+            )
+
+            if active_contracts_count < cls.agreement_min_active_contracts:
+                return True
+        return False
+
+    @classmethod
+    def has_mismatched_procuring_entities(cls, tender, agreement):
+        agreement_identifier = agreement["procuringEntity"]["identifier"]
+        tender_identifier = tender["procuringEntity"]["identifier"]
+        return (
+            tender_identifier["id"] != agreement_identifier["id"]
+            or tender_identifier["scheme"] != agreement_identifier["scheme"]
+        )
 
 
 class TenderDetailsState(TenderDetailsMixing, TenderState):

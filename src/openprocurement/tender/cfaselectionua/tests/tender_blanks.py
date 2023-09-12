@@ -23,9 +23,9 @@ from openprocurement.tender.cfaselectionua.constants import (
     ENQUIRY_PERIOD,
     MIN_PERIOD_UNTIL_AGREEMENT_END,
     MIN_ACTIVE_CONTRACTS,
-    AGREEMENT_IDENTIFIER,
     TENDERING_DURATION,
 )
+from openprocurement.tender.core.constants import AGREEMENT_IDENTIFIER_MESSAGE
 from openprocurement.tender.cfaselectionua.tests.base import (
     test_tender_cfaselectionua_organization,
     test_tender_cfaselectionua_features,
@@ -1786,7 +1786,7 @@ def patch_tender_bot(self):
     response = self.app.patch_json("/tenders/{}".format(tender["id"]), {"data": {"status": "active.enquiries"}})
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
     self.assertEqual(response.json["data"]["status"], "draft.unsuccessful")
-    self.assertEqual(response.json["data"]["unsuccessfulReason"], [AGREEMENT_IDENTIFIER])
+    self.assertEqual(response.json["data"]["unsuccessfulReason"], [AGREEMENT_IDENTIFIER_MESSAGE])
 
     # patch tender with agreement -> with documents
     tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
