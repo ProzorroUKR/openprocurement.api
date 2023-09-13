@@ -143,6 +143,9 @@ def pq_add_contract_to_tender(tender, contract_items, contract_value, buyer_id, 
     }
     if buyer_id:
         contract_data["buyerID"] = buyer_id
+
+    if tender.get("contractTemplateUri"):
+        contract_data["contractTemplateUri"] = tender["contractTemplateUri"]
     contract_data.update(base_contract_data)
 
     if get_first_revision_date(tender, default=get_now()) > PQ_NEW_CONTRACTING_FROM:
@@ -194,12 +197,13 @@ def get_additional_contract_data(request, contract, tender, award):
     }
 
 
-def save_contracts_to_contracting(contracts):
+def save_contracts_to_contracting(contracts, award=None):
     tender = get_tender()
     if get_first_revision_date(tender, default=get_now()) < PQ_NEW_CONTRACTING_FROM:
         return
+    if not award:
+        award = get_award()
     request = get_request()
-    award = get_award()
     for contract in deepcopy(contracts):
         additional_contract_data = get_additional_contract_data(request, contract, tender, award)
         if not additional_contract_data:

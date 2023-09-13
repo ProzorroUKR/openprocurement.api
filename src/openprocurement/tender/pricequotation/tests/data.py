@@ -5,12 +5,13 @@ from datetime import timedelta
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.utils import set_tender_multi_buyers
 from openprocurement.tender.pricequotation.constants import PQ
-from openprocurement.api.constants import SANDBOX_MODE, PQ_MULTI_PROFILE_FROM
+from openprocurement.api.constants import SANDBOX_MODE, PQ_MULTI_PROFILE_FROM, PQ_NEW_CONTRACTING_FROM
 
 
 now = get_now()
 
 PQ_MULTI_PROFILE_RELEASED = get_now() > PQ_MULTI_PROFILE_FROM
+PQ_NEW_CONTRACTING_RELEASED = get_now() > PQ_NEW_CONTRACTING_FROM
 
 test_agreement_pq_data = {
     "_id": "2e14a78a2074952d5a2d256c3c004dda",
@@ -288,6 +289,10 @@ test_tender_pq_data_base = {
     "procurementMethodType": PQ,
     "procurementMethod": 'selective',
 }
+
+if PQ_NEW_CONTRACTING_RELEASED:
+    test_tender_pq_data_base["contractTemplateUri"] = "templates/contracts/test.html"
+
 test_tender_pq_data_before_multiprofile = deepcopy(test_tender_pq_data_base)
 test_tender_pq_data_before_multiprofile["profile"] = "655360-30230000-889652-40000777"
 test_tender_pq_data_before_multiprofile["items"] = [test_tender_pq_item_before_multiprofile]

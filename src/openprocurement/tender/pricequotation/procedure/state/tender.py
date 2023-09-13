@@ -1,6 +1,8 @@
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.models.award import Award
 from openprocurement.tender.pricequotation.procedure.models.contract import Contract
+from openprocurement.tender.core.procedure.contracting import pq_add_contracts, save_contracts_to_contracting
+from openprocurement.api.context import get_request
 
 
 class PriceQuotationTenderState(TenderState):
@@ -20,7 +22,8 @@ class PriceQuotationTenderState(TenderState):
     def add_next_contract_handler(self, award):
         def handler(*_):
             request = get_request()
-            pq_add_contracts(request, award)
+            contracts = pq_add_contracts(request, award)
             self.add_next_award()
+            save_contracts_to_contracting(contracts, award)
 
         return handler

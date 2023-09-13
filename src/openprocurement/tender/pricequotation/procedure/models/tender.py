@@ -1,3 +1,6 @@
+from os.path import split
+
+import standards
 from schematics.types import StringType, MD5Type, BaseType
 from schematics.types.compound import ListType
 from schematics.validate import ValidationError
@@ -23,13 +26,13 @@ from openprocurement.tender.pricequotation.procedure.models.criterion import Cri
 from openprocurement.tender.pricequotation.procedure.models.requirement import validate_criteria_id_uniq
 from openprocurement.tender.pricequotation.procedure.models.item import TenderItem
 from openprocurement.tender.pricequotation.procedure.models.organization import ProcuringEntity
-from openprocurement.tender.pricequotation.constants import PQ, TENDERING_DURATION
+from openprocurement.tender.pricequotation.constants import PQ, TENDERING_DURATION, CONTRACT_TEMPLATE_DIR
 from openprocurement.tender.pricequotation.procedure.validation import validate_profile_pattern
 from openprocurement.tender.openua.validation import _validate_tender_period_start_date
 from openprocurement.api.models import ModelType, Model, IsoDateTimeType, Value
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.api.utils import get_first_revision_date
-from openprocurement.api.constants import PQ_MULTI_PROFILE_FROM, WORKING_DAYS
+from openprocurement.api.constants import PQ_MULTI_PROFILE_FROM, WORKING_DAYS, PQ_NEW_CONTRACTING_FROM
 
 
 class Agreement(Model):
@@ -46,10 +49,26 @@ class ShortlistedFirm(BusinessOrganization):
     status = StringType()
 
 
-def validate_agreement(data, value):
-    multi_profile_released = get_first_revision_date(data, default=get_now()) > PQ_MULTI_PROFILE_FROM
-    if multi_profile_released and not value:
+def validate_required_from_date(data, value, release_date):
+    released = get_first_revision_date(data, default=get_now()) > release_date
+    if released and not value:
         raise ValidationError(BaseType.MESSAGES["required"])
+
+
+def validate_agreement(data, value):
+    validate_required_from_date(data, value, PQ_MULTI_PROFILE_FROM)
+
+
+def validate_contractTemplateUri(data, value):
+    validate_required_from_date(data, value, PQ_NEW_CONTRACTING_FROM)
+
+    filename = split(value)[1]
+    msg = "Template doesn't exist"
+    if not value.startswith(CONTRACT_TEMPLATE_DIR) or not standards.exist(value):
+        raise ValidationError(msg)
+
+    # if data.get("mode", "") != "test" and filename.startswith("test"):
+    #     raise ValidationError(msg)
 
 
 def validate_profile(data, value):
@@ -98,6 +117,11 @@ class PostTender(PostBaseTender):
         ModelType(Criterion),
         validators=[validate_criteria_id_uniq],
     )
+
+    contractTemplateUri = StringType()
+
+    def validate_contractTemplateUri(self, data, value):
+        validate_contractTemplateUri(data, value)
 
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
@@ -227,7 +251,11 @@ class Tender(BaseTender):
         validators=[validate_criteria_id_uniq],
     )
 
+    contractTemplateUri = StringType()
     next_check = BaseType()
+
+    def validate_conntractTemplateUri(self, data, value):
+        validate_contractTemplateUri(data, value)
 
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)

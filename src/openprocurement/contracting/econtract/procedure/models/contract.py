@@ -53,6 +53,7 @@ class PostContract(BasePostContract):
         return "pending"
 
     amountPaid = ModelType(AmountPaid)
+    contractTemplateUri = StringType()
     buyer = ModelType(
         Buyer, required=True
     )
@@ -79,6 +80,8 @@ class Contract(BaseContract):
         Buyer, required=True
     )
     suppliers = ListType(ModelType(Buyer, required=True), min_size=1, max_size=1)
+
+    contractTemplateUri = StringType()
 
     bid_owner = StringType(required=True)
     bid_token = StringType(required=True)

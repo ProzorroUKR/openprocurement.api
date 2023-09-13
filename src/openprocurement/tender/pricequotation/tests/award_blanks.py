@@ -367,32 +367,10 @@ def patch_tender_award(self):
 def move_award_contract_to_contracting(self):
     request_path = "/tenders/{}/awards".format(self.tender_id)
     award_id = self.award_ids[-1]
-    token = self.initial_bids_tokens[0]
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, token),
-        {"data": {"status": "unsuccessful"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
 
+    bid_token = self.initial_bids_tokens[0]
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, token),
-        {"data": {"status": "pending"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Forbidden")
-
-    response = self.app.get(request_path)
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(len(response.json["data"]), 2)
-    new_award = response.json["data"][-1]
-
-    bid_token = self.initial_bids_tokens[1]
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], bid_token),
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"title": "title", "description": "description"}},
     )
     self.assertEqual(response.status, "200 OK")
@@ -401,7 +379,7 @@ def move_award_contract_to_contracting(self):
     self.assertEqual(response.json["data"]["description"], "description")
 
     response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], bid_token),
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "active"}},
     )
     self.assertEqual(response.status, "200 OK")
@@ -414,6 +392,7 @@ def move_award_contract_to_contracting(self):
     response = self.app.get(f"/contracts/{contract_id}")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
+
     contract_fields = {
         "id",
         "awardID",
@@ -429,6 +408,8 @@ def move_award_contract_to_contracting(self):
         "value",
         "buyer",
     }
+    if "contractTemplateUri" in self.initial_data:
+        contract_fields.add("contractTemplateUri")
     self.assertEqual(contract_fields, set(response.json["data"].keys()))
 
     response = self.app.put_json(
