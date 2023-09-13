@@ -80,7 +80,7 @@ test_tender_openua_config = {
     "valueCurrencyEquality": True,
     "hasPrequalification": False,
     "minBidsNumber": 2,
-    "preSelection": False,
+    "hasPreSelectionAgreement": False,
 }
 
 

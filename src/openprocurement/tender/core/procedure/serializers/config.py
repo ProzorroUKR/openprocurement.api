@@ -62,7 +62,7 @@ def min_bids_number_serializer(obj, value):
 
 
 def pre_selection_serializer(obj, value):
-    if value is None and TENDER_CONFIG_OPTIONALITY["preSelection"] is True:
+    if value is None and TENDER_CONFIG_OPTIONALITY["hasPreSelectionAgreement"] is True:
         request = get_request()
         tender = request.validated.get("tender") or request.validated.get("data")
         return pre_selection_populator(tender)
@@ -83,5 +83,5 @@ class TenderConfigSerializer(BaseSerializer):
         "valueCurrencyEquality": currency_value_equality_serializer,
         "hasPrequalification": has_prequalification_serializer,
         "minBidsNumber": min_bids_number_serializer,
-        "preSelection": pre_selection_serializer,
+        "hasPreSelectionAgreement": pre_selection_serializer,
     }
