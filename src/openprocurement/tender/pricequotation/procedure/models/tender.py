@@ -60,15 +60,10 @@ def validate_agreement(data, value):
 
 
 def validate_contractTemplateUri(data, value):
-    validate_required_from_date(data, value, PQ_NEW_CONTRACTING_FROM)
-
-    filename = split(value)[1]
-    msg = "Template doesn't exist"
-    if not value.startswith(CONTRACT_TEMPLATE_DIR) or not standards.exist(value):
-        raise ValidationError(msg)
-
-    # if data.get("mode", "") != "test" and filename.startswith("test"):
-    #     raise ValidationError(msg)
+    if value:
+        msg = "Template doesn't exist"
+        if not value.startswith(CONTRACT_TEMPLATE_DIR) or not standards.exist(value):
+            raise ValidationError(msg)
 
 
 def validate_profile(data, value):
