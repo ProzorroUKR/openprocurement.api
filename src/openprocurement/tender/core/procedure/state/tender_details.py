@@ -64,7 +64,7 @@ class TenderConfigMixin(baseclass):
         "valueCurrencyEquality",
         "hasPrequalification",
         "minBidsNumber",
-        "preSelection",
+        "hasPreSelectionAgreement",
     )
 
     def validate_config(self, data):
@@ -154,7 +154,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
             )
 
         config = get_tender_config()
-        if config["preSelection"] is True:
+        if config["hasPreSelectionAgreement"] is True:
             agreements = tender.get("agreements")
             if not agreements:
                 raise_agreements_error("This field is required.")
@@ -424,7 +424,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
     @staticmethod
     def default_procurement_method(data):
         config = get_tender_config()
-        if config["preSelection"] is True:
+        if config["hasPreSelectionAgreement"] is True:
             return PROCUREMENT_METHOD_SELECTIVE
         if data["procurementMethodType"] in SELECTIVE_PROCUREMENT_METHOD_TYPES:
             return PROCUREMENT_METHOD_SELECTIVE

@@ -18,7 +18,7 @@ STAGE_2_EU_DEFAULT_CONFIG = {
     "valueCurrencyEquality": True,
     "hasPrequalification": True,
     "minBidsNumber": 2,
-    "preSelection": False,
+    "hasPreSelectionAgreement": False,
 }
 STAGE_2_UA_DEFAULT_CONFIG = {
     "hasAuction": True,
@@ -27,5 +27,5 @@ STAGE_2_UA_DEFAULT_CONFIG = {
     "valueCurrencyEquality": True,
     "hasPrequalification": False,
     "minBidsNumber": 2,
-    "preSelection": False,
+    "hasPreSelectionAgreement": False,
 }

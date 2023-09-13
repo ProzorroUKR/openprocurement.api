@@ -36,31 +36,31 @@ def run(env, args):
 
     collection = env["registry"].mongodb.tenders.collection
 
-    logger.info("Updating tenders with preSelection field")
+    logger.info("Updating tenders with hasPreSelectionAgreement field")
 
     log_every = 100000
     count = 0
 
     cursor = collection.find(
-        {"config.preSelection": {"$exists": False}},
+        {"config.hasPreSelectionAgreement": {"$exists": False}},
         {"config": 1, "procurementMethodType": 1},
         no_cursor_timeout=True,
     )
     cursor.batch_size(args.b)
     try:
         for tender in cursor:
-            if tender.get("config", {}).get("preSelection") is None:
+            if tender.get("config", {}).get("hasPreSelectionAgreement") is None:
                 collection.update_one(
                     {"_id": tender["_id"]},
-                    {"$set": {"config.preSelection": pre_selection_populator(tender)}}
+                    {"$set": {"config.hasPreSelectionAgreement": pre_selection_populator(tender)}}
                 )
                 count += 1
                 if count % log_every == 0:
-                    logger.info(f"Updating tenders with preSelection field: updated {count} tenders")
+                    logger.info(f"Updating tenders with hasPreSelectionAgreement field: updated {count} tenders")
     finally:
         cursor.close()
 
-    logger.info(f"Updating tenders with preSelection field finished: updated {count} tenders")
+    logger.info(f"Updating tenders with hasPreSelectionAgreement field finished: updated {count} tenders")
 
     logger.info(f"Successful migration: {migration_name}")
 

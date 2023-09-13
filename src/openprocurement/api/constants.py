@@ -300,9 +300,9 @@ TENDER_CONFIG_OPTIONALITY = {
         "TENDER_CONFIG_MIN_BIDS_NUMBER_OPTIONAL",
         parse_func=parse_bool,
     ),
-    "preSelection": get_constant(
+    "hasPreSelectionAgreement": get_constant(
         CONSTANTS_CONFIG,
-        "TENDER_CONFIG_PRE_SELECTION_OPTIONAL",
+        "TENDER_CONFIG_HAS_PRE_SELECTION_AGREEMENT_OPTIONAL",
         parse_func=parse_bool,
     ),
 }
