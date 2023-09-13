@@ -1092,15 +1092,25 @@ def create_complaint_objection_validation(self):
     complaint_data["objections"] = [invalid_objection_data]
     response = self.create_complaint(complaint_data, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
+    values = "['tender', 'lot', 'criteria']" if self.complaint_on == "tender" else f"['{self.complaint_on}']"
+
     self.assertEqual(
         response.json["errors"][0]["description"][0]["relatesTo"],
-        [
-            "Value must be one of ['tender', 'lot', 'requirement', 'requirementResponse', 'award', "
-            "'qualification', 'cancellation']."
-        ]
+        [f"Value must be one of {values}."]
     )
 
-    invalid_objection_data["relatesTo"] = "lot"
+    invalid_objection_data["relatesTo"] = "cancellation" if self.complaint_on != "cancellation" else "award"
+    complaint_data["objections"] = [invalid_objection_data]
+    response = self.create_complaint(complaint_data, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    values = "['tender', 'lot', 'criteria']" if self.complaint_on == "tender" else f"['{self.complaint_on}']"
+
+    self.assertEqual(
+        response.json["errors"][0]["description"][0]["relatesTo"],
+        [f"Value must be one of {values}."]
+    )
+
+    invalid_objection_data["relatesTo"] = self.complaint_on
     invalid_objection_data["relatedItem"] = "test/test/121"
     complaint_data["objections"] = [invalid_objection_data]
     response = self.create_complaint(complaint_data, status=422)
@@ -1110,15 +1120,15 @@ def create_complaint_objection_validation(self):
         ["Invalid relatedItem pattern"],
     )
 
-    for relates_to in ("award", "lot", "cancellation"):
-        invalid_objection_data["relatesTo"] = relates_to
-        invalid_objection_data["relatedItem"] = f"/tenders/{self.tender_id}/{relates_to}s/{self.tender_id}"
+    if self.complaint_on != "tender":
+        invalid_objection_data["relatesTo"] = self.complaint_on
+        invalid_objection_data["relatedItem"] = f"/tenders/{self.tender_id}/{self.complaint_on}s/{self.tender_id}"
         complaint_data["objections"] = [invalid_objection_data]
         response = self.create_complaint(complaint_data, status=422)
         self.assertEqual(response.status, "422 Unprocessable Entity")
         self.assertEqual(
             response.json["errors"][0]["description"][0]["relatedItem"],
-            [f"Invalid {relates_to}s path"],
+            [f"Invalid {self.complaint_on}s path"],
         )
 
     invalid_objection_data = deepcopy(test_tender_open_complaint_objection)
@@ -1208,6 +1218,11 @@ def patch_complaint_objection(self):
     objection_data["id"] = objection_id
     objection_data["description"] = "Updated one"
     objection_data["arguments"][0]["evidences"] = []
+    objection_data["relatesTo"] = self.complaint_on
+    objection_data["relatedItem"] = f"/tenders/{self.tender_id}"
+    if self.complaint_on != "tender":
+        obj_id = getattr(self, f"{self.complaint_on}_id")
+        objection_data["relatedItem"] += f"/{self.complaint_on}s/{obj_id}"
     complaint_data = {"objections": [objection_data]}
     response = self.patch_complaint(complaint_id, complaint_data, complaint_token)
     self.assertEqual(response.status, "200 OK")

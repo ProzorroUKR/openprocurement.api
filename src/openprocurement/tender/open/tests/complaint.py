@@ -91,10 +91,11 @@ class TenderComplaintObjectionMixin:
     app = None
     tender_id = None
     tender_token = None
+    complaint_on = "tender"
 
     def create_complaint(self, complaint_data, status=201, with_valid_relates_to=False):
         if with_valid_relates_to:
-            complaint_data["objections"][0]["relatesTo"] = "tender"
+            complaint_data["objections"][0]["relatesTo"] = self.complaint_on
             complaint_data["objections"][0]["relatedItem"] = f"/tenders/{self.tender_id}"
         url = f"/tenders/{self.tender_id}/complaints"
         return self.app.post_json(url, {"data": complaint_data}, status=status)
@@ -109,10 +110,11 @@ class TenderCancellationComplaintObjectionMixin:
     tender_id = None
     tender_token = None
     cancellation_id = None
+    complaint_on = "cancellation"
 
     def create_complaint(self, complaint_data, status=201, with_valid_relates_to=False):
         if with_valid_relates_to:
-            complaint_data["objections"][0]["relatesTo"] = "cancellation"
+            complaint_data["objections"][0]["relatesTo"] = self.complaint_on
             complaint_data["objections"][0]["relatedItem"] = f"/tenders/{self.tender_id}/" \
                                                              f"cancellations/{self.cancellation_id}"
         url = f"/tenders/{self.tender_id}/cancellations/{self.cancellation_id}/complaints"
@@ -158,6 +160,7 @@ class TenderQualificationComplaintObjectionMixin:
     tender_id = None
     tender_token = None
     qualification_id = None
+    complaint_on = "qualification"
 
     def create_qualification(self):
         # update periods to have possibility to change tender status by chronograph
@@ -194,7 +197,7 @@ class TenderQualificationComplaintObjectionMixin:
 
     def create_complaint(self, complaint_data, status=201, with_valid_relates_to=False):
         if with_valid_relates_to:
-            complaint_data["objections"][0]["relatesTo"] = "qualification"
+            complaint_data["objections"][0]["relatesTo"] = self.complaint_on
             complaint_data["objections"][0]["relatedItem"] = f"/tenders/{self.tender_id}/" \
                                                              f"qualifications/{self.qualification_id}"
         url = f"/tenders/{self.tender_id}/qualifications/{self.qualification_id}/" \
@@ -212,6 +215,7 @@ class TenderAwardComplaintObjectionMixin:
     tender_id = None
     tender_token = None
     award_id = None
+    complaint_on = "award"
 
     def create_award(self):
         # Create award
@@ -241,7 +245,7 @@ class TenderAwardComplaintObjectionMixin:
 
     def create_complaint(self, complaint_data, status=201, with_valid_relates_to=False):
         if with_valid_relates_to:
-            complaint_data["objections"][0]["relatesTo"] = "award"
+            complaint_data["objections"][0]["relatesTo"] = self.complaint_on
             complaint_data["objections"][0]["relatedItem"] = f"/tenders/{self.tender_id}/awards/{self.award_id}"
         url = f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints" \
               f"?acc_token={list(self.initial_bids_tokens.values())[0]}"

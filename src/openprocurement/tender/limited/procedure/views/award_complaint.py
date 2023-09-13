@@ -4,7 +4,7 @@ from openprocurement.tender.core.procedure.views.award_complaint import (
     AwardComplaintWriteResource,
 )
 from openprocurement.tender.limited.procedure.state.award_complaint import NegotiationAwardComplaintState
-from openprocurement.tender.core.procedure.models.complaint import PostComplaint
+from openprocurement.tender.core.procedure.models.complaint import PostAwardComplaint
 from openprocurement.tender.core.procedure.validation import (
     validate_input_data,
     validate_data_documents,
@@ -40,7 +40,7 @@ class NegotiationAwardComplaintWriteResource(AwardComplaintWriteResource):
         content_type="application/json",
         permission="create_complaint",
         validators=(
-            validate_input_data(PostComplaint),
+            validate_input_data(PostAwardComplaint),
             validate_data_documents(route_key="complaint_id", uid_key="id"),
         ),
     )
@@ -76,7 +76,7 @@ class NegotiationQuickAwardComplaintWriteResource(AwardComplaintWriteResource):
         content_type="application/json",
         permission="create_complaint",
         validators=(
-            validate_input_data(PostComplaint),
+            validate_input_data(PostAwardComplaint),
             validate_data_documents(route_key="complaint_id", uid_key="id"),
         ),
     )

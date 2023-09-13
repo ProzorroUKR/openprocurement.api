@@ -15,8 +15,7 @@ from openprocurement.tender.core.procedure.models.complaint_objection_requested_
 class ObjectionRelatesTo(Enum):
     tender = "tender"
     lot = "lot"
-    requirement = "requirement"
-    requirement_response = "requirementResponse"
+    criteria = "criteria"
     award = "award"
     qualification = "qualification"
     cancellation = "cancellation"
@@ -31,30 +30,11 @@ OBJECTION_RELATES_REGEX_MAPPING = {
         r"lots\/(?P<lot_id>[0-9a-fA-F]{32})"
         r"$"
     ),
-    ObjectionRelatesTo.requirement: (
+    ObjectionRelatesTo.criteria: (
         r"^"
         r"\/tenders\/(?P<tender_id>[0-9a-fA-F]{32})"
         r"\/"
         r"criteria\/(?P<criterion_id>[0-9a-fA-F]{32})"
-        r"\/"
-        r"requirementGroups\/(?P<requirement_group_id>[0-9a-fA-F]{32})"
-        r"\/"
-        r"requirements\/(?P<requirement_id>[0-9a-fA-F]{32})"
-        r"$"
-    ),
-    ObjectionRelatesTo.requirement_response: (
-        r"^"
-        r"\/tenders\/(?P<tender_id>[0-9a-fA-F]{32})"
-        r"\/"
-        r"("
-        r"bids\/(?P<bid_id>[0-9a-fA-F]{32})"
-        r"|"
-        r"awards\/(?P<award_id>[0-9a-fA-F]{32})"
-        r"|"
-        r"qualifications\/(?P<qualification_id>[0-9a-fA-F]{32})"
-        r")"
-        r"\/"
-        r"requirementResponses\/(?P<requirement_response_id>[0-9a-fA-F]{32})"
         r"$"
     ),
     ObjectionRelatesTo.award: (
@@ -91,7 +71,10 @@ class Objection(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     title = StringType(required=True)
     description = StringType(required=True)
-    relatesTo = StringType(choices=[choice.value for choice in ObjectionRelatesTo], required=True)
+    relatesTo = StringType(
+        choices=[obj.value for obj in (ObjectionRelatesTo.tender, ObjectionRelatesTo.lot, ObjectionRelatesTo.criteria)],
+        required=True,
+    )
     relatedItem = StringType(required=True)
     classification = ModelType(Classification, required=True)
     requestedRemedies = ListType(ModelType(RequestedRemedy), min_size=1, required=True)
@@ -108,18 +91,25 @@ class Objection(Model):
         url_parts = value.split("/")
         if url_parts[2] != tender.get("_id"):  # tender id in url
             raise ValidationError("Invalid tender id")
-        if relates_to != ObjectionRelatesTo.tender:
-            try:
-                first_nested_obj = self.find_related_item(tender, url_parts[3], url_parts[4])
-                second_nested_obj = self.find_related_item(first_nested_obj, url_parts[5], url_parts[6])
-                self.find_related_item(second_nested_obj, url_parts[7], url_parts[8])
-            except IndexError:
-                pass
+        if relates_to != ObjectionRelatesTo.tender.value:
+            self.find_related_item(tender, url_parts[3], url_parts[4])
         return related_match.groupdict()
 
     @staticmethod
     def find_related_item(parent_obj, obj_name, obj_id):
         for obj in parent_obj.get(obj_name, []):
             if obj["id"] == obj_id:
-                return obj
+                return
         raise ValidationError(f"Invalid {obj_name} path")
+
+
+class AwardComplaintObjection(Objection):
+    relatesTo = StringType(choices=[ObjectionRelatesTo.award.value, ], required=True)
+
+
+class CancellationComplaintObjection(Objection):
+    relatesTo = StringType(choices=[ObjectionRelatesTo.cancellation.value, ], required=True)
+
+
+class QualificationComplaintObjection(Objection):
+    relatesTo = StringType(choices=[ObjectionRelatesTo.qualification.value, ], required=True)

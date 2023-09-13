@@ -43,6 +43,7 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
     tender_complaint_submit_time = timedelta(days=4)
     create_allowed_tender_statuses = ("active.tendering",)
     update_allowed_tender_statuses = ("active.tendering",)
+    draft_patch_model = DraftPatchComplaint
 
     # POST
     def validate_complaint_on_post(self, complaint):
@@ -148,7 +149,7 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
             ):
                 def handler(complaint):
                     complaint["rejectReason"] = "cancelledByComplainant"
-                return DraftPatchComplaint, handler
+                return self.draft_patch_model, handler
             elif (
                 status in ["pending", "accepted"]
                 and new_status == "stopping"
@@ -161,7 +162,7 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
                 status == "draft"
                 and new_status == status
             ):
-                return DraftPatchComplaint, empty_handler
+                return self.draft_patch_model, empty_handler
             elif (
                 tender["status"] == "active.tendering"
                 and status == "draft"
@@ -171,7 +172,7 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
                 def handler(complaint):
                     self.validate_tender_in_complaint_period(tender)
                     complaint["dateSubmitted"] = get_now().isoformat()
-                return DraftPatchComplaint, handler
+                return self.draft_patch_model, handler
             else:
                 raise_operation_error(
                     self.request,

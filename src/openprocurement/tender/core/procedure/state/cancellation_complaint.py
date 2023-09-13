@@ -3,7 +3,7 @@ from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules, dt_from_iso, is_item_owner
 from openprocurement.tender.core.procedure.models.complaint import (
-    DraftPatchComplaint,
+    DraftPatchCancellationComplaint,
     CancellationPatchComplaint,
     BotPatchComplaint,
     TendererActionPatchComplaint,
@@ -131,7 +131,7 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
                 status == "draft"
                 and new_status == status
             ):
-                return DraftPatchComplaint, empty_handler
+                return DraftPatchCancellationComplaint, empty_handler
             elif(
                 status == "draft"
                 and new_status == "mistaken"
@@ -139,7 +139,7 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
                 def handler(complaint):
                     complaint["rejectReason"] = "cancelledByComplainant"
 
-                return DraftPatchComplaint, handler
+                return DraftPatchCancellationComplaint, handler
 
             elif (
                 status == "draft"
@@ -148,7 +148,7 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
             ):
                 def handler(complaint):
                     complaint["dateSubmitted"] = get_now().isoformat()
-                return DraftPatchComplaint, handler
+                return DraftPatchCancellationComplaint, handler
 
             else:
                 raise_operation_error(

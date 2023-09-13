@@ -1,3 +1,4 @@
+from openprocurement.tender.core.procedure.models.complaint import DraftPatchQualificationComplaint
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import is_item_owner, dt_from_iso
 from openprocurement.tender.core.procedure.state.complaint import ComplaintStateMixin
@@ -14,6 +15,7 @@ LOGGER = getLogger(__name__)
 class QualificationComplaintStateMixin(ComplaintStateMixin):
     create_allowed_tender_statuses = ("active.pre-qualification.stand-still",)
     update_allowed_tender_statuses = ("active.pre-qualification", "active.pre-qualification.stand-still")
+    draft_patch_model = DraftPatchQualificationComplaint
 
     def complaint_on_post(self, complaint):
         request = self.request

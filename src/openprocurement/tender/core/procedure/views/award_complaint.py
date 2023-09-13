@@ -6,12 +6,19 @@ from openprocurement.tender.core.procedure.views.complaint import (
     BaseComplaintGetResource,
     BaseComplaintWriteResource,
 )
-from openprocurement.tender.core.procedure.models.complaint import PostComplaintFromBid
+from openprocurement.tender.core.procedure.models.complaint import PostAwardComplaint, AwardComplaint
 from openprocurement.tender.core.procedure.validation import (
     unless_admins,
     validate_any_bid_owner,
     validate_input_data,
     validate_data_documents,
+    unless_administrator,
+    unless_bots,
+    unless_reviewers,
+    validate_any,
+    validate_item_owner,
+    validate_input_data_from_resolved_model,
+    validate_patch_data,
 )
 from openprocurement.api.utils import json_view
 
@@ -43,9 +50,31 @@ class AwardComplaintWriteResource(BaseComplaintWriteResource):
             unless_admins(
                 validate_any_bid_owner(statuses=("active",))
             ),
-            validate_input_data(PostComplaintFromBid),
+            validate_input_data(PostAwardComplaint),
             validate_data_documents(route_key="complaint_id", uid_key="id"),
         ),
     )
     def collection_post(self):
         return super().collection_post()
+
+
+    @json_view(
+        content_type="application/json",
+        validators=(
+                unless_administrator(
+                    unless_bots(
+                        unless_reviewers(
+                            validate_any(
+                                validate_item_owner("tender"),
+                                validate_item_owner("complaint"),
+                            )
+                        )
+                    )
+                ),
+                validate_input_data_from_resolved_model(),
+                validate_patch_data(AwardComplaint, item_name="complaint"),
+        ),
+        permission="edit_complaint",
+    )
+    def patch(self):
+        return super().patch()
