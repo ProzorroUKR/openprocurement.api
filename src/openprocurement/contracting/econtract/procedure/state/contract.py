@@ -33,15 +33,20 @@ class EContractState(BaseContractState):
                     extra=context_unpack(self.request, {"MESSAGE_ID": "tender_contract_update_status"}),
                 )
 
+    def validate_fields_in_contract_active(self, request, before, after):
+        rogue_fields_in_active = {"dateSigned", "contractNumber"}
+        if after["status"] != "pending":
+            for i in rogue_fields_in_active:
+                if before.get(i, "") != after.get(i, ""):
+                    raise_operation_error(
+                        self.request,
+                        ["Rogue field."],
+                        name=i,
+                        status=422,
+                    )
+
     def validate_dateSigned(self, request, tender, before, after):
         if before.get("dateSigned", "") != after.get("dateSigned", ""):
-            if after["status"] != "pending":
-                raise_operation_error(
-                    self.request,
-                    ["Rogue field."],
-                    name="dateSigned",
-                    status=422,
-                )
 
             date_signed = dt_from_iso(after["dateSigned"])
             if date_signed > get_now():
