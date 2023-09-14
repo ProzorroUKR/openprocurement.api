@@ -28,12 +28,12 @@ from openprocurement.contracting.econtract.tests.contract_blanks import (
     contract_activate,
     put_transaction_to_contract,
     patch_tender_contract,
+    contract_items_change,
 )
 from openprocurement.contracting.api.tests.contract_blanks import (
     empty_listing,
     simple_add_contract,
     contract_token_invalid,
-    contract_items_change,
     patch_tender_contract_identical,
     patch_tender_contract_readonly,
     patch_tender_contract_value_amount,
@@ -79,6 +79,7 @@ class ContractResource4BrokersTest(BaseEContractWebTest):
     test_contract_status_change = snitch(contract_status_change)
     test_contract_cancelled = snitch(contract_cancelled)
     test_cancel_tender_award = snitch(cancel_tender_award)
+    test_contract_items_change = snitch(contract_items_change)
     test_contract_activate = snitch(contract_activate)
     test_patch_tender_contract = snitch(patch_tender_contract)
     test_patch_tender_contract_identical = snitch(patch_tender_contract_identical)
@@ -94,7 +95,6 @@ class ContractResource4BrokersTest(BaseEContractWebTest):
 class ContractActiveResource4BrokersTest(BaseEContractWebTest):
     initial_status = "active"
 
-    test_contract_items_change = snitch(contract_items_change)
     test_generate_credentials = snitch(generate_credentials)
     test_patch_tender_contract_single_request = snitch(patch_tender_contract_single_request)
     test_patch_tender_contract_value_amount = snitch(patch_tender_contract_value_amount)

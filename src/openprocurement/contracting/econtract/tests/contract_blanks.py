@@ -1158,3 +1158,245 @@ def patch_tender_contract(self):
     self.assertEqual(response.json["data"]["amountPaid"]["amount"], 90)
     self.assertEqual(response.json["data"]["amountPaid"]["amountNet"], 80)
     self.assertEqual(response.json["data"]["terminationDetails"], "sink")
+
+
+def contract_items_change(self):
+
+    response = self.app.get(f"/contracts/{self.contract['id']}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    items = response.json["data"]["items"]
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
+        {"data": {"value": {"amountNet": self.contract["value"]["amount"] - 1}}},
+        status=422
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "value",
+            "description": {
+                "amount": [
+                    "This field is required."
+                ]
+            }
+        }]
+    )
+
+    item = self.contract["items"][0]
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
+        {"data": {"items": [{**item, "quantity": 12, "description": "тапочки для тараканів"}]}},
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Updated could be only ('unit.value.amount',) in item"
+            }
+        ]
+    )
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
+        {"data": {"items": [{**item, "unit": {**item["unit"], "name": "тонни"}}]}},
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Updated could be only ('unit.value.amount',) in item"
+            }
+        ]
+    )
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
+        {"data": {"items": [{**item, "unit": {**item["unit"], "value": {**item["unit"]["value"], "amount": 22}}}]}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], 22)
+
+    self.set_status("active")
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
+        {"data": {"items": [{**item, "quantity": 12, "description": "тапочки для тараканів"}]}},
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Total amount of unit values can't be greater than contract.value.amount"
+            }
+        ]
+    )
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
+        {"data": {
+            "items": [{
+                **item,
+                "quantity": -1,
+                "description": "тапочки для тараканів"
+            }],
+        }},
+        status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "description": [{"quantity": ["Float value should be greater than 0."]}],
+            "location": "body",
+            "name": "items"
+        }],
+    )
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
+        {
+            "data":
+                {
+                    "items":
+                        [
+                            {
+                                **item,
+                                "quantity": 12,
+                                "description": "тапочки для тараканів",
+                                "unit": {
+                                    "code": "KGM",
+                                    "name": "кг",
+                                    "value": {
+                                        "currency": "UAH",
+                                        "amount": 3.2394,
+                                        "valueAddedTaxIncluded": True
+                                    }
+                                }
+                            }
+                        ]
+                }
+        },
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["items"][0]["quantity"], 12)
+    self.assertEqual(response.json["data"]["items"][0]["classification"], {"scheme": "CPV", "description": "Cartons", "id": "44617100-9"})
+    self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], 3.2394)
+    self.assertEqual(response.json["data"]["items"][0]["description"], "тапочки для тараканів")
+
+    # add one more item
+    old_item = deepcopy(items[0])
+    item = deepcopy(old_item)
+    item["quantity"] = 11
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
+        {"data": {"items": [old_item, item]}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "items", "description": ["Item id should be uniq for all items"]}],
+    )
+
+    item_patch_fields = (
+        "description",
+        "description_en",
+        "description_ru",
+        "unit",
+        "deliveryDate",
+        "deliveryAddress",
+        "deliveryLocation",
+        "quantity",
+    )
+    # try to change classification
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
+        {"data": {"items": [{**old_item, 'description': 'тапочки для тараканів', "classification": {"id": "19433000-0", "description": "Cartons"}}]}},
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "data",
+            "description": f"Updated could be only {item_patch_fields} in item",
+        }],
+    )
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
+        {"data": {"items": [old_item]}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    # self.assertEqual(response.json, None)
+
+    # try to add additional classification
+    item_classific = deepcopy(self.initial_data["items"][0]["classification"])
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
+        {"data": {"items": [
+            {**old_item, "additionalClassifications": [old_item["additionalClassifications"][0], item_classific]}]
+        }},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "data",
+            "description": f"Updated could be only {item_patch_fields} in item",
+        }],
+    )
+
+    # update item fields
+    startDate = get_now().isoformat()
+    endDate = (get_now() + timedelta(days=90)).isoformat()
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
+        {
+            "data": {
+                "items": [
+                    {
+                        **old_item,
+                        "quantity": 0.005,
+                        "deliveryAddress": {
+                            **old_item["deliveryAddress"],
+                            "postalCode": "79011", "streetAddress": "вул. Літаючого Хом’яка"
+                        },
+                        "deliveryDate": {"startDate": startDate, "endDate": endDate},
+                    }
+                ]
+            }
+        },
+    )
+    self.assertEqual(response.json["data"]["items"][0]["quantity"], 0.005)
+    self.assertEqual(response.json["data"]["items"][0]["deliveryAddress"]["postalCode"], "79011")
+    self.assertEqual(response.json["data"]["items"][0]["deliveryAddress"]["streetAddress"], "вул. Літаючого Хом’яка")
+    self.assertEqual(response.json["data"]["items"][0]["deliveryAddress"]["region"], "м. Київ")
+    self.assertEqual(response.json["data"]["items"][0]["deliveryAddress"]["locality"], "м. Київ")
+    self.assertEqual(response.json["data"]["items"][0]["deliveryAddress"]["countryName"], "Україна")
+    self.assertEqual(response.json["data"]["items"][0]["deliveryDate"]["startDate"], startDate)
+    self.assertEqual(response.json["data"]["items"][0]["deliveryDate"]["endDate"], endDate)
+
+    # try to remove all items
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}", {"data": {"items": []}}, status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
