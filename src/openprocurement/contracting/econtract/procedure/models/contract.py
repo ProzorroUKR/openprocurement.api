@@ -18,6 +18,7 @@ from openprocurement.contracting.core.procedure.models.contract_base import (
     BasePatchContract,
     BaseContract,
 )
+from openprocurement.tender.core.procedure.models.contract import validate_item_unit_values
 
 
 class SignerInfo(Model):
@@ -66,6 +67,9 @@ class PatchContract(BasePatchContract):
     dateSigned = IsoDateTimeType()
     contractNumber = StringType()
     status = StringType(choices=["pending", "pending.winner-signing",  "terminated", "active", "cancelled"])
+
+    def validate_items(self, data, items):
+        validate_item_unit_values(data, items)
 
 
 class AdministratorPatchContract(Model):
