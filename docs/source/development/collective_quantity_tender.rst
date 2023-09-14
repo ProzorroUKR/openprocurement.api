@@ -16,6 +16,7 @@ There is a requirement that can be only one item per lot or non-lot tender.
 
 
 .. sourcecode:: http
+
   POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
   Authorization: Bearer broker
   Content-Length: 2918
@@ -66,6 +67,7 @@ There is a requirement that can be only one item per lot or non-lot tender.
 
 
 .. sourcecode:: http
+
   POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
   Authorization: Bearer broker
   Content-Length: 2918
@@ -224,7 +226,7 @@ Auction will use ``items.unit.value`` instead of ``bid.value`` or ``lotValues.va
 During the auction process bidders can decrease their ``items.unit.value`` amounts to compete.
 
 
-.. image:: development/img/item_price_auction.png
+.. image:: img/item_price_auction.png
 
 
 After the announcement stage if the bidder decreased the price,
@@ -286,7 +288,7 @@ Awarding
 --------
 Awarding process is changed for this procedure
 
-.. image:: development/img/item_price_awarding.png
+.. image:: img/item_price_awarding.png
 
 
 Contracting
