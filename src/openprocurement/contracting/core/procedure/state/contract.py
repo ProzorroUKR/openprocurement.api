@@ -36,16 +36,23 @@ class BaseContractState(BaseState, ContractStateMixing):
 
     def validate_patch_contract_items(self, request, before: dict, after: dict) -> None:
         # TODO: Remove this logic later with adding new endpoint for items in contract
-        item_patch_fields = (
-            "description",
-            "description_en",
-            "description_ru",
-            "unit",
-            "deliveryDate",
-            "deliveryAddress",
-            "deliveryLocation",
-            "quantity",
-        )
+
+        after_status = after["status"]
+        if after_status == "active":
+            item_patch_fields = (
+                "description",
+                "description_en",
+                "description_ru",
+                "unit",
+                "deliveryDate",
+                "deliveryAddress",
+                "deliveryLocation",
+                "quantity",
+            )
+            msg_arg = item_patch_fields
+        else:
+            item_patch_fields = ("unit",)
+            msg_arg = "unit.value.amount"
         items_before = before.get("items", [])
         items_after = after.get("items", [])
         for item_before, item_after in zip_longest(items_before, items_after):
@@ -60,10 +67,14 @@ class BaseContractState(BaseState, ContractStateMixing):
                     if not before and not after:  # [] or None check
                         continue
 
+                    if k == "unit" and after_status != "active":
+                        before = {k: v for k, v in (before or {}).items() if k != "value"}
+                        after = {k: v for k, v in (after or {}).items() if k != "value"}
+
                     if k not in item_patch_fields and before != after:
                         raise_operation_error(
                             get_request(),
-                            f"Updated could be only {item_patch_fields} in item"
+                            f"Updated could be only {msg_arg} in item"
                         )
 
     def validate_update_contracting_items_unit_value_amount(self, request, before, after) -> None:
