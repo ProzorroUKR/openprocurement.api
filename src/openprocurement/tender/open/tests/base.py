@@ -83,6 +83,16 @@ test_tender_open_config = {
     "hasPreSelectionAgreement": False,
 }
 
+test_tender_dps_config = {
+    "hasAuction": True,
+    "hasAwardingOrder": True,
+    "hasValueRestriction": False,
+    "valueCurrencyEquality": True,
+    "hasPrequalification": False,
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": True,
+}
+
 test_tender_open_complaint_objection = {
     "title": "My objection",
     "description": "Test objection",

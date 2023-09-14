@@ -39,6 +39,7 @@ from openprocurement.tender.core.utils import (
     calculate_complaint_business_date,
     calculate_tender_date,
 )
+from openprocurement.tender.open.constants import DPS_TYPE
 from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.tender.core.constants import (
     AGREEMENT_STATUS_MESSAGE,
@@ -137,6 +138,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
     def on_post(self, tender):
         self.validate_config(tender)
         self.validate_procurement_method(tender)
+        self.validate_lots_count(tender)
         self.validate_minimal_step(tender)
         self.validate_submission_method(tender)
         self.watch_value_meta_changes(tender)
@@ -173,8 +175,8 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
             if self.is_agreement_not_active(agreement):
                 raise_agreements_error(AGREEMENT_STATUS_MESSAGE)
 
-            if self.has_insufficient_active_contracts(tender):
-                raise_agreements_error(AGREEMENT_CONTRACTS_MESSAGE)
+            if self.has_insufficient_active_contracts(agreement):
+                raise_agreements_error(AGREEMENT_CONTRACTS_MESSAGE.format(self.agreement_min_active_contracts))
 
             if self.has_mismatched_procuring_entities(tender, agreement):
                 raise_agreements_error(AGREEMENT_IDENTIFIER_MESSAGE)
@@ -188,6 +190,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
 
     def on_patch(self, before, after):
         self.validate_procurement_method(after, before=before)
+        self.validate_lots_count(after)
         self.validate_pre_qualification_status_change(before, after)
         self.validate_tender_period_start_date_change(before, after)
         self.validate_minimal_step(after, before=before)
@@ -211,7 +214,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                 name="status"
             )
         if after != "draft" and before == "draft":
-            self.validate_agreement(after)
+            self.validate_agreement(data)
         elif after == "active.tendering" and before != "active.tendering":
             tendering_start = data["tenderPeriod"]["startDate"]
             if dt_from_iso(tendering_start) <= get_now() - timedelta(minutes=TENDER_PERIOD_START_DATE_STALE_MINUTES):
@@ -223,6 +226,19 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                     name="tenderPeriod.startDate"
                 )
         super().status_up(before, after, data)
+
+    def validate_lots_count(self, tender):
+        if tender.get("procurementMethodType") == DPS_TYPE:
+            # TODO: consider using config
+            max_lots_count = 1
+            if len(tender.get("lots", "")) > max_lots_count:
+                raise_operation_error(
+                    get_request(),
+                    "Can't create more than {} lots".format(max_lots_count),
+                    status=422,
+                    location="body",
+                    name="lots"
+                )
 
     def validate_pre_qualification_status_change(self, before, after):
         # TODO: find a better place for this check, may be a distinct endpoint: PUT /tender/uid/status
@@ -492,15 +508,12 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
         return agreement.get("status") != "active"
 
     @classmethod
-    def has_insufficient_active_contracts(cls, tender):
-        for agr in tender["agreements"]:
-            active_contracts_count = sum(
-                c["status"] == "active" for c in agr.get("contracts", "")
-            )
-
-            if active_contracts_count < cls.agreement_min_active_contracts:
-                return True
-        return False
+    def has_insufficient_active_contracts(cls, agreement):
+        active_contracts_count = sum(
+            c["status"] == "active"
+            for c in agreement.get("contracts", "")
+        )
+        return active_contracts_count < cls.agreement_min_active_contracts
 
     @classmethod
     def has_mismatched_procuring_entities(cls, tender, agreement):
