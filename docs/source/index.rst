@@ -27,6 +27,7 @@ Contents:
    cluster
    acceleration
    constants
+   development/index
 
 
 Indices and tables

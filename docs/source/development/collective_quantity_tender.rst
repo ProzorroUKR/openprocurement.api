@@ -13,16 +13,14 @@ Creating tender
 `awardingByItemUnitValue` configuration can enable this type of procedure.
 There is a requirement that can be only one item per lot or non-lot tender.
 
-
-
 .. sourcecode:: http
 
   POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
+
   Authorization: Bearer broker
   Content-Length: 2918
   Content-Type: application/json
   Host: lb-api-sandbox.prozorro.gov.ua
-
   {
     "data": {
       "title": "футляри до державних нагород",
@@ -53,7 +51,6 @@ There is a requirement that can be only one item per lot or non-lot tender.
 
   HTTP/1.0 422 Unprocessable Entity
   Content-Type: application/json
-
   {
     "status": "error",
     "errors": [
@@ -65,15 +62,16 @@ There is a requirement that can be only one item per lot or non-lot tender.
     ]
   }
 
+There can be only one item per lot
 
 .. sourcecode:: http
 
   POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
+
   Authorization: Bearer broker
   Content-Length: 2918
   Content-Type: application/json
   Host: lb-api-sandbox.prozorro.gov.ua
-
   {
     "data": {
       "title": "футляри до державних нагород",
@@ -179,6 +177,7 @@ There are differences in the bid model:
 .. sourcecode:: http
 
   POST /tenders/64e93250be76435397e8c992ed4214d1/bids HTTP/1.1
+
   Content-Type: application/json
   {
     "data": {
