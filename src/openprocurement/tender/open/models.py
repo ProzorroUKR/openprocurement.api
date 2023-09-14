@@ -58,6 +58,7 @@ from openprocurement.tender.core.models import (
     validate_observation_ids_uniq,
     WeightedValueMixin,
 )
+from openprocurement.tender.core.procedure.models.agreement import AgreementUUID
 from openprocurement.tender.core.utils import (
     has_unanswered_questions,
     has_unanswered_complaints,
@@ -854,3 +855,8 @@ class Tender(BaseTender):
                     checks.append(award.date)
 
         return min(checks).isoformat() if checks else None
+
+class DPSTender(Tender):
+    # FIXME: temporary model to support DPS in old code
+    procurementMethodType = StringType(default="dynamicPurchasingSystem")
+    agreements = ListType(ModelType(AgreementUUID), default=list())

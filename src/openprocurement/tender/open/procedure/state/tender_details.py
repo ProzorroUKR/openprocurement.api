@@ -6,7 +6,7 @@ from openprocurement.tender.open.procedure.state.tender import OpenTenderState
 from openprocurement.tender.open.constants import (
     TENDERING_EXTRA_PERIOD,
     ENQUIRY_PERIOD_TIME,
-    ENQUIRY_STAND_STILL_TIME, DPS_TYPE,
+    ENQUIRY_STAND_STILL_TIME,
 )
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
@@ -55,18 +55,6 @@ class TenderDetailsState(TenderDetailsMixing, OpenTenderState):
                         location="body",
                         name="item.relatedLot"
                     )
-
-        if after.get("procurementMethodType") == DPS_TYPE:
-            # TODO: consider using config
-            max_lots_count = 1
-            if len(after.get("lots", "")) > max_lots_count:
-                raise_operation_error(
-                    get_request(),
-                    "Can't create more than {} lots".format(max_lots_count),
-                    status=422,
-                    location="body",
-                    name="lots"
-                )
 
         self.validate_fields_unchanged(before, after)
 

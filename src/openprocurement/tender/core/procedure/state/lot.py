@@ -17,6 +17,7 @@ class LotStateMixin:
     def lot_on_post(self, data: dict) -> None:
         self.pre_save_validations(data)
         self.validate_minimal_step(data)
+        self.validate_lots_count(get_tender())
         self.set_lot_data(data)
         self.lot_always(data)
 

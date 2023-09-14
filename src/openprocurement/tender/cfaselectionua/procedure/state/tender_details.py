@@ -152,7 +152,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
         if cls.is_agreement_has_pending_changes(agreement):
             return AGREEMENT_CHANGE_MESSAGE
 
-        if cls.has_insufficient_active_contracts(tender):
+        if cls.has_insufficient_active_contracts(agreement):
             return AGREEMENT_CONTRACTS_MESSAGE.format(cls.agreement_min_active_contracts)
 
         if cls.has_mismatched_procuring_entities(tender, agreement):

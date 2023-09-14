@@ -123,7 +123,7 @@ class Tender(BaseTender):
             "unsuccessful",
         ],
     )
-    procurementMethodType = StringType(choices=[ABOVE_THRESHOLD], required=True)
+    procurementMethodType = StringType(choices=[ABOVE_THRESHOLD, DPS_TYPE], required=True)
     awardCriteria = StringType(
         choices=[
             AWARD_CRITERIA_LOWEST_COST,
