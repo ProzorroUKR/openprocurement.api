@@ -91,9 +91,9 @@ def convert_items(items, lot_id=None):
         {
             "id": i.get("id", str(n)),
             "description": i["description"],
-            "classification": i["classification"],
+            "classification": i.get("classification"),
             "additionalClassifications": i.get("additionalClassifications"),
-            "unit": {"name": i["unit"]["name"]} if "unit" in i else None,
+            "unit": {"name": i["unit"]["name"]} if "name" in i.get("unit", "") else None,
             "quantity": i.get("quantity"),
         }
         for n, i in enumerate(items)
@@ -109,7 +109,7 @@ def convert_contracts(contracts, award_ids=None):
             "awardID": c["awardID"],
             "status": c["status"],
             "value": convert_value(c.get("value")),
-            "items": convert_items(c["items"]),
+            "items": convert_items(c["items"]) if "items" in c else None,
             "dateSigned": c.get("dateSigned"),
             "documents": convert_documents(c.get("documents", "")),
         }
@@ -251,8 +251,8 @@ def prepare_release(plan, tender, lot=None):
             "tenderPeriod": tender.get("tenderPeriod"),
             "enquiryPeriod": (
                 {
-                    "startDate": tender["enquiryPeriod"]["startDate"],
-                    "endDate": tender["enquiryPeriod"]["endDate"],
+                    "startDate": tender["enquiryPeriod"].get("startDate"),
+                    "endDate": tender["enquiryPeriod"].get("endDate"),
                 }
                 if "enquiryPeriod" in tender
                 else tender.get("tenderPeriod")
