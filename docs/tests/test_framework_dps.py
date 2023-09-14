@@ -21,13 +21,13 @@ from openprocurement.framework.dps.tests.base import (
 
 TARGET_DIR = 'docs/source/frameworks/dps/tutorial/'
 
-test_framework_open_data = deepcopy(test_framework_dps_data)
+test_framework_dps_data = deepcopy(test_framework_dps_data)
 
 
 class FrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
     AppClass = DumpsWebTestApp
     relative_to = os.path.dirname(__file__)
-    initial_data = test_framework_open_data
+    initial_data = test_framework_dps_data
     docservice = True
     docservice_url = DOCS_URL
 

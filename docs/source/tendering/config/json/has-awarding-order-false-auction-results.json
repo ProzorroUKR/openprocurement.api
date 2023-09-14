@@ -2,6 +2,7 @@
     "config": {
         "hasAuction": true,
         "hasAwardingOrder": false,
+        "hasPreSelectionAgreement": false,
         "hasPrequalification": false,
         "hasValueRestriction": false,
         "minBidsNumber": 1,

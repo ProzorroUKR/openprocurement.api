@@ -6,8 +6,18 @@ import csv
 
 import os
 from copy import deepcopy
+from uuid import uuid4
 
 import standards
+
+from openprocurement.api.context import get_now
+from openprocurement.framework.dps.tests.base import (
+    test_framework_dps_data,
+    test_framework_dps_config,
+    test_submission_data,
+    test_submission_config,
+)
+from openprocurement.tender.open.tests.base import test_tender_dps_config
 
 from openprocurement.tender.open.tests.tender import BaseTenderUAWebTest
 from openprocurement.tender.core.tests.base import (
@@ -24,18 +34,15 @@ from tests.base.test import (
 )
 from tests.base.data import (
     test_docs_tender_open,
-    test_docs_tender_openua,
     test_docs_bid2,
     test_docs_lots,
     test_docs_bid,
     test_docs_tender_below,
-    test_docs_bid_draft,
     test_docs_question,
     test_docs_items_open,
-    test_docs_complaint,
     test_docs_claim,
+    test_docs_tender_dps,
 )
-from openprocurement.tender.core.tests.utils import change_auth
 
 TARGET_DIR = 'docs/source/tendering/config/http/'
 TARGET_JSON_DIR = 'docs/source/tendering/config/json/'
@@ -2060,3 +2067,12 @@ class TenderHasPrequalificationResourceTest(TenderConfigBaseResourceTest):
 
     def test_docs_has_prequalification_values_csv(self):
         self.write_values_csv(config_name="hasPrequalification", file_name="has-prequalification-values.csv")
+
+
+class TenderHasPreSelectionAgreementResourceTest(TenderConfigBaseResourceTest):
+
+    def test_docs_has_pre_selection_agreement_values_csv(self):
+        self.write_values_csv(
+            config_name="hasPreSelectionAgreement",
+            file_name="has-pre-selection-agreement-values.csv",
+        )

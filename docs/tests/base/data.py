@@ -4,6 +4,8 @@ from datetime import (
     timedelta,
     datetime,
 )
+from uuid import uuid4
+
 from dateutil.parser import parse
 from hashlib import sha512
 
@@ -905,6 +907,29 @@ test_docs_tender_open = {
     "items": test_docs_items_open,
     "milestones": test_tender_below_milestones,
     "mainProcurementCategory": "services",
+}
+
+test_docs_tender_dps = {
+    "tenderPeriod": {
+        "endDate": (parse(MOCK_DATETIME) + timedelta(days=15)).isoformat()
+    },
+    "title": "футляри до державних нагород",
+    "minimalStep": {
+        "currency": "UAH",
+        "amount": 5
+    },
+    "procurementMethodType": "aboveThreshold",
+    "value": {
+        "currency": "UAH",
+        "amount": 500
+    },
+    "procuringEntity": test_docs_procuring_entity_ua,
+    "items": [test_docs_items_open[0]],
+    "milestones": test_tender_below_milestones,
+    "mainProcurementCategory": "services",
+    "agreements": [
+        {}
+    ]
 }
 
 test_docs_items_esco = deepcopy(test_docs_items_en)
