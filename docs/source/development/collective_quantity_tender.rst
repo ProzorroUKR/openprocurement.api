@@ -11,7 +11,7 @@ Creating tender
 ---------------
 
 `awardingByItemUnitValue` configuration can enable this type of procedure.
-There is a requirement that can be only one item per lot or non-lot tender.
+There is a requirement that can be only one item per lot.
 
 .. sourcecode:: http
 
@@ -29,14 +29,35 @@ There is a requirement that can be only one item per lot or non-lot tender.
         "amount": 500,
         "currency": "UAH"
       },
+      "lots": [
+        {
+          "title": "Єдиний Лот",
+          "description": "Опис Лот",
+          "status": "active",
+          "id": "eb3a2c7480d14c948cce6d516a8fb007",
+          "date": "2023-01-01T00:00:00+02:00",
+          "value": {
+            "amount": 500.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "minimalStep": {
+            "amount": 5.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          }
+        }
+      ],
       "items": [
         {
           "id": "df827a0a87354ad59f985d4b31bbaf6c",
+          "relatedLot": "eb3a2c7480d14c948cce6d516a8fb007",
           "description": "футляри до державних нагород",
           ..
         },
         {
           "id": "2f821a0a87354ad59f985d4b31ab5f6f",
+          "relatedLot": "eb3a2c7480d14c948cce6d516a8fb007",
           "description": "пдіставки до державних нагород",
           ...
         }
@@ -165,12 +186,12 @@ Creating bid
 ------------
 There are differences in the bid model:
 
-  - ``value`` is forbidden
+  - ``value`` is forbidden or ignored
   - ``items`` array is required
   - ``items`` contains only ``id``, ``unit`` and ``quantity`` fields
   - ``items.id`` should be one of tender item ids
   - ``bid.items.unit`` contains only ``value`` fields
-  - ``bid.items.quantity`` should be less or equal to tender ``items.quantity``
+  - ``bid.items.quantity`` should be less or equal to tender ``items.quantity`` TBD
 
 
 
@@ -182,26 +203,38 @@ There are differences in the bid model:
   {
     "data": {
       "tenderers": ...,
-      "items": [
+      "lotValues": [
         {
-          "id": "43204fd932374740a40528f7712ca55e",
-          "unit": {
-            "value": {
-              "amount": 800
+          "subcontractingDetails": "ДКП «Орфей», Україна",
+          "relatedLot": "eb3a2c7480d14c948cce6d516a8fb007",
+          "items": [
+            {
+              "id": "43204fd932374740a40528f7712ca55e",
+              "unit": {
+                "value": {
+                  "amount": 800
+                }
+              },
+              "quantity": 50
             }
-          },
-          "quantity": 50
+          ],
         },
         {
-          "id": "d81485ce6a9d4b6c8842d1c3c2fbae01",
-          "unit": {
-            "value": {
-              "amount": 600
+          "subcontractingDetails": "ДКП «Орфей», Україна",
+          "relatedLot": "03db38a8519e40fc9fc9377793126015",
+          "items": [
+            {
+              "id": "d81485ce6a9d4b6c8842d1c3c2fbae01",
+              "unit": {
+                "value": {
+                  "amount": 600
+                }
+              },
+              "quantity": 20
             }
-          },
-          "quantity": 20
+          ],
         }
-      ],
+      ]
     }
   }
 
@@ -243,29 +276,47 @@ which shows the value before the auction.
   {
     "data": {
       "id": "ddd45992f1c545b9b03302205962265b",
-      "items": [
+      "lotValues": [
         {
-          "id": "43204fd932374740a40528f7712ca55e",
-          "unit": {
-            "value": {
-              "amount": 600
-            },
-            "initialValue": {
-              "amount": 800
+          "subcontractingDetails": "ДКП «Орфей», Україна",
+          "relatedLot": "eb3a2c7480d14c948cce6d516a8fb007",
+          "items": [
+            {
+              "id": "43204fd932374740a40528f7712ca55e",
+              "unit": {
+                "value": {
+                  "amount": 600,
+                  "currency": "UAH",
+                  "valueAddedTaxIncluded": true
+                },
+                "initialValue": {
+                  "amount": 800,
+                  "currency": "UAH",
+                  "valueAddedTaxIncluded": true
+                }
+              },
+              "quantity": 50
             }
-          },
-          "quantity": 50
+          ],
         },
         {
-          "id": "d81485ce6a9d4b6c8842d1c3c2fbae01",
-          "unit": {
-            "value": {
-              "amount": 600
+          "subcontractingDetails": "ДКП «Орфей», Україна",
+          "relatedLot": "03db38a8519e40fc9fc9377793126015",
+          "items": [
+            {
+              "id": "d81485ce6a9d4b6c8842d1c3c2fbae01",
+              "unit": {
+                "value": {
+                  "amount": 600,
+                  "currency": "UAH",
+                  "valueAddedTaxIncluded": true
+                }
+              },
+              "quantity": 20
             }
-          },
-          "quantity": 20
+          ],
         }
-      ],
+      ]
     }
   }
 
