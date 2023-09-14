@@ -1,10 +1,8 @@
 from logging import getLogger
-from copy import deepcopy
 
 from openprocurement.contracting.core.procedure.state.contract import BaseContractState
-from openprocurement.contracting.core.utils import get_tender_by_id
-from openprocurement.api.utils import raise_operation_error, context_unpack
-from openprocurement.tender.core.procedure.utils import get_items, save_tender
+from openprocurement.api.utils import raise_operation_error, context_unpack, get_now
+from openprocurement.tender.core.procedure.utils import get_items, save_tender, dt_from_iso
 from openprocurement.tender.pricequotation.procedure.state.contract import PQContractState
 from openprocurement.api.constants import ECONTRACT_SIGNER_INFO_REQUIRED
 
@@ -35,10 +33,41 @@ class EContractState(BaseContractState):
                     extra=context_unpack(self.request, {"MESSAGE_ID": "tender_contract_update_status"}),
                 )
 
+    def validate_dateSigned(self, request, tender, before, after):
+        if before.get("dateSigned", "") != after.get("dateSigned", ""):
+            if after["status"] != "pending":
+                raise_operation_error(
+                    self.request,
+                    ["Rogue field."],
+                    name="dateSigned",
+                    status=422,
+                )
+
+            date_signed = dt_from_iso(after["dateSigned"])
+            if date_signed > get_now():
+                raise_operation_error(
+                    self.request,
+                    ["Contract signature date can't be in the future"],
+                    name="dateSigned",
+                    status=422,
+                )
+            active_award = [award for award in tender.get("awards", []) if award.get("status") == "active"]
+            if active_award and date_signed < dt_from_iso(active_award[0].get("date")):
+                raise_operation_error(
+                    self.request,
+                    [
+                        f"Contract signature date should be "
+                        f"after award activation date ({active_award[0]['date']})"
+                    ],
+                    name="dateSigned",
+                    status=422,
+                )
+
     def validate_contract_patch(self, request, before: dict, after: dict):
         # TODO: should be extended for other procedures, look to procedures contract states
-        super().validate_contract_patch(request, before, after)
         tender = request.validated["tender"]
+        self.validate_dateSigned(request, tender, before, after)
+        super().validate_contract_patch(request, before, after)
 
         # self.validate_update_contract_only_for_active_lots(request, tender, before)
         # self.validate_update_contract_status_by_supplier(request, before, after)

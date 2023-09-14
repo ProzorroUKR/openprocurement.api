@@ -49,7 +49,7 @@ class EContractResource(ContractResource):
         permission="edit_contract",
         validators=(
             unless_admins(unless_administrator(validate_contract_owner)),
-            validate_input_data(conditional_contract_model, none_means_remove=True),
+            validate_input_data(conditional_contract_model),
             validate_patch_data_simple(Contract, item_name="contract"),
             unless_admins(unless_administrator(validate_contract_update_not_in_allowed_status)),
         ),

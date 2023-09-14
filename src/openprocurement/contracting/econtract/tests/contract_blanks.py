@@ -690,6 +690,11 @@ def create_contract_transfer_token(self):
     self.assertNotIn("transfer_token", contract)
 
 
+def contract_date_signed(self):
+    # TODO: write dateSigned tests in pending and active statuses
+    pass
+
+
 def contract_status_change(self):
     tender_token = self.initial_data["tender_token"]
 

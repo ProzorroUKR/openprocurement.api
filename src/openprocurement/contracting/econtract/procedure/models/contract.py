@@ -5,6 +5,7 @@ from schematics.types.serializable import serializable
 from openprocurement.api.models import (
     Model,
     ListType,
+    IsoDateTimeType,
     Identifier,
     validate_telephone,
 )
@@ -62,6 +63,7 @@ class PostContract(BasePostContract):
 
 
 class PatchContract(BasePatchContract):
+    dateSigned = IsoDateTimeType()
     contractNumber = StringType()
     status = StringType(choices=["pending", "pending.winner-signing",  "terminated", "active", "cancelled"])
 
