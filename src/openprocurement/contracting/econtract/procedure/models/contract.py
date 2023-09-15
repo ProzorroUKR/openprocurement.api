@@ -64,9 +64,15 @@ class PostContract(BasePostContract):
 
 
 class PatchContract(BasePatchContract):
+    status = StringType(choices=["pending", "pending.winner-signing",  "terminated", "active", "cancelled"])
+
+    def validate_items(self, data, items):
+        validate_item_unit_values(data, items)
+
+
+class PatchContractPending(PatchContract):
     dateSigned = IsoDateTimeType()
     contractNumber = StringType()
-    status = StringType(choices=["pending", "pending.winner-signing",  "terminated", "active", "cancelled"])
 
     def validate_items(self, data, items):
         validate_item_unit_values(data, items)

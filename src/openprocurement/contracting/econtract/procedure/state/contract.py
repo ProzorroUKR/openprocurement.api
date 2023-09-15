@@ -33,17 +33,53 @@ class EContractState(BaseContractState):
                     extra=context_unpack(self.request, {"MESSAGE_ID": "tender_contract_update_status"}),
                 )
 
-    def validate_fields_in_contract_active(self, request, before, after):
-        rogue_fields_in_active = {"dateSigned", "contractNumber"}
-        if after["status"] != "pending":
-            for i in rogue_fields_in_active:
-                if before.get(i, "") != after.get(i, ""):
-                    raise_operation_error(
-                        self.request,
-                        ["Rogue field."],
-                        name=i,
-                        status=422,
-                    )
+    def validate_contract_patch(self, request, before: dict, after: dict):
+        # TODO: should be extended for other procedures, look to procedures contract states
+        tender = request.validated["tender"]
+        self.validate_dateSigned(request, tender, before, after)
+        self.validate_update_contract_status(request, tender, before, after)
+        self.validate_patch_contract_items(request, before, after)
+        self.validate_update_contract_value(request, before, after)
+        self.validate_update_contract_value_net_required(request, before, after)
+        self.validate_update_contract_value_amount(request, before, after)
+
+        if after["status"] == "pending":
+            self.validate_contract_pending_patch(request, before, after)
+        else:
+            self.validate_contract_active_patch(request, before, after)
+
+    def validate_contract_pending_patch(self, request, before, after):
+        tender = request.validated["tender"]
+        self.validate_contract_update_with_accepted_complaint(request, tender, before)
+        self.validate_update_contract_value_with_award(request, before, after)
+        # self.validate_update_contract_only_for_active_lots(request, tender, before)
+
+    def validate_contract_active_patch(self, request, before, after):
+        self.validate_update_contracting_value_identical(request, before, after)
+        self.validate_update_contracting_items_unit_value_amount(request, before, after)
+        self.validate_update_contract_value_net_required(request, before, after, name="amountPaid")
+        self.validate_update_contract_paid_amount(request, before, after)
+        self.validate_terminate_contract_without_amountPaid(request, before, after)
+
+    def status_up(self, before, after, data):
+        super().status_up(before, after, data)
+        if before != "active" and after == "active":
+            self.validate_required_signed_info(data)
+        if before != after and after in ["active", "cancelled"]:
+            self.synchronize_contracts_data(data)
+
+    def validate_required_signed_info(self, data):
+        if not ECONTRACT_SIGNER_INFO_REQUIRED:
+            return
+
+        supplier_signer_info = all(i.get("signerInfo") for i in data.get("suppliers", ""))
+        if not data.get("buyer", {}).get("signerInfo") or not supplier_signer_info:
+            raise_operation_error(
+                self.request,
+                f"signerInfo field for buyer and suppliers "
+                f"is required for contract in `{data.get('status')}` status",
+                status=422
+            )
 
     def validate_dateSigned(self, request, tender, before, after):
         if before.get("dateSigned", "") != after.get("dateSigned", ""):
@@ -67,38 +103,6 @@ class EContractState(BaseContractState):
                     name="dateSigned",
                     status=422,
                 )
-
-    def validate_contract_patch(self, request, before: dict, after: dict):
-        # TODO: should be extended for other procedures, look to procedures contract states
-        tender = request.validated["tender"]
-        self.validate_dateSigned(request, tender, before, after)
-        super().validate_contract_patch(request, before, after)
-
-        # self.validate_update_contract_only_for_active_lots(request, tender, before)
-        # self.validate_update_contract_status_by_supplier(request, before, after)
-        self.validate_update_contract_status(request, tender, before, after)
-        self.validate_contract_update_with_accepted_complaint(request, tender, before)
-        self.validate_update_contract_value_with_award(request, before, after)
-
-    def status_up(self, before, after, data):
-        super().status_up(before, after, data)
-        if before != "active" and after == "active":
-            self.validate_required_signed_info(data)
-        if before != after and after in ["active", "cancelled"]:
-            self.synchronize_contracts_data(data)
-
-    def validate_required_signed_info(self, data):
-        if not ECONTRACT_SIGNER_INFO_REQUIRED:
-            return
-
-        supplier_signer_info = all(i.get("signerInfo") for i in data.get("suppliers", ""))
-        if not data.get("buyer", {}).get("signerInfo") or not supplier_signer_info:
-            raise_operation_error(
-                self.request,
-                f"signerInfo field for buyer and suppliers "
-                f"is required for contract in `{data.get('status')}` status",
-                status=422
-            )
 
     @classmethod
     def validate_update_contract_status(cls, request, tender, before, after):

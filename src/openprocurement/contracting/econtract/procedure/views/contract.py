@@ -17,6 +17,7 @@ from openprocurement.tender.core.procedure.validation import (
 from openprocurement.contracting.econtract.procedure.models.contract import (
     AdministratorPatchContract,
     PatchContract,
+    PatchContractPending,
     Contract,
 )
 from openprocurement.contracting.econtract.procedure.state.contract import EContractState
@@ -26,8 +27,11 @@ from openprocurement.contracting.core.procedure.serializers.contract import Cont
 
 def conditional_contract_model(data):
     request = get_request()
+    contract_status = request.validated["contract"]["status"]
     if request.authenticated_role == "Administrator":
         model = AdministratorPatchContract
+    elif request.validated["json_data"].get("status", contract_status) == "pending":
+        model = PatchContractPending
     else:
         model = PatchContract
     return model(data)
